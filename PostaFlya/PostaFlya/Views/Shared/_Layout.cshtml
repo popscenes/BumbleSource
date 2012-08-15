@@ -1,0 +1,77 @@
+@using System.Web.Optimization
+@using WebSite.Common.Extension
+@using PostaFlya.Models.Flier
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <title>postaflya</title>
+        <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+        <meta name="viewport" content="width=device-width" />
+
+        <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=true&region=AU"></script>
+        
+        @* TODO add theme resolution to replace taskflya as needed in themes/taskflya/themedeskcss*@  
+        @Styles.Render("~/Content/structure/DeskCss")  
+        @Styles.Render("~/Content/themes/taskflya/DeskCss")           
+        @Scripts.Render("~/Script/DeskJs")     
+        
+        @Html.Partial("State/PageState")   
+            
+        @RenderSection("scripts", required: false)
+    </head>
+    <body>   
+        <header>   
+            <div id="logo">
+                <a href="@Url.Action("Get", "Bulletin")">
+                    <img src="/content/themes/taskflya/images/postaflya-logo.png">
+                </a> 
+            </div>
+                       
+            @RenderSection("header", required: false)
+                       
+            @Html.Action("BrowserInfo", "BrowserInformation")    
+            @Html.Partial("GlobalToolbar")
+            
+                      
+            <!--<div class="Button" id="main-menu" onclick="$('#main-menu ul').toggle();"> 
+                <ul>
+                    @if (!Request.IsAuthenticated)
+                    {
+                        <li>@Html.ActionLink("Login", "LoginPage", "Account")</li>
+                    }
+                    <li>@Html.ActionLink("Heat Map", "Get", "HeatMap")</li>
+
+                    <li>@Html.ActionLink("About", "About", "Home")</li>
+                </ul>
+            </div>-->
+             @Html.Partial("Social/SocialLinks")
+        </header>
+        <div id="body">
+            <section class="content-wrapper main-content clear-fix">
+                @RenderBody()
+              
+            
+            @if (Request.IsAuthenticated)
+            {
+            <div id="create-flier-popup-overlay" data-bind="visible:CreateFlierInstance.CreateFlier"></div>
+                <div id="create-flier-item-div" data-bind="with:CreateFlierInstance.CreateFlier, visible:CreateFlierInstance.CreateFlier, absolutePosFromScroll: CreateFlierInstance.CreateFlier">
+                    <a class="close-button" data-bind="click:$root.CreateFlierInstance.FlierFormClose">close</a>
+                    @Html.Partial("Flier/CreateEdit", FlierCreateModel.DefaultForTemplate())
+                </div>
+            
+            }
+            </section>
+            
+        </div>
+        <footer>
+            <div class="content-wrapper">
+                <div class="float-left">
+                    <p>&copy; @DateTime.Now.Year - Bumblfly</p>
+                </div>
+
+            </div>
+        </footer>
+    </body>
+</html>

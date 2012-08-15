@@ -1,0 +1,17 @@
+﻿@using System.Web.Optimization
+@model dynamic
+
+@{
+    ViewBag.Title = "DetailGet";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section scripts {
+    @Styles.Render("~/Content/structure/Bulletin/DeskCss")   
+    @Styles.Render("~/Content/themes/taskflya/Bulletin/DeskCss")   
+    @Scripts.Render("~/Script/BulletinDetDeskJs") 
+}
+
+@*@Html.Partial("Bulletin/DetailTileTemplates")*@
+
+@Html.Partial("DetailViewPartial")

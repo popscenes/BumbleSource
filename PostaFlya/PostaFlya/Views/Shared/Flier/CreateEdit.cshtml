@@ -1,0 +1,148 @@
+﻿@model PostaFlya.Models.Flier.FlierCreateModel
+
+@*<script language="javascript" type="text/javascript">*@
+@**@
+@**@
+@*    // example of how to add new rule*@
+@*    *@
+@*//    $.validator.addMethod('hiddenrequiredrule', function (value, element, param) {*@
+@*//        alert(value);*@
+@*//        return false;*@
+@*//    });*@
+@*    $.validator.unobtrusive.adapters.addBool('requiredwithmsg', 'required');  *@
+@*</script>*@
+
+
+
+   <div id="flierCreateStep"  data-bind="template: { name: stepTemplate}">
+    </div>
+
+    <div id="form-buttons">
+    <button data-bind="click: prevTemplate, visible:isPrevStep()" class="Button">Prev</button>
+    <button data-bind="click: nextTemplate, visible:isNextStep()" class="Button">Next</button>
+
+    <button data-bind="click: save, visible:!isUpdate() && !isNextStep()" class="Button">Save</button>
+    <button data-bind="click: update, visible:isUpdate() && !isNextStep()" class="Button">update</button>
+    </div>
+
+<script type="text/html" id="Flyer-template">
+    <form id="flierForm" class="form" data-bind="validate: true">
+    
+    @Html.ValidationSummary(false)
+    @Html.HiddenFor(model => model.Id, new { data_bind = "value:Id" })
+    <fieldset>
+        <legend>Select an image for your flier</legend>
+        <ol>
+            <label for="location">Flya Image:</label>
+            <img data-bind="attr: { src: FlierImageUrlH250}, visible:FlierImageUrl" />
+            <span class="selected-image" data-bind="visible:(FlierImageUrl()==null)">please select an image</span>
+            
+
+            @Html.HiddenFor(model => model.FlierImageId, new { data_bind = "value:FlierImageId" })
+            @Html.ValidationMessageFor(model => model.FlierImageId)
+
+            <li data-bind="with:imageSelector">
+                @Html.Partial("Image/ImageSelector")
+            </li>
+        </ol>
+        
+    </fieldset>
+    </form>
+
+</script>
+
+<script type="text/html" id="Images-template">
+    <form id="flierForm" class="form" data-bind="validate: true">
+    <ul class="flier-images" data-bind="foreach:ImageList">
+        <li>
+            <img data-bind="attr:{src: ImageUrl}"/>
+        </li>
+    </ul>
+
+    <fieldset>
+        <legend>Add images to your flier</legend>
+        <ol>
+            <li data-bind="with:imageSelector">
+                @Html.Partial("Image/ImageSelector")
+            </li>            
+        </ol>
+        
+    </fieldset>
+    </form>
+
+</script>
+
+<script type="text/html" id="Location-template">
+    <form id="flierForm" class="form" data-bind="validate: true">
+    
+    @Html.ValidationSummary(false)
+    @Html.HiddenFor(model => model.Id, new { data_bind = "value:Id" })
+    <fieldset>
+        <legend>Add a location</legend>
+        <ol>
+
+            <li data-bind="with:locationSelector">
+                <label for="location">Flya Location:</label>
+                @Html.HiddenFor(model => model.Location, new { data_bind = "value:currentLocation()" })
+                @Html.ValidationMessageFor(model => model.Location)
+                @Html.Partial("Location/LocationSelector")
+            </li>
+            
+        </ol>
+        
+    </fieldset>
+    </form>
+</script>
+
+<script type="text/html" id="Info-template">
+        <form id="flierForm" class="form" data-bind="validate: true">
+    
+    @Html.ValidationSummary(false)
+    @Html.HiddenFor(model => model.Id, new { data_bind = "value:Id" })
+    <fieldset>
+        <legend>Now add some flyer information</legend>
+        <ol>
+            <li>
+                <label for="title">Title:</label>
+                @Html.TextBoxFor(model => model.Title, new { data_bind = "value:Title" })
+                @Html.ValidationMessageFor(model => model.Title)
+            </li>
+
+            <li>
+                <label for="description">Description:</label>
+                @Html.TextAreaFor(model => model.Description, new { data_bind = "value:Description" })
+                @Html.ValidationMessageFor(model => model.Description)
+            </li>
+            
+            <li>
+                <label for="description">Date:</label>
+                @Html.HiddenFor(model => model.EffectiveDate, new { data_bind = "value:EffectiveDate" })
+                @Html.ValidationMessageFor(model => model.EffectiveDate)
+                <div id="flyaDate" data-bind="datePicker:{altField: '#EffectiveDate'}, value:EffectiveDate"></div>
+            </li>
+        </ol>
+        
+    </fieldset>
+    </form>
+</script>
+
+
+<script type="text/html" id="Tags-template">
+    <form id="flierForm" class="form" data-bind="validate: true">
+    
+    @Html.ValidationSummary(false)
+    @Html.HiddenFor(model => model.Id, new { data_bind = "value:Id" })
+    <fieldset>
+        <legend>Now add some flyer tags</legend>
+        <ol>
+            <li data-bind="with:tagsSelector">
+                <label for="description">Tags:</label>
+                @Html.HiddenFor(model => model.TagsString, new { data_bind = "value:SelectedTags()" })
+                @Html.ValidationMessageFor(model => model.TagsString)
+                @Html.Partial("Tags/TagsSelector")
+            </li>
+        </ol>
+        
+    </fieldset>
+    </form>
+</script>

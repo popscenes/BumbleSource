@@ -1,0 +1,9 @@
+﻿<DiagnosticMonitorConfiguration
+  xmlns="http://schemas.microsoft.com/ServiceHosting/2010/10/DiagnosticsConfiguration"
+  configurationChangePollInterval="PT1M"
+  overallQuotaInMB="8192">
+  <Logs bufferQuotaInMB="4096" scheduledTransferPeriod="PT1M" scheduledTransferLogLevelFilter="Verbose"/>
+  <Directories bufferQuotaInMB="1024" scheduledTransferPeriod="PT1M">
+    <IISLogs container="iis-logs" directoryQuotaInMB="1024"/>
+  </Directories>
+</DiagnosticMonitorConfiguration>

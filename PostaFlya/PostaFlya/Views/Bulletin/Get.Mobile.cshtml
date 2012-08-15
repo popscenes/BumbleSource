@@ -1,0 +1,22 @@
+﻿
+@using System.Web.Optimization
+@using WebSite.Common.Extension
+
+
+@section scripts {
+
+    @Styles.Render("~/Content/structure/Bulletin/MobileCss") 
+    @Styles.Render("~/Content/themes/taskflya/Bulletin/MobileCss")   
+    @Scripts.Render("~/Script/BulletinMobileJs") 
+}
+
+@section rightheaderbuttons {
+    <a  data-bind="click: PrevPage" 
+        data-role="button" data-inline="true" data-icon="arrow-l" data-iconpos="notext" data-direction="reverse">Prev</a>
+    <a data-bind="click: NextPage" 
+    data-role="button" data-inline="true" data-icon="arrow-r" data-iconpos="notext">Next</a>
+}
+
+@Html.Partial("Bulletin/BulletinList")
+
+

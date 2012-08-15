@@ -1,0 +1,494 @@
+﻿body{
+	
+	background-image:url(images/bg-texture-01.png);
+	background-repeat:no-repeat;
+	background-position:0 0;
+}
+
+header{
+	background-image:url(images/header-bg-shim.png);
+	background-repeat:repeat-x;
+}
+
+/*
+.Button
+{
+    background-image:url(images/icons.png);
+    background-size:2000px 150px;
+	border:1px solid #ccc;
+	border-radius: 5px;
+	outline:none;
+	color:#000;
+}
+
+.Button:hover{   
+	background-image:url(images/icons.png);
+	outline:none;
+	color:#fff;
+}*/
+
+#controls .Button:hover{
+	background-image:url(images/icons.png);
+
+	outline:none;
+	color:#fff;
+}
+
+#controls .Button{
+	background-image:url(images/icons.png);
+	background-size:2000px 150px;
+	border:1px solid #ccc;
+	outline:none;
+	color:#fff;
+	float:left;
+}
+
+.close-button {
+
+}
+
+#btn-location{
+    background-position:5px 0px;    
+}
+
+#btn-tags{
+    background-position:-40px 0px;  
+    margin-left:10px;  
+}
+
+#btn-sort{
+    background-position:-90px 0px;  
+    margin-left:10px;  
+}
+
+#main-menu
+{
+    float:right;
+    background-position:-1200px 0px;  
+    margin-left:10px; 
+}
+
+#controls #lsMain
+{
+   
+	background-image:url(image/white-90.png);
+
+}
+
+#controls #lsMain
+{
+   
+	background-image:url(images/white-90.png);
+
+}
+
+.tags-selector .tags-box
+{
+    background-image:url(images/white-90.png);
+
+}
+
+/************toolbar items**************************/
+
+a.toolbar-item img{
+}
+
+a.toolbar-item div{
+}
+
+a.toolbar-item div.profile-edit-tool-bar-item {
+	background-image:url(images/edit-icon.png);
+}
+
+a.toolbar-item div.add-flier-tool-bar-item
+{
+    background-image:url(images/create-flier.png);
+}
+
+/************end toolbar items**************************/
+
+
+/************selected item popup/overlay div ********************/
+div#selected-item-div, div#create-flier-item-div {
+    background-color: white; 
+    opacity: 1;
+}
+
+div#selected-item-popup-overlay, div#create-flier-popup-overlay {
+    background-color: white;
+    opacity: 0.9;
+}
+/************end selected item popup/overlay div ********************/
+
+
+.ui-slider .ui-slider-handle {
+	position: absolute;
+	z-index: 2;
+	width: 20px;
+	height: 20px;
+	background-image:url(images/slider-handle.png);
+	background-repeat:no-repeat;
+	background-position:0 0;
+	cursor: default;
+	margin-top:-4px;
+}
+.ui-slider .ui-state-default, .ui-slider .ui-widget-content .ui-slider .ui-state-default, .ui-slider .ui-widget-header .ui-slider .ui-state-default 
+{
+    background:none;
+}
+
+
+
+#main-menu{
+	
+}
+
+#main-menu:hover{
+	
+}
+
+.ui-slider {
+	position: relative;
+	text-align: left;
+	margin-top:20px;
+}
+.ui-slider .ui-slider-handle {
+	position: absolute;
+	z-index: 2;
+	width: 20px;
+	height: 20px;
+	background-image:url(images/slider-handle.png);
+	background-repeat:no-repeat;
+	background-position:0 0;
+	cursor: default;
+	margin-top:-4px;
+	border:none!important;
+	outline:none;
+}
+.ui-slider .ui-slider-range {
+	position: absolute;
+	z-index: 1;
+	font-size: .7em;
+	display: block;
+	border: 0;
+	background-position: 0 0;
+}
+.ui-slider-horizontal {
+	height: 10px;
+	background:#c00!important;
+}
+.ui-slider-horizontal .ui-slider-handle {
+	top: -1px;
+	margin-left: -.6em;
+}
+.ui-slider-horizontal .ui-slider-range {
+	top: 0;
+	height: 100%;
+}
+.ui-slider-horizontal .ui-slider-range-min {
+	left: 0;
+}
+.ui-slider-horizontal .ui-slider-range-max {
+	right: 0;
+}
+
+.bx-prev {
+	position: absolute;
+	top: 78px;
+	left: -35px;
+	width: 31px;
+	height: 31px;
+	text-indent: -999999px;
+	background: url(./images/icon_arrow_left.png) no-repeat 0 -31px;
+}
+
+.bx-next {
+	position: absolute;
+	top: 78px;
+	right: -40px;
+	width: 31px;
+	height: 31px;
+	text-indent: -999999px;
+	background: url(./images/icon_arrow_right.png) no-repeat 0 -31px;
+}
+
+/************tag selector ********************/
+
+.tags-selector ul li
+{
+    text-align:center;
+    width:100px;
+    line-height:20px;
+}
+.tags-selector ul li div{
+	background-image:url(images/icons.png);
+    background-size:4000px 300px;
+	border:1px dotted #ccc;
+	outline:none;
+	color:#fff;
+	width:60px;
+	height:60px;
+	padding:20px;
+	border-radius: 5px;
+	
+}
+
+.tags-selector ul li .event
+{
+    background-position:-560px top;
+}
+.tags-selector ul li.tag-selected .event
+{
+    background-position:-560px bottom;
+}
+
+.tags-selector ul li .social
+{
+    background-position:-660px top;
+}
+.tags-selector ul li.tag-selected .social
+{
+    background-position:-660px bottom;
+}
+
+.tags-selector ul li .comedy
+{
+    background-position:-760px top;
+}
+.tags-selector ul li.tag-selected .comedy
+{
+    background-position:-760px bottom;
+}
+
+.tags-selector ul li .theatre
+{
+    background-position:-860px top;
+}
+.tags-selector ul li.tag-selected .theatre
+{
+    background-position:-860px bottom;
+}
+
+.tags-selector ul li .books
+{
+    background-position:-960px top;
+}
+.tags-selector ul li.tag-selected .books
+{
+    background-position:-960px bottom;
+}
+
+.tags-selector ul li .pets
+{
+    background-position:-1160px top;
+}
+.tags-selector ul li.tag-selected .pets
+{
+    background-position:-1160px bottom;
+}
+
+.tags-selector ul li .lost
+{
+    background-position:-1260px top;
+}
+.tags-selector ul li.tag-selected .lost
+{
+    background-position:-1260px bottom;
+}
+
+.tags-selector ul li .found
+{
+    background-position:-1360px top;
+}
+.tags-selector ul li.tag-selected .found
+{
+    background-position:-1360px bottom;
+}
+
+.tags-selector ul li .music
+{
+    background-position:-1060px top;
+}
+.tags-selector ul li.tag-selected .music
+{
+    background-position:-1060px bottom;
+}
+
+.tags-selector ul li .services
+{
+    background-position:-1460px top;
+}
+.tags-selector ul li.tag-selected .services
+{
+    background-position:-1460px bottom;
+}
+
+.tags-selector ul li .fashion
+{
+    background-position:-1560px top;
+}
+.tags-selector ul li.tag-selected .fashion
+{
+    background-position:-1560px bottom;
+}
+
+.tags-selector ul li .food-__0026-drink
+{
+    background-position:-1660px top;
+}
+.tags-selector ul li.tag-selected .food-__0026-drink
+{
+    background-position:-1660px bottom;
+}
+
+.tags-selector ul li .sport
+{
+    background-position:-1760px top;
+}
+.tags-selector ul li.tag-selected .sport
+{
+    background-position:-1760px bottom;
+}
+
+.tags-selector ul li .automotive
+{
+    background-position:-1860px top;
+}
+.tags-selector ul li.tag-selected .automotive
+{
+    background-position:-1860px bottom;
+}
+
+.tags-selector ul li .education
+{
+    background-position:-1960px top;
+}
+.tags-selector ul li.tag-selected .education
+{
+    background-position:-1960px bottom;
+}
+
+.tags-selector ul li .film
+{
+    background-position:-2060px top;
+}
+.tags-selector ul li.tag-selected .film
+{
+    background-position:-2060px bottom;
+}
+
+.tags-selector ul li .photography
+{
+    background-position:-2160px top;
+}
+.tags-selector ul li.tag-selected .photography
+{
+    background-position:-2160px bottom;
+}
+
+.tags-selector ul li .art-__0026-craft
+{
+    background-position:-2260px top;
+}
+.tags-selector ul li.tag-selected .art-__0026-craft
+{
+    background-position:-2260px bottom;
+}
+
+.tags-selector ul li .accommodation
+{
+    background-position:-2360px top;
+}
+.tags-selector ul li.tag-selected .accommodation
+{
+    background-position:-2360px bottom;
+}
+
+.tags-selector ul li .kids
+{
+    background-position:-2460px top;
+}
+.tags-selector ul li.tag-selected .kids
+{
+    background-position:-2460px bottom;
+}
+
+.tags-selector ul li .property
+{
+    background-position:-2560px top;
+}
+.tags-selector ul li.tag-selected .property
+{
+    background-position:-2560px bottom;
+}
+
+.tags-selector ul li .for-sale
+{
+    background-position:-3260px top;
+}
+.tags-selector ul li.tag-selected .for-sale
+{
+    background-position:-3260px bottom;
+}
+
+.tags-selector ul li .sale
+{
+    background-position:-2660px top;
+}
+.tags-selector ul li.tag-selected .sale{
+    background-position:-2660px bottom;
+}
+
+.tags-selector ul li .technology
+{
+    background-position:-2760px top;
+}
+.tags-selector ul li.tag-selected .technology{
+    background-position:-2760px bottom;
+}
+
+.tags-selector ul li .politics
+{
+    background-position:-2860px top;
+}
+.tags-selector ul li.tag-selected .politics
+{
+    background-position:-2860px bottom;
+}
+
+.tags-selector ul li .wanted
+{
+    background-position:-2960px top;
+}
+.tags-selector ul li.tag-selected .wanted
+{
+    background-position:-2960px bottom;
+}
+
+.tags-selector ul li .task
+{
+    background-position:-3060px top;
+}
+.tags-selector ul li.tag-selected .task
+{
+    background-position:-3060px bottom;
+}
+
+.tags-selector ul li .for-free
+{
+    background-position:-3160px top;
+}
+.tags-selector ul li.tag-selected .for-free
+{
+    background-position:-3160px bottom;
+}
+
+.tags-selector ul li .job
+{
+    background-position:-3260px top;
+}
+.tags-selector ul li.tag-selected .job
+{
+    background-position:-3260px bottom;
+}
+

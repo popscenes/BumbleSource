@@ -1,0 +1,42 @@
+﻿
+@using System.Web.Optimization
+@model dynamic
+
+@section scripts {
+
+    @Styles.Render("~/Content/structure/Bulletin/DeskCss")
+    @Styles.Render("~/Content/themes/taskflya/Bulletin/DeskCss")
+    @Scripts.Render("~/Script/BulletinDeskJs")
+}
+
+
+@section header {
+    <div id="controls">
+        <div class="page-toolbar">
+            <div class="locSel" data-bind="with:$root.locationSelector">
+                @Html.Partial("Location/LocationSelector")
+            </div>
+            <div class="distSel" data-bind="with:$root.distanceSelector">
+                @Html.Partial("Distance/DistanceSelector")
+            </div>
+            <div class="tagsSel" data-bind="with:$root.tagsSelector">
+                @Html.Partial("Tags/TagsSelector")
+            </div>
+            <div class="sortSel">
+                <div class="Button" id="btn-sort">Select Tags</div>
+            </div>
+        </div>
+    </div>
+
+    }
+    
+@Html.Partial("Bulletin/SelectedBulletinViewPartial")
+@Html.Partial("Bulletin/BulletinList")
+
+<a data-bind="visible: false" 
+   href="@ViewBag.NextPageUrl">Next Page</a>
+<a data-bind="visible: false" 
+    href="@ViewBag.PrevPageUrl">Previous Page</a>
+
+
+

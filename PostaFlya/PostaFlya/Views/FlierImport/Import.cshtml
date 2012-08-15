@@ -1,0 +1,22 @@
+﻿
+@using System.Web.Optimization
+@using Newtonsoft.Json
+@using WebSite.Application.Extension.Dynamic
+@model dynamic
+
+@section scripts {
+
+    @Styles.Render("~/Content/structure/FlierImport/DeskCss")
+    @Styles.Render("~/Content/themes/taskflya/FlierImport/DeskCss")
+    @Scripts.Render("~/Script/FlierImportDeskJs")
+}
+
+@Html.Partial("State/PageStateAdd", "Fliers")
+
+
+<ul data-bind="foreach:fliers">
+    <li>
+        <span data-bind="text: Title, click: $parent.CreateFlierInstance.InitialiseFlier"></span>
+    </li>
+    
+</ul>

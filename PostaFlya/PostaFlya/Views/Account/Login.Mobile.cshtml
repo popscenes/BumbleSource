@@ -1,0 +1,48 @@
+
+@using System.Web.Optimization
+@using WebSite.Common.Extension
+@section scripts {
+    @Styles.Render("~/Content/structure/Account/MobileCss")   
+    @Styles.Render("~/Content/themes/taskflya/Account/MobileCss")   
+    @Scripts.Render("~/Script/AccountMobileJs") 
+}
+
+<script type="text/javascript">
+    $(function () {
+        // make buttons jqueryui buttons
+        $("button").button();
+
+        // add click behaviour
+        $("button").click(function () {
+            window.location = $(this).attr("id");
+        });
+
+        $(document).ready(function () {
+            openid.init('providerIdentifier');
+            //openid.setDemoMode(false); //Stops form submission for client javascript-only test purposes
+        });
+    });
+</script>
+
+<div id="identity-provider-content">
+    <h2>
+        Sign in using one of the following Identity Providers
+    </h2>
+        @using (Html.BeginForm("AuthRequest", "Account", FormMethod.Post, new { id = "openid_form" }))
+        {
+		<input type="hidden" name="action" value="verify" />
+    <fieldset>
+        <legend>Sign-in or Create New Account</legend>
+        <div id="openid_choice">
+            <p>Please click your account provider:</p>
+            <div id="openid_btns"></div>
+        </div>
+        <div id="openid_input_area">
+            <input id="openid_identifier" name="providerIdentifier" type="text" value="http://" />
+            <input id="openid_submit" type="submit" value="Sign-In"/>
+        </div>
+    </fieldset>
+        }
+	
+</div>
+

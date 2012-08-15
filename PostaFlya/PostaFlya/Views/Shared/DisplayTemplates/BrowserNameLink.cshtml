@@ -1,0 +1,7 @@
+﻿
+@model dynamic
+
+<a data-bind="attr: { href: '/'+Browser.Handle, title: Browser.DisplayName }, text:Browser.DisplayName"
+    href="/@Model.Handle" title="@Model.DisplayName">
+    @Model.DisplayName
+</a>

@@ -1,0 +1,170 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{787DCEAB-23A8-476E-859F-5CD98F9ABDDC}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>PostaFlya.DataRepository</RootNamespace>
+    <AssemblyName>PostaFlya.DataRepository</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.WindowsAzure.Configuration, Version=1.7.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\Libraries\Microsoft.WindowsAzure.ConfigurationManager.1.7.0.0\lib\net35-full\Microsoft.WindowsAzure.Configuration.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.WindowsAzure.ServiceRuntime, Version=1.7.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.WindowsAzure.StorageClient, Version=1.7.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\Libraries\WindowsAzure.Storage.1.7.0.0\lib\net35-full\Microsoft.WindowsAzure.StorageClient.dll</HintPath>
+    </Reference>
+    <Reference Include="Ninject, Version=3.0.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+      <HintPath>..\..\Libraries\Ninject.3.0.1.10\lib\net40\Ninject.dll</HintPath>
+    </Reference>
+    <Reference Include="Ninject.Extensions.Conventions, Version=3.0.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+      <HintPath>..\..\Libraries\Ninject.Extensions.Conventions.3.0.0.11\lib\net40\Ninject.Extensions.Conventions.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.Services.Client" />
+    <Reference Include="System.Runtime.Caching" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Behaviour\TaskJob\AzureTaskJobRepository.cs" />
+    <Compile Include="Behaviour\TaskJob\TaskJobStorageDomain.cs" />
+    <Compile Include="Binding\AzureInitCreateTables.cs" />
+    <Compile Include="Binding\AzureRepositoryNinjectBinding.cs" />
+    <Compile Include="Binding\BindingAttributes.cs" />
+    <Compile Include="Binding\TableNameNinjectBinding.cs" />
+    <Compile Include="Browser\AzureBrowserRepository.cs" />
+    <Compile Include="Browser\BrowserStorageDomain.cs" />
+    <Compile Include="Content\AzureImageRepository.cs" />
+    <Compile Include="Content\ImageStorageDomain.cs" />
+    <Compile Include="Flier\AzureFlierRepository.cs" />
+    <Compile Include="Flier\FlierStorageDomain.cs" />
+    <Compile Include="Internal\AzureCommentRepository.cs" />
+    <Compile Include="Internal\AzureLikeRepository.cs" />
+    <Compile Include="Internal\CommentStorageDomain.cs" />
+    <Compile Include="Internal\LikeStorageDomain.cs" />
+    <Compile Include="Internal\CustomEdmSerializers.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+<<<<<<< HEAD
+=======
+    <Compile Include="Search\Implementation\SqlSeachDbInitializer.cs" />
+    <Compile Include="Search\Implementation\TableFlierSearchService.cs" />
+    <Compile Include="Search\Services\FlierSearchServiceInterface.cs" />
+    <Compile Include="WebsiteInformation\WebsiteInfoServiceAzure.cs" />
+>>>>>>> b6d89b74b7c1b4ee0624b7bb8d7de29b422ff8bf
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.0">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\WebSite.Application.Domain\WebSite.Application.Domain.csproj">
+      <Project>{1510EA95-D2A1-47B5-8652-49895B97FC9F}</Project>
+      <Name>WebSite.Application.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WebSite.Application\WebSite.Application.csproj">
+      <Project>{46DB8930-71D8-4DE4-BAA6-39944F07D6F5}</Project>
+      <Name>WebSite.Application</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WebSite.Azure.Common\WebSite.Azure.Common.csproj">
+      <Project>{63418161-2D30-4BC6-B1C1-015CDA302B08}</Project>
+      <Name>WebSite.Azure.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WebSite.Domain.TaskJob\WebSite.Domain.TaskJob.csproj">
+      <Project>{761D2C3C-2C8A-4277-AAD3-407872797B9C}</Project>
+      <Name>WebSite.Domain.TaskJob</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WebSite.Domain\WebSite.Domain.csproj">
+      <Project>{77BD3622-4D65-4776-AC5A-4F779CC526ED}</Project>
+      <Name>WebSite.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WebSite.Infrastructure\WebSite.Infrastructure.csproj">
+      <Project>{B5C3A966-F286-4CB8-913B-C8625625451D}</Project>
+      <Name>WebSite.Infrastructure</Name>
+    </ProjectReference>
+  </ItemGroup>
+<<<<<<< HEAD
+  <ItemGroup>
+    <Folder Include="WebsiteInformation\" />
+  </ItemGroup>
+=======
+  <ItemGroup />
+>>>>>>> b6d89b74b7c1b4ee0624b7bb8d7de29b422ff8bf
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

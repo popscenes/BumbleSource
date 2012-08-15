@@ -1,0 +1,35 @@
+﻿@using System.Web.Optimization
+@model dynamic
+
+@{
+    ViewBag.Title = "DetailGet";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section scripts {
+
+    @Styles.Render("~/Content/structure/Bulletin/DeskCss")   
+    @Styles.Render("~/Content/themes/taskflya/Bulletin/DeskCss")
+        
+    @Styles.Render("~/Content/structure/Profile/DeskCss")   
+    @Styles.Render("~/Content/themes/taskflya/Profile/DeskCss")   
+    @Scripts.Render("~/Script/ProfileDeskJs") 
+}
+
+@Html.Partial("Bulletin/SelectedBulletinViewPartial")
+
+
+@Html.Partial("State/PageStateAdd", "ProfileModel")
+
+<div id="profile-view">
+<h2 data-bind="visible: MyFliers().length > 0">My Fliers</h2>
+    <div id="created-fliers"  data-bind="template: { name: MyFliersLayout.FlierTemplate, foreach: MyFliers }, visible: MyFliers().length > 0, updateLayout: MyFliersLayout">
+        @Html.Partial("Bulletin/BulletinItems", (object)Model.Fliers)
+    </div>
+<h2 data-bind="visible: LikedFliers().length > 0">Liked Fliers</h2>
+    <div id="liked-fliers"  data-bind="template: { name: LikedFliersLayout.FlierTemplate, foreach: LikedFliers }, visible: LikedFliers().length > 0, updateLayout: LikedFliersLayout">
+        @Html.Partial("Bulletin/BulletinItems", (object)Model.LikedFliers)
+    </div>
+
+</div>
+

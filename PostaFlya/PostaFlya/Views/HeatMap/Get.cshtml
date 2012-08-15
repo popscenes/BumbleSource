@@ -1,0 +1,17 @@
+﻿@using System.Web.Optimization
+@using WebSite.Common.Extension
+@{
+    ViewBag.Title = "Get";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section scripts {
+    @Styles.Render("~/Content/structure/HeatMap/DeskCss")   
+    @Styles.Render("~/Content/themes/taskflya/HeatMap/DeskCss")  
+    @Scripts.Render("~/Script/HeatMap/DeskJs") 
+}
+
+<div id="heatMap" style="width: 640px; height: 480px;" data-bind="heatMapBinding: currentLocation"></div>
+
+<input id="locationSearch" type="text" />
+

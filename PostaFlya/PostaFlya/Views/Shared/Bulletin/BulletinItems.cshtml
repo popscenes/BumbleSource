@@ -1,0 +1,9 @@
+﻿
+@using PostaFlya.Models.Flier
+@model dynamic
+
+@foreach (BulletinFlierModel fb in Model)
+{
+    @Html.Partial("~/Areas/" + fb.FlierBehaviour + "/Views/Bulletin/SummaryTile.cshtml", fb)
+}
+                                                                                        

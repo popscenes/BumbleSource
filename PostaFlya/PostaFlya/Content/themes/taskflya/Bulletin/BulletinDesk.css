@@ -1,0 +1,63 @@
+﻿.ui-flier-tile {
+    background-color: #ffffff
+}
+
+.locSel #lsMain {
+    background-color: #ffffff;
+}
+
+.ui-flier-tile-v-250h 
+{
+}
+
+.detail-overlay {
+    background-color: black;
+    color: white;
+    opacity: 0.0;
+
+    -webkit-transition: all 0.5s ease-out 0s;
+   -moz-transition: all 0.5s ease-out 0s;
+   -ms-transition: all 0.5s ease-out 0s;
+   -o-transition: all 0.5s ease-out 0s;
+   transition: all 0.5s ease-out 0s; 
+}
+
+
+/***default detail view layout***/
+
+.flier-view {
+
+}
+
+.flier-view .flier-details {
+    
+}
+
+.flier-view .flier-details .flier-title {
+}
+
+.flier-view .flier-details .flier-img {
+}
+
+.flier-view .flier-details .flier-likes-comments{
+    
+}
+
+.flier-view .flier-details .flier-likes-comments .like-stats{
+}
+
+.flier-view .flier-details .flier-likes-comments .comment-stats{
+}
+
+.flier-view .flier-details .flier-desc {
+    
+}
+
+.flier-view .comments {
+    
+}
+
+.flier-view .likes {
+    
+}
+/***end default detail view layout***/

@@ -1,0 +1,75 @@
+﻿
+@using PostaFlya.Application.Domain.Content
+@using PostaFlya.Areas.TaskJob.Models
+@using PostaFlya.Models.Comments
+@using PostaFlya.Models.Content
+@using PostaFlya.Models.Likes
+@model dynamic
+@{var Flier = ViewBag.Template != null && ViewBag.Template ? TaskJobDetailsViewModel.DefaultForTemplate().Flier : Model.Flier;}
+
+<div class="flier-view flier-view-taskjob">
+    <div class="flier-details clear-fix" data-bind="with:Flier">  
+        <div class="flier-likes-comments">
+            <div class="like-stats">
+                @*replace with image*@
+                <div class="like-icon">Likes:</div>
+                <span data-bind="text:NumberOfLikes">
+                    @Flier.NumberOfLikes  
+                </span>
+            </div>
+            <div class="comment-stats">
+                @*replace with image*@
+                <div class="comment-icon">Comments:</div>
+                <span data-bind="text:NumberOfComments">
+                    @Flier.NumberOfComments                                     
+                </span>
+            </div>               
+        </div>
+
+        <div class="flier-title" data-bind="text:Title">
+            @Flier.Title
+        </div>
+            
+        <div class="flier-img">
+            <img data-bind="imgRetry: FlierImageUrl" 
+                 src="@ImageUtil.GetUrlForImageUri(Flier.FlierImageUrl, ThumbOrientation.Vertical, ThumbSize.S450)" 
+                 alt="@Flier.Title"/>
+        </div>
+            
+        <div class="flier-desc" data-bind="text:Description">
+            @Flier.Description
+        </div>                 
+    </div>
+
+    <ul class="flier-images" data-bind="foreach:Flier.ImageList">
+        @foreach (ImageViewModel img in Flier.ImageList)
+        {
+            <li>
+                <img data-bind="attr:{src: ImageUrl}" 
+                    src="@ImageUtil.GetUrlForImageUri(img.ImageUrl, ThumbOrientation.Vertical, ThumbSize.S200)"/>
+            </li>
+        }
+    </ul>
+        
+    <div class="comment-stats">
+        @*replace with image*@
+        <div class="comment-icon">Comments:</div>
+        <span data-bind="text:Flier.NumberOfComments">
+            @Flier.NumberOfComments
+        </span>
+    </div>   
+    @Html.Partial("CommentsPartial")
+
+    <div class="like-stats">
+        @*replace with image*@
+        <div class="like-icon">Likes:</div>
+        <span data-bind="text:Flier.NumberOfLikes">
+            @Flier.NumberOfLikes  
+        </span>
+    </div>
+    @Html.Partial("LikesPartial")
+</div>
+    
+
+
+@* @Html.LabelFor(m => m.CostOverhead)<span data-bind="text: Behaviour.CostOverhead"></span>   *@

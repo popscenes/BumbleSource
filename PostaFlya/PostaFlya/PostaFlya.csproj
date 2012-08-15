@@ -1,0 +1,757 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{85753E12-6D9B-4B33-9EBD-BF31DBE10088}</ProjectGuid>
+    <ProjectTypeGuids>{E3E379DF-F4C6-4180-9B81-6769533ABE47};{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>PostaFlya</RootNamespace>
+    <AssemblyName>PostaFlya</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <MvcBuildViews>false</MvcBuildViews>
+    <UseIISExpress>true</UseIISExpress>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Antlr3.Runtime">
+      <HintPath>..\..\Libraries\WebGrease.1.0.0\lib\Antlr3.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="DataAnnotationsExtensions, Version=1.1.0.0, Culture=neutral, PublicKeyToken=358a5681c50fd84c, processorArchitecture=MSIL">
+      <HintPath>..\..\Libraries\DataAnnotationsExtensions.1.1.0.0\lib\NETFramework40\DataAnnotationsExtensions.dll</HintPath>
+    </Reference>
+    <Reference Include="DataAnnotationsExtensions.ClientValidation">
+      <HintPath>..\..\Libraries\DataAnnotationsExtensions.MVC3.1.1.0.0\lib\NETFramework40\DataAnnotationsExtensions.ClientValidation.dll</HintPath>
+    </Reference>
+    <Reference Include="DotNetOpenAuth.Core, Version=4.1.0.0, Culture=neutral, PublicKeyToken=2780ccd10d57b246, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Libraries\DotNetOpenAuth.Core.4.1.0.12182\lib\net40-full\DotNetOpenAuth.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="DotNetOpenAuth.Core.UI, Version=4.1.0.0, Culture=neutral, PublicKeyToken=2780ccd10d57b246, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Libraries\DotNetOpenAuth.Core.UI.4.1.0.12182\lib\net40-full\DotNetOpenAuth.Core.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="DotNetOpenAuth.InfoCard, Version=4.1.0.0, Culture=neutral, PublicKeyToken=2780ccd10d57b246, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Libraries\DotNetOpenAuth.InfoCard.4.1.0.12182\lib\net40-full\DotNetOpenAuth.InfoCard.dll</HintPath>
+    </Reference>
+    <Reference Include="DotNetOpenAuth.InfoCard.UI, Version=4.1.0.0, Culture=neutral, PublicKeyToken=2780ccd10d57b246, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Libraries\DotNetOpenAuth.InfoCard.UI.4.1.0.12182\lib\net40-full\DotNetOpenAuth.InfoCard.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="DotNetOpenAuth.OAuth, Version=4.1.0.0, Culture=neutral, PublicKeyToken=2780ccd10d57b246, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Libraries\DotNetOpenAuth.OAuth.Core.4.1.0.12182\lib\net40-full\DotNetOpenAuth.OAuth.dll</HintPath>
+    </Reference>
+    <Reference Include="DotNetOpenAuth.OAuth.Common, Version=4.1.0.0, Culture=neutral, PublicKeyToken=2780ccd10d57b246, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Libraries\DotNetOpenAuth.OAuth.Common.4.1.0.12182\lib\net40-full\DotNetOpenAuth.OAuth.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="DotNetOpenAuth.OAuth.Consumer, Version=4.1.0.0, Culture=neutral, PublicKeyToken=2780ccd10d57b246, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Libraries\DotNetOpenAuth.OAuth.Consumer.4.1.0.12182\lib\net40-full\DotNetOpenAuth.OAuth.Consumer.dll</HintPath>
+    </Reference>
+    <Reference Include="DotNetOpenAuth.OAuth.ServiceProvider, Version=4.1.0.0, Culture=neutral, PublicKeyToken=2780ccd10d57b246, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Libraries\DotNetOpenAuth.OAuth.ServiceProvider.4.1.0.12182\lib\net40-full\DotNetOpenAuth.OAuth.ServiceProvider.dll</HintPath>
+    </Reference>
+    <Reference Include="DotNetOpenAuth.OAuth2, Version=4.1.0.0, Culture=neutral, PublicKeyToken=2780ccd10d57b246, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Libraries\DotNetOpenAuth.OAuth2.Core.0.25.0-draft1\lib\net40-full\DotNetOpenAuth.OAuth2.dll</HintPath>
+    </Reference>
+    <Reference Include="DotNetOpenAuth.OAuth2.Client, Version=4.1.0.0, Culture=neutral, PublicKeyToken=2780ccd10d57b246, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Libraries\DotNetOpenAuth.OAuth2.Client.0.25.0-draft1\lib\net40-full\DotNetOpenAuth.OAuth2.Client.dll</HintPath>
+    </Reference>
+    <Reference Include="DotNetOpenAuth.OAuth2.ClientAuthorization">
+      <HintPath>..\..\Libraries\DotNetOpenAuth.OAuth2.ClientAuthorization.0.25.0-draft1\lib\net40-full\DotNetOpenAuth.OAuth2.ClientAuthorization.dll</HintPath>
+    </Reference>
+    <Reference Include="DotNetOpenAuth.OpenId, Version=4.1.0.0, Culture=neutral, PublicKeyToken=2780ccd10d57b246, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Libraries\DotNetOpenAuth.OpenId.Core.4.1.0.12182\lib\net40-full\DotNetOpenAuth.OpenId.dll</HintPath>
+    </Reference>
+    <Reference Include="DotNetOpenAuth.OpenId.Provider, Version=4.1.0.0, Culture=neutral, PublicKeyToken=2780ccd10d57b246, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Libraries\DotNetOpenAuth.OpenId.Provider.4.1.0.12182\lib\net40-full\DotNetOpenAuth.OpenId.Provider.dll</HintPath>
+    </Reference>
+    <Reference Include="DotNetOpenAuth.OpenId.Provider.UI, Version=4.1.0.0, Culture=neutral, PublicKeyToken=2780ccd10d57b246, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Libraries\DotNetOpenAuth.OpenId.Provider.UI.4.1.0.12182\lib\net40-full\DotNetOpenAuth.OpenId.Provider.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="DotNetOpenAuth.OpenId.RelyingParty, Version=4.1.0.0, Culture=neutral, PublicKeyToken=2780ccd10d57b246, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Libraries\DotNetOpenAuth.OpenId.RelyingParty.4.1.0.12182\lib\net40-full\DotNetOpenAuth.OpenId.RelyingParty.dll</HintPath>
+    </Reference>
+    <Reference Include="DotNetOpenAuth.OpenId.RelyingParty.UI, Version=4.1.0.0, Culture=neutral, PublicKeyToken=2780ccd10d57b246, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Libraries\DotNetOpenAuth.OpenId.RelyingParty.UI.4.1.0.12182\lib\net40-full\DotNetOpenAuth.OpenId.RelyingParty.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="DotNetOpenAuth.OpenId.UI, Version=4.1.0.0, Culture=neutral, PublicKeyToken=2780ccd10d57b246, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Libraries\DotNetOpenAuth.OpenId.Core.UI.4.1.0.12182\lib\net40-full\DotNetOpenAuth.OpenId.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="DotNetOpenAuth.OpenIdInfoCard.UI, Version=4.1.0.0, Culture=neutral, PublicKeyToken=2780ccd10d57b246, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Libraries\DotNetOpenAuth.OpenIdInfoCard.UI.4.1.0.12182\lib\net40-full\DotNetOpenAuth.OpenIdInfoCard.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="DotNetOpenAuth.OpenIdOAuth">
+      <HintPath>..\..\Libraries\DotNetOpenAuth.OpenIdOAuth.4.1.0.12182\lib\net40-full\DotNetOpenAuth.OpenIdOAuth.dll</HintPath>
+    </Reference>
+    <Reference Include="FiftyOne.Foundation, Version=2.1.4.10, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Libraries\51Degrees.mobi.2.1.4.10\lib\NET40\FiftyOne.Foundation.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ApplicationServer.Caching.AzureClientHelper, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\Libraries\Microsoft.WindowsAzure.Caching.1.7.0.0\lib\net35-full\Microsoft.ApplicationServer.Caching.AzureClientHelper.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ApplicationServer.Caching.AzureCommon, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\Libraries\Microsoft.WindowsAzure.Caching.1.7.0.0\lib\net35-full\Microsoft.ApplicationServer.Caching.AzureCommon.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ApplicationServer.Caching.Client, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\Libraries\Microsoft.WindowsAzure.Caching.1.7.0.0\lib\net35-full\Microsoft.ApplicationServer.Caching.Client.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ApplicationServer.Caching.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\Libraries\Microsoft.WindowsAzure.Caching.1.7.0.0\lib\net35-full\Microsoft.ApplicationServer.Caching.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Web.DistributedCache, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\Libraries\Microsoft.WindowsAzure.Caching.1.7.0.0\lib\net35-full\Microsoft.Web.DistributedCache.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Web.Helpers, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\Libraries\microsoft-web-helpers.2.0.20505.2\lib\net40\Microsoft.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\..\Libraries\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.WindowsAzure.Configuration, Version=1.7.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\Libraries\Microsoft.WindowsAzure.ConfigurationManager.1.7.0.1\lib\net35-full\Microsoft.WindowsAzure.Configuration.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.WindowsAzure.Diagnostics, Version=1.7.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
+    <Reference Include="Microsoft.WindowsAzure.ServiceRuntime, Version=1.7.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
+    <Reference Include="Microsoft.WindowsAzure.StorageClient, Version=1.7.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\Libraries\WindowsAzure.Storage.1.7.0.0\lib\net35-full\Microsoft.WindowsAzure.StorageClient.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.WindowsFabric.Common, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\Libraries\Microsoft.WindowsAzure.Caching.1.7.0.0\lib\net35-full\Microsoft.WindowsFabric.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.WindowsFabric.Data.Common, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\Libraries\Microsoft.WindowsAzure.Caching.1.7.0.0\lib\net35-full\Microsoft.WindowsFabric.Data.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\..\Libraries\Newtonsoft.Json.4.5.7\lib\net40\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Ninject, Version=3.0.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+      <HintPath>..\..\Libraries\Ninject.3.0.1.10\lib\net40\Ninject.dll</HintPath>
+    </Reference>
+    <Reference Include="Ninject.Extensions.Conventions, Version=3.0.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+      <HintPath>..\..\Libraries\Ninject.Extensions.Conventions.3.0.0.11\lib\net40\Ninject.Extensions.Conventions.dll</HintPath>
+    </Reference>
+    <Reference Include="Ninject.Web.Common, Version=3.0.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+      <HintPath>..\..\Libraries\Ninject.Web.Common.3.0.0.7\lib\net40-full\Ninject.Web.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Ninject.Web.Mvc">
+      <HintPath>..\..\Libraries\Ninject.MVC3.3.0.0.6\lib\net40-full\Ninject.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="NuGet.Core, Version=1.6.30117.9648, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\..\Libraries\NuGet.Core.1.6.2\lib\net40\NuGet.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Data.Services.Client" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Json, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\..\Libraries\System.Json.4.0.20126.16343\lib\net40\System.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\Libraries\System.Net.Http.2.0.20126.16343\lib\net40\System.Net.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.Formatting, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\Libraries\Microsoft.AspNet.WebApi.Client.4.0.20505.0\lib\net40\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\Libraries\System.Net.Http.2.0.20126.16343\lib\net40\System.Net.Http.WebRequest.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.Caching" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Helpers, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\..\Libraries\AspNetWebPages.Core.2.0.20126.16343\lib\net40\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\Libraries\Microsoft.AspNet.WebApi.Core.4.0.20505.0\lib\net40\System.Web.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http.WebHost, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\Libraries\AspNetWebApi.4.0.20126.16343\lib\net40\System.Web.Http.WebHost.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\..\Libraries\AspNetMvc.4.0.20126.16343\lib\net40\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Optimization, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\Libraries\Microsoft.AspNet.Web.Optimization.1.0.0-beta3\lib\net40\System.Web.Optimization.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Providers, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\Libraries\Microsoft.AspNet.Providers.Core.1.0\lib\net40\System.Web.Providers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\..\Libraries\AspNetRazor.Core.2.0.20126.16343\lib\net40\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\..\Libraries\AspNetWebPages.Core.2.0.20126.16343\lib\net40\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Administration, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\..\Libraries\Microsoft.AspNet.WebPages.Administration.2.0.20505.0\lib\net40\System.Web.WebPages.Administration.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\..\Libraries\AspNetWebPages.Core.2.0.20126.16343\lib\net40\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\..\Libraries\AspNetWebPages.Core.2.0.20126.16343\lib\net40\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Routing" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="WebActivator, Version=1.5.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Libraries\WebActivator.1.5.1\lib\net40\WebActivator.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGrease">
+      <HintPath>..\..\Libraries\WebGrease.1.0.0\lib\WebGrease.dll</HintPath>
+    </Reference>
+    <Reference Include="WebMatrix.Data, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\..\Libraries\Microsoft.AspNet.WebPages.Data.2.0.20505.0\lib\net40\WebMatrix.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="WebMatrix.WebData, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\..\Libraries\Microsoft.AspNet.WebPages.WebData.2.0.20505.0\lib\net40\WebMatrix.WebData.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App_Start\NinjectWebCommon.cs" />
+    <Compile Include="App_Start\RegisterClientValidationExtensions.cs" />
+    <Compile Include="Areas\Default\Binding\DefaultBehaviourWebNinjectBinding.cs" />
+    <Compile Include="Areas\Default\DefaultAreaRegistration.cs" />
+    <Compile Include="Areas\Default\Models\DefaultDetailsViewModel.cs" />
+    <Compile Include="Areas\Default\Models\Factory\DefaultBehaviourFlierBehaviourViewModelFactory.cs" />
+    <Compile Include="Areas\TaskJob\Binding\TaskJobBehaviourWebNinjectBinding.cs" />
+    <Compile Include="Areas\TaskJob\Controllers\MyTaskBidsController.cs" />
+    <Compile Include="Areas\TaskJob\Controllers\MyTaskJobsController.cs" />
+    <Compile Include="Areas\TaskJob\Controllers\TaskJobBidController.cs" />
+    <Compile Include="Areas\TaskJob\Models\Bulletin\BulletinTaskJobBehaviourModel.cs" />
+    <Compile Include="Areas\TaskJob\Models\Factory\TaskJobBehaviourFlierBehaviourViewModelFactory.cs" />
+    <Compile Include="Areas\TaskJob\Models\TaskJobBehaviourCreateModel.cs" />
+    <Compile Include="Areas\TaskJob\Models\MyTaskJobModel.cs" />
+    <Compile Include="Areas\TaskJob\Models\TaskJobBidModel.cs" />
+    <Compile Include="Areas\TaskJob\Models\TaskJobDetailsViewModel.cs" />
+    <Compile Include="Areas\TaskJob\TaskJobAreaRegistration.cs" />
+    <Compile Include="Attributes\BrowserAuthorizeAttribute.cs" />
+    <Compile Include="Attributes\BrowserInformationRequiredAttribute.cs" />
+    <Compile Include="Binding\EntityQueryServiceFactoryInterface.cs" />
+    <Compile Include="Binding\NinjectDependencyResolver.cs" />
+    <Compile Include="Binding\WebNinjectBindings.cs" />
+    <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\BrowserInformationController.cs" />
+    <Compile Include="Controllers\FlierImportController.cs" />
+    <Compile Include="Controllers\ProfileApiController.cs" />
+    <Compile Include="Controllers\ProfileController.cs" />
+    <Compile Include="Controllers\SneakyController.cs" />
+    <Compile Include="Models\Browser\BrowserModel.cs" />
+    <Compile Include="Models\Browser\ProfileEditModel.cs" />
+    <Compile Include="Models\Comments\CommentModel.cs" />
+    <Compile Include="Controllers\MyDetailsController.cs" />
+    <Compile Include="Controllers\BulletinApiController.cs" />
+    <Compile Include="Controllers\CommentController.cs" />
+    <Compile Include="Controllers\FlierController.cs" />
+    <Compile Include="Controllers\HeatMapApiController.cs" />
+    <Compile Include="Controllers\HeatMapController.cs" />
+    <Compile Include="Areas\Default\Models\Bulletin\BulletinBehaviourModel.cs" />
+    <Compile Include="Controllers\MyImagesController.cs" />
+    <Compile Include="Controllers\LikeController.cs" />
+    <Compile Include="Controllers\TagsApiController.cs" />
+    <Compile Include="Helpers\UrlHelperExtensions.cs" />
+    <Compile Include="Models\Browser\CurrentBrowserModel.cs" />
+    <Compile Include="Models\Comments\CreateCommentModel.cs" />
+    <Compile Include="Models\Content\ImageModelExtension.cs" />
+    <Compile Include="Models\Content\ImageViewModel.cs" />
+    <Compile Include="Models\Factory\FlierBehaviourViewModelFactory.cs" />
+    <Compile Include="Models\Factory\FlierBehaviourViewModelFactoryInterface.cs" />
+    <Compile Include="Models\Factory\FlierBehaviourViewModelFactoryRegistryInterface.cs" />
+    <Compile Include="Models\Flier\HeatMapPoint.cs" />
+    <Compile Include="Controllers\ImgController.cs" />
+    <Compile Include="Controllers\MyFliersController.cs" />
+    <Compile Include="Controllers\SavedLocationsController.cs" />
+    <Compile Include="Controllers\SavedTagsController.cs" />
+    <Compile Include="Models\Content\ImageCreateModel.cs" />
+    <Compile Include="Models\Flier\BulletinFlierModel.cs" />
+    <Compile Include="Models\Flier\FlierEditModel.cs" />
+    <Compile Include="Binding\EntityTypeEnum.cs" />
+    <Compile Include="Models\Likes\CreateLikeModel.cs" />
+    <Compile Include="Models\Likes\LikeModel.cs" />
+    <Compile Include="Models\Location\LocationModel.cs" />
+    <Compile Include="Models\Tags\TagSetListViewModel.cs" />
+    <Compile Include="Models\ViewModelBase.cs" />
+    <Compile Include="Models\Tags\AddTagsModel.cs" />
+    <Compile Include="Controllers\BrowserController.cs" />
+    <Compile Include="Controllers\BulletinController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AccountModels.cs" />
+    <Compile Include="Models\Flier\FlierCreateModel.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Account\Bundles.cs" />
+    <Compile Include="Views\Bulletin\Bundles.cs" />
+    <Compile Include="Views\FlierImport\Bundles.cs" />
+    <Compile Include="Views\Flier\Bundles.cs" />
+    <Compile Include="Views\HeatMap\Bundle.cs" />
+    <Compile Include="Views\Profile\Bundles.cs" />
+    <Compile Include="Views\Profile\BundlesEdit.cs" />
+    <Compile Include="Views\Shared\Bundles.cs" />
+    <Compile Include="Models\Tags\TagGroupViewModel.cs" />
+    <Compile Include="WebRole.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\images\bumbl8.png" />
+    <Content Include="Content\structure\Behaviour\TaskJob.css" />
+    <Content Include="Content\structure\Behaviour\Default.css" />
+    <Content Include="Content\structure\CommonSiteOld.css" />
+    <Content Include="Content\structure\DeskSiteOld.css" />
+    <Content Include="Content\structure\FlierImport\FlierImport.css" />
+    <Content Include="Content\structure\Fliers\Fliers.css" />
+    <Content Include="Content\themes\taskflya\DeskSiteOld.css" />
+    <Content Include="Content\themes\taskflya\images\bg-button-ro.gif" />
+    <Content Include="Content\themes\taskflya\images\bg-button.gif" />
+    <Content Include="Content\themes\taskflya\images\bg-texture-01.png" />
+    <Content Include="Content\themes\taskflya\images\create-flier.png" />
+    <Content Include="Content\themes\taskflya\images\defaultavatar.jpg" />
+    <Content Include="Content\themes\taskflya\images\edit-icon.png" />
+    <Content Include="Content\themes\taskflya\images\facebook.png" />
+    <Content Include="Content\themes\taskflya\images\google.png" />
+    <Content Include="Content\images\loading.gif" />
+    <Content Include="Content\images\next-horizontal.png" />
+    <Content Include="Content\images\next-vertical.png" />
+    <Content Include="Content\images\prev-horizontal.png" />
+    <Content Include="Content\images\prev-vertical.png" />
+    <Content Include="Content\structure\jquery.isotope.css" />
+    <Content Include="Content\structure\Bulletin\BulletinDesk.css" />
+    <Content Include="Content\structure\Bulletin\Bulletin.css" />
+    <Content Include="Content\structure\Bulletin\BulletinMobile.css" />
+    <Content Include="Content\structure\jquery.mobile.structure-1.1.0.css" />
+    <Content Include="Content\structure\jquery.mobile.structure-1.1.0.min.css" />
+    <Content Include="Content\structure\MobileSite.css" />
+    <Content Include="Content\structure\CommonSite.css" />
+    <Content Include="Content\structure\jcarousel-skin-tango.css" />
+    <Content Include="Content\themes\taskflya\images\header-bg-shim.png" />
+    <Content Include="Content\themes\taskflya\images\icon-cross.gif" />
+    <Content Include="Content\themes\taskflya\images\icon-crossed.gif" />
+    <Content Include="Content\themes\taskflya\images\icon-menu.gif" />
+    <Content Include="Content\themes\taskflya\images\icon-uncrossed.gif" />
+    <Content Include="Content\themes\taskflya\images\icons.png" />
+    <Content Include="Content\themes\taskflya\images\icon_arrow_left.png" />
+    <Content Include="Content\themes\taskflya\images\icon_arrow_right.png" />
+    <Content Include="Content\themes\taskflya\images\logo.png" />
+    <Content Include="Content\themes\taskflya\images\openid-providers-en.png" />
+    <Content Include="Content\themes\taskflya\images\postaflya-logo.png" />
+    <Content Include="Content\themes\taskflya\images\slider-handle.png" />
+    <Content Include="Content\themes\taskflya\images\tempbutton400x379.jpg" />
+    <Content Include="Content\themes\taskflya\images\tempbutton64x61.jpg" />
+    <Content Include="Content\themes\taskflya\images\white-90.png" />
+    <Content Include="Content\themes\taskflya\openid-shadow.css" />
+    <Content Include="Content\themes\taskflya\openid.css" />
+    <Content Include="Content\Testing\qunit.css" />
+    <Content Include="Content\themes\taskflya\Bulletin\Bulletin.css" />
+    <Content Include="Content\themes\taskflya\Bulletin\BulletinDesk.css" />
+    <Content Include="Content\themes\taskflya\Bulletin\BulletinMobile.css" />
+    <Content Include="Content\themes\taskflya\CommonSite.css" />
+    <Content Include="Content\themes\taskflya\DeskSite.css" />
+    <Content Include="Content\themes\taskflya\images\ui-bg_flat_0_aaaaaa_40x100.png" />
+    <Content Include="Content\themes\taskflya\images\ui-bg_flat_75_ffffff_40x100.png" />
+    <Content Include="Content\themes\taskflya\images\ui-bg_glass_55_fbf9ee_1x400.png" />
+    <Content Include="Content\themes\taskflya\images\ui-bg_glass_65_ffffff_1x400.png" />
+    <Content Include="Content\themes\taskflya\images\ui-bg_glass_75_dadada_1x400.png" />
+    <Content Include="Content\themes\taskflya\images\ui-bg_glass_75_e6e6e6_1x400.png" />
+    <Content Include="Content\themes\taskflya\images\ui-bg_glass_95_fef1ec_1x400.png" />
+    <Content Include="Content\themes\taskflya\images\ui-bg_highlight-soft_75_cccccc_1x100.png" />
+    <Content Include="Content\themes\taskflya\images\ui-icons_222222_256x240.png" />
+    <Content Include="Content\themes\taskflya\images\ui-icons_2e83ff_256x240.png" />
+    <Content Include="Content\themes\taskflya\images\ui-icons_454545_256x240.png" />
+    <Content Include="Content\themes\taskflya\images\ui-icons_888888_256x240.png" />
+    <Content Include="Content\themes\taskflya\images\ui-icons_cd0a0a_256x240.png" />
+    <Content Include="Content\structure\jquery.ui.accordion.css" />
+    <Content Include="Content\structure\jquery.ui.autocomplete.css" />
+    <Content Include="Content\structure\jquery.ui.button.css" />
+    <Content Include="Content\structure\jquery.ui.core.css" />
+    <Content Include="Content\structure\jquery.ui.datepicker.css" />
+    <Content Include="Content\structure\jquery.ui.dialog.css" />
+    <Content Include="Content\structure\jquery.ui.progressbar.css" />
+    <Content Include="Content\structure\jquery.ui.resizable.css" />
+    <Content Include="Content\structure\jquery.ui.selectable.css" />
+    <Content Include="Content\structure\jquery.ui.slider.css" />
+    <Content Include="Content\structure\jquery.ui.tabs.css" />
+    <Content Include="Content\themes\taskflya\jquery.ui.theme.css" />
+    <Content Include="Content\themes\taskflya\images\ajax-loader.gif" />
+    <Content Include="Content\themes\taskflya\images\ajax-loader.png" />
+    <Content Include="Content\themes\taskflya\images\bumbl8.png" />
+    <Content Include="Content\themes\taskflya\images\icons-18-black.png" />
+    <Content Include="Content\themes\taskflya\images\icons-18-white.png" />
+    <Content Include="Content\themes\taskflya\images\icons-36-black.png" />
+    <Content Include="Content\themes\taskflya\images\icons-36-white.png" />
+    <Content Include="Content\themes\taskflya\images\loading.gif" />
+    <Content Include="Content\themes\taskflya\jquery.mobile.theme-1.1.0.css" />
+    <Content Include="Content\themes\taskflya\jquery.mobile.theme-1.1.0.min.css" />
+    <Content Include="Content\themes\taskflya\MobileSite.css" />
+    <Content Include="favicon.ico" />
+    <Content Include="Global.asax" />
+    <Content Include="Areas\TaskJob\Views\Web.config" />
+    <Content Include="Areas\Default\Views\Web.config" />
+    <Content Include="Areas\Default\Views\Bulletin\DetailTile.cshtml" />
+    <Content Include="Areas\Default\Views\Bulletin\SummaryTile.cshtml" />
+    <Content Include="Areas\TaskJob\Views\Bulletin\SummaryTile.cshtml" />
+    <Content Include="Areas\TaskJob\Views\Bulletin\DetailTile.cshtml" />
+    <Content Include="Areas\Default\Views\Bulletin\DetailTileTemplate.cshtml" />
+    <Content Include="Areas\Default\Views\Bulletin\SummaryTileTemplate.cshtml" />
+    <Content Include="Areas\TaskJob\Views\Bulletin\DetailTileTemplate.cshtml" />
+    <Content Include="Areas\TaskJob\Views\Bulletin\SummaryTileTemplate.cshtml" />
+    <None Include="Diagnostics.wadcfg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Properties\PublishProfiles\bumble - Production.pubxml" />
+    <None Include="Properties\PublishProfiles\bumble - Staging.pubxml" />
+    <None Include="Resources\NotFoundImg.jpg" />
+    <None Include="Resources\ImageProcessing.jpg" />
+    <None Include="Resources\ImageProcessingFailed.jpg" />
+    <Content Include="Scripts\Base\CreateFlierInstance.js" />
+    <Content Include="Scripts\Base\ErrorHandling.js" />
+    <Content Include="Scripts\Base\TileLayoutViewModel.js" />
+    <Content Include="Scripts\Base\LikesViewModel.js" />
+    <Content Include="Scripts\Base\BrowserViewModel.js" />
+    <Content Include="Scripts\Base\CommentsViewModel.js" />
+    <Content Include="Scripts\Base\TagsSelector.js" />
+    <Content Include="Scripts\Behaviour\BehaviourViewModel.js" />
+    <Content Include="Scripts\Behaviour\BehaviourViewModelFactory.js" />
+    <Content Include="Scripts\Behaviour\Default\DefaultBehaviourViewModel.js" />
+    <Content Include="Scripts\Bulletin\BulletinLayoutProperties.js" />
+    <Content Include="Scripts\Bulletin\Desk\Detail.js" />
+    <Content Include="Scripts\Bulletin\Mobile\Detail.js" />
+    <Content Include="Scripts\Bulletin\SelectedFlierViewModel.js" />
+    <Content Include="Scripts\Base\CreateEditFlier.js" />
+    <Content Include="Scripts\FlierImport\Desk\FlierImport.js" />
+    <Content Include="Scripts\FlierImport\FlierImport.js" />
+    <Content Include="Scripts\FlierImport\Mobile\FlierImport.js" />
+    <Content Include="Scripts\jquery.imagesloaded.js" />
+    <Content Include="Scripts\jquery.imagesloaded.min.js" />
+    <Content Include="Scripts\jquery.isotope.centered.js" />
+    <Content Include="Scripts\Base\CurrentBrowser.js" />
+    <Content Include="Scripts\Base\DistanceSelector.js" />
+    <Content Include="Scripts\Base\ImageSelector.js" />
+    <Content Include="Scripts\Base\LocationBase.js" />
+    <Content Include="Scripts\Base\ScrollToTop.js" />
+    <Content Include="Scripts\Base\LocationSelector.js" />
+    <Content Include="Scripts\Base\LocationService.js" />
+    <Content Include="Scripts\Bulletin\Bulletin.js" />
+    <Content Include="Scripts\Bulletin\Desk\Bulletin.js" />
+    <Content Include="Scripts\Bulletin\Mobile\Bulletin.js" />
+    <Content Include="Scripts\Extension\knockout.custombindings.js" />
+    <Content Include="Scripts\Extension\showdown.js" />
+    <Content Include="Scripts\Extension\sprintf-0.7-beta1.js" />
+    <Content Include="Scripts\Flier\Desk\Flier.js" />
+    <Content Include="Scripts\Flier\Flier.js" />
+    <Content Include="Scripts\Flier\Mobile\Flier.js" />
+    <Content Include="Scripts\HeatMap\Desk\HeatMap.js" />
+    <Content Include="Scripts\HeatMap\HeatMap.js" />
+    <Content Include="Scripts\HeatMap\Mobile\HeatMap.js" />
+    <Content Include="Scripts\jquery-1.7.2-vsdoc.js" />
+    <Content Include="Scripts\jquery-1.7.2.js" />
+    <Content Include="Scripts\jquery-1.7.2.min.js" />
+    <Content Include="Scripts\jquery-ui-1.8.19.js" />
+    <Content Include="Scripts\jquery-ui-1.8.19.min.js" />
+    <Content Include="Scripts\jquery.bxSlider.js" />
+    <Content Include="Scripts\jquery.easing.1.3.js" />
+    <Content Include="Scripts\jquery.endless-scroll.js" />
+    <Content Include="Scripts\jquery.isotope.js" />
+    <Content Include="Scripts\jquery.isotope.min.js" />
+    <Content Include="Scripts\jquery.jcarousel.min.js" />
+    <Content Include="Scripts\jquery.mobile-1.1.0.js" />
+    <Content Include="Scripts\jquery.mobile-1.1.0.min.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
+    <Content Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.validate.js" />
+    <Content Include="Scripts\jquery.validate.min.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\knockout-2.1.0.debug.js" />
+    <Content Include="Scripts\knockout-2.1.0.js" />
+    <Content Include="Scripts\HeatMap\heatmap-gmaps.js" />
+    <Content Include="Scripts\HeatMap\heatmap-lib.js" />
+    <Content Include="Scripts\knockout.mapping-latest.debug.js" />
+    <Content Include="Scripts\knockout.mapping-latest.js" />
+    <Content Include="Scripts\Maps\jquery.ui.map.extensions.js" />
+    <Content Include="Scripts\Maps\jquery.ui.map.js" />
+    <Content Include="Scripts\Maps\jquery.ui.map.microdata.js" />
+    <Content Include="Scripts\Maps\jquery.ui.map.microformat.js" />
+    <Content Include="Scripts\Maps\jquery.ui.map.overlays.js" />
+    <Content Include="Scripts\Maps\jquery.ui.map.rdfa.js" />
+    <Content Include="Scripts\Maps\jquery.ui.map.services.js" />
+    <Content Include="Scripts\modernizr-2.5.3.js" />
+    <Content Include="Scripts\External\ExternalScriptInit.js" />
+    <Content Include="Scripts\openid\openid-en.js" />
+    <Content Include="Scripts\openid\openid-jquery.js" />
+    <Content Include="Scripts\plupload\i18n\cs.js" />
+    <Content Include="Scripts\plupload\i18n\da.js" />
+    <Content Include="Scripts\plupload\i18n\de.js" />
+    <Content Include="Scripts\plupload\i18n\el.js" />
+    <Content Include="Scripts\plupload\i18n\es.js" />
+    <Content Include="Scripts\plupload\i18n\et.js" />
+    <Content Include="Scripts\plupload\i18n\fa.js" />
+    <Content Include="Scripts\plupload\i18n\fi.js" />
+    <Content Include="Scripts\plupload\i18n\fr-ca.js" />
+    <Content Include="Scripts\plupload\i18n\fr.js" />
+    <Content Include="Scripts\plupload\i18n\hr.js" />
+    <Content Include="Scripts\plupload\i18n\hu.js" />
+    <Content Include="Scripts\plupload\i18n\it.js" />
+    <Content Include="Scripts\plupload\i18n\ja.js" />
+    <Content Include="Scripts\plupload\i18n\ko.js" />
+    <Content Include="Scripts\plupload\i18n\lv.js" />
+    <Content Include="Scripts\plupload\i18n\nl.js" />
+    <Content Include="Scripts\plupload\i18n\pl.js" />
+    <Content Include="Scripts\plupload\i18n\pt-br.js" />
+    <Content Include="Scripts\plupload\i18n\ro.js" />
+    <Content Include="Scripts\plupload\i18n\ru.js" />
+    <Content Include="Scripts\plupload\i18n\sr.js" />
+    <Content Include="Scripts\plupload\i18n\sv.js" />
+    <Content Include="Content\structure\jquery.plupload.queue.css" />
+    <Content Include="Content\images\backgrounds.gif" />
+    <Content Include="Content\images\buttons-disabled.png" />
+    <Content Include="Content\images\buttons.png" />
+    <Content Include="Content\images\delete.gif" />
+    <Content Include="Content\images\done.gif" />
+    <Content Include="Content\images\error.gif" />
+    <Content Include="Content\images\throbber.gif" />
+    <Content Include="Content\images\transp50.png" />
+    <Content Include="Scripts\plupload\jquery.plupload.queue\jquery.plupload.queue.js" />
+    <Content Include="Scripts\plupload\plupload.html4.js" />
+    <Content Include="Scripts\plupload\plupload.html5.js" />
+    <Content Include="Scripts\plupload\plupload.js" />
+    <Content Include="Scripts\Profile\Desk\ProfileEdit.js" />
+    <Content Include="Scripts\Profile\ProfileEdit.js" />
+    <Content Include="Scripts\Profile\Desk\Profile.js" />
+    <Content Include="Scripts\Profile\Profile.js" />
+    <Content Include="Scripts\sammy.js" />
+    <Content Include="Scripts\sammy.min.js" />
+    <Content Include="Scripts\Testing\qunit.js" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Content\structure\DeskSite.css" />
+    <Content Include="Scripts\_references.js" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Account\ChangePassword.cshtml" />
+    <Content Include="Views\Account\ChangePasswordSuccess.cshtml" />
+    <Content Include="Views\Account\Login.cshtml" />
+    <Content Include="Views\Account\Register.cshtml" />
+    <Content Include="Views\Home\About.cshtml" />
+    <Content Include="Views\Home\Contact.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Shared\Error.cshtml" />
+    <Content Include="Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Web.config" />
+    <Content Include="Views\Shared\Flier\CreateEdit.cshtml" />
+    <Content Include="Views\HeatMap\Get.cshtml" />
+    <Content Include="Views\Shared\Bulletin\TileTemplates.cshtml" />
+    <Content Include="Views\Shared\_BrowserInfoPartial.cshtml" />
+    <Content Include="Views\Shared\Image\ImageSelector.cshtml" />
+    <Content Include="Views\Flier\MyFliers.cshtml" />
+    <Content Include="Views\Flier\MyFliersList.cshtml" />
+    <Content Include="Views\Shared\Distance\DistanceSelector.cshtml" />
+    <Content Include="Views\Shared\SelectedItemDetailViewPartial.cshtml" />
+    <Content Include="Views\Shared\CommentsPartial.cshtml" />
+    <Content Include="Views\Shared\LikesPartial.cshtml" />
+    <Content Include="Views\Shared\Location\LocationSelector.cshtml" />
+    <Content Include="Views\Shared\DetailViewPartial.cshtml" />
+    <Content Include="Views\Shared\Tags\TagsSelector.cshtml" />
+    <Content Include="Views\Shared\Location\LocationSelector.cshtml" />
+    <Content Include="Views\Bulletin\DetailGet.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Views\Shared\Bulletin\DetailTileTemplates.cshtml" />
+    <Content Include="WaIISHost.exe.config" />
+    <Content Include="Views\Profile\Get.cshtml" />
+    <Content Include="Views\Shared\Bulletin\SelectedBulletinViewPartial.cshtml" />
+    <Content Include="Views\Profile\Edit.cshtml" />
+    <Content Include="Views\Shared\GlobalToolbar.cshtml" />
+    <Content Include="Views\Account\Login.Mobile.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Views\Shared\Bulletin\BulletinItems.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\BrowserAvatar.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\BrowserNameLink.cshtml" />
+    <Content Include="Views\Shared\State\PageState.cshtml" />
+    <Content Include="Views\Shared\State\PageStateAdd.cshtml" />
+    <Content Include="Views\FlierImport\Import.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+    <Folder Include="Areas\Default\Controllers\" />
+    <Folder Include="Areas\Default\Views\Shared\" />
+    <Folder Include="Areas\TaskJob\Views\Shared\" />
+    <Folder Include="Extensions\" />
+    <Folder Include="Scripts\plupload\jquery.plupload.queue\css\" />
+    <Folder Include="Scripts\plupload\jquery.plupload.queue\img\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Core\WebSite.Application.Azure\WebSite.Application.Azure.csproj">
+      <Project>{3BFDED0A-130F-4CEC-ABFC-51E6AA72F5C2}</Project>
+      <Name>WebSite.Application.Azure</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PostaFlya.Application.Domain\PostaFlya.Application.Domain.csproj">
+      <Project>{1510EA95-D2A1-47B5-8652-49895B97FC9F}</Project>
+      <Name>PostaFlya.Application.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Core\WebSite.Application\WebSite.Application.csproj">
+      <Project>{46DB8930-71D8-4DE4-BAA6-39944F07D6F5}</Project>
+      <Name>WebSite.Application</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Core\WebSite.Azure.Common\WebSite.Azure.Common.csproj">
+      <Project>{63418161-2D30-4BC6-B1C1-015CDA302B08}</Project>
+      <Name>WebSite.Azure.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PostaFlya.CommandWorker\PostaFlya.CommandWorker.csproj">
+      <Project>{A75E5417-69A4-4627-97E5-6897DA3D58F7}</Project>
+      <Name>PostaFlya.CommandWorker</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Core\WebSite.Common\WebSite.Common.csproj">
+      <Project>{B8DA4F3A-23FF-46AA-A9E4-A22EAC11CA3A}</Project>
+      <Name>WebSite.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PostaFlya.DataRepository\PostaFlya.DataRepository.csproj">
+      <Project>{787DCEAB-23A8-476E-859F-5CD98F9ABDDC}</Project>
+      <Name>PostaFlya.DataRepository</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PostaFlya.Domain.TaskJob\PostaFlya.Domain.TaskJob.csproj">
+      <Project>{761D2C3C-2C8A-4277-AAD3-407872797B9C}</Project>
+      <Name>PostaFlya.Domain.TaskJob</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PostaFlya.Domain\PostaFlya.Domain.csproj">
+      <Project>{77BD3622-4D65-4776-AC5A-4F779CC526ED}</Project>
+      <Name>PostaFlya.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Core\WebSite.Infrastructure\WebSite.Infrastructure.csproj">
+      <Project>{B5C3A966-F286-4CB8-913B-C8625625451D}</Project>
+      <Name>WebSite.Infrastructure</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Shared\_Layout.Mobile.cshtml" />
+    <Content Include="Views\Bulletin\Get.cshtml" />
+    <Content Include="Views\Shared\Bulletin\BulletinList.cshtml" />
+    <Content Include="Views\Bulletin\Get.Mobile.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Shared\CoreDebugJsCss.cshtml" />
+    <Content Include="Views\Shared\Social\SocialLinks.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target> -->
+  <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
+    <AspNetCompiler VirtualPath="temp" PhysicalPath="$(WebProjectOutputDir)" />
+  </Target>
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>False</AutoAssignPort>
+          <DevelopmentServerPort>61267</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:61267/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
+</Project>

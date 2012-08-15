@@ -1,0 +1,12 @@
+﻿@using Newtonsoft.Json
+@using WebSite.Application.Extension.Dynamic
+@model string
+
+
+@{ var val = DynamicExtensions.GetDynamicMember(ViewBag, Model); } 
+@if (val != null && (ViewBag.Template == null || !ViewBag.Template))
+{
+<script type="text/javascript">
+    bf.pageState.@Model = @Html.Raw(JsonConvert.SerializeObject(val));
+</script>
+}

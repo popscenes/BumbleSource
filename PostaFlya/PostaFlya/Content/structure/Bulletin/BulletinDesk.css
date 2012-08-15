@@ -1,0 +1,92 @@
+﻿.ui-flier-tile {
+	padding: 5px 5px 5px 5px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.4);
+    -moz-box-shadow: 0 1px 2px rgba(0,0,0,0.4);
+    -webkit-box-shadow: 0 1px 3px rgba(0,0,0,0.4);
+    display: inline-block;
+    margin: 3px;
+}
+
+.ui-flier-tile img 
+{
+    position: relative;
+}
+
+.ui-flier-tile-v-250h 
+{  
+    font-size: 16px;
+    width: 260px;
+}
+
+.detail-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: black;
+    color: white;
+    width: 100%;
+    height: 100%;
+    
+    opacity: 0.0;
+ 
+    
+    -webkit-transition: all 0.5s ease-out 0s;
+   -moz-transition: all 0.5s ease-out 0s;
+   -ms-transition: all 0.5s ease-out 0s;
+   -o-transition: all 0.5s ease-out 0s;
+   transition: all 0.5s ease-out 0s;
+ 
+}
+
+
+/***default detail view layout***/
+
+.flier-view {
+
+}
+
+.flier-view .flier-details {
+    
+}
+
+.flier-view .flier-details .flier-title {
+    text-align: center;
+    font-size: 2em;
+}
+
+.flier-view .flier-details .flier-img {
+    float: left;
+}
+
+.flier-view .flier-details .flier-likes-comments{
+    
+}
+
+.flier-view .flier-details .flier-likes-comments .like-stats{
+    display: inline;
+}
+
+.flier-view .flier-details .flier-likes-comments .comment-stats{
+    display: inline;
+}
+
+.flier-view .flier-details .flier-desc {
+    
+}
+
+.flier-view .comments {
+    
+}
+
+.flier-view .likes {
+    
+}
+/***end default detail view layout***/
+
+
+.get-flier-detail-div {
+    width: 800px;
+    margin: 0 auto 0;
+}
+
+

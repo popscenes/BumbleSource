@@ -1,0 +1,119 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Data.SqlClient;
+using System.Diagnostics;
+using System.Linq;
+using System.Text;
+using WebSite.Azure.Common.Sql;
+using PostaFlya.DataRepository.Binding;
+using PostaFlya.DataRepository.Search.Services;
+using PostaFlya.Domain.Flier;
+using PostaFlya.Domain.Location;
+using PostaFlya.Domain.Tag;
+
+namespace PostaFlya.DataRepository.Search.Implementation
+{
+    public class SqlFlierSearchService :  FlierSearchServiceInterface
+    {
+        private readonly string _searchDbConnectionString;
+        private readonly SqlConnection _connection;
+        public SqlFlierSearchService([SqlSearchConnectionString]string searchDbConnectionString)
+        {
+            _connection = new SqlConnection(searchDbConnectionString);
+        }
+
+        public void NotifyUpdate(IEnumerable<FlierInterface> values)
+        {
+            foreach (var flier in values)
+            {
+                SqlExecute.InsertOrUpdate(flier.ToSearchRecord(), _connection);
+            }
+        }
+
+        public void NotifyDelete(IEnumerable<FlierInterface> values)
+        {
+            foreach (var flier in values)
+            {
+                SqlExecute.Delete(flier.ToSearchRecord(), _connection);
+            }
+        }
+
+        public IList<string> FindFliersByLocationTagsAndDistance(Location location, Tags tags, int distance = 0, int take = 0, FlierSortOrder sortOrder = FlierSortOrder.CreatedDate, int skip = 0)
+        {
+            if (distance <= 0)
+                distance = 10;
+
+            var orderbyexpress = GetOrderByForSortOrder(sortOrder);
+            var xpathtags = GetTagFilter(tags);
+            var gettagfilter = string.IsNullOrWhiteSpace(xpathtags) ? "" : string.Format(TagFilterTemplate, GetTagFilter(tags));
+            var takeexpress = take > 0 ? "top (@take)" : "";
+            var sqlCmd = string.Format(SearchString, orderbyexpress, gettagfilter, takeexpress);
+
+            var watch = new Stopwatch();
+            watch.Start();
+
+            var loc = location.ToGeography();
+            if (loc == null)
+                return new List<string>();
+
+            var ret = SqlExecute.Query<FlierSearchRecord>(sqlCmd, 
+                _connection
+                , new object[]{location.GetShardId()}//todo if we expand shards pass all shards where fliers may exist in here
+                , new {loc, skip, take, distance });
+            
+            Trace.TraceInformation("FindFliers time: {0}, numfliers {1}", watch.ElapsedMilliseconds, ret.Count());
+            return ret.Select(sr => sr.Id.ToString()).ToList();
+
+        }
+
+        private static string GetTagFilter(IEnumerable<string> tags)
+        {
+            if (tags == null || !tags.Any())
+                return "";
+            var builder = new StringBuilder();
+
+            foreach (var tag in tags)
+            {
+                builder.Append(builder.Length == 0 ? "//tags[" : " and ");
+                builder.Append("tag=\"");
+                builder.Append(System.Security.SecurityElement.Escape(tag));
+                builder.Append("\"");
+            }
+            builder.Append("]");
+            return builder.ToString();
+        }
+
+        private static string GetOrderByForSortOrder(FlierSortOrder sortOrder)
+        {
+            switch (sortOrder)
+            {
+                case FlierSortOrder.CreatedDate:
+                    return "CreateDate desc, PopularityRank desc, Location.STDistance(@loc)";
+                case FlierSortOrder.EffectiveDate:
+                    return "EffectiveDate desc, PopularityRank desc, Location.STDistance(@loc)";               
+                case FlierSortOrder.Popularity:
+                default:
+                    return "PopularityRank desc, Location.STDistance(@loc), CreateDate desc";
+            }
+        }
+
+        private const string TagFilterTemplate = "and Tags.exist('{0}') > 0";
+
+        //{0} orderby
+        //{1} tag filter
+        //{2} take expression
+        private const string SearchString = 
+            @";WITH sorted AS " +
+            @"( " +
+            @"    SELECT  Location.STDistance(@loc) as meters, *, " +
+            @"            ROW_NUMBER() OVER" +
+            @"                     (ORDER BY {0}) AS RN " +
+            @"    FROM    FlierSearchRecord " + 
+            @"    WHERE Location.STDistance(@loc) <= @distance*1000 " +
+            @"	        {1} " + 
+            @") " +
+            @"SELECT  {2} * " +
+            @"FROM sorted " +
+            @"WHERE RN > (@skip) ";
+    }
+}

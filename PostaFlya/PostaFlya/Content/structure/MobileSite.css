@@ -1,0 +1,11 @@
+﻿div.ui-header div.ui-adjust-controlgroup-margins {
+    margin: .1em 0 .1em;
+}
+
+div.ui-footer div.ui-adjust-controlgroup-margins {
+    margin: .3em 0 .1em;
+}
+
+div.ui-mobile-content {
+    text-align: center;
+}

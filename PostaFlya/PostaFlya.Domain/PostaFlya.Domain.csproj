@@ -1,0 +1,203 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{77BD3622-4D65-4776-AC5A-4F779CC526ED}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>PostaFlya.Domain</RootNamespace>
+    <AssemblyName>PostaFlya.Domain</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Ninject, Version=3.0.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+      <HintPath>..\..\Libraries\Ninject.3.0.1.10\lib\net40\Ninject.dll</HintPath>
+    </Reference>
+    <Reference Include="Ninject.Extensions.Conventions, Version=3.0.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+      <HintPath>..\..\Libraries\Ninject.Extensions.Conventions.3.0.0.11\lib\net40\Ninject.Extensions.Conventions.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Behaviour\BehaviourFactory.cs" />
+    <Compile Include="Behaviour\Command\FlierBehaviourDefaultRespository.cs" />
+    <Compile Include="Behaviour\FlierBehaviourBase.cs" />
+    <Compile Include="Behaviour\Query\DefaultFlierBehaviourQueryService.cs" />
+    <Compile Include="Behaviour\Query\FlierBehaviourQueryServiceInterface.cs" />
+    <Compile Include="Browser\BrowserIdInterface.cs" />
+    <Compile Include="Browser\Command\ProfileEditCommand.cs" />
+    <Compile Include="Browser\Command\ProfileEditCommandHandler.cs" />
+    <Compile Include="Browser\Command\SetExternalCredentialCommand.cs" />
+    <Compile Include="Browser\Command\SetExternalCredentialCommandHandler.cs" />
+    <Compile Include="Browser\Query\BrowserQueryServiceUtil.cs" />
+    <Compile Include="Browser\Query\QueryByBrowserInterface.cs" />
+    <Compile Include="Browser\Roles.cs" />
+    <Compile Include="Comments\Command\AddCommentInterface.cs" />
+    <Compile Include="Comments\CommentableInterface.cs" />
+    <Compile Include="Comments\Query\QueryCommentsInterface.cs" />
+    <Compile Include="Flier\FlierImage.cs" />
+    <Compile Include="Likes\Command\LikeCommand.cs" />
+    <Compile Include="Likes\Command\LikeCommandHandler.cs" />
+    <Compile Include="Likes\Command\AddLikeInterface.cs" />
+    <Compile Include="Likes\Like.cs" />
+    <Compile Include="Likes\LikeableInterface.cs" />
+    <Compile Include="Comments\Command\CreateCommentCommand.cs" />
+    <Compile Include="Comments\Command\CreateCommentCommandHandler.cs" />
+    <Compile Include="Comments\Comment.cs" />
+    <Compile Include="Comments\CommentInterface.cs" />
+    <Compile Include="Likes\LikeInterface.cs" />
+    <Compile Include="Likes\Query\QueryLikesInterface.cs" />
+    <Compile Include="Service\BehaviourFactoryInterface.cs" />
+    <Compile Include="Behaviour\FlierBehaviour.cs" />
+    <Compile Include="Behaviour\FlierBehaviourInterface.cs" />
+    <Compile Include="Behaviour\FlierBehaviourDefault.cs" />
+    <Compile Include="Binding\CommandNinjectBinding.cs" />
+    <Compile Include="Binding\DefaultServicesNinjectBinding.cs" />
+    <Compile Include="Browser\Browser.cs" />
+    <Compile Include="Browser\BrowserInterface.cs" />
+    <Compile Include="Browser\Command\AddBrowserCommand.cs" />
+    <Compile Include="Browser\Command\AddBrowserCommandHandler.cs" />
+    <Compile Include="Browser\Command\AddTagCommand.cs" />
+    <Compile Include="Browser\Command\AddTagCommandHandler.cs" />
+    <Compile Include="Browser\Command\BrowserRepositoryInterface.cs" />
+    <Compile Include="Browser\Command\SavedTagsDeleteCommand.cs" />
+    <Compile Include="Browser\Command\SavedTagsDeleteCommandHandler.cs" />
+    <Compile Include="Browser\Command\SavedLocationAddCommand.cs" />
+    <Compile Include="Browser\Command\SavedLocationAddCommandHandler.cs" />
+    <Compile Include="Browser\Command\SavedLocationDeleteCommand.cs" />
+    <Compile Include="Browser\Command\SavedLocationDeleteCommandHandler.cs" />
+    <Compile Include="Browser\Command\SavedLocationSelectCommand.cs" />
+    <Compile Include="Browser\Command\SavedLocationSelectCommandHandler.cs" />
+    <Compile Include="Browser\Command\SavedTagsSaveCommand.cs" />
+    <Compile Include="Browser\Command\SavedTagsSaveCommandHandler.cs" />
+    <Compile Include="Browser\Command\SavedTagsSelectCommand.cs" />
+    <Compile Include="Browser\Command\SavedTagsSelectCommandHandler.cs" />
+    <Compile Include="Browser\Command\SetDistanceCommand.cs" />
+    <Compile Include="Browser\Command\SetDistanceCommandHandler.cs" />
+    <Compile Include="Browser\Command\SetLocationCommand.cs" />
+    <Compile Include="Browser\Command\SetLocationCommandHandler.cs" />
+    <Compile Include="Browser\Query\BrowserQueryServiceInterface.cs" />
+    <Compile Include="Browser\Role.cs" />
+    <Compile Include="Command\DomainCommandBase.cs" />
+    <Compile Include="Content\Command\SetImageMetaDataCommandHandler.cs" />
+    <Compile Include="Content\Command\CreateImageCommand.cs" />
+    <Compile Include="Content\Command\CreateImageCommandHandler.cs" />
+    <Compile Include="Content\Command\ImageRepositoryInterface.cs" />
+    <Compile Include="Content\Command\SetImageMetaDataCommand.cs" />
+    <Compile Include="Content\Command\SetImageStatusCommand.cs" />
+    <Compile Include="Content\Command\SetImageStatusCommandHandler.cs" />
+    <Compile Include="Content\Content.cs" />
+    <Compile Include="Content\Image.cs" />
+    <Compile Include="Content\ImageInterface.cs" />
+    <Compile Include="Content\ImageStatus.cs" />
+    <Compile Include="Content\Query\ImageQueryServiceInterface.cs" />
+    <Compile Include="Flier\Command\CreateFlierCommand.cs" />
+    <Compile Include="Flier\Command\CreateFlierCommandHandler.cs" />
+    <Compile Include="Flier\Command\EditFlierCommand.cs" />
+    <Compile Include="Flier\Command\EditFlierCommandHandler.cs" />
+    <Compile Include="Flier\Command\FlierRepositoryInterface.cs" />
+    <Compile Include="Flier\Flier.cs" />
+    <Compile Include="Flier\FlierInterface.cs" />
+    <Compile Include="Flier\FlierStatus.cs" />
+    <Compile Include="Flier\Query\FlierQueryServiceInterface.cs" />
+    <Compile Include="Location\BoundingBox.cs" />
+    <Compile Include="Location\Location.cs" />
+    <Compile Include="Location\Locations.cs" />
+    <Compile Include="Location\LocationService.cs" />
+    <Compile Include="Location\LocationServiceInterface.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Service\ContentStorageServiceInterface.cs" />
+    <Compile Include="Tag\TagGroup.cs" />
+    <Compile Include="Tag\Tags.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Core\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Core\WebSite.Infrastructure\WebSite.Infrastructure.csproj">
+      <Project>{B5C3A966-F286-4CB8-913B-C8625625451D}</Project>
+      <Name>WebSite.Infrastructure</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.0">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

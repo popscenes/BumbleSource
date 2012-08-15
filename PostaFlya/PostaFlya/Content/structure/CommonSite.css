@@ -1,0 +1,12 @@
+﻿#imageList  .pager
+{
+    /*display:inline-block !important;*/
+}
+
+.clear-fix:after {
+    content: ".";
+    clear: both;
+    display: block;
+    height: 0;
+    visibility: hidden;
+}

@@ -1,0 +1,10 @@
+﻿
+@using PostaFlya.Domain.Behaviour
+
+@* Todo we can pass in something from the view bag to say which templates to render*@
+@* if in different skins just render all for now *@
+
+@foreach (FlierBehaviour fb in Enum.GetValues(typeof(FlierBehaviourImplementationTypes)))
+{
+    @Html.Partial("~/Areas/" + fb + "/Views/Bulletin/SummaryTileTemplate.cshtml")
+}

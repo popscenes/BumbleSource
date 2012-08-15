@@ -1,0 +1,10 @@
+﻿
+@model dynamic
+
+<a data-bind="attr: { href: '/' + Browser.Handle, title: Browser.DisplayName }"
+    href="/@Model.Handle" title="@Model.DisplayName">
+    <img  class="avatarsmall" 
+        data-bind="imgRetry: Browser.AvatarUrl, attr: { alt: Browser.DisplayName }"
+        src="@Model.AvatarUrl" alt="@Model.DisplayName"
+    />
+</a>

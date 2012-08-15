@@ -1,0 +1,450 @@
+﻿body{
+	margin:0;
+	padding:0;
+	background-color:#f6f0e7;
+	
+}
+
+
+header{
+	width:100%;
+	height:72px;
+	min-height:50px;
+	font-family:Verdana, Geneva, sans-serif;
+	font-size:11px;
+	min-width:1200px;
+	margin-bottom:60px;
+	
+}
+
+#logo{
+	width:200px;
+	height:50px;
+	position:relative;
+	overflow:visible;
+	z-index:1000;
+	float:left;
+}
+#logo a img
+{
+   border:none;
+   border:0px;
+}
+
+#controls
+{
+    width:750px;
+    margin-left:auto;
+    margin-right:auto;
+	height:70px;
+	padding-top:8px;
+	z-index:500; 
+}
+
+.locSel{
+	width:290px;
+	overflow:visible;
+	float:left;
+	margin-left:15px;
+}
+
+#controls .ls-current
+{
+    display:block;
+    margin-top:10px;
+    padding:5px;
+    margin-left:10px;
+    float:left;
+    border:1px solid #ccc;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    width: 150px;
+    height:20px;
+    line-height:20px;
+    overflow: hidden;
+}
+
+.ls-holder {
+    width: 100%;   
+}
+
+input#locationSearch
+{
+display:block;
+    margin-top:10px;
+    padding:5px;
+    margin-left:10px;
+    float:left;
+    border:1px solid #ccc;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    width: 200px;
+    height:20px;
+    line-height:20px;
+    overflow: hidden;
+    border-radius: 5px;
+    outline:none;
+}
+
+#controls #lsMain
+{
+   padding:0px 0px 0px 0px;
+	margin-top:0px;
+	width:100%;
+	background-color:transparent;
+
+	position:absolute;
+	top:70px;
+	left:0;
+	z-index:3;
+	text-align:center;
+	opacity:1;
+}
+
+#lsMain .map
+{
+    width:70%;
+    margin-left:auto;
+    margin-right:auto;
+}
+
+#locationTypeSelection{
+	width:480px;
+	padding:10px;
+	background-color:#f7f1ea;
+}
+
+#locationTypeSelection .locOpt{
+	width:160px;
+	display:block;
+	float:left;
+}
+
+#locationTypeSelection .locOpt .styledRadio{
+	float:left;
+	margin-right:5px;
+}
+
+#locationTypeSelection .locOpt label{
+	float:left;
+	margin-top:-1px;
+}
+
+.locationTypeChoice{
+	width:480px;
+	padding:10px;
+	background-color:#f7f1ea;
+}
+
+.distSel{
+	float:left;
+}
+
+.distance-slider{
+	width:250px;
+	float:left;
+	height:26px;
+}
+
+
+#distValue{
+	  display:block;
+    margin-top:10px;
+    padding:5px;
+    margin-left:10px;
+    float:left;
+    border:1px solid #ccc;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    width: 40px;
+    height:20px;
+    line-height:20px;
+    overflow: hidden;
+    text-align:center;
+    border-radius: 5px;
+}
+
+#create-flier-imageList .img-error
+{
+    height:100px;
+    width:120px;
+}
+
+ul.flier-images
+{
+    list-style-type:none;
+}
+
+ul.flier-images li
+{
+    display:inline-block;
+}
+
+/**************tags selector********************/
+
+
+
+.tags-selector ul{
+	margin:0;
+	padding:0;
+	list-style:none;
+}
+
+.tags-selector ul li{
+	display:inline-block;
+	margin:0px 5px 5px 5px;
+	
+}
+
+
+
+.tags-selector ul li.tag-selected
+{
+    
+}
+
+
+.tags-selector .tags-box{
+	padding:10px 0px 5px 0px;
+	margin-top:0px;
+	width:100%;
+	background-color:transparent;
+	position:absolute;
+	top:70px;
+	left:0;
+	z-index:3;
+	text-align:center;
+	opacity:.9;
+}
+
+.displayInline {
+    display: block;
+}
+
+.displayInline .tags-box {
+    position: relative;
+    top: 0px;
+}
+
+/**************tags selector********************/
+
+
+
+
+
+#controls .Button{
+	width:30px;
+	height:30px;
+	padding:10px;
+	text-indent:-30000px;
+}
+
+#controls .Button:hover{
+	width:30px;
+	height:30px;
+}
+
+/**************************** main menu *************************/
+#main-menu{
+	
+}
+
+#main-menu a:hover{
+	
+}
+
+#main-menu ul
+{
+    text-indent:0px;
+    margin:0;
+    padding:0px;
+    position:absolute;
+    top:40px;
+    width:100px;
+    left:-50px;
+    display:none;
+    list-style:none;
+	border:1px solid #e82c0e;
+}
+
+#main-menu ul li{
+	display:block;
+	background-color:#f7f1ea;
+	color:#e82c0e;
+	min-height:20px;
+	line-height:20px;
+	padding-left:10px;
+	
+}
+
+#main-menu ul li:hover{
+	display:block;
+	background-color:#e82c0e;
+	color:#f7f1ea;
+}
+/*************end main menu *************************/
+
+/************toolbar items**************************/
+
+div.global-toolbar
+{
+    float:right;
+}
+
+a.toolbar-item img{
+    width: 50px;
+    height: 50px;   
+}
+
+a.toolbar-item div{
+    width: 50px;
+    height: 50px;
+    display: inline-block;  
+}
+
+a.toolbar-item div.profile-edit-tool-bar-item, a.toolbar-item div.add-flier-tool-bar-item
+{
+    background-size:50px 50px;
+    background-repeat:no-repeat;
+}
+
+
+/************end toolbar items**************************/
+
+/************selected item popup/overlay div ********************/
+div#selected-item-div, div#create-flier-item-div {
+    position: absolute;
+    z-index: 751;
+    width: 800px;
+    left: 50%;
+    margin-left: -400px;
+    padding: 20px;
+}
+
+div#selected-item-popup-overlay, div#create-flier-popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 750;
+}
+
+div#selected-item-div .close-button, div#create-flier-item-div .close-button {
+    position: absolute;
+    right: 20px;
+    top: 20px;
+}
+/************end selected item popup/overlay div ********************/
+
+
+
+/*****************************forms***************************/
+
+fieldset {
+    border: none;
+    margin: 0;
+    padding: 0;
+}
+
+    fieldset legend {
+        display: none;
+    }
+    
+    fieldset ol {
+        padding: 0;
+        list-style: none;
+    }
+
+        fieldset ol li {
+            padding-bottom: 5px;
+        }
+
+.form {
+    width:800px;
+    margin-left:auto;
+    margin-right:auto;  
+}
+#form-buttons
+{
+    width:300px;
+    margin-left:auto;
+    margin-right:auto;  
+}
+
+.form li {display: block;margin-bottom: 18px;}
+.form li label{font-size: 18px;width: 150px;vertical-align:top;}
+.form li > * { display: inline-block}
+.form input[type='text'], .form textarea 
+{ 
+    padding: 3px; 
+    border: #93969C solid 1px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    width: 300px;
+    font-size: 1.2em;
+}
+
+.form textarea {
+    height: 90px;
+}
+
+
+/****likes*****/
+
+.like-icon {
+    display: inline-block;
+}
+
+.like-stats {
+    
+}
+
+.likes-list {
+    
+}
+
+.likes-item {
+    display: inline-block;
+    width: 50px;
+    height: 50px;
+}
+
+/****end likes*****/
+
+/****comments*****/
+.comment-icon {
+    display: inline-block;
+}
+
+.comments-stats {
+    
+}
+
+.comments-div {
+    
+}
+
+.comments-item {
+    height: 50px;
+}
+
+/****end comments*****/
+
+/****Avatar*****/
+img.avatarsmall{
+    width: 50px;
+    height: 50px;
+}
+/****End Avatar*****/
+
+/*social*/
+#social-div {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+}
+
+#social-div .social-link {
+    display: inline-block;
+}

@@ -1,0 +1,25 @@
+﻿@using System.Web.Optimization
+@using WebSite.Common.Extension
+@model dynamic
+
+@{
+    ViewBag.Title = "My Fliers";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section scripts {
+    @Styles.Render("~/Content/structure/Flier/DeskCss") 
+    @Styles.Render("~/Content/themes/taskflya/Flier/DeskCss")    
+    @Scripts.Render("~/Script/FlierDeskJs") 
+}
+
+
+
+@Html.Partial("MyFliersList")
+
+<div data-bind="with:CreateEditFlier">
+@Html.Partial("CreateEdit")
+</div>
+
+<button class="Button" data-bind="click:CreateFlier">Create Flier</button>
+
+

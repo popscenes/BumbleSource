@@ -1,0 +1,5 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<publishData>
+  <publishProfile publishUrl="https://bumble.cloudapp.net:8172/MsDeploy.axd" deleteExistingFiles="False" ftpAnonymousLogin="False" ftpPassiveMode="True" msdeploySite="WebSite_IN_0_Web" msdeploySiteID="" msdeployRemoteSitePhysicalPath="" msdeployAllowUntrustedCertificate="True" msdeploySkipExtraFilesOnServer="True" msdeployMarkAsApp="False" profileName="bumble - Production" publishMethod="MSDeploy" replaceMatchingFiles="True" userName="bumble" savePWD="False" userPWD="" SelectedForPublish="True" />
+  <publishProfile publishUrl="https://a7d0bbbe9da343d493fa38f87194dffa.cloudapp.net:8172/MsDeploy.axd" deleteExistingFiles="False" ftpAnonymousLogin="False" ftpPassiveMode="True" msdeploySite="WebSite_IN_0_Web" msdeploySiteID="" msdeployRemoteSitePhysicalPath="" msdeployAllowUntrustedCertificate="True" msdeploySkipExtraFilesOnServer="True" msdeployMarkAsApp="False" profileName="bumble - Staging" publishMethod="MSDeploy" replaceMatchingFiles="True" userName="bumble" savePWD="False" userPWD="" SelectedForPublish="False" />
+</publishData>

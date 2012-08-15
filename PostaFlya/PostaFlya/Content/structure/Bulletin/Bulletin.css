@@ -1,0 +1,22 @@
+﻿/* File Created: April 9, 2012 */
+
+div.ui-bulletin-board 
+{
+    text-align: center;
+    text-align: -webkit-center;
+    text-align: -moz-center;
+    text-align: -khtml-center;   
+}
+
+div.addedtile 
+{
+    display: none;	
+}
+
+div.ui-bulletin-board 
+{
+    margin-top:30px;
+}
+
+
+
