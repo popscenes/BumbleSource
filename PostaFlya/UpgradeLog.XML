@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?><?xml-stylesheet type='text/xsl' href='_UpgradeReport_Files/UpgradeReport.xslt'?><UpgradeLog>
+<Properties><Property Name="Solution" Value="AzureProject">
+</Property><Property Name="Solution File" Value="C:\Devel\bumblfly\source\AzureProject\AzureProject.sln">
+</Property><Property Name="Date" Value="Wednesday, 13 June 2012">
+</Property><Property Name="Time" Value="17:48 PM">
+</Property></Properties><Event ErrorLevel="0" Project="C:\Devel\bumblfly\source\AzureProject\AzureProject.ccproj" Source="ServiceDefinition.csdef" Description="Updated ServiceConfiguration element schemaVersion attribute to '2012-05.1.7'.">
+</Event><Event ErrorLevel="3" Project="C:\Devel\bumblfly\source\AzureProject\AzureProject.ccproj" Source="ServiceDefinition.csdef" Description="Converted">
+</Event><Event ErrorLevel="0" Project="C:\Devel\bumblfly\source\AzureProject\AzureProject.ccproj" Source="ServiceConfiguration.Local.cscfg" Description="Updated ServiceDefinition element schemaVersion attribute to '2012-05.1.7'.">
+</Event><Event ErrorLevel="3" Project="C:\Devel\bumblfly\source\AzureProject\AzureProject.ccproj" Source="ServiceConfiguration.Local.cscfg" Description="Converted">
+</Event><Event ErrorLevel="0" Project="C:\Devel\bumblfly\source\AzureProject\AzureProject.ccproj" Source="ServiceConfiguration.Cloud.cscfg" Description="Updated ServiceDefinition element schemaVersion attribute to '2012-05.1.7'.">
+</Event><Event ErrorLevel="3" Project="C:\Devel\bumblfly\source\AzureProject\AzureProject.ccproj" Source="ServiceConfiguration.Cloud.cscfg" Description="Converted">
+</Event><Event ErrorLevel="0" Project="C:\Devel\bumblfly\source\AzureProject\AzureProject.ccproj" Source="AzureProject.ccproj" Description="Upgraded ProductVersion value to 1.7.">
+</Event><Event ErrorLevel="3" Project="C:\Devel\bumblfly\source\AzureProject\AzureProject.ccproj" Source="AzureProject.ccproj" Description="Converted">
+</Event><Event ErrorLevel="0" Project="C:\Devel\bumblfly\source\AzureProject\AzureProject.ccproj" Source="AzureProject.ccproj" Description="Added UseIISExpressByDefault value 'false'.">
+</Event><Event ErrorLevel="0" Project="C:\Devel\bumblfly\source\AzureProject\AzureProject.ccproj" Source="AzureProject.ccproj" Description="Upgraded CloudExtensionsDir value to $(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Windows Azure Tools\1.7\.">
+</Event><Event ErrorLevel="0" Project="WebSite" Source="WebSite\WebSite.csproj" Description="The project file does not require conversion.">
+</Event><Event ErrorLevel="3" Project="WebSite" Source="WebSite\WebSite.csproj" Description="No Conversion Required">
+</Event><Event ErrorLevel="0" Project="WebSite.Infrastructure" Source="WebSite.Infrastructure\WebSite.Infrastructure.csproj" Description="The project file does not require conversion.">
+</Event><Event ErrorLevel="3" Project="WebSite.Infrastructure" Source="WebSite.Infrastructure\WebSite.Infrastructure.csproj" Description="No Conversion Required">
+</Event><Event ErrorLevel="0" Project="WebSite.DataRepository" Source="WebSite.DataRepository\WebSite.DataRepository.csproj" Description="The project file does not require conversion.">
+</Event><Event ErrorLevel="3" Project="WebSite.DataRepository" Source="WebSite.DataRepository\WebSite.DataRepository.csproj" Description="No Conversion Required">
+</Event><Event ErrorLevel="0" Project="WebSite.Domain" Source="WebSite.Domain\WebSite.Domain.csproj" Description="The project file does not require conversion.">
+</Event><Event ErrorLevel="3" Project="WebSite.Domain" Source="WebSite.Domain\WebSite.Domain.csproj" Description="No Conversion Required">
+</Event><Event ErrorLevel="0" Project="WebSite.Specification" Source="WebSite.Specification\WebSite.Specification.csproj" Description="The project file does not require conversion.">
+</Event><Event ErrorLevel="3" Project="WebSite.Specification" Source="WebSite.Specification\WebSite.Specification.csproj" Description="No Conversion Required">
+</Event><Event ErrorLevel="0" Project="WebSite.Application" Source="WebSite.Application\WebSite.Application.csproj" Description="The project file does not require conversion.">
+</Event><Event ErrorLevel="3" Project="WebSite.Application" Source="WebSite.Application\WebSite.Application.csproj" Description="No Conversion Required">
+</Event><Event ErrorLevel="0" Project="WebSite.Mocks.Domain" Source="WebSite.Mocks.Domain\WebSite.Mocks.Domain.csproj" Description="The project file does not require conversion.">
+</Event><Event ErrorLevel="3" Project="WebSite.Mocks.Domain" Source="WebSite.Mocks.Domain\WebSite.Mocks.Domain.csproj" Description="No Conversion Required">
+</Event><Event ErrorLevel="0" Project="WebSite.DataRepository.Tests" Source="WebSite.DataRepository.Tests\WebSite.DataRepository.Tests.csproj" Description="The project file does not require conversion.">
+</Event><Event ErrorLevel="3" Project="WebSite.DataRepository.Tests" Source="WebSite.DataRepository.Tests\WebSite.DataRepository.Tests.csproj" Description="No Conversion Required">
+</Event><Event ErrorLevel="0" Project="WebSite.Application.Azure.Tests" Source="WebSite.Application.Azure.Tests\WebSite.Application.Azure.Tests.csproj" Description="The project file does not require conversion.">
+</Event><Event ErrorLevel="3" Project="WebSite.Application.Azure.Tests" Source="WebSite.Application.Azure.Tests\WebSite.Application.Azure.Tests.csproj" Description="No Conversion Required">
+</Event><Event ErrorLevel="0" Project="WebSite.Application.Tests" Source="WebSite.Application.Tests\WebSite.Application.Tests.csproj" Description="The project file does not require conversion.">
+</Event><Event ErrorLevel="3" Project="WebSite.Application.Tests" Source="WebSite.Application.Tests\WebSite.Application.Tests.csproj" Description="No Conversion Required">
+</Event><Event ErrorLevel="0" Project="WebSite.Application.Azure" Source="WebSite.Application.Azure\WebSite.Application.Azure.csproj" Description="The project file does not require conversion.">
+</Event><Event ErrorLevel="3" Project="WebSite.Application.Azure" Source="WebSite.Application.Azure\WebSite.Application.Azure.csproj" Description="No Conversion Required">
+</Event><Event ErrorLevel="0" Project="WebSite.WebSite.Tests" Source="WebSite.WebSite.Tests\WebSite.WebSite.Tests.csproj" Description="The project file does not require conversion.">
+</Event><Event ErrorLevel="3" Project="WebSite.WebSite.Tests" Source="WebSite.WebSite.Tests\WebSite.WebSite.Tests.csproj" Description="No Conversion Required">
+</Event><Event ErrorLevel="0" Project="WebSite.CommandWorker" Source="WebSite.CommandWorker\WebSite.CommandWorker.csproj" Description="The project file does not require conversion.">
+</Event><Event ErrorLevel="3" Project="WebSite.CommandWorker" Source="WebSite.CommandWorker\WebSite.CommandWorker.csproj" Description="No Conversion Required">
+</Event><Event ErrorLevel="0" Project="WebSite.Domain.TaskJob" Source="WebSite.Domain.TaskJob\WebSite.Domain.TaskJob.csproj" Description="The project file does not require conversion.">
+</Event><Event ErrorLevel="3" Project="WebSite.Domain.TaskJob" Source="WebSite.Domain.TaskJob\WebSite.Domain.TaskJob.csproj" Description="No Conversion Required">
+</Event><Event ErrorLevel="0" Project="WebSite.Common" Source="WebSite.Common\WebSite.Common.csproj" Description="The project file does not require conversion.">
+</Event><Event ErrorLevel="3" Project="WebSite.Common" Source="WebSite.Common\WebSite.Common.csproj" Description="No Conversion Required">
+</Event><Event ErrorLevel="0" Project="WebSite.Application.Domain" Source="WebSite.Application.Domain\WebSite.Application.Domain.csproj" Description="The project file does not require conversion.">
+</Event><Event ErrorLevel="3" Project="WebSite.Application.Domain" Source="WebSite.Application.Domain\WebSite.Application.Domain.csproj" Description="No Conversion Required">
+</Event><Event ErrorLevel="0" Project="WebSite.Application.Domain.Tests" Source="WebSite.Application.Domain.Tests\WebSite.Application.Domain.Tests.csproj" Description="The project file does not require conversion.">
+</Event><Event ErrorLevel="3" Project="WebSite.Application.Domain.Tests" Source="WebSite.Application.Domain.Tests\WebSite.Application.Domain.Tests.csproj" Description="No Conversion Required">
+</Event><Event ErrorLevel="0" Project="WebSite.Azure.Common" Source="WebSite.Azure.Common\WebSite.Azure.Common.csproj" Description="The project file does not require conversion.">
+</Event><Event ErrorLevel="3" Project="WebSite.Azure.Common" Source="WebSite.Azure.Common\WebSite.Azure.Common.csproj" Description="No Conversion Required">
+</Event><Event ErrorLevel="0" Project="WebSite.Azure.Common.Tests" Source="WebSite.Azure.Common.Tests\WebSite.Azure.Common.Tests.csproj" Description="The project file does not require conversion.">
+</Event><Event ErrorLevel="3" Project="WebSite.Azure.Common.Tests" Source="WebSite.Azure.Common.Tests\WebSite.Azure.Common.Tests.csproj" Description="No Conversion Required">
+</Event><Event ErrorLevel="0" Project="WebSite.Test.Common" Source="WebSite.Test.Common\WebSite.Test.Common.csproj" Description="The project file does not require conversion.">
+</Event><Event ErrorLevel="3" Project="WebSite.Test.Common" Source="WebSite.Test.Common\WebSite.Test.Common.csproj" Description="No Conversion Required">
+</Event></UpgradeLog>
