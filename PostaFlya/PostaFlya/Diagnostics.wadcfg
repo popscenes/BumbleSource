@@ -2,8 +2,41 @@
   xmlns="http://schemas.microsoft.com/ServiceHosting/2010/10/DiagnosticsConfiguration"
   configurationChangePollInterval="PT1M"
   overallQuotaInMB="8192">
-  <Logs bufferQuotaInMB="4096" scheduledTransferPeriod="PT1M" scheduledTransferLogLevelFilter="Verbose"/>
-  <Directories bufferQuotaInMB="1024" scheduledTransferPeriod="PT1M">
-    <IISLogs container="iis-logs" directoryQuotaInMB="1024"/>
+  
+  <DiagnosticInfrastructureLogs bufferQuotaInMB="1024" scheduledTransferLogLevelFilter="Verbose" scheduledTransferPeriod="PT1M" />
+  <Logs bufferQuotaInMB="1024" scheduledTransferPeriod="PT1M" scheduledTransferLogLevelFilter="Verbose"/>
+  
+  <Directories bufferQuotaInMB="4096" scheduledTransferPeriod="PT1M">
+      <CrashDumps container="wad-crash-dumps" directoryQuotaInMB="512" />
+      <FailedRequestLogs container="wad-failedrequest" directoryQuotaInMB="512" />
+      <IISLogs container="wad-iis-logs" directoryQuotaInMB="1024"/>
+      <!-- For regular directories the DataSources element is used -->
+      <DataSources>
+         <DirectoryConfiguration container="wad-panther" directoryQuotaInMB="256">
+            <!-- Absolute specifies an absolute path with optional environment expansion -->
+            <Absolute expandEnvironment="true" path="%SystemRoot%\system32\sysprep\Panther" />
+         </DirectoryConfiguration>
+         <!--<DirectoryConfiguration container="wad-custom" directoryQuotaInMB="256">
+            --><!-- LocalResource specifies a path relative to a local 
+                 resource defined in the service definition -->
+                   <!--<LocalResource name="SomeStore" relativePath="logs" />
+         </DirectoryConfiguration>-->
+      </DataSources>
   </Directories>
+  
+   <PerformanceCounters bufferQuotaInMB="1024" scheduledTransferPeriod="PT1M">
+      <!-- The counter specifier is in the same format as the imperative 
+           diagnostics configuration API -->
+      <PerformanceCounterConfiguration 
+         counterSpecifier="\Processor(_Total)\% Processor Time" sampleRate="PT5S" />
+   </PerformanceCounters>
+   
+   <WindowsEventLog bufferQuotaInMB="512"
+      scheduledTransferLogLevelFilter="Verbose"
+      scheduledTransferPeriod="PT1M">
+      <!-- The event log name is in the same format as the imperative 
+           diagnostics configuration API -->
+      <DataSource name="System!*" />
+   </WindowsEventLog>
+   
 </DiagnosticMonitorConfiguration>
