@@ -26,13 +26,15 @@ namespace WebSite.Application.Azure.Tests.Communication
         [FixtureSetUp]
         public void FixtureSetUp()
         {
-            Kernel.Rebind<TableNameAndPartitionProviderInterface>()
-                .ToConstant(new TableNameAndPartitionProvider<SimpleExtendableEntity>()
-                            {
-                                {typeof(SimpleExtendableEntity), 0, "broadcastCommunicatorsTest", e => "", e => e.Get<string>("Endpoint")}                       
-                            })
-                .WhenAnyAnchestorNamed("broadcastCommunicators");
+//            Kernel.Rebind<TableNameAndPartitionProviderInterface>()
+//                .ToConstant(new TableNameAndPartitionProvider<SimpleExtendableEntity>()
+//                            {
+//                                {typeof(SimpleExtendableEntity), 0, "broadcastCommunicatorsTest", e => "", e => e.Get<string>("Endpoint")}                       
+//                            })
+//                .WhenAnyAnchestorNamed("broadcastCommunicators");
 
+            _tableName =
+                Kernel.Get<TableNameAndPartitionProviderServiceInterface>().GetTableName<AzureBroadcastRegistration>(0);
             Reinit();
         }
 
@@ -42,11 +44,15 @@ namespace WebSite.Application.Azure.Tests.Communication
 
         }
 
+        private string _tableName;
         private void Reinit()   
         {
             var cloudTable = Kernel.Get<CloudTableClient>();
-            cloudTable.DeleteTableIfExist("broadcastCommunicatorsTest");
-            Kernel.Get<AzureTableContext>("broadcastCommunicators").InitFirstTimeUse();      
+            cloudTable.DeleteTableIfExist(_tableName);
+            var ctx = Kernel.Get<TableContextInterface>();
+            ctx.InitTable<SimpleExtendableEntity>(_tableName);
+
+//            Kernel.Get<AzureTableContext>("broadcastCommunicators").InitFirstTimeUse();      
         }
 
 
@@ -58,10 +64,11 @@ namespace WebSite.Application.Azure.Tests.Communication
             registrator.RegisterEndpoint("blah");
             registrator.RegisterEndpoint("test");
 
-            var ctx = Kernel.Get<AzureTableContext>("broadcastCommunicators");
+            var ctx = Kernel.Get<TableContextInterface>();
+
 
             var registrations = ctx
-                .PerformQuery<SimpleExtendableEntity>()
+                .PerformQuery<AzureBroadcastRegistration>(_tableName)
                 .Select(e => e.Get<string>("Endpoint"))
                 .ToList();
 
@@ -83,23 +90,23 @@ namespace WebSite.Application.Azure.Tests.Communication
             registrator.RegisterEndpoint("blah");
             registrator.RegisterEndpoint("test");
 
-            var ctx = Kernel.Get<AzureTableContext>("broadcastCommunicators");
+            var ctx = Kernel.Get<TableContextInterface>();
 
 
             var registrations = ctx
-                .PerformQuery<SimpleExtendableEntity>()
+                .PerformQuery<AzureBroadcastRegistration>(_tableName)
                 .ToList();
             //fake some elapsed time
             var testReg = registrations.Single(r => r.Get<string>("Endpoint") == "blah");
             testReg["LastRegisterTime"] = DateTime.UtcNow.AddMinutes(-20);
-            ctx.Store(testReg);
+            ctx.Store("broadcastCommunicatorsTest", testReg);
             testReg = registrations.Single(r => r.Get<string>("Endpoint") == "test");
             testReg["LastRegisterTime"] = DateTime.UtcNow.AddMinutes(-20);
-            ctx.Store(testReg);
+            ctx.Store("broadcastCommunicatorsTest", testReg);
             ctx.SaveChanges();
 
             registrations = ctx
-                .PerformQuery<SimpleExtendableEntity>()
+                .PerformQuery<AzureBroadcastRegistration>(_tableName)
                 .ToList();
 
             var regTimeBlah = registrations.Single(r => r.Get<string>("Endpoint") == "blah")["LastRegisterTime"];
@@ -110,7 +117,7 @@ namespace WebSite.Application.Azure.Tests.Communication
             registrator.RegisterEndpoint("test");
 
             registrations = ctx
-                .PerformQuery<SimpleExtendableEntity>()
+                .PerformQuery<AzureBroadcastRegistration>(_tableName)
                 .ToList();
             var regTimeBlahNow = registrations.Single(r => r.Get<string>("Endpoint") == "blah")["LastRegisterTime"];
             var regTimeTestNow = registrations.Single(r => r.Get<string>("Endpoint") == "test")["LastRegisterTime"];
@@ -119,7 +126,7 @@ namespace WebSite.Application.Azure.Tests.Communication
             Assert.GreaterThan(regTimeTestNow, regTimeTest);
 
             var registrationNames = ctx
-                .PerformQuery<SimpleExtendableEntity>()
+                .PerformQuery<AzureBroadcastRegistration>(_tableName)
                 .Select(e => e.Get<string>("Endpoint"))
                 .ToList();
             Assert.Contains(registrationNames, "blah");
@@ -135,22 +142,22 @@ namespace WebSite.Application.Azure.Tests.Communication
             var registrator = Kernel.Get<BroadcastRegistratorInterface>();           
             registrator.RegisterEndpoint("test");
 
-            var ctx = Kernel.Get<AzureTableContext>("broadcastCommunicators");
+            var ctx = Kernel.Get<TableContextInterface>();
 
             var registrations = ctx
-                .PerformQuery<SimpleExtendableEntity>()
+                .PerformQuery<AzureBroadcastRegistration>(_tableName)
                 .ToList();
 
             var testReg = registrations.Single(r => r.Get<string>("Endpoint") == "test");
             testReg["LastRegisterTime"] = DateTime.UtcNow.AddMinutes(-20);
-            ctx.Store(testReg);
+            ctx.Store("broadcastCommunicatorsTest", testReg);
             ctx.SaveChanges();
 
             registrator = Kernel.Get<BroadcastRegistratorInterface>();
             registrator.RegisterEndpoint("blah");
 
             var registrationNames = ctx
-                .PerformQuery<SimpleExtendableEntity>()
+                .PerformQuery<AzureBroadcastRegistration>(_tableName)
                 .Select(e => e.Get<string>("Endpoint"))
                 .ToList();
             Assert.Contains(registrationNames, "blah");

@@ -10,6 +10,7 @@ using Microsoft.WindowsAzure.StorageClient;
 using Ninject;
 using Ninject.Modules;
 using WebSite.Azure.Common.Environment;
+using WebSite.Azure.Common.TableStorage;
 
 namespace WebSite.Azure.Common.Binding
 {
@@ -45,6 +46,14 @@ namespace WebSite.Azure.Common.Binding
                 .ToMethod(ctx => ctx.Kernel.Get<CloudStorageAccount>().CreateCloudBlobClient());
             Bind<CloudTableClient>()
                 .ToMethod(ctx => ctx.Kernel.Get<CloudStorageAccount>().CreateCloudTableClient());
+
+            Bind<TableContextInterface>()
+                .To<TableContext>()
+                .InTransientScope();
+
+            Bind<TableNameAndPartitionProviderServiceInterface>()
+                .To<TableNameAndPartitionProviderService>()
+                .InSingletonScope();
 
             Trace.TraceInformation("Finished Binding AzureCommonNinjectBinding");
 

@@ -8,6 +8,6 @@ namespace PostaFlya.Domain.Behaviour.Query
 {
     public interface FlierBehaviourQueryServiceInterface
     {
-        FlierBehaviourInterface GetBehaviourFor(FlierInterface flier);
+        FlierBehaviourInterface GetBehaviourFor(Flier.Flier flier);
     }
 }

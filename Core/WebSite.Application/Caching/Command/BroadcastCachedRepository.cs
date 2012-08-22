@@ -40,8 +40,11 @@ namespace WebSite.Application.Caching.Command
     {
         private readonly CacheNotifier _notifier;
 
-        protected BroadcastCachedRepository(ObjectCache cacheProvider, string regionName, CacheNotifier notifier) 
-            : base(cacheProvider, regionName)
+        protected BroadcastCachedRepository(ObjectCache cacheProvider
+            , string regionName
+            , CacheNotifier notifier
+            , GenericRepositoryInterface genericRepository)
+            : base(cacheProvider, regionName, genericRepository)
         {
             _notifier = notifier;
         }

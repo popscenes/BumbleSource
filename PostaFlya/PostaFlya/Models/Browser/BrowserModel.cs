@@ -13,7 +13,7 @@ namespace PostaFlya.Models.Browser
 
         public static BrowserModel GetBrowserViewModel(string browserId, BrowserQueryServiceInterface browserQuery, BlobStorageInterface blobStorage)
         {
-            var browser = browserQuery.FindById(browserId);
+            var browser = browserQuery.FindById<Domain.Browser.Browser>(browserId);
             if (browser == null)
                 return null;
             return browser.ToViewModel(blobStorage);
@@ -21,7 +21,7 @@ namespace PostaFlya.Models.Browser
 
         public static BrowserModel FillViewModel(this BrowserModel browser, BrowserQueryServiceInterface browserQuery, BlobStorageInterface blobStorage)
         {
-            var browserDomain = browserQuery.FindById(browser.Id);
+            var browserDomain = browserQuery.FindById<Domain.Browser.Browser>(browser.Id);
             if (browserDomain == null)
                 return null;
             browser.SetBrowserViewModel(browserDomain, blobStorage);

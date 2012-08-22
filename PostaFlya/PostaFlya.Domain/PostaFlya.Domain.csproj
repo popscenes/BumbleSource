@@ -71,6 +71,7 @@
     <Compile Include="Behaviour\FlierBehaviourBase.cs" />
     <Compile Include="Behaviour\Query\DefaultFlierBehaviourQueryService.cs" />
     <Compile Include="Behaviour\Query\FlierBehaviourQueryServiceInterface.cs" />
+    <Compile Include="Browser\BrowserIdentityProviderCredential.cs" />
     <Compile Include="Browser\BrowserIdInterface.cs" />
     <Compile Include="Browser\Command\ProfileEditCommand.cs" />
     <Compile Include="Browser\Command\ProfileEditCommandHandler.cs" />
@@ -78,6 +79,7 @@
     <Compile Include="Browser\Command\SetExternalCredentialCommandHandler.cs" />
     <Compile Include="Browser\Query\BrowserQueryServiceUtil.cs" />
     <Compile Include="Browser\Query\QueryByBrowserInterface.cs" />
+    <Compile Include="Browser\Query\QueryServiceWithBrowserInterface.cs" />
     <Compile Include="Browser\Roles.cs" />
     <Compile Include="Comments\Command\AddCommentInterface.cs" />
     <Compile Include="Comments\CommentableInterface.cs" />

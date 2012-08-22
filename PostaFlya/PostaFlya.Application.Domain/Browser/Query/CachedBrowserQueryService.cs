@@ -17,16 +17,9 @@ namespace PostaFlya.Application.Domain.Browser.Query
         public CachedBrowserQueryService([SourceDataSource]BrowserQueryServiceInterface browserQueryService
                         , ObjectCache cacheProvider                      
                         , int defaultSecondsToCache = -1)
-            : base(cacheProvider, CachedBrowserContext.Region, defaultSecondsToCache)
+            : base(cacheProvider, CachedBrowserContext.Region, browserQueryService, defaultSecondsToCache)
         {
             _browserQueryService = browserQueryService;
-        }
-
-        public BrowserInterface FindById(string id)
-        {
-            return RetrieveCachedData(
-                GetKeyFor(CachedBrowserContext.Browser, id),
-                () => _browserQueryService.FindById(id));
         }
 
         public BrowserInterface FindByIdentityProvider(IdentityProviderCredential credential)
@@ -43,9 +36,5 @@ namespace PostaFlya.Application.Domain.Browser.Query
                 () => _browserQueryService.FindByHandle(handle));
         }
 
-        object QueryServiceInterface.FindById(string id)
-        {
-            return FindById(id);
-        }
     }
 }

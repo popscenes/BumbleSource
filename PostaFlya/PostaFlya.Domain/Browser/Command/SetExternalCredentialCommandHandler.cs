@@ -22,8 +22,8 @@ namespace PostaFlya.Domain.Browser.Command
         {
             using (_unitOfWorkFactory.GetUnitOfWork(GetReposForUnitOfWork()))
             {
-                _browserRepository.UpdateEntity(command.BrowserId, browser => browser.ExternalCredentials.Remove(command.Credential));
-                _browserRepository.UpdateEntity(command.BrowserId, browser => browser.ExternalCredentials.Add(command.Credential));
+                _browserRepository.UpdateEntity<Browser>(command.Credential.BrowserId, browser => browser.ExternalCredentials.Remove(command.Credential));
+                _browserRepository.UpdateEntity<Browser>(command.Credential.BrowserId, browser => browser.ExternalCredentials.Add(command.Credential));
 
             }
 

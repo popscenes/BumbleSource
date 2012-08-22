@@ -51,19 +51,19 @@ namespace PostaFlya.Application.Domain.Tests.Flier
             var repository = kernel.Get<FlierRepositoryInterface>();
 
             var storedFlier = FlierTestData.StoreOne(FlierTestData.GetOne(kernel), repository, kernel);
-            FlierInterface retrievedFlier = cachedQueryService.FindById(storedFlier.Id);
+            FlierInterface retrievedFlier = cachedQueryService.FindById<PostaFlya.Domain.Flier.Flier>(storedFlier.Id);
             FlierTestData.AssertStoreRetrieve(storedFlier, retrievedFlier);
 
             const string changedDesc = "This will not be in cache";
             storedFlier.Description = changedDesc;
             FlierTestData.UpdateOne(storedFlier, repository, kernel);
-            retrievedFlier = cachedQueryService.FindById(storedFlier.Id);
+            retrievedFlier = cachedQueryService.FindById<PostaFlya.Domain.Flier.Flier>(storedFlier.Id);
 
             Assert.AreNotEqual(retrievedFlier.Description, changedDesc);
 
             TestUtil.ClearMemoryCache(cache);
 
-            retrievedFlier = cachedQueryService.FindById(storedFlier.Id);
+            retrievedFlier = cachedQueryService.FindById<PostaFlya.Domain.Flier.Flier>(storedFlier.Id);
             FlierTestData.AssertStoreRetrieve(storedFlier, retrievedFlier);
         }
 
@@ -85,16 +85,16 @@ namespace PostaFlya.Application.Domain.Tests.Flier
 
             FlierQueryServiceInterface cachedQueryService = new CachedFlierQueryService(queryService, cache);
 
-            var cachedFlierRepository = new CachedFlierRepository(kernel.Get<FlierRepositoryInterface>(), cache, new CacheNotifier());
+            var cachedFlierRepository = new CachedFlierRepository(kernel.Get<FlierRepositoryInterface>(), cache);
 
             var storedFlier = FlierTestData.StoreOne(FlierTestData.GetOne(kernel), cachedFlierRepository, kernel);
-            FlierInterface retrievedFlier = cachedQueryService.FindById(storedFlier.Id);
+            FlierInterface retrievedFlier = cachedQueryService.FindById<PostaFlya.Domain.Flier.Flier>(storedFlier.Id);
             FlierTestData.AssertStoreRetrieve(storedFlier, retrievedFlier);
 
             const string changedDesc = "This will be re cached";
             storedFlier.Description = changedDesc;
             FlierTestData.UpdateOne(storedFlier, cachedFlierRepository, kernel);
-            retrievedFlier = cachedQueryService.FindById(storedFlier.Id);
+            retrievedFlier = cachedQueryService.FindById<PostaFlya.Domain.Flier.Flier>(storedFlier.Id);
 
             FlierTestData.AssertStoreRetrieve(storedFlier, retrievedFlier);
         }
@@ -116,33 +116,33 @@ namespace PostaFlya.Application.Domain.Tests.Flier
 
             FlierQueryServiceInterface cachedQueryService = new CachedFlierQueryService(queryService, cache);
 
-            var cachedFlierRepository = new CachedFlierRepository(kernel.Get<FlierRepositoryInterface>(), cache, new CacheNotifier());
+            var cachedFlierRepository = new CachedFlierRepository(kernel.Get<FlierRepositoryInterface>(), cache);
 
             var storedFlier = FlierTestData.StoreOne(FlierTestData.GetOne(kernel), cachedFlierRepository, kernel);
-            FlierInterface retrievedFlier = cachedQueryService.FindById(storedFlier.Id);
+            FlierInterface retrievedFlier = cachedQueryService.FindById<PostaFlya.Domain.Flier.Flier>(storedFlier.Id);
             FlierTestData.AssertStoreRetrieve(storedFlier, retrievedFlier);
 
-            storedFlier = cachedFlierRepository.Like(new Like() 
-                                                            {   BrowserId = Guid.NewGuid().ToString()
-                                                                , EntityId = storedFlier.Id
-                                                                , ILike = true
-                                                                , LikeTime = DateTime.UtcNow
-                                                            }) as FlierInterface;
+            cachedFlierRepository.Store(new Like() 
+                    {   BrowserId = Guid.NewGuid().ToString()
+                        , AggregateId = storedFlier.Id
+                        , ILike = true
+                        , LikeTime = DateTime.UtcNow
+                    });
 
-            retrievedFlier = cachedQueryService.FindById(storedFlier.Id);
+            retrievedFlier = cachedQueryService.FindById<PostaFlya.Domain.Flier.Flier>(storedFlier.Id);
 
             FlierTestData.AssertStoreRetrieve(storedFlier, retrievedFlier);
 
 
-            storedFlier = cachedFlierRepository.AddComment(new Comment()
-                                                                  {
-                                                                      BrowserId = Guid.NewGuid().ToString(),
-                                                                      EntityId = storedFlier.Id,
-                                                                      CommentTime = DateTime.UtcNow,
-                                                                      CommentContent = "123"
-                                                                  }) as FlierInterface;
+            cachedFlierRepository.Store(new Comment()
+                    {
+                        BrowserId = Guid.NewGuid().ToString(),
+                        AggregateId = storedFlier.Id,
+                        CommentTime = DateTime.UtcNow,
+                        CommentContent = "123"
+                    });
 
-            retrievedFlier = cachedQueryService.FindById(storedFlier.Id);
+            retrievedFlier = cachedQueryService.FindById<PostaFlya.Domain.Flier.Flier>(storedFlier.Id);
 
             FlierTestData.AssertStoreRetrieve(storedFlier, retrievedFlier);
         }

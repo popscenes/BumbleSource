@@ -28,14 +28,14 @@ namespace PostaFlya.Controllers
         // GET /api/savedtagsapi
         public IQueryable<Tags> Get(string browserId)
         {
-           var browser =  _browserQueryService.FindById(browserId);
+            var browser = _browserQueryService.FindById<Domain.Browser.Browser>(browserId);
            return browser.SavedTags.AsQueryable();
         }
 
         // POST /api/savedtagsapi
         public HttpResponseMessage Post(string browserId, Tags tags)
         {
-            var browser = _browserQueryService.FindById(browserId);
+            var browser = _browserQueryService.FindById<Domain.Browser.Browser>(browserId);
             var command = new SavedTagsSaveCommand()
             {
                 BrowserId = browser.Id,
@@ -49,7 +49,7 @@ namespace PostaFlya.Controllers
         //sets the active saved tags
         public HttpResponseMessage Put(string browserId, Tags tags)
         {
-            var browser = _browserQueryService.FindById(browserId);
+            var browser = _browserQueryService.FindById<Domain.Browser.Browser>(browserId);
             var command = new SavedTagsSelectCommand()
             {
                 BrowserId = browser.Id,
@@ -63,7 +63,7 @@ namespace PostaFlya.Controllers
         // DELETE /api/savedtagsapi/5
         public HttpResponseMessage Delete(string browserId, Tags tags)
         {
-            var browser = _browserQueryService.FindById(browserId);
+            var browser = _browserQueryService.FindById<Domain.Browser.Browser>(browserId);
             var command = new SavedTagsDeleteCommand()
             {
                 BrowserId = browser.Id,

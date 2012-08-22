@@ -27,7 +27,7 @@ namespace PostaFlya.Mocks.Domain.Data.Behaviour
 
         internal static TaskJobFlierBehaviourInterface AssertGetById(TaskJobFlierBehaviourInterface taskJob, TaskJobQueryServiceInterface queryService)
         {
-            var retrievedFlier = queryService.FindById(taskJob.Id);
+            var retrievedFlier = queryService.FindById<TaskJobFlierBehaviour>(taskJob.Id);
             AssertStoreRetrieve(taskJob, retrievedFlier);
 
             return retrievedFlier;
@@ -36,12 +36,15 @@ namespace PostaFlya.Mocks.Domain.Data.Behaviour
 
         internal static TaskJobFlierBehaviourInterface StoreOne(TaskJobFlierBehaviourInterface taskJob, TaskJobRepositoryInterface repository, StandardKernel kernel)
         {
-            using (kernel.Get<UnitOfWorkFactoryInterface>()
-                .GetUnitOfWork(new List<RepositoryInterface>() { repository }))
+            var uow = kernel.Get<UnitOfWorkFactoryInterface>()
+                .GetUnitOfWork(new List<RepositoryInterface>() {repository});
+            using (uow)
             {
 
                 repository.Store(taskJob);
             }
+
+            Assert.IsTrue(uow.Successful);
             return taskJob;
         }
 
@@ -50,7 +53,7 @@ namespace PostaFlya.Mocks.Domain.Data.Behaviour
             using (kernel.Get<UnitOfWorkFactoryInterface>()
                 .GetUnitOfWork(new List<RepositoryInterface>() { repository }))
             {
-                repository.UpdateEntity(taskJob.Id, e => e.CopyFieldsFrom(taskJob));
+                repository.UpdateEntity<TaskJobFlierBehaviour>(taskJob.Id, e => e.CopyFieldsFrom(taskJob));
             }
         }
 

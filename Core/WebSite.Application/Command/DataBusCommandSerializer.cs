@@ -9,7 +9,7 @@ namespace WebSite.Application.Command
     {
         private readonly BlobStorageInterface _blobStorage;
 
-        //max 64k but base64 encoded just take off > 25% to ensure azure can handle;
+        //max 64k but base64 encoded just take off > 25% to ensure azure can handle for base 64 encoding;
         private const int MaxInlineMessageSize = 1024*8*5;
 
         public DataBusCommandSerializer(BlobStorageInterface blobStorage)

@@ -13,7 +13,7 @@ namespace PostaFlya.Domain.Behaviour
 //    }
     public interface FlierBehaviourInterface : EntityInterface
     {
-        FlierInterface Flier { get; set; }
+        Flier.Flier Flier { get; set; }
         PropertyGroup FlierProperties { get; set; }
     }
 }

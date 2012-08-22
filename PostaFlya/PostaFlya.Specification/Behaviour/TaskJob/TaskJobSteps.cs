@@ -64,7 +64,7 @@ namespace PostaFlya.Specification.Behaviour.TaskJob
             var flier = ScenarioContext.Current["flier"] as FlierInterface;
 
             var queryService = SpecUtil.CurrIocKernel.Get<TaskJobQueryServiceInterface>();
-            var behaviour = queryService.FindById(flier.Id);
+            var behaviour = queryService.FindById<TaskJobFlierBehaviour>(flier.Id);
             Assert.IsNotNull(behaviour);
 
             Assert.AreEqual(createModel.MaxAmount, behaviour.MaxAmount);

@@ -28,7 +28,7 @@ namespace PostaFlya.Domain.Content.Command
             UnitOfWorkInterface unitOfWork;
             using (unitOfWork = _unitOfWorkFactory.GetUnitOfWork(new List<RepositoryInterface>() {_imageRepository}))
             {
-                _imageRepository.UpdateEntity(command.Id,
+                _imageRepository.UpdateEntity<Image>(command.Id,
                     image =>
                         {
                             if (command.Location != null && command.Location.IsValid())

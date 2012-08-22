@@ -3,7 +3,7 @@ using WebSite.Infrastructure.Command;
 
 namespace PostaFlya.Domain.Browser.Command
 {
-    internal interface BrowserRepositoryInterface : GenericRepositoryInterface<BrowserInterface> 
+    internal interface BrowserRepositoryInterface : GenericRepositoryInterface
     {
 
     }

@@ -52,7 +52,7 @@ namespace PostaFlya.Controllers
                 return File(GetNotFoundData(), "image/jpeg");
 
             id = id.Substring(0, idLength);
-            var image = _imageQueryService.FindById(id);
+            var image = _imageQueryService.FindById<Image>(id);
             if(image == null)
                 return File(GetNotFoundData(), "image/jpeg");
 

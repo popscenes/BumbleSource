@@ -47,7 +47,7 @@ namespace WebSite.Azure.Common.TableStorage
 
         public void MergeProperties(ExtendableTableEntry tableEntry, PropertyGroupCollection propertyGroup)
         {
-            foreach (var props in propertyGroup)
+            foreach (var props in propertyGroup.Groups)
             {
                 foreach (var prop in props.Properties)
                 {

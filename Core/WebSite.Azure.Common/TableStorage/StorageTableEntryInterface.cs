@@ -4,13 +4,13 @@ namespace WebSite.Azure.Common.TableStorage
 {
     public static class StorageTableEntryInterfaceExtensions
     {
-        public static EntityInterfaceType CreateEntityCopy<EntityType, EntityInterfaceType>(this StorageTableEntryInterface<EntityInterfaceType> ts)
-            where EntityType : class, EntityInterfaceType, new()
-        {
-            var ret = new EntityType();
-            ts.UpdateEntity(ret);
-            return ret;
-        }
+//        public static EntityInterfaceType CreateEntityCopy<EntityType, EntityInterfaceType>(this StorageTableEntryInterface<EntityInterfaceType> ts)
+//            where EntityType : class, EntityInterfaceType, new()
+//        {
+//            var ret = new EntityType();
+//            ts.UpdateEntity(ret);
+//            return ret;
+//        }
     }
 
     public interface StorageTableEntryInterface
@@ -19,11 +19,23 @@ namespace WebSite.Azure.Common.TableStorage
         string RowKey { get; set; }
         int PartitionClone { get; set; }
         bool KeyChanged { get; set; }
+        void UpdateEntry(object source);
+        object GetEntity(Type entityTyp);
+        
     }
 
-    public interface StorageTableEntryInterface<in EntityInterfaceType> : StorageTableEntryInterface
+    public static class StorageTableEntryInterfaceExtension
     {
-        void Update(EntityInterfaceType source);
-        void UpdateEntity(EntityInterfaceType target);
+        public static EntityType GetEntity<EntityType>(this StorageTableEntryInterface storageTableEntry) where EntityType : class
+        {
+            return storageTableEntry.GetEntity(typeof (EntityType)) as EntityType;
+        }
+
     }
+
+//    public interface StorageTableEntryInterface<in EntityInterfaceType> : StorageTableEntryInterface
+//    {
+//        void Update(EntityInterfaceType source);
+//        void UpdateEntity(EntityInterfaceType target);
+//    }
 }

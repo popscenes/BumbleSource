@@ -51,7 +51,7 @@ namespace PostaFlya.Controllers
         // GET /api/myfliersapi
         public IQueryable<BulletinFlierModel> Get(string browserId)
         {
-            var fliers = _flierQueryService.GetByBrowserId(browserId);
+            var fliers = _flierQueryService.GetByBrowserId<Flier>(browserId);
             return fliers.Select(_ => _viewModelFactory.GetBulletinViewModel(_, false)
                 .GetImageUrl(_blobStorage))
                 .AsQueryable();
@@ -60,7 +60,7 @@ namespace PostaFlya.Controllers
         // GET /api/Browser/browserId/myfliers/5
         public FlierCreateModel Get(string browserId, string id)
         {
-            var flier = _flierQueryService.FindById(id);
+            var flier = _flierQueryService.FindById<Flier>(id);
             if (flier != null && flier.BrowserId != browserId)
                 return null;
 
@@ -111,7 +111,7 @@ namespace PostaFlya.Controllers
 
         public void Delete(string browserId, string id)
         {
-            var flier = _flierQueryService.FindById(id);
+            var flier = _flierQueryService.FindById<Flier>(id);
             if (flier != null && flier.BrowserId != browserId)
                 return;
             //TODO delete...

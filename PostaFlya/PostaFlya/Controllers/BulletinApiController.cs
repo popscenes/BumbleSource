@@ -64,7 +64,7 @@ namespace PostaFlya.Controllers
             , FlierBehaviourViewModelFactoryInterface viewModelFactory)
         {
             
-            var flier = flierQueryService.FindById(id);
+            var flier = flierQueryService.FindById<Flier>(id);
             if (flier == null)
                 return null;
 
@@ -100,7 +100,7 @@ namespace PostaFlya.Controllers
             var watch = new Stopwatch();
             watch.Start();
             var ret = fliersIds
-                .Select(f => viewModelFactory.GetBulletinViewModel(flierQueryService.FindById(f), false)
+                .Select(f => viewModelFactory.GetBulletinViewModel(flierQueryService.FindById<Flier>(f), false)
                     .GetImageUrl(blobStorage))
                 .ToList();
             Trace.TraceInformation("Bulletin Get FindById time: {0}, numfliers {1}", watch.ElapsedMilliseconds, ret.Count());

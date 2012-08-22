@@ -1,9 +1,11 @@
 using System;
 using System.Runtime.Caching;
 using WebSite.Application.Binding;
+using WebSite.Infrastructure.Binding;
 using WebSite.Infrastructure.Caching;
 using WebSite.Infrastructure.Caching.Query;
 using WebSite.Infrastructure.Command;
+using WebSite.Infrastructure.Query;
 
 namespace WebSite.Application.Caching.Query
 {
@@ -11,10 +13,11 @@ namespace WebSite.Application.Caching.Query
     {
         private readonly int _defaultSecondsToCache;
 
-        protected TimedExpiryCachedQueryService(ObjectCache cacheProvider
+        public TimedExpiryCachedQueryService(ObjectCache cacheProvider
             , string regionName
-            , int defaultSecondsToCache = -1) 
-            : base(cacheProvider, regionName)
+            , [SourceDataSource]GenericQueryServiceInterface genericQueryService
+            , int defaultSecondsToCache = -1)
+            : base(cacheProvider, regionName, genericQueryService)
         {
             _defaultSecondsToCache = defaultSecondsToCache;
         }

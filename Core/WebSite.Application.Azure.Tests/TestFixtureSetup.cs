@@ -8,6 +8,8 @@ using Ninject.Modules;
 using WebSite.Application.Azure.Binding;
 using WebSite.Application.Command;
 using WebSite.Application.Content;
+using WebSite.Azure.Common.Environment;
+using WebSite.Azure.Common.TableStorage;
 using WebSite.Test.Common;
 
 namespace WebSite.Application.Azure.Tests
@@ -45,6 +47,24 @@ namespace WebSite.Application.Azure.Tests
             CurrIocKernel.Unbind<MessageFactoryInterface>();
             CurrIocKernel.Unbind<CloudQueue>();
             CurrIocKernel.Unbind<CloudBlobContainer>();
+
+            var tableNameProv = CurrIocKernel.Get<TableNameAndPartitionProviderServiceInterface>();
+            tableNameProv.SuffixTableNames("test");
+
+            AzureEnv.UseRealStorage = true;
+            var tctx = CurrIocKernel.Get<TableContextInterface>();
+            foreach (var tableName in tableNameProv.GetAllTableNames())
+            {
+                tctx.InitTable<JsonTableEntry>(tableName);
+                tctx.Delete<JsonTableEntry>(tableName, null);
+            }
+            AzureEnv.UseRealStorage = false;
+            tctx = CurrIocKernel.Get<TableContextInterface>();
+            foreach (var tableName in tableNameProv.GetAllTableNames())
+            {
+                tctx.InitTable<JsonTableEntry>(tableName);
+                tctx.Delete<JsonTableEntry>(tableName, null);
+            }
         }
 
         private static readonly List<INinjectModule> NinjectModules = new List<INinjectModule>()

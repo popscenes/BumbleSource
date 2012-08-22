@@ -40,20 +40,20 @@ namespace PostaFlya.DataRepository.Tests
         [FixtureSetUp]
         public void FixtureSetUp()
         {
-            Kernel.Bind<TableNameAndPartitionProviderInterface>()
-                .ToConstant(new TableNameAndPartitionProvider<ImageInterface>()
-                            {
-                            {typeof(ImageTableEntry), ImageStorageDomain.IdPartition, "imageTest", i => i.Id, i => i.Id},    
-                            {typeof(ImageTableEntry), ImageStorageDomain.BrowserPartition, "imageTest", i => i.BrowserId, i => i.Id}
-                            })
-                .WhenAnyAnchestorNamed("image")
-                .InSingletonScope();
-
-            var context = Kernel.Get<AzureTableContext>("image");
-            context.InitFirstTimeUse();
-            context.Delete<ImageTableEntry>(null, ImageStorageDomain.IdPartition);
-            context.Delete<ImageTableEntry>(null, ImageStorageDomain.BrowserPartition);
-            context.SaveChanges();
+//            Kernel.Bind<TableNameAndPartitionProviderInterface>()
+//                .ToConstant(new TableNameAndPartitionProvider<ImageInterface>()
+//                            {
+//                            {typeof(ImageTableEntry), ImageStorageDomain.IdPartition, "imageTest", i => i.Id, i => i.Id},    
+//                            {typeof(ImageTableEntry), ImageStorageDomain.BrowserPartition, "imageTest", i => i.BrowserId, i => i.Id}
+//                            })
+//                .WhenAnyAnchestorNamed("image")
+//                .InSingletonScope();
+//
+//            var context = Kernel.Get<AzureTableContext>("image");
+//            context.InitFirstTimeUse();
+//            context.Delete<ImageTableEntry>(null, ImageStorageDomain.IdPartition);
+//            context.Delete<ImageTableEntry>(null, ImageStorageDomain.BrowserPartition);
+//            context.SaveChanges();
 
             _repository = Kernel.Get<ImageRepositoryInterface>();
             _queryService = Kernel.Get<ImageQueryServiceInterface>();
@@ -62,7 +62,7 @@ namespace PostaFlya.DataRepository.Tests
         [FixtureTearDown]
         public void FixtureTearDown()
         {
-            Kernel.Unbind<TableNameAndPartitionProviderInterface>();
+            //Kernel.Unbind<TableNameAndPartitionProviderInterface>();
             AzureEnv.UseRealStorage = false;
         }
 
@@ -118,13 +118,13 @@ namespace PostaFlya.DataRepository.Tests
 
         private void Store(ImageInterface source)
         {
-            var exists = _queryService.FindById(source.Id) != null;
+            var exists = _queryService.FindById<Image>(source.Id) != null;
             using (Kernel.Get<UnitOfWorkFactoryInterface>()
                 .GetUnitOfWork(new List<RepositoryInterface>() { _repository }))
             {
                 if (exists)
                 {
-                    _repository.UpdateEntity(source.Id, e => e.CopyFieldsFrom(source));
+                    _repository.UpdateEntity<Image>(source.Id, e => e.CopyFieldsFrom(source));
                 }
                 else
                     _repository.Store(source);
@@ -133,8 +133,8 @@ namespace PostaFlya.DataRepository.Tests
 
         private ImageInterface Query(ImageInterface source)
         {
-            var storedbyid = _queryService.FindById(source.Id);
-            var storedbybrowser = _queryService.GetByBrowserId(source.BrowserId).FirstOrDefault();
+            var storedbyid = _queryService.FindById<Image>(source.Id);
+            var storedbybrowser = _queryService.GetByBrowserId<Image>(source.BrowserId).FirstOrDefault();
 
             AssertAreEqual(source, storedbybrowser);
             AssertAreEqual(source, storedbyid);

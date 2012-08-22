@@ -27,7 +27,7 @@ namespace PostaFlya.Domain.Behaviour
             return ret.ContainsKey(behaviour) ?  ret[behaviour] : typeof (FlierBehaviourDefault);
         }
 
-        public FlierBehaviourInterface CreateBehaviourInstanceForFlier(FlierInterface flier)
+        public FlierBehaviourInterface CreateBehaviourInstanceForFlier(Flier.Flier flier)
         {
             var flierBehaviour = _resolutionRoot.Get(GetDefaultBehaviourTypeForBehaviour(flier.FlierBehaviour)) as FlierBehaviourInterface;
             if (flierBehaviour == null)

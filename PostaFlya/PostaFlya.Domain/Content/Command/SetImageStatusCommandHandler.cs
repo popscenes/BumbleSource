@@ -22,7 +22,7 @@ namespace PostaFlya.Domain.Content.Command
             UnitOfWorkInterface unitOfWork;
             using (unitOfWork = _unitOfWorkFactory.GetUnitOfWork(new List<RepositoryInterface>() {_imageRepository}))
             {
-                _imageRepository.UpdateEntity(command.Id, image => image.Status = command.Status);
+                _imageRepository.UpdateEntity<Image>(command.Id, image => image.Status = command.Status);
             }
 
             return unitOfWork.Successful;

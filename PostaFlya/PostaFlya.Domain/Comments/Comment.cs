@@ -7,7 +7,7 @@ namespace PostaFlya.Domain.Comments
 {
     public class Comment : EntityBase<CommentInterface>, CommentInterface
     {
-        public string EntityId { get; set; }
+        public string AggregateId { get; set; }
         public string CommentContent { get; set; }
         public DateTime CommentTime { get; set; }
         public string BrowserId { get; set; }

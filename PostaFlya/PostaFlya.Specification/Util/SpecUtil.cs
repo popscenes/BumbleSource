@@ -119,7 +119,7 @@ namespace PostaFlya.Specification.Util
         public static BrowserInterface AssertGetParticipantBrowser(string id)
         {
             var browserQuery = SpecUtil.CurrIocKernel.Get<BrowserQueryServiceInterface>();
-            var browser = browserQuery.FindById(id);
+            var browser = browserQuery.FindById<Browser>(id);
             Assert.IsTrue(browser != null);
             Assert.IsTrue(browser.HasRole(Role.Participant));
             return browser;

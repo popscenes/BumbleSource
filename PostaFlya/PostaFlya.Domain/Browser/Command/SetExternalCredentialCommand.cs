@@ -9,7 +9,6 @@ namespace PostaFlya.Domain.Browser.Command
 {
     public class SetExternalCredentialCommand : DomainCommandBase
     {
-        public String BrowserId { get; set; }
-        public IdentityProviderCredential Credential { get; set; }
+        public BrowserIdentityProviderCredential Credential { get; set; }
     }
 }

@@ -11,68 +11,70 @@ using PostaFlya.DataRepository.Search.Services;
 using PostaFlya.Domain.Flier;
 using PostaFlya.Domain.Location;
 using PostaFlya.Domain.Tag;
+using WebSite.Infrastructure.Domain;
 
 namespace PostaFlya.DataRepository.Search.Implementation
 {
     class TableFlierSearchService : FlierSearchServiceInterface
     {
-        private readonly AzureTableContext _tableContext;
+        //private readonly AzureTableContext _tableContext;
         private readonly LocationServiceInterface _locationService;
 
-        public TableFlierSearchService([Named("flier")]AzureTableContext tableContext,
+        public TableFlierSearchService(//[Named("flier")]AzureTableContext tableContext,
             LocationServiceInterface  locationService)
         {
-            _tableContext = tableContext;
+            //_tableContext = tableContext;
             _locationService = locationService;
         }
 
-        public void NotifyUpdate(IEnumerable<FlierInterface> values)
+        public void NotifyUpdate(IEnumerable<EntityInterface> values)
         {
             
         }
 
-        public void NotifyDelete(IEnumerable<FlierInterface> values)
+        public void NotifyDelete(IEnumerable<EntityInterface> values)
         {
             
         }
 
         public IList<string> FindFliersByLocationTagsAndDistance(Location location, Tags tags, int distance = 0, int take = 0, FlierSortOrder sortOrder = FlierSortOrder.CreatedDate, int skip = 0)
         {
-            var boundingBox = distance > 0
-                                  ? _locationService.GetBoundingBox(location, distance)
-                                  : _locationService.GetDefaultBox(location);
-            var watch = new Stopwatch();
-            watch.Start();
-            Expression<Func<FlierTableEntry, bool>> query =
-                (fliers) => fliers.LocationLongitude >= boundingBox.Min.Longitude
-                            && fliers.LocationLongitude <= boundingBox.Max.Longitude
-                            && fliers.LocationLatitude >= boundingBox.Min.Latitude
-                            && fliers.LocationLatitude <= boundingBox.Max.Latitude;
-
-            var tableEntity = _tableContext.PerformQuery(query).AsEnumerable();
-            var time = watch.ElapsedMilliseconds;
-            Trace.TraceInformation("FindFliers time: {0}, numfliers {1}", time, tableEntity.Count());
-
-            watch.Restart();
-            var ret = tableEntity
-                .Select(ts => ts.CreateEntityCopy<Domain.Flier.Flier, FlierInterface>())
-                .Distinct()
-                .Where(_ => tags == null || !tags.Any() || _.Tags.IsSupersetOf(tags));
-
-            ret = ret.OrderByDescending(GetSorter(sortOrder)).AsEnumerable();
-
-            //skip previous fliers
-            if(skip > 0)
-            {
-                ret = ret.Skip(skip);
-            }
-            
-            if (take > 0)
-                ret = ret.Take(take);
-
-            time = watch.ElapsedMilliseconds;
-            Trace.TraceInformation("FindFliers transform time: {0}, numfliers {1}", time, tableEntity.Count());
-            return ret.Select(f => f.Id).ToList();
+//            var boundingBox = distance > 0
+//                                  ? _locationService.GetBoundingBox(location, distance)
+//                                  : _locationService.GetDefaultBox(location);
+//            var watch = new Stopwatch();
+//            watch.Start();
+//            Expression<Func<FlierTableEntry, bool>> query =
+//                (fliers) => fliers.LocationLongitude >= boundingBox.Min.Longitude
+//                            && fliers.LocationLongitude <= boundingBox.Max.Longitude
+//                            && fliers.LocationLatitude >= boundingBox.Min.Latitude
+//                            && fliers.LocationLatitude <= boundingBox.Max.Latitude;
+//
+//            var tableEntity = _tableContext.PerformQuery(query).AsEnumerable();
+//            var time = watch.ElapsedMilliseconds;
+//            Trace.TraceInformation("FindFliers time: {0}, numfliers {1}", time, tableEntity.Count());
+//
+//            watch.Restart();
+//            var ret = tableEntity
+//                .Select(ts => ts.CreateEntityCopy<Domain.Flier.Flier, FlierInterface>())
+//                .Distinct()
+//                .Where(_ => tags == null || !tags.Any() || _.Tags.IsSupersetOf(tags));
+//
+//            ret = ret.OrderByDescending(GetSorter(sortOrder)).AsEnumerable();
+//
+//            //skip previous fliers
+//            if(skip > 0)
+//            {
+//                ret = ret.Skip(skip);
+//            }
+//            
+//            if (take > 0)
+//                ret = ret.Take(take);
+//
+//            time = watch.ElapsedMilliseconds;
+//            Trace.TraceInformation("FindFliers transform time: {0}, numfliers {1}", time, tableEntity.Count());
+//            return ret.Select(f => f.Id).ToList();
+            return null;
         }
 
         public static Func<FlierInterface, object> GetSorter(FlierSortOrder sortOrder)

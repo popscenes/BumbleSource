@@ -159,7 +159,7 @@ namespace PostaFlya.Application.Domain.Tests.Content
             Assert.AreEqual(ImageStatus.Processing, imageInterface.Status);
 
             //test the state is ready
-            Assert.AreEqual(ImageStatus.Ready, kernel.Get<ImageQueryServiceInterface>().FindById(imageInterface.Id).Status);
+            Assert.AreEqual(ImageStatus.Ready, kernel.Get<ImageQueryServiceInterface>().FindById<PostaFlya.Domain.Content.Image>(imageInterface.Id).Status);
 
             assertions(new Guid(imageInterface.Id), storage);
 
@@ -353,7 +353,7 @@ namespace PostaFlya.Application.Domain.Tests.Content
 
             //test the state is failed
             Assert.AreEqual(ImageStatus.Failed,
-                kernel.Get<ImageQueryServiceInterface>().FindById(imageInterface.Id).Status);
+                kernel.Get<ImageQueryServiceInterface>().FindById<PostaFlya.Domain.Content.Image>(imageInterface.Id).Status);
 
             return imageInterface.Id;
         }

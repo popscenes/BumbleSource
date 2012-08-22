@@ -59,7 +59,8 @@ namespace WebSite.Infrastructure.Binding
         }
 
         public static void BindRepositoriesFromCallingAssembly(this StandardKernel kernel
-                                                          , ConfigurationAction ninjectConfiguration)
+            , ConfigurationAction ninjectConfiguration
+            , Type[] excludeInterfaces = null)
         {
             var asm = Assembly.GetCallingAssembly();
             Trace.TraceInformation("Binding Repositories from {0}", asm.FullName);
@@ -81,13 +82,19 @@ namespace WebSite.Infrastructure.Binding
 //                     .BindUsingRegex("QueryService")
 //                     .Configure(ninjectConfiguration));
 
+
             kernel.Bind(
-                x => x.From(asm)
-                 .IncludingNonePublicTypes()
-                 .SelectAllClasses()
-                 .Where(t => t.GetInterfaces().Any(i => i == typeof(RepositoryInterface) || i == typeof(QueryServiceInterface)))
-                 .BindAllInterfaces()
-                 .Configure(ninjectConfiguration));
+            x => x.From(asm)
+                .IncludingNonePublicTypes()
+                .SelectAllClasses()
+                .Where(t => t.GetInterfaces().Any(i => i == typeof(RepositoryInterface) || i == typeof(QueryServiceInterface)))
+                //.BindAllInterfaces()
+                .BindSelection((type, types) => 
+                    types.Where(t => 
+                        excludeInterfaces == null || !excludeInterfaces.Contains(t) 
+                ))
+                .Configure(ninjectConfiguration));
+
         }
     }
 }

@@ -4,12 +4,16 @@ using System.Linq;
 using Ninject;
 using WebSite.Application.WebsiteInformation;
 using WebSite.Azure.Common.TableStorage;
+using WebSite.Infrastructure.Domain;
 
 namespace WebSite.Application.Azure.WebsiteInformation
 {
-    public class WebsiteInfoServiceAzure : AzureRepositoryBase<SimpleExtendableEntity, SimpleExtendableEntity>, WebsiteInfoServiceInterface
+    public class WebsiteInfoEntity : SimpleExtendableEntity
     {
-        private readonly AzureTableContext _context;
+        
+    }
+    public class WebsiteInfoServiceAzure : RepositoryBase<WebsiteInfoEntity>, WebsiteInfoServiceInterface
+    {
 
         private const string FIELD_BEHAIVORTAGS = "behaivourtags";
         private const string FIELD_URL = "url";
@@ -19,20 +23,22 @@ namespace WebSite.Application.Azure.WebsiteInformation
         private const string FIELD_FACEBOOKSECRET = "facebooksecret";
 
 
-        public static TableNameAndPartitionProvider<SimpleExtendableEntity> TableNameBinding
-            = new TableNameAndPartitionProvider<SimpleExtendableEntity>()
-                  {{typeof (SimpleExtendableEntity), 0, "websiteinfo", e => "", e => e.Get<string>("url")}};
+//        public static TableNameAndPartitionProvider<SimpleExtendableEntity> TableNameBinding
+//            = new TableNameAndPartitionProvider<SimpleExtendableEntity>()
+//                  {{typeof (SimpleExtendableEntity), 0, "websiteinfo", e => "", e => e.Get<string>("url")}};
 
-        public WebsiteInfoServiceAzure([Named("websiteinfo")]AzureTableContext context)
-            : base(context)
+        private readonly string _tableName;
+        public WebsiteInfoServiceAzure(TableContextInterface tableContext
+            , TableNameAndPartitionProviderServiceInterface nameAndPartitionProviderService) 
+            : base(tableContext, nameAndPartitionProviderService)
         {
-            _context = context;
+            _tableName = nameAndPartitionProviderService.GetTableName<WebsiteInfoEntity>(IdPartition);
         }
 
         public void RegisterWebsite(string url, WebsiteInfo GetWebsiteInfo)
-        {   
-            UpdateEntity(url
-                , registrationEntry =>
+        {
+            Action<WebsiteInfoEntity> update
+                = registrationEntry =>
                 {
                     registrationEntry[FIELD_BEHAIVORTAGS] = GetWebsiteInfo.BehaivoirTags.ToString();
                     registrationEntry[FIELD_URL] = url;
@@ -44,14 +50,24 @@ namespace WebSite.Application.Azure.WebsiteInformation
 
                     registrationEntry.RowKey = url;
                     registrationEntry.PartitionKey = "";
-                });
+                };
+
+            var existing = FindById<WebsiteInfoEntity>(url);
+            if (existing != null)
+                UpdateEntity(url, update);
+            else
+            {
+                var newEntry = new WebsiteInfoEntity();
+                update(newEntry);
+                Store(newEntry);
+            }
 
             SaveChanges();
         }
 
         public String GetBehaivourTags(string url)
         {
-            var websites = _context.PerformQuery<SimpleExtendableEntity>();
+            var websites = TableContext.PerformQuery<WebsiteInfoEntity>(_tableName);
             var websiteTags = websites
                 .Where(_ => _.RowKey == url)
                 .Select(_ => _.Get<string>(FIELD_BEHAIVORTAGS)).FirstOrDefault();
@@ -61,7 +77,7 @@ namespace WebSite.Application.Azure.WebsiteInformation
 
         public String GetTags(string url)
         {
-            var websites = _context.PerformQuery<SimpleExtendableEntity>();
+            var websites = TableContext.PerformQuery<WebsiteInfoEntity>(_tableName);
             var tags = websites
                 .Where(_ => _.RowKey == url)
                 .Select(_ => _.Get<string>(FIELD_TAGS)).FirstOrDefault();
@@ -72,7 +88,7 @@ namespace WebSite.Application.Azure.WebsiteInformation
 
         public string GetWebsiteName(string url)
         {
-            var websites = _context.PerformQuery<SimpleExtendableEntity>();
+            var websites = TableContext.PerformQuery<WebsiteInfoEntity>(_tableName);
             var websitename = websites
                 .Where(_ => _.RowKey == url)
                 .Select(_ => _.Get<string>(FIELD_WEBSITENAME)).FirstOrDefault();
@@ -80,16 +96,10 @@ namespace WebSite.Application.Azure.WebsiteInformation
             return websitename;
         }
 
-        protected override SimpleExtendableEntity GetEntityForUpdate(string url)
-        {
-            var registrationEntries = _context.PerformQuery<SimpleExtendableEntity>();
-            return registrationEntries.SingleOrDefault(e => e.Get<string>(FIELD_URL) == url) ??
-                                    new SimpleExtendableEntity();
-        }
 
         public WebsiteInfo GetWebsiteInfo(string url)
         {
-            var websites = _context.PerformQuery<SimpleExtendableEntity>();
+            var websites = TableContext.PerformQuery<WebsiteInfoEntity>(_tableName);
 
             var websiteInfo = websites
                 .Where(_ => _.RowKey == url).Select(_ => new WebsiteInfo()
@@ -106,9 +116,15 @@ namespace WebSite.Application.Azure.WebsiteInformation
             return websiteInfo;
         }
 
-        protected override SimpleExtendableEntity GetStorageForEntity(SimpleExtendableEntity entity)
+
+        protected override StorageAggregate GetEntityForUpdate(Type entity, string id)
         {
-            return entity;
+            var root = FindById(entity, id);
+            if (root == null)
+                return null;
+            var ret = new StorageAggregate(root, NameAndPartitionProviderService);
+            ret.LoadAllTableEntriesForUpdate<WebsiteInfoEntity>(TableContext);
+            return ret;
         }
     }
 }

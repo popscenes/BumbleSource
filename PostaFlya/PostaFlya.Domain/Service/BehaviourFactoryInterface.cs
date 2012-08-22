@@ -7,6 +7,6 @@ namespace PostaFlya.Domain.Service
     public interface BehaviourFactoryInterface
     {
         Type GetDefaultBehaviourTypeForBehaviour(FlierBehaviour behaviour);
-        FlierBehaviourInterface CreateBehaviourInstanceForFlier(FlierInterface flier);
+        FlierBehaviourInterface CreateBehaviourInstanceForFlier(Flier.Flier flier);
     }
 }

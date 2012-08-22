@@ -18,7 +18,7 @@ namespace WebSite.Application.Tests.Caching
         public CachedRepositoryTest(ObjectCache cacheProvider
             , string regionName
             , CacheNotifier notifier)
-            : base(cacheProvider, regionName, notifier)
+            : base(cacheProvider, regionName, notifier, null)
         {
             _cacheProvider = cacheProvider;
         }
@@ -41,7 +41,7 @@ namespace WebSite.Application.Tests.Caching
         public CachedQueryServiceTest(ObjectCache cacheProvider
             , string regionName
             , int defaultSecondsToCache)
-            : base(cacheProvider, regionName, defaultSecondsToCache)
+            : base(cacheProvider, regionName, null, defaultSecondsToCache)
         {
             _cacheProvider = cacheProvider;
         }

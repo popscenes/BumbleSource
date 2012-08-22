@@ -6,9 +6,8 @@ using WebSite.Infrastructure.Domain;
 
 namespace PostaFlya.Domain.Browser.Query
 {
-    public interface QueryByBrowserInterface< out EntityInterfaceType>
-        where EntityInterfaceType : BrowserIdInterface
+    public interface QueryByBrowserInterface     
     {
-        IQueryable<EntityInterfaceType> GetByBrowserId(String browserId);
+        IQueryable<EntityType> GetByBrowserId<EntityType>(String browserId) where EntityType : class, BrowserIdInterface, new();
     }
 }

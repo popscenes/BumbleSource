@@ -26,11 +26,11 @@ namespace PostaFlya.Domain.Flier.Command
             UnitOfWorkInterface unitOfWork;
             using(unitOfWork = _unitOfWorkFactory.GetUnitOfWork(GetReposForUnitOfWork()))
             {
-                var flierQuery = _flierQueryService.FindById(command.Id);
+                var flierQuery = _flierQueryService.FindById<Flier>(command.Id);
                 if (flierQuery == null || flierQuery.BrowserId == null || !flierQuery.BrowserId.Equals(command.BrowserId))
                     return false;
 
-                _flierRepository.UpdateEntity(command.Id, 
+                _flierRepository.UpdateEntity<Flier>(command.Id, 
                     flier =>
                         {
                             flier.Title = command.Title;

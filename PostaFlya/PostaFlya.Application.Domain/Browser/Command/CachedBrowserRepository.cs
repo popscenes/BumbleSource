@@ -17,45 +17,28 @@ namespace PostaFlya.Application.Domain.Browser.Command
         public CachedBrowserRepository([SourceDataSource]BrowserRepositoryInterface browserRepository
             , ObjectCache cacheProvider
             , CacheNotifier notifier)
-            : base(cacheProvider, CachedBrowserContext.Region, notifier)
+            : base(cacheProvider, CachedBrowserContext.Region, notifier, browserRepository)
         {
             _browserRepository = browserRepository;
         }
 
-        public void Store(object entity)
+        public override void UpdateEntity<UpdateType>(string id, Action<UpdateType> updateAction)
         {
-            var browser = entity as BrowserInterface;
-            if(browser != null) 
-                Store(browser);
-        }
-
-        public bool SaveChanges()
-        {
-            return _browserRepository.SaveChanges();
-        }
-
-        public void UpdateEntity(string id, Action<BrowserInterface> updateAction)
-        {
-            Action<BrowserInterface> updateInvCacheAction
+            Action<UpdateType> updateInvCacheAction
             = browser =>
-                {
+                  {
+                    var target = browser as BrowserInterface;
                     //mmm dunno... anyway won't be updating that often, just remove the extenal credentials from the cache in case they are changed by the update operation
-                    foreach (var cred in browser.ExternalCredentials)
+                    foreach (var cred in target.ExternalCredentials)
                         InvalidateCachedData(GetKeyFor(CachedBrowserContext.Identity, cred.GetHash()));
 
-                    InvalidateCachedData(GetKeyFor(CachedBrowserContext.Browser, browser.Id));
-                    InvalidateCachedData(GetKeyFor(CachedBrowserContext.Browser, browser.Handle));
+                    InvalidateCachedData(GetKeyFor(CachedBrowserContext.Browser, target.Handle));
 
                     updateAction(browser);
 
                 };
 
-            _browserRepository.UpdateEntity(id, updateInvCacheAction);
-        }
-
-        public void Store(BrowserInterface entity)
-        {
-            _browserRepository.Store(entity);
+            base.UpdateEntity(id, updateInvCacheAction);
         }
     }
 }

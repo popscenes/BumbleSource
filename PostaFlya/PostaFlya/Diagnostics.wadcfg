@@ -4,9 +4,9 @@
   overallQuotaInMB="8192">
   
   <DiagnosticInfrastructureLogs bufferQuotaInMB="1024" scheduledTransferLogLevelFilter="Verbose" scheduledTransferPeriod="PT1M" />
-  <Logs bufferQuotaInMB="1024" scheduledTransferPeriod="PT1M" scheduledTransferLogLevelFilter="Verbose"/>
+  <Logs bufferQuotaInMB="2048" scheduledTransferPeriod="PT1M" scheduledTransferLogLevelFilter="Verbose"/>
   
-  <Directories bufferQuotaInMB="4096" scheduledTransferPeriod="PT1M">
+  <Directories bufferQuotaInMB="3072" scheduledTransferPeriod="PT1M">
       <CrashDumps container="wad-crash-dumps" directoryQuotaInMB="512" />
       <FailedRequestLogs container="wad-failedrequest" directoryQuotaInMB="512" />
       <IISLogs container="wad-iis-logs" directoryQuotaInMB="1024"/>
@@ -31,7 +31,7 @@
          counterSpecifier="\Processor(_Total)\% Processor Time" sampleRate="PT5S" />
    </PerformanceCounters>
    
-   <WindowsEventLog bufferQuotaInMB="512"
+   <WindowsEventLog bufferQuotaInMB="1024"
       scheduledTransferLogLevelFilter="Verbose"
       scheduledTransferPeriod="PT1M">
       <!-- The event log name is in the same format as the imperative 

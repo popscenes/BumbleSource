@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.WindowsAzure.StorageClient;
+using WebSite.Infrastructure.Util;
 
 namespace WebSite.Azure.Common.TableStorage
 {
@@ -9,19 +10,24 @@ namespace WebSite.Azure.Common.TableStorage
         , StorageTableEntryInterface
     {
 
-        public void SetProperty(string propertyName, object value, Type type = null)
+        public bool SetProperty(string propertyName, object value, Type type = null, bool throwEx = true)
         {
             string edmTyp = Edm.String;//default to string for null
             if (value != null || type != null)
-                edmTyp = Edm.GetEdmTyp(type ?? value.GetType());   
+                edmTyp = Edm.GetEdmTyp(type ?? value.GetType());
 
-            SetProperty(propertyName, value, edmTyp);
+            return SetProperty(propertyName, value, edmTyp, throwEx);
         }
 
-        public void SetProperty(string propertyName, object value, string edmtype)
+        public bool SetProperty(string propertyName, object value, string edmtype, bool throwEx = true)
         {
             if (!Edm.IsEdmTyp(edmtype))
-                throw new ArgumentException("ExtendableTableEntry Invalid Edm Type for SetProperty");
+            {
+                if (throwEx)
+                    throw new ArgumentException("ExtendableTableEntry Invalid Edm Type for SetProperty");
+                return false;
+            }
+                
 
             var prop = new EdmProp()
             {
@@ -33,6 +39,7 @@ namespace WebSite.Azure.Common.TableStorage
                 _extendedProperties.Remove(prop);
 
             _extendedProperties.Add(prop, value);
+            return true;
         }
 
         public IEnumerable<KeyValuePair<EdmProp, object>> GetAllProperties()
@@ -45,6 +52,18 @@ namespace WebSite.Azure.Common.TableStorage
             return GetAllProperties().Where(kv => kv.Key.Name.StartsWith(keyPrefix)).AsEnumerable();
         }
 
+        public Dictionary<string, object> GetAsStringDict()
+        {
+            return GetAllProperties().ToDictionary(kv => kv.Key.Name, kv => kv.Value);    
+        }
+
+        public void AddDict(Dictionary<string, object> dictionary)
+        {
+            foreach (var kv in dictionary.Where(kv => kv.Value != null))
+            {
+                SetProperty(kv.Key, kv.Value, (Type)null, false);
+            }
+        }
         public ExtendableTableEntry ExtractFromKeyPrefix(string keyPrefix)
         {
             var ret = new ExtendableTableEntry();
@@ -161,5 +180,39 @@ namespace WebSite.Azure.Common.TableStorage
             }
         }
 
+        public void UpdateEntry(object source)
+        {
+            var tableEntry = source as ExtendableTableEntry;
+            if(tableEntry != null)
+            {
+                MergeProperties(tableEntry, "", true);
+            }
+            else
+            {
+                var dictionary = new Dictionary<string, object>();
+
+                SerializeUtil.PropertiesToDictionary(source, dictionary);
+
+                AddDict(dictionary);
+            }
+
+        }
+
+        public object GetEntity(Type entityTyp)
+        {
+            var ret = Activator.CreateInstance(entityTyp, true);
+
+            var tableEntry = ret as ExtendableTableEntry;
+            if (tableEntry != null)
+            {
+                tableEntry.MergeProperties(this, "", true);
+            }
+            else
+            {
+                var dictionary = GetAsStringDict();
+                SerializeUtil.PropertiesFromDictionary(ret, dictionary);
+            }
+            return ret;
+        } 
     }
 }

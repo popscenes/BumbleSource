@@ -43,33 +43,33 @@ namespace PostaFlya.DataRepository.Tests
         [FixtureSetUp]
         public void FixtureSetUp()
         {
-            var browserTable = new TableNameAndPartitionProvider<BrowserInterface>()
-                                   {
-                                       {typeof(BrowserTableEntry), BrowserStorageDomain.IdPartition, "browserTest", i => i.Id, i => i.Id},
-                                       {typeof(BrowserTableEntry), BrowserStorageDomain.HandlePartition, "browserTest", i => i.Handle, i => i.Id}
-                                   };
-            var browserCredsTable = new TableNameAndPartitionProvider<BrowserIdentityProviderCredential>()
-                                              {
-                                                  {typeof(BrowserCredentialsTableEntry), BrowserIdentityProviderCredential.IdPartition, "browserCredsTest", i => i.Id, i => i.Id},
-                                                  {typeof(BrowserCredentialsTableEntry), BrowserIdentityProviderCredential.HashPartition, "browserCredsTest", i => i.GetHash(), i => i.Id},    
-                                              };
+//            var browserTable = new TableNameAndPartitionProvider<BrowserInterface>()
+//                                   {
+//                                       {typeof(BrowserTableEntry), BrowserStorageDomain.IdPartition, "browserTest", i => i.Id, i => i.Id},
+//                                       {typeof(BrowserTableEntry), BrowserStorageDomain.HandlePartition, "browserTest", i => i.Handle, i => i.Id}
+//                                   };
+//            var browserCredsTable = new TableNameAndPartitionProvider<BrowserIdentityProviderCredential>()
+//                                              {
+//                                                  {typeof(BrowserCredentialsTableEntry), BrowserIdentityProviderCredential.IdPartition, "browserCredsTest", i => i.Id, i => i.Id},
+//                                                  {typeof(BrowserCredentialsTableEntry), BrowserIdentityProviderCredential.HashPartition, "browserCredsTest", i => i.GetHash(), i => i.Id},    
+//                                              };
+//
+//            Kernel.Bind<TableNameAndPartitionProviderInterface>()
+//            .ToConstant(new TableNameAndPartitionProviderCollection()
+//                                {
+//                                    browserTable,
+//                                    browserCredsTable
+//                                })
+//            .WhenAnyAnchestorNamed("browser")
+//            .InSingletonScope();
 
-            Kernel.Bind<TableNameAndPartitionProviderInterface>()
-            .ToConstant(new TableNameAndPartitionProviderCollection()
-                                {
-                                    browserTable,
-                                    browserCredsTable
-                                })
-            .WhenAnyAnchestorNamed("browser")
-            .InSingletonScope();
-
-            var context = Kernel.Get<AzureTableContext>("browser");
-            context.InitFirstTimeUse();
-            context.Delete<BrowserTableEntry>(null, BrowserStorageDomain.IdPartition);
-            context.Delete<BrowserTableEntry>(null, BrowserStorageDomain.HandlePartition);
-            context.Delete<BrowserCredentialsTableEntry>(null, BrowserIdentityProviderCredential.IdPartition);
-            context.Delete<BrowserCredentialsTableEntry>(null, BrowserIdentityProviderCredential.HashPartition);
-            context.SaveChanges();
+//            var context = Kernel.Get<AzureTableContext>("browser");
+//            context.InitFirstTimeUse();
+//            context.Delete<BrowserTableEntry>(null, BrowserStorageDomain.IdPartition);
+//            context.Delete<BrowserTableEntry>(null, BrowserStorageDomain.HandlePartition);
+//            context.Delete<BrowserCredentialsTableEntry>(null, BrowserIdentityProviderCredential.IdPartition);
+//            context.Delete<BrowserCredentialsTableEntry>(null, BrowserIdentityProviderCredential.HashPartition);
+//            context.SaveChanges();
 
             _repository = Kernel.Get<BrowserRepositoryInterface>();
             _queryService = Kernel.Get<BrowserQueryServiceInterface>();
@@ -78,7 +78,7 @@ namespace PostaFlya.DataRepository.Tests
         [FixtureTearDown]
         public void FixtureTearDown()
         {
-            Kernel.Unbind<TableNameAndPartitionProviderInterface>();
+            //Kernel.Unbind<TableNameAndPartitionProviderInterface>();
             AzureEnv.UseRealStorage = false;
         }
 
@@ -119,17 +119,12 @@ namespace PostaFlya.DataRepository.Tests
                 Permissions = "post"
             };
 
-            return new Domain.Browser.Browser(Guid.NewGuid().ToString())
+            var ret = new Domain.Browser.Browser(Guid.NewGuid().ToString())
                        {
                            Handle = "YoYo",
                            Tags = Kernel.Get<Tags>(ctx => ctx.Has("default")),
                            SavedTags = new List<Tags> { new Tags{"one","two","three"}, new Tags{"three ","four","five"} },
                            SavedLocations = new Locations { new Location(1, 2), new Location(3, 4) },
-                           ExternalCredentials = new HashSet<IdentityProviderCredential>()
-                                                     {
-                                                         new IdentityProviderCredential(){IdentityProvider = IdentityProviders.GOOGLE, UserIdentifier = "G" + externalId, AccessToken = token},
-                                                         new IdentityProviderCredential(){IdentityProvider = IdentityProviders.FACEBOOK, UserIdentifier = "F" + externalId, AccessToken = token}
-                                                     },
                            DefaultLocation =  Kernel.Get<Location>(ctx => ctx.Has("default")),
                            Roles = new Roles { "SomeRole" },
                            FirstName = "FirstName",
@@ -140,6 +135,25 @@ namespace PostaFlya.DataRepository.Tests
                            Address = GlobalDefaultsNinjectModule.DefaultLocation,
                            AddressPublic = true
                        };
+
+            ret.ExternalCredentials = new HashSet<BrowserIdentityProviderCredential>()
+                                          {
+                                              new BrowserIdentityProviderCredential()
+                                                  {
+                                                      BrowserId = ret.Id,
+                                                      IdentityProvider = IdentityProviders.GOOGLE,
+                                                      UserIdentifier = "G" + externalId,
+                                                      AccessToken = token
+                                                  },
+                                              new BrowserIdentityProviderCredential()
+                                                  {
+                                                      BrowserId = ret.Id,
+                                                      IdentityProvider = IdentityProviders.FACEBOOK,
+                                                      UserIdentifier = "F" + externalId,
+                                                      AccessToken = token
+                                                  }
+                                          };
+            return ret;
         }
 
         [Test]
@@ -158,7 +172,7 @@ namespace PostaFlya.DataRepository.Tests
             using (Kernel.Get<UnitOfWorkFactoryInterface>()
                 .GetUnitOfWork(new List<RepositoryInterface>() { _repository }))
             {
-                _repository.UpdateEntity(source.Id
+                _repository.UpdateEntity<Domain.Browser.Browser>(source.Id
                     , browser =>
                           {
                               entityToStore = browser;
@@ -168,6 +182,7 @@ namespace PostaFlya.DataRepository.Tests
                               var creds = browser.ExternalCredentials.GetEnumerator();
                               creds.MoveNext();
                               creds.Current.UserIdentifier += "Modified";
+                              browser.ExternalCredentials.RemoveWhere(c => !c.UserIdentifier.Contains("Modified"));
 
                               browser.EmailAddress += ".au";
 

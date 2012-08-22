@@ -16,16 +16,15 @@ using WebSite.Infrastructure.Query;
 namespace PostaFlya.DataRepository.Browser
 {
 
-    internal class AzureBrowserRepository : AzureRepositoryBase<BrowserInterface, BrowserStorageDomain> 
+    internal class AzureBrowserRepository : JsonRepository 
         , BrowserRepositoryInterface
         , BrowserQueryServiceInterface
     {
-        private readonly AzureTableContext _tableContext;
+        public const int HandlePartitionId = 1;
 
-        public AzureBrowserRepository([Named("browser")]AzureTableContext tableContext)
-            : base(tableContext)
+        public AzureBrowserRepository(TableContextInterface tableContext, TableNameAndPartitionProviderServiceInterface nameAndPartitionProviderService) 
+            : base(tableContext, nameAndPartitionProviderService)
         {
-            _tableContext = tableContext;
         }
 
         public BrowserInterface FindByIdentityProvider(IdentityProviderCredential credential)
@@ -34,32 +33,15 @@ namespace PostaFlya.DataRepository.Browser
                 || string.IsNullOrWhiteSpace(credential.UserIdentifier))
                 return null;
 
-            return BrowserStorageDomain.FindByIdentityProvider(credential, _tableContext);
+            var prov = this.FindById<BrowserIdentityProviderCredential>(credential.GetHash());
+            return (prov != null) ?
+                FindById<Domain.Browser.Browser>(prov.BrowserId) :
+                null;
         }
 
         public BrowserInterface FindByHandle(string handle)
         {
-            return BrowserStorageDomain.FindByHandle(handle, _tableContext);
-        }
-
-        public BrowserInterface FindById(string id)
-        {
-            return string.IsNullOrWhiteSpace(id) ? null : BrowserStorageDomain.FindById(id, _tableContext);
-        }
-
-        protected override BrowserStorageDomain GetEntityForUpdate(string id)
-        {
-            return BrowserStorageDomain.GetEntityForUpdate(id, _tableContext);
-        }
-
-        protected override BrowserStorageDomain GetStorageForEntity(BrowserInterface entity)
-        {
-            return new BrowserStorageDomain(entity, _tableContext);
-        }
-
-        object QueryServiceInterface.FindById(string id)
-        {
-            return FindById(id);
+            return this.FindById<Domain.Browser.Browser>(handle, HandlePartitionId);
         }
     }
 }

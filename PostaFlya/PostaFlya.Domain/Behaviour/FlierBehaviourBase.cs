@@ -11,7 +11,7 @@ namespace PostaFlya.Domain.Behaviour
     public abstract class FlierBehaviourBase<BehaviourInterfaceType> 
         : EntityBase<BehaviourInterfaceType>, FlierBehaviourInterface where BehaviourInterfaceType : class, EntityInterface
     {
-        public abstract FlierInterface Flier { get; set; }
+        public abstract Flier.Flier Flier { get; set; }
         public abstract PropertyGroup FlierProperties { get; set; }
     }
 }

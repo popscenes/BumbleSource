@@ -57,17 +57,19 @@ namespace PostaFlya.Mocks.Domain.Defaults
                     EmailAddress = "ricky@gmail.com",
                     Roles = new Roles{Role.Participant.ToString()},
                     SavedLocations = new Locations(),
-                    ExternalCredentials = new HashSet<IdentityProviderCredential>()
+                    ExternalCredentials = new HashSet<BrowserIdentityProviderCredential>()
                                                 {
-                                                    new IdentityProviderCredential()
+                                                    new BrowserIdentityProviderCredential()
                                                         {
+                                                            BrowserId = DefaultBrowserId,
                                                             IdentityProvider = IdentityProviders.GOOGLE, 
                                                             UserIdentifier = "AItOawnldHWXFZoFpHDwBAMy34d1aO7qHSPz1hoBlah",
                                                             AccessToken =  token
                                                         },
 
-                                                        new IdentityProviderCredential()
+                                                        new BrowserIdentityProviderCredential()
                                                         {
+                                                            BrowserId = DefaultBrowserId,
                                                             IdentityProvider = IdentityProviders.FACEBOOK, 
                                                             UserIdentifier = "AItOawnldHWXFZoFpHDwBAMy34d1aO7qHSPz1hoBlah",
                                                             AccessToken =  token
@@ -84,10 +86,11 @@ namespace PostaFlya.Mocks.Domain.Defaults
                     EmailAddress = "teddymccuddles@gmail.com",
                     Roles = new Roles{ Role.Participant.ToString() },
                     SavedLocations = new Locations(),
-                    ExternalCredentials = new HashSet<IdentityProviderCredential>()
+                    ExternalCredentials = new HashSet<BrowserIdentityProviderCredential>()
                                                 {
-                                                    new IdentityProviderCredential()
+                                                    new BrowserIdentityProviderCredential()
                                                         {
+                                                            BrowserId = DefaultBrowserId,
                                                             IdentityProvider = IdentityProviders.GOOGLE,
                                                             UserIdentifier = "AItOawnldHWXFZoFpHDwBAMy34d1aO7qHSPz1ho"
                                                         }

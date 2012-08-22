@@ -30,12 +30,6 @@ namespace WebSite.Application.Azure.Binding
                 .InThreadScope();
 
             
-            Kernel.Bind<BroadcastRegistratorInterface>().To<AzureBroadcastRegistrator>();
-            Kernel.Bind<AzureTableContext>().ToSelf().Named("broadcastCommunicators");
-            Kernel.Bind<TableNameAndPartitionProviderInterface>()
-                .ToConstant(AzureBroadcastRegistrator.TableNameBinding)
-                .WhenAnyAnchestorNamed("broadcastCommunicators");
-
             //worker command queue
             Kernel.Bind<CommandBusInterface>().ToMethod(
                 ctx =>
@@ -64,15 +58,20 @@ namespace WebSite.Application.Azure.Binding
 
             //end image storage
 
-            //Kernel.Bind<TableNameAndPartitionProviderInterface>()
-            //    .ToConstant(WebsiteInfoServiceAzure.TableNameBinding)
-            //    .WhenAnyAnchestorNamed("websiteinfo");
+            var tableNameProv = Kernel.Get<TableNameAndPartitionProviderServiceInterface>();
+            Kernel.Bind<BroadcastRegistratorInterface>().To<AzureBroadcastRegistrator>();
+            //            Kernel.Bind<AzureTableContext>().ToSelf().Named("broadcastCommunicators");
+            //            Kernel.Bind<TableNameAndPartitionProviderInterface>()
+            //                .ToConstant(AzureBroadcastRegistrator.TableNameBinding)
+            //                .WhenAnyAnchestorNamed("broadcastCommunicators");
+            tableNameProv.Add<AzureBroadcastRegistration>(0, "broadcastCommunicators", e => "", e => e.Get<string>("Endpoint"));
 
-            Kernel.Bind<WebsiteInfoServiceInterface>().To<WebsiteInfoServiceAzure>().WhenTargetHas<SourceDataSourceAttribute>();
-            Kernel.Bind<AzureTableContext>().ToSelf().Named("websiteinfo");
-            Kernel.Bind<TableNameAndPartitionProviderInterface>()
-               .ToConstant(WebsiteInfoServiceAzure.TableNameBinding)
-               .WhenAnyAnchestorNamed("websiteinfo");
+            Kernel.Bind<WebsiteInfoServiceInterface>().To<WebsiteInfoServiceAzure>().WhenTargetHas<SourceDataSourceAttribute>();         
+            tableNameProv.Add<WebsiteInfoEntity>(0, "websiteinfo", e => "", e => e.Get<string>("url"));
+//            Kernel.Bind<AzureTableContext>().ToSelf().Named("websiteinfo");
+//            Kernel.Bind<TableNameAndPartitionProviderInterface>()
+//               .ToConstant(WebsiteInfoServiceAzure.TableNameBinding)
+//               .WhenAnyAnchestorNamed("websiteinfo");
 
 
             //need to call Kernel.Get<AzureInitCreateQueueAndBlobs>().Init();

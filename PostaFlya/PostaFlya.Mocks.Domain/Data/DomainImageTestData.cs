@@ -28,7 +28,7 @@ namespace PostaFlya.Mocks.Domain.Data
 
         internal static ImageInterface AssertGetById(ImageInterface image, ImageQueryServiceInterface queryService)
         {
-            var retrievedFlier = queryService.FindById(image.Id);
+            var retrievedFlier = queryService.FindById<Image>(image.Id);
             AssertStoreRetrieve(image, retrievedFlier);
 
             return retrievedFlier;
@@ -37,12 +37,15 @@ namespace PostaFlya.Mocks.Domain.Data
 
         internal static ImageInterface StoreOne(ImageInterface image, ImageRepositoryInterface repository, StandardKernel kernel)
         {
-            using (kernel.Get<UnitOfWorkFactoryInterface>()
-                .GetUnitOfWork(new List<RepositoryInterface>() { repository }))
+            var uow = kernel.Get<UnitOfWorkFactoryInterface>()
+                .GetUnitOfWork(new List<RepositoryInterface>() {repository});
+            using (uow)
             {
 
                 repository.Store(image);
             }
+
+            Assert.IsTrue(uow.Successful);
             return image;
         }
 
@@ -51,7 +54,7 @@ namespace PostaFlya.Mocks.Domain.Data
             using (kernel.Get<UnitOfWorkFactoryInterface>()
                 .GetUnitOfWork(new List<RepositoryInterface>() { repository }))
             {
-                repository.UpdateEntity(image.Id, e => e.CopyFieldsFrom(image));
+                repository.UpdateEntity<Image>(image.Id, e => e.CopyFieldsFrom(image));
             }
         }
 

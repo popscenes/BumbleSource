@@ -19,14 +19,12 @@ namespace PostaFlya.DataRepository.Search.Implementation
     {
         private readonly string _masterConnection;
         private readonly string _searchDbConnectionString;
-        private readonly AzureTableContext _tableContext;
 
         public SqlSeachDbInitializer([SqlMasterDbConnectionString]string masterDb
-            , [SqlSearchConnectionString]string searchDbConnectionString, [Named("flier")]AzureTableContext tableContext)
+            , [SqlSearchConnectionString]string searchDbConnectionString)
         {
             _masterConnection = masterDb;
             _searchDbConnectionString = searchDbConnectionString;
-            _tableContext = tableContext;
         }
 
         public void Initialize()
@@ -41,20 +39,21 @@ namespace PostaFlya.DataRepository.Search.Implementation
             {
                 SqlInitializer.CreateTableFrom(typeof (FlierSearchRecord), newConn);
 
-                var res = SqlExecute
-                    .Query<CountResult>("select Count(*) as Count from FlierSearchRecord", newConn)
-                    .SingleOrDefault();
-                if (res == null || res.Count == 0)
-                {
-                    foreach (
-                        var flier in
-                            _tableContext.PerformQuery<FlierTableEntry>().Select(
-                                ts => ts.CreateEntityCopy<Domain.Flier.Flier, FlierInterface>()).Distinct())
-                    {
-                        SqlExecute.InsertOrUpdate(flier.ToSearchRecord(), newConn);
-                    }
-
-                }
+//not needed
+//                var res = SqlExecute
+//                    .Query<CountResult>("select Count(*) as Count from FlierSearchRecord", newConn)
+//                    .SingleOrDefault();
+//                if (res == null || res.Count == 0)
+//                {
+//                    foreach (
+//                        var flier in
+//                            _tableContext.PerformQuery<FlierTableEntry>().Select(
+//                                ts => ts.CreateEntityCopy<Domain.Flier.Flier, FlierInterface>()).Distinct())
+//                    {
+//                        SqlExecute.InsertOrUpdate(flier.ToSearchRecord(), newConn);
+//                    }
+//
+//                }
             }
         }
 

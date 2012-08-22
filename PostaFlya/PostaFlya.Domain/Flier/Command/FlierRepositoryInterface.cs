@@ -5,9 +5,9 @@ using WebSite.Infrastructure.Command;
 
 namespace PostaFlya.Domain.Flier.Command
 {
-    internal interface FlierRepositoryInterface : GenericRepositoryInterface<FlierInterface>
-        , AddLikeInterface<FlierInterface>
-        , AddCommentInterface<FlierInterface>
+    internal interface FlierRepositoryInterface : GenericRepositoryInterface
+ //       , AddLikeInterface<FlierInterface>
+ //       , AddCommentInterface<FlierInterface>
     {
 
     }

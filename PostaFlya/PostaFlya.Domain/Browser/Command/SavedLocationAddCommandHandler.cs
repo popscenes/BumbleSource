@@ -22,7 +22,7 @@ namespace PostaFlya.Domain.Browser.Command
         {
             using (_unitOfWorkFactory.GetUnitOfWork(GetReposForUnitOfWork()))
             {
-                _browserRepository.UpdateEntity(command.BrowserId, browser => browser.SavedLocations.Add(command.Location));
+                _browserRepository.UpdateEntity<Browser>(command.BrowserId, browser => browser.SavedLocations.Add(command.Location));
             }
 
             return new MsgResponse("Saved Location Add", false).AddCommandId(command);

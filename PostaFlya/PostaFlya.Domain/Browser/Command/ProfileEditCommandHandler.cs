@@ -26,7 +26,7 @@ namespace PostaFlya.Domain.Browser.Command
 
         public object Handle(ProfileEditCommand command)
         {
-            var browser = _browserQueryService.FindById(command.BrowserId);
+            var browser = _browserQueryService.FindById<Browser>(command.BrowserId);
             if (browser == null)
                 return new MsgResponse("Error updating profile details", true)
                     .AddCommandId(command).AddEntityIdError(command.BrowserId);
@@ -34,7 +34,7 @@ namespace PostaFlya.Domain.Browser.Command
             UnitOfWorkInterface unitOfWork;
             using (unitOfWork = _unitOfWorkFactory.GetUnitOfWork(new List<object>() {_browserRepository}))
             {
-                _browserRepository.UpdateEntity(command.BrowserId
+                _browserRepository.UpdateEntity<Browser>(command.BrowserId
                     , browserUpdate =>
                         {
                             if(!string.IsNullOrWhiteSpace(command.Handle))

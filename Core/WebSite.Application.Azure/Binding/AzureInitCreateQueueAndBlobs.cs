@@ -31,8 +31,8 @@ namespace WebSite.Application.Azure.Binding
             permissions.PublicAccess = BlobContainerPublicAccessType.Container;
             imageContainer.SetPermissions(permissions);
 
-            iocContainer.Get<AzureTableContext>("broadcastCommunicators").InitFirstTimeUse();
-            iocContainer.Get<AzureTableContext>("websiteinfo").InitFirstTimeUse();
+//            iocContainer.Get<AzureTableContext>("broadcastCommunicators").InitFirstTimeUse();
+//            iocContainer.Get<AzureTableContext>("websiteinfo").InitFirstTimeUse();
 
         }
     }

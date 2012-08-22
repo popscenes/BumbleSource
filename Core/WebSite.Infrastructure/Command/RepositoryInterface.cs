@@ -18,7 +18,6 @@ namespace WebSite.Infrastructure.Command
 
     public interface RepositoryInterface
     {
-        void Store(object entity);
         bool SaveChanges();
     }
 }

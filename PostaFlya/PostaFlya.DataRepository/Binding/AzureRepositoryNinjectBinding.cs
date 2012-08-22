@@ -14,7 +14,13 @@ using Ninject.Extensions.Conventions.BindingGenerators;
 using Ninject.Extensions.Conventions.Syntax;
 using Ninject.Modules;
 using Ninject.Extensions.Conventions;
+using Ninject.Planning.Bindings;
 using Ninject.Syntax;
+using PostaFlya.Domain.Browser;
+using PostaFlya.Domain.Browser.Query;
+using PostaFlya.Domain.Comments;
+using PostaFlya.Domain.Content;
+using PostaFlya.Domain.Likes;
 using WebSite.Azure.Common.Binding;
 using WebSite.Azure.Common.Environment;
 using WebSite.Azure.Common.Sql;
@@ -39,6 +45,7 @@ namespace PostaFlya.DataRepository.Binding
     {
         private readonly ConfigurationAction _repositoryScopeConfiguration;
 
+
         public AzureRepositoryNinjectBinding(ConfigurationAction repositoryScopeConfiguration)
         {
             _repositoryScopeConfiguration = repositoryScopeConfiguration;
@@ -53,21 +60,40 @@ namespace PostaFlya.DataRepository.Binding
             //Kernel.Bind<WebsiteInfoServiceInterface>().To<WebsiteInfoServiceAzure>().WhenTargetHas<SourceDataSourceAttribute>();
 
             var kernel = Kernel as StandardKernel;
-            kernel.BindRepositoriesFromCallingAssembly(_repositoryScopeConfiguration);
-            Bind<AzureCommentRepository>().ToSelf();//this is only used inside other repositories so no need to configure scope etc
-            Bind<AzureLikeRepository>().ToSelf();
+            kernel.BindRepositoriesFromCallingAssembly(_repositoryScopeConfiguration
+                , new []
+                      {
+                          typeof(GenericQueryServiceInterface),
+                          typeof(GenericRepositoryInterface),
+                          typeof(QueryServiceWithBrowserInterface),
+                          typeof(QueryByBrowserInterface)
+                      });
+            _repositoryScopeConfiguration(kernel.Bind(typeof(GenericQueryServiceInterface))
+                .To(typeof(JsonRepository)));
+            _repositoryScopeConfiguration(kernel.Bind(typeof(GenericRepositoryInterface))
+                .To(typeof(JsonRepository)));
+            _repositoryScopeConfiguration(kernel.Bind(typeof(QueryServiceWithBrowserInterface))
+                .To(typeof(JsonRepositoryWithBrowser)));
+            _repositoryScopeConfiguration(kernel.Bind(typeof(QueryByBrowserInterface))
+                .To(typeof(JsonRepositoryWithBrowser)));
 
+
+            Trace.TraceInformation("Binding TableNameNinjectBinding");
+
+//            Bind<AzureCommentRepository>().ToSelf();//this is only used inside other repositories so no need to configure scope etc
+//            Bind<AzureLikeRepository>().ToSelf();
  
             //this basically names the azure table context so
             //we can set up bindings for the Type => TableName dictionary
-            Kernel.Bind<AzureTableContext>().ToSelf().Named("flier");
-            Kernel.Bind<AzureTableContext>().ToSelf().Named("taskjob");
-            Kernel.Bind<AzureTableContext>().ToSelf().Named("image");
-            Kernel.Bind<AzureTableContext>().ToSelf().Named("browser");
-            Kernel.Bind<AzureTableContext>().ToSelf().Named("comments");
-            Kernel.Bind<AzureTableContext>().ToSelf().Named("likes");
+//            Kernel.Bind<AzureTableContext>().ToSelf().Named("flier");
+//            Kernel.Bind<AzureTableContext>().ToSelf().Named("taskjob");
+//            Kernel.Bind<AzureTableContext>().ToSelf().Named("image");
+//            Kernel.Bind<AzureTableContext>().ToSelf().Named("browser");
+//            Kernel.Bind<AzureTableContext>().ToSelf().Named("comments");
+//            Kernel.Bind<AzureTableContext>().ToSelf().Named("likes");
 
             //Kernel.Bind<AzureTableContext>().ToSelf().Named("websiteinfo");
+
             
 
             Bind<PropertyGroupTableSerializerInterface>().ToMethod(context 

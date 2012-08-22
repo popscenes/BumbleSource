@@ -212,10 +212,6 @@
     <Compile Include="WebsiteInformation\WebsiteInfoServiceInterface.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\PostaFlya\PostaFlya.Domain\PostaFlya.Domain.csproj">
-      <Project>{77BD3622-4D65-4776-AC5A-4F779CC526ED}</Project>
-      <Name>WebSite.Domain</Name>
-    </ProjectReference>
     <ProjectReference Include="..\WebSite.Infrastructure\WebSite.Infrastructure.csproj">
       <Project>{B5C3A966-F286-4CB8-913B-C8625625451D}</Project>
       <Name>WebSite.Infrastructure</Name>

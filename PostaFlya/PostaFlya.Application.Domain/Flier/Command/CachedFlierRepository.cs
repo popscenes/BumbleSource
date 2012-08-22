@@ -1,5 +1,6 @@
 using System;
 using System.Runtime.Caching;
+using PostaFlya.Application.Domain.Command;
 using WebSite.Application.Binding;
 using WebSite.Application.Caching.Command;
 using PostaFlya.Domain.Browser;
@@ -12,77 +13,63 @@ using WebSite.Infrastructure.Binding;
 
 namespace PostaFlya.Application.Domain.Flier.Command
 {
-    internal class CachedFlierRepository : BroadcastCachedRepository,
+    internal class CachedFlierRepository : CachedRepositoryWithBrowser,
                                             FlierRepositoryInterface
     {
-        private readonly FlierRepositoryInterface _flierRepository;
 
         public CachedFlierRepository([SourceDataSource]FlierRepositoryInterface flierRepository
-                , ObjectCache cacheProvider
-                , CacheNotifier notifier)
-            : base(cacheProvider, CachedFlierContext.Region, notifier)
+                , ObjectCache cacheProvider)
+            : base(cacheProvider, CachedFlierContext.Region, flierRepository)
         {
-            _flierRepository = flierRepository;
         }
 
-        public void Store(object entity)
-        {
-            var flier = entity as FlierInterface;
-            if(flier != null)
-                Store(flier);
-        }
+//        public override void UpdateEntity<UpdateType>(string id, Action<UpdateType> updateAction)
+//        {
+//            Action<UpdateType> updateInvCacheAction
+//                = flier =>
+//                      {
+//                          updateAction(flier);
+//                          var target = flier as FlierInterface;
+//                          this.InvalidateCachedData(GetKeyFor(CachedFlierContext.Browser, target.BrowserId));
+//                      };
+//            base.UpdateEntity(id, updateInvCacheAction);
+//        }
+//
+//        public override void Store<EntityType>(EntityType entity)
+//        {
+//            base.Store(entity);
+//            var target = entity as FlierInterface;
+//            this.InvalidateCachedData(GetKeyFor(CachedFlierContext.Browser, target.BrowserId));
+//        }
 
-        public bool SaveChanges()
-        {
-            return _flierRepository.SaveChanges();
-        }
-
-        public void UpdateEntity(string id, Action<FlierInterface> updateAction)
-        {
-            Action<FlierInterface> updateInvCacheAction
-                = flier =>
-                      {
-                          updateAction(flier);
-                          this.InvalidateCachedData(GetKeyFor(CachedFlierContext.Flier, flier.Id));
-                          this.InvalidateCachedData(GetKeyFor(CachedFlierContext.Browser, flier.BrowserId));
-                      };
-            _flierRepository.UpdateEntity(id, updateInvCacheAction);
-        }
-
-        public void Store(FlierInterface entity)
-        {
-            _flierRepository.Store(entity);
-            this.InvalidateCachedData(GetKeyFor(CachedFlierContext.Browser, entity.BrowserId));
-        }
-
-        public LikeableInterface Like(LikeInterface like)
-        {
-            var ret = _flierRepository.Like(like);
-            if (ret != null)
-            {
-                var flierCreator = ret as BrowserIdInterface;
-                if (flierCreator != null)
-                    this.InvalidateCachedData(GetKeyFor(CachedFlierContext.Browser, flierCreator.BrowserId));
-                this.InvalidateCachedData(GetKeyFor(CachedFlierContext.Likes, like.BrowserId));
-                this.InvalidateCachedData(GetKeyFor(CachedFlierContext.Likes, like.EntityId));
-                this.InvalidateCachedData(GetKeyFor(CachedFlierContext.Flier, like.EntityId));
-            }
-            return ret;
-        }
-
-        public CommentableInterface AddComment(CommentInterface comment)
-        {
-            var ret = _flierRepository.AddComment(comment);
-            if (ret != null)
-            {
-                var flierCreator = ret as BrowserIdInterface;
-                if(flierCreator != null)
-                    this.InvalidateCachedData(GetKeyFor(CachedFlierContext.Browser, flierCreator.BrowserId));
-                this.InvalidateCachedData(GetKeyFor(CachedFlierContext.Comments, comment.EntityId));
-                this.InvalidateCachedData(GetKeyFor(CachedFlierContext.Flier, comment.EntityId));
-            }
-                
-            return ret;
-        }
+//        public LikeableInterface Like(LikeInterface like)
+//        {
+//            var ret = _flierRepository.Like(like);
+//            if (ret != null)
+//            {
+//                var flierCreator = ret as BrowserIdInterface;
+//                if (flierCreator != null)
+//                    this.InvalidateCachedData(GetKeyFor(CachedFlierContext.Browser, flierCreator.BrowserId));
+//                this.InvalidateCachedData(GetKeyFor(CachedFlierContext.Likes, like.BrowserId));
+//                this.InvalidateCachedData(GetKeyFor(CachedFlierContext.Likes, like.EntityId));
+//                this.InvalidateCachedData(GetKeyFor(CachedFlierContext.Flier, like.EntityId));
+//            }
+//            return ret;
+//        }
+//
+//        public CommentableInterface AddComment(CommentInterface comment)
+//        {
+//            var ret = _flierRepository.AddComment(comment);
+//            if (ret != null)
+//            {
+//                var flierCreator = ret as BrowserIdInterface;
+//                if(flierCreator != null)
+//                    this.InvalidateCachedData(GetKeyFor(CachedFlierContext.Browser, flierCreator.BrowserId));
+//                this.InvalidateCachedData(GetKeyFor(CachedFlierContext.Comments, comment.EntityId));
+//                this.InvalidateCachedData(GetKeyFor(CachedFlierContext.Flier, comment.EntityId));
+//            }
+//                
+//            return ret;
+//        }
     }
 }

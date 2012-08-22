@@ -1,18 +1,26 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Linq;
 using System.Runtime.Caching;
+using WebSite.Infrastructure.Binding;
+using WebSite.Infrastructure.Domain;
+using WebSite.Infrastructure.Query;
 
 namespace WebSite.Infrastructure.Caching.Query
 {
     public abstract class CachedQueryServiceBase
-        : CachedDataSourceBase
+        : CachedDataSourceBase, GenericQueryServiceInterface
     {
         private readonly ObjectCache _cacheProvider;
+        private readonly GenericQueryServiceInterface _genericQueryService;
 
-        protected CachedQueryServiceBase(ObjectCache cacheProvider, string regionName) 
+        protected CachedQueryServiceBase(ObjectCache cacheProvider
+            , string regionName
+            , [SourceDataSource]GenericQueryServiceInterface genericQueryService) 
             : base(regionName, cacheProvider.SupportsRegion())
         {
             _cacheProvider = cacheProvider;
+            _genericQueryService = genericQueryService;
         }
 
         public override ObjectCache Provider
@@ -60,5 +68,33 @@ namespace WebSite.Infrastructure.Caching.Query
         }
 
         protected abstract CacheItemPolicy GetDefaultPolicy();
+        
+        public EntityRetType FindById<EntityRetType>(string id) where EntityRetType : class, new()
+        {
+            if (_genericQueryService == null)
+                return null;
+            return RetrieveCachedData(
+                GetKeyFor("entity", id),
+                () => _genericQueryService.FindById<EntityRetType>(id));
+        }
+
+        public object FindById(Type entity, string id)
+        {
+            if (_genericQueryService == null)
+                return null;
+            return RetrieveCachedData(
+                GetKeyFor("entity", id),
+                () => _genericQueryService.FindById(entity, id));
+        }
+
+        public IQueryable<EntityRetType> FindAggregateEntities<EntityRetType>(string aggregateRootId, int take = -1) where EntityRetType : class, 
+            AggregateInterface, new()
+        {
+            if (_genericQueryService == null)
+                return null;
+            return RetrieveCachedData(
+                GetKeyFor("agg take:" + take, aggregateRootId),
+                () => _genericQueryService.FindAggregateEntities<EntityRetType>(aggregateRootId, take));
+        }
     }
 }

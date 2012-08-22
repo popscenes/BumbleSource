@@ -18,38 +18,9 @@ namespace PostaFlya.Application.Domain.Behaviour.TaskJob.Command
         public CachedTaskJobRepository([SourceDataSource]TaskJobRepositoryInterface taskJobRepository
             , ObjectCache cacheProvider           
             , CacheNotifier notifier)
-            : base(cacheProvider, CachedTaskJobContext.Region, notifier)
+            : base(cacheProvider, CachedTaskJobContext.Region, notifier, taskJobRepository)
         {
             _taskJobRepository = taskJobRepository;
-        }
-
-        public void Store(object entity)
-        {
-            var browser = entity as BrowserInterface;
-            if(browser != null)
-                Store(browser);
-        }
-
-        public bool SaveChanges()
-        {
-            return _taskJobRepository.SaveChanges();
-        }
-
-        public void UpdateEntity(string id, Action<TaskJobFlierBehaviourInterface> updateAction)
-        {
-            Action<TaskJobFlierBehaviourInterface> updateInvCacheAction
-                = taskJobFlierBehaviour =>
-                    {
-                        updateAction(taskJobFlierBehaviour);
-                        InvalidateCachedData(GetKeyFor(CachedTaskJobContext.TaskJob, taskJobFlierBehaviour.Id));
-                    };
-
-            _taskJobRepository.UpdateEntity(id, updateInvCacheAction);
-        }
-
-        public void Store(TaskJobFlierBehaviourInterface entity)
-        {
-            _taskJobRepository.Store(entity);
         }
 
         public bool BidOnTask(TaskJobBidInterface bid)

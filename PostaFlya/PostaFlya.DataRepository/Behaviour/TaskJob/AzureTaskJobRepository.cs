@@ -16,21 +16,15 @@ using WebSite.Infrastructure.Util;
 namespace PostaFlya.DataRepository.Behaviour.TaskJob
 {
 
-    internal class AzureTaskJobRepository : AzureRepositoryBase<TaskJobFlierBehaviourInterface, TaskJobStorageDomain>
+    internal class AzureTaskJobRepository : JsonRepository
         , TaskJobRepositoryInterface
         , TaskJobQueryServiceInterface
     {
-        private readonly AzureTableContext _tableContext;
 
-        public AzureTaskJobRepository([Named("taskjob")]AzureTableContext taskJobTableContext)
-            : base(taskJobTableContext)
+        public AzureTaskJobRepository(TableContextInterface tableContext
+            , TableNameAndPartitionProviderServiceInterface nameAndPartitionProviderService) 
+            : base(tableContext, nameAndPartitionProviderService)
         {
-            _tableContext = taskJobTableContext;
-        }
-
-        public TaskJobFlierBehaviourInterface FindById(string id)
-        {
-            return TaskJobStorageDomain.FindById(id, _tableContext);
         }
 
         public IQueryable<TaskJobBidInterface> GetBids(string taskJobId)
@@ -38,21 +32,6 @@ namespace PostaFlya.DataRepository.Behaviour.TaskJob
             throw new NotImplementedException();
         }
 
-
-        protected override TaskJobStorageDomain GetEntityForUpdate(string id)
-        {
-            return TaskJobStorageDomain.GetEntityForUpdate(id, _tableContext);
-        }
-
-        protected override TaskJobStorageDomain GetStorageForEntity(TaskJobFlierBehaviourInterface entity)
-        {
-            return new TaskJobStorageDomain(entity, _tableContext);
-        }
-
-        object QueryServiceInterface.FindById(string id)
-        {
-            return FindById(id);
-        }
 
         public bool BidOnTask(TaskJobBidInterface bid)
         {

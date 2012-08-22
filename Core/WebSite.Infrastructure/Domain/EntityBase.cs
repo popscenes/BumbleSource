@@ -3,7 +3,7 @@ using System;
 namespace WebSite.Infrastructure.Domain
 {
     [Serializable]
-    public abstract class EntityBase<EntityInterfaceType> where EntityInterfaceType : class, EntityInterface
+    public class EntityBase<EntityInterfaceType> where EntityInterfaceType : class, EntityInterface
     {
         public string Id { get; set; }
 
@@ -11,24 +11,11 @@ namespace WebSite.Infrastructure.Domain
 
         public override bool Equals(object obj)
         {
-            return this.Equals(obj as EntityInterfaceType);
-        }
-
-        public bool Equals(EntityInterfaceType other)
-        {
-            if (ReferenceEquals(null, other)) return false;
-            if (ReferenceEquals(this, other)) return true;
-            if (other.Id == null && Id == null) return true;
-            if (other.Id == null) return false;
-            return other.Id.Equals(Id);
-        }
-
-        public override int GetHashCode()
-        {
-            if (Id == null)
-                return "".GetHashCode();
-
-            return Id.GetHashCode();
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            var ent = obj as EntityBase<EntityInterfaceType>;
+            if (ent == null) return false;
+            return Equals(ent);
         }
 
         public Type PrimaryInterface
@@ -44,5 +31,16 @@ namespace WebSite.Infrastructure.Domain
             set { ExtendedProperties[group, key] = value; }
         }
 
+        public bool Equals(EntityBase<EntityInterfaceType> other)
+        {
+            if (ReferenceEquals(null, other)) return false;
+            if (ReferenceEquals(this, other)) return true;
+            return Equals(other.Id, Id);
+        }
+
+        public override int GetHashCode()
+        {
+            return (Id != null ? Id.GetHashCode() : 0);
+        }
     }
 }

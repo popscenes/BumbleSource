@@ -19,7 +19,7 @@ namespace WebSite.Azure.Common.Tests.TableStorage
         public ExtendableTableEntry DefaultPropertyGroupTableSerializerTestEdmTypesSerialize()
         {
             var testOb = new DefaultPropertyGroupTableSerializer(CustomEdmSerializers.CustomSerializers);
-            var propertyGroup = new PropertyGroupCollection
+            PropertyGroupCollection propertyGroup = new []
                                     {   
                                         new PropertyGroup() {Name = ""}, 
                                         new PropertyGroup() {Name = "another"}
@@ -47,7 +47,7 @@ namespace WebSite.Azure.Common.Tests.TableStorage
             var propertyGroup = new PropertyGroupCollection();
             testOb.LoadProperties(propertyGroup, tableEnt);
 
-            var propertyGroupOrig = new PropertyGroupCollection(){   
+            PropertyGroupCollection propertyGroupOrig = new[]{   
                                         new PropertyGroup() {Name = ""}, 
                                         new PropertyGroup() {Name = "another"}
                                     };
@@ -62,7 +62,7 @@ namespace WebSite.Azure.Common.Tests.TableStorage
         public ExtendableTableEntry DefaultPropertyGroupTableSerializerTestNonEdmTypesSerialize()
         {
             var testOb = new DefaultPropertyGroupTableSerializer(CustomEdmSerializers.CustomSerializers);
-            var propertyGroup = new PropertyGroupCollection
+            PropertyGroupCollection propertyGroup = new[]
                                     {   
                                         new PropertyGroup() {Name = ""}, 
                                         new PropertyGroup() {Name = "another"}
@@ -90,7 +90,7 @@ namespace WebSite.Azure.Common.Tests.TableStorage
             var propertyGroup = new PropertyGroupCollection();
             testOb.LoadProperties(propertyGroup, tableEnt);
 
-            var propertyGroupOrig = new PropertyGroupCollection(){   
+            PropertyGroupCollection propertyGroupOrig = new[] { 
                                         new PropertyGroup() {Name = ""}, 
                                         new PropertyGroup() {Name = "another"}
                                     };
@@ -104,7 +104,7 @@ namespace WebSite.Azure.Common.Tests.TableStorage
         public ExtendableTableEntry DefaultPropertyGroupTableSerializerTestAllTypesSerialize()
         {
             var testOb = new DefaultPropertyGroupTableSerializer(CustomEdmSerializers.CustomSerializers);
-            var propertyGroup = new PropertyGroupCollection
+            PropertyGroupCollection propertyGroup = new []
                                     {   
                                         new PropertyGroup() {Name = ""}, 
                                         new PropertyGroup() {Name = "another"}
@@ -134,7 +134,7 @@ namespace WebSite.Azure.Common.Tests.TableStorage
             var propertyGroup = new PropertyGroupCollection();
             testOb.LoadProperties(propertyGroup, tableEnt);
 
-            var propertyGroupOrig = new PropertyGroupCollection(){   
+            PropertyGroupCollection propertyGroupOrig = new []{   
                                         new PropertyGroup() {Name = ""}, 
                                         new PropertyGroup() {Name = "another"}
                                     };
@@ -149,7 +149,7 @@ namespace WebSite.Azure.Common.Tests.TableStorage
         
         public static void AssertPropertyGroupsAreEqual(PropertyGroupCollection one, PropertyGroupCollection two)
         {
-            foreach (var pgroup in one)
+            foreach (var pgroup in one.Groups)
             {
                 AssertUtil.AssertAreElementsEqualForKeyValPairsIncludeEnumerableValues(pgroup.Properties, two[pgroup.Name].Properties);
             }

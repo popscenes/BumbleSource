@@ -142,10 +142,12 @@ namespace PostaFlya.Controllers
                     EmailAddress = identityProviderCredentials.Email,
                     Roles = new Domain.Browser.Roles { Role.Participant.ToString() },
                     SavedLocations = new Locations(),
-                    ExternalCredentials = new HashSet<IdentityProviderCredential>() { identityProviderCredentials }
-
                 }
             };
+
+            var creds = new BrowserIdentityProviderCredential();
+            creds.CopyFieldsFrom(identityProviderCredentials);
+            command.Browser.ExternalCredentials = new HashSet<BrowserIdentityProviderCredential>(){creds};
 
             return _commandBus.Send(command);
         }
@@ -182,13 +184,21 @@ namespace PostaFlya.Controllers
                                                     EmailAddress = principal.EmailAddress,
                                                     Roles = new Domain.Browser.Roles{ Role.Participant.ToString() },
                                                     SavedLocations = new Locations(),
-                                                    ExternalCredentials = new HashSet<IdentityProviderCredential>() 
-                                                    { new IdentityProviderCredential() { IdentityProvider = principal.IdentityProvider, UserIdentifier = principal.NameIdentifier} }
-                                                    
                                                 }
                               };
 
-             _commandBus.Send(command);
+
+            command.Browser.ExternalCredentials
+                = new HashSet<BrowserIdentityProviderCredential>()
+                      {
+                          new BrowserIdentityProviderCredential()
+                              {
+                                  BrowserId = command.Browser.Id,
+                                  IdentityProvider = principal.IdentityProvider,
+                                  UserIdentifier = principal.NameIdentifier
+                              }
+                      };
+            _commandBus.Send(command);
         }
     }
 }

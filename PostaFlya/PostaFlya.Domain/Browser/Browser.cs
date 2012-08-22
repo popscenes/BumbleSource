@@ -38,8 +38,8 @@ namespace PostaFlya.Domain.Browser
         public Roles Roles { get; set; }
         public Location.Location DefaultLocation { get; set; }
         public Locations SavedLocations { get; set; }
-        public IList<Tags> SavedTags  { get; set; }
-
-        public ISet<IdentityProviderCredential> ExternalCredentials { get; set; }
+        public List<Tags> SavedTags  { get; set; }
+        [AggregateMemberEntity]
+        public HashSet<BrowserIdentityProviderCredential> ExternalCredentials { get; set; }
     }
 }

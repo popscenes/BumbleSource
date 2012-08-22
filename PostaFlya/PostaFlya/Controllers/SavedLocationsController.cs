@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Web.Http;
 using PostaFlya.Attributes;
+using PostaFlya.Domain.Browser;
 using PostaFlya.Domain.Browser.Command;
 using PostaFlya.Domain.Browser.Query;
 using PostaFlya.Domain.Location;
@@ -29,14 +30,14 @@ namespace PostaFlya.Controllers
 
         public IQueryable<LocationModel> Get(string browserId)
         {
-            var browser = _browserQueryService.FindById(browserId);
+            var browser = _browserQueryService.FindById<Domain.Browser.Browser>(browserId);
             return browser.SavedLocations.Select(_ => _.ToViewModel()).AsQueryable();
         }
 
 
         public HttpResponseMessage Post(string browserId, LocationModel location)
         {
-            var browser = _browserQueryService.FindById(browserId);
+            var browser = _browserQueryService.FindById<Domain.Browser.Browser>(browserId);
 
             var command = new SavedLocationAddCommand()
             {
@@ -52,7 +53,7 @@ namespace PostaFlya.Controllers
         //sets the active location
         public HttpResponseMessage Put(string browserId, LocationModel location)
         {
-            var browser = _browserQueryService.FindById(browserId);
+            var browser = _browserQueryService.FindById<Domain.Browser.Browser>(browserId);
             var command = new SavedLocationSelectCommand()
             {
                 BrowserId = browser.Id,
@@ -66,7 +67,7 @@ namespace PostaFlya.Controllers
 
         public void Delete(string browserId, Location location)
         {
-            var browser = _browserQueryService.FindById(browserId);
+            var browser = _browserQueryService.FindById<Browser>(browserId);
             var command = new SavedLocationDeleteCommand()
             {
                 BrowserId = browser.Id,

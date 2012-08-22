@@ -5,29 +5,28 @@ using System.Text;
 using PostaFlya.Domain.Flier;
 using PostaFlya.Domain.Service;
 using WebSite.Infrastructure.Query;
-using WebSite.Infrastructure.Service;
+//using WebSite.Infrastructure.Service;
 
 namespace PostaFlya.Domain.Behaviour.Query
 {
     internal class DefaultFlierBehaviourQueryService : FlierBehaviourQueryServiceInterface
     {
         private readonly BehaviourFactoryInterface _behaviourFactory;
-        private readonly GenericServiceFactoryInterface _genericServiceFactory;
+        private readonly GenericQueryServiceInterface _genericQueryService;
 
         public DefaultFlierBehaviourQueryService(BehaviourFactoryInterface behaviourFactory
-            , GenericServiceFactoryInterface genericServiceFactory)
+            , GenericQueryServiceInterface genericQueryService)
         {
             _behaviourFactory = behaviourFactory;
-            _genericServiceFactory = genericServiceFactory;
+            _genericQueryService = genericQueryService;
         }
 
-        public FlierBehaviourInterface GetBehaviourFor(FlierInterface flier)
+        public FlierBehaviourInterface GetBehaviourFor(Flier.Flier flier)
         {
             if(flier.FlierBehaviour == FlierBehaviour.Default)
                 return new FlierBehaviourDefault(){Flier = flier};
             var behaviour = _behaviourFactory.GetDefaultBehaviourTypeForBehaviour(flier.FlierBehaviour);
-            var queryService = _genericServiceFactory.GetGenericQueryService<QueryServiceInterface>(behaviour);
-            var ret = queryService.FindById(flier.Id) as FlierBehaviourInterface ??
+            var ret = _genericQueryService.FindById(behaviour, flier.Id) as FlierBehaviourInterface ??
                       new FlierBehaviourDefault() { Flier = flier };
             return ret;
         }

@@ -54,7 +54,7 @@ namespace WebSite.Infrastructure.Util
             foreach (var o in dictionary)
             {
                 var prop = target.GetType().GetProperty(o.Key);
-                if (!prop.CanWrite || o.Value == null) continue;//for now assume that don't need to set null
+                if (prop == null || !prop.CanWrite || o.Value == null) continue;//for now assume that don't need to set null
                 
                 if(prop.PropertyType != o.Value.GetType())
                 {
@@ -103,9 +103,14 @@ namespace WebSite.Infrastructure.Util
 
         public static PropertyInfo GetPropertyWithAttribute(Type source, Type attribute)
         {
+            return GetPropertiesWithAttribute(source, attribute).SingleOrDefault();
+        }
+
+        public static IList<PropertyInfo> GetPropertiesWithAttribute(Type source, Type attribute)
+        {
             var ret = source.GetProperties().Where(
                 p => HasAttribute(p, attribute));
-            return ret.SingleOrDefault();
+            return ret.ToList();
         }
 
         public static bool HasAttribute(PropertyInfo source, Type attribute)

@@ -2,6 +2,7 @@
 using MbUnit.Framework;
 using Ninject;
 using Ninject.MockingKernel.Moq;
+using PostaFlya.Domain.TaskJob;
 using WebSite.Application.Caching.Command;
 using PostaFlya.Application.Domain.Behaviour.TaskJob.Command;
 using PostaFlya.Application.Domain.Behaviour.TaskJob.Query;
@@ -45,19 +46,19 @@ namespace PostaFlya.Application.Domain.Tests.Behaviour.TaskJob
             var repository = kernel.Get<TaskJobRepositoryInterface>();
 
             var stored = TaskJobTestData.StoreOne(TaskJobTestData.GetOne(kernel), repository, kernel);
-            var retrieved = cachedQueryService.FindById(stored.Id);
+            var retrieved = cachedQueryService.FindById<TaskJobFlierBehaviour>(stored.Id);
             TaskJobTestData.AssertStoreRetrieve(stored, retrieved);
 
             const double costOverhead = 2345;
             stored.CostOverhead = costOverhead;
             TaskJobTestData.UpdateOne(stored, repository, kernel);
-            retrieved = cachedQueryService.FindById(stored.Id);
+            retrieved = cachedQueryService.FindById<TaskJobFlierBehaviour>(stored.Id);
 
             Assert.AreNotEqual(retrieved.CostOverhead, costOverhead);
 
             TestUtil.ClearMemoryCache(cache);
 
-            retrieved = cachedQueryService.FindById(stored.Id);
+            retrieved = cachedQueryService.FindById<TaskJobFlierBehaviour>(stored.Id);
             TaskJobTestData.AssertStoreRetrieve(stored, retrieved);
 
         }
@@ -82,7 +83,7 @@ namespace PostaFlya.Application.Domain.Tests.Behaviour.TaskJob
             var repository = kernel.Get<TaskJobRepositoryInterface>();
 
             var stored = TaskJobTestData.StoreOne(TaskJobTestData.GetOne(kernel), repository, kernel);
-            var retrieved = cachedQueryService.FindById(stored.Id);
+            var retrieved = cachedQueryService.FindById<TaskJobFlierBehaviour>(stored.Id);
             TaskJobTestData.AssertStoreRetrieve(stored, retrieved);
 
             repository.BidOnTask(TaskJobTestData.GetBid(stored));
@@ -118,7 +119,7 @@ namespace PostaFlya.Application.Domain.Tests.Behaviour.TaskJob
             var repository = new CachedTaskJobRepository(kernel.Get<TaskJobRepositoryInterface>(), cache, new CacheNotifier());
 
             var stored = TaskJobTestData.StoreOne(TaskJobTestData.GetOne(kernel), repository, kernel);
-            var retrieved = cachedQueryService.FindById(stored.Id);
+            var retrieved = cachedQueryService.FindById<TaskJobFlierBehaviour>(stored.Id);
             TaskJobTestData.AssertStoreRetrieve(stored, retrieved);
 
             repository.BidOnTask(TaskJobTestData.GetBid(stored));
@@ -157,13 +158,13 @@ namespace PostaFlya.Application.Domain.Tests.Behaviour.TaskJob
             var cachedRepository = new CachedTaskJobRepository(kernel.Get<TaskJobRepositoryInterface>(), memoryCache, new CacheNotifier());
 
             var stored = TaskJobTestData.StoreOne(TaskJobTestData.GetOne(kernel), cachedRepository, kernel);
-            var retrieved = cachedQueryService.FindById(stored.Id);
+            var retrieved = cachedQueryService.FindById<TaskJobFlierBehaviour>(stored.Id);
             TaskJobTestData.AssertStoreRetrieve(stored, retrieved);
 
             const double costOverhead = 2345;
             stored.CostOverhead = costOverhead;
             TaskJobTestData.UpdateOne(stored, cachedRepository, kernel);
-            retrieved = cachedQueryService.FindById(stored.Id);
+            retrieved = cachedQueryService.FindById<TaskJobFlierBehaviour>(stored.Id);
 
             TaskJobTestData.AssertStoreRetrieve(stored, retrieved);
         }

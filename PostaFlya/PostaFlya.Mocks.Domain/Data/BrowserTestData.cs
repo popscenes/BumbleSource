@@ -36,7 +36,7 @@ namespace PostaFlya.Mocks.Domain.Data
 
         internal static BrowserInterface AssertGetById(BrowserInterface browser, BrowserQueryServiceInterface queryService)
         {
-            var retrievedFlier = queryService.FindById(browser.Id);
+            var retrievedFlier = queryService.FindById<Browser>(browser.Id);
             AssertStoreRetrieve(browser, retrievedFlier);
 
             return retrievedFlier;
@@ -44,12 +44,15 @@ namespace PostaFlya.Mocks.Domain.Data
 
         internal static BrowserInterface StoreOne(BrowserInterface browser, BrowserRepositoryInterface repository, StandardKernel kernel)
         {
-            using (kernel.Get<UnitOfWorkFactoryInterface>()
-                .GetUnitOfWork(new List<RepositoryInterface>() { repository }))
+            var uow = kernel.Get<UnitOfWorkFactoryInterface>()
+                .GetUnitOfWork(new List<RepositoryInterface>() {repository});
+            using (uow)
             {
 
                 repository.Store(browser);
             }
+
+            Assert.IsTrue(uow.Successful);
             return browser;
         }
 
@@ -58,7 +61,7 @@ namespace PostaFlya.Mocks.Domain.Data
             using (kernel.Get<UnitOfWorkFactoryInterface>()
                 .GetUnitOfWork(new List<RepositoryInterface>() { repository }))
             {
-                repository.UpdateEntity(browser.Id, e => e.CopyFieldsFrom(browser));
+                repository.UpdateEntity<Browser>(browser.Id, e => e.CopyFieldsFrom(browser));
             }
         }
 

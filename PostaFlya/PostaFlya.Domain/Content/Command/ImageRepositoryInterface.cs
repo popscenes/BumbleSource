@@ -7,7 +7,7 @@ using WebSite.Infrastructure.Command;
 
 namespace PostaFlya.Domain.Content.Command
 {
-    internal interface ImageRepositoryInterface : GenericRepositoryInterface<ImageInterface>
+    internal interface ImageRepositoryInterface : GenericRepositoryInterface
     {
 
     }

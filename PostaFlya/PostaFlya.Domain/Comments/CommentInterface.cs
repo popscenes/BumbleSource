@@ -4,21 +4,20 @@ using WebSite.Infrastructure.Domain;
 
 namespace PostaFlya.Domain.Comments
 {
-    public static class CommentInteraceExtensions
+    public static class CommentInterfaceExtensions
     {
         public static void CopyFieldsFrom(this CommentInterface target, CommentInterface source)
         {
             EntityInterfaceExtensions.CopyFieldsFrom(target, source);
             target.CommentContent = source.CommentContent;
-            target.EntityId = source.EntityId;
+            target.AggregateId = source.AggregateId;
             target.BrowserId = source.BrowserId;
             target.CommentTime = source.CommentTime;
         }
     }
 
-    public interface CommentInterface : EntityInterface, BrowserIdInterface
+    public interface CommentInterface : EntityInterface, BrowserIdInterface, AggregateInterface
     {
-        string EntityId { get; set; }
         string CommentContent { get; set; }
         DateTime CommentTime { get; set; }
     }

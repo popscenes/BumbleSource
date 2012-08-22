@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Web.Mvc;
+using PostaFlya.Domain.Browser;
 using WebSite.Application.Content;
 using PostaFlya.Domain.Behaviour;
 using PostaFlya.Domain.Flier.Command;
@@ -63,12 +64,15 @@ namespace PostaFlya.Controllers
         public ActionResult TokenResp(string providerName)
         {
             var identityProvider = _identityProviderService.GetProviderByIdentifier(providerName);
-            var credentials = identityProvider.GetCredentials();
+            var browserCreds = new BrowserIdentityProviderCredential()
+                                   {
+                                       BrowserId = _browserInfoService.Browser.Id
+                                   };
+            browserCreds.CopyFieldsFrom(identityProvider.GetCredentials());
 
             var command = new SetExternalCredentialCommand()
             {
-                BrowserId = _browserInfoService.Browser.Id,
-                Credential = credentials
+                Credential = browserCreds
             };
 
             _commandBus.Send(command);

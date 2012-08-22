@@ -20,7 +20,7 @@ namespace PostaFlya.Domain.TaskJob.Command
 
         public object Handle(TaskJobBehaviourCreateCommand command)
         {
-            var flier = _flierQueryService.FindById(command.FlierId);
+            var flier = _flierQueryService.FindById<Flier.Flier>(command.FlierId);
             if (flier == null)
                 return new MsgResponse("Task Job Create Failed", true)
                     .AddCommandId(command)

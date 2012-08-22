@@ -1,17 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.Linq;
-using System.Runtime.Caching;
-using System.Text;
-using System.Threading;
-using Gallio.Framework;
 using MbUnit.Framework;
-using Microsoft.WindowsAzure.StorageClient;
 using Ninject;
 using WebSite.Azure.Common.Environment;
 using WebSite.Azure.Common.TableStorage;
-using PostaFlya.DataRepository.Browser;
 using PostaFlya.DataRepository.Flier;
 using PostaFlya.DataRepository.Search.Implementation;
 using PostaFlya.DataRepository.Tests.Behaviour.TaskJob;
@@ -22,18 +15,11 @@ using PostaFlya.Domain.Flier;
 using PostaFlya.Domain.Flier.Command;
 using PostaFlya.Domain.Flier.Query;
 using PostaFlya.Domain.Likes;
-using PostaFlya.Domain.Likes.Query;
 using PostaFlya.Domain.Location;
-using PostaFlya.Domain.Service;
 using PostaFlya.Domain.Tag;
 using PostaFlya.Domain.TaskJob;
-using PostaFlya.Domain.TaskJob.Command;
-using WebSite.Infrastructure.Caching;
 using WebSite.Infrastructure.Command;
-using WebSite.Infrastructure.Domain;
-using WebSite.Infrastructure.Query;
 using PostaFlya.Mocks.Domain.Data;
-using PostaFlya.Mocks.Domain.Defaults;
 
 namespace PostaFlya.DataRepository.Tests
 {
@@ -64,22 +50,22 @@ namespace PostaFlya.DataRepository.Tests
             new AzureCommentRepositoryTests(_env).FixtureSetUp();
             new AzureLikeRepositoryTests(_env).FixtureSetUp();
 
-            Kernel.Bind<TableNameAndPartitionProviderInterface>()
-                .ToConstant(new TableNameAndPartitionProvider<FlierInterface>()
-                                                                {
-                                        {typeof(FlierTableEntry), FlierStorageDomain.IdPartition, "flierbyidTest", f => f.Id, f=>f.Id}, 
-                                        {typeof(FlierTableEntry), FlierStorageDomain.BrowserPartition, "flierbyidTest", f => f.BrowserId, f=>f.Id}, 
-//                                        {typeof(FlierTableEntry), LocationPartition, "flierbyloc", f => GetLocationPartitionKey(f.Location), f=>f.Id},
-
-//                                        {typeof(FlierSearchEntry), FlierStorageDomain.CreatedDateSearchPartition, "flierbycreatedTest", f => FlierStorageDomain.GetCoarseLocationPartitionKey(f.Location), f=> FlierStorageDomain.GetIdByCreated(f)},
-//                                        {typeof(FlierSearchEntry), FlierStorageDomain.EffectiveDateSearchPartition, "flierbyeffectiveTest", f => FlierStorageDomain.GetCoarseLocationPartitionKey(f.Location), f=> FlierStorageDomain.GetIdByEffectiveDate(f)},
-//                                        {typeof(FlierSearchEntry), FlierStorageDomain.PopularitySearchPartition, "flierbypopularTest", f => FlierStorageDomain.GetCoarseLocationPartitionKey(f.Location), f=> FlierStorageDomain.GetIdByPopular(f)}
-                                    })
-                .WhenAnyAnchestorNamed("flier");
-
-
-            var context = Kernel.Get<AzureTableContext>("flier");
-            context.InitFirstTimeUse();
+//            Kernel.Bind<TableNameAndPartitionProviderInterface>()
+//                .ToConstant(new TableNameAndPartitionProvider<FlierInterface>()
+//                                                                {
+//                                        {typeof(FlierTableEntry), FlierStorageDomain.IdPartition, "flierbyidTest", f => f.Id, f=>f.Id}, 
+//                                        {typeof(FlierTableEntry), FlierStorageDomain.BrowserPartition, "flierbyidTest", f => f.BrowserId, f=>f.Id}, 
+////                                        {typeof(FlierTableEntry), LocationPartition, "flierbyloc", f => GetLocationPartitionKey(f.Location), f=>f.Id},
+//
+////                                        {typeof(FlierSearchEntry), FlierStorageDomain.CreatedDateSearchPartition, "flierbycreatedTest", f => FlierStorageDomain.GetCoarseLocationPartitionKey(f.Location), f=> FlierStorageDomain.GetIdByCreated(f)},
+////                                        {typeof(FlierSearchEntry), FlierStorageDomain.EffectiveDateSearchPartition, "flierbyeffectiveTest", f => FlierStorageDomain.GetCoarseLocationPartitionKey(f.Location), f=> FlierStorageDomain.GetIdByEffectiveDate(f)},
+////                                        {typeof(FlierSearchEntry), FlierStorageDomain.PopularitySearchPartition, "flierbypopularTest", f => FlierStorageDomain.GetCoarseLocationPartitionKey(f.Location), f=> FlierStorageDomain.GetIdByPopular(f)}
+//                                    })
+//                .WhenAnyAnchestorNamed("flier");
+//
+//
+//            var context = Kernel.Get<AzureTableContext>("flier");
+//            context.InitFirstTimeUse();
             Kernel.Get<SqlSeachDbInitializer>().Initialize();
             DeleteAll();
 
@@ -93,21 +79,21 @@ namespace PostaFlya.DataRepository.Tests
         public void FixtureTearDown()
         {
             Kernel.Unbind<FlierBehaviourInterface>();
-            Kernel.Unbind<TableNameAndPartitionProviderInterface>();
+            //Kernel.Unbind<TableNameAndPartitionProviderInterface>();
             AzureEnv.UseRealStorage = false;
         }
 
         private void DeleteAll()
         {
-            var context = Kernel.Get<AzureTableContext>("flier");
-            context.Delete<FlierTableEntry>(null, FlierStorageDomain.IdPartition);
-            context.Delete<FlierTableEntry>(null, FlierStorageDomain.BrowserPartition);
+//            var context = Kernel.Get<AzureTableContext>("flier");
+//            context.Delete<FlierTableEntry>(null, FlierStorageDomain.IdPartition);
+//            context.Delete<FlierTableEntry>(null, FlierStorageDomain.BrowserPartition);
             Kernel.Get<SqlSeachDbInitializer>().DeleteAll();
 
 //            context.Delete<FlierSearchEntry>(null, FlierStorageDomain.CreatedDateSearchPartition);
 //            context.Delete<FlierSearchEntry>(null, FlierStorageDomain.EffectiveDateSearchPartition);
 //            context.Delete<FlierSearchEntry>(null, FlierStorageDomain.PopularitySearchPartition);
-            context.SaveChanges();
+//            context.SaveChanges();
         }
 
         [Test]
@@ -183,19 +169,19 @@ namespace PostaFlya.DataRepository.Tests
             var tag = Kernel.Get<Tags>(bm => bm.Has("default"));
 
             var retrievedFliers = _queryService.FindFliersByLocationTagsAndDistance(location, tag)
-                .Select(id => _queryService.FindById(id)).AsQueryable();
+                .Select(id => _queryService.FindById<Domain.Flier.Flier>(id)).AsQueryable();
 
             Assert.IsTrue(retrievedFliers.Any());
             AssertRetrievedFliersAreSameLocation(retrievedFliers);
 
 
             retrievedFliers = _queryService.FindFliersByLocationTagsAndDistance(new Location(130, 130), tag)
-                .Select(id => _queryService.FindById(id)).AsQueryable();
+                .Select(id => _queryService.FindById<Domain.Flier.Flier>(id)).AsQueryable();
             Assert.IsTrue(!retrievedFliers.Any());
 
             var theBadTags = new Tags(){"crapolla","shitolla"};
             retrievedFliers = _queryService.FindFliersByLocationTagsAndDistance(location, theBadTags)
-                .Select(id => _queryService.FindById(id)).AsQueryable();
+                .Select(id => _queryService.FindById<Domain.Flier.Flier>(id)).AsQueryable();
             Assert.IsTrue(!retrievedFliers.Any());
 
             return retrievedFliers;
@@ -205,7 +191,7 @@ namespace PostaFlya.DataRepository.Tests
         public IQueryable<FlierInterface> FlierRepositoryGetByBrowserId()
         {
             var storedFlier = TestStoreFlierRepository();
-            var retrievedFlier = _queryService.GetByBrowserId(storedFlier.BrowserId);
+            var retrievedFlier = _queryService.GetByBrowserId<Domain.Flier.Flier>(storedFlier.BrowserId);
 
             Assert.IsTrue(retrievedFlier.Any());
             var retrieved = retrievedFlier.SingleOrDefault(f => f.Id == storedFlier.Id);
@@ -243,13 +229,13 @@ namespace PostaFlya.DataRepository.Tests
             using (unitOfWork = Kernel.Get<UnitOfWorkFactoryInterface>().GetUnitOfWork(new List<RepositoryInterface>() {_repository}))
             {
 
-                _repository.UpdateEntity(testFlier.Id
+                _repository.UpdateEntity<Domain.Flier.Flier>(testFlier.Id
                     , flier =>
                         {
                             if(tryCount++ == 0)
                             {
                                 var otherrepo = Kernel.Get<FlierRepositoryInterface>();
-                                otherrepo.UpdateEntity(testFlier.Id, f => f.NumberOfComments++);
+                                otherrepo.UpdateEntity<Domain.Flier.Flier>(testFlier.Id, f => f.NumberOfComments++);
                                 otherrepo.SaveChanges();
                             }
 
@@ -282,9 +268,10 @@ namespace PostaFlya.DataRepository.Tests
                 .GetUnitOfWork(new List<RepositoryInterface>() { _repository }))
             {
 
-                _repository.AddComment(addComment);
+                _repository.Store(addComment);
                 testFlier.NumberOfComments++;
             }
+            FlierTestData.UpdateOne(testFlier, _repository, Kernel);
 
             retFlier = FlierTestData.AssertGetById(testFlier, _queryService);
             Assert.AreEqual(1, retFlier.NumberOfComments);
@@ -308,12 +295,13 @@ namespace PostaFlya.DataRepository.Tests
                     .GetUnitOfWork(new List<RepositoryInterface>() {_repository}))
                 {
 
-                    _repository.AddComment(comment);
+                    _repository.Store(comment);
                     testFlier.NumberOfComments++;
                 }
             }
+            FlierTestData.UpdateOne(testFlier, _repository, Kernel);
 
-            var retComments = _queryService.GetComments(retFlier.Id);
+            var retComments = _queryService.FindAggregateEntities<Comment>(retFlier.Id);
             Assert.Count(5, retComments);
             Assert.AreElementsEqual(comments, retComments, CommentTestData.Equals);
 
@@ -336,9 +324,10 @@ namespace PostaFlya.DataRepository.Tests
                 .GetUnitOfWork(new List<RepositoryInterface>() { _repository }))
             {
 
-                _repository.Like(like);
+                _repository.Store(like);
                 testFlier.NumberOfLikes++;
             }
+            FlierTestData.UpdateOne(testFlier, _repository, Kernel);
 
             retFlier = FlierTestData.AssertGetById(testFlier, _queryService);
             Assert.AreEqual(1, retFlier.NumberOfLikes);
@@ -362,12 +351,13 @@ namespace PostaFlya.DataRepository.Tests
                     .GetUnitOfWork(new List<RepositoryInterface>() { _repository }))
                 {
 
-                    _repository.Like(comment);
+                    _repository.Store(comment);
                     testFlier.NumberOfLikes++;
                 }
             }
+            FlierTestData.UpdateOne(testFlier, _repository, Kernel);
 
-            var retLikes = _queryService.GetLikes(retFlier.Id);
+            var retLikes = _queryService.FindAggregateEntities<Like>(retFlier.Id);
             Assert.Count(5, retLikes);
             //the first likes should be stored first
             Assert.AreElementsEqual(likes, retLikes, LikeTestData.Equals);
@@ -387,7 +377,7 @@ namespace PostaFlya.DataRepository.Tests
             var retFlier = FlierTestData.AssertGetById(testFlier, _queryService);
             var like = LikeTestData.GetOne(Kernel, retFlier.Id);
             var browserId = like.BrowserId;
-            LikeTestData.LikeOne(like, _repository, Kernel);
+            LikeTestData.LikeOne(testFlier, like, _repository, Kernel);
             likes.Add(like);
 
             testFlier = FlierTestData.GetOne(Kernel);
@@ -396,10 +386,10 @@ namespace PostaFlya.DataRepository.Tests
             retFlier = FlierTestData.AssertGetById(testFlier, _queryService);
             like = LikeTestData.GetOne(Kernel, retFlier.Id);
             like.BrowserId = browserId;
-            LikeTestData.LikeOne(like, _repository, Kernel);
+            LikeTestData.LikeOne(testFlier, like, _repository, Kernel);
             likes.Add(like);
 
-            var retLikes = _queryService.GetLikesByBrowser(browserId);
+            var retLikes = _queryService.GetByBrowserId<Like>(browserId);
             Assert.Count(2, retLikes);
             //the latest likes should be stored first
             Assert.AreElementsEqual(likes.AsQueryable().Reverse(), retLikes, LikeTestData.Equals);
@@ -411,7 +401,7 @@ namespace PostaFlya.DataRepository.Tests
             var tag = Kernel.Get<Tags>(bm => bm.Has("default"));
 
             var retrievedFliers = _queryService.FindFliersByLocationTagsAndDistance(location, tag, 10, 0, sortOrder)
-                .Select(id => _queryService.FindById(id)).Where(f => f != null).AsQueryable();
+                .Select(id => _queryService.FindById<Domain.Flier.Flier>(id)).Where(f => f != null).AsQueryable();
 
             Assert.IsTrue(retrievedFliers.Any());
 

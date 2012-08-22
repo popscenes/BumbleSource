@@ -108,7 +108,7 @@ namespace PostaFlya.Application.Domain.ExternalSource
         {
             var faceBookEvents = _graphApi.UserEventsGet();
 
-            var existingFliers = _queryService.GetByBrowserId(browser.Id);
+            var existingFliers = _queryService.GetByBrowserId<PostaFlya.Domain.Flier.Flier>(browser.Id);
             var existingEventsIds = existingFliers.Where(_ => _.ExternalSource == IdentityProviders.FACEBOOK).Select(_ => _.ExternalId).ToList();
 
             return faceBookEvents.Where(_ => !existingEventsIds.Contains(_.id)).ToList();

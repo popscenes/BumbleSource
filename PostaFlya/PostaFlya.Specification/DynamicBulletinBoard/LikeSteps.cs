@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using MbUnit.Framework;
 using Ninject;
+using PostaFlya.Domain.Likes;
 using TechTalk.SpecFlow;
 using PostaFlya.Areas.Default.Models;
 using PostaFlya.Binding;
@@ -52,7 +53,7 @@ namespace PostaFlya.Specification.DynamicBulletinBoard
             //reload the new version of the flier
             var flier = ScenarioContext.Current["flier"] as FlierInterface;
             ScenarioContext.Current["flier"] =
-                SpecUtil.CurrIocKernel.Get<FlierQueryServiceInterface>().FindById(flier.Id);
+                SpecUtil.CurrIocKernel.Get<FlierQueryServiceInterface>().FindById<Flier>(flier.Id);
         }
 
         [Then(@"I will be recorded as having liked the flier once")]
@@ -62,8 +63,8 @@ namespace PostaFlya.Specification.DynamicBulletinBoard
             var queryService = SpecUtil.CurrIocKernel.Get<FlierQueryServiceInterface>();
             var browserInformation = SpecUtil.GetCurrBrowser();
 
-            var likes = queryService.GetLikes(flier.Id);
-            Assert.IsTrue(likes.SingleOrDefault(l => l.EntityId == flier.Id && l.BrowserId == browserInformation.Browser.Id) != null);
+            var likes = queryService.FindAggregateEntities<Like>(flier.Id);
+            Assert.IsTrue(likes.SingleOrDefault(l => l.AggregateId == flier.Id && l.BrowserId == browserInformation.Browser.Id) != null);
         }
 
         [Then(@"the FLIER likes will remain the same")]
@@ -72,7 +73,7 @@ namespace PostaFlya.Specification.DynamicBulletinBoard
             var initLikes = (int)ScenarioContext.Current["initiallikes"];
             var flier = ScenarioContext.Current["flier"] as FlierInterface;
             var queryService = SpecUtil.CurrIocKernel.Get<FlierQueryServiceInterface>();
-            var retFlier = queryService.FindById(flier.Id);
+            var retFlier = queryService.FindById<Flier>(flier.Id);
 
             Assert.AreEqual(initLikes, retFlier.NumberOfLikes);
         }
@@ -83,7 +84,7 @@ namespace PostaFlya.Specification.DynamicBulletinBoard
             var initLikes = (int)ScenarioContext.Current["initiallikes"];
             var flier = ScenarioContext.Current["flier"] as FlierInterface;
             var queryService = SpecUtil.CurrIocKernel.Get<FlierQueryServiceInterface>();
-            var retFlier = queryService.FindById(flier.Id);
+            var retFlier = queryService.FindById<Flier>(flier.Id);
 
             Assert.AreEqual(initLikes + 1, retFlier.NumberOfLikes);
         }

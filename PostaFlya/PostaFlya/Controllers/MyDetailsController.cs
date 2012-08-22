@@ -52,7 +52,7 @@ namespace PostaFlya.Controllers
 
         public ProfileEditModel Get(string browserId)
         {
-            var browser = _browserQueryService.FindById(browserId);
+            var browser = _browserQueryService.FindById<Domain.Browser.Browser>(browserId);
             return new ProfileEditModel()
                        {
                            Id = browser.Id,

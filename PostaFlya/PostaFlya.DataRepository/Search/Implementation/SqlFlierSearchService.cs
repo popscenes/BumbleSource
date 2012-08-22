@@ -10,29 +10,29 @@ using PostaFlya.DataRepository.Search.Services;
 using PostaFlya.Domain.Flier;
 using PostaFlya.Domain.Location;
 using PostaFlya.Domain.Tag;
+using WebSite.Infrastructure.Domain;
 
 namespace PostaFlya.DataRepository.Search.Implementation
 {
     public class SqlFlierSearchService :  FlierSearchServiceInterface
     {
-        private readonly string _searchDbConnectionString;
         private readonly SqlConnection _connection;
         public SqlFlierSearchService([SqlSearchConnectionString]string searchDbConnectionString)
         {
             _connection = new SqlConnection(searchDbConnectionString);
         }
 
-        public void NotifyUpdate(IEnumerable<FlierInterface> values)
+        public void NotifyUpdate(IEnumerable<EntityInterface> values)
         {
-            foreach (var flier in values)
+            foreach (var flier in values.OfType<FlierInterface>())
             {
                 SqlExecute.InsertOrUpdate(flier.ToSearchRecord(), _connection);
             }
         }
 
-        public void NotifyDelete(IEnumerable<FlierInterface> values)
+        public void NotifyDelete(IEnumerable<EntityInterface> values)
         {
-            foreach (var flier in values)
+            foreach (var flier in values.OfType<FlierInterface>())
             {
                 SqlExecute.Delete(flier.ToSearchRecord(), _connection);
             }
@@ -115,5 +115,6 @@ namespace PostaFlya.DataRepository.Search.Implementation
             @"SELECT  {2} * " +
             @"FROM sorted " +
             @"WHERE RN > (@skip) ";
+
     }
 }

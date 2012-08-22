@@ -1,67 +1,52 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Ninject;
-using WebSite.Azure.Common.TableStorage;
-using PostaFlya.Domain.Likes;
-using WebSite.Infrastructure.Query;
-
-namespace PostaFlya.DataRepository.Internal
-{
-    internal class AzureLikeRepository :
-        AzureRepositoryBase<LikeInterface, LikeStorageDomain>,
-        GenericQueryServiceInterface<LikeInterface>
-    {
-        private readonly AzureTableContext _tableContext;
-        public AzureLikeRepository([Named("likes")]AzureTableContext tableContext)
-            : base(tableContext)
-        {
-            _tableContext = tableContext;
-        }
-
-        protected override LikeStorageDomain GetEntityForUpdate(string id)
-        {
-            return LikeStorageDomain.GetEntityForUpdate(id, _tableContext);
-        }
-
-        protected override LikeStorageDomain GetStorageForEntity(LikeInterface entity)
-        {
-            return new LikeStorageDomain(entity, _tableContext);
-        }
-
-        public LikeInterface FindById(string id)
-        {
-            return LikeStorageDomain.FindById(id, _tableContext);
-        }
-
-        public IQueryable<LikeInterface> FindByBrowserAndEntityTypeTag(string bropwserId, string entityTypeTag)
-        {
-            var ret = LikeStorageDomain.FindByBrowserAndEntityTypeTag(bropwserId, entityTypeTag, _tableContext);
-            return ret.Distinct(new IsSameBrowserLike()).OrderByDescending(l => l.LikeTime);
-        }
-
-        object QueryServiceInterface.FindById(string id)
-        {
-            return FindById(id);
-        }
-
-        internal class IsSameBrowserLike : IEqualityComparer<LikeInterface>
-        {
-            public bool Equals(LikeInterface x, LikeInterface y)
-            {
-                return x.BrowserId == y.BrowserId && x.EntityId == y.EntityId;
-            }
-
-            public int GetHashCode(LikeInterface obj)
-            {
-                return obj.BrowserId.GetHashCode() ^ obj.EntityId.GetHashCode();
-            }
-        }
-        public IQueryable<LikeInterface> GetByEntity(string entityId, int take = -1)
-        {
-            var ret = LikeStorageDomain.FindRelatedEntities(entityId, _tableContext, take);
-            return ret.Distinct(new IsSameBrowserLike()).OrderBy(l => l.LikeTime);
-        }
-    }
-}
+﻿//using System;
+//using System.Collections.Generic;
+//using System.Linq;
+//using System.Text;
+//using Ninject;
+//using WebSite.Azure.Common.TableStorage;
+//using PostaFlya.Domain.Likes;
+//using WebSite.Infrastructure.Query;
+//
+//namespace PostaFlya.DataRepository.Internal
+//{
+//    internal class AzureLikeRepository : JsonRepository
+//    {
+//        public const int BrowserPartition = 1;
+//        public AzureLikeRepository(TableContextInterface tableContext
+//            , TableNameAndPartitionProviderServiceInterface nameAndPartitionProviderService) 
+//            : base(tableContext, nameAndPartitionProviderService)
+//        {
+//        }
+//
+//        public static string GetIdPartitionKey(LikeInterface like)
+//        {
+//            return like.AggregateId + like.BrowserId;
+//        }
+//
+//        public IQueryable<LikeInterface> FindByBrowserAndEntityTypeTag(string bropwserId, string entityTypeTag)
+//        {
+//            var ret = FindEntitiesByPartition<Like>(bropwserId, BrowserPartition);
+//            return ret.Distinct(new IsSameBrowserLike())
+//                .Where(l => l.EntityTypeTag == entityTypeTag)
+//                .OrderByDescending(l => l.LikeTime);
+//        }
+//
+//        internal class IsSameBrowserLike : IEqualityComparer<LikeInterface>
+//        {
+//            public bool Equals(LikeInterface x, LikeInterface y)
+//            {
+//                return x.BrowserId == y.BrowserId && x.AggregateId == y.AggregateId;
+//            }
+//
+//            public int GetHashCode(LikeInterface obj)
+//            {
+//                return obj.BrowserId.GetHashCode() ^ obj.AggregateId.GetHashCode();
+//            }
+//        }
+//        public IQueryable<LikeInterface> GetByEntity(string entityId, int take = -1)
+//        {
+//            var ret = FindAggregateEntities<Like>(entityId, take);
+//            return ret.Distinct(new IsSameBrowserLike()).OrderBy(l => l.LikeTime);
+//        }
+//    }
+//}

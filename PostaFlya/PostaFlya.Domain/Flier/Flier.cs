@@ -69,14 +69,14 @@ namespace PostaFlya.Domain.Flier
 
         public int NumberOfLikes
         {
-            get { return (int)(this["Like", "NumberOfLikes"] ?? 0); } 
-            set { this["Like", "NumberOfLikes"] = value; }
+            get { return Convert.ToInt32(this["Like", "NumberOfLikes"] ?? 0); }
+            set { this["Like", "NumberOfLikes"] = Convert.ToInt32(value); }
         }
 
         public int NumberOfComments
         {
-            get { return (int)(this["Comment", "NumberOfComments"] ?? 0); }
-            set { this["Comment", "NumberOfComments"] = value; }
+            get { return Convert.ToInt32(this["Comment", "NumberOfComments"] ?? 0); }
+            set { this["Comment", "NumberOfComments"] = Convert.ToInt32(value);}
         }
 
     }

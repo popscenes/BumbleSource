@@ -1,11 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using WebSite.Application.Binding;
-using PostaFlya.Application.Domain.Content;
 using PostaFlya.Attributes;
 using PostaFlya.Binding;
 using WebSite.Application.Content;
@@ -13,46 +11,40 @@ using WebSite.Common.Extension;
 using PostaFlya.Domain.Browser.Query;
 using PostaFlya.Domain.Comments;
 using PostaFlya.Domain.Comments.Command;
-using PostaFlya.Domain.Comments.Query;
-using PostaFlya.Domain.Flier.Command;
 using WebSite.Infrastructure.Command;
 using WebSite.Infrastructure.Domain;
 using WebSite.Infrastructure.Query;
 using PostaFlya.Models.Browser;
 using PostaFlya.Models.Comments;
-using PostaFlya.Models.Flier;
 
 namespace PostaFlya.Controllers
 {
     public class CommentController : ApiController
     {
         private readonly CommandBusInterface _commandBus;
-        private readonly EntityQueryServiceFactoryInterface _entityQueryServiceFactory;
+        private readonly GenericQueryServiceInterface _entityQueryService;
         private readonly BrowserQueryServiceInterface _browserQueryService;
+        private readonly GenericQueryServiceInterface _queryComments;
         private readonly BlobStorageInterface _blobStorage;
 
         public CommentController(CommandBusInterface commandBus
-            , EntityQueryServiceFactoryInterface entityQueryServiceFactory
+            , GenericQueryServiceInterface entityQueryService
             , BrowserQueryServiceInterface browserQueryService
+            , GenericQueryServiceInterface queryComments
             , [ImageStorage]BlobStorageInterface blobStorage)
         {
             _commandBus = commandBus;
-            _entityQueryServiceFactory = entityQueryServiceFactory;
+            _entityQueryService = entityQueryService;
             _browserQueryService = browserQueryService;
+            _queryComments = queryComments;
             _blobStorage = blobStorage;
         }
 
         [BrowserAuthorize(Roles = "Participant")]
         public HttpResponseMessage Post(CreateCommentModel commentCreateModel)
         {
-            var qs = _entityQueryServiceFactory
-                .GetQueryServiceForEntityTyp<QueryServiceInterface>
-                (commentCreateModel.CommentEntity);
-
-            if(qs == null)
-                return this.GetResponseForRes(new MsgResponse("Comment Failed", true));
-
-            var entity = qs.FindById(commentCreateModel.EntityId) as EntityInterface;
+            var entity = _entityQueryService.FindById(LikeController.GetTypeForLikeEntity(commentCreateModel.CommentEntity),
+                commentCreateModel.EntityId) as EntityInterface;
             if (entity == null)
                 return this.GetResponseForRes(new MsgResponse("Comment Failed", true)
                             .AddEntityIdError(commentCreateModel.EntityId));
@@ -71,15 +63,14 @@ namespace PostaFlya.Controllers
         [Queryable]
         public IQueryable<CommentModel> Get(EntityTypeEnum entityTypeEnum, string id)
         {
-            var qs = _entityQueryServiceFactory.GetQueryServiceForEntityTyp<QueryServiceInterface>(entityTypeEnum);
-            return GetComments(qs as QueryCommentsInterface, id)
+            return GetComments(_queryComments, id)
                 .Select(c => c.FillBrowserModel(_browserQueryService, _blobStorage));
         }
 
-        public static IQueryable<CommentModel> GetComments(QueryCommentsInterface commentQuery, string id)
+        public static IQueryable<CommentModel> GetComments(GenericQueryServiceInterface commentQuery, string id)
         {
             if (commentQuery == null) return (new List<CommentModel>()).AsQueryable();
-            return commentQuery.GetComments(id)
+            return commentQuery.FindAggregateEntities<Comment>(id)
                 .Select(c => c.ToViewModel());
         }
 
@@ -91,7 +82,7 @@ namespace PostaFlya.Controllers
                                                    new Comment()
                                                        {
                                                            BrowserId = browserId,
-                                                           EntityId = id,
+                                                           AggregateId = id,
                                                            CommentContent = "This is a comment yo",
                                                            CommentTime = DateTime.UtcNow,
                                                            Id = "1"
@@ -99,7 +90,7 @@ namespace PostaFlya.Controllers
                                                     new Comment()
                                                     {
                                                             BrowserId = browserId,
-                                                           EntityId = id,
+                                                           AggregateId = id,
                                                            CommentContent = "This is a comment yo",
                                                            CommentTime = DateTime.UtcNow,
                                                            Id = "2"
@@ -107,7 +98,7 @@ namespace PostaFlya.Controllers
                                                     new Comment()
                                                        {
                                                            BrowserId = browserId,
-                                                           EntityId = id,
+                                                           AggregateId = id,
                                                            CommentContent = "This is a comment yo",
                                                            CommentTime = DateTime.UtcNow,
                                                            Id = "3"
@@ -115,7 +106,7 @@ namespace PostaFlya.Controllers
                                                     new Comment()
                                                     {
                                                            BrowserId = browserId,
-                                                           EntityId = id,
+                                                           AggregateId = id,
                                                            CommentContent = "This is a comment yo",
                                                            CommentTime = DateTime.UtcNow,
                                                            Id = "4"

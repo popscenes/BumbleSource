@@ -41,18 +41,18 @@ namespace PostaFlya.DataRepository.Tests.Behaviour.TaskJob
 
         public static void BindTaskJobRepository(StandardKernel kernel)
         {
-            kernel.Bind<TableNameAndPartitionProviderInterface>()
-            .ToConstant(new TableNameAndPartitionProvider<TaskJobFlierBehaviourInterface>()
-                                {
-                                    {typeof (TaskJobTableEntry), 0, "taskJobTest", t => t.Id, t => t.Id}
-                                })
-            .WhenAnyAnchestorNamed("taskjob")
-            .InSingletonScope();
-
-            var context = kernel.Get<AzureTableContext>("taskjob");
-            context.InitFirstTimeUse();
-            context.Delete<TaskJobTableEntry>(null, 0);
-            context.SaveChanges();
+//            kernel.Bind<TableNameAndPartitionProviderInterface>()
+//            .ToConstant(new TableNameAndPartitionProvider<TaskJobFlierBehaviourInterface>()
+//                                {
+//                                    {typeof (TaskJobTableEntry), 0, "taskJobTest", t => t.Id, t => t.Id}
+//                                })
+//            .WhenAnyAnchestorNamed("taskjob")
+//            .InSingletonScope();
+//
+//            var context = kernel.Get<AzureTableContext>("taskjob");
+//            context.InitFirstTimeUse();
+//            context.Delete<TaskJobTableEntry>(null, 0);
+//            context.SaveChanges();
         }
 
         [FixtureSetUp]
@@ -69,7 +69,7 @@ namespace PostaFlya.DataRepository.Tests.Behaviour.TaskJob
         [FixtureTearDown]
         public void FixtureTearDown()
         {
-            Kernel.Unbind<TableNameAndPartitionProviderInterface>();
+           // Kernel.Unbind<TableNameAndPartitionProviderInterface>();
             AzureEnv.UseRealStorage = false;
         }
 
@@ -128,13 +128,16 @@ namespace PostaFlya.DataRepository.Tests.Behaviour.TaskJob
 
         private void Store(TaskJobFlierBehaviourInterface source)
         {
-            using (Kernel.Get<UnitOfWorkFactoryInterface>()
-                .GetUnitOfWork(new List<RepositoryInterface>() { _taskJobRepository }))
+            var uow = Kernel.Get<UnitOfWorkFactoryInterface>()
+                .GetUnitOfWork(new List<RepositoryInterface>() {_taskJobRepository});
+            using (uow)
             {
 
                 _taskJobRepository.Store(source);
 
             }
+
+            Assert.IsTrue(uow.Successful);
         }
 
         private void Update(TaskJobFlierBehaviourInterface source)
@@ -142,13 +145,13 @@ namespace PostaFlya.DataRepository.Tests.Behaviour.TaskJob
             using (Kernel.Get<UnitOfWorkFactoryInterface>()
                 .GetUnitOfWork(new List<RepositoryInterface>() { _taskJobRepository }))
             {
-                _taskJobRepository.UpdateEntity(source.Id, e => e.CopyFieldsFrom(source));
+                _taskJobRepository.UpdateEntity<TaskJobFlierBehaviour>(source.Id, e => e.CopyFieldsFrom(source));
             }
         }
 
         private TaskJobFlierBehaviourInterface Query(TaskJobFlierBehaviourInterface source)
         {
-            var storedbyid = _taskJobQueryService.FindById(source.Id);
+            var storedbyid = _taskJobQueryService.FindById<TaskJobFlierBehaviour>(source.Id);
 
             AssertAreEqual(source, storedbyid);
 

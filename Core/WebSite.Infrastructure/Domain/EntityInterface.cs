@@ -8,7 +8,7 @@ namespace WebSite.Infrastructure.Domain
         {
             target.Id = source.Id;
             target.Version = source.Version;
-            target.ExtendedProperties = source.ExtendedProperties != null ? new PropertyGroupCollection(source.ExtendedProperties) : null;
+            target.ExtendedProperties = source.ExtendedProperties != null ? new PropertyGroupCollection((PropertyGroup[])source.ExtendedProperties) : null;
         }
 
         public static EntityInterfaceType CreateCopy<EntityType, EntityInterfaceType>(this EntityInterfaceType source, Action<EntityInterfaceType, EntityInterfaceType> copyFields)
@@ -29,5 +29,10 @@ namespace WebSite.Infrastructure.Domain
     public interface EntityIdInterface
     {
         string Id { get; set; }
+    }
+
+    public interface AggregateInterface
+    {
+        string AggregateId { get; set; }
     }
 }

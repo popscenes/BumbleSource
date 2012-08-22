@@ -18,17 +18,11 @@ namespace PostaFlya.Application.Domain.Behaviour.TaskJob.Query
                 , ObjectCache cacheProvider
                 , int defaultSecondsToCache = -1
                 )
-            : base(cacheProvider, CachedTaskJobContext.Region, defaultSecondsToCache)
+            : base(cacheProvider, CachedTaskJobContext.Region, taskJobQueryService, defaultSecondsToCache)
         {
             _taskJobQueryService = taskJobQueryService;
         }
 
-        public TaskJobFlierBehaviourInterface FindById(string id)
-        {
-            return RetrieveCachedData(
-                GetKeyFor(CachedTaskJobContext.TaskJob, id),
-                () => _taskJobQueryService.FindById(id));
-        }
 
         public IQueryable<TaskJobBidInterface> GetBids(string taskJobId)
         {
@@ -38,9 +32,5 @@ namespace PostaFlya.Application.Domain.Behaviour.TaskJob.Query
                 .AsQueryable();
         }
 
-        object QueryServiceInterface.FindById(string id)
-        {
-            return FindById(id);
-        }
     }
 }

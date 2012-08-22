@@ -12,14 +12,14 @@ using PostaFlya.Domain.Service;
 using PostaFlya.Domain.Tag;
 using WebSite.Infrastructure.Command;
 using WebSite.Infrastructure.Query;
-using WebSite.Infrastructure.Service;
+//using WebSite.Infrastructure.Service;
 using PostaFlya.Mocks.Domain.Defaults;
 
 namespace PostaFlya.Mocks.Domain.Data
 {
     public static class FlierTestData
     {
-        public static FlierInterface GetOne(IKernel kernel, Location loc = null)
+        public static Flier GetOne(IKernel kernel, Location loc = null)
         {
             if (loc == null)
                 loc = kernel.Get<Location>(ib => ib.Get<bool>("default"));
@@ -40,13 +40,12 @@ namespace PostaFlya.Mocks.Domain.Data
                        };
         }
 
-        public static FlierBehaviourInterface GetBehaviour(StandardKernel kernel, FlierInterface ret)
+        public static FlierBehaviourInterface GetBehaviour(StandardKernel kernel, Flier ret)
         {
             var behaviourFactory = kernel.Get<BehaviourFactoryInterface>();
-            var queryServiceFactory = kernel.Get<GenericServiceFactoryInterface>();
+            var queryService = kernel.Get<GenericQueryServiceInterface>();
             var behaviour = behaviourFactory.GetDefaultBehaviourTypeForBehaviour(ret.FlierBehaviour);
-            var queryService = queryServiceFactory.GetGenericQueryService<QueryServiceInterface>(behaviour);
-            var behave = queryService.FindById(ret.Id) as FlierBehaviourInterface ??
+            var behave = queryService.FindById(behaviour, ret.Id) as FlierBehaviourInterface ??
                          behaviourFactory.CreateBehaviourInstanceForFlier(ret);
             behave.Flier = ret;
             return behave;
@@ -249,21 +248,24 @@ namespace PostaFlya.Mocks.Domain.Data
 
         internal static FlierInterface AssertGetById(FlierInterface flier, FlierQueryServiceInterface queryService)
         {
-            var retrievedFlier = queryService.FindById(flier.Id);
+            var retrievedFlier = queryService.FindById<Flier>(flier.Id);
             AssertStoreRetrieve(flier, retrievedFlier);
 
             return retrievedFlier;
         }
 
 
-        internal static FlierInterface StoreOne(FlierInterface flier, FlierRepositoryInterface repository, StandardKernel kernel)
+        internal static Flier StoreOne(Flier flier, FlierRepositoryInterface repository, StandardKernel kernel)
         {
-            using (kernel.Get<UnitOfWorkFactoryInterface>()
-                .GetUnitOfWork(new List<RepositoryInterface>() { repository }))
+            var uow = kernel.Get<UnitOfWorkFactoryInterface>()
+                .GetUnitOfWork(new List<RepositoryInterface>() {repository});
+            using (uow)
             {
 
                 repository.Store(flier);
             }
+
+            Assert.IsTrue(uow.Successful);
             return flier;
         }
 
@@ -272,7 +274,7 @@ namespace PostaFlya.Mocks.Domain.Data
             using (kernel.Get<UnitOfWorkFactoryInterface>()
                 .GetUnitOfWork(new List<RepositoryInterface>() { repository }))
             {
-                repository.UpdateEntity(flier.Id, e => e.CopyFieldsFrom(flier));
+                repository.UpdateEntity<Flier>(flier.Id, e => e.CopyFieldsFrom(flier));
             }
         }
     }

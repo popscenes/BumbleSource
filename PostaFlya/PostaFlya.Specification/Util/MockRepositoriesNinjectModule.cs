@@ -45,7 +45,7 @@ namespace PostaFlya.Specification.Util
             TestRepositoriesNinjectModule.SetUpFlierRepositoryAndQueryService(kernel
                 , SpecUtil.GetMockStore<HashSet<FlierInterface>>("flierstore")
                 , SpecUtil.GetMockStore<HashSet<CommentInterface>>("fliercommentstore")
-                , SpecUtil.GetMockStore<List<LikeInterface>>("likestore"));
+                , SpecUtil.GetMockStore<HashSet<LikeInterface>>("likestore"));
             TestRepositoriesNinjectModule.SetUpImageRepositoryAndQueryService(kernel
                 , SpecUtil.GetMockStore<HashSet<ImageInterface>>("imagestore"));
 
@@ -77,7 +77,8 @@ namespace PostaFlya.Specification.Util
 
             if (ScenarioContext.Current.ContainsKey("browserId"))
             {
-                browser = Kernel.Get<BrowserQueryServiceInterface>().FindById(ScenarioContext.Current.Get<string>("browserId"));
+                browser = Kernel.Get<BrowserQueryServiceInterface>()
+                    .FindById<Browser>(ScenarioContext.Current.Get<string>("browserId"));
             }
             else
             {

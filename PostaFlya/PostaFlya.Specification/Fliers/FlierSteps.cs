@@ -72,7 +72,7 @@ namespace PostaFlya.Specification.Fliers
 
             //var createModel = ScenarioContext.Current["createflya"] as FlierCreateModel;
             var flierQueryService = SpecUtil.CurrIocKernel.Get<FlierQueryServiceInterface>();
-            var flier = flierQueryService.FindById(flierid);
+            var flier = flierQueryService.FindById<Flier>(flierid);
 
             var type = (FlierBehaviour)Enum.Parse(typeof(FlierBehaviour), flierBehaviour);
             Assert.AreEqual(type, flier.FlierBehaviour);
@@ -153,7 +153,7 @@ namespace PostaFlya.Specification.Fliers
                 .FindFliersByLocationTagsAndDistance(flier.Location, flier.Tags)
                 .SingleOrDefault(id => flier.Id == id);
 
-            var flierUpdated = flierQueryService.FindById(flierUpdatedId);
+            var flierUpdated = flierQueryService.FindById<Flier>(flierUpdatedId);
             Assert.IsNotNull(flierUpdated, "Flier Not Updated");
             Assert.Contains(flierUpdated.Description, "UPDATED");
             Assert.Contains(flierUpdated.Title, "UPDATED");
@@ -279,7 +279,7 @@ namespace PostaFlya.Specification.Fliers
             var flierid = ScenarioContext.Current["createdflyaid"] as string;
 
             var flierQueryService = SpecUtil.CurrIocKernel.Get<FlierQueryServiceInterface>();
-            var flier = flierQueryService.FindById(flierid);
+            var flier = flierQueryService.FindById<Flier>(flierid);
             Assert.Count(3, flier.ImageList);
 
         }
@@ -333,8 +333,12 @@ namespace PostaFlya.Specification.Fliers
             var browserInformation = SpecUtil.GetCurrBrowser();
             var browser = browserInformation.Browser as Browser;
 
-            browser.ExternalCredentials.Remove(credential);
-            browser.ExternalCredentials.Add(credential);
+            var browsCreds = new BrowserIdentityProviderCredential();
+            browsCreds.CopyFieldsFrom(credential);
+            browsCreds.BrowserId = browser.Id;
+
+            browser.ExternalCredentials.Remove(browsCreds);
+            browser.ExternalCredentials.Add(browsCreds);
 
             var accountController = SpecUtil.GetController<AccountController>();
             ControllerContextMock.FakeControllerContext(SpecUtil.CurrIocKernel, accountController);

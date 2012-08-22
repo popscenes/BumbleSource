@@ -160,6 +160,7 @@
     <Compile Include="Command\RepositoryInterface.cs" />
     <Compile Include="Command\UnitOfWorkFactory.cs" />
     <Compile Include="Command\UnitOfWorkFactoryInterface.cs" />
+    <Compile Include="Domain\AggregateMemberEntityAttribute.cs" />
     <Compile Include="Domain\EntityBase.cs" />
     <Compile Include="Domain\EntityInterface.cs" />
     <Compile Include="Domain\MsgResponseEntityExtension.cs" />

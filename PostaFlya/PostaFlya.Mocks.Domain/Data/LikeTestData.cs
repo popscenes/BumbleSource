@@ -8,6 +8,7 @@ using Ninject.MockingKernel.Moq;
 using PostaFlya.Domain.Likes;
 using PostaFlya.Domain.Likes.Command;
 using WebSite.Infrastructure.Command;
+using WebSite.Infrastructure.Domain;
 using WebSite.Infrastructure.Query;
 
 namespace PostaFlya.Mocks.Domain.Data
@@ -16,7 +17,7 @@ namespace PostaFlya.Mocks.Domain.Data
     {
         public static bool AssertStoreRetrieve(LikeInterface storedLike, LikeInterface retrievedLike)
         {
-            Assert.AreEqual(storedLike.EntityId, retrievedLike.EntityId);
+            Assert.AreEqual(storedLike.AggregateId, retrievedLike.AggregateId);
             Assert.AreEqual(storedLike.BrowserId, retrievedLike.BrowserId);
             Assert.AreEqual(storedLike.LikeContent, retrievedLike.LikeContent);
             Assert.AreApproximatelyEqual(storedLike.LikeTime, retrievedLike.LikeTime, TimeSpan.FromMilliseconds(1));
@@ -27,43 +28,58 @@ namespace PostaFlya.Mocks.Domain.Data
         public static bool Equals(LikeInterface storedLike, LikeInterface retrievedLike)
         {
             return storedLike.ILike == retrievedLike.ILike &&
-                   storedLike.EntityId == retrievedLike.EntityId &&
+                   storedLike.AggregateId == retrievedLike.AggregateId &&
                    storedLike.LikeContent == retrievedLike.LikeContent && 
                    storedLike.BrowserId == retrievedLike.BrowserId &&
                    storedLike.LikeTime - retrievedLike.LikeTime < TimeSpan.FromMilliseconds(1);
         }
 
-        internal static LikeInterface AssertGetById(LikeInterface like, GenericQueryServiceInterface<LikeInterface> queryService)
+        internal static LikeInterface AssertGetById(LikeInterface like, GenericQueryServiceInterface queryService)
         {
-            var retrievedFlier = queryService.FindById(like.EntityId + like.BrowserId);
+            var retrievedFlier = queryService.FindById<Like>(like.AggregateId + like.BrowserId);
             AssertStoreRetrieve(like, retrievedFlier);
 
             return retrievedFlier;
         }
 
-        internal static LikeInterface LikeOne<EntityInterfaceType>(LikeInterface like, AddLikeInterface<EntityInterfaceType> repository, StandardKernel kernel) where EntityInterfaceType : LikeableInterface
+        internal static LikeInterface LikeOne<EntityInterfaceType>(EntityInterfaceType entity
+            , LikeInterface like
+            , GenericRepositoryInterface repository
+            , StandardKernel kernel) 
+            where EntityInterfaceType : EntityInterface, LikeableInterface
         {
             using (kernel.Get<UnitOfWorkFactoryInterface>()
                 .GetUnitOfWork(new List<object>() { repository }))
             {
+                like.Id = like.GetId();
+                repository.Store(like);
+                repository.UpdateEntity(entity.GetType()
+                    , entity.Id
+                    , o =>
+                          {
+                              var targ = o as LikeableInterface;
+                              targ.NumberOfLikes++;
+                          } );
 
-                repository.Like(like);
             }
             return like;
         }
 
-        internal static LikeInterface StoreOne(LikeInterface like, GenericRepositoryInterface<LikeInterface> repository, StandardKernel kernel)
+        internal static LikeInterface StoreOne(LikeInterface like, GenericRepositoryInterface repository, StandardKernel kernel)
         {
-            using (kernel.Get<UnitOfWorkFactoryInterface>()
-                .GetUnitOfWork(new List<RepositoryInterface>() { repository }))
+            var uow = kernel.Get<UnitOfWorkFactoryInterface>()
+                .GetUnitOfWork(new List<RepositoryInterface>() {repository});
+            using (uow)
             {
 
                 repository.Store(like);
             }
+
+            Assert.IsTrue(uow.Successful);
             return like;
         }
 
-        internal static IList<LikeInterface> StoreSome(GenericRepositoryInterface<LikeInterface> repository, StandardKernel kernel, string entityId, int num = 5)
+        internal static IList<LikeInterface> StoreSome(GenericRepositoryInterface repository, StandardKernel kernel, string entityId, int num = 5)
         {
 
             var ret = GetSome(kernel, entityId, num);
@@ -88,6 +104,7 @@ namespace PostaFlya.Mocks.Domain.Data
             for (int i = 0; i < num; i++)
             {
                 var like = GetOne(kernel, entityId);
+                like.Id = like.GetId();
                 like.LikeContent = "Like number " + i;
                 like.LikeTime = time;
                 like.EntityTypeTag = "TestEntityType";
@@ -97,12 +114,12 @@ namespace PostaFlya.Mocks.Domain.Data
             return ret;
         }
 
-        internal static void UpdateOne(LikeInterface like, GenericRepositoryInterface<LikeInterface> repository, StandardKernel kernel)
+        internal static void UpdateOne(LikeInterface like, GenericRepositoryInterface repository, StandardKernel kernel)
         {
             using (kernel.Get<UnitOfWorkFactoryInterface>()
                 .GetUnitOfWork(new List<RepositoryInterface>() { repository }))
             {
-                repository.UpdateEntity(like.EntityId + like.BrowserId, e => e.CopyFieldsFrom(like));
+                repository.UpdateEntity<Like>(like.AggregateId + like.BrowserId, e => e.CopyFieldsFrom(like));
             }
         }
 
@@ -110,13 +127,14 @@ namespace PostaFlya.Mocks.Domain.Data
         {   
             var ret = new Like
                           {
-                              EntityId = entityId,
+                              AggregateId = entityId,
                               BrowserId = Guid.NewGuid().ToString(),
                               LikeContent = "This is a like",
                               EntityTypeTag = "TestEntityType",
                               ILike = true,
                               LikeTime = DateTime.UtcNow
                           };
+            ret.Id = ret.GetId();
             return ret;
         }
     }

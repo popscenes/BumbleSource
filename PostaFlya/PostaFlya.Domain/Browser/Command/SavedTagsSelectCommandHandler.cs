@@ -21,7 +21,7 @@ namespace PostaFlya.Domain.Browser.Command
         {
             using (_unitOfWorkFactory.GetUnitOfWork(GetReposForUnitOfWork()))
             {
-                _browserRepository.UpdateEntity(command.BrowserId
+                _browserRepository.UpdateEntity<Browser>(command.BrowserId
                     , browser =>
                           {
                             if (browser.Tags.Equals(command.Tags) ||

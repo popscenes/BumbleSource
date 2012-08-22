@@ -16,7 +16,7 @@ namespace PostaFlya.Mocks.Domain.Data
         public static bool AssertStoreRetrieve(CommentInterface storedComment, CommentInterface retrievedComment)
         {
             Assert.AreEqual(storedComment.Id, retrievedComment.Id);
-            Assert.AreEqual(storedComment.EntityId, retrievedComment.EntityId);
+            Assert.AreEqual(storedComment.AggregateId, retrievedComment.AggregateId);
             Assert.AreEqual(storedComment.BrowserId, retrievedComment.BrowserId);
             Assert.AreEqual(storedComment.CommentContent, retrievedComment.CommentContent);
             Assert.AreApproximatelyEqual(storedComment.CommentTime, retrievedComment.CommentTime, TimeSpan.FromMilliseconds(1));
@@ -26,33 +26,36 @@ namespace PostaFlya.Mocks.Domain.Data
         public static bool Equals(CommentInterface storedComment, CommentInterface retrievedComment)
         {
             return storedComment.Id == retrievedComment.Id &&
-                   storedComment.EntityId == retrievedComment.EntityId &&
+                   storedComment.AggregateId == retrievedComment.AggregateId &&
                    storedComment.BrowserId == retrievedComment.BrowserId &&
                    storedComment.CommentContent == retrievedComment.CommentContent &&
                    storedComment.CommentTime - retrievedComment.CommentTime < TimeSpan.FromMilliseconds(1);
         }
 
-        internal static CommentInterface AssertGetById(CommentInterface comment, GenericQueryServiceInterface<CommentInterface> queryService)
+        internal static CommentInterface AssertGetById(CommentInterface comment, GenericQueryServiceInterface queryService)
         {
-            var retrievedFlier = queryService.FindById(comment.Id);
+            var retrievedFlier = queryService.FindById<Comment>(comment.Id);
             AssertStoreRetrieve(comment, retrievedFlier);
 
             return retrievedFlier;
         }
 
 
-        internal static CommentInterface StoreOne(CommentInterface comment, GenericRepositoryInterface<CommentInterface> repository, StandardKernel kernel)
+        internal static CommentInterface StoreOne(CommentInterface comment, GenericRepositoryInterface repository, StandardKernel kernel)
         {
-            using (kernel.Get<UnitOfWorkFactoryInterface>()
-                .GetUnitOfWork(new List<RepositoryInterface>() { repository }))
+            var uow = kernel.Get<UnitOfWorkFactoryInterface>()
+                .GetUnitOfWork(new List<RepositoryInterface>() { repository });
+            using (uow)
             {
 
                 repository.Store(comment);
             }
+
+            Assert.IsTrue(uow.Successful);
             return comment;
         }
 
-        internal static IList<CommentInterface> StoreSome(GenericRepositoryInterface<CommentInterface> repository, StandardKernel kernel, string entityId)
+        internal static IList<CommentInterface> StoreSome(GenericRepositoryInterface repository, StandardKernel kernel, string entityId)
         {
             var ret = GetSome(kernel, entityId);
             using (kernel.Get<UnitOfWorkFactoryInterface>()
@@ -81,12 +84,12 @@ namespace PostaFlya.Mocks.Domain.Data
             return ret;
         }
 
-        internal static void UpdateOne(CommentInterface comment, GenericRepositoryInterface<CommentInterface> repository, StandardKernel kernel)
+        internal static void UpdateOne(CommentInterface comment, GenericRepositoryInterface repository, StandardKernel kernel)
         {
             using (kernel.Get<UnitOfWorkFactoryInterface>()
                 .GetUnitOfWork(new List<RepositoryInterface>() { repository }))
             {
-                repository.UpdateEntity(comment.Id, e => e.CopyFieldsFrom(comment));
+                repository.UpdateEntity<Comment>(comment.Id, e => e.CopyFieldsFrom(comment));
             }
         }
 
@@ -99,7 +102,7 @@ namespace PostaFlya.Mocks.Domain.Data
             var ret = new Comment
                           {
                               Id = Guid.NewGuid().ToString(),
-                              EntityId = entityId,
+                              AggregateId = entityId,
                               BrowserId = Guid.NewGuid().ToString(),
                               CommentContent = "This is a comment",
                               CommentTime = DateTime.UtcNow

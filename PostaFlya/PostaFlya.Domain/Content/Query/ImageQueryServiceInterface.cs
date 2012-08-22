@@ -8,8 +8,7 @@ using WebSite.Infrastructure.Query;
 
 namespace PostaFlya.Domain.Content.Query
 {
-    public interface ImageQueryServiceInterface : GenericQueryServiceInterface<ImageInterface>
-        , QueryByBrowserInterface<ImageInterface>
+    public interface ImageQueryServiceInterface : QueryServiceWithBrowserInterface
     {
     }
 }

@@ -22,7 +22,7 @@ namespace PostaFlya.Domain.Browser
             target.DefaultLocation = source.DefaultLocation;
             target.SavedLocations = new Locations(source.SavedLocations.Select(l => new Location.Location(l)));
             target.SavedTags = new List<Tags>(source.SavedTags.Select(t => new Tags(t)));
-            target.ExternalCredentials = source.ExternalCredentials != null ? new HashSet<IdentityProviderCredential>(source.ExternalCredentials) : null;
+            target.ExternalCredentials = source.ExternalCredentials != null ? new HashSet<BrowserIdentityProviderCredential>(source.ExternalCredentials) : null;
             target.FirstName = source.FirstName;
             target.MiddleNames = source.MiddleNames;
             target.Surname = source.Surname;
@@ -56,8 +56,8 @@ namespace PostaFlya.Domain.Browser
         Roles Roles { get; set; }
         Location.Location DefaultLocation { get; set; }
         Locations SavedLocations { get; set; }
-        IList<Tags> SavedTags { get; set; }
-        ISet<IdentityProviderCredential> ExternalCredentials { get; set; }
+        List<Tags> SavedTags { get; set; }  
+        HashSet<BrowserIdentityProviderCredential> ExternalCredentials { get; set; }
         string FirstName { get; set; }
         string MiddleNames { get; set; }
         string Surname { get; set; }

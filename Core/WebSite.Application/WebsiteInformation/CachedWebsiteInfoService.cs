@@ -16,7 +16,7 @@ namespace WebSite.Application.WebsiteInformation
         public CachedWebsiteInfoService([SourceDataSource]WebsiteInfoServiceInterface queryService
                 , ObjectCache cacheProvider
                 , int defaultSecondsToCache = -1)
-            : base(cacheProvider, "websiteinfo", defaultSecondsToCache)
+            : base(cacheProvider, "websiteinfo", null, defaultSecondsToCache)
         {
             _queryService = queryService;
         }

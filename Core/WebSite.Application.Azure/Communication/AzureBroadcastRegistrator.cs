@@ -5,45 +5,70 @@ using Ninject;
 using WebSite.Application.Command;
 using WebSite.Application.Communication;
 using WebSite.Azure.Common.TableStorage;
+using WebSite.Infrastructure.Domain;
 
 namespace WebSite.Application.Azure.Communication
 {
-
-    public class AzureBroadcastRegistrator : AzureRepositoryBase<SimpleExtendableEntity, SimpleExtendableEntity>, BroadcastRegistratorInterface
+    public class AzureBroadcastRegistration : SimpleExtendableEntity
     {
-        public static TableNameAndPartitionProvider<SimpleExtendableEntity> TableNameBinding
-            = new TableNameAndPartitionProvider<SimpleExtendableEntity>()
-            {
-                {typeof (SimpleExtendableEntity), 0, "broadcastCommunicators", e => "", e => e.Get<string>("Endpoint")}
-            };
+        
+    }
 
-        private readonly AzureTableContext _context;
+    public class AzureBroadcastRegistrator : RepositoryBase<AzureBroadcastRegistration>, BroadcastRegistratorInterface
+    {
+//        public static TableNameAndPartitionProvider<SimpleExtendableEntity> TableNameBinding
+//            = new TableNameAndPartitionProvider<SimpleExtendableEntity>()
+//            {
+//                {typeof (SimpleExtendableEntity), 0, "broadcastCommunicators", e => "", e => e.Get<string>("Endpoint")}
+//            };
+
+
         private readonly CommandQueueFactoryInterface _commandQueueFactory;
 
 
-        public AzureBroadcastRegistrator([Named("broadcastCommunicators")]AzureTableContext context
-                                         , CommandQueueFactoryInterface commandQueueFactory)
-            : base(context)
+//        public AzureBroadcastRegistrator([Named("broadcastCommunicators")]AzureTableContext context
+//                                         , CommandQueueFactoryInterface commandQueueFactory)
+//            : base(context)
+//        {
+//            _context = context;
+//            _commandQueueFactory = commandQueueFactory;
+//        }
+
+        private readonly string _tableName;
+        public AzureBroadcastRegistrator(TableContextInterface tableContext
+            , TableNameAndPartitionProviderServiceInterface nameAndPartitionProviderService
+            , CommandQueueFactoryInterface commandQueueFactory) 
+            : base(tableContext, nameAndPartitionProviderService)
         {
-            _context = context;
             _commandQueueFactory = commandQueueFactory;
+            _tableName = nameAndPartitionProviderService.GetTableName<AzureBroadcastRegistration>(IdPartition);
         }
 
         public void RegisterEndpoint(string myEndpoint)
         {
-            UpdateEntity(myEndpoint
-                , registrationEntry =>
+            Action<AzureBroadcastRegistration> update 
+                = registrationEntry =>
                     {
                         registrationEntry["LastRegisterTime"] = DateTime.UtcNow;
                         registrationEntry["Endpoint"] = myEndpoint;
                         registrationEntry.RowKey = myEndpoint;
                         registrationEntry.PartitionKey = "";
-                    });
+                    };
+
+            var existing = FindById<AzureBroadcastRegistration>(myEndpoint);
+            if (existing != null)
+                UpdateEntity(myEndpoint, update);
+            else
+            {
+                var newEntry = new AzureBroadcastRegistration();
+                update(newEntry);
+                Store(newEntry);
+            }
             SaveChanges();
 
             PerformMutationActionOnContext(context =>
                     {
-                        foreach (var extendableTableServiceEntity in context.PerformQuery<SimpleExtendableEntity>()
+                        foreach (var extendableTableServiceEntity in context.PerformQuery<AzureBroadcastRegistration>(_tableName)
                             .Where(e => IsAboveRegThreshHold(e) && (string)e["Endpoint"] != myEndpoint))
                         {
                             context.Delete(extendableTableServiceEntity);
@@ -55,7 +80,7 @@ namespace WebSite.Application.Azure.Communication
 
         public IList<string> GetCurrentEndpoints()
         {
-            var registrationEntries = _context.PerformQuery<SimpleExtendableEntity>();
+            var registrationEntries = TableContext.PerformQuery<AzureBroadcastRegistration>(_tableName);
             return registrationEntries
                 .Where(e => (DateTime.UtcNow - e.Get<DateTime>("LastRegisterTime")).Minutes < 10 )
                 .Select(e => e.Get<string>("Endpoint"))
@@ -72,16 +97,15 @@ namespace WebSite.Application.Azure.Communication
             return (DateTime.UtcNow - registrationEntry.Get<DateTime>("LastRegisterTime")).Minutes > 10;
         }
 
-        protected override SimpleExtendableEntity GetEntityForUpdate(string myEndpoint)
+        protected override StorageAggregate GetEntityForUpdate(Type entity, string id)
         {
-            var registrationEntries = _context.PerformQuery<SimpleExtendableEntity>();
-            return registrationEntries.SingleOrDefault(e => e.Get<string>("Endpoint") == myEndpoint) ??
-                                    new SimpleExtendableEntity();
+            var root = FindById(entity, id);
+            if (root == null)
+                return null;
+            var ret = new StorageAggregate(root, NameAndPartitionProviderService);
+            ret.LoadAllTableEntriesForUpdate<AzureBroadcastRegistration>(TableContext);
+            return ret;
         }
 
-        protected override SimpleExtendableEntity GetStorageForEntity(SimpleExtendableEntity entity)
-        {
-            return entity;
-        }
     }
 }

@@ -14,6 +14,8 @@ using PostaFlya.DataRepository.Flier;
 using PostaFlya.DataRepository.Internal;
 using PostaFlya.Domain.Comments;
 using PostaFlya.Mocks.Domain.Data;
+using WebSite.Infrastructure.Command;
+using WebSite.Infrastructure.Query;
 using WebSite.Test.Common;
 
 namespace PostaFlya.DataRepository.Tests.Internal
@@ -33,42 +35,44 @@ namespace PostaFlya.DataRepository.Tests.Internal
             AzureEnv.UseRealStorage = env == "real";
         } 
 
-        AzureCommentRepository _repository;
+        GenericRepositoryInterface _repository;
+        GenericQueryServiceInterface _queryService;
 
 
         [FixtureSetUp]
         public void FixtureSetUp()
         {
-            Kernel.Bind<TableNameAndPartitionProviderInterface>()
-                .ToConstant(new TableNameAndPartitionProvider<CommentInterface>()
-                            {
-                            {typeof(CommentTableEntry), CommentStorageDomain.IdPartition, "commentsTest", i => i.Id, CommentStorageDomain.GetIdKey},
-                            {typeof(CommentTableEntry), CommentStorageDomain.AggregateIdPartition, "commentsTest", i => i.EntityId, CommentStorageDomain.GetIdKey},
-                            })
-                .WhenAnyAnchestorNamed("comments")
-                .InSingletonScope();
+//            Kernel.Bind<TableNameAndPartitionProviderInterface>()
+//                .ToConstant(new TableNameAndPartitionProvider<CommentInterface>()
+//                            {
+//                            {typeof(CommentTableEntry), CommentStorageDomain.IdPartition, "commentsTest", i => i.Id, CommentStorageDomain.GetIdKey},
+//                            {typeof(CommentTableEntry), CommentStorageDomain.AggregateIdPartition, "commentsTest", i => i.EntityId, CommentStorageDomain.GetIdKey},
+//                            })
+//                .WhenAnyAnchestorNamed("comments")
+//                .InSingletonScope();
+//
+//            
+//            var context = Kernel.Get<AzureTableContext>("comments");
+//            context.InitFirstTimeUse();
+//            context.Delete<CommentTableEntry>(null, CommentStorageDomain.IdPartition);
+//            context.Delete<CommentTableEntry>(null, CommentStorageDomain.AggregateIdPartition);
+//            context.SaveChanges();
 
-            
-            var context = Kernel.Get<AzureTableContext>("comments");
-            context.InitFirstTimeUse();
-            context.Delete<CommentTableEntry>(null, CommentStorageDomain.IdPartition);
-            context.Delete<CommentTableEntry>(null, CommentStorageDomain.AggregateIdPartition);
-            context.SaveChanges();
-
-            _repository = Kernel.Get<AzureCommentRepository>();
+            _repository = Kernel.Get<GenericRepositoryInterface>();
+            _queryService = Kernel.Get<GenericQueryServiceInterface>();
         }
 
         [FixtureTearDown]
         public void FixtureTearDown()
         {
-            Kernel.Unbind<TableNameAndPartitionProviderInterface>();
+            //Kernel.Unbind<TableNameAndPartitionProviderInterface>();
             AzureEnv.UseRealStorage = false;
         }
 
         [Test]
         public void AzureCommentRepositoryCreate()
         {
-            var repository = Kernel.Get<AzureCommentRepository>();
+            var repository = Kernel.Get<GenericRepositoryInterface>();
             Assert.IsNotNull(repository);
         }
 
@@ -84,7 +88,7 @@ namespace PostaFlya.DataRepository.Tests.Internal
         public CommentInterface AzureCommentRepositoryQuery()
         {
             var comment = AzureCommentRepositoryStore();
-            var commentRet = CommentTestData.AssertGetById(comment, _repository);
+            var commentRet = CommentTestData.AssertGetById(comment, _queryService);
             return commentRet;
         }
 
@@ -93,7 +97,7 @@ namespace PostaFlya.DataRepository.Tests.Internal
         {
             var entityId = Guid.NewGuid().ToString();
             var stored = CommentTestData.StoreSome(_repository, Kernel, entityId);
-            var retd = _repository.GetByEntity(entityId);
+            var retd = _queryService.FindAggregateEntities<Comment>(entityId);
             Assert.AreElementsEqualIgnoringOrder(stored, retd, CommentTestData.Equals);
         }
 
@@ -102,7 +106,7 @@ namespace PostaFlya.DataRepository.Tests.Internal
         {
             var entityId = Guid.NewGuid().ToString();
             var stored = CommentTestData.StoreSome(_repository, Kernel, entityId);
-            var retd = _repository.GetByEntity(entityId, 3);
+            var retd = _queryService.FindAggregateEntities<Comment>(entityId, 3);
             Assert.Count(3, retd);
             Assert.AreElementsEqualIgnoringOrder(stored.Take(3), retd, CommentTestData.Equals);
             AssertUtil.AssertAdjacentElementsAre(retd, (current, next) => current.CommentTime < next.CommentTime );

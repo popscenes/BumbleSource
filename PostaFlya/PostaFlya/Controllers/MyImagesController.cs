@@ -28,7 +28,7 @@ namespace PostaFlya.Controllers
 
         public List<ImageViewModel> Get(string browserid)
         {
-            return _imageQueryService.GetByBrowserId(browserid).Select(_ => _.ToViewModel().GetImageUrl(_blobStorage)).ToList();
+            return _imageQueryService.GetByBrowserId<Image>(browserid).Select(_ => _.ToViewModel().GetImageUrl(_blobStorage)).ToList();
         }
     }
 }

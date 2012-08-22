@@ -22,7 +22,7 @@ namespace PostaFlya.Domain.Browser.Command
         {
             using (_unitOfWorkFactory.GetUnitOfWork(GetReposForUnitOfWork()))
             {
-                _browserRepository.UpdateEntity(command.BrowserId, browser => browser.Distance = command.Distance);
+                _browserRepository.UpdateEntity<Browser>(command.BrowserId, browser => browser.Distance = command.Distance);
             }
 
             return true;

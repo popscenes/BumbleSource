@@ -6,9 +6,10 @@ using WebSite.Infrastructure.Domain;
 
 namespace WebSite.Infrastructure.Command
 {
-    public interface GenericRepositoryInterface<EntityType> : RepositoryInterface 
+    public interface GenericRepositoryInterface : RepositoryInterface 
     {
-        void UpdateEntity(string id, Action<EntityType> updateAction);
-        void Store(EntityType entity);
+        void UpdateEntity<UpdateType>(string id, Action<UpdateType> updateAction) where UpdateType : class, new();
+        void UpdateEntity(Type entity, string id, Action<object> updateAction);
+        void Store<EntityType>(EntityType entity);
     }
 }

@@ -16,7 +16,7 @@ using PostaFlya.Domain.Location;
 using PostaFlya.Domain.Service;
 using WebSite.Infrastructure.Command;
 using WebSite.Infrastructure.Query;
-using WebSite.Infrastructure.Service;
+//using WebSite.Infrastructure.Service;
 
 namespace PostaFlya.Domain.Binding
 {
@@ -44,17 +44,17 @@ namespace PostaFlya.Domain.Binding
                 .InSingletonScope();
 
             //just have a default non-functional repository for  FlierBehaviour.None
-            Bind<GenericRepositoryInterface<FlierBehaviourInterface>>()
+            Bind<FlierBehaviourDefaultRespositoryInterface>()
                 .To<FlierBehaviourDefaultRespository>()
                 .InSingletonScope();
-            Bind<GenericQueryServiceInterface<FlierBehaviourInterface>>()
+            Bind<FlierBehaviourDefaultRespositoryInterface>()
                 .To<FlierBehaviourDefaultRespository>()
                 .InSingletonScope();
 
             //generic services binding
-            Bind<GenericServiceFactoryInterface>()
-                .To<DefaultGenericServiceFactory>()
-                .InSingletonScope();
+//            Bind<GenericServiceFactoryInterface>()
+//                .To<DefaultGenericServiceFactory>()
+//                .InSingletonScope();
 
             Trace.TraceInformation("Finished Binding DefaultServicesNinjectBinding");
 

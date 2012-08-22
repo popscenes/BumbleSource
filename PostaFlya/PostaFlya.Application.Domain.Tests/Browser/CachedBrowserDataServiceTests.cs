@@ -49,19 +49,19 @@ namespace PostaFlya.Application.Domain.Tests.Browser
             var repository = kernel.Get<BrowserRepositoryInterface>();
 
             var storedBrowser = BrowserTestData.StoreOne(BrowserTestData.GetOne(kernel), repository, kernel);
-            var retrievedBrowser = cachedQueryService.FindById(storedBrowser.Id);
+            var retrievedBrowser = cachedQueryService.FindById<PostaFlya.Domain.Browser.Browser>(storedBrowser.Id);
             BrowserTestData.AssertStoreRetrieve(storedBrowser, retrievedBrowser);
 
             const string changedName = "This will not be in cache";
             storedBrowser.Handle = changedName;
             BrowserTestData.UpdateOne(storedBrowser, repository, kernel);
-            retrievedBrowser = cachedQueryService.FindById(storedBrowser.Id);
+            retrievedBrowser = cachedQueryService.FindById<PostaFlya.Domain.Browser.Browser>(storedBrowser.Id);
 
             Assert.AreNotEqual(retrievedBrowser.Handle, changedName);
 
             TestUtil.ClearMemoryCache(cache);
 
-            retrievedBrowser = cachedQueryService.FindById(storedBrowser.Id);
+            retrievedBrowser = cachedQueryService.FindById<PostaFlya.Domain.Browser.Browser>(storedBrowser.Id);
             BrowserTestData.AssertStoreRetrieve(storedBrowser, retrievedBrowser);
         }
 
@@ -86,13 +86,13 @@ namespace PostaFlya.Application.Domain.Tests.Browser
             var cachedBrowserRepository = new CachedBrowserRepository(kernel.Get<BrowserRepositoryInterface>(), cache, new CacheNotifier());
 
             var storedBrowser = BrowserTestData.StoreOne(BrowserTestData.GetOne(kernel), cachedBrowserRepository, kernel);
-            BrowserInterface retrievedBrowser = cachedQueryService.FindById(storedBrowser.Id);
+            BrowserInterface retrievedBrowser = cachedQueryService.FindById<PostaFlya.Domain.Browser.Browser>(storedBrowser.Id);
             BrowserTestData.AssertStoreRetrieve(storedBrowser, retrievedBrowser);
 
             const string changedName = "This will be re cached";
             storedBrowser.Handle = changedName;
             BrowserTestData.UpdateOne(storedBrowser, cachedBrowserRepository, kernel);
-            retrievedBrowser = cachedQueryService.FindById(storedBrowser.Id);
+            retrievedBrowser = cachedQueryService.FindById<PostaFlya.Domain.Browser.Browser>(storedBrowser.Id);
 
             BrowserTestData.AssertStoreRetrieve(storedBrowser, retrievedBrowser);
         }

@@ -4,6 +4,8 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using PostaFlya.Domain.Flier;
+using PostaFlya.Domain.Likes;
 using WebSite.Application.Binding;
 using PostaFlya.Application.Domain.Content;
 using PostaFlya.Areas.Default.Models.Bulletin;
@@ -53,12 +55,12 @@ namespace PostaFlya.Controllers
             {
                 Browser = browser.ToViewModel(blobStorage),
                 Fliers =
-                    flierQueryService.GetByBrowserId(browser.Id)
+                    flierQueryService.GetByBrowserId<Flier>(browser.Id)
                       .Select(f => viewModelFactory
                           .GetBulletinViewModel(f, false).GetImageUrl(blobStorage))
                       .ToList(),
-                LikedFliers = flierQueryService.GetLikesByBrowser(browser.Id)
-                      .Select(l => flierQueryService.FindById(l.EntityId))
+                LikedFliers = flierQueryService.GetByBrowserId<Like>(browser.Id)
+                      .Select(l => flierQueryService.FindById<Flier>(l.AggregateId))
                       .Where(f => f != null)
                       .Select(f => viewModelFactory
                           .GetBulletinViewModel(f, false).GetImageUrl(blobStorage))

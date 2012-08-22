@@ -4,6 +4,7 @@ using MbUnit.Framework;
 using Microsoft.WindowsAzure;
 using Microsoft.WindowsAzure.StorageClient;
 using Ninject;
+using WebSite.Application.Azure.Communication;
 using WebSite.Application.WebsiteInformation;
 using WebSite.Azure.Common.Environment;
 using WebSite.Azure.Common.TableStorage;
@@ -24,17 +25,21 @@ namespace WebSite.Application.Azure.Tests
         public WebsiteInfoServiceAzureTests(string env)
         {
             AzureEnv.UseRealStorage = env == "real";
-        } 
+        }
 
+        private string _tableName;
         [FixtureSetUp]
         public void FixtureSetUp()
         {
-            Kernel.Rebind<TableNameAndPartitionProviderInterface>()
-                .ToConstant(new TableNameAndPartitionProvider<SimpleExtendableEntity>()
-                            {{typeof (SimpleExtendableEntity), 0, "websiteinfotest", e => "", e => e.Get<string>("url")}})
-                .WhenAnyAnchestorNamed("websiteinfo");
+//            Kernel.Rebind<TableNameAndPartitionProviderInterface>()
+//                .ToConstant(new TableNameAndPartitionProvider<SimpleExtendableEntity>()
+//                            {{typeof (SimpleExtendableEntity), 0, "websiteinfotest", e => "", e => e.Get<string>("url")}})
+//                .WhenAnyAnchestorNamed("websiteinfo");
 
             Kernel.Rebind<WebsiteInfoServiceInterface>().To<WebsiteInfoServiceAzure>();
+
+            _tableName =
+                Kernel.Get<TableNameAndPartitionProviderServiceInterface>().GetTableName<WebsiteInfoEntity>(0);
 
             Reinit();
         }
@@ -47,8 +52,8 @@ namespace WebSite.Application.Azure.Tests
 
         private void Reinit()
         {
-            Kernel.Get<AzureTableContext>("websiteinfo").InitFirstTimeUse();
-            Kernel.Get<AzureTableContext>("websiteinfo").Delete<SimpleExtendableEntity>(null, 0);
+            //Kernel.Get<AzureTableContext>("websiteinfo").InitFirstTimeUse();
+            Kernel.Get<TableContextInterface>().Delete<WebsiteInfoEntity>(_tableName, null, 0);
         }
 
         private void RegisterPostaFlya()
@@ -84,10 +89,10 @@ namespace WebSite.Application.Azure.Tests
         {
             RegisterPostaFlya();
 
-            var ctx = Kernel.Get<AzureTableContext>("websiteinfo");
+            var ctx = Kernel.Get<TableContextInterface>();
 
             var websites = ctx
-                .PerformQuery<SimpleExtendableEntity>()
+                .PerformQuery<WebsiteInfoEntity>(_tableName)
                 .Select(e => e.Get<string>("url"))
                 .ToList();
 

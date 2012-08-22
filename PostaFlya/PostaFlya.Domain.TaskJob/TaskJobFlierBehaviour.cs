@@ -22,8 +22,8 @@ namespace PostaFlya.Domain.TaskJob
         }
 
 
-        private FlierInterface _flier;
-        public override FlierInterface Flier
+        private Flier.Flier _flier;
+        public override Flier.Flier Flier
         {
             get { return _flier; }
             set { 

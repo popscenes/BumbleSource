@@ -13,17 +13,15 @@ namespace WebSite.Infrastructure.Authentication
 
         public AccessToken AccessToken { get; set; }
 
-        public override int GetHashCode()
-        {
-            return IdentityProvider.GetHashCode() ^ UserIdentifier.GetHashCode();
-        }
         public override bool Equals(object obj)
         {
-            if (obj == null || !(obj is IdentityProviderCredential))
-                return false;
-            var other = obj as IdentityProviderCredential;
-            return IdentityProvider.Equals(other.IdentityProvider) && UserIdentifier.Equals(other.UserIdentifier);
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            var identprovider = obj as IdentityProviderCredential;
+            if (identprovider == null) return false;
+            return Equals(identprovider);
         }
+
         public string GetHash()
         {
             return CryptoUtil.CalculateHash(IdentityProvider + UserIdentifier);
@@ -32,6 +30,31 @@ namespace WebSite.Infrastructure.Authentication
         public override string ToString()
         {
             return IdentityProvider + "|" + UserIdentifier + "|" + Name + "|" + Email;
+        }
+
+        public void CopyFieldsFrom(IdentityProviderCredential credential)
+        {
+            IdentityProvider = credential.IdentityProvider;
+            UserIdentifier = credential.UserIdentifier;
+            Name = credential.Name;
+            Email = credential.Email;
+            AccessToken = AccessToken;
+        }
+
+        public bool Equals(IdentityProviderCredential other)
+        {
+            if (ReferenceEquals(null, other)) return false;
+            if (ReferenceEquals(this, other)) return true;
+            return Equals(other.IdentityProvider, IdentityProvider) && Equals(other.UserIdentifier, UserIdentifier);
+        }
+
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                return ((IdentityProvider != null ? IdentityProvider.GetHashCode() : 0)*397) 
+                    ^ (UserIdentifier != null ? UserIdentifier.GetHashCode() : 0);
+            }
         }
     }
 }

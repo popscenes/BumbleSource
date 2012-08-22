@@ -41,8 +41,8 @@ namespace PostaFlya.Areas.TaskJob.Controllers
         //just put here to test api routing
         public IQueryable<MyTaskJobModel> Get(string browserId)
         {
-           return _flierQueryService.GetByBrowserId(browserId).Where(f => f.FlierBehaviour == FlierBehaviour.TaskJob)
-                .Select(f => _jobQueryService.FindById(f.Id)
+           return _flierQueryService.GetByBrowserId<Domain.Flier.Flier>(browserId).Where(f => f.FlierBehaviour == FlierBehaviour.TaskJob)
+                .Select(f => _jobQueryService.FindById<TaskJobFlierBehaviour>(f.Id)
                     .ToMyTaskJobModel(_blobStorage));
         }
 
