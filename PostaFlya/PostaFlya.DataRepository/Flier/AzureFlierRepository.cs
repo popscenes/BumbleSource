@@ -24,10 +24,6 @@ namespace PostaFlya.DataRepository.Flier
         , FlierRepositoryInterface
         , FlierQueryServiceInterface
     {
-        //private readonly AzureTableContext _tableContext;
-        private readonly LocationServiceInterface _locationService;
-//        private readonly AzureCommentRepository _commentRepository;
-//        private readonly AzureLikeRepository _likeRepository;
         private readonly FlierSearchServiceInterface _flierSearchService;
 
 
@@ -35,15 +31,9 @@ namespace PostaFlya.DataRepository.Flier
 
         public AzureFlierRepository(TableContextInterface tableContext
             , TableNameAndPartitionProviderServiceInterface nameAndPartitionProviderService
-            , LocationServiceInterface locationService
-//            , AzureCommentRepository commentRepository
-//            , AzureLikeRepository likeRepository
             , FlierSearchServiceInterface flierSearchService)
             : base(tableContext, nameAndPartitionProviderService, flierSearchService)
         {
-            _locationService = locationService;
-//            _commentRepository = commentRepository;
-//            _likeRepository = likeRepository;
             _flierSearchService = flierSearchService;
         }
 
@@ -58,64 +48,6 @@ namespace PostaFlya.DataRepository.Flier
 
         #endregion
 
-//        public CommentableInterface AddComment(CommentInterface comment)
-//        {
-//            var queryFlier = FindById<Domain.Flier.Flier>(comment.EntityId);
-//            if (queryFlier == null)
-//                return null;
-//
-//            if(!_commentRepository.PerformActionInSingleUnitOfWork(r => r.Store(comment)))
-//                return queryFlier;
-//
-//            UpdateEntity<Domain.Flier.Flier>(comment.EntityId, flier => { 
-//                flier.NumberOfComments++;
-//                queryFlier.CopyFieldsFrom(flier);
-//            });
-//
-//            return queryFlier;            
-//        }
-//
-//        public IQueryable<CommentInterface> GetComments(string flierId, int take = -1)
-//        {
-//            return _commentRepository.GetByEntity(flierId, take);
-//        }
-//
-//        public LikeableInterface Like(LikeInterface like)
-//        {
-//            var queryFlier = FindById<Domain.Flier.Flier>(like.EntityId);
-//            if (queryFlier == null)
-//                return null;
-//
-//            like.EntityTypeTag = "Flier";
-//
-//            var idKey = AzureLikeRepository.GetIdPartitionKey(like);
-//            
-//            var existingLike = _likeRepository.FindById<Like>(idKey);
-//            if(existingLike == null)
-//            {
-//                if(!_likeRepository.PerformActionInSingleUnitOfWork(l => l.Store(like)))
-//                    return null;
-//
-//                //TODO move to background command if needed
-//                UpdateEntity<Domain.Flier.Flier>(like.EntityId, flier =>
-//                {
-//                    flier.NumberOfLikes =
-//                        _likeRepository.GetByEntity(like.EntityId).Count();
-//                    queryFlier.CopyFieldsFrom(flier);
-//                });                
-//            }
-//
-//            return queryFlier;
-//        }
-//
-//        public IQueryable<LikeInterface> GetLikes(string id)
-//        {
-//            return _likeRepository.GetByEntity(id);
-//        }
-//
-//        public IQueryable<LikeInterface> GetLikesByBrowser(string browserId)
-//        {
-//            return _likeRepository.FindByBrowserAndEntityTypeTag(browserId, "Flier");
-//        }
+
     }
 }

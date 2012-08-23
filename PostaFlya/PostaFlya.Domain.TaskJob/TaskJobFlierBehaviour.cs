@@ -28,7 +28,7 @@ namespace PostaFlya.Domain.TaskJob
             get { return _flier; }
             set { 
                 _flier = value;
-                UpdateFlierProperties();
+                AttachFlierProperties();
             }
         }
 
@@ -38,24 +38,23 @@ namespace PostaFlya.Domain.TaskJob
             get { return _flierProperties != null ? _flierProperties.PropertyGroup : null; }
             set { 
                 _flierProperties = value != null ? new TaskJobFlierBehaviourFlierProperties(value) : null;
-                UpdateFlierProperties();
+                AttachFlierProperties();
             }
         }
         #endregion
 
-        private void UpdateFlierProperties()
+        private void AttachFlierProperties()
         {
             if (Flier == null || _flierProperties == null) return;
-            if (Flier.ExtendedProperties == null)
-                Flier.ExtendedProperties = _flierProperties.PropertyGroup;
-            else
+            if (Flier.ExtendedProperties != null)
             {
-                foreach (var kv in _flierProperties.PropertyGroup.ToArray())
+                foreach (var kv in Flier.ExtendedProperties.ToArray())
                 {
-                    Flier.ExtendedProperties[kv.Key] = kv.Value;
+                    _flierProperties.PropertyGroup[kv.Key] = kv.Value;
                 }
-                _flierProperties = new TaskJobFlierBehaviourFlierProperties(Flier.ExtendedProperties);
             }
+
+            Flier.ExtendedProperties = _flierProperties.PropertyGroup;
 
         }
 

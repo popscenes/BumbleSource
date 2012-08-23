@@ -34,6 +34,11 @@ namespace PostaFlya.Domain.Flier
             target.ImageList = source.ImageList;
             target.ExternalSource = source.ExternalSource;
             target.ExternalId = source.ExternalId;
+            target.ExtendedProperties = source.ExtendedProperties != null
+                                            ? new Dictionary<string, object>(source.ExtendedProperties)
+                                            : null;
+            target.NumberOfComments = source.NumberOfComments;
+            target.NumberOfLikes = source.NumberOfLikes;
         }        
     }
     public interface FlierInterface : 
@@ -56,6 +61,6 @@ namespace PostaFlya.Domain.Flier
         string ExternalId { get; set; }
         string CountryCode { get; set; }
         string PostCode { get; set; }
-        Dictionary<string, object> ExtendedProperties { get; set; } 
+        Dictionary<string, object> ExtendedProperties { get;set; } 
     }
 }

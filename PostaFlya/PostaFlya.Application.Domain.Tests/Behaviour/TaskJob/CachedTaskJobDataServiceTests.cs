@@ -45,7 +45,8 @@ namespace PostaFlya.Application.Domain.Tests.Behaviour.TaskJob
 
             var repository = kernel.Get<TaskJobRepositoryInterface>();
 
-            var stored = TaskJobTestData.StoreOne(TaskJobTestData.GetOne(kernel), repository, kernel);
+            var stored = TaskJobTestData.GetOne(kernel);
+            TaskJobTestData.StoreOne(stored, repository, kernel);
             var retrieved = cachedQueryService.FindById<TaskJobFlierBehaviour>(stored.Id);
             TaskJobTestData.AssertStoreRetrieve(stored, retrieved);
 
