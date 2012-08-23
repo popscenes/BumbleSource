@@ -1,0 +1,100 @@
+EANHotelID|SequenceNumber|Name|Address1|Address2|City|StateProvince|PostalCode|Country|Latitude|Longitude|AirportCode|PropertyCategory|PropertyCurrency|StarRating|Confidence|SupplierType|Location|ChainCodeID|RegionID|HighRate|LowRate|CheckInTime|CheckOutTime
+109411|1|Lux 11 Berlin Mitte|Rosa-Luxemburg-Str. 9-13||Berlin||10178|DE|52.52453|13.41001|TXL|1|EUR|4.0|52|ESR|Near Alexanderplatz||536|282.4372|145.7203|4 PM|noon
+113558|1|Howard Johnson Missoula Mt|3530 Brooks St||Missoula|MT|59801|US|46.83881|-114.03312|MSO|1|USD|2.0|40|ESR|Near Fort Missoula|57|2425|99.99|79.99|3 PM|11 AM
+116419|1|Caribbea Bay Resort|425 Impala Drive||Kariba|||ZW|-16.53307|28.79498|KAB|3|ZWD|3.0|90|ESR|On a lake||1747|161|160|2 PM|10 AM
+120843|1|Americas Best Value Inn|2512 W Lincolnway||Cheyenne|WY|82001|US|41.11915|-104.84949|CYS|2|USD|2.0|91|ESR|In the city center|2088|963|78.81|77.81||
+130170|1|M-Star Hotel Goodlettsville|355 East Cedar Street||Goodlettsville|TN|37072|US|36.32645|-86.70228|BNA|1|USD|2.0|52|ESR|In the suburbs|2650|8012|44.9493|44.3989|3 PM|11 AM
+137829|1|Kyriad Chateauroux|384 Avenue De Verdun||Chateauroux||36000|FR|46.80203|1.69661|BOU|1|EUR|2.0|81|ESR|In the city center|2183|6619|86.33|57.66||
+138707|1|Fairfield Inn & Suites Roanoke North|7944 Plantation Rd||Roanoke|VA|24019|US|37.35660|-79.95602|ROA|1|USD|2.5|79|ESR|Near Hollins University|44|6056918|140|139|3 PM|noon
+142257|1|Super 8 Rock Springs|88 Westland Way||Rock Springs|WY|82901|US|41.57749|-109.25019|RKS|1|USD|2.0|5|ESR|Near a shopping district|733|3005|100.88|72.79|2 PM|11 AM
+142923|1|Best Western Plus Franklin Square Inn Troy/Albany|1 Fourth Street,||Troy|NY|12180-3225|US|42.73361|-73.68870|ALB|1|USD|2.5|91|ESR|Near Troy Savings Bank Music Hall||6201|160.99|159.99|3 PM|11 AM
+143205|1|Hotel International|5621 196th St Sw||Lynnwood|WA|98036|US|47.82125|-122.30886|PAE|1|USD|2.0|90|ESR|Near Lynnwood Convention Center||5990|78.5751|73.0066|3:00 PM|12:00 PM
+145920|1|Comfort Inn Botanical|Corner French & Thompson Sts||Hamilton|VC|3300|AU|-37.74547|142.02447|MEL|2|AUD|3.0|90|ESR|On a lake|21|7706|135.4155|134.4155|2 PM|10 AM
+160947|1|The Tokyo Station Hotel|1-9-1 Marunouchi|Chiyoda-ku|Tokyo||100-0005|JP|35.68211|139.76585|NRT|1|JPY|4.5|52|ESR|In Tokyo (Nihonbashi)||3593|620.6897|384.7672|3 PM|noon
+162834|1|Royal Inn Abilene|5695 S 1st St||Abilene|TX|79605|US|32.45264|-99.79666|ABI|1|USD|2.0|52|ESR|Near Dyess Air Force Base|2650|6058806|65|45|1400|1200
+169246|1|Sleep Inn & Suites Miles City|1006 S Haynes Ave||Miles City|MT|59301|US|46.39914|-105.82268|MLS|1|USD|2.0|52|ESR|Near Range Riders Museum|141|2351|155|140|3:00 PM|11:00 AM
+170746|1|Phoenician Resort Apartments|Arcade 3/2713 Main Place||Broadbeach|QL|4218|AU|-28.02759|153.43039|OOL|28|AUD|4.0|52|ESR|Near Jupiters Casino||177549|328.2268|182.3483|2 PM|10 AM
+173022|1|Il Melograno|Contrada Torricella 345||Monopoli||70043|IT|40.92507|17.27602|BRI|1|EUR|5.0|5|ESR|In a rural location|2711|4955|953.79|470.31|3 PM|noon
+175377|1|The Gateway Hotel Ramgarh Lodge Jaipur|The Ramgarh Lake||Jamwa Ramgarh||303109|IN|27.04702|76.06121|JAI|3|INR|4.5|91|ESR|On a lake|734|6177364|143.5089|116.6|2:00 PM|12:00 PM
+180645|1|Naxos Magic Village|Stellida||Naxos||84300|GR|37.08722|25.34888|JNX|22|EUR|2.0|52|ESR|Near Agios Prokopios Beach||1716|140.16|128.47||
+181956|1|'Point West Apartments by Crown Lawn|116 Cromwell Road||London||SW7 4XE|GB|51.49481|-.18621|LHR|16|GBP|4.0|0|ESR|Near Royal Albert Hall|2024|2114|806.7618|405.7404|2 PM|10 AM
+185953|1|NM Lima Hotel|Av Pardo y Aliaga 300|San Isidro|Lima|||PE|-12.10729|-77.03605|LIM|1|PEN|4.0|52|ESR|In Lima (San Isidro)||2077|220|130|1 PM|noon
+186497|1|Best Western Moore Place Hotel|Aspley Guise Village||Milton Keynes||MK17 8DW|GB|52.01354|-.62916|LTN|1|GBP|3.0|90|ESR|In the city center|17|8370|219.9526|106.0486|2:00 PM|11:00 AM
+194447|1|The Ajit Bhawan - A Palace Resort|Circuit House Road||Jodhpur||342006|IN|26.25085|73.04715|JDH|1|INR|3.5|52|ESR|In Jodhpur||1678|361.76|126.62||
+197067|1|The Estes Park Resort|1700 Big Thompson Ave||Estes Park|CO|80517|US|40.38056|-105.49339|DEN|1|USD|3.5|87|ESR|Near Lake Estes Marina||7854|279|229|4 PM|11 AM
+199304|1|Kemeys Mountain Hideaway|410 Sauls Road|Lake Macquarie|Mandalong|NW|2264|AU|-33.11060|151.41808|SYD|5|AUD|4.5|52|ESR|In Mandalong (Lake Macquarie)||6058864|204.9606|199.7052|2 PM|11 AM
+200243|1|Odeon Hotel|Vassiliki||Vassiliki||31082|GR|38.62592|20.61224|PVK|22|EUR|2.0|52|ESR|On an island||602809|86.45|70.31||
+203832|1|Northwoods Inn|2520 Main Street||Lake Placid|NY|12946|US|44.28665|-73.98516|LKP|15|USD|3.0|74|ESR|Near Lake Placid Winter Olympic Museum||6096|174|144|4 pm|11am
+204225|1|Comfort Inn Mandurah|110 Mandurah Terrace||Mandurah|WT|6210|AU|-32.52541|115.72258|PER|2|AUD|3.0|85|ESR|Near Mandurah Community Museum|21|177546|171.93|134.42||
+213535|1|Egnatia Hotel|Antigonidon 16|Center|Thessaloniki||54630|GR|40.63976|22.93965|nul|1|EUR|3.0|52|ESR|Near Church of Panagia Chalkeon||3186|103.3544|68.9111|2 PM|12:30 PM
+213759|1|Super 8 Burnham Lewistown|12886 Ferguson Valley Rd||Burnham|PA|17009-1839|US|40.62780|-77.58432|SCE|2|USD|2.0|89|ESR|In the mountains|733|6255|134|75.6|3 PM|11 AM
+213892|1|Knipoch Hotel|Knipoch||Oban||PA34 4QT|GB|56.35236|-5.47760|OBN|1|GBP|3.0|52|ESR|In Oban|2327|9144|314.5326|313.5326||
+215473|1|Northcote Manor|Burrington||Umberleigh||EX37 9LZ|GB|50.95762|-3.94723|EXT|1|GBP|3.0|52|ESR|In a rural location||182678|502.04|271.93||
+215495|1|Lake Side Hotel|23 Ngoc Khanh, Ba Dinh||Hanoi||10000|VN|21.02835|105.81242|HAN|1|VND|3.0|52|ESR|Near Temple of Literature||6054458|114|70|2 PM|Noon
+215612|1|Red Roof Jackson Oh|1000 Acy Ave||Jackson|OH|45640|US|39.03481|-82.60207|CMH|1|USD|2.0|93|ESR|In the city center|117|8193|105.99|104.99|3:00 PM|12:00 PM
+215670|1|Hotel Suites Amberes|Amberes No 64||Mexico City||06600|MX|19.42457|-99.16471|MEX|1|MXN|3.5|3|ESR|Near Monumento a los Heroes de la Independencia||2265|149.32|102.6635|2:00 PM|3:00 PM
+231226|102|Belle Neige Whistler|8597 Drifter Way||Whistler|BC|V0N1B8|CA|50.14769|-122.96972|YWS|7|CAD|3.0|52|ESR|Near Nicklaus North Golf Course|2136|4115|166|165||
+239146|998|The Inn at St. John's|44045 Five Mile Road||Plymouth|MI|48170|US|42.39589|-83.47815|DTW|4|USD|4.0|41|ESR|Next to a golf course||9122|219|179||
+261269|998|The Barefoot Suites|2750 Florida Plaza Blvd||Kissimmee|FL|34746|US|28.32897|-81.51730|MCO|7|USD|2.5|60|ESR|In Kissimmee (Maingate East)||7927|92.6493|67.1496|4 PM|10 AM
+256998|998|Hotel Viger Downtown Montreal|1001 Rue Saint-hubert||Montreal|PQ|H2L3Y3|CA|45.51338|-73.55427|YMY|1|CAD|2.0|86|ESR|Near University of Quebec-Montreal|2650|4005|89.9557|85.913|2:00 PM|12:00 PM
+247700|998|Kunduchi Beach Hotel And Resort|Off. Bagamoyo Road, Nr. Mtongani|Kunduchi|Dar Es Salaam|||TZ|-6.66709|39.21676|DAR|1|TZS|4.0|52|ESR|In Dar Es Salaam||978|400|164|1400|1000
+228579|998|Margaretville Mtn Inn B&B and Village Suites|1478 Margaretville Mtn Road||Margaretville|NY|12455|US|42.16727|-74.66846|ALB|4|USD|3.0|52|ESR|In a rural location|2136|129957|199.9998|107.3399||
+239609|998|Portrait Suites|Via Bocca Di Leone 23||Rome||00187|IT|41.90534|12.48038|FCO|33|EUR|.0|84|ESR|Near Galleria Alberto Sordi||3023|2207.6965|799.2108|2 PM|noon
+239894|998|Jukaso IT Suites|Plot No 1, IDC Industial Area|Mehrauli Road|Gurgaon||122001|IN|28.47270|77.05355|DEL|1|INR|3.5|52|ESR|Near Galaxy Mall||181259|91.34|90.34|noon|noon
+239994|998|Motel 6 - Albany Airport|1600 Central Ave||Albany|NY|12205|US|42.71812|-73.83322|ALB|1|USD|1.5|52|ESR|Near Colonie Center Mall|2021|355|87.67|86.67|3:00 PM|11:00 AM
+240322|998|Best Western Lakeside Lodge Motel|100 Bruxner Highway South||Lismore|NW|2480|AU|-28.83130|153.26547|BNE|2|AUD|3.5|52|ESR|On a lake|17|2146|171.9283|125.0388||
+240824|998|Hotel De La Opera|Calle 10 N 5 72||Bogota||00000|CO|4.60000|-74.08000|BOG|1|COP|3.5|87|ESR|Near Plaza de Bolivar||653|276.0023|227.9978|3 PM|12:30 PM
+240969|998|The Dolphin Inn|399 S Ocean Ave||Cayucos|CA|93430|US|35.44567|-120.89786|SBP|2|USD|2.0|90|ESR|In the city center||182965|163.9|71.5|2:00 PM|11:00 AM
+241152|998|Ocean City Mansion Bed and Breakfast|416 Central Ave||Ocean City|NJ|08226|US|39.28360|-74.56881|PHL|5|USD|3.0|52|ESR|Near Carey Stadium|2136|9052|319|263|2:00 PM|10:00 AM
+241262|998|Cabana Inn|1600 Main St||Boise|ID|83702|US|43.62070|-116.21357|BOI|2|USD|2.0|52|ESR|Near Idaho State Capitol Building||655|55.99|45.99|1:00 PM|11:00 AM
+241284|998|Kyriad Epinal Centre|12 Av Du General De Gaulle||Epinal||88000|FR|48.17747|6.44236|ETZ|1|EUR|3.0|79|ESR|In the city center|2183|1152|91.77|90.77||
+241427|998|Central Hotel NanJing|No 75 ZhongShan Road||Nanjing||210000|CN|32.04787|118.77867|NKG|1|CNY|4.0|93|ESR|Near Nanjing University||6084436|189.8249|95.4613|2:00 PM|12:00 PM
+241528|998|Mission Hills Resort Shenzhen|No 1 Mission Hills Road||Shenzhen|||CN|22.73995|114.07167|SZX|3|CNY|5.0|0|ESR|Next to a golf course||3354|666.9902|188.616|2 PM|noon
+241534|998|Mason Hotel Shanghai|No 935 Huaihai Road||Shanghai||200020|CN|31.22418|121.45505|PVG|1|CNY|3.0|52|ESR|Near Jing An Temple||3145|175.7335|81.3699|1 PM|noon
+241575|998|Dann Carlton Barranquilla|Calle 98 # 52B-10||Barranquilla||00000|CO|11.01102|-74.82907|BAQ|1|COP|4.0|62|ESR|In Barranquilla||494|466.67|200|1500|1500
+241583|998|Rich Garden Hotel|No. 628, Gubei Road|Hongqiao District|Shanghai||200336|CN|31.21128|121.39276|SHA|1|CNY|3.0|52|ESR|In Shanghai (Changning)||3145|112|81.95||
+242553|998|Sunstar Hotel Klosters|Boscaweg 7,Klosters||Klosters-Serneus||7252|CH|46.88252|9.87429|ZRH|1|CHF|4.0|98|ESR|In Klosters-Serneus||4287|267.09|207.73||
+243117|998|Hotel Zzz|No.1016 Shennan Zhonglu,|Futian District|Shenzhen||518000|CN|22.54333|114.09557|SZX|1|CNY|3.0|52|ESR|Near Shenzhen Museum||3354|41.6026|40.3696|noon|2 PM
+243217|998|Hotel Schreiberhof|Erdinger Strasse 2||Aschheim||85609|DE|48.17115|11.71668|MUC|1|EUR|3.5|65|ESR|In the suburbs||6034367|101.43|91.29|3 PM|11 AM
+244461|998|Americas Best Value Inn & Suites-Clovis/Fresno|1616 Clovis Ave||Clovis|CA|93612|US|36.81294|-119.70018|FAT|1|USD|2.0|91|ESR|In the city center|2088|180639|99|71.1|1:00 PM|11:00 AM
+244873|998|Killashee House Hotel|Kilcullen Road||Naas|||IE|53.19539|-6.67673|DUB|1|EUR|4.0|5|ESR|Near Craddockstown Golf Club||55380|216.8368|215.8368||
+244875|998|Shanghai Pearl Hotel|No.212, Zhaojiabang Road|Huangpu District|Shanghai||200020|CN|31.21075|121.45545|SHA|1|CNY|3.0|52|ESR|In Shanghai (Xuhui)||3145|66.66|54.36|1800|1200
+245070|998|Burleigh Court Hotel|Loughborough University|New Ashby Road|Loughborough||LE11 3TD|GB|52.76178|-1.23985|EMA|1|GBP|4.0|77|ESR|Near a shopping district|2415|4680|202.7788|65.4161|2 PM|10 AM
+245209|998|Hacienda & Ecolodge Morgan's Rock|12 km northwest of San Juan del Sur|Playa Ocotal|San Juan del Sur|||NI|11.28616|-85.90267|MGA|1|NIO|3.0|52|ESR|By the ocean||6024032|245.006|244.006|noon|noon
+245862|998|Beijing Yifa Hotel|No.56 Dongzhimen Wai Avenue|Dongcheng District|Beijing||100027|CN|39.93655|116.43043|PEK|1|CNY|3.0|52|ESR|In Beijing (Dongcheng - Wangfujing)||597|43.4933|29.8171|1200|1200
+245885|998|Victoria Lodge Motor Inn|155 Percy Street||Portland|VC|3305|AU|-38.34065|141.60397|PTJ|2|AUD|4.0|91|ESR|Near Nuns Beach||2893|216.3171|156.2985|2:00 PM|10:00 AM
+245887|998|Sun Star Inn|839 W Pacheco Blvd||Los Banos|CA|93635|US|37.05688|-120.86464|MOD|2|USD|2.0|5|ESR|Near Los Banos City Hall||8582|60|50|1300|1100
+246003|998|Phoenix Hotel Inner Mongolia|No.96 Zhelimu Road||Hohhot||010010|CN|40.83066|111.67898|HET|1|CNY|4.0|90|ESR|Near Inner Mongolia Museum||1445|150.4317|88.8875|8 AM|2 PM
+246036|998|Grand Hotel Continental|93 Place Drouet D Erlon||Reims||51100|FR|49.25687|4.02619|RHE|1|EUR|3.0|48|ESR|Near Mars Gate||2987|311.17|95.66|3 PM|noon
+246443|998|Grand Mercure Urumqi Hualing by ACCOR|No.109 East Xihong Road||Urumqi||830000|CN|43.81639|87.60781|URC|1|CNY|4.5|5|ESR|Near Hongshan Park|2838|3647|278.37|168.28|12:00 PM|12:00 PM
+246479|998|Golden Island Hotel|No. 789, Zhizaoju Road|Huangpu District|Shanghai||200011|CN|31.20653|121.47861|SHA|1|CNY|3.5|52|ESR|Near Xintiandi||3145|50|34|1400|1200
+247227|998|Life Heritage Resort Hoi An|1 Pham Hong Thai Street||Hoi An||10000|VN|15.87745|108.33540|DAD|3|VND|4.0|76|ESR|Near Hoi An Ancient Town||6054425|367|164.7|noon|2 PM
+247308|998|Jefferson Inn Dandridge|127 Sharon Dr||Dandridge|TN|37725|US|36.03647|-83.43910|TYS|1|USD|2.0|88|ESR|In Dandridge|2650|95043|61|60|12:00 PM|11:00 AM
+247363|998|Aparthotel Club Simo|C/Los Almendros 24|Cala Millor|Son Servera||7560|ES|39.60277|3.37955|PMI|22|EUR|3.0|5|ESR|In Son Servera (Cala Millor)||6035065|398.33|151.3649|2 PM|noon
+247396|998|The Lodge At Chaa Creek|77 Burns Ave|Cayo District|San Ignacio||1|BZ|17.10058|-89.10432|BZE|3|BZD|3.5|52|ESR|In San Ignacio||601562|270|265|1400|1200
+247701|998|Zanzibar Beach Resort|Mazizini||Zanzibar Town|||TZ|-6.20212|39.20697|ZNZ|1|TZS|3.5|6|ESR|Near the airport||6143849|511|125|1400|1000
+247907|998|Dedeman Park Antalya|Lara Yolu||Antalya||07100|TR|36.86517|30.72741|AYT|1|TRY|3.0|5|ESR|In Antalya (Lara)||481|121.05|89.42|2 PM|noon
+248027|998|Hotel & Spa Hacienda de Cortes|Plaza Kennedy 90,|Col. Atlacomulco Jiutepec|Cuernavaca||62560|MX|18.90584|-99.20564|CVJ|1|MXN|4.0|52|ESR|Near Tabachines Golf Club||944|266.6804|186.677|3 PM|1 PM
+248081|998|The Gurney Resort Hotel & Residences|18 Persiaran Gurney, George Town||Penang||10250|MY|5.42970|100.31895|PEN|3|MYR|3.5|52|ESR|In Penang (Georgetown)||6023813|143.8502|79.915|3:00 PM|12:00 PM
+248141|998|Matahari Terbit Bali|Jl. Pratama-Tanjung Benoa||Nusa Dua||80363|ID|-8.77435|115.22277|DPS|3|IDR|3.0|0|ESR|Near Nusa Dua Beach||9278|91.75|90.75|1400|1200
+248350|998|Chan-Kah Resort Village|KM. 3 Carretera Palenque- Ruinas||Palenque||29960|MX|17.50259|-92.00247|PQM|38|MXN|3.5|0|ESR|In Palenque||9463|99.4673|98.4673||
+248670|998|Hotel Carsson Buenos Aires|Viamonte 650||Buenos Aires||C10J3 ABN|AR|-34.59970|-58.37433|BUE|1|ARS|3.0|5|ESR|Near Teatro Colon||716|84.9981|74.9989|1 PM|11 AM
+248758|998|Marea Brava|Playa Hermosa||Jaco||1|CR|9.56380|-84.58651|SJO|1|CRC|3.0|52|ESR|On the beach||500665|184.9967|99.9986|1 PM|11 AM
+249227|998|Lipa Lodge Beach Resort|75/4 Moo 3, Lipa Noi||Ko Samui||84140|TH|9.50009|99.93527|USM|3|THB|3.5|52|ESR|Near Lipa Noi||6035013|167.496|104.685|noon|noon
+249245|998|Hotel Victoria Poza Rica|Blvd. Adolfo Ruiz Cortines No. 1306|Col. Cazones|Poza Rica||93230|MX|20.54263|-97.45325|PAZ|1|MXN|3.5|0|ESR|In the city center||2737|99.78|83.52|1:00 PM|1:00 PM
+249331|998|Salt Springs Spa Resort|1460 North Beach Rd||Salt Spring Island|BC|V8K1J4|CA|48.92342|-123.55416|YYJ|3|CAD|3.0|85|ESR|On an island||601381|223.9954|168.7637||
+249416|998|Vistana Hotel Penang|213 Jalan Bukit Gambir|Bukit Jambul|Penang||11950|MY|5.33663|100.29133|PEN|1|MYR|3.5|52|ESR|In Penang (Bayan Lepas)||6023813|143.65|63.843|3 PM|noon
+249609|998|Inn at Haystack Rock|487 S Hemlock St||Cannon Beach|OR|97110|US|45.90362|-123.96099|AST|4|USD|2.5|95|ESR|Near Cannon Beach||86225|199|109|3 PM|11 AM
+249769|998|Best Western Plus New Cumberland Inn & Suites|702 Limekiln Rd||New Cumberland|PA|17070|US|40.21229|-76.88184|MDT|1|USD|2.5|84|ESR|In New Cumberland|17|10384|114|102.6|3:00 PM|11:00 AM
+249779|998|Novotel Balikpapan|Jl Brigjen Ery Suparjan No 2||Balikpapan||76112|ID|-1.27680|116.84595|BPN|1|IDR|4.0|52|ESR|Near Plaza Balikpapan|300|665|93.9|66.42||
+250192|998|Shangtex Hotel|No.670, North Shanxi Road|Jingan District|Shanghai||200041|CN|31.23321|121.44849|SHA|1|CNY|3.0|52|ESR|In Shanghai (Jing'an)||3145|59|50||noon
+250591|998|Communication International Hotel|No. 386, Shangtang Road||Hangzhou||310000|CN|30.30151|120.15144|HGH|1|CNY|3.0|52|ESR|In the city center||6084457|96.9208|47.7223|2:00 PM|12:00 PM
+250947|998|Shengyi Holiday Villa Hotel|Sanya Bay Roady|Sanya Bay|Sanya||572000|CN|18.25780|109.49407|SYX|1|CNY|4.0|52|ESR|In Sanya (Sanya Bay)||6069859|117.3376|83.1471||
+251767|998|Victoria Angkor Resort And Spa|Central Park|P.O Box 93145|Siem Reap||17000|KH|13.36632|103.85222|REP|3|USD|4.5|85|ESR|Near Lucky Mall Super Market||2975|342.1645|140.9375||
+251921|998|Hotel Pachacutec Cusco Inn|Infancia C-13 Ovalo Pachacutec Cusco||Cusco||01|PE|-13.53051|-71.96856|CUZ|1|PEN|3.0|52|ESR|Near Garcilaso de la Vega Stadium||941|53.33|40|10AM|9AM
+251994|998|Resort City Inn Coeur d'Alene,|621 E Sherman Ave||Coeur dAlene|ID|83814|US|47.67345|-116.77798|COE|1|USD|2.0|85|ESR|Near Coeur d'Alene Convention and Visitor Center|2650|894|150|149|2 PM|11 AM
+252090|998|Coco Palm Bodu Hithi|04-01 STO Trade Centre|Orchid Magu|Bodu Hithi||20188|MV|4.42987|73.38507|MLE|3|USD|5.0|68|ESR|In North Male Atoll||6084499|1224.9823|649.9906||
+252141|998|Days Inn Stevens Point|159 Division St N||Stevens Point|WI|54481|US|44.53483|-89.57487|STE|1|USD|2.0|79|ESR|Near University of Wisconsin-Stevens Point|31|6059696|69.95|58.46|1400|1100
+252167|998|Hob Knob Inn and Restaurant|2364 Mountain Rd||Stowe|VT|05672|US|44.47729|-72.72205|BTV|4|USD|2.5|84|ESR|In Stowe|2136|8847|101|100||
+252329|998|Nice Résidence|15 Rue De Belgique||Nice||06000|FR|43.70420|7.26249|NCE|1|EUR|.0|52|ESR|Near Nice Etoile Shopping Center|2530|2526|86.7857|85.7857|2:30 PM|11 AM
+252669|998|Orchid Garden Hotel|Lot 31954 Simpang 9 Kg|Anggerek Desa Jalan Berakas|Bandar Seri Begawan||BB3713|BN|4.94072|114.94299|BWN|1|BND|3.5|52|ESR|Near Hassanal Bolkiah National Stadium||740|108.75|107.75|2 PM|noon
