@@ -5,6 +5,7 @@ using WebSite.Infrastructure.Domain;
 
 namespace PostaFlya.Domain.Comments
 {
+    [Serializable]
     public class Comment : EntityBase<CommentInterface>, CommentInterface
     {
         public string AggregateId { get; set; }

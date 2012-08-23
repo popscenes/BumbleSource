@@ -7,6 +7,7 @@ using WebSite.Infrastructure.Domain;
 
 namespace PostaFlya.Domain.Likes
 {
+    [Serializable]
     public class Like : EntityBase<LikeInterface>, LikeInterface 
     {
         public string EntityTypeTag{ get; set; }

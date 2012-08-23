@@ -94,7 +94,8 @@ namespace WebSite.Infrastructure.Caching.Query
                 return null;
             return RetrieveCachedData(
                 GetKeyFor("agg take:" + take, aggregateRootId),
-                () => _genericQueryService.FindAggregateEntities<EntityRetType>(aggregateRootId, take));
+                () => _genericQueryService.FindAggregateEntities<EntityRetType>(aggregateRootId, take)
+                .ToList()).AsQueryable();
         }
     }
 }
