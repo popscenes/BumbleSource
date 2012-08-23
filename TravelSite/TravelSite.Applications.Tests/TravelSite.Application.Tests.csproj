@@ -1,0 +1,94 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{435BF42A-80D6-4AFB-8763-07F618DA8761}</ProjectGuid>
+    <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>TravelSite.Applications.Tests</RootNamespace>
+    <AssemblyName>TravelSite.Applications.Tests</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Gallio, Version=3.3.0.0, Culture=neutral, PublicKeyToken=eb9cfa67ee6ab36e, processorArchitecture=MSIL" />
+    <Reference Include="MbUnit, Version=3.3.0.0, Culture=neutral, PublicKeyToken=eb9cfa67ee6ab36e, processorArchitecture=MSIL" />
+    <Reference Include="Ninject">
+      <HintPath>..\..\Core\WebSite.Application\bin\Debug\Ninject.dll</HintPath>
+    </Reference>
+    <Reference Include="Ninject.MockingKernel">
+      <HintPath>..\..\Core\WebSite.Application.Azure.Tests\bin\Debug\Ninject.MockingKernel.dll</HintPath>
+    </Reference>
+    <Reference Include="Ninject.MockingKernel.Moq">
+      <HintPath>..\..\Core\WebSite.Application.Azure.Tests\bin\Debug\Ninject.MockingKernel.Moq.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Expedia\ExpediaFlatFileImporterTests.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TestFixtureSetup.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ActivePropertyListExtract.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Core\WebSite.Application\WebSite.Application.csproj">
+      <Project>{46DB8930-71D8-4DE4-BAA6-39944F07D6F5}</Project>
+      <Name>WebSite.Application</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Core\WebSite.Infrastructure\WebSite.Infrastructure.csproj">
+      <Project>{B5C3A966-F286-4CB8-913B-C8625625451D}</Project>
+      <Name>WebSite.Infrastructure</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Core\WebSite.Test.Common\WebSite.Test.Common.csproj">
+      <Project>{DC7CC356-EE06-49C0-9985-9D0101AAF45F}</Project>
+      <Name>WebSite.Test.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TravelSite.Applications\TravelSite.Application.csproj">
+      <Project>{1BFD79B2-D3AC-46D2-8292-F75330F7DCAD}</Project>
+      <Name>TravelSite.Application</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\AttributeList.txt" />
+    <Content Include="Resources\HotelImageListExtract.txt" />
+    <Content Include="Resources\PropertyAttributeLinkExtract.txt" />
+    <Content Include="Resources\RoomTypesListExtract.txt" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -1,0 +1,497 @@
+﻿AttributeID|LanguageCode|AttributeDesc|Type|SubType
+1|en_US|Air conditioning|RoomAmenity|RoomAmenity
+3|en_US|Bar/lounge|PropertyAmenity|PropertyAmenity
+6|en_US|Babysitting or childcare|PropertyAmenity|PropertyAmenity
+8|en_US|Elevator/lift|PropertyAmenity|PropertyAmenity
+9|en_US|Fitness facilities|PropertyAmenity|PropertyAmenity
+10|en_US|Airport transportation (complimentary)|PropertyAmenity|PropertyAmenity
+14|en_US|Swimming pool - indoor|PropertyAmenity|PropertyAmenity
+16|en_US|Non-smoking only|RoomAmenity|RoomAmenity
+19|en_US|Restaurant(s) in hotel|PropertyAmenity|PropertyAmenity
+20|en_US|Room service (limited hours)|PropertyAmenity|PropertyAmenity
+22|en_US|Smoking permitted|RoomAmenity|RoomAmenity
+24|en_US|Swimming pool - outdoor|PropertyAmenity|PropertyAmenity
+26|en_US|Television|RoomAmenity|RoomAmenity
+27|en_US|Wheelchair accessible|PropertyAmenity|PropertyAmenity
+28|en_US|Valet parking|PropertyAmenity|PropertyAmenity
+29|en_US|On-site car rental|PropertyAmenity|PropertyAmenity
+31|en_US|Caters to singles|Policy|Other
+32|en_US|Caters to couples|Policy|Other
+33|en_US|Caters to seniors|Policy|Other
+36|en_US|Caters to families|Policy|Other
+37|en_US|Caters to groups|Policy|Other
+38|en_US|Supervised childcare/activities|PropertyAmenity|PropertyAmenity
+40|en_US|Hair salon|PropertyAmenity|PropertyAmenity
+41|en_US|ATM/banking|PropertyAmenity|PropertyAmenity
+43|en_US|Concierge services|PropertyAmenity|PropertyAmenity
+44|en_US|Gift shops or newsstand|PropertyAmenity|PropertyAmenity
+45|en_US|Shopping on site|PropertyAmenity|PropertyAmenity
+51|en_US|Pets accepted|Policy|Pets
+52|en_US|Total number of rooms - |PropertyAmenity|PropertyAmenity
+54|en_US|Number of floors - |PropertyAmenity|PropertyAmenity
+55|en_US|Number of buildings/towers - |PropertyAmenity|PropertyAmenity
+56|en_US|Airport transportation (surcharge)|PropertyAmenity|PropertyAmenity
+57|en_US|Caters to women only|Policy|Other
+58|en_US|Caters to men only|Policy|Other
+81|en_US|Multiple large conference rooms|PropertyAmenity|PropertyAmenity
+82|en_US|Event catering|PropertyAmenity|PropertyAmenity
+83|en_US|Audio-visual equipment|PropertyAmenity|PropertyAmenity
+84|en_US|Cell phone/mobile rental|PropertyAmenity|PropertyAmenity
+90|en_US|Photocopy machines|PropertyAmenity|PropertyAmenity
+91|en_US|Secretarial services|PropertyAmenity|PropertyAmenity
+92|en_US|Translation services|PropertyAmenity|PropertyAmenity
+121|en_US|Wheelchair accessible|RoomAmenity|RoomAmenity
+122|en_US|VCR|RoomAmenity|RoomAmenity
+123|en_US|Cable/satellite television channels|RoomAmenity|RoomAmenity
+126|en_US|Alarm clock|RoomAmenity|RoomAmenity
+127|en_US|Wake-up calls|RoomAmenity|RoomAmenity
+128|en_US|Complimentary newspaper|RoomAmenity|RoomAmenity
+129|en_US|Cooking facilities|RoomAmenity|RoomAmenity
+130|en_US|Refrigerator|RoomAmenity|RoomAmenity
+131|en_US|Minibar|RoomAmenity|RoomAmenity
+132|en_US|Coffee/tea maker|RoomAmenity|RoomAmenity
+133|en_US|Daily housekeeping|RoomAmenity|RoomAmenity
+134|en_US|Extra towels/bedding|RoomAmenity|RoomAmenity
+135|en_US|Hypo-allergenic bedding available|RoomAmenity|RoomAmenity
+136|en_US|Phone|RoomAmenity|RoomAmenity
+137|en_US|Multi-line phone|RoomAmenity|RoomAmenity
+138|en_US|Dial-up Internet access|RoomAmenity|RoomAmenity
+139|en_US|Free local calls|RoomAmenity|RoomAmenity
+140|en_US|Fax machine|RoomAmenity|RoomAmenity
+141|en_US|Private bathroom|RoomAmenity|RoomAmenity
+142|en_US|Bathrobes|RoomAmenity|RoomAmenity
+143|en_US|Complimentary toiletries|RoomAmenity|RoomAmenity
+144|en_US|Hair dryer|RoomAmenity|RoomAmenity
+145|en_US|Iron/ironing board|RoomAmenity|RoomAmenity
+146|en_US|In-room safe|RoomAmenity|RoomAmenity
+147|en_US|Fireplace|RoomAmenity|RoomAmenity
+148|en_US|Jetted bathtub|RoomAmenity|RoomAmenity
+170|en_US|Access|Policy|Payment
+171|en_US|American Express|Policy|Payment
+175|en_US|Barclaycard|Policy|Payment
+177|en_US|Carte Blanche|Policy|Payment
+179|en_US|Diners Club|Policy|Payment
+180|en_US|Discover|Policy|Payment
+182|en_US|Eurocard|Policy|Payment
+183|en_US|JCB International|Policy|Payment
+184|en_US|MasterCard|Policy|Payment
+185|en_US|Preferential Card|Policy|Payment
+186|en_US|Personal checks|Policy|Payment
+188|en_US|Traveler's checks|Policy|Payment
+189|en_US|Visa|Policy|Payment
+190|en_US|Cash not accepted|Policy|Other
+200|en_US|Business services|PropertyAmenity|PropertyAmenity
+201|en_US|Computer rental|PropertyAmenity|PropertyAmenity
+306|en_US|Suitable for children|PropertyAmenity|PropertyAmenity
+312|en_US|Kitchenette|RoomAmenity|RoomAmenity
+316|en_US|Air-conditioned public areas|PropertyAmenity|PropertyAmenity
+317|en_US|Fireplace in lobby|PropertyAmenity|PropertyAmenity
+318|en_US|Balcony|RoomAmenity|RoomAmenity
+319|en_US|Deck|RoomAmenity|RoomAmenity
+320|en_US|Patio|PropertyAmenity|PropertyAmenity
+321|en_US|Barbecue grill(s)|PropertyAmenity|PropertyAmenity
+322|en_US|Yard|RoomAmenity|RoomAmenity
+323|en_US|Parking (surcharge)|PropertyAmenity|PropertyAmenity
+324|en_US|Coffee in lobby|PropertyAmenity|PropertyAmenity
+325|en_US|Microwave in lobby|PropertyAmenity|PropertyAmenity
+331|en_US|Ceiling fan|RoomAmenity|RoomAmenity
+332|en_US|Fax machine|PropertyAmenity|PropertyAmenity
+333|en_US|Internet access in public areas - surcharge|PropertyAmenity|PropertyAmenity
+335|en_US|CD player|RoomAmenity|RoomAmenity
+340|en_US|Washer/dryer|RoomAmenity|RoomAmenity
+341|en_US|Tour assistance|PropertyAmenity|PropertyAmenity
+354|en_US|Ski storage|PropertyAmenity|PropertyAmenity
+361|en_US|Breakfast available (surcharge)|PropertyAmenity|PropertyAmenity
+365|en_US|Domestic help available|PropertyAmenity|PropertyAmenity
+369|en_US|Laundry facilities|PropertyAmenity|PropertyAmenity
+371|en_US|Spa tub|PropertyAmenity|PropertyAmenity
+372|en_US|Television in lobby|PropertyAmenity|PropertyAmenity
+375|en_US|Arcade/game room|PropertyAmenity|PropertyAmenity
+378|en_US|Garden|PropertyAmenity|PropertyAmenity
+385|en_US|Library|PropertyAmenity|PropertyAmenity
+388|en_US|Lanai|RoomAmenity|RoomAmenity
+389|en_US|Video library|PropertyAmenity|PropertyAmenity
+393|en_US|Clubhouse|PropertyAmenity|PropertyAmenity
+394|en_US|Piano|PropertyAmenity|PropertyAmenity
+397|en_US|Pool table|PropertyAmenity|PropertyAmenity
+399|en_US|Espresso maker|RoomAmenity|RoomAmenity
+400|en_US|Poolside bar|PropertyAmenity|PropertyAmenity
+405|en_US|Cashiers/registered check|Policy|Payment
+406|en_US|Money Order|Policy|Payment
+407|en_US|Cash|Policy|Payment
+2000|en_US|Swim-up bar|PropertyAmenity|PropertyAmenity
+2001|en_US|Free breakfast|PropertyAmenity|PropertyAmenity
+2002|en_US|Currency exchange|PropertyAmenity|PropertyAmenity
+2004|en_US|Coffee shop or café|PropertyAmenity|PropertyAmenity
+2005|en_US|Exhibit space|PropertyAmenity|PropertyAmenity
+2007|en_US|Grocery|PropertyAmenity|PropertyAmenity
+2008|en_US|Health club|PropertyAmenity|PropertyAmenity
+2010|en_US|Nightclub|PropertyAmenity|PropertyAmenity
+2011|en_US|Free parking|PropertyAmenity|PropertyAmenity
+2012|en_US|Parking nearby|PropertyAmenity|PropertyAmenity
+2013|en_US|Self-parking|PropertyAmenity|PropertyAmenity
+2014|en_US|Swimming pool - children's|PropertyAmenity|PropertyAmenity
+2015|en_US|Room service (24 hours)|PropertyAmenity|PropertyAmenity
+2016|en_US|Safe-deposit box at front desk|PropertyAmenity|PropertyAmenity
+2017|en_US|Spa services on site|PropertyAmenity|PropertyAmenity
+2018|en_US|Shoe shine|PropertyAmenity|PropertyAmenity
+2019|en_US|Check-in time starts at|Policy|CheckInOut
+2020|en_US|Check-out time is|Policy|CheckInOut
+2022|en_US|Resort fee charged at hotel/condo|Policy|Other
+2024|en_US|Clock radio|RoomAmenity|RoomAmenity
+2025|en_US|Designer toiletries|RoomAmenity|RoomAmenity
+2026|en_US|Desk|RoomAmenity|RoomAmenity
+2027|en_US|DVD/VCR|RoomAmenity|RoomAmenity
+2028|en_US|Video-game console|RoomAmenity|RoomAmenity
+2030|en_US|Climate control|RoomAmenity|RoomAmenity
+2031|en_US|Complimentary weekday newspaper|RoomAmenity|RoomAmenity
+2032|en_US|Patio|RoomAmenity|RoomAmenity
+2034|en_US|Premium bedding|RoomAmenity|RoomAmenity
+2035|en_US|Second bathroom|RoomAmenity|RoomAmenity
+2036|en_US|Shared bathroom|RoomAmenity|RoomAmenity
+2037|en_US|Separate sitting area|RoomAmenity|RoomAmenity
+2038|en_US|Sofa bed|RoomAmenity|RoomAmenity
+2039|en_US|Pay movies|RoomAmenity|RoomAmenity
+2040|en_US|Voice mail|RoomAmenity|RoomAmenity
+2041|en_US|Window opens|RoomAmenity|RoomAmenity
+2042|en_US|Meal plan|RoomAmenity|RoomAmenity
+2043|en_US|Multilingual staff|PropertyAmenity|PropertyAmenity
+2044|en_US|Rollaway beds available|RoomAmenity|RoomAmenity
+2045|en_US|Cribs/infant beds available|RoomAmenity|RoomAmenity
+2046|en_US|High-speed Internet access|RoomAmenity|RoomAmenity
+2047|en_US|Complimentary newspapers in lobby|PropertyAmenity|PropertyAmenity
+2048|en_US|Use of nearby fitness center (complimentary)|PropertyAmenity|PropertyAmenity
+2049|en_US|Picnic area|PropertyAmenity|PropertyAmenity
+2050|en_US|Pets not allowed|Policy|Pets
+2051|en_US|Small pets only|Policy|Pets
+2052|en_US|Trouser press|RoomAmenity|RoomAmenity
+2053|en_US|Room service|PropertyAmenity|PropertyAmenity
+2054|en_US|Soundproofed rooms|RoomAmenity|RoomAmenity
+2055|en_US|Iron/ironing board (on request)|RoomAmenity|RoomAmenity
+2056|en_US|Turndown service|RoomAmenity|RoomAmenity
+2057|en_US|Complimentary bottled water|RoomAmenity|RoomAmenity
+2058|en_US|Microwave|RoomAmenity|RoomAmenity
+2059|en_US|Cookware, dishware, and utensils|RoomAmenity|RoomAmenity
+2061|en_US|Bathroom phone|RoomAmenity|RoomAmenity
+2062|en_US|Bathroom television|RoomAmenity|RoomAmenity
+2063|en_US|24-hour front desk|PropertyAmenity|PropertyAmenity
+2064|en_US|Front desk (limited hours)|PropertyAmenity|PropertyAmenity
+2065|en_US|Business center|PropertyAmenity|PropertyAmenity
+2066|en_US|Porter/bellhop|PropertyAmenity|PropertyAmenity
+2067|en_US|Express check-out|PropertyAmenity|PropertyAmenity
+2068|en_US|Doorman/doorwoman|PropertyAmenity|PropertyAmenity
+2069|en_US|Security guard|PropertyAmenity|PropertyAmenity
+2070|en_US|Dry cleaning/laundry service|PropertyAmenity|PropertyAmenity
+2071|en_US|Banquet facilities|PropertyAmenity|PropertyAmenity
+2072|en_US|Limo or Town Car service available|PropertyAmenity|PropertyAmenity
+2073|en_US|Medical assistance available|PropertyAmenity|PropertyAmenity
+2074|en_US|Swimming pool|PropertyAmenity|PropertyAmenity
+2075|en_US|Direct-dial phone|RoomAmenity|RoomAmenity
+2076|en_US|Welcome amenities|RoomAmenity|RoomAmenity
+2080|en_US|Private beach|PropertyAmenity|PropertyAmenity
+2081|en_US|Premium television channel(s)|RoomAmenity|RoomAmenity
+2082|en_US|Ski-in/ski-out access|PropertyAmenity|PropertyAmenity
+2086|en_US|DVD player|RoomAmenity|RoomAmenity
+2099|en_US|Television Internet access|RoomAmenity|RoomAmenity
+2100|en_US|Wireless Internet access|RoomAmenity|RoomAmenity
+2101|en_US|Internet access - wireless|PropertyAmenity|PropertyAmenity
+2112|en_US|Casino|PropertyAmenity|PropertyAmenity
+2119|en_US|Ballroom(s)|PropertyAmenity|PropertyAmenity
+2120|en_US|Beauty services|PropertyAmenity|PropertyAmenity
+2121|en_US|Concierge desk|PropertyAmenity|PropertyAmenity
+2122|en_US|Elevator/lift attendant|PropertyAmenity|PropertyAmenity
+2123|en_US|Full-service health spa|PropertyAmenity|PropertyAmenity
+2124|en_US|Floor butler|PropertyAmenity|PropertyAmenity
+2125|en_US|Internet access in public areas - high speed|PropertyAmenity|PropertyAmenity
+2126|en_US|Internet access in public areas - dial-up|PropertyAmenity|PropertyAmenity
+2127|en_US|Internet access in public areas - complimentary|PropertyAmenity|PropertyAmenity
+2128|en_US|Marina on site|PropertyAmenity|PropertyAmenity
+2129|en_US|Massage - spa treatment room(s)|PropertyAmenity|PropertyAmenity
+2130|en_US|Microwave (on request)|RoomAmenity|RoomAmenity
+2131|en_US|Multiple small meeting rooms|PropertyAmenity|PropertyAmenity
+2132|en_US|Parking garage|PropertyAmenity|PropertyAmenity
+2133|en_US|Secure parking|PropertyAmenity|PropertyAmenity
+2134|en_US|Steam room|PropertyAmenity|PropertyAmenity
+2135|en_US|Sauna|PropertyAmenity|PropertyAmenity
+2136|en_US|Ski shuttle|PropertyAmenity|PropertyAmenity
+2137|en_US|Smoke-free property|PropertyAmenity|PropertyAmenity
+2138|en_US|Swimming pool - outdoor seasonal|PropertyAmenity|PropertyAmenity
+2139|en_US|Technology helpdesk|PropertyAmenity|PropertyAmenity
+2141|en_US|Billiards|PropertyAmenity|PropertyAmenity
+2148|en_US|Access via exterior corridors|RoomAmenity|RoomAmenity
+2149|en_US|Bidet|RoomAmenity|RoomAmenity
+2150|en_US|Blackout drapes/curtains|RoomAmenity|RoomAmenity
+2151|en_US|In-room childcare (surcharge)|RoomAmenity|RoomAmenity
+2152|en_US|Electronic check-out|RoomAmenity|RoomAmenity
+2153|en_US|Electronic/magnetic keys|RoomAmenity|RoomAmenity
+2154|en_US|Extra towels/bedding in room|RoomAmenity|RoomAmenity
+2155|en_US|Handheld showerhead|RoomAmenity|RoomAmenity
+2156|en_US|Internet access (complimentary)|RoomAmenity|RoomAmenity
+2157|en_US|Internet access (surcharge)|RoomAmenity|RoomAmenity
+2158|en_US|Kitchen|RoomAmenity|RoomAmenity
+2159|en_US|Makeup/shaving mirror|RoomAmenity|RoomAmenity
+2160|en_US|In-room massage available|RoomAmenity|RoomAmenity
+2161|en_US|Sewing kit|RoomAmenity|RoomAmenity
+2162|en_US|Slippers|RoomAmenity|RoomAmenity
+2163|en_US|Umbrellas|PropertyAmenity|PropertyAmenity
+2164|en_US|Pet fee charged at hotel/condo|Policy|Pets
+2165|en_US|Pet deposit required|Policy|Pets
+2166|en_US|Shower only|RoomAmenity|RoomAmenity
+2167|en_US|Wedding services|PropertyAmenity|PropertyAmenity
+2168|en_US|Bathtub only|RoomAmenity|RoomAmenity
+2170|en_US|Separate bathtub and shower|RoomAmenity|RoomAmenity
+2177|en_US|Express check-in|PropertyAmenity|PropertyAmenity
+2178|en_US|Use of nearby fitness center (discount)|PropertyAmenity|PropertyAmenity
+2179|en_US|Bathroom scale|RoomAmenity|RoomAmenity
+2180|en_US|Hair dryer (on request)|RoomAmenity|RoomAmenity
+2181|en_US|Refrigerator (on request)|RoomAmenity|RoomAmenity
+2182|en_US|Remote lighting/drapery/curtain control|RoomAmenity|RoomAmenity
+2183|en_US|Shower/tub combination|RoomAmenity|RoomAmenity
+2184|en_US|Turndown service (on request)|RoomAmenity|RoomAmenity
+2185|en_US|Small pets considered|Policy|Pets
+2186|en_US|Children's club|PropertyAmenity|PropertyAmenity
+2188|en_US|Major credit cards|Policy|Payment
+2189|en_US|Local Expert Concierge|PropertyAmenity|PropertyAmenity
+2348|en_US|Technology support staff|PropertyAmenity|PropertyAmenity
+2349|en_US|Designated smoking areas|PropertyAmenity|PropertyAmenity
+2351|en_US|Music library|PropertyAmenity|PropertyAmenity
+2352|en_US|Beach/pool umbrellas|PropertyAmenity|PropertyAmenity
+2353|en_US|Airport transportation|PropertyAmenity|PropertyAmenity
+2361|en_US|Creche (nursery)|PropertyAmenity|PropertyAmenity
+2365|en_US|Half board rates available|PropertyAmenity|PropertyAmenity
+2366|en_US|Full board rates available|PropertyAmenity|PropertyAmenity
+2368|en_US|Ergonomic chair|RoomAmenity|RoomAmenity
+2370|en_US|Separate dining area|RoomAmenity|RoomAmenity
+2371|en_US|Shared bathroom with sink in room|RoomAmenity|RoomAmenity
+2372|en_US|Double sink|RoomAmenity|RoomAmenity
+2373|en_US|Cordless phone|RoomAmenity|RoomAmenity
+2374|en_US|Speakerphone|RoomAmenity|RoomAmenity
+2377|en_US|Blender|RoomAmenity|RoomAmenity
+2378|en_US|Dishwasher|RoomAmenity|RoomAmenity
+2379|en_US|Full-sized refrigerator/freezer|RoomAmenity|RoomAmenity
+2380|en_US|Kitchen linens (dishtowels, sponges, etc)|RoomAmenity|RoomAmenity
+2381|en_US|Stovetop|RoomAmenity|RoomAmenity
+2383|en_US|Front desk hours|PropertyAmenity|PropertyAmenity
+2384|en_US|On-site medical assistance available|PropertyAmenity|PropertyAmenity
+2385|en_US|Billiards or pool table|PropertyAmenity|PropertyAmenity
+2386|en_US|Grocery/convenience store|PropertyAmenity|PropertyAmenity
+2387|en_US|Tours/ticket assistance|PropertyAmenity|PropertyAmenity
+2388|en_US|Media library|PropertyAmenity|PropertyAmenity
+2389|en_US|In-room safe (laptop compatible)|RoomAmenity|RoomAmenity
+2390|en_US|Free Wi-Fi|PropertyAmenity|PropertyAmenity
+2391|en_US|Wireless Internet access - surcharge|PropertyAmenity|PropertyAmenity
+2392|en_US|Free wired high-speed Internet|PropertyAmenity|PropertyAmenity
+2393|en_US|Wired (high-speed) Internet access - surcharge|PropertyAmenity|PropertyAmenity
+2394|en_US|Dial-up Internet access - complimentary|PropertyAmenity|PropertyAmenity
+2395|en_US|Dial-up Internet access - surcharge|PropertyAmenity|PropertyAmenity
+2396|en_US|Satellite television service|RoomAmenity|RoomAmenity
+2397|en_US|Digital television service|RoomAmenity|RoomAmenity
+2398|en_US|Cable television service|RoomAmenity|RoomAmenity
+2399|en_US|Flat-panel television|RoomAmenity|RoomAmenity
+2400|en_US|Standard television service|RoomAmenity|RoomAmenity
+2402|en_US|High-definition television|RoomAmenity|RoomAmenity
+2403|en_US|Free Wi-Fi|RoomAmenity|RoomAmenity
+2404|en_US|Wireless Internet access (surcharge)|RoomAmenity|RoomAmenity
+2405|en_US|Free wired high-speed Internet|RoomAmenity|RoomAmenity
+2406|en_US|Wired high-speed Internet access (surcharge)|RoomAmenity|RoomAmenity
+2407|en_US|Dial-up Internet access (complimentary)|RoomAmenity|RoomAmenity
+2408|en_US|Dial-up Internet access (surcharge)|RoomAmenity|RoomAmenity
+2409|en_US|Television Internet access (complimentary)|RoomAmenity|RoomAmenity
+2410|en_US|Television Internet access (surcharge)|RoomAmenity|RoomAmenity
+2416|en_US|Train station pickup (complimentary)|PropertyAmenity|PropertyAmenity
+2515|en_US|Year Built|PropertyAmenity|PropertyAmenity
+2528|en_US|Area shuttle (complimentary)|PropertyAmenity|PropertyAmenity
+2529|en_US|Area shuttle (surcharge)|PropertyAmenity|PropertyAmenity
+2537|en_US|Number of restaurants - |PropertyAmenity|PropertyAmenity
+2538|en_US|24-hour business center|PropertyAmenity|PropertyAmenity
+2539|en_US|Meeting facilities size (feet) - |PropertyAmenity|PropertyAmenity
+2544|en_US|No rollaway beds available|Policy|Other
+2545|en_US|No cribs (infant beds) available|Policy|Other
+2548|en_US|Early departure fee charged|Policy|Other
+2549|en_US|No elevators|Policy|Other
+2551|en_US|Minimum check-in age is|Policy|CheckInOut
+2553|en_US|Free guest parking|PropertyAmenity|PropertyAmenity
+2554|en_US|Parking height restrictions apply|Policy|Other
+2557|en_US|Cash Deposit Required|Policy|Other
+2561|en_US|Egyptian-cotton sheets|RoomAmenity|RoomAmenity
+2562|en_US|ESPN|RoomAmenity|RoomAmenity
+2563|en_US|First-run movies|RoomAmenity|RoomAmenity
+2564|en_US|Free movie channels|RoomAmenity|RoomAmenity
+2565|en_US|Frette Italian sheets|RoomAmenity|RoomAmenity
+2566|en_US|HBO|RoomAmenity|RoomAmenity
+2567|en_US|Individually furnished|RoomAmenity|RoomAmenity
+2568|en_US|Individually decorated|RoomAmenity|RoomAmenity
+2569|en_US|Memory foam mattress|RoomAmenity|RoomAmenity
+2570|en_US|OnCommand Video|RoomAmenity|RoomAmenity
+2571|en_US|Pillowtop mattress|RoomAmenity|RoomAmenity
+2572|en_US|Pillow menu|RoomAmenity|RoomAmenity
+2573|en_US|Sleep Number by Select Comfort mattress|RoomAmenity|RoomAmenity
+2574|en_US|Signature bedding|RoomAmenity|RoomAmenity
+2575|en_US|LCD television|RoomAmenity|RoomAmenity
+2576|en_US|Plasma television|RoomAmenity|RoomAmenity
+2577|en_US|Tempur-Pedic mattress|RoomAmenity|RoomAmenity
+2581|en_US|Water view|RoomAmenity|RoomAmenity
+2582|en_US|City view|RoomAmenity|RoomAmenity
+2583|en_US|Sea view|RoomAmenity|RoomAmenity
+2584|en_US|Lake view|RoomAmenity|RoomAmenity
+2585|en_US|River view|RoomAmenity|RoomAmenity
+2586|en_US|Mountain view|RoomAmenity|RoomAmenity
+2587|en_US|Desert view|RoomAmenity|RoomAmenity
+2588|en_US|Ocean view|RoomAmenity|RoomAmenity
+2589|en_US|Courtyard view|RoomAmenity|RoomAmenity
+2590|en_US|Garden view|RoomAmenity|RoomAmenity
+2591|en_US|Pool view|RoomAmenity|RoomAmenity
+2592|en_US|Meeting facilities size (meters) - |PropertyAmenity|PropertyAmenity
+2593|en_US|Number of meeting/conference rooms - |PropertyAmenity|PropertyAmenity
+2594|en_US|Complimentary reception|PropertyAmenity|PropertyAmenity
+2617|en_US|Golf course on site|PropertyAmenity|PropertyAmenity
+2618|en_US|Tennis on site|PropertyAmenity|PropertyAmenity
+2644|en_US|Pet maximum weight in kg is|Policy|Pets
+2646|en_US|Pet maximum weight in lb is|Policy|Pets
+2783|en_US|RV and truck parking|PropertyAmenity|PropertyAmenity
+2789|en_US|Room size (square feet)|RoomAmenity|RoomAmenity
+2790|en_US|Room size (square meters)|RoomAmenity|RoomAmenity
+2806|en_US|MP3 docking station|RoomAmenity|RoomAmenity
+2807|en_US|iPod docking station|RoomAmenity|RoomAmenity
+2809|en_US|Pet policy - dogs only|Policy|Pets
+2810|en_US|Pet policy - dogs and cats only|Policy|Pets
+2811|en_US|Maximum number of pets per room|Policy|Pets
+2817|en_US|Lazy river|PropertyAmenity|PropertyAmenity
+2818|en_US|Waterslide|PropertyAmenity|PropertyAmenity
+2819|en_US|Waterpark|PropertyAmenity|PropertyAmenity
+2820|en_US|Number of indoor pools - |PropertyAmenity|PropertyAmenity
+2821|en_US|Number of outdoor pools - |PropertyAmenity|PropertyAmenity
+2822|en_US|Number of spa tubs - |PropertyAmenity|PropertyAmenity
+2854|en_US|Partially open bathroom|RoomAmenity|RoomAmenity
+2859|en_US|Private pool|RoomAmenity|RoomAmenity
+2860|en_US|Private plunge pool|RoomAmenity|RoomAmenity
+2940|en_US|Minimum guest age is|Policy|CheckInOut
+2942|en_US|Casino shuttle (complimentary)|PropertyAmenity|PropertyAmenity
+2943|en_US|Casino shuttle (surcharge)|PropertyAmenity|PropertyAmenity
+2944|en_US|Cruise terminal shuttle (complimentary)|PropertyAmenity|PropertyAmenity
+2945|en_US|Cruise terminal shuttle (surcharge)|PropertyAmenity|PropertyAmenity
+2946|en_US|Ferry terminal shuttle (complimentary)|PropertyAmenity|PropertyAmenity
+2947|en_US|Ferry terminal shuttle (surcharge)|PropertyAmenity|PropertyAmenity
+2948|en_US|Shopping center shuttle (complimentary)|PropertyAmenity|PropertyAmenity
+2949|en_US|Shopping center shuttle (surcharge)|PropertyAmenity|PropertyAmenity
+2950|en_US|Theme park shuttle (complimentary)|PropertyAmenity|PropertyAmenity
+2951|en_US|Theme park shuttle (surcharge)|PropertyAmenity|PropertyAmenity
+3266|en_US|Noise-free rooms not guaranteed|Policy|Other
+3268|en_US|Smoke-free property (fines apply)|PropertyAmenity|PropertyAmenity
+3269|en_US|Designated smoking areas (fines apply)|PropertyAmenity|PropertyAmenity
+3357|en_US|Caters to adults only|Policy|Other
+3359|en_US|Golf course view|RoomAmenity|RoomAmenity
+3360|en_US|Partial ocean view|RoomAmenity|RoomAmenity
+3361|en_US|Beach view|RoomAmenity|RoomAmenity
+3372|en_US|Conference center|PropertyAmenity|PropertyAmenity
+3373|en_US|Indoor tennis court|PropertyAmenity|PropertyAmenity
+3374|en_US|Indoor tennis courts - |PropertyAmenity|PropertyAmenity
+3375|en_US|Outdoor tennis court|PropertyAmenity|PropertyAmenity
+3376|en_US|Outdoor tennis courts|PropertyAmenity|PropertyAmenity
+3500|en_US|Snack bar/deli|PropertyAmenity|PropertyAmenity
+3501|en_US|Deep soaking bathtub|RoomAmenity|RoomAmenity
+3502|en_US|Rainfall showerhead|RoomAmenity|RoomAmenity
+3547|en_US|Breakfast service|PropertyAmenity|PropertyAmenity
+3616|en_US|Weekly housekeeping provided|RoomAmenity|RoomAmenity
+3637|en_US|One meeting/conference room|PropertyAmenity|PropertyAmenity
+3726|en_US|Private bathroom (not in room)|RoomAmenity|RoomAmenity
+3728|en_US|Parking nearby (surcharge)|PropertyAmenity|PropertyAmenity
+3761|en_US|Free parking (limited spaces)|PropertyAmenity|PropertyAmenity
+3762|en_US|Parking limited (surcharge)|PropertyAmenity|PropertyAmenity
+3763|en_US|Check-in time ends at|Policy|CheckInOut
+3777|en_US|Beach bar|PropertyAmenity|PropertyAmenity
+3779|en_US|Furnished balcony|RoomAmenity|RoomAmenity
+3856|en_US|In-room computer|RoomAmenity|RoomAmenity
+3857|en_US|Separate living room|RoomAmenity|RoomAmenity
+3858|en_US|Bathtub or shower|RoomAmenity|RoomAmenity
+3859|en_US|Private spa tub|RoomAmenity|RoomAmenity
+3860|en_US|Internet point|PropertyAmenity|PropertyAmenity
+3861|en_US|Free self-parking|PropertyAmenity|PropertyAmenity
+3862|en_US|Self-parking (surcharge)|PropertyAmenity|PropertyAmenity
+3863|en_US|Free valet parking|PropertyAmenity|PropertyAmenity
+3864|en_US|Valet parking (surcharge)|PropertyAmenity|PropertyAmenity
+3865|en_US|Computer station|PropertyAmenity|PropertyAmenity
+3911|en_US|Sofa bed size|RoomAmenity|RoomAmenity
+3912|en_US|Rooftop terrace|PropertyAmenity|PropertyAmenity
+3913|en_US|Number of bars/lounges|PropertyAmenity|PropertyAmenity
+3914|en_US|Number of poolside bars - |PropertyAmenity|PropertyAmenity
+3915|en_US|Number of beach bars - |PropertyAmenity|PropertyAmenity
+3916|en_US|Number of swim-up bars - |PropertyAmenity|PropertyAmenity
+3922|en_US|Bathrobes (on request)|RoomAmenity|RoomAmenity
+3923|en_US|Free long-distance calls|RoomAmenity|RoomAmenity
+3924|en_US|Free international calls|RoomAmenity|RoomAmenity
+3925|en_US|Chip-and-PIN credit cards only|Policy|Other
+3929|en_US|Number of coffee shops/cafes - |PropertyAmenity|PropertyAmenity
+3984|en_US|Housekeeping - weekdays only|RoomAmenity|RoomAmenity
+3985|en_US|Housekeeping - weekends only|RoomAmenity|RoomAmenity
+3986|en_US|Housekeeping - 6 days per week|RoomAmenity|RoomAmenity
+3987|en_US|Housekeeping - 5 days per week|RoomAmenity|RoomAmenity
+3988|en_US|Housekeeping - 4 days per week|RoomAmenity|RoomAmenity
+3989|en_US|Housekeeping - 3 days per week|RoomAmenity|RoomAmenity
+3990|en_US|Housekeeping - 2 days per week|RoomAmenity|RoomAmenity
+4003|en_US|Luggage storage|PropertyAmenity|PropertyAmenity
+4004|en_US|Airport transportation - pickup (complimentary)|PropertyAmenity|PropertyAmenity
+4005|en_US|Airport transportation - drop-off (complimentary)|PropertyAmenity|PropertyAmenity
+4006|en_US|Airport transportation - pickup (surcharge)|PropertyAmenity|PropertyAmenity
+4007|en_US|Airport transportation - drop-off (surcharge)|PropertyAmenity|PropertyAmenity
+4008|en_US|Housekeeping - once per stay|RoomAmenity|RoomAmenity
+4010|en_US|Train station pickup (surcharge)|PropertyAmenity|PropertyAmenity
+4025|en_US|Winery attached|PropertyAmenity|PropertyAmenity
+4111|en_US|Complimentary grocery shopping service|PropertyAmenity|PropertyAmenity
+4118|en_US|Balcony or patio|RoomAmenity|RoomAmenity
+4174|en_US|Waterpark access (complimentary)|PropertyAmenity|PropertyAmenity
+4175|en_US|Waterpark access (surcharge)|PropertyAmenity|PropertyAmenity
+4293|en_US|Shared accommodations|RoomAmenity|RoomAmenity
+4296|en_US|Furnished balcony or patio|RoomAmenity|RoomAmenity
+4297|en_US|Furnished lanai|RoomAmenity|RoomAmenity
+4298|en_US|Furnished patio|RoomAmenity|RoomAmenity
+4420|en_US|Connecting / adjoining rooms available|RoomAmenity|RoomAmenity
+4421|en_US|Ski shuttle (complimentary)|PropertyAmenity|PropertyAmenity
+4422|en_US|Ski shuttle (surcharge)|PropertyAmenity|PropertyAmenity
+4423|en_US|Ski passes available|PropertyAmenity|PropertyAmenity
+4428|en_US|Beach shuttle (complimentary)|PropertyAmenity|PropertyAmenity
+4429|en_US|Beach shuttle (surcharge)|PropertyAmenity|PropertyAmenity
+4433|en_US|Beach cabanas (complimentary)|PropertyAmenity|PropertyAmenity
+4434|en_US|Beach cabanas (surcharge)|PropertyAmenity|PropertyAmenity
+4435|en_US|Pool cabanas (surcharge)|PropertyAmenity|PropertyAmenity
+4436|en_US|Pool cabanas (complimentary)|PropertyAmenity|PropertyAmenity
+4437|en_US|Beach sun loungers (chaise longues)|PropertyAmenity|PropertyAmenity
+4438|en_US|Pool sun loungers (chaise longues)|PropertyAmenity|PropertyAmenity
+4440|en_US|Free covered parking|PropertyAmenity|PropertyAmenity
+4441|en_US|Covered parking (surcharge)|PropertyAmenity|PropertyAmenity
+4442|en_US|Free garage parking|PropertyAmenity|PropertyAmenity
+4443|en_US|Free outdoor parking|PropertyAmenity|PropertyAmenity
+4444|en_US|Outdoor parking (surcharge)|PropertyAmenity|PropertyAmenity
+4445|en_US|Free secure covered parking |PropertyAmenity|PropertyAmenity
+4446|en_US|Secure covered parking (surcharge)|PropertyAmenity|PropertyAmenity
+4447|en_US|Free secure outdoor parking|PropertyAmenity|PropertyAmenity
+4448|en_US|Secure outdoor parking (surcharge)|PropertyAmenity|PropertyAmenity
+4449|en_US|Free secure parking|PropertyAmenity|PropertyAmenity
+4450|en_US|Free long-term parking|PropertyAmenity|PropertyAmenity
+4451|en_US|Long-term parking (surcharge)|PropertyAmenity|PropertyAmenity
+4452|en_US|Free RV and truck parking|PropertyAmenity|PropertyAmenity
+4453|en_US|RV and truck parking (surcharge)|PropertyAmenity|PropertyAmenity
+4454|en_US|Free parking nearby|PropertyAmenity|PropertyAmenity
+4455|en_US|Offsite parking discounted rates available|PropertyAmenity|PropertyAmenity
+4456|en_US|Offsite parking reservations required|PropertyAmenity|PropertyAmenity
+4457|en_US|Free on-street parking|PropertyAmenity|PropertyAmenity
+4458|en_US|Street parking (metered)|PropertyAmenity|PropertyAmenity
+4459|en_US|Garage parking (surcharge)|PropertyAmenity|PropertyAmenity
+4460|en_US|Secure parking (surcharge)|PropertyAmenity|PropertyAmenity
+4468|en_US|24-hour fitness facilities|PropertyAmenity|PropertyAmenity
+4506|en_US|Debit cards not accepted|Policy|Other
+4514|en_US|Terrace|PropertyAmenity|PropertyAmenity
+4695|en_US|Babysitting or childcare (free)|PropertyAmenity|PropertyAmenity
+4696|en_US|Babysitting or childcare (surcharge)|PropertyAmenity|PropertyAmenity
+4697|en_US|Children's club (free)|PropertyAmenity|PropertyAmenity
+4698|en_US|Children's club (surcharge)|PropertyAmenity|PropertyAmenity
+4699|en_US|Supervised childcare/activities (free)|PropertyAmenity|PropertyAmenity
+4700|en_US|Supervised childcare/activities (surcharge)|PropertyAmenity|PropertyAmenity
+4944|en_US|In-room playpen|RoomAmenity|RoomAmenity
+4947|en_US|Hydromassage showerhead|RoomAmenity|RoomAmenity
+4950|en_US|Cribs/infant beds (surcharge)|RoomAmenity|RoomAmenity
+4951|en_US|Cribs/infant beds (complimentary)|RoomAmenity|RoomAmenity
+4954|en_US|Separate bedroom|RoomAmenity|RoomAmenity
+5013|en_US|Spring water bathtub|RoomAmenity|RoomAmenity
+5015|en_US|Private beach (nearby)|PropertyAmenity|PropertyAmenity
+5052|en_US|Please note, some room types at this property are not available when booking a stay with children.|Policy|Other
