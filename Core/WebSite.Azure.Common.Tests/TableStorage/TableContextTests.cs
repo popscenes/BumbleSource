@@ -35,7 +35,7 @@ namespace WebSite.Azure.Common.Tests.TableStorage
         [FixtureSetUp]
         public void FixtureSetUp()
         {
-            Kernel.Bind<TableContextInterface>()
+            Kernel.Rebind<TableContextInterface>()
                 .To<TableContext>();
 
             Kernel.Rebind<TableNameAndPartitionProviderServiceInterface>()

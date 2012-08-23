@@ -14,6 +14,6 @@ namespace PostaFlya.Domain.Behaviour
     public interface FlierBehaviourInterface : EntityInterface
     {
         Flier.Flier Flier { get; set; }
-        PropertyGroup FlierProperties { get; set; }
+        Dictionary<string, object> FlierProperties { get; set; }
     }
 }

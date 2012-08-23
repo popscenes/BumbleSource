@@ -32,10 +32,4 @@ namespace WebSite.Azure.Common.TableStorage
         }
 
     }
-
-//    public interface StorageTableEntryInterface<in EntityInterfaceType> : StorageTableEntryInterface
-//    {
-//        void Update(EntityInterfaceType source);
-//        void UpdateEntity(EntityInterfaceType target);
-//    }
 }

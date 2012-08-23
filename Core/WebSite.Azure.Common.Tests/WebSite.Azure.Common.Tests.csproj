@@ -110,9 +110,8 @@
     <Compile Include="Sql\SqlInitializerTests.cs" />
     <Compile Include="Sql\SqlExecuteTests.cs" />
     <Compile Include="TableStorage\AggregateEntityTableEntryCollectionTests.cs" />
-    <Compile Include="TableStorage\AzureTableContextTests.cs" />
     <Compile Include="TableStorage\ClonedTableEntryTests.cs" />
-    <Compile Include="TableStorage\DefaultPropertyGroupTableSerializerTests.cs" />
+    <Compile Include="TableStorage\ExtendableTableEntryTests.cs" />
     <Compile Include="TableStorage\JsonRepositoryTests.cs" />
     <Compile Include="TableStorage\JsonTableEntryTests.cs" />
     <Compile Include="TableStorage\QueryServiceBaseTests.cs" />

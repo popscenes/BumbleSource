@@ -10,6 +10,6 @@ namespace PostaFlya.Domain.Behaviour
     public class FlierBehaviourDefault : FlierBehaviourBase<FlierBehaviourInterface>
     {
         public override Flier.Flier Flier { get; set; }
-        public override PropertyGroup FlierProperties { get; set; }
+        public override Dictionary<string, object> FlierProperties { get; set; }
     }
 }

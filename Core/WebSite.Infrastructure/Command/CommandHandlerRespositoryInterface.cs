@@ -4,6 +4,6 @@ namespace WebSite.Infrastructure.Command
 {
     public interface CommandHandlerRespositoryInterface
     {
-        CommandHandlerInterface<TCommand> findHandler<TCommand>(TCommand command) where TCommand : CommandInterface;
+        CommandHandlerInterface<CommandType> FindHandler<CommandType>(CommandType command) where CommandType : CommandInterface;
     }
 }

@@ -17,7 +17,7 @@ namespace PostaFlya.Domain.Flier
         {
             Id = Guid.NewGuid().ToString();
             Tags = new Tags();
-            ExtendedProperties = new PropertyGroupCollection();
+            ExtendedProperties = new Dictionary<string, object>();
             ImageList = new List<FlierImage>();
             CreateDate = DateTime.UtcNow;
         }
@@ -67,17 +67,11 @@ namespace PostaFlya.Domain.Flier
         public string CountryCode { get; set; }
         public string PostCode { get; set; }
 
-        public int NumberOfLikes
-        {
-            get { return Convert.ToInt32(this["Like", "NumberOfLikes"] ?? 0); }
-            set { this["Like", "NumberOfLikes"] = Convert.ToInt32(value); }
-        }
+        public Dictionary<string, object> ExtendedProperties { get; set; }
 
-        public int NumberOfComments
-        {
-            get { return Convert.ToInt32(this["Comment", "NumberOfComments"] ?? 0); }
-            set { this["Comment", "NumberOfComments"] = Convert.ToInt32(value);}
-        }
+        public int NumberOfLikes { get; set; }
+
+        public int NumberOfComments { get; set; }
 
     }
 }

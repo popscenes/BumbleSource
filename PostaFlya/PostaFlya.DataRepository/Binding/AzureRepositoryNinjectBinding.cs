@@ -96,9 +96,9 @@ namespace PostaFlya.DataRepository.Binding
 
             
 
-            Bind<PropertyGroupTableSerializerInterface>().ToMethod(context 
-                => new DefaultPropertyGroupTableSerializer(CustomEdmSerializers.CustomSerializers)
-                ).InSingletonScope();
+//            Bind<PropertyGroupTableSerializerInterface>().ToMethod(context 
+//                => new DefaultPropertyGroupTableSerializer(CustomEdmSerializers.CustomSerializers)
+//                ).InSingletonScope();
 
             Bind<FlierSearchServiceInterface>()
                 .To<SqlFlierSearchService>();

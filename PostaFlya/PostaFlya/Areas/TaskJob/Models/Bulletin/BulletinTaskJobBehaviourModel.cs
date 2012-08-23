@@ -21,7 +21,7 @@ namespace PostaFlya.Areas.TaskJob.Models.Bulletin
 
         public static BulletinTaskJobBehaviourModel FromFlierProperties(FlierInterface flier)
         {
-            var properties = new TaskJobFlierBehaviourFlierProperties(flier.ExtendedProperties["taskjob"]);
+            var properties = new TaskJobFlierBehaviourFlierProperties(flier.ExtendedProperties);
 
             return new BulletinTaskJobBehaviourModel()
                        {

@@ -10,7 +10,7 @@ namespace WebSite.Infrastructure.Command
         {
             _resolver = resolver;
         }
-        public CommandHandlerInterface<TCommand> findHandler<TCommand>(TCommand command) where TCommand : CommandInterface
+        public CommandHandlerInterface<TCommand> FindHandler<TCommand>(TCommand command) where TCommand : CommandInterface
         {
             var res = _resolver.Get<CommandHandlerInterface<TCommand>>();
             return res;

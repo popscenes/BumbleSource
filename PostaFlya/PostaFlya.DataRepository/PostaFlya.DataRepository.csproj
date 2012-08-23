@@ -85,27 +85,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Behaviour\TaskJob\AzureTaskJobRepository.cs" />
-    <Compile Include="Behaviour\TaskJob\TaskJobStorageDomain.cs" />
     <Compile Include="Binding\AzureInitCreateTables.cs" />
     <Compile Include="Binding\AzureRepositoryNinjectBinding.cs" />
     <Compile Include="Binding\BindingAttributes.cs" />
     <Compile Include="Binding\TableNameNinjectBinding.cs" />
     <Compile Include="Browser\AzureBrowserRepository.cs" />
-    <Compile Include="Browser\BrowserStorageDomain.cs" />
     <Compile Include="Content\AzureImageRepository.cs" />
-    <Compile Include="Content\ImageStorageDomain.cs" />
     <Compile Include="Flier\AzureFlierRepository.cs" />
-    <Compile Include="Flier\FlierStorageDomain.cs" />
-    <Compile Include="Internal\AzureCommentRepository.cs" />
-    <Compile Include="Internal\AzureLikeRepository.cs" />
-    <Compile Include="Internal\CommentStorageDomain.cs" />
     <Compile Include="Internal\JsonRepositoryWithBrowser.cs" />
-    <Compile Include="Internal\LikeStorageDomain.cs" />
-    <Compile Include="Internal\CustomEdmSerializers.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Search\Implementation\SqlFlierSearchService.cs" />
     <Compile Include="Search\Implementation\SqlSeachDbInitializer.cs" />
-    <Compile Include="Search\Implementation\TableFlierSearchService.cs" />
     <Compile Include="Search\Services\FlierSearchRecord.cs" />
     <Compile Include="Search\Services\FlierSearchServiceInterface.cs" />
   </ItemGroup>

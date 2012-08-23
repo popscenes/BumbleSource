@@ -115,42 +115,6 @@ namespace WebSite.Azure.Common.DataServices
             Thread.Sleep((int) backoff);
         }
 
-//        public static bool SaveChangesRetryMutatorsOnConcurrencyException(this AzureTableContext context
-//            , List<Action> retryActions = null)
-//        {
-//            var tryCount = 0;
-//            do
-//            {
-//                try
-//                {
-//                    context.SaveChanges();
-//                    return true;
-//                }
-//                catch (Exception e)
-//                {
-//                    if (!HandleException(e))
-//                        return false;
-//
-//                    var defaultBackoffMs = 2000;
-//                    if (IsConcurrencyException(e))
-//                    {
-//                        if (retryActions != null && retryActions.Count > 0)
-//                            retryActions.ForEach(a => a());
-//                        else
-//                            return false;
-//                        defaultBackoffMs = 500;
-//                    }
-//
-//
-//                    if (++tryCount == RetryNumber)
-//                        return false;
-//                    BackOff(tryCount - 1, defaultBackoffMs);
-//                }
-//
-//            }
-//            while (true);
-//        }
-
         public static bool SaveChangesRetryMutatorsOnConcurrencyException(this TableContextInterface context
     , List<Action> retryActions = null)
         {

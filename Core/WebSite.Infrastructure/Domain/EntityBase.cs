@@ -23,14 +23,6 @@ namespace WebSite.Infrastructure.Domain
             get { return typeof (EntityInterfaceType); }
         }
 
-
-        public PropertyGroupCollection ExtendedProperties { get; set; }
-        public object this[string group, string key]
-        {
-            get { return ExtendedProperties[group, key]; }
-            set { ExtendedProperties[group, key] = value; }
-        }
-
         public bool Equals(EntityBase<EntityInterfaceType> other)
         {
             if (ReferenceEquals(null, other)) return false;

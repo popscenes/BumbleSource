@@ -99,27 +99,18 @@
     <Compile Include="Sql\SqlOpenClose.cs" />
     <Compile Include="TableStorage\AggregateEntityTableEntryCollection.cs" />
     <Compile Include="TableStorage\AzureRepositoryBase.cs" />
-    <Compile Include="TableStorage\AzureTableContext.cs" />
-    <Compile Include="TableStorage\DefaultPropertyGroupTableSerializer.cs" />
     <Compile Include="TableStorage\EdmProp.cs" />
     <Compile Include="TableStorage\EntityUpdateNotificationInterface.cs" />
     <Compile Include="TableStorage\ExtendableTableEntry.cs" />
-    <Compile Include="TableStorage\HasPropertyGroupCollectionInterface.cs" />
     <Compile Include="TableStorage\JsonRepository.cs" />
     <Compile Include="TableStorage\JsonTableEntry.cs" />
-    <Compile Include="TableStorage\PropertyGroupTableSerializerInterface.cs" />
     <Compile Include="TableStorage\QueryServiceBase.cs" />
     <Compile Include="TableStorage\RepositoryBase.cs" />
     <Compile Include="TableStorage\SimpleExtendableEntity.cs" />
     <Compile Include="TableStorage\StorageAggregate.cs" />
-    <Compile Include="TableStorage\StorageDomainEntityBase.cs" />
     <Compile Include="TableStorage\StorageTableEntryInterface.cs" />
     <Compile Include="TableStorage\ClonedTableEntry.cs" />
     <Compile Include="TableStorage\TableContext.cs" />
-    <Compile Include="TableStorage\TableNameAndPartitionProvider.cs" />
-    <Compile Include="TableStorage\TableNameAndPartitionProviderCollection.cs" />
-    <Compile Include="TableStorage\TableNameAndPartitionProviderInterface.cs" />
-    <Compile Include="TableStorage\StorageDomainEntityInterface.cs" />
     <Compile Include="TableStorage\TableNameAndPartitionProviderService.cs" />
     <Compile Include="TableStorage\TableNameAndPartitionProviderServiceInterface.cs" />
   </ItemGroup>

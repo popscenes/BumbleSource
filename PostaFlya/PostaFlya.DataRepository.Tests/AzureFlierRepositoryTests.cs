@@ -212,8 +212,12 @@ namespace PostaFlya.DataRepository.Tests
             testFlier = FlierTestData.StoreOne(testFlier, _repository, Kernel);
             var retFlier = FlierTestData.AssertGetById(testFlier, _queryService);
 
-            Assert.AreElementsEqualIgnoringOrder(retFlier.ExtendedProperties["taskjob"].Properties
-                , testFlier.ExtendedProperties["taskjob"].Properties);
+            Assert.AreElementsEqualIgnoringOrder(retFlier.ExtendedProperties
+                , testFlier.ExtendedProperties);
+
+            Assert.Count(1, retFlier.ExtendedProperties);
+            var behaviourRet = FlierTestData.GetBehaviour(Kernel, testFlier) as TaskJobFlierBehaviourInterface;
+            Assert.AreEqual(111, behaviourRet.CostOverhead);
         }
 
 
@@ -410,10 +414,24 @@ namespace PostaFlya.DataRepository.Tests
             for (int i = 0; i < list.Length; i++)
             {
                 if (i > 0)
-                    Assert.GreaterThanOrEqualTo(TableFlierSearchService.GetSorter(sortOrder)(list[i - 1]), TableFlierSearchService.GetSorter(sortOrder)(list[i]));
+                    Assert.GreaterThanOrEqualTo(GetSorter(sortOrder)(list[i - 1]), GetSorter(sortOrder)(list[i]));
             }
 
             return retrievedFliers;
+        }
+
+        private static Func<FlierInterface, object> GetSorter(FlierSortOrder sortOrder)
+        {
+            switch (sortOrder)
+            {
+                case FlierSortOrder.CreatedDate:
+                    return entry => entry.CreateDate.Ticks.ToString("D20") + '[' + (entry.NumberOfLikes + entry.NumberOfComments).ToString("D10") + ']';
+                case FlierSortOrder.EffectiveDate:
+                    return entry => entry.EffectiveDate.Ticks.ToString("D20") + '[' + (entry.NumberOfLikes + entry.NumberOfComments).ToString("D10") + ']';
+                case FlierSortOrder.Popularity:
+                    return entry => (entry.NumberOfLikes + entry.NumberOfComments).ToString("D10") + '[' + entry.CreateDate.Ticks.ToString("D20") + ']';
+            }
+            return entry => entry.CreateDate;
         }
 
         [Test]

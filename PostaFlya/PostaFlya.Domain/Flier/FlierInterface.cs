@@ -56,5 +56,6 @@ namespace PostaFlya.Domain.Flier
         string ExternalId { get; set; }
         string CountryCode { get; set; }
         string PostCode { get; set; }
+        Dictionary<string, object> ExtendedProperties { get; set; } 
     }
 }

@@ -54,6 +54,6 @@ namespace WebSite.Azure.Common.Tests.DataServices
         public string Id { get; set; }
         public int Version { get; set; }
         public Type PrimaryInterface { get; private set; }
-        public PropertyGroupCollection ExtendedProperties { get; set; }
+ 
     }
 }

@@ -123,7 +123,7 @@ namespace WebSite.Application.Command
 
             try
             {
-                var handler = _handlerRespository.findHandler(command);
+                var handler = _handlerRespository.FindHandler(command);
                 if(handler != null)
                     handler.Handle(command);
             }

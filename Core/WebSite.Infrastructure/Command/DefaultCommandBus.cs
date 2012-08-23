@@ -10,9 +10,9 @@ namespace WebSite.Infrastructure.Command
             _handlerRespository = handlerRespository;
         }
 
-        public object Send<TCommand>(TCommand command) where TCommand : class, CommandInterface
+        public object Send<CommandType>(CommandType command) where CommandType : class, CommandInterface
         {
-            var handler = _handlerRespository.findHandler(command);
+            var handler = _handlerRespository.FindHandler(command);
 
 //            var serializer = new JavaScriptSerializer();
 //            ViewBag.BrowserInfoJson = serializer.Serialize(_browserQueryService.ToCurrentBrowserModel(_blobStorage));

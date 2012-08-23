@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using PostaFlya.Domain.Behaviour;
 using PostaFlya.Domain.Flier;
 using PostaFlya.Domain.Location;
@@ -10,7 +11,6 @@ namespace PostaFlya.Domain.TaskJob
     [Serializable]
     public class TaskJobFlierBehaviour : FlierBehaviourBase<TaskJobFlierBehaviourInterface>, TaskJobFlierBehaviourInterface
     { 
-
         public Locations ExtraLocations { get; set; }
         public double MaxAmount { get; set; }
 
@@ -32,8 +32,8 @@ namespace PostaFlya.Domain.TaskJob
             }
         }
 
-        private TaskJobFlierBehaviourFlierProperties _flierProperties = new TaskJobFlierBehaviourFlierProperties(new PropertyGroup());
-        public override PropertyGroup FlierProperties
+        private TaskJobFlierBehaviourFlierProperties _flierProperties = new TaskJobFlierBehaviourFlierProperties(new Dictionary<string, object>());
+        public override Dictionary<string, object> FlierProperties
         {
             get { return _flierProperties != null ? _flierProperties.PropertyGroup : null; }
             set { 
@@ -47,8 +47,16 @@ namespace PostaFlya.Domain.TaskJob
         {
             if (Flier == null || _flierProperties == null) return;
             if (Flier.ExtendedProperties == null)
-                Flier.ExtendedProperties = new PropertyGroupCollection();
-            Flier.ExtendedProperties["taskjob"] = _flierProperties.PropertyGroup;
+                Flier.ExtendedProperties = _flierProperties.PropertyGroup;
+            else
+            {
+                foreach (var kv in _flierProperties.PropertyGroup.ToArray())
+                {
+                    Flier.ExtendedProperties[kv.Key] = kv.Value;
+                }
+                _flierProperties = new TaskJobFlierBehaviourFlierProperties(Flier.ExtendedProperties);
+            }
+
         }
 
     }
@@ -56,14 +64,13 @@ namespace PostaFlya.Domain.TaskJob
     [Serializable]
     public class TaskJobFlierBehaviourFlierProperties
     {
-        private readonly PropertyGroup _source;
+        private readonly Dictionary<string, object> _source;
 
-        public TaskJobFlierBehaviourFlierProperties(PropertyGroup source)
+        public TaskJobFlierBehaviourFlierProperties(Dictionary<string, object> source)
         {
             if (source == null)
-                source = new PropertyGroup();
+                source = new Dictionary<string, object>();
             _source = source;
-            _source.Name = "taskjob";
         }
 
         public double CostOverhead
@@ -72,7 +79,7 @@ namespace PostaFlya.Domain.TaskJob
             set { _source["CostOverhead"] = value; }
         }
 
-        public PropertyGroup PropertyGroup
+        public Dictionary<string, object> PropertyGroup
         {
             get { return _source; }
         }
