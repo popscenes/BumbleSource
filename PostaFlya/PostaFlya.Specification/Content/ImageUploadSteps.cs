@@ -12,15 +12,16 @@ using Ninject.MockingKernel.Moq;
 using TechTalk.SpecFlow;
 using WebSite.Application.Content;
 using PostaFlya.Controllers;
-using PostaFlya.Domain.Content;
-using PostaFlya.Domain.Content.Command;
-using PostaFlya.Domain.Content.Query;
-using PostaFlya.Domain.Location;
 using WebSite.Infrastructure.Command;
 using PostaFlya.Models.Content;
 using PostaFlya.Models.Location;
 using PostaFlya.Specification.Util;
 using PostaFlya.Mocks.Domain.Data;
+using Website.Domain.Content;
+using Website.Domain.Content.Command;
+using Website.Domain.Content.Query;
+using Website.Domain.Location;
+using Website.Mocks.Domain.Data;
 
 namespace PostaFlya.Specification.Content
 {

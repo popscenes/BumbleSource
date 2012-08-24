@@ -126,6 +126,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Core\Website.Domain\Website.Domain.csproj">
+      <Project>{C479A98A-EC5A-45EF-968A-2D81B406485F}</Project>
+      <Name>Website.Domain</Name>
+    </ProjectReference>
     <ProjectReference Include="..\PostaFlya.Application.Domain\PostaFlya.Application.Domain.csproj">
       <Project>{1510EA95-D2A1-47B5-8652-49895B97FC9F}</Project>
       <Name>PostaFlya.Application.Domain</Name>

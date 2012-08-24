@@ -7,9 +7,9 @@ using System.Web;
 using System.Web.Http.Controllers;
 using System.Web.Http.Filters;
 using Ninject;
-using PostaFlya.Application.Domain.Browser;
-using PostaFlya.Domain.Browser;
 using WebSite.Infrastructure.Command;
+using Website.Application.Domain.Browser;
+using Website.Domain.Browser;
 
 namespace PostaFlya.Attributes
 {

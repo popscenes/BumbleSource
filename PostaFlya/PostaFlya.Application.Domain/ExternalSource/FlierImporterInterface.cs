@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using PostaFlya.Domain.Browser;
 using PostaFlya.Domain.Flier;
+using Website.Domain.Browser;
 
 namespace PostaFlya.Application.Domain.ExternalSource
 {

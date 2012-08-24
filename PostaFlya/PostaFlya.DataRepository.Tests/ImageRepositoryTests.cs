@@ -10,11 +10,11 @@ using Ninject;
 using WebSite.Azure.Common.Environment;
 using WebSite.Azure.Common.TableStorage;
 using PostaFlya.DataRepository.Content;
-using PostaFlya.Domain.Content;
-using PostaFlya.Domain.Content.Command;
-using PostaFlya.Domain.Content.Query;
-using PostaFlya.Domain.Location;
 using WebSite.Infrastructure.Command;
+using Website.Domain.Content;
+using Website.Domain.Content.Command;
+using Website.Domain.Content.Query;
+using Website.Domain.Location;
 
 namespace PostaFlya.DataRepository.Tests
 {

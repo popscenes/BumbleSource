@@ -5,17 +5,16 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using PostaFlya.Domain.Flier;
-using PostaFlya.Domain.Likes;
 using WebSite.Application.Binding;
-using PostaFlya.Application.Domain.Content;
 using PostaFlya.Areas.Default.Models.Bulletin;
-using PostaFlya.Domain.Browser.Query;
 using PostaFlya.Domain.Flier.Query;
 using PostaFlya.Models.Browser;
 using PostaFlya.Models.Factory;
 using PostaFlya.Models.Flier;
 using PostaFlya.Models.Likes;
 using WebSite.Application.Content;
+using Website.Domain.Browser.Query;
+using Website.Domain.Likes;
 
 namespace PostaFlya.Controllers
 {

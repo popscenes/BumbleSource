@@ -9,24 +9,22 @@ using TechTalk.SpecFlow;
 using WebSite.Application.Extension.Validation;
 using PostaFlya.Controllers;
 using PostaFlya.Domain.Behaviour;
-using PostaFlya.Domain.Browser;
 using PostaFlya.Domain.Flier;
 using PostaFlya.Domain.Flier.Command;
 using PostaFlya.Domain.Flier.Query;
-using PostaFlya.Domain.Location;
-using PostaFlya.Domain.Tag;
 using WebSite.Infrastructure.Command;
 using PostaFlya.Models.Flier;
 using PostaFlya.Models.Location;
 using PostaFlya.Specification.Browsers;
 using PostaFlya.Specification.Util;
 using PostaFlya.Mocks.Domain.Data;
-using PostaFlya.Mocks.Domain.Defaults;
 using PostaFlya.Models.Content;
 using WebSite.Infrastructure.Authentication;
-using PostaFlya.Domain.Browser.Query;
 using WebSite.Test.Common;
 using System.Web;
+using Website.Domain.Browser;
+using Website.Domain.Location;
+using Website.Domain.Tag;
 
 namespace PostaFlya.Specification.Fliers
 {

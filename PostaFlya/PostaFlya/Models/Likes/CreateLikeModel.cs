@@ -1,7 +1,6 @@
 using System.ComponentModel;
 using WebSite.Application.Extension.Validation;
 using PostaFlya.Binding;
-using PostaFlya.Domain.Likes;
 
 namespace PostaFlya.Models.Likes
 {

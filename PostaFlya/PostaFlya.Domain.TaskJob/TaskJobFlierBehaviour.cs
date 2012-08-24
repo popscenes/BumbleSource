@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using PostaFlya.Domain.Behaviour;
 using PostaFlya.Domain.Flier;
-using PostaFlya.Domain.Location;
 using WebSite.Infrastructure.Domain;
+using Website.Domain.Location;
 
 namespace PostaFlya.Domain.TaskJob
 {
@@ -74,7 +74,7 @@ namespace PostaFlya.Domain.TaskJob
 
         public double CostOverhead
         {
-            get { return (double)(_source["CostOverhead"] ?? 0.0); }
+            get { return  0.0; }
             set { _source["CostOverhead"] = value; }
         }
 

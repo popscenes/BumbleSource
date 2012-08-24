@@ -4,14 +4,17 @@ using System.ComponentModel;
 using System.Linq;
 using System.Web;
 using System.Web.Http.ModelBinding;
-using PostaFlya.Domain.Location;
+using Website.Domain.Location;
 
 namespace PostaFlya.Models.Location
 {
     public static class BulletinFlierModelFlierInterfaceExtension
     {
-        public static LocationModel ToViewModel(this Domain.Location.Location location)
+        public static LocationModel ToViewModel(this Website.Domain.Location.Location location)
         {
+            if(location == null)
+                return new LocationModel();
+
             return new LocationModel()
                        {
                            Longitude = location.Longitude,
@@ -30,14 +33,14 @@ namespace PostaFlya.Models.Location
         }
 
         public LocationModel():
-            this(new Domain.Location.Location())
+            this(new Website.Domain.Location.Location())
         {
             //set to invalid on creation
         }
 
-        public Domain.Location.Location ToDomainModel()
+        public Website.Domain.Location.Location ToDomainModel()
         {
-            return new Domain.Location.Location(Longitude, Latitude) {Description = Description };
+            return new Website.Domain.Location.Location(Longitude, Latitude) {Description = Description };
         }
 
         [DisplayName("Longitude")]

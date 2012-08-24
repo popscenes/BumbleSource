@@ -1,5 +1,5 @@
-﻿using PostaFlya.Domain.Tag;
-using System;
+﻿using System;
+using Website.Domain.Tag;
 
 public static class TagGroupExtension
 {

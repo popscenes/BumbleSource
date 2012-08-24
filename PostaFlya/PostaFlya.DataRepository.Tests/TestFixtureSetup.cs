@@ -12,16 +12,12 @@ using PostaFlya.DataRepository.Binding;
 using PostaFlya.DataRepository.Browser;
 using PostaFlya.DataRepository.Internal;
 using PostaFlya.Domain.Binding;
-using PostaFlya.Domain.Browser;
-using PostaFlya.Domain.Comments;
-using PostaFlya.Domain.Content;
 using PostaFlya.Domain.Flier;
-using PostaFlya.Domain.Likes;
 using WebSite.Azure.Common.Environment;
 using WebSite.Azure.Common.TableStorage;
 using WebSite.Infrastructure.Binding;
 using WebSite.Test.Common;
-using PostaFlya.Mocks.Domain.Defaults;
+using Website.Mocks.Domain.Defaults;
 
 namespace PostaFlya.DataRepository.Tests
 {

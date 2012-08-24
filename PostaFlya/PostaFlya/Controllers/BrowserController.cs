@@ -1,11 +1,11 @@
 using System.Web.Mvc;
-using PostaFlya.Application.Domain.Browser;
-using PostaFlya.Domain.Browser;
-using PostaFlya.Domain.Browser.Command;
-using PostaFlya.Domain.Browser.Query;
-using PostaFlya.Domain.Location;
 using WebSite.Infrastructure.Command;
 using PostaFlya.Models.Tags;
+using Website.Application.Domain.Browser;
+using Website.Domain.Browser;
+using Website.Domain.Browser.Command;
+using Website.Domain.Browser.Query;
+using Website.Domain.Location;
 
 namespace PostaFlya.Controllers
 {
@@ -34,7 +34,7 @@ namespace PostaFlya.Controllers
 
             _commandBus.Send(command);
 
-            _browserInformation.Browser = _browserQueryService.FindById<Domain.Browser.Browser>(_browserInformation.Browser.Id);
+            _browserInformation.Browser = _browserQueryService.FindById<Browser>(_browserInformation.Browser.Id);
 
             return RedirectToAction("AddTags");
         }
@@ -51,7 +51,7 @@ namespace PostaFlya.Controllers
                               };
             _commandBus.Send(command);
 
-            _browserInformation.Browser = _browserQueryService.FindById<Domain.Browser.Browser>(_browserInformation.Browser.Id);
+            _browserInformation.Browser = _browserQueryService.FindById<Browser>(_browserInformation.Browser.Id);
 
             return View();
         }

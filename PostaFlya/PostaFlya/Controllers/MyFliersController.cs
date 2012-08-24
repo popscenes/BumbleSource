@@ -6,7 +6,6 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using WebSite.Application.Binding;
-using PostaFlya.Application.Domain.Content;
 using WebSite.Application.Content;
 using WebSite.Application.WebsiteInformation;
 using PostaFlya.Areas.Default.Models.Bulletin;
@@ -15,7 +14,6 @@ using PostaFlya.Domain.Flier;
 using PostaFlya.Domain.Flier.Command;
 using PostaFlya.Domain.Flier.Query;
 using PostaFlya.Domain.Service;
-using PostaFlya.Domain.Tag;
 using WebSite.Common.Extension;
 using PostaFlya.Helpers;
 using WebSite.Infrastructure.Command;
@@ -23,6 +21,8 @@ using PostaFlya.Models;
 using PostaFlya.Models.Factory;
 using PostaFlya.Models.Flier;
 using PostaFlya.Models.Content;
+using Website.Application.Domain.Content;
+using Website.Domain.Tag;
 
 namespace PostaFlya.Controllers
 {

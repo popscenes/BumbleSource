@@ -2,15 +2,16 @@
 using System.Linq;
 using Ninject;
 using Ninject.Modules;
+using PostaFlya.Application.Domain.ExternalSource;
 using WebSite.Application.Command;
-using PostaFlya.Application.Domain.Browser;
-using PostaFlya.Application.Domain.Content;
-using PostaFlya.Application.Domain.Content.Command;
 using PostaFlya.Domain.Service;
 using WebSite.Infrastructure.Binding;
 using WebSite.Infrastructure.Command;
 using Ninject.Extensions.Conventions;
-using PostaFlya.Application.Domain.ExternalSource;
+using Website.Application.Domain.Browser;
+using Website.Application.Domain.Content;
+using Website.Application.Domain.Content.Command;
+using Website.Domain.Service;
 
 namespace PostaFlya.Application.Domain.Binding
 {
@@ -23,20 +24,20 @@ namespace PostaFlya.Application.Domain.Binding
         {
             Trace.TraceInformation("Binding ApplicationDomainNinjectBinding");
 
-            Kernel.Bind<BrowserInformationInterface>().To<BrowserInformation>();
+            //Kernel.Bind<BrowserInformationInterface>().To<BrowserInformation>();
 
-            Bind<RequestContentRetrieverFactoryInterface>().To<RequestContentRetrieverFactory>();
+            //Bind<RequestContentRetrieverFactoryInterface>().To<RequestContentRetrieverFactory>();
 
-            Bind<UrlContentRetrieverFactoryInterface>().To<UrlContentRetrieverFactory>();
+            //Bind<UrlContentRetrieverFactoryInterface>().To<UrlContentRetrieverFactory>();
 
-            Bind<ContentStorageServiceInterface>().To<ImageProcessContentStorageService>();
+            //Bind<ContentStorageServiceInterface>().To<ImageProcessContentStorageService>();
 
             Bind<FlierImportServiceInterface>().To<FlierImportService>();
 
             //this is for appication command handlers to use, 
             //need to consider putting context on this
-            Bind<CommandBusInterface>()
-                .To<DefaultCommandBus>(); 
+            //Bind<CommandBusInterface>()
+            //    .To<DefaultCommandBus>(); 
 
             //command handlers
             var kernel = Kernel as StandardKernel;

@@ -7,13 +7,13 @@ using PostaFlya.Domain.Behaviour;
 using PostaFlya.Domain.Flier;
 using PostaFlya.Domain.Flier.Command;
 using PostaFlya.Domain.Flier.Query;
-using PostaFlya.Domain.Location;
 using PostaFlya.Domain.Service;
-using PostaFlya.Domain.Tag;
 using WebSite.Infrastructure.Command;
 using WebSite.Infrastructure.Query;
 //using WebSite.Infrastructure.Service;
-using PostaFlya.Mocks.Domain.Defaults;
+using Website.Domain.Location;
+using Website.Domain.Tag;
+using Website.Mocks.Domain.Defaults;
 
 namespace PostaFlya.Mocks.Domain.Data
 {

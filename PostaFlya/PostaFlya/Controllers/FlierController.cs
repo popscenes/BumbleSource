@@ -5,7 +5,6 @@ using WebSite.Application.Content;
 using PostaFlya.Domain.Behaviour;
 using PostaFlya.Domain.Flier.Command;
 using PostaFlya.Domain.Flier.Query;
-using PostaFlya.Domain.Tag;
 using WebSite.Infrastructure.Command;
 using PostaFlya.Models.Flier;
 using PostaFlya.Models.Location;

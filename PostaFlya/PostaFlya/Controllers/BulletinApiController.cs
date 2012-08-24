@@ -8,14 +8,11 @@ using System.Runtime.InteropServices;
 using System.Web.Http;
 using System.Web.Http.Routing;
 using WebSite.Application.Binding;
-using PostaFlya.Application.Domain.Content;
 using PostaFlya.Areas.Default.Models;
 using PostaFlya.Areas.Default.Models.Bulletin;
 using PostaFlya.Domain.Behaviour.Query;
 using PostaFlya.Domain.Flier;
 using PostaFlya.Domain.Flier.Query;
-using PostaFlya.Domain.Location;
-using PostaFlya.Domain.Tag;
 using PostaFlya.Helpers;
 using PostaFlya.Models.Content;
 using PostaFlya.Models.Factory;
@@ -23,6 +20,9 @@ using PostaFlya.Models.Flier;
 using PostaFlya.Models.Location;
 using PostaFlya.Models.Tags;
 using WebSite.Application.Content;
+using Website.Application.Domain.Content;
+using Website.Domain.Location;
+using Website.Domain.Tag;
 
 namespace PostaFlya.Controllers
 {

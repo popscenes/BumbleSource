@@ -71,75 +71,13 @@
     <Compile Include="Behaviour\FlierBehaviourBase.cs" />
     <Compile Include="Behaviour\Query\DefaultFlierBehaviourQueryService.cs" />
     <Compile Include="Behaviour\Query\FlierBehaviourQueryServiceInterface.cs" />
-    <Compile Include="Browser\BrowserIdentityProviderCredential.cs" />
-    <Compile Include="Browser\BrowserIdInterface.cs" />
-    <Compile Include="Browser\Command\ProfileEditCommand.cs" />
-    <Compile Include="Browser\Command\ProfileEditCommandHandler.cs" />
-    <Compile Include="Browser\Command\SetExternalCredentialCommand.cs" />
-    <Compile Include="Browser\Command\SetExternalCredentialCommandHandler.cs" />
-    <Compile Include="Browser\Query\BrowserQueryServiceUtil.cs" />
-    <Compile Include="Browser\Query\QueryByBrowserInterface.cs" />
-    <Compile Include="Browser\Query\QueryServiceWithBrowserInterface.cs" />
-    <Compile Include="Browser\Roles.cs" />
-    <Compile Include="Comments\Command\AddCommentInterface.cs" />
-    <Compile Include="Comments\CommentableInterface.cs" />
-    <Compile Include="Comments\Query\QueryCommentsInterface.cs" />
     <Compile Include="Flier\FlierImage.cs" />
-    <Compile Include="Likes\Command\LikeCommand.cs" />
-    <Compile Include="Likes\Command\LikeCommandHandler.cs" />
-    <Compile Include="Likes\Command\AddLikeInterface.cs" />
-    <Compile Include="Likes\Like.cs" />
-    <Compile Include="Likes\LikeableInterface.cs" />
-    <Compile Include="Comments\Command\CreateCommentCommand.cs" />
-    <Compile Include="Comments\Command\CreateCommentCommandHandler.cs" />
-    <Compile Include="Comments\Comment.cs" />
-    <Compile Include="Comments\CommentInterface.cs" />
-    <Compile Include="Likes\LikeInterface.cs" />
-    <Compile Include="Likes\Query\QueryLikesInterface.cs" />
     <Compile Include="Service\BehaviourFactoryInterface.cs" />
     <Compile Include="Behaviour\FlierBehaviour.cs" />
     <Compile Include="Behaviour\FlierBehaviourInterface.cs" />
     <Compile Include="Behaviour\FlierBehaviourDefault.cs" />
     <Compile Include="Binding\CommandNinjectBinding.cs" />
     <Compile Include="Binding\DefaultServicesNinjectBinding.cs" />
-    <Compile Include="Browser\Browser.cs" />
-    <Compile Include="Browser\BrowserInterface.cs" />
-    <Compile Include="Browser\Command\AddBrowserCommand.cs" />
-    <Compile Include="Browser\Command\AddBrowserCommandHandler.cs" />
-    <Compile Include="Browser\Command\AddTagCommand.cs" />
-    <Compile Include="Browser\Command\AddTagCommandHandler.cs" />
-    <Compile Include="Browser\Command\BrowserRepositoryInterface.cs" />
-    <Compile Include="Browser\Command\SavedTagsDeleteCommand.cs" />
-    <Compile Include="Browser\Command\SavedTagsDeleteCommandHandler.cs" />
-    <Compile Include="Browser\Command\SavedLocationAddCommand.cs" />
-    <Compile Include="Browser\Command\SavedLocationAddCommandHandler.cs" />
-    <Compile Include="Browser\Command\SavedLocationDeleteCommand.cs" />
-    <Compile Include="Browser\Command\SavedLocationDeleteCommandHandler.cs" />
-    <Compile Include="Browser\Command\SavedLocationSelectCommand.cs" />
-    <Compile Include="Browser\Command\SavedLocationSelectCommandHandler.cs" />
-    <Compile Include="Browser\Command\SavedTagsSaveCommand.cs" />
-    <Compile Include="Browser\Command\SavedTagsSaveCommandHandler.cs" />
-    <Compile Include="Browser\Command\SavedTagsSelectCommand.cs" />
-    <Compile Include="Browser\Command\SavedTagsSelectCommandHandler.cs" />
-    <Compile Include="Browser\Command\SetDistanceCommand.cs" />
-    <Compile Include="Browser\Command\SetDistanceCommandHandler.cs" />
-    <Compile Include="Browser\Command\SetLocationCommand.cs" />
-    <Compile Include="Browser\Command\SetLocationCommandHandler.cs" />
-    <Compile Include="Browser\Query\BrowserQueryServiceInterface.cs" />
-    <Compile Include="Browser\Role.cs" />
-    <Compile Include="Command\DomainCommandBase.cs" />
-    <Compile Include="Content\Command\SetImageMetaDataCommandHandler.cs" />
-    <Compile Include="Content\Command\CreateImageCommand.cs" />
-    <Compile Include="Content\Command\CreateImageCommandHandler.cs" />
-    <Compile Include="Content\Command\ImageRepositoryInterface.cs" />
-    <Compile Include="Content\Command\SetImageMetaDataCommand.cs" />
-    <Compile Include="Content\Command\SetImageStatusCommand.cs" />
-    <Compile Include="Content\Command\SetImageStatusCommandHandler.cs" />
-    <Compile Include="Content\Content.cs" />
-    <Compile Include="Content\Image.cs" />
-    <Compile Include="Content\ImageInterface.cs" />
-    <Compile Include="Content\ImageStatus.cs" />
-    <Compile Include="Content\Query\ImageQueryServiceInterface.cs" />
     <Compile Include="Flier\Command\CreateFlierCommand.cs" />
     <Compile Include="Flier\Command\CreateFlierCommandHandler.cs" />
     <Compile Include="Flier\Command\EditFlierCommand.cs" />
@@ -149,23 +87,17 @@
     <Compile Include="Flier\FlierInterface.cs" />
     <Compile Include="Flier\FlierStatus.cs" />
     <Compile Include="Flier\Query\FlierQueryServiceInterface.cs" />
-    <Compile Include="Location\BoundingBox.cs" />
-    <Compile Include="Location\Location.cs" />
-    <Compile Include="Location\Locations.cs" />
-    <Compile Include="Location\LocationService.cs" />
-    <Compile Include="Location\LocationServiceInterface.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Service\ContentStorageServiceInterface.cs" />
-    <Compile Include="Tag\TagGroup.cs" />
-    <Compile Include="Tag\Tags.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Core\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Core\Website.Domain\Website.Domain.csproj">
+      <Project>{C479A98A-EC5A-45EF-968A-2D81B406485F}</Project>
+      <Name>Website.Domain</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Core\WebSite.Infrastructure\WebSite.Infrastructure.csproj">
       <Project>{B5C3A966-F286-4CB8-913B-C8625625451D}</Project>
       <Name>WebSite.Infrastructure</Name>

@@ -1,5 +1,5 @@
-using PostaFlya.Domain.Command;
-using PostaFlya.Domain.Location;
+using Website.Domain.Command;
+using Website.Domain.Location;
 
 namespace PostaFlya.Domain.TaskJob.Command
 {

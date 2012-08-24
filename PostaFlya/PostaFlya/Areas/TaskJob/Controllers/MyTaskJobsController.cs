@@ -2,7 +2,6 @@ using System.Linq;
 using System.Net.Http;
 using System.Web.Http;
 using WebSite.Application.Binding;
-using PostaFlya.Application.Domain.Content;
 using PostaFlya.Areas.TaskJob.Models;
 using PostaFlya.Attributes;
 using WebSite.Application.Content;
@@ -10,11 +9,11 @@ using WebSite.Common.Extension;
 using PostaFlya.Controllers;
 using PostaFlya.Domain.Behaviour;
 using PostaFlya.Domain.Flier.Query;
-using PostaFlya.Domain.Location;
 using PostaFlya.Domain.TaskJob;
 using PostaFlya.Domain.TaskJob.Command;
 using PostaFlya.Domain.TaskJob.Query;
 using WebSite.Infrastructure.Command;
+using Website.Domain.Location;
 
 namespace PostaFlya.Areas.TaskJob.Controllers
 {

@@ -12,11 +12,12 @@ using WebSite.Azure.Common.Environment;
 using WebSite.Azure.Common.TableStorage;
 using PostaFlya.DataRepository.Flier;
 using PostaFlya.DataRepository.Internal;
-using PostaFlya.Domain.Comments;
 using PostaFlya.Mocks.Domain.Data;
 using WebSite.Infrastructure.Command;
 using WebSite.Infrastructure.Query;
 using WebSite.Test.Common;
+using Website.Domain.Comments;
+using Website.Mocks.Domain.Data;
 
 namespace PostaFlya.DataRepository.Tests.Internal
 {

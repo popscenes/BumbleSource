@@ -13,15 +13,15 @@ using Ninject.MockingKernel;
 using Ninject.MockingKernel.Moq;
 using Ninject.Modules;
 using TechTalk.SpecFlow;
-using PostaFlya.Application.Domain.Browser;
 using PostaFlya.Binding;
 using PostaFlya.Domain.Binding;
-using PostaFlya.Domain.Browser;
-using PostaFlya.Domain.Browser.Query;
 using WebSite.Infrastructure.Authentication;
 using PostaFlya.Mocks.Domain.Data;
 using WebSite.Test.Common;
-using PostaFlya.Mocks.Domain.Defaults;
+using Website.Application.Domain.Browser;
+using Website.Domain.Browser;
+using Website.Domain.Browser.Query;
+using Website.Mocks.Domain.Defaults;
 
 namespace PostaFlya.Specification.Util
 {
@@ -132,13 +132,15 @@ namespace PostaFlya.Specification.Util
                       new DefaultsNinjectModule(),
                       new WebSite.Infrastructure.Binding.InfrastructureNinjectBinding(),
                       new PostaFlya.Domain.Binding.DefaultServicesNinjectBinding(),
+                      new Website.Domain.Binding.DefaultServicesNinjectBinding(),
                       new PostaFlya.Domain.Binding.CommandNinjectBinding(),
+                      new Website.Domain.Binding.CommandNinjectBinding(),
                       new PostaFlya.Domain.TaskJob.Binding.TaskJobNinjectBinding(),
                       new PostaFlya.Binding.WebNinjectBindings(),  
                       new PostaFlya.Areas.Default.Binding.DefaultBehaviourWebNinjectBinding(),
                       new PostaFlya.Areas.TaskJob.Binding.TaskJobBehaviourWebNinjectBinding(),
                       new MockRepositoriesNinjectModule(),
-                      new TestIdentityProvidersNinjectModult(),
+                      new Website.Mocks.Domain.Data.TestIdentityProvidersNinjectModult(),
                       new ExternalSourceNinjectModule()
                   };
     }

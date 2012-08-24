@@ -4,14 +4,11 @@ using MbUnit.Framework;
 using Ninject;
 using Ninject.MockingKernel.Moq;
 using PostaFlya.Domain.Behaviour;
-using PostaFlya.Domain.Browser;
-using PostaFlya.Domain.Browser.Command;
-using PostaFlya.Domain.Browser.Query;
-using PostaFlya.Domain.Location;
 using PostaFlya.Domain.TaskJob;
 using PostaFlya.Domain.TaskJob.Command;
 using PostaFlya.Domain.TaskJob.Query;
 using WebSite.Infrastructure.Command;
+using Website.Domain.Location;
 
 namespace PostaFlya.Mocks.Domain.Data.Behaviour
 {

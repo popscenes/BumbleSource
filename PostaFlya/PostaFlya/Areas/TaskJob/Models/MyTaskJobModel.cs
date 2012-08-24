@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Web;
-using PostaFlya.Application.Domain.Content;
 using PostaFlya.Areas.Default.Models.Bulletin;
 using PostaFlya.Areas.TaskJob.Models.Bulletin;
 using PostaFlya.Controllers;

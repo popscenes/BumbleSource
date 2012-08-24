@@ -6,15 +6,14 @@ using System.Web.Mvc;
 using System.Web.Routing;
 using System.Web.Security;
 using WebSite.Application.Authentication;
-using PostaFlya.Application.Domain.Browser;
-using PostaFlya.Domain.Browser;
-using PostaFlya.Domain.Browser.Command;
-using PostaFlya.Domain.Browser.Query;
-using PostaFlya.Domain.Location;
-using PostaFlya.Domain.Tag;
 using WebSite.Infrastructure.Authentication;
 using WebSite.Infrastructure.Command;
 using PostaFlya.Models;
+using Website.Application.Domain.Browser;
+using Website.Domain.Browser;
+using Website.Domain.Browser.Command;
+using Website.Domain.Browser.Query;
+using Website.Domain.Location;
 
 namespace PostaFlya.Controllers
 {
@@ -136,16 +135,16 @@ namespace PostaFlya.Controllers
         {
             var command = new AddBrowserCommand()
             {
-                Browser = new Domain.Browser.Browser(Guid.NewGuid().ToString())
+                Browser = new Website.Domain.Browser.Browser(Guid.NewGuid().ToString())
                 {
                     Handle = identityProviderCredentials.Name,
                     EmailAddress = identityProviderCredentials.Email,
-                    Roles = new Domain.Browser.Roles { Role.Participant.ToString() },
+                    Roles = new Website.Domain.Browser.Roles { Role.Participant.ToString() },
                     SavedLocations = new Locations(),
                 }
             };
 
-            var creds = new BrowserIdentityProviderCredential();
+            var creds = new BrowserIdentityProviderCredential(){BrowserId = command.Browser.Id};
             creds.CopyFieldsFrom(identityProviderCredentials);
             command.Browser.ExternalCredentials = new HashSet<BrowserIdentityProviderCredential>(){creds};
 
@@ -178,11 +177,11 @@ namespace PostaFlya.Controllers
         {
             var command = new AddBrowserCommand()
                               {
-                                  Browser = new Domain.Browser.Browser(Guid.NewGuid().ToString())
+                                  Browser = new Website.Domain.Browser.Browser(Guid.NewGuid().ToString())
                                                 {
                                                     Handle = principal.Name,
                                                     EmailAddress = principal.EmailAddress,
-                                                    Roles = new Domain.Browser.Roles{ Role.Participant.ToString() },
+                                                    Roles = new Website.Domain.Browser.Roles{ Role.Participant.ToString() },
                                                     SavedLocations = new Locations(),
                                                 }
                               };

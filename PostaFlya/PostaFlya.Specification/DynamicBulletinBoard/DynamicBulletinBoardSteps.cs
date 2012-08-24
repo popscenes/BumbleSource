@@ -8,12 +8,9 @@ using PostaFlya.Areas.Default.Models;
 using PostaFlya.Areas.Default.Models.Bulletin;
 using PostaFlya.Binding;
 using PostaFlya.Controllers;
-using PostaFlya.Domain.Comments;
 using PostaFlya.Domain.Flier;
 using PostaFlya.Domain.Flier.Command;
 using PostaFlya.Domain.Flier.Query;
-using PostaFlya.Domain.Location;
-using PostaFlya.Domain.Tag;
 using WebSite.Infrastructure.Command;
 using PostaFlya.Models.Browser;
 using PostaFlya.Models.Comments;
@@ -23,6 +20,8 @@ using PostaFlya.Models.Location;
 using PostaFlya.Models.Tags;
 using PostaFlya.Specification.Fliers;
 using PostaFlya.Specification.Util;
+using Website.Domain.Location;
+using Website.Domain.Tag;
 
 namespace PostaFlya.Specification.DynamicBulletinBoard
 {

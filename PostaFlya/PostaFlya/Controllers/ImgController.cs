@@ -8,15 +8,14 @@ using System.Web;
 using System.Web.Mvc;
 using WebSite.Application.Binding;
 using WebSite.Application.Content;
-using PostaFlya.Application.Domain.Browser;
-using PostaFlya.Application.Domain.Content;
 using WebSite.Common.ActionResult;
-using PostaFlya.Domain.Content;
-using PostaFlya.Domain.Content.Command;
-using PostaFlya.Domain.Content.Query;
-using PostaFlya.Domain.Location;
 using WebSite.Infrastructure.Command;
 using PostaFlya.Models.Content;
+using Website.Application.Domain.Browser;
+using Website.Application.Domain.Content;
+using Website.Domain.Content;
+using Website.Domain.Content.Command;
+using Website.Domain.Content.Query;
 
 namespace PostaFlya.Controllers
 {
@@ -124,7 +123,7 @@ namespace PostaFlya.Controllers
             //plupload html4 runtime requires this
             Response.Write("{\"jsonrpc\" : \"2.0\", \"result\" : null, \"id\" : \"id\"}");
             
-            var retriever = _contentRetrieverFactory.GetRetriever(Domain.Content.Content.ContentType.Image);
+            var retriever = _contentRetrieverFactory.GetRetriever(Website.Domain.Content.Content.ContentType.Image);
             var content = retriever.GetContent();
             if(content == null || content.Data == null || content.Data.Length == 0)
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest, retriever.GetLastError());

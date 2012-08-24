@@ -2,10 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using PostaFlya.Domain.Content;
 using PostaFlya.Models.Location;
-using PostaFlya.Application.Domain.Content;
 using WebSite.Application.Content;
+using Website.Application.Domain.Content;
 
 namespace PostaFlya.Models.Content
 {

@@ -2,11 +2,12 @@
 using MbUnit.Framework;
 using Ninject.MockingKernel.Moq;
 using Ninject.Modules;
-using PostaFlya.Domain.Binding;
+using Website.Domain.Binding;
 using PostaFlya.Mocks.Domain.Data;
-using PostaFlya.Mocks.Domain.Defaults;
 using WebSite.Test.Common;
 using WebSite.Infrastructure.Binding;
+using Website.Mocks.Domain.Defaults;
+
 //using PostaFlya.Mocks.Domain.Data;
 //using PostaFlya.Mocks.Domain.Defaults;
 
@@ -48,8 +49,9 @@ namespace PostaFlya.WebSite.Tests
                     new GlobalDefaultsNinjectModule(),
                     new DefaultServicesNinjectBinding(),
                     new InfrastructureNinjectBinding(),
-                    new Domain.Binding.CommandNinjectBinding(),
-                    new TestRepositoriesNinjectModule()
+                    new Website.Domain.Binding.CommandNinjectBinding(),
+                    new TestRepositoriesNinjectModule(),
+                    new Website.Mocks.Domain.Data.TestRepositoriesNinjectModule()
                   };
     }
 }

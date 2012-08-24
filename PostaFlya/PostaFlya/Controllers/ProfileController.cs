@@ -5,12 +5,11 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using WebSite.Application.Binding;
-using PostaFlya.Application.Domain.Browser;
-using PostaFlya.Application.Domain.Content;
-using PostaFlya.Domain.Browser.Query;
 using PostaFlya.Domain.Flier.Query;
 using PostaFlya.Models.Factory;
 using WebSite.Application.Content;
+using Website.Application.Domain.Browser;
+using Website.Domain.Browser.Query;
 
 namespace PostaFlya.Controllers
 {

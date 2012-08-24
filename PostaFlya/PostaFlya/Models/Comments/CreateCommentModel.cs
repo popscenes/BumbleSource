@@ -1,9 +1,7 @@
 using System.ComponentModel;
 using WebSite.Application.Extension.Validation;
 using PostaFlya.Binding;
-using PostaFlya.Domain.Browser;
-using PostaFlya.Domain.Comments;
-using PostaFlya.Domain.Likes;
+using Website.Domain.Browser;
 
 namespace PostaFlya.Models.Comments
 {

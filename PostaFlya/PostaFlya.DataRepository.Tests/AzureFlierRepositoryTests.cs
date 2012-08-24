@@ -10,16 +10,17 @@ using PostaFlya.DataRepository.Search.Implementation;
 using PostaFlya.DataRepository.Tests.Behaviour.TaskJob;
 using PostaFlya.DataRepository.Tests.Internal;
 using PostaFlya.Domain.Behaviour;
-using PostaFlya.Domain.Comments;
 using PostaFlya.Domain.Flier;
 using PostaFlya.Domain.Flier.Command;
 using PostaFlya.Domain.Flier.Query;
-using PostaFlya.Domain.Likes;
-using PostaFlya.Domain.Location;
-using PostaFlya.Domain.Tag;
 using PostaFlya.Domain.TaskJob;
 using WebSite.Infrastructure.Command;
 using PostaFlya.Mocks.Domain.Data;
+using Website.Domain.Comments;
+using Website.Domain.Likes;
+using Website.Domain.Location;
+using Website.Domain.Tag;
+using Website.Mocks.Domain.Data;
 
 namespace PostaFlya.DataRepository.Tests
 {

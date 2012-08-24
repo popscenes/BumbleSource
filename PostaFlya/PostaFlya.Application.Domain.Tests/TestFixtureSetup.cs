@@ -11,7 +11,7 @@ using PostaFlya.Domain.Binding;
 using WebSite.Infrastructure.Binding;
 using WebSite.Test.Common;
 using PostaFlya.Mocks.Domain.Data;
-using PostaFlya.Mocks.Domain.Defaults;
+using Website.Mocks.Domain.Defaults;
 
 namespace PostaFlya.Application.Domain.Tests
 {
@@ -52,8 +52,10 @@ namespace PostaFlya.Application.Domain.Tests
                       new GlobalDefaultsNinjectModule(),
                       new InfrastructureNinjectBinding(),
                       new DefaultServicesNinjectBinding(),
+                      new Website.Domain.Binding.DefaultServicesNinjectBinding(),
                       new CommandNinjectBinding(),
                       new TestRepositoriesNinjectModule(),
+                      new Website.Mocks.Domain.Data.TestRepositoriesNinjectModule(),
                       new PostaFlya.Domain.TaskJob.Binding.TaskJobNinjectBinding(),
                   };
     }

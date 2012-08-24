@@ -3,16 +3,15 @@ using System.Linq;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
-using PostaFlya.Application.Domain.Location;
 using WebSite.Application.Content;
 using WebSite.Application.Extension.Validation;
 using PostaFlya.Domain.Behaviour;
-using PostaFlya.Domain.Location;
 using PostaFlya.Models.Location;
 using System.Collections.Generic;
 using PostaFlya.Domain.Flier;
-using PostaFlya.Application.Domain.Content;
 using PostaFlya.Models.Content;
+using Website.Application.Domain.Content;
+using Website.Application.Domain.Location;
 
 namespace PostaFlya.Models.Flier
 {

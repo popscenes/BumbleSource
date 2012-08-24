@@ -1,15 +1,12 @@
 using System;
 using System.Runtime.Caching;
-using PostaFlya.Application.Domain.Command;
 using WebSite.Application.Binding;
 using WebSite.Application.Caching.Command;
-using PostaFlya.Domain.Browser;
-using PostaFlya.Domain.Comments;
 using PostaFlya.Domain.Flier;
 using PostaFlya.Domain.Flier.Command;
-using PostaFlya.Domain.Likes;
 using WebSite.Infrastructure.Command;
 using WebSite.Infrastructure.Binding;
+using Website.Application.Domain.Command;
 
 namespace PostaFlya.Application.Domain.Flier.Command
 {

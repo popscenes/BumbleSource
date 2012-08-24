@@ -5,7 +5,6 @@ using System.Text;
 using Ninject;
 using WebSite.Azure.Common.TableStorage;
 using PostaFlya.Domain.Flier;
-using PostaFlya.Domain.Location;
 using PostaFlya.Domain.TaskJob;
 using PostaFlya.Domain.TaskJob.Command;
 using PostaFlya.Domain.TaskJob.Query;

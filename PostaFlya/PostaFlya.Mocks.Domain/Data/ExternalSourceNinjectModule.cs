@@ -1,15 +1,14 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using Ninject.Modules;
 using MbUnit.Framework;
+using Moq;
 using Ninject.MockingKernel.Moq;
+using Ninject.Modules;
 using PostaFlya.Application.Domain.ExternalSource;
 using PostaFlya.Domain.Flier;
-using Moq;
-using PostaFlya.Domain.Browser;
 using WebSite.Infrastructure.Authentication;
+using Website.Domain.Browser;
 
 namespace PostaFlya.Mocks.Domain.Data
 {

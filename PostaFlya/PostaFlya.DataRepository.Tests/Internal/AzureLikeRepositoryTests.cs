@@ -11,11 +11,12 @@ using Ninject.MockingKernel.Moq;
 using WebSite.Azure.Common.Environment;
 using WebSite.Azure.Common.TableStorage;
 using PostaFlya.DataRepository.Internal;
-using PostaFlya.Domain.Likes;
 using PostaFlya.Mocks.Domain.Data;
 using WebSite.Infrastructure.Command;
 using WebSite.Infrastructure.Query;
 using WebSite.Test.Common;
+using Website.Domain.Likes;
+using Website.Mocks.Domain.Data;
 
 namespace PostaFlya.DataRepository.Tests.Internal
 {

@@ -2,15 +2,14 @@ using System;
 using System.Collections.Generic;
 using System.Web.Http;
 using WebSite.Application.Binding;
-using PostaFlya.Application.Domain.Content;
-using PostaFlya.Domain.Content;
-using PostaFlya.Domain.Content.Query;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Collections;
 using PostaFlya.Helpers;
 using PostaFlya.Models.Content;
 using WebSite.Application.Content;
+using Website.Domain.Content;
+using Website.Domain.Content.Query;
 
 namespace PostaFlya.Controllers
 {

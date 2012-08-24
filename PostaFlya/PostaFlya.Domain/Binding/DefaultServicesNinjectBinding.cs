@@ -9,10 +9,7 @@ using Ninject.Syntax;
 using PostaFlya.Domain.Behaviour;
 using PostaFlya.Domain.Behaviour.Command;
 using PostaFlya.Domain.Behaviour.Query;
-using PostaFlya.Domain.Browser.Query;
-using PostaFlya.Domain.Comments.Command;
 using PostaFlya.Domain.Flier;
-using PostaFlya.Domain.Location;
 using PostaFlya.Domain.Service;
 using WebSite.Infrastructure.Command;
 using WebSite.Infrastructure.Query;
@@ -25,8 +22,6 @@ namespace PostaFlya.Domain.Binding
         public override void Load()
         {
             Trace.TraceInformation("Binding DefaultServicesNinjectBinding");
-            //location service  
-            Bind<LocationServiceInterface>().To<LocationService>().InSingletonScope();
 
             //behaviour factory
             Bind<BehaviourFactoryInterface>().To<BehaviourFactory>().InSingletonScope();

@@ -4,15 +4,15 @@ using System.Linq;
 using System.Web.Mvc;
 using WebSite.Application.Binding;
 using PostaFlya.Domain.Behaviour.Query;
-using PostaFlya.Domain.Browser.Query;
 using PostaFlya.Domain.Flier.Query;
-using PostaFlya.Domain.Location;
-using PostaFlya.Domain.Tag;
 using PostaFlya.Models.Browser;
 using PostaFlya.Models.Factory;
 using PostaFlya.Models.Flier;
 using PostaFlya.Models.Location;
 using WebSite.Application.Content;
+using Website.Domain.Browser.Query;
+using Website.Domain.Location;
+using Website.Domain.Tag;
 
 namespace PostaFlya.Controllers
 {

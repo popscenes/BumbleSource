@@ -4,11 +4,12 @@ using System.Linq;
 using System.Net.Http;
 using System.Web.Http;
 using PostaFlya.Attributes;
-using PostaFlya.Domain.Browser.Command;
-using PostaFlya.Domain.Browser.Query;
-using PostaFlya.Domain.Tag;
 using WebSite.Common.Extension;
 using WebSite.Infrastructure.Command;
+using Website.Domain.Browser;
+using Website.Domain.Browser.Command;
+using Website.Domain.Browser.Query;
+using Website.Domain.Tag;
 
 namespace PostaFlya.Controllers
 {
@@ -28,14 +29,14 @@ namespace PostaFlya.Controllers
         // GET /api/savedtagsapi
         public IQueryable<Tags> Get(string browserId)
         {
-            var browser = _browserQueryService.FindById<Domain.Browser.Browser>(browserId);
+            var browser = _browserQueryService.FindById<Browser>(browserId);
            return browser.SavedTags.AsQueryable();
         }
 
         // POST /api/savedtagsapi
         public HttpResponseMessage Post(string browserId, Tags tags)
         {
-            var browser = _browserQueryService.FindById<Domain.Browser.Browser>(browserId);
+            var browser = _browserQueryService.FindById<Browser>(browserId);
             var command = new SavedTagsSaveCommand()
             {
                 BrowserId = browser.Id,
@@ -49,7 +50,7 @@ namespace PostaFlya.Controllers
         //sets the active saved tags
         public HttpResponseMessage Put(string browserId, Tags tags)
         {
-            var browser = _browserQueryService.FindById<Domain.Browser.Browser>(browserId);
+            var browser = _browserQueryService.FindById<Browser>(browserId);
             var command = new SavedTagsSelectCommand()
             {
                 BrowserId = browser.Id,
@@ -63,7 +64,7 @@ namespace PostaFlya.Controllers
         // DELETE /api/savedtagsapi/5
         public HttpResponseMessage Delete(string browserId, Tags tags)
         {
-            var browser = _browserQueryService.FindById<Domain.Browser.Browser>(browserId);
+            var browser = _browserQueryService.FindById<Browser>(browserId);
             var command = new SavedTagsDeleteCommand()
             {
                 BrowserId = browser.Id,

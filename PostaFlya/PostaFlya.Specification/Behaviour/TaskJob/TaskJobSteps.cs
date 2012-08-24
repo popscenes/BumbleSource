@@ -10,7 +10,6 @@ using TechTalk.SpecFlow;
 using PostaFlya.Areas.TaskJob.Controllers;
 using PostaFlya.Areas.TaskJob.Models;
 using PostaFlya.Domain.Flier;
-using PostaFlya.Domain.Location;
 using PostaFlya.Domain.TaskJob;
 using PostaFlya.Domain.TaskJob.Command;
 using PostaFlya.Domain.TaskJob.Query;
@@ -19,6 +18,7 @@ using PostaFlya.Models.Flier;
 using PostaFlya.Models.Location;
 using PostaFlya.Specification.Fliers;
 using PostaFlya.Specification.Util;
+using Website.Domain.Location;
 
 namespace PostaFlya.Specification.Behaviour.TaskJob
 {

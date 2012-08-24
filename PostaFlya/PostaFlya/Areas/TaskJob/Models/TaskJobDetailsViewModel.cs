@@ -4,13 +4,13 @@ using System.ComponentModel;
 using System.Linq;
 using System.Web;
 using WebSite.Application.Binding;
-using PostaFlya.Application.Domain.Content;
 using PostaFlya.Areas.Default.Models;
 using PostaFlya.Areas.Default.Models.Bulletin;
 using PostaFlya.Areas.TaskJob.Models.Bulletin;
 using PostaFlya.Domain.Behaviour;
 using PostaFlya.Models.Flier;
 using WebSite.Application.Content;
+using Website.Application.Domain.Content;
 
 namespace PostaFlya.Areas.TaskJob.Models
 {

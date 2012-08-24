@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using MbUnit.Framework;
 using Ninject;
-using PostaFlya.Domain.Comments;
 using TechTalk.SpecFlow;
 using PostaFlya.Areas.Default.Models;
 using PostaFlya.Binding;
@@ -12,6 +11,7 @@ using PostaFlya.Controllers;
 using PostaFlya.Domain.Flier.Query;
 using PostaFlya.Models.Comments;
 using PostaFlya.Specification.Util;
+using Website.Domain.Comments;
 
 namespace PostaFlya.Specification.DynamicBulletinBoard
 {

@@ -10,15 +10,16 @@ using Ninject;
 using WebSite.Azure.Common.Environment;
 using WebSite.Azure.Common.TableStorage;
 using PostaFlya.DataRepository.Browser;
-using PostaFlya.Domain.Browser;
-using PostaFlya.Domain.Browser.Command;
-using PostaFlya.Domain.Browser.Query;
-using PostaFlya.Domain.Location;
-using PostaFlya.Domain.Tag;
 using WebSite.Infrastructure.Authentication;
 using WebSite.Infrastructure.Command;
 using PostaFlya.Mocks.Domain.Data;
-using PostaFlya.Mocks.Domain.Defaults;
+using Website.Domain.Browser;
+using Website.Domain.Browser.Command;
+using Website.Domain.Browser.Query;
+using Website.Domain.Location;
+using Website.Domain.Tag;
+using Website.Mocks.Domain.Data;
+using Website.Mocks.Domain.Defaults;
 
 namespace PostaFlya.DataRepository.Tests
 {
@@ -108,7 +109,7 @@ namespace PostaFlya.DataRepository.Tests
             return BrowserTestData.StoreOne(browser, _repository, Kernel);
         }
 
-        private Domain.Browser.Browser GetBrowser()
+        private Website.Domain.Browser.Browser GetBrowser()
         {
             var externalId = Guid.NewGuid();
 
@@ -119,7 +120,7 @@ namespace PostaFlya.DataRepository.Tests
                 Permissions = "post"
             };
 
-            var ret = new Domain.Browser.Browser(Guid.NewGuid().ToString())
+            var ret = new Website.Domain.Browser.Browser(Guid.NewGuid().ToString())
                        {
                            Handle = "YoYo",
                            Tags = Kernel.Get<Tags>(ctx => ctx.Has("default")),
@@ -172,7 +173,7 @@ namespace PostaFlya.DataRepository.Tests
             using (Kernel.Get<UnitOfWorkFactoryInterface>()
                 .GetUnitOfWork(new List<RepositoryInterface>() { _repository }))
             {
-                _repository.UpdateEntity<Domain.Browser.Browser>(source.Id
+                _repository.UpdateEntity<Website.Domain.Browser.Browser>(source.Id
                     , browser =>
                           {
                               entityToStore = browser;

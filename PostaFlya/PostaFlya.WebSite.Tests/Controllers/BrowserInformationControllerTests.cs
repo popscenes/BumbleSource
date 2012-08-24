@@ -7,13 +7,13 @@ using System.Web.Script.Serialization;
 using MbUnit.Framework;
 using Ninject;
 using Ninject.MockingKernel.Moq;
-using PostaFlya.Application.Domain.Browser;
 using PostaFlya.Controllers;
-using PostaFlya.Domain.Browser;
-using PostaFlya.Domain.Location;
-using PostaFlya.Domain.Tag;
 using PostaFlya.Models.Browser;
 using Microsoft.CSharp;
+using Website.Application.Domain.Browser;
+using Website.Domain.Browser;
+using Website.Domain.Location;
+using Website.Domain.Tag;
 
 
 namespace PostaFlya.WebSite.Tests.Controllers

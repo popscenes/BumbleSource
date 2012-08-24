@@ -18,17 +18,16 @@ using WebSite.Application.Caching.Command;
 using WebSite.Application.Command;
 using WebSite.Application.Communication;
 using WebSite.Application.Content;
-using PostaFlya.Application.Domain.Browser;
-using PostaFlya.Application.Domain.Content;
 using PostaFlya.Areas.Default.Binding;
 using PostaFlya.Areas.TaskJob.Binding;
 using WebSite.Azure.Common.Environment;
-using PostaFlya.Domain.Content;
 using WebSite.Infrastructure.Authentication;
 using WebSite.Infrastructure.Binding;
 using WebSite.Infrastructure.Command;
 using WebSite.Infrastructure.Util;
 using PostaFlya.Models.Factory;
+using Website.Application.Domain.Content;
+using Website.Domain.Content;
 
 namespace PostaFlya.Binding
 {
@@ -145,23 +144,31 @@ namespace PostaFlya.Binding
                       new WebSite.Infrastructure.Binding.InfrastructureNinjectBinding(),
                       new PostaFlya.Domain.Binding.DefaultServicesNinjectBinding(),      
                       new PostaFlya.Domain.Binding.CommandNinjectBinding(),
+
+                      new Website.Domain.Binding.DefaultServicesNinjectBinding(),      
+                      new Website.Domain.Binding.CommandNinjectBinding(),
+
                       new PostaFlya.Domain.TaskJob.Binding.TaskJobNinjectBinding(),
                       new WebSite.Azure.Common.Binding.AzureCommonNinjectBinding(),
                       //this binds the caching repositories
                       new PostaFlya.Application.Domain.Binding.ApplicationDomainRepositoriesNinjectBinding(
                           c => c.InRequestScope()),
+
+                          new Website.Application.Domain.Binding.ApplicationDomainRepositoriesNinjectBinding(
+                          c => c.InRequestScope()),
                       //this just binds for source repositories
                       new PostaFlya.DataRepository.Binding.AzureRepositoryNinjectBinding(
                           c => { c.InRequestScope();
                                  c.WhenTargetHas<SourceDataSourceAttribute>();
-                      }),
-                      new PostaFlya.DataRepository.Binding.TableNameNinjectBinding(),
+                      }),                      
                       new WebSite.Application.Binding.ApplicationNinjectBinding(),
                       new PostaFlya.Application.Domain.Binding.ApplicationDomainNinjectBinding(),
+                      new Website.Application.Domain.Binding.ApplicationDomainNinjectBinding(),
                       new WebSite.Application.Azure.Binding.AzureApplicationNinjectBinding(),
                       new PostaFlya.Binding.WebNinjectBindings(),
                       new PostaFlya.Areas.Default.Binding.DefaultBehaviourWebNinjectBinding(),
-                      new PostaFlya.Areas.TaskJob.Binding.TaskJobBehaviourWebNinjectBinding()
+                      new PostaFlya.Areas.TaskJob.Binding.TaskJobBehaviourWebNinjectBinding(),
+                      new PostaFlya.DataRepository.Binding.TableNameNinjectBinding(),
                   };
     }
 }

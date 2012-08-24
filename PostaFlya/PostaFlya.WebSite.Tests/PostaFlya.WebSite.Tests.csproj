@@ -245,6 +245,22 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Core\Website.Application.Domain.Tests\Website.Application.Domain.Tests.csproj">
+      <Project>{C67F82AA-07C4-49A7-906D-127A6CC8CDFD}</Project>
+      <Name>Website.Application.Domain.Tests</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Core\Website.Application.Domain\Website.Application.Domain.csproj">
+      <Project>{33669E4A-6C9B-4DC2-AE89-29286141658C}</Project>
+      <Name>Website.Application.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Core\Website.Domain\Website.Domain.csproj">
+      <Project>{C479A98A-EC5A-45EF-968A-2D81B406485F}</Project>
+      <Name>Website.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Core\Website.Mocks.Domain\Website.Mocks.Domain.csproj">
+      <Project>{FFE7D016-19DB-40F6-8565-EE2507AE4F12}</Project>
+      <Name>Website.Mocks.Domain</Name>
+    </ProjectReference>
     <ProjectReference Include="..\PostaFlya.Application.Domain.Tests\PostaFlya.Application.Domain.Tests.csproj">
       <Project>{F48F8E4D-A3AA-4ECE-87A6-5D2033C7E2AD}</Project>
       <Name>PostaFlya.Application.Domain.Tests</Name>
@@ -264,10 +280,6 @@
     <ProjectReference Include="..\..\Core\WebSite.Common\WebSite.Common.csproj">
       <Project>{B8DA4F3A-23FF-46AA-A9E4-A22EAC11CA3A}</Project>
       <Name>WebSite.Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\PostaFlya.Domain\PostaFlya.Domain.csproj">
-      <Project>{77BD3622-4D65-4776-AC5A-4F779CC526ED}</Project>
-      <Name>WebSite.Domain</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Core\WebSite.Infrastructure\WebSite.Infrastructure.csproj">
       <Project>{B5C3A966-F286-4CB8-913B-C8625625451D}</Project>

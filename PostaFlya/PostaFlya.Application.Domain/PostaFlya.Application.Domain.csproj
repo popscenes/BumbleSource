@@ -74,29 +74,6 @@
     <Compile Include="Behaviour\TaskJob\Query\CachedTaskJobQueryService.cs" />
     <Compile Include="Binding\ApplicationDomainNinjectBinding.cs" />
     <Compile Include="Binding\ApplicationDomainRepositoriesNinjectBinding.cs" />
-    <Compile Include="Browser\BrowserInformation.cs" />
-    <Compile Include="Browser\BrowserInformationInterface.cs" />
-    <Compile Include="Browser\CachedBrowserContext.cs" />
-    <Compile Include="Browser\Command\CachedBrowserRepository.cs" />
-    <Compile Include="Browser\Query\CachedBrowserQueryService.cs" />
-    <Compile Include="Command\CachedRepositoryWithBrowser.cs" />
-    <Compile Include="Content\CachedImageDataSourceBase.cs" />
-    <Compile Include="Content\Command\CachedImageRepository.cs" />
-    <Compile Include="Content\Command\ImageProcessCommand.cs" />
-    <Compile Include="Content\Command\ImageProcessCommandHandler.cs" />
-    <Compile Include="Content\Command\ImageProcessContentStorageService.cs" />
-    <Compile Include="Content\Command\ImageProcessSetMetaDataCommand.cs" />
-    <Compile Include="Content\Command\ImageProcessSetMetaDataCommandHandler.cs" />
-    <Compile Include="Content\ImageUrlContentRetriever.cs" />
-    <Compile Include="Content\ImageUtil.cs" />
-    <Compile Include="Content\Query\CachedImageQueryService.cs" />
-    <Compile Include="Content\RequestContentRetrieverFactory.cs" />
-    <Compile Include="Content\RequestContentRetrieverFactoryInterface.cs" />
-    <Compile Include="Content\RequestContentRetrieverInterface.cs" />
-    <Compile Include="Content\UrlContentRetrieverFactory.cs" />
-    <Compile Include="Content\UrlContentRetrieverFactoryInterface.cs" />
-    <Compile Include="Content\UrlContentRetrieverInterface.cs" />
-    <Compile Include="Content\WebImageRequestContentRetriever.cs" />
     <Compile Include="ExternalSource\FacebookFlierImporter.cs" />
     <Compile Include="ExternalSource\FlierImporterInterface.cs" />
     <Compile Include="ExternalSource\FlierImportService.cs" />
@@ -104,9 +81,7 @@
     <Compile Include="Flier\CachedFlierDataSourceBase.cs" />
     <Compile Include="Flier\Command\CachedFlierRepository.cs" />
     <Compile Include="Flier\Query\CachedFlierQueryService.cs" />
-    <Compile Include="Location\ValidationAttributes.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Query\CachedQueryServiceWithBrowser.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0">
@@ -131,9 +106,17 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Core\Website.Application.Domain\Website.Application.Domain.csproj">
+      <Project>{33669E4A-6C9B-4DC2-AE89-29286141658C}</Project>
+      <Name>Website.Application.Domain</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Core\Website.Application\Website.Application.csproj">
       <Project>{46DB8930-71D8-4DE4-BAA6-39944F07D6F5}</Project>
       <Name>Website.Application</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Core\Website.Domain\Website.Domain.csproj">
+      <Project>{C479A98A-EC5A-45EF-968A-2D81B406485F}</Project>
+      <Name>Website.Domain</Name>
     </ProjectReference>
     <ProjectReference Include="..\PostaFlya.Domain.TaskJob\PostaFlya.Domain.TaskJob.csproj">
       <Project>{761D2C3C-2C8A-4277-AAD3-407872797B9C}</Project>

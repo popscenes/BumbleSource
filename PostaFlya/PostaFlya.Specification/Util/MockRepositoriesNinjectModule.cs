@@ -8,24 +8,21 @@ using Ninject.MockingKernel.Moq;
 using Ninject.Modules;
 using TechTalk.SpecFlow;
 using WebSite.Application.Authentication;
-using PostaFlya.Application.Domain.Browser;
 using WebSite.Application.WebsiteInformation;
-using PostaFlya.Domain.Browser;
-using PostaFlya.Domain.Browser.Command;
-using PostaFlya.Domain.Browser.Query;
-using PostaFlya.Domain.Comments;
-using PostaFlya.Domain.Content;
-using PostaFlya.Domain.Content.Command;
-using PostaFlya.Domain.Content.Query;
 using PostaFlya.Domain.Flier;
 using PostaFlya.Domain.Flier.Command;
 using PostaFlya.Domain.Flier.Query;
-using PostaFlya.Domain.Likes;
-using PostaFlya.Domain.Location;
-using PostaFlya.Domain.Tag;
 using PostaFlya.Domain.TaskJob;
 using WebSite.Infrastructure.Authentication;
-using PostaFlya.Mocks.Domain.Data;
+using Website.Application.Domain.Browser;
+using Website.Domain.Browser;
+using Website.Domain.Browser.Query;
+using Website.Domain.Comments;
+using Website.Domain.Content;
+using Website.Domain.Likes;
+using Website.Domain.Location;
+using Website.Mocks.Domain.Data;
+using TestRepositoriesNinjectModule = PostaFlya.Mocks.Domain.Data.TestRepositoriesNinjectModule;
 
 
 namespace PostaFlya.Specification.Util
@@ -39,15 +36,17 @@ namespace PostaFlya.Specification.Util
             Assert.IsNotNull(kernel, "should be using mock kernel for tests");
 
             SetUpBrowserInformation(kernel);
-            TestRepositoriesNinjectModule.SetUpWebsiteInfo(kernel);
+            Website.Mocks.Domain.Data.TestRepositoriesNinjectModule.SetUpWebsiteInfo(kernel);
 
-            TestRepositoriesNinjectModule.SetUpBrowserRepositoryAndQueryService(kernel, SpecUtil.GetMockStore<HashSet<BrowserInterface>>("browserstore"));
+            Website.Mocks.Domain.Data.TestRepositoriesNinjectModule.SetUpBrowserRepositoryAndQueryService(kernel, SpecUtil.GetMockStore<HashSet<BrowserInterface>>("browserstore"));
             TestRepositoriesNinjectModule.SetUpFlierRepositoryAndQueryService(kernel
                 , SpecUtil.GetMockStore<HashSet<FlierInterface>>("flierstore")
                 , SpecUtil.GetMockStore<HashSet<CommentInterface>>("fliercommentstore")
                 , SpecUtil.GetMockStore<HashSet<LikeInterface>>("likestore"));
-            TestRepositoriesNinjectModule.SetUpImageRepositoryAndQueryService(kernel
+            Website.Mocks.Domain.Data.TestRepositoriesNinjectModule.SetUpImageRepositoryAndQueryService(kernel
                 , SpecUtil.GetMockStore<HashSet<ImageInterface>>("imagestore"));
+
+            
 
             PrincipalData.SetPrincipal(kernel);
 

@@ -8,9 +8,9 @@ using WebSite.Azure.Common.Sql;
 using PostaFlya.DataRepository.Binding;
 using PostaFlya.DataRepository.Search.Services;
 using PostaFlya.Domain.Flier;
-using PostaFlya.Domain.Location;
-using PostaFlya.Domain.Tag;
 using WebSite.Infrastructure.Domain;
+using Website.Domain.Location;
+using Website.Domain.Tag;
 
 namespace PostaFlya.DataRepository.Search.Implementation
 {

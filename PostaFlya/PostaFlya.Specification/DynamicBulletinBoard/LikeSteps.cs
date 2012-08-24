@@ -1,7 +1,6 @@
 ﻿using System.Linq;
 using MbUnit.Framework;
 using Ninject;
-using PostaFlya.Domain.Likes;
 using TechTalk.SpecFlow;
 using PostaFlya.Areas.Default.Models;
 using PostaFlya.Binding;
@@ -12,6 +11,7 @@ using PostaFlya.Models.Likes;
 using PostaFlya.Specification.Browsers;
 using PostaFlya.Specification.Fliers;
 using PostaFlya.Specification.Util;
+using Website.Domain.Likes;
 
 namespace PostaFlya.Specification.DynamicBulletinBoard
 {

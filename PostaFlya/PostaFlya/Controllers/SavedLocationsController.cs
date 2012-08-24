@@ -4,13 +4,13 @@ using System.Linq;
 using System.Net.Http;
 using System.Web.Http;
 using PostaFlya.Attributes;
-using PostaFlya.Domain.Browser;
-using PostaFlya.Domain.Browser.Command;
-using PostaFlya.Domain.Browser.Query;
-using PostaFlya.Domain.Location;
 using WebSite.Common.Extension;
 using WebSite.Infrastructure.Command;
 using PostaFlya.Models.Location;
+using Website.Domain.Browser;
+using Website.Domain.Browser.Command;
+using Website.Domain.Browser.Query;
+using Website.Domain.Location;
 
 namespace PostaFlya.Controllers
 {
@@ -30,14 +30,14 @@ namespace PostaFlya.Controllers
 
         public IQueryable<LocationModel> Get(string browserId)
         {
-            var browser = _browserQueryService.FindById<Domain.Browser.Browser>(browserId);
+            var browser = _browserQueryService.FindById<Browser>(browserId);
             return browser.SavedLocations.Select(_ => _.ToViewModel()).AsQueryable();
         }
 
 
         public HttpResponseMessage Post(string browserId, LocationModel location)
         {
-            var browser = _browserQueryService.FindById<Domain.Browser.Browser>(browserId);
+            var browser = _browserQueryService.FindById<Browser>(browserId);
 
             var command = new SavedLocationAddCommand()
             {
@@ -53,7 +53,7 @@ namespace PostaFlya.Controllers
         //sets the active location
         public HttpResponseMessage Put(string browserId, LocationModel location)
         {
-            var browser = _browserQueryService.FindById<Domain.Browser.Browser>(browserId);
+            var browser = _browserQueryService.FindById<Browser>(browserId);
             var command = new SavedLocationSelectCommand()
             {
                 BrowserId = browser.Id,

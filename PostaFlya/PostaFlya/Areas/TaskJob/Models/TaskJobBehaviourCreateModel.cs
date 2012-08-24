@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 using System.ComponentModel;
-using PostaFlya.Application.Domain.Location;
 using WebSite.Application.Extension.Validation;
 using PostaFlya.Models;
 using PostaFlya.Models.Location;
+using Website.Application.Domain.Location;
 
 namespace PostaFlya.Areas.TaskJob.Models
 {

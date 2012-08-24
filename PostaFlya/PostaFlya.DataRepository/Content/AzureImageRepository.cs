@@ -5,11 +5,10 @@ using System.Linq;
 using Ninject;
 using PostaFlya.DataRepository.Internal;
 using WebSite.Azure.Common.TableStorage;
-using PostaFlya.Domain.Content;
-using PostaFlya.Domain.Content.Command;
-using PostaFlya.Domain.Content.Query;
 using PostaFlya.Domain.Flier;
 using WebSite.Infrastructure.Query;
+using Website.Domain.Content.Command;
+using Website.Domain.Content.Query;
 
 namespace PostaFlya.DataRepository.Content
 {

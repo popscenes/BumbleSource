@@ -35,4 +35,5 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyFileVersion("1.0.0.0")]
 
 [assembly: InternalsVisibleTo("PostaFlya.Application.Domain.Tests")]
+[assembly: InternalsVisibleTo("Website.Application.Domain.Tests")]
 

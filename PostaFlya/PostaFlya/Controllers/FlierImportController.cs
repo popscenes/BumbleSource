@@ -1,21 +1,20 @@
 ﻿using System;
 using System.Linq;
 using System.Web.Mvc;
-using PostaFlya.Domain.Browser;
+using PostaFlya.Application.Domain.ExternalSource;
 using WebSite.Application.Content;
 using PostaFlya.Domain.Behaviour;
 using PostaFlya.Domain.Flier.Command;
 using PostaFlya.Domain.Flier.Query;
-using PostaFlya.Domain.Tag;
 using WebSite.Infrastructure.Command;
 using PostaFlya.Models.Flier;
 using PostaFlya.Models.Location;
-using PostaFlya.Application.Domain.Browser;
-using PostaFlya.Application.Domain.ExternalSource;
 using WebSite.Infrastructure.Authentication;
-using PostaFlya.Domain.Browser.Command;
 using WebSite.Application.Binding;
-using PostaFlya.Application.Domain.Content;
+using Website.Application.Domain.Browser;
+using Website.Application.Domain.Content;
+using Website.Domain.Browser;
+using Website.Domain.Browser.Command;
 
 namespace PostaFlya.Controllers
 {

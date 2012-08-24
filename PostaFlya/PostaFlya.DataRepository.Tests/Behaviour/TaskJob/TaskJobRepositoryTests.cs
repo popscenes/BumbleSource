@@ -9,12 +9,11 @@ using Ninject;
 using WebSite.Azure.Common.Environment;
 using WebSite.Azure.Common.TableStorage;
 using PostaFlya.DataRepository.Behaviour.TaskJob;
-using PostaFlya.Domain.Content.Query;
-using PostaFlya.Domain.Location;
 using PostaFlya.Domain.TaskJob;
 using PostaFlya.Domain.TaskJob.Command;
 using PostaFlya.Domain.TaskJob.Query;
 using WebSite.Infrastructure.Command;
+using Website.Domain.Location;
 
 namespace PostaFlya.DataRepository.Tests.Behaviour.TaskJob
 {

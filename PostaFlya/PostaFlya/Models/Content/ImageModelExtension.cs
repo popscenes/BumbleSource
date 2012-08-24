@@ -1,12 +1,12 @@
-using PostaFlya.Application.Domain.Content;
 using PostaFlya.Models.Location;
 using WebSite.Application.Content;
+using Website.Application.Domain.Content;
 
 namespace PostaFlya.Models.Content
 {
     public static class ImageModelExtension
     {
-        public static ImageViewModel ToViewModel(this Domain.Content.ImageInterface image)
+        public static ImageViewModel ToViewModel(this Website.Domain.Content.ImageInterface image)
         {
             return new ImageViewModel()
                        {

@@ -1,16 +1,14 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using System.Text;
-using PostaFlya.Application.Domain.Content;
-using PostaFlya.Domain.Content.Command;
-using WebSite.Infrastructure.Authentication;
-using PostaFlya.Domain.Browser;
+using PostaFlya.Domain.Flier;
 using PostaFlya.Domain.Flier.Query;
 using WebSite.Application.Intergrations;
-using PostaFlya.Domain.Flier;
+using WebSite.Infrastructure.Authentication;
 using WebSite.Infrastructure.Command;
+using Website.Application.Domain.Content;
+using Website.Domain.Browser;
+using Website.Domain.Content.Command;
 
 namespace PostaFlya.Application.Domain.ExternalSource
 {
@@ -28,7 +26,7 @@ namespace PostaFlya.Application.Domain.ExternalSource
             _commandBus = commandBus;
         }
 
-        public bool CanImport(PostaFlya.Domain.Browser.BrowserInterface browser)
+        public bool CanImport(Website.Domain.Browser.BrowserInterface browser)
         {
             var accessToken = GetAccessTokenFromExternalCredantials(browser);
             if (accessToken == null)
@@ -43,7 +41,7 @@ namespace PostaFlya.Application.Domain.ExternalSource
             return true;
         }
 
-        public IQueryable<PostaFlya.Domain.Flier.FlierInterface> ImportFliers(PostaFlya.Domain.Browser.BrowserInterface browser)
+        public IQueryable<PostaFlya.Domain.Flier.FlierInterface> ImportFliers(Website.Domain.Browser.BrowserInterface browser)
         {
             List<FlierInterface> fliers = new List<FlierInterface>();
             var accessToken = GetAccessTokenFromExternalCredantials(browser);
@@ -69,7 +67,7 @@ namespace PostaFlya.Application.Domain.ExternalSource
                 Status = FlierStatus.Pending,
                 EffectiveDate = fbEvent.start_time,
                 BrowserId = browser.Id,
-                Location = new PostaFlya.Domain.Location.Location()
+                Location = new Website.Domain.Location.Location()
                 {
                     Description = fbEvent.location,
                     Latitude = fbEvent.venue.latitude,
@@ -84,7 +82,7 @@ namespace PostaFlya.Application.Domain.ExternalSource
 
         protected Guid? SaveImageFromfacebookEvent(FaceBookEvent fbEvent, BrowserInterface browser)
         {
-            var retriever = _contentRetrieverFactory.GetRetriever(PostaFlya.Domain.Content.Content.ContentType.Image);
+            var retriever = _contentRetrieverFactory.GetRetriever(Website.Domain.Content.Content.ContentType.Image);
             var content = retriever.GetContent(fbEvent.picture);
             if (content == null || content.Data == null || content.Data.Length == 0)
             {
@@ -109,7 +107,7 @@ namespace PostaFlya.Application.Domain.ExternalSource
             var faceBookEvents = _graphApi.UserEventsGet();
 
             var existingFliers = _queryService.GetByBrowserId<PostaFlya.Domain.Flier.Flier>(browser.Id);
-            var existingEventsIds = existingFliers.Where(_ => _.ExternalSource == IdentityProviders.FACEBOOK).Select(_ => _.ExternalId).ToList();
+            var existingEventsIds = Enumerable.ToList<string>(existingFliers.Where(_ => _.ExternalSource == IdentityProviders.FACEBOOK).Select(_ => _.ExternalId));
 
             return faceBookEvents.Where(_ => !existingEventsIds.Contains(_.id)).ToList();
         }

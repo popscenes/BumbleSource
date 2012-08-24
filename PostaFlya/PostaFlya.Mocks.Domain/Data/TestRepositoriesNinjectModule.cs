@@ -6,25 +6,26 @@ using Moq;
 using Ninject;
 using Ninject.MockingKernel.Moq;
 using Ninject.Modules;
-using PostaFlya.Domain.Browser;
-using PostaFlya.Domain.Browser.Command;
-using PostaFlya.Domain.Browser.Query;
-using PostaFlya.Domain.Comments;
-using PostaFlya.Domain.Content;
-using PostaFlya.Domain.Content.Command;
-using PostaFlya.Domain.Content.Query;
 using PostaFlya.Domain.Flier;
 using PostaFlya.Domain.Flier.Command;
 using PostaFlya.Domain.Flier.Query;
-using PostaFlya.Domain.Likes;
-using PostaFlya.Domain.Location;
-using PostaFlya.Domain.Tag;
 using PostaFlya.Domain.TaskJob;
 using PostaFlya.Domain.TaskJob.Command;
 using PostaFlya.Domain.TaskJob.Query;
 using WebSite.Infrastructure.Authentication;
 using WebSite.Infrastructure.Domain;
 using WebSite.Application.WebsiteInformation;
+using Website.Domain.Browser;
+using Website.Domain.Browser.Command;
+using Website.Domain.Browser.Query;
+using Website.Domain.Comments;
+using Website.Domain.Content;
+using Website.Domain.Content.Command;
+using Website.Domain.Content.Query;
+using Website.Domain.Likes;
+using Website.Domain.Location;
+using Website.Domain.Tag;
+using Website.Mocks.Domain.Data;
 
 namespace PostaFlya.Mocks.Domain.Data
 {
@@ -34,34 +35,16 @@ namespace PostaFlya.Mocks.Domain.Data
         public override void Load()
         {
             var kernel = Kernel as MoqMockingKernel;
-            Assert.IsNotNull(kernel, "should be using mock kernel for tests");
-            SetUpBrowserRepositoryAndQueryService(kernel, RepoUtil.GetMockStore<BrowserInterface>());
+
             SetUpFlierRepositoryAndQueryService(kernel
                 , RepoUtil.GetMockStore<FlierInterface>()
                 , RepoUtil.GetMockStore<CommentInterface>()
                 , RepoUtil.GetMockStore<LikeInterface>());
-            SetUpImageRepositoryAndQueryService(kernel, RepoUtil.GetMockStore<ImageInterface>());   
+ 
             SetUpTaskJobRepositoryAndQueryService(kernel
                 , RepoUtil.GetMockStore<TaskJobFlierBehaviourInterface>()
                 , RepoUtil.GetMockStore<TaskJobBidInterface>());
-            PrincipalData.SetPrincipal(kernel);
-            SetUpWebsiteInfo(kernel);
 
-        }
-
-        public static void SetUpImageRepositoryAndQueryService(MoqMockingKernel kernel, HashSet<ImageInterface> store)
-        {
-            //repo
-            var imageRepository = RepoUtil.SetupRepo<ImageRepositoryInterface, Image, ImageInterface>(store, kernel, ImageInterfaceExtensions.CopyFieldsFrom);
-
-            //query service
-            var imageQueryService = RepoUtil.SetupQueryService<ImageQueryServiceInterface, Image, ImageInterface>(store, kernel, ImageInterfaceExtensions.CopyFieldsFrom);
-
-            //by browser
-            RepoUtil.SetupQueryByBrowser<ImageQueryServiceInterface, Image, ImageInterface>(imageQueryService, store,
-                                                                                              kernel,
-                                                                                              ImageInterfaceExtensions.
-                                                                                                  CopyFieldsFrom);
         }
 
         public static void SetUpFlierRepositoryAndQueryService(MoqMockingKernel kernel
@@ -149,47 +132,7 @@ namespace PostaFlya.Mocks.Domain.Data
          
         }
 
-        public static void SetUpWebsiteInfo(MoqMockingKernel kernel)
-        {
-            var websiteInfo = kernel.GetMock<WebsiteInfoServiceInterface>();
 
-
-
-            websiteInfo.Setup(_ => _.GetBehaivourTags(It.IsAny<String>())).Returns("postaFlya");
-            websiteInfo.Setup(_ => _.GetWebsiteName(It.IsAny<String>())).Returns("postaFlya");
-            var tags = "event,social,comedy,theatre,books,pets,lost,found,services,music,fashion,food & drink,job,task,wanted,for sale,for free,sport,automotive,education,sale,garage,film,art & craft,photography,accommodation,technology,property,kids,politics";
-            websiteInfo.Setup(_ => _.GetTags(It.IsAny<String>())).Returns(tags);
-            //kernel.Rebind<WebsiteInfoServiceInterface>();
-        }
-
-
-
-        public static void SetUpBrowserRepositoryAndQueryService(MoqMockingKernel kernel, HashSet<BrowserInterface> store)
-        {
-            //repo
-            var browserRepository = RepoUtil.SetupRepo<BrowserRepositoryInterface, Browser, BrowserInterface>(store, kernel, BrowserInterfaceExtensions.CopyFieldsFrom);
-
-            //queryservice
-            var browserQueryService = 
-                RepoUtil.SetupQueryService<BrowserQueryServiceInterface, Browser, BrowserInterface>(store, kernel, BrowserInterfaceExtensions.CopyFieldsFrom);
-
-            browserQueryService.Setup(m => m.FindByIdentityProvider(It.IsAny<IdentityProviderCredential>()))
-                .Returns<IdentityProviderCredential>(prov =>
-                    store.SingleOrDefault(bi =>
-                        bi.ExternalCredentials != null &&
-                        bi.ExternalCredentials.Any(ic => ic.Equals(prov))));
-
-            browserQueryService.Setup(m => m.FindByHandle(It.IsAny<string>()))
-                .Returns<string>(handle => store.SingleOrDefault(bi => bi.Handle == handle));
-
-            AddMembersToStore(kernel, store);
-
-        }
-
-        public static void AddMembersToStore(StandardKernel kernel, ISet<BrowserInterface> mockStore)
-        {
-            mockStore.Add(kernel.Get<BrowserInterface>(ctx => ctx.Has("defaultbrowser")));
-        }
 
         public static void SetUpTaskJobRepositoryAndQueryService(MoqMockingKernel kernel, 
             HashSet<TaskJobFlierBehaviourInterface> store

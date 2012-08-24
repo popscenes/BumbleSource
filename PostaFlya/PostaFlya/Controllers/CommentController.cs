@@ -8,14 +8,14 @@ using PostaFlya.Attributes;
 using PostaFlya.Binding;
 using WebSite.Application.Content;
 using WebSite.Common.Extension;
-using PostaFlya.Domain.Browser.Query;
-using PostaFlya.Domain.Comments;
-using PostaFlya.Domain.Comments.Command;
 using WebSite.Infrastructure.Command;
 using WebSite.Infrastructure.Domain;
 using WebSite.Infrastructure.Query;
 using PostaFlya.Models.Browser;
 using PostaFlya.Models.Comments;
+using Website.Domain.Browser.Query;
+using Website.Domain.Comments;
+using Website.Domain.Comments.Command;
 
 namespace PostaFlya.Controllers
 {

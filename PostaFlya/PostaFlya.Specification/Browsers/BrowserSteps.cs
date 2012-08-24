@@ -10,10 +10,6 @@ using Ninject;
 using TechTalk.SpecFlow;
 using PostaFlya.Controllers;
 using PostaFlya.Domain.Behaviour;
-using PostaFlya.Domain.Browser;
-using PostaFlya.Domain.Browser.Command;
-using PostaFlya.Domain.Browser.Query;
-using PostaFlya.Domain.Location;
 using WebSite.Infrastructure.Authentication;
 using WebSite.Infrastructure.Command;
 using PostaFlya.Models.Browser;
@@ -22,7 +18,9 @@ using PostaFlya.Specification.DynamicBulletinBoard;
 using PostaFlya.Specification.Fliers;
 using PostaFlya.Specification.Util;
 using WebSite.Test.Common;
-using Roles = PostaFlya.Domain.Browser.Roles;
+using Website.Domain.Browser;
+using Website.Domain.Browser.Query;
+using Roles = Website.Domain.Browser.Roles;
 
 namespace PostaFlya.Specification.Browsers
 {
@@ -160,7 +158,7 @@ namespace PostaFlya.Specification.Browsers
                                 {
                                     Id = browserInformation.Browser.Id,
                                     Handle = table.Rows[0]["Name"],
-                                    Address = new LocationModel( new Domain.Location.Location(table.Rows[0]["Address"])),
+                                    Address = new LocationModel( new Website.Domain.Location.Location(table.Rows[0]["Address"])),
                                     AvatarImageId = table.Rows[0]["Avatar"],
                                     FirstName = table.Rows[0]["FirstName"],
                                     MiddleNames = table.Rows[0]["MiddleNames"],

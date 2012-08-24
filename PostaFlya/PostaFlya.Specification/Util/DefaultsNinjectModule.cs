@@ -8,15 +8,15 @@ using Ninject.MockingKernel.Moq;
 using Ninject.Modules;
 using WebSite.Application.Content;
 using PostaFlya.Areas.TaskJob.Models;
-using PostaFlya.Domain.Location;
 using PostaFlya.Domain.Service;
-using PostaFlya.Domain.Tag;
 using WebSite.Infrastructure.Command;
 using PostaFlya.Models.Flier;
 using PostaFlya.Models.Location;
 using PostaFlya.Mocks.Domain.Data;
 using System;
 using PostaFlya.Models.Content;
+using Website.Domain.Location;
+using Website.Domain.Tag;
 
 namespace PostaFlya.Specification.Util
 {

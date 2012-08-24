@@ -5,18 +5,18 @@ using System.Web.Mvc;
 using MbUnit.Framework;
 using Ninject;
 using TechTalk.SpecFlow;
-using PostaFlya.Application.Domain.Browser;
 using PostaFlya.Controllers;
-using PostaFlya.Domain.Content;
-using PostaFlya.Domain.Content.Command;
-using PostaFlya.Domain.Location;
-using PostaFlya.Domain.Tag;
 using PostaFlya.Models;
 using PostaFlya.Models.Location;
 using PostaFlya.Models.Tags;
 using PostaFlya.Specification.Browsers;
 using PostaFlya.Specification.DynamicBulletinBoard;
 using PostaFlya.Specification.Util;
+using Website.Application.Domain.Browser;
+using Website.Domain.Content;
+using Website.Domain.Content.Command;
+using Website.Domain.Location;
+using Website.Domain.Tag;
 
 namespace PostaFlya.Specification.BrowserSettings
 {

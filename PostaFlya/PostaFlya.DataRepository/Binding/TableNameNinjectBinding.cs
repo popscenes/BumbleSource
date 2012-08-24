@@ -7,11 +7,7 @@ using System.Text;
 using Ninject;
 using Ninject.Modules;
 using PostaFlya.Domain.Behaviour;
-using PostaFlya.Domain.Browser;
-using PostaFlya.Domain.Comments;
-using PostaFlya.Domain.Content;
 using PostaFlya.Domain.Flier;
-using PostaFlya.Domain.Likes;
 using WebSite.Azure.Common.TableStorage;
 using PostaFlya.DataRepository.Behaviour.TaskJob;
 using PostaFlya.DataRepository.Browser;
@@ -19,6 +15,10 @@ using PostaFlya.DataRepository.Content;
 using PostaFlya.DataRepository.Flier;
 using PostaFlya.DataRepository.Internal;
 using WebSite.Infrastructure.Domain;
+using Website.Domain.Browser;
+using Website.Domain.Comments;
+using Website.Domain.Content;
+using Website.Domain.Likes;
 
 namespace PostaFlya.DataRepository.Binding
 {

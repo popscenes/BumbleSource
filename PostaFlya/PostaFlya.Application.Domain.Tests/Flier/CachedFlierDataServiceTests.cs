@@ -12,13 +12,13 @@ using Ninject.MockingKernel.Moq;
 using WebSite.Application.Caching.Command;
 using PostaFlya.Application.Domain.Flier.Command;
 using PostaFlya.Application.Domain.Flier.Query;
-using PostaFlya.Domain.Comments;
 using PostaFlya.Domain.Flier;
 using PostaFlya.Domain.Flier.Command;
 using PostaFlya.Domain.Flier.Query;
-using PostaFlya.Domain.Likes;
 using WebSite.Infrastructure.Command;
 using PostaFlya.Mocks.Domain.Data;
+using Website.Domain.Comments;
+using Website.Domain.Likes;
 using TestUtil = WebSite.Test.Common.TestUtil;
 
 namespace PostaFlya.Application.Domain.Tests.Flier

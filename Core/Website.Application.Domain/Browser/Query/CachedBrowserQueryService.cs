@@ -1,0 +1,37 @@
+using System.Runtime.Caching;
+using WebSite.Application.Caching.Query;
+using WebSite.Infrastructure.Authentication;
+using WebSite.Infrastructure.Binding;
+using Website.Domain.Browser;
+using Website.Domain.Browser.Query;
+
+namespace Website.Application.Domain.Browser.Query
+{
+    public class CachedBrowserQueryService : TimedExpiryCachedQueryService,
+                                             BrowserQueryServiceInterface
+    {
+        private readonly BrowserQueryServiceInterface _browserQueryService;
+        public CachedBrowserQueryService([SourceDataSource]BrowserQueryServiceInterface browserQueryService
+                        , ObjectCache cacheProvider                      
+                        , int defaultSecondsToCache = -1)
+            : base(cacheProvider, CachedBrowserContext.Region, browserQueryService, defaultSecondsToCache)
+        {
+            _browserQueryService = browserQueryService;
+        }
+
+        public BrowserInterface FindByIdentityProvider(IdentityProviderCredential credential)
+        {
+            return RetrieveCachedData(
+                GetKeyFor(CachedBrowserContext.Identity, credential.GetHash()),
+                () => _browserQueryService.FindByIdentityProvider(credential));
+        }
+
+        public BrowserInterface FindByHandle(string handle)
+        {
+            return RetrieveCachedData(
+                GetKeyFor(CachedBrowserContext.Browser, handle),
+                () => _browserQueryService.FindByHandle(handle));
+        }
+
+    }
+}

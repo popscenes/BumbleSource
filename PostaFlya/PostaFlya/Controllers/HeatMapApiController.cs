@@ -5,10 +5,9 @@ using System.Web.Http;
 using WebSite.Application.WebsiteInformation;
 using PostaFlya.Domain.Flier;
 using PostaFlya.Domain.Flier.Query;
-using PostaFlya.Domain.Location;
-using PostaFlya.Domain.Tag;
 using PostaFlya.Models.Flier;
 using PostaFlya.Models.Location;
+using Website.Domain.Tag;
 
 namespace PostaFlya.Controllers
 {

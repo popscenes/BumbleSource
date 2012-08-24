@@ -16,11 +16,6 @@ using Ninject.Modules;
 using Ninject.Extensions.Conventions;
 using Ninject.Planning.Bindings;
 using Ninject.Syntax;
-using PostaFlya.Domain.Browser;
-using PostaFlya.Domain.Browser.Query;
-using PostaFlya.Domain.Comments;
-using PostaFlya.Domain.Content;
-using PostaFlya.Domain.Likes;
 using WebSite.Azure.Common.Binding;
 using WebSite.Azure.Common.Environment;
 using WebSite.Azure.Common.Sql;
@@ -33,11 +28,11 @@ using PostaFlya.DataRepository.Search.Implementation;
 using PostaFlya.DataRepository.Search.Services;
 using PostaFlya.Domain.Behaviour;
 using PostaFlya.Domain.Flier;
-using PostaFlya.Domain.Location;
 using WebSite.Infrastructure.Binding;
 using WebSite.Infrastructure.Command;
 using WebSite.Infrastructure.Query;
 using WebSite.Infrastructure.Util;
+using Website.Domain.Browser.Query;
 
 namespace PostaFlya.DataRepository.Binding
 {

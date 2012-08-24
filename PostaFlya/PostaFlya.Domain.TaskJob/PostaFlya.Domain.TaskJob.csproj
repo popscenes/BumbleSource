@@ -82,6 +82,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Core\Website.Domain\Website.Domain.csproj">
+      <Project>{C479A98A-EC5A-45EF-968A-2D81B406485F}</Project>
+      <Name>Website.Domain</Name>
+    </ProjectReference>
     <ProjectReference Include="..\PostaFlya.Domain\PostaFlya.Domain.csproj">
       <Project>{77BD3622-4D65-4776-AC5A-4F779CC526ED}</Project>
       <Name>PostaFlya.Domain</Name>

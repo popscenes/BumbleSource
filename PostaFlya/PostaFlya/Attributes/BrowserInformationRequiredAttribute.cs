@@ -5,7 +5,7 @@ using System.Web;
 using System.Web.Http.Controllers;
 using System.Web.Mvc;
 using Ninject;
-using PostaFlya.Application.Domain.Browser;
+using Website.Application.Domain.Browser;
 
 namespace PostaFlya.Attributes
 {

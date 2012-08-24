@@ -7,11 +7,11 @@ using System.Net;
 using Ninject;
 using WebSite.Azure.Common.TableStorage;
 using PostaFlya.DataRepository.Content;
-using PostaFlya.Domain.Browser;
-using PostaFlya.Domain.Browser.Command;
-using PostaFlya.Domain.Browser.Query;
 using WebSite.Infrastructure.Authentication;
 using WebSite.Infrastructure.Query;
+using Website.Domain.Browser;
+using Website.Domain.Browser.Command;
+using Website.Domain.Browser.Query;
 
 namespace PostaFlya.DataRepository.Browser
 {
@@ -35,13 +35,13 @@ namespace PostaFlya.DataRepository.Browser
 
             var prov = this.FindById<BrowserIdentityProviderCredential>(credential.GetHash());
             return (prov != null) ?
-                FindById<Domain.Browser.Browser>(prov.BrowserId) :
+                FindById<Website.Domain.Browser.Browser>(prov.BrowserId) :
                 null;
         }
 
         public BrowserInterface FindByHandle(string handle)
         {
-            return this.FindById<Domain.Browser.Browser>(handle, HandlePartitionId);
+            return this.FindById<Website.Domain.Browser.Browser>(handle, HandlePartitionId);
         }
     }
 }

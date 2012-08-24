@@ -4,17 +4,15 @@ using System.Net.Http;
 using System.Web;
 using System.Web.Http;
 using System.Web.Mvc;
-using PostaFlya.Application.Domain.Browser;
 using PostaFlya.Attributes;
 using WebSite.Common.Extension;
-using PostaFlya.Domain.Browser.Command;
-using PostaFlya.Domain.Browser.Query;
-using PostaFlya.Domain.Location;
-using PostaFlya.Domain.Tag;
 using WebSite.Infrastructure.Command;
 using PostaFlya.Models.Browser;
 using PostaFlya.Models.Location;
 using PostaFlya.Models.Tags;
+using Website.Application.Domain.Browser;
+using Website.Domain.Browser.Command;
+using Website.Domain.Browser.Query;
 
 namespace PostaFlya.Controllers
 {
@@ -52,7 +50,7 @@ namespace PostaFlya.Controllers
 
         public ProfileEditModel Get(string browserId)
         {
-            var browser = _browserQueryService.FindById<Domain.Browser.Browser>(browserId);
+            var browser = _browserQueryService.FindById<Website.Domain.Browser.Browser>(browserId);
             return new ProfileEditModel()
                        {
                            Id = browser.Id,

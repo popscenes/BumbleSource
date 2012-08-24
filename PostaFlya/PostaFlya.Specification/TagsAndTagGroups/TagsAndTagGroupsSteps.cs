@@ -5,8 +5,8 @@ using System.Text;
 using MbUnit.Framework;
 using TechTalk.SpecFlow;
 using PostaFlya.Controllers;
-using PostaFlya.Domain.Tag;
 using PostaFlya.Specification.Util;
+using Website.Domain.Tag;
 
 namespace PostaFlya.Specification.TagsAndTagGroups
 {

@@ -1,17 +1,14 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using PostaFlya.Application.Domain.Content;
 using WebSite.Application.Content;
 using WebSite.Application.Extension.Validation;
 using PostaFlya.Binding;
-using PostaFlya.Domain.Browser;
-using PostaFlya.Domain.Browser.Query;
-using PostaFlya.Domain.Comments;
-using PostaFlya.Domain.Location;
 using WebSite.Infrastructure.Authentication;
 using WebSite.Infrastructure.Domain;
 using PostaFlya.Models.Browser;
+using Website.Domain.Browser.Query;
+using Website.Domain.Comments;
 
 namespace PostaFlya.Models.Comments
 {

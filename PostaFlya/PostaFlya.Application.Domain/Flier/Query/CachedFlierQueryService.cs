@@ -2,18 +2,15 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Caching;
-using PostaFlya.Application.Domain.Query;
-using PostaFlya.Domain.Browser;
 using WebSite.Application.Binding;
 using WebSite.Application.Caching.Query;
-using PostaFlya.Domain.Comments;
 using PostaFlya.Domain.Flier;
 using PostaFlya.Domain.Flier.Query;
-using PostaFlya.Domain.Likes;
-using PostaFlya.Domain.Tag;
 using WebSite.Infrastructure.Command;
 using WebSite.Infrastructure.Query;
 using WebSite.Infrastructure.Binding;
+using Website.Application.Domain.Query;
+using Website.Domain.Tag;
 
 namespace PostaFlya.Application.Domain.Flier.Query
 {
@@ -54,7 +51,7 @@ namespace PostaFlya.Application.Domain.Flier.Query
 //                .AsQueryable();
 //        }
 
-        public IList<string> FindFliersByLocationTagsAndDistance(PostaFlya.Domain.Location.Location location, Tags tags, int distance = 0, int take = 0, FlierSortOrder sortOrder = FlierSortOrder.CreatedDate, int skip = 0)
+        public IList<string> FindFliersByLocationTagsAndDistance(Website.Domain.Location.Location location, Tags tags, int distance = 0, int take = 0, FlierSortOrder sortOrder = FlierSortOrder.CreatedDate, int skip = 0)
         {
             return _queryService.FindFliersByLocationTagsAndDistance(location, tags, distance, take, sortOrder, skip);
         }

@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using PostaFlya.Domain.Browser;
-using PostaFlya.Domain.Browser.Query;
 using WebSite.Azure.Common.TableStorage;
 using WebSite.Infrastructure.Domain;
+using Website.Domain.Browser;
+using Website.Domain.Browser.Query;
 
 namespace PostaFlya.DataRepository.Internal
 {

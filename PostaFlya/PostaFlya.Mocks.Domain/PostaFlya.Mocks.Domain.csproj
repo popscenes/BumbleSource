@@ -65,11 +65,14 @@
       <HintPath>..\..\..\Libraries\mbunit.3.3.454.0\lib\net40\MbUnit40.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="Moq">
+    <Reference Include="Moq, Version=4.0.10827.0, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
       <HintPath>..\..\..\Libraries\Moq.4.0.10827\lib\NET40\Moq.dll</HintPath>
     </Reference>
     <Reference Include="Ninject, Version=3.0.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
       <HintPath>..\..\..\Libraries\Ninject.3.0.1.10\lib\net40\Ninject.dll</HintPath>
+    </Reference>
+    <Reference Include="Ninject.Extensions.Conventions, Version=3.0.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+      <HintPath>..\..\..\Libraries\Ninject.Extensions.Conventions.3.0.0.11\lib\net40\Ninject.Extensions.Conventions.dll</HintPath>
     </Reference>
     <Reference Include="Ninject.MockingKernel, Version=3.0.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
       <HintPath>..\..\..\Libraries\Ninject.MockingKernel.3.0.0.5\lib\net40-full\Ninject.MockingKernel.dll</HintPath>
@@ -96,18 +99,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Data\Behaviour\TaskJobTestData.cs" />
-    <Compile Include="Data\BrowserTestData.cs" />
-    <Compile Include="Data\CommentTestData.cs" />
     <Compile Include="Data\ExternalSourceNinjectModule.cs" />
-    <Compile Include="Data\LikeTestData.cs" />
-    <Compile Include="Data\DomainImageTestData.cs" />
     <Compile Include="Data\FlierTestData.cs" />
-    <Compile Include="Data\ImageContentRetrieverTestData.cs" />
-    <Compile Include="Data\TestIdentityProvidersNinjectModule.cs" />
     <Compile Include="Data\TestRepositoriesNinjectModule.cs" />
-    <Compile Include="Data\PrincipalData.cs" />
-    <Compile Include="Data\RepoUtil.cs" />
-    <Compile Include="Defaults\GlobalDefaultsNinjectModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -137,6 +131,18 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Core\Website.Application.Domain\Website.Application.Domain.csproj">
+      <Project>{33669E4A-6C9B-4DC2-AE89-29286141658C}</Project>
+      <Name>Website.Application.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Core\Website.Domain\Website.Domain.csproj">
+      <Project>{C479A98A-EC5A-45EF-968A-2D81B406485F}</Project>
+      <Name>Website.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Core\Website.Mocks.Domain\Website.Mocks.Domain.csproj">
+      <Project>{FFE7D016-19DB-40F6-8565-EE2507AE4F12}</Project>
+      <Name>Website.Mocks.Domain</Name>
+    </ProjectReference>
     <ProjectReference Include="..\PostaFlya.Application.Domain\PostaFlya.Application.Domain.csproj">
       <Project>{1510EA95-D2A1-47B5-8652-49895B97FC9F}</Project>
       <Name>PostaFlya.Application.Domain</Name>

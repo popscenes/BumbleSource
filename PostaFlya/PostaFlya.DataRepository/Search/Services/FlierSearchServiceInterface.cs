@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using WebSite.Azure.Common.TableStorage;
 using PostaFlya.Domain.Flier;
-using PostaFlya.Domain.Location;
-using PostaFlya.Domain.Tag;
 using WebSite.Infrastructure.Domain;
+using Website.Domain.Location;
+using Website.Domain.Tag;
 
 namespace PostaFlya.DataRepository.Search.Services
 {

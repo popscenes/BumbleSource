@@ -2,13 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using PostaFlya.Application.Domain.Browser;
-using PostaFlya.Application.Domain.Content;
 using PostaFlya.Domain.Flier;
-using PostaFlya.Domain.Location;
 using PostaFlya.Models.Flier;
 using PostaFlya.Models.Location;
 using WebSite.Application.Content;
+using Website.Application.Domain.Browser;
 
 namespace PostaFlya.Models.Browser
 {

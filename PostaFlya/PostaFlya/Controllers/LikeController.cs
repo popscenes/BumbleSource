@@ -4,20 +4,20 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
-using PostaFlya.Domain.Content;
 using PostaFlya.Domain.Flier;
 using WebSite.Application.Binding;
 using PostaFlya.Binding;
 using WebSite.Application.Content;
 using WebSite.Common.Extension;
-using PostaFlya.Domain.Browser.Query;
-using PostaFlya.Domain.Likes;
-using PostaFlya.Domain.Likes.Command;
 using WebSite.Infrastructure.Command;
 using WebSite.Infrastructure.Domain;
 using WebSite.Infrastructure.Query;
 using PostaFlya.Models.Browser;
 using PostaFlya.Models.Likes;
+using Website.Domain.Browser.Query;
+using Website.Domain.Likes;
+using Website.Domain.Likes.Command;
+using Website.Domain.Content;
 
 namespace PostaFlya.Controllers
 {

@@ -5,18 +5,17 @@ using System.Text;
 using Moq;
 using Ninject.MockingKernel.Moq;
 using MbUnit.Framework;
-using PostaFlya.Application.Domain.Content;
+using PostaFlya.Application.Domain.ExternalSource;
 using WebSite.Infrastructure.Command;
 using PostaFlya.Mocks.Domain.Data;
 using WebSite.Infrastructure.Authentication;
 using WebSite.Application.Tests.Intergrations;
 using WebSite.Test.Common.Facebook;
-using PostaFlya.Application.Domain.ExternalSource;
-using PostaFlya.Domain.Comments;
 using PostaFlya.Domain.Flier;
-using PostaFlya.Domain.Likes;
 using PostaFlya.Domain.Flier.Query;
 using PostaFlya.Domain.Flier.Command;
+using Website.Application.Domain.Content;
+using Website.Mocks.Domain.Data;
 
 namespace PostaFlya.Application.Domain.Tests.ExternalSource
 {
@@ -28,7 +27,7 @@ namespace PostaFlya.Application.Domain.Tests.ExternalSource
             get { return TestFixtureSetup.CurrIocKernel; }
         }
 
-        private PostaFlya.Domain.Browser.Browser browser;
+        private Website.Domain.Browser.Browser browser;
         private AccessToken validToken;
         private AccessToken invalidTimeToken;
         private AccessToken invalidPermissionsToken;
@@ -41,7 +40,7 @@ namespace PostaFlya.Application.Domain.Tests.ExternalSource
         [FixtureSetUp]
         public void FixtureSetUp()
         {
-            browser = BrowserTestData.GetOne(Kernel) as PostaFlya.Domain.Browser.Browser;
+            browser = BrowserTestData.GetOne(Kernel) as Website.Domain.Browser.Browser;
             Facebookutils.TestUserAdd("Heavy Metal Kid", "user_events,friends_events,publish_stream,create_event");
             testFBUser = Facebookutils.TestUserGet();
 
@@ -81,14 +80,14 @@ namespace PostaFlya.Application.Domain.Tests.ExternalSource
 
             var urlRetrieverFactory = Kernel.GetMock<UrlContentRetrieverFactoryInterface>();
             var urlImageRetriever = Kernel.GetMock<UrlContentRetrieverInterface>();
-            var content = new PostaFlya.Domain.Content.Content()
+            var content = new Website.Domain.Content.Content()
                               {
                                   Data = new byte[100],
-                                  Type = PostaFlya.Domain.Content.Content.ContentType.Image
+                                  Type = Website.Domain.Content.Content.ContentType.Image
                               };
             urlImageRetriever.Setup(_ => _.GetContent(It.IsAny<string>())).Returns(content);
 
-            urlRetrieverFactory.Setup(_ => _.GetRetriever(It.IsAny<PostaFlya.Domain.Content.Content.ContentType>())).
+            urlRetrieverFactory.Setup(_ => _.GetRetriever(It.IsAny<Website.Domain.Content.Content.ContentType>())).
                 Returns(urlImageRetriever.Object);
 
             Kernel.Bind<UrlContentRetrieverFactoryInterface>().ToConstant(urlRetrieverFactory.Object);

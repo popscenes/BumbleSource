@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using PostaFlya.Domain.Behaviour;
-using PostaFlya.Domain.Tag;
 using WebSite.Infrastructure.Domain;
+using Website.Domain.Location;
+using Website.Domain.Tag;
 
 
 namespace PostaFlya.Domain.Flier
@@ -22,7 +23,7 @@ namespace PostaFlya.Domain.Flier
             CreateDate = DateTime.UtcNow;
         }
 
-        public Flier(Location.Location location)
+        public Flier(Location location)
             : this()
         {
             Location = location;
@@ -44,7 +45,7 @@ namespace PostaFlya.Domain.Flier
 
         public Tags Tags { get; set; }
 
-        public Location.Location Location { get; set; }
+        public Location Location { get; set; }
 
         public Guid? Image { get; set; }
 

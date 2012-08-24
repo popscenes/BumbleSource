@@ -3,17 +3,16 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Web;
-using PostaFlya.Application.Domain.Content;
 using WebSite.Application.Content;
 using WebSite.Application.Extension.Validation;
 using PostaFlya.Areas.Default.Models;
 using PostaFlya.Areas.Default.Models.Bulletin;
 using PostaFlya.Domain.Behaviour;
 using PostaFlya.Domain.Flier;
-using PostaFlya.Domain.Location;
 using PostaFlya.Areas.TaskJob.Models;
 using PostaFlya.Models.Location;
 using PostaFlya.Models.Content;
+using Website.Application.Domain.Content;
 
 namespace PostaFlya.Models.Flier
 {
@@ -109,7 +108,7 @@ namespace PostaFlya.Models.Flier
 
         public static BulletinFlierModel DefaultForTemplate(FlierBehaviour behaviour)
         {
-            var flier = new Domain.Flier.Flier() { FlierBehaviour = behaviour, Location = new Domain.Location.Location() };
+            var flier = new Domain.Flier.Flier() { FlierBehaviour = behaviour, Location = new Website.Domain.Location.Location() };
             var ret = flier.ToViewModel<BehaviourType>(false);
             ret.Behaviour = new BehaviourType();
             ret.ImageList = new List<ImageViewModel>() { new ImageViewModel() };

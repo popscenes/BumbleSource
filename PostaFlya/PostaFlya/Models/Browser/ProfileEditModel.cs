@@ -1,8 +1,8 @@
 using System.ComponentModel;
 using System.Web.Mvc;
-using PostaFlya.Application.Domain.Location;
 using WebSite.Application.Extension.Validation;
 using PostaFlya.Models.Location;
+using Website.Application.Domain.Location;
 
 namespace PostaFlya.Models.Browser
 {

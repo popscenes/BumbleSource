@@ -7,8 +7,8 @@ using System.Xml.Linq;
 using Microsoft.SqlServer.Types;
 using WebSite.Azure.Common.Sql;
 using PostaFlya.Domain.Flier;
-using PostaFlya.Domain.Location;
-using PostaFlya.Domain.Tag;
+using Website.Domain.Location;
+using Website.Domain.Tag;
 
 namespace PostaFlya.DataRepository.Search.Services
 {

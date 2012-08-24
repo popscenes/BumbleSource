@@ -6,6 +6,6 @@ namespace PostaFlya.Models.Tags
     public class TagSetListViewModel
     {
         [DisplayName("TagList")]
-        public IList<Domain.Tag.Tags> TagList { get; set; }
+        public IList<Website.Domain.Tag.Tags> TagList { get; set; }
     }
 }
