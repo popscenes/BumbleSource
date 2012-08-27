@@ -33,7 +33,7 @@ namespace PostaFlya.Models.Flier
 //                           FlierImageId = flier.Image.HasValue ? flier.Image.Value.ToString() : null,
 //                           FlierBehaviour = flier.FlierBehaviour.ToString(),   
 //                           //Behaviour = flier.ToBehaviourSummaryViewModel(),
-//                           NumberOfLikes = flier.NumberOfLikes,
+//                           NumberOfClaims = flier.NumberOfClaims,
 //                           NumberOfComments = flier.NumberOfComments,
 //                           BrowserId = flier.BrowserId,
 //                           ImageList = flier.ImageList.Select(_ => new ImageViewModel() { ImageId = _.ImageID }).ToList()
@@ -88,8 +88,8 @@ namespace PostaFlya.Models.Flier
         [DisplayName("BehaviourType")]
         public string FlierBehaviour { get; set; }
 
-        [DisplayName("NumberOfLikes")]
-        public int NumberOfLikes { get; set; }
+        [DisplayName("NumberOfClaims")]
+        public int NumberOfClaims { get; set; }
 
         [DisplayName("NumberOfComments")]
         public int NumberOfComments { get; set; }

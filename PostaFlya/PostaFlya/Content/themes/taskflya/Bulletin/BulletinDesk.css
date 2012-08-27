@@ -39,14 +39,14 @@
 .flier-view .flier-details .flier-img {
 }
 
-.flier-view .flier-details .flier-likes-comments{
+.flier-view .flier-details .flier-claims-comments{
     
 }
 
-.flier-view .flier-details .flier-likes-comments .like-stats{
+.flier-view .flier-details .flier-claims-comments .claim-stats{
 }
 
-.flier-view .flier-details .flier-likes-comments .comment-stats{
+.flier-view .flier-details .flier-claims-comments .comment-stats{
 }
 
 .flier-view .flier-details .flier-desc {
@@ -57,7 +57,7 @@
     
 }
 
-.flier-view .likes {
+.flier-view .claims {
     
 }
 /***end default detail view layout***/

@@ -70,7 +70,7 @@
     <Compile Include="Data\CommentTestData.cs" />
     <Compile Include="Data\DomainImageTestData.cs" />
     <Compile Include="Data\ImageContentRetrieverTestData.cs" />
-    <Compile Include="Data\LikeTestData.cs" />
+    <Compile Include="Data\ClaimTestData.cs" />
     <Compile Include="Data\PrincipalData.cs" />
     <Compile Include="Data\RepoUtil.cs" />
     <Compile Include="Data\TestIdentityProvidersNinjectModule.cs" />

@@ -17,8 +17,8 @@ using PostaFlya.Domain.Flier.Command;
 using PostaFlya.Domain.Flier.Query;
 using WebSite.Infrastructure.Command;
 using PostaFlya.Mocks.Domain.Data;
+using Website.Domain.Claims;
 using Website.Domain.Comments;
-using Website.Domain.Likes;
 using TestUtil = WebSite.Test.Common.TestUtil;
 
 namespace PostaFlya.Application.Domain.Tests.Flier
@@ -100,17 +100,17 @@ namespace PostaFlya.Application.Domain.Tests.Flier
         }
 
         [Test]//note implement the same in other application test projects for different cache implementations
-        public void CachedDataIsRefreshedAfterLikeOrComment()
+        public void CachedDataIsRefreshedAfterClaimOrComment()
         {
             var memoryCache = TestUtil.GetMemoryCache();
-            CachedDataIsRefreshedAfterLikeOrComment(Kernel, memoryCache);
+            CachedDataIsRefreshedAfterClaimOrComment(Kernel, memoryCache);
             memoryCache.Dispose();
 
             var serializeCache = TestUtil.GetSerializingCache();
-            CachedDataIsRefreshedAfterLikeOrComment(Kernel, serializeCache);
+            CachedDataIsRefreshedAfterClaimOrComment(Kernel, serializeCache);
         }
 
-        public static void CachedDataIsRefreshedAfterLikeOrComment(MoqMockingKernel kernel, ObjectCache cache)
+        public static void CachedDataIsRefreshedAfterClaimOrComment(MoqMockingKernel kernel, ObjectCache cache)
         {
             var queryService = kernel.Get<FlierQueryServiceInterface>();
 
@@ -122,11 +122,10 @@ namespace PostaFlya.Application.Domain.Tests.Flier
             FlierInterface retrievedFlier = cachedQueryService.FindById<PostaFlya.Domain.Flier.Flier>(storedFlier.Id);
             FlierTestData.AssertStoreRetrieve(storedFlier, retrievedFlier);
 
-            cachedFlierRepository.Store(new Like() 
+            cachedFlierRepository.Store(new Claim() 
                     {   BrowserId = Guid.NewGuid().ToString()
                         , AggregateId = storedFlier.Id
-                        , ILike = true
-                        , LikeTime = DateTime.UtcNow
+                        , ClaimTime = DateTime.UtcNow
                     });
 
             retrievedFlier = cachedQueryService.FindById<PostaFlya.Domain.Flier.Flier>(storedFlier.Id);

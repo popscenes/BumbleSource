@@ -19,9 +19,9 @@ namespace PostaFlya.Specification.DynamicBulletinBoard
     [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "1.9.0.55")]
     [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     [MbUnit.Framework.TestFixtureAttribute()]
-    [MbUnit.Framework.DescriptionAttribute("As a BROWSER\r\nI want to be able to like various ENTITIES\r\nSo that my like will be" +
-        " recorded")]
-    public partial class LikeFeature
+    [MbUnit.Framework.DescriptionAttribute("As a BROWSER\r\nI want to be able to claim a tear off\r\nSo that my claim will be rec" +
+        "orded")]
+    public partial class ClaimTearOffFeature
     {
         
         private static TechTalk.SpecFlow.ITestRunner testRunner;
@@ -30,8 +30,8 @@ namespace PostaFlya.Specification.DynamicBulletinBoard
         public virtual void FeatureSetup()
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
-            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Like", "As a BROWSER\r\nI want to be able to like various ENTITIES\r\nSo that my like will be" +
-                    " recorded", ProgrammingLanguage.CSharp, ((string[])(null)));
+            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "ClaimTearOff", "As a BROWSER\r\nI want to be able to claim a tear off\r\nSo that my claim will be rec" +
+                    "orded", ProgrammingLanguage.CSharp, ((string[])(null)));
             testRunner.OnFeatureStart(featureInfo);
         }
         
@@ -64,41 +64,41 @@ namespace PostaFlya.Specification.DynamicBulletinBoard
         }
         
         [MbUnit.Framework.TestAttribute()]
-        [MbUnit.Framework.DescriptionAttribute("Like Flier")]
-        public virtual void LikeFlier()
+        [MbUnit.Framework.DescriptionAttribute("Claim A Tear Off")]
+        public virtual void ClaimATearOff()
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Like Flier", ((string[])(null)));
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Claim A Tear Off", ((string[])(null)));
             this.ScenarioSetup(scenarioInfo);
             testRunner.Given("I have navigated to the public view page for a FLIER");
-            testRunner.When("I like that FLIER");
-            testRunner.Then("I will be recorded as having liked the flier once");
-            testRunner.And("the FLIER likes will be incremented");
+            testRunner.When("I claim a tear off for that FLIER");
+            testRunner.Then("I will be recorded as having claimed the flier once");
+            testRunner.And("the number of claims against the FLIER will be incremented");
             this.ScenarioCleanup();
         }
         
         [MbUnit.Framework.TestAttribute()]
-        [MbUnit.Framework.DescriptionAttribute("Cant Like Flier Twice")]
-        public virtual void CantLikeFlierTwice()
+        [MbUnit.Framework.DescriptionAttribute("Cant Claim Two Tear Offs  Flier")]
+        public virtual void CantClaimTwoTearOffsFlier()
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Cant Like Flier Twice", ((string[])(null)));
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Cant Claim Two Tear Offs  Flier", ((string[])(null)));
             this.ScenarioSetup(scenarioInfo);
             testRunner.Given("I have navigated to the public view page for a FLIER");
-            testRunner.And("I have liked a FLIER");
-            testRunner.When("I like that FLIER");
-            testRunner.Then("I will be recorded as having liked the flier once");
-            testRunner.And("the FLIER likes will remain the same");
+            testRunner.And("I have already claimed a tear off for that FLIER");
+            testRunner.When("I claim a tear off for that FLIER");
+            testRunner.Then("I will be recorded as having claimed the flier once");
+            testRunner.And("the FLIER tear off claims will remain the same");
             this.ScenarioCleanup();
         }
         
         [MbUnit.Framework.TestAttribute()]
-        [MbUnit.Framework.DescriptionAttribute("View Flier Likes")]
-        public virtual void ViewFlierLikes()
+        [MbUnit.Framework.DescriptionAttribute("View Flier Claims")]
+        public virtual void ViewFlierClaims()
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("View Flier Likes", ((string[])(null)));
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("View Flier Claims", ((string[])(null)));
             this.ScenarioSetup(scenarioInfo);
             testRunner.Given("I have navigated to the public view page for a FLIER");
-            testRunner.And("Someone has liked a FLIER");
-            testRunner.Then("I should see the likes for the FLIER");
+            testRunner.And("Someone has claimed a tear off for a FLIER");
+            testRunner.Then("I should see the claimed tear offs for the FLIER");
             this.ScenarioCleanup();
         }
     }

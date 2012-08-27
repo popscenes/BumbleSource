@@ -70,7 +70,7 @@ namespace PostaFlya.Domain.Flier
 
         public Dictionary<string, object> ExtendedProperties { get; set; }
 
-        public int NumberOfLikes { get; set; }
+        public int NumberOfClaims { get; set; }
 
         public int NumberOfComments { get; set; }
 

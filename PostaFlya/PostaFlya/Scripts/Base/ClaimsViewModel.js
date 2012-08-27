@@ -2,26 +2,26 @@
 
     var bf = window.bf = window.bf || {};
 
-    bf.LikeModel = function (data) {
+    bf.ClaimModel = function (data) {
         var self = this;
         $.extend(self, data);
 
         self.Browser = new bf.BrowserViewModel(data.Browser);
     };
 
-    bf.LikesViewModel = function (entityType, entityId) {
+    bf.ClaimsViewModel = function (entityType, entityId) {
         var self = this;
 
         var mapping = {
             create: function (options) {
-                return new bf.LikeModel(options.data);
+                return new bf.ClaimModel(options.data);
             }
         };
 
         self.EntityType = entityType;
         self.EntityId = entityId;
         self.List = ko.mapping.fromJS([], mapping);
-        self.ILiked = ko.computed(function () {
+        self.IClaimed = ko.computed(function () {
             for (var i = 0; i < self.List.length; i++) {
                 var curr = self.List[i];
                 if (curr.Browser.BrowserId == bf.currentBrowserInstance.BrowserId)
@@ -30,26 +30,26 @@
             return false;
         });
 
-        self.LoadLikes = function () {
-            $.getJSON('/api/like/', { entityTypeEnum: self.EntityType, id: self.EntityId }, function (data) {
+        self.LoadClaims = function () {
+            $.getJSON('/api/claim/', { entityTypeEnum: self.EntityType, id: self.EntityId }, function (data) {
                 ko.mapping.fromJS(data, self.List);
             });
 
         };
 
 
-        self.addLike = function () {
+        self.addClaim = function () {
             var reqdata = ko.toJSON({
-                LikeEntity: self.EntityType,
+                ClaimEntity: self.EntityType,
                 EntityId: self.EntityId,
                 BrowserId: bf.currentBrowserInstance.BrowserId
             });
 
-            $.ajax('/api/like/', {
+            $.ajax('/api/claim/', {
                 data: reqdata,
                 type: "post", contentType: "application/json",
                 success: function (result) {
-                    self.LoadLikes();
+                    self.LoadClaims();
                 },
                 error: function (result) {
                 }
@@ -57,10 +57,10 @@
         };
 
         self._Init = function () {
-            if (bf.pageState !== undefined && bf.pageState.Likes !== undefined) {
-                ko.mapping.fromJS(bf.pageState.Likes, self.List);
+            if (bf.pageState !== undefined && bf.pageState.Claims !== undefined) {
+                ko.mapping.fromJS(bf.pageState.Claims, self.List);
             } else {
-                self.LoadLikes();
+                self.LoadClaims();
             }
         };
 

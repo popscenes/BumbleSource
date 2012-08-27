@@ -26,9 +26,9 @@
     <div id="created-fliers"  data-bind="template: { name: MyFliersLayout.FlierTemplate, foreach: MyFliers }, visible: MyFliers().length > 0, updateLayout: MyFliersLayout">
         @Html.Partial("Bulletin/BulletinItems", (object)Model.Fliers)
     </div>
-<h2 data-bind="visible: LikedFliers().length > 0">Liked Fliers</h2>
-    <div id="liked-fliers"  data-bind="template: { name: LikedFliersLayout.FlierTemplate, foreach: LikedFliers }, visible: LikedFliers().length > 0, updateLayout: LikedFliersLayout">
-        @Html.Partial("Bulletin/BulletinItems", (object)Model.LikedFliers)
+<h2 data-bind="visible: ClaimedFliers().length > 0">Claimed Fliers</h2>
+    <div id="claimed-fliers"  data-bind="template: { name: ClaimedFliersLayout.FlierTemplate, foreach: ClaimedFliers }, visible: ClaimedFliers().length > 0, updateLayout: ClaimedFliersLayout">
+        @Html.Partial("Bulletin/BulletinItems", (object)Model.ClaimedFliers)
     </div>
 
 </div>

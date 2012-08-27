@@ -188,12 +188,12 @@
     </Compile>
     <Compile Include="CommonSteps.cs" />
     <Compile Include="DynamicBulletinBoard\CommentSteps.cs" />
-    <Compile Include="DynamicBulletinBoard\Like.feature.cs">
+    <Compile Include="DynamicBulletinBoard\Claim.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>Like.feature</DependentUpon>
+      <DependentUpon>Claim.feature</DependentUpon>
     </Compile>
-    <Compile Include="DynamicBulletinBoard\LikeSteps.cs" />
+    <Compile Include="DynamicBulletinBoard\ClaimSteps.cs" />
     <Compile Include="Content\ImageUpload.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -277,9 +277,9 @@
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>SaveTags.feature.cs</LastGenOutput>
     </None>
-    <None Include="DynamicBulletinBoard\Like.feature">
+    <None Include="DynamicBulletinBoard\Claim.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
-      <LastGenOutput>Like.feature.cs</LastGenOutput>
+      <LastGenOutput>Claim.feature.cs</LastGenOutput>
     </None>
     <None Include="Content\ImageUpload.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>

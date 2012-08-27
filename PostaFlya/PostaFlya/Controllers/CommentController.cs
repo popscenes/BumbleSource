@@ -43,7 +43,7 @@ namespace PostaFlya.Controllers
         [BrowserAuthorize(Roles = "Participant")]
         public HttpResponseMessage Post(CreateCommentModel commentCreateModel)
         {
-            var entity = _entityQueryService.FindById(LikeController.GetTypeForLikeEntity(commentCreateModel.CommentEntity),
+            var entity = _entityQueryService.FindById(ClaimController.GetTypeForClaimEntity(commentCreateModel.CommentEntity),
                 commentCreateModel.EntityId) as EntityInterface;
             if (entity == null)
                 return this.GetResponseForRes(new MsgResponse("Comment Failed", true)

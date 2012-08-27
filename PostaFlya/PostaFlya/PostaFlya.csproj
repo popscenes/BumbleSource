@@ -297,12 +297,15 @@
     <Compile Include="Binding\WebNinjectBindings.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BrowserInformationController.cs" />
+    <Compile Include="Controllers\ClaimController.cs" />
     <Compile Include="Controllers\FlierImportController.cs" />
     <Compile Include="Controllers\ProfileApiController.cs" />
     <Compile Include="Controllers\ProfileController.cs" />
     <Compile Include="Controllers\SneakyController.cs" />
     <Compile Include="Models\Browser\BrowserModel.cs" />
     <Compile Include="Models\Browser\ProfileEditModel.cs" />
+    <Compile Include="Models\Claims\ClaimModel.cs" />
+    <Compile Include="Models\Claims\CreateClaimModel.cs" />
     <Compile Include="Models\Comments\CommentModel.cs" />
     <Compile Include="Controllers\MyDetailsController.cs" />
     <Compile Include="Controllers\BulletinApiController.cs" />
@@ -312,7 +315,6 @@
     <Compile Include="Controllers\HeatMapController.cs" />
     <Compile Include="Areas\Default\Models\Bulletin\BulletinBehaviourModel.cs" />
     <Compile Include="Controllers\MyImagesController.cs" />
-    <Compile Include="Controllers\LikeController.cs" />
     <Compile Include="Controllers\TagsApiController.cs" />
     <Compile Include="Helpers\UrlHelperExtensions.cs" />
     <Compile Include="Models\Browser\CurrentBrowserModel.cs" />
@@ -331,8 +333,6 @@
     <Compile Include="Models\Flier\BulletinFlierModel.cs" />
     <Compile Include="Models\Flier\FlierEditModel.cs" />
     <Compile Include="Binding\EntityTypeEnum.cs" />
-    <Compile Include="Models\Likes\CreateLikeModel.cs" />
-    <Compile Include="Models\Likes\LikeModel.cs" />
     <Compile Include="Models\Location\LocationModel.cs" />
     <Compile Include="Models\Tags\TagSetListViewModel.cs" />
     <Compile Include="Models\ViewModelBase.cs" />
@@ -476,7 +476,7 @@
     <Content Include="Scripts\Base\CreateFlierInstance.js" />
     <Content Include="Scripts\Base\ErrorHandling.js" />
     <Content Include="Scripts\Base\TileLayoutViewModel.js" />
-    <Content Include="Scripts\Base\LikesViewModel.js" />
+    <Content Include="Scripts\Base\ClaimsViewModel.js" />
     <Content Include="Scripts\Base\BrowserViewModel.js" />
     <Content Include="Scripts\Base\CommentsViewModel.js" />
     <Content Include="Scripts\Base\TagsSelector.js" />
@@ -626,7 +626,6 @@
     <Content Include="Views\Shared\Distance\DistanceSelector.cshtml" />
     <Content Include="Views\Shared\SelectedItemDetailViewPartial.cshtml" />
     <Content Include="Views\Shared\CommentsPartial.cshtml" />
-    <Content Include="Views\Shared\LikesPartial.cshtml" />
     <Content Include="Views\Shared\Location\LocationSelector.cshtml" />
     <Content Include="Views\Shared\DetailViewPartial.cshtml" />
     <Content Include="Views\Shared\Tags\TagsSelector.cshtml" />
@@ -649,6 +648,7 @@
     <Content Include="Views\Shared\State\PageState.cshtml" />
     <Content Include="Views\Shared\State\PageStateAdd.cshtml" />
     <Content Include="Views\FlierImport\Import.cshtml" />
+    <Content Include="Views\Shared\ClaimsPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

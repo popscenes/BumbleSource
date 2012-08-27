@@ -241,7 +241,7 @@ namespace PostaFlya.Mocks.Domain.Data
             Assert.AreApproximatelyEqual(storedFlier.CreateDate, storedFlier.CreateDate, TimeSpan.FromMilliseconds(1));
             Assert.AreApproximatelyEqual(storedFlier.EffectiveDate, storedFlier.EffectiveDate, TimeSpan.FromMilliseconds(1));
             Assert.AreEqual(storedFlier.NumberOfComments, retrievedFlier.NumberOfComments);
-            Assert.AreEqual(storedFlier.NumberOfLikes, retrievedFlier.NumberOfLikes);
+            Assert.AreEqual(storedFlier.NumberOfClaims, retrievedFlier.NumberOfClaims);
             Assert.AreEqual(storedFlier.ImageList.Count, retrievedFlier.ImageList.Count);
             //Assert.HasSameElements
         }

@@ -29,12 +29,12 @@
                href="@Url.Action("Detail", "Bulletin", new {id = Flier.Id})"
             >View Details</a>
 
-            <div class="flier-likes-comments">
-                <div class="like-stats">
+            <div class="flier-claims-comments">
+                <div class="claim-stats">
                     @*replace with image*@
-                    <div class="like-icon">Likes:</div>
-                    <span data-bind="text:NumberOfLikes">
-                        @Flier.NumberOfLikes  
+                    <div class="claim-icon">Claims:</div>
+                    <span data-bind="text:NumberOfClaims">
+                        @Flier.NumberOfClaims  
                     </span>
                 </div>
                 <div class="comment-stats">

@@ -18,11 +18,11 @@ using WebSite.Application.WebsiteInformation;
 using Website.Domain.Browser;
 using Website.Domain.Browser.Command;
 using Website.Domain.Browser.Query;
+using Website.Domain.Claims;
 using Website.Domain.Comments;
 using Website.Domain.Content;
 using Website.Domain.Content.Command;
 using Website.Domain.Content.Query;
-using Website.Domain.Likes;
 using Website.Domain.Location;
 using Website.Domain.Tag;
 using Website.Mocks.Domain.Data;
@@ -39,7 +39,7 @@ namespace PostaFlya.Mocks.Domain.Data
             SetUpFlierRepositoryAndQueryService(kernel
                 , RepoUtil.GetMockStore<FlierInterface>()
                 , RepoUtil.GetMockStore<CommentInterface>()
-                , RepoUtil.GetMockStore<LikeInterface>());
+                , RepoUtil.GetMockStore<ClaimInterface>());
  
             SetUpTaskJobRepositoryAndQueryService(kernel
                 , RepoUtil.GetMockStore<TaskJobFlierBehaviourInterface>()
@@ -50,7 +50,7 @@ namespace PostaFlya.Mocks.Domain.Data
         public static void SetUpFlierRepositoryAndQueryService(MoqMockingKernel kernel
             , HashSet<FlierInterface> store
             , HashSet<CommentInterface> storeComment
-            , HashSet<LikeInterface> likeStore)
+            , HashSet<ClaimInterface> claimStore)
         {
 
             
@@ -61,8 +61,8 @@ namespace PostaFlya.Mocks.Domain.Data
             //comments
             //RepoUtil.SetupAddComment<FlierRepositoryInterface, FlierInterface, Flier>(flierRepository, storeComment, kernel);
 
-            //likeable
-            //RepoUtil.SetupAddLike<FlierRepositoryInterface, FlierInterface, Flier>(flierRepository, likeStore, kernel);
+            //claimable
+            //RepoUtil.SetupAddClaim<FlierRepositoryInterface, FlierInterface, Flier>(flierRepository, claimStore, kernel);
 
 
             /////////////query service
@@ -88,14 +88,14 @@ namespace PostaFlya.Mocks.Domain.Data
 
 
 
-            //likes
-            RepoUtil.SetupRepo<FlierRepositoryInterface, Like, LikeInterface>(likeStore, kernel, LikeInterfaceExtensions.CopyFieldsFrom);
-            RepoUtil.FindAggregateEntities<FlierQueryServiceInterface, Like, LikeInterface>(likeStore, kernel,
-                                                                                      LikeInterfaceExtensions
+            //claims
+            RepoUtil.SetupRepo<FlierRepositoryInterface, Claim, ClaimInterface>(claimStore, kernel, ClaimInterfaceExtensions.CopyFieldsFrom);
+            RepoUtil.FindAggregateEntities<FlierQueryServiceInterface, Claim, ClaimInterface>(claimStore, kernel,
+                                                                                      ClaimInterfaceExtensions
                                                                                           .CopyFieldsFrom);
-            RepoUtil.SetupQueryByBrowser<FlierQueryServiceInterface, Like, LikeInterface>(flierQueryService, likeStore,
+            RepoUtil.SetupQueryByBrowser<FlierQueryServiceInterface, Claim, ClaimInterface>(flierQueryService, claimStore,
                                                                                   kernel,
-                                                                                  LikeInterfaceExtensions.
+                                                                                  ClaimInterfaceExtensions.
                                                                                       CopyFieldsFrom);
 
             //query by location

@@ -1,0 +1,21 @@
+﻿
+@using PostaFlya.Models.Claims
+
+@{IEnumerable<ClaimModel> claims = ViewBag.Template != null && ViewBag.Template ? new List<ClaimModel>() { ClaimModel.DefaultForTemplate() } : (ViewBag.Claims ?? new List<ClaimModel>());}
+
+@Html.Partial("State/PageStateAdd", "Claims")
+<div  class="claims" data-bind="with:claims">
+    <div data-bind="visible: bf.currentBrowserInstance.IsParticipant()">
+        <form data-bind="submit: addClaim">
+            <button type="submit">Claim</button>
+        </form>
+    </div>
+    <ul data-bind="foreach:List" class="claims-list">
+        @foreach (ClaimModel claim in claims)
+        {
+            <li class="claims-item">
+                @Html.DisplayFor(m => claim.Browser, "BrowserAvatar")
+            </li>    
+        }
+    </ul>
+</div>

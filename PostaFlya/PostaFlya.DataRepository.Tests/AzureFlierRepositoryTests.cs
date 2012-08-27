@@ -16,8 +16,8 @@ using PostaFlya.Domain.Flier.Query;
 using PostaFlya.Domain.TaskJob;
 using WebSite.Infrastructure.Command;
 using PostaFlya.Mocks.Domain.Data;
+using Website.Domain.Claims;
 using Website.Domain.Comments;
-using Website.Domain.Likes;
 using Website.Domain.Location;
 using Website.Domain.Tag;
 using Website.Mocks.Domain.Data;
@@ -49,7 +49,7 @@ namespace PostaFlya.DataRepository.Tests
         public void FixtureSetUp()
         {
             new AzureCommentRepositoryTests(_env).FixtureSetUp();
-            new AzureLikeRepositoryTests(_env).FixtureSetUp();
+            new AzureClaimRepositoryTests(_env).FixtureSetUp();
 
 //            Kernel.Bind<TableNameAndPartitionProviderInterface>()
 //                .ToConstant(new TableNameAndPartitionProvider<FlierInterface>()
@@ -316,32 +316,32 @@ namespace PostaFlya.DataRepository.Tests
         }
 
         [Test]
-        public void AzureFlierRepositoryLikeUpdatesNumberOfLikes()
+        public void AzureFlierRepositoryClaimUpdatesNumberOfClaims()
         {
             var testFlier = FlierTestData.GetOne(Kernel);
             testFlier.FlierBehaviour = FlierBehaviour.Default;
             testFlier = FlierTestData.StoreOne(testFlier, _repository, Kernel);
             var retFlier = FlierTestData.AssertGetById(testFlier, _queryService);
 
-            var like = LikeTestData.GetOne(Kernel, retFlier.Id);
+            var claim = ClaimTestData.GetOne(Kernel, retFlier.Id);
 
             using (Kernel.Get<UnitOfWorkFactoryInterface>()
                 .GetUnitOfWork(new List<RepositoryInterface>() { _repository }))
             {
 
-                _repository.Store(like);
-                testFlier.NumberOfLikes++;
+                _repository.Store(claim);
+                testFlier.NumberOfClaims++;
             }
             FlierTestData.UpdateOne(testFlier, _repository, Kernel);
 
             retFlier = FlierTestData.AssertGetById(testFlier, _queryService);
-            Assert.AreEqual(1, retFlier.NumberOfLikes);
+            Assert.AreEqual(1, retFlier.NumberOfClaims);
 
         }
 
 
         [Test]
-        public void AzureFlierRepositoryGetLikesReturnsAllLikesOnAFlier()
+        public void AzureFlierRepositoryGetClaimsReturnsAllClaimsOnAFlier()
         {
             var testFlier = FlierTestData.GetOne(Kernel);
             testFlier.FlierBehaviour = FlierBehaviour.Default;
@@ -349,55 +349,57 @@ namespace PostaFlya.DataRepository.Tests
             var retFlier = FlierTestData.AssertGetById(testFlier, _queryService);
 
 
-            var likes = LikeTestData.GetSome(Kernel, retFlier.Id, 5);
-            foreach (var comment in likes)
+            var claims = ClaimTestData.GetSome(Kernel, retFlier.Id, 5);
+            foreach (var comment in claims)
             {
                 using (Kernel.Get<UnitOfWorkFactoryInterface>()
                     .GetUnitOfWork(new List<RepositoryInterface>() { _repository }))
                 {
 
                     _repository.Store(comment);
-                    testFlier.NumberOfLikes++;
+                    testFlier.NumberOfClaims++;
                 }
             }
             FlierTestData.UpdateOne(testFlier, _repository, Kernel);
 
-            var retLikes = _queryService.FindAggregateEntities<Like>(retFlier.Id);
-            Assert.Count(5, retLikes);
-            //the first likes should be stored first
-            Assert.AreElementsEqual(likes, retLikes, LikeTestData.Equals);
+            var retClaims = _queryService.FindAggregateEntities<Claim>(retFlier.Id);
+            Assert.Count(5, retClaims);
+            retClaims = retClaims.OrderBy(claim => claim.ClaimTime);
+            //the first claims should be stored first
+            Assert.AreElementsEqual(claims, retClaims, ClaimTestData.Equals);
 
             retFlier = FlierTestData.AssertGetById(testFlier, _queryService);
-            Assert.AreEqual(5, retFlier.NumberOfLikes);
+            Assert.AreEqual(5, retFlier.NumberOfClaims);
 
         }
 
         [Test]
-        public void AzureFlierRepositoryGetEntitiesLikedByBrowserReturnsAllFlierLiked()
+        public void AzureFlierRepositoryGetEntitiesClaimedByBrowserReturnsAllFlierClaimed()
         {
-            var likes = new List<LikeInterface>();
+            var claims = new List<ClaimInterface>();
             var testFlier = FlierTestData.GetOne(Kernel);
             testFlier.FlierBehaviour = FlierBehaviour.Default;
             testFlier = FlierTestData.StoreOne(testFlier, _repository, Kernel);
             var retFlier = FlierTestData.AssertGetById(testFlier, _queryService);
-            var like = LikeTestData.GetOne(Kernel, retFlier.Id);
-            var browserId = like.BrowserId;
-            LikeTestData.LikeOne(testFlier, like, _repository, Kernel);
-            likes.Add(like);
+            var claim = ClaimTestData.GetOne(Kernel, retFlier.Id);
+            var browserId = claim.BrowserId;
+            ClaimTestData.ClaimOne(testFlier, claim, _repository, Kernel);
+            claims.Add(claim);
 
             testFlier = FlierTestData.GetOne(Kernel);
             testFlier.FlierBehaviour = FlierBehaviour.Default;
             testFlier = FlierTestData.StoreOne(testFlier, _repository, Kernel);
             retFlier = FlierTestData.AssertGetById(testFlier, _queryService);
-            like = LikeTestData.GetOne(Kernel, retFlier.Id);
-            like.BrowserId = browserId;
-            LikeTestData.LikeOne(testFlier, like, _repository, Kernel);
-            likes.Add(like);
+            claim = ClaimTestData.GetOne(Kernel, retFlier.Id);
+            claim.BrowserId = browserId;
+            ClaimTestData.ClaimOne(testFlier, claim, _repository, Kernel);
+            claims.Add(claim);
 
-            var retLikes = _queryService.GetByBrowserId<Like>(browserId);
-            Assert.Count(2, retLikes);
-            //the latest likes should be stored first
-            Assert.AreElementsEqual(likes.AsQueryable().Reverse(), retLikes, LikeTestData.Equals);
+            var retClaims = _queryService.GetByBrowserId<Claim>(browserId);
+            retClaims = retClaims.OrderByDescending(c => c.ClaimTime);
+            Assert.Count(2, retClaims);
+            //the latest claims should be stored first
+            Assert.AreElementsEqual(claims.AsQueryable().Reverse(), retClaims, ClaimTestData.Equals);
         }
 
         private IQueryable<FlierInterface> AssertFindFliersByLocationTags(FlierSortOrder sortOrder)
@@ -426,11 +428,11 @@ namespace PostaFlya.DataRepository.Tests
             switch (sortOrder)
             {
                 case FlierSortOrder.CreatedDate:
-                    return entry => entry.CreateDate.Ticks.ToString("D20") + '[' + (entry.NumberOfLikes + entry.NumberOfComments).ToString("D10") + ']';
+                    return entry => entry.CreateDate.Ticks.ToString("D20") + '[' + (entry.NumberOfClaims + entry.NumberOfComments).ToString("D10") + ']';
                 case FlierSortOrder.EffectiveDate:
-                    return entry => entry.EffectiveDate.Ticks.ToString("D20") + '[' + (entry.NumberOfLikes + entry.NumberOfComments).ToString("D10") + ']';
+                    return entry => entry.EffectiveDate.Ticks.ToString("D20") + '[' + (entry.NumberOfClaims + entry.NumberOfComments).ToString("D10") + ']';
                 case FlierSortOrder.Popularity:
-                    return entry => (entry.NumberOfLikes + entry.NumberOfComments).ToString("D10") + '[' + entry.CreateDate.Ticks.ToString("D20") + ']';
+                    return entry => (entry.NumberOfClaims + entry.NumberOfComments).ToString("D10") + '[' + entry.CreateDate.Ticks.ToString("D20") + ']';
             }
             return entry => entry.CreateDate;
         }
@@ -452,7 +454,7 @@ namespace PostaFlya.DataRepository.Tests
                 earlierFlier.CopyFieldsFrom(flier);
                 earlierFlier.CreateDate = earlierFlier.CreateDate.AddDays(-10);
                 earlierFlier.Id = Guid.NewGuid().ToString();
-                earlierFlier.NumberOfLikes = 1;
+                earlierFlier.NumberOfClaims = 1;
                 _repository.Store(earlierFlier);
 
                 var expiresLaterFlier = new Domain.Flier.Flier();
@@ -460,7 +462,7 @@ namespace PostaFlya.DataRepository.Tests
                 expiresLaterFlier.CreateDate = earlierFlier.CreateDate.AddDays(-5);
                 expiresLaterFlier.EffectiveDate = earlierFlier.EffectiveDate.AddDays(20);
                 expiresLaterFlier.Id = Guid.NewGuid().ToString();
-                expiresLaterFlier.NumberOfLikes = 2;
+                expiresLaterFlier.NumberOfClaims = 2;
                 _repository.Store(expiresLaterFlier);
 
                 //add fliers with variations on longitude and latitude

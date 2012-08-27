@@ -58,15 +58,15 @@
     float: left;
 }
 
-.flier-view .flier-details .flier-likes-comments{
+.flier-view .flier-details .flier-claims-comments{
     
 }
 
-.flier-view .flier-details .flier-likes-comments .like-stats{
+.flier-view .flier-details .flier-claims-comments .claim-stats{
     display: inline;
 }
 
-.flier-view .flier-details .flier-likes-comments .comment-stats{
+.flier-view .flier-details .flier-claims-comments .comment-stats{
     display: inline;
 }
 
@@ -78,7 +78,7 @@
     
 }
 
-.flier-view .likes {
+.flier-view .claims {
     
 }
 /***end default detail view layout***/

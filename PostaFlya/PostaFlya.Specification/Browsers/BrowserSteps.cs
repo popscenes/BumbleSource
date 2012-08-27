@@ -184,10 +184,10 @@ namespace PostaFlya.Specification.Browsers
         }
 
 
-        [Then(@"i will see the existing BROWSERS fliers and likes")]
-        public void ThenIWillSeeTheExistingBrowsersFliersAndLikes()
+        [Then(@"i will see the existing BROWSERS fliers and tear off claims")]
+        public void ThenIWillSeeTheExistingBrowsersFliersAndTearOffClaims()
         {
-            new LikeSteps().GivenThereIsAflierABrowserHasLiked();
+            new ClaimSteps().GivenThereIsAflierABrowserHasClaimATearOffFor();
             new FlierSteps().GivenABrowserHasCreatedAFlierofBehaviour(FlierBehaviour.Default.ToString());
 
             var browserId = ScenarioContext.Current["existingbrowserid"] as string;
@@ -195,7 +195,7 @@ namespace PostaFlya.Specification.Browsers
             var browser = SpecUtil.AssertGetParticipantBrowser(browserId);
             var ret = profileController.Get(browser.Handle);
             Assert.IsNotNull(ret);
-            Assert.IsNotEmpty(ret.LikedFliers);
+            Assert.IsNotEmpty(ret.ClaimedFliers);
             Assert.IsNotEmpty(ret.Fliers);
             Assert.AreEqual(browser.Id, ret.Browser.Id);
         }

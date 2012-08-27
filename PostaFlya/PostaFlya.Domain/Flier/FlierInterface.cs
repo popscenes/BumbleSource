@@ -4,8 +4,8 @@ using System.Linq;
 using PostaFlya.Domain.Behaviour;
 using WebSite.Infrastructure.Domain;
 using Website.Domain.Browser;
+using Website.Domain.Claims;
 using Website.Domain.Comments;
-using Website.Domain.Likes;
 using Website.Domain.Location;
 using Website.Domain.Tag;
 
@@ -39,13 +39,13 @@ namespace PostaFlya.Domain.Flier
                                             ? new Dictionary<string, object>(source.ExtendedProperties)
                                             : null;
             target.NumberOfComments = source.NumberOfComments;
-            target.NumberOfLikes = source.NumberOfLikes;
+            target.NumberOfClaims = source.NumberOfClaims;
         }        
     }
     public interface FlierInterface : 
         EntityInterface, 
         BrowserIdInterface, 
-        LikeableInterface,
+        ClaimableInterface,
         CommentableInterface
     {
         string Title { get; set; }

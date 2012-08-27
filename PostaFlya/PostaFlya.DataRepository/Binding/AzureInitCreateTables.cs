@@ -33,7 +33,7 @@ namespace PostaFlya.DataRepository.Binding
 //            iocContainer.Get<AzureTableContext>("image").InitFirstTimeUse();
 //            iocContainer.Get<AzureTableContext>("taskjob").InitFirstTimeUse();
 //            iocContainer.Get<AzureTableContext>("comments").InitFirstTimeUse();
-//            iocContainer.Get<AzureTableContext>("likes").InitFirstTimeUse();
+//            iocContainer.Get<AzureTableContext>("claims").InitFirstTimeUse();
 
 
             //not sure if this matters but just put here because of below article

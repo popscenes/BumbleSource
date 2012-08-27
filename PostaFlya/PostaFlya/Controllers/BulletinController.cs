@@ -67,7 +67,7 @@ namespace PostaFlya.Controllers
             ViewBag.FlierDetail = model;
             ViewBag.Comments = CommentController.GetComments(_flierQueryService, id)
                 .Select(c => c.FillBrowserModel(_browserQueryService, _blobStorage)).ToList();
-            ViewBag.Likes = LikeController.GetLikes(_flierQueryService, id)
+            ViewBag.Claims = ClaimController.GetClaims(_flierQueryService, id)
                 .Select(l => l.FillBrowserModel(_browserQueryService, _blobStorage)).ToList();
            
             return View("DetailGet", model);

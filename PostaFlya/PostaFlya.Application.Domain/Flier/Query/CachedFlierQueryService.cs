@@ -27,19 +27,19 @@ namespace PostaFlya.Application.Domain.Flier.Query
             _queryService = queryService;
         }
 
-//        public IQueryable<LikeInterface> GetLikes(string id)
+//        public IQueryable<ClaimInterface> GetClaims(string id)
 //        {
 //            return RetrieveCachedData(
-//                GetKeyFor(CachedFlierContext.Likes, id),
-//                () => this._queryService.GetLikes(id).ToList())
+//                GetKeyFor(CachedFlierContext.Claims, id),
+//                () => this._queryService.GetClaims(id).ToList())
 //                .AsQueryable();
 //        }
 //
-//        public IQueryable<LikeInterface> GetLikesByBrowser(string browserId)
+//        public IQueryable<ClaimInterface> GetClaimsByBrowser(string browserId)
 //        {
 //            return RetrieveCachedData(
-//                GetKeyFor(CachedFlierContext.Likes, browserId),
-//                () => this._queryService.GetLikesByBrowser(browserId).ToList())
+//                GetKeyFor(CachedFlierContext.Claims, browserId),
+//                () => this._queryService.GetClaimsByBrowser(browserId).ToList())
 //                .AsQueryable();
 //        }
 //

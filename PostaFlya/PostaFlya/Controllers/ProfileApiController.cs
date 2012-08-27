@@ -11,10 +11,9 @@ using PostaFlya.Domain.Flier.Query;
 using PostaFlya.Models.Browser;
 using PostaFlya.Models.Factory;
 using PostaFlya.Models.Flier;
-using PostaFlya.Models.Likes;
 using WebSite.Application.Content;
 using Website.Domain.Browser.Query;
-using Website.Domain.Likes;
+using Website.Domain.Claims;
 
 namespace PostaFlya.Controllers
 {
@@ -58,7 +57,7 @@ namespace PostaFlya.Controllers
                       .Select(f => viewModelFactory
                           .GetBulletinViewModel(f, false).GetImageUrl(blobStorage))
                       .ToList(),
-                LikedFliers = flierQueryService.GetByBrowserId<Like>(browser.Id)
+                ClaimedFliers = flierQueryService.GetByBrowserId<Claim>(browser.Id)
                       .Select(l => flierQueryService.FindById<Flier>(l.AggregateId))
                       .Where(f => f != null)
                       .Select(f => viewModelFactory
@@ -73,6 +72,6 @@ namespace PostaFlya.Controllers
     {
         public BrowserModel Browser { get; set; }
         public IList<BulletinFlierModel> Fliers { get; set; }
-        public IList<BulletinFlierModel> LikedFliers { get; set; }
+        public IList<BulletinFlierModel> ClaimedFliers { get; set; }
     }
 }

@@ -56,7 +56,7 @@ namespace PostaFlya.Views.Shared
             "Base/BrowserViewModel.js",
             "Base/CommentsViewModel.js",
             "Base/TagsSelector.js",
-            "Base/LikesViewModel.js",
+            "Base/ClaimsViewModel.js",
             "Base/TileLayoutViewModel.js",
             "Base/ErrorHandling.js",
             "Base/CreateEditFlier.js",

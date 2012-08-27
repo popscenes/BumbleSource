@@ -40,4 +40,4 @@ Scenario: Browser Verifies Identity
 Scenario: Profile View
 	Given There is an existing BROWSER with PARTICIPANT ROLE  
 	When i navigate to the public profile view the existing BROWSER 
-	Then i will see the existing BROWSERS fliers and likes
+	Then i will see the existing BROWSERS fliers and tear off claims

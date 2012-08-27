@@ -2,7 +2,7 @@
 
     var bf = window.bf = window.bf || {};
 
-    bf.DefaultBehaviourViewModel = function (data, commentsViewModel, likesViewModel) {
+    bf.DefaultBehaviourViewModel = function (data, commentsViewModel, claimsViewModel) {
         var self = this;
 
         var mapping = {
@@ -11,8 +11,8 @@
 
         self.comments = ko.observable();
         self.comments(commentsViewModel);
-        self.likes = ko.observable();
-        self.likes(likesViewModel);
+        self.claims = ko.observable();
+        self.claims(claimsViewModel);
         ko.mapping.fromJS(data, mapping, self);
     };
 

@@ -17,9 +17,9 @@ using WebSite.Infrastructure.Authentication;
 using Website.Application.Domain.Browser;
 using Website.Domain.Browser;
 using Website.Domain.Browser.Query;
+using Website.Domain.Claims;
 using Website.Domain.Comments;
 using Website.Domain.Content;
-using Website.Domain.Likes;
 using Website.Domain.Location;
 using Website.Mocks.Domain.Data;
 using TestRepositoriesNinjectModule = PostaFlya.Mocks.Domain.Data.TestRepositoriesNinjectModule;
@@ -42,7 +42,7 @@ namespace PostaFlya.Specification.Util
             TestRepositoriesNinjectModule.SetUpFlierRepositoryAndQueryService(kernel
                 , SpecUtil.GetMockStore<HashSet<FlierInterface>>("flierstore")
                 , SpecUtil.GetMockStore<HashSet<CommentInterface>>("fliercommentstore")
-                , SpecUtil.GetMockStore<HashSet<LikeInterface>>("likestore"));
+                , SpecUtil.GetMockStore<HashSet<ClaimInterface>>("claimstore"));
             Website.Mocks.Domain.Data.TestRepositoriesNinjectModule.SetUpImageRepositoryAndQueryService(kernel
                 , SpecUtil.GetMockStore<HashSet<ImageInterface>>("imagestore"));
 

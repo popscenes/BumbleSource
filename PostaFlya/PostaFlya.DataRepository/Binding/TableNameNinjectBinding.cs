@@ -16,9 +16,9 @@ using PostaFlya.DataRepository.Flier;
 using PostaFlya.DataRepository.Internal;
 using WebSite.Infrastructure.Domain;
 using Website.Domain.Browser;
+using Website.Domain.Claims;
 using Website.Domain.Comments;
 using Website.Domain.Content;
-using Website.Domain.Likes;
 
 namespace PostaFlya.DataRepository.Binding
 {
@@ -43,9 +43,9 @@ namespace PostaFlya.DataRepository.Binding
             tableNameProv.Add<ImageInterface>(JsonRepository.IdPartition, "image", e => e.Id);
             tableNameProv.Add<ImageInterface>(JsonRepositoryWithBrowser.BrowserPartitionId, "image", e => e.BrowserId, e => e.Id);
 
-            tableNameProv.Add<LikeInterface>(JsonRepositoryWithBrowser.IdPartition, "like", e => e.Id);
-            tableNameProv.Add<LikeInterface>(JsonRepositoryWithBrowser.BrowserPartitionId, "like", e => e.BrowserId, e => (DateTime.MaxValue.Ticks - e.LikeTime.Ticks).ToString("D20") + e.Id);
-            tableNameProv.Add<LikeInterface>(JsonRepositoryWithBrowser.AggregateIdPartition, "like", e => e.AggregateId, e => e.LikeTime.Ticks.ToString("D20") + e.Id);
+            tableNameProv.Add<ClaimInterface>(JsonRepositoryWithBrowser.IdPartition, "claim", e => e.Id);
+            tableNameProv.Add<ClaimInterface>(JsonRepositoryWithBrowser.BrowserPartitionId, "claim", e => e.BrowserId, e => e.Id);
+            tableNameProv.Add<ClaimInterface>(JsonRepositoryWithBrowser.AggregateIdPartition, "claim", e => e.AggregateId, e => e.Id);
 
             tableNameProv.Add<CommentInterface>(JsonRepository.IdPartition, "comment", e => e.Id, e => e.CommentTime.Ticks.ToString("D20") + e.Id);
             tableNameProv.Add<CommentInterface>(JsonRepository.AggregateIdPartition, "comment", e => e.AggregateId, e => e.CommentTime.Ticks.ToString("D20") + e.Id);
@@ -85,8 +85,8 @@ namespace PostaFlya.DataRepository.Binding
 //                .WhenAnyAnchestorNamed("comments");
 //
 //            Kernel.Bind<TableNameAndPartitionProviderInterface>()
-//               .ToConstant(LikeStorageDomain.TableNamesAndPartition)
-//               .WhenAnyAnchestorNamed("likes");
+//               .ToConstant(ClaimStorageDomain.TableNamesAndPartition)
+//               .WhenAnyAnchestorNamed("claims");
 
             Trace.TraceInformation("Finished Binding TableNameNinjectBinding");
 

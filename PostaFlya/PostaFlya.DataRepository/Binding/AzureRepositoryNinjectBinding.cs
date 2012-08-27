@@ -76,7 +76,7 @@ namespace PostaFlya.DataRepository.Binding
             Trace.TraceInformation("Binding TableNameNinjectBinding");
 
 //            Bind<AzureCommentRepository>().ToSelf();//this is only used inside other repositories so no need to configure scope etc
-//            Bind<AzureLikeRepository>().ToSelf();
+//            Bind<AzureClaimRepository>().ToSelf();
  
             //this basically names the azure table context so
             //we can set up bindings for the Type => TableName dictionary
@@ -85,7 +85,7 @@ namespace PostaFlya.DataRepository.Binding
 //            Kernel.Bind<AzureTableContext>().ToSelf().Named("image");
 //            Kernel.Bind<AzureTableContext>().ToSelf().Named("browser");
 //            Kernel.Bind<AzureTableContext>().ToSelf().Named("comments");
-//            Kernel.Bind<AzureTableContext>().ToSelf().Named("likes");
+//            Kernel.Bind<AzureTableContext>().ToSelf().Named("claims");
 
             //Kernel.Bind<AzureTableContext>().ToSelf().Named("websiteinfo");
 

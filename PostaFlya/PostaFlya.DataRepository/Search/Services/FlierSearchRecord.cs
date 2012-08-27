@@ -20,8 +20,8 @@ namespace PostaFlya.DataRepository.Search.Services
             {
                 Id = Guid.Parse(flier.Id),
                 BrowserId = Guid.Parse(flier.BrowserId),
-                PopularityRank = flier.NumberOfComments + flier.NumberOfLikes,
-                NumberOfLikes = flier.NumberOfLikes,
+                PopularityRank = flier.NumberOfComments + flier.NumberOfClaims,
+                NumberOfClaims = flier.NumberOfClaims,
                 NumberOfComments = flier.NumberOfComments,
                 EffectiveDate = flier.EffectiveDate,
                 CreateDate = flier.CreateDate,
@@ -80,7 +80,7 @@ namespace PostaFlya.DataRepository.Search.Services
         public Guid Id { get; set; }
         public Guid BrowserId { get; set; }
         public int PopularityRank { get; set; }
-        public int NumberOfLikes { get; set; }
+        public int NumberOfClaims { get; set; }
         public int NumberOfComments { get; set; }
 
         //for scaling possibilities

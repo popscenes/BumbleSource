@@ -1,16 +1,15 @@
 using System;
 using WebSite.Infrastructure.Domain;
 
-namespace Website.Domain.Likes
+namespace Website.Domain.Claims
 {
     [Serializable]
-    public class Like : EntityBase<LikeInterface>, LikeInterface 
+    public class Claim : EntityBase<ClaimInterface>, ClaimInterface 
     {
         public string EntityTypeTag{ get; set; }
         public string AggregateId { get; set; }
         public string BrowserId { get; set; }
-        public string LikeContent { get; set; }
-        public bool ILike { get; set; }
-        public DateTime LikeTime { get; set; }
+        public string ClaimContext { get; set; }
+        public DateTime ClaimTime { get; set; }
     }
 }

@@ -9,16 +9,16 @@ using Website.Domain.Browser.Query;
 
 //using WebSite.Infrastructure.Service;
 
-namespace Website.Domain.Likes.Command
+namespace Website.Domain.Claims.Command
 {
-    internal class LikeCommandHandler : CommandHandlerInterface<LikeCommand>
+    internal class ClaimCommandHandler : CommandHandlerInterface<ClaimCommand>
     {
         private readonly UnitOfWorkFactoryInterface _unitOfWorkFactory;
         private readonly BrowserQueryServiceInterface _browserQueryService;
         private readonly GenericRepositoryInterface _genericRepository;
         private readonly GenericQueryServiceInterface _genericQueryService;
 
-        public LikeCommandHandler(UnitOfWorkFactoryInterface unitOfWorkFactory
+        public ClaimCommandHandler(UnitOfWorkFactoryInterface unitOfWorkFactory
             , BrowserQueryServiceInterface browserQueryService
             , GenericRepositoryInterface genericRepository
             , GenericQueryServiceInterface genericQueryService)
@@ -29,56 +29,55 @@ namespace Website.Domain.Likes.Command
             _genericQueryService = genericQueryService;
         }
 
-        public object Handle(LikeCommand command)
+        public object Handle(ClaimCommand command)
         {
             var browser = _browserQueryService.FindById<Browser.Browser>(command.BrowserId); 
 
             if(browser == null || !browser.HasRole(Role.Participant))
             {
-                return new MsgResponse("Like Entity failed", true)
+                return new MsgResponse("Claim Entity failed", true)
                     .AddCommandId(command);
             }
 
-            var like = new Like()
+            var claim = new Claim()
             {    
-                Id = command.LikeEntity.Id + browser.Id,
-                AggregateId = command.LikeEntity.Id,
+                Id = command.ClaimEntity.Id + browser.Id,
+                AggregateId = command.ClaimEntity.Id,
                 BrowserId = browser.Id,
-                LikeContent = command.Comment,
-                ILike = command.ILike,
-                LikeTime = DateTime.UtcNow
+                ClaimContext = command.Comment,
+                ClaimTime = DateTime.UtcNow
             };
 
             var uow = _unitOfWorkFactory.GetUnitOfWork(new List<object>() { _genericRepository });
             using (uow)
             {
-                _genericRepository.Store(like); 
+                _genericRepository.Store(claim); 
             }
 
             if(!uow.Successful)
-                return new MsgResponse("Like Entity failed", true)
+                return new MsgResponse("Claim Entity failed", true)
                 .AddCommandId(command);
 
             uow = _unitOfWorkFactory.GetUnitOfWork(new List<object>() { _genericRepository });
             using (uow)
             {
-                _genericRepository.UpdateEntity(command.LikeEntity.GetType()
-                , command.LikeEntity.Id
+                _genericRepository.UpdateEntity(command.ClaimEntity.GetType()
+                , command.ClaimEntity.Id
                 , o =>
                 {
-                    var com = o as LikeableInterface;
+                    var com = o as ClaimableInterface;
                     if (com != null)
-                        com.NumberOfLikes = _genericQueryService.FindAggregateEntities<Like>(like.AggregateId).Count();
+                        com.NumberOfClaims = _genericQueryService.FindAggregateEntities<Claim>(claim.AggregateId).Count();
                 }); 
             }
 
 
             if (uow.Successful)
-                return new MsgResponse("Like Entity", false)
+                return new MsgResponse("Claim Entity", false)
                     .AddCommandId(command)
-                    .AddEntityId(like.AggregateId);
+                    .AddEntityId(claim.AggregateId);
 
-            return new MsgResponse("Like Entity failed", true)
+            return new MsgResponse("Claim Entity failed", true)
                         .AddCommandId(command);
         }
     }

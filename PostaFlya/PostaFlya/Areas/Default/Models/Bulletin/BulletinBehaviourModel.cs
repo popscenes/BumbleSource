@@ -24,7 +24,7 @@ namespace PostaFlya.Areas.Default.Models.Bulletin
                 TagsString = flier.Tags.ToString(),
                 FlierImageId = flier.Image.HasValue ? flier.Image.Value.ToString() : null,
                 FlierBehaviour = flier.FlierBehaviour.ToString(),
-                NumberOfLikes = flier.NumberOfLikes,
+                NumberOfClaims = flier.NumberOfClaims,
                 NumberOfComments = flier.NumberOfComments,
                 BrowserId = flier.BrowserId,
                 ImageList = flier.ImageList.Select(_ => new ImageViewModel() { ImageId = _.ImageID }).ToList()

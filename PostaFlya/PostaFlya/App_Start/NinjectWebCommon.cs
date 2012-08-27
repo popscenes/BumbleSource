@@ -65,7 +65,7 @@ namespace PostaFlya.App_Start
         /// <param name="kernel">The kernel.</param>
         private static void RegisterServices(IKernel kernel)
         {
-            //seems like both mvc + wepapi ninject extensions bind HttpContext cause double binding errors
+            //seems claim both mvc + wepapi ninject extensions bind HttpContext cause double binding errors
             //just rebind
 //            kernel.Unbind<HttpContext>();
 //            kernel.Unbind<HttpContextBase>();

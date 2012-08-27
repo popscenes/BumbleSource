@@ -163,7 +163,7 @@ namespace PostaFlya.Specification.Browsers
             this.ScenarioSetup(scenarioInfo);
             testRunner.Given("There is an existing BROWSER with PARTICIPANT ROLE");
             testRunner.When("i navigate to the public profile view the existing BROWSER");
-            testRunner.Then("i will see the existing BROWSERS fliers and likes");
+            testRunner.Then("i will see the existing BROWSERS fliers and tear off claims");
             this.ScenarioCleanup();
         }
     }

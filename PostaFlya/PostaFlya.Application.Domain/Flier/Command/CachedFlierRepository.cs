@@ -39,17 +39,17 @@ namespace PostaFlya.Application.Domain.Flier.Command
 //            this.InvalidateCachedData(GetKeyFor(CachedFlierContext.Browser, target.BrowserId));
 //        }
 
-//        public LikeableInterface Like(LikeInterface like)
+//        public ClaimableInterface Claim(ClaimInterface claim)
 //        {
-//            var ret = _flierRepository.Like(like);
+//            var ret = _flierRepository.Claim(claim);
 //            if (ret != null)
 //            {
 //                var flierCreator = ret as BrowserIdInterface;
 //                if (flierCreator != null)
 //                    this.InvalidateCachedData(GetKeyFor(CachedFlierContext.Browser, flierCreator.BrowserId));
-//                this.InvalidateCachedData(GetKeyFor(CachedFlierContext.Likes, like.BrowserId));
-//                this.InvalidateCachedData(GetKeyFor(CachedFlierContext.Likes, like.EntityId));
-//                this.InvalidateCachedData(GetKeyFor(CachedFlierContext.Flier, like.EntityId));
+//                this.InvalidateCachedData(GetKeyFor(CachedFlierContext.Claims, claim.BrowserId));
+//                this.InvalidateCachedData(GetKeyFor(CachedFlierContext.Claims, claim.EntityId));
+//                this.InvalidateCachedData(GetKeyFor(CachedFlierContext.Flier, claim.EntityId));
 //            }
 //            return ret;
 //        }
