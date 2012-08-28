@@ -137,29 +137,43 @@ namespace Website.Application.Domain.Tests.Content
                 bitmap.Save(ms, ImageFormat.Bmp);
                 data = ms.ToArray();
             }
+
+            var command = new CreateImageCommand()
+                              {
+                                  BrowserId = Guid.NewGuid().ToString(),
+                                  ExternalId = "123|facebook",
+                                  Title = "Yoyoyoyo",
+                                  Content = new Website.Domain.Content.Content()
+                                                {
+                                                    Type = Website.Domain.Content.Content.ContentType.Image,
+                                                    Data = data
+                                                }
+                              };
             
             //simulate and image upload
-            var imageInterface = kernel.Get<CommandBusInterface>().Send(new CreateImageCommand()
-                                                       {
-                                                           BrowserId = Guid.NewGuid().ToString(),
-                                                           Title = "Yoyoyoyo",
-                                                           Content = new Website.Domain.Content.Content()
-                                                                         {
-                                                                             Type = Website.Domain.Content.Content.ContentType.Image,
-                                                                             Data = data
-                                                                         }
-                                                       }) as ImageInterface;
+            var imageInterface = kernel.Get<CommandBusInterface>().Send(command) as ImageInterface;
 
             Assert.IsNotNull(imageInterface);
 
             //test the state was initially processing
             Assert.AreEqual(ImageStatus.Processing, imageInterface.Status);
 
+            var imageQueryService = ResolutionExtensions.Get<ImageQueryServiceInterface>(kernel);
+            
+
             //test the state is ready
-            Assert.AreEqual(ImageStatus.Ready, ResolutionExtensions.Get<ImageQueryServiceInterface>(kernel).FindById<Website.Domain.Content.Image>(imageInterface.Id).Status);
+            Assert.AreEqual(ImageStatus.Ready, imageQueryService.FindById<Website.Domain.Content.Image>(imageInterface.Id).Status);
 
             assertions(new Guid(imageInterface.Id), storage);
 
+
+            command.CommandId = Guid.NewGuid().ToString();
+            
+            kernel.Get<CommandBusInterface>().Send(command);
+            var browserImages = imageQueryService.GetByBrowserId<Website.Domain.Content.Image>(command.BrowserId);
+
+            //make sure only 1 image per external id
+            Assert.Count(1, browserImages);
             kernel.Unbind<BlobStorageInterface>();
         }
 

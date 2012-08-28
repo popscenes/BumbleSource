@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
 using WebSite.Infrastructure.Command;
+using Website.Domain.Content.Query;
 using Website.Domain.Service;
+using System.Linq;
 
 namespace Website.Domain.Content.Command
 {
@@ -10,13 +12,15 @@ namespace Website.Domain.Content.Command
         private readonly ContentStorageServiceInterface _contentStorageService;
         private readonly ImageRepositoryInterface _imageRepository;
         private readonly UnitOfWorkFactoryInterface _unitOfWorkFactory;
+        private readonly ImageQueryServiceInterface _imageQueryServiceInterface;
 
         public CreateImageCommandHandler(ContentStorageServiceInterface contentStorageService
-                                         , ImageRepositoryInterface imageRepository, UnitOfWorkFactoryInterface unitOfWorkFactory)
+                                         , ImageRepositoryInterface imageRepository, UnitOfWorkFactoryInterface unitOfWorkFactory, ImageQueryServiceInterface imageQueryServiceInterface)
         {
             _contentStorageService = contentStorageService;
             _imageRepository = imageRepository;
             _unitOfWorkFactory = unitOfWorkFactory;
+            _imageQueryServiceInterface = imageQueryServiceInterface;
         }
 
         #region Implementation of CommandHandlerInterface<in CreateImageCommand>
@@ -29,8 +33,22 @@ namespace Website.Domain.Content.Command
                                  Title = command.Title,
                                  BrowserId = command.BrowserId,
                                  Status = ImageStatus.Processing,
-                                 Location = command.Location
+                                 Location = command.Location,
+                                 ExternalId = command.ExternalId
                              };
+
+            if(!String.IsNullOrWhiteSpace(command.ExternalId))
+            {
+                var imagesList = _imageQueryServiceInterface.GetByBrowserId<Image>(command.BrowserId);
+                var externalImage = imagesList.Where(_ => _.ExternalId == command.ExternalId);
+
+                if(externalImage.Any())
+                {
+                    insert.Id = externalImage.First().Id;
+                }
+
+            }
+
             UnitOfWorkInterface unitOfWork;
             using (unitOfWork = _unitOfWorkFactory.GetUnitOfWork(GetReposForUnitOfWork()))
             {

@@ -14,6 +14,8 @@ namespace Website.Domain.Content
         public ImageStatus Status { get; set; }
         public Location.Location Location { get; set; }
 
+        public string ExternalId { get; set; }
+
         #endregion
     }
 }
