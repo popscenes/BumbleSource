@@ -9,10 +9,10 @@ using Ninject.Extensions.Conventions;
 using Ninject.Extensions.Conventions.Syntax;
 using Ninject.Modules;
 using Ninject.Syntax;
-using WebSite.Infrastructure.Command;
-using WebSite.Infrastructure.Query;
+using Website.Infrastructure.Command;
+using Website.Infrastructure.Query;
 
-namespace WebSite.Infrastructure.Binding
+namespace Website.Infrastructure.Binding
 {
     public class InfrastructureNinjectBinding : NinjectModule
     {

@@ -9,8 +9,8 @@
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>WebSite.Application.Tests</RootNamespace>
-    <AssemblyName>WebSite.Application.Tests</AssemblyName>
+    <RootNamespace>Website.Application.Tests</RootNamespace>
+    <AssemblyName>Website.Application.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <PublishUrl>publish\</PublishUrl>
@@ -113,6 +113,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Publish\PublishCommandHandlerTests.cs" />
     <Compile Include="TestFixtureSetup.cs" />
     <Compile Include="Command\QueuedCommandSchedulerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -123,17 +124,17 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\WebSite.Application\WebSite.Application.csproj">
+    <ProjectReference Include="..\Website.Application\Website.Application.csproj">
       <Project>{46DB8930-71D8-4DE4-BAA6-39944F07D6F5}</Project>
-      <Name>WebSite.Application</Name>
+      <Name>Website.Application</Name>
     </ProjectReference>
-    <ProjectReference Include="..\WebSite.Infrastructure\WebSite.Infrastructure.csproj">
+    <ProjectReference Include="..\Website.Infrastructure\Website.Infrastructure.csproj">
       <Project>{B5C3A966-F286-4CB8-913B-C8625625451D}</Project>
-      <Name>WebSite.Infrastructure</Name>
+      <Name>Website.Infrastructure</Name>
     </ProjectReference>
-    <ProjectReference Include="..\WebSite.Test.Common\WebSite.Test.Common.csproj">
+    <ProjectReference Include="..\Website.Test.Common\Website.Test.Common.csproj">
       <Project>{DC7CC356-EE06-49C0-9985-9D0101AAF45F}</Project>
-      <Name>WebSite.Test.Common</Name>
+      <Name>Website.Test.Common</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

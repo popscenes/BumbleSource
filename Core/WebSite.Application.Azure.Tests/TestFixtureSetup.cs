@@ -5,14 +5,15 @@ using Microsoft.WindowsAzure.StorageClient;
 using Ninject;
 using Ninject.MockingKernel.Moq;
 using Ninject.Modules;
-using WebSite.Application.Azure.Binding;
-using WebSite.Application.Command;
-using WebSite.Application.Content;
-using WebSite.Azure.Common.Environment;
-using WebSite.Azure.Common.TableStorage;
-using WebSite.Test.Common;
+using Website.Application.Azure.Binding;
+using Website.Application.Command;
+using Website.Application.Content;
+using Website.Azure.Common.Binding;
+using Website.Azure.Common.Environment;
+using Website.Azure.Common.TableStorage;
+using Website.Test.Common;
 
-namespace WebSite.Application.Azure.Tests
+namespace Website.Application.Azure.Tests
 {
     [AssemblyFixture]
     class TestFixtureSetup
@@ -69,7 +70,7 @@ namespace WebSite.Application.Azure.Tests
 
         private static readonly List<INinjectModule> NinjectModules = new List<INinjectModule>()
                   {
-                      new WebSite.Azure.Common.Binding.AzureCommonNinjectBinding(),
+                      new AzureCommonNinjectBinding(),
                       new AzureApplicationNinjectBinding(),
                       //new DataRepository.Binding.AzureRepositoryNinjectBinding(c => c.InTransientScope())
                   };

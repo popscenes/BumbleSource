@@ -4,7 +4,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Text;
 using MbUnit.Framework;
-using WebSite.Infrastructure.Command;
+using Website.Infrastructure.Command;
 
 namespace PostaFlya.Specification.Util
 {

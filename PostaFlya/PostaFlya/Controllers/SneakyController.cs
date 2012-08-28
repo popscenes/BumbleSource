@@ -4,7 +4,7 @@ using System.Linq;
 using System.Runtime.Caching;
 using System.Web;
 using System.Web.Mvc;
-using WebSite.Application.Azure.Caching;
+using Website.Application.Azure.Caching;
 
 namespace PostaFlya.Controllers
 {

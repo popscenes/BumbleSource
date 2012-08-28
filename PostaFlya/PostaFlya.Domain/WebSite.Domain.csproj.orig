@@ -163,7 +163,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\WebSite.Infrastructure\WebSite.Infrastructure.csproj">
+    <ProjectReference Include="..\Website.Infrastructure\Website.Infrastructure.csproj">
       <Project>{B5C3A966-F286-4CB8-913B-C8625625451D}</Project>
       <Name>WebSite.Infrastructure</Name>
     </ProjectReference>

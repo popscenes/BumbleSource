@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using PostaFlya.Domain.Flier;
-using WebSite.Infrastructure.Domain;
-using WebSite.Infrastructure.Query;
-//using WebSite.Infrastructure.Service;
+using Website.Infrastructure.Domain;
+using Website.Infrastructure.Query;
+//using Website.Infrastructure.Service;
 
 namespace PostaFlya.Binding
 {

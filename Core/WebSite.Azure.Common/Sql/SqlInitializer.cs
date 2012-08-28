@@ -9,10 +9,10 @@ using System.Text;
 using System.Xml.Linq;
 using Microsoft.SqlServer.Types;
 using Microsoft.WindowsAzure.ServiceRuntime;
-using WebSite.Azure.Common.Binding;
-using WebSite.Infrastructure.Util;
+using Website.Azure.Common.Binding;
+using Website.Infrastructure.Util;
 
-namespace WebSite.Azure.Common.Sql
+namespace Website.Azure.Common.Sql
 {
 
     public class SqlInitializer : IDisposable

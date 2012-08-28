@@ -8,9 +8,9 @@ using MbUnit.Framework;
 using MbUnit.Framework.ContractVerifiers;
 using Ninject;
 using Ninject.MockingKernel.Moq;
-using WebSite.Azure.Common.TableStorage;
+using Website.Azure.Common.TableStorage;
 
-namespace WebSite.Azure.Common.Tests.TableStorage
+namespace Website.Azure.Common.Tests.TableStorage
 {
     [TestFixture]
     public class StorageAggregateTests

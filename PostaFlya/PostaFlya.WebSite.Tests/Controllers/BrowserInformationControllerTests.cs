@@ -16,7 +16,7 @@ using Website.Domain.Location;
 using Website.Domain.Tag;
 
 
-namespace PostaFlya.WebSite.Tests.Controllers
+namespace PostaFlya.Website.Tests.Controllers
 {
     [TestFixture]
     public class BrowserInformationControllerTests

@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using WebSite.Infrastructure.Command;
+using Website.Infrastructure.Command;
 using Website.Domain.Service;
 using Website.Domain.Location;
 

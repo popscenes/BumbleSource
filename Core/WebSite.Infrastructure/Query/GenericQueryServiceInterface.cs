@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using WebSite.Infrastructure.Command;
-using WebSite.Infrastructure.Domain;
+using Website.Infrastructure.Command;
+using Website.Infrastructure.Domain;
 
-namespace WebSite.Infrastructure.Query
+namespace Website.Infrastructure.Query
 {
 
     public interface GenericQueryServiceInterface : QueryServiceInterface

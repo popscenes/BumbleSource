@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using PostaFlya.Domain.Behaviour;
-using WebSite.Infrastructure.Domain;
+using Website.Infrastructure.Domain;
 using Website.Domain.Location;
 using Website.Domain.Tag;
 

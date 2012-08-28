@@ -1,4 +1,4 @@
-namespace WebSite.Application.Command
+namespace Website.Application.Command
 {
     public interface QueueMessageInterface
     {

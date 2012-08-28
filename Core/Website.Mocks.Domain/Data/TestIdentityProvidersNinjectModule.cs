@@ -4,8 +4,8 @@ using MbUnit.Framework;
 using Moq;
 using Ninject.MockingKernel.Moq;
 using Ninject.Modules;
-using WebSite.Infrastructure.Authentication;
-using WebSite.Test.Common;
+using Website.Infrastructure.Authentication;
+using Website.Test.Common;
 
 namespace Website.Mocks.Domain.Data
 {

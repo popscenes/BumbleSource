@@ -4,7 +4,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 
-namespace WebSite.Azure.Common.Tests.Sql
+namespace Website.Azure.Common.Tests.Sql
 {
     public class SqlOpenClose : IDisposable
     {

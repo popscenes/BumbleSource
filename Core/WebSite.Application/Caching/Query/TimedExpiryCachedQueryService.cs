@@ -1,13 +1,13 @@
 using System;
 using System.Runtime.Caching;
-using WebSite.Application.Binding;
-using WebSite.Infrastructure.Binding;
-using WebSite.Infrastructure.Caching;
-using WebSite.Infrastructure.Caching.Query;
-using WebSite.Infrastructure.Command;
-using WebSite.Infrastructure.Query;
+using Website.Application.Binding;
+using Website.Infrastructure.Caching;
+using Website.Infrastructure.Command;
+using Website.Infrastructure.Binding;
+using Website.Infrastructure.Caching.Query;
+using Website.Infrastructure.Query;
 
-namespace WebSite.Application.Caching.Query
+namespace Website.Application.Caching.Query
 {
     public class TimedExpiryCachedQueryService : CachedQueryServiceBase
     {

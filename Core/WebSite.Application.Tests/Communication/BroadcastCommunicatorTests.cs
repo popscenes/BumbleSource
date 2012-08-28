@@ -9,14 +9,14 @@ using MbUnit.Framework.ContractVerifiers;
 using Moq;
 using Ninject;
 using Ninject.MockingKernel.Moq;
-using WebSite.Application.Command;
-using WebSite.Application.Communication;
-using WebSite.Application.Tests.Classes;
-using WebSite.Application.Tests.Command;
-using WebSite.Infrastructure.Command;
-using WebSite.Infrastructure.Util;
+using Website.Application.Command;
+using Website.Application.Communication;
+using Website.Application.Tests.Classes;
+using Website.Application.Tests.Command;
+using Website.Infrastructure.Command;
+using Website.Infrastructure.Util;
 
-namespace WebSite.Application.Tests.Communication
+namespace Website.Application.Tests.Communication
 {
     [TestFixture]
     public class BroadcastCommunicatorTests

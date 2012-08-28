@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
-using WebSite.Application.WebsiteInformation;
+using Website.Application.WebsiteInformation;
 using PostaFlya.Domain.Flier;
 using PostaFlya.Domain.Flier.Query;
 using PostaFlya.Models.Flier;

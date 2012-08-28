@@ -1,6 +1,6 @@
 using System;
 
-namespace WebSite.Application.Command
+namespace Website.Application.Command
 {
     [Serializable]
     public class DataBusRedirectToStorage

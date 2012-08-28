@@ -1,9 +1,9 @@
-using Website.Domain.Command;
+using Website.Infrastructure.Command;
 using Website.Domain.Tag;
 
 namespace Website.Domain.Browser.Command
 {
-    public class SavedTagsSaveCommand : DomainCommandBase
+    public class SavedTagsSaveCommand : DefaultCommandBase
     {
         public string BrowserId { get; set; }
         public Tags Tags { get; set; }

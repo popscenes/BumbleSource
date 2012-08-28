@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace WebSite.Application.WebsiteInformation
+namespace Website.Application.WebsiteInformation
 {
     public class WebsiteInfo
     {

@@ -1,7 +1,7 @@
 using System;
 using PostaFlya.Domain.Flier.Query;
-using WebSite.Infrastructure.Authentication;
-using WebSite.Infrastructure.Command;
+using Website.Infrastructure.Authentication;
+using Website.Infrastructure.Command;
 using Website.Application.Domain.Content;
 
 namespace PostaFlya.Application.Domain.ExternalSource

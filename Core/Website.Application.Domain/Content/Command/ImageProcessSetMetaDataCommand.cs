@@ -1,4 +1,4 @@
-using WebSite.Infrastructure.Command;
+using Website.Infrastructure.Command;
 using Website.Domain.Content.Command;
 
 namespace Website.Application.Domain.Content.Command

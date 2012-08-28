@@ -18,7 +18,7 @@ using System.Globalization;
 using System.Web;
 using System.Linq;
 
-namespace WebSite.Application.Authentication
+namespace Website.Application.Authentication
 {
     /// <summary>
     /// Represents a home realm discovery request

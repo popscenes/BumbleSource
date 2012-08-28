@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 
-namespace WebSite.Application.Extension.TypeConverter
+namespace Website.Application.Extension.TypeConverter
 {
     public class FromStringTypeConverter : System.ComponentModel.TypeConverter
     {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace WebSite.Azure.Common.Sql
+namespace Website.Azure.Common.Sql
 {
     public class PrimaryKey : Attribute { }
     public class NotNullable : Attribute { }

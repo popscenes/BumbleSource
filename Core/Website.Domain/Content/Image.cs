@@ -1,5 +1,5 @@
 using System;
-using WebSite.Infrastructure.Domain;
+using Website.Infrastructure.Domain;
 
 namespace Website.Domain.Content
 {

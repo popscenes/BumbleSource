@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using WebSite.Infrastructure.Command;
+using Website.Infrastructure.Command;
 
-namespace WebSite.Infrastructure.Domain
+namespace Website.Infrastructure.Domain
 {
     public static class MsgResponseEntityExtension
     {

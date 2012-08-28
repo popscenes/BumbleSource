@@ -1,5 +1,5 @@
 ﻿using System.Web.Optimization;
-using WebSite.Common.Extension;
+using Website.Common.Extension;
 
 namespace PostaFlya.Views.HeatMap
 {

@@ -9,10 +9,10 @@ using System.Threading.Tasks;
 using System.Xml.Linq;
 using Microsoft.WindowsAzure;
 using Microsoft.WindowsAzure.StorageClient;
-using WebSite.Azure.Common.DataServices;
-using WebSite.Azure.Common.Environment;
+using Website.Azure.Common.DataServices;
+using Website.Azure.Common.Environment;
 
-namespace WebSite.Azure.Common.TableStorage
+namespace Website.Azure.Common.TableStorage
 {
     public interface TableContextInterface
     {

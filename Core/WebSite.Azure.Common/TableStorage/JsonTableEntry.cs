@@ -2,7 +2,7 @@ using System;
 using Microsoft.WindowsAzure.StorageClient;
 using Newtonsoft.Json;
 
-namespace WebSite.Azure.Common.TableStorage
+namespace Website.Azure.Common.TableStorage
 {
     public class JsonTableEntry : TableServiceEntity, StorageTableEntryInterface
     {

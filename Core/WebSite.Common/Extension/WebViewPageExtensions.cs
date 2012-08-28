@@ -1,4 +1,4 @@
-﻿namespace WebSite.Common.Extension
+﻿namespace Website.Common.Extension
 {
     public static class WebViewPageExtensions
     {

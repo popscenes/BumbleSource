@@ -8,8 +8,8 @@
     <ProjectGuid>{B5C3A966-F286-4CB8-913B-C8625625451D}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>WebSite.Infrastructure</RootNamespace>
-    <AssemblyName>WebSite.Infrastructure</AssemblyName>
+    <RootNamespace>Website.Infrastructure</RootNamespace>
+    <AssemblyName>Website.Infrastructure</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <PublishUrl>publish\</PublishUrl>
@@ -151,6 +151,7 @@
     <Compile Include="Command\CommandHandlerInterface.cs" />
     <Compile Include="Command\CommandHandlerRespositoryInterface.cs" />
     <Compile Include="Command\CommandInterface.cs" />
+    <Compile Include="Command\DefaultCommandBase.cs" />
     <Compile Include="Command\DefaultCommandBus.cs" />
     <Compile Include="Command\DefaultCommandHandlerRepository.cs" />
     <Compile Include="Command\GenericRepositoryInterface.cs" />

@@ -12,12 +12,12 @@ using DotNetOpenAuth.OpenId.Provider;
 using DotNetOpenAuth.OpenId.RelyingParty;
 using MbUnit.Framework;
 using Ninject.MockingKernel.Moq;
-using WebSite.Application.Authentication;
-using WebSite.Test.Common;
+using Website.Application.Authentication;
+using Website.Test.Common;
 using IAuthenticationRequest = DotNetOpenAuth.OpenId.Provider.IAuthenticationRequest;
-using WebSite.Infrastructure.Authentication;
+using Website.Infrastructure.Authentication;
 
-namespace PostaFlya.WebSite.Tests.Authentication
+namespace PostaFlya.Website.Tests.Authentication
 {
 
     [TestFixture]

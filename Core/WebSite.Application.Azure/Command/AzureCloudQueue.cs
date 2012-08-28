@@ -6,10 +6,10 @@ using System.Text;
 using System.Threading;
 using Microsoft.WindowsAzure;
 using Microsoft.WindowsAzure.StorageClient;
-using WebSite.Application.Azure.Content;
-using WebSite.Application.Command;
+using Website.Application.Azure.Content;
+using Website.Application.Command;
 
-namespace WebSite.Application.Azure.Command
+namespace Website.Application.Azure.Command
 {
     public class AzureCloudQueue : QueueInterface
     {

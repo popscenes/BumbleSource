@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace WebSite.Azure.Common.TableStorage
+namespace Website.Azure.Common.TableStorage
 {
     public interface EntityUpdateNotificationInterface<in DomainEntityInterfaceType>
     {

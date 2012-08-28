@@ -1,6 +1,6 @@
 using System;
 
-namespace WebSite.Infrastructure.Domain
+namespace Website.Infrastructure.Domain
 {
     public class AggregateMemberEntityAttribute : Attribute
     {

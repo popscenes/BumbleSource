@@ -3,14 +3,14 @@ using MbUnit.Framework;
 using Ninject;
 using Ninject.MockingKernel.Moq;
 using PostaFlya.Domain.TaskJob;
-using WebSite.Application.Caching.Command;
+using Website.Application.Caching.Command;
 using PostaFlya.Application.Domain.Behaviour.TaskJob.Command;
 using PostaFlya.Application.Domain.Behaviour.TaskJob.Query;
 using PostaFlya.Domain.TaskJob.Command;
 using PostaFlya.Domain.TaskJob.Query;
 using PostaFlya.Mocks.Domain.Data;
 using PostaFlya.Mocks.Domain.Data.Behaviour;
-using TestUtil = WebSite.Test.Common.TestUtil;
+using TestUtil = Website.Test.Common.TestUtil;
 
 namespace PostaFlya.Application.Domain.Tests.Behaviour.TaskJob
 {

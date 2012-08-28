@@ -20,3 +20,9 @@ Scenario: View Flier Claims
 Given I have navigated to the public view page for a FLIER 
 And Someone has claimed a tear off for a FLIER
 Then I should see the claimed tear offs for the FLIER
+
+@TearOffNotification
+Scenario: Tear Off Claim Publishes Tear Off Notification
+Given I have navigated to the public view page for a FLIER
+When I claim a tear off for that FLIER 
+Then A Notification for that Tear Off should be published

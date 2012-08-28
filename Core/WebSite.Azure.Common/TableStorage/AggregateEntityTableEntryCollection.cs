@@ -3,10 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using WebSite.Infrastructure.Domain;
-using WebSite.Infrastructure.Util;
+using Website.Infrastructure.Domain;
+using Website.Infrastructure.Util;
 
-namespace WebSite.Azure.Common.TableStorage
+namespace Website.Azure.Common.TableStorage
 {
     public class AggregateEntityTableEntryCollection
     {

@@ -1,4 +1,4 @@
-namespace WebSite.Infrastructure.Command
+namespace Website.Infrastructure.Command
 {
     public interface CommandBusInterface
     {

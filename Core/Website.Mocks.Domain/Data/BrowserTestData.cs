@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using MbUnit.Framework;
 using Ninject;
 using Ninject.MockingKernel.Moq;
-using WebSite.Infrastructure.Command;
+using Website.Infrastructure.Command;
 using Website.Domain.Browser;
 using Website.Domain.Browser.Command;
 using Website.Domain.Browser.Query;
@@ -34,10 +34,10 @@ namespace Website.Mocks.Domain.Data
 
         public static BrowserInterface AssertGetById(BrowserInterface browser, BrowserQueryServiceInterface queryService)
         {
-            var retrievedFlier = queryService.FindById<Browser>(browser.Id);
-            AssertStoreRetrieve(browser, retrievedFlier);
+            var retrievedBrowser = queryService.FindById<Browser>(browser.Id);
+            AssertStoreRetrieve(browser, retrievedBrowser);
 
-            return retrievedFlier;
+            return retrievedBrowser;
         }
 
         public static BrowserInterface StoreOne(BrowserInterface browser, BrowserRepositoryInterface repository, StandardKernel kernel)

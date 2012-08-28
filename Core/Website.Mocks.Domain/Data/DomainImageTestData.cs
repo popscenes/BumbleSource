@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using MbUnit.Framework;
 using Ninject;
 using Ninject.MockingKernel.Moq;
-using WebSite.Infrastructure.Command;
+using Website.Infrastructure.Command;
 using Website.Domain.Browser;
 using Website.Domain.Content;
 using Website.Domain.Content.Command;

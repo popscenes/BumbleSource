@@ -98,9 +98,9 @@
       <Project>{C479A98A-EC5A-45EF-968A-2D81B406485F}</Project>
       <Name>Website.Domain</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Core\WebSite.Infrastructure\WebSite.Infrastructure.csproj">
+    <ProjectReference Include="..\..\Core\Website.Infrastructure\Website.Infrastructure.csproj">
       <Project>{B5C3A966-F286-4CB8-913B-C8625625451D}</Project>
-      <Name>WebSite.Infrastructure</Name>
+      <Name>Website.Infrastructure</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

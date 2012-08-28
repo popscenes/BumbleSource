@@ -15,9 +15,9 @@ using Ninject.Modules;
 using TechTalk.SpecFlow;
 using PostaFlya.Binding;
 using PostaFlya.Domain.Binding;
-using WebSite.Infrastructure.Authentication;
+using Website.Infrastructure.Authentication;
 using PostaFlya.Mocks.Domain.Data;
-using WebSite.Test.Common;
+using Website.Test.Common;
 using Website.Application.Domain.Browser;
 using Website.Domain.Browser;
 using Website.Domain.Browser.Query;
@@ -130,7 +130,7 @@ namespace PostaFlya.Specification.Util
                   {
                       new GlobalDefaultsNinjectModule(),
                       new DefaultsNinjectModule(),
-                      new WebSite.Infrastructure.Binding.InfrastructureNinjectBinding(),
+                      new Website.Infrastructure.Binding.InfrastructureNinjectBinding(),
                       new PostaFlya.Domain.Binding.DefaultServicesNinjectBinding(),
                       new Website.Domain.Binding.DefaultServicesNinjectBinding(),
                       new PostaFlya.Domain.Binding.CommandNinjectBinding(),

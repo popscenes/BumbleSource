@@ -127,11 +127,11 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\WebSite.Application.Domain\WebSite.Application.Domain.csproj">
+    <ProjectReference Include="..\Website.Application.Domain\Website.Application.Domain.csproj">
       <Project>{1510EA95-D2A1-47B5-8652-49895B97FC9F}</Project>
-      <Name>WebSite.Application.Domain</Name>
+      <Name>Website.Application.Domain</Name>
     </ProjectReference>
-    <ProjectReference Include="..\WebSite.Application\WebSite.Application.csproj">
+    <ProjectReference Include="..\Website.Application\WebSite.Application.csproj">
       <Project>{46DB8930-71D8-4DE4-BAA6-39944F07D6F5}</Project>
       <Name>WebSite.Application</Name>
     </ProjectReference>

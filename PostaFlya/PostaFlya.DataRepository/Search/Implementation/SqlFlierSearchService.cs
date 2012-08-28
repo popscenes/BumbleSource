@@ -4,11 +4,11 @@ using System.Data.SqlClient;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
-using WebSite.Azure.Common.Sql;
+using Website.Azure.Common.Sql;
 using PostaFlya.DataRepository.Binding;
 using PostaFlya.DataRepository.Search.Services;
 using PostaFlya.Domain.Flier;
-using WebSite.Infrastructure.Domain;
+using Website.Infrastructure.Domain;
 using Website.Domain.Location;
 using Website.Domain.Tag;
 

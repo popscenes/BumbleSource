@@ -1,8 +1,8 @@
-using Website.Domain.Command;
+using Website.Infrastructure.Command;
 
 namespace Website.Domain.Browser.Command
 {
-    public class AddBrowserCommand : DomainCommandBase
+    public class AddBrowserCommand : DefaultCommandBase
     {
         public Browser Browser { get; set; }
     }

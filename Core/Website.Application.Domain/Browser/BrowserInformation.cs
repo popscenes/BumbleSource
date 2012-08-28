@@ -1,6 +1,6 @@
 using System;
 using System.Web;
-using WebSite.Infrastructure.Authentication;
+using Website.Infrastructure.Authentication;
 using Website.Domain.Browser;
 using Website.Domain.Browser.Query;
 

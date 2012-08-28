@@ -1,6 +1,6 @@
 using DotNetOpenAuth.OpenId.RelyingParty;
 
-namespace WebSite.Infrastructure.Authentication
+namespace Website.Infrastructure.Authentication
 {
     public interface IdentityProviderInterface
     {

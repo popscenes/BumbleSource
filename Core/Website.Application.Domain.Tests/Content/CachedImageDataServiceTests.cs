@@ -6,7 +6,7 @@ using System.Runtime.Caching;
 using MbUnit.Framework;
 using Ninject;
 using Ninject.MockingKernel.Moq;
-using WebSite.Test.Common;
+using Website.Test.Common;
 using Website.Application.Domain.Content.Command;
 using Website.Application.Domain.Content.Query;
 using Website.Domain.Content;

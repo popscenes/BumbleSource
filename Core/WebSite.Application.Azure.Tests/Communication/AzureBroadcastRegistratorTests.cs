@@ -7,12 +7,12 @@ using MbUnit.Framework;
 using MbUnit.Framework.ContractVerifiers;
 using Microsoft.WindowsAzure.StorageClient;
 using Ninject;
-using WebSite.Application.Azure.Communication;
-using WebSite.Application.Communication;
-using WebSite.Azure.Common.TableStorage;
-using WebSite.Infrastructure.Domain;
+using Website.Infrastructure.Domain;
+using Website.Application.Azure.Communication;
+using Website.Application.Communication;
+using Website.Azure.Common.TableStorage;
 
-namespace WebSite.Application.Azure.Tests.Communication
+namespace Website.Application.Azure.Tests.Communication
 {
     [TestFixture]
     public class AzureBroadcastRegistratorTests

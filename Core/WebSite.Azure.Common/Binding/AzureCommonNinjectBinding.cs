@@ -9,10 +9,10 @@ using Microsoft.WindowsAzure.ServiceRuntime;
 using Microsoft.WindowsAzure.StorageClient;
 using Ninject;
 using Ninject.Modules;
-using WebSite.Azure.Common.Environment;
-using WebSite.Azure.Common.TableStorage;
+using Website.Azure.Common.Environment;
+using Website.Azure.Common.TableStorage;
 
-namespace WebSite.Azure.Common.Binding
+namespace Website.Azure.Common.Binding
 {
     public class AzureCommonNinjectBinding : NinjectModule
     {

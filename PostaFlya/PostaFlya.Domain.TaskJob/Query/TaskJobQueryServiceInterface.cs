@@ -1,5 +1,5 @@
 using System.Linq;
-using WebSite.Infrastructure.Query;
+using Website.Infrastructure.Query;
 
 namespace PostaFlya.Domain.TaskJob.Query
 {

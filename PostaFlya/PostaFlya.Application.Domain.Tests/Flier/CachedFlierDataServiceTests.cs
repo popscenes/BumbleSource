@@ -9,17 +9,17 @@ using MbUnit.Framework;
 using MbUnit.Framework.ContractVerifiers;
 using Ninject;
 using Ninject.MockingKernel.Moq;
-using WebSite.Application.Caching.Command;
+using Website.Application.Caching.Command;
 using PostaFlya.Application.Domain.Flier.Command;
 using PostaFlya.Application.Domain.Flier.Query;
 using PostaFlya.Domain.Flier;
 using PostaFlya.Domain.Flier.Command;
 using PostaFlya.Domain.Flier.Query;
-using WebSite.Infrastructure.Command;
+using Website.Infrastructure.Command;
 using PostaFlya.Mocks.Domain.Data;
 using Website.Domain.Claims;
 using Website.Domain.Comments;
-using TestUtil = WebSite.Test.Common.TestUtil;
+using TestUtil = Website.Test.Common.TestUtil;
 
 namespace PostaFlya.Application.Domain.Tests.Flier
 {

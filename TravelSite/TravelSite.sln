@@ -3,23 +3,23 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{98B3741C-640C-4EB4-92B8-FE69E1D2029D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebSite.Application", "..\Core\WebSite.Application\WebSite.Application.csproj", "{46DB8930-71D8-4DE4-BAA6-39944F07D6F5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Website.Application", "..\Core\Website.Application\Website.Application.csproj", "{46DB8930-71D8-4DE4-BAA6-39944F07D6F5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebSite.Application.Azure", "..\Core\WebSite.Application.Azure\WebSite.Application.Azure.csproj", "{3BFDED0A-130F-4CEC-ABFC-51E6AA72F5C2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Website.Application.Azure", "..\Core\Website.Application.Azure\Website.Application.Azure.csproj", "{3BFDED0A-130F-4CEC-ABFC-51E6AA72F5C2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebSite.Application.Azure.Tests", "..\Core\WebSite.Application.Azure.Tests\WebSite.Application.Azure.Tests.csproj", "{5B38D82E-45BE-4EAA-933E-06CB95EF9CCE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Website.Application.Azure.Tests", "..\Core\Website.Application.Azure.Tests\Website.Application.Azure.Tests.csproj", "{5B38D82E-45BE-4EAA-933E-06CB95EF9CCE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebSite.Application.Tests", "..\Core\WebSite.Application.Tests\WebSite.Application.Tests.csproj", "{303D2A12-79EC-464A-88E6-25B98A64E5ED}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Website.Application.Tests", "..\Core\Website.Application.Tests\Website.Application.Tests.csproj", "{303D2A12-79EC-464A-88E6-25B98A64E5ED}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebSite.Azure.Common", "..\Core\WebSite.Azure.Common\WebSite.Azure.Common.csproj", "{63418161-2D30-4BC6-B1C1-015CDA302B08}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Website.Azure.Common", "..\Core\Website.Azure.Common\Website.Azure.Common.csproj", "{63418161-2D30-4BC6-B1C1-015CDA302B08}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebSite.Azure.Common.Tests", "..\Core\WebSite.Azure.Common.Tests\WebSite.Azure.Common.Tests.csproj", "{73A9F7E1-D454-45FB-A9CA-29E1FD7F0AEC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Website.Azure.Common.Tests", "..\Core\Website.Azure.Common.Tests\Website.Azure.Common.Tests.csproj", "{73A9F7E1-D454-45FB-A9CA-29E1FD7F0AEC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebSite.Common", "..\Core\WebSite.Common\WebSite.Common.csproj", "{B8DA4F3A-23FF-46AA-A9E4-A22EAC11CA3A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Website.Common", "..\Core\Website.Common\Website.Common.csproj", "{B8DA4F3A-23FF-46AA-A9E4-A22EAC11CA3A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebSite.Infrastructure", "..\Core\WebSite.Infrastructure\WebSite.Infrastructure.csproj", "{B5C3A966-F286-4CB8-913B-C8625625451D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Website.Infrastructure", "..\Core\Website.Infrastructure\Website.Infrastructure.csproj", "{B5C3A966-F286-4CB8-913B-C8625625451D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebSite.Test.Common", "..\Core\WebSite.Test.Common\WebSite.Test.Common.csproj", "{DC7CC356-EE06-49C0-9985-9D0101AAF45F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Website.Test.Common", "..\Core\Website.Test.Common\Website.Test.Common.csproj", "{DC7CC356-EE06-49C0-9985-9D0101AAF45F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{3F05B603-9C28-42D4-94E2-1912DAC6EF87}"
 EndProject

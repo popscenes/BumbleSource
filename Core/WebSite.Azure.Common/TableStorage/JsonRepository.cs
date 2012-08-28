@@ -1,7 +1,7 @@
 using System;
-using WebSite.Infrastructure.Domain;
+using Website.Infrastructure.Domain;
 
-namespace WebSite.Azure.Common.TableStorage
+namespace Website.Azure.Common.TableStorage
 {
     public class JsonRepository
         : RepositoryBase<JsonTableEntry>

@@ -3,10 +3,10 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using WebSite.Application.Command;
-using WebSite.Infrastructure.Command;
+using Website.Application.Command;
+using Website.Infrastructure.Command;
 
-namespace WebSite.Application.Communication
+namespace Website.Application.Communication
 {
     public class DefaultBroadcastCommunicator : BroadcastCommunicatorInterface
     {

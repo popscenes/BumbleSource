@@ -1,7 +1,7 @@
 using System.Runtime.Caching;
-using WebSite.Application.Caching.Query;
-using WebSite.Infrastructure.Authentication;
-using WebSite.Infrastructure.Binding;
+using Website.Application.Caching.Query;
+using Website.Infrastructure.Authentication;
+using Website.Infrastructure.Binding;
 using Website.Domain.Browser;
 using Website.Domain.Browser.Query;
 

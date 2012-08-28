@@ -8,8 +8,8 @@
     <ProjectGuid>{B8DA4F3A-23FF-46AA-A9E4-A22EAC11CA3A}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>WebSite.Common</RootNamespace>
-    <AssemblyName>WebSite.Common</AssemblyName>
+    <RootNamespace>Website.Common</RootNamespace>
+    <AssemblyName>Website.Common</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <PublishUrl>publish\</PublishUrl>
@@ -130,9 +130,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\WebSite.Infrastructure\WebSite.Infrastructure.csproj">
+    <ProjectReference Include="..\Website.Infrastructure\Website.Infrastructure.csproj">
       <Project>{B5C3A966-F286-4CB8-913B-C8625625451D}</Project>
-      <Name>WebSite.Infrastructure</Name>
+      <Name>Website.Infrastructure</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

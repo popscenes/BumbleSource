@@ -666,9 +666,9 @@
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Core\WebSite.Application.Azure\WebSite.Application.Azure.csproj">
+    <ProjectReference Include="..\..\Core\Website.Application.Azure\Website.Application.Azure.csproj">
       <Project>{3BFDED0A-130F-4CEC-ABFC-51E6AA72F5C2}</Project>
-      <Name>WebSite.Application.Azure</Name>
+      <Name>Website.Application.Azure</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Core\Website.Application.Domain\Website.Application.Domain.csproj">
       <Project>{33669E4A-6C9B-4DC2-AE89-29286141658C}</Project>
@@ -682,21 +682,21 @@
       <Project>{1510EA95-D2A1-47B5-8652-49895B97FC9F}</Project>
       <Name>PostaFlya.Application.Domain</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Core\WebSite.Application\WebSite.Application.csproj">
+    <ProjectReference Include="..\..\Core\Website.Application\Website.Application.csproj">
       <Project>{46DB8930-71D8-4DE4-BAA6-39944F07D6F5}</Project>
-      <Name>WebSite.Application</Name>
+      <Name>Website.Application</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Core\WebSite.Azure.Common\WebSite.Azure.Common.csproj">
+    <ProjectReference Include="..\..\Core\Website.Azure.Common\Website.Azure.Common.csproj">
       <Project>{63418161-2D30-4BC6-B1C1-015CDA302B08}</Project>
-      <Name>WebSite.Azure.Common</Name>
+      <Name>Website.Azure.Common</Name>
     </ProjectReference>
     <ProjectReference Include="..\PostaFlya.CommandWorker\PostaFlya.CommandWorker.csproj">
       <Project>{A75E5417-69A4-4627-97E5-6897DA3D58F7}</Project>
       <Name>PostaFlya.CommandWorker</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Core\WebSite.Common\WebSite.Common.csproj">
+    <ProjectReference Include="..\..\Core\Website.Common\Website.Common.csproj">
       <Project>{B8DA4F3A-23FF-46AA-A9E4-A22EAC11CA3A}</Project>
-      <Name>WebSite.Common</Name>
+      <Name>Website.Common</Name>
     </ProjectReference>
     <ProjectReference Include="..\PostaFlya.DataRepository\PostaFlya.DataRepository.csproj">
       <Project>{787DCEAB-23A8-476E-859F-5CD98F9ABDDC}</Project>
@@ -710,9 +710,9 @@
       <Project>{77BD3622-4D65-4776-AC5A-4F779CC526ED}</Project>
       <Name>PostaFlya.Domain</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Core\WebSite.Infrastructure\WebSite.Infrastructure.csproj">
+    <ProjectReference Include="..\..\Core\Website.Infrastructure\Website.Infrastructure.csproj">
       <Project>{B5C3A966-F286-4CB8-913B-C8625625451D}</Project>
-      <Name>WebSite.Infrastructure</Name>
+      <Name>Website.Infrastructure</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

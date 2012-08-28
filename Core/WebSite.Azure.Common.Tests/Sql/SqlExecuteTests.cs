@@ -7,9 +7,9 @@ using System.Text;
 using System.Xml.Linq;
 using MbUnit.Framework;
 using Microsoft.SqlServer.Types;
-using WebSite.Azure.Common.Sql;
+using Website.Azure.Common.Sql;
 
-namespace WebSite.Azure.Common.Tests.Sql
+namespace Website.Azure.Common.Tests.Sql
 {
     [TestFixture]
     public class SqlExecuteTests

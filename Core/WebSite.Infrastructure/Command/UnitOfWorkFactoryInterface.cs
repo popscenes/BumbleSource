@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
-namespace WebSite.Infrastructure.Command
+namespace Website.Infrastructure.Command
 {
     public interface UnitOfWorkFactoryInterface
     {

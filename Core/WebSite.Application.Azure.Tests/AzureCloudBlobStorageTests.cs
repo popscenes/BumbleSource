@@ -8,16 +8,16 @@ using MbUnit.Framework;
 using MbUnit.Framework.ContractVerifiers;
 using Microsoft.WindowsAzure.StorageClient;
 using Ninject;
-using WebSite.Application.Azure.Binding;
-using WebSite.Application.Azure.Content;
-using WebSite.Application.Binding;
-using WebSite.Application.Command;
-using WebSite.Application.Content;
-using WebSite.Azure.Common.Environment;
-using WebSite.Infrastructure.Command;
-using BlobProperties = WebSite.Application.Content.BlobProperties;
+using Website.Application.Azure.Binding;
+using Website.Application.Azure.Content;
+using Website.Application.Binding;
+using Website.Application.Command;
+using Website.Application.Content;
+using Website.Azure.Common.Environment;
+using Website.Infrastructure.Command;
+using BlobProperties = Website.Application.Content.BlobProperties;
 
-namespace WebSite.Application.Azure.Tests
+namespace Website.Application.Azure.Tests
 {
 
     [TestFixture]
@@ -166,7 +166,7 @@ namespace WebSite.Application.Azure.Tests
             var data = new byte[300];
             data[0] = 0; data[1] = 1; data[2] = 2;
 
-            var blobProperties = new BlobProperties()
+            var blobProperties = new Application.Content.BlobProperties()
                                      {
                                          ContentTyp = "image/jpeg",
                                          MetaData = new NameValueCollection(){{"test", "value"}}
@@ -182,7 +182,7 @@ namespace WebSite.Application.Azure.Tests
             data[0] = 0; data[1] = 1; data[2] = 2;
             var id = StoreABlob(data);
 
-            var blobProperties = new BlobProperties()
+            var blobProperties = new Application.Content.BlobProperties()
             {
                 ContentTyp = "image/jpeg",
                 MetaData = new NameValueCollection() { { "test", "value" } }
@@ -254,7 +254,7 @@ namespace WebSite.Application.Azure.Tests
 
         private void AssertGetProperties(string id)
         {
-            var blobProperties = new BlobProperties()
+            var blobProperties = new Application.Content.BlobProperties()
             {
                 ContentTyp = "image/jpeg",
                 MetaData = new NameValueCollection() { { "test", "value" } }
@@ -265,7 +265,7 @@ namespace WebSite.Application.Azure.Tests
             Assert.AreEqual(blobProperties.MetaData["test"], ret.MetaData["test"]);
         }
 
-        private string StoreABlob(byte[] data, BlobProperties properties = null)
+        private string StoreABlob(byte[] data, Application.Content.BlobProperties properties = null)
         {
             var commandQueueStorageConatiner = Kernel.Get<BlobStorageInterface>();
             Assert.IsInstanceOfType<AzureCloudBlobStorage>(commandQueueStorageConatiner);

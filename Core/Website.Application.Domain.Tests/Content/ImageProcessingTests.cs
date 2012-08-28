@@ -7,9 +7,9 @@ using MbUnit.Framework;
 using Moq;
 using Ninject;
 using Ninject.MockingKernel.Moq;
-using WebSite.Application.Content;
-using WebSite.Infrastructure.Command;
-using WebSite.Test.Common;
+using Website.Application.Content;
+using Website.Infrastructure.Command;
+using Website.Test.Common;
 using Website.Application.Domain.Content;
 using Website.Application.Domain.Content.Command;
 using Website.Domain.Content;
@@ -35,33 +35,6 @@ namespace Website.Application.Domain.Tests.Content
             kernel.Bind<CommandHandlerInterface<ImageProcessCommand>>().To<ImageProcessCommandHandler>();
             kernel.Bind<CommandHandlerInterface<ImageProcessSetMetaDataCommand>>().To<ImageProcessSetMetaDataCommandHandler>();
             HttpContextMock.FakeHttpContext(kernel);
-//            var repo = new Dictionary<string, ImageInterface>();
-//
-//            var imageRepository = kernel.GetMock<ImageRepositoryInterface>();
-//            imageRepository.Setup(r => r.Store(It.IsAny<ImageInterface>()))
-//                .Returns<ImageInterface>(i =>
-//                {
-//                    var imgStore = new WebSite.Domain.Content.Image();
-//                    imgStore.CopyFieldsFrom(i);
-//                    repo.Remove(i.Id);
-//                    repo.Add(i.Id, imgStore);
-//                    return true;
-//                });
-//            imageRepository.Setup(r => r.GetEntityForUpdate(It.IsAny<string>()))
-//                .Returns<string>(s => repo.ContainsKey(s) ? repo[s] : null);
-//
-//            kernel.Bind<ImageRepositoryInterface>().ToConstant(imageRepository.Object);
-//
-//            //query service
-//            var imageQueryService = kernel.MockRepository.Create<ImageQueryServiceInterface>();
-//            var queryServiceBase = imageQueryService.As<QueryServiceInterface>();
-//
-//            imageQueryService.Setup(r => r.FindById(It.IsAny<string>()))
-//                .Returns<string>(s => repo.ContainsKey(s) ? repo[s] : null);
-//            queryServiceBase.Setup(r => r.FindById(It.IsAny<string>()))
-//                .Returns<string>(s => repo.ContainsKey(s) ? repo[s] : null);
-//
-//            kernel.Bind<ImageQueryServiceInterface>().ToConstant(imageQueryService.Object);
         }
 
         [FixtureSetUp]
@@ -88,7 +61,7 @@ namespace Website.Application.Domain.Tests.Content
         //for use with other tests that just need one image
         public static void AssertWithTestImage(MoqMockingKernel kernel, Action<Guid, Dictionary<string, byte[]>> assertions)
         {
-            System.Drawing.Bitmap bitmap = WebSite.Application.Tests.Properties.Resources.TestLongImage;
+            System.Drawing.Bitmap bitmap = Website.Application.Tests.Properties.Resources.TestLongImage;
             AssertImage(kernel, bitmap, assertions);
         }
 
@@ -96,14 +69,14 @@ namespace Website.Application.Domain.Tests.Content
         [Test]
         public void ProcessImageCommandHandlerShouldLimitWidthOfImage()
         {
-            System.Drawing.Bitmap bitmap = WebSite.Application.Tests.Properties.Resources.TestWideImage;
+            System.Drawing.Bitmap bitmap = Website.Application.Tests.Properties.Resources.TestWideImage;
             AssertImage(bitmap, TestImageProcessedIsSmallerThanMax);
         }
 
         [Test]
         public void ProcessImageCommandHandlerShouldLimitHeightOfImage()
         {
-            System.Drawing.Bitmap bitmap = WebSite.Application.Tests.Properties.Resources.TestLongImage;
+            System.Drawing.Bitmap bitmap = Website.Application.Tests.Properties.Resources.TestLongImage;
             AssertImage(bitmap, TestImageProcessedIsSmallerThanMax);
 
         }
@@ -156,7 +129,7 @@ namespace Website.Application.Domain.Tests.Content
             Assert.AreEqual(ImageStatus.Processing, imageInterface.Status);
 
             //test the state is ready
-            Assert.AreEqual(ImageStatus.Ready, ResolutionExtensions.Get<ImageQueryServiceInterface>(kernel).FindById<Website.Domain.Content.Image>(imageInterface.Id).Status);
+            Assert.AreEqual(ImageStatus.Ready, kernel.Get<ImageQueryServiceInterface>().FindById<Website.Domain.Content.Image>(imageInterface.Id).Status);
 
             assertions(new Guid(imageInterface.Id), storage);
 
@@ -177,14 +150,14 @@ namespace Website.Application.Domain.Tests.Content
         [Test]
         public void ProcessImageCommandHandlerShouldLimitWidthAspectRatio()
         {
-            System.Drawing.Bitmap bitmap = WebSite.Application.Tests.Properties.Resources.TestWideWideImage;
+            System.Drawing.Bitmap bitmap = Website.Application.Tests.Properties.Resources.TestWideWideImage;
             AssertImage(bitmap, TestImageWidthAspectRatioIsLessThanMaxAspectRatio);
         }
 
         [Test]
         public void ProcessImageCommandHandlerShouldLimitHeightAspectRatio()
         {
-            System.Drawing.Bitmap bitmap = WebSite.Application.Tests.Properties.Resources.TestLongLongImage;
+            System.Drawing.Bitmap bitmap = Website.Application.Tests.Properties.Resources.TestLongLongImage;
             AssertImage(bitmap, TestImageHeightAspectRatioIsLessThanMaxAspectRatio);
         }
 
@@ -214,13 +187,13 @@ namespace Website.Application.Domain.Tests.Content
         [Test]
         public void ProcessImageCommandHandlerShouldCreateTwoThumbsByWidth()
         {
-            System.Drawing.Bitmap bitmap = WebSite.Application.Tests.Properties.Resources.TestWideImage;
+            System.Drawing.Bitmap bitmap = Website.Application.Tests.Properties.Resources.TestWideImage;
             AssertImage(bitmap, TestForThumbnailsOfWidth);
-            bitmap = WebSite.Application.Tests.Properties.Resources.TestLongImage;
+            bitmap = Website.Application.Tests.Properties.Resources.TestLongImage;
             AssertImage(bitmap, TestForThumbnailsOfWidth);
-            bitmap = WebSite.Application.Tests.Properties.Resources.TestWideWideImage;
+            bitmap = Website.Application.Tests.Properties.Resources.TestWideWideImage;
             AssertImage(bitmap, TestForThumbnailsOfWidth);
-            bitmap = WebSite.Application.Tests.Properties.Resources.TestLongLongImage;
+            bitmap = Website.Application.Tests.Properties.Resources.TestLongLongImage;
             AssertImage(bitmap, TestForThumbnailsOfWidth);
         }
 
@@ -245,13 +218,13 @@ namespace Website.Application.Domain.Tests.Content
         [Test]
         public void ProcessImageCommandHandlerShouldCreateTwoThumbsByLength()
         {
-            System.Drawing.Bitmap bitmap = WebSite.Application.Tests.Properties.Resources.TestWideImage;
+            System.Drawing.Bitmap bitmap = Website.Application.Tests.Properties.Resources.TestWideImage;
             AssertImage(bitmap, TestForThumbnailsOfHeight);
-            bitmap = WebSite.Application.Tests.Properties.Resources.TestLongImage;
+            bitmap = Website.Application.Tests.Properties.Resources.TestLongImage;
             AssertImage(bitmap, TestForThumbnailsOfHeight);
-            bitmap = WebSite.Application.Tests.Properties.Resources.TestWideWideImage;
+            bitmap = Website.Application.Tests.Properties.Resources.TestWideWideImage;
             AssertImage(bitmap, TestForThumbnailsOfHeight);
-            bitmap = WebSite.Application.Tests.Properties.Resources.TestLongLongImage;
+            bitmap = Website.Application.Tests.Properties.Resources.TestLongLongImage;
             AssertImage(bitmap, TestForThumbnailsOfHeight);
         }
 
@@ -276,13 +249,13 @@ namespace Website.Application.Domain.Tests.Content
         [Test]
         public void ProcessImageCommandHandlerShouldCreateTwoThumbsBySource()
         {
-            System.Drawing.Bitmap bitmap = WebSite.Application.Tests.Properties.Resources.TestWideImage;
+            System.Drawing.Bitmap bitmap = Website.Application.Tests.Properties.Resources.TestWideImage;
             AssertImage(bitmap, TestForTwoThumbnailsOffSource);
-            bitmap = WebSite.Application.Tests.Properties.Resources.TestLongImage;
+            bitmap = Website.Application.Tests.Properties.Resources.TestLongImage;
             AssertImage(bitmap, TestForTwoThumbnailsOffSource);
-            bitmap = WebSite.Application.Tests.Properties.Resources.TestWideWideImage;
+            bitmap = Website.Application.Tests.Properties.Resources.TestWideWideImage;
             AssertImage(bitmap, TestForTwoThumbnailsOffSource);
-            bitmap = WebSite.Application.Tests.Properties.Resources.TestLongLongImage;
+            bitmap = Website.Application.Tests.Properties.Resources.TestLongLongImage;
             AssertImage(bitmap, TestForTwoThumbnailsOffSource);
 
         }

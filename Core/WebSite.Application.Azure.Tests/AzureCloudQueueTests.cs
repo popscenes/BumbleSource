@@ -6,13 +6,13 @@ using MbUnit.Framework;
 using MbUnit.Framework.ContractVerifiers;
 using Microsoft.WindowsAzure.StorageClient;
 using Ninject;
-using WebSite.Application.Azure.Command;
-using WebSite.Application.Azure.Content;
-using WebSite.Application.Command;
-using WebSite.Application.Content;
-using WebSite.Infrastructure.Command;
+using Website.Application.Azure.Content;
+using Website.Infrastructure.Command;
+using Website.Application.Azure.Command;
+using Website.Application.Command;
+using Website.Application.Content;
 
-namespace WebSite.Application.Azure.Tests
+namespace Website.Application.Azure.Tests
 {
     [TestFixture]
     public class AzureCloudQueueTests

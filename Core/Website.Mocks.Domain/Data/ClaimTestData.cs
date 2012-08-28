@@ -2,9 +2,9 @@ using System;
 using System.Collections.Generic;
 using MbUnit.Framework;
 using Ninject;
-using WebSite.Infrastructure.Command;
-using WebSite.Infrastructure.Domain;
-using WebSite.Infrastructure.Query;
+using Website.Infrastructure.Command;
+using Website.Infrastructure.Domain;
+using Website.Infrastructure.Query;
 using Website.Domain.Claims;
 
 namespace Website.Mocks.Domain.Data

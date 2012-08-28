@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using WebSite.Infrastructure.Authentication;
+using Website.Infrastructure.Authentication;
 
-namespace WebSite.Application.Authentication
+namespace Website.Application.Authentication
 {
     public class AzureIdentityProviderService : IdentityProviderServiceInterface
     {

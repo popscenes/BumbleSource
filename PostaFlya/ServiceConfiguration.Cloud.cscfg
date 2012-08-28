@@ -21,7 +21,7 @@
       <Certificate name="Microsoft.WindowsAzure.Plugins.RemoteAccess.PasswordEncryption" thumbprint="B5EB70801A6D0B9319FDE06E891D90737F129018" thumbprintAlgorithm="sha1" />
     </Certificates>
   </Role>
-  <!--<Role name="WebSite.CommandWorker">
+  <!--<Role name="Website.CommandWorker">
     <Instances count="1" />
     <ConfigurationSettings>
       <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" value="DefaultEndpointsProtocol=https;AccountName=bumblediagnostic;AccountKey=G883vF3xY4B7ugnNJX/xWti91XdzCgurfupX+v9Ilvw4Vyzw1UbSR3uizth78A7xhNm5n/xFUkPgWyqiEf++kg==" />

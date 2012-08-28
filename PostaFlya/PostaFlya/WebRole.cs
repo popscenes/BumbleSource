@@ -8,7 +8,7 @@ using Microsoft.WindowsAzure.Diagnostics;
 using Microsoft.WindowsAzure.ServiceRuntime;
 using Ninject;
 using PostaFlya.App_Start;
-using WebSite.Application.Command;
+using Website.Application.Command;
 using PostaFlya.CommandWorker;
 using Microsoft.WindowsAzure.Diagnostics;
 

@@ -1,9 +1,9 @@
-using WebSite.Infrastructure.Domain;
-using Website.Domain.Command;
+using Website.Infrastructure.Command;
+using Website.Infrastructure.Domain;
 
 namespace Website.Domain.Comments.Command
 {
-    public class CreateCommentCommand : DomainCommandBase
+    public class CreateCommentCommand : DefaultCommandBase
     {
         public string BrowserId { get; set; }
         public string Comment { get; set; }

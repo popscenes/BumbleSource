@@ -1,5 +1,5 @@
 using PostaFlya.Models.Location;
-using WebSite.Application.Content;
+using Website.Application.Content;
 using Website.Application.Domain.Content;
 
 namespace PostaFlya.Models.Content

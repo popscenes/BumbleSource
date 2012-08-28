@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using WebSite.Application.Caching.Query;
 using System.Runtime.Caching;
-using WebSite.Infrastructure.Binding;
+using Website.Application.Caching.Query;
+using Website.Infrastructure.Binding;
 
-namespace WebSite.Application.WebsiteInformation
+namespace Website.Application.WebsiteInformation
 {
     public class CachedWebsiteInfoService : TimedExpiryCachedQueryService
                                            , WebsiteInfoServiceInterface

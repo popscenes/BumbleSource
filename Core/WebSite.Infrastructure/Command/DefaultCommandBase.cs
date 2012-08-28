@@ -1,12 +1,11 @@
 using System;
-using WebSite.Infrastructure.Command;
 
-namespace Website.Domain.Command
+namespace Website.Infrastructure.Command
 {
     [Serializable]
-    public abstract class DomainCommandBase : CommandInterface
+    public abstract class DefaultCommandBase : CommandInterface
     {
-        protected DomainCommandBase()
+        protected DefaultCommandBase()
         {
             CommandId = Guid.NewGuid().ToString();
         }

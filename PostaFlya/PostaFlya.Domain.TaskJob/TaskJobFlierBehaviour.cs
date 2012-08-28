@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using PostaFlya.Domain.Behaviour;
 using PostaFlya.Domain.Flier;
-using WebSite.Infrastructure.Domain;
-using WebSite.Infrastructure.Util.Extension;
+using Website.Infrastructure.Domain;
+using Website.Infrastructure.Util.Extension;
 using Website.Domain.Location;
 
 namespace PostaFlya.Domain.TaskJob

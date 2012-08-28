@@ -1,7 +1,7 @@
 using System;
 using System.Linq;
 using System.Runtime.Caching;
-using WebSite.Application.Caching.Query;
+using Website.Application.Caching.Query;
 using Website.Domain.Browser;
 using Website.Domain.Browser.Query;
 

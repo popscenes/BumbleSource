@@ -8,13 +8,13 @@ using MbUnit.Framework.ContractVerifiers;
 using Microsoft.WindowsAzure.StorageClient;
 using Ninject;
 using Ninject.MockingKernel.Moq;
-using WebSite.Azure.Common.Environment;
-using WebSite.Azure.Common.TableStorage;
+using Website.Azure.Common.Environment;
+using Website.Azure.Common.TableStorage;
 using PostaFlya.DataRepository.Internal;
 using PostaFlya.Mocks.Domain.Data;
-using WebSite.Infrastructure.Command;
-using WebSite.Infrastructure.Query;
-using WebSite.Test.Common;
+using Website.Infrastructure.Command;
+using Website.Infrastructure.Query;
+using Website.Test.Common;
 using Website.Domain.Claims;
 using Website.Mocks.Domain.Data;
 

@@ -7,7 +7,7 @@ using Ninject.MockingKernel.Moq;
 using Ninject.Modules;
 using PostaFlya.Application.Domain.ExternalSource;
 using PostaFlya.Domain.Flier;
-using WebSite.Infrastructure.Authentication;
+using Website.Infrastructure.Authentication;
 using Website.Domain.Browser;
 
 namespace PostaFlya.Mocks.Domain.Data

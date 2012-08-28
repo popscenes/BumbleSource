@@ -1,6 +1,6 @@
 using System.Diagnostics;
 
-namespace WebSite.Infrastructure.Command
+namespace Website.Infrastructure.Command
 {
     public class DefaultCommandBus : CommandBusInterface
     {

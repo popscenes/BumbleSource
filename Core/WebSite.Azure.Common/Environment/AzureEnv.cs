@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.WindowsAzure.ServiceRuntime;
 
-namespace WebSite.Azure.Common.Environment
+namespace Website.Azure.Common.Environment
 {
     public static class AzureEnv
     {

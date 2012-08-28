@@ -1,7 +1,7 @@
 using System;
 using System.Security.Principal;
 
-namespace WebSite.Infrastructure.Authentication
+namespace Website.Infrastructure.Authentication
 {
     public interface WebPrincipalInterface : IPrincipal
     {

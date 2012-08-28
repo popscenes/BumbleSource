@@ -4,14 +4,14 @@ using Ninject.MockingKernel.Moq;
 using Ninject.Modules;
 using Website.Domain.Binding;
 using PostaFlya.Mocks.Domain.Data;
-using WebSite.Test.Common;
-using WebSite.Infrastructure.Binding;
+using Website.Test.Common;
+using Website.Infrastructure.Binding;
 using Website.Mocks.Domain.Defaults;
 
 //using PostaFlya.Mocks.Domain.Data;
 //using PostaFlya.Mocks.Domain.Defaults;
 
-namespace PostaFlya.WebSite.Tests
+namespace PostaFlya.Website.Tests
 {
     [AssemblyFixture]
     class TestFixtureSetup
@@ -49,9 +49,9 @@ namespace PostaFlya.WebSite.Tests
                     new GlobalDefaultsNinjectModule(),
                     new DefaultServicesNinjectBinding(),
                     new InfrastructureNinjectBinding(),
-                    new Website.Domain.Binding.CommandNinjectBinding(),
+                    new CommandNinjectBinding(),
                     new TestRepositoriesNinjectModule(),
-                    new Website.Mocks.Domain.Data.TestRepositoriesNinjectModule()
+                    new global::Website.Mocks.Domain.Data.TestRepositoriesNinjectModule()
                   };
     }
 }

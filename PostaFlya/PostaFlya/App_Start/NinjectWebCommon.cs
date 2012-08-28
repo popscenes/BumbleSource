@@ -1,6 +1,6 @@
 using System.Diagnostics;
 using System.Web.Http;
-using WebSite.Azure.Common.Environment;
+using Website.Azure.Common.Environment;
 using PostaFlya.Binding;
 
 [assembly: WebActivator.PreApplicationStartMethod(typeof(PostaFlya.App_Start.NinjectWebCommon), "Start")]

@@ -4,9 +4,9 @@ using System.Data.Services.Client;
 using System.Diagnostics;
 using System.Net;
 using System.Threading;
-using WebSite.Azure.Common.TableStorage;
+using Website.Azure.Common.TableStorage;
 
-namespace WebSite.Azure.Common.DataServices
+namespace Website.Azure.Common.DataServices
 {
     public static class DataServicesQueryHelper
     {

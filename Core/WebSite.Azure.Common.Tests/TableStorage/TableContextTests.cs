@@ -10,12 +10,12 @@ using MbUnit.Framework.ContractVerifiers;
 using Moq;
 using Ninject;
 using Ninject.MockingKernel.Moq;
-using WebSite.Azure.Common.Environment;
-using WebSite.Azure.Common.TableStorage;
-using WebSite.Infrastructure.Domain;
-using WebSite.Test.Common;
+using Website.Infrastructure.Domain;
+using Website.Azure.Common.Environment;
+using Website.Azure.Common.TableStorage;
+using Website.Test.Common;
 
-namespace WebSite.Azure.Common.Tests.TableStorage
+namespace Website.Azure.Common.Tests.TableStorage
 {
     [TestFixture]
     public class TableContextTests

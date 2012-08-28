@@ -2,7 +2,7 @@
 using Ninject.Modules;
 using Website.Domain.Location;
 
-//using WebSite.Infrastructure.Service;
+//using Website.Infrastructure.Service;
 
 namespace Website.Domain.Binding
 {

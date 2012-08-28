@@ -41,7 +41,7 @@ using System.Runtime.InteropServices;
 [assembly: InternalsVisibleTo("Website.Application.Tests")]
 [assembly: InternalsVisibleTo("PostaFlya.Application.Domain.Tests")]
 [assembly: InternalsVisibleTo("PostaFlya.Application.Domain")]
-[assembly: InternalsVisibleTo("PostaFlya.WebSite.Tests")]
+[assembly: InternalsVisibleTo("PostaFlya.Website.Tests")]
 [assembly: InternalsVisibleTo("Ninject.MockingKernel.Moq")]
 [assembly: InternalsVisibleTo("Ninject.MockingKernel")]
 [assembly: InternalsVisibleTo("Ninject.Extensions.Conventions")]

@@ -4,9 +4,9 @@ using System.Globalization;
 using System.Linq;
 using System.Runtime.Caching;
 using System.Text;
-using WebSite.Infrastructure.Util;
+using Website.Infrastructure.Util;
 
-namespace WebSite.Test.Common
+namespace Website.Test.Common
 {
     public class TestSerializingCache : ObjectCache
     {

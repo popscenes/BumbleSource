@@ -1,13 +1,14 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using WebSite.Infrastructure.Command;
-using WebSite.Infrastructure.Domain;
-using WebSite.Infrastructure.Query;
+using Website.Infrastructure.Command;
+using Website.Infrastructure.Domain;
+using Website.Infrastructure.Query;
 using Website.Domain.Browser;
 using Website.Domain.Browser.Query;
+using Website.Domain.Service;
 
-//using WebSite.Infrastructure.Service;
+//using Website.Infrastructure.Service;
 
 namespace Website.Domain.Claims.Command
 {
@@ -17,16 +18,19 @@ namespace Website.Domain.Claims.Command
         private readonly BrowserQueryServiceInterface _browserQueryService;
         private readonly GenericRepositoryInterface _genericRepository;
         private readonly GenericQueryServiceInterface _genericQueryService;
+        private readonly ClaimPublicationServiceInterface _claimPublicationService;
 
         public ClaimCommandHandler(UnitOfWorkFactoryInterface unitOfWorkFactory
             , BrowserQueryServiceInterface browserQueryService
             , GenericRepositoryInterface genericRepository
-            , GenericQueryServiceInterface genericQueryService)
+            , GenericQueryServiceInterface genericQueryService
+            , ClaimPublicationServiceInterface claimPublicationService)
         {
             _unitOfWorkFactory = unitOfWorkFactory;
             _browserQueryService = browserQueryService;
             _genericRepository = genericRepository;
             _genericQueryService = genericQueryService;
+            _claimPublicationService = claimPublicationService;
         }
 
         public object Handle(ClaimCommand command)
@@ -44,8 +48,8 @@ namespace Website.Domain.Claims.Command
                 Id = command.ClaimEntity.Id + browser.Id,
                 AggregateId = command.ClaimEntity.Id,
                 BrowserId = browser.Id,
-                ClaimContext = command.Comment,
-                ClaimTime = DateTime.UtcNow
+                ClaimContext = command.Context,
+                ClaimTime = DateTime.UtcNow,            
             };
 
             var uow = _unitOfWorkFactory.GetUnitOfWork(new List<object>() { _genericRepository });
@@ -57,6 +61,8 @@ namespace Website.Domain.Claims.Command
             if(!uow.Successful)
                 return new MsgResponse("Claim Entity failed", true)
                 .AddCommandId(command);
+            
+            _claimPublicationService.Publish(claim);
 
             uow = _unitOfWorkFactory.GetUnitOfWork(new List<object>() { _genericRepository });
             using (uow)

@@ -31,7 +31,7 @@
       <!-- remove or change on redeployment-->
     </LocalResources>
   </WebRole>
-  <!--<WorkerRole name="WebSite.CommandWorker" vmsize="Small">
+  <!--<WorkerRole name="Website.CommandWorker" vmsize="Small">
     <Imports>
       <Import moduleName="Diagnostics" />
       <Import moduleName="RemoteAccess" />

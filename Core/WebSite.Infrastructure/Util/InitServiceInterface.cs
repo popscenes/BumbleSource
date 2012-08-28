@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Ninject.Syntax;
 
-namespace WebSite.Infrastructure.Util
+namespace Website.Infrastructure.Util
 {
     public interface InitServiceInterface
     {

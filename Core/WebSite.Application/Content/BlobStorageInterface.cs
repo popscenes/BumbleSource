@@ -2,7 +2,7 @@ using System;
 using System.Collections.Specialized;
 using System.IO;
 
-namespace WebSite.Application.Content
+namespace Website.Application.Content
 {
     public class BlobProperties
     {

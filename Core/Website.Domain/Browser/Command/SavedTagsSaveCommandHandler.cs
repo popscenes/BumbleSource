@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
-using WebSite.Infrastructure.Command;
+using Website.Infrastructure.Command;
 using Website.Domain.Tag;
 
 namespace Website.Domain.Browser.Command

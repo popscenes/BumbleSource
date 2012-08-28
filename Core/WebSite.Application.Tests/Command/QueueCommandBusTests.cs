@@ -8,12 +8,12 @@ using MbUnit.Framework.ContractVerifiers;
 using Moq;
 using Ninject;
 using Ninject.MockingKernel.Moq;
-using WebSite.Application.Command;
-using WebSite.Application.Tests.Classes;
-using WebSite.Infrastructure.Command;
-using WebSite.Infrastructure.Util;
+using Website.Infrastructure.Command;
+using Website.Application.Command;
+using Website.Application.Tests.Classes;
+using Website.Infrastructure.Util;
 
-namespace WebSite.Application.Tests.Command
+namespace Website.Application.Tests.Command
 {
     [TestFixture]
     public class QueueCommandBusTests

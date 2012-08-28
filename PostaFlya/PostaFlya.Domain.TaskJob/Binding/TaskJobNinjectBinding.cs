@@ -8,10 +8,10 @@ using Ninject.Extensions.Conventions;
 using Ninject.Modules;
 using Ninject.Syntax;
 using PostaFlya.Domain.Behaviour;
-using WebSite.Infrastructure.Binding;
-using WebSite.Infrastructure.Command;
-using WebSite.Infrastructure.Domain;
-using WebSite.Infrastructure.Query;
+using Website.Infrastructure.Binding;
+using Website.Infrastructure.Command;
+using Website.Infrastructure.Domain;
+using Website.Infrastructure.Query;
 
 namespace PostaFlya.Domain.TaskJob.Binding
 {

@@ -1,9 +1,10 @@
 ﻿using System.Diagnostics;
 using Ninject;
 using Ninject.Modules;
+using Website.Application.Domain.Claims;
 using Website.Domain.Service;
-using WebSite.Infrastructure.Binding;
-using WebSite.Infrastructure.Command;
+using Website.Infrastructure.Binding;
+using Website.Infrastructure.Command;
 using Website.Application.Domain.Browser;
 using Website.Application.Domain.Content;
 using Website.Application.Domain.Content.Command;
@@ -26,6 +27,8 @@ namespace Website.Application.Domain.Binding
             Bind<UrlContentRetrieverFactoryInterface>().To<UrlContentRetrieverFactory>();
 
             Bind<ContentStorageServiceInterface>().To<ImageProcessContentStorageService>();
+
+            Bind<ClaimPublicationServiceInterface>().To<ClaimPublicationService>();
 
 
             //this is for appication command handlers to use, 

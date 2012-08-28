@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.WindowsAzure.StorageClient;
-using WebSite.Application.Command;
+using Website.Application.Command;
 
-namespace WebSite.Application.Azure.Command
+namespace Website.Application.Azure.Command
 {
     public class AzureCloudQueueMessage : QueueMessageInterface
     {

@@ -6,11 +6,11 @@ using MbUnit.Framework;
 using Ninject.MockingKernel.Moq;
 using System.Net;
 using System.Web.Script.Serialization;
-using WebSite.Application.Intergrations;
 using System.IO;
-using WebSite.Test.Common.Facebook;
+using Website.Application.Intergrations;
+using Website.Test.Common.Facebook;
 
-namespace WebSite.Application.Tests.Intergrations
+namespace Website.Application.Tests.Intergrations
 {
     [TestFixture]    
     public class FacebookIntergrationTests

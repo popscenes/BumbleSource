@@ -1,4 +1,4 @@
-namespace WebSite.Infrastructure.Query
+namespace Website.Infrastructure.Query
 {
     public interface QueryServiceInterface
     {

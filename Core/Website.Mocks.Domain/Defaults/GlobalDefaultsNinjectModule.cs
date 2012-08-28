@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Ninject.Modules;
-using WebSite.Infrastructure.Authentication;
+using Website.Infrastructure.Authentication;
 using Website.Domain.Browser;
 using Website.Domain.Location;
 using Website.Domain.Tag;

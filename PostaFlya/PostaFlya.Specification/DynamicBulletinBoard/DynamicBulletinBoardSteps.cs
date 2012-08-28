@@ -11,7 +11,7 @@ using PostaFlya.Controllers;
 using PostaFlya.Domain.Flier;
 using PostaFlya.Domain.Flier.Command;
 using PostaFlya.Domain.Flier.Query;
-using WebSite.Infrastructure.Command;
+using Website.Infrastructure.Command;
 using PostaFlya.Models.Browser;
 using PostaFlya.Models.Comments;
 using PostaFlya.Models.Factory;

@@ -1,4 +1,4 @@
-using WebSite.Infrastructure.Domain;
+using Website.Infrastructure.Domain;
 
 namespace PostaFlya.Domain.TaskJob
 {

@@ -1,10 +1,11 @@
 using System;
-using WebSite.Application.Binding;
-using WebSite.Infrastructure.Command;
+using Website.Application.Binding;
+using Website.Infrastructure.Command;
+using Website.Application.Domain.Content.Command;
 using Website.Domain.Content.Command;
 using Website.Domain.Service;
 
-namespace Website.Application.Domain.Content.Command
+namespace Website.Application.Domain.Content
 {
     public class ImageProcessContentStorageService : ContentStorageServiceInterface
     {

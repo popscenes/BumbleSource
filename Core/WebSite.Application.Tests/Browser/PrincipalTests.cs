@@ -1,9 +1,9 @@
 ﻿using System.Web;
 using MbUnit.Framework;
 using Ninject.MockingKernel.Moq;
-using WebSite.Application.Authentication;
+using Website.Application.Authentication;
 
-namespace WebSite.Application.Tests.Browser
+namespace Website.Application.Tests.Browser
 {
     [TestFixture]
     public class PrincipalTests

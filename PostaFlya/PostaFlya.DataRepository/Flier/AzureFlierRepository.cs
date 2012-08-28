@@ -3,15 +3,15 @@ using System.Collections.Generic;
 using System.Data.Services.Client;
 using System.Linq;
 using Ninject;
-using WebSite.Azure.Common.TableStorage;
+using Website.Azure.Common.TableStorage;
 using PostaFlya.DataRepository.Internal;
 using PostaFlya.DataRepository.Search.Services;
 using PostaFlya.Domain.Behaviour;
 using PostaFlya.Domain.Flier;
 using PostaFlya.Domain.Flier.Command;
 using PostaFlya.Domain.Flier.Query;
-using WebSite.Infrastructure.Command;
-using WebSite.Infrastructure.Query;
+using Website.Infrastructure.Command;
+using Website.Infrastructure.Query;
 using Website.Domain.Location;
 using Website.Domain.Tag;
 

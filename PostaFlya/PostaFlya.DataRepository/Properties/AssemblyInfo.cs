@@ -44,4 +44,4 @@ using System.Runtime.InteropServices;
 [assembly: InternalsVisibleTo("Moq")]
 [assembly: InternalsVisibleTo("DynamicProxyGenAssembly2")]
 [assembly: InternalsVisibleTo("PostaFlya.DataRepository.Tests")]
-[assembly: InternalsVisibleTo("WebSite.Infrastructure")]
+[assembly: InternalsVisibleTo("Website.Infrastructure")]

@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 
-namespace WebSite.Infrastructure.Command
+namespace Website.Infrastructure.Command
 {
     public static class MsgResponseCommandExtension
     {

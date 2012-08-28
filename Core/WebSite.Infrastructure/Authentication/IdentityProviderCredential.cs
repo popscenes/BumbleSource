@@ -1,7 +1,7 @@
 using System;
-using WebSite.Infrastructure.Util;
+using Website.Infrastructure.Util;
 
-namespace WebSite.Infrastructure.Authentication
+namespace Website.Infrastructure.Authentication
 {
     [Serializable]
     public class IdentityProviderCredential

@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using WebSite.Infrastructure.Domain;
+using Website.Infrastructure.Domain;
 
-namespace WebSite.Azure.Common.TableStorage
+namespace Website.Azure.Common.TableStorage
 {
     /// <summary>
     /// Just for cases where you just need a simple entity, ie just maps to one table entry and there are no partition clones etc

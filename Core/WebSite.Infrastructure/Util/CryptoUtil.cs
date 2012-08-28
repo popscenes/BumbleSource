@@ -1,6 +1,6 @@
 using System.Text;
 
-namespace WebSite.Infrastructure.Util
+namespace Website.Infrastructure.Util
 {
     public static class CryptoUtil
     {

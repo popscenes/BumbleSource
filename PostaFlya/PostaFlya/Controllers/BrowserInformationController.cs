@@ -1,9 +1,9 @@
 using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
-using WebSite.Application.Binding;
+using Website.Application.Binding;
 using PostaFlya.Models.Browser;
-using WebSite.Application.Content;
+using Website.Application.Content;
 using Website.Application.Domain.Browser;
 
 namespace PostaFlya.Controllers

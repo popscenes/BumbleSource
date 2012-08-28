@@ -1,7 +1,7 @@
 using System;
 using System.Runtime.Caching;
-using WebSite.Infrastructure.Caching.Command;
-using WebSite.Infrastructure.Command;
+using Website.Infrastructure.Caching.Command;
+using Website.Infrastructure.Command;
 using Website.Domain.Browser;
 
 namespace Website.Application.Domain.Command

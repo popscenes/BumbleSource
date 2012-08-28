@@ -1,6 +1,8 @@
+using Website.Infrastructure.Command;
+
 namespace PostaFlya.Domain.TaskJob.Command
 {
-    public class CreateTaskJobBidCommand : Website.Domain.Command.DomainCommandBase
+    public class CreateTaskJobBidCommand : DefaultCommandBase
     {
         public string BrowserId { get; set; }
         public string TaskJobId { get; set; }

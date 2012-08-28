@@ -1,5 +1,5 @@
 using System.ComponentModel;
-using WebSite.Application.Extension.Validation;
+using Website.Application.Extension.Validation;
 using PostaFlya.Binding;
 using Website.Domain.Browser;
 

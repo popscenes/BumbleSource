@@ -15,10 +15,10 @@ using System.Xml;
 using System.Xml.Linq;
 using Microsoft.SqlServer.Types;
 using Microsoft.WindowsAzure.ServiceRuntime;
-using WebSite.Azure.Common.Properties;
-using WebSite.Infrastructure.Util;
+using Website.Azure.Common.Properties;
+using Website.Infrastructure.Util;
 
-namespace WebSite.Azure.Common.Sql
+namespace Website.Azure.Common.Sql
 {
     public static class SqlExtensions
     {

@@ -2,9 +2,10 @@
 using MbUnit.Framework;
 using Ninject.MockingKernel.Moq;
 using Ninject.Modules;
-using WebSite.Application.Caching.Command;
-using WebSite.Infrastructure.Binding;
-using WebSite.Test.Common;
+using Website.Application.Binding;
+using Website.Application.Caching.Command;
+using Website.Infrastructure.Binding;
+using Website.Test.Common;
 using Website.Domain.Binding;
 using Website.Mocks.Domain.Data;
 using Website.Mocks.Domain.Defaults;
@@ -49,6 +50,7 @@ namespace Website.Application.Domain.Tests
                       new InfrastructureNinjectBinding(),
                       new DefaultServicesNinjectBinding(),
                       new CommandNinjectBinding(),
+                      new ApplicationCommandHandlersNinjectBinding(),
                       new TestRepositoriesNinjectModule()
                   };
     }

@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using DotNetOpenAuth.OpenId.RelyingParty;
-using WebSite.Infrastructure.Authentication;
+using Website.Infrastructure.Authentication;
 
-namespace WebSite.Application.Authentication
+namespace Website.Application.Authentication
 {
     class AzureAcsIdentityProvider : IdentityProviderInterface
     {

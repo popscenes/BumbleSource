@@ -5,7 +5,7 @@ using System.Web;
 using PostaFlya.Domain.Flier;
 using PostaFlya.Models.Flier;
 using PostaFlya.Models.Location;
-using WebSite.Application.Content;
+using Website.Application.Content;
 using Website.Application.Domain.Browser;
 
 namespace PostaFlya.Models.Browser

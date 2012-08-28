@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using Ninject;
-using WebSite.Application.WebsiteInformation;
-using WebSite.Azure.Common.TableStorage;
-using WebSite.Infrastructure.Domain;
+using Website.Infrastructure.Domain;
+using Website.Application.WebsiteInformation;
+using Website.Azure.Common.TableStorage;
 
-namespace WebSite.Application.Azure.WebsiteInformation
+namespace Website.Application.Azure.WebsiteInformation
 {
     public class WebsiteInfoEntity : SimpleExtendableEntity
     {

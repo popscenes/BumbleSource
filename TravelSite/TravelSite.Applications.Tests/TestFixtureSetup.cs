@@ -2,9 +2,9 @@
 using MbUnit.Framework;
 using Ninject.MockingKernel.Moq;
 using Ninject.Modules;
-using WebSite.Application.Binding;
-using WebSite.Infrastructure.Binding;
-using WebSite.Test.Common;
+using Website.Application.Binding;
+using Website.Infrastructure.Binding;
+using Website.Test.Common;
 
 namespace TravelSite.Applications.Tests
 {

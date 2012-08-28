@@ -5,10 +5,10 @@ using Gallio.Framework;
 using MbUnit.Framework;
 using MbUnit.Framework.ContractVerifiers;
 using Ninject;
-using WebSite.Azure.Common.TableStorage;
-using WebSite.Infrastructure.Domain;
+using Website.Azure.Common.TableStorage;
+using Website.Infrastructure.Domain;
 
-namespace WebSite.Azure.Common.Tests.TableStorage
+namespace Website.Azure.Common.Tests.TableStorage
 {
 
     class OneEntity : EntityBase<OneEntity>, EntityInterface

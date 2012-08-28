@@ -5,7 +5,7 @@ using System.Text.RegularExpressions;
 using System.Web.Mvc;
 using DataAnnotationsExtensions;
 
-namespace WebSite.Application.Extension.Validation
+namespace Website.Application.Extension.Validation
 {
     //These are in part to enable easier localization in the future without
     //massive attributes all over properties, however also

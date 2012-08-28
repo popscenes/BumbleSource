@@ -12,6 +12,6 @@ Release
 TestResults
 csx
 
-AzureProject/WebSite.Specification/Util/MockRepositoriesNinjectModule.cs.orig
+*.cs.orig
 AzureProject/Downloaded Profiling Logs/
 *.orig

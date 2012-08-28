@@ -1,13 +1,13 @@
 using System;
 using System.Collections.Generic;
 using System.Web.Http;
-using WebSite.Application.Binding;
+using Website.Application.Binding;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Collections;
 using PostaFlya.Helpers;
 using PostaFlya.Models.Content;
-using WebSite.Application.Content;
+using Website.Application.Content;
 using Website.Domain.Content;
 using Website.Domain.Content.Query;
 

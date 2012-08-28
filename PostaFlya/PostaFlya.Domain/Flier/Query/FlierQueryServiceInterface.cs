@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using WebSite.Infrastructure.Query;
+using Website.Infrastructure.Query;
 using Website.Domain.Browser.Query;
 using Website.Domain.Location;
 using Website.Domain.Tag;

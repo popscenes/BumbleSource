@@ -1,11 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using WebSite.Application.Content;
-using WebSite.Application.Extension.Validation;
+using Website.Application.Content;
+using Website.Application.Extension.Validation;
 using PostaFlya.Binding;
-using WebSite.Infrastructure.Authentication;
-using WebSite.Infrastructure.Domain;
+using Website.Infrastructure.Authentication;
+using Website.Infrastructure.Domain;
 using PostaFlya.Models.Browser;
 using Website.Domain.Browser.Query;
 using Website.Domain.Comments;

@@ -1,9 +1,9 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
-using WebSite.Application.Command;
+using Website.Application.Command;
 
-namespace WebSite.Application.Communication
+namespace Website.Application.Communication
 {
     public class DefaultBroadcastCommunicatorFactory : BroadcastCommunicatorFactoryInterface
     {

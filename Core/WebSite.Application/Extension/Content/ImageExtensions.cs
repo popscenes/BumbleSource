@@ -5,7 +5,7 @@ using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.IO;
 
-namespace WebSite.Application.Extension.Content
+namespace Website.Application.Extension.Content
 {
     public static class ImageExtensions
     {

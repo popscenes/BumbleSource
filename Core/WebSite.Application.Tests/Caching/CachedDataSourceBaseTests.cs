@@ -3,13 +3,13 @@ using System.Runtime.Caching;
 using MbUnit.Framework;
 using Ninject;
 using Ninject.MockingKernel.Moq;
-using WebSite.Application.Caching;
-using WebSite.Application.Caching.Command;
-using WebSite.Application.Caching.Query;
-using WebSite.Infrastructure.Command;
-using WebSite.Test.Common;
+using Website.Application.Caching;
+using Website.Application.Caching.Command;
+using Website.Application.Caching.Query;
+using Website.Infrastructure.Command;
+using Website.Test.Common;
 
-namespace WebSite.Application.Tests.Caching
+namespace Website.Application.Tests.Caching
 {
     public class CachedRepositoryTest : BroadcastCachedRepository
     {

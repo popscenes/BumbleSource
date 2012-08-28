@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using Ninject.MockingKernel.Moq;
 using Ninject.Modules;
 
-namespace WebSite.Test.Common
+namespace Website.Test.Common
 {
     public class TestKernel
     {

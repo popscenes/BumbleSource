@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace WebSite.Application.WebsiteInformation
+namespace Website.Application.WebsiteInformation
 {
     public interface WebsiteInfoServiceInterface
     {

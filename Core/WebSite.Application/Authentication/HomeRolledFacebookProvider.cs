@@ -6,10 +6,10 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Web;
-using WebSite.Application.Intergrations;
-using WebSite.Infrastructure.Authentication;
+using Website.Application.Intergrations;
+using Website.Infrastructure.Authentication;
 
-namespace WebSite.Application.Authentication
+namespace Website.Application.Authentication
 {
     public class HomeRolledFacebookProvider : IdentityProviderInterface
     {

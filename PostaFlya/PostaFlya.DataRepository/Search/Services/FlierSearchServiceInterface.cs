@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using WebSite.Azure.Common.TableStorage;
+using Website.Azure.Common.TableStorage;
 using PostaFlya.Domain.Flier;
-using WebSite.Infrastructure.Domain;
+using Website.Infrastructure.Domain;
 using Website.Domain.Location;
 using Website.Domain.Tag;
 

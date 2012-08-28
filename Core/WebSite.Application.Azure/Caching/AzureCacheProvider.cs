@@ -10,7 +10,7 @@ using System.Runtime.Caching;
 using System.Runtime.Serialization;
 using Microsoft.ApplicationServer.Caching;
 
-namespace WebSite.Application.Azure.Caching
+namespace Website.Application.Azure.Caching
 {
     public class AzureCacheProvider : ObjectCache
     {

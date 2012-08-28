@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace WebSite.Infrastructure.Authentication
+namespace Website.Infrastructure.Authentication
 {
     public interface IdentityProviderServiceInterface
     {

@@ -4,10 +4,10 @@ using System.Text;
 using System.Web.Security;
 using MbUnit.Framework;
 using Ninject.MockingKernel.Moq;
-using WebSite.Application.Authentication;
-using WebSite.Infrastructure.Authentication;
+using Website.Application.Authentication;
+using Website.Infrastructure.Authentication;
 
-namespace PostaFlya.WebSite.Tests.Authentication
+namespace PostaFlya.Website.Tests.Authentication
 {
     [TestFixture]
     public class WebIdentityTests

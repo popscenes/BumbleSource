@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
-using WebSite.Application.WebsiteInformation;
+using Website.Application.WebsiteInformation;
 using Website.Domain.Tag;
 
 namespace PostaFlya.Controllers

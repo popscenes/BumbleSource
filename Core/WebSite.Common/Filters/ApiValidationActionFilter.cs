@@ -6,9 +6,9 @@ using System.Net.Http.Formatting;
 using System.Web.Http.Controllers;
 using System.Web.Http.Filters;
 using System.Web.Http.ModelBinding;
-using WebSite.Infrastructure.Command;
+using Website.Infrastructure.Command;
 
-namespace WebSite.Common.Filters
+namespace Website.Common.Filters
 {
     //Web Api doesn't use model validators atm, if this changes in the future no need for this
     public class ApiValidationActionFilter : ActionFilterAttribute

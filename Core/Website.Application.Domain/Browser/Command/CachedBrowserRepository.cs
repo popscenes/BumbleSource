@@ -1,7 +1,7 @@
 using System;
 using System.Runtime.Caching;
-using WebSite.Application.Caching.Command;
-using WebSite.Infrastructure.Binding;
+using Website.Application.Caching.Command;
+using Website.Infrastructure.Binding;
 using Website.Domain.Browser;
 using Website.Domain.Browser.Command;
 

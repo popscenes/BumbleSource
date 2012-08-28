@@ -7,9 +7,9 @@ using Ninject;
 using Ninject.Extensions.Conventions;
 using Ninject.Modules;
 using Ninject.Syntax;
-using WebSite.Infrastructure.Binding;
-using WebSite.Infrastructure.Command;
-using WebSite.Infrastructure.Query;
+using Website.Infrastructure.Binding;
+using Website.Infrastructure.Command;
+using Website.Infrastructure.Query;
 
 namespace PostaFlya.Domain.Binding
 {

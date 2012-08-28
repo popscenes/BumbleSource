@@ -13,10 +13,10 @@
 </Event><Event ErrorLevel="3" Project="C:\Devel\bumblfly\source\AzureProject\AzureProject.ccproj" Source="AzureProject.ccproj" Description="Converted">
 </Event><Event ErrorLevel="0" Project="C:\Devel\bumblfly\source\AzureProject\AzureProject.ccproj" Source="AzureProject.ccproj" Description="Added UseIISExpressByDefault value 'false'.">
 </Event><Event ErrorLevel="0" Project="C:\Devel\bumblfly\source\AzureProject\AzureProject.ccproj" Source="AzureProject.ccproj" Description="Upgraded CloudExtensionsDir value to $(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Windows Azure Tools\1.7\.">
-</Event><Event ErrorLevel="0" Project="WebSite" Source="WebSite\WebSite.csproj" Description="The project file does not require conversion.">
-</Event><Event ErrorLevel="3" Project="WebSite" Source="WebSite\WebSite.csproj" Description="No Conversion Required">
-</Event><Event ErrorLevel="0" Project="WebSite.Infrastructure" Source="WebSite.Infrastructure\WebSite.Infrastructure.csproj" Description="The project file does not require conversion.">
-</Event><Event ErrorLevel="3" Project="WebSite.Infrastructure" Source="WebSite.Infrastructure\WebSite.Infrastructure.csproj" Description="No Conversion Required">
+</Event><Event ErrorLevel="0" Project="WebSite" Source="WebSite\Website.csproj" Description="The project file does not require conversion.">
+</Event><Event ErrorLevel="3" Project="WebSite" Source="WebSite\Website.csproj" Description="No Conversion Required">
+</Event><Event ErrorLevel="0" Project="Website.Infrastructure" Source="Website.Infrastructure\Website.Infrastructure.csproj" Description="The project file does not require conversion.">
+</Event><Event ErrorLevel="3" Project="Website.Infrastructure" Source="WebSite.Infrastructure\WebSite.Infrastructure.csproj" Description="No Conversion Required">
 </Event><Event ErrorLevel="0" Project="WebSite.DataRepository" Source="WebSite.DataRepository\WebSite.DataRepository.csproj" Description="The project file does not require conversion.">
 </Event><Event ErrorLevel="3" Project="WebSite.DataRepository" Source="WebSite.DataRepository\WebSite.DataRepository.csproj" Description="No Conversion Required">
 </Event><Event ErrorLevel="0" Project="WebSite.Domain" Source="WebSite.Domain\WebSite.Domain.csproj" Description="The project file does not require conversion.">

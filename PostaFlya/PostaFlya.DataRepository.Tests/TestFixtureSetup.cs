@@ -13,10 +13,10 @@ using PostaFlya.DataRepository.Browser;
 using PostaFlya.DataRepository.Internal;
 using PostaFlya.Domain.Binding;
 using PostaFlya.Domain.Flier;
-using WebSite.Azure.Common.Environment;
-using WebSite.Azure.Common.TableStorage;
-using WebSite.Infrastructure.Binding;
-using WebSite.Test.Common;
+using Website.Azure.Common.Environment;
+using Website.Azure.Common.TableStorage;
+using Website.Infrastructure.Binding;
+using Website.Test.Common;
 using Website.Mocks.Domain.Defaults;
 
 namespace PostaFlya.DataRepository.Tests
@@ -72,11 +72,11 @@ namespace PostaFlya.DataRepository.Tests
         private static readonly List<INinjectModule> NinjectModules = new List<INinjectModule>()
                   {
                       new GlobalDefaultsNinjectModule(),
-                      new WebSite.Azure.Common.Binding.AzureCommonNinjectBinding(),
+                      new Website.Azure.Common.Binding.AzureCommonNinjectBinding(),
                       new PostaFlya.DataRepository.Binding.AzureRepositoryNinjectBinding(c => c.InTransientScope()),
                       new PostaFlya.Domain.Binding.DefaultServicesNinjectBinding(),
                       new PostaFlya.Domain.TaskJob.Binding.TaskJobNinjectBinding(),
-                      new WebSite.Infrastructure.Binding.InfrastructureNinjectBinding(),
+                      new Website.Infrastructure.Binding.InfrastructureNinjectBinding(),
                       new PostaFlya.DataRepository.Binding.TableNameNinjectBinding()
                   };
     }

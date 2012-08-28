@@ -7,10 +7,10 @@ using Gallio.Framework;
 using MbUnit.Framework;
 using MbUnit.Framework.ContractVerifiers;
 using Ninject.MockingKernel.Moq;
-using WebSite.Application.Extension.Validation;
-using WebSite.Test.Common;
+using Website.Application.Extension.Validation;
+using Website.Test.Common;
 
-namespace WebSite.Application.Tests.Extension.Validation
+namespace Website.Application.Tests.Extension.Validation
 {
     [TestFixture]
     public class ValidationAdaptersTests

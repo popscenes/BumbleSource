@@ -11,9 +11,9 @@ using PostaFlya.Domain.Behaviour.Command;
 using PostaFlya.Domain.Behaviour.Query;
 using PostaFlya.Domain.Flier;
 using PostaFlya.Domain.Service;
-using WebSite.Infrastructure.Command;
-using WebSite.Infrastructure.Query;
-//using WebSite.Infrastructure.Service;
+using Website.Infrastructure.Command;
+using Website.Infrastructure.Query;
+//using Website.Infrastructure.Service;
 
 namespace PostaFlya.Domain.Binding
 {

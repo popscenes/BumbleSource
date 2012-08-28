@@ -3,21 +3,21 @@ using Microsoft.WindowsAzure;
 using Microsoft.WindowsAzure.StorageClient;
 using Ninject;
 using Ninject.Modules;
-using WebSite.Application.Azure.Command;
-using WebSite.Application.Azure.Communication;
-using WebSite.Application.Azure.Content;
-using WebSite.Application.Binding;
-using WebSite.Application.Command;
-using WebSite.Application.Communication;
-using WebSite.Application.Content;
-using WebSite.Application.WebsiteInformation;
-using WebSite.Azure.Common.TableStorage;
-using WebSite.Infrastructure.Command;
-using WebSite.Infrastructure.Util;
-using WebSite.Application.Azure.WebsiteInformation;
-using WebSite.Infrastructure.Binding;
+using Website.Application.Azure.Command;
+using Website.Application.Azure.Communication;
+using Website.Application.Azure.Content;
+using Website.Application.Azure.WebsiteInformation;
+using Website.Application.Binding;
+using Website.Application.Command;
+using Website.Application.Communication;
+using Website.Application.Content;
+using Website.Application.WebsiteInformation;
+using Website.Azure.Common.TableStorage;
+using Website.Infrastructure.Binding;
+using Website.Infrastructure.Command;
+using Website.Infrastructure.Util;
 
-namespace WebSite.Application.Azure.Binding
+namespace Website.Application.Azure.Binding
 {
     public class AzureApplicationNinjectBinding : NinjectModule
     {

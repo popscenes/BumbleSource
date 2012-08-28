@@ -4,7 +4,7 @@ using System.Linq;
 using System.Security.Principal;
 using System.Text;
 
-namespace WebSite.Infrastructure.Authentication
+namespace Website.Infrastructure.Authentication
 {
     public interface WebIdentityInterface: IIdentity
     {

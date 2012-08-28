@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Runtime.Caching;
-using WebSite.Infrastructure.Binding;
-using WebSite.Infrastructure.Command;
+using Website.Infrastructure.Binding;
+using Website.Infrastructure.Command;
 
-namespace WebSite.Infrastructure.Caching.Command
+namespace Website.Infrastructure.Caching.Command
 {
     public class CachedRepositoryBase : CachedDataSourceBase, GenericRepositoryInterface
     {

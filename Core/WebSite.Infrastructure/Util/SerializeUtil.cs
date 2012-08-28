@@ -6,7 +6,7 @@ using System.Reflection;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 
-namespace WebSite.Infrastructure.Util
+namespace Website.Infrastructure.Util
 {
     public static class SerializeUtil
     {

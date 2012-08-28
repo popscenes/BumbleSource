@@ -2,11 +2,11 @@
 using System.Diagnostics;
 using System.Linq;
 using System.Runtime.Caching;
-using WebSite.Infrastructure.Binding;
-using WebSite.Infrastructure.Domain;
-using WebSite.Infrastructure.Query;
+using Website.Infrastructure.Binding;
+using Website.Infrastructure.Domain;
+using Website.Infrastructure.Query;
 
-namespace WebSite.Infrastructure.Caching.Query
+namespace Website.Infrastructure.Caching.Query
 {
     public abstract class CachedQueryServiceBase
         : CachedDataSourceBase, GenericQueryServiceInterface

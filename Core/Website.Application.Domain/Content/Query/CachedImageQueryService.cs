@@ -1,5 +1,5 @@
 using System.Runtime.Caching;
-using WebSite.Infrastructure.Binding;
+using Website.Infrastructure.Binding;
 using Website.Application.Domain.Query;
 using Website.Domain.Content.Query;
 

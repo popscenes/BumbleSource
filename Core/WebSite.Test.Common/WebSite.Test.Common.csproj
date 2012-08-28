@@ -8,8 +8,8 @@
     <ProjectGuid>{DC7CC356-EE06-49C0-9985-9D0101AAF45F}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>WebSite.Test.Common</RootNamespace>
-    <AssemblyName>WebSite.Test.Common</AssemblyName>
+    <RootNamespace>Website.Test.Common</RootNamespace>
+    <AssemblyName>Website.Test.Common</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <PublishUrl>publish\</PublishUrl>
@@ -169,9 +169,9 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\WebSite.Infrastructure\WebSite.Infrastructure.csproj">
+    <ProjectReference Include="..\Website.Infrastructure\Website.Infrastructure.csproj">
       <Project>{B5C3A966-F286-4CB8-913B-C8625625451D}</Project>
-      <Name>WebSite.Infrastructure</Name>
+      <Name>Website.Infrastructure</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -2,9 +2,9 @@ using System.Net.Http;
 using System.Web.Http;
 using PostaFlya.Areas.TaskJob.Models;
 using PostaFlya.Attributes;
-using WebSite.Common.Extension;
+using Website.Common.Extension;
 using PostaFlya.Domain.TaskJob.Command;
-using WebSite.Infrastructure.Command;
+using Website.Infrastructure.Command;
 
 namespace PostaFlya.Areas.TaskJob.Controllers
 {

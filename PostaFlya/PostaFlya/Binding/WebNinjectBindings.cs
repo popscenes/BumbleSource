@@ -11,20 +11,20 @@ using System.Web.Mvc;
 using Ninject;
 using Ninject.Modules;
 using Ninject.Web.Common;
-using WebSite.Application.Authentication;
-using WebSite.Application.Azure.Caching;
-using WebSite.Application.Binding;
-using WebSite.Application.Caching.Command;
-using WebSite.Application.Command;
-using WebSite.Application.Communication;
-using WebSite.Application.Content;
+using Website.Application.Authentication;
+using Website.Application.Azure.Caching;
+using Website.Application.Binding;
+using Website.Application.Caching.Command;
+using Website.Application.Command;
+using Website.Application.Communication;
+using Website.Application.Content;
 using PostaFlya.Areas.Default.Binding;
 using PostaFlya.Areas.TaskJob.Binding;
-using WebSite.Azure.Common.Environment;
-using WebSite.Infrastructure.Authentication;
-using WebSite.Infrastructure.Binding;
-using WebSite.Infrastructure.Command;
-using WebSite.Infrastructure.Util;
+using Website.Azure.Common.Environment;
+using Website.Infrastructure.Authentication;
+using Website.Infrastructure.Binding;
+using Website.Infrastructure.Command;
+using Website.Infrastructure.Util;
 using PostaFlya.Models.Factory;
 using Website.Application.Domain.Content;
 using Website.Domain.Content;
@@ -141,7 +141,7 @@ namespace PostaFlya.Binding
     {
         public static readonly List<INinjectModule> NinjectModules = new List<INinjectModule>()
                   {
-                      new WebSite.Infrastructure.Binding.InfrastructureNinjectBinding(),
+                      new Website.Infrastructure.Binding.InfrastructureNinjectBinding(),
                       new PostaFlya.Domain.Binding.DefaultServicesNinjectBinding(),      
                       new PostaFlya.Domain.Binding.CommandNinjectBinding(),
 
@@ -149,7 +149,7 @@ namespace PostaFlya.Binding
                       new Website.Domain.Binding.CommandNinjectBinding(),
 
                       new PostaFlya.Domain.TaskJob.Binding.TaskJobNinjectBinding(),
-                      new WebSite.Azure.Common.Binding.AzureCommonNinjectBinding(),
+                      new Website.Azure.Common.Binding.AzureCommonNinjectBinding(),
                       //this binds the caching repositories
                       new PostaFlya.Application.Domain.Binding.ApplicationDomainRepositoriesNinjectBinding(
                           c => c.InRequestScope()),
@@ -161,10 +161,11 @@ namespace PostaFlya.Binding
                           c => { c.InRequestScope();
                                  c.WhenTargetHas<SourceDataSourceAttribute>();
                       }),                      
-                      new WebSite.Application.Binding.ApplicationNinjectBinding(),
+                      new Website.Application.Binding.ApplicationCommandHandlersNinjectBinding(),
+                      new Website.Application.Binding.ApplicationNinjectBinding(),
                       new PostaFlya.Application.Domain.Binding.ApplicationDomainNinjectBinding(),
                       new Website.Application.Domain.Binding.ApplicationDomainNinjectBinding(),
-                      new WebSite.Application.Azure.Binding.AzureApplicationNinjectBinding(),
+                      new Website.Application.Azure.Binding.AzureApplicationNinjectBinding(),
                       new PostaFlya.Binding.WebNinjectBindings(),
                       new PostaFlya.Areas.Default.Binding.DefaultBehaviourWebNinjectBinding(),
                       new PostaFlya.Areas.TaskJob.Binding.TaskJobBehaviourWebNinjectBinding(),

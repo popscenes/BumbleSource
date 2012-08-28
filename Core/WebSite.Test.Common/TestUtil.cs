@@ -5,7 +5,7 @@ using System.Linq;
 using System.Runtime.Caching;
 using System.Text;
 
-namespace WebSite.Test.Common
+namespace Website.Test.Common
 {
     public class TestUtil
     {

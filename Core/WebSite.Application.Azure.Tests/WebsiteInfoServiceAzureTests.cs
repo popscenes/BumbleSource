@@ -4,13 +4,13 @@ using MbUnit.Framework;
 using Microsoft.WindowsAzure;
 using Microsoft.WindowsAzure.StorageClient;
 using Ninject;
-using WebSite.Application.Azure.Communication;
-using WebSite.Application.WebsiteInformation;
-using WebSite.Azure.Common.Environment;
-using WebSite.Azure.Common.TableStorage;
-using WebSite.Application.Azure.WebsiteInformation;
+using Website.Application.Azure.Communication;
+using Website.Application.Azure.WebsiteInformation;
+using Website.Application.WebsiteInformation;
+using Website.Azure.Common.Environment;
+using Website.Azure.Common.TableStorage;
 
-namespace WebSite.Application.Azure.Tests
+namespace Website.Application.Azure.Tests
 {
     [TestFixture]
     public class WebsiteInfoServiceAzureTests

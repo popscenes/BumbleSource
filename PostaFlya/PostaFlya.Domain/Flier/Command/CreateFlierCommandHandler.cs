@@ -2,8 +2,8 @@ using System;
 using System.Collections.Generic;
 using PostaFlya.Domain.Behaviour;
 using PostaFlya.Domain.Service;
-using WebSite.Infrastructure.Command;
-using WebSite.Infrastructure.Domain;
+using Website.Infrastructure.Command;
+using Website.Infrastructure.Domain;
 
 namespace PostaFlya.Domain.Flier.Command
 {

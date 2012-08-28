@@ -6,10 +6,10 @@ using System.Runtime.Caching;
 using MbUnit.Framework;
 using Ninject.MockingKernel.Moq;
 using Ninject.Modules;
-using WebSite.Application.Caching.Command;
+using Website.Application.Caching.Command;
 using PostaFlya.Domain.Binding;
-using WebSite.Infrastructure.Binding;
-using WebSite.Test.Common;
+using Website.Infrastructure.Binding;
+using Website.Test.Common;
 using PostaFlya.Mocks.Domain.Data;
 using Website.Mocks.Domain.Defaults;
 

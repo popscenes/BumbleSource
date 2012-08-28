@@ -3,10 +3,11 @@ using System.Linq;
 using Ninject;
 using Ninject.Modules;
 using PostaFlya.Application.Domain.ExternalSource;
-using WebSite.Application.Command;
+using Website.Application.Binding;
+using Website.Application.Command;
 using PostaFlya.Domain.Service;
-using WebSite.Infrastructure.Binding;
-using WebSite.Infrastructure.Command;
+using Website.Infrastructure.Binding;
+using Website.Infrastructure.Command;
 using Ninject.Extensions.Conventions;
 using Website.Application.Domain.Browser;
 using Website.Application.Domain.Content;
@@ -42,6 +43,8 @@ namespace PostaFlya.Application.Domain.Binding
             //command handlers
             var kernel = Kernel as StandardKernel;
             kernel.BindCommandHandlersFromCallingAssembly(c => c.InTransientScope());
+
+            kernel.BindPublishServicesFromCallingAssembly(c => c.InTransientScope());
 
             Trace.TraceInformation("Finished Binding ApplicationDomainNinjectBinding");
         }

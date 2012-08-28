@@ -1,9 +1,9 @@
-using Website.Domain.Command;
+using Website.Infrastructure.Command;
 using Website.Domain.Location;
 
 namespace PostaFlya.Domain.TaskJob.Command
 {
-    public class TaskJobBehaviourCreateCommand : DomainCommandBase
+    public class TaskJobBehaviourCreateCommand : DefaultCommandBase
     {
         public Locations ExtraLocations;
         public string BrowserId { get; set; }

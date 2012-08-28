@@ -4,11 +4,11 @@ using System.Collections.Generic;
 using System.Linq;
 using Ninject;
 using Ninject.MockingKernel.Moq;
-using WebSite.Application.Command;
-using WebSite.Infrastructure.Command;
-using WebSite.Infrastructure.Util;
+using Website.Application.Command;
+using Website.Infrastructure.Command;
+using Website.Infrastructure.Util;
 
-namespace WebSite.Application.Tests.Classes
+namespace Website.Application.Tests.Classes
 {
     public class TestCommandQueueFactory : CommandQueueFactoryInterface
     {

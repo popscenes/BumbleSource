@@ -101,6 +101,20 @@ namespace PostaFlya.Specification.DynamicBulletinBoard
             testRunner.Then("I should see the claimed tear offs for the FLIER");
             this.ScenarioCleanup();
         }
+        
+        [MbUnit.Framework.TestAttribute()]
+        [MbUnit.Framework.DescriptionAttribute("Tear Off Claim Publishes Tear Off Notification")]
+        [MbUnit.Framework.CategoryAttribute("TearOffNotification")]
+        public virtual void TearOffClaimPublishesTearOffNotification()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Tear Off Claim Publishes Tear Off Notification", new string[] {
+                        "TearOffNotification"});
+            this.ScenarioSetup(scenarioInfo);
+            testRunner.Given("I have navigated to the public view page for a FLIER");
+            testRunner.When("I claim a tear off for that FLIER");
+            testRunner.Then("A Notification for that Tear Off should be published");
+            this.ScenarioCleanup();
+        }
     }
 }
 #pragma warning restore

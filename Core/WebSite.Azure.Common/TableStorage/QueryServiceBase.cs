@@ -1,9 +1,9 @@
 using System;
 using System.Linq;
-using WebSite.Infrastructure.Domain;
-using WebSite.Infrastructure.Query;
+using Website.Infrastructure.Domain;
+using Website.Infrastructure.Query;
 
-namespace WebSite.Azure.Common.TableStorage
+namespace Website.Azure.Common.TableStorage
 {
     public class QueryServiceBase<TableEntryType> 
         : GenericQueryServiceInterface

@@ -5,9 +5,9 @@ using System.Text;
 using System.Net;
 using System.Web.Script.Serialization;
 using System.IO;
-using WebSite.Application.Util;
+using Website.Application.Util;
 
-namespace WebSite.Application.Intergrations
+namespace Website.Application.Intergrations
 {
 
     public class DataHolder<T>

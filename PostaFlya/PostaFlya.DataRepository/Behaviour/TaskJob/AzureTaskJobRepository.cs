@@ -3,14 +3,14 @@ using System.Data.Services.Client;
 using System.Linq;
 using System.Text;
 using Ninject;
-using WebSite.Azure.Common.TableStorage;
+using Website.Azure.Common.TableStorage;
 using PostaFlya.Domain.Flier;
 using PostaFlya.Domain.TaskJob;
 using PostaFlya.Domain.TaskJob.Command;
 using PostaFlya.Domain.TaskJob.Query;
-using WebSite.Infrastructure.Command;
-using WebSite.Infrastructure.Query;
-using WebSite.Infrastructure.Util;
+using Website.Infrastructure.Command;
+using Website.Infrastructure.Query;
+using Website.Infrastructure.Util;
 
 namespace PostaFlya.DataRepository.Behaviour.TaskJob
 {

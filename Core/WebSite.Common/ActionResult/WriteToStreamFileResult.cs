@@ -6,7 +6,7 @@ using System.Text;
 using System.Web;
 using System.Web.Mvc;
 
-namespace WebSite.Common.ActionResult
+namespace Website.Common.ActionResult
 {
 
     public class WriteToStreamFileResult : FileResult

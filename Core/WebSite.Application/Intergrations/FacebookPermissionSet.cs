@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Web.Script.Serialization;
 
-namespace WebSite.Application.Intergrations
+namespace Website.Application.Intergrations
 {
     public class FacebookPermissionSet : Dictionary<string, bool>
     {

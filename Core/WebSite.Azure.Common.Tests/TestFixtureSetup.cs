@@ -8,10 +8,11 @@ using Microsoft.WindowsAzure.StorageClient;
 using Ninject;
 using Ninject.MockingKernel.Moq;
 using Ninject.Modules;
-using WebSite.Infrastructure.Binding;
-using WebSite.Test.Common;
+using Website.Azure.Common.Binding;
+using Website.Infrastructure.Binding;
+using Website.Test.Common;
 
-namespace WebSite.Azure.Common.Tests
+namespace Website.Azure.Common.Tests
 {
     [AssemblyFixture]
     class TestFixtureSetup
@@ -45,8 +46,8 @@ namespace WebSite.Azure.Common.Tests
 
         private static readonly List<INinjectModule> NinjectModules = new List<INinjectModule>()
                   {
-                      new WebSite.Infrastructure.Binding.InfrastructureNinjectBinding(),
-                      new WebSite.Azure.Common.Binding.AzureCommonNinjectBinding()
+                      new InfrastructureNinjectBinding(),
+                      new AzureCommonNinjectBinding()
                   };
     }
 }

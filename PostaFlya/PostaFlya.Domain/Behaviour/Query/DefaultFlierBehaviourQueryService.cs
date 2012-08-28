@@ -4,8 +4,8 @@ using System.Linq;
 using System.Text;
 using PostaFlya.Domain.Flier;
 using PostaFlya.Domain.Service;
-using WebSite.Infrastructure.Query;
-//using WebSite.Infrastructure.Service;
+using Website.Infrastructure.Query;
+//using Website.Infrastructure.Service;
 
 namespace PostaFlya.Domain.Behaviour.Query
 {

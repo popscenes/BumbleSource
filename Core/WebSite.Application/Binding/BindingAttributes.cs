@@ -1,7 +1,7 @@
 ﻿using System;
 
 //These are used to identify different storage containers for injection
-namespace WebSite.Application.Binding
+namespace Website.Application.Binding
 {
     //blob storage contexts
     public class ImageStorageAttribute : Attribute { }

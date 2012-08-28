@@ -1,7 +1,7 @@
 using Ninject;
 using Ninject.Syntax;
 
-namespace WebSite.Infrastructure.Command
+namespace Website.Infrastructure.Command
 {
     public class DefaultCommandHandlerRepository : CommandHandlerRespositoryInterface
     {

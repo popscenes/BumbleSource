@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace WebSite.Azure.Common.Binding
+namespace Website.Azure.Common.Binding
 {
     public class SqlMasterDbConnectionString : Attribute{}
 }

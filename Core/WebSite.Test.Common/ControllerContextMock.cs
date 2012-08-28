@@ -2,7 +2,7 @@ using System.Web;
 using System.Web.Mvc;
 using Ninject.MockingKernel.Moq;
 
-namespace WebSite.Test.Common
+namespace Website.Test.Common
 {
     public static class ControllerContextMock
     {

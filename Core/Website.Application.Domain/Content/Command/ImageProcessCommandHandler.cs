@@ -1,10 +1,10 @@
 using System;
 using System.Diagnostics;
 using System.IO;
-using WebSite.Application.Binding;
-using WebSite.Application.Content;
-using WebSite.Application.Extension.Content;
-using WebSite.Infrastructure.Command;
+using Website.Application.Binding;
+using Website.Application.Content;
+using Website.Application.Extension.Content;
+using Website.Infrastructure.Command;
 using Website.Domain.Content;
 using Website.Domain.Content.Command;
 using Image = System.Drawing.Image;

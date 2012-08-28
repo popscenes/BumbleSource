@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using WebSite.Infrastructure.Command;
+using Website.Infrastructure.Command;
 
 namespace Website.Domain.Browser.Command
 {

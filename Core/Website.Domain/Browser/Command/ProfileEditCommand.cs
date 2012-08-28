@@ -1,8 +1,8 @@
-using Website.Domain.Command;
+using Website.Infrastructure.Command;
 
 namespace Website.Domain.Browser.Command
 {
-    public class ProfileEditCommand : DomainCommandBase, BrowserIdInterface
+    public class ProfileEditCommand : DefaultCommandBase, BrowserIdInterface
     {
         public bool AddressPublic { get; set; }
         public string AvatarImageId { get; set; }

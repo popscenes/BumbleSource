@@ -1,11 +1,11 @@
 using System;
 using System.Runtime.Caching;
-using WebSite.Application.Binding;
-using WebSite.Infrastructure.Caching;
-using WebSite.Infrastructure.Caching.Command;
-using WebSite.Infrastructure.Command;
+using Website.Application.Binding;
+using Website.Infrastructure.Caching;
+using Website.Infrastructure.Caching.Command;
+using Website.Infrastructure.Command;
 
-namespace WebSite.Application.Caching.Command
+namespace Website.Application.Caching.Command
 {
     public class CachedNotificationBusAttribute : Attribute {}
     public class CacheNotifier

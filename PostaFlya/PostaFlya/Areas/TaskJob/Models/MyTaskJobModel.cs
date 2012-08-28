@@ -8,7 +8,7 @@ using PostaFlya.Areas.TaskJob.Models.Bulletin;
 using PostaFlya.Controllers;
 using PostaFlya.Models.Flier;
 using PostaFlya.Models.Location;
-using WebSite.Application.Content;
+using Website.Application.Content;
 
 namespace PostaFlya.Areas.TaskJob.Models
 {

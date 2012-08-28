@@ -6,7 +6,7 @@ using System.Net;
 using System.Text;
 using Newtonsoft.Json;
 
-namespace WebSite.Application.Util
+namespace Website.Application.Util
 {
     public static class WebRequestUtil
     {

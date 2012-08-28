@@ -8,9 +8,9 @@ using Gallio.Framework;
 using MbUnit.Framework;
 using MbUnit.Framework.ContractVerifiers;
 using Microsoft.SqlServer.Types;
-using WebSite.Azure.Common.Sql;
+using Website.Azure.Common.Sql;
 
-namespace WebSite.Azure.Common.Tests.Sql
+namespace Website.Azure.Common.Tests.Sql
 {
     [TestFixture]
     public class SqlInitializerTests

@@ -37,8 +37,8 @@ using System.Runtime.InteropServices;
 
 [assembly: InternalsVisibleTo("PostaFlya.Specification")]
 [assembly: InternalsVisibleTo("PostaFlya.Mocks.Domain")]
-[assembly: InternalsVisibleTo("WebSite.Application.Tests")]
-[assembly: InternalsVisibleTo("PostaFlya.WebSite.Tests")]
+[assembly: InternalsVisibleTo("Website.Application.Tests")]
+[assembly: InternalsVisibleTo("PostaFlya.Website.Tests")]
 [assembly: InternalsVisibleTo("Ninject.MockingKernel.Moq")]
 [assembly: InternalsVisibleTo("Ninject.MockingKernel")]
 [assembly: InternalsVisibleTo("Ninject.Extensions.Conventions")]

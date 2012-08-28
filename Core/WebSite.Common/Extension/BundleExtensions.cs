@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Web.Optimization;
 
-namespace WebSite.Common.Extension
+namespace Website.Common.Extension
 {
     public static class BundleExtensions
     {

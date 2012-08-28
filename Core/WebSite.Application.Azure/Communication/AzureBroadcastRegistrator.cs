@@ -2,12 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Ninject;
-using WebSite.Application.Command;
-using WebSite.Application.Communication;
-using WebSite.Azure.Common.TableStorage;
-using WebSite.Infrastructure.Domain;
+using Website.Infrastructure.Domain;
+using Website.Application.Command;
+using Website.Application.Communication;
+using Website.Azure.Common.TableStorage;
 
-namespace WebSite.Application.Azure.Communication
+namespace Website.Application.Azure.Communication
 {
     public class AzureBroadcastRegistration : SimpleExtendableEntity
     {

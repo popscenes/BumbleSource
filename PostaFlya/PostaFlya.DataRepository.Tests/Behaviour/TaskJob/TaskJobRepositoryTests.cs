@@ -6,13 +6,13 @@ using MbUnit.Framework;
 using MbUnit.Framework.ContractVerifiers;
 using Microsoft.WindowsAzure.StorageClient;
 using Ninject;
-using WebSite.Azure.Common.Environment;
-using WebSite.Azure.Common.TableStorage;
+using Website.Azure.Common.Environment;
+using Website.Azure.Common.TableStorage;
 using PostaFlya.DataRepository.Behaviour.TaskJob;
 using PostaFlya.Domain.TaskJob;
 using PostaFlya.Domain.TaskJob.Command;
 using PostaFlya.Domain.TaskJob.Query;
-using WebSite.Infrastructure.Command;
+using Website.Infrastructure.Command;
 using Website.Domain.Location;
 
 namespace PostaFlya.DataRepository.Tests.Behaviour.TaskJob

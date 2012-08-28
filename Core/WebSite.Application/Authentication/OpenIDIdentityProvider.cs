@@ -5,9 +5,9 @@ using System.Text;
 using DotNetOpenAuth.OpenId;
 using DotNetOpenAuth.OpenId.Extensions.AttributeExchange;
 using DotNetOpenAuth.OpenId.RelyingParty;
-using WebSite.Infrastructure.Authentication;
+using Website.Infrastructure.Authentication;
 
-namespace WebSite.Application.Authentication
+namespace Website.Application.Authentication
 {
     public class OpenIdIdentityProvider : IdentityProviderInterface
     {

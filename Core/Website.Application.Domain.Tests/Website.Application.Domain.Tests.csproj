@@ -71,11 +71,13 @@
   <ItemGroup>
     <Compile Include="Browser\BrowserInformationTests.cs" />
     <Compile Include="Browser\CachedBrowserDataServiceTests.cs" />
+    <Compile Include="Claims\ClaimPublicationServiceTests.cs" />
     <Compile Include="Content\CachedImageDataServiceTests.cs" />
     <Compile Include="Content\ImageProcessingTests.cs" />
     <Compile Include="Content\ImageUrlContentRetrieverTest.cs" />
     <Compile Include="Location\ValidationAttributesTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Publish\PublishServiceBrowserSubscriptionBaseTests.cs" />
     <Compile Include="TestFixtureSetup.cs" />
   </ItemGroup>
   <ItemGroup>

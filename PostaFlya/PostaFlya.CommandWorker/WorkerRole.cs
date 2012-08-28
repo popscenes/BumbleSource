@@ -10,7 +10,7 @@ using Microsoft.WindowsAzure.ServiceRuntime;
 using Microsoft.WindowsAzure.StorageClient;
 using Ninject;
 using Ninject.Modules;
-using WebSite.Application.Command;
+using Website.Application.Command;
 
 namespace PostaFlya.CommandWorker
 {
@@ -62,14 +62,14 @@ namespace PostaFlya.CommandWorker
 //        public static readonly List<INinjectModule> NinjectModules = new List<INinjectModule>()
 //                  {
 //                      new PostaFlya.Domain.Binding.DefaultServicesNinjectBinding(),
-//                      new WebSite.Infrastructure.Binding.InfrastructureNinjectBinding(),
+//                      new Website.Infrastructure.Binding.InfrastructureNinjectBinding(),
 //                      new PostaFlya.Domain.Binding.CommandNinjectBinding(),
-//                      new WebSite.Azure.Common.Binding.AzureCommonNinjectBinding(),
+//                      new Website.Azure.Common.Binding.AzureCommonNinjectBinding(),
 //                      new PostaFlya.DataRepository.Binding.AzureRepositoryNinjectBinding(c => c.InTransientScope()),
 //                      new PostaFlya.DataRepository.Binding.TableNameNinjectBinding(),
-//                      new WebSite.Application.Binding.ApplicationNinjectBinding(),
+//                      new Website.Application.Binding.ApplicationNinjectBinding(),
 //                      new PostaFlya.Application.Domain.Binding.ApplicationDomainNinjectBinding(),
-//                      new WebSite.Application.Azure.Binding.AzureApplicationNinjectBinding(),
+//                      new Website.Application.Azure.Binding.AzureApplicationNinjectBinding(),
 //                  };
 //    }
 }

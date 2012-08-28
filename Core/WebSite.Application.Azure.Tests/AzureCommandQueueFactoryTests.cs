@@ -5,11 +5,11 @@ using System.Text;
 using MbUnit.Framework;
 using Microsoft.WindowsAzure.StorageClient;
 using Ninject;
-using WebSite.Application.Azure.Command;
-using WebSite.Application.Command;
-using WebSite.Infrastructure.Util;
+using Website.Application.Azure.Command;
+using Website.Application.Command;
+using Website.Infrastructure.Util;
 
-namespace WebSite.Application.Azure.Tests
+namespace Website.Application.Azure.Tests
 {
     [TestFixture]
     public class AzureCommandQueueFactoryTests

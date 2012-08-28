@@ -2,9 +2,9 @@ using System;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using WebSite.Application.Content;
-using WebSite.Application.Extension.Content;
-using WebSite.Infrastructure.Command;
+using Website.Application.Content;
+using Website.Application.Extension.Content;
+using Website.Infrastructure.Command;
 using Website.Domain.Location;
 
 namespace Website.Application.Domain.Content.Command

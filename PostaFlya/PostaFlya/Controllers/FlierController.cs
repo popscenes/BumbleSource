@@ -1,11 +1,11 @@
 using System;
 using System.Linq;
 using System.Web.Mvc;
-using WebSite.Application.Content;
+using Website.Application.Content;
 using PostaFlya.Domain.Behaviour;
 using PostaFlya.Domain.Flier.Command;
 using PostaFlya.Domain.Flier.Query;
-using WebSite.Infrastructure.Command;
+using Website.Infrastructure.Command;
 using PostaFlya.Models.Flier;
 using PostaFlya.Models.Location;
 

@@ -13,7 +13,7 @@ using PostaFlya.Domain.Flier;
 using PostaFlya.Domain.TaskJob;
 using PostaFlya.Domain.TaskJob.Command;
 using PostaFlya.Domain.TaskJob.Query;
-using WebSite.Infrastructure.Command;
+using Website.Infrastructure.Command;
 using PostaFlya.Models.Flier;
 using PostaFlya.Models.Location;
 using PostaFlya.Specification.Fliers;

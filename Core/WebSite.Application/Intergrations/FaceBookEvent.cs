@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace WebSite.Application.Intergrations
+namespace Website.Application.Intergrations
 {
     public class FaceBookEventVenue
     {

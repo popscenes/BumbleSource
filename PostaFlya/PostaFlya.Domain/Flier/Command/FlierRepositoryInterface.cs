@@ -1,5 +1,5 @@
 using PostaFlya.Domain.Flier.Query;
-using WebSite.Infrastructure.Command;
+using Website.Infrastructure.Command;
 
 namespace PostaFlya.Domain.Flier.Command
 {

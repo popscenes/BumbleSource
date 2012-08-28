@@ -4,9 +4,9 @@ using System.Data.Services.Client;
 using System.Linq;
 using Ninject;
 using PostaFlya.DataRepository.Internal;
-using WebSite.Azure.Common.TableStorage;
+using Website.Azure.Common.TableStorage;
 using PostaFlya.Domain.Flier;
-using WebSite.Infrastructure.Query;
+using Website.Infrastructure.Query;
 using Website.Domain.Content.Command;
 using Website.Domain.Content.Query;
 

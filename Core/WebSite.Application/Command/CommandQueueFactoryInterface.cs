@@ -1,6 +1,6 @@
-using WebSite.Infrastructure.Command;
+using Website.Infrastructure.Command;
 
-namespace WebSite.Application.Command
+namespace Website.Application.Command
 {
     public interface CommandQueueFactoryInterface
     {

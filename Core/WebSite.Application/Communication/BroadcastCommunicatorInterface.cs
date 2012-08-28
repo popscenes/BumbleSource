@@ -1,7 +1,7 @@
-using WebSite.Application.Command;
-using WebSite.Infrastructure.Command;
+using Website.Application.Command;
+using Website.Infrastructure.Command;
 
-namespace WebSite.Application.Communication
+namespace Website.Application.Communication
 {
     public interface BroadcastCommunicatorInterface : CommandBusInterface
     {

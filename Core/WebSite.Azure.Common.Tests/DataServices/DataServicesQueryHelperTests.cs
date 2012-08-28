@@ -2,11 +2,11 @@ using System;
 using System.Data.Services.Client;
 using System.Net;
 using MbUnit.Framework;
-using WebSite.Azure.Common.DataServices;
-using WebSite.Azure.Common.Environment;
-using WebSite.Infrastructure.Domain;
+using Website.Azure.Common.Environment;
+using Website.Azure.Common.DataServices;
+using Website.Infrastructure.Domain;
 
-namespace WebSite.Azure.Common.Tests.DataServices
+namespace Website.Azure.Common.Tests.DataServices
 {
     [TestFixture]
     public class DataServicesQueryHelperTests

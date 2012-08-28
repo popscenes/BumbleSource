@@ -1,7 +1,7 @@
 using System;
-using WebSite.Infrastructure.Command;
+using Website.Infrastructure.Command;
 
-namespace WebSite.Application.Caching
+namespace Website.Application.Caching
 {
     [Serializable]
     public class InvalidateCacheDataCommand : CommandInterface

@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using WebSite.Infrastructure.Domain;
+using Website.Infrastructure.Domain;
 using Website.Domain.Location;
 using Website.Domain.Tag;
 
@@ -21,6 +21,7 @@ namespace Website.Domain.Browser
             SavedTags = new List<Tags>();
             SavedLocations = new Locations();
             Roles = new Roles();
+            Properties = new Dictionary<string, object>();
         }
 
         public Tags Tags { get; set; }
@@ -40,5 +41,6 @@ namespace Website.Domain.Browser
         public List<Tags> SavedTags  { get; set; }
         [AggregateMemberEntity]
         public HashSet<BrowserIdentityProviderCredential> ExternalCredentials { get; set; }
+        public Dictionary<string, object> Properties { get; set; } 
     }
 }

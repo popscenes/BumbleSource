@@ -3,7 +3,7 @@ using System.Diagnostics;
 using System.Threading;
 using System.Web.Hosting;
 
-namespace WebSite.Common.Environment
+namespace Website.Common.Environment
 {
     public class WebBackgroundWorker : IRegisteredObject
     {

@@ -1,4 +1,4 @@
-using WebSite.Infrastructure.Query;
+using Website.Infrastructure.Query;
 
 namespace Website.Domain.Browser.Query
 {

@@ -1,5 +1,5 @@
 using PostaFlya.Domain.Behaviour;
-using WebSite.Infrastructure.Domain;
+using Website.Infrastructure.Domain;
 using Website.Domain.Location;
 
 namespace PostaFlya.Domain.TaskJob

@@ -1,6 +1,6 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using WebSite.Application.Extension.Validation;
+using Website.Application.Extension.Validation;
 
 namespace PostaFlya.Areas.TaskJob.Models
 {

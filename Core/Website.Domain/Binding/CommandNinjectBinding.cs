@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics;
 using Ninject;
 using Ninject.Modules;
-using WebSite.Infrastructure.Binding;
+using Website.Infrastructure.Binding;
 
 namespace Website.Domain.Binding
 {

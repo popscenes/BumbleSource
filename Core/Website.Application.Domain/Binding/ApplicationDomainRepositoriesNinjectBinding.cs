@@ -2,11 +2,11 @@
 using Ninject;
 using Ninject.Extensions.Conventions.Syntax;
 using Ninject.Modules;
-using WebSite.Application.Caching.Query;
-using WebSite.Infrastructure.Binding;
-using WebSite.Infrastructure.Caching.Command;
-using WebSite.Infrastructure.Command;
-using WebSite.Infrastructure.Query;
+using Website.Application.Caching.Query;
+using Website.Infrastructure.Binding;
+using Website.Infrastructure.Caching.Command;
+using Website.Infrastructure.Command;
+using Website.Infrastructure.Query;
 using Website.Application.Domain.Query;
 using Website.Domain.Browser.Query;
 

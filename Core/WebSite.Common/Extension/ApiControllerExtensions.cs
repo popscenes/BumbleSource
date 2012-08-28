@@ -2,10 +2,10 @@
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
-using WebSite.Infrastructure.Command;
-using WebSite.Infrastructure.Domain;
+using Website.Infrastructure.Domain;
+using Website.Infrastructure.Command;
 
-namespace WebSite.Common.Extension
+namespace Website.Common.Extension
 {
     public static class ApiControllerExtensions
     {

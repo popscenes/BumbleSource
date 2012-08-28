@@ -4,7 +4,7 @@ using System.Drawing.Imaging;
 using System.Linq;
 using System.Text;
 
-namespace WebSite.Application.Content
+namespace Website.Application.Content
 {
    public class ExifImage
    {

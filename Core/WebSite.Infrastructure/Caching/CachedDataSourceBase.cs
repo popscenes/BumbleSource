@@ -2,7 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Runtime.Caching;
 
-namespace WebSite.Infrastructure.Caching
+namespace Website.Infrastructure.Caching
 {
     public static class ObjectCacheExtension
     {

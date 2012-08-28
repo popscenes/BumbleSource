@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using PostaFlya.Domain.Behaviour;
-using WebSite.Infrastructure.Domain;
+using Website.Infrastructure.Domain;
 using Website.Domain.Browser;
 using Website.Domain.Claims;
 using Website.Domain.Comments;

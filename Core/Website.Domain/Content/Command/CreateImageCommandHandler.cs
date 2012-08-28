@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using WebSite.Infrastructure.Command;
+using Website.Infrastructure.Command;
 using Website.Domain.Service;
 
 namespace Website.Domain.Content.Command

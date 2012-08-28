@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Web.Mvc;
 
-namespace WebSite.Application.Extension.Validation
+namespace Website.Application.Extension.Validation
 {
     public class RequiredWithMessageValidator : DataAnnotationsModelValidator<RequiredWithMessage>
     {

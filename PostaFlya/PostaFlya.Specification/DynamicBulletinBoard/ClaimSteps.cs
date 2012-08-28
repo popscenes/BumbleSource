@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using MbUnit.Framework;
+using Moq;
 using Ninject;
 using PostaFlya.Models.Claims;
 using TechTalk.SpecFlow;
@@ -11,7 +12,9 @@ using PostaFlya.Domain.Flier.Query;
 using PostaFlya.Specification.Browsers;
 using PostaFlya.Specification.Fliers;
 using PostaFlya.Specification.Util;
+using Website.Infrastructure.Command;
 using Website.Domain.Claims;
+using Website.Domain.Service;
 
 namespace PostaFlya.Specification.DynamicBulletinBoard
 {
@@ -42,7 +45,7 @@ namespace PostaFlya.Specification.DynamicBulletinBoard
             var res = claimController.Post(claim);
             res.EnsureSuccessStatusCode();
         }
-
+        
         [Given(@"I have already claimed a tear off for that FLIER")]
         [Given(@"Someone has claimed a tear off for a FLIER")]
         public void GivenIHaveClaimedATearOffForAFlier()
@@ -109,6 +112,30 @@ namespace PostaFlya.Specification.DynamicBulletinBoard
             _common.GivenThereIsAnExistingBrowserWithParticipantRole();
             var browserId = ScenarioContext.Current["existingbrowserid"] as string;
             WhenABrowserClaimsATearOffForThatFlier(browserId);
+        }
+
+        [Then(@"A Notification for that Tear Off should be published")]
+        public void ThenANotificationForThatTearOffShouldBePublished()
+        {
+            var test = ScenarioContext.Current["tearoffnotification"];
+            Assert.IsNotNull(test);
+        }
+
+        [BeforeScenario("TearOffNotification")]
+        public void SetupNotificationBinding()
+        {
+            var claimBind = SpecUtil.CurrIocKernel.GetMock<ClaimPublicationServiceInterface>();
+            claimBind.Setup(service => service.Publish(It.IsAny<Claim>()))
+                .Callback<Claim>(claim => 
+                    ScenarioContext.Current["tearoffnotification"] = true);
+            SpecUtil.CurrIocKernel.Bind<ClaimPublicationServiceInterface>()
+                .ToConstant(claimBind.Object);
+        }
+
+        [AfterScenario("TearOffNotification")]
+        public void TearDownNotificationBinding()
+        {
+            SpecUtil.CurrIocKernel.Unbind<ClaimPublicationServiceInterface>();
         }
     }
 }

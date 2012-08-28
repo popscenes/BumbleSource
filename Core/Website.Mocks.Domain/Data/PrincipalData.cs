@@ -1,7 +1,7 @@
 using System.Linq;
 using Ninject;
 using Ninject.MockingKernel.Moq;
-using WebSite.Infrastructure.Authentication;
+using Website.Infrastructure.Authentication;
 using Website.Domain.Browser;
 
 namespace Website.Mocks.Domain.Data

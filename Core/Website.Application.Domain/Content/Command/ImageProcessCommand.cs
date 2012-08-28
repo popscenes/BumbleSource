@@ -1,5 +1,5 @@
 using System;
-using WebSite.Infrastructure.Command;
+using Website.Infrastructure.Command;
 
 namespace Website.Application.Domain.Content.Command
 {

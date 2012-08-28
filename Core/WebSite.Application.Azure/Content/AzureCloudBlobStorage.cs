@@ -8,10 +8,10 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using Microsoft.WindowsAzure.StorageClient;
-using WebSite.Application.Content;
-using BlobProperties = WebSite.Application.Content.BlobProperties;
+using Website.Application.Content;
+using BlobProperties = Website.Application.Content.BlobProperties;
 
-namespace WebSite.Application.Azure.Content
+namespace Website.Application.Azure.Content
 {
     public class AzureCloudBlobStorage : BlobStorageInterface
     {
@@ -65,17 +65,17 @@ namespace WebSite.Application.Azure.Content
             return RetryQuery(getBlob);
         }
 
-        public BlobProperties GetBlobProperties(string id)
+        public Application.Content.BlobProperties GetBlobProperties(string id)
         {
             if (string.IsNullOrWhiteSpace(id))
                 return null;
 
-            Func<BlobProperties> getProperties = 
+            Func<Application.Content.BlobProperties> getProperties = 
                 () =>
                     {
                         var blob = _blobContainer.GetBlobReference(id);
                         blob.FetchAttributes();
-                        return new BlobProperties()
+                        return new Application.Content.BlobProperties()
                                     {
                                         MetaData = new NameValueCollection(blob.Metadata),
                                         ContentTyp = blob.Properties.ContentType
@@ -85,7 +85,7 @@ namespace WebSite.Application.Azure.Content
             return RetryQuery(getProperties);
         }
 
-        public bool SetBlob(string id, byte[] bytes, BlobProperties properties = null)
+        public bool SetBlob(string id, byte[] bytes, Application.Content.BlobProperties properties = null)
         {
             Func<bool> setBlob = 
                 () =>
@@ -97,7 +97,7 @@ namespace WebSite.Application.Azure.Content
             return RetryQuery(setBlob);
         }
 
-        public bool SetBlobProperties(string id, BlobProperties properties)
+        public bool SetBlobProperties(string id, Application.Content.BlobProperties properties)
         {
             Func<bool> setBlob =
                 () =>
@@ -152,7 +152,7 @@ namespace WebSite.Application.Azure.Content
             return RetryQuery(delete);
         }
 
-        private static void UpdateFromProperties(CloudBlob blob, BlobProperties properties, bool update = false)
+        private static void UpdateFromProperties(CloudBlob blob, Application.Content.BlobProperties properties, bool update = false)
         {
             if (properties == null) return;
             

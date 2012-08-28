@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Data.SqlClient;
 
-namespace WebSite.Azure.Common.Sql
+namespace Website.Azure.Common.Sql
 {
     public class SqlOpenClose : IDisposable
     {

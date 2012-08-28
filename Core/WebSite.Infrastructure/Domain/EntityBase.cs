@@ -1,6 +1,6 @@
 using System;
 
-namespace WebSite.Infrastructure.Domain
+namespace Website.Infrastructure.Domain
 {
     [Serializable]
     public class EntityBase<EntityInterfaceType> where EntityInterfaceType : class, EntityInterface

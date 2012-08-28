@@ -3,11 +3,11 @@ using Microsoft.WindowsAzure;
 using Microsoft.WindowsAzure.StorageClient;
 using Ninject;
 using Ninject.Syntax;
-using WebSite.Application.Command;
-using WebSite.Azure.Common.TableStorage;
-using WebSite.Infrastructure.Util;
+using Website.Application.Command;
+using Website.Azure.Common.TableStorage;
+using Website.Infrastructure.Util;
 
-namespace WebSite.Application.Azure.Binding
+namespace Website.Application.Azure.Binding
 {
     public class AzureInitCreateQueueAndBlobs : InitServiceInterface
     {

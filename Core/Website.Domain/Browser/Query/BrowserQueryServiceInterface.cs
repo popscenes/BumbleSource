@@ -1,5 +1,5 @@
-using WebSite.Infrastructure.Authentication;
-using WebSite.Infrastructure.Query;
+using Website.Infrastructure.Authentication;
+using Website.Infrastructure.Query;
 
 namespace Website.Domain.Browser.Query
 {

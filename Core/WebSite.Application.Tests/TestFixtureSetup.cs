@@ -2,9 +2,11 @@
 using MbUnit.Framework;
 using Ninject.MockingKernel.Moq;
 using Ninject.Modules;
-using WebSite.Test.Common;
+using Website.Application.Binding;
+using Website.Infrastructure.Binding;
+using Website.Test.Common;
 
-namespace WebSite.Application.Tests
+namespace Website.Application.Tests
 {
     [AssemblyFixture]
     class TestFixtureSetup
@@ -39,8 +41,9 @@ namespace WebSite.Application.Tests
 
         private static readonly List<INinjectModule> NinjectModules = new List<INinjectModule>()
                   {
-                      new WebSite.Infrastructure.Binding.InfrastructureNinjectBinding(),
-                      new WebSite.Application.Binding.ApplicationNinjectBinding()
+                      new InfrastructureNinjectBinding(),
+                      new ApplicationCommandHandlersNinjectBinding(),
+                      new ApplicationNinjectBinding()
                   };
     }
 }

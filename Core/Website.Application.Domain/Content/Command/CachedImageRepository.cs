@@ -1,6 +1,6 @@
 using System.Runtime.Caching;
-using WebSite.Infrastructure.Binding;
-using WebSite.Infrastructure.Command;
+using Website.Infrastructure.Binding;
+using Website.Infrastructure.Command;
 using Website.Application.Domain.Command;
 using Website.Domain.Content.Command;
 

@@ -6,12 +6,12 @@ using System.Text;
 using MbUnit.Framework;
 using Ninject;
 using Ninject.MockingKernel.Moq;
-using WebSite.Application.WebsiteInformation;
-using WebSite.Test.Common;
 using Moq;
+using Website.Application.WebsiteInformation;
+using Website.Test.Common;
 
 
-namespace WebSite.Application.Tests.WebsiteInformation
+namespace Website.Application.Tests.WebsiteInformation
 {
     [TestFixture]    
     public class WebsiteInformationServiceCacheTests

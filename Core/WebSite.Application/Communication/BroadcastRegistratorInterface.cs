@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace WebSite.Application.Communication
+namespace Website.Application.Communication
 {
     public interface BroadcastRegistratorInterface
     {

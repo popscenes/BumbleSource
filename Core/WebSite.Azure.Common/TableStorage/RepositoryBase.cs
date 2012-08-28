@@ -1,11 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using WebSite.Azure.Common.DataServices;
-using WebSite.Infrastructure.Command;
-using WebSite.Infrastructure.Domain;
+using Website.Azure.Common.DataServices;
+using Website.Infrastructure.Command;
+using Website.Infrastructure.Domain;
 
-namespace WebSite.Azure.Common.TableStorage
+namespace Website.Azure.Common.TableStorage
 {
     public abstract class RepositoryBase<TableEntryType> : 
         QueryServiceBase<TableEntryType>,
@@ -41,6 +41,7 @@ namespace WebSite.Azure.Common.TableStorage
             Action mutator = () =>
                                  {
                                      var storage = GetEntityForUpdate<UpdateType>(id);
+                                     if (storage == null) return;
                                      updateAction((UpdateType)storage.AggregateRoot);
                                      StoreAggregate(storage);
                                  };
@@ -53,6 +54,7 @@ namespace WebSite.Azure.Common.TableStorage
             Action mutator = () =>
             {
                 var storage = GetEntityForUpdate(entity, id);
+                if (storage == null) return;
                 updateAction(storage.AggregateRoot);
                 StoreAggregate(storage);
             };

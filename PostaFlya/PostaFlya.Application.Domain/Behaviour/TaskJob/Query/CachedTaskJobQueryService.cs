@@ -1,12 +1,12 @@
 using System.Linq;
 using System.Runtime.Caching;
-using WebSite.Application.Binding;
-using WebSite.Application.Caching.Query;
+using Website.Application.Binding;
+using Website.Application.Caching.Query;
 using PostaFlya.Domain.TaskJob;
 using PostaFlya.Domain.TaskJob.Query;
-using WebSite.Infrastructure.Command;
-using WebSite.Infrastructure.Query;
-using WebSite.Infrastructure.Binding;
+using Website.Infrastructure.Command;
+using Website.Infrastructure.Query;
+using Website.Infrastructure.Binding;
 
 namespace PostaFlya.Application.Domain.Behaviour.TaskJob.Query
 {

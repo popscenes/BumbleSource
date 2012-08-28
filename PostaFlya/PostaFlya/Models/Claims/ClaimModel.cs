@@ -2,7 +2,7 @@ using System;
 using System.ComponentModel;
 using PostaFlya.Binding;
 using PostaFlya.Models.Browser;
-using WebSite.Application.Content;
+using Website.Application.Content;
 using Website.Domain.Browser.Query;
 using Website.Domain.Claims;
 

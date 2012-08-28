@@ -5,7 +5,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using Microsoft.CSharp.RuntimeBinder;
 
-namespace WebSite.Application.Extension.Dynamic
+namespace Website.Application.Extension.Dynamic
 {
     public static class DynamicExtensions
     {

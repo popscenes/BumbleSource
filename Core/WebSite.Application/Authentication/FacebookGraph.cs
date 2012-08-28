@@ -6,7 +6,7 @@ using System.Runtime.Serialization.Json;
 using System.Text;
 using DotNetOpenAuth.OAuth2;
 
-namespace WebSite.Application.Authentication
+namespace Website.Application.Authentication
 {
     //-----------------------------------------------------------------------
     // <copyright file="FacebookGraph.cs" company="Andrew Arnott">

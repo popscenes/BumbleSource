@@ -9,8 +9,8 @@
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>WebSite.Application.Azure.Tests</RootNamespace>
-    <AssemblyName>WebSite.Application.Azure.Tests</AssemblyName>
+    <RootNamespace>Website.Application.Azure.Tests</RootNamespace>
+    <AssemblyName>Website.Application.Azure.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <PublishUrl>publish\</PublishUrl>
@@ -116,29 +116,29 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\WebSite.Application.Azure\WebSite.Application.Azure.csproj">
+    <ProjectReference Include="..\Website.Application.Azure\Website.Application.Azure.csproj">
       <Project>{3BFDED0A-130F-4CEC-ABFC-51E6AA72F5C2}</Project>
-      <Name>WebSite.Application.Azure</Name>
+      <Name>Website.Application.Azure</Name>
     </ProjectReference>
-    <ProjectReference Include="..\WebSite.Application\WebSite.Application.csproj">
+    <ProjectReference Include="..\Website.Application\Website.Application.csproj">
       <Project>{46DB8930-71D8-4DE4-BAA6-39944F07D6F5}</Project>
-      <Name>WebSite.Application</Name>
+      <Name>Website.Application</Name>
     </ProjectReference>
-    <ProjectReference Include="..\WebSite.Azure.Common\WebSite.Azure.Common.csproj">
+    <ProjectReference Include="..\Website.Azure.Common\Website.Azure.Common.csproj">
       <Project>{63418161-2D30-4BC6-B1C1-015CDA302B08}</Project>
-      <Name>WebSite.Azure.Common</Name>
+      <Name>Website.Azure.Common</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\PostaFlya\PostaFlya.DataRepository\PostaFlya.DataRepository.csproj">
       <Project>{787DCEAB-23A8-476E-859F-5CD98F9ABDDC}</Project>
-      <Name>WebSite.DataRepository</Name>
+      <Name>Website.DataRepository</Name>
     </ProjectReference>
-    <ProjectReference Include="..\WebSite.Infrastructure\WebSite.Infrastructure.csproj">
+    <ProjectReference Include="..\Website.Infrastructure\Website.Infrastructure.csproj">
       <Project>{B5C3A966-F286-4CB8-913B-C8625625451D}</Project>
-      <Name>WebSite.Infrastructure</Name>
+      <Name>Website.Infrastructure</Name>
     </ProjectReference>
-    <ProjectReference Include="..\WebSite.Test.Common\WebSite.Test.Common.csproj">
+    <ProjectReference Include="..\Website.Test.Common\Website.Test.Common.csproj">
       <Project>{DC7CC356-EE06-49C0-9985-9D0101AAF45F}</Project>
-      <Name>WebSite.Test.Common</Name>
+      <Name>Website.Test.Common</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

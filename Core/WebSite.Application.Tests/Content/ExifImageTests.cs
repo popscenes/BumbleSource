@@ -2,9 +2,9 @@
 using System.Drawing.Imaging;
 using System.IO;
 using MbUnit.Framework;
-using WebSite.Application.Content;
+using Website.Application.Content;
 
-namespace WebSite.Application.Tests.Content
+namespace Website.Application.Tests.Content
 {
     [TestFixture]
     public class ExifImageTests

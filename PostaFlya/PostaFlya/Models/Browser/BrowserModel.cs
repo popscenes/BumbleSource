@@ -1,5 +1,5 @@
 using System;
-using WebSite.Application.Content;
+using Website.Application.Content;
 using Website.Application.Domain.Content;
 using Website.Domain.Browser;
 using Website.Domain.Browser.Query;

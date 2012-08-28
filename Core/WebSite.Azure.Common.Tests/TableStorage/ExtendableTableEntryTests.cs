@@ -5,13 +5,13 @@ using System.Runtime.Serialization;
 using System.Text;
 using MbUnit.Framework;
 using Ninject;
-using WebSite.Azure.Common.Environment;
-using WebSite.Azure.Common.TableStorage;
-using WebSite.Infrastructure.Domain;
-using WebSite.Infrastructure.Util;
-using WebSite.Test.Common;
+using Website.Infrastructure.Domain;
+using Website.Infrastructure.Util;
+using Website.Test.Common;
+using Website.Azure.Common.Environment;
+using Website.Azure.Common.TableStorage;
 
-namespace WebSite.Azure.Common.Tests.TableStorage
+namespace Website.Azure.Common.Tests.TableStorage
 {
     [TestFixture]
     public class ExtendableTableEntryTests

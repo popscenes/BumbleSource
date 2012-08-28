@@ -1,9 +1,9 @@
-using WebSite.Application.Binding;
-using WebSite.Application.Content;
-using WebSite.Infrastructure.Command;
-using WebSite.Infrastructure.Util;
+using Website.Application.Binding;
+using Website.Application.Content;
+using Website.Infrastructure.Command;
+using Website.Infrastructure.Util;
 
-namespace WebSite.Application.Command
+namespace Website.Application.Command
 {
     public class DataBusCommandSerializer : CommandSerializerInterface
     {

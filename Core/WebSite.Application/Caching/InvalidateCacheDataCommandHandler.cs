@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Caching;
 using System.Text;
-using WebSite.Infrastructure.Command;
+using Website.Infrastructure.Command;
 
-namespace WebSite.Application.Caching
+namespace Website.Application.Caching
 {
     internal class InvalidateCacheDataCommandHandler : CommandHandlerInterface<InvalidateCacheDataCommand>
     {

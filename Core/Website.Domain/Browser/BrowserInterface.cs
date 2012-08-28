@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using WebSite.Infrastructure.Domain;
+using Website.Infrastructure.Domain;
 using Website.Domain.Location;
 using Website.Domain.Tag;
 
@@ -27,6 +27,7 @@ namespace Website.Domain.Browser
             target.Address = source.Address != null ? new Location.Location(source.Address) : null;
             target.AddressPublic = source.AddressPublic;
             target.AvatarImageId = source.AvatarImageId;
+            target.Properties = source.Properties != null ? new Dictionary<string, object>(source.Properties) : null;
         }
 
         public static bool HasRole(this BrowserInterface browser, Role role)
@@ -62,5 +63,6 @@ namespace Website.Domain.Browser
         Location.Location Address { get; set; }
         string AvatarImageId { get; set; }
         bool AddressPublic { get; set; }
+        Dictionary<string, object> Properties { get; set; } 
     }
 }

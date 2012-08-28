@@ -1,4 +1,4 @@
-namespace WebSite.Infrastructure.Command
+namespace Website.Infrastructure.Command
 {
     public interface CommandHandlerInterface<in CommandType> where CommandType : CommandInterface
     {

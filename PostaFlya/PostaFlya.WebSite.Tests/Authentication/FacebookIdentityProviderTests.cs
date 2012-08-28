@@ -5,11 +5,11 @@ using System.Security.Principal;
 using System.Web;
 using MbUnit.Framework;
 using Ninject.MockingKernel.Moq;
-using WebSite.Application.Authentication;
-using WebSite.Infrastructure.Authentication;
-using WebSite.Test.Common;
+using Website.Application.Authentication;
+using Website.Infrastructure.Authentication;
+using Website.Test.Common;
 
-namespace PostaFlya.WebSite.Tests.Authentication
+namespace PostaFlya.Website.Tests.Authentication
 {
     [TestFixture]
     public class FacebookIdentityProviderTests

@@ -336,13 +336,13 @@
       <Project>{1510EA95-D2A1-47B5-8652-49895B97FC9F}</Project>
       <Name>PostaFlya.Application.Domain</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Core\WebSite.Application\WebSite.Application.csproj">
+    <ProjectReference Include="..\..\Core\Website.Application\Website.Application.csproj">
       <Project>{46DB8930-71D8-4DE4-BAA6-39944F07D6F5}</Project>
-      <Name>WebSite.Application</Name>
+      <Name>Website.Application</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Core\WebSite.Common\WebSite.Common.csproj">
+    <ProjectReference Include="..\..\Core\Website.Common\Website.Common.csproj">
       <Project>{B8DA4F3A-23FF-46AA-A9E4-A22EAC11CA3A}</Project>
-      <Name>WebSite.Common</Name>
+      <Name>Website.Common</Name>
     </ProjectReference>
     <ProjectReference Include="..\PostaFlya.Domain.TaskJob\PostaFlya.Domain.TaskJob.csproj">
       <Project>{761D2C3C-2C8A-4277-AAD3-407872797B9C}</Project>
@@ -352,13 +352,13 @@
       <Project>{77BD3622-4D65-4776-AC5A-4F779CC526ED}</Project>
       <Name>PostaFlya.Domain</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Core\WebSite.Infrastructure\WebSite.Infrastructure.csproj">
+    <ProjectReference Include="..\..\Core\Website.Infrastructure\Website.Infrastructure.csproj">
       <Project>{B5C3A966-F286-4CB8-913B-C8625625451D}</Project>
-      <Name>WebSite.Infrastructure</Name>
+      <Name>Website.Infrastructure</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Core\WebSite.Test.Common\WebSite.Test.Common.csproj">
+    <ProjectReference Include="..\..\Core\Website.Test.Common\Website.Test.Common.csproj">
       <Project>{DC7CC356-EE06-49C0-9985-9D0101AAF45F}</Project>
-      <Name>WebSite.Test.Common</Name>
+      <Name>Website.Test.Common</Name>
     </ProjectReference>
     <ProjectReference Include="..\PostaFlya.Mocks.Domain\PostaFlya.Mocks.Domain.csproj">
       <Project>{2AA4C663-ADFF-47C7-9770-92D7A524DD33}</Project>

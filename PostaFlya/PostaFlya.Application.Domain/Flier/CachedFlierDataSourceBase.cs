@@ -1,10 +1,10 @@
 using System;
 using System.Runtime.Caching;
-using WebSite.Application.Binding;
-using WebSite.Application.Caching;
-using WebSite.Application.Caching.Command;
-using WebSite.Infrastructure.Caching;
-using WebSite.Infrastructure.Command;
+using Website.Application.Binding;
+using Website.Application.Caching;
+using Website.Application.Caching.Command;
+using Website.Infrastructure.Caching;
+using Website.Infrastructure.Command;
 
 namespace PostaFlya.Application.Domain.Flier
 {

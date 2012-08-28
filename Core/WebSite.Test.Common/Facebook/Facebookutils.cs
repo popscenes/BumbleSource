@@ -6,7 +6,7 @@ using System.Net;
 using System.IO;
 using System.Web.Script.Serialization;
 
-namespace WebSite.Test.Common.Facebook
+namespace Website.Test.Common.Facebook
 {
     public static class Facebookutils
     {

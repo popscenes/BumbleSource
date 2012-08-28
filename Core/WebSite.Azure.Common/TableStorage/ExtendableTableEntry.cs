@@ -2,9 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.WindowsAzure.StorageClient;
-using WebSite.Infrastructure.Util;
+using Website.Infrastructure.Util;
 
-namespace WebSite.Azure.Common.TableStorage
+namespace Website.Azure.Common.TableStorage
 {
     public class ExtendableTableEntry : TableServiceEntity
         , StorageTableEntryInterface

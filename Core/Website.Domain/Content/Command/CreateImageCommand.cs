@@ -1,8 +1,8 @@
-using Website.Domain.Command;
+using Website.Infrastructure.Command;
 
 namespace Website.Domain.Content.Command
 {
-    public class CreateImageCommand : DomainCommandBase
+    public class CreateImageCommand : DefaultCommandBase
     {
         public string BrowserId { get; set; }
         public Content Content { get; set; }

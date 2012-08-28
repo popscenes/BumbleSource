@@ -8,18 +8,18 @@ using MbUnit.Framework;
 using Moq;
 using Ninject;
 using Ninject.MockingKernel.Moq;
-using WebSite.Application.Tests.Content;
-using WebSite.Common.ActionResult;
+using Website.Application.Tests.Content;
+using Website.Common.ActionResult;
 using PostaFlya.Controllers;
 using Website.Application.Domain.Tests.Content;
 using Website.Domain.Content;
 using Website.Domain.Content.Command;
 using Website.Domain.Service;
-using WebSite.Infrastructure.Command;
-using WebSite.Test.Common;
-//using WebSite.Mocks.Domain.Data;
+using Website.Infrastructure.Command;
+using Website.Test.Common;
+//using Website.Mocks.Domain.Data;
 
-namespace PostaFlya.WebSite.Tests.Controllers
+namespace PostaFlya.Website.Tests.Controllers
 {
     [TestFixture]
     public class ImgControllerTests
@@ -142,7 +142,7 @@ namespace PostaFlya.WebSite.Tests.Controllers
         public void TestImgControllerReturnsProcessingImageForImageStillProcessing()
         {
             var id = Guid.NewGuid().ToString();
-            var image = new Website.Domain.Content.Image() { Id = id, Status = ImageStatus.Processing};
+            var image = new Image() { Id = id, Status = ImageStatus.Processing};
             Kernel.Get<ImageRepositoryInterface>().Store(image);
 
             var imgController = Kernel.Get<ImgController>();

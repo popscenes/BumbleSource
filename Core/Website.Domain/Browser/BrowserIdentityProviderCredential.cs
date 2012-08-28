@@ -1,5 +1,5 @@
 using System;
-using WebSite.Infrastructure.Authentication;
+using Website.Infrastructure.Authentication;
 
 namespace Website.Domain.Browser
 {

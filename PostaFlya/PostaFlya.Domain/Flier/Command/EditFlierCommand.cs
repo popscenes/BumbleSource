@@ -1,13 +1,12 @@
 using System;
-using WebSite.Infrastructure.Command;
+using Website.Infrastructure.Command;
 using System.Collections.Generic;
-using Website.Domain.Command;
 using Website.Domain.Location;
 using Website.Domain.Tag;
 
 namespace PostaFlya.Domain.Flier.Command
 {
-    public class EditFlierCommand : DomainCommandBase
+    public class EditFlierCommand : DefaultCommandBase
     {
         public Guid? Image { get; set; }
         public Location Location { get; set; }

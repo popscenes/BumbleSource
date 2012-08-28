@@ -7,11 +7,11 @@ using MbUnit.Framework.ContractVerifiers;
 using Moq;
 using Ninject;
 using Ninject.MockingKernel.Moq;
-using WebSite.Application.Command;
-using WebSite.Application.Content;
-using WebSite.Infrastructure.Command;
+using Website.Application.Command;
+using Website.Application.Content;
+using Website.Infrastructure.Command;
 
-namespace WebSite.Application.Tests.Command
+namespace Website.Application.Tests.Command
 {
     [TestFixture]
     public class DataBusCommandSerializerTests

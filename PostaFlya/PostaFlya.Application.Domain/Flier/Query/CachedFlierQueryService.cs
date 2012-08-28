@@ -2,13 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Caching;
-using WebSite.Application.Binding;
-using WebSite.Application.Caching.Query;
+using Website.Application.Binding;
+using Website.Application.Caching.Query;
 using PostaFlya.Domain.Flier;
 using PostaFlya.Domain.Flier.Query;
-using WebSite.Infrastructure.Command;
-using WebSite.Infrastructure.Query;
-using WebSite.Infrastructure.Binding;
+using Website.Infrastructure.Command;
+using Website.Infrastructure.Query;
+using Website.Infrastructure.Binding;
 using Website.Application.Domain.Query;
 using Website.Domain.Tag;
 

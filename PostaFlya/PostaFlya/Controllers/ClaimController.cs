@@ -6,13 +6,13 @@ using System.Net.Http;
 using System.Web.Http;
 using PostaFlya.Domain.Flier;
 using PostaFlya.Models.Claims;
-using WebSite.Application.Binding;
+using Website.Application.Binding;
 using PostaFlya.Binding;
-using WebSite.Application.Content;
-using WebSite.Common.Extension;
-using WebSite.Infrastructure.Command;
-using WebSite.Infrastructure.Domain;
-using WebSite.Infrastructure.Query;
+using Website.Application.Content;
+using Website.Common.Extension;
+using Website.Infrastructure.Command;
+using Website.Infrastructure.Domain;
+using Website.Infrastructure.Query;
 using PostaFlya.Models.Browser;
 using Website.Domain.Browser.Query;
 using Website.Domain.Claims;
@@ -52,6 +52,7 @@ namespace PostaFlya.Controllers
                                   {
                                       BrowserId = claim.BrowserId,
                                       ClaimEntity = entity,
+                                      Context = "tearoff"
                                   };
 
             var res = _commandBus.Send(claimCommand);

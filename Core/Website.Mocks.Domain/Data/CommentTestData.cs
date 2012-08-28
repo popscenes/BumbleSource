@@ -2,8 +2,8 @@ using System;
 using System.Collections.Generic;
 using MbUnit.Framework;
 using Ninject;
-using WebSite.Infrastructure.Command;
-using WebSite.Infrastructure.Query;
+using Website.Infrastructure.Command;
+using Website.Infrastructure.Query;
 using Website.Domain.Comments;
 
 namespace Website.Mocks.Domain.Data

@@ -6,13 +6,13 @@ using System.Text;
 using Microsoft.WindowsAzure.StorageClient;
 using Ninject;
 using Ninject.Syntax;
-using WebSite.Azure.Common.TableStorage;
+using Website.Azure.Common.TableStorage;
 using PostaFlya.DataRepository.Behaviour.TaskJob;
 using PostaFlya.DataRepository.Browser;
 using PostaFlya.DataRepository.Content;
 using PostaFlya.DataRepository.Flier;
 using PostaFlya.DataRepository.Search.Implementation;
-using WebSite.Infrastructure.Util;
+using Website.Infrastructure.Util;
 
 namespace PostaFlya.DataRepository.Binding
 {

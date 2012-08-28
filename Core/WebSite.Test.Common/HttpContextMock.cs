@@ -4,7 +4,7 @@ using System.Web;
 using Moq;
 using Ninject.MockingKernel.Moq;
 
-namespace WebSite.Test.Common
+namespace Website.Test.Common
 {
     public static class HttpContextMock
     {

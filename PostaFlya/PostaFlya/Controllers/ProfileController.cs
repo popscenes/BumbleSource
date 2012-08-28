@@ -4,10 +4,10 @@ using System.Globalization;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using WebSite.Application.Binding;
+using Website.Application.Binding;
 using PostaFlya.Domain.Flier.Query;
 using PostaFlya.Models.Factory;
-using WebSite.Application.Content;
+using Website.Application.Content;
 using Website.Application.Domain.Browser;
 using Website.Domain.Browser.Query;
 

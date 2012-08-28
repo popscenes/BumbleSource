@@ -1,13 +1,13 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using WebSite.Infrastructure.Command;
-using WebSite.Infrastructure.Domain;
-using WebSite.Infrastructure.Query;
+using Website.Infrastructure.Command;
+using Website.Infrastructure.Domain;
+using Website.Infrastructure.Query;
 using Website.Domain.Browser;
 using Website.Domain.Browser.Query;
 
-//using WebSite.Infrastructure.Service;
+//using Website.Infrastructure.Service;
 
 namespace Website.Domain.Comments.Command
 {

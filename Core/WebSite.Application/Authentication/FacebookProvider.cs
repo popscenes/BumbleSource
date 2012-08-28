@@ -2,10 +2,10 @@ using System;
 using System.Globalization;
 using System.Net;
 using DotNetOpenAuth.OAuth2;
-using WebSite.Application.Intergrations;
-using WebSite.Infrastructure.Authentication;
+using Website.Application.Intergrations;
+using Website.Infrastructure.Authentication;
 
-namespace WebSite.Application.Authentication
+namespace Website.Application.Authentication
 {
     public class FacebookProvider : IdentityProviderInterface
     {

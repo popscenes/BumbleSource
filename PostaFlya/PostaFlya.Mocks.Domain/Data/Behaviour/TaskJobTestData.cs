@@ -7,7 +7,7 @@ using PostaFlya.Domain.Behaviour;
 using PostaFlya.Domain.TaskJob;
 using PostaFlya.Domain.TaskJob.Command;
 using PostaFlya.Domain.TaskJob.Query;
-using WebSite.Infrastructure.Command;
+using Website.Infrastructure.Command;
 using Website.Domain.Location;
 
 namespace PostaFlya.Mocks.Domain.Data.Behaviour

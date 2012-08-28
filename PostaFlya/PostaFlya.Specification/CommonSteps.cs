@@ -6,12 +6,12 @@ using System.Text;
 using MbUnit.Framework;
 using TechTalk.SpecFlow;
 using PostaFlya.Controllers;
-using WebSite.Infrastructure.Authentication;
-using WebSite.Infrastructure.Command;
-using WebSite.Infrastructure.Domain;
+using Website.Infrastructure.Authentication;
+using Website.Infrastructure.Command;
+using Website.Infrastructure.Domain;
 using PostaFlya.Specification.Browsers;
 using PostaFlya.Specification.Util;
-using WebSite.Test.Common;
+using Website.Test.Common;
 
 namespace PostaFlya.Specification
 {

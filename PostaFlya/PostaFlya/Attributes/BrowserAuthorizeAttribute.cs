@@ -7,7 +7,7 @@ using System.Web;
 using System.Web.Http.Controllers;
 using System.Web.Http.Filters;
 using Ninject;
-using WebSite.Infrastructure.Command;
+using Website.Infrastructure.Command;
 using Website.Application.Domain.Browser;
 using Website.Domain.Browser;
 

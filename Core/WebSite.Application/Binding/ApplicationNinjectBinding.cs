@@ -1,16 +1,19 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Linq;
+using System.Reflection;
 using Ninject;
 using Ninject.Extensions.Conventions;
+using Ninject.Extensions.Conventions.Syntax;
 using Ninject.Modules;
-using WebSite.Application.Command;
-using WebSite.Application.Communication;
-using WebSite.Infrastructure.Binding;
-using WebSite.Infrastructure.Command;
-using WebSite.Application.WebsiteInformation;
+using Website.Infrastructure.Binding;
+using Website.Infrastructure.Command;
+using Website.Application.Command;
+using Website.Application.Communication;
+using Website.Application.Publish;
+using Website.Application.WebsiteInformation;
 
-namespace WebSite.Application.Binding
+namespace Website.Application.Binding
 {
     public class ApplicationNinjectBinding : NinjectModule
     {
@@ -19,11 +22,6 @@ namespace WebSite.Application.Binding
         public override void Load()
         {
             Trace.TraceInformation("Binding ApplicationNinjectBinding");
-
-           
-            //command handlers
-            var kernel = Kernel as StandardKernel;
-            kernel.BindCommandHandlersFromCallingAssembly(c => c.InTransientScope());
 
             Kernel.Bind<WebsiteInfoServiceInterface>().To<CachedWebsiteInfoService>();
 
@@ -58,5 +56,27 @@ namespace WebSite.Application.Binding
         }
 
         #endregion
+    }
+
+    public static class ApplicationNinjectExtensions
+    {
+        public static void BindPublishServicesFromCallingAssembly(this StandardKernel kernel
+                                                                  , ConfigurationAction ninjectConfiguration)
+        {
+            var asm = Assembly.GetCallingAssembly();
+            Trace.TraceInformation("Binding publish services from {0}", asm.FullName);
+            //publish services
+            kernel.Bind(
+                x => x.From(asm)
+                         .IncludingNonePublicTypes()
+                         .SelectAllClasses()
+                         .Where(t => t.GetInterfaces().Any(i =>
+                                                           i.IsGenericType &&
+                                                           i.GetGenericTypeDefinition() ==
+                                                           typeof(PublishServiceInterface<>))
+                         )
+                         .BindAllInterfaces()
+                         .Configure(ninjectConfiguration));
+        }
     }
 }

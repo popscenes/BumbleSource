@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using WebSite.Infrastructure.Authentication;
-using WebSite.Application.WebsiteInformation;
 using System.Web;
+using Website.Application.WebsiteInformation;
+using Website.Infrastructure.Authentication;
 
-namespace WebSite.Application.Authentication
+namespace Website.Application.Authentication
 {
     public class WebIdentityProviderService : IdentityProviderServiceInterface
     {
