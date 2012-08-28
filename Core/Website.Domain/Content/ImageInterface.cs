@@ -1,3 +1,4 @@
+using System;
 using Website.Infrastructure.Domain;
 using Website.Domain.Browser;
 
@@ -12,6 +13,7 @@ namespace Website.Domain.Content
             target.Title = source.Title;
             target.Status = source.Status;
             target.Location = source.Location != null ? new Location.Location(source.Location) : null;
+            target.ExternalId = source.ExternalId;
         }
     }
 
@@ -21,5 +23,6 @@ namespace Website.Domain.Content
         string Title { get; set; }
         ImageStatus Status { get; set; }
         Location.Location Location { get; set; }
+        String ExternalId { get; set; }
     }
 }

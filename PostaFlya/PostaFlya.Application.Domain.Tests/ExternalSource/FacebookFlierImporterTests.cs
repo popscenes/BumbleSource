@@ -128,7 +128,10 @@ namespace PostaFlya.Application.Domain.Tests.ExternalSource
             Assert.Count(5, fliers.ToList());
             var fliersList = fliers.ToList();
             var repo = Kernel.GetMock<FlierRepositoryInterface>();
+            fliersList[0].Id = "extflier1";
             repo.Object.Store(fliersList[0]);
+            fliersList[1].Id = "extflier2";
+
             repo.Object.Store(fliersList[1]);
 
             fliers = facebookFlierImporter.ImportFliers(browser);

@@ -38,7 +38,7 @@ namespace Website.Infrastructure.Authentication
             UserIdentifier = credential.UserIdentifier;
             Name = credential.Name;
             Email = credential.Email;
-            AccessToken = AccessToken;
+            AccessToken = credential.AccessToken;
         }
 
         public bool Equals(IdentityProviderCredential other)
