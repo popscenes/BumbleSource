@@ -53,30 +53,21 @@ namespace PostaFlya.Controllers
         }
 
 
-        protected string GetUrlCallBack(string providerIdentifier)
+        protected string GetUrlCallBack(string providerIdentifier, string controller, string action)
         {
             var callback = "http://localhost/";
             if (Url != null)
-                callback = Url.Action("AuthResponse", "Account", new { providerIdentifier = providerIdentifier }, "http");
+                callback = Url.Action(action, controller, new { providerIdentifier = providerIdentifier }, "http");
 
-            //#if DEBUG
                 callback = callback.Replace("82", "81");
                 callback = callback.Replace("83", "81");
-            //#endif
 
             return callback;
         }
 
         public ActionResult AuthRequest(string providerIdentifier)
         {
-            var callback = GetUrlCallBack(providerIdentifier);
-            
-            var realmUri = new Uri(callback); 
-
-            var identityProvider = _identityProviderService.GetProviderByIdentifier(providerIdentifier);
-            identityProvider.CallbackUrl = callback;
-            identityProvider.RealmUri = realmUri.Scheme + "://" + realmUri.Authority;
-            identityProvider.RequestAuthorisation();
+            RequestToIdentityProvider(providerIdentifier, "Account", "AuthResponse");
             return new EmptyResult();
 
         }
@@ -85,7 +76,7 @@ namespace PostaFlya.Controllers
         public ActionResult AuthResponse(string providerIdentifier)
         {
             var identityProvider = _identityProviderService.GetProviderByIdentifier(providerIdentifier);
-            var callback = GetUrlCallBack(providerIdentifier);
+            var callback = GetUrlCallBack(providerIdentifier, "Account", "AuthResponse");
             identityProvider.CallbackUrl = callback;
             var identityProviderCredentials = identityProvider.GetCredentials();
             SetBrowserFromIdentityProviderCredentials(identityProviderCredentials);
@@ -198,6 +189,50 @@ namespace PostaFlya.Controllers
                               }
                       };
             _commandBus.Send(command);
+        }
+
+        [Authorize]
+        public ActionResult ManageTokens()
+        {
+            return View(_browserInformation.Browser.ExternalCredentials.ToList());
+        }
+
+        [Authorize]
+        public ActionResult RequestToken(string providerIdentifier, string callbackAction, string callbackController)
+        {
+            RequestToIdentityProvider(providerIdentifier, "Account", "TokenResponse");
+            return new EmptyResult();
+        }
+
+        protected void RequestToIdentityProvider(string providerIdentifier, string callbackController, string callbackAction)
+        {
+            var callback = GetUrlCallBack(providerIdentifier, callbackController, callbackAction);
+
+            var realmUri = new Uri(callback);
+
+            var identityProvider = _identityProviderService.GetProviderByIdentifier(providerIdentifier);
+            identityProvider.CallbackUrl = callback;
+            identityProvider.RealmUri = realmUri.Scheme + "://" + realmUri.Authority;
+            identityProvider.RequestAuthorisation();   
+        }
+
+        public object TokenResponse(string providerIdentifier, string controller, string action)
+        {
+            var identityProvider = _identityProviderService.GetProviderByIdentifier(providerIdentifier);
+            var browserCreds = new BrowserIdentityProviderCredential()
+            {
+                BrowserId = _browserInformation.Browser.Id
+            };
+            browserCreds.CopyFieldsFrom(identityProvider.GetCredentials());
+
+            var command = new SetExternalCredentialCommand()
+            {
+                Credential = browserCreds
+            };
+
+            _commandBus.Send(command);
+
+            return RedirectToAction(action, controller);
         }
     }
 }

@@ -286,44 +286,7 @@ namespace PostaFlya.Specification.Fliers
         public void GivenIDoNotHaveAValidAccesTokenToImportFliers()
         {
             WhenIDontHaveAValidAccessTokenForTheGivenSource();
-            var fliersImportController = SpecUtil.GetController<FlierImportController>();
-            SpecUtil.ControllerResult = fliersImportController.GetToken(IdentityProviders.FACEBOOK);
 
-        }
-
-        [Then(@"I will have a valid access token for the source")]
-        public void ThenIWillHaveAValidAccessTokenForTheSource()
-        {
-            var browserInformation = SpecUtil.GetCurrBrowser();
-            var browser = browserInformation.Browser as Browser;
-
-            var tokenExpires = browserInformation.Browser.ExternalCredentials
-                .Where(_ => _.IdentityProvider == IdentityProviders.FACEBOOK)
-                .FirstOrDefault().AccessToken.Expires;
-
-            Assert.IsTrue(DateTime.Now < tokenExpires);
-        }
-
-        [Then(@"Then i will be redircted back to the flier import page")]
-        public void ThenThenIWillBeRedirctedBackToTheFlierImportPage()
-        {
-            //var httpResp = SpecUtil.CurrIocKernel.GetMock<HttpResponseBase>();
-            //httpResp.Verify(response => response.Redirect("FlierImport/Import/Facebook"));
-
-            var result = SpecUtil.ControllerResult as RedirectToRouteResult;
-            Assert.IsTrue(result.RouteValues["controller"] == "FlierImport");
-            Assert.IsTrue(result.RouteValues["action"] == "Import");
-
-        }
-
-        [When(@"I obtain a valid token from the source")]
-        public void WhenIObtainAValidTokenFromTheSource()
-        {
-            var httpResp = SpecUtil.CurrIocKernel.GetMock<HttpResponseBase>();
-            httpResp.Verify(response => response.Redirect("https://graph.facebook.com/oauth/access_token"));
-
-            var fliersImportController = SpecUtil.GetController<FlierImportController>();
-            SpecUtil.ControllerResult = fliersImportController.TokenResp(IdentityProviders.FACEBOOK);
         }
 
         protected void AddCredentialsToCurrentBrowser(IdentityProviderCredential credential)
@@ -343,15 +306,14 @@ namespace PostaFlya.Specification.Fliers
             accountController.AddBrowser(browser);
         }
 
-        [Then(@"Then i will be prompted to obtain a valid token")]
+        [Then(@"Then I will be redirected to obtain a valid token")]
         public void ThenThenIWillBePromptedToObtainAValidToken()
         {
-            //var httpResp = SpecUtil.CurrIocKernel.GetMock<HttpResponseBase>();
-            //httpResp.Verify(response => response.Redirect("FlierImport/GetToken"));
-
-            var result = SpecUtil.ControllerResult as ViewResult;
-            Assert.IsTrue(result.ViewName == "GetToken");
+            var result = SpecUtil.ControllerResult as RedirectToRouteResult;
+            Assert.AreEqual(result.RouteValues["controller"], "Account");
+            Assert.AreEqual(result.RouteValues["action"], "RequestToken");
         }
+
 
 
         [Given(@"I dont have a valid access token for the given source")]
@@ -376,7 +338,7 @@ namespace PostaFlya.Specification.Fliers
             var browserInformation = SpecUtil.GetCurrBrowser();
             var browser = browserInformation.Browser as Browser;
 
-            var browserIdentityProviderCredential = browserInformation.Browser.ExternalCredentials.Where(_ => _.IdentityProvider == IdentityProviders.FACEBOOK).FirstOrDefault();
+            var browserIdentityProviderCredential = browserInformation.Browser.ExternalCredentials.FirstOrDefault(_ => _.IdentityProvider == IdentityProviders.FACEBOOK);
             if (browserIdentityProviderCredential != null)
             {
                 var tokenExpires = browserIdentityProviderCredential.AccessToken.Expires;

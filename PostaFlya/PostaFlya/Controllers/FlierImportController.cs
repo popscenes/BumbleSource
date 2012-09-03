@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Web.Mvc;
+using System.Web.Routing;
 using PostaFlya.Application.Domain.ExternalSource;
 using Website.Application.Content;
 using PostaFlya.Domain.Behaviour;
@@ -37,47 +38,29 @@ namespace PostaFlya.Controllers
             _blobStorage = blobStorage;
         }
 
-        protected string GetUrlCallBack(string providerIdentifier)
-        {
-            var callback = "http://localhost/";
-            if (Url != null)
-                callback = Url.Action("TokenResp", "FlierImport", new { providerIdentifier = providerIdentifier }, "http");
+        //protected string GetUrlCallBack(string providerIdentifier)
+        //{
+        //    var callback = "http://localhost/";
+        //    if (Url != null)
+        //        callback = Url.Action("TokenResp", "FlierImport", new { providerIdentifier = providerIdentifier }, "http");
 
-            //#if DEBUG
-            callback = callback.Replace("82", "81");
-            callback = callback.Replace("83", "81");
-            //#endif
+        //    //#if DEBUG
+        //    callback = callback.Replace("82", "81");
+        //    callback = callback.Replace("83", "81");
+        //    //#endif
 
-            return callback;
-        }
+        //    return callback;
+        //}
 
-        public ActionResult GetToken(string providerName)
-        {
-            var identityProvider = _identityProviderService.GetProviderByIdentifier(providerName);
-            identityProvider.CallbackUrl = GetUrlCallBack(providerName);
-            identityProvider.RequestAuthorisation();
-            return new EmptyResult();
+        //public ActionResult GetToken(string providerName)
+        //{
+        //    var identityProvider = _identityProviderService.GetProviderByIdentifier(providerName);
+        //    identityProvider.CallbackUrl = GetUrlCallBack(providerName);
+        //    identityProvider.RequestAuthorisation();
+        //    return new EmptyResult();
 
-        }
+        //}
 
-        public ActionResult TokenResp(string providerName)
-        {
-            var identityProvider = _identityProviderService.GetProviderByIdentifier(providerName);
-            var browserCreds = new BrowserIdentityProviderCredential()
-                                   {
-                                       BrowserId = _browserInfoService.Browser.Id
-                                   };
-            browserCreds.CopyFieldsFrom(identityProvider.GetCredentials());
-
-            var command = new SetExternalCredentialCommand()
-            {
-                Credential = browserCreds
-            };
-
-            _commandBus.Send(command);
-
-            return RedirectToAction("Import", "FlierImport");
-        }
 
         public ActionResult Import(string providerName)
         {
@@ -85,7 +68,8 @@ namespace PostaFlya.Controllers
             var browser = _browserInfoService.Browser;
             if(!flierImporter.CanImport(browser))
             {
-                return View("GetToken");
+                return RedirectToAction("RequestToken", "Account",
+                                        new { providerIdentifier = providerName, callbackAction = "Import", callbackController = "FlierImportController" });
             }
 
             var importedFliers = flierImporter.ImportFliers(browser);
