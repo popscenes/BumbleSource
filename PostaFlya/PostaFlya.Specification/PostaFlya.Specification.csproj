@@ -186,6 +186,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>SaveTags.feature</DependentUpon>
     </Compile>
+    <Compile Include="Browsers\Tokens.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Tokens.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Browsers\TokenSteps.cs" />
     <Compile Include="CommonSteps.cs" />
     <Compile Include="DynamicBulletinBoard\CommentSteps.cs" />
     <Compile Include="DynamicBulletinBoard\Claim.feature.cs">
@@ -276,6 +282,10 @@
     <None Include="BrowserSettings\SaveTags.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>SaveTags.feature.cs</LastGenOutput>
+    </None>
+    <None Include="Browsers\Tokens.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>Tokens.feature.cs</LastGenOutput>
     </None>
     <None Include="DynamicBulletinBoard\Claim.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>

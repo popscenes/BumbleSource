@@ -11,7 +11,7 @@
 // ------------------------------------------------------------------------------
 #region Designer generated code
 #pragma warning disable
-namespace PostaFlya.Specification.Fliers
+namespace PostaFlya.Specification.Browsers
 {
     using TechTalk.SpecFlow;
     
@@ -19,9 +19,9 @@ namespace PostaFlya.Specification.Fliers
     [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "1.9.0.55")]
     [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     [MbUnit.Framework.TestFixtureAttribute()]
-    [MbUnit.Framework.DescriptionAttribute("In order to popukate the site\r\nAs a user\r\nI want to be able to import fliers from" +
-        " other sources")]
-    public partial class FlierImportFeature
+    [MbUnit.Framework.DescriptionAttribute("In order to interact with external websites\r\nAs a user\r\nI want to be able to mana" +
+        "ge and rettrieve access tokens for the websites")]
+    public partial class TokenManagmentFeature
     {
         
         private static TechTalk.SpecFlow.ITestRunner testRunner;
@@ -30,8 +30,8 @@ namespace PostaFlya.Specification.Fliers
         public virtual void FeatureSetup()
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
-            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Flier Import", "In order to popukate the site\r\nAs a user\r\nI want to be able to import fliers from" +
-                    " other sources", ProgrammingLanguage.CSharp, ((string[])(null)));
+            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Token managment", "In order to interact with external websites\r\nAs a user\r\nI want to be able to mana" +
+                    "ge and rettrieve access tokens for the websites", ProgrammingLanguage.CSharp, ((string[])(null)));
             testRunner.OnFeatureStart(featureInfo);
         }
         
@@ -64,30 +64,41 @@ namespace PostaFlya.Specification.Fliers
         }
         
         [MbUnit.Framework.TestAttribute()]
-        [MbUnit.Framework.DescriptionAttribute("Import Flier with Invalid Access Token")]
+        [MbUnit.Framework.DescriptionAttribute("Access Token Show external Token Status")]
         [MbUnit.Framework.CategoryAttribute("FlierImport")]
-        public virtual void ImportFlierWithInvalidAccessToken()
+        public virtual void AccessTokenShowExternalTokenStatus()
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Import Flier with Invalid Access Token", new string[] {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Access Token Show external Token Status", new string[] {
                         "FlierImport"});
             this.ScenarioSetup(scenarioInfo);
             testRunner.Given("I am a BROWSER in PARTICIPANT ROLE");
-            testRunner.And("I dont have a valid access token for the given source");
-            testRunner.When("I go to the flier import page for a source");
-            testRunner.Then("Then I will be redirected to obtain a valid token");
+            testRunner.When("I go to the TOKEN MANAGMENT SCREEN");
+            testRunner.Then("Then i will be shown a list of my external TOKENS and thier current status");
             this.ScenarioCleanup();
         }
         
         [MbUnit.Framework.TestAttribute()]
-        [MbUnit.Framework.DescriptionAttribute("Import Flier with valid Access Token")]
-        public virtual void ImportFlierWithValidAccessToken()
+        [MbUnit.Framework.DescriptionAttribute("Access Token Request Token for a Source")]
+        public virtual void AccessTokenRequestTokenForASource()
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Import Flier with valid Access Token", ((string[])(null)));
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Access Token Request Token for a Source", ((string[])(null)));
             this.ScenarioSetup(scenarioInfo);
             testRunner.Given("I am a BROWSER in PARTICIPANT ROLE");
-            testRunner.And("I have a valid access token for the given source");
-            testRunner.When("I go to the flier import page for a source");
-            testRunner.Then("Then potential fliers that have not already been imported with be displayed");
+            testRunner.When("I request an access token for a source");
+            testRunner.Then("Then i will be redirected to obtain a valid token");
+            this.ScenarioCleanup();
+        }
+        
+        [MbUnit.Framework.TestAttribute()]
+        [MbUnit.Framework.DescriptionAttribute("Access Token Obtain for a Source")]
+        public virtual void AccessTokenObtainForASource()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Access Token Obtain for a Source", ((string[])(null)));
+            this.ScenarioSetup(scenarioInfo);
+            testRunner.Given("I am a BROWSER in PARTICIPANT ROLE");
+            testRunner.When("I obtain a valid token from the source");
+            testRunner.Then("Then i will be redircted back to the redirect page specified");
+            testRunner.And("I will have a valid access token for the source");
             this.ScenarioCleanup();
         }
     }
