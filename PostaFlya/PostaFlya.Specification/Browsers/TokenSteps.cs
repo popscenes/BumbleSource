@@ -8,7 +8,7 @@ using MbUnit.Framework;
 using PostaFlya.Controllers;
 using PostaFlya.Specification.Util;
 using TechTalk.SpecFlow;
-using WebSite.Infrastructure.Authentication;
+using Website.Infrastructure.Authentication;
 using Website.Domain.Browser;
 
 namespace PostaFlya.Specification.Browsers
