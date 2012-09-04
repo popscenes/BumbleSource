@@ -70,7 +70,7 @@ namespace PostaFlya.Specification.Behaviour.TaskJob
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Create Flier With TaskJob", ((string[])(null)));
             this.ScenarioSetup(scenarioInfo);
             testRunner.Given("i have navigated to the CREATE PAGE for a FLIER TYPE TaskJob");
-            testRunner.When("I SUBMIT the required data for a FLIER");
+            testRunner.When("I SUBMIT the data for that FLIER");
             testRunner.Then("the new FLIER will be created for behviour TaskJob");
             testRunner.And("the FLIER STATUS will be PENDING");
             this.ScenarioCleanup();

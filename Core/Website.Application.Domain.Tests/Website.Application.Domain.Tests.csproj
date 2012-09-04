@@ -71,7 +71,7 @@
   <ItemGroup>
     <Compile Include="Browser\BrowserInformationTests.cs" />
     <Compile Include="Browser\CachedBrowserDataServiceTests.cs" />
-    <Compile Include="Claims\ClaimPublicationServiceTests.cs" />
+    <Compile Include="Claims\PublicationServiceTests.cs" />
     <Compile Include="Content\CachedImageDataServiceTests.cs" />
     <Compile Include="Content\ImageProcessingTests.cs" />
     <Compile Include="Content\ImageUrlContentRetrieverTest.cs" />

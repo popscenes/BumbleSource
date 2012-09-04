@@ -25,14 +25,16 @@ namespace Website.Domain.Browser
         }
 
         public Tags Tags { get; set; }
-
         public string Handle { get; set; }
+
+        public string PhoneNumber { get; set; }
+        public string EmailAddress { get; set; }
         public string FirstName { get; set; }
         public string MiddleNames { get; set; }
         public string Surname { get; set; }
         public Location.Location Address { get; set; }
+
         public bool AddressPublic { get; set; }
-        public string EmailAddress { get; set; }
         public string AvatarImageId { get; set; }
         public int? Distance { get;set;}
         public Roles Roles { get; set; }

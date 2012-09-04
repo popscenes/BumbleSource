@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using PostaFlya.Domain.Behaviour;
+using Website.Domain.Contact;
 using Website.Infrastructure.Domain;
 using Website.Domain.Browser;
 using Website.Domain.Claims;
@@ -40,7 +41,14 @@ namespace PostaFlya.Domain.Flier
                                             : null;
             target.NumberOfComments = source.NumberOfComments;
             target.NumberOfClaims = source.NumberOfClaims;
+            target.UseBrowserContactDetails = source.UseBrowserContactDetails;
+            target.ContactDetails = source.ContactDetails;
         }        
+
+        public static bool HasContactDetails(this FlierInterface flier)
+        {
+            return flier.UseBrowserContactDetails || flier.ContactDetails != null;
+        }
     }
     public interface FlierInterface : 
         EntityInterface, 
@@ -62,6 +70,8 @@ namespace PostaFlya.Domain.Flier
         string ExternalId { get; set; }
         string CountryCode { get; set; }
         string PostCode { get; set; }
-        Dictionary<string, object> ExtendedProperties { get;set; } 
+        Dictionary<string, object> ExtendedProperties { get;set; }
+        ContactDetails ContactDetails { get; set; }
+        bool UseBrowserContactDetails { get; set; }
     }
 }

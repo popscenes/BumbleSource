@@ -18,19 +18,19 @@ namespace Website.Domain.Claims.Command
         private readonly BrowserQueryServiceInterface _browserQueryService;
         private readonly GenericRepositoryInterface _genericRepository;
         private readonly GenericQueryServiceInterface _genericQueryService;
-        private readonly ClaimPublicationServiceInterface _claimPublicationService;
+        private readonly PublicationServiceInterface _publicationService;
 
         public ClaimCommandHandler(UnitOfWorkFactoryInterface unitOfWorkFactory
             , BrowserQueryServiceInterface browserQueryService
             , GenericRepositoryInterface genericRepository
             , GenericQueryServiceInterface genericQueryService
-            , ClaimPublicationServiceInterface claimPublicationService)
+            , PublicationServiceInterface publicationService)
         {
             _unitOfWorkFactory = unitOfWorkFactory;
             _browserQueryService = browserQueryService;
             _genericRepository = genericRepository;
             _genericQueryService = genericQueryService;
-            _claimPublicationService = claimPublicationService;
+            _publicationService = publicationService;
         }
 
         public object Handle(ClaimCommand command)
@@ -62,7 +62,7 @@ namespace Website.Domain.Claims.Command
                 return new MsgResponse("Claim Entity failed", true)
                 .AddCommandId(command);
             
-            _claimPublicationService.Publish(claim);
+            _publicationService.Publish(claim);
 
             uow = _unitOfWorkFactory.GetUnitOfWork(new List<object>() { _genericRepository });
             using (uow)

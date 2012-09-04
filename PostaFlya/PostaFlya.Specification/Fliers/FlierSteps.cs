@@ -20,6 +20,8 @@ using PostaFlya.Specification.Util;
 using PostaFlya.Mocks.Domain.Data;
 using PostaFlya.Models.Content;
 using Website.Infrastructure.Authentication;
+using Website.Infrastructure.Query;
+using Website.Mocks.Domain.Data;
 using Website.Test.Common;
 using System.Web;
 using Website.Domain.Browser;
@@ -44,7 +46,24 @@ namespace PostaFlya.Specification.Fliers
             flierController.Create(type);
         }
 
-        [When(@"I SUBMIT the required data for a FLIER")]
+        [Given(@"I choose to attach my default contact details")]
+        public void AndIChooseToAttachMyDefaultContactDetails()
+        {
+            var createModel = ScenarioContext.Current["createflya"] as FlierCreateModel;
+            createModel.AttachContactDetails = true;
+        }
+
+        [Then(@"contact details will be retrievable for the FLIER")]
+        public void ThenContactDetailsWillBeRetrievableForTheFlier()
+        {
+            var createdFlier = ScenarioContext.Current["flier"] as FlierInterface;
+            Assert.IsNotNull(createdFlier);//test ThenTheNewFlierWillBeCreated(string flierBehaviour) first
+
+            Assert.IsTrue(createdFlier.HasContactDetails());
+            
+        }
+
+        [When(@"I SUBMIT the data for that FLIER")]
         public void WhenISubmitTheRequiredDataForAFlier()
         {
             var browserInformation = SpecUtil.GetCurrBrowser();
@@ -96,6 +115,22 @@ namespace PostaFlya.Specification.Fliers
         public void GivenIHaveCreatedAflier()
         {
             GivenIHaveCreatedAflierofBehaviour(FlierBehaviour.Default.ToString());
+        }
+
+        [Given(@"There is a FLIER with Contact Details")]
+        [Given(@"I have created a FLIER with Contact Details")]
+        public void GivenIHaveCreatedAflierWithContactDetails()
+        {
+            GivenIHaveCreatedAflierofBehaviour(FlierBehaviour.Default.ToString());
+        }
+
+        [Given(@"I have created a FLIER of BEHAVIOUR (.*) with Contact Details")]
+        public void GivenIHaveCreatedAflierofBehaviourWithContactDetails(string flierbehaviour)
+        {
+            GivenABrowserHasNavigatedToTheCreateFlierPage(flierbehaviour);
+            AndIChooseToAttachMyDefaultContactDetails();
+            WhenISubmitTheRequiredDataForAFlier();
+            ThenTheNewFlierWillBeCreated(flierbehaviour);
         }
 
         [Given(@"I have created a FLIER of BEHAVIOUR (.*)")]

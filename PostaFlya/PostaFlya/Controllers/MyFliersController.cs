@@ -82,7 +82,10 @@ namespace PostaFlya.Controllers
                 FlierBehaviour = createModel.FlierBehaviour,
                 //WebSiteTags = _websiteInfoService.GetWebsiteTags(Request.RequestUri.Host),
                 EffectiveDate = createModel.EffectiveDate,
-                ImageList = createModel.ImageList.Select(_ => new FlierImage(_.ImageId)).ToList()
+                ImageList = createModel.ImageList.Select(_ => new FlierImage(_.ImageId)).ToList(),
+                AttachContactDetails = createModel.AttachContactDetails,
+                UseBrowserContactDetails = createModel.AttachContactDetails//only supporting browser contact dets atm
+                //TODO add new details, and validate details both browser and new. Allow updating of browser details
             };
 
             var res = _commandBus.Send(createFlier);

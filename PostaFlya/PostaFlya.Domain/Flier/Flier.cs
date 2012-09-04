@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using PostaFlya.Domain.Behaviour;
+using Website.Domain.Contact;
 using Website.Infrastructure.Domain;
 using Website.Domain.Location;
 using Website.Domain.Tag;
@@ -40,39 +41,26 @@ namespace PostaFlya.Domain.Flier
         }
 
         public string Title { get; set; }
-
         public string Description { get; set; }
-
         public Tags Tags { get; set; }
-
         public Location Location { get; set; }
-
         public Guid? Image { get; set; }
-
         public string BrowserId { get; set; }
-
         public DateTime CreateDate { get; set; }
-
         public DateTime EffectiveDate { get; set; }
-
         public FlierStatus Status { get; set; }
-
         public FlierBehaviour FlierBehaviour { get; set; }
-
         public List<FlierImage> ImageList { get; set; }
-
         public string ExternalSource { get; set; }
-
         public string ExternalId { get; set; }
 
         public string CountryCode { get; set; }
         public string PostCode { get; set; }
-
         public Dictionary<string, object> ExtendedProperties { get; set; }
-
         public int NumberOfClaims { get; set; }
-
         public int NumberOfComments { get; set; }
+        public ContactDetails ContactDetails { get; set; }
+        public bool UseBrowserContactDetails { get; set; }
 
     }
 }

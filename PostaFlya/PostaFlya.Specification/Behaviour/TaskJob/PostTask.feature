@@ -5,7 +5,7 @@
 
 Scenario: Create Flier With TaskJob 
 Given i have navigated to the CREATE PAGE for a FLIER TYPE TaskJob
-When I SUBMIT the required data for a FLIER 
+When I SUBMIT the data for that FLIER 
 Then the new FLIER will be created for behviour TaskJob
 And the FLIER STATUS will be PENDING
 

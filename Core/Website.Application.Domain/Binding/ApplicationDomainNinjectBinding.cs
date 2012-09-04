@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics;
 using Ninject;
 using Ninject.Modules;
-using Website.Application.Domain.Claims;
+using Website.Application.Domain.Publish;
 using Website.Domain.Service;
 using Website.Infrastructure.Binding;
 using Website.Infrastructure.Command;
@@ -28,7 +28,7 @@ namespace Website.Application.Domain.Binding
 
             Bind<ContentStorageServiceInterface>().To<ImageProcessContentStorageService>();
 
-            Bind<ClaimPublicationServiceInterface>().To<ClaimPublicationService>();
+            Bind<PublicationServiceInterface>().To<PublicationService>();
 
 
             //this is for appication command handlers to use, 

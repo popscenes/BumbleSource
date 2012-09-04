@@ -8,9 +8,9 @@ using Moq;
 using Ninject;
 using Ninject.MockingKernel.Moq;
 using Ninject.Syntax;
+using Website.Application.Domain.Publish;
 using Website.Application.Publish;
 using Website.Infrastructure.Command;
-using Website.Application.Domain.Claims;
 using Website.Domain.Claims;
 using Website.Domain.Service;
 using Website.Mocks.Domain.Data;
@@ -18,7 +18,7 @@ using Website.Mocks.Domain.Data;
 namespace Website.Application.Domain.Tests.Claims
 {
     [TestFixture]
-    public class ClaimPublicationServiceTests
+    public class PublicationServiceTests
     {
         MoqMockingKernel Kernel
         {
@@ -27,7 +27,7 @@ namespace Website.Application.Domain.Tests.Claims
 
         public static void FixtureSetUp(MoqMockingKernel kernel)
         {
-            kernel.Bind<ClaimPublicationServiceInterface>().To<ClaimPublicationService>();
+            kernel.Bind<PublicationServiceInterface>().To<PublicationService>();
         }
 
         [FixtureSetUp]
@@ -38,7 +38,7 @@ namespace Website.Application.Domain.Tests.Claims
 
         public static void FixtureTearDown(MoqMockingKernel kernel)
         {
-            kernel.Unbind<ClaimPublicationServiceInterface>();
+            kernel.Unbind<PublicationServiceInterface>();
         }
 
         [FixtureTearDown]
@@ -60,7 +60,7 @@ namespace Website.Application.Domain.Tests.Claims
                 .ToConstant(mockbus.Object);
 
             
-            var pubservice = Kernel.Get<ClaimPublicationServiceInterface>();
+            var pubservice = Kernel.Get<PublicationServiceInterface>();
             var claim = new Claim()
                          {
                              AggregateId = Guid.NewGuid().ToString(),

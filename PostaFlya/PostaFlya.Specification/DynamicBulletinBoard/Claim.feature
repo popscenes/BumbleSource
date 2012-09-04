@@ -26,3 +26,4 @@ Scenario: Tear Off Claim Publishes Tear Off Notification
 Given I have navigated to the public view page for a FLIER
 When I claim a tear off for that FLIER 
 Then A Notification for that Tear Off should be published
+

@@ -70,7 +70,7 @@ namespace PostaFlya.Specification.Fliers
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Create Flier With Default Behaviour", ((string[])(null)));
             this.ScenarioSetup(scenarioInfo);
             testRunner.Given("i have navigated to the CREATE PAGE for a FLIER TYPE Default");
-            testRunner.When("I SUBMIT the required data for a FLIER");
+            testRunner.When("I SUBMIT the data for that FLIER");
             testRunner.Then("the new FLIER will be created for behviour Default");
             testRunner.And("the FLIER STATUS will be ACTIVE");
             this.ScenarioCleanup();
@@ -98,6 +98,21 @@ namespace PostaFlya.Specification.Fliers
             testRunner.Given("I have created a FLIER");
             testRunner.When("I add images to the FLIER");
             testRunner.Then("The FLIER will contain the extra images");
+            this.ScenarioCleanup();
+        }
+        
+        [MbUnit.Framework.TestAttribute()]
+        [MbUnit.Framework.DescriptionAttribute("Create Flier With Contact Details")]
+        public virtual void CreateFlierWithContactDetails()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Create Flier With Contact Details", ((string[])(null)));
+            this.ScenarioSetup(scenarioInfo);
+            testRunner.Given("i have navigated to the CREATE PAGE for a FLIER TYPE Default");
+            testRunner.And("I choose to attach my default contact details");
+            testRunner.When("I SUBMIT the data for that FLIER");
+            testRunner.Then("the new FLIER will be created for behviour Default");
+            testRunner.And("the FLIER STATUS will be ACTIVE");
+            testRunner.And("contact details will be retrievable for the FLIER");
             this.ScenarioCleanup();
         }
     }

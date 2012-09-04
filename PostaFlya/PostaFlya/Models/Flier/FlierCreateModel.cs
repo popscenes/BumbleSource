@@ -90,6 +90,9 @@ namespace PostaFlya.Models.Flier
 
         public String FlierImageUrl { get; set; }
 
+        [DisplayName("AttachContactDetails")]
+        public bool AttachContactDetails { get; set; }
+       
         public static FlierCreateModel DefaultForTemplate()
         {
             return new FlierCreateModel();

@@ -93,6 +93,8 @@
     <Compile Include="Comments\CommentableInterface.cs" />
     <Compile Include="Comments\CommentInterface.cs" />
     <Compile Include="Comments\Query\QueryCommentsInterface.cs" />
+    <Compile Include="Contact\ContactDetails.cs" />
+    <Compile Include="Contact\ContactDetailsInterface.cs" />
     <Compile Include="Content\Command\CreateImageCommand.cs" />
     <Compile Include="Content\Command\CreateImageCommandHandler.cs" />
     <Compile Include="Content\Command\ImageRepositoryInterface.cs" />
@@ -118,7 +120,7 @@
     <Compile Include="Location\LocationService.cs" />
     <Compile Include="Location\LocationServiceInterface.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Service\ClaimPublicationServiceInterface.cs" />
+    <Compile Include="Service\PublicationServiceInterface.cs" />
     <Compile Include="Service\ContentStorageServiceInterface.cs" />
     <Compile Include="Tag\TagGroup.cs" />
     <Compile Include="Tag\Tags.cs" />

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Website.Domain.Contact;
 using Website.Infrastructure.Domain;
 using Website.Domain.Location;
 using Website.Domain.Tag;
@@ -12,19 +13,15 @@ namespace Website.Domain.Browser
         public static void CopyFieldsFrom(this BrowserInterface target, BrowserInterface source)
         {
             EntityInterfaceExtensions.CopyFieldsFrom(target, source);
+            ContactDetailsInterfaceExtensions.CopyFieldsFrom(target, source);
             target.Tags = new Tags(source.Tags);
-            target.Handle = source.Handle;
-            target.EmailAddress = source.EmailAddress;
+            target.Handle = source.Handle;  
             target.Distance = source.Distance;
             target.Roles = new Roles(source.Roles);
             target.DefaultLocation = source.DefaultLocation;
             target.SavedLocations = new Locations(source.SavedLocations.Select(l => new Location.Location(l)));
             target.SavedTags = new List<Tags>(source.SavedTags.Select(t => new Tags(t)));
             target.ExternalCredentials = source.ExternalCredentials != null ? new HashSet<BrowserIdentityProviderCredential>(source.ExternalCredentials) : null;
-            target.FirstName = source.FirstName;
-            target.MiddleNames = source.MiddleNames;
-            target.Surname = source.Surname;
-            target.Address = source.Address != null ? new Location.Location(source.Address) : null;
             target.AddressPublic = source.AddressPublic;
             target.AvatarImageId = source.AvatarImageId;
             target.Properties = source.Properties != null ? new Dictionary<string, object>(source.Properties) : null;
@@ -46,21 +43,17 @@ namespace Website.Domain.Browser
         }
     }
 
-    public interface BrowserInterface : EntityInterface
+    public interface BrowserInterface : EntityInterface, ContactDetailsInterface
     {
         Tags Tags { get; set; }
-        String Handle { get; set; }
-        String EmailAddress { get; set; }
+        string Handle { get; set; }  
         int? Distance { get; set; }
         Roles Roles { get; set; }
         Location.Location DefaultLocation { get; set; }
         Locations SavedLocations { get; set; }
         List<Tags> SavedTags { get; set; }  
         HashSet<BrowserIdentityProviderCredential> ExternalCredentials { get; set; }
-        string FirstName { get; set; }
-        string MiddleNames { get; set; }
-        string Surname { get; set; }
-        Location.Location Address { get; set; }
+        
         string AvatarImageId { get; set; }
         bool AddressPublic { get; set; }
         Dictionary<string, object> Properties { get; set; } 

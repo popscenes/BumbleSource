@@ -38,7 +38,7 @@ namespace PostaFlya.Specification.Util
 
             //flier creation
             Bind<FlierCreateModel>()
-            .ToConstant(new FlierCreateModel()
+            .ToMethod(ctx => new FlierCreateModel()
                             {
                                 Title = "This is a Title",
                                 Description = "This is a Description",
@@ -49,8 +49,10 @@ namespace PostaFlya.Specification.Util
                                     new ImageViewModel() { ImageId = Guid.NewGuid().ToString() }, 
                                     new ImageViewModel() { ImageId = Guid.NewGuid().ToString() }, 
                                     new ImageViewModel() { ImageId = Guid.NewGuid().ToString() } 
-                                }
+                                },
+                                AttachContactDetails = false
                             })
+            .InTransientScope()
             .WithMetadata("fliercreate", true);
 
             //set a default command bus if it is needed
