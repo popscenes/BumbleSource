@@ -11,6 +11,7 @@ using PostaFlya.Domain.Behaviour.Command;
 using PostaFlya.Domain.Behaviour.Query;
 using PostaFlya.Domain.Flier;
 using PostaFlya.Domain.Service;
+using Website.Infrastructure.Binding;
 using Website.Infrastructure.Command;
 using Website.Infrastructure.Query;
 //using Website.Infrastructure.Service;
@@ -46,6 +47,8 @@ namespace PostaFlya.Domain.Binding
                 .To<FlierBehaviourDefaultRespository>()
                 .InSingletonScope();
 
+            var kernel = Kernel as StandardKernel;
+            kernel.BindPublishServicesFromCallingAssembly(syntax => syntax.InTransientScope());
             //generic services binding
 //            Bind<GenericServiceFactoryInterface>()
 //                .To<DefaultGenericServiceFactory>()

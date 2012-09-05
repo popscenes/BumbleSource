@@ -1,5 +1,8 @@
+using System;
+
 namespace Website.Domain.Contact
 {
+    [Serializable]
     public class ContactDetails : ContactDetailsInterface
     {
         public string PhoneNumber { get; set; }

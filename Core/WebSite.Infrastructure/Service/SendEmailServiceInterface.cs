@@ -1,9 +1,6 @@
-﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
-namespace Website.Application.Publish
+namespace Website.Infrastructure.Service
 {
     public class Email
     {
@@ -19,7 +16,7 @@ namespace Website.Application.Publish
         public byte [] Content { get; set; }
     }
 
-    public interface SendEmailInterface
+    public interface SendEmailServiceInterface
     {
         void Send(Email email);
     }

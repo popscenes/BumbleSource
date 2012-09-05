@@ -1,36 +1,22 @@
-using System;
-using System.Linq;
 using System.Threading.Tasks;
-using Ninject;
-using Ninject.Syntax;
 using Website.Infrastructure.Command;
+using Website.Infrastructure.Publish;
 
 namespace Website.Application.Publish
 {
     internal class PublishCommandHandler : CommandHandlerInterface<PublishCommand>
     {
-        private readonly IResolutionRoot _resolutionRoot;
-        private readonly Type _publishService = typeof(PublishServiceInterface<>);
+        private readonly PublishBroadcastServiceInterface _broadcastService;
 
-        public PublishCommandHandler(IResolutionRoot resolutionRoot)
+        public PublishCommandHandler(PublishBroadcastServiceInterface broadcastService)
         {
-            _resolutionRoot = resolutionRoot;
+            _broadcastService = broadcastService;
         }
 
         readonly ParallelOptions _parallelOptions = new ParallelOptions { MaxDegreeOfParallelism = 5 };
         public object Handle(PublishCommand command)
         {
-            var publishService = _publishService.MakeGenericType(command.PublishObject.GetType());
-            var pubservices = _resolutionRoot.GetAll(publishService)
-                .Cast<dynamic>()
-                .Where(ps => ps.IsEnabled);
-            dynamic ob = command.PublishObject;
-
-            var res = Parallel.ForEach(pubservices, _parallelOptions, 
-                                       o =>
-                                       o.Publish(ob));
-
-            return res.IsCompleted;
+            return _broadcastService.Broadcast(command.PublishObject);
         }
     }
 }

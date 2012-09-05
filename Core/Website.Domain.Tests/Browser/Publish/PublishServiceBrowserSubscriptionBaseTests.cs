@@ -1,22 +1,18 @@
-﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using Gallio.Framework;
 using MbUnit.Framework;
-using MbUnit.Framework.ContractVerifiers;
 using Ninject;
 using Ninject.MockingKernel.Moq;
-using Website.Application.Publish;
-using Website.Infrastructure.Command;
-using Website.Infrastructure.Util.Extension;
-using Website.Application.Domain.Publish;
 using Website.Domain.Browser;
 using Website.Domain.Browser.Command;
+using Website.Domain.Browser.Publish;
 using Website.Domain.Browser.Query;
+using Website.Infrastructure.Command;
+using Website.Infrastructure.Publish;
+using Website.Infrastructure.Service;
 using Website.Mocks.Domain.Data;
 
-namespace Website.Application.Domain.Tests.Publish
+namespace Website.Domain.Tests.Browser.Publish
 {
     [TestFixture]
     public class PublishServiceBrowserSubscriptionBaseTests
@@ -32,7 +28,7 @@ namespace Website.Application.Domain.Tests.Publish
             kernel.Bind<CommandBusInterface>().To<DefaultCommandBus>();
             kernel.Bind<PublishServiceBrowserSubscriptionInterface>().To<TestPublishClass>();
             kernel.Bind<PublishServiceInterface<TestPublishObject>>().To<TestPublishClass>();
-            kernel.Bind<CommandHandlerInterface<SetBrowserPropertyCommand>>().To<SetBrowserPropertyCommandHandler>();
+           // kernel.Bind<CommandHandlerInterface<SetBrowserPropertyCommand>>().To<SetBrowserPropertyCommandHandler>();
 
             
         }
@@ -106,14 +102,11 @@ namespace Website.Application.Domain.Tests.Publish
             Assert.IsTrue(testSub.IsBrowserSubscribed(browserTwo));
 
             _publishedBrowser.Clear();
-            var commandBus = Kernel.Get<CommandBusInterface>();
-            var ret = commandBus.Send(new PublishCommand()
-                                {
-                                    PublishObject = new TestPublishObject()
-                                                        {
-                                                            BrowserIds = new []{browser.Id, browserTwo.Id}
-                                                        }
-                                });
+            var broadcastService = Kernel.Get<PublishBroadcastServiceInterface>();
+            var ret = broadcastService.Broadcast(new TestPublishObject()
+                                                     {
+                                                         BrowserIds = new[] {browser.Id, browserTwo.Id}
+                                                     });
             Assert.IsNotNull(ret);
             Assert.IsTrue((bool) ret);
             Assert.Count(2, _publishedBrowser);
@@ -162,90 +155,5 @@ namespace Website.Application.Domain.Tests.Publish
                 return true;
             }
         }
-
-        public abstract class PublishServiceBrowserSubscriptionBase<PublishType> : PublishServiceBrowserSubscriptionInterface<PublishType>
-        {
-            private readonly CommandBusInterface _commandBus;
-
-            protected PublishServiceBrowserSubscriptionBase(CommandBusInterface commandBus)
-            {
-                _commandBus = commandBus;
-            }
-
-            public abstract string Name { get; }
-            public abstract string Description { get; }           
-            public bool Publish(PublishType publish)
-            {
-                var browsers = GetBrowsersForPublish(publish);
-                return browsers.Where(IsBrowserSubscribed).Aggregate(false, 
-                        (current, brows) => PublishToBrowser(brows, publish) || current);
-            }
-
-            public bool IsEnabled { get { return true; } }
-
-            public bool IsBrowserSubscribed(BrowserInterface browser)
-            {
-                const bool ret = false;
-                return browser.Properties.GetOrDefault(Name, ret);
-            }
-
-            public bool BrowserSubscribe(BrowserInterface browser)
-            {
-                _commandBus.Send(new SetBrowserPropertyCommand()
-                                     {
-                                         Browser = browser,
-                                         PropertyName = Name,
-                                         PropertyValue = true
-                                     });
-                return IsBrowserSubscribed(browser);
-            }
-
-            public bool BrowserUnsubscribe(BrowserInterface browser)
-            {
-                _commandBus.Send(new SetBrowserPropertyCommand()
-                {
-                    Browser = browser,
-                    PropertyName = Name,
-                    PropertyValue = false
-                });
-                return IsBrowserSubscribed(browser);
-            }
-
-            public abstract BrowserInterface[] GetBrowsersForPublish(PublishType publish);
-            public abstract bool PublishToBrowser(BrowserInterface browser, PublishType publish);
-        }
-    }
-
-    public class SetBrowserPropertyCommandHandler : CommandHandlerInterface<SetBrowserPropertyCommand>
-    {
-        private readonly BrowserRepositoryInterface _browserRepository;
-        private readonly UnitOfWorkFactoryInterface _unitOfWorkFactory;
-
-        public SetBrowserPropertyCommandHandler(BrowserRepositoryInterface browserRepository
-            , UnitOfWorkFactoryInterface unitOfWorkFactory)
-        {
-            _browserRepository = browserRepository;
-            _unitOfWorkFactory = unitOfWorkFactory;
-        }
-
-        public object Handle(SetBrowserPropertyCommand command)
-        {
-            var uow = _unitOfWorkFactory.GetUnitOfWork(new[] {_browserRepository});
-            using (uow)
-            {
-                _browserRepository.UpdateEntity<Website.Domain.Browser.Browser>(
-                    command.Browser.Id,
-                        browser => 
-                            browser.Properties[command.PropertyName] = command.PropertyValue);
-            }
-            return uow.Successful;
-        }
-    }
-
-    public class SetBrowserPropertyCommand : DefaultCommandBase
-    {
-        public BrowserInterface Browser { get; set; }
-        public object PropertyValue { get; set; }
-        public string PropertyName { get; set; }
     }
 }

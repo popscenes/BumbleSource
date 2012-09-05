@@ -8,6 +8,8 @@ using Ninject;
 using Ninject.MockingKernel.Moq;
 using Website.Application.Publish;
 using Website.Infrastructure.Command;
+using Website.Infrastructure.Publish;
+using Website.Infrastructure.Service;
 
 namespace Website.Application.Tests.Publish
 {

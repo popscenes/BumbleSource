@@ -74,12 +74,16 @@
     <Compile Include="Browser\Command\SavedTagsSaveCommandHandler.cs" />
     <Compile Include="Browser\Command\SavedTagsSelectCommand.cs" />
     <Compile Include="Browser\Command\SavedTagsSelectCommandHandler.cs" />
+    <Compile Include="Browser\Command\SetBrowserPropertyCommand.cs" />
+    <Compile Include="Browser\Command\SetBrowserPropertyCommandHandler.cs" />
     <Compile Include="Browser\Command\SetDistanceCommand.cs" />
     <Compile Include="Browser\Command\SetDistanceCommandHandler.cs" />
     <Compile Include="Browser\Command\SetExternalCredentialCommand.cs" />
     <Compile Include="Browser\Command\SetExternalCredentialCommandHandler.cs" />
     <Compile Include="Browser\Command\SetLocationCommand.cs" />
     <Compile Include="Browser\Command\SetLocationCommandHandler.cs" />
+    <Compile Include="Browser\Publish\PublishServiceBrowserSubscriptionBase.cs" />
+    <Compile Include="Browser\Publish\PublishServiceBrowserSubscriptionInterface.cs" />
     <Compile Include="Browser\Query\BrowserQueryServiceInterface.cs" />
     <Compile Include="Browser\Query\BrowserQueryServiceUtil.cs" />
     <Compile Include="Browser\Query\QueryByBrowserInterface.cs" />

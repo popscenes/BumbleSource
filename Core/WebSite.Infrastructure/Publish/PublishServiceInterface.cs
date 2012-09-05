@@ -1,4 +1,4 @@
-namespace Website.Application.Publish
+namespace Website.Infrastructure.Publish
 {
     public interface PublishServiceInterface
     {

@@ -209,8 +209,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Publish\PublishCommand.cs" />
     <Compile Include="Publish\PublishCommandHandler.cs" />
-    <Compile Include="Publish\PublishServiceInterface.cs" />
-    <Compile Include="Publish\SendEmailInterface.cs" />
     <Compile Include="Util\WebRequestUtil.cs" />
     <Compile Include="WebsiteInformation\CachedWebsiteInfoService.cs" />
     <Compile Include="WebsiteInformation\WebsiteInfo.cs" />

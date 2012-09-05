@@ -12,6 +12,7 @@ using Website.Application.Command;
 using Website.Application.Communication;
 using Website.Application.Publish;
 using Website.Application.WebsiteInformation;
+using Website.Infrastructure.Service;
 
 namespace Website.Application.Binding
 {
@@ -58,25 +59,4 @@ namespace Website.Application.Binding
         #endregion
     }
 
-    public static class ApplicationNinjectExtensions
-    {
-        public static void BindPublishServicesFromCallingAssembly(this StandardKernel kernel
-                                                                  , ConfigurationAction ninjectConfiguration)
-        {
-            var asm = Assembly.GetCallingAssembly();
-            Trace.TraceInformation("Binding publish services from {0}", asm.FullName);
-            //publish services
-            kernel.Bind(
-                x => x.From(asm)
-                         .IncludingNonePublicTypes()
-                         .SelectAllClasses()
-                         .Where(t => t.GetInterfaces().Any(i =>
-                                                           i.IsGenericType &&
-                                                           i.GetGenericTypeDefinition() ==
-                                                           typeof(PublishServiceInterface<>))
-                         )
-                         .BindAllInterfaces()
-                         .Configure(ninjectConfiguration));
-        }
-    }
 }

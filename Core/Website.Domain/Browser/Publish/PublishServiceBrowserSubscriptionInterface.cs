@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Website.Application.Publish;
-using Website.Domain.Browser;
+using Website.Infrastructure.Publish;
+using Website.Infrastructure.Service;
 
-namespace Website.Application.Domain.Publish
+namespace Website.Domain.Browser.Publish
 {
     public interface PublishServiceBrowserSubscriptionInterface : PublishServiceInterface
     {

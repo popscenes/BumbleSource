@@ -10,7 +10,9 @@ using Ninject.Extensions.Conventions.Syntax;
 using Ninject.Modules;
 using Ninject.Syntax;
 using Website.Infrastructure.Command;
+using Website.Infrastructure.Publish;
 using Website.Infrastructure.Query;
+using Website.Infrastructure.Service;
 
 namespace Website.Infrastructure.Binding
 {
@@ -32,6 +34,8 @@ namespace Website.Infrastructure.Binding
 
             Bind<UnitOfWorkFactoryInterface>().To<UnitOfWorkFactory>();
 
+            Bind<PublishBroadcastServiceInterface>().To<DefaultPublishBroadcastService>();
+
             Trace.TraceInformation("Finished Binding InfrastructureNinjectBinding");
 
         }
@@ -39,6 +43,22 @@ namespace Website.Infrastructure.Binding
 
     public static class InfrastructureNinjectExtensions
     {
+
+        public static void BindPublishServicesFromCallingAssembly(this StandardKernel kernel
+                                                          , ConfigurationAction ninjectConfiguration)
+        {
+            var asm = Assembly.GetCallingAssembly();
+            Trace.TraceInformation("Binding PublishServices from {0}", asm.FullName);
+            kernel.Bind(
+                x => x.From(asm)
+                         .IncludingNonePublicTypes()
+                         .SelectAllClasses()
+                         .Where(t => t.GetInterfaces().Any(i => i == typeof(PublishServiceInterface))
+                         )
+                         .BindAllInterfaces()
+                         .Configure(ninjectConfiguration));
+        }
+
         public static void BindCommandHandlersFromCallingAssembly(this StandardKernel kernel
                                                                   , ConfigurationAction ninjectConfiguration)
         {
