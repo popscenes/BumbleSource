@@ -276,6 +276,7 @@ namespace PostaFlya
             Views.Account.Bundles.AddBundles(BundleTable.Bundles);
             Views.Profile.Bundles.AddBundles(BundleTable.Bundles);
             Views.Profile.BundlesEdit.AddBundles(BundleTable.Bundles);
+           
         }
 
 

@@ -38,7 +38,15 @@ namespace Website.Infrastructure.Authentication
             UserIdentifier = credential.UserIdentifier;
             Name = credential.Name;
             Email = credential.Email;
-            AccessToken = credential.AccessToken;
+            if (credential.AccessToken != null)
+            {
+                AccessToken = new AccessToken()
+                                  {
+                                      Expires = credential.AccessToken.Expires,
+                                      Permissions = credential.AccessToken.Permissions,
+                                      Token = credential.AccessToken.Token
+                                  };
+            }
         }
 
         public bool Equals(IdentityProviderCredential other)
