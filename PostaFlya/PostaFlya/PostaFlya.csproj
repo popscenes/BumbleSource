@@ -124,9 +124,9 @@
     <Reference Include="EntityFramework">
       <HintPath>..\..\..\Libraries\EntityFramework.5.0.0\lib\net40\EntityFramework.dll</HintPath>
     </Reference>
-    <Reference Include="FiftyOne.Foundation, Version=2.1.4.10, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="FiftyOne.Foundation, Version=2.1.10.3, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\Libraries\51Degrees.mobi.2.1.4.10\lib\NET40\FiftyOne.Foundation.dll</HintPath>
+      <HintPath>..\..\..\Libraries\51Degrees.mobi.2.1.10.3\lib\NET40\FiftyOne.Foundation.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.ApplicationServer.Caching.AzureClientHelper, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\..\..\Libraries\Microsoft.WindowsAzure.Caching.1.7.0.0\lib\net35-full\Microsoft.ApplicationServer.Caching.AzureClientHelper.dll</HintPath>
