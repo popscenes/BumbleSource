@@ -12,7 +12,8 @@ namespace PostaFlya.Views.Account
         private static readonly string[]
             CoreJs = {
                         "openid/openid-jquery.js",
-                         "openid/openid-en.js"
+                         "openid/openid-en.js",
+                         "Account/Account.js"
                    };
 
         private static readonly string[]
@@ -22,7 +23,7 @@ namespace PostaFlya.Views.Account
 
         private static readonly string[]
             DeskJs =  {
-                       
+                       "Account/Desk/Account.js"
                     };
 
         //Structure Css

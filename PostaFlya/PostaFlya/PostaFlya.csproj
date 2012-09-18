@@ -473,6 +473,8 @@
     <None Include="Resources\NotFoundImg.jpg" />
     <None Include="Resources\ImageProcessing.jpg" />
     <None Include="Resources\ImageProcessingFailed.jpg" />
+    <Content Include="Scripts\Account\Account.js" />
+    <Content Include="Scripts\Account\Desk\Account.js" />
     <Content Include="Scripts\Base\CreateFlierInstance.js" />
     <Content Include="Scripts\Base\ErrorHandling.js" />
     <Content Include="Scripts\Base\TileLayoutViewModel.js" />
@@ -649,6 +651,7 @@
     <Content Include="Views\Shared\State\PageStateAdd.cshtml" />
     <Content Include="Views\FlierImport\Import.cshtml" />
     <Content Include="Views\Shared\ClaimsPartial.cshtml" />
+    <Content Include="Views\Account\ManageTokens.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

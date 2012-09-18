@@ -1,0 +1,64 @@
+﻿@using System.Web.Optimization
+@using Website.Infrastructure.Authentication
+@model IEnumerable<Website.Domain.Browser.BrowserIdentityProviderCredential>
+
+@{
+    ViewBag.Title = "ManageTokens";
+}
+
+@section scripts {
+    @Styles.Render("~/Content/structure/Account/DeskCss") 
+    @Styles.Render("~/Content/themes/taskflya/Account/DeskCss")    
+    @Scripts.Render("~/Script/AccountDeskJs") 
+}
+
+<h2>ManageTokens</h2>
+
+<p>
+                @Html.ActionLink("Facebook", "RequestToken", new { providerIdentifier = IdentityProviders.FACEBOOK, callbackAction = "ManageTokens", callbackController = "Account" }) |
+
+</p>
+<table>
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.IdentityProvider)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UserIdentifier)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Email)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AccessToken.Expires)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AccessToken.Permissions)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.IdentityProvider)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.UserIdentifier)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Email)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AccessToken.Expires)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AccessToken.Permissions)
+        </td>
+        <td>
+            @Html.ActionLink("Refresh", "RequestToken", new { providerIdentifier = item.IdentityProvider, callbackAction = "ManageTokens", callbackController = "Account" }) |
+        </td>
+    </tr>
+}
+
+</table>
