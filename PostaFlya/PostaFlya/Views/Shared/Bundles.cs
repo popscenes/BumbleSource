@@ -21,7 +21,7 @@ namespace PostaFlya.Views.Shared
 //            "knockout-2.1.0.debug.js",          
             "knockout.mapping-latest.js",
 //            "knockout.mapping-latest.debug.js",
-            "modernizr-2.5.3.js",
+            "modernizr-2.6.2.js",
             "jquery.isotope.js",
             "jquery.isotope.centered.js",
             "jquery.imagesloaded.js", //this overrides the implementation in isotope

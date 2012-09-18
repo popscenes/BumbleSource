@@ -613,8 +613,8 @@
     <Content Include="Scripts\Maps\jquery.ui.map.overlays.js" />
     <Content Include="Scripts\Maps\jquery.ui.map.rdfa.js" />
     <Content Include="Scripts\Maps\jquery.ui.map.services.js" />
-    <Content Include="Scripts\modernizr-2.5.3.js" />
     <Content Include="Scripts\External\ExternalScriptInit.js" />
+    <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\openid\openid-en.js" />
     <Content Include="Scripts\openid\openid-jquery.js" />
     <Content Include="Scripts\plupload\i18n\cs.js" />
@@ -790,7 +790,6 @@
     <Content Include="Views\Bulletin\Get.Mobile.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Shared\CoreDebugJsCss.cshtml" />
     <Content Include="Views\Shared\Social\SocialLinks.cshtml" />
   </ItemGroup>
   <ItemGroup>
