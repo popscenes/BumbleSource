@@ -13,7 +13,7 @@ namespace PostaFlya.Views.Shared
         //javascript      
         private static readonly string[] CoreJsFiles =
         {
-            "jquery-1.7.2.js",
+            "jquery-1.8.1.js",
             "jquery.unobtrusive-ajax.js",
             "jquery.validate.js",
             "jquery.validate.unobtrusive.js",
@@ -65,7 +65,7 @@ namespace PostaFlya.Views.Shared
 
         private static readonly string[] DeskJsFiles =
         {
-            "jquery-ui-1.8.19.js",
+            "jquery-ui-1.9-RC1.js",
         };
 
         private static readonly string[] MobileJsFiles =
