@@ -18,7 +18,6 @@ namespace PostaFlya.Controllers
             _websiteInfoService = websiteInfoService;
         }
 
-        [Queryable]
         public Tags Get()
         {
             return new Tags(_websiteInfoService.GetTags(Request.RequestUri.Host));

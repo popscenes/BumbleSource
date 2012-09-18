@@ -111,7 +111,7 @@ namespace PostaFlya
             RegisterRoutes(RouteTable.Routes);
 
             //BundleTable.Bundles.RegisterTemplateBundles();
-            BundleTable.Bundles.EnableDefaultBundles();
+            //BundleTable.Bundles.EnableDefaultBundles();
 
             var init = DependencyResolver.Get<InitServiceInterface>(md => md.Has("tablestorageinit"));
             if (init != null)

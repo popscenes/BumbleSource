@@ -1,7 +1,6 @@
-// Knockout Mapping plugin v2.2.1
-// (c) 2012 Steven Sanderson, Roy Jacobs - http://knockoutjs.com/
-// License: MIT (http://www.opensource.org/licenses/mit-license.php)
-
+/// Knockout Mapping plugin v2.3.2
+/// (c) 2012 Steven Sanderson, Roy Jacobs - http://knockoutjs.com/
+/// License: MIT (http://www.opensource.org/licenses/mit-license.php)
 (function (factory) {
 	// Module systems magic dance.
 
@@ -22,6 +21,8 @@
 	var mappingNesting = 0;
 	var dependentObservables;
 	var visitedObjects;
+	var recognizedRootProperties = ["create", "update", "key", "arrayChanged"];
+	var emptyReturn = {};
 
 	var _defaultOptions = {
 		include: ["_destroy"],
@@ -30,13 +31,32 @@
 	};
 	var defaultOptions = _defaultOptions;
 
+	// Author: KennyTM @ StackOverflow
+	function unionArrays (x, y) {
+		var obj = {};
+		for (var i = x.length - 1; i >= 0; -- i) obj[x[i]] = x[i];
+		for (var i = y.length - 1; i >= 0; -- i) obj[y[i]] = y[i];
+		var res = [];
+
+		for (var k in obj) {
+			res.push(obj[k]);
+		};
+
+		return res;
+	}
+
 	function extendObject(destination, source) {
 		for (var key in source) {
 			if (source.hasOwnProperty(key) && source[key]) {
 				if (key && destination[key] && !(exports.getType(destination[key]) === "array")) {
 					extendObject(destination[key], source[key]);
 				} else {
-					destination[key] = source[key];
+					var bothArrays = exports.getType(destination[key]) === "array" && exports.getType(source[key]) === "array";
+					if (bothArrays) {
+						destination[key] = unionArrays(destination[key], source[key]);
+					} else {
+						destination[key] = source[key];
+					}
 				}
 			}
 		}
@@ -171,14 +191,20 @@
 		return typeof x;
 	}
 
-	function fillOptions(options, otherOptions) {
-		options = options || {};
+	function fillOptions(rawOptions, otherOptions) {
+		var options = merge({}, rawOptions);
 
-		// Is there only a root-level mapping present?
-		if ((options.create instanceof Function) || (options.update instanceof Function) || (options.key instanceof Function) || (options.arrayChanged instanceof Function)) {
-			options = {
-				"": options
-			};
+		// Move recognized root-level properties into a root namespace
+		for (var i = recognizedRootProperties.length - 1; i >= 0; i--) {
+			var property = recognizedRootProperties[i];
+			
+			// Carry on, unless this property is present
+			if (!options[property]) continue;
+			
+			// Move the property into the root namespace
+			if (!(options[""] instanceof Object)) options[""] = {};
+			options[""][property] = options[property];
+			delete options[property];
 		}
 
 		if (otherOptions) {
@@ -203,7 +229,8 @@
 			if (exports.getType(b) === "undefined") b = [];
 			else b = [b];
 		}
-		return a.concat(b);
+
+		return ko.utils.arrayGetDistinctValues(a.concat(b));
 	}
 
 	// When using a 'create' callback, we proxy the dependent observable so that it doesn't immediately evaluate on creation.
@@ -224,6 +251,12 @@
 			// We wrap the original dependent observable so that we can remove it from the 'dependentObservables' list we need to evaluate after mapping has
 			// completed if the user already evaluated the DO themselves in the meantime.
 			var wrap = function (DO) {
+				// Temporarily revert ko.dependentObservable, since it is used in ko.isWriteableObservable
+				var tmp = ko.dependentObservable;
+				ko.dependentObservable = realKoDependentObservable;
+				var isWriteable = ko.isWriteableObservable(DO);
+				ko.dependentObservable = tmp;
+
 				var wrapped = realKoDependentObservable({
 					read: function () {
 						if (!isRemoved) {
@@ -232,12 +265,12 @@
 						}
 						return DO.apply(DO, arguments);
 					},
-					write: function (val) {
+					write: isWriteable && function (val) {
 						return DO(val);
 					},
 					deferEvaluation: true
 				});
-				if(DEBUG) wrapped._wrapper = true;
+				if (DEBUG) wrapped._wrapper = true;
 				return wrapped;
 			};
 			
@@ -259,7 +292,7 @@
 		return result;
 	}
 
-	function updateViewModel(mappedRootObject, rootObject, options, parentName, parent, parentPropertyName) {
+	function updateViewModel(mappedRootObject, rootObject, options, parentName, parent, parentPropertyName, mappedParent) {
 		var isArray = exports.getType(ko.utils.unwrapObservable(rootObject)) === "array";
 
 		parentPropertyName = parentPropertyName || "";
@@ -272,7 +305,7 @@
 
 		var callbackParams = {
 			data: rootObject,
-			parent: parent
+			parent: mappedParent
 		};
 
 		var hasCreateCallback = function () {
@@ -281,10 +314,19 @@
 
 		var createCallback = function (data) {
 			return withProxyDependentObservable(dependentObservables, function () {
-				return options[parentName].create({
-					data: data || callbackParams.data,
-					parent: callbackParams.parent
-				});
+				
+				if (ko.utils.unwrapObservable(parent) instanceof Array) {
+					return options[parentName].create({
+						data: data || callbackParams.data,
+						parent: callbackParams.parent,
+						skip: emptyReturn
+					});
+				} else {
+					return options[parentName].create({
+						data: data || callbackParams.data,
+						parent: callbackParams.parent
+					});
+				}				
 			});
 		};
 
@@ -332,22 +374,28 @@
 				default:
 					if (ko.isWriteableObservable(mappedRootObject)) {
 						if (hasUpdateCallback()) {
-							mappedRootObject(updateCallback(mappedRootObject));
+							var valueToWrite = updateCallback(mappedRootObject);
+							mappedRootObject(valueToWrite);
+							return valueToWrite;
 						} else {
-							mappedRootObject(ko.utils.unwrapObservable(rootObject));
+							var valueToWrite = ko.utils.unwrapObservable(rootObject);
+							mappedRootObject(valueToWrite);
+							return valueToWrite;
 						}
 					} else {
 						if (hasCreateCallback()) {
 							mappedRootObject = createCallback();
+							return mappedRootObject;
 						} else {
 							mappedRootObject = ko.observable(ko.utils.unwrapObservable(rootObject));
+							return mappedRootObject;
 						}
 
 						if (hasUpdateCallback()) {
 							mappedRootObject(updateCallback(mappedRootObject));
+							return mappedRootObject;
 						}
 					}
-					break;
 				}
 
 			} else {
@@ -375,6 +423,7 @@
 				}
 
 				visitedObjects.save(rootObject, mappedRootObject);
+				if (hasUpdateCallback()) return mappedRootObject;
 
 				// For non-atomic types, visit all properties and update recursively
 				visitPropertiesOrArrayEntries(rootObject, function (indexer) {
@@ -392,7 +441,8 @@
 					// In case we are adding an already mapped property, fill it with the previously mapped property value to prevent recursion.
 					// If this is a property that was generated by fromJS, we should use the options specified there
 					var prevMappedProperty = visitedObjects.get(rootObject[indexer]);
-					var value = prevMappedProperty || updateViewModel(mappedRootObject[indexer], rootObject[indexer], options, indexer, mappedRootObject, fullPropertyName);
+					var retval = updateViewModel(mappedRootObject[indexer], rootObject[indexer], options, indexer, mappedRootObject, fullPropertyName, mappedRootObject);
+					var value = prevMappedProperty || retval;
 
 					if (ko.isWriteableObservable(mappedRootObject[indexer])) {
 						mappedRootObject[indexer](ko.utils.unwrapObservable(value));
@@ -403,7 +453,7 @@
 					options.mappedProperties[fullPropertyName] = true;
 				});
 			}
-		} else {
+		} else { //mappedRootObject is an array
 			var changes = [];
 
 			var hasKeyCallback = false;
@@ -498,6 +548,7 @@
 			}
 
 			var newContents = [];
+			var passedOver = 0;
 			for (i = 0, j = editScript.length; i < j; i++) {
 				var key = editScript[i];
 				var mappedItem;
@@ -505,19 +556,25 @@
 				switch (key.status) {
 				case "added":
 					var item = optimizedKeys ? itemsByKey[key.value] : getItemByKey(ko.utils.unwrapObservable(rootObject), key.value, keyCallback);
-					mappedItem = updateViewModel(undefined, item, options, parentName, mappedRootObject, fullPropertyName);
+					mappedItem = updateViewModel(undefined, item, options, parentName, mappedRootObject, fullPropertyName, parent);
 					if(!hasCreateCallback()) {
 						mappedItem = ko.utils.unwrapObservable(mappedItem);
 					}
 
 					var index = ignorableIndexOf(ko.utils.unwrapObservable(rootObject), item, ignoreIndexOf);
-					newContents[index] = mappedItem;
+					
+					if (mappedItem === emptyReturn) {
+						passedOver++;
+					} else {
+						newContents[index - passedOver] = mappedItem;
+					}
+						
 					ignoreIndexOf[index] = true;
 					break;
 				case "retained":
 					var item = optimizedKeys ? itemsByKey[key.value] : getItemByKey(ko.utils.unwrapObservable(rootObject), key.value, keyCallback);
 					mappedItem = getItemByKey(mappedRootObject, key.value, keyCallback);
-					updateViewModel(mappedItem, item, options, parentName, mappedRootObject, fullPropertyName);
+					updateViewModel(mappedItem, item, options, parentName, mappedRootObject, fullPropertyName, parent);
 
 					var index = ignorableIndexOf(ko.utils.unwrapObservable(rootObject), item, ignoreIndexOf);
 					newContents[index] = mappedItem;
@@ -618,15 +675,14 @@
 		options = options || {};
 		options.visitedObjects = options.visitedObjects || new objectLookup();
 
-		if (!options.parentName) {
-			options = fillOptions(options);
-		}
-
 		var mappedRootObject;
 		var unwrappedRootObject = ko.utils.unwrapObservable(rootObject);
+
 		if (!canHaveProperties(unwrappedRootObject)) {
 			return callback(rootObject, options.parentName);
 		} else {
+			options = fillOptions(options, unwrappedRootObject[mappingProperty]);
+
 			// Only do a callback, but ignore the results
 			callback(rootObject, options.parentName);
 			mappedRootObject = exports.getType(unwrappedRootObject) === "array" ? [] : {};
@@ -693,11 +749,12 @@
 		var findBucket = function(key) {
 			var bucketKey;
 			try {
-				bucketKey = JSON.stringify(key);
+				bucketKey = key;//JSON.stringify(key);
 			}
 			catch (e) {
 				bucketKey = "$$$";
 			}
+
 			var bucket = buckets[bucketKey];
 			if (bucket === undefined) {
 				bucket = new simpleObjectLookup();

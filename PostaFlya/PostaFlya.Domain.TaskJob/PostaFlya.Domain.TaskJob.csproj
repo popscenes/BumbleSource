@@ -92,7 +92,7 @@
     </ProjectReference>
     <ProjectReference Include="..\..\Core\Website.Infrastructure\Website.Infrastructure.csproj">
       <Project>{B5C3A966-F286-4CB8-913B-C8625625451D}</Project>
-      <Name>PostaFlya.Infrastructure</Name>
+      <Name>Website.Infrastructure</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

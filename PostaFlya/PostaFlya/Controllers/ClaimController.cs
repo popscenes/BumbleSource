@@ -59,7 +59,6 @@ namespace PostaFlya.Controllers
             return this.GetResponseForRes(res);
         }
 
-        [Queryable]
         public IQueryable<ClaimModel> Get(EntityTypeEnum entityTypeEnum, string id)
         {
             return GetClaims(_queryClaims, id)

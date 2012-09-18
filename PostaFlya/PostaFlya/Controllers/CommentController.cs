@@ -60,7 +60,6 @@ namespace PostaFlya.Controllers
             return this.GetResponseForRes(res);
         }
 
-        [Queryable]
         public IQueryable<CommentModel> Get(EntityTypeEnum entityTypeEnum, string id)
         {
             return GetComments(_queryComments, id)
