@@ -3,9 +3,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Ninject;
 using Ninject.Syntax;
-using Website.Infrastructure.Service;
+using Website.Infrastructure.Publish;
 
-namespace Website.Infrastructure.Publish
+namespace Website.Application.Publish
 {
     public class DefaultPublishBroadcastService : PublishBroadcastServiceInterface
     {

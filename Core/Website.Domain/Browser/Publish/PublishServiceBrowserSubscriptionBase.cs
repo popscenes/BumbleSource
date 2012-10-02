@@ -20,7 +20,8 @@ namespace Website.Domain.Browser.Publish
         {
             var browsers = GetBrowsersForPublish(publish);
             return browsers.Where(IsBrowserSubscribed).Aggregate(false, 
-                                                                 (current, brows) => PublishToBrowser(brows, publish) || current);
+                                (current, brows) => 
+                                    PublishToBrowser(brows, publish) || current);
         }
 
         public bool IsEnabled { get { return true; } }

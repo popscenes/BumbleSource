@@ -34,8 +34,6 @@ namespace Website.Infrastructure.Binding
 
             Bind<UnitOfWorkFactoryInterface>().To<UnitOfWorkFactory>();
 
-            Bind<PublishBroadcastServiceInterface>().To<DefaultPublishBroadcastService>();
-
             Trace.TraceInformation("Finished Binding InfrastructureNinjectBinding");
 
         }

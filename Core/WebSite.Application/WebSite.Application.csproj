@@ -207,8 +207,7 @@
     <Compile Include="Intergrations\FacebookPermissionSet.cs" />
     <Compile Include="Intergrations\FaceBookUser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Publish\PublishCommand.cs" />
-    <Compile Include="Publish\PublishCommandHandler.cs" />
+    <Compile Include="Publish\DefaultPublishBroadcastService.cs" />
     <Compile Include="Util\WebRequestUtil.cs" />
     <Compile Include="WebsiteInformation\CachedWebsiteInfoService.cs" />
     <Compile Include="WebsiteInformation\WebsiteInfo.cs" />

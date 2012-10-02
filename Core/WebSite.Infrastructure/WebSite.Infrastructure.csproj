@@ -165,7 +165,6 @@
     <Compile Include="Domain\EntityInterface.cs" />
     <Compile Include="Domain\MsgResponseEntityExtension.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Publish\DefaultPublishBroadcastService.cs" />
     <Compile Include="Publish\PublishBroadcastServiceInterface.cs" />
     <Compile Include="Publish\PublishServiceInterface.cs" />
     <Compile Include="Query\GenericQueryServiceInterface.cs" />
@@ -203,11 +202,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Readme\Elmah.txt" />
-    <Content Include="Scripts\jquery-1.8.1-vsdoc.js" />
-    <Content Include="Scripts\jquery-1.8.1.js" />
-    <Content Include="Scripts\jquery-1.8.1.min.js" />
-    <Content Include="Scripts\jquery.signalR-0.5.2.js" />
-    <Content Include="Scripts\jquery.signalR-0.5.2.min.js" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

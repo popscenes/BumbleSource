@@ -1,18 +1,12 @@
 ﻿using System;
 using System.Diagnostics;
-using System.Linq;
-using System.Reflection;
 using Ninject;
-using Ninject.Extensions.Conventions;
-using Ninject.Extensions.Conventions.Syntax;
 using Ninject.Modules;
-using Website.Infrastructure.Binding;
-using Website.Infrastructure.Command;
 using Website.Application.Command;
 using Website.Application.Communication;
 using Website.Application.Publish;
 using Website.Application.WebsiteInformation;
-using Website.Infrastructure.Service;
+using Website.Infrastructure.Publish;
 
 namespace Website.Application.Binding
 {
@@ -51,6 +45,9 @@ namespace Website.Application.Binding
                         .GetScheduler();
                 })
                 .WithMetadata("BroadcastCommunicator", true);
+
+            Bind<PublishBroadcastServiceInterface>()
+                .To<DefaultPublishBroadcastService>();
 
             Trace.TraceInformation("Finished Binding ApplicationNinjectBinding");
 

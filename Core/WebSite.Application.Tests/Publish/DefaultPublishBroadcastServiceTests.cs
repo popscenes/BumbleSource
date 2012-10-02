@@ -1,20 +1,14 @@
-﻿using System.Collections.Generic;
-using System.Text;
-using Gallio.Framework;
-using MbUnit.Framework;
-using MbUnit.Framework.ContractVerifiers;
+﻿using MbUnit.Framework;
 using Moq;
 using Ninject;
 using Ninject.MockingKernel.Moq;
-using Website.Application.Publish;
 using Website.Infrastructure.Command;
 using Website.Infrastructure.Publish;
-using Website.Infrastructure.Service;
 
 namespace Website.Application.Tests.Publish
 {
     [TestFixture]
-    public class PublishCommandHandlerTests
+    public class DefaultPublishBroadcastServiceTests
     {
         MoqMockingKernel Kernel
         {
@@ -26,18 +20,18 @@ namespace Website.Application.Tests.Publish
         {
 //            Kernel.Bind<CommandHandlerInterface<PublishCommand>>()
 //                .To<PublishCommandHandler>();
-            Kernel.Bind<CommandBusInterface>().To<DefaultCommandBus>();
+//            Kernel.Bind<CommandBusInterface>().To<DefaultCommandBus>();
         }
 
         [FixtureTearDown]
         public void FixtureTearDown()
         {
 //            Kernel.Unbind<CommandHandlerInterface<PublishCommand>>();
-            Kernel.Unbind<CommandBusInterface>();
+//            Kernel.Unbind<CommandBusInterface>();
         }
 
         [Test]
-        public void PublishCommandHandlerPublishesToAllRegisteredPublishServiceInterfaceImplementations()
+        public void DefaultPublishBroadcastServicePublishesToAllRegisteredPublishServiceInterfaceImplementations()
         {
             bool mock1Called = false;
             var mock1 = new Moq.Mock<PublishServiceInterface<TestPublishClass>>();
@@ -68,8 +62,8 @@ namespace Website.Application.Tests.Publish
                 .ToConstant(mock2.Object);
 
 
-            var bus = Kernel.Get<CommandBusInterface>();
-            bus.Send(new PublishCommand() {PublishObject = new TestPublishClass {YaMum = "loves it"}});
+            var serv = Kernel.Get<PublishBroadcastServiceInterface>();
+            serv.Broadcast(new TestPublishClass {YaMum = "loves it"});
 
             Assert.IsTrue(mock1Called);
             Assert.IsTrue(mock2Called);

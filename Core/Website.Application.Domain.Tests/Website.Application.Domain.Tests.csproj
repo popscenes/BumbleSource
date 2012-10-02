@@ -79,7 +79,6 @@
   <ItemGroup>
     <Compile Include="Browser\BrowserInformationTests.cs" />
     <Compile Include="Browser\CachedBrowserDataServiceTests.cs" />
-    <Compile Include="Claims\PublicationServiceTests.cs" />
     <Compile Include="Content\CachedImageDataServiceTests.cs" />
     <Compile Include="Content\ImageProcessingTests.cs" />
     <Compile Include="Content\ImageUrlContentRetrieverTest.cs" />
@@ -125,6 +124,7 @@
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Claims\" />
     <Folder Include="Publish\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

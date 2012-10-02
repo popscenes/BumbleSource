@@ -1,22 +1,20 @@
-using Website.Application.Binding;
-using Website.Application.Publish;
 using Website.Domain.Service;
-using Website.Infrastructure.Command;
+using Website.Infrastructure.Publish;
 
 namespace Website.Application.Domain.Publish
 {
     public class PublicationService : PublicationServiceInterface
     {
-        private readonly CommandBusInterface _commandBus;
+        private readonly PublishBroadcastServiceInterface _broadcastService;
 
-        public PublicationService([WorkerCommandBus]CommandBusInterface commandBus)
+        public PublicationService(PublishBroadcastServiceInterface broadcastService)
         {
-            _commandBus = commandBus;
+            _broadcastService = broadcastService;
         }
 
         public void Publish<PublishType>(PublishType subject)
         {
-            _commandBus.Send(new PublishCommand() { PublishObject = subject });
+            _broadcastService.Broadcast(subject);
         }
     }
 }
