@@ -4,6 +4,8 @@ using System.Linq;
 using PostaFlya.Domain.Flier;
 using PostaFlya.Domain.Flier.Query;
 using Website.Application.Intergrations;
+using Website.Domain.Content;
+using Website.Domain.Content.Query;
 using Website.Infrastructure.Authentication;
 using Website.Infrastructure.Command;
 using Website.Application.Domain.Content;
@@ -18,12 +20,17 @@ namespace PostaFlya.Application.Domain.ExternalSource
         private readonly FlierQueryServiceInterface _queryService;
         private readonly UrlContentRetrieverFactoryInterface _contentRetrieverFactory;
         private readonly CommandBusInterface _commandBus;
+        private readonly ImageQueryServiceInterface _imageQueryServiceInterface;
         private FacebookGraph _graphApi;
-        public FacebookFlierImporter(FlierQueryServiceInterface queryService, UrlContentRetrieverFactoryInterface contentRetrieverFactory, CommandBusInterface commandBus)
+        public FacebookFlierImporter(FlierQueryServiceInterface queryService, 
+            UrlContentRetrieverFactoryInterface contentRetrieverFactory, 
+            CommandBusInterface commandBus,
+            ImageQueryServiceInterface imageQueryServiceInterface)
         {
             _queryService = queryService;
             _contentRetrieverFactory = contentRetrieverFactory;
             _commandBus = commandBus;
+            this._imageQueryServiceInterface = imageQueryServiceInterface;
         }
 
         public bool CanImport(Website.Domain.Browser.BrowserInterface browser)
@@ -89,16 +96,27 @@ namespace PostaFlya.Application.Domain.ExternalSource
                 return null;
             }
 
-            var imgId = Guid.NewGuid();
+            String externalId = "facebook" + fbEvent.id;
+            var imagesList = _imageQueryServiceInterface.GetByBrowserId<Image>(browser.Id);
+            var externalImage = imagesList.Where(_ => _.ExternalId == externalId);
+
+            var imgId = Guid.NewGuid().ToString();
+
+            if (externalImage.Any())
+            {
+                imgId = externalImage.First().Id;
+            }
+
             var res = _commandBus.Send(new CreateImageCommand()
             {
-                CommandId = imgId.ToString(),
+                CommandId = imgId,
                 Content = content,
                 BrowserId = browser.Id,
-                Title = fbEvent.name
+                Title = fbEvent.name,
+                ExternalId = externalId
             });
 
-            return imgId;
+            return new Guid(imgId);
         }
 
 

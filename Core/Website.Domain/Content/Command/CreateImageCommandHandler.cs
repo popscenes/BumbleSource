@@ -37,18 +37,6 @@ namespace Website.Domain.Content.Command
                                  ExternalId = command.ExternalId
                              };
 
-            if(!String.IsNullOrWhiteSpace(command.ExternalId))
-            {
-                var imagesList = _imageQueryServiceInterface.GetByBrowserId<Image>(command.BrowserId);
-                var externalImage = imagesList.Where(_ => _.ExternalId == command.ExternalId);
-
-                if(externalImage.Any())
-                {
-                    insert.Id = externalImage.First().Id;
-                }
-
-            }
-
             UnitOfWorkInterface unitOfWork;
             using (unitOfWork = _unitOfWorkFactory.GetUnitOfWork(GetReposForUnitOfWork()))
             {

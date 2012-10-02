@@ -140,9 +140,9 @@ namespace Website.Application.Domain.Tests.Content
             assertions(new Guid(imageInterface.Id), storage);
 
 
-            command.CommandId = Guid.NewGuid().ToString();
+            //command.CommandId = Guid.NewGuid().ToString();
             
-            kernel.Get<CommandBusInterface>().Send(command);
+            //kernel.Get<CommandBusInterface>().Send(command);
             var browserImages = imageQueryService.GetByBrowserId<Website.Domain.Content.Image>(command.BrowserId);
 
             //make sure only 1 image per external id
