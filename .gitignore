@@ -17,3 +17,6 @@ AzureProject/Downloaded Profiling Logs/
 *.orig
 */_UpgradeReport_Files/*
 */Backup/*
+*/_NCrunch_*/*
+*.ncrunchproject
+*.ncrunchsolution
