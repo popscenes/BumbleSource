@@ -39,6 +39,18 @@ header{
 	height:70px;
 	padding-top:8px;
 	z-index:500; 
+    float:left;
+}
+
+#global-toolbar
+{
+     width:250px;
+    margin-left:auto;
+    margin-right:auto;
+	height:70px;
+	padding-top:8px;
+	z-index:500; 
+    float:left;
 }
 
 .locSel{
@@ -286,10 +298,6 @@ ul.flier-images li
 
 /************toolbar items**************************/
 
-div.global-toolbar
-{
-    float:right;
-}
 
 a.toolbar-item img{
     width: 50px;
@@ -302,7 +310,7 @@ a.toolbar-item div{
     display: inline-block;  
 }
 
-a.toolbar-item div.profile-edit-tool-bar-item, a.toolbar-item div.add-flier-tool-bar-item
+a.toolbar-item div.profile-edit-tool-bar-item, a.toolbar-item div.add-flier-tool-bar-item,a.toolbar-item div.login-tool-bar-item
 {
     background-size:50px 50px;
     background-repeat:no-repeat;

@@ -105,6 +105,11 @@ a.toolbar-item div.add-flier-tool-bar-item
     background-image:url(images/create-flier.png);
 }
 
+a.toolbar-item div.login-tool-bar-item
+{
+    background-image:url(images/defaultavatar.jpg);
+}
+
 /************end toolbar items**************************/
 
 

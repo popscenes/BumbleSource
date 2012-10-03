@@ -1,4 +1,4 @@
-﻿<div class="global-toolbar">
+﻿<div id="global-toolbar">
 
 @if (Request.IsAuthenticated)
 {
@@ -13,7 +13,14 @@
     <a data-bind="attr: { href: '/' + bf.currentBrowserInstance.Handle }" class="toolbar-item profile-view-tool-bar-item" title="View Profile">
         <img  class="avatarsmall" data-bind="imgRetry: bf.currentBrowserInstance.AvatarUrl, attr: { alt: bf.currentBrowserInstance.DisplayName }"/>
     </a>
+
     
+}
+else
+{
+    <a href="@Url.Action("LoginPage", "Account")" class="toolbar-item" title="Login">
+        <div class="login-tool-bar-item"></div>
+    </a>
 }
 
 </div>
