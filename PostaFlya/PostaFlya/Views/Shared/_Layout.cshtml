@@ -30,9 +30,12 @@
             </div>
                        
             @RenderSection("header", required: false)
+            @Html.Partial("GlobalToolbar")
+            
                        
             @Html.Action("BrowserInfo", "BrowserInformation")    
-            @Html.Partial("GlobalToolbar")
+           
+            
             
                       
             <!--<div class="Button" id="main-menu" onclick="$('#main-menu ul').toggle();"> 
@@ -45,8 +48,9 @@
 
                     <li>@Html.ActionLink("About", "About", "Home")</li>
                 </ul>
-            </div>-->
-             @Html.Partial("Social/SocialLinks")
+                </div>-->
+                
+                
         </header>
         <div id="body">
             <section class="content-wrapper main-content clear-fix">

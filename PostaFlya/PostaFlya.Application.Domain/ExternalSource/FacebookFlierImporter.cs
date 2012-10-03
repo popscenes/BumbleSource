@@ -64,6 +64,7 @@ namespace PostaFlya.Application.Domain.ExternalSource
         }
 
         protected FlierInterface ConvertFaceBookEventToFlier(FaceBookEvent fbEvent, BrowserInterface browser)
+
         {
             Guid? imageId = SaveImageFromfacebookEvent(fbEvent, browser);
 
