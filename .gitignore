@@ -15,3 +15,5 @@ csx
 *.cs.orig
 AzureProject/Downloaded Profiling Logs/
 *.orig
+*/_UpgradeReport_Files/*
+*/Backup/*
