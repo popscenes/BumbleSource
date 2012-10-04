@@ -2,6 +2,10 @@
 
 @if (Request.IsAuthenticated)
 {
+    <a href="@Url.Action("Import", "FlierImport", new {providerName="facebook" })" class="toolbar-item" title="Facebook Import">
+        <div class="facebook-tool-bar-item"></div>
+    </a>
+    
     <a data-bind="click: CreateFlierInstance.CreateFlierLaunch" class="toolbar-item">
         <div class="add-flier-tool-bar-item"></div>
     </a>

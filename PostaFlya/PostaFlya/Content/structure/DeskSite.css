@@ -44,13 +44,11 @@ header{
 
 #global-toolbar
 {
-     width:250px;
-    margin-left:auto;
-    margin-right:auto;
+    margin-right:30px;
 	height:70px;
 	padding-top:8px;
 	z-index:500; 
-    float:left;
+    float:right;
 }
 
 .locSel{
@@ -310,7 +308,7 @@ a.toolbar-item div{
     display: inline-block;  
 }
 
-a.toolbar-item div.profile-edit-tool-bar-item, a.toolbar-item div.add-flier-tool-bar-item,a.toolbar-item div.login-tool-bar-item
+a.toolbar-item div.profile-edit-tool-bar-item, a.toolbar-item div.add-flier-tool-bar-item,a.toolbar-item div.login-tool-bar-item, a.toolbar-item div.facebook-tool-bar-item
 {
     background-size:50px 50px;
     background-repeat:no-repeat;
