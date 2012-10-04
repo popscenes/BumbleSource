@@ -1,10 +1,12 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
-using MbUnit.Framework;
+using NUnit.Framework;
 using Ninject;
 using Website.Infrastructure.Command;
 using Website.Infrastructure.Query;
 using Website.Domain.Comments;
+using Website.Test.Common;
 
 namespace Website.Mocks.Domain.Data
 {
@@ -12,12 +14,20 @@ namespace Website.Mocks.Domain.Data
     {
         public static bool AssertStoreRetrieve(CommentInterface storedComment, CommentInterface retrievedComment)
         {
-            Assert.AreEqual<string>(storedComment.Id, retrievedComment.Id);
-            Assert.AreEqual<string>(storedComment.AggregateId, retrievedComment.AggregateId);
-            Assert.AreEqual<string>(storedComment.BrowserId, retrievedComment.BrowserId);
-            Assert.AreEqual<string>(storedComment.CommentContent, retrievedComment.CommentContent);
-            Assert.AreApproximatelyEqual<DateTime, TimeSpan>(storedComment.CommentTime, retrievedComment.CommentTime, TimeSpan.FromMilliseconds(1));
+            Assert.AreEqual(storedComment.Id, retrievedComment.Id);
+            Assert.AreEqual(storedComment.AggregateId, retrievedComment.AggregateId);
+            Assert.AreEqual(storedComment.BrowserId, retrievedComment.BrowserId);
+            Assert.AreEqual(storedComment.CommentContent, retrievedComment.CommentContent);
+            AssertUtil.AreEqual(storedComment.CommentTime, retrievedComment.CommentTime, TimeSpan.FromMilliseconds(1));
             return true;
+        }
+
+        public class CommentTestDataEq : IComparer
+        {
+            public int Compare(object x, object y)
+            {
+                return CommentTestData.Equals((CommentInterface)x, (CommentInterface)y) ? 0 : 1;
+            }
         }
 
         public static bool Equals(CommentInterface storedComment, CommentInterface retrievedComment)

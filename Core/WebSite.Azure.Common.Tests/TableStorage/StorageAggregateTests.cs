@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Text;
-using Gallio.Framework;
-using MbUnit.Framework;
-using MbUnit.Framework.ContractVerifiers;
+using NUnit.Framework;
 using Ninject;
 using Ninject.MockingKernel.Moq;
 using Website.Azure.Common.TableStorage;
+using Website.Test.Common;
 
 namespace Website.Azure.Common.Tests.TableStorage
 {
@@ -22,7 +19,7 @@ namespace Website.Azure.Common.Tests.TableStorage
 
         Dictionary<string, List<ExtendableTableEntry>> _mockStore;
 
-        [FixtureSetUp]
+        [TestFixtureSetUp]
         public void FixtureSetUp()
         {
             Kernel.Unbind<TableContextInterface>();
@@ -43,7 +40,7 @@ namespace Website.Azure.Common.Tests.TableStorage
             _mockStore = TableContextTests.SetupMockTableContext<ExtendableTableEntry>(Kernel, new Dictionary<string, List<ExtendableTableEntry>>());
         }
 
-        [FixtureTearDown]
+        [TestFixtureTearDown]
         public void FixtureTearDown()
         {
             Kernel.Unbind<TableContextInterface>();
@@ -77,13 +74,13 @@ namespace Website.Azure.Common.Tests.TableStorage
             var testob = new StorageAggregate(one, tableNameAndPartitionProviderService);
             var tabCtx = Kernel.Get<TableContextInterface>();
             var entries = testob.GetTableEntries<ExtendableTableEntry>(tabCtx);
-            Assert.Count(10, entries);
+            AssertUtil.Count(10, entries);
 
             one.RelatedEntities.Add(new TwoEntity(){Prop = "777", PropTwo = "888"});
             one.PropThree = "My property Has Changed";
             entries = testob.GetTableEntries<ExtendableTableEntry>(tabCtx);
             Assert.IsTrue(entries.Any(e => Equals("My property Has Changed", e.Entry["PropThree"])));
-            Assert.Count(12, entries);
+            AssertUtil.Count(12, entries);
         }
     }
 }

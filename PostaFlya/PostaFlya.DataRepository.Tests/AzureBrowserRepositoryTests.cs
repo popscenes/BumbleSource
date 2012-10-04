@@ -1,18 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
-using System.Text;
-using Gallio.Framework;
-using MbUnit.Framework;
-using MbUnit.Framework.ContractVerifiers;
-using Microsoft.WindowsAzure.StorageClient;
+using NUnit.Framework;
 using Ninject;
 using Website.Azure.Common.Environment;
-using Website.Azure.Common.TableStorage;
 using PostaFlya.DataRepository.Browser;
 using Website.Infrastructure.Authentication;
 using Website.Infrastructure.Command;
-using PostaFlya.Mocks.Domain.Data;
 using Website.Domain.Browser;
 using Website.Domain.Browser.Command;
 using Website.Domain.Browser.Query;
@@ -23,7 +16,8 @@ using Website.Mocks.Domain.Defaults;
 
 namespace PostaFlya.DataRepository.Tests
 {
-    [TestFixture]
+    [TestFixture("dev")]
+    [TestFixture("real")]
     public class AzureBrowserRepositoryTests
     {
         private BrowserRepositoryInterface _repository;
@@ -34,14 +28,12 @@ namespace PostaFlya.DataRepository.Tests
             get { return TestFixtureSetup.CurrIocKernel; }
         }
 
-        [Row("dev")] 
-        [Row("real")]
         public AzureBrowserRepositoryTests(string env)
         {
             AzureEnv.UseRealStorage = env == "real";
-        } 
+        }
 
-        [FixtureSetUp]
+        [TestFixtureSetUp]
         public void FixtureSetUp()
         {
 //            var browserTable = new TableNameAndPartitionProvider<BrowserInterface>()
@@ -76,7 +68,7 @@ namespace PostaFlya.DataRepository.Tests
             _queryService = Kernel.Get<BrowserQueryServiceInterface>();
         }
 
-        [FixtureTearDown]
+        [TestFixtureTearDown]
         public void FixtureTearDown()
         {
             //Kernel.Unbind<TableNameAndPartitionProviderInterface>();
@@ -88,21 +80,31 @@ namespace PostaFlya.DataRepository.Tests
         {
             var browserRepository = Kernel.Get<BrowserRepositoryInterface>();
             Assert.IsNotNull(browserRepository);
-            Assert.IsInstanceOfType<AzureBrowserRepository>(browserRepository);
+            Assert.That(browserRepository, Is.InstanceOf<AzureBrowserRepository>());
 
             var browserQuery = Kernel.Get<BrowserQueryServiceInterface>();
             Assert.IsNotNull(browserQuery);
-            Assert.IsInstanceOfType<AzureBrowserRepository>(browserQuery);
+            Assert.That(browserQuery, Is.InstanceOf<AzureBrowserRepository>());
         }
 
         [Test]
-        public BrowserInterface TestStoreBrowserRepository()
+        public void StoreBrowserRepositoryTest()
+        {
+            StoreBrowserRepository();
+        }
+
+        public BrowserInterface StoreBrowserRepository()
         {
             return BrowserTestData.StoreOne(GetBrowser(), _repository, Kernel);
         }
 
         [Test]
-        public BrowserInterface TestStoreBrowserNullLocationRepository()
+        public void StoreBrowserNullLocationRepositoryTest()
+        {
+            StoreBrowserNullLocationRepository();
+        }
+
+        public BrowserInterface StoreBrowserNullLocationRepository()
         {
             var browser = GetBrowser();
             browser.DefaultLocation = null;
@@ -158,16 +160,21 @@ namespace PostaFlya.DataRepository.Tests
         }
 
         [Test]
-        public BrowserInterface TestQueryBrowserRepository()
+        public void QueryBrowserRepositoryTest()
         {
-            var storedBrowser = TestStoreBrowserRepository();
+            QueryBrowserRepository();
+        }
+
+        public BrowserInterface QueryBrowserRepository()
+        {
+            var storedBrowser = StoreBrowserRepository();
             return BrowserTestData.AssertGetById(storedBrowser, _queryService);
         }
 
         [Test]
         public void TestSaveQueryModifySaveBrowserRepository()
         {
-            var source = TestQueryBrowserRepository();
+            var source = QueryBrowserRepository();
             BrowserInterface entityToStore = null;
         
             using (Kernel.Get<UnitOfWorkFactoryInterface>()

@@ -2,7 +2,7 @@ using System;
 using System.Security.Principal;
 using System.Web;
 using System.Web.Security;
-using MbUnit.Framework;
+using NUnit.Framework;
 using Ninject;
 using Ninject.MockingKernel.Moq;
 using Website.Application.Authentication;
@@ -24,7 +24,7 @@ namespace Website.Application.Domain.Tests.Browser
         }
 
         //TODO all the principal and mock repository for BrowserInformation
-        [FixtureSetUp]
+        [TestFixtureSetUp]
         public void FixtureSetUp()
         {
             Kernel.Bind<BrowserInformationInterface>().To<BrowserInformation>();
@@ -34,7 +34,7 @@ namespace Website.Application.Domain.Tests.Browser
 
         }
 
-        [FixtureTearDown]
+        [TestFixtureTearDown]
         public void FixtureTearDown()
         {
             Kernel.Unbind<BrowserInformationInterface>();
@@ -67,7 +67,7 @@ namespace Website.Application.Domain.Tests.Browser
 
             Kernel.Unbind<WebPrincipalInterface>();
             var browser = ResolutionExtensions.Get<BrowserInformationInterface>(Kernel);
-            Assert.IsInstanceOfType<BrowserInformation>(browser);
+            Assert.That(browser, Is.InstanceOf<BrowserInformation>());
 
             Assert.IsNotNull(browser.Browser);
             Assert.IsFalse(string.IsNullOrWhiteSpace(browser.Browser.Id));
@@ -92,7 +92,7 @@ namespace Website.Application.Domain.Tests.Browser
             repo.Store(Kernel.Get<BrowserInterface>(ctx => ctx.Has("ststestbrowser")));
 
             var browser = ResolutionExtensions.Get<BrowserInformationInterface>(Kernel);
-            Assert.IsInstanceOfType<BrowserInformation>(browser);
+            Assert.That(browser, Is.InstanceOf<BrowserInformation>());
 
             var queryinterface = ResolutionExtensions.Get<BrowserQueryServiceInterface>(Kernel);
             var principal = Kernel.Get<WebPrincipalInterface>();

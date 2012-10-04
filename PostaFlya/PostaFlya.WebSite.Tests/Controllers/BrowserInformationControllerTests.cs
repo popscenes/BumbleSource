@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using System.Web.Script.Serialization;
-using MbUnit.Framework;
+using NUnit.Framework;
 using Ninject;
 using Ninject.MockingKernel.Moq;
 using PostaFlya.Controllers;
-using PostaFlya.Models.Browser;
-using Microsoft.CSharp;
 using Website.Application.Domain.Browser;
 using Website.Domain.Browser;
 using Website.Domain.Location;
@@ -26,7 +20,7 @@ namespace PostaFlya.Website.Tests.Controllers
             get { return TestFixtureSetup.CurrIocKernel; }
         }
 
-        [FixtureSetUp]
+        [TestFixtureSetUp]
         public void FixtureSetUp()
         {
             var browserInfo = Kernel.GetMock<BrowserInformationInterface>();
@@ -42,7 +36,7 @@ namespace PostaFlya.Website.Tests.Controllers
             
         }
 
-        [FixtureTearDown]
+        [TestFixtureTearDown]
         public void FixtureTearDown()
         {
             
@@ -58,8 +52,8 @@ namespace PostaFlya.Website.Tests.Controllers
 
             var serializer = new JavaScriptSerializer();
             //var browserInfoModel = serializer.Deserialize<CurrentBrowserModel>(browserInfoModelJSON.ViewBag.BrowserInfoJson);
-            //Assert.Count(2, browserInfoModel.SavedLocations);
-            //Assert.Count(2, browserInfoModel.SavedTags);
+            //AssertUtil.Count(2, browserInfoModel.SavedLocations);
+            //AssertUtil.Count(2, browserInfoModel.SavedTags);
 
         }
     }

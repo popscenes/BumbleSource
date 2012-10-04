@@ -1,16 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using Moq;
+using NUnit.Framework;
 using Ninject.MockingKernel.Moq;
-using MbUnit.Framework;
 using PostaFlya.Application.Domain.ExternalSource;
 using Website.Domain.Content.Query;
 using Website.Infrastructure.Command;
-using PostaFlya.Mocks.Domain.Data;
 using Website.Infrastructure.Authentication;
-using Website.Application.Tests.Intergrations;
+using Website.Test.Common;
 using Website.Test.Common.Facebook;
 using PostaFlya.Domain.Flier;
 using PostaFlya.Domain.Flier.Query;
@@ -38,7 +35,7 @@ namespace PostaFlya.Application.Domain.Tests.ExternalSource
 
 
 
-        [FixtureSetUp]
+        [TestFixtureSetUp]
         public void FixtureSetUp()
         {
             browser = BrowserTestData.GetOne(Kernel) as Website.Domain.Browser.Browser;
@@ -91,10 +88,10 @@ namespace PostaFlya.Application.Domain.Tests.ExternalSource
             urlRetrieverFactory.Setup(_ => _.GetRetriever(It.IsAny<Website.Domain.Content.Content.ContentType>())).
                 Returns(urlImageRetriever.Object);
 
-            Kernel.Bind<UrlContentRetrieverFactoryInterface>().ToConstant(urlRetrieverFactory.Object);
+            Kernel.Rebind<UrlContentRetrieverFactoryInterface>().ToConstant(urlRetrieverFactory.Object);
         }
 
-        [FixtureTearDown]
+        [TestFixtureTearDown]
         public void FixtureTearDown()
         {
             Facebookutils.TestUserDelete(testFBUser.id);
@@ -126,7 +123,7 @@ namespace PostaFlya.Application.Domain.Tests.ExternalSource
                 Kernel.GetMock<CommandBusInterface>().Object, Kernel.GetMock<ImageQueryServiceInterface>().Object);
 
             var fliers = facebookFlierImporter.ImportFliers(browser);
-            Assert.Count(5, fliers.ToList());
+            AssertUtil.Count(5, fliers.ToList());
             var fliersList = fliers.ToList();
             var repo = Kernel.GetMock<FlierRepositoryInterface>();
             fliersList[0].Id = "extflier1";
@@ -136,7 +133,7 @@ namespace PostaFlya.Application.Domain.Tests.ExternalSource
             repo.Object.Store(fliersList[1]);
 
             fliers = facebookFlierImporter.ImportFliers(browser);
-            Assert.Count(3, fliers.ToList());
+            AssertUtil.Count(3, fliers.ToList());
 
             fliersList = fliers.ToList();
             Assert.AreEqual(fliersList[0].ExternalSource, IdentityProviders.FACEBOOK);

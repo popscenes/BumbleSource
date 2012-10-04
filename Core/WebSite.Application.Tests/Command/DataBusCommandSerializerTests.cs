@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
-using Gallio.Framework;
-using MbUnit.Framework;
-using MbUnit.Framework.ContractVerifiers;
 using Moq;
+using NUnit.Framework;
 using Ninject;
 using Ninject.MockingKernel.Moq;
 using Website.Application.Command;
@@ -28,7 +25,7 @@ namespace Website.Application.Tests.Command
             get { return TestFixtureSetup.CurrIocKernel; }
         }
 
-        [FixtureTearDown]
+        [TestFixtureTearDown]
         public void FixtureTearDown()
         {
             Kernel.Unbind<QueueInterface>();
@@ -69,7 +66,7 @@ namespace Website.Application.Tests.Command
             //Assert that the data is larger than the seriaised message as the message
             //is just a redirect to blob storage.
             Assert.IsTrue(data.Length > serializedMessage.Length);
-            Assert.Count(1, storage);
+            Assert.That(storage.Count, Is.EqualTo(1));
 
             var retrievedmsg = cmdSerializer.FromByteArray<DataBusTestCommand>(serializedMessage);
 
@@ -78,9 +75,9 @@ namespace Website.Application.Tests.Command
                 Assert.AreEqual(data[i], retrievedmsg.Data[i]);
 
             //Assert that the blob storage is clear after the command released
-            Assert.Count(1, storage);
+            Assert.That(storage.Count, Is.EqualTo(1));
             cmdSerializer.ReleaseCommand(retrievedmsg);
-            Assert.Count(0, storage);
+            Assert.That(storage.Count, Is.EqualTo(0));
 
             Kernel.Unbind<BlobStorageInterface>();
         }
@@ -111,7 +108,7 @@ namespace Website.Application.Tests.Command
 
             //assert that the data is smaller that the serialised object
             Assert.IsTrue(data.Length < serializedMessage.Length);
-            Assert.Count(0, storage);//shouldn't be anything in storage...
+            Assert.That(storage.Count, Is.EqualTo(0));//shouldn't be anything in storage...
 
             var retrievedmsg = cmdSerializer.FromByteArray<DataBusTestCommand>(serializedMessage);
 

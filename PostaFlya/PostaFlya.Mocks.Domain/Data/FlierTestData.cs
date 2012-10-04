@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using MbUnit.Framework;
+using NUnit.Framework;
 using Ninject;
 using PostaFlya.Domain.Behaviour;
 using PostaFlya.Domain.Flier;
@@ -14,6 +14,7 @@ using Website.Infrastructure.Query;
 using Website.Domain.Location;
 using Website.Domain.Tag;
 using Website.Mocks.Domain.Defaults;
+using Website.Test.Common;
 
 namespace PostaFlya.Mocks.Domain.Data
 {
@@ -238,8 +239,8 @@ namespace PostaFlya.Mocks.Domain.Data
             Assert.AreEqual(storedFlier.ExternalSource, retrievedFlier.ExternalSource);
 
 
-            Assert.AreApproximatelyEqual(storedFlier.CreateDate, storedFlier.CreateDate, TimeSpan.FromMilliseconds(1));
-            Assert.AreApproximatelyEqual(storedFlier.EffectiveDate, storedFlier.EffectiveDate, TimeSpan.FromMilliseconds(1));
+            AssertUtil.AreEqual(storedFlier.CreateDate, storedFlier.CreateDate, TimeSpan.FromMilliseconds(1));
+            AssertUtil.AreEqual(storedFlier.EffectiveDate, storedFlier.EffectiveDate, TimeSpan.FromMilliseconds(1));
             Assert.AreEqual(storedFlier.NumberOfComments, retrievedFlier.NumberOfComments);
             Assert.AreEqual(storedFlier.NumberOfClaims, retrievedFlier.NumberOfClaims);
             Assert.AreEqual(storedFlier.ImageList.Count, retrievedFlier.ImageList.Count);

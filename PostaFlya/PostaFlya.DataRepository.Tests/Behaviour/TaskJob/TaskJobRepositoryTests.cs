@@ -1,13 +1,8 @@
 using System;
 using System.Collections.Generic;
-using System.Text;
-using Gallio.Framework;
-using MbUnit.Framework;
-using MbUnit.Framework.ContractVerifiers;
-using Microsoft.WindowsAzure.StorageClient;
+using NUnit.Framework;
 using Ninject;
 using Website.Azure.Common.Environment;
-using Website.Azure.Common.TableStorage;
 using PostaFlya.DataRepository.Behaviour.TaskJob;
 using PostaFlya.Domain.TaskJob;
 using PostaFlya.Domain.TaskJob.Command;
@@ -17,7 +12,8 @@ using Website.Domain.Location;
 
 namespace PostaFlya.DataRepository.Tests.Behaviour.TaskJob
 {
-    [TestFixture]
+    [TestFixture("dev")]
+    [TestFixture("real")]
     public class TaskJobRepositoryTests
     {
 
@@ -26,8 +22,7 @@ namespace PostaFlya.DataRepository.Tests.Behaviour.TaskJob
             get { return TestFixtureSetup.CurrIocKernel; }
         }
 
-        [Row("dev")] 
-        [Row("real")]
+
         public TaskJobRepositoryTests(string env)
         {
             AzureEnv.UseRealStorage = env == "real";
@@ -54,7 +49,7 @@ namespace PostaFlya.DataRepository.Tests.Behaviour.TaskJob
 //            context.SaveChanges();
         }
 
-        [FixtureSetUp]
+        [TestFixtureSetUp]
         public void FixtureSetUp()
         {
 
@@ -65,7 +60,7 @@ namespace PostaFlya.DataRepository.Tests.Behaviour.TaskJob
         }
 
 
-        [FixtureTearDown]
+        [TestFixtureTearDown]
         public void FixtureTearDown()
         {
            // Kernel.Unbind<TableNameAndPartitionProviderInterface>();
@@ -78,15 +73,20 @@ namespace PostaFlya.DataRepository.Tests.Behaviour.TaskJob
         {
             var repository = Kernel.Get<TaskJobRepositoryInterface>();
             Assert.IsNotNull(repository);
-            Assert.IsInstanceOfType<AzureTaskJobRepository>(repository);
+            Assert.That(repository, Is.InstanceOf<AzureTaskJobRepository>());
 
             var queryService = Kernel.Get<TaskJobQueryServiceInterface>();
             Assert.IsNotNull(queryService);
-            Assert.IsInstanceOfType<AzureTaskJobRepository>(queryService);
+            Assert.That(queryService, Is.InstanceOf<AzureTaskJobRepository>());
         }
 
         [Test]
-        public TaskJobFlierBehaviourInterface TestStoreTaskJobRepository()
+        public void StoreTaskJobRepositoryTest()
+        {
+            StoreTaskJobRepository();
+        }
+
+        public TaskJobFlierBehaviourInterface StoreTaskJobRepository()
         {
 
             var flierId = Guid.NewGuid().ToString();
@@ -106,16 +106,21 @@ namespace PostaFlya.DataRepository.Tests.Behaviour.TaskJob
         }
 
         [Test]
-        public TaskJobFlierBehaviourInterface TestQueryTaskJobRepository()
+        public void QueryTaskJobRepositoryTest()
         {
-            var task = TestStoreTaskJobRepository();
+            QueryTaskJobRepository();
+        }
+
+        public TaskJobFlierBehaviourInterface QueryTaskJobRepository()
+        {
+            var task = StoreTaskJobRepository();
             return Query(task);
         }
 
         [Test]
         public void TestQueryModifySaveTaskJobRepository()
         {
-            var task = TestQueryTaskJobRepository();
+            var task = QueryTaskJobRepository();
             
             task.CostOverhead = 11;
             task.ExtraLocations.Add(new Location(21, 21));
@@ -163,7 +168,7 @@ namespace PostaFlya.DataRepository.Tests.Behaviour.TaskJob
             Assert.AreEqual(source.Id, query.Id);
             Assert.AreEqual(source.MaxAmount, query.MaxAmount);
             Assert.AreEqual(source.CostOverhead, query.CostOverhead);
-            Assert.AreElementsEqualIgnoringOrder(source.ExtraLocations, query.ExtraLocations);
+            CollectionAssert.AreEquivalent(source.ExtraLocations, query.ExtraLocations);
         }
 
     }

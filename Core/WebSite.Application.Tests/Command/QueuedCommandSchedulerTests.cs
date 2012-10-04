@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading;
-using MbUnit.Framework;
 using Moq;
+using NUnit.Framework;
 using Ninject;
 using Ninject.MockingKernel.Moq;
 using Website.Application.Command;
@@ -23,7 +22,7 @@ namespace Website.Application.Tests.Command
 
 
 
-        [FixtureSetUp]
+        [TestFixtureSetUp]
         public void FixtureSetUp()
         {
             Kernel.Bind<CommandQueueFactoryInterface>()
@@ -50,7 +49,7 @@ namespace Website.Application.Tests.Command
                        (ctx => ctx.Has("queuedmessageprocessortests")) as TestCommandQueueFactory;
         }
 
-        [FixtureTearDown]
+        [TestFixtureTearDown]
         public void FixtureTearDown()
         {
             Kernel.Unbind<CommandQueueFactoryInterface>();
@@ -159,8 +158,9 @@ namespace Website.Application.Tests.Command
                     if (method == "GetMessage")
                     {
                         lastElapsedMillis = watch.ElapsedMilliseconds + 5;//just push it a little
-                        Assert.GreaterThanOrEqualTo(lastElapsedMillis, lower);
-                        Assert.LessThanOrEqualTo(lastElapsedMillis, upper);
+                        Assert.That(lastElapsedMillis, Is.GreaterThanOrEqualTo(lower));
+                        Assert.That(lastElapsedMillis, Is.LessThanOrEqualTo(upper));
+
                         if (lower < 1000)
                         {
                             lower += 200;
@@ -180,8 +180,8 @@ namespace Website.Application.Tests.Command
             processor.Run(cancellationTokenSource.Token);
 
             //Assert that it topped out at 1000
-            Assert.GreaterThanOrEqualTo(lastElapsedMillis, 1000);
-            Assert.LessThanOrEqualTo(lastElapsedMillis, 1200);
+            Assert.That(lastElapsedMillis, Is.GreaterThanOrEqualTo(1000));
+            Assert.That(lastElapsedMillis, Is.LessThanOrEqualTo(1200));
         }
     }
 }

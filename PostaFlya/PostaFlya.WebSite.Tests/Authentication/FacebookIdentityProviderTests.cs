@@ -1,12 +1,7 @@
-﻿using System;
-using System.Configuration;
-using System.IO;
-using System.Security.Principal;
-using System.Web;
-using MbUnit.Framework;
+﻿using System.Web;
+using NUnit.Framework;
 using Ninject.MockingKernel.Moq;
 using Website.Application.Authentication;
-using Website.Infrastructure.Authentication;
 using Website.Test.Common;
 
 namespace PostaFlya.Website.Tests.Authentication
@@ -20,7 +15,7 @@ namespace PostaFlya.Website.Tests.Authentication
             get { return TestFixtureSetup.CurrIocKernel; }
         }
 
-        [FixtureSetUp]
+        [TestFixtureSetUp]
         public void FixtureSetUp()
         {
             HttpContextMock.HttpContextCurrentCreate("http://localhost/", "");

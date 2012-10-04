@@ -4,20 +4,18 @@ using System.Data.Services.Client;
 using System.Globalization;
 using System.Linq;
 using System.Linq.Expressions;
-using Gallio.Framework;
-using MbUnit.Framework;
-using MbUnit.Framework.ContractVerifiers;
 using Moq;
+using NUnit.Framework;
 using Ninject;
 using Ninject.MockingKernel.Moq;
-using Website.Infrastructure.Domain;
 using Website.Azure.Common.Environment;
 using Website.Azure.Common.TableStorage;
 using Website.Test.Common;
 
 namespace Website.Azure.Common.Tests.TableStorage
 {
-    [TestFixture]
+    [TestFixture("dev")]
+    [TestFixture("real")]
     public class TableContextTests
     {
         static StandardKernel Kernel
@@ -25,14 +23,12 @@ namespace Website.Azure.Common.Tests.TableStorage
             get { return TestFixtureSetup.CurrIocKernel; }
         }
 
-        [Row("dev")] 
-        [Row("real")]
         public TableContextTests(string env)
         {
             AzureEnv.UseRealStorage = env == "real";
         }
 
-        [FixtureSetUp]
+        [TestFixtureSetUp]
         public void FixtureSetUp()
         {
             Kernel.Rebind<TableContextInterface>()
@@ -58,7 +54,7 @@ namespace Website.Azure.Common.Tests.TableStorage
             context.SaveChanges();
         }
 
-        [FixtureTearDown]
+        [TestFixtureTearDown]
         public void FixtureTearDown()
         {
             Kernel.Unbind<TableNameAndPartitionProviderServiceInterface>();
@@ -371,10 +367,10 @@ namespace Website.Azure.Common.Tests.TableStorage
                                     };
 
             var ret = tabCtx.PerformParallelQueries("testOneEntity", searchQueries);
-            Assert.Count(4, ret);
+            AssertUtil.Count(4, ret);
             foreach (var partition in partitions)
             {
-                Assert.Count(1, ret.Where(t => t.PartitionKey == partition));
+                AssertUtil.Count(1, ret.Where(t => t.PartitionKey == partition));
             }
             
         }
@@ -412,10 +408,10 @@ namespace Website.Azure.Common.Tests.TableStorage
                                     };
 
             var ret = tabCtx.PerformParallelSelectQueries("testOneEntity", searchQueries, s => new { PropertyOne = s.PropertyOne });
-            Assert.Count(4, ret);
+            AssertUtil.Count(4, ret);
             for (int i = 0; i < ret.Count(); i++ )
             {
-                Assert.Count(1, ret.Where(t => t.PropertyOne == i.ToString(CultureInfo.InvariantCulture)));
+                AssertUtil.Count(1, ret.Where(t => t.PropertyOne == i.ToString(CultureInfo.InvariantCulture)));
             }
 
         }

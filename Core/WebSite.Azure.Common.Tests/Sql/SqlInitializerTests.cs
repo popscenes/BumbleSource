@@ -1,13 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Data.SqlTypes;
-using System.Text;
-using System.Xml.Linq;
-using Gallio.Framework;
-using MbUnit.Framework;
-using MbUnit.Framework.ContractVerifiers;
 using Microsoft.SqlServer.Types;
+using NUnit.Framework;
 using Website.Azure.Common.Sql;
 
 namespace Website.Azure.Common.Tests.Sql
@@ -71,8 +66,8 @@ namespace Website.Azure.Common.Tests.Sql
         }
 
         [Test]
-        [Row(typeof(SqlInitializerTestFederatedTable))]
-        public void SqlInitializerCreateTableFromTypeCreatesTableWithFederation<TableType>()
+        [TestCase(typeof(SqlInitializerTestFederatedTable))]
+        public void SqlInitializerCreateTableFromTypeCreatesTableWithFederation(Type tableTyp)
         {
             const string databasename = "SqlInitializerTests";
             using (var initializer = new SqlInitializer())
@@ -81,15 +76,15 @@ namespace Website.Azure.Common.Tests.Sql
 
                 using (var connection = new SqlConnection(SqlExecute.GetConnectionStringFromConfig("DbConnectionString", databasename)))
                 {
-                    SqlInitializer.CreateFederationFor(typeof(TableType), connection);
+                    SqlInitializer.CreateFederationFor(tableTyp, connection);
 
-                    initializer.DeleteTable(typeof(TableType).Name, connection);
+                    initializer.DeleteTable(tableTyp.Name, connection);
 
-                    Assert.IsTrue(SqlInitializer.CreateTableFrom(typeof(TableType), connection));
+                    Assert.IsTrue(SqlInitializer.CreateTableFrom(tableTyp, connection));
 
-                    Assert.IsTrue(initializer.DeleteTable(typeof(TableType).Name, connection));
+                    Assert.IsTrue(initializer.DeleteTable(tableTyp.Name, connection));
 
-                    SqlInitializer.DeleteFederationFor(typeof(TableType), connection);
+                    SqlInitializer.DeleteFederationFor(tableTyp, connection);
                 }
 
                 initializer.DeleteDb(databasename);

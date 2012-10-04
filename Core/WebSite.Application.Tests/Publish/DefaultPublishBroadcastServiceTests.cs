@@ -1,8 +1,7 @@
-﻿using MbUnit.Framework;
-using Moq;
+﻿using Moq;
+using NUnit.Framework;
 using Ninject;
 using Ninject.MockingKernel.Moq;
-using Website.Infrastructure.Command;
 using Website.Infrastructure.Publish;
 
 namespace Website.Application.Tests.Publish
@@ -15,7 +14,7 @@ namespace Website.Application.Tests.Publish
             get { return TestFixtureSetup.CurrIocKernel; }
         }
 
-        [FixtureSetUp]
+        [TestFixtureSetUp]
         public void FixtureSetUp()
         {
 //            Kernel.Bind<CommandHandlerInterface<PublishCommand>>()
@@ -23,7 +22,7 @@ namespace Website.Application.Tests.Publish
 //            Kernel.Bind<CommandBusInterface>().To<DefaultCommandBus>();
         }
 
-        [FixtureTearDown]
+        [TestFixtureTearDown]
         public void FixtureTearDown()
         {
 //            Kernel.Unbind<CommandHandlerInterface<PublishCommand>>();

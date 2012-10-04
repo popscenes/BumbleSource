@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
-using Gallio.Framework;
-using MbUnit.Framework;
-using MbUnit.Framework.ContractVerifiers;
+using NUnit.Framework;
 using Ninject;
 using Website.Azure.Common.TableStorage;
 using Website.Infrastructure.Domain;
+using Website.Test.Common;
 
 namespace Website.Azure.Common.Tests.TableStorage
 {
@@ -88,14 +86,14 @@ namespace Website.Azure.Common.Tests.TableStorage
             get { return TestFixtureSetup.CurrIocKernel; }
         }
 
-        [FixtureSetUp]
+        [TestFixtureSetUp]
         public void FixtureSetUp()
         {
             Kernel.Rebind<TableNameAndPartitionProviderServiceInterface>()
                 .To<TableNameAndPartitionProviderService>();
         }
 
-        [FixtureTearDown]
+        [TestFixtureTearDown]
         public void FixtureTearDown()
         {
             Kernel.Unbind<TableNameAndPartitionProviderServiceInterface>();
@@ -106,7 +104,7 @@ namespace Website.Azure.Common.Tests.TableStorage
 
             tableNameAndPartitionProviderService.Add<OneEntity>(0, "testOneEntity", entity => entity.Prop);
 
-            Assert.Count(1, tableNameAndPartitionProviderService.GetAllTableNames());
+            AssertUtil.Count(1, tableNameAndPartitionProviderService.GetAllTableNames());
         }
 
         [Test]
@@ -124,7 +122,7 @@ namespace Website.Azure.Common.Tests.TableStorage
 
 
             tableNameAndPartitionProviderService.Add<OneEntity>(0, "testOneEntityNewTable", entity => entity.Prop);
-            Assert.Count(1, tableNameAndPartitionProviderService.GetAllTableNames());
+            AssertUtil.Count(1, tableNameAndPartitionProviderService.GetAllTableNames());
 
             var tableName = tableNameAndPartitionProviderService.GetTableName<OneEntity>(0);
             Assert.AreEqual("testOneEntityNewTable", tableName);
@@ -199,9 +197,9 @@ namespace Website.Azure.Common.Tests.TableStorage
 
             var partitions =
                 tableNameAndPartitionProviderService.GetPartitionIdentifiers<OneEntity>();
-            Assert.Count(2, partitions);
-            Assert.Contains(partitions, 0);
-            Assert.Contains(partitions, 1);
+            AssertUtil.Count(2, partitions);
+            CollectionAssert.Contains(partitions, 0);
+            CollectionAssert.Contains(partitions, 1);
         }
 
         [Test]

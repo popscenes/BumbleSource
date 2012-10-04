@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using MbUnit.Framework;
-using Microsoft.WindowsAzure;
-using Microsoft.WindowsAzure.StorageClient;
-using Ninject;
+﻿using System.Collections.Generic;
+using NUnit.Framework;
 using Ninject.MockingKernel.Moq;
 using Ninject.Modules;
 using Website.Azure.Common.Binding;
@@ -14,11 +8,11 @@ using Website.Test.Common;
 
 namespace Website.Azure.Common.Tests
 {
-    [AssemblyFixture]
+    [SetUpFixture]
     class TestFixtureSetup
     {
 
-        [FixtureSetUp]
+        [SetUp]
         public void FixtureSetup()
         {
             Assert.IsNotNull(CurrIocKernel);

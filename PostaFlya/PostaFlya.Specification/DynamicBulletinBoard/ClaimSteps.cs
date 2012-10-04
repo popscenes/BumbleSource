@@ -1,6 +1,6 @@
 ﻿using System.Linq;
-using MbUnit.Framework;
 using Moq;
+using NUnit.Framework;
 using Ninject;
 using PostaFlya.Models.Claims;
 using TechTalk.SpecFlow;
@@ -9,10 +9,8 @@ using PostaFlya.Binding;
 using PostaFlya.Controllers;
 using PostaFlya.Domain.Flier;
 using PostaFlya.Domain.Flier.Query;
-using PostaFlya.Specification.Browsers;
 using PostaFlya.Specification.Fliers;
 using PostaFlya.Specification.Util;
-using Website.Infrastructure.Command;
 using Website.Domain.Claims;
 using Website.Domain.Service;
 

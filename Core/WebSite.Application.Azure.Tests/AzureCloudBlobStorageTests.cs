@@ -1,26 +1,21 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.IO;
-using System.Text;
-using Gallio.Framework;
-using MbUnit.Framework;
-using MbUnit.Framework.ContractVerifiers;
 using Microsoft.WindowsAzure.StorageClient;
+using NUnit.Framework;
 using Ninject;
-using Website.Application.Azure.Binding;
 using Website.Application.Azure.Content;
 using Website.Application.Binding;
 using Website.Application.Command;
 using Website.Application.Content;
 using Website.Azure.Common.Environment;
 using Website.Infrastructure.Command;
-using BlobProperties = Website.Application.Content.BlobProperties;
 
 namespace Website.Application.Azure.Tests
 {
 
-    [TestFixture]
+    [TestFixture("dev")]
+    [TestFixture("real")]
     public class AzureCloudBlobStorageTests
     {
         StandardKernel Kernel
@@ -28,14 +23,12 @@ namespace Website.Application.Azure.Tests
             get { return TestFixtureSetup.CurrIocKernel; }
         }
 
-        [Row("dev")] 
-        [Row("real")]
         public AzureCloudBlobStorageTests(string env)
         {
             AzureEnv.UseRealStorage = env == "real";
         } 
 
-        [FixtureSetUp]
+        [TestFixtureSetUp]
         public void FixtureSetUp()
         {
             Kernel.Get<CloudBlobClient>().GetContainerReference("blobstoragettest").CreateIfNotExist();
@@ -54,7 +47,7 @@ namespace Website.Application.Azure.Tests
             
         }
 
-        [FixtureTearDown]
+        [TestFixtureTearDown]
         public void FixtureTearDown()
         {
             ClearBlobStorage();
@@ -104,7 +97,7 @@ namespace Website.Application.Azure.Tests
             var id = StoreABlob(data);
 
             var commandQueueStorageConatiner = Kernel.Get<BlobStorageInterface>();
-            Assert.IsInstanceOfType<AzureCloudBlobStorage>(commandQueueStorageConatiner);
+            Assert.That(commandQueueStorageConatiner, Is.InstanceOf<AzureCloudBlobStorage>());
 
             var retrievedData = commandQueueStorageConatiner.GetBlob(id);
 
@@ -127,7 +120,7 @@ namespace Website.Application.Azure.Tests
             var id = StoreABlob(data);
 
             var commandQueueStorageConatiner = Kernel.Get<BlobStorageInterface>();
-            Assert.IsInstanceOfType<AzureCloudBlobStorage>(commandQueueStorageConatiner);
+            Assert.That(commandQueueStorageConatiner, Is.InstanceOf<AzureCloudBlobStorage>());
 
             using (var memoryStream = new MemoryStream())
             {
@@ -207,7 +200,7 @@ namespace Website.Application.Azure.Tests
             var storage = Kernel.Get<BlobStorageInterface>();
             var uri = storage.GetBlobUri(id);
             Assert.IsNotNull(uri);
-            Assert.Contains(uri.ToString(), id);
+            StringAssert.Contains(id, uri.ToString());
         }
 
         [Test]
@@ -244,7 +237,7 @@ namespace Website.Application.Azure.Tests
             Assert.IsTrue(result.Length < data.Length);//large command redirects to storage
 
 
-            Assert.IsInstanceOfType<AzureCloudBlobStorage>(commandQueueStorageConatiner);
+            Assert.That(commandQueueStorageConatiner, Is.InstanceOf<AzureCloudBlobStorage>());
             Assert.IsTrue(commandQueueStorageConatiner.BlobCount == 1); 
 
             cmdSerial.ReleaseCommand(largeCommand);
@@ -268,7 +261,7 @@ namespace Website.Application.Azure.Tests
         private string StoreABlob(byte[] data, Application.Content.BlobProperties properties = null)
         {
             var commandQueueStorageConatiner = Kernel.Get<BlobStorageInterface>();
-            Assert.IsInstanceOfType<AzureCloudBlobStorage>(commandQueueStorageConatiner);
+            Assert.That(commandQueueStorageConatiner, Is.InstanceOf<AzureCloudBlobStorage>());
             var id = Guid.NewGuid().ToString();
             Assert.IsTrue(commandQueueStorageConatiner.SetBlob(id, data, properties));
             return id;

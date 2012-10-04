@@ -1,19 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
-using MbUnit.Framework;
+using NUnit.Framework;
 using Ninject;
 using TechTalk.SpecFlow;
-using PostaFlya.Areas.Default.Models;
-using PostaFlya.Areas.Default.Models.Bulletin;
-using PostaFlya.Binding;
 using PostaFlya.Controllers;
 using PostaFlya.Domain.Flier;
-using PostaFlya.Domain.Flier.Command;
-using PostaFlya.Domain.Flier.Query;
-using Website.Infrastructure.Command;
-using PostaFlya.Models.Browser;
-using PostaFlya.Models.Comments;
 using PostaFlya.Models.Factory;
 using PostaFlya.Models.Flier;
 using PostaFlya.Models.Location;
@@ -71,7 +63,7 @@ namespace PostaFlya.Specification.DynamicBulletinBoard
                               "Flier returned that isn't within default distance");
             }
 
-            Assert.Count(3, fliers);
+            Assert.That(fliers.Count(), Is.EqualTo(3));
         }
 
         [Then(@"I should only see FLIERS with matching TAGS")]
@@ -87,7 +79,7 @@ namespace PostaFlya.Specification.DynamicBulletinBoard
                               "Flier returned that doesn't match tags %s", flier);
             }
 
-            Assert.Count(3, fliers);
+            Assert.That(fliers.Count(), Is.EqualTo(3));
         }
 
         [When(@"I set my DISTANCE")]
@@ -133,7 +125,7 @@ namespace PostaFlya.Specification.DynamicBulletinBoard
             var flierList = SpecUtil.ControllerResult as IList<BulletinFlierModel>;
             Assert.IsNotNull(flierList);
             var flierListArray = flierList.ToArray();
-            Assert.Count(3, flierListArray);
+            Assert.That(flierListArray.Count(), Is.EqualTo(3));
 
             for (int i = 1; i < flierListArray.Count(); i++)
             {

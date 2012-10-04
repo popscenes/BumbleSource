@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using MbUnit.Framework;
+using NUnit.Framework;
 using Ninject;
 using Ninject.MockingKernel.Moq;
 using PostaFlya.Domain.Behaviour;
@@ -19,7 +19,7 @@ namespace PostaFlya.Mocks.Domain.Data.Behaviour
             Assert.AreEqual(storedTaskJob.Id, retrievedTaskJob.Id);
             Assert.AreEqual(storedTaskJob.MaxAmount, retrievedTaskJob.MaxAmount);
             Assert.AreEqual(storedTaskJob.CostOverhead, retrievedTaskJob.CostOverhead);
-            Assert.AreElementsEqualIgnoringOrder(storedTaskJob.ExtraLocations, retrievedTaskJob.ExtraLocations);
+            CollectionAssert.AreEquivalent(storedTaskJob.ExtraLocations, retrievedTaskJob.ExtraLocations);
         }
 
         internal static TaskJobFlierBehaviourInterface AssertGetById(TaskJobFlierBehaviourInterface taskJob, TaskJobQueryServiceInterface queryService)

@@ -1,15 +1,11 @@
 ﻿using System;
 using System.Linq;
-using System.Text;
 using System.Web.Mvc;
-using MbUnit.Framework;
+using NUnit.Framework;
 using Ninject;
 using TechTalk.SpecFlow;
 using PostaFlya.Controllers;
-using PostaFlya.Models;
 using PostaFlya.Models.Location;
-using PostaFlya.Models.Tags;
-using PostaFlya.Specification.Browsers;
 using PostaFlya.Specification.DynamicBulletinBoard;
 using PostaFlya.Specification.Util;
 using Website.Application.Domain.Browser;
@@ -132,7 +128,7 @@ namespace PostaFlya.Specification.BrowserSettings
         public void ThenTheTagSetShouldBeStoredAgainstMyBrowser()
         {
             var browserInformation = SpecUtil.GetCurrBrowser();
-            Assert.Contains(browserInformation.Browser.SavedTags, browserInformation.Browser.Tags);
+            CollectionAssert.Contains(browserInformation.Browser.SavedTags, browserInformation.Browser.Tags);
         }
 
         [When(@"i Select a SAVED TAG SET")]
@@ -176,7 +172,7 @@ namespace PostaFlya.Specification.BrowserSettings
         public void ThenItShouldBeRemovedFromMySavedTagSets()
         {
             var browserInformation = SpecUtil.GetCurrBrowser();
-            Assert.Count(0, browserInformation.Browser.SavedTags);
+            Assert.That(browserInformation.Browser.SavedTags.Count(), Is.EqualTo(0));
         }
 
         [When(@"i navigate to the BROWSER SAVED TAG SETS page")]

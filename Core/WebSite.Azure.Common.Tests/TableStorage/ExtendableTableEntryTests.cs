@@ -1,19 +1,14 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.Serialization;
-using System.Text;
-using MbUnit.Framework;
+using NUnit.Framework;
 using Ninject;
-using Website.Infrastructure.Domain;
-using Website.Infrastructure.Util;
-using Website.Test.Common;
 using Website.Azure.Common.Environment;
 using Website.Azure.Common.TableStorage;
 
 namespace Website.Azure.Common.Tests.TableStorage
 {
-    [TestFixture]
+    [TestFixture("dev")]
+    [TestFixture("real")]
     public class ExtendableTableEntryTests
     {
 
@@ -22,14 +17,12 @@ namespace Website.Azure.Common.Tests.TableStorage
             get { return TestFixtureSetup.CurrIocKernel; }
         }
 
-        [Row("dev")] 
-        [Row("real")]
         public ExtendableTableEntryTests(string env)
         {
             AzureEnv.UseRealStorage = env == "real";
         }
 
-        [FixtureSetUp]
+        [TestFixtureSetUp]
         public void FixtureSetUp()
         {
             Kernel.Rebind<TableContextInterface>()
@@ -54,7 +47,7 @@ namespace Website.Azure.Common.Tests.TableStorage
         }
 
 
-        [FixtureTearDown]
+        [TestFixtureTearDown]
         public void FixtureTearDown()
         {
             Kernel.Unbind<TableNameAndPartitionProviderServiceInterface>();

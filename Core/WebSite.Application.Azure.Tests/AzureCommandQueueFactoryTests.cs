@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using MbUnit.Framework;
 using Microsoft.WindowsAzure.StorageClient;
+using NUnit.Framework;
 using Ninject;
 using Website.Application.Azure.Command;
 using Website.Application.Command;
@@ -24,7 +22,7 @@ namespace Website.Application.Azure.Tests
         {
             var fact = Kernel.Get<CommandQueueFactoryInterface>();
 
-            Assert.IsInstanceOfType<AzureCommandQueueFactory>(fact);
+            Assert.That(fact, Is.InstanceOf<AzureCommandQueueFactory>());
 
             //just test the hashworks
             var newid = Guid.NewGuid().ToString();

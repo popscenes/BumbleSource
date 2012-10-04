@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Caching;
-using System.Text;
-using MbUnit.Framework;
-using Ninject;
+using NUnit.Framework;
 using Ninject.MockingKernel.Moq;
 using Moq;
 using Website.Application.WebsiteInformation;
@@ -23,7 +20,7 @@ namespace Website.Application.Tests.WebsiteInformation
 
         
 
-        [FixtureSetUp]
+        [TestFixtureSetUp]
         public void FixtureSetUp()
         {
             
@@ -75,28 +72,28 @@ namespace Website.Application.Tests.WebsiteInformation
 
             WebsiteInfoServiceInterface cachedInfoService = new CachedWebsiteInfoService(websiteInfoService.Object, memoryCache);
 
-            Assert.Count(0, memoryCache);
+            Assert.That(memoryCache.Count(), Is.EqualTo(0));
             var websiteName = cachedInfoService.GetWebsiteName("www.postaFlya.com");
 
             Assert.AreEqual(websiteName, "postaFlya");
 
             websiteName = cachedInfoService.GetWebsiteName("www.postaFlya.com");
-            Assert.Count(1, memoryCache);
+            Assert.That(memoryCache.Count(), Is.EqualTo(1));
 
             var tagsList = cachedInfoService.GetTags("www.postaFlya.com");
 
 
             tagsList = cachedInfoService.GetTags("www.postaFlya.com");
 
+            Assert.That(memoryCache.Count(), Is.EqualTo(2));
 
-            Assert.Count(2, memoryCache);
-            Assert.Count(30, tagsList.Split(new char[]{','}));
+            Assert.That(tagsList.Split(new[] { ',' }).Count(), Is.EqualTo(30));
 
             var websiteTags = cachedInfoService.GetBehaivourTags ("www.postaFlya.com");
             websiteTags = cachedInfoService.GetBehaivourTags("www.postaFlya.com");
 
             Assert.AreEqual(websiteTags.ToString(), "postaFlya");
-            Assert.Count(3, memoryCache);
+            Assert.That(memoryCache.Count(), Is.EqualTo(3));
         }
     }
 }

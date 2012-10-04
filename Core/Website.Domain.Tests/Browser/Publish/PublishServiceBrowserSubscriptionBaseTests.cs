@@ -1,15 +1,15 @@
 using System.Collections.Generic;
 using System.Linq;
-using MbUnit.Framework;
+using NUnit.Framework;
 using Ninject;
 using Ninject.MockingKernel.Moq;
+using Website.Application.Publish;
 using Website.Domain.Browser;
 using Website.Domain.Browser.Command;
 using Website.Domain.Browser.Publish;
 using Website.Domain.Browser.Query;
 using Website.Infrastructure.Command;
 using Website.Infrastructure.Publish;
-using Website.Infrastructure.Service;
 using Website.Mocks.Domain.Data;
 
 namespace Website.Domain.Tests.Browser.Publish
@@ -28,12 +28,13 @@ namespace Website.Domain.Tests.Browser.Publish
             kernel.Bind<CommandBusInterface>().To<DefaultCommandBus>();
             kernel.Bind<PublishServiceBrowserSubscriptionInterface>().To<TestPublishClass>();
             kernel.Bind<PublishServiceInterface<TestPublishObject>>().To<TestPublishClass>();
-           // kernel.Bind<CommandHandlerInterface<SetBrowserPropertyCommand>>().To<SetBrowserPropertyCommandHandler>();
+            kernel.Bind<PublishBroadcastServiceInterface>().To<DefaultPublishBroadcastService>();
+            // kernel.Bind<CommandHandlerInterface<SetBrowserPropertyCommand>>().To<SetBrowserPropertyCommandHandler>();
 
-            
+
         }
 
-        [FixtureSetUp]
+        [TestFixtureSetUp]
         public void FixtureSetUp()
         {
             FixtureSetUp(Kernel);
@@ -44,9 +45,10 @@ namespace Website.Domain.Tests.Browser.Publish
             kernel.Unbind<CommandBusInterface>();
             kernel.Unbind<PublishServiceBrowserSubscriptionInterface>();
             kernel.Unbind<PublishServiceInterface<TestPublishObject>>();
+            kernel.Unbind<PublishBroadcastServiceInterface>();
         }
 
-        [FixtureTearDown]
+        [TestFixtureTearDown]
         public void FixtureTearDown()
         {
             FixtureTearDown(Kernel);
@@ -60,7 +62,7 @@ namespace Website.Domain.Tests.Browser.Publish
             BrowserTestData.StoreOne(browser, repo, Kernel);
 
             var testSub = Kernel.Get<PublishServiceBrowserSubscriptionInterface>();
-            Assert.IsInstanceOfType<TestPublishClass>(testSub);
+            Assert.That(testSub, Is.InstanceOf<TestPublishClass>());
 
             Assert.IsFalse(testSub.IsBrowserSubscribed(browser));
 
@@ -88,7 +90,7 @@ namespace Website.Domain.Tests.Browser.Publish
             BrowserTestData.StoreOne(browserTwo, repo, Kernel);
 
             var testSub = Kernel.Get<PublishServiceBrowserSubscriptionInterface>();
-            Assert.IsInstanceOfType<TestPublishClass>(testSub);
+            Assert.That(testSub, Is.InstanceOf<TestPublishClass>());
 
             Assert.IsFalse(testSub.IsBrowserSubscribed(browser));
 
@@ -109,7 +111,7 @@ namespace Website.Domain.Tests.Browser.Publish
                                                      });
             Assert.IsNotNull(ret);
             Assert.IsTrue((bool) ret);
-            Assert.Count(2, _publishedBrowser);
+            Assert.That(_publishedBrowser.Count(), Is.EqualTo(2));
             _publishedBrowser.Clear();
         }
 

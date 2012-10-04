@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using MbUnit.Framework;
+using NUnit.Framework;
 using Ninject;
 using Website.Azure.Common.Environment;
-using Website.Azure.Common.TableStorage;
 using PostaFlya.DataRepository.Flier;
 using PostaFlya.DataRepository.Search.Implementation;
 using PostaFlya.DataRepository.Tests.Behaviour.TaskJob;
@@ -21,10 +20,12 @@ using Website.Domain.Comments;
 using Website.Domain.Location;
 using Website.Domain.Tag;
 using Website.Mocks.Domain.Data;
+using Website.Test.Common;
 
 namespace PostaFlya.DataRepository.Tests
 {
-    [TestFixture]
+    [TestFixture("dev")]
+    [TestFixture("real")]
     public class AzureFlierRepositoryTests
     {
         private FlierRepositoryInterface _repository;
@@ -36,8 +37,6 @@ namespace PostaFlya.DataRepository.Tests
         }
 
         private string _env;
-        [Row("dev")] 
-        [Row("real")]
         public AzureFlierRepositoryTests(string env)
         {
             _env = env;
@@ -45,7 +44,7 @@ namespace PostaFlya.DataRepository.Tests
         } 
 
 
-        [FixtureSetUp]
+        [TestFixtureSetUp]
         public void FixtureSetUp()
         {
             new AzureCommentRepositoryTests(_env).FixtureSetUp();
@@ -76,7 +75,7 @@ namespace PostaFlya.DataRepository.Tests
             _queryService = Kernel.Get<FlierQueryServiceInterface>();          
         }
 
-        [FixtureTearDown]
+        [TestFixtureTearDown]
         public void FixtureTearDown()
         {
             Kernel.Unbind<FlierBehaviourInterface>();
@@ -102,16 +101,22 @@ namespace PostaFlya.DataRepository.Tests
         {
             var repository = Kernel.Get<FlierRepositoryInterface>();
             Assert.IsNotNull(repository);
-            Assert.IsInstanceOfType<AzureFlierRepository>(repository);
+            Assert.That(repository, Is.InstanceOf<AzureFlierRepository>());
 
             var queryService = Kernel.Get<FlierQueryServiceInterface>();
             Assert.IsNotNull(queryService);
-            Assert.IsInstanceOfType<AzureFlierRepository>(queryService);
+            Assert.That(queryService, Is.InstanceOf<AzureFlierRepository>());
         }
 
         private static Location _loc = new Location(55,55);
+
         [Test]
-        public FlierInterface TestStoreFlierRepository()
+        public void StoreFlierRepositoryTest()
+        {
+            StoreFlierRepository();
+        }
+
+        public FlierInterface StoreFlierRepository()
         {
             DeleteAll();
 
@@ -155,16 +160,26 @@ namespace PostaFlya.DataRepository.Tests
         }
 
         [Test]
-        public FlierInterface TestGetByIdFlierRepository()
+        public void GetByIdFlierRepositoryTest()
         {
-            var storedFlier = TestStoreFlierRepository();
+            GetByIdFlierRepository();
+        }
+
+        public FlierInterface GetByIdFlierRepository()
+        {
+            var storedFlier = StoreFlierRepository();
             return FlierTestData.AssertGetById(storedFlier, _queryService);
         }
 
         [Test]
-        public IQueryable<FlierInterface> TestFindFliersByLocationAndTagsRepository()
+        public void FindFliersByLocationAndTagsRepositoryTest()
         {
-            var storedFlier = TestStoreFlierRepository();
+            FindFliersByLocationAndTagsRepository();
+        }
+
+        public IQueryable<FlierInterface> FindFliersByLocationAndTagsRepository()
+        {
+            var storedFlier = StoreFlierRepository();
 
             var location = _loc;
             var tag = Kernel.Get<Tags>(bm => bm.Has("default"));
@@ -189,9 +204,14 @@ namespace PostaFlya.DataRepository.Tests
         }
 
         [Test]
+        public void FlierRepositoryGetByBrowserIdTest()
+        {
+            FlierRepositoryGetByBrowserId();
+        }
+
         public IQueryable<FlierInterface> FlierRepositoryGetByBrowserId()
         {
-            var storedFlier = TestStoreFlierRepository();
+            var storedFlier = StoreFlierRepository();
             var retrievedFlier = _queryService.GetByBrowserId<Domain.Flier.Flier>(storedFlier.BrowserId);
 
             Assert.IsTrue(retrievedFlier.Any());
@@ -213,10 +233,10 @@ namespace PostaFlya.DataRepository.Tests
             testFlier = FlierTestData.StoreOne(testFlier, _repository, Kernel);
             var retFlier = FlierTestData.AssertGetById(testFlier, _queryService);
 
-            Assert.AreElementsEqualIgnoringOrder(retFlier.ExtendedProperties
+            CollectionAssert.AreEquivalent(retFlier.ExtendedProperties
                 , testFlier.ExtendedProperties);
 
-            Assert.Count(1, retFlier.ExtendedProperties);
+            AssertUtil.Count(1, retFlier.ExtendedProperties);
             var behaviourRet = FlierTestData.GetBehaviour(Kernel, testFlier) as TaskJobFlierBehaviourInterface;
             Assert.AreEqual(111, behaviourRet.CostOverhead);
         }
@@ -307,8 +327,9 @@ namespace PostaFlya.DataRepository.Tests
             FlierTestData.UpdateOne(testFlier, _repository, Kernel);
 
             var retComments = _queryService.FindAggregateEntities<Comment>(retFlier.Id);
-            Assert.Count(5, retComments);
-            Assert.AreElementsEqual(comments, retComments, CommentTestData.Equals);
+            AssertUtil.Count(5, retComments);
+            //comments in order
+            CollectionAssert.AreEqual(comments, retComments, new CommentTestData.CommentTestDataEq());
 
             retFlier = FlierTestData.AssertGetById(testFlier, _queryService);
             Assert.AreEqual(5, retFlier.NumberOfComments);
@@ -363,10 +384,10 @@ namespace PostaFlya.DataRepository.Tests
             FlierTestData.UpdateOne(testFlier, _repository, Kernel);
 
             var retClaims = _queryService.FindAggregateEntities<Claim>(retFlier.Id);
-            Assert.Count(5, retClaims);
+            AssertUtil.Count(5, retClaims);
             retClaims = retClaims.OrderBy(claim => claim.ClaimTime);
             //the first claims should be stored first
-            Assert.AreElementsEqual(claims, retClaims, ClaimTestData.Equals);
+            CollectionAssert.AreEqual(claims, retClaims, new ClaimTestData.ClaimTestDataEq());
 
             retFlier = FlierTestData.AssertGetById(testFlier, _queryService);
             Assert.AreEqual(5, retFlier.NumberOfClaims);
@@ -397,9 +418,10 @@ namespace PostaFlya.DataRepository.Tests
 
             var retClaims = _queryService.GetByBrowserId<Claim>(browserId);
             retClaims = retClaims.OrderByDescending(c => c.ClaimTime);
-            Assert.Count(2, retClaims);
+            AssertUtil.Count(2, retClaims);
             //the latest claims should be stored first
-            Assert.AreElementsEqual(claims.AsQueryable().Reverse(), retClaims, ClaimTestData.Equals);
+            CollectionAssert.AreEqual(claims.AsQueryable().Reverse(), retClaims, new ClaimTestData.ClaimTestDataEq());
+
         }
 
         private IQueryable<FlierInterface> AssertFindFliersByLocationTags(FlierSortOrder sortOrder)
@@ -417,7 +439,7 @@ namespace PostaFlya.DataRepository.Tests
             for (int i = 0; i < list.Length; i++)
             {
                 if (i > 0)
-                    Assert.GreaterThanOrEqualTo(GetSorter(sortOrder)(list[i - 1]), GetSorter(sortOrder)(list[i]));
+                    Assert.That(GetSorter(sortOrder)(list[i - 1]), Is.GreaterThanOrEqualTo(GetSorter(sortOrder)(list[i])));
             }
 
             return retrievedFliers;
@@ -438,6 +460,11 @@ namespace PostaFlya.DataRepository.Tests
         }
 
         [Test]
+        public void FindFliersByLocationTagsByDifferentSortOrdersTest()
+        {
+            FindFliersByLocationTagsByDifferentSortOrders();
+        }
+
         public FlierInterface FindFliersByLocationTagsByDifferentSortOrders()
         {
             DeleteAll();

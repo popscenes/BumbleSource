@@ -1,14 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using Gallio.Framework;
-using MbUnit.Framework;
-using MbUnit.Framework.ContractVerifiers;
-using Microsoft.WindowsAzure.StorageClient;
+using NUnit.Framework;
 using Ninject;
 using Website.Azure.Common.Environment;
-using Website.Azure.Common.TableStorage;
 using PostaFlya.DataRepository.Content;
 using Website.Infrastructure.Command;
 using Website.Domain.Content;
@@ -18,7 +13,8 @@ using Website.Domain.Location;
 
 namespace PostaFlya.DataRepository.Tests
 {
-    [TestFixture]
+    [TestFixture("dev")]
+    [TestFixture("real")]
     public class ImageRepositoryTests
     {
         StandardKernel Kernel
@@ -26,8 +22,6 @@ namespace PostaFlya.DataRepository.Tests
             get { return TestFixtureSetup.CurrIocKernel; }
         }
 
-        [Row("dev")] 
-        [Row("real")]
         public ImageRepositoryTests(string env)
         {
             AzureEnv.UseRealStorage = env == "real";
@@ -37,7 +31,7 @@ namespace PostaFlya.DataRepository.Tests
         ImageRepositoryInterface _repository;
         ImageQueryServiceInterface _queryService;
 
-        [FixtureSetUp]
+        [TestFixtureSetUp]
         public void FixtureSetUp()
         {
 //            Kernel.Bind<TableNameAndPartitionProviderInterface>()
@@ -59,7 +53,7 @@ namespace PostaFlya.DataRepository.Tests
             _queryService = Kernel.Get<ImageQueryServiceInterface>();
         }
         
-        [FixtureTearDown]
+        [TestFixtureTearDown]
         public void FixtureTearDown()
         {
             //Kernel.Unbind<TableNameAndPartitionProviderInterface>();
@@ -71,15 +65,20 @@ namespace PostaFlya.DataRepository.Tests
         {
             var repository = Kernel.Get<ImageRepositoryInterface>();
             Assert.IsNotNull(repository);
-            Assert.IsInstanceOfType<AzureImageRepository>(repository);
+            Assert.That(repository, Is.InstanceOf<AzureImageRepository>());
 
             var queryService = Kernel.Get<ImageQueryServiceInterface>();
             Assert.IsNotNull(queryService);
-            Assert.IsInstanceOfType<AzureImageRepository>(queryService);
+            Assert.That(queryService, Is.InstanceOf<AzureImageRepository>());
         }
 
         [Test]
-        public ImageInterface TestStoreImageRepository()
+        public void StoreImageRepositoryTest()
+        {
+            StoreImageRepository();
+        }
+
+        public ImageInterface StoreImageRepository()
         {
             
             var imgId = Guid.NewGuid().ToString();
@@ -99,16 +98,21 @@ namespace PostaFlya.DataRepository.Tests
         }
 
         [Test]
-        public ImageInterface TestQueryImageRepository()
+        public void QueryImageRepositoryTest()
         {
-            var img = TestStoreImageRepository();
+            QueryImageRepository();
+        }
+
+        public ImageInterface QueryImageRepository()
+        {
+            var img = StoreImageRepository();
             return Query(img);
         }
 
         [Test]
         public void TestQueryModifySaveImageRepository()
         {
-            var image = TestQueryImageRepository();
+            var image = QueryImageRepository();
             image.Title = "BlahBlahBlah";
             image.Status = ImageStatus.Ready;
             image.Location = new Location(20,20);

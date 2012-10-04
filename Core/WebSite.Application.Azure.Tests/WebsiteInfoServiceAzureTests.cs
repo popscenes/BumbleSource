@@ -1,18 +1,16 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using MbUnit.Framework;
-using Microsoft.WindowsAzure;
-using Microsoft.WindowsAzure.StorageClient;
+﻿using System.Linq;
+using NUnit.Framework;
 using Ninject;
-using Website.Application.Azure.Communication;
 using Website.Application.Azure.WebsiteInformation;
 using Website.Application.WebsiteInformation;
 using Website.Azure.Common.Environment;
 using Website.Azure.Common.TableStorage;
+using Website.Test.Common;
 
 namespace Website.Application.Azure.Tests
 {
-    [TestFixture]
+    [TestFixture("dev")]
+    [TestFixture("real")]
     public class WebsiteInfoServiceAzureTests
     {
         StandardKernel Kernel
@@ -20,15 +18,13 @@ namespace Website.Application.Azure.Tests
             get { return TestFixtureSetup.CurrIocKernel; }
         }
 
-        [Row("dev")] 
-        [Row("real")]
         public WebsiteInfoServiceAzureTests(string env)
         {
             AzureEnv.UseRealStorage = env == "real";
         }
 
         private string _tableName;
-        [FixtureSetUp]
+        [TestFixtureSetUp]
         public void FixtureSetUp()
         {
 //            Kernel.Rebind<TableNameAndPartitionProviderInterface>()
@@ -44,7 +40,7 @@ namespace Website.Application.Azure.Tests
             Reinit();
         }
 
-        [FixtureTearDown]
+        [TestFixtureTearDown]
         public void FixtureTearDown()
         {
             AzureEnv.UseRealStorage = false;
@@ -96,7 +92,7 @@ namespace Website.Application.Azure.Tests
                 .Select(e => e.Get<string>("url"))
                 .ToList();
 
-            Assert.Count(1, websites);
+            AssertUtil.Count(1, websites);
 
         }
 
@@ -133,7 +129,7 @@ namespace Website.Application.Azure.Tests
             var websiteInfoService = Kernel.Get<WebsiteInfoServiceInterface>();
             var tagsList = websiteInfoService.GetTags("www.postaFlya.com");
 
-            Assert.Count(30, tagsList.Split(new char[] { ',' }));
+            Assert.That(tagsList.Split(new[] { ',' }).Count(), Is.EqualTo(30));
 
             Assert.AreEqual("event,social,comedy,theatre,books,pets,lost,found,services,music,fashion,food & drink,job,task,wanted,for sale,for free,sport,automotive,education,sale,garage,film,art & craft,photography,accommodation,technology,property,kids,politics", tagsList.ToString());
         }

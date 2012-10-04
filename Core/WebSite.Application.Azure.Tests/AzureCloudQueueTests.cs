@@ -1,13 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Gallio.Framework;
-using MbUnit.Framework;
-using MbUnit.Framework.ContractVerifiers;
-using Microsoft.WindowsAzure.StorageClient;
+﻿using Microsoft.WindowsAzure.StorageClient;
+using NUnit.Framework;
 using Ninject;
-using Website.Application.Azure.Content;
-using Website.Infrastructure.Command;
 using Website.Application.Azure.Command;
 using Website.Application.Command;
 using Website.Application.Content;
@@ -22,7 +15,7 @@ namespace Website.Application.Azure.Tests
             get { return TestFixtureSetup.CurrIocKernel; }
         }
 
-        [FixtureSetUp]
+        [TestFixtureSetUp]
         public void FixtureSetUp()
         {
             Kernel.Bind<CloudQueue>().ToMethod(
@@ -40,7 +33,7 @@ namespace Website.Application.Azure.Tests
 
         }
 
-        [FixtureTearDown]
+        [TestFixtureTearDown]
         public void FixtureTearDown()
         {
             Kernel.Unbind<BlobStorageInterface>();   
@@ -58,10 +51,10 @@ namespace Website.Application.Azure.Tests
         public void TestAzureCloudQueueAddGetDeleteMessage()
         {
             var messageFactory = Kernel.Get<MessageFactoryInterface>();
-            Assert.IsInstanceOfType<AzureMessageFactory>(messageFactory);
+            Assert.That(messageFactory, Is.InstanceOf<AzureMessageFactory>());
 
             var azureQueue = Kernel.Get<QueueInterface>(md => md.Has("commandqueue"));
-            Assert.IsInstanceOfType<AzureCloudQueue>(azureQueue);
+            Assert.That(azureQueue, Is.InstanceOf<AzureCloudQueue>());
 
             var data = new byte[1024 * 5]; //just 5 k
             data[0] = 0; data[1] = 1; data[2] = 2;

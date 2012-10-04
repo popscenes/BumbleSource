@@ -1,5 +1,6 @@
-﻿using System.Runtime.Caching;
-using MbUnit.Framework;
+﻿using System.Linq;
+using System.Runtime.Caching;
+using NUnit.Framework;
 using Ninject;
 using Ninject.MockingKernel.Moq;
 using PostaFlya.Domain.TaskJob;
@@ -8,8 +9,8 @@ using PostaFlya.Application.Domain.Behaviour.TaskJob.Command;
 using PostaFlya.Application.Domain.Behaviour.TaskJob.Query;
 using PostaFlya.Domain.TaskJob.Command;
 using PostaFlya.Domain.TaskJob.Query;
-using PostaFlya.Mocks.Domain.Data;
 using PostaFlya.Mocks.Domain.Data.Behaviour;
+using Website.Test.Common;
 using TestUtil = Website.Test.Common.TestUtil;
 
 namespace PostaFlya.Application.Domain.Tests.Behaviour.TaskJob
@@ -87,14 +88,14 @@ namespace PostaFlya.Application.Domain.Tests.Behaviour.TaskJob
             repository.BidOnTask(TaskJobTestData.GetBid(stored));
 
             var bids = cachedQueryService.GetBids(stored.Id);
-            Assert.Count(2, bids);
+            AssertUtil.Count(2, bids);
             repository.BidOnTask(TaskJobTestData.GetBid(stored));
             bids = cachedQueryService.GetBids(stored.Id);
-            Assert.Count(2, bids);
+            AssertUtil.Count(2, bids);
 
             TestUtil.ClearMemoryCache(memoryCache);
             bids = cachedQueryService.GetBids(stored.Id);
-            Assert.Count(3, bids);
+            AssertUtil.Count(3, bids);
         }
 
         [Test]//note implement the same in other application test projects for different cache implementations
@@ -123,14 +124,14 @@ namespace PostaFlya.Application.Domain.Tests.Behaviour.TaskJob
             repository.BidOnTask(TaskJobTestData.GetBid(stored));
 
             var bids = cachedQueryService.GetBids(stored.Id);
-            Assert.Count(2, bids);
+            Assert.That(bids.Count(), Is.EqualTo(2));
             repository.BidOnTask(TaskJobTestData.GetBid(stored));
             bids = cachedQueryService.GetBids(stored.Id);
-            Assert.Count(3, bids);
+            Assert.That(bids.Count(), Is.EqualTo(3));
 
             TestUtil.ClearMemoryCache(cache);
             bids = cachedQueryService.GetBids(stored.Id);
-            Assert.Count(3, bids);
+            Assert.That(bids.Count(), Is.EqualTo(3));
         }
 
 

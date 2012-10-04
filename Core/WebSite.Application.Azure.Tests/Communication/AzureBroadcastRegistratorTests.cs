@@ -1,16 +1,12 @@
 ﻿using System;
 using System.Linq;
-using System.Text;
-using System.Threading;
-using Gallio.Framework;
-using MbUnit.Framework;
-using MbUnit.Framework.ContractVerifiers;
 using Microsoft.WindowsAzure.StorageClient;
+using NUnit.Framework;
 using Ninject;
-using Website.Infrastructure.Domain;
 using Website.Application.Azure.Communication;
 using Website.Application.Communication;
 using Website.Azure.Common.TableStorage;
+using Website.Test.Common;
 
 namespace Website.Application.Azure.Tests.Communication
 {
@@ -23,7 +19,7 @@ namespace Website.Application.Azure.Tests.Communication
             get { return TestFixtureSetup.CurrIocKernel; }
         }
 
-        [FixtureSetUp]
+        [TestFixtureSetUp]
         public void FixtureSetUp()
         {
 //            Kernel.Rebind<TableNameAndPartitionProviderInterface>()
@@ -38,7 +34,7 @@ namespace Website.Application.Azure.Tests.Communication
             Reinit();
         }
 
-        [FixtureTearDown]
+        [TestFixtureTearDown]
         public void FixtureTearDown()
         {
 
@@ -72,14 +68,14 @@ namespace Website.Application.Azure.Tests.Communication
                 .Select(e => e.Get<string>("Endpoint"))
                 .ToList();
 
-            Assert.Contains(registrations, "blah");
-            Assert.Contains(registrations, "test");
-            Assert.Count(2, registrations);
+            CollectionAssert.Contains(registrations, "blah");
+            CollectionAssert.Contains(registrations, "test");
+            AssertUtil.Count(2, registrations);
 
             var retregistrations = registrator.GetCurrentEndpoints();
-            Assert.Contains(retregistrations, "blah");
-            Assert.Contains(retregistrations, "test");
-            Assert.Count(2, retregistrations);
+            CollectionAssert.Contains(retregistrations, "blah");
+            CollectionAssert.Contains(retregistrations, "test");
+            AssertUtil.Count(2, retregistrations);
         }
 
         [Test]
@@ -122,17 +118,16 @@ namespace Website.Application.Azure.Tests.Communication
             var regTimeBlahNow = registrations.Single(r => r.Get<string>("Endpoint") == "blah")["LastRegisterTime"];
             var regTimeTestNow = registrations.Single(r => r.Get<string>("Endpoint") == "test")["LastRegisterTime"];
 
-            Assert.GreaterThan(regTimeBlahNow, regTimeBlah);
-            Assert.GreaterThan(regTimeTestNow, regTimeTest);
+            Assert.That(regTimeBlahNow, Is.GreaterThan(regTimeBlah));
+            Assert.That(regTimeBlahNow, Is.GreaterThan(regTimeTest));
 
             var registrationNames = ctx
                 .PerformQuery<AzureBroadcastRegistration>(_tableName)
                 .Select(e => e.Get<string>("Endpoint"))
                 .ToList();
-            Assert.Contains(registrationNames, "blah");
-            Assert.Contains(registrationNames, "test");
-            Assert.Count(2, registrations);
-
+            CollectionAssert.Contains(registrationNames, "blah");
+            CollectionAssert.Contains(registrationNames, "test");
+            Assert.That(registrations.Count(), Is.EqualTo(2));
         }
 
         [Test]
@@ -160,9 +155,9 @@ namespace Website.Application.Azure.Tests.Communication
                 .PerformQuery<AzureBroadcastRegistration>(_tableName)
                 .Select(e => e.Get<string>("Endpoint"))
                 .ToList();
-            Assert.Contains(registrationNames, "blah");
-            Assert.DoesNotContain(registrationNames, "test");
-            Assert.Count(1, registrationNames);
+            CollectionAssert.Contains(registrationNames, "blah");
+            CollectionAssert.DoesNotContain(registrationNames, "test");
+            AssertUtil.Count(1, registrationNames);
 
         }
     }

@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using MbUnit.Framework;
+using NUnit.Framework;
 using Ninject;
 using Ninject.MockingKernel.Moq;
 using Website.Infrastructure.Command;
@@ -16,10 +16,10 @@ namespace Website.Mocks.Domain.Data
     {
         public static void AssertStoreRetrieve(ImageInterface storedImageInfo, ImageInterface retrievedImageInfo)
         {
-            Assert.AreEqual<string>(storedImageInfo.Id, retrievedImageInfo.Id);
+            Assert.AreEqual(storedImageInfo.Id, retrievedImageInfo.Id);
             Assert.AreEqual(storedImageInfo.Location, retrievedImageInfo.Location);
-            Assert.AreEqual<string>(storedImageInfo.BrowserId, retrievedImageInfo.BrowserId);
-            Assert.AreEqual<string>(storedImageInfo.Title, retrievedImageInfo.Title);
+            Assert.AreEqual(storedImageInfo.BrowserId, retrievedImageInfo.BrowserId);
+            Assert.AreEqual(storedImageInfo.Title, retrievedImageInfo.Title);
             Assert.AreEqual(storedImageInfo.Status, retrievedImageInfo.Status);
         }
 

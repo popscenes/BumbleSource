@@ -1,9 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Gallio.Framework;
-using MbUnit.Framework;
-using MbUnit.Framework.ContractVerifiers;
+using NUnit.Framework;
 using Ninject;
 using Website.Azure.Common.Environment;
 using Website.Azure.Common.TableStorage;
@@ -24,7 +22,8 @@ namespace Website.Azure.Common.Tests.TableStorage
 
 
 
-    [TestFixture]
+    [TestFixture("dev")]
+    [TestFixture("real")]
     public class JsonTableEntryTests
     {
         static StandardKernel Kernel
@@ -32,14 +31,12 @@ namespace Website.Azure.Common.Tests.TableStorage
             get { return TestFixtureSetup.CurrIocKernel; }
         }
 
-        [Row("dev")] 
-        [Row("real")]
         public JsonTableEntryTests(string env)
         {
             AzureEnv.UseRealStorage = env == "real";
         }
 
-        [FixtureSetUp]
+        [TestFixtureSetUp]
         public void FixtureSetUp()
         {
             Kernel.Rebind<TableContextInterface>()
@@ -64,7 +61,7 @@ namespace Website.Azure.Common.Tests.TableStorage
         }
 
 
-        [FixtureTearDown]
+        [TestFixtureTearDown]
         public void FixtureTearDown()
         {
             Kernel.Unbind<TableNameAndPartitionProviderServiceInterface>();
@@ -83,7 +80,7 @@ namespace Website.Azure.Common.Tests.TableStorage
                 TwoEntity.AssertAreEqual(one.SubEntity[i], two.SubEntity[i]);
             }
 
-            Assert.AreElementsEqual(one.HashTest, two.HashTest);
+            CollectionAssert.AreEqual(one.HashTest, two.HashTest);
         }
 
         [Test]

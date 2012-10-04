@@ -1,19 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Security.Principal;
-using System.Text;
 using System.Web;
-using DotNetOpenAuth.Messaging;
 using DotNetOpenAuth.OpenId;
 using DotNetOpenAuth.OpenId.Extensions.AttributeExchange;
 using DotNetOpenAuth.OpenId.Provider;
 using DotNetOpenAuth.OpenId.RelyingParty;
-using MbUnit.Framework;
+using NUnit.Framework;
 using Ninject.MockingKernel.Moq;
 using Website.Application.Authentication;
-using Website.Test.Common;
 using IAuthenticationRequest = DotNetOpenAuth.OpenId.Provider.IAuthenticationRequest;
 using Website.Infrastructure.Authentication;
 
@@ -61,7 +56,7 @@ namespace PostaFlya.Website.Tests.Authentication
             return authResponseMock.Object;
         }
 
-        [FixtureSetUp]
+        [TestFixtureSetUp]
         public void FixtureSetUp()
         {
             HttpContextCurrentCreate("http://localhost/", "");

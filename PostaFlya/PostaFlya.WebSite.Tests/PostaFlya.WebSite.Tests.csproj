@@ -125,18 +125,6 @@
     <Reference Include="DotNetOpenAuth.OpenIdOAuth">
       <HintPath>..\..\..\Libraries\DotNetOpenAuth.OpenIdOAuth.4.1.0.12182\lib\net40-full\DotNetOpenAuth.OpenIdOAuth.dll</HintPath>
     </Reference>
-    <Reference Include="Gallio, Version=3.3.0.0, Culture=neutral, PublicKeyToken=eb9cfa67ee6ab36e, processorArchitecture=MSIL">
-      <HintPath>..\..\..\Libraries\mbunit.3.3.454.0\lib\net40\Gallio.dll</HintPath>
-    </Reference>
-    <Reference Include="Gallio40, Version=3.3.0.0, Culture=neutral, PublicKeyToken=eb9cfa67ee6ab36e, processorArchitecture=MSIL">
-      <HintPath>..\..\..\Libraries\mbunit.3.3.454.0\lib\net40\Gallio40.dll</HintPath>
-    </Reference>
-    <Reference Include="MbUnit, Version=3.3.0.0, Culture=neutral, PublicKeyToken=eb9cfa67ee6ab36e, processorArchitecture=MSIL">
-      <HintPath>..\..\..\Libraries\mbunit.3.3.454.0\lib\net40\MbUnit.dll</HintPath>
-    </Reference>
-    <Reference Include="MbUnit40, Version=3.3.0.0, Culture=neutral, PublicKeyToken=eb9cfa67ee6ab36e, processorArchitecture=MSIL">
-      <HintPath>..\..\..\Libraries\mbunit.3.3.454.0\lib\net40\MbUnit40.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
@@ -156,6 +144,9 @@
     </Reference>
     <Reference Include="Ninject.MockingKernel.Moq">
       <HintPath>..\..\..\Libraries\Ninject.MockingKernel.Moq.3.0.0.5\lib\net40-full\Ninject.MockingKernel.Moq.dll</HintPath>
+    </Reference>
+    <Reference Include="nunit.framework">
+      <HintPath>..\..\..\Libraries\NUnit.2.6.1\lib\nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />

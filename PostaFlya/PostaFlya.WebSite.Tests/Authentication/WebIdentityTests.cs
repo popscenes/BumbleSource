@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Web.Security;
-using MbUnit.Framework;
+using NUnit.Framework;
 using Ninject.MockingKernel.Moq;
 using Website.Application.Authentication;
 using Website.Infrastructure.Authentication;
@@ -19,7 +17,7 @@ namespace PostaFlya.Website.Tests.Authentication
 
         private FormsAuthenticationTicket _authTicket = null;
 
-        [FixtureSetUp]
+        [TestFixtureSetUp]
         public void FixtureSetUp()
         {
 
@@ -40,7 +38,7 @@ namespace PostaFlya.Website.Tests.Authentication
                             identityProviderCredentials.ToString());
         }
 
-        [FixtureTearDown]
+        [TestFixtureTearDown]
         public void FixtureTearDown()
         {
 
@@ -50,10 +48,10 @@ namespace PostaFlya.Website.Tests.Authentication
         public void WebIdentityTestCreate()
         {
             var webIdentity = new WebIdentity(_authTicket);
-            Assert.AreEqual<string>(webIdentity.NameIdentifier, "AItOawnldHWXFZoFpHDwBAMy34d1aO7qHSPz1ho");
-            Assert.AreEqual<string>(webIdentity.Name, "Anthony Borg");
-            Assert.AreEqual<string>(webIdentity.EmailAddress, "teddymccuddles@gmail.com");
-            Assert.AreEqual<string>(webIdentity.IdentityProvider, IdentityProviders.GOOGLE);
+            Assert.AreEqual(webIdentity.NameIdentifier, "AItOawnldHWXFZoFpHDwBAMy34d1aO7qHSPz1ho");
+            Assert.AreEqual(webIdentity.Name, "Anthony Borg");
+            Assert.AreEqual(webIdentity.EmailAddress, "teddymccuddles@gmail.com");
+            Assert.AreEqual(webIdentity.IdentityProvider, IdentityProviders.GOOGLE);
             Assert.IsTrue(webIdentity.IsAuthenticated);
         }
 
@@ -62,10 +60,10 @@ namespace PostaFlya.Website.Tests.Authentication
         {
             var webIdentity = new WebIdentity(_authTicket);
             var identityProviderCredentials = webIdentity.ToCredential();
-            Assert.AreEqual<string>(identityProviderCredentials.UserIdentifier, "AItOawnldHWXFZoFpHDwBAMy34d1aO7qHSPz1ho");
-            Assert.AreEqual<string>(identityProviderCredentials.IdentityProvider, IdentityProviders.GOOGLE);
-            Assert.AreEqual<string>(identityProviderCredentials.Email, "teddymccuddles@gmail.com");
-            Assert.AreEqual<string>(identityProviderCredentials.Name, "Anthony Borg");
+            Assert.AreEqual(identityProviderCredentials.UserIdentifier, "AItOawnldHWXFZoFpHDwBAMy34d1aO7qHSPz1ho");
+            Assert.AreEqual(identityProviderCredentials.IdentityProvider, IdentityProviders.GOOGLE);
+            Assert.AreEqual(identityProviderCredentials.Email, "teddymccuddles@gmail.com");
+            Assert.AreEqual(identityProviderCredentials.Name, "Anthony Borg");
         }
     }
 }

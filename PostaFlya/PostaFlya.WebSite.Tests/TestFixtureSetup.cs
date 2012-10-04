@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using MbUnit.Framework;
+using NUnit.Framework;
 using Ninject.MockingKernel.Moq;
 using Ninject.Modules;
 using Website.Domain.Binding;
@@ -13,11 +13,11 @@ using Website.Mocks.Domain.Defaults;
 
 namespace PostaFlya.Website.Tests
 {
-    [AssemblyFixture]
+    [SetUpFixture]
     class TestFixtureSetup
     {
 
-        [FixtureSetUp]
+        [SetUp]
         public void FixtureSetup()
         {
             Assert.IsNotNull(CurrIocKernel);

@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Text;
-using Gallio.Framework;
-using MbUnit.Framework;
-using MbUnit.Framework.ContractVerifiers;
+using NUnit.Framework;
 using Ninject;
 using Ninject.MockingKernel.Moq;
 using Website.Azure.Common.TableStorage;
+using Website.Test.Common;
 
 namespace Website.Azure.Common.Tests.TableStorage
 {
@@ -21,7 +19,7 @@ namespace Website.Azure.Common.Tests.TableStorage
 
         Dictionary<string, List<JsonTableEntry>> _mockStore;
 
-        [FixtureSetUp]
+        [TestFixtureSetUp]
         public void FixtureSetUp()
         {
             Kernel.Rebind<TableNameAndPartitionProviderServiceInterface>()
@@ -45,7 +43,7 @@ namespace Website.Azure.Common.Tests.TableStorage
                 .ToSelf().InTransientScope();
         }
 
-        [FixtureTearDown]
+        [TestFixtureTearDown]
         public void FixtureTearDown()
         {
             Kernel.Unbind<TableContextInterface>();
@@ -109,8 +107,8 @@ namespace Website.Azure.Common.Tests.TableStorage
             var qs = Kernel.Get<QueryServiceBase<JsonTableEntry>>();
             var ret = qs.FindAggregateEntities<TwoEntity>(aggregateId);
 
-            Assert.Count(2, ret);
-            Assert.AreElementsEqualIgnoringOrder(one.RelatedEntities, ret);
+            AssertUtil.Count(2, ret);
+            CollectionAssert.AreEquivalent(one.RelatedEntities, ret);
         }
     }
 }

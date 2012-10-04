@@ -1,21 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
-using MbUnit.Framework;
-using Moq;
+using NUnit.Framework;
 using Ninject;
 using Ninject.MockingKernel.Moq;
-using Website.Application.Tests.Content;
 using Website.Common.ActionResult;
 using PostaFlya.Controllers;
 using Website.Application.Domain.Tests.Content;
 using Website.Domain.Content;
 using Website.Domain.Content.Command;
-using Website.Domain.Service;
-using Website.Infrastructure.Command;
 using Website.Test.Common;
 //using Website.Mocks.Domain.Data;
 
@@ -29,14 +22,14 @@ namespace PostaFlya.Website.Tests.Controllers
             get { return TestFixtureSetup.CurrIocKernel; }
         }
 
-        [FixtureSetUp]
+        [TestFixtureSetUp]
         public void FixtureSetUp()
         {
             ImageProcessingTests.FixtureSetUp(Kernel);
             
         }
 
-        [FixtureTearDown]
+        [TestFixtureTearDown]
         public void FixtureTearDown()
         {
             ImageProcessingTests.FixtureTearDown(Kernel);

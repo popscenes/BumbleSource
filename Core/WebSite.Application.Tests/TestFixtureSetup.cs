@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using MbUnit.Framework;
+using NUnit.Framework;
 using Ninject.MockingKernel.Moq;
 using Ninject.Modules;
 using Website.Application.Binding;
@@ -8,11 +8,11 @@ using Website.Test.Common;
 
 namespace Website.Application.Tests
 {
-    [AssemblyFixture]
+    [SetUpFixture]
     class TestFixtureSetup
     {
 
-        [FixtureSetUp]
+        [SetUp]
         public void FixtureSetup()
         {
             Assert.IsNotNull(CurrIocKernel);

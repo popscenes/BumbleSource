@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using MbUnit.Framework;
+﻿using System.Linq;
+using NUnit.Framework;
 using Ninject;
 using TechTalk.SpecFlow;
 using PostaFlya.Areas.Default.Models;

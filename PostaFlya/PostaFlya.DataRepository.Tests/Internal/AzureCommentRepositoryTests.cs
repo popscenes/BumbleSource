@@ -1,18 +1,9 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using Gallio.Framework;
-using MbUnit.Framework;
-using MbUnit.Framework.ContractVerifiers;
-using Microsoft.WindowsAzure.StorageClient;
+using NUnit.Framework;
 using Ninject;
 using Ninject.MockingKernel.Moq;
 using Website.Azure.Common.Environment;
-using Website.Azure.Common.TableStorage;
-using PostaFlya.DataRepository.Flier;
-using PostaFlya.DataRepository.Internal;
-using PostaFlya.Mocks.Domain.Data;
 using Website.Infrastructure.Command;
 using Website.Infrastructure.Query;
 using Website.Test.Common;
@@ -21,7 +12,8 @@ using Website.Mocks.Domain.Data;
 
 namespace PostaFlya.DataRepository.Tests.Internal
 {
-    [TestFixture]
+    [TestFixture("dev")]
+    [TestFixture("real")]
     public class AzureCommentRepositoryTests
     {
         MoqMockingKernel Kernel
@@ -29,8 +21,6 @@ namespace PostaFlya.DataRepository.Tests.Internal
             get { return TestFixtureSetup.CurrIocKernel; }
         }
 
-        [Row("dev")] 
-        [Row("real")]
         public AzureCommentRepositoryTests(string env)
         {
             AzureEnv.UseRealStorage = env == "real";
@@ -40,7 +30,7 @@ namespace PostaFlya.DataRepository.Tests.Internal
         GenericQueryServiceInterface _queryService;
 
 
-        [FixtureSetUp]
+        [TestFixtureSetUp]
         public void FixtureSetUp()
         {
 //            Kernel.Bind<TableNameAndPartitionProviderInterface>()
@@ -63,7 +53,7 @@ namespace PostaFlya.DataRepository.Tests.Internal
             _queryService = Kernel.Get<GenericQueryServiceInterface>();
         }
 
-        [FixtureTearDown]
+        [TestFixtureTearDown]
         public void FixtureTearDown()
         {
             //Kernel.Unbind<TableNameAndPartitionProviderInterface>();
@@ -77,20 +67,22 @@ namespace PostaFlya.DataRepository.Tests.Internal
             Assert.IsNotNull(repository);
         }
 
-        [Test]
         public CommentInterface AzureCommentRepositoryStore()
         {
             var comment = CommentTestData.GetOne(Kernel, Guid.NewGuid().ToString());
             CommentTestData.StoreOne(comment, _repository, Kernel);
             return comment;
         }
+        [Test]
+        public void AzureCommentRepositoryStoreTest()
+        {
+            AzureCommentRepositoryStore();
+        }
 
         [Test]
-        public CommentInterface AzureCommentRepositoryQuery()
+        public void AzureCommentRepositoryQueryTest()
         {
-            var comment = AzureCommentRepositoryStore();
-            var commentRet = CommentTestData.AssertGetById(comment, _queryService);
-            return commentRet;
+            AzureCommentRepositoryQuery();
         }
 
         [Test]
@@ -99,7 +91,7 @@ namespace PostaFlya.DataRepository.Tests.Internal
             var entityId = Guid.NewGuid().ToString();
             var stored = CommentTestData.StoreSome(_repository, Kernel, entityId);
             var retd = _queryService.FindAggregateEntities<Comment>(entityId);
-            Assert.AreElementsEqualIgnoringOrder(stored, retd, CommentTestData.Equals);
+            CollectionAssert.AreEqual(stored, retd, new CommentTestData.CommentTestDataEq());
         }
 
         [Test]
@@ -108,9 +100,16 @@ namespace PostaFlya.DataRepository.Tests.Internal
             var entityId = Guid.NewGuid().ToString();
             var stored = CommentTestData.StoreSome(_repository, Kernel, entityId);
             var retd = _queryService.FindAggregateEntities<Comment>(entityId, 3);
-            Assert.Count(3, retd);
-            Assert.AreElementsEqualIgnoringOrder(stored.Take(3), retd, CommentTestData.Equals);
+            AssertUtil.Count(3, retd);
+            CollectionAssert.AreEqual(stored.Take(3), retd, new CommentTestData.CommentTestDataEq());
             AssertUtil.AssertAdjacentElementsAre(retd, (current, next) => current.CommentTime < next.CommentTime );
+        }
+
+        public CommentInterface AzureCommentRepositoryQuery()
+        {
+            var comment = AzureCommentRepositoryStore();
+            var commentRet = CommentTestData.AssertGetById(comment, _queryService);
+            return commentRet;
         }
 
     }

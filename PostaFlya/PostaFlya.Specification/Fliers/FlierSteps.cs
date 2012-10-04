@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
-using MbUnit.Framework;
+using NUnit.Framework;
 using Ninject;
 using TechTalk.SpecFlow;
 using PostaFlya.Controllers;
@@ -87,7 +87,7 @@ namespace PostaFlya.Specification.Fliers
 
             Assert.IsNotNull(flier, "Flier Not Created");
             ScenarioContext.Current["flier"] = flier;
-            Assert.Count(3, flier.ImageList);
+            Assert.That(flier.ImageList.Count(), Is.EqualTo(3));
 
         }
 
@@ -179,8 +179,8 @@ namespace PostaFlya.Specification.Fliers
 
             var flierUpdated = flierQueryService.FindById<Flier>(flierUpdatedId);
             Assert.IsNotNull(flierUpdated, "Flier Not Updated");
-            Assert.Contains(flierUpdated.Description, "UPDATED");
-            Assert.Contains(flierUpdated.Title, "UPDATED");
+            StringAssert.Contains("UPDATED", flierUpdated.Description);
+            StringAssert.Contains("UPDATED", flierUpdated.Title);
         }
 
 
@@ -241,8 +241,10 @@ namespace PostaFlya.Specification.Fliers
                 Assert.IsNull(dataPoints);
                 return;
             }
-            Assert.Count(1, dataPoints.Where(_ => Math.Abs(_.Longitude - 145.0138751) < 0.0001 && Math.Abs(_.Latitude - -37.8799136) < 0.0001).AsEnumerable());
-            
+
+            var count =
+                dataPoints.Count(_ => Math.Abs(_.Longitude - 145.0138751) < 0.0001 && Math.Abs(_.Latitude - -37.8799136) < 0.0001);
+            Assert.That(count, Is.EqualTo(1));            
         }
 
         [Then(@"have the weight SUMMED")]
@@ -304,8 +306,7 @@ namespace PostaFlya.Specification.Fliers
 
             var flierQueryService = SpecUtil.CurrIocKernel.Get<FlierQueryServiceInterface>();
             var flier = flierQueryService.FindById<Flier>(flierid);
-            Assert.Count(3, flier.ImageList);
-
+            Assert.That(flier.ImageList.Count(), Is.EqualTo(3));
         }
 
         [Given(@"I do not have a valid acces token to import fliers")]
@@ -386,8 +387,8 @@ namespace PostaFlya.Specification.Fliers
         {
             var result = SpecUtil.ControllerResult as ViewResult;
             var importedFliers = result.Model as IQueryable<FlierCreateModel>;
-            Assert.Count(5, importedFliers);
-            //Assert.Count(5, importedFliers.Where(_ => _. == FlierStatus.Pending));
+            Assert.That(importedFliers.Count(), Is.EqualTo(5));
+            //AssertUtil.Count(5, importedFliers.Where(_ => _. == FlierStatus.Pending));
         }
 
         [Given(@"I have a valid access token for the given source")]

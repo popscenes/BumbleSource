@@ -1,7 +1,7 @@
 ﻿using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
-using MbUnit.Framework;
+using NUnit.Framework;
 using Website.Application.Content;
 
 namespace Website.Application.Tests.Content

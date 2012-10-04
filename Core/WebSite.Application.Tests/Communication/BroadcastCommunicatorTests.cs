@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading;
-using Gallio.Framework;
-using MbUnit.Framework;
-using MbUnit.Framework.ContractVerifiers;
 using Moq;
+using NUnit.Framework;
 using Ninject;
 using Ninject.MockingKernel.Moq;
 using Website.Application.Command;
@@ -60,14 +57,14 @@ namespace Website.Application.Tests.Communication
             };
         }
 
-        [FixtureSetUp]
+        [TestFixtureSetUp]
         public void FixtureSetUp()
         {
             Reinit();
         }
 
 
-        [FixtureTearDown]
+        [TestFixtureTearDown]
         public void FixtureTearDown()
         {
             Kernel.Unbind<CommandQueueFactoryInterface>();
@@ -124,7 +121,7 @@ namespace Website.Application.Tests.Communication
 
             var commandBusFactory = GetCommandBusFactory();
             var queues = commandBusFactory.GetTestQueues();
-            Assert.Count(3, queues);
+            Assert.That(queues.Count(), Is.EqualTo(3));
             
 
             var factory = Kernel.Get<BroadcastCommunicatorFactoryInterface>();
@@ -137,13 +134,13 @@ namespace Website.Application.Tests.Communication
             communicator.Send(testCommand);
             foreach (var testQueue in queues.Where(q => q.EndpointName != communicator.Endpoint))
             {
-                Assert.Count(1, testQueue.Storage);
+                Assert.That(testQueue.Storage.Count, Is.EqualTo(1));
                 Assert.AreEqual(serializedMsg, testQueue.Storage.ElementAt(0).Bytes);      
             }
 
             //assert the message isn't sent to the broadcaster
-            Assert.Count(0, queues.SingleOrDefault(q => q.EndpointName == communicator.Endpoint).Storage);
-           
+            var count = queues.SingleOrDefault(q => q.EndpointName == communicator.Endpoint).Storage.Count;
+            Assert.That(count, Is.EqualTo(0));           
         }
 
         [Test]
@@ -170,7 +167,7 @@ namespace Website.Application.Tests.Communication
             var queues = commandBusFactory.GetTestQueues();
             foreach (var endPoint in _endPoints)
             {
-                Assert.Contains(queues.Select(q => q.EndpointName).ToList(), endPoint);
+                CollectionAssert.Contains(queues.Select(q => q.EndpointName).ToList(), endPoint);
             }
 
 //            Assert.Contains(queues.Select(q => q.EndpointName).ToList(), id1);

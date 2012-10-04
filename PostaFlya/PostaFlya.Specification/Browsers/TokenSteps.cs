@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Web;
 using System.Web.Mvc;
-using MbUnit.Framework;
+using NUnit.Framework;
 using PostaFlya.Controllers;
 using PostaFlya.Specification.Util;
 using TechTalk.SpecFlow;
@@ -21,7 +20,7 @@ namespace PostaFlya.Specification.Browsers
         {
             var result = SpecUtil.ControllerResult as ViewResult;
             var credentials = result.Model as List<BrowserIdentityProviderCredential>;
-            Assert.Count(1, credentials);
+            Assert.That(credentials.Count(), Is.EqualTo(1));
             Assert.AreEqual(credentials[0].IdentityProvider, "google");
         }
 

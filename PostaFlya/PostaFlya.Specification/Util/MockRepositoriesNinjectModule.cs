@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
-using MbUnit.Framework;
 using Moq;
+using NUnit.Framework;
 using Ninject;
 using Ninject.MockingKernel.Moq;
 using Ninject.Modules;

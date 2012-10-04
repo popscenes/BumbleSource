@@ -28,7 +28,7 @@ namespace Website.Domain.Browser.Command
                     .AddCommandId(command).AddEntityIdError(command.BrowserId);
 
             if(!string.IsNullOrWhiteSpace(command.Handle) && command.Handle != browser.Handle &&
-                _browserQueryService.FindFreeHandle(command.Handle, browser.Id) != command.Handle)
+                _browserQueryService.FindFreeHandle(command.Handle, browser.Id) != command.Handle.ToLower())
                     return new MsgResponse("Error updating profile details", true)
                         .AddCommandId(command).AddEntityIdError(command.BrowserId)
                         .AddMessageProperty("Handle", "Invalid Handle");

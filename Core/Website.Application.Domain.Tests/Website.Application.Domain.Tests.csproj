@@ -34,18 +34,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Gallio, Version=3.3.0.0, Culture=neutral, PublicKeyToken=eb9cfa67ee6ab36e, processorArchitecture=MSIL">
-      <HintPath>..\..\..\Libraries\mbunit.3.3.454.0\lib\net40\Gallio.dll</HintPath>
-    </Reference>
-    <Reference Include="Gallio40, Version=3.3.0.0, Culture=neutral, PublicKeyToken=eb9cfa67ee6ab36e, processorArchitecture=MSIL">
-      <HintPath>..\..\..\Libraries\mbunit.3.3.454.0\lib\net40\Gallio40.dll</HintPath>
-    </Reference>
-    <Reference Include="MbUnit, Version=3.3.0.0, Culture=neutral, PublicKeyToken=eb9cfa67ee6ab36e, processorArchitecture=MSIL">
-      <HintPath>..\..\..\Libraries\mbunit.3.3.454.0\lib\net40\MbUnit.dll</HintPath>
-    </Reference>
-    <Reference Include="MbUnit40, Version=3.3.0.0, Culture=neutral, PublicKeyToken=eb9cfa67ee6ab36e, processorArchitecture=MSIL">
-      <HintPath>..\..\..\Libraries\mbunit.3.3.454.0\lib\net40\MbUnit40.dll</HintPath>
-    </Reference>
     <Reference Include="Moq">
       <HintPath>..\..\..\Libraries\Moq.4.0.10827\lib\NET40\Moq.dll</HintPath>
     </Reference>
@@ -57,6 +45,9 @@
     </Reference>
     <Reference Include="Ninject.MockingKernel.Moq">
       <HintPath>..\..\..\Libraries\Ninject.MockingKernel.Moq.3.0.0.5\lib\net40-full\Ninject.MockingKernel.Moq.dll</HintPath>
+    </Reference>
+    <Reference Include="nunit.framework">
+      <HintPath>..\..\..\Libraries\NUnit.2.6.1\lib\nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />

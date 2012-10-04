@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using MbUnit.Framework;
+using NUnit.Framework;
 using Ninject;
 using Ninject.MockingKernel.Moq;
 using Website.Domain.Contact;
@@ -20,7 +20,7 @@ namespace Website.Mocks.Domain.Data
             Assert.AreEqual(storedContactDetails.MiddleNames, retrievedContactDetails.MiddleNames);
             Assert.AreEqual(storedContactDetails.Surname, retrievedContactDetails.Surname);
             Assert.AreEqual(storedContactDetails.Address, retrievedContactDetails.Address);
-            Assert.AreEqual<string>(storedContactDetails.EmailAddress, retrievedContactDetails.EmailAddress);
+            Assert.AreEqual(storedContactDetails.EmailAddress, retrievedContactDetails.EmailAddress);
                
         }
     }
@@ -28,17 +28,17 @@ namespace Website.Mocks.Domain.Data
     {
         public static void AssertStoreRetrieve(BrowserInterface storedBrowser, BrowserInterface retrievedBrowser)
         {
-            Assert.AreEqual<string>(storedBrowser.Id, retrievedBrowser.Id);
+            Assert.AreEqual(storedBrowser.Id, retrievedBrowser.Id);
 
             ContactDetailTestData.AssertStoreRetrieve(storedBrowser, retrievedBrowser);
             Assert.AreEqual(storedBrowser.Handle, retrievedBrowser.Handle);
             Assert.AreEqual(storedBrowser.DefaultLocation, retrievedBrowser.DefaultLocation);
             Assert.AreEqual(storedBrowser.SavedLocations, retrievedBrowser.SavedLocations);
-            Assert.AreElementsEqualIgnoringOrder(storedBrowser.SavedTags, retrievedBrowser.SavedTags);
-            Assert.AreElementsEqualIgnoringOrder<string>(storedBrowser.Roles, retrievedBrowser.Roles);
-            Assert.AreElementsEqualIgnoringOrder(storedBrowser.ExternalCredentials, retrievedBrowser.ExternalCredentials);
-            Assert.AreEqual<string>(storedBrowser.AvatarImageId, retrievedBrowser.AvatarImageId);
-            Assert.AreEqual<bool>(storedBrowser.AddressPublic, retrievedBrowser.AddressPublic);
+            CollectionAssert.AreEquivalent(storedBrowser.SavedTags, retrievedBrowser.SavedTags);
+            CollectionAssert.AreEquivalent(storedBrowser.Roles, retrievedBrowser.Roles);
+            CollectionAssert.AreEquivalent(storedBrowser.ExternalCredentials, retrievedBrowser.ExternalCredentials);
+            Assert.AreEqual(storedBrowser.AvatarImageId, retrievedBrowser.AvatarImageId);
+            Assert.AreEqual(storedBrowser.AddressPublic, retrievedBrowser.AddressPublic);
             Assert.AreEqual(storedBrowser.Address, retrievedBrowser.Address);
         }
 

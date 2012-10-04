@@ -1,12 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using MbUnit.Framework;
+using NUnit.Framework;
 using Ninject.MockingKernel.Moq;
-using System.Net;
-using System.Web.Script.Serialization;
-using System.IO;
 using Website.Application.Intergrations;
 using Website.Test.Common.Facebook;
 
@@ -22,7 +17,7 @@ namespace Website.Application.Tests.Intergrations
             get { return TestFixtureSetup.CurrIocKernel; }
         }
 
-        [FixtureSetUp]
+        [TestFixtureSetUp]
         public void FixtureSetUp()
         {
             Facebookutils.TestUserAdd("Heavy Metal Kid", "user_events,friends_events,publish_stream,create_event");
@@ -34,7 +29,7 @@ namespace Website.Application.Tests.Intergrations
 
         }
 
-        [FixtureTearDown]
+        [TestFixtureTearDown]
         public void FixtureTearDown()
         {
             Facebookutils.TestUserDelete(testUser.id);
@@ -80,7 +75,7 @@ namespace Website.Application.Tests.Intergrations
             var graphApi = new FacebookGraph(testUser.access_token);
             var eventsList = graphApi.UserEventsGet();
 
-            Assert.Count(3, eventsList);
+            Assert.That(eventsList.Count(), Is.EqualTo(3));
 
             Assert.AreEqual(eventsList[0].name, "Test Event 1");
             Assert.AreEqual(eventsList[0].description, "this is a test event yo");

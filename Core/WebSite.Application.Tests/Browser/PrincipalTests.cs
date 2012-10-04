@@ -1,11 +1,9 @@
-﻿using System.Web;
-using MbUnit.Framework;
+﻿using NUnit.Framework;
 using Ninject.MockingKernel.Moq;
-using Website.Application.Authentication;
 
 namespace Website.Application.Tests.Browser
 {
-    [TestFixture]
+    //[TestFixture]
     public class PrincipalTests
     {
         MoqMockingKernel Kernel
@@ -13,7 +11,7 @@ namespace Website.Application.Tests.Browser
             get { return TestFixtureSetup.CurrIocKernel; }
         }
 
-        [FixtureSetUp]
+        //[TestFixtureSetUp]
         public void FixtureSetUp()
         {
 

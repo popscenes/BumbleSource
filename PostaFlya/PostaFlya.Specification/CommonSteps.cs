@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
-using System.Text;
-using MbUnit.Framework;
+using NUnit.Framework;
 using TechTalk.SpecFlow;
 using PostaFlya.Controllers;
 using Website.Infrastructure.Authentication;
@@ -106,7 +103,7 @@ namespace PostaFlya.Specification
         public void ThenIWillHaveRole(string role)
         {
             var browserInformation = SpecUtil.GetCurrBrowser();
-            Assert.Contains(browserInformation.Browser.Roles, role);
+            CollectionAssert.Contains(browserInformation.Browser.Roles, role);
         }
     }
 }

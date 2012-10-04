@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Caching;
-using MbUnit.Framework;
+using NUnit.Framework;
 using Ninject;
 using Ninject.MockingKernel.Moq;
 using Website.Test.Common;
@@ -148,27 +148,29 @@ namespace Website.Application.Domain.Tests.Content
 
         public static void CachedDataIsReturnedForImageGetByBrowserId(MoqMockingKernel kernel, ObjectCache cache)
         {
-            var queryService = ResolutionExtensions.Get<ImageQueryServiceInterface>(kernel);
+            var queryService = kernel.Get<ImageQueryServiceInterface>();
 
             ImageQueryServiceInterface cachedQueryService = new CachedImageQueryService(queryService, cache);
 
-            var repository = ResolutionExtensions.Get<ImageRepositoryInterface>(kernel);
+            var repository = kernel.Get<ImageRepositoryInterface>();
 
             var browserId = Guid.NewGuid().ToString();
             var img = DomainImageTestData.StoreOne(DomainImageTestData.GetOne(kernel, browserId), repository, kernel);
             DomainImageTestData.StoreOne(DomainImageTestData.GetOne(kernel, browserId), repository, kernel);
 
             var retrievedImages = cachedQueryService.GetByBrowserId<Image>(browserId);
-            Assert.Count(2, retrievedImages);
+            Assert.That(retrievedImages.Count(), Is.EqualTo(2));
             DomainImageTestData.StoreOne(DomainImageTestData.GetOne(kernel, browserId), repository, kernel);
             retrievedImages = cachedQueryService.GetByBrowserId<Image>(browserId);
-            Assert.Count(2, retrievedImages);
-            Assert.Count(2, Enumerable.ToList<KeyValuePair<string, object>>(cache).FirstOrDefault().Value as IEnumerable);
+            Assert.That(retrievedImages.Count(), Is.EqualTo(2));
+
+            var cacheStore = (cache.ToList().FirstOrDefault().Value as IEnumerable<ImageInterface>);
+            Assert.That(cacheStore.Count(), Is.EqualTo(2));
 
             TestUtil.ClearMemoryCache(cache);
 
             retrievedImages = cachedQueryService.GetByBrowserId<Image>(img.BrowserId);
-            Assert.Count(3, retrievedImages);
+            Assert.That(retrievedImages.Count(), Is.EqualTo(3));
         }
 
         [Test]//note implement the same in other application test projects for different cache implementations
@@ -195,12 +197,12 @@ namespace Website.Application.Domain.Tests.Content
             var retrievedImages = cachedQueryService.GetByBrowserId<Image>(storedImage.BrowserId);
 
 
-            Assert.Count(1, retrievedImages);
+            Assert.That(retrievedImages.Count(), Is.EqualTo(1));
 
             storedImage = DomainImageTestData.StoreOne(DomainImageTestData.GetOne(kernel, browserId), cachedImageRepository, kernel);
             retrievedImages = cachedQueryService.GetByBrowserId<Image>(storedImage.BrowserId);
 
-            Assert.Count(2, retrievedImages);
+            Assert.That(retrievedImages.Count(), Is.EqualTo(2));
         }
     }
 }

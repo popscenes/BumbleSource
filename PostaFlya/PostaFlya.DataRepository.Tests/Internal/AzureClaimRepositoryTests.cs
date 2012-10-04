@@ -1,17 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Gallio.Framework;
-using MbUnit.Framework;
-using MbUnit.Framework.ContractVerifiers;
-using Microsoft.WindowsAzure.StorageClient;
+using NUnit.Framework;
 using Ninject;
 using Ninject.MockingKernel.Moq;
 using Website.Azure.Common.Environment;
-using Website.Azure.Common.TableStorage;
-using PostaFlya.DataRepository.Internal;
-using PostaFlya.Mocks.Domain.Data;
 using Website.Infrastructure.Command;
 using Website.Infrastructure.Query;
 using Website.Test.Common;
@@ -20,7 +11,8 @@ using Website.Mocks.Domain.Data;
 
 namespace PostaFlya.DataRepository.Tests.Internal
 {
-    [TestFixture]
+    [TestFixture("dev")]
+    [TestFixture("real")]
     public class AzureClaimRepositoryTests
     {
         MoqMockingKernel Kernel
@@ -28,8 +20,6 @@ namespace PostaFlya.DataRepository.Tests.Internal
             get { return TestFixtureSetup.CurrIocKernel; }
         }
 
-        [Row("dev")] 
-        [Row("real")]
         public AzureClaimRepositoryTests(string env)
         {
             AzureEnv.UseRealStorage = env == "real";
@@ -39,14 +29,14 @@ namespace PostaFlya.DataRepository.Tests.Internal
         GenericQueryServiceInterface _queryservice;
 
 
-        [FixtureSetUp]
+        [TestFixtureSetUp]
         public void FixtureSetUp()
         {
             _repository = Kernel.Get<GenericRepositoryInterface>();
             _queryservice = Kernel.Get<GenericQueryServiceInterface>();
         }
 
-        [FixtureTearDown]
+        [TestFixtureTearDown]
         public void FixtureTearDown()
         {
             AzureEnv.UseRealStorage = false;
@@ -60,6 +50,11 @@ namespace PostaFlya.DataRepository.Tests.Internal
         }
 
         [Test]
+        public void AzureClaimRepositoryStoreTest()
+        {
+            AzureClaimRepositoryStore();
+        }
+
         public ClaimInterface AzureClaimRepositoryStore()
         {
             var claim = ClaimTestData.GetOne(Kernel, Guid.NewGuid().ToString());
@@ -68,6 +63,11 @@ namespace PostaFlya.DataRepository.Tests.Internal
         }
 
         [Test]
+        public void AzureClaimRepositoryQueryTest()
+        {
+            AzureClaimRepositoryQuery();
+        }
+
         public ClaimInterface AzureClaimRepositoryQuery()
         {
             var claim = AzureClaimRepositoryStore();
@@ -81,7 +81,7 @@ namespace PostaFlya.DataRepository.Tests.Internal
             var entityId = Guid.NewGuid().ToString();
             var stored = ClaimTestData.StoreSome(_repository, Kernel, entityId, 5);
             var retd = _queryservice.FindAggregateEntities<Claim>(entityId);
-            Assert.AreElementsEqualIgnoringOrder(stored, retd, ClaimTestData.Equals);
+            AssertUtil.AreEquivalent(stored, retd, ClaimTestData.Equals);
         }
 
         [Test]

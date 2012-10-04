@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
-using System.Data.SqlTypes;
 using System.Linq;
-using System.Text;
 using System.Xml.Linq;
-using MbUnit.Framework;
 using Microsoft.SqlServer.Types;
+using NUnit.Framework;
 using Website.Azure.Common.Sql;
+using Website.Test.Common;
 
 namespace Website.Azure.Common.Tests.Sql
 {
@@ -117,7 +116,7 @@ namespace Website.Azure.Common.Tests.Sql
                 const string sqlCmd = "select * from SqlInitializerTestTable";
 
                 var ret = SqlExecute.Query<SqlInitializerTestTable>(sqlCmd, conn);
-                Assert.Count(20, ret);
+                AssertUtil.Count(20, ret);
                 foreach (var sqlInitializerTestTable in ret)
                 {
                     var ins = inserted.SingleOrDefault(r => r.Id == sqlInitializerTestTable.Id);
@@ -167,7 +166,7 @@ namespace Website.Azure.Common.Tests.Sql
                 const string sqlCmd = "select * from SqlInitializerTestFederatedTable";
 
                 var ret = SqlExecute.Query<SqlInitializerTestFederatedTable>(sqlCmd, conn, new object[]{0}, null);
-                Assert.Count(5, ret);
+                AssertUtil.Count(5, ret);
                 foreach (var sqlInitializerTestTable in ret)
                 {
                     var ins = inserted.SingleOrDefault(r => r.Id == sqlInitializerTestTable.Id);

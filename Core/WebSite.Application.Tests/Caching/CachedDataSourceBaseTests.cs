@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Runtime.Caching;
-using MbUnit.Framework;
+using NUnit.Framework;
 using Ninject;
 using Ninject.MockingKernel.Moq;
-using Website.Application.Caching;
 using Website.Application.Caching.Command;
 using Website.Application.Caching.Query;
 using Website.Infrastructure.Command;
@@ -72,14 +71,14 @@ namespace Website.Application.Tests.Caching
             get { return TestFixtureSetup.CurrIocKernel; }
         }
 
-        [FixtureSetUp]
+        [TestFixtureSetUp]
         public void FixtureSetUp()
         {
             _memoryCache = TestUtil.GetMemoryCache();
             Kernel.Bind<ObjectCache>().ToConstant(_memoryCache);
         }
 
-        [FixtureTearDown]
+        [TestFixtureTearDown]
         public void FixtureTearDown()
         {
             Kernel.Unbind<ObjectCache>();

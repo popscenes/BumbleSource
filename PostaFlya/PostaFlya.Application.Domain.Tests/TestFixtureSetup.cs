@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Linq;
-using System.Runtime.Caching;
-using MbUnit.Framework;
+﻿using System.Collections.Generic;
+using NUnit.Framework;
 using Ninject.MockingKernel.Moq;
 using Ninject.Modules;
 using Website.Application.Caching.Command;
@@ -15,11 +11,11 @@ using Website.Mocks.Domain.Defaults;
 
 namespace PostaFlya.Application.Domain.Tests
 {
-    [AssemblyFixture]
+    [SetUpFixture]
     class TestFixtureSetup
     {
 
-        [FixtureSetUp]
+        [SetUp]
         public void FixtureSetup()
         {
             Assert.IsNotNull(CurrIocKernel);

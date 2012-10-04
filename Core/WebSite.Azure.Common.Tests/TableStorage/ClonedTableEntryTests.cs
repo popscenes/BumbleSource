@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
-using System.Text;
-using Gallio.Framework;
-using MbUnit.Framework;
-using MbUnit.Framework.ContractVerifiers;
-using Moq;
+using NUnit.Framework;
 using Ninject;
 using Ninject.MockingKernel.Moq;
 using Website.Azure.Common.TableStorage;
@@ -23,7 +17,7 @@ namespace Website.Azure.Common.Tests.TableStorage
 
         Dictionary<string, List<ExtendableTableEntry>> _mockStore;
 
-        [FixtureSetUp]
+        [TestFixtureSetUp]
         public void FixtureSetUp()
         {
             Kernel.Rebind<TableNameAndPartitionProviderServiceInterface>()
@@ -38,7 +32,7 @@ namespace Website.Azure.Common.Tests.TableStorage
             _mockStore = TableContextTests.SetupMockTableContext<ExtendableTableEntry>(Kernel, new Dictionary<string, List<ExtendableTableEntry>>());
         }
 
-        [FixtureTearDown]
+        [TestFixtureTearDown]
         public void FixtureTearDown()
         {
             Kernel.Unbind<TableContextInterface>();
@@ -62,7 +56,8 @@ namespace Website.Azure.Common.Tests.TableStorage
 
             var ret = test.Entries.Select(kv => kv.Value)
                 .OfType<ExtendableTableEntry>().ToList();
-            Assert.Count(3, ret);
+
+            Assert.That(ret.Count(), Is.EqualTo(3));
 
             var nameAndPartitionProviderService = Kernel.Get<TableNameAndPartitionProviderServiceInterface>();
             foreach (var partition in nameAndPartitionProviderService.GetPartitionIdentifiers<OneEntity>())

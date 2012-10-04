@@ -1,14 +1,6 @@
-﻿using System.Collections.Generic;
-using System.Diagnostics;
-using System.Text;
-
-using Gallio.Framework;
-using MbUnit.Framework;
-using MbUnit.Framework.ContractVerifiers;
-using Moq;
+﻿using NUnit.Framework;
 using Ninject;
 using Ninject.MockingKernel.Moq;
-using Website.Infrastructure.Command;
 using Website.Application.Command;
 using Website.Application.Tests.Classes;
 using Website.Infrastructure.Util;
@@ -23,7 +15,7 @@ namespace Website.Application.Tests.Command
             get { return TestFixtureSetup.CurrIocKernel; }
         }
 
-        [FixtureSetUp]
+        [TestFixtureSetUp]
         public void FixtureSetUp()
         {
             Kernel.Bind<CommandQueueFactoryInterface>()
@@ -39,7 +31,7 @@ namespace Website.Application.Tests.Command
                 .WithMetadata("queuedcommandbustests", true);
         }
 
-        [FixtureTearDown]
+        [TestFixtureTearDown]
         public void FixtureTearDown()
         {
             Kernel.Unbind<CommandQueueFactoryInterface>();
@@ -66,7 +58,7 @@ namespace Website.Application.Tests.Command
             }
 
             var testQueuedCommandBusFactory = GetCommandBusFactory();
-            Assert.Count(5, testQueuedCommandBusFactory.GetStorageForTestEndpoint("queuedcommandbustests"));
+            Assert.That(testQueuedCommandBusFactory.GetStorageForTestEndpoint("queuedcommandbustests").Count, Is.EqualTo(5));
             foreach (var queueMessage in testQueuedCommandBusFactory.GetStorageForTestEndpoint("queuedcommandbustests"))
             {
                 Assert.AreEqual(serializedMsg, queueMessage.Bytes);

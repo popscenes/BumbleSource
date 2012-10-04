@@ -1,11 +1,13 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
-using MbUnit.Framework;
+using NUnit.Framework;
 using Ninject;
 using Website.Infrastructure.Command;
 using Website.Infrastructure.Domain;
 using Website.Infrastructure.Query;
 using Website.Domain.Claims;
+using Website.Test.Common;
 
 namespace Website.Mocks.Domain.Data
 {
@@ -13,12 +15,20 @@ namespace Website.Mocks.Domain.Data
     {
         public static bool AssertStoreRetrieve(ClaimInterface storedClaim, ClaimInterface retrievedClaim)
         {
-            Assert.AreEqual<string>(storedClaim.AggregateId, retrievedClaim.AggregateId);
-            Assert.AreEqual<string>(storedClaim.BrowserId, retrievedClaim.BrowserId);
-            Assert.AreEqual<string>(storedClaim.ClaimContext, retrievedClaim.ClaimContext);
-            Assert.AreApproximatelyEqual<DateTime, TimeSpan>(storedClaim.ClaimTime, retrievedClaim.ClaimTime, TimeSpan.FromMilliseconds(1));
+            Assert.AreEqual(storedClaim.AggregateId, retrievedClaim.AggregateId);
+            Assert.AreEqual(storedClaim.BrowserId, retrievedClaim.BrowserId);
+            Assert.AreEqual(storedClaim.ClaimContext, retrievedClaim.ClaimContext);
+            AssertUtil.AreEqual(storedClaim.ClaimTime, retrievedClaim.ClaimTime, TimeSpan.FromMilliseconds(1));
 
             return true;
+        }
+
+        public class ClaimTestDataEq : IComparer
+        {
+            public int Compare(object x, object y)
+            {
+                return ClaimTestData.Equals((ClaimInterface)x, (ClaimInterface)y) ? 0 : 1;
+            }
         }
 
         public static bool Equals(ClaimInterface storedClaim, ClaimInterface retrievedClaim)

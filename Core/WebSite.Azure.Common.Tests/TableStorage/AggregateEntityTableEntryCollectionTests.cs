@@ -1,15 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Globalization;
-using System.Linq.Expressions;
-using System.Text;
-using Gallio.Framework;
-using MbUnit.Framework;
-using MbUnit.Framework.ContractVerifiers;
-using Moq;
+using NUnit.Framework;
 using Ninject;
 using Ninject.MockingKernel.Moq;
-using Website.Infrastructure.Domain;
 using Website.Azure.Common.TableStorage;
+using Website.Test.Common;
 
 namespace Website.Azure.Common.Tests.TableStorage
 {
@@ -23,7 +18,7 @@ namespace Website.Azure.Common.Tests.TableStorage
 
         Dictionary<string, List<ExtendableTableEntry>> _mockStore;
 
-        [FixtureSetUp]
+        [TestFixtureSetUp]
         public void FixtureSetUp()
         {
             Kernel.Rebind<TableNameAndPartitionProviderServiceInterface>()
@@ -43,7 +38,7 @@ namespace Website.Azure.Common.Tests.TableStorage
             _mockStore = TableContextTests.SetupMockTableContext<ExtendableTableEntry>(Kernel, new Dictionary<string, List<ExtendableTableEntry>>());
         }
 
-        [FixtureTearDown]
+        [TestFixtureTearDown]
         public void FixtureTearDown()
         {
             Kernel.Unbind<TableContextInterface>();
@@ -70,12 +65,12 @@ namespace Website.Azure.Common.Tests.TableStorage
             entityTableEntryCollection.UpdateFrom(one, tableNameAndPartitionProviderService);
 
             var ret = entityTableEntryCollection.ClonedTableEntries;
-            Assert.Count(5, ret);
+            AssertUtil.Count(5, ret);
 
             one.RelatedEntities.Add(new TwoEntity(){Prop = "Added Prop"});
             entityTableEntryCollection.UpdateFrom(one, tableNameAndPartitionProviderService);
             ret = entityTableEntryCollection.ClonedTableEntries;
-            Assert.Count(6, ret);
+            AssertUtil.Count(6, ret);
         }
     }
 }

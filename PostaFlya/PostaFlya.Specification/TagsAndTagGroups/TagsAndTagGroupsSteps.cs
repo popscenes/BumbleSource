@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using MbUnit.Framework;
+﻿using NUnit.Framework;
 using TechTalk.SpecFlow;
 using PostaFlya.Controllers;
 using PostaFlya.Specification.Util;
@@ -25,7 +21,7 @@ namespace PostaFlya.Specification.TagsAndTagGroups
         {
             var TagGroups = SpecUtil.ControllerResult as Tags;
             var tagsList = TagGroups;
-            Assert.Count(30, tagsList);
+            Assert.That(tagsList.Count, Is.EqualTo(30));
         }
     }
 }

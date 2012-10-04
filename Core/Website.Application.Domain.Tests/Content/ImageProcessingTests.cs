@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
-using MbUnit.Framework;
 using Moq;
+using NUnit.Framework;
 using Ninject;
 using Ninject.MockingKernel.Moq;
 using Website.Application.Content;
@@ -37,7 +37,7 @@ namespace Website.Application.Domain.Tests.Content
             HttpContextMock.FakeHttpContext(kernel);
         }
 
-        [FixtureSetUp]
+        [TestFixtureSetUp]
         public void FixtureSetUp()
         {
             FixtureSetUp(Kernel);
@@ -52,7 +52,7 @@ namespace Website.Application.Domain.Tests.Content
             //kernel.Unbind<ImageRepositoryInterface>();
         }
 
-        [FixtureTearDown]
+        [TestFixtureTearDown]
         public void FixtureTearDown()
         {
             FixtureTearDown(Kernel);
@@ -146,7 +146,7 @@ namespace Website.Application.Domain.Tests.Content
             var browserImages = imageQueryService.GetByBrowserId<Website.Domain.Content.Image>(command.BrowserId);
 
             //make sure only 1 image per external id
-            Assert.Count(1, browserImages);
+            AssertUtil.Count(1, browserImages);
             kernel.Unbind<BlobStorageInterface>();
         }
 
@@ -311,6 +311,11 @@ namespace Website.Application.Domain.Tests.Content
         }
 
         [Test]
+        public void ImageProcessCommandHandlerSetsImageStatusToFailedOnInvalidProcessingTest()
+        {
+            ImageProcessCommandHandlerSetsImageStatusToFailedOnInvalidProcessing(Kernel);
+        }
+
         public string ImageProcessCommandHandlerSetsImageStatusToFailedOnInvalidProcessing()
         {
             return ImageProcessCommandHandlerSetsImageStatusToFailedOnInvalidProcessing(Kernel);
@@ -371,11 +376,11 @@ namespace Website.Application.Domain.Tests.Content
                     using (var conv = Image.FromStream(ms))
                     {
                         var exifImage = new ExifImage(conv);
-                        Assert.AreEqual<string>(cmd.Title, exifImage.GetImageTitle());
+                        Assert.AreEqual(cmd.Title, exifImage.GetImageTitle());
 
                         var retloc = new Website.Domain.Location.Location(exifImage.GetLongitude().Value, exifImage.GetLatitude().Value);
 
-                        Assert.AreEqual<string>(cmd.Title, exifImage.GetImageTitle());
+                        Assert.AreEqual(cmd.Title, exifImage.GetImageTitle());
                         Assert.AreEqual(cmd.Location, retloc); 
                     }
                 }

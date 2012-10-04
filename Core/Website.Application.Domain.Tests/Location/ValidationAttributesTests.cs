@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using MbUnit.Framework;
+using NUnit.Framework;
 using Website.Application.Domain.Location;
 
 namespace Website.Application.Domain.Tests.Location

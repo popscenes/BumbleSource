@@ -2,14 +2,11 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Text;
-using Gallio.Framework;
-using MbUnit.Framework;
-using MbUnit.Framework.ContractVerifiers;
+using NUnit.Framework;
 using Ninject;
 using Ninject.MockingKernel.Moq;
-using Website.Infrastructure.Domain;
 using Website.Azure.Common.TableStorage;
+using Website.Test.Common;
 
 namespace Website.Azure.Common.Tests.TableStorage
 {
@@ -23,7 +20,7 @@ namespace Website.Azure.Common.Tests.TableStorage
 
         Dictionary<string, List<JsonTableEntry>> _mockStore;
 
-        [FixtureSetUp]
+        [TestFixtureSetUp]
         public void FixtureSetUp()
         {
             Kernel.Rebind<TableNameAndPartitionProviderServiceInterface>()
@@ -46,7 +43,7 @@ namespace Website.Azure.Common.Tests.TableStorage
                 .ToSelf().InTransientScope();
         }
 
-        [FixtureTearDown]
+        [TestFixtureTearDown]
         public void FixtureTearDown()
         {
             Kernel.Unbind<TableContextInterface>();
@@ -73,19 +70,19 @@ namespace Website.Azure.Common.Tests.TableStorage
 
 
 
-            Assert.Count(3, _mockStore);
-            Assert.Count(3, _mockStore["testOneEntity"]);
-            Assert.Count(6, _mockStore["testTwoEntity"]);
-            Assert.Count(1, _mockStore["testThreeEntity"]);
+            AssertUtil.Count(3, _mockStore);
+            AssertUtil.Count(3, _mockStore["testOneEntity"]);
+            AssertUtil.Count(6, _mockStore["testTwoEntity"]);
+            AssertUtil.Count(1, _mockStore["testThreeEntity"]);
 
 
             repo.UpdateEntity<OneEntity>(one.Id, entity => entity.Prop = "Some Updated Text");
             repo.SaveChanges();
 
-            Assert.Count(3, _mockStore);
-            Assert.Count(3, _mockStore["testOneEntity"]);
-            Assert.Count(6, _mockStore["testTwoEntity"]);
-            Assert.Count(1, _mockStore["testThreeEntity"]);
+            AssertUtil.Count(3, _mockStore);
+            AssertUtil.Count(3, _mockStore["testOneEntity"]);
+            AssertUtil.Count(6, _mockStore["testTwoEntity"]);
+            AssertUtil.Count(1, _mockStore["testThreeEntity"]);
 
             Assert.IsTrue(_mockStore["testOneEntity"].Any(entry => entry.GetJson().Contains("Some Updated Text")));
         }

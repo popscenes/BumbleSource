@@ -1,31 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using MbUnit.Framework;
-using Microsoft.WindowsAzure;
-using Microsoft.WindowsAzure.StorageClient;
+﻿using System.Collections.Generic;
+using NUnit.Framework;
 using Ninject;
 using Ninject.MockingKernel.Moq;
 using Ninject.Modules;
-using PostaFlya.DataRepository.Binding;
-using PostaFlya.DataRepository.Browser;
-using PostaFlya.DataRepository.Internal;
-using PostaFlya.Domain.Binding;
-using PostaFlya.Domain.Flier;
 using Website.Azure.Common.Environment;
 using Website.Azure.Common.TableStorage;
-using Website.Infrastructure.Binding;
 using Website.Test.Common;
 using Website.Mocks.Domain.Defaults;
 
 namespace PostaFlya.DataRepository.Tests
 {
-    [AssemblyFixture]
+    [SetUpFixture]
     class TestFixtureSetup
     {
 
-        [FixtureSetUp]
+        [SetUp]
         public void FixtureSetup()
         {
             Assert.IsNotNull(CurrIocKernel);
