@@ -18,6 +18,13 @@ namespace Website.Infrastructure.Service
 
     public interface SendEmailServiceInterface
     {
-        void Send(Email email);
+        SendMailReponse Send(Email email);
+    }
+
+    public enum SendMailReponse
+    {
+        Success,
+        FailRetry,
+        Fail
     }
 }
