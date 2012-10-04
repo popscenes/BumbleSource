@@ -20,3 +20,4 @@ AzureProject/Downloaded Profiling Logs/
 */_NCrunch_*/*
 *.ncrunchproject
 *.ncrunchsolution
+*ncrunchsolution*
