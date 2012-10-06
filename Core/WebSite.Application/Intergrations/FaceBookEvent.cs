@@ -17,6 +17,12 @@ namespace Website.Application.Intergrations
 
         public float longitude { get; set; }
     }
+
+    public class FaceBookImage
+    {
+        public String url { get; set; }
+    }
+
     public class FaceBookEvent
     {
 

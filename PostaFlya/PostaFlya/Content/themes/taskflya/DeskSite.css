@@ -97,26 +97,39 @@ a.toolbar-item div{
 }
 
 a.toolbar-item div.profile-edit-tool-bar-item {
-	background-image:url(images/edit-icon.png);
+	background-image:url(images/icon_0002_Group-3.png);
 }
 
 a.toolbar-item div.add-flier-tool-bar-item
 {
-    background-image:url(images/create-flier.png);
+    background-image:url(images/icon_0000_Group-4.png);
 }
 
 a.toolbar-item div.facebook-tool-bar-item
 {
-    background-image:url(images/facebook.png);
+    background-image:url(images/icon_0006_Group-1.png);
 }
 
 a.toolbar-item div.login-tool-bar-item
 {
-    background-image:url(images/defaultavatar.jpg);
+    background-image:url(images/icon_0001_Group-5.png);
 }
 
 /************end toolbar items**************************/
 
+div#create-flier-item-div
+{
+    border-top: 1px solid #ccc;
+    border-right: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+    border-left: 1px solid #ccc;
+
+}
+
+#flierCreateStep
+{
+    margin: 15px 15px;
+}
 
 /************selected item popup/overlay div ********************/
 div#selected-item-div, div#create-flier-item-div {

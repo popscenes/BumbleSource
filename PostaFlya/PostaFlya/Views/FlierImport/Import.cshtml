@@ -14,9 +14,11 @@
 @Html.Partial("State/PageStateAdd", "Fliers")
 
 
-<ul data-bind="foreach:fliers">
-    <li>
-        <span data-bind="text: Title, click: $parent.CreateFlierInstance.InitialiseFlier"></span>
+<ul class="flier-imports" data-bind="foreach:fliers">
+    <li data-bind="click: $parent.CreateFlierInstance.InitialiseFlier">
+        <img data-bind="attr: { src: FlierImageUrl }" />
+        <div data-bind="text: Title" >
+            
+        </div>
     </li>
-    
 </ul>

@@ -9,7 +9,7 @@ namespace PostaFlya.Models.Browser
     public static class BrowserModelBrowserInterfaceExtension
     {
         //TODO use siteService to get default avatar url
-        private const string DefaultAvatar = "/Content/themes/taskflya/images/defaultavatar.jpg";
+        private const string DefaultAvatar = "/Content/themes/taskflya/images/icon_0001_Group-5.png";
 
         public static BrowserModel GetBrowserViewModel(string browserId, BrowserQueryServiceInterface browserQuery, BlobStorageInterface blobStorage)
         {

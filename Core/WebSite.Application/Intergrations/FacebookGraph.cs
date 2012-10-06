@@ -54,9 +54,10 @@ namespace Website.Application.Intergrations
             return events.data;
         }
 
-        protected string GetEventPictureUrl(string eventId)
+        protected String GetEventPictureUrl(string eventId)
         {
-            return String.Format("https://graph.facebook.com/{0}/picture?type=large", eventId);
+            return String.Format("https://graph.facebook.com/{0}/picture?type=large&access_token={1}", eventId, Uri.EscapeDataString(_userAccessToken));
+            
         }
 
         public List<FacebookPermissionSet> GetUserPermission()

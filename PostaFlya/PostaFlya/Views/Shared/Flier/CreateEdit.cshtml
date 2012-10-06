@@ -33,7 +33,7 @@
     <fieldset>
         <legend>Select an image for your flier</legend>
         <ol>
-            <label for="location">Flya Image:</label>
+            <h2>Select an image for your flier</h2>
             <img data-bind="attr: { src: FlierImageUrlH250}, visible:FlierImageUrl" />
             <span class="selected-image" data-bind="visible:(FlierImageUrl()==null)">please select an image</span>
             
@@ -61,6 +61,7 @@
 
     <fieldset>
         <legend>Add images to your flier</legend>
+        <h2>Add images to your flier</h2>
         <ol>
             <li data-bind="with:imageSelector">
                 @Html.Partial("Image/ImageSelector")
@@ -82,7 +83,7 @@
         <ol>
 
             <li data-bind="with:locationSelector">
-                <label for="location">Flya Location:</label>
+                <h2>Add a location to your flier</h2>
                 @Html.HiddenFor(model => model.Location, new { data_bind = "value:currentLocation()" })
                 @Html.ValidationMessageFor(model => model.Location)
                 @Html.Partial("Location/LocationSelector")
@@ -101,6 +102,7 @@
     @Html.HiddenFor(model => model.Id, new { data_bind = "value:Id" })
     <fieldset>
         <legend>Now add some flyer information</legend>
+        <h2>Now add some flIer information</h2>
         <ol>
             <li>
                 <label for="title">Title:</label>
@@ -136,7 +138,7 @@
         <legend>Now add some flyer tags</legend>
         <ol>
             <li data-bind="with:tagsSelector">
-                <label for="description">Tags:</label>
+                <h2>Add some tags to your fliers</h2>
                 @Html.HiddenFor(model => model.TagsString, new { data_bind = "value:SelectedTags()" })
                 @Html.ValidationMessageFor(model => model.TagsString)
                 @Html.Partial("Tags/TagsSelector")

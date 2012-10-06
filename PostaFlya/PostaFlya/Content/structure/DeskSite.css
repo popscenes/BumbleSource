@@ -317,6 +317,12 @@ a.toolbar-item div.profile-edit-tool-bar-item, a.toolbar-item div.add-flier-tool
 
 /************end toolbar items**************************/
 
+.flier-imports li
+{
+    list-style:none;
+    display:inline-block;
+}
+
 /************selected item popup/overlay div ********************/
 div#selected-item-div, div#create-flier-item-div {
     position: absolute;
@@ -453,4 +459,14 @@ img.avatarsmall{
 
 #social-div .social-link {
     display: inline-block;
+}
+
+a.toolbar-item
+{
+    text-decoration: none;
+}
+
+.profile-view-tool-bar-item, .profile-view-tool-bar-item img
+{
+    border:0px;
 }
