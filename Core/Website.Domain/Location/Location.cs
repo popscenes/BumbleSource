@@ -20,7 +20,7 @@ namespace Website.Domain.Location
     }
 
     [Serializable]
-    public class Location : LocationInterface
+    public class Location : LocationInterface, AddressInterface
     {
         
         private const double Invalid = -200;
@@ -68,8 +68,36 @@ namespace Website.Domain.Location
         public double Longitude { get; set; }
         
         public double Latitude { get; set; }
-        
-        public string Description { get; set; }          
+
+        private string _description;
+        public string Description
+        {
+            get {
+                if (string.IsNullOrEmpty(_description) && HasAddressParts)
+                    _description = this.GetAddressDescription();
+                return _description;
+            } 
+            set { _description = value; }
+        }
+
+        public bool HasAddressParts
+        {
+            get
+            {
+                return !string.IsNullOrWhiteSpace(StreetAddress) ||
+                       !string.IsNullOrWhiteSpace(Locality) ||
+                       !string.IsNullOrWhiteSpace(Region) ||
+                       !string.IsNullOrWhiteSpace(PostCode) ||
+                       !string.IsNullOrWhiteSpace(CountryName);
+            }
+        }
+
+        public string StreetAddress { get; set; }
+        public string Locality { get; set; }
+        public string Region { get; set; }
+        public string PostCode { get; set; }
+        public string CountryName { get; set; }
+
 
         // override object.Equals
         public override bool Equals(object obj)

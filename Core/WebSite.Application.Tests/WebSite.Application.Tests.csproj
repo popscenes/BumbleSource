@@ -95,7 +95,7 @@
     <Compile Include="Command\DataBusCommandSerializerTests.cs" />
     <Compile Include="Command\QueueCommandBusTests.cs" />
     <Compile Include="Classes\TestCommandQueueFactory.cs" />
-    <Compile Include="Communication\BroadcastCommunicatorTests.cs" />
+    <Compile Include="ApplicationCommunication\BroadcastCommunicatorTests.cs" />
     <Compile Include="Content\ExifImageTests.cs" />
     <Compile Include="Extension\Validation\ValidationAdaptersTests.cs" />
     <Compile Include="Intergrations\FacebookIntergrationTests.cs" />

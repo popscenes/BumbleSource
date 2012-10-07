@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,7 +5,7 @@ using System.Threading.Tasks;
 using Website.Application.Command;
 using Website.Infrastructure.Command;
 
-namespace Website.Application.Communication
+namespace Website.Application.ApplicationCommunication
 {
     public class DefaultBroadcastCommunicator : BroadcastCommunicatorInterface
     {

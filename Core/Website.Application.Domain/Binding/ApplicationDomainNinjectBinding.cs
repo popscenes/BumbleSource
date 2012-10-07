@@ -40,6 +40,9 @@ namespace Website.Application.Domain.Binding
             var kernel = Kernel as StandardKernel;
             kernel.BindCommandHandlersFromCallingAssembly(c => c.InTransientScope());
 
+            //publish services
+            kernel.BindPublishServicesFromCallingAssembly(syntax => syntax.InTransientScope());
+
             Trace.TraceInformation("Finished Binding ApplicationDomainNinjectBinding");
         }
 

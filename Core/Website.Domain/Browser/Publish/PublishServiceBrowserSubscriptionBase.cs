@@ -19,6 +19,8 @@ namespace Website.Domain.Browser.Publish
         public bool Publish(PublishType publish)
         {
             var browsers = GetBrowsersForPublish(publish);
+            if (browsers == null || browsers.Length == 0)
+                return false;
             return browsers.Where(IsBrowserSubscribed).Aggregate(false, 
                                 (current, brows) => 
                                     PublishToBrowser(brows, publish) || current);
@@ -40,7 +42,7 @@ namespace Website.Domain.Browser.Publish
                                      PropertyName = Name,
                                      PropertyValue = true
                                  });
-            return IsBrowserSubscribed(browser);
+            return true;
         }
 
         public bool BrowserUnsubscribe(BrowserInterface browser)

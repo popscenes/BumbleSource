@@ -78,6 +78,7 @@
     <Compile Include="Content\UrlContentRetrieverFactoryInterface.cs" />
     <Compile Include="Content\UrlContentRetrieverInterface.cs" />
     <Compile Include="Content\WebImageRequestContentRetriever.cs" />
+    <Compile Include="Email\VCard\ContactDetailsInterfaceExtensions.cs" />
     <Compile Include="Location\ValidationAttributes.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Publish\PublicationService.cs" />

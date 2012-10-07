@@ -3,8 +3,8 @@ using System.Linq;
 using Microsoft.WindowsAzure.StorageClient;
 using NUnit.Framework;
 using Ninject;
+using Website.Application.ApplicationCommunication;
 using Website.Application.Azure.Communication;
-using Website.Application.Communication;
 using Website.Azure.Common.TableStorage;
 using Website.Test.Common;
 

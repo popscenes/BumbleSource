@@ -2,9 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Ninject;
+using Website.Application.ApplicationCommunication;
 using Website.Infrastructure.Domain;
 using Website.Application.Command;
-using Website.Application.Communication;
 using Website.Azure.Common.TableStorage;
 
 namespace Website.Application.Azure.Communication

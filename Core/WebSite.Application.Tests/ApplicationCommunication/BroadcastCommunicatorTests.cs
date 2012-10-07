@@ -6,14 +6,14 @@ using Moq;
 using NUnit.Framework;
 using Ninject;
 using Ninject.MockingKernel.Moq;
+using Website.Application.ApplicationCommunication;
 using Website.Application.Command;
-using Website.Application.Communication;
 using Website.Application.Tests.Classes;
 using Website.Application.Tests.Command;
 using Website.Infrastructure.Command;
 using Website.Infrastructure.Util;
 
-namespace Website.Application.Tests.Communication
+namespace Website.Application.Tests.ApplicationCommunication
 {
     [TestFixture]
     public class BroadcastCommunicatorTests

@@ -48,7 +48,7 @@ namespace PostaFlya.Domain.Binding
                 .InSingletonScope();
 
             var kernel = Kernel as StandardKernel;
-            kernel.BindPublishServicesFromCallingAssembly(syntax => syntax.InTransientScope());
+            
             //generic services binding
 //            Bind<GenericServiceFactoryInterface>()
 //                .To<DefaultGenericServiceFactory>()

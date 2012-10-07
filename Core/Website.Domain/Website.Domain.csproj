@@ -118,6 +118,7 @@
     <Compile Include="Claims\ClaimableInterface.cs" />
     <Compile Include="Claims\ClaimInterface.cs" />
     <Compile Include="Claims\Query\QueryLikesInterface.cs" />
+    <Compile Include="Location\AddressInterface.cs" />
     <Compile Include="Location\BoundingBox.cs" />
     <Compile Include="Location\Location.cs" />
     <Compile Include="Location\Locations.cs" />

@@ -12,7 +12,6 @@ using Ninject.Syntax;
 using Website.Infrastructure.Command;
 using Website.Infrastructure.Publish;
 using Website.Infrastructure.Query;
-using Website.Infrastructure.Service;
 
 namespace Website.Infrastructure.Binding
 {

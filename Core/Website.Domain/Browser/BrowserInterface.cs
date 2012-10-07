@@ -41,6 +41,11 @@ namespace Website.Domain.Browser
         {
             return roles.Any(role => browser.Roles.Contains(role));
         }
+
+        public static string GetNameString(this BrowserInterface browser)
+        {
+            return browser.FirstName + " " + browser.Surname;
+        }
     }
 
     public interface BrowserInterface : EntityInterface, ContactDetailsInterface

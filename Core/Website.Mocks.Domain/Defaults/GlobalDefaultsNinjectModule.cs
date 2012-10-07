@@ -54,7 +54,10 @@ namespace Website.Mocks.Domain.Defaults
                 new Browser(GlobalDefaultsNinjectModule.DefaultBrowserId)
                 {
                     Handle = "Ricky Audsley",
-                    EmailAddress = "ricky@gmail.com",
+                    EmailAddress = "rickyaudlsey@gmail.com",
+                    FirstName = "Ricky",
+                    Surname = "Audsley",
+                    PhoneNumber = "0411111111",
                     Roles = new Roles{Role.Participant.ToString()},
                     SavedLocations = new Locations(),
                     ExternalCredentials = new HashSet<BrowserIdentityProviderCredential>()

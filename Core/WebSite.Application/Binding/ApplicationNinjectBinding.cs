@@ -2,8 +2,8 @@
 using System.Diagnostics;
 using Ninject;
 using Ninject.Modules;
+using Website.Application.ApplicationCommunication;
 using Website.Application.Command;
-using Website.Application.Communication;
 using Website.Application.Publish;
 using Website.Application.WebsiteInformation;
 using Website.Infrastructure.Publish;

@@ -50,7 +50,7 @@ namespace Website.Mocks.Domain.Data
             return retrievedBrowser;
         }
 
-        public static BrowserInterface StoreOne(BrowserInterface browser, BrowserRepositoryInterface repository, StandardKernel kernel)
+        public static BrowserInterface StoreOne(BrowserInterface browser, GenericRepositoryInterface repository, StandardKernel kernel)
         {
             var uow = kernel.Get<UnitOfWorkFactoryInterface>()
                 .GetUnitOfWork(new List<RepositoryInterface>() {repository});

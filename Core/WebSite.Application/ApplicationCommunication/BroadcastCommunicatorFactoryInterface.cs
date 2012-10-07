@@ -1,6 +1,4 @@
-using System.Collections.Generic;
-
-namespace Website.Application.Communication
+namespace Website.Application.ApplicationCommunication
 {
     public interface BroadcastCommunicatorFactoryInterface
     {

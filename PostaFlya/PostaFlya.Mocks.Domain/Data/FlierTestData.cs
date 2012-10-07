@@ -256,7 +256,7 @@ namespace PostaFlya.Mocks.Domain.Data
         }
 
 
-        internal static Flier StoreOne(Flier flier, FlierRepositoryInterface repository, StandardKernel kernel)
+        internal static Flier StoreOne(Flier flier, GenericRepositoryInterface repository, StandardKernel kernel)
         {
             var uow = kernel.Get<UnitOfWorkFactoryInterface>()
                 .GetUnitOfWork(new List<RepositoryInterface>() {repository});

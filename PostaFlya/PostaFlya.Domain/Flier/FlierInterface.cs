@@ -49,6 +49,13 @@ namespace PostaFlya.Domain.Flier
         {
             return flier.UseBrowserContactDetails || flier.ContactDetails != null;
         }
+
+        public static ContactDetailsInterface GetContactDetailsForFlier(this FlierInterface flier, BrowserInterface browser)
+        {
+            return flier.UseBrowserContactDetails ? 
+                browser as ContactDetailsInterface : 
+                flier.ContactDetails;
+        }
     }
     public interface FlierInterface : 
         EntityInterface, 
