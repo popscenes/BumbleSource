@@ -4,7 +4,7 @@
 <div class="ls-holder">
   
    <div data-bind="click: toggleShowMain, visible:!displayInline()" class="Button" id="btn-location">Location</div>
-   <input id="locationSearch" type="text" data-bind="value:description"/>
+   <input type="text" data-bind="value:description, attr:{id:locSearchId}"/>
 
     <div id="lsMain" data-bind="visible: showMain">
         <div data-bind="attr:{id:mapElementId}" class="map" style="width: 70%; height: 450px;"></div>

@@ -53,6 +53,8 @@
 
 <script type="text/html" id="Images-template">
     <form id="flierForm" class="form" data-bind="validate: true">
+        <h2>Add images to your flier</h2>
+
     <ul class="flier-images" data-bind="foreach:ImageList">
         <li>
             <img data-bind="attr:{src: ImageUrl}"/>
@@ -61,7 +63,7 @@
 
     <fieldset>
         <legend>Add images to your flier</legend>
-        <h2>Add images to your flier</h2>
+        
         <ol>
             <li data-bind="with:imageSelector">
                 @Html.Partial("Image/ImageSelector")

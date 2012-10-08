@@ -8,7 +8,8 @@
 
         self.LocationSelector = new bf.LocationSelector({
             displayInline: true,
-            mapElementId: 'creatre-flier-map'
+            mapElementId: 'creatre-flier-map',
+            locSearchId: 'creatre-flier-loc'
         });
 
 

@@ -8,13 +8,15 @@
 
         var defaults = {
             displayInline: false,
-            mapElementId: 'map'
+            mapElementId: 'map',
+            locSearchId: 'locationSearch'
         };
 
         var options = $.extend(defaults, options);
 
         self.displayInline = ko.observable(options.displayInline);
         self.mapElementId = ko.observable(options.mapElementId);
+        self.locSearchId = ko.observable(options.locSearchId);
 
         self.description = ko.observable('');
         self.longitude = ko.observable(-300);
@@ -60,7 +62,7 @@
                 }
             });
 
-            LocationSearchAutoComplete($("#locationSearch"), $('#' + self.mapElementId()), self.currentLocation);
+            LocationSearchAutoComplete($("#" + self.locSearchId()), $('#' + self.mapElementId()), self.currentLocation);
         };
 
         self.SaveCurrentLocation = function () {
