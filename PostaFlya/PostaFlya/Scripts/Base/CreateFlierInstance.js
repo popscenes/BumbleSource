@@ -32,6 +32,7 @@
         };
 
         self.InitialiseFlier = function (flier) {
+
             var editFlier = new bf.CreateEditFlier(flier, self.LocationSelector, self.ImageSelector, self.TagsSelector, self.FlierFormClose);
             self.CreateFlier(editFlier);
 
@@ -39,6 +40,10 @@
             self.ImageSelector.selectedImageId(editFlier.FlierImageId());
             self.LocationSelector.currentLocation(ko.mapping.toJS(editFlier.Location));
             self.TagsSelector.LoadTags();
+
+            if (flier.Location.Longitude == 0 && flier.Location.Latitude == 0) {
+                self.LocationSelector.searchFromDescription(flier.Location.Description);
+            }
         };
 
 

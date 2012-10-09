@@ -78,7 +78,7 @@ namespace PostaFlya.Controllers
                 Title = createModel.Title.SafeText(),
                 Description = createModel.Description.SafeText(),
                 Location = createModel.Location.ToDomainModel(),
-                Image = createModel.FlierImageId,
+                Image = new Guid(createModel.FlierImageId),
                 FlierBehaviour = createModel.FlierBehaviour,
                 //WebSiteTags = _websiteInfoService.GetWebsiteTags(Request.RequestUri.Host),
                 EffectiveDate = createModel.EffectiveDate,
@@ -102,7 +102,7 @@ namespace PostaFlya.Controllers
                 Title = editModel.Title.SafeText(),
                 Description = editModel.Description.SafeText(),
                 Location = editModel.Location.ToDomainModel(),
-                Image = editModel.FlierImageId,
+                Image = new Guid(editModel.FlierImageId),
                 EffectiveDate = editModel.EffectiveDate,
                 ImageList = editModel.ImageList.Select(_ => new FlierImage(_.ImageId)).ToList()
 

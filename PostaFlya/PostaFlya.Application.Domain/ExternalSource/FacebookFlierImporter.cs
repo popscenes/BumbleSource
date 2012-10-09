@@ -78,13 +78,15 @@ namespace PostaFlya.Application.Domain.ExternalSource
                 Location = new Website.Domain.Location.Location()
                 {
                     Description = fbEvent.location,
-                    Latitude = fbEvent.venue.latitude,
-                    Longitude = fbEvent.venue.longitude,
+                    Latitude = fbEvent.venue.latitude == 0 ? -300 : fbEvent.venue.latitude,
+                    Longitude = fbEvent.venue.longitude == 0 ? -300 : fbEvent.venue.longitude,
                 },
                 Title = fbEvent.name,
                 Description = fbEvent.description,
                 Image = imageId,
                 Id = ""
+
+                
             };
         }
 

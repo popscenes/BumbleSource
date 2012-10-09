@@ -29,7 +29,7 @@ namespace PostaFlya.Controllers
             return View("CreateEdit", new FlierCreateModel()
                                           {
                                               FlierBehaviour = id,
-                                              FlierImageId = image
+                                              FlierImageId = image.HasValue ? image.Value.ToString() : ""
                                           });
         }
 

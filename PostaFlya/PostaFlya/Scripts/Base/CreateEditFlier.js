@@ -96,7 +96,7 @@
             $.ajax(self.apiUrl, {
                 data: ko.toJSON({ Id: self.Id, Title: self.Title, Description: self.Description,
                     Location: self.locationSelector.currentLocation(), TagsString: tagString,
-                    FlierImageId: self.FlierImageId, FlierBehaviour: 0, EffectiveDate: self.EffectiveDate, ImageList: self.ImageList
+                    FlierImageId: self.FlierImageId(), FlierBehaviour: 0, EffectiveDate: self.EffectiveDate, ImageList: self.ImageList
                 }),
                 type: "put", contentType: "application/json",
                 success: function (result) {
