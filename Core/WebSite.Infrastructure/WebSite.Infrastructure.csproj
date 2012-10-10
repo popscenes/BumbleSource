@@ -160,6 +160,7 @@
     <Compile Include="Command\RepositoryInterface.cs" />
     <Compile Include="Command\UnitOfWorkFactory.cs" />
     <Compile Include="Command\UnitOfWorkFactoryInterface.cs" />
+    <Compile Include="Configuration\ConfigurationServiceInterface.cs" />
     <Compile Include="Domain\AggregateMemberEntityAttribute.cs" />
     <Compile Include="Domain\EntityBase.cs" />
     <Compile Include="Domain\EntityInterface.cs" />
@@ -202,9 +203,7 @@
   <ItemGroup>
     <Content Include="App_Readme\Elmah.txt" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Service\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

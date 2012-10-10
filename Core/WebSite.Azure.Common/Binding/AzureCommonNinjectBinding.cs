@@ -11,21 +11,26 @@ using Ninject;
 using Ninject.Modules;
 using Website.Azure.Common.Environment;
 using Website.Azure.Common.TableStorage;
+using Website.Infrastructure.Configuration;
 
 namespace Website.Azure.Common.Binding
 {
     public class AzureCommonNinjectBinding : NinjectModule
     {
+
         public override void Load()
         {
             Trace.TraceInformation("Binding AzureCommonNinjectBinding");
 
+            Bind<ConfigurationServiceInterface>()
+                .To<AzureConfigurationService>()
+                .InSingletonScope();
+            Config.Instance = Kernel.Get<ConfigurationServiceInterface>();
+
             //don't know where to put this, but can just go here for now
-            if (RoleEnvironment.IsAvailable)//in the cloud (dev or real)
-            {
-                CloudStorageAccount.SetConfigurationSettingPublisher((configName, configSetter) =>
-                configSetter(RoleEnvironment.GetConfigurationSettingValue(configName)));
-            }
+            CloudStorageAccount.SetConfigurationSettingPublisher((configName, configSetter) =>
+            configSetter(Config.Instance.GetSetting(configName)));
+            
 
 
             Bind<CloudStorageAccount>()

@@ -97,6 +97,7 @@
     <Compile Include="Classes\TestCommandQueueFactory.cs" />
     <Compile Include="ApplicationCommunication\BroadcastCommunicatorTests.cs" />
     <Compile Include="Content\ExifImageTests.cs" />
+    <Compile Include="Email\QueuedSendEmailServiceTests.cs" />
     <Compile Include="Extension\Validation\ValidationAdaptersTests.cs" />
     <Compile Include="Intergrations\FacebookIntergrationTests.cs" />
     <Compile Include="Properties\Resources.Designer.cs">

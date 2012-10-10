@@ -63,6 +63,8 @@ namespace Website.Application.Command
         {
             public string Id { get; set; }
             public QueueMessageInterface Message { get; set; }
+            public QueuedCommandResult Result { get; set; }
+            public dynamic Command { get; set; }
         }
 
         private bool CheckForMessage()
@@ -95,6 +97,9 @@ namespace Website.Application.Command
                     Task<WorkInProgress> wipTask;
                     if (!_tasks.TryRemove(wip.Key, out wipTask)) continue;
                     if (wipTask.IsCanceled || wipTask.IsFaulted) continue;
+                    if (wipTask.Result.Result == QueuedCommandResult.Retry) continue;
+
+                    _commandSerializer.ReleaseCommand(wipTask.Result.Command);
                     _messageQueue.DeleteMessage(wipTask.Result.Message);
                     _messageCount++;
                 }
@@ -114,10 +119,12 @@ namespace Website.Application.Command
                 return null;
 
             dynamic command = _commandSerializer.FromByteArray<CommandInterface>(work.Message.Bytes);
+            work.Command = command;
 
             if(command == null)
             {
                 Trace.TraceInformation("QueuedCommandScheduler TaskProc couldn't de-serialize message");
+                work.Result = QueuedCommandResult.Error;
                 return work;
             }
 
@@ -125,14 +132,22 @@ namespace Website.Application.Command
             {
                 var handler = _handlerRespository.FindHandler(command);
                 if(handler != null)
-                    handler.Handle(command);
+                {
+                    var ret = handler.Handle(command);
+                    if(ret is QueuedCommandResult)
+                        work.Result = ret;
+                    else
+                        work.Result = QueuedCommandResult.Successful;
+                }
+                    
             }
             catch (Exception e)
             {
                 Trace.TraceError("QueuedCommandScheduler TaskProc Error: %s, Stack %s", e.Message, e.StackTrace);
-            }
+                work.Result = QueuedCommandResult.Error;
 
-            _commandSerializer.ReleaseCommand(command);
+            }
+    
             return work;
         }
     }

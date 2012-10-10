@@ -16,6 +16,7 @@ using System.Xml.Linq;
 using Microsoft.SqlServer.Types;
 using Microsoft.WindowsAzure.ServiceRuntime;
 using Website.Azure.Common.Properties;
+using Website.Infrastructure.Configuration;
 using Website.Infrastructure.Util;
 
 namespace Website.Azure.Common.Sql
@@ -138,11 +139,7 @@ namespace Website.Azure.Common.Sql
                     return _federationDisabled.Value;
 
                 bool ret;
-                bool.TryParse(
-                (RoleEnvironment.IsAvailable)
-                                       ? RoleEnvironment.GetConfigurationSettingValue("DisableFederation")
-                                       : ConfigurationManager.AppSettings["DisableFederation"],
-                
+                bool.TryParse(Config.Instance.GetSetting("DisableFederation"), 
                 out ret);
                 _federationDisabled = ret;
                 return ret;
@@ -150,9 +147,7 @@ namespace Website.Azure.Common.Sql
         }
         public static string GetConnectionStringFromConfig(string settingName, string dbName = null)
         {
-            var connectionString = (RoleEnvironment.IsAvailable)
-                                       ? RoleEnvironment.GetConfigurationSettingValue(settingName)
-                                       : ConfigurationManager.AppSettings[settingName];
+            var connectionString = Config.Instance.GetSetting(settingName);
 
             if (String.IsNullOrWhiteSpace(dbName))
                 return connectionString;
