@@ -21,5 +21,7 @@ namespace PostaFlya.Domain.Flier.Command
         public List<FlierImage> ImageList { get; set; }
         public bool AttachContactDetails { get; set; }
         public bool UseBrowserContactDetails { get; set; }
+        public string ExternalSource { get; set; }
+        public string ExternalId { get; set; }
     }
 }

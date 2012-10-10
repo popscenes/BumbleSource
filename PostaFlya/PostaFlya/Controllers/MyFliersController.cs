@@ -78,13 +78,15 @@ namespace PostaFlya.Controllers
                 Title = createModel.Title.SafeText(),
                 Description = createModel.Description.SafeText(),
                 Location = createModel.Location.ToDomainModel(),
-                Image = createModel.FlierImageId,
+                Image = new Guid(createModel.FlierImageId),
                 FlierBehaviour = createModel.FlierBehaviour,
                 //WebSiteTags = _websiteInfoService.GetWebsiteTags(Request.RequestUri.Host),
                 EffectiveDate = createModel.EffectiveDate,
                 ImageList = createModel.ImageList.Select(_ => new FlierImage(_.ImageId)).ToList(),
                 AttachContactDetails = createModel.AttachContactDetails,
-                UseBrowserContactDetails = createModel.AttachContactDetails//only supporting browser contact dets atm
+                UseBrowserContactDetails = createModel.AttachContactDetails,//only supporting browser contact dets atm
+                ExternalSource = createModel.ExternalSource,
+                ExternalId = createModel.ExternalId
                 //TODO add new details, and validate details both browser and new. Allow updating of browser details
             };
 
@@ -102,7 +104,7 @@ namespace PostaFlya.Controllers
                 Title = editModel.Title.SafeText(),
                 Description = editModel.Description.SafeText(),
                 Location = editModel.Location.ToDomainModel(),
-                Image = editModel.FlierImageId,
+                Image = new Guid(editModel.FlierImageId),
                 EffectiveDate = editModel.EffectiveDate,
                 ImageList = editModel.ImageList.Select(_ => new FlierImage(_.ImageId)).ToList()
 

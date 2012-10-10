@@ -60,9 +60,21 @@
                 if (!self.ValidLocation()) {
                     self.SetCurrentlocationFromGeoCode();
                 }
+                //self.searchFromDescription(self.description());
             });
 
             LocationSearchAutoComplete($("#" + self.locSearchId()), $('#' + self.mapElementId()), self.currentLocation);
+        };
+
+        self.searchFromDescription = function (description) {
+            $('#' + self.mapElementId()).gmap('search', { 'address': description },
+            function (results, status) {
+                if (status === 'OK') {
+                    response($.map(results, function (item) {
+                        self.currentLocation({ Description: item.formatted_address, Longitude: item.geometry.location.lng(), Latitude: item.geometry.location.lat() });
+                    }));
+                }
+            });
         };
 
         self.SaveCurrentLocation = function () {
