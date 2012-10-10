@@ -19,6 +19,7 @@
         self.locSearchId = ko.observable(options.locSearchId);
 
         self.description = ko.observable('');
+        self.errorMessage = ko.observable('Please enter your current location');
         self.longitude = ko.observable(-300);
         self.latitude = ko.observable(-300);
         self.locationType = ko.observable('current');
@@ -56,11 +57,9 @@
 
         self.ShowMap = function () {
             $('#' + self.mapElementId()).gmap().bind('init', function (ev, map) {
-                // $('#map').autocomplete($("#locationSearch")[0]);
                 if (!self.ValidLocation()) {
                     self.SetCurrentlocationFromGeoCode();
                 }
-                //self.searchFromDescription(self.description());
             });
 
             LocationSearchAutoComplete($("#" + self.locSearchId()), $('#' + self.mapElementId()), self.currentLocation);

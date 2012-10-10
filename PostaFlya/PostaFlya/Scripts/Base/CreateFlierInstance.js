@@ -41,8 +41,8 @@
             self.LocationSelector.currentLocation(ko.mapping.toJS(editFlier.Location));
             self.TagsSelector.LoadTags();
 
-            if (flier.Location.Longitude == 0 && flier.Location.Latitude == 0) {
-                self.LocationSelector.searchFromDescription(flier.Location.Description);
+            if (!self.LocationSelector.ValidLocation() && editFlier.Location.Description() != "") {
+                self.LocationSelector.errorMessage("Couldn't find " + editFlier.Location.Description() + " please search for location.");
             }
         };
 
