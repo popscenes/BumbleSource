@@ -19,7 +19,7 @@
         self.locSearchId = ko.observable(options.locSearchId);
 
         self.description = ko.observable('');
-        self.errorMessage = ko.observable('Please enter your current location');
+        self.errorMessage = ko.observable(null);
         self.longitude = ko.observable(-300);
         self.latitude = ko.observable(-300);
         self.locationType = ko.observable('current');

@@ -69,7 +69,7 @@ namespace PostaFlya.Controllers
             if(!flierImporter.CanImport(browser))
             {
                 return RedirectToAction("RequestToken", "Account",
-                                        new { providerIdentifier = providerName, callbackAction = "Import", callbackController = "FlierImportController" });
+                                        new { providerIdentifier = providerName, callbackAction = "Import", callbackController = "FlierImport" });
             }
 
             var importedFliers = flierImporter.ImportFliers(browser);

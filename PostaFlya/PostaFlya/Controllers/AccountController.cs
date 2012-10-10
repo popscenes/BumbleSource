@@ -240,7 +240,7 @@ namespace PostaFlya.Controllers
 
             _commandBus.Send(command);
 
-            return RedirectToAction(callbackAction, callbackController);
+            return RedirectToAction(callbackAction, callbackController, new { providerName = providerIdentifier });
         }
     }
 }
