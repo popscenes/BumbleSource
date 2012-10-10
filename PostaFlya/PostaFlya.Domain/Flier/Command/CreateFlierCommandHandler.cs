@@ -32,7 +32,9 @@ namespace PostaFlya.Domain.Flier.Command
                                    FlierBehaviour = command.FlierBehaviour,
                                    EffectiveDate = command.EffectiveDate == default(System.DateTime) ? DateTime.UtcNow : command.EffectiveDate,
                                    ImageList = command.ImageList,
-                                   UseBrowserContactDetails = command.AttachContactDetails && command.UseBrowserContactDetails 
+                                   UseBrowserContactDetails = command.AttachContactDetails && command.UseBrowserContactDetails,
+                                   ExternalSource = command.ExternalSource,
+                                   ExternalId = command.ExternalId
                                };
 
             if(newFlier.FlierBehaviour == FlierBehaviour.Default)

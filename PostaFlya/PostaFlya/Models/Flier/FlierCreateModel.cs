@@ -31,7 +31,9 @@ namespace PostaFlya.Models.Flier
                            TagsString = flier.Tags.ToString(),
                            FlierImageId = flier.Image.HasValue? flier.Image.Value.ToString(): "",
                            FlierBehaviour = flier.FlierBehaviour,
-                           ImageList = flier.ImageList.Select(_ => new ImageViewModel(){ImageId = _.ImageID}).ToList()
+                           ImageList = flier.ImageList.Select(_ => new ImageViewModel(){ImageId = _.ImageID}).ToList(),
+                           ExternalSource = flier.ExternalSource,
+                           ExternalId = flier.ExternalId
                        };
         }
 
@@ -106,6 +108,12 @@ namespace PostaFlya.Models.Flier
         [DisplayName("AttachContactDetails")]
         [DataMember]
         public bool AttachContactDetails { get; set; }
+
+        [DataMember]
+        public String ExternalSource { get; set; }
+
+        [DataMember]
+        public String ExternalId { get; set; }
        
         public static FlierCreateModel DefaultForTemplate()
         {
