@@ -32,6 +32,11 @@ namespace Website.Application.Extension.Validation
         {
             get { return "{0} can contain only letters, digits and underscores"; }
         }
+
+        public static string InvalidGuid
+        {
+            get { return "{0} is an invalid id"; } 
+        }
     }
 
     public class EmailAddressWithMessage : EmailAttribute//can prolly replace WHEN .NET4.5
@@ -109,6 +114,41 @@ namespace Website.Application.Extension.Validation
             var input = value as string;
             if (input != null)
                 return _regex.Match(input).Length > 0;
+            return false;
+        }
+    }
+
+    public class ConvertableToGuidAttributeWithMessage : ConvertableToGuidAttribute
+    {
+        public ConvertableToGuidAttributeWithMessage()
+        {
+            ErrorMessageResourceType = typeof(ErrorStrings);
+            ErrorMessageResourceName = "InvalidGuid";
+        }
+    }
+
+    [AttributeUsage(AttributeTargets.Property, AllowMultiple = false)]
+    public class ConvertableToGuidAttribute : DataTypeAttribute
+    {
+        public ConvertableToGuidAttribute()
+            : base(DataType.Text)
+        {
+        }
+
+        public override bool IsValid(object value)
+        {
+            if (value == null)
+                return true;
+
+            if (value is Guid)
+                return true;
+            
+            var input = value as string;
+            if (input != null)
+            {
+                Guid output;
+                return Guid.TryParse(input, out output);
+            }
             return false;
         }
     }

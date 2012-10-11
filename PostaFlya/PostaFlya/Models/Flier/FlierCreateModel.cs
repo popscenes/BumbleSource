@@ -83,6 +83,7 @@ namespace PostaFlya.Models.Flier
         public string TagsString { get; set; }
 
         [RequiredWithMessage]
+        [ConvertableToGuidAttributeWithMessage]
         [DisplayName("FlierImage")]
         [DataMember]
         public String FlierImageId { get; set; }
