@@ -86,8 +86,7 @@
     <Compile Include="Browser\Publish\PublishServiceBrowserSubscriptionInterface.cs" />
     <Compile Include="Browser\Query\BrowserQueryServiceInterface.cs" />
     <Compile Include="Browser\Query\BrowserQueryServiceUtil.cs" />
-    <Compile Include="Browser\Query\QueryByBrowserInterface.cs" />
-    <Compile Include="Browser\Query\QueryServiceWithBrowserInterface.cs" />
+    <Compile Include="Browser\Query\QueryServiceForBrowserAggregateInterface.cs" />
     <Compile Include="Browser\Role.cs" />
     <Compile Include="Browser\Roles.cs" />
     <Compile Include="Comments\Command\AddCommentInterface.cs" />

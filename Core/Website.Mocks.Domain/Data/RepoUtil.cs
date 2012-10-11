@@ -144,7 +144,7 @@ namespace Website.Mocks.Domain.Data
 //            kernel.Rebind<GenericQueryServiceInterface>()
 //                .ToConstant(queryServiceGeneric.Object);
 
-            Func<string, int, IQueryable<EntityType>> findById =
+            Func<string, int, IQueryable<string>> findById =
                 (id, take) =>
                     {
                         var list = store.Where(f => f.AggregateId == id)
@@ -157,12 +157,12 @@ namespace Website.Mocks.Domain.Data
                                     }).AsQueryable();
                         if (take > 0)
                             list = list.Take(take);
-                        return list;
+                        return list.Select(e => e.Id);
                     };
 
-            queryService.Setup(m => m.FindAggregateEntities<EntityType>(It.IsAny<string>(), It.IsAny<int>()))
+            queryService.Setup(m => m.FindAggregateEntityIds<EntityType>(It.IsAny<string>(), It.IsAny<int>()))
                 .Returns<string, int>(findById);
-            queryServiceGeneric.Setup(m => m.FindAggregateEntities<EntityType>(It.IsAny<string>(), It.IsAny<int>()))
+            queryServiceGeneric.Setup(m => m.FindAggregateEntityIds<EntityType>(It.IsAny<string>(), It.IsAny<int>()))
                 .Returns<string, int>(findById);
 
             return queryService;
@@ -173,13 +173,13 @@ namespace Website.Mocks.Domain.Data
             HashSet<EntityInterfaceType> store
             , MoqMockingKernel kernel
             , Action<EntityInterfaceType, EntityInterfaceType> copyFields)
-            where QsType : class, QueryByBrowserInterface where EntityType : class, EntityInterfaceType, new()
-            where EntityInterfaceType : class, BrowserIdInterface
+            where QsType : class, QueryServiceForBrowserAggregateInterface where EntityType : class, EntityInterfaceType, new()
+            where EntityInterfaceType : class, BrowserIdInterface, EntityInterface
         {
 //            kernel.Bind<QueryByBrowserInterface>()
 //                .ToConstant(queryService.Object);
 
-            queryService.Setup(o => o.GetByBrowserId<EntityType>(It.IsAny<string>()))
+            queryService.Setup(o => o.GetEntityIdsByBrowserId<EntityType>(It.IsAny<string>()))
             .Returns<String>(id =>
                 store.Where(f => f.BrowserId == id)
                 .Select(f =>
@@ -187,7 +187,7 @@ namespace Website.Mocks.Domain.Data
                     var fli = new EntityType();
                     copyFields(fli, f);
                     return fli;
-                })
+                }).Select(e => e.Id)
                 .AsQueryable());
             return queryService;
         }

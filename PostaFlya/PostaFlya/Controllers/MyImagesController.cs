@@ -8,6 +8,7 @@ using System.Collections;
 using PostaFlya.Helpers;
 using PostaFlya.Models.Content;
 using Website.Application.Content;
+using Website.Domain.Browser.Query;
 using Website.Domain.Content;
 using Website.Domain.Content.Query;
 

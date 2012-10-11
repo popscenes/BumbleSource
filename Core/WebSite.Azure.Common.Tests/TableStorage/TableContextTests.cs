@@ -84,6 +84,25 @@ namespace Website.Azure.Common.Tests.TableStorage
                             return ret;
                         });
 
+            mockTableContext.Setup(
+                    tc =>
+                    tc.PerformSelectQuery(It.IsAny<string>(), It.IsAny<Expression<Func<TableEntryType, bool>>>()
+                    , It.IsAny<Expression<Func<TableEntryType, StorageTableKey>>>()
+                    , It.IsAny<int>(), It.IsAny<int>()))
+                    .Returns<string, Expression<Func<TableEntryType, bool>>
+                    , Expression<Func<TableEntryType, StorageTableKey>> 
+                    ,int, int>(
+                        (table, query, select, partition, take) =>
+                        {
+                            ensureTable(table);
+                            var ret = mockStore[table].AsQueryable();
+                            if (query != null)
+                                ret = ret.Where(query);
+                            if (take >= 0)
+                                ret = ret.Take(take);
+                            return ret.Select(select);
+                        });
+
             mockTableContext.Setup(tc => tc.Store(It.IsAny<string>(), It.IsAny<StorageTableEntryInterface>()))
                 .Callback<string, StorageTableEntryInterface>((table, entry) =>
                                                                   {

@@ -32,16 +32,13 @@ namespace Website.Application.Domain.Binding
                       {
                           typeof(GenericQueryServiceInterface),
                           typeof(GenericRepositoryInterface),
-                          typeof(QueryServiceWithBrowserInterface),
-                          typeof(QueryByBrowserInterface)
+                          typeof(QueryServiceForBrowserAggregateInterface)
                       });
             _repositoryConfiguration(kernel.Bind(typeof(GenericQueryServiceInterface))
                 .To(typeof(TimedExpiryCachedQueryService)));
             _repositoryConfiguration(kernel.Bind(typeof(GenericRepositoryInterface))
                 .To(typeof(CachedRepositoryBase)));
-            _repositoryConfiguration(kernel.Bind(typeof(QueryServiceWithBrowserInterface))
-                .To(typeof(CachedQueryServiceWithBrowser)));
-            _repositoryConfiguration(kernel.Bind(typeof(QueryByBrowserInterface))
+            _repositoryConfiguration(kernel.Bind(typeof(QueryServiceForBrowserAggregateInterface))
                 .To(typeof(CachedQueryServiceWithBrowser)));
 
             

@@ -111,6 +111,7 @@
     <Compile Include="TableStorage\StorageAggregate.cs" />
     <Compile Include="TableStorage\StorageTableEntryInterface.cs" />
     <Compile Include="TableStorage\ClonedTableEntry.cs" />
+    <Compile Include="TableStorage\StorageTableKey.cs" />
     <Compile Include="TableStorage\TableContext.cs" />
     <Compile Include="TableStorage\TableNameAndPartitionProviderService.cs" />
     <Compile Include="TableStorage\TableNameAndPartitionProviderServiceInterface.cs" />

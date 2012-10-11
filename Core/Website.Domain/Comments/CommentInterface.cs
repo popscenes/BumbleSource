@@ -14,6 +14,13 @@ namespace Website.Domain.Comments
             target.BrowserId = source.BrowserId;
             target.CommentTime = source.CommentTime;
         }
+
+        //var dattimedesc = (DateTime.MaxValue.Ticks - DateTime.UtcNow.Ticks).ToString("D20");
+        //var dattimeasc = (DateTime.UtcNow.Ticks).ToString("D20");
+        public static void SetId(this CommentInterface target)
+        {
+            target.Id = target.CommentTime.Ticks.ToString("D20") + Guid.NewGuid();
+        }
     }
 
     public interface CommentInterface : EntityInterface, BrowserIdInterface, AggregateInterface

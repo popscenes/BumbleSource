@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using System.Linq.Expressions;
 using Website.Infrastructure.Domain;
 using Website.Infrastructure.Query;
 
@@ -13,6 +14,7 @@ namespace Website.Azure.Common.TableStorage
         protected readonly TableNameAndPartitionProviderServiceInterface NameAndPartitionProviderService;
         public const int IdPartition = 0;
         public const int AggregateIdPartition = 10;
+
 
         public QueryServiceBase(TableContextInterface tableContext, TableNameAndPartitionProviderServiceInterface nameAndPartitionProviderService)
         {
@@ -45,11 +47,36 @@ namespace Website.Azure.Common.TableStorage
             return FindEntitiesByPartition<EntityRetType>(myAggregateRootId, AggregateIdPartition, take);
         }
 
+        public IQueryable<string> FindAggregateEntityIds<EntityType>(string myAggregateRootId, int take = -1)
+            where EntityType : class, AggregateInterface, new()
+        {
+            return FindEntityIdsByPartition<EntityType>(myAggregateRootId, AggregateIdPartition, take);
+        }
+
         public IQueryable<EntityRetType> FindEntitiesByPartition<EntityRetType>(string partitionKey, int partitionId, int take = -1)
             where EntityRetType : class, new()
         {
             return GetTableEntries<EntityRetType>(partitionKey, partitionId, take)
                 .Select(te => te.GetEntity<EntityRetType>());
+        }
+
+        public IQueryable<string> FindEntityIdsByPartition<EntityType>(string partitionKey, int partitionId, int take = -1)
+            where EntityType : class, new()
+        {
+            return GetSelectTableEntries<EntityType, StorageTableKey>(partitionKey, 
+                e => new StorageTableKey(){PartitionKey = e.PartitionKey, RowKey = e.RowKey},
+                partitionId, take)
+                .Select(te => te.RowKey);
+        }
+
+
+        protected IQueryable<SelectType> GetSelectTableEntries<EntityRetType, SelectType>(string id
+            , Expression<Func<TableEntryType, SelectType>> selectExpression
+            , int idPartition = 0, int take = -1)
+        {
+            var tableName = NameAndPartitionProviderService.GetTableName<EntityRetType>(IdPartition);
+            return TableContext.PerformSelectQuery(
+                tableName, te => te.PartitionKey == id, selectExpression, idPartition, take);
         }
 
         protected TableEntryType GetTableEntry<EntityRetType>(string id, int idPartition = 0)

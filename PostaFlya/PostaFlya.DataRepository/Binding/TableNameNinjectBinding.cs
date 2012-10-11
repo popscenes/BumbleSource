@@ -47,8 +47,8 @@ namespace PostaFlya.DataRepository.Binding
             tableNameProv.Add<ClaimInterface>(JsonRepositoryWithBrowser.BrowserPartitionId, "claim", e => e.BrowserId, e => e.Id);
             tableNameProv.Add<ClaimInterface>(JsonRepositoryWithBrowser.AggregateIdPartition, "claim", e => e.AggregateId, e => e.Id);
 
-            tableNameProv.Add<CommentInterface>(JsonRepository.IdPartition, "comment", e => e.Id, e => e.CommentTime.Ticks.ToString("D20") + e.Id);
-            tableNameProv.Add<CommentInterface>(JsonRepository.AggregateIdPartition, "comment", e => e.AggregateId, e => e.CommentTime.Ticks.ToString("D20") + e.Id);
+            tableNameProv.Add<CommentInterface>(JsonRepository.IdPartition, "comment", e => e.Id);
+            tableNameProv.Add<CommentInterface>(JsonRepository.AggregateIdPartition, "comment", e => e.AggregateId, e => e.Id);
 
             tableNameProv.Add<FlierBehaviourInterface>(JsonRepository.IdPartition, "flierbehaviour", e => e.Id);
 

@@ -8,23 +8,23 @@ using Website.Domain.Browser.Query;
 namespace Website.Application.Domain.Query
 {
     public class CachedQueryServiceWithBrowser 
-        : TimedExpiryCachedQueryService, QueryByBrowserInterface
+        : TimedExpiryCachedQueryService, QueryServiceForBrowserAggregateInterface
     {
-        private readonly QueryByBrowserInterface _queryService;
+        private readonly QueryServiceForBrowserAggregateInterface _queryService;
         public CachedQueryServiceWithBrowser(ObjectCache cacheProvider
             , string regionName
-            , QueryServiceWithBrowserInterface queryService
+            , QueryServiceForBrowserAggregateInterface queryService
             , int defaultSecondsToCache)
             : base(cacheProvider, regionName, queryService, defaultSecondsToCache)
         {
             _queryService = queryService;
         }
 
-        public IQueryable<EntityType> GetByBrowserId<EntityType>(String browserId) where EntityType : class, BrowserIdInterface, new()
+        public IQueryable<string> GetEntityIdsByBrowserId<EntityType>(String browserId) where EntityType : class, BrowserIdInterface, new()
         {
             return RetrieveCachedData(
                 GetKeyFor("forbrowser", browserId),
-                () => this._queryService.GetByBrowserId<EntityType>(browserId).ToList())
+                () => this._queryService.GetEntityIdsByBrowserId<EntityType>(browserId).ToList())
                 .AsQueryable();
         }
     }

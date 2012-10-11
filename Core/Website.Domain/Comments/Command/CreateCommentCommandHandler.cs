@@ -42,12 +42,13 @@ namespace Website.Domain.Comments.Command
 
             var comment = new Comment()
             {
-                Id = Guid.NewGuid().ToString(),
+                CommentTime = DateTime.UtcNow,
                 CommentContent = command.Comment,
                 BrowserId = command.BrowserId,
                 AggregateId = command.CommentEntity.Id,
-                CommentTime = DateTime.UtcNow,
+                
             };
+            comment.SetId();
 
             var uow = _unitOfWorkFactory.GetUnitOfWork(new List<object>() { _genericRepository });
             using (uow)

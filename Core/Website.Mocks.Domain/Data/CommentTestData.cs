@@ -86,6 +86,7 @@ namespace Website.Mocks.Domain.Data
                 comment.CommentTime = time;
                 comment.CommentContent = "Comment number " + i;
                 time = time.AddMinutes(10);
+                comment.SetId();
                 ret.Add(comment);
             }
             return ret;
@@ -101,19 +102,15 @@ namespace Website.Mocks.Domain.Data
         }
 
         public static CommentInterface GetOne(StandardKernel kernel, string entityId)
-        {
-
-//            var dattimedesc = (DateTime.MaxValue.Ticks - DateTime.UtcNow.Ticks).ToString("D20");
-//            var dattimeasc = (DateTime.UtcNow.Ticks).ToString("D20");
-            
+        {            
             var ret = new Comment
                           {
-                              Id = Guid.NewGuid().ToString(),
                               AggregateId = entityId,
                               BrowserId = Guid.NewGuid().ToString(),
                               CommentContent = "This is a comment",
                               CommentTime = DateTime.UtcNow
                           };
+            ret.SetId();
             return ret;
         }
     }

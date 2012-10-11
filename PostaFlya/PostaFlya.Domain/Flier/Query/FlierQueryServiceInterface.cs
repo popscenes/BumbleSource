@@ -6,7 +6,7 @@ using Website.Domain.Tag;
 
 namespace PostaFlya.Domain.Flier.Query
 {
-    public interface FlierQueryServiceInterface : QueryServiceWithBrowserInterface
+    public interface FlierQueryServiceInterface : QueryServiceForBrowserAggregateInterface
     {
         IList<string> FindFliersByLocationTagsAndDistance(Location location, Tags tags, int distance = 0, int take = 0, FlierSortOrder sortOrder = FlierSortOrder.CreatedDate, int skip = 0);                                                                
     }

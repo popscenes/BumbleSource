@@ -13,12 +13,14 @@ using PostaFlya.Domain.Flier;
 using PostaFlya.Domain.Flier.Command;
 using PostaFlya.Domain.Flier.Query;
 using PostaFlya.Domain.TaskJob;
+using Website.Domain.Browser.Query;
 using Website.Infrastructure.Command;
 using PostaFlya.Mocks.Domain.Data;
 using Website.Domain.Claims;
 using Website.Domain.Comments;
 using Website.Domain.Location;
 using Website.Domain.Tag;
+using Website.Infrastructure.Query;
 using Website.Mocks.Domain.Data;
 using Website.Test.Common;
 

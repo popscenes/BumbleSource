@@ -5,6 +5,7 @@ using NUnit.Framework;
 using Ninject;
 using Website.Azure.Common.Environment;
 using PostaFlya.DataRepository.Content;
+using Website.Domain.Browser.Query;
 using Website.Infrastructure.Command;
 using Website.Domain.Content;
 using Website.Domain.Content.Command;

@@ -87,14 +87,14 @@ namespace Website.Infrastructure.Caching.Query
                 () => _genericQueryService.FindById(entity, id));
         }
 
-        public IQueryable<EntityRetType> FindAggregateEntities<EntityRetType>(string aggregateRootId, int take = -1) where EntityRetType : class, 
-            AggregateInterface, new()
+        public IQueryable<string> FindAggregateEntityIds<EntityRetType>(string aggregateRootId, int take = -1)
+            where EntityRetType : class, AggregateInterface, new()
         {
             if (_genericQueryService == null)
                 return null;
             return RetrieveCachedData(
                 GetKeyFor("agg take:" + take, aggregateRootId),
-                () => _genericQueryService.FindAggregateEntities<EntityRetType>(aggregateRootId, take)
+                () => _genericQueryService.FindAggregateEntityIds<EntityRetType>(aggregateRootId, take)
                 .ToList()).AsQueryable();
         }
     }

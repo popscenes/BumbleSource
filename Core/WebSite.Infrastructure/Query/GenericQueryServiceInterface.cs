@@ -12,7 +12,18 @@ namespace Website.Infrastructure.Query
     {
         EntityRetType FindById<EntityRetType>(string id) where EntityRetType : class, new();
         object FindById(Type entity, string id);
-        IQueryable<EntityRetType> FindAggregateEntities<EntityRetType>(string aggregateRootId, int take = -1)
+        IQueryable<string> FindAggregateEntityIds<EntityRetType>(string aggregateRootId, int take = -1)
             where EntityRetType : class, AggregateInterface, new();
+    }
+
+    public static class GenericQueryServiceInterfaceExtension
+    {
+        public static IQueryable<EntityRetType> FindAggregateEntities<EntityRetType>(this GenericQueryServiceInterface queryService, 
+            string aggregateRootId, int take = -1)
+            where EntityRetType : class, AggregateInterface, new()
+        {
+            return queryService.FindAggregateEntityIds<EntityRetType>(aggregateRootId, take)
+                .Select(id => queryService.FindById<EntityRetType>(id));
+        }
     }
 }

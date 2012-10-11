@@ -13,6 +13,7 @@ using PostaFlya.Specification.Fliers;
 using PostaFlya.Specification.Util;
 using Website.Domain.Claims;
 using Website.Domain.Service;
+using Website.Infrastructure.Query;
 
 namespace PostaFlya.Specification.DynamicBulletinBoard
 {

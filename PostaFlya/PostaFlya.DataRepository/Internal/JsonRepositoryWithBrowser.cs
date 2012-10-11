@@ -10,7 +10,7 @@ using Website.Domain.Browser.Query;
 namespace PostaFlya.DataRepository.Internal
 {
     internal class JsonRepositoryWithBrowser : JsonRepository,
-        QueryServiceWithBrowserInterface
+        QueryServiceForBrowserAggregateInterface
     {
         public const int BrowserPartitionId = 1;
         public JsonRepositoryWithBrowser(TableContextInterface tableContext
@@ -20,12 +20,12 @@ namespace PostaFlya.DataRepository.Internal
         {
         }
 
-        public IQueryable<EntityType> GetByBrowserId<EntityType>(String browserId) where EntityType : class, BrowserIdInterface, new()
+        public IQueryable<string> GetEntityIdsByBrowserId<EntityType>(String browserId) where EntityType : class, BrowserIdInterface, new()
         {
             if (string.IsNullOrWhiteSpace(browserId))
                 return null;
 
-            return FindEntitiesByPartition<EntityType>(browserId, BrowserPartitionId);
+            return FindEntityIdsByPartition<EntityType>(browserId, BrowserPartitionId);
         }
 
     }

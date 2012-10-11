@@ -8,6 +8,7 @@ using NUnit.Framework;
 using Ninject;
 using Ninject.MockingKernel.Moq;
 using Website.Application.Content;
+using Website.Domain.Browser.Query;
 using Website.Infrastructure.Command;
 using Website.Test.Common;
 using Website.Application.Domain.Content;

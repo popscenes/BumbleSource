@@ -12,6 +12,7 @@ using PostaFlya.Domain.Flier.Query;
 using PostaFlya.Domain.TaskJob;
 using PostaFlya.Domain.TaskJob.Command;
 using PostaFlya.Domain.TaskJob.Query;
+using Website.Domain.Browser.Query;
 using Website.Infrastructure.Command;
 using Website.Domain.Location;
 

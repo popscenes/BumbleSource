@@ -164,7 +164,7 @@ namespace Website.Azure.Common.TableStorage
                                                                 _containedContext.CreateQuery<TableEntryType>(tableName) as
                                                                 IQueryable<TableEntryType>;
                                                             execQuery = execQuery.Where(query);
-                                                            return ExecuteQuery(execQuery.Select(selectExpression));
+                                                            return ExecuteQuery(execQuery.Select(selectExpression), take);
                                                         };
 
                 var ret = DataServicesQueryHelper.QueryRetry(exec);
@@ -244,7 +244,7 @@ namespace Website.Azure.Common.TableStorage
             
         }
 
-        private IQueryable<TableEntryType> ExecuteQuery<TableEntryType>(IQueryable<TableEntryType> query, int take = -1)
+        private static IQueryable<TableEntryType> ExecuteQuery<TableEntryType>(IQueryable<TableEntryType> query, int take = -1)
         {
             var ret = query.AsTableServiceQuery();
             if (take > 0)

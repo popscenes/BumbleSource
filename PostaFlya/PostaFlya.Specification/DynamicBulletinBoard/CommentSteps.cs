@@ -9,6 +9,7 @@ using PostaFlya.Domain.Flier.Query;
 using PostaFlya.Models.Comments;
 using PostaFlya.Specification.Util;
 using Website.Domain.Comments;
+using Website.Infrastructure.Query;
 
 namespace PostaFlya.Specification.DynamicBulletinBoard
 {

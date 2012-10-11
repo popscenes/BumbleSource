@@ -4,6 +4,7 @@ using System.Linq;
 using PostaFlya.Domain.Flier;
 using PostaFlya.Domain.Flier.Query;
 using Website.Application.Intergrations;
+using Website.Domain.Browser.Query;
 using Website.Domain.Content;
 using Website.Domain.Content.Query;
 using Website.Infrastructure.Authentication;
@@ -128,7 +129,7 @@ namespace PostaFlya.Application.Domain.ExternalSource
             var faceBookEvents = _graphApi.UserEventsGet();
 
             var existingFliers = _queryService.GetByBrowserId<PostaFlya.Domain.Flier.Flier>(browser.Id);
-            var existingEventsIds = Enumerable.ToList<string>(existingFliers.Where(_ => _.ExternalSource == IdentityProviders.FACEBOOK).Select(_ => _.ExternalId));
+            var existingEventsIds = existingFliers.Where(_ => _.ExternalSource == IdentityProviders.FACEBOOK).Select(_ => _.ExternalId).ToList();
 
             return faceBookEvents.Where(_ => !existingEventsIds.Contains(_.id)).ToList();
         }

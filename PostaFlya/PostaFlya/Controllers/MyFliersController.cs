@@ -16,6 +16,7 @@ using PostaFlya.Domain.Flier.Query;
 using PostaFlya.Domain.Service;
 using Website.Common.Extension;
 using PostaFlya.Helpers;
+using Website.Domain.Browser.Query;
 using Website.Infrastructure.Command;
 using PostaFlya.Models;
 using PostaFlya.Models.Factory;

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using NUnit.Framework;
 using Ninject;
 using Ninject.MockingKernel.Moq;
@@ -28,11 +29,11 @@ namespace Website.Azure.Common.Tests.TableStorage
 
             var tableNameAndPartitionProviderService = Kernel.Get<TableNameAndPartitionProviderServiceInterface>();
             tableNameAndPartitionProviderService.Add<OneEntity>(0, "testOneEntity", entity => entity.Id);
-            tableNameAndPartitionProviderService.Add<OneEntity>(1, "testOneEntity", entity => entity.PropTwo, entity => entity.Prop);
-            tableNameAndPartitionProviderService.Add<OneEntity>(2, "testOneEntity", entity => entity.Prop + entity.PropTwo, entity => entity.PropTwo);
+            tableNameAndPartitionProviderService.Add<OneEntity>(1, "testOneEntity", entity => entity.PropTwo, entity => entity.Id);
+            tableNameAndPartitionProviderService.Add<OneEntity>(2, "testOneEntity", entity => entity.Prop + entity.PropTwo, entity => entity.Id);
 
             tableNameAndPartitionProviderService.Add<TwoEntity>(0, "testTwoEntity", entity => entity.Id);
-            tableNameAndPartitionProviderService.Add<TwoEntity>(10, "testTwoEntity", entity => entity.PropTwo, entity => entity.Prop);//using PropTwo as aggregate partition id
+            tableNameAndPartitionProviderService.Add<TwoEntity>(10, "testTwoEntity", entity => entity.PropTwo, entity => entity.Id);//using PropTwo as aggregate partition id
 
             tableNameAndPartitionProviderService.Add<ThreeEntity>(0, "testThreeEntity", entity => entity.SomeProp.ToString(CultureInfo.InvariantCulture));
 
@@ -108,7 +109,36 @@ namespace Website.Azure.Common.Tests.TableStorage
             var ret = qs.FindAggregateEntities<TwoEntity>(aggregateId);
 
             AssertUtil.Count(2, ret);
-            CollectionAssert.AreEquivalent(one.RelatedEntities, ret);
+            CollectionAssert.AreEquivalent(one.RelatedEntities, ret); 
+        }
+
+        [Test]
+        public void QueryServiceBaseFindsRelatedEntityIds()
+        {
+            var aggregateId = Guid.NewGuid().ToString();
+            var one = new OneEntity()
+            {
+                Id = aggregateId,
+                Prop = "Ya",
+                PropTwo = "You",
+                PropThree = "My property",
+                MemberEntity = new ThreeEntity() { SomeProp = 45, MemberEntity = new TwoEntity() { Prop = "ThreeMember", PropTwo = "ThreeMemberTwo" } },
+                RelatedEntities = new List<TwoEntity>()
+                                      {
+                                          new TwoEntity() {Id = Guid.NewGuid().ToString(), Prop = "123", PropTwo = aggregateId }, 
+                                          new TwoEntity() {Id = Guid.NewGuid().ToString(), Prop = "555", PropTwo = aggregateId }
+                                      }
+            };
+
+            var repo = Kernel.Get<TestRespositoryBase<JsonTableEntry>>();
+            repo.Store(one);
+            repo.SaveChanges();
+
+            var qs = Kernel.Get<QueryServiceBase<JsonTableEntry>>();
+            var ret = qs.FindAggregateEntityIds<TwoEntity>(aggregateId);
+
+            AssertUtil.Count(2, ret);
+            CollectionAssert.AreEquivalent(one.RelatedEntities.Select(e => e.Id) , ret);
         }
     }
 }

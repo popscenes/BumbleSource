@@ -13,16 +13,15 @@ namespace Website.Azure.Common.TableStorage
 //        }
     }
 
-    public interface StorageTableEntryInterface
+    public interface StorageTableEntryInterface : StorageTableKeyInterface
     {
-        string PartitionKey { get; set; }
-        string RowKey { get; set; }
         int PartitionClone { get; set; }
         bool KeyChanged { get; set; }
         void UpdateEntry(object source);
         object GetEntity(Type entityTyp);
         
     }
+
 
     public static class StorageTableEntryInterfaceExtension
     {

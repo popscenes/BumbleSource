@@ -6,6 +6,7 @@ using System.Runtime.Caching;
 using NUnit.Framework;
 using Ninject;
 using Ninject.MockingKernel.Moq;
+using Website.Domain.Browser.Query;
 using Website.Test.Common;
 using Website.Application.Domain.Content.Command;
 using Website.Application.Domain.Content.Query;
@@ -164,7 +165,8 @@ namespace Website.Application.Domain.Tests.Content
             retrievedImages = cachedQueryService.GetByBrowserId<Image>(browserId);
             Assert.That(retrievedImages.Count(), Is.EqualTo(2));
 
-            var cacheStore = (cache.ToList().FirstOrDefault().Value as IEnumerable<ImageInterface>);
+            var cacheStore = (cache.ToList().FirstOrDefault(kv => 
+                kv.Key.Contains("forbrowser")).Value as IEnumerable<string>);
             Assert.That(cacheStore.Count(), Is.EqualTo(2));
 
             TestUtil.ClearMemoryCache(cache);

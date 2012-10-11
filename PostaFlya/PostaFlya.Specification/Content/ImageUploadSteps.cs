@@ -9,6 +9,7 @@ using Ninject;
 using TechTalk.SpecFlow;
 using Website.Application.Content;
 using PostaFlya.Controllers;
+using Website.Domain.Browser.Query;
 using Website.Infrastructure.Command;
 using PostaFlya.Models.Content;
 using PostaFlya.Models.Location;

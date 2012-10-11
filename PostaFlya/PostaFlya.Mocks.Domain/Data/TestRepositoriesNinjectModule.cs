@@ -67,6 +67,7 @@ namespace PostaFlya.Mocks.Domain.Data
 
             //Comments
             RepoUtil.SetupRepo<FlierRepositoryInterface, Comment, CommentInterface>(storeComment, kernel, CommentInterfaceExtensions.CopyFieldsFrom);
+            RepoUtil.SetupQueryService<FlierQueryServiceInterface, Comment, CommentInterface>(storeComment, kernel, CommentInterfaceExtensions.CopyFieldsFrom);
             RepoUtil.FindAggregateEntities<FlierQueryServiceInterface, Comment, CommentInterface>(storeComment, kernel,
                                                                                                   CommentInterfaceExtensions
                                                                                                       .CopyFieldsFrom);
@@ -80,6 +81,7 @@ namespace PostaFlya.Mocks.Domain.Data
 
             //claims
             RepoUtil.SetupRepo<FlierRepositoryInterface, Claim, ClaimInterface>(claimStore, kernel, ClaimInterfaceExtensions.CopyFieldsFrom);
+            RepoUtil.SetupQueryService<FlierQueryServiceInterface, Claim, ClaimInterface>(claimStore, kernel, ClaimInterfaceExtensions.CopyFieldsFrom);
             RepoUtil.FindAggregateEntities<FlierQueryServiceInterface, Claim, ClaimInterface>(claimStore, kernel,
                                                                                       ClaimInterfaceExtensions
                                                                                           .CopyFieldsFrom);

@@ -60,16 +60,13 @@ namespace PostaFlya.DataRepository.Binding
                       {
                           typeof(GenericQueryServiceInterface),
                           typeof(GenericRepositoryInterface),
-                          typeof(QueryServiceWithBrowserInterface),
-                          typeof(QueryByBrowserInterface)
+                          typeof(QueryServiceForBrowserAggregateInterface)
                       });
             _repositoryScopeConfiguration(kernel.Bind(typeof(GenericQueryServiceInterface))
                 .To(typeof(JsonRepository)));
             _repositoryScopeConfiguration(kernel.Bind(typeof(GenericRepositoryInterface))
                 .To(typeof(JsonRepository)));
-            _repositoryScopeConfiguration(kernel.Bind(typeof(QueryServiceWithBrowserInterface))
-                .To(typeof(JsonRepositoryWithBrowser)));
-            _repositoryScopeConfiguration(kernel.Bind(typeof(QueryByBrowserInterface))
+            _repositoryScopeConfiguration(kernel.Bind(typeof(QueryServiceForBrowserAggregateInterface))
                 .To(typeof(JsonRepositoryWithBrowser)));
 
 
