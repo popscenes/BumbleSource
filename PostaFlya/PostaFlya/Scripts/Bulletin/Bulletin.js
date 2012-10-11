@@ -53,6 +53,7 @@
 
         self.moreFliersPending = ko.observable(false);
         self.noMoreFliers = ko.observable(false);
+
         self.GetMoreFliers = function () {
             if (self.moreFliersPending() || self.noMoreFliers())
                 return;
@@ -78,6 +79,16 @@
 
         self.getDetailUrl = function (flier) {
             return self.SelectedViewModel.getDetailUrl(flier);
+        };
+
+        self.ToggleMap = function () {
+            self.locationSelector.toggleShowMain();
+            self.tagsSelector.ShowTags(false);
+        };
+
+        self.ShowTags = function () {
+            self.locationSelector.showMain(false);
+            self.tagsSelector.ShowTags(!self.tagsSelector.ShowTags());
         };
 
         self.Sam = Sammy('#bulletinboard');

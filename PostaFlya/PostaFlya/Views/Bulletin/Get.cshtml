@@ -13,16 +13,24 @@
 @section header {
     <div id="controls">
         <div class="page-toolbar">
-            <div class="locSel" data-bind="with:$root.locationSelector">
-                @Html.Partial("Location/LocationSelector")
+            <div class="locSel">
+                <div data-bind="click: ToggleMap" class="Button" id="btn-location">Location</div>
+                <span data-bind="with:$root.locationSelector">
+                        @Html.Partial("Location/LocationSelector")
+                </span>
             </div>
+
             <div class="distSel" data-bind="with:$root.distanceSelector">
                 @Html.Partial("Distance/DistanceSelector")
             </div>
-            <div class="tagsSel" data-bind="with:$root.tagsSelector">
-                @Html.Partial("Tags/TagsSelector")
+            
+            <div class="tagsSel" >
+                <div class="Button" id="btn-tags" data-bind="click:ShowTags">Select Tags</div>
+                <span data-bind="with:$root.tagsSelector"> 
+                    @Html.Partial("Tags/TagsSelector")
+                </span>
             </div>
-            <div class="sortSel">
+            <div class="sortSel" style="display:none;">
                 <div class="Button" id="btn-sort">Select Tags</div>
             </div>
         </div>

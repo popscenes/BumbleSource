@@ -2,8 +2,7 @@
 @Html.Partial("State/PageStateAdd", "Tags")
 
 <div data-bind="css: { displayInline: displayInline() }" class="tags-selector">
-    <div class="Button" id="btn-tags" data-bind="visible: !displayInline(), click:ShowSelectToggle">Select Tags</div> 
-    <div class="tags-box" data-bind="visible: ShowSelect">
+    <div class="tags-box" data-bind="visible: ShowTags">
         <ul data-bind="foreach: Tags" class="tags">
             <li data-bind="css: { 'tag-selected': $parent.SelectedTags.indexOf($data) > -1 }, click: $parent.tagSelected">
                 <div data-bind="attr: { class: makeSafeForCSS($data)}">

@@ -16,17 +16,13 @@
 
         self.Tags = ko.observableArray([]);
         self.SelectedTags = ko.observableArray([]);
-        self.ShowSelect = ko.observable(options.displayInline);
+        self.ShowTags = ko.observable(options.displayInline);
         self.updateCallback = null;
 
         self.LoadTags = function () {
             $.getJSON("/api/TagsApi/", function (allData) {
                 ko.mapping.fromJS(allData, {}, self.Tags);
             });
-        };
-
-        self.ShowSelectToggle = function () {
-            self.ShowSelect(!self.ShowSelect());
         };
 
         makeSafeForCSS = function (name) {
