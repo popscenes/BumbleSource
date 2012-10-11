@@ -36,6 +36,7 @@ namespace PostaFlya.Specification.Util
                                 Description = "This is a Description",
                                 TagsString = Kernel.Get<Tags>(ib => ib.Get<bool>("default")).ToString(),
                                 Location = Kernel.Get<Location>(ib => ib.Get<bool>("default")).ToViewModel(),
+                                FlierImageId = Guid.NewGuid().ToString(),
                                 ImageList = new List<ImageViewModel>() 
                                 { 
                                     new ImageViewModel() { ImageId = Guid.NewGuid().ToString() }, 

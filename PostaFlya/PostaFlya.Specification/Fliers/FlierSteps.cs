@@ -274,6 +274,7 @@ namespace PostaFlya.Specification.Fliers
             flierEditModel.Title = flier.Title;
             flierEditModel.TagsString = flier.Tags.ToString();
             flierEditModel.Location = flier.Location.ToViewModel();
+            flierEditModel.FlierImageId = flier.Image.Value.ToString();
 
             return flierEditModel;
         }
