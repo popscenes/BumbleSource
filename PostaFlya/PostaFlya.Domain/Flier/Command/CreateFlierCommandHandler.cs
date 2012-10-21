@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using PostaFlya.Domain.Behaviour;
+using PostaFlya.Domain.Flier.Query;
 using PostaFlya.Domain.Service;
 using Website.Infrastructure.Command;
 using Website.Infrastructure.Domain;
@@ -11,12 +12,14 @@ namespace PostaFlya.Domain.Flier.Command
     {
         private readonly FlierRepositoryInterface _flierRepository;
         private readonly UnitOfWorkFactoryInterface _unitOfWorkFactory;
+        private readonly FlierQueryServiceInterface _flierQueryService;
 
         public CreateFlierCommandHandler(FlierRepositoryInterface flierRepository
-            , UnitOfWorkFactoryInterface unitOfWorkFactory)
+            , UnitOfWorkFactoryInterface unitOfWorkFactory, FlierQueryServiceInterface flierQueryService)
         {
             _flierRepository = flierRepository;
             _unitOfWorkFactory = unitOfWorkFactory;
+            _flierQueryService = flierQueryService;
         }
 
         public object Handle(CreateFlierCommand command)
@@ -40,9 +43,12 @@ namespace PostaFlya.Domain.Flier.Command
             if(newFlier.FlierBehaviour == FlierBehaviour.Default)
                 newFlier.Status = FlierStatus.Active;
 
+            newFlier.Id = _flierQueryService.FindFreeId(newFlier);
+  
             UnitOfWorkInterface unitOfWork;
             using (unitOfWork = _unitOfWorkFactory.GetUnitOfWork(GetReposForUnitOfWork()))
             {
+                
                 _flierRepository.Store(newFlier);
             }
 

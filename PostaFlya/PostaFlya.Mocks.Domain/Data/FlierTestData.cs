@@ -24,7 +24,7 @@ namespace PostaFlya.Mocks.Domain.Data
         {
             if (loc == null)
                 loc = kernel.Get<Location>(ib => ib.Get<bool>("default"));
-            return new Flier(loc)
+            var ret = new Flier(loc)
                        {
                            BrowserId = kernel.Get<string>(bm => bm.Has("defaultbrowserid")),
                            Title = "Test Title",
@@ -39,6 +39,8 @@ namespace PostaFlya.Mocks.Domain.Data
                            ExternalId = "123"
                            
                        };
+            FlierQueryServiceUtil.FindFreeId(null, ret);
+            return ret;
         }
 
         public static FlierBehaviourInterface GetBehaviour(StandardKernel kernel, Flier ret)

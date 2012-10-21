@@ -19,7 +19,8 @@ namespace Website.Application.Domain.Browser
             _httpContext = httpContext;
             
             var identity = (WebIdentityInterface)_httpContext.User.Identity;
-            Browser = !identity.IsAuthenticated ? AnonymousBrowserGet() : browserQueryService.FindByIdentityProvider(identity.ToCredential());
+            Browser = (!identity.IsAuthenticated ? AnonymousBrowserGet() : browserQueryService.FindByIdentityProvider(identity.ToCredential())) ??
+                      AnonymousBrowserGet();
         }
 
         public BrowserInterface AnonymousBrowserGet()

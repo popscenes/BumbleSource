@@ -24,7 +24,7 @@ namespace PostaFlya.Models.Location
         }
     }
 
-    public class LocationModel : LocationInterface
+    public class LocationModel : LocationInterface, AddressInterface
     {
         public LocationModel(LocationInterface loc)
         {
@@ -40,7 +40,10 @@ namespace PostaFlya.Models.Location
 
         public Website.Domain.Location.Location ToDomainModel()
         {
-            return new Website.Domain.Location.Location(Longitude, Latitude) {Description = Description };
+            var ret = new Website.Domain.Location.Location(Longitude, Latitude)
+            {Description = Description };
+            ret.CopyFieldsFrom(this);
+            return ret;
         }
 
         [DisplayName("Longitude")]
@@ -49,6 +52,18 @@ namespace PostaFlya.Models.Location
         public double Latitude { get; set; }
 
         [DisplayName("Description")]
-        public string Description { get; set; }  
+        public string Description { get; set; }
+
+        [DisplayName("StreetAddress")]
+        public string StreetAddress { get; set; }
+        [DisplayName("Locality")]
+        public string Locality { get; set; }
+        [DisplayName("Region")]
+        public string Region { get; set; }
+        [DisplayName("PostCode")]
+        public string PostCode { get; set; }
+        [DisplayName("CountryName")]
+        public string CountryName { get; set; }
+
     }
 }

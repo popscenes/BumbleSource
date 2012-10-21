@@ -14,7 +14,8 @@ namespace Website.Application.Domain.Email.VCard
                     Email = dets.EmailAddress,
                     Phone = dets.PhoneNumber
                 };
-            if (dets.Address != null && dets.Address.HasAddressParts)
+
+            if (dets.Address != null && dets.Address.HasAddressParts())
             {
                 AddressInterface add = dets.Address;
                 vcard.StreetAddress = add.StreetAddress;

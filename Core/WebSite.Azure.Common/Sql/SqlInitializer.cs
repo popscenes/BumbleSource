@@ -145,6 +145,10 @@ namespace Website.Azure.Common.Sql
                 throw new ArgumentException("no mapping for property type");
 
             var type = SqlExecute.TypeToDbTypeDictionary[prop.PropertyType];
+
+            if (type == SqlExecute.DbString && SerializeUtil.HasAttribute(prop, typeof(PrimaryKey)))
+                type = type.Replace("MAX", "255");
+
             var name = prop.Name;
             var constraints = "NULL";
             if (prop.GetCustomAttributes(false).Any(IsNotNullable))

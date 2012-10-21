@@ -4,6 +4,24 @@ namespace Website.Domain.Location
 {
     public static class AddressInterfaceExtensions
     {
+        public static void CopyFieldsFrom(this AddressInterface addressTarget, AddressInterface addressSource)
+        {
+            addressTarget.StreetAddress = addressSource.StreetAddress;
+            addressTarget.Locality = addressSource.Locality;
+            addressTarget.Region = addressSource.Region;
+            addressTarget.PostCode = addressSource.PostCode;
+            addressTarget.CountryName = addressSource.CountryName;
+        }
+
+        public static bool HasAddressParts(this AddressInterface address)
+        {
+            return !string.IsNullOrWhiteSpace(address.StreetAddress) ||
+                    !string.IsNullOrWhiteSpace(address.Locality) ||
+                    !string.IsNullOrWhiteSpace(address.Region) ||
+                    !string.IsNullOrWhiteSpace(address.PostCode) ||
+                    !string.IsNullOrWhiteSpace(address.CountryName);
+        }
+
         //1 Waihi Avenue, Brunswick East, VIC, 3057, Australia
         public static string GetAddressDescription(this AddressInterface address)
         {

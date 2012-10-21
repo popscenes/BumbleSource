@@ -73,23 +73,11 @@ namespace Website.Domain.Location
         public string Description
         {
             get {
-                if (string.IsNullOrEmpty(_description) && HasAddressParts)
+                if (string.IsNullOrEmpty(_description) && this.HasAddressParts())
                     _description = this.GetAddressDescription();
                 return _description;
             } 
             set { _description = value; }
-        }
-
-        public bool HasAddressParts
-        {
-            get
-            {
-                return !string.IsNullOrWhiteSpace(StreetAddress) ||
-                       !string.IsNullOrWhiteSpace(Locality) ||
-                       !string.IsNullOrWhiteSpace(Region) ||
-                       !string.IsNullOrWhiteSpace(PostCode) ||
-                       !string.IsNullOrWhiteSpace(CountryName);
-            }
         }
 
         public string StreetAddress { get; set; }

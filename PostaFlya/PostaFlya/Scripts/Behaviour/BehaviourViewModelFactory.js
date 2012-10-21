@@ -51,9 +51,11 @@
         self.addSammyRoute = function (absPath, sam, obsViewMod) {
             var rootUrl = self.stripDetailFromPath(absPath);
             rootUrl = self.addHashBang(rootUrl);
-            var route = rootUrl + 'Detail/:flierId';
+            
+            var route = rootUrl + '(.+@[0-9]{2}-[a-zA-Z]{3}-[0-9]{2})';
             sam.get(route, function () {
-                self.getSelectedDetail(this.path, obsViewMod, this.params.flierId);
+                var flierId = this.params['splat'];
+                self.getSelectedDetail(this.path, obsViewMod, flierId);
             });
         };
 
@@ -69,7 +71,7 @@
 
         self.getDetailPath = function (rootPath, flier) {
             var url = self.addHashBang(rootPath);
-            return url +  'Detail/' + flier.Id;
+            return url  + flier.Id;
         };
 
         self.addHashBang = function (path, prefix) {
@@ -96,18 +98,18 @@
         };
 
         self.stripDetailFromPath = function (path) {
-            var indx = path.indexOf('Detail/');
+            var indx = path.lastIndexOf('/');
             if (indx != -1) {
                 return path.substring(0, indx);
             }
             return path;
         };
 
-        self.getIdFromPath = function (path, behaviour) {
+        self.getIdFromPath = function (path) {
 
-            var indx = path.indexOf('Detail/');
+            var indx = path.lastIndexOf('/');
             if (indx != -1) {
-                return path.lastIndexOf('/');
+                return path.substring(indx + 1);
             }
             return path;
         };

@@ -18,8 +18,8 @@ namespace PostaFlya.DataRepository.Search.Services
         {
             var ret =  new FlierSearchRecord()
             {
-                Id = Guid.Parse(flier.Id),
-                BrowserId = Guid.Parse(flier.BrowserId),
+                Id = flier.Id,
+                BrowserId = flier.BrowserId,
                 PopularityRank = flier.NumberOfComments + flier.NumberOfClaims,
                 NumberOfClaims = flier.NumberOfClaims,
                 NumberOfComments = flier.NumberOfComments,
@@ -77,8 +77,8 @@ namespace PostaFlya.DataRepository.Search.Services
     internal class FlierSearchRecord
     {
         [PrimaryKey]
-        public Guid Id { get; set; }
-        public Guid BrowserId { get; set; }
+        public String Id { get; set; }
+        public String BrowserId { get; set; }
         public int PopularityRank { get; set; }
         public int NumberOfClaims { get; set; }
         public int NumberOfComments { get; set; }

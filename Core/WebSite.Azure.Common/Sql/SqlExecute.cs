@@ -110,17 +110,26 @@ namespace Website.Azure.Common.Sql
     {
         public const int Srid = 4326;
 
+        public const string DbString = "nvarchar(MAX)";
+        public const string DbGuid = "uniqueidentifier";
+        public const string DbInt = "int";
+        public const string DbFloat = "float";
+        public const string DbDateTimeOffset = "datetimeoffset(7)";
+        public const string DbXml = "xml";
+        public const string DbGeography = "geography";
+        public const string DbLong = "bigint";
+
         public static readonly Dictionary<Type, string> TypeToDbTypeDictionary
             = new Dictionary<Type, string>()
                   {
-                      {typeof(string), "nvarchar(MAX)"},
-                      {typeof(Guid), "uniqueidentifier"},
-                      {typeof(int), "int"},
-                      {typeof(double), "float"},
-                      {typeof(DateTimeOffset), "datetimeoffset(7)"},
-                      {typeof(SqlXml), "xml"},
-                      {typeof(SqlGeography), "geography"},  
-                      {typeof(long), "bigint"},                                            
+                      {typeof(string), DbString},
+                      {typeof(Guid), DbGuid},
+                      {typeof(int), DbInt},
+                      {typeof(double), DbFloat},
+                      {typeof(DateTimeOffset), DbDateTimeOffset},
+                      {typeof(SqlXml), DbXml},
+                      {typeof(SqlGeography), DbGeography},  
+                      {typeof(long), DbLong},                                            
                   };
 
         public static readonly Dictionary<Type, string> TypeToUdtTypeDictionary

@@ -38,8 +38,8 @@ namespace Website.Domain.Browser.Command
                     browser.Surname = parts[partsIndx];
             }
 
-            browser.Handle = BrowserQueryServiceUtil.FindFreeHandle( _browserQueryService,
-                string.IsNullOrWhiteSpace(browser.Handle) ? browser.Id : browser.Handle, browser.Id);
+            browser.Handle = _browserQueryService
+                .FindFreeHandle(string.IsNullOrWhiteSpace(browser.Handle) ? browser.Id : browser.Handle, browser.Id);
 
             var uow = _unitOfWorkFactory.GetUnitOfWork(GetReposForUnitOfWork());
             using (uow)

@@ -65,12 +65,7 @@ namespace PostaFlya
                 defaults: new { id = RouteParameter.Optional }
             );
 
-            //profile view routes
-            routes.MapRoute(
-                name: "ProfileView",
-                url: "{name}",
-                defaults: new { controller = "Profile", action = "Get" }
-            );
+
 
             //bulletin route
             routes.MapRoute(
@@ -81,9 +76,18 @@ namespace PostaFlya
 
             routes.MapRoute(
                 name: "BulletinDetail",
-                url: "Detail/{id}",
-                defaults: new { controller = "Bulletin", action = "Detail" }
+                url: "{id}",
+                defaults: new { controller = "Bulletin", action = "Detail" },
+                constraints: new { id = ".+@[0-9]{2}-[a-zA-Z]{3}-[0-9]{2}" }
                 );
+
+            //profile view routes
+            routes.MapRoute(
+                name: "ProfileView",
+                url: "{name}",
+                defaults: new { controller = "Profile", action = "Get" },
+                constraints: new { name = "[0-9a-zA-Z]+" }
+            );
 
             //default routes
             routes.MapRoute(

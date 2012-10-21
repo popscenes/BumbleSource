@@ -10,13 +10,13 @@ namespace PostaFlya.Controllers
 {
     public class BrowserInformationController : Controller
     {
-        private readonly BrowserInformationInterface _browserQueryService;
+        private readonly BrowserInformationInterface _browserInformation;
         private readonly BlobStorageInterface _blobStorage;
 
-        public BrowserInformationController(BrowserInformationInterface browserQueryService
+        public BrowserInformationController(BrowserInformationInterface browserInformation
             , [ImageStorage]BlobStorageInterface blobStorage)
         {
-            _browserQueryService = browserQueryService;
+            _browserInformation = browserInformation;
             _blobStorage = blobStorage;
         }
 
@@ -24,8 +24,7 @@ namespace PostaFlya.Controllers
         {
             //var js = new JsonResult {Data = _browserQueryService.ToCurrentBrowserModel()};
             var serializer = new JavaScriptSerializer();
-            
-            ViewBag.BrowserInfoJson = serializer.Serialize(_browserQueryService.ToCurrentBrowserModel(_blobStorage));          
+            ViewBag.BrowserInfoJson = serializer.Serialize(_browserInformation.ToCurrentBrowserModel(_blobStorage));          
             return View("_BrowserInfoPartial");
         }
     }
