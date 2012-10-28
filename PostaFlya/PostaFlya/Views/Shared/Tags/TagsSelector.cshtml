@@ -5,7 +5,7 @@
     <div class="tags-box" data-bind="visible: ShowTags">
         <ul data-bind="foreach: Tags" class="tags">
             <li data-bind="css: { 'tag-selected': $parent.SelectedTags.indexOf($data) > -1 }, click: $parent.tagSelected">
-                <div data-bind="attr: { class: makeSafeForCSS($data)}">
+                <div data-bind="attr: { 'class': makeSafeForCSS($data)}">
                 </div>
                 <span data-bind="text:$data"></span>
             </li>

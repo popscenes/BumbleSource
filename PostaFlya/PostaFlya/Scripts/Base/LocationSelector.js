@@ -57,9 +57,7 @@
 
         self.ShowMap = function () {
             $('#' + self.mapElementId()).gmap().bind('init', function (ev, map) {
-                if (!self.ValidLocation()) {
-                    self.SetCurrentlocationFromGeoCode();
-                }
+
             });
 
             LocationSearchAutoComplete($("#" + self.locSearchId()), $('#' + self.mapElementId()), self.currentLocation);
