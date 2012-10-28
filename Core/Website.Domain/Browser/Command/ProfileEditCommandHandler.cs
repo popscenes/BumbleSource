@@ -27,7 +27,7 @@ namespace Website.Domain.Browser.Command
                 return new MsgResponse("Error updating profile details", true)
                     .AddCommandId(command).AddEntityIdError(command.BrowserId);
 
-            if(!string.IsNullOrWhiteSpace(command.Handle) && command.Handle != browser.Handle &&
+            if(!string.IsNullOrWhiteSpace(command.Handle) && command.Handle != browser.FriendlyId &&
                 _browserQueryService.FindFreeHandle(command.Handle, browser.Id) != command.Handle.ToLower())
                     return new MsgResponse("Error updating profile details", true)
                         .AddCommandId(command).AddEntityIdError(command.BrowserId)
@@ -41,7 +41,7 @@ namespace Website.Domain.Browser.Command
                     , browserUpdate =>
                         {
                             if(!string.IsNullOrWhiteSpace(command.Handle))
-                                browserUpdate.Handle = command.Handle;
+                                browserUpdate.FriendlyId = command.Handle;
                             if (!string.IsNullOrWhiteSpace(command.FirstName))
                                 browserUpdate.FirstName = command.FirstName;
                             if(!string.IsNullOrWhiteSpace(command.MiddleNames))

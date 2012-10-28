@@ -16,6 +16,7 @@ namespace PostaFlya.Areas.Default.Models.Bulletin
             return new BulletinFlierModel<BulletinBehaviourType>()
             {
                 Id = flier.Id,
+                FriendlyId = flier.FriendlyId,
                 Title = flier.Title,
                 Description = (!detailMode && !string.IsNullOrWhiteSpace(flier.Description)) ? (flier.Description.Length > 200 ? flier.Description.Substring(0, 200) : flier.Description) : flier.Description,
                 Location = flier.Location.ToViewModel(),

@@ -21,7 +21,7 @@
         </div>           
         <div class="toolbar">
             <a data-bind="visible: false, attr: { href: $root.getDetailUrl($data)}" 
-               href="@Url.Action("Detail", "Bulletin", new {id = Flier.Id})"
+               href="@Url.Action("Detail", "Bulletin", new {id = Flier.FriendlyId})"
             >View Details</a>
 
             <div class="flier-claims-comments">

@@ -92,8 +92,6 @@ namespace Website.Mocks.Domain.Data
         {
             var queryService = kernel.GetMock<QsType>();
             var queryServiceGeneric = kernel.GetMock<GenericQueryServiceInterface>();
-//            var queryService = kernel.MockRepository.Create<QsType>();
-//            var queryServiceBase = queryService.As<QueryServiceInterface>();
 
             kernel.Rebind<QsType>()
                 .ToConstant(queryService.Object);
@@ -111,17 +109,39 @@ namespace Website.Mocks.Domain.Data
                         return entity;
                     };
 
-            Func<Type, string, EntityType> findByTypeId = (type, id) => findById(id);
-
             queryService.Setup(m => m.FindById<EntityType>(It.IsAny<string>()))
                 .Returns<string>(findById);
             queryServiceGeneric.Setup(m => m.FindById<EntityType>(It.IsAny<string>()))
                 .Returns<string>(findById);
 
+            Func<Type, string, EntityType> findByTypeId = (type, id) => findById(id);
+
             queryService.Setup(m => m.FindById(typeof(EntityType), It.IsAny<string>()))
                 .Returns<Type, string>(findByTypeId);
             queryServiceGeneric.Setup(m => m.FindById(typeof(EntityType), It.IsAny<string>()))
                 .Returns<Type, string>(findByTypeId);
+
+            Func<string, EntityType> findByFriendlyId =
+            friendlyId =>
+            {
+                //create a copy for find by id
+                var entity = new EntityType();
+                var stored = store.SingleOrDefault(f => f.FriendlyId == friendlyId);
+                if (stored == null) return null;
+                copyFields(entity, stored);
+                return entity;
+            };
+
+            queryService.Setup(m => m.FindByFriendlyId<EntityType>(It.IsAny<string>()))
+                .Returns<string>(findByFriendlyId);
+            queryServiceGeneric.Setup(m => m.FindByFriendlyId<EntityType>(It.IsAny<string>()))
+                .Returns<string>(findByFriendlyId);
+
+            Func<Type, string, EntityType> findFriendlyByTypeId = (type, id) => findById(id);
+            queryService.Setup(m => m.FindByFriendlyId(typeof(EntityType), It.IsAny<string>()))
+                .Returns<Type, string>(findFriendlyByTypeId);
+            queryServiceGeneric.Setup(m => m.FindByFriendlyId(typeof(EntityType), It.IsAny<string>()))
+                .Returns<Type, string>(findFriendlyByTypeId);
 
             return queryService;
         }

@@ -10,7 +10,7 @@
         self.initPath = self.viewModFactory.getInitPath();
 
         self.getDetailUrl = function (flier) {
-            return '/' + flier.Id;
+            return '/' + flier.FriendlyId;
         };
 
         self.hideDetailView = function () {

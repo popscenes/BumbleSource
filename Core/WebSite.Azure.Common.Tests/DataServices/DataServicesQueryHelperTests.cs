@@ -51,6 +51,7 @@ namespace Website.Azure.Common.Tests.DataServices
     internal class SomeEntity : SomeEntityInterface
     {
         public string Id { get; set; }
+        public string FriendlyId { get; set; }
         public int Version { get; set; }
         public Type PrimaryInterface { get; private set; }
  

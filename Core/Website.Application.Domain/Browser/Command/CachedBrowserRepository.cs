@@ -4,23 +4,21 @@ using Website.Application.Caching.Command;
 using Website.Infrastructure.Binding;
 using Website.Domain.Browser;
 using Website.Domain.Browser.Command;
+using Website.Infrastructure.Domain;
 
 namespace Website.Application.Domain.Browser.Command
 {
     internal class CachedBrowserRepository : BroadcastCachedRepository, 
                                              BrowserRepositoryInterface
     {
-        private readonly BrowserRepositoryInterface _browserRepository;
-
         public CachedBrowserRepository([SourceDataSource]BrowserRepositoryInterface browserRepository
             , ObjectCache cacheProvider
             , CacheNotifier notifier)
             : base(cacheProvider, CachedBrowserContext.Region, notifier, browserRepository)
         {
-            _browserRepository = browserRepository;
         }
 
-        public override void UpdateEntity<UpdateType>(string id, Action<UpdateType> updateAction)
+        public override void UpdateEntity<UpdateType>(string id, Action<UpdateType> updateAction) 
         {
             Action<UpdateType> updateInvCacheAction
             = browser =>
@@ -30,10 +28,7 @@ namespace Website.Application.Domain.Browser.Command
                     foreach (var cred in target.ExternalCredentials)
                         InvalidateCachedData(GetKeyFor(CachedBrowserContext.Identity, cred.GetHash()));
 
-                    InvalidateCachedData(GetKeyFor(CachedBrowserContext.Browser, target.Handle));
-
                     updateAction(browser);
-
                 };
 
             base.UpdateEntity(id, updateInvCacheAction);

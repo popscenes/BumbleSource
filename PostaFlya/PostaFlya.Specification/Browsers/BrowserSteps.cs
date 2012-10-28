@@ -189,7 +189,7 @@ namespace PostaFlya.Specification.Browsers
             var browserId = ScenarioContext.Current["existingbrowserid"] as string;
             var profileController = SpecUtil.GetApiController<ProfileApiController>();
             var browser = SpecUtil.AssertGetParticipantBrowser(browserId);
-            var ret = profileController.Get(browser.Handle);
+            var ret = profileController.Get(browser.FriendlyId);
             Assert.IsNotNull(ret);
             Assert.IsNotEmpty(ret.ClaimedFliers);
             Assert.IsNotEmpty(ret.Fliers);
@@ -202,7 +202,7 @@ namespace PostaFlya.Specification.Browsers
             var browserId = ScenarioContext.Current["existingbrowserid"] as string;
             var profileController = SpecUtil.GetController<ProfileController>();
             var browser = SpecUtil.AssertGetParticipantBrowser(browserId);
-            profileController.Get(browser.Handle);
+            profileController.Get(browser.FriendlyId);
         }
     }
 }

@@ -15,7 +15,6 @@ namespace Website.Domain.Browser
             EntityInterfaceExtensions.CopyFieldsFrom(target, source);
             ContactDetailsInterfaceExtensions.CopyFieldsFrom(target, source);
             target.Tags = new Tags(source.Tags);
-            target.Handle = source.Handle;  
             target.Distance = source.Distance;
             target.Roles = new Roles(source.Roles);
             target.DefaultLocation = source.DefaultLocation;
@@ -51,7 +50,6 @@ namespace Website.Domain.Browser
     public interface BrowserInterface : EntityInterface, ContactDetailsInterface
     {
         Tags Tags { get; set; }
-        string Handle { get; set; }  
         int? Distance { get; set; }
         Roles Roles { get; set; }
         Location.Location DefaultLocation { get; set; }

@@ -43,11 +43,11 @@ namespace Website.Application.Domain.Tests.Browser
             BrowserTestData.AssertStoreRetrieve(storedBrowser, retrievedBrowser);
 
             const string changedName = "This will not be in cache";
-            storedBrowser.Handle = changedName;
+            storedBrowser.FriendlyId = changedName;
             BrowserTestData.UpdateOne(storedBrowser, repository, kernel);
             retrievedBrowser = cachedQueryService.FindById<Website.Domain.Browser.Browser>(storedBrowser.Id);
 
-            Assert.AreNotEqual(retrievedBrowser.Handle, changedName);
+            Assert.AreNotEqual(retrievedBrowser.FriendlyId, changedName);
 
             TestUtil.ClearMemoryCache(cache);
 
@@ -80,7 +80,7 @@ namespace Website.Application.Domain.Tests.Browser
             BrowserTestData.AssertStoreRetrieve(storedBrowser, retrievedBrowser);
 
             const string changedName = "This will be re cached";
-            storedBrowser.Handle = changedName;
+            storedBrowser.FriendlyId = changedName;
             BrowserTestData.UpdateOne(storedBrowser, cachedBrowserRepository, kernel);
             retrievedBrowser = cachedQueryService.FindById<Website.Domain.Browser.Browser>(storedBrowser.Id);
 

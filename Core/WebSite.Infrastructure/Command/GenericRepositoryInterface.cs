@@ -8,8 +8,8 @@ namespace Website.Infrastructure.Command
 {
     public interface GenericRepositoryInterface : RepositoryInterface 
     {
-        void UpdateEntity<UpdateType>(string id, Action<UpdateType> updateAction) where UpdateType : class, new();
-        void UpdateEntity(Type entity, string id, Action<object> updateAction);
+        void UpdateEntity<UpdateType>(string id, Action<UpdateType> updateAction) where UpdateType : class,  EntityIdInterface, new();
+        void UpdateEntity(Type entityTyp, string id, Action<object> updateAction);
         void Store<EntityType>(EntityType entity);
     }
 }

@@ -24,7 +24,7 @@ namespace PostaFlya.Models.Browser
         {
             var ret =  new CurrentBrowserModel()
             {
-                Handle = browserInfo.Browser.Handle,
+                Handle = browserInfo.Browser.FriendlyId,
                 BrowserId = browserInfo.Browser.Id,
                 SavedLocations = browserInfo.Browser.SavedLocations.Select(_ => _.ToViewModel()).ToList(),
                 SavedTags = browserInfo.Browser.SavedTags.Select(_ => _.ToString()).ToList(),

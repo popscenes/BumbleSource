@@ -76,8 +76,8 @@ namespace Website.Mocks.Domain.Data
                         bi.ExternalCredentials != null &&
                         bi.ExternalCredentials.Any(ic => ic.Equals(prov))));
 
-            browserQueryService.Setup(m => m.FindByHandle(It.IsAny<string>()))
-                .Returns<string>(handle => store.SingleOrDefault(bi => bi.Handle == handle));
+//            browserQueryService.Setup(m => m.FindByHandle(It.IsAny<string>()))
+//                .Returns<string>(handle => store.SingleOrDefault(bi => bi.Handle == handle));
 
             AddMembersToStore(kernel, store);
 

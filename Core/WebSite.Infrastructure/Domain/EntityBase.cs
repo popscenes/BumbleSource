@@ -6,6 +6,7 @@ namespace Website.Infrastructure.Domain
     public class EntityBase<EntityInterfaceType> where EntityInterfaceType : class, EntityInterface
     {
         public string Id { get; set; }
+        public string FriendlyId { get; set; }
 
         public int Version { get; set; }
 

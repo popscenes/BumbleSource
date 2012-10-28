@@ -23,9 +23,14 @@ namespace Website.Application.Domain.Query
         public IQueryable<string> GetEntityIdsByBrowserId<EntityType>(String browserId) where EntityType : class, BrowserIdInterface, new()
         {
             return RetrieveCachedData(
-                GetKeyFor(typeof(EntityType).FullName + " by browser", browserId),
+                GetKeyFor(BrowserIdPrefix(typeof(EntityType)), browserId),
                 () => this._queryService.GetEntityIdsByBrowserId<EntityType>(browserId).ToList())
                 .AsQueryable();
+        }
+
+        public static string BrowserIdPrefix(Type entityTyp)
+        {
+            return entityTyp.FullName + " by browser";
         }
     }
 }

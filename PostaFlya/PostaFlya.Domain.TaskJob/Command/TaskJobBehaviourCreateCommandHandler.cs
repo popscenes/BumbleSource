@@ -36,6 +36,7 @@ namespace PostaFlya.Domain.TaskJob.Command
             var taskJobBehaviour = new TaskJobFlierBehaviour()
                                        {
                                            Id = command.FlierId,
+                                           FriendlyId = flier.FriendlyId,
                                            Flier = flier,
                                            MaxAmount = command.MaxAmount,
                                            CostOverhead = command.CostOverhead,

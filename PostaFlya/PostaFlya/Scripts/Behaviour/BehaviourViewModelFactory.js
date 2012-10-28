@@ -71,7 +71,7 @@
 
         self.getDetailPath = function (rootPath, flier) {
             var url = self.addHashBang(rootPath);
-            return url  + flier.Id;
+            return url  + flier.FriendlyId;
         };
 
         self.addHashBang = function (path, prefix) {

@@ -66,6 +66,9 @@ namespace PostaFlya.Models.Flier
         [DisplayName("FlierId")]//TODO change to LocalizedDisplayName
         public string Id { get; set; }
 
+        [DisplayName("FriendlyId")]//TODO change to LocalizedDisplayName
+        public string FriendlyId { get; set; }
+
         [DisplayName("FlierTitle")]
         public string Title { get; set; }
 

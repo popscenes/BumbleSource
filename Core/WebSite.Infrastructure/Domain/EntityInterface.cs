@@ -7,6 +7,7 @@ namespace Website.Infrastructure.Domain
         public static void CopyFieldsFrom(this EntityInterface target, EntityInterface source)
         {
             target.Id = source.Id;
+            target.FriendlyId = source.FriendlyId;
             target.Version = source.Version;
         }
 
@@ -27,6 +28,7 @@ namespace Website.Infrastructure.Domain
     public interface EntityIdInterface
     {
         string Id { get; set; }
+        string FriendlyId { get; set; }
     }
 
     public interface AggregateInterface

@@ -38,8 +38,8 @@ namespace PostaFlya.Models.Browser
         public static void SetBrowserViewModel(this BrowserModel view, BrowserInterface domain, BlobStorageInterface blobStorage)
         {
             view.Id = domain.Id;
-            view.Handle = domain.Handle;
-            view.DisplayName = domain.Handle;
+            view.Handle = domain.FriendlyId;
+            view.DisplayName = domain.FriendlyId;
 
             Uri uri;
             if (string.IsNullOrWhiteSpace(domain.AvatarImageId)

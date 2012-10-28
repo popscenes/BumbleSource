@@ -56,7 +56,7 @@ namespace PostaFlya.Controllers
                            Id = browser.Id,
                            Address = browser.Address != null ? browser.Address.ToViewModel() : null,
                            AddressPublic = browser.AddressPublic,
-                           Handle = browser.Handle.GetEmptyIfNull(),
+                           Handle = browser.FriendlyId.GetEmptyIfNull(),
                            FirstName = browser.FirstName.GetEmptyIfNull(),
                            MiddleNames = browser.MiddleNames.GetEmptyIfNull(),
                            Surname = browser.Surname.GetEmptyIfNull(),

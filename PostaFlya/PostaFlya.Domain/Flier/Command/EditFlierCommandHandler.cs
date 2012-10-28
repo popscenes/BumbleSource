@@ -30,9 +30,12 @@ namespace PostaFlya.Domain.Flier.Command
                 if (flierQuery == null || flierQuery.BrowserId == null || !flierQuery.BrowserId.Equals(command.BrowserId))
                     return false;
 
+                var friendlyId = _flierQueryService.FindFreeFriendlyId(flierQuery);
+
                 _flierRepository.UpdateEntity<Flier>(command.Id, 
                     flier =>
                         {
+                            flier.FriendlyId = friendlyId;
                             flier.Title = command.Title;
                             flier.Description = command.Description;
                             flier.Tags = command.Tags;

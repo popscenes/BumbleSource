@@ -147,7 +147,7 @@ namespace PostaFlya.Specification.DynamicBulletinBoard
             var flier = ScenarioContext.Current["flier"] as FlierInterface;
             Assert.IsNotNull(flier);
             var bulletinController = SpecUtil.GetController<BulletinApiController>();
-            var retMod = bulletinController.Get(flier.Id);
+            var retMod = bulletinController.Get(flier.FriendlyId);
             Assert.IsNotNull(retMod);
 
             var viewModelFact = SpecUtil.CurrIocKernel.Get<FlierBehaviourViewModelFactoryInterface>();

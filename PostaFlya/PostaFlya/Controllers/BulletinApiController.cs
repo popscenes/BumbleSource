@@ -64,7 +64,7 @@ namespace PostaFlya.Controllers
             , FlierBehaviourViewModelFactoryInterface viewModelFactory)
         {
             
-            var flier = flierQueryService.FindById<Flier>(id);
+            var flier = flierQueryService.FindByFriendlyId<Flier>(id);
             if (flier == null)
                 return null;
 

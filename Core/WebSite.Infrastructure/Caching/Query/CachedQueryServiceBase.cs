@@ -74,7 +74,7 @@ namespace Website.Infrastructure.Caching.Query
             if (_genericQueryService == null)
                 return null;
             return RetrieveCachedData(
-                GetKeyFor("entity", id),
+                GetKeyFor(IdPrefix(typeof(EntityRetType)), id),
                 () => _genericQueryService.FindById<EntityRetType>(id));
         }
 
@@ -83,8 +83,26 @@ namespace Website.Infrastructure.Caching.Query
             if (_genericQueryService == null)
                 return null;
             return RetrieveCachedData(
-                GetKeyFor("entity", id),
+                GetKeyFor(IdPrefix(entity), id),
                 () => _genericQueryService.FindById(entity, id));
+        }
+
+        public EntityRetType FindByFriendlyId<EntityRetType>(string id) where EntityRetType : class, new()
+        {
+            if (_genericQueryService == null)
+                return null;
+            return RetrieveCachedData(
+                GetKeyFor(FriendlyIdPrefix(typeof(EntityRetType)), id),
+                () => _genericQueryService.FindByFriendlyId<EntityRetType>(id));
+        }
+
+        public object FindByFriendlyId(Type entity, string id)
+        {
+            if (_genericQueryService == null)
+                return null;
+            return RetrieveCachedData(
+                GetKeyFor(FriendlyIdPrefix(entity), id),
+                () => _genericQueryService.FindByFriendlyId(entity, id));
         }
 
         public IQueryable<string> FindAggregateEntityIds<EntityRetType>(string aggregateRootId, int take = -1)
@@ -93,9 +111,24 @@ namespace Website.Infrastructure.Caching.Query
             if (_genericQueryService == null)
                 return null;
             return RetrieveCachedData(
-                GetKeyFor("agg take:" + take, aggregateRootId),
+                GetKeyFor(AggregateTakePrefix(typeof(EntityRetType), take), aggregateRootId),
                 () => _genericQueryService.FindAggregateEntityIds<EntityRetType>(aggregateRootId, take)
                 .ToList()).AsQueryable();
+        }
+
+        public static string IdPrefix(Type entityTyp)
+        {
+            return entityTyp.FullName + " id";
+        }
+
+        public static string FriendlyIdPrefix(Type entityTyp)
+        {
+            return entityTyp.FullName + " friendlyId";
+        }
+
+        public static string AggregateTakePrefix(Type entityTyp, int take)
+        {
+            return entityTyp.FullName + "agg take:" + take;
         }
     }
 }

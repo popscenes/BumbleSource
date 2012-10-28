@@ -20,7 +20,6 @@ namespace PostaFlya.DataRepository.Browser
         , BrowserRepositoryInterface
         , BrowserQueryServiceInterface
     {
-        public const int HandlePartitionId = 1;
 
         public AzureBrowserRepository(TableContextInterface tableContext, TableNameAndPartitionProviderServiceInterface nameAndPartitionProviderService) 
             : base(tableContext, nameAndPartitionProviderService)
@@ -39,9 +38,5 @@ namespace PostaFlya.DataRepository.Browser
                 null;
         }
 
-        public BrowserInterface FindByHandle(string handle)
-        {
-            return this.FindById<Website.Domain.Browser.Browser>(handle, HandlePartitionId);
-        }
     }
 }

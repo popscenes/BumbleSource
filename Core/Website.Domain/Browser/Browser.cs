@@ -25,7 +25,6 @@ namespace Website.Domain.Browser
         }
 
         public Tags Tags { get; set; }
-        public string Handle { get; set; }
 
         public string PhoneNumber { get; set; }
         public string EmailAddress { get; set; }

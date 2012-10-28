@@ -23,9 +23,9 @@ namespace Website.Domain.Browser.Command
         public object Handle(AddBrowserCommand command)
         {
             var browser = command.Browser;
-            if(!string.IsNullOrWhiteSpace(browser.Handle))
+            if(!string.IsNullOrWhiteSpace(browser.FriendlyId))
             {
-                var parts = browser.Handle.Split();
+                var parts = browser.FriendlyId.Split();
                 int partsIndx = 0;
 
                 if (parts.Length >= 1)
@@ -38,8 +38,8 @@ namespace Website.Domain.Browser.Command
                     browser.Surname = parts[partsIndx];
             }
 
-            browser.Handle = _browserQueryService
-                .FindFreeHandle(string.IsNullOrWhiteSpace(browser.Handle) ? browser.Id : browser.Handle, browser.Id);
+            browser.FriendlyId = _browserQueryService
+                .FindFreeHandle(string.IsNullOrWhiteSpace(browser.FriendlyId) ? browser.Id : browser.FriendlyId, browser.Id);
 
             var uow = _unitOfWorkFactory.GetUnitOfWork(GetReposForUnitOfWork());
             using (uow)

@@ -33,10 +33,11 @@ namespace PostaFlya.DataRepository.Binding
             var tableNameProv = Kernel.Get<TableNameAndPartitionProviderServiceInterface>();
 
             tableNameProv.Add<FlierInterface>(JsonRepositoryWithBrowser.IdPartition, "flier", e => e.Id);
+            tableNameProv.Add<FlierInterface>(JsonRepository.FriendlyIdPartiton, "flier", e => e.FriendlyId, e => e.Id);
             tableNameProv.Add<FlierInterface>(JsonRepositoryWithBrowser.BrowserPartitionId, "flier", e => e.BrowserId, e => e.Id);
 
             tableNameProv.Add<BrowserInterface>(JsonRepository.IdPartition, "browser", e => e.Id);
-            tableNameProv.Add<BrowserInterface>(AzureBrowserRepository.HandlePartitionId, "browser", e => e.Handle, e => e.Id);
+            tableNameProv.Add<BrowserInterface>(JsonRepository.FriendlyIdPartiton, "browser", e => e.FriendlyId, e => e.Id);
             tableNameProv.Add<BrowserIdentityProviderCredential>(JsonRepositoryWithBrowser.IdPartition, "browsercreds", e => e.GetHash(), e => e.BrowserId);
             tableNameProv.Add<BrowserIdentityProviderCredential>(JsonRepositoryWithBrowser.AggregateIdPartition, "browsercreds", e => e.BrowserId, e => e.GetHash());
 
@@ -51,6 +52,8 @@ namespace PostaFlya.DataRepository.Binding
             tableNameProv.Add<CommentInterface>(JsonRepository.AggregateIdPartition, "comment", e => e.AggregateId, e => e.Id);
 
             tableNameProv.Add<FlierBehaviourInterface>(JsonRepository.IdPartition, "flierbehaviour", e => e.Id);
+            tableNameProv.Add<FlierBehaviourInterface>(JsonRepository.FriendlyIdPartiton, "flierbehaviour", e => e.FriendlyId, e => e.Id);
+
 
             var tctx = Kernel.Get<TableContextInterface>();
             foreach (var tableName in tableNameProv.GetAllTableNames())

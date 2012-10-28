@@ -12,6 +12,10 @@ namespace Website.Infrastructure.Query
     {
         EntityRetType FindById<EntityRetType>(string id) where EntityRetType : class, new();
         object FindById(Type entity, string id);
+
+        EntityRetType FindByFriendlyId<EntityRetType>(string id) where EntityRetType : class, new();
+        object FindByFriendlyId(Type entity, string id);
+
         IQueryable<string> FindAggregateEntityIds<EntityRetType>(string aggregateRootId, int take = -1)
             where EntityRetType : class, AggregateInterface, new();
     }

@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Runtime.Caching;
 using Website.Infrastructure.Binding;
+using Website.Infrastructure.Caching.Query;
 using Website.Infrastructure.Command;
+using Website.Infrastructure.Domain;
 
 namespace Website.Infrastructure.Caching.Command
 {
@@ -38,26 +40,31 @@ namespace Website.Infrastructure.Caching.Command
             return _genericRepository.SaveChanges();
         }
 
-        public virtual void UpdateEntity<UpdateType>(string id, Action<UpdateType> updateAction) where UpdateType : class, new()
+        public virtual void UpdateEntity<UpdateType>(string id, Action<UpdateType> updateAction) where UpdateType : class, EntityIdInterface, new()
         {
             Action<UpdateType> updateInvCacheAction
-                = flier =>
+                = entity =>
                 {
-                    updateAction(flier);
-                    this.InvalidateCachedData(GetKeyFor("entity", id));
+                    this.InvalidateCachedData(GetKeyFor(CachedQueryServiceBase.FriendlyIdPrefix(typeof(UpdateType)), entity.FriendlyId));
+                    this.InvalidateCachedData(GetKeyFor(CachedQueryServiceBase.IdPrefix(typeof(UpdateType)), entity.Id));
+                    updateAction(entity);
+                    
                 };
             _genericRepository.UpdateEntity(id, updateInvCacheAction);
         }
 
-        public virtual void UpdateEntity(Type entity, string id, Action<object> updateAction)
+        public virtual void UpdateEntity(Type entityTyp, string id, Action<object> updateAction)
         {
             Action<object> updateInvCacheAction
-                = flier =>
-                {
-                    updateAction(flier);
-                    this.InvalidateCachedData(GetKeyFor("entity", id));
-                };
-            _genericRepository.UpdateEntity(entity, id, updateInvCacheAction);
+                = entity =>
+                    {
+                        var asEntityId = entity as EntityIdInterface;
+                        if (asEntityId != null)
+                            this.InvalidateCachedData(GetKeyFor(CachedQueryServiceBase.FriendlyIdPrefix(entityTyp), asEntityId.FriendlyId));
+                        this.InvalidateCachedData(GetKeyFor(CachedQueryServiceBase.IdPrefix(entityTyp), id));
+                        updateAction(entity);             
+                    };
+            _genericRepository.UpdateEntity(entityTyp, id, updateInvCacheAction);
         }
 
         public virtual void Store<EntityType>(EntityType entity)

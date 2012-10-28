@@ -27,30 +27,6 @@ namespace PostaFlya.Application.Domain.Flier.Query
             _queryService = queryService;
         }
 
-//        public IQueryable<ClaimInterface> GetClaims(string id)
-//        {
-//            return RetrieveCachedData(
-//                GetKeyFor(CachedFlierContext.Claims, id),
-//                () => this._queryService.GetClaims(id).ToList())
-//                .AsQueryable();
-//        }
-//
-//        public IQueryable<ClaimInterface> GetClaimsByBrowser(string browserId)
-//        {
-//            return RetrieveCachedData(
-//                GetKeyFor(CachedFlierContext.Claims, browserId),
-//                () => this._queryService.GetClaimsByBrowser(browserId).ToList())
-//                .AsQueryable();
-//        }
-//
-//        public IQueryable<CommentInterface> GetComments(string id, int take)
-//        {
-//            return RetrieveCachedData(
-//                GetKeyFor(CachedFlierContext.Comments, id),
-//                () => this._queryService.GetComments(id).ToList())
-//                .AsQueryable();
-//        }
-
         public IList<string> FindFliersByLocationTagsAndDistance(Website.Domain.Location.Location location, Tags tags, int distance = 0, int take = 0, FlierSortOrder sortOrder = FlierSortOrder.CreatedDate, int skip = 0)
         {
             return _queryService.FindFliersByLocationTagsAndDistance(location, tags, distance, take, sortOrder, skip);

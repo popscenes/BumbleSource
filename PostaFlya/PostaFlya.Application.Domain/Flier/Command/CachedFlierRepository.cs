@@ -20,53 +20,5 @@ namespace PostaFlya.Application.Domain.Flier.Command
         {
         }
 
-//        public override void UpdateEntity<UpdateType>(string id, Action<UpdateType> updateAction)
-//        {
-//            Action<UpdateType> updateInvCacheAction
-//                = flier =>
-//                      {
-//                          updateAction(flier);
-//                          var target = flier as FlierInterface;
-//                          this.InvalidateCachedData(GetKeyFor(CachedFlierContext.Browser, target.BrowserId));
-//                      };
-//            base.UpdateEntity(id, updateInvCacheAction);
-//        }
-//
-//        public override void Store<EntityType>(EntityType entity)
-//        {
-//            base.Store(entity);
-//            var target = entity as FlierInterface;
-//            this.InvalidateCachedData(GetKeyFor(CachedFlierContext.Browser, target.BrowserId));
-//        }
-
-//        public ClaimableInterface Claim(ClaimInterface claim)
-//        {
-//            var ret = _flierRepository.Claim(claim);
-//            if (ret != null)
-//            {
-//                var flierCreator = ret as BrowserIdInterface;
-//                if (flierCreator != null)
-//                    this.InvalidateCachedData(GetKeyFor(CachedFlierContext.Browser, flierCreator.BrowserId));
-//                this.InvalidateCachedData(GetKeyFor(CachedFlierContext.Claims, claim.BrowserId));
-//                this.InvalidateCachedData(GetKeyFor(CachedFlierContext.Claims, claim.EntityId));
-//                this.InvalidateCachedData(GetKeyFor(CachedFlierContext.Flier, claim.EntityId));
-//            }
-//            return ret;
-//        }
-//
-//        public CommentableInterface AddComment(CommentInterface comment)
-//        {
-//            var ret = _flierRepository.AddComment(comment);
-//            if (ret != null)
-//            {
-//                var flierCreator = ret as BrowserIdInterface;
-//                if(flierCreator != null)
-//                    this.InvalidateCachedData(GetKeyFor(CachedFlierContext.Browser, flierCreator.BrowserId));
-//                this.InvalidateCachedData(GetKeyFor(CachedFlierContext.Comments, comment.EntityId));
-//                this.InvalidateCachedData(GetKeyFor(CachedFlierContext.Flier, comment.EntityId));
-//            }
-//                
-//            return ret;
-//        }
     }
 }

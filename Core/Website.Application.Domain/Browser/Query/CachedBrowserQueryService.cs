@@ -26,12 +26,5 @@ namespace Website.Application.Domain.Browser.Query
                 () => _browserQueryService.FindByIdentityProvider(credential));
         }
 
-        public BrowserInterface FindByHandle(string handle)
-        {
-            return RetrieveCachedData(
-                GetKeyFor(CachedBrowserContext.Browser, handle),
-                () => _browserQueryService.FindByHandle(handle));
-        }
-
     }
 }

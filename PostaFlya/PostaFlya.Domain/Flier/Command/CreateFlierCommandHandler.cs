@@ -43,7 +43,7 @@ namespace PostaFlya.Domain.Flier.Command
             if(newFlier.FlierBehaviour == FlierBehaviour.Default)
                 newFlier.Status = FlierStatus.Active;
 
-            newFlier.Id = _flierQueryService.FindFreeId(newFlier);
+            newFlier.FriendlyId = _flierQueryService.FindFreeFriendlyId(newFlier);
   
             UnitOfWorkInterface unitOfWork;
             using (unitOfWork = _unitOfWorkFactory.GetUnitOfWork(GetReposForUnitOfWork()))

@@ -12,6 +12,7 @@ using PostaFlya.Models.Browser;
 using PostaFlya.Models.Factory;
 using PostaFlya.Models.Flier;
 using Website.Application.Content;
+using Website.Domain.Browser;
 using Website.Domain.Browser.Query;
 using Website.Domain.Claims;
 
@@ -46,7 +47,7 @@ namespace PostaFlya.Controllers
             , BlobStorageInterface blobStorage
             , FlierBehaviourViewModelFactoryInterface viewModelFactory)
         {
-            var browser = browserQueryService.FindByHandle(handle);
+            var browser = browserQueryService.FindByFriendlyId<Browser>(handle);
             if (browser == null)
                 return null;
             var ret = new ProfileViewModel

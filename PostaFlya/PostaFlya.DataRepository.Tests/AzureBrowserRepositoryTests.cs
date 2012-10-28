@@ -124,7 +124,7 @@ namespace PostaFlya.DataRepository.Tests
 
             var ret = new Website.Domain.Browser.Browser(Guid.NewGuid().ToString())
                        {
-                           Handle = "YoYo",
+                           FriendlyId = "YoYo",
                            Tags = Kernel.Get<Tags>(ctx => ctx.Has("default")),
                            SavedTags = new List<Tags> { new Tags{"one","two","three"}, new Tags{"three ","four","five"} },
                            SavedLocations = new Locations { new Location(1, 2), new Location(3, 4) },

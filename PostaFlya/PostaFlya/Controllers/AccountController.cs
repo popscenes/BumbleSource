@@ -122,14 +122,13 @@ namespace PostaFlya.Controllers
         }
 
         [NonAction]
-        [Authorize]
         public object CreateBrowserFromIdentityProviderCredentials(IdentityProviderCredential identityProviderCredentials)
         {
             var command = new AddBrowserCommand()
             {
                 Browser = new Website.Domain.Browser.Browser(Guid.NewGuid().ToString())
                 {
-                    Handle = identityProviderCredentials.Name,
+                    FriendlyId = identityProviderCredentials.Name,
                     EmailAddress = identityProviderCredentials.Email,
                     Roles = new Website.Domain.Browser.Roles { Role.Participant.ToString() },
                     SavedLocations = new Locations(),
@@ -171,7 +170,7 @@ namespace PostaFlya.Controllers
                               {
                                   Browser = new Website.Domain.Browser.Browser(Guid.NewGuid().ToString())
                                                 {
-                                                    Handle = principal.Name,
+                                                    FriendlyId = principal.Name,
                                                     EmailAddress = principal.EmailAddress,
                                                     Roles = new Website.Domain.Browser.Roles{ Role.Participant.ToString() },
                                                     SavedLocations = new Locations(),

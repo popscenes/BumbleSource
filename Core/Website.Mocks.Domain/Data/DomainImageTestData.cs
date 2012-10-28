@@ -32,7 +32,7 @@ namespace Website.Mocks.Domain.Data
         }
 
 
-        internal static ImageInterface StoreOne(ImageInterface image, ImageRepositoryInterface repository, StandardKernel kernel)
+        internal static ImageInterface StoreOne(Image image, ImageRepositoryInterface repository, StandardKernel kernel)
         {
             var uow = kernel.Get<UnitOfWorkFactoryInterface>()
                 .GetUnitOfWork(new List<RepositoryInterface>() {repository});
@@ -55,7 +55,7 @@ namespace Website.Mocks.Domain.Data
             }
         }
 
-        public static ImageInterface GetOne(MoqMockingKernel kernel, string browserid = null)
+        public static Image GetOne(MoqMockingKernel kernel, string browserid = null)
         {
             browserid = browserid ?? kernel.Get<BrowserInterface>(ctx => ctx.Has("defaultbrowser")).Id;
             return new Image()

@@ -36,7 +36,7 @@ namespace Website.Azure.Common.TableStorage
             return ret;
         }
 
-        public void UpdateEntity<UpdateType>(string id, Action<UpdateType> updateAction) where UpdateType : class, new()
+        public void UpdateEntity<UpdateType>(string id, Action<UpdateType> updateAction) where UpdateType : class, EntityIdInterface, new()
         {
             Action mutator = () =>
                                  {
@@ -49,11 +49,11 @@ namespace Website.Azure.Common.TableStorage
             _mutatorsForRetry.Add(mutator);
         }
 
-        public void UpdateEntity(Type entity, string id, Action<object> updateAction)
+        public void UpdateEntity(Type entityTyp, string id, Action<object> updateAction)
         {
             Action mutator = () =>
             {
-                var storage = GetEntityForUpdate(entity, id);
+                var storage = GetEntityForUpdate(entityTyp, id);
                 if (storage == null) return;
                 updateAction(storage.AggregateRoot);
                 StoreAggregate(storage);

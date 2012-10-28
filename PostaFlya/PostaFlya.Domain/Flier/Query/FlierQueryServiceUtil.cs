@@ -10,11 +10,11 @@ namespace PostaFlya.Domain.Flier.Query
     public static class FlierQueryServiceUtil
     {
 
-        public static string FindFreeId(this GenericQueryServiceInterface queryService, FlierInterface newflier)
+        public static string FindFreeFriendlyId(this GenericQueryServiceInterface queryService, FlierInterface targetFlier)
         {
             const string pattern = "@dd-MMM-yy";
 
-            var title = newflier.Title;
+            var title = targetFlier.Title;
             var stringBuilder = new StringBuilder();
             foreach (var c in title)
             {
@@ -23,16 +23,19 @@ namespace PostaFlya.Domain.Flier.Query
                 else if(Char.IsWhiteSpace(c))
                     stringBuilder.Append('_');
             }
-            var tryTitleBase = stringBuilder + newflier.EffectiveDate.ToString(pattern);
+            var tryTitleBase = stringBuilder + targetFlier.EffectiveDate.ToString(pattern);
             var tryTitle = tryTitleBase;
 
-            if (queryService != null && queryService.FindById<Flier>(tryTitle) != null)
+            Flier flierFind = null;
+
+            if (queryService != null && (flierFind = queryService.FindByFriendlyId<Flier>(tryTitle)) != null
+                && flierFind.Id != targetFlier.Id)
             {
-                if (newflier.Location.HasAddressParts())
+                if (targetFlier.Location.HasAddressParts())
                 {
-                    var locInfo = newflier.Location.Locality;
+                    var locInfo = targetFlier.Location.Locality;
                     if (string.IsNullOrWhiteSpace(locInfo))
-                        locInfo = newflier.Location.PostCode;
+                        locInfo = targetFlier.Location.PostCode;
                     if (!string.IsNullOrWhiteSpace(locInfo))
                     {
                         tryTitleBase = locInfo + "_" + tryTitleBase;
@@ -45,7 +48,8 @@ namespace PostaFlya.Domain.Flier.Query
 
 
             var counter = 0;
-            while (queryService != null && queryService.FindById<Flier>(tryTitle) != null)
+            while ((flierFind = queryService.FindByFriendlyId<Flier>(tryTitle)) != null
+                && flierFind.Id != targetFlier.Id)
             {
                 tryTitle = (counter++) + "_" + tryTitleBase;
             }

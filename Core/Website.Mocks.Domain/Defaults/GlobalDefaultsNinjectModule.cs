@@ -53,7 +53,7 @@ namespace Website.Mocks.Domain.Defaults
             Bind<BrowserInterface>().ToMethod(ctx => 
                 new Browser(GlobalDefaultsNinjectModule.DefaultBrowserId)
                 {
-                    Handle = "Ricky Audsley",
+                    FriendlyId = "rickyaudsley",
                     EmailAddress = "rickyaudlsey@gmail.com",
                     FirstName = "Ricky",
                     Surname = "Audsley",
@@ -85,7 +85,7 @@ namespace Website.Mocks.Domain.Defaults
             Bind<BrowserInterface>().ToMethod(ctx =>
                 new Browser(GlobalDefaultsNinjectModule.DefaultBrowserId)
                 {
-                    Handle = "Anthony Borg",
+                    FriendlyId = "anthonyborg",
                     EmailAddress = "teddymccuddles@gmail.com",
                     Roles = new Roles{ Role.Participant.ToString() },
                     SavedLocations = new Locations(),

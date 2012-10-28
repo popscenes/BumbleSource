@@ -16,23 +16,7 @@ namespace Website.Application.Azure.Communication
 
     public class AzureBroadcastRegistrator : RepositoryBase<AzureBroadcastRegistration>, BroadcastRegistratorInterface
     {
-//        public static TableNameAndPartitionProvider<SimpleExtendableEntity> TableNameBinding
-//            = new TableNameAndPartitionProvider<SimpleExtendableEntity>()
-//            {
-//                {typeof (SimpleExtendableEntity), 0, "broadcastCommunicators", e => "", e => e.Get<string>("Endpoint")}
-//            };
-
-
         private readonly CommandQueueFactoryInterface _commandQueueFactory;
-
-
-//        public AzureBroadcastRegistrator([Named("broadcastCommunicators")]AzureTableContext context
-//                                         , CommandQueueFactoryInterface commandQueueFactory)
-//            : base(context)
-//        {
-//            _context = context;
-//            _commandQueueFactory = commandQueueFactory;
-//        }
 
         private readonly string _tableName;
         public AzureBroadcastRegistrator(TableContextInterface tableContext

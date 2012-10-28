@@ -31,7 +31,7 @@ namespace Website.Mocks.Domain.Data
             Assert.AreEqual(storedBrowser.Id, retrievedBrowser.Id);
 
             ContactDetailTestData.AssertStoreRetrieve(storedBrowser, retrievedBrowser);
-            Assert.AreEqual(storedBrowser.Handle, retrievedBrowser.Handle);
+            Assert.AreEqual(storedBrowser.FriendlyId, retrievedBrowser.FriendlyId);
             Assert.AreEqual(storedBrowser.DefaultLocation, retrievedBrowser.DefaultLocation);
             Assert.AreEqual(storedBrowser.SavedLocations, retrievedBrowser.SavedLocations);
             CollectionAssert.AreEquivalent(storedBrowser.SavedTags, retrievedBrowser.SavedTags);

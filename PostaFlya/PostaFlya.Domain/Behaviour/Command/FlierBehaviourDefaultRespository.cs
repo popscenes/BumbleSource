@@ -27,12 +27,12 @@ namespace PostaFlya.Domain.Behaviour.Command
         }
 
 
-        public void UpdateEntity<UpdateType>(string id, Action<UpdateType> updateAction) where UpdateType : class, new()
+        public void UpdateEntity<UpdateType>(string id, Action<UpdateType> updateAction) where UpdateType : class, EntityIdInterface, new()
         {
 
         }
 
-        public void UpdateEntity(Type entity, string id, Action<object> updateAction)
+        public void UpdateEntity(Type entityTyp, string id, Action<object> updateAction)
         {
             
         }
@@ -48,6 +48,16 @@ namespace PostaFlya.Domain.Behaviour.Command
         }
 
         public object FindById(Type entity, string id)
+        {
+            return null;
+        }
+
+        public EntityRetType FindByFriendlyId<EntityRetType>(string id) where EntityRetType : class, new()
+        {
+            return null;
+        }
+
+        public object FindByFriendlyId(Type entity, string id)
         {
             return null;
         }

@@ -95,6 +95,7 @@ namespace PostaFlya.DataRepository.Tests.Behaviour.TaskJob
             {
                 Flier = new Domain.Flier.Flier(){Id = flierId},
                 Id = flierId,
+                FriendlyId = flierId + "Friendly",
                 MaxAmount = 100,
                 CostOverhead = 10,
                 ExtraLocations = new Locations(){new Location(20,20), new Location(21,21)}
@@ -166,6 +167,7 @@ namespace PostaFlya.DataRepository.Tests.Behaviour.TaskJob
         {
             Assert.IsNotNull(query);
             Assert.AreEqual(source.Id, query.Id);
+            Assert.AreEqual(source.FriendlyId, query.FriendlyId);
             Assert.AreEqual(source.MaxAmount, query.MaxAmount);
             Assert.AreEqual(source.CostOverhead, query.CostOverhead);
             CollectionAssert.AreEquivalent(source.ExtraLocations, query.ExtraLocations);

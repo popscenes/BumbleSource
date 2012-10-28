@@ -27,5 +27,11 @@ namespace Website.Azure.Common.TableStorage
             get { return Get<string>("Id"); }
             set { this["Id", typeof (string)] = value; }
         }
+
+        public string FriendlyId
+        {
+            get { return Get<string>("FriendlyId"); }
+            set { this["FriendlyId", typeof(string)] = value; }
+        }
     }
 }

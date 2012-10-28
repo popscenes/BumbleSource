@@ -12,7 +12,7 @@ namespace PostaFlya.DataRepository.Internal
     internal class JsonRepositoryWithBrowser : JsonRepository,
         QueryServiceForBrowserAggregateInterface
     {
-        public const int BrowserPartitionId = 1;
+        public const int BrowserPartitionId = 11;
         public JsonRepositoryWithBrowser(TableContextInterface tableContext
             , TableNameAndPartitionProviderServiceInterface nameAndPartitionProviderService
             , EntityUpdateNotificationInterface<EntityInterface> updateNotification = null)

@@ -24,7 +24,7 @@ namespace Website.Mocks.Domain.Data
             var externalCreds = browser.ExternalCredentials.ElementAt(0);
             //hmmm should IdentityProviderCredentialStore email address and everything.
             mockPrincipal.Setup(p => p.NameIdentifier).Returns(externalCreds.UserIdentifier);
-            mockPrincipal.Setup(p => p.Name).Returns(browser.Handle);
+            mockPrincipal.Setup(p => p.Name).Returns(browser.FriendlyId);
             mockPrincipal.Setup(p => p.EmailAddress).Returns(browser.EmailAddress);
             mockPrincipal.Setup(p => p.IdentityProvider).Returns(externalCreds.IdentityProvider);
             mockPrincipal.Setup(p => p.Identity.IsAuthenticated).Returns(true);
