@@ -103,6 +103,7 @@
             self.tagsSelector.updateCallback = self.LocationAndDistanceCallback;
 
             self.tagsSelector.LoadTags();
+            self.locationSelector.SetCurrentlocationFromGeoCode();
 
             if (bf.pageState !== undefined && bf.pageState.Fliers !== undefined) {
                 
