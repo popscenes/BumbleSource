@@ -215,6 +215,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Comment.feature</DependentUpon>
     </Compile>
+    <Compile Include="Fliers\Boards.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Boards.feature</DependentUpon>
+    </Compile>
     <Compile Include="Fliers\FlierSteps.cs" />
     <Compile Include="Fliers\HeatMap.feature.cs">
       <AutoGen>True</AutoGen>
@@ -294,6 +299,10 @@
     <None Include="DynamicBulletinBoard\Comment.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>Comment.feature.cs</LastGenOutput>
+    </None>
+    <None Include="Fliers\Boards.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>Boards.feature.cs</LastGenOutput>
     </None>
     <None Include="Fliers\HeatMap.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
