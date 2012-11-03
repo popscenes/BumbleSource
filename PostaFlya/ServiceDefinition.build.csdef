@@ -22,6 +22,7 @@
     </Sites>
     <Endpoints>
       <InputEndpoint name="Endpoint1" protocol="http" port="80" />
+      <InputEndpoint name="Microsoft.WindowsAzure.Plugins.WebDeploy.InputEndpoint" protocol="tcp" port="8172" localPort="8172" />
     </Endpoints>
     <Imports>
       <Import moduleName="Diagnostics" />
@@ -30,11 +31,13 @@
       <Import moduleName="RemoteForwarder" />-->
       <Import moduleName="RemoteAccess" />
       <Import moduleName="RemoteForwarder" />
+      <Import moduleName="WebDeploy" />
     </Imports>
     <ConfigurationSettings>
       <Setting name="StorageConnectionString" />
       <Setting name="SearchDbConnectionString" />
       <Setting name="DisableFederation" />
+      <Setting name="CloudToolsDiagnosticAgentVersion" />
     </ConfigurationSettings>
     <LocalResources>
       <LocalStorage name="Microsoft.WindowsAzure.Plugins.Caching.FileStore" sizeInMB="3000" cleanOnRoleRecycle="false" />
