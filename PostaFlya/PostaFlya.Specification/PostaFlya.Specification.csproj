@@ -238,6 +238,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>MyFliers.feature</DependentUpon>
     </Compile>
+    <Compile Include="Fliers\Payment.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Payment.feature</DependentUpon>
+    </Compile>
     <Compile Include="Fliers\PostFlier.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -317,6 +322,10 @@
     <None Include="Fliers\MyFliers.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>MyFliers.feature.cs</LastGenOutput>
+    </None>
+    <None Include="Fliers\Payment.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>Payment.feature.cs</LastGenOutput>
     </None>
     <None Include="Fliers\PostFlier.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>

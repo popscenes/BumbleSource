@@ -425,6 +425,141 @@ namespace PostaFlya.Specification.Fliers
         }
 
 
+        [Given(@"I have a FLIER that requires payment")]
+        public void GivenIHaveAFLIERThatRequiresPayment()
+        {
+            GivenABrowserHasNavigatedToTheCreateFlierPage("Default");
+            AndIChooseToAttachMyDefaultContactDetails();
+            WhenISubmitTheRequiredDataForAFlier();
+        }
 
+        [When(@"I go to the FLIER PAYMENT PAGE")]
+        public void WhenIGoToTheFLIERPAYMENTPAGE()
+        {
+            var flier = ScenarioContext.Current["flier"] as FlierInterface;
+            var paymentController = SpecUtil.GetController<PaymentController>();
+            SpecUtil.ControllerResult = paymentController.FlierPayment(flier.Id);
+        }
+        
+        [Then(@"I will be presented with the valid PAYMENT OPTIONS")]
+        public void ThenIWillBePresentedWithTheValidPAYMENTOPTIONS()
+        {
+            var controllerResult = SpecUtil.ControllerResult as ViewResult;
+            var flierPaymnetsModel = controllerResult.Model as FlierPaymentModel;
+
+            Assert.AreEqual(flierPaymnetsModel.PaymentOptions.Count, 2);
+        }
+
+        [Then(@"the FLIER COST")]
+        public void ThenTheFLIERCOST()
+        {
+            var flierPaymnetsModel = new FlierPaymentModel();
+            Assert.AreEqual(flierPaymnetsModel.FlierCost, 2.00);
+        }
+
+        [Given(@"I Am on the FLIER PAYMENT PAGE")]
+        public void GivenIAmOnTheFLIERPAYMENTPAGE()
+        {
+
+            var flier = ScenarioContext.Current["flier"] as FlierInterface;
+            var paymentController = SpecUtil.GetController<PaymentController>();
+        }
+        
+        [When(@"I go Select a PAYMENT OPTION")]
+        public void WhenIGoSelectAPAYMENTOPTION()
+        {
+            var flier = ScenarioContext.Current["flier"] as FlierInterface;
+            var paymentController = SpecUtil.GetController<PaymentController>();
+            SpecUtil.ControllerResult = paymentController.PaymentProcess(flier.Id, "Flier", 2.00);
+        }
+        
+        [Then(@"I will be redirected to that OPTIONS PROCESS")]
+        public void ThenIWillBeRedirectedToThatOPTIONSPROCESS()
+        {
+            
+        }
+
+        [Given(@"I Have Selected a PAYMENT OPTION")]
+        public void GivenIHaveSelectedAPAYMENTOPTION()
+        {
+            
+        }
+
+        [When(@"The Payment OPTION is Completed Unsuccessfully")]
+        public void WhenThePaymentOPTIONIsCompletedUnsuccessfully()
+        {
+            
+        }
+
+        [Then(@"I will be Shown the Error Details")]
+        public void ThenIWillBeShownTheErrorDetails()
+        {
+            
+        }
+
+        [When(@"The Payment OPTION is Completed Successfully")]
+        public void WhenThePaymentOPTIONIsCompletedSuccessfully()
+        {
+            
+        }
+
+        [Then(@"I will be Shown the Transaction Details")]
+        public void ThenIWillBeShownTheTransactionDetails()
+        {
+            
+        }
+
+        [Given(@"I have a Successful PAYMENT TRANSACTION")]
+        public void GivenIHaveASuccessfulPAYMENTTRANSACTION()
+        {
+            
+        }
+
+        [Given(@"I have a Unuccessful PAYMENT TRANSACTION")]
+        public void GivenIHaveAUnuccessfulPAYMENTTRANSACTION()
+        {
+           
+        }
+
+        [When(@"I navigate to the TRANSACTION HISTORY PAGE")]
+        public void WhenINavigateToTheTRANSACTIONHISTORYPAGE()
+        {
+            
+        }
+
+        [Then(@"I will be presented with My Transactions")]
+        public void ThenIWillBePresentedWithMyTransactions()
+        {
+           
+        }
+
+    }
+
+    public class FlierPaymentModel
+    {
+        public List<String> PaymentOptions
+        {
+            get { throw new NotImplementedException(); }
+            set { throw new NotImplementedException(); }
+        }
+
+        public double FlierCost
+        {
+            get { throw new NotImplementedException(); }
+            set { throw new NotImplementedException(); }
+        }
+    }
+
+    public class PaymentController
+    {
+        public object FlierPayment(string id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public object PaymentProcess(string id, string flier, double d)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

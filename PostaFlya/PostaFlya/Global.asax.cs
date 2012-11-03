@@ -171,7 +171,7 @@ namespace PostaFlya
                 FacebookAppID = "306027489468762",
                 FacebookAppSecret = "f765d675dd653fa81e1ee25cfaa27494"
             };
-            websiteInfoService.RegisterWebsite("bumble.cloudapp.net", websiteInfo);
+             websiteInfoService.RegisterWebsite("postaflya.cloudapp.net", websiteInfo);
         }
 
 

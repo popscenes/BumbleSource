@@ -19,10 +19,10 @@ Given I have created a FLIER
 When I add images to the FLIER
 Then The FLIER will contain the extra images
 
-Scenario: Create Flier With Contact Details
+Scenario: Create Flier With Default Contact Details
 Given i have navigated to the CREATE PAGE for a FLIER TYPE Default
 And I choose to attach my default contact details
 When I SUBMIT the data for that FLIER 
 Then the new FLIER will be created for behviour Default
-And the FLIER STATUS will be ACTIVE
+And the FLIER STATUS will be PaymentPending
 And contact details will be retrievable for the FLIER

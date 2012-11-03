@@ -17,13 +17,15 @@
     <Imports>
       <Import moduleName="Diagnostics" />
       <Import moduleName="Caching" />
+      <!--<Import moduleName="RemoteAccess" />
+      <Import moduleName="RemoteForwarder" />-->
       <Import moduleName="RemoteAccess" />
       <Import moduleName="RemoteForwarder" />
     </Imports>
     <ConfigurationSettings>
       <Setting name="StorageConnectionString" />
       <Setting name="SearchDbConnectionString" />
-      <Setting name="DisableFederation"/>
+      <Setting name="DisableFederation" />
     </ConfigurationSettings>
     <LocalResources>
       <LocalStorage name="Microsoft.WindowsAzure.Plugins.Caching.FileStore" sizeInMB="3000" cleanOnRoleRecycle="false" />
