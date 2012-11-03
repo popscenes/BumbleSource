@@ -34,11 +34,6 @@ namespace Website.Common.Extension
             return text.Sanitize();//don't worry about encode.HtmlEncode();
         }
 
-        public static string GetEmptyIfNull(this string text)
-        {
-            if (string.IsNullOrWhiteSpace(text))
-                return string.Empty;
-            return text;
-        }
+
     }
 }

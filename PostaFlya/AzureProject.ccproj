@@ -41,9 +41,6 @@
     <Folder Include="Profiles" />
   </ItemGroup>
   <ItemGroup>
-    <PublishProfile Include="Profiles\bumbleProduction.azurePubxml" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="PostaFlya\PostaFlya.csproj">
       <Name>PostaFlya</Name>
       <Project>{85753e12-6d9b-4b33-9ebd-bf31dbe10088}</Project>

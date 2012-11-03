@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Website.Domain.Location;
 using Website.Infrastructure.Query;
+using Website.Infrastructure.Util.Extension;
 
 namespace PostaFlya.Domain.Flier.Query
 {
@@ -15,15 +16,7 @@ namespace PostaFlya.Domain.Flier.Query
             const string pattern = "@dd-MMM-yy";
 
             var title = targetFlier.Title;
-            var stringBuilder = new StringBuilder();
-            foreach (var c in title)
-            {
-                if (Char.IsLetterOrDigit(c) || c == '_')
-                    stringBuilder.Append(Char.ToLower(c));
-                else if(Char.IsWhiteSpace(c))
-                    stringBuilder.Append('_');
-            }
-            var tryTitleBase = stringBuilder + targetFlier.EffectiveDate.ToString(pattern);
+            var tryTitleBase = title.ToLowerUnderScore() + targetFlier.EffectiveDate.ToString(pattern);
             var tryTitle = tryTitleBase;
 
             Flier flierFind = null;
@@ -33,7 +26,7 @@ namespace PostaFlya.Domain.Flier.Query
             {
                 if (targetFlier.Location.HasAddressParts())
                 {
-                    var locInfo = targetFlier.Location.Locality;
+                    var locInfo = targetFlier.Location.Locality.ToLowerUnderScore();
                     if (string.IsNullOrWhiteSpace(locInfo))
                         locInfo = targetFlier.Location.PostCode;
                     if (!string.IsNullOrWhiteSpace(locInfo))

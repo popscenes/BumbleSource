@@ -97,6 +97,7 @@
     <Reference Include="System.Net.Http.WebRequest, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\..\..\Libraries\Microsoft.Net.Http.2.0.20710.0\lib\net40\System.Net.Http.WebRequest.dll</HintPath>
     </Reference>
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Helpers, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
@@ -220,6 +221,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Boards.feature</DependentUpon>
     </Compile>
+    <Compile Include="Fliers\BoardsSteps.cs" />
     <Compile Include="Fliers\FlierSteps.cs" />
     <Compile Include="Fliers\HeatMap.feature.cs">
       <AutoGen>True</AutoGen>

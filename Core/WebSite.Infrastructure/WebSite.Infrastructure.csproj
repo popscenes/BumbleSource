@@ -172,6 +172,7 @@
     <Compile Include="Query\QueryServiceInterface.cs" />
     <Compile Include="Util\CryptoUtil.cs" />
     <Compile Include="Util\Extension\DictionaryExtensions.cs" />
+    <Compile Include="Util\Extension\StringExtensions.cs" />
     <Compile Include="Util\SerializeUtil.cs" />
     <Compile Include="Util\InitServiceInterface.cs" />
   </ItemGroup>

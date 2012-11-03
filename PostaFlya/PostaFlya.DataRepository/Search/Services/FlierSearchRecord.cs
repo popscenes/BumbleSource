@@ -36,7 +36,7 @@ namespace PostaFlya.DataRepository.Search.Services
 
         public static long GetShardId(this Location loc)
         {
-            return (long) (((loc.Latitude + 90)*1000) + (loc.Longitude + 180));
+            return (long) ((((int)loc.Latitude + 90)*1000) + ((int)loc.Longitude + 180));
         }
 
         public static XElement ToXml(this Tags tags)

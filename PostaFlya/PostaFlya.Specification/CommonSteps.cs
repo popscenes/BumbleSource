@@ -17,7 +17,7 @@ namespace PostaFlya.Specification
     {
         private readonly BrowserSteps _browserSteps = new BrowserSteps();
         [Then(@"I should observe the failure ""(.*)""")]
-        public void GivenIHaveEnteredSomethingIntoTheCalculator(string errorMessage)
+        public void IShouldObserveTheApiFailure(string errorMessage)
         {
             var res = ScenarioContext.Current["responsemessage"]  as HttpResponseMessage;
             var msg = res.AssertStatusCodeFailed();

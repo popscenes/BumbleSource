@@ -1,5 +1,6 @@
 using System;
 using System.Text;
+using Website.Infrastructure.Util.Extension;
 
 namespace Website.Domain.Browser.Query
 {
@@ -7,13 +8,7 @@ namespace Website.Domain.Browser.Query
     {
         public static string FindFreeHandle(this BrowserQueryServiceInterface queryService, string handle, string id)
         {
-            var stringBuilder = new StringBuilder();
-            foreach (var c in handle)
-            {
-                if (Char.IsLetterOrDigit(c) || c == '_')
-                    stringBuilder.Append(Char.ToLower(c));
-            }
-            var tryHandle = stringBuilder.ToString();
+            var tryHandle = handle.ToLowerUnderScore();
             var tryHandleBase = tryHandle;
 
             int counter = 0;

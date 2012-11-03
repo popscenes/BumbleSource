@@ -61,6 +61,28 @@ namespace PostaFlya.Specification.Fliers
         {
             testRunner.CollectScenarioErrors();
         }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Participant Creates Board")]
+        public virtual void ParticipantCreatesBoard()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Participant Creates Board", ((string[])(null)));
+            this.ScenarioSetup(scenarioInfo);
+            testRunner.Given("i am an existing BROWSER with PARTICIPANT ROLE", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+            TechTalk.SpecFlow.Table table1 = new TechTalk.SpecFlow.Table(new string[] {
+                        "BoardName",
+                        "AcceptOthersFliers",
+                        "RequireApprovalForFliers",
+                        "AddressInformation"});
+            table1.AddRow(new string[] {
+                        "MyBoard",
+                        "True",
+                        "True",
+                        "-37.7760:144.979:[][Brunswick East][VIC][3057][Australia]"});
+            testRunner.When("I submit the following data for the BOARD:", ((string)(null)), table1, "When ");
+            testRunner.Then("a private BOARD named MyBoard will be created", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+            this.ScenarioCleanup();
+        }
     }
 }
 #pragma warning restore

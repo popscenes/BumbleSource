@@ -1,7 +1,7 @@
 using System;
 using System.Net.Mail;
 using System.Text;
-using Website.Application.Extension.Framework;
+using Website.Infrastructure.Util.Extension;
 
 namespace Website.Application.Email.VCard 
 {

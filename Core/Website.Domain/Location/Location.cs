@@ -56,13 +56,20 @@ namespace Website.Domain.Location
 
             Latitude = Double.Parse(arr[0]);
             Longitude = Double.Parse(arr[1]);
-            for (int i = 2; i < arr.Length; i++)
-                Description = Description + ':' + arr[i];
+            if(arr.Length > 2)
+                Description = arr[2];
+            if(arr.Length > 3)
+                this.SetAddressFromStringFormat(arr[3]);
+
         }
 
         public override string ToString()
         {
-            return Latitude + ":" + Longitude + ":" + Description;
+            var ret = Latitude + ":" + Longitude + ":" + Description;
+            if (this.HasAddressParts())
+                ret += ":" + this.GetAddressStringFormat();
+            return ret;
+
         }
 
         public double Longitude { get; set; }
@@ -107,7 +114,7 @@ namespace Website.Domain.Location
         // override object.GetHashCode
         public override int GetHashCode()
         {
-            return ToString().GetHashCode();
+            return Longitude.GetHashCode() ^ Latitude.GetHashCode();
         }
 
         public bool IsValid {

@@ -13,6 +13,7 @@ using PostaFlya.Models.Tags;
 using Website.Application.Domain.Browser;
 using Website.Domain.Browser.Command;
 using Website.Domain.Browser.Query;
+using Website.Infrastructure.Util.Extension;
 
 namespace PostaFlya.Controllers
 {
@@ -56,12 +57,12 @@ namespace PostaFlya.Controllers
                            Id = browser.Id,
                            Address = browser.Address != null ? browser.Address.ToViewModel() : null,
                            AddressPublic = browser.AddressPublic,
-                           Handle = browser.FriendlyId.GetEmptyIfNull(),
-                           FirstName = browser.FirstName.GetEmptyIfNull(),
-                           MiddleNames = browser.MiddleNames.GetEmptyIfNull(),
-                           Surname = browser.Surname.GetEmptyIfNull(),
-                           Email = browser.EmailAddress.GetEmptyIfNull(),
-                           AvatarImageId = browser.AvatarImageId.GetEmptyIfNull()
+                           Handle = browser.FriendlyId.EmptyIfNull(),
+                           FirstName = browser.FirstName.EmptyIfNull(),
+                           MiddleNames = browser.MiddleNames.EmptyIfNull(),
+                           Surname = browser.Surname.EmptyIfNull(),
+                           Email = browser.EmailAddress.EmptyIfNull(),
+                           AvatarImageId = browser.AvatarImageId.EmptyIfNull()
                        };
         }
     }
