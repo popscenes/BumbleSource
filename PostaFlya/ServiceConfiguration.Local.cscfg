@@ -8,17 +8,23 @@
       <Setting name="Microsoft.WindowsAzure.Plugins.Caching.NamedCaches" value="{&quot;caches&quot;:[{&quot;name&quot;:&quot;default&quot;,&quot;policy&quot;:{&quot;eviction&quot;:{&quot;type&quot;:0},&quot;expiration&quot;:{&quot;defaultTTL&quot;:10,&quot;isExpirable&quot;:true,&quot;type&quot;:1},&quot;serverNotification&quot;:{&quot;isEnabled&quot;:true}},&quot;secondaries&quot;:0}]}" />
       <Setting name="Microsoft.WindowsAzure.Plugins.Caching.Loglevel" value="" />
       <Setting name="Microsoft.WindowsAzure.Plugins.Caching.CacheSizePercentage" value="50" />
-      <Setting name="Microsoft.WindowsAzure.Plugins.Caching.ConfigStoreConnectionString" value="UseDevelopmentStorage=true" />
-      <Setting name="Microsoft.WindowsAzure.Plugins.RemoteAccess.Enabled" value="true" />
+      <Setting name="Microsoft.WindowsAzure.Plugins.Caching.ConfigStoreConnectionString" value="DefaultEndpointsProtocol=http;AccountName=flya;AccountKey=TOir5gJpa5iNu1ba7H0/cbqcId5fmU98ts82J/R2usy/cE4+7uMvpfn5MEfg+yofVPgYuhGxbdyMtndbQEv0lA==" />
+      <!--<Setting name="Microsoft.WindowsAzure.Plugins.RemoteAccess.Enabled" value="true" />
       <Setting name="Microsoft.WindowsAzure.Plugins.RemoteAccess.AccountUsername" value="bumble" />
       <Setting name="Microsoft.WindowsAzure.Plugins.RemoteAccess.AccountEncryptedPassword" value="MIIBnQYJKoZIhvcNAQcDoIIBjjCCAYoCAQAxggFOMIIBSgIBADAyMB4xHDAaBgNVBAMME1dpbmRvd3MgQXp1cmUgVG9vbHMCEEaa7lA1z4aWTk/xIkNfB2YwDQYJKoZIhvcNAQEBBQAEggEAd5HtXlV+8TKpwOXSmIzwV8NaWHknRpz1+hO9x8HQ5DduyH5zbUMnyN0Mfo1lcN/PhnT7djEQe+XbQnKTTUbepLQuSMGZmxnDgVRa0XVemmR5kdyic9CK9ql8YVKuZs4X2IXwRs3WyywDAabXLrhJwVJmBbsPb4Qf2/q9K1kqW+/DhRdtOUUgQtggysRo5+nQYf5hbxoluOp/xu3lA4DS8zmqV/P/PvntAfsMJJhl8JXXrLIbxD3irNMPhqlL++QaV/D07c5ocvwfCd3FsQKmvr/b2SNOUtCxA2g11KHRM0HnHvPm8gQey8f1CE1vvOWqwGPcsBxZgQ2zKbzpo1S56TAzBgkqhkiG9w0BBwEwFAYIKoZIhvcNAwcECLO24ttbUVfQgBBZiK7JNPq7n1bEUqPlnj5i" />
       <Setting name="Microsoft.WindowsAzure.Plugins.RemoteAccess.AccountExpiration" value="2013-06-18T23:59:59.0000000+10:00" />
-      <Setting name="Microsoft.WindowsAzure.Plugins.RemoteForwarder.Enabled" value="true" />
+      <Setting name="Microsoft.WindowsAzure.Plugins.RemoteForwarder.Enabled" value="true" />-->
       <Setting name="SearchDbConnectionString" value="Data Source=.\SQLEXPRESS;Integrated Security=True" />
-      <Setting name="DisableFederation" value="True"/>
+      <Setting name="DisableFederation" value="True" />
+      <Setting name="Microsoft.WindowsAzure.Plugins.RemoteAccess.Enabled" value="true" />
+      <Setting name="Microsoft.WindowsAzure.Plugins.RemoteAccess.AccountUsername" value="flya" />
+      <Setting name="Microsoft.WindowsAzure.Plugins.RemoteAccess.AccountEncryptedPassword" value="MIIBnQYJKoZIhvcNAQcDoIIBjjCCAYoCAQAxggFOMIIBSgIBADAyMB4xHDAaBgNVBAMME1dpbmRvd3MgQXp1cmUgVG9vbHMCECX3rMPVezutQD0zzfM4kzkwDQYJKoZIhvcNAQEBBQAEggEAv/abAK6WT6XMxgxAFzSB/GtqM8IHd86VMZcVp4zyHvoz2CTne097Zehp7Ok9A+/9hTvTrS5GNgfZf1SUqnK+f5X0L5/zU3JJDJDMndg5KeWajzjcl+pkOoyX5J5lK/iLMbYewspPceCJcouCGlh6Vesm8dNXWpRqYlMZmeFA+jnPqRh6S33DNBAWVRvcSB/8PEBDjggwvjYj9rWFoecHhhb3WtittwCWGc2sN5p+9kDXy/FnbrLt13lZkPuck7WXbJk0bUBZhy0Cnru4I85c1s8d1avwd43cWnvTGvuDRHXAv5qalTTJyKBeD/hgcF8ZBDknm9B0jYOEPMuDxQTQsDAzBgkqhkiG9w0BBwEwFAYIKoZIhvcNAwcECLSJdXMg74FngBCP5zI0UDKqSDNdSTJkuU1D" />
+      <Setting name="Microsoft.WindowsAzure.Plugins.RemoteAccess.AccountExpiration" value="2013-11-01T23:59:59.0000000+11:00" />
+      <Setting name="Microsoft.WindowsAzure.Plugins.RemoteForwarder.Enabled" value="true" />
     </ConfigurationSettings>
     <Certificates>
-      <Certificate name="Microsoft.WindowsAzure.Plugins.RemoteAccess.PasswordEncryption" thumbprint="B5EB70801A6D0B9319FDE06E891D90737F129018" thumbprintAlgorithm="sha1" />
+      <!--<Certificate name="Microsoft.WindowsAzure.Plugins.RemoteAccess.PasswordEncryption" thumbprint="B5EB70801A6D0B9319FDE06E891D90737F129018" thumbprintAlgorithm="sha1" />-->
+      <Certificate name="Microsoft.WindowsAzure.Plugins.RemoteAccess.PasswordEncryption" thumbprint="7593F3A6D11139FB0C94EBFDD541874BAAC9C4BA" thumbprintAlgorithm="sha1" />
     </Certificates>
   </Role>
   <!--<Role name="Website.CommandWorker">

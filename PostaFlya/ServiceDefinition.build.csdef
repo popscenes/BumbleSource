@@ -26,6 +26,8 @@
     <Imports>
       <Import moduleName="Diagnostics" />
       <Import moduleName="Caching" />
+      <!--<Import moduleName="RemoteAccess" />
+      <Import moduleName="RemoteForwarder" />-->
       <Import moduleName="RemoteAccess" />
       <Import moduleName="RemoteForwarder" />
     </Imports>

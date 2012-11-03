@@ -43,6 +43,9 @@ namespace PostaFlya.Domain.Flier.Command
             if(newFlier.FlierBehaviour == FlierBehaviour.Default)
                 newFlier.Status = FlierStatus.Active;
 
+            if(newFlier.UseBrowserContactDetails)
+                newFlier.Status = FlierStatus.PaymentPending;
+
             newFlier.FriendlyId = _flierQueryService.FindFreeFriendlyId(newFlier);
   
             UnitOfWorkInterface unitOfWork;
