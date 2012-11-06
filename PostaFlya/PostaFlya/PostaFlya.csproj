@@ -319,6 +319,7 @@
     <Compile Include="Controllers\BrowserInformationController.cs" />
     <Compile Include="Controllers\ClaimController.cs" />
     <Compile Include="Controllers\FlierImportController.cs" />
+    <Compile Include="Controllers\PaymentController.cs" />
     <Compile Include="Controllers\ProfileApiController.cs" />
     <Compile Include="Controllers\ProfileController.cs" />
     <Compile Include="Controllers\SneakyController.cs" />
@@ -344,6 +345,8 @@
     <Compile Include="Models\Factory\FlierBehaviourViewModelFactory.cs" />
     <Compile Include="Models\Factory\FlierBehaviourViewModelFactoryInterface.cs" />
     <Compile Include="Models\Factory\FlierBehaviourViewModelFactoryRegistryInterface.cs" />
+    <Compile Include="Models\FlierPaymentModel.cs" />
+    <Compile Include="Models\Flier\FlierPaymentResult.cs" />
     <Compile Include="Models\Flier\HeatMapPoint.cs" />
     <Compile Include="Controllers\ImgController.cs" />
     <Compile Include="Controllers\MyFliersController.cs" />
