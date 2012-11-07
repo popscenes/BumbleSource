@@ -234,6 +234,7 @@
     <Compile Include="Intergrations\FacebookGraph.cs" />
     <Compile Include="Intergrations\FacebookPermissionSet.cs" />
     <Compile Include="Intergrations\FaceBookUser.cs" />
+    <Compile Include="Payment\PaymentTransaction.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Publish\DefaultPublishBroadcastService.cs" />
     <Compile Include="Util\WebRequestUtil.cs" />

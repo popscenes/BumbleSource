@@ -222,6 +222,7 @@
       <DependentUpon>Boards.feature</DependentUpon>
     </Compile>
     <Compile Include="Fliers\BoardsSteps.cs" />
+    <Compile Include="Fliers\FlierPaymentSteps.cs" />
     <Compile Include="Fliers\FlierSteps.cs" />
     <Compile Include="Fliers\HeatMap.feature.cs">
       <AutoGen>True</AutoGen>
