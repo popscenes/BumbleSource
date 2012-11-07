@@ -72,9 +72,16 @@
     <Compile Include="Behaviour\Query\DefaultFlierBehaviourQueryService.cs" />
     <Compile Include="Behaviour\Query\FlierBehaviourQueryServiceInterface.cs" />
     <Compile Include="Boards\Board.cs" />
+    <Compile Include="Boards\BoardFlier.cs" />
+    <Compile Include="Boards\BoardFlierInterface.cs" />
+    <Compile Include="Boards\BoardFlierStatus.cs" />
     <Compile Include="Boards\BoardInterface.cs" />
+    <Compile Include="Boards\Command\AddFlierToBoardCommand.cs" />
+    <Compile Include="Boards\Command\AddFlierToBoardCommandHandler.cs" />
     <Compile Include="Boards\Command\CreateBoardCommand.cs" />
     <Compile Include="Boards\Command\CreateBoardCommandHandler.cs" />
+    <Compile Include="Boards\Command\EditBoardFlierCommand.cs" />
+    <Compile Include="Boards\Command\EditBoardFlierCommandHandler.cs" />
     <Compile Include="Boards\Query\BoardQueryServiceUtil.cs" />
     <Compile Include="Flier\FlierImage.cs" />
     <Compile Include="Flier\Query\FlierQueryServiceUtil.cs" />

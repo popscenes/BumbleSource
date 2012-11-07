@@ -2,22 +2,7 @@ using System;
 
 namespace Website.Domain.Location
 {
-    public static class LocationInterfaceExtension
-    {
-        public static bool IsValid(this LocationInterface loc)
-        {
-            return !(loc.Longitude < -180
-                         || loc.Longitude > 180
-                         || loc.Latitude < -90
-                         || loc.Latitude > 90);
-        }
-    }
 
-    public interface LocationInterface
-    {
-        double Longitude { get; set; }
-        double Latitude { get; set; }
-    }
 
     [Serializable]
     public class Location : LocationInterface, AddressInterface
@@ -34,9 +19,8 @@ namespace Website.Domain.Location
 
         public Location(Location source)
         {
-            Longitude = source.Longitude;
-            Latitude = source.Latitude;
-            Description = source.Description;
+            this.CopyFieldsFrom((LocationInterface) source);
+            this.CopyFieldsFrom((AddressInterface) source); 
         }
 
         public Location(double longitude, double latitude, string description = "")

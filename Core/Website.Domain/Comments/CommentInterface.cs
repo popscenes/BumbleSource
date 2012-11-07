@@ -9,9 +9,9 @@ namespace Website.Domain.Comments
         public static void CopyFieldsFrom(this CommentInterface target, CommentInterface source)
         {
             EntityInterfaceExtensions.CopyFieldsFrom(target, source);
+            BrowserIdInterfaceExtensions.CopyFieldsFrom(target, source);
+            AggregateInterfaceExtensions.CopyFieldsFrom(target, source);
             target.CommentContent = source.CommentContent;
-            target.AggregateId = source.AggregateId;
-            target.BrowserId = source.BrowserId;
             target.CommentTime = source.CommentTime;
         }
 

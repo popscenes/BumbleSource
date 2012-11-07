@@ -78,7 +78,7 @@ namespace Website.Azure.Common.TableStorage
             return GetSelectTableEntries<EntityType, StorageTableKey>(partitionKey, 
                 e => new StorageTableKey(){PartitionKey = e.PartitionKey, RowKey = e.RowKey},
                 partitionId, take)
-                .Select(te => te.RowKey);
+                .Select(te => te.RowKey.ExtractEntityIdFromRowKey());
         }
 
 

@@ -132,6 +132,15 @@ namespace PostaFlya.Specification.Fliers
             ThenTheNewFlierWillBeCreated(flierbehaviour);
         }
 
+        [Given(@"A BROWSER has created a FLIER")]
+        public void GivenABrowserHasCreatedAFlierofBehaviour()
+        {
+            var browserId = _common.GivenThereIsAnExistingBrowserWithParticipantRole();
+            GivenABrowserHasNavigatedToTheCreateFlierPage(FlierBehaviour.Default.ToString());
+            WhenABrowserSubmitsTheRequiredDataForAFlier(browserId);
+            ThenTheNewFlierWillBeCreated(FlierBehaviour.Default.ToString());
+        }
+
         [Given(@"A BROWSER has created a FLIER of BEHAVIOUR (.*)")]
         public void GivenABrowserHasCreatedAFlierofBehaviour(string flierbehaviour)
         {

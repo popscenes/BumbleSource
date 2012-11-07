@@ -1,25 +1,25 @@
 ﻿using System;
-using System.ComponentModel;
-using System.Net.Http;
-using System.Runtime.Serialization;
-using System.Web.Http;
+using System.Linq;
 using NUnit.Framework;
-using PostaFlya.Domain.Boards.Command;
-using PostaFlya.Models;
-using PostaFlya.Models.Location;
+using Ninject;
+using PostaFlya.Controllers;
+using PostaFlya.Domain.Boards;
+using PostaFlya.Domain.Flier;
+using PostaFlya.Mocks.Domain.Data;
+using PostaFlya.Models.Board;
 using PostaFlya.Specification.Util;
 using TechTalk.SpecFlow;
-using Website.Application.Extension.Validation;
-using Website.Common.Extension;
-using Website.Infrastructure.Command;
+using Website.Infrastructure.Query;
 
 namespace PostaFlya.Specification.Fliers
 {
     [Binding]
     public class BoardsSteps
     {
+        private readonly CommonSteps _common = new CommonSteps();
+
         [When(@"I submit the following data for the BOARD:")]
-        public void WhenISubmitTheFollowingDataForTheBOARD(Table table)
+        public void WhenISubmitsTheFollowingDataForTheBOARD(Table table)
         {
             var boardCreate = new BoardCreateEditModel()
                 {
@@ -28,72 +28,149 @@ namespace PostaFlya.Specification.Fliers
                     RequireApprovalOfPostedFliers = Boolean.Parse(table.Rows[0]["RequireApprovalForFliers"]),
                 };
 
-            WhenISubmitTheFollowingDataForTheBOARD(boardCreate);
+            WhenABrowserSubmitsTheFollowingDataForTheBOARD(boardCreate, SpecUtil.GetCurrBrowser().Browser.Id);
         }
 
-        public void WhenISubmitTheFollowingDataForTheBOARD(BoardCreateEditModel boardCreate)
+        public void WhenABrowserSubmitsTheFollowingDataForTheBOARD(BoardCreateEditModel boardCreate, string browserId)
         {
-            var browserId = SpecUtil.GetCurrBrowser().Browser.Id;
-
             var controller = SpecUtil.GetApiController<MyBoardsController>();
             var res = controller.Post(browserId, boardCreate);
             res.AssertStatusCode();
             ScenarioContext.Current["createdboardid"] = res.EntityId();
         }
         
-        [Then(@"a private BOARD named (.*) will be created")]
-        public void ThenAPrivateBOARDNamedBoardWillBeCreated(string boardName)
+        [Then(@"a BOARD named (.*) will be created")]
+        public void ThenABOARDNamedBoardWillBeCreated(string boardName)
         {
-            ScenarioContext.Current.Pending();
+            var queryService = SpecUtil.CurrIocKernel.Get<GenericQueryServiceInterface>();
+            var board = queryService.FindById<Board>(ScenarioContext.Current["createdboardid"] as string);
+            Assert.IsNotNull(board);
+
+            var board2 = queryService.FindByFriendlyId<Board>(boardName.ToLower());
+            Assert.IsNotNull(board2);
+
+            BoardTestData.AssertStoreRetrieve(board, board2);
+
+            ScenarioContext.Current["board"] = board;
         }
-    }
 
-    public class MyBoardsController : ApiController
-    {
-        private readonly CommandBusInterface _commandBus;
-
-        public MyBoardsController(CommandBusInterface commandBus)
+        [Then(@"the BOARD will allow Others to post FLIERS")]
+        public void ThenTheBOARDWillAllowOthersToPost()
         {
-            _commandBus = commandBus;
+            var board = ScenarioContext.Current["board"] as BoardInterface;
+            Assert.IsNotNull(board);
+            Assert.That(board.AllowOthersToPostFliers, Is.True);
         }
 
-        public HttpResponseMessage Post(string browserId, BoardCreateEditModel boardCreate)
+
+        [Then(@"the BOARD will require approval for posted FLIERS")]
+        public void ThenTheBOARDWillRequireApprovalForPostedFliers()
         {
-            var createBoardCommand = new CreateBoardCommand()
-                {
-                    BrowserId = browserId,
-                    BoardName = boardCreate.BoardName,
-                    Location = boardCreate.Location != null ? boardCreate.Location.ToDomainModel() : null,
-                    AllowOthersToPostFliers = boardCreate.AllowOthersToPostFliers,
-                    RequireApprovalOfPostedFliers = boardCreate.RequireApprovalOfPostedFliers
-                };
-
-            var res = _commandBus.Send(createBoardCommand);
-            return this.GetResponseForRes(res);
+            var board = ScenarioContext.Current["board"] as BoardInterface;
+            Assert.IsNotNull(board);
+            Assert.That(board.AllowOthersToPostFliers, Is.True);
         }
-    }
 
-    [DataContract]
-    public class BoardCreateEditModel : ViewModelBase
-    {
-        public string Id { get; set; }
+        private void GivenThereIsAPublicBoardForBrowserThatRequiresApprovalNamed(string browserId, string targetBoard)
+        {
+            var boardCreate = new BoardCreateEditModel()
+            {
+                BoardName = targetBoard,
+                AllowOthersToPostFliers = true,
+                RequireApprovalOfPostedFliers = true,
+            };
 
-        [DisplayName("BoardName")]
-        [RequiredWithMessage]
-        public string BoardName { get; set; }
+            WhenABrowserSubmitsTheFollowingDataForTheBOARD(boardCreate, browserId);
+            ThenABOARDNamedBoardWillBeCreated(targetBoard);
+            ThenTheBOARDWillAllowOthersToPost();
+            ThenTheBOARDWillRequireApprovalForPostedFliers();
+        }
 
-        [DisplayName("AllowOthersToPostFliers")]
-        [DataMember]
-        [RequiredWithMessage]
-        public bool AllowOthersToPostFliers { get; set; }
+        [Given(@"there is a public board named (.*) that requires approval")]
+        public void GivenThereIsAPublicBoardThatRequiresApprovalNamed(string targetBoard)
+        {   
+            var browserId = _common.GivenThereIsAnExistingBrowserWithParticipantRole();
+            GivenThereIsAPublicBoardForBrowserThatRequiresApprovalNamed(browserId, targetBoard);
+        }
 
-        [DisplayName("RequireApprovalOfPostedFliers")]
-        [DataMember]
-        [RequiredWithMessage]
-        public bool RequireApprovalOfPostedFliers { get; set; }
+        [Given(@"I have created a public board named (.*) that requires approval")]
+        public void GivenIHaveCreatedAPublicBoardThatRequiresApprovalNamed(string targetBoard)
+        {
+            var browserId = SpecUtil.GetCurrBrowser().Browser.Id;
+            GivenThereIsAPublicBoardForBrowserThatRequiresApprovalNamed(browserId, targetBoard);
+        }
 
-        [DisplayName("Location")]
-        public LocationModel Location { get; set; }
+        [When(@"I add the FLIER to the board")]
+        public void WhenIAddTheFLIERToTheBoard()
+        {
+            var browserId = SpecUtil.GetCurrBrowser().Browser.Id;
+            WhenABrowserAddsTheFlierToTheBoard(browserId);
+        }
+
+        [When(@"A BROWSER adds the FLIER to the board")]
+        public void WhenABrowserAddsTheFLIERToTheBoard()
+        {
+            var browserId = _common.GivenThereIsAnExistingBrowserWithParticipantRole();
+            WhenABrowserAddsTheFlierToTheBoard(browserId);
+        }
+
+        [Given(@"A BROWSER has added the FLIER to the board")]
+        public void GivenABrowserAddsTheFLIERToTheBoard()
+        {
+            WhenABrowserAddsTheFLIERToTheBoard();
+            ThenItWillBeAMemberOfTheBoardWithAStatusOf(BoardFlierStatus.PendingApproval);
+        }
+
+        private static void WhenABrowserAddsTheFlierToTheBoard(string browserId)
+        {
+            var flier = ScenarioContext.Current["flier"] as FlierInterface;
+            var board = ScenarioContext.Current["board"] as BoardInterface;
+
+            var controller = SpecUtil.GetApiController<BoardFlierController>();
+            var addFlierModel = new AddBoardFlierModel()
+            {
+                BoardId = board.Id,
+                FlierId = flier.Id
+            };
+            var res = controller.Post(browserId, addFlierModel);
+            res.AssertStatusCode();
+        }
+
+        [Then(@"The FLIER will be a member of the board with a status of (.*)")]
+        public void ThenItWillBeAMemberOfTheBoardWithAStatusOf(BoardFlierStatus status)
+        {
+            var queryService = SpecUtil.CurrIocKernel.Get<GenericQueryServiceInterface>();
+            var flier = ScenarioContext.Current["flier"] as FlierInterface;
+            var board = ScenarioContext.Current["board"] as BoardInterface;
+
+            var boardFlier = queryService.FindAggregateEntities<BoardFlier>(board.Id);
+            Assert.That(boardFlier.Count(), Is.GreaterThan(0));
+            Assert.That(boardFlier.All(bf => bf != null));
+            var ret = boardFlier.SingleOrDefault(bf => bf.FlierId == flier.Id);
+            Assert.IsNotNull(ret);
+            Assert.That(ret.Status, Is.EqualTo(status));
+        }
+
+        [When(@"I approve the FLIER")]
+        public void WhenIApproveTheFLIER()
+        {
+            var board = ScenarioContext.Current["board"] as BoardInterface;
+            var flier = ScenarioContext.Current["flier"] as FlierInterface;
+
+            var controller = SpecUtil.GetApiController<MyBoardFlierController>();
+            var browserId = SpecUtil.GetCurrBrowser().Browser.Id;
+            var res = controller.Get(browserId, board.Id, BoardFlierStatus.PendingApproval);
+
+            var ret = res.SingleOrDefault(bf => bf.Flier.Id == flier.Id);
+            Assert.IsNotNull(ret);
+
+            var updateRes = controller.Put(browserId,
+                           new EditBoardFlierModel()
+                               {BoardId = board.Id, FlierId = ret.Flier.Id, Status = BoardFlierStatus.Approved});
+
+            updateRes.AssertStatusCode();
+        }
+
 
     }
 }

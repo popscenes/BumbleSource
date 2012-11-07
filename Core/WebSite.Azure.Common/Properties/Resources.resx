@@ -193,6 +193,9 @@ drop table dbo.{0}</value>
   <data name="DbGetRecord" xml:space="preserve">
     <value>select * from {0} where {1} = @{1}</value>
   </data>
+  <data name="DBHasFederation" xml:space="preserve">
+    <value>select count(*) as Count from sys.federations where name = '{0}'</value>
+  </data>
   <data name="DbInsertOrUpdateRecord" xml:space="preserve">
     <value>begin tran
 if exists (select * from {0} with (updlock,serializable) where {1} = @{1} )

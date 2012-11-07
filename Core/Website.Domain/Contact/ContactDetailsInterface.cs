@@ -9,6 +9,8 @@ namespace Website.Domain.Contact
     {
         public static void CopyFieldsFrom(this ContactDetailsInterface target, ContactDetailsInterface source)
         {
+            if (target == null)
+                return;
             target.EmailAddress = source.EmailAddress;
             target.FirstName = source.FirstName;
             target.MiddleNames = source.MiddleNames;

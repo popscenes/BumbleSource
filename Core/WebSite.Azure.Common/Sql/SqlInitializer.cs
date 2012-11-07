@@ -41,6 +41,7 @@ namespace Website.Azure.Common.Sql
             SqlExecute.ExecuteCommand(cmdText, _connection);
         }
 
+
         public static bool CreateFederationFor(Type recordTyp, SqlConnection connection)
         {
             var prop = SerializeUtil.GetPropertyWithAttribute(recordTyp, typeof (FederationCol));
@@ -113,6 +114,8 @@ namespace Website.Azure.Common.Sql
         {
             if(string.IsNullOrWhiteSpace(tableName))
                 tableName = metaTyp.Name;
+
+            CreateFederationFor(metaTyp, connection);
 
             var keyProp = SqlExecute.GetPrimaryKey(metaTyp);
             if (keyProp == null)

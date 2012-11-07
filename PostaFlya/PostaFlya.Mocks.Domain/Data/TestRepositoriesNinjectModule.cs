@@ -4,17 +4,20 @@ using Moq;
 using Ninject;
 using Ninject.MockingKernel.Moq;
 using Ninject.Modules;
+using PostaFlya.Domain.Boards;
 using PostaFlya.Domain.Flier;
 using PostaFlya.Domain.Flier.Command;
 using PostaFlya.Domain.Flier.Query;
 using PostaFlya.Domain.TaskJob;
 using PostaFlya.Domain.TaskJob.Command;
 using PostaFlya.Domain.TaskJob.Query;
+using Website.Infrastructure.Command;
 using Website.Infrastructure.Domain;
 using Website.Domain.Claims;
 using Website.Domain.Comments;
 using Website.Domain.Location;
 using Website.Domain.Tag;
+using Website.Infrastructure.Query;
 using Website.Mocks.Domain.Data;
 
 namespace PostaFlya.Mocks.Domain.Data
@@ -35,6 +38,32 @@ namespace PostaFlya.Mocks.Domain.Data
                 , RepoUtil.GetMockStore<TaskJobFlierBehaviourInterface>()
                 , RepoUtil.GetMockStore<TaskJobBidInterface>());
 
+            SetUpBoardRepositoryAndQueryService(kernel
+                , RepoUtil.GetMockStore<BoardInterface>());
+
+            SetUpBoardFlierRepositoryAndQueryService(kernel
+                , RepoUtil.GetMockStore<BoardFlierInterface>());
+
+        }
+
+        public static  void SetUpBoardFlierRepositoryAndQueryService(MoqMockingKernel kernel, HashSet<BoardFlierInterface> store)
+        {
+            RepoUtil.SetupRepo<GenericRepositoryInterface, BoardFlier, BoardFlierInterface>(store, kernel, BoardFlierInterfaceExtensions.CopyFieldsFrom);
+
+            /////////////query service
+            RepoUtil.SetupQueryService<GenericQueryServiceInterface, BoardFlier, BoardFlierInterface>(store, kernel, BoardFlierInterfaceExtensions.CopyFieldsFrom);
+            RepoUtil.FindAggregateEntities<GenericQueryServiceInterface, BoardFlier, BoardFlierInterface>(store, kernel,
+                                                                                      BoardFlierInterfaceExtensions
+                                                                                          .CopyFieldsFrom);
+        }
+
+        public static void SetUpBoardRepositoryAndQueryService(MoqMockingKernel kernel, HashSet<BoardInterface> store)
+        {
+            RepoUtil.SetupRepo<GenericRepositoryInterface, Board, BoardInterface>(store, kernel, BoardInterfaceExtensions.CopyFieldsFrom);
+
+            /////////////query service
+            RepoUtil.SetupQueryService<GenericQueryServiceInterface, Board, BoardInterface>(store, kernel, BoardInterfaceExtensions.CopyFieldsFrom);
+
         }
 
         public static void SetUpFlierRepositoryAndQueryService(MoqMockingKernel kernel
@@ -42,9 +71,7 @@ namespace PostaFlya.Mocks.Domain.Data
             , HashSet<CommentInterface> storeComment
             , HashSet<ClaimInterface> claimStore)
         {
-
-            
-
+     
             ////////////repo
             var flierRepository = RepoUtil.SetupRepo<FlierRepositoryInterface, Flier, FlierInterface>(store, kernel, FlierInterfaceExtensions.CopyFieldsFrom);
 

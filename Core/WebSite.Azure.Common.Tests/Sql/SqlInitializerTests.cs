@@ -76,8 +76,6 @@ namespace Website.Azure.Common.Tests.Sql
 
                 using (var connection = new SqlConnection(SqlExecute.GetConnectionStringFromConfig("DbConnectionString", databasename)))
                 {
-                    SqlInitializer.CreateFederationFor(tableTyp, connection);
-
                     initializer.DeleteTable(tableTyp.Name, connection);
 
                     Assert.IsTrue(SqlInitializer.CreateTableFrom(tableTyp, connection));
@@ -119,8 +117,6 @@ namespace Website.Azure.Common.Tests.Sql
 
             using (var connection = new SqlConnection(SqlExecute.GetConnectionStringFromConfig("DbConnectionString",databasename)))
             {
-                SqlInitializer.CreateFederationFor(typeof(TableType), connection);
-
                 Assert.IsTrue(initializer.DeleteTable(typeof(TableType).Name, connection));
                 Assert.IsTrue(SqlInitializer.CreateTableFrom(typeof(TableType), connection));
             }

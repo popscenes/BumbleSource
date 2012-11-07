@@ -23,12 +23,17 @@ namespace PostaFlya.Domain.Flier
         public static void CopyFieldsFrom(this FlierInterface target, FlierInterface source)
         {
             EntityInterfaceExtensions.CopyFieldsFrom(target, source);
+            BrowserIdInterfaceExtensions.CopyFieldsFrom(target, source);
+            CommentableInterfaceExtensions.CopyFieldsFrom(target, source);
+            ClaimableInterfaceExtensions.CopyFieldsFrom(target, source);
+            target.ContactDetails = source.ContactDetails != null ? new ContactDetails() : null;
+            target.ContactDetails.CopyFieldsFrom(source.ContactDetails);
+
             target.Title = source.Title;
             target.Description = source.Description;
             target.Tags = new Tags(source.Tags);
             target.Location = new Location(source.Location);
             target.Image = source.Image;
-            target.BrowserId = source.BrowserId;
             target.EffectiveDate = source.EffectiveDate;
             target.CreateDate = source.CreateDate;
             target.FlierBehaviour = source.FlierBehaviour;
@@ -39,10 +44,7 @@ namespace PostaFlya.Domain.Flier
             target.ExtendedProperties = source.ExtendedProperties != null
                                             ? new Dictionary<string, object>(source.ExtendedProperties)
                                             : null;
-            target.NumberOfComments = source.NumberOfComments;
-            target.NumberOfClaims = source.NumberOfClaims;
             target.UseBrowserContactDetails = source.UseBrowserContactDetails;
-            target.ContactDetails = source.ContactDetails;
         }        
 
         public static bool HasContactDetails(this FlierInterface flier)

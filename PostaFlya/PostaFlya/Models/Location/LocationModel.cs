@@ -42,7 +42,8 @@ namespace PostaFlya.Models.Location
         {
             var ret = new Website.Domain.Location.Location(Longitude, Latitude)
             {Description = Description };
-            ret.CopyFieldsFrom(this);
+            ret.CopyFieldsFrom((LocationInterface) this);
+            ret.CopyFieldsFrom((AddressInterface)this);
             return ret;
         }
 

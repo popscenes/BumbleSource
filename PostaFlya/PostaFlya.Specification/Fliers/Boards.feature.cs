@@ -80,7 +80,36 @@ namespace PostaFlya.Specification.Fliers
                         "True",
                         "-37.7760:144.979:[][Brunswick East][VIC][3057][Australia]"});
             testRunner.When("I submit the following data for the BOARD:", ((string)(null)), table1, "When ");
-            testRunner.Then("a private BOARD named MyBoard will be created", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+            testRunner.Then("a BOARD named MyBoard will be created", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+            testRunner.And("the BOARD will allow Others to post FLIERS", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+            testRunner.And("the BOARD will require approval for posted FLIERS", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+            this.ScenarioCleanup();
+        }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Participant Adds Flier To Board They Dont Own")]
+        public virtual void ParticipantAddsFlierToBoardTheyDontOwn()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Participant Adds Flier To Board They Dont Own", ((string[])(null)));
+            this.ScenarioSetup(scenarioInfo);
+            testRunner.Given("there is a public board named publicBoard that requires approval", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+            testRunner.And("I have created a FLIER", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+            testRunner.When("I add the FLIER to the board", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+            testRunner.Then("The FLIER will be a member of the board with a status of PendingApproval", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+            this.ScenarioCleanup();
+        }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Participant Approves Flier On Board They Own")]
+        public virtual void ParticipantApprovesFlierOnBoardTheyOwn()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Participant Approves Flier On Board They Own", ((string[])(null)));
+            this.ScenarioSetup(scenarioInfo);
+            testRunner.Given("I have created a public board named coolBoard that requires approval", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+            testRunner.And("A BROWSER has created a FLIER", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+            testRunner.And("A BROWSER has added the FLIER to the board", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+            testRunner.When("I approve the FLIER", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+            testRunner.Then("The FLIER will be a member of the board with a status of Approved", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
             this.ScenarioCleanup();
         }
     }

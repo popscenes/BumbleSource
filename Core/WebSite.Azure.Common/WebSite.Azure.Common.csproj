@@ -109,6 +109,7 @@
     <Compile Include="TableStorage\RepositoryBase.cs" />
     <Compile Include="TableStorage\SimpleExtendableEntity.cs" />
     <Compile Include="TableStorage\StorageAggregate.cs" />
+    <Compile Include="TableStorage\StorageKeyUtil.cs" />
     <Compile Include="TableStorage\StorageTableEntryInterface.cs" />
     <Compile Include="TableStorage\ClonedTableEntry.cs" />
     <Compile Include="TableStorage\StorageTableKey.cs" />

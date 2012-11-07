@@ -6,8 +6,7 @@ namespace Website.Infrastructure.Domain
     {
         public static void CopyFieldsFrom(this EntityInterface target, EntityInterface source)
         {
-            target.Id = source.Id;
-            target.FriendlyId = source.FriendlyId;
+            EntityIdInterfaceExtensions.CopyFieldsFrom(target, source);    
             target.Version = source.Version;
         }
 
@@ -19,6 +18,16 @@ namespace Website.Infrastructure.Domain
             return newb;
         }
     }
+     
+    public static class EntityIdInterfaceExtensions
+    {
+        public static void CopyFieldsFrom(this EntityInterface target, EntityInterface source)
+        {
+            target.Id = source.Id;
+            target.FriendlyId = source.FriendlyId;
+        }
+    }
+
     public interface EntityInterface : EntityIdInterface
     {
         int Version { get; set; }
@@ -29,6 +38,14 @@ namespace Website.Infrastructure.Domain
     {
         string Id { get; set; }
         string FriendlyId { get; set; }
+    }
+
+    public static class AggregateInterfaceExtensions
+    {
+        public static void CopyFieldsFrom(this AggregateInterface target, AggregateInterface source)
+        {
+            target.AggregateId = source.AggregateId;
+        }
     }
 
     public interface AggregateInterface

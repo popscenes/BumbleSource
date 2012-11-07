@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text.RegularExpressions;
@@ -36,6 +37,11 @@ namespace Website.Application.Extension.Validation
         public static string InvalidGuid
         {
             get { return "{0} is an invalid id"; } 
+        }
+
+        public static string InvalidCount
+        {
+            get { return "{0} has an invalid number of elements"; } 
         }
     }
 
@@ -151,6 +157,45 @@ namespace Website.Application.Extension.Validation
             }
             return false;
         }
+    }
+
+    public class CollectionCountWithMessageAttribute : CollectionCountAttribute
+    {
+        public CollectionCountWithMessageAttribute(int minimum, int maximum = -1)
+            : base(minimum, maximum)
+        {
+            ErrorMessageResourceType = typeof (ErrorStrings);
+            ErrorMessageResourceName = "InvalidCount";
+        }
+    }
+
+    [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field | AttributeTargets.Parameter, AllowMultiple = false)]
+    public class CollectionCountAttribute : ValidationAttribute
+    {
+
+        public int MaximumLength { get; set; }
+
+        public int MinimumLength { get; set; }
+
+
+        public CollectionCountAttribute(int minimum, int maximum = -1)
+        {
+            ErrorMessageResourceType = typeof(ErrorStrings);
+            ErrorMessageResourceName = "InvalidCount";
+            this.MinimumLength = minimum;
+            this.MaximumLength = maximum;
+        }
+
+        public override bool IsValid(object value)
+        {
+            var collection = value as ICollection;
+            if (collection != null)
+            {
+                return collection.Count > MinimumLength && (MaximumLength < 0 || collection.Count < MaximumLength);
+            }
+
+            return false;
+        }        
     }
 
 }

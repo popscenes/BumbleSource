@@ -89,6 +89,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Data\Behaviour\TaskJobTestData.cs" />
+    <Compile Include="Data\BoardTestData.cs" />
     <Compile Include="Data\ExternalSourceNinjectModule.cs" />
     <Compile Include="Data\FlierTestData.cs" />
     <Compile Include="Data\TestRepositoriesNinjectModule.cs" />

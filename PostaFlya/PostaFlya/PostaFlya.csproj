@@ -318,10 +318,17 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BrowserInformationController.cs" />
     <Compile Include="Controllers\ClaimController.cs" />
+    <Compile Include="Controllers\BoardFlierController.cs" />
     <Compile Include="Controllers\FlierImportController.cs" />
+    <Compile Include="Controllers\MyBoardFlierController.cs" />
+    <Compile Include="Controllers\MyBoardsController.cs" />
     <Compile Include="Controllers\ProfileApiController.cs" />
     <Compile Include="Controllers\ProfileController.cs" />
     <Compile Include="Controllers\SneakyController.cs" />
+    <Compile Include="Models\Board\AddBoardFlierModel.cs" />
+    <Compile Include="Models\Board\BoardCreateEditModel.cs" />
+    <Compile Include="Models\Board\BoardFlierModel.cs" />
+    <Compile Include="Models\Board\EditBoardFlierModel.cs" />
     <Compile Include="Models\Browser\BrowserModel.cs" />
     <Compile Include="Models\Browser\ProfileEditModel.cs" />
     <Compile Include="Models\Claims\ClaimModel.cs" />

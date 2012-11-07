@@ -39,7 +39,7 @@ namespace PostaFlya.Mocks.Domain.Data
                            ExternalId = "123"
                            
                        };
-            FlierQueryServiceUtil.FindFreeFriendlyId(null, ret);
+            ret.FriendlyId = FlierQueryServiceUtil.FindFreeFriendlyId(null, ret);
             return ret;
         }
 

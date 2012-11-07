@@ -4,6 +4,7 @@ using NUnit.Framework;
 using Ninject;
 using Ninject.MockingKernel.Moq;
 using Ninject.Modules;
+using PostaFlya.Domain.Boards;
 using TechTalk.SpecFlow;
 using PostaFlya.Domain.Flier;
 using PostaFlya.Domain.TaskJob;
@@ -27,18 +28,25 @@ namespace PostaFlya.Specification.Util
         {
             var kernel = Kernel as MoqMockingKernel;
             Assert.IsNotNull(kernel, "should be using mock kernel for tests");
-
+            //core
             SetUpBrowserInformation(kernel);
             Website.Mocks.Domain.Data.TestRepositoriesNinjectModule.SetUpWebsiteInfo(kernel);
 
             Website.Mocks.Domain.Data.TestRepositoriesNinjectModule.SetUpBrowserRepositoryAndQueryService(kernel, SpecUtil.GetMockStore<HashSet<BrowserInterface>>("browserstore"));
+            Website.Mocks.Domain.Data.TestRepositoriesNinjectModule.SetUpImageRepositoryAndQueryService(kernel
+                , SpecUtil.GetMockStore<HashSet<ImageInterface>>("imagestore"));
+
+            //postaflya
             TestRepositoriesNinjectModule.SetUpFlierRepositoryAndQueryService(kernel
                 , SpecUtil.GetMockStore<HashSet<FlierInterface>>("flierstore")
                 , SpecUtil.GetMockStore<HashSet<CommentInterface>>("fliercommentstore")
                 , SpecUtil.GetMockStore<HashSet<ClaimInterface>>("claimstore"));
-            Website.Mocks.Domain.Data.TestRepositoriesNinjectModule.SetUpImageRepositoryAndQueryService(kernel
-                , SpecUtil.GetMockStore<HashSet<ImageInterface>>("imagestore"));
 
+            TestRepositoriesNinjectModule.SetUpBoardRepositoryAndQueryService(kernel
+                , SpecUtil.GetMockStore<HashSet<BoardInterface>>("boardstore"));
+
+            TestRepositoriesNinjectModule.SetUpBoardFlierRepositoryAndQueryService(kernel
+                , SpecUtil.GetMockStore<HashSet<BoardFlierInterface>>("boardflierstore"));
             
 
             PrincipalData.SetPrincipal(kernel);

@@ -14,9 +14,9 @@ namespace Website.Domain.Claims
         public static void CopyFieldsFrom(this ClaimInterface target, ClaimInterface source)
         {
             EntityInterfaceExtensions.CopyFieldsFrom(target, source);
+            BrowserIdInterfaceExtensions.CopyFieldsFrom(target, source);
+            AggregateInterfaceExtensions.CopyFieldsFrom(target, source);
             target.ClaimContext = source.ClaimContext;
-            target.AggregateId = source.AggregateId;
-            target.BrowserId = source.BrowserId;
             target.ClaimTime = source.ClaimTime;
             target.EntityTypeTag = source.EntityTypeTag;
         }
