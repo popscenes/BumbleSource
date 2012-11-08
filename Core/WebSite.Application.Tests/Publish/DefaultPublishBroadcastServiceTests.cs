@@ -33,7 +33,7 @@ namespace Website.Application.Tests.Publish
         public void DefaultPublishBroadcastServicePublishesToAllRegisteredPublishServiceInterfaceImplementations()
         {
             bool mock1Called = false;
-            var mock1 = new Moq.Mock<PublishServiceInterface<TestPublishClass>>();
+            var mock1 = new Moq.Mock<SubscriptionInterface<TestPublishClass>>();
             mock1.Setup(service => service.Publish(It.IsAny<TestPublishClass>()))
                 .Returns<TestPublishClass>(pub =>
                                                {
@@ -43,11 +43,11 @@ namespace Website.Application.Tests.Publish
             mock1.SetupGet(service => service.IsEnabled)
                 .Returns(true);
 
-            Kernel.Bind<PublishServiceInterface<TestPublishClass>>()
+            Kernel.Bind<SubscriptionInterface<TestPublishClass>>()
                 .ToConstant(mock1.Object);
              
             bool mock2Called = false;
-            var mock2 = new Moq.Mock<PublishServiceInterface<TestPublishClass>>();
+            var mock2 = new Moq.Mock<SubscriptionInterface<TestPublishClass>>();
             mock2.Setup(service => service.Publish(It.IsAny<TestPublishClass>()))
                 .Returns<TestPublishClass>(pub =>
                                                {
@@ -57,11 +57,11 @@ namespace Website.Application.Tests.Publish
             mock2.SetupGet(service => service.IsEnabled)
                 .Returns(true);
 
-            Kernel.Bind<PublishServiceInterface<TestPublishClass>>()
+            Kernel.Bind<SubscriptionInterface<TestPublishClass>>()
                 .ToConstant(mock2.Object);
 
 
-            var serv = Kernel.Get<PublishBroadcastServiceInterface>();
+            var serv = Kernel.Get<BroadcastServiceInterface>();
             serv.Broadcast(new TestPublishClass {YaMum = "loves it"});
 
             Assert.IsTrue(mock1Called);

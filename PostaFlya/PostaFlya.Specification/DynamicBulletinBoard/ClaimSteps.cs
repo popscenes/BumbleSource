@@ -123,18 +123,18 @@ namespace PostaFlya.Specification.DynamicBulletinBoard
         [BeforeScenario("TearOffNotification")]
         public void SetupNotificationBinding()
         {
-            var claimBind = SpecUtil.CurrIocKernel.GetMock<PublicationServiceInterface>();
+            var claimBind = SpecUtil.CurrIocKernel.GetMock<DomainEventPublicationServiceInterface>();
             claimBind.Setup(service => service.Publish(It.IsAny<Claim>()))
                 .Callback<Claim>(claim => 
                     ScenarioContext.Current["tearoffnotification"] = true);
-            SpecUtil.CurrIocKernel.Bind<PublicationServiceInterface>()
+            SpecUtil.CurrIocKernel.Bind<DomainEventPublicationServiceInterface>()
                 .ToConstant(claimBind.Object);
         }
 
         [AfterScenario("TearOffNotification")]
         public void TearDownNotificationBinding()
         {
-            SpecUtil.CurrIocKernel.Unbind<PublicationServiceInterface>();
+            SpecUtil.CurrIocKernel.Unbind<DomainEventPublicationServiceInterface>();
         }
     }
 }

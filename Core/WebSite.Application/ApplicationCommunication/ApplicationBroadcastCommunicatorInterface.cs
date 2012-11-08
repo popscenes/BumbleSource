@@ -3,9 +3,9 @@ using Website.Infrastructure.Command;
 
 namespace Website.Application.ApplicationCommunication
 {
-    public interface BroadcastCommunicatorInterface : CommandBusInterface
+    public interface ApplicationBroadcastCommunicatorInterface : CommandBusInterface
     {
         string Endpoint { get; }
-        QueuedCommandScheduler GetScheduler();
+        QueuedCommandProcessor GetScheduler();
     }
 }

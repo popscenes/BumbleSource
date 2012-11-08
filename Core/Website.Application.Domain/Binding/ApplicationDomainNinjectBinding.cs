@@ -28,7 +28,7 @@ namespace Website.Application.Domain.Binding
 
             Bind<ContentStorageServiceInterface>().To<ImageProcessContentStorageService>();
 
-            Bind<PublicationServiceInterface>().To<PublicationService>();
+            Bind<DomainEventPublicationServiceInterface>().To<DomainEventPublicationService>();
 
 
             //this is for appication command handlers to use, 

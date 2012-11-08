@@ -1,6 +1,6 @@
 namespace Website.Infrastructure.Publish
 {
-    public interface PublishBroadcastServiceInterface
+    public interface BroadcastServiceInterface
     {
         bool Broadcast(object broadcastObject);
     }

@@ -81,7 +81,7 @@
     <Compile Include="Email\VCard\ContactDetailsInterfaceExtensions.cs" />
     <Compile Include="Location\ValidationAttributes.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Publish\PublicationService.cs" />
+    <Compile Include="Publish\DomainEventPublicationService.cs" />
     <Compile Include="Query\CachedQueryServiceWithBrowser.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -18,19 +18,19 @@ namespace Website.Domain.Claims.Command
         private readonly BrowserQueryServiceInterface _browserQueryService;
         private readonly GenericRepositoryInterface _genericRepository;
         private readonly GenericQueryServiceInterface _genericQueryService;
-        private readonly PublicationServiceInterface _publicationService;
+        private readonly DomainEventPublicationServiceInterface _domainEventPublicationService;
 
         public ClaimCommandHandler(UnitOfWorkFactoryInterface unitOfWorkFactory
             , BrowserQueryServiceInterface browserQueryService
             , GenericRepositoryInterface genericRepository
             , GenericQueryServiceInterface genericQueryService
-            , PublicationServiceInterface publicationService)
+            , DomainEventPublicationServiceInterface domainEventPublicationService)
         {
             _unitOfWorkFactory = unitOfWorkFactory;
             _browserQueryService = browserQueryService;
             _genericRepository = genericRepository;
             _genericQueryService = genericQueryService;
-            _publicationService = publicationService;
+            _domainEventPublicationService = domainEventPublicationService;
         }
 
         public object Handle(ClaimCommand command)
@@ -62,8 +62,6 @@ namespace Website.Domain.Claims.Command
                 return new MsgResponse("Claim Entity failed", true)
                 .AddCommandId(command);
             
-            _publicationService.Publish(claim);
-
             uow = _unitOfWorkFactory.GetUnitOfWork(new List<object>() { _genericRepository });
             using (uow)
             {
@@ -77,14 +75,16 @@ namespace Website.Domain.Claims.Command
                 }); 
             }
 
-
-            if (uow.Successful)
-                return new MsgResponse("Claim Entity", false)
-                    .AddCommandId(command)
-                    .AddEntityId(claim.AggregateId);
-
-            return new MsgResponse("Claim Entity failed", true)
+            if (!uow.Successful)
+                return new MsgResponse("Claim Entity failed", true)
                         .AddCommandId(command);
+         
+            _domainEventPublicationService.Publish(claim);
+
+            return new MsgResponse("Claim Entity", false)
+             .AddCommandId(command)
+             .AddEntityId(claim.AggregateId);
+
         }
     }
 }

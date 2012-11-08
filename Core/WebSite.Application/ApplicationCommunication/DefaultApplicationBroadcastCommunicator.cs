@@ -7,28 +7,28 @@ using Website.Infrastructure.Command;
 
 namespace Website.Application.ApplicationCommunication
 {
-    public class DefaultBroadcastCommunicator : BroadcastCommunicatorInterface
+    public class DefaultApplicationBroadcastCommunicator : ApplicationBroadcastCommunicatorInterface
     {
         private readonly string _myEndpoint;
         private readonly CommandQueueFactoryInterface _commandQueueFactory;
-        private readonly BroadcastRegistratorInterface _broadcastRegistrator;
+        private readonly ApplicationBroadcastCommunicatorRegistrationInterface _applicationBroadcastCommunicatorRegistration;
 
         private readonly ConcurrentDictionary<string, CommandBusInterface> _commandBusses = new ConcurrentDictionary<string, CommandBusInterface>();
 
-        public DefaultBroadcastCommunicator(string myEndpoint
+        public DefaultApplicationBroadcastCommunicator(string myEndpoint
                                             , CommandQueueFactoryInterface commandQueueFactory
-                                            , BroadcastRegistratorInterface broadcastRegistrator)
+                                            , ApplicationBroadcastCommunicatorRegistrationInterface applicationBroadcastCommunicatorRegistration)
         {
             _myEndpoint = myEndpoint;
             _commandQueueFactory = commandQueueFactory;
-            _broadcastRegistrator = broadcastRegistrator;
+            _applicationBroadcastCommunicatorRegistration = applicationBroadcastCommunicatorRegistration;
             Register();
         }
 
         internal void Register()
         {
-            _broadcastRegistrator.RegisterEndpoint(_myEndpoint);
-            IList<string> enpoints =  _broadcastRegistrator.GetCurrentEndpoints();
+            _applicationBroadcastCommunicatorRegistration.RegisterEndpoint(_myEndpoint);
+            IList<string> enpoints =  _applicationBroadcastCommunicatorRegistration.GetCurrentEndpoints();
             _commandBusses.Clear();
             foreach (var enpoint in enpoints
                 .Select(e => new { EndPoint = e, CommandQueue = _commandQueueFactory.GetCommandBusForEndpoint(e)}))
@@ -49,7 +49,7 @@ namespace Website.Application.ApplicationCommunication
             get { return _myEndpoint; }
         }
 
-        public QueuedCommandScheduler GetScheduler()
+        public QueuedCommandProcessor GetScheduler()
         {
             return _commandQueueFactory.GetSchedulerForEndpoint(Endpoint);
         }

@@ -42,11 +42,11 @@ namespace Website.Application.Azure.Command
                 azureQueueStorage.Delete();
         }
 
-        public QueuedCommandScheduler GetSchedulerForEndpoint(string queueEndpoint)
+        public QueuedCommandProcessor GetSchedulerForEndpoint(string queueEndpoint)
         {
             var queue = GetQueueForEndpoint(queueEndpoint);
             var commandSerializer = GetCommandSerializerForEndpoint(queueEndpoint);
-            return new QueuedCommandScheduler(queue, commandSerializer, _handlerRespository);
+            return new QueuedCommandProcessor(queue, commandSerializer, _handlerRespository);
         }
 
         private QueueInterface GetQueueForEndpoint(string queueEndpoint)

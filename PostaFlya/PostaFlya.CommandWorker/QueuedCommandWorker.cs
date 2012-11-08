@@ -34,7 +34,7 @@ namespace PostaFlya.CommandWorker
 
         public void Run()
         {
-            var processor = _kernel.Get<QueuedCommandScheduler>(ctx => ctx.Has("workercommandqueue"));
+            var processor = _kernel.Get<QueuedCommandProcessor>(ctx => ctx.Has("workercommandqueue"));
             processor.Run(_cancellationTokenSource.Token);
         }
 

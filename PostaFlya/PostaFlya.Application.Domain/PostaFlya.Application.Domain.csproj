@@ -74,7 +74,7 @@
     <Compile Include="Behaviour\TaskJob\Query\CachedTaskJobQueryService.cs" />
     <Compile Include="Binding\ApplicationDomainNinjectBinding.cs" />
     <Compile Include="Binding\ApplicationDomainRepositoriesNinjectBinding.cs" />
-    <Compile Include="Email\Claims\BrowserClaimEmailPublicationService.cs" />
+    <Compile Include="Email\Claims\BrowserClaimEmailSubscription.cs" />
     <Compile Include="Email\ICalendar\FlierInterfaceExtensions.cs" />
     <Compile Include="ExternalSource\FacebookFlierImporter.cs" />
     <Compile Include="ExternalSource\FlierImporterInterface.cs" />

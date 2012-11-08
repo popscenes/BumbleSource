@@ -11,7 +11,7 @@ using Website.Test.Common;
 namespace Website.Application.Azure.Tests.Communication
 {
     [TestFixture]
-    public class AzureBroadcastRegistratorTests
+    public class AzureApplicationBroadcastCommunicatorRegistrationTests
     {
 
         StandardKernel Kernel
@@ -30,7 +30,7 @@ namespace Website.Application.Azure.Tests.Communication
 //                .WhenAnyAnchestorNamed("broadcastCommunicators");
 
             _tableName =
-                Kernel.Get<TableNameAndPartitionProviderServiceInterface>().GetTableName<AzureBroadcastRegistration>(0);
+                Kernel.Get<TableNameAndPartitionProviderServiceInterface>().GetTableName<AzureBroadcastRegistrationEntry>(0);
             Reinit();
         }
 
@@ -56,7 +56,7 @@ namespace Website.Application.Azure.Tests.Communication
         public void AzureBroadcastRegistratorTestRegistration()
         {
             Reinit();
-            var registrator = Kernel.Get<BroadcastRegistratorInterface>();
+            var registrator = Kernel.Get<ApplicationBroadcastCommunicatorRegistrationInterface>();
             registrator.RegisterEndpoint("blah");
             registrator.RegisterEndpoint("test");
 
@@ -64,7 +64,7 @@ namespace Website.Application.Azure.Tests.Communication
 
 
             var registrations = ctx
-                .PerformQuery<AzureBroadcastRegistration>(_tableName)
+                .PerformQuery<AzureBroadcastRegistrationEntry>(_tableName)
                 .Select(e => e.Get<string>("Endpoint"))
                 .ToList();
 
@@ -82,7 +82,7 @@ namespace Website.Application.Azure.Tests.Communication
         public void AzureBroadcastRegistratorTestReRegistrationUpdatesLastRegisterTime()
         {
             Reinit();
-            var registrator = Kernel.Get<BroadcastRegistratorInterface>();
+            var registrator = Kernel.Get<ApplicationBroadcastCommunicatorRegistrationInterface>();
             registrator.RegisterEndpoint("blah");
             registrator.RegisterEndpoint("test");
 
@@ -90,7 +90,7 @@ namespace Website.Application.Azure.Tests.Communication
 
 
             var registrations = ctx
-                .PerformQuery<AzureBroadcastRegistration>(_tableName)
+                .PerformQuery<AzureBroadcastRegistrationEntry>(_tableName)
                 .ToList();
             //fake some elapsed time
             var testReg = registrations.Single(r => r.Get<string>("Endpoint") == "blah");
@@ -102,18 +102,18 @@ namespace Website.Application.Azure.Tests.Communication
             ctx.SaveChanges();
 
             registrations = ctx
-                .PerformQuery<AzureBroadcastRegistration>(_tableName)
+                .PerformQuery<AzureBroadcastRegistrationEntry>(_tableName)
                 .ToList();
 
             var regTimeBlah = registrations.Single(r => r.Get<string>("Endpoint") == "blah")["LastRegisterTime"];
             var regTimeTest = registrations.Single(r => r.Get<string>("Endpoint") == "test")["LastRegisterTime"];
 
-            registrator = Kernel.Get<BroadcastRegistratorInterface>();
+            registrator = Kernel.Get<ApplicationBroadcastCommunicatorRegistrationInterface>();
             registrator.RegisterEndpoint("blah");
             registrator.RegisterEndpoint("test");
 
             registrations = ctx
-                .PerformQuery<AzureBroadcastRegistration>(_tableName)
+                .PerformQuery<AzureBroadcastRegistrationEntry>(_tableName)
                 .ToList();
             var regTimeBlahNow = registrations.Single(r => r.Get<string>("Endpoint") == "blah")["LastRegisterTime"];
             var regTimeTestNow = registrations.Single(r => r.Get<string>("Endpoint") == "test")["LastRegisterTime"];
@@ -122,7 +122,7 @@ namespace Website.Application.Azure.Tests.Communication
             Assert.That(regTimeBlahNow, Is.GreaterThan(regTimeTest));
 
             var registrationNames = ctx
-                .PerformQuery<AzureBroadcastRegistration>(_tableName)
+                .PerformQuery<AzureBroadcastRegistrationEntry>(_tableName)
                 .Select(e => e.Get<string>("Endpoint"))
                 .ToList();
             CollectionAssert.Contains(registrationNames, "blah");
@@ -134,13 +134,13 @@ namespace Website.Application.Azure.Tests.Communication
         public void AzureBroadcastRegistratorTestRegistrationClearsInactiveBroadcastEndpoints()
         {
             Reinit();
-            var registrator = Kernel.Get<BroadcastRegistratorInterface>();           
+            var registrator = Kernel.Get<ApplicationBroadcastCommunicatorRegistrationInterface>();           
             registrator.RegisterEndpoint("test");
 
             var ctx = Kernel.Get<TableContextInterface>();
 
             var registrations = ctx
-                .PerformQuery<AzureBroadcastRegistration>(_tableName)
+                .PerformQuery<AzureBroadcastRegistrationEntry>(_tableName)
                 .ToList();
 
             var testReg = registrations.Single(r => r.Get<string>("Endpoint") == "test");
@@ -148,11 +148,11 @@ namespace Website.Application.Azure.Tests.Communication
             ctx.Store("broadcastCommunicatorsTest", testReg);
             ctx.SaveChanges();
 
-            registrator = Kernel.Get<BroadcastRegistratorInterface>();
+            registrator = Kernel.Get<ApplicationBroadcastCommunicatorRegistrationInterface>();
             registrator.RegisterEndpoint("blah");
 
             var registrationNames = ctx
-                .PerformQuery<AzureBroadcastRegistration>(_tableName)
+                .PerformQuery<AzureBroadcastRegistrationEntry>(_tableName)
                 .Select(e => e.Get<string>("Endpoint"))
                 .ToList();
             CollectionAssert.Contains(registrationNames, "blah");

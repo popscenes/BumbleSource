@@ -8,7 +8,7 @@ using Website.Infrastructure.Command;
 
 namespace Website.Application.Command
 {
-    public class QueuedCommandScheduler
+    public class QueuedCommandProcessor
     {
         private readonly ConcurrentDictionary<string, Task<WorkInProgress>> _tasks = new ConcurrentDictionary<string, Task<WorkInProgress>>();
         private readonly QueueInterface _messageQueue;
@@ -21,7 +21,7 @@ namespace Website.Application.Command
         private const int MaxWorkInProgress = 15;
         
 
-        public QueuedCommandScheduler(QueueInterface messageQueue,  
+        public QueuedCommandProcessor(QueueInterface messageQueue,  
             CommandSerializerInterface commandSerializer, 
             CommandHandlerRespositoryInterface handlerRespository)
         {

@@ -35,18 +35,18 @@ namespace Website.Application.Tests.ApplicationCommunication
             .WithMetadata("BroadcastCommunicatorTests", true);
 
             var endPoints = new List<string>();
-            var registratorMock = Kernel.GetMock<BroadcastRegistratorInterface>();
+            var registratorMock = Kernel.GetMock<ApplicationBroadcastCommunicatorRegistrationInterface>();
             registratorMock.Setup(r => r.GetCurrentEndpoints())
                 .Returns(endPoints);
 
             registratorMock.Setup(r => r.RegisterEndpoint(It.IsAny<string>()))
                 .Callback<string>(id => { if (endPoints.Contains(id)) return; endPoints.Add(id); });
-            Kernel.Bind<BroadcastRegistratorInterface>().ToConstant(registratorMock.Object);
+            Kernel.Bind<ApplicationBroadcastCommunicatorRegistrationInterface>().ToConstant(registratorMock.Object);
 
-            Kernel.Bind<BroadcastCommunicatorFactoryInterface>()
-                .ToMethod(ctx => new DefaultBroadcastCommunicatorFactory(
+            Kernel.Bind<ApplicationBroadcastCommunicatorFactoryInterface>()
+                .ToMethod(ctx => new DefaultApplicationBroadcastCommunicatorFactory(
                         GetCommandBusFactory(),
-                        ctx.Kernel.Get<BroadcastRegistratorInterface>()
+                        ctx.Kernel.Get<ApplicationBroadcastCommunicatorRegistrationInterface>()
                     ));
 
             _endPoints = new List<string>()
@@ -68,8 +68,8 @@ namespace Website.Application.Tests.ApplicationCommunication
         public void FixtureTearDown()
         {
             Kernel.Unbind<CommandQueueFactoryInterface>();
-            Kernel.Unbind<BroadcastRegistratorInterface>();
-            Kernel.Unbind<BroadcastCommunicatorFactoryInterface>();
+            Kernel.Unbind<ApplicationBroadcastCommunicatorRegistrationInterface>();
+            Kernel.Unbind<ApplicationBroadcastCommunicatorFactoryInterface>();
         }
 
         private TestCommandQueueFactory GetCommandBusFactory()
@@ -97,7 +97,7 @@ namespace Website.Application.Tests.ApplicationCommunication
 
             Kernel.Bind<CommandHandlerInterface<QueuedCommandSchedulerTests.TestCommand>>().ToConstant(cmdHandler.Object).InSingletonScope();
 
-            var factory = Kernel.Get<BroadcastCommunicatorFactoryInterface>();
+            var factory = Kernel.Get<ApplicationBroadcastCommunicatorFactoryInterface>();
 
             foreach (var endPoint in _endPoints.Skip(1))
             {
@@ -124,7 +124,7 @@ namespace Website.Application.Tests.ApplicationCommunication
             Assert.That(queues.Count(), Is.EqualTo(3));
             
 
-            var factory = Kernel.Get<BroadcastCommunicatorFactoryInterface>();
+            var factory = Kernel.Get<ApplicationBroadcastCommunicatorFactoryInterface>();
             //just grab the first communicator
             var communicator = factory.GetCommunicatorForEndpoint(_endPoints[0]);
 
@@ -146,7 +146,7 @@ namespace Website.Application.Tests.ApplicationCommunication
         [Test]
         public void BroadcastCommunicatorRegister()
         {
-            var factory = Kernel.Get<BroadcastCommunicatorFactoryInterface>();
+            var factory = Kernel.Get<ApplicationBroadcastCommunicatorFactoryInterface>();
 
             foreach (var endPoint in _endPoints)
             {

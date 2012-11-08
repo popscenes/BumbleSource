@@ -3,11 +3,11 @@ using Website.Infrastructure.Publish;
 
 namespace Website.Application.Domain.Publish
 {
-    public class PublicationService : PublicationServiceInterface
+    public class DomainEventPublicationService : DomainEventPublicationServiceInterface
     {
-        private readonly PublishBroadcastServiceInterface _broadcastService;
+        private readonly BroadcastServiceInterface _broadcastService;
 
-        public PublicationService(PublishBroadcastServiceInterface broadcastService)
+        public DomainEventPublicationService(BroadcastServiceInterface broadcastService)
         {
             _broadcastService = broadcastService;
         }

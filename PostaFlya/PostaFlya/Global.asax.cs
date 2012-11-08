@@ -292,7 +292,7 @@ namespace PostaFlya
                 =>
             {
                 //start afresh if there is an unhandled exception
-                var processor = DependencyResolver.Get<QueuedCommandScheduler>(
+                var processor = DependencyResolver.Get<QueuedCommandProcessor>(
                         ctx => ctx.Has("BroadcastCommunicator"));
                     
                 processor.Run(t);
@@ -309,7 +309,7 @@ namespace PostaFlya
                 =>
                     {
                         //start afresh if there is an unhandled exception
-                        var processor = NinjectWebCommon.bootstrapper.Kernel.Get<QueuedCommandScheduler>(ctx => ctx.Has("workercommandqueue"));
+                        var processor = NinjectWebCommon.bootstrapper.Kernel.Get<QueuedCommandProcessor>(ctx => ctx.Has("workercommandqueue"));
                         processor.Run(t);                   
                     });
             _commandQueueWorker.Start();

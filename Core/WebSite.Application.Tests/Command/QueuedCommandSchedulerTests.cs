@@ -37,7 +37,7 @@ namespace Website.Application.Tests.Command
                            .GetCommandBusForEndpoint("queuedmessageprocessortests") as QueuedCommandBus)
                 .WithMetadata("queuedmessageprocessortests", true);
 
-            Kernel.Bind<QueuedCommandScheduler>().ToMethod(                
+            Kernel.Bind<QueuedCommandProcessor>().ToMethod(                
                 ctx => ctx.Kernel.Get<CommandQueueFactoryInterface>()
                         .GetSchedulerForEndpoint("queuedmessageprocessortests"))
                 .WithMetadata("queuedmessageprocessortests", true);
@@ -54,7 +54,7 @@ namespace Website.Application.Tests.Command
         {
             Kernel.Unbind<CommandQueueFactoryInterface>();
             Kernel.Unbind<QueuedCommandBus>();
-            Kernel.Unbind<QueuedCommandScheduler>();
+            Kernel.Unbind<QueuedCommandProcessor>();
         }
 
         [Serializable]
@@ -127,7 +127,7 @@ namespace Website.Application.Tests.Command
                 }
                 );
 
-            var processor = Kernel.Get<QueuedCommandScheduler>(ctx => ctx.Has("queuedmessageprocessortests"));
+            var processor = Kernel.Get<QueuedCommandProcessor>(ctx => ctx.Has("queuedmessageprocessortests"));
 
             watch.Start();
             processor.Run(cancellationTokenSource.Token);
@@ -174,7 +174,7 @@ namespace Website.Application.Tests.Command
 
                 });
 
-            var processor = Kernel.Get<QueuedCommandScheduler>(ctx => ctx.Has("queuedmessageprocessortests"));
+            var processor = Kernel.Get<QueuedCommandProcessor>(ctx => ctx.Has("queuedmessageprocessortests"));
 
             watch.Start();
             processor.Run(cancellationTokenSource.Token);

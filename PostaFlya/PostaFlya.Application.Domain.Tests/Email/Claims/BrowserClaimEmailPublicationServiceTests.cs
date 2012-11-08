@@ -26,7 +26,7 @@ namespace PostaFlya.Application.Domain.Tests.Email.Claims
         [TestFixtureSetUp]
         public void FixtureSetUp()
         {
-            Kernel.Rebind<BrowserClaimEmailPublicationService>()
+            Kernel.Rebind<BrowserClaimEmailSubscription>()
                 .ToSelf().InTransientScope();
             Kernel.Rebind<CommandBusInterface>()
                 .To<DefaultCommandBus>();
@@ -35,7 +35,7 @@ namespace PostaFlya.Application.Domain.Tests.Email.Claims
         [TestFixtureTearDown]
         public void FixtureTearDown()
         {
-            Kernel.Unbind<BrowserClaimEmailPublicationService>();
+            Kernel.Unbind<BrowserClaimEmailSubscription>();
             Kernel.Unbind<CommandBusInterface>();
             Kernel.Unbind <SendEmailServiceInterface>();
         }
@@ -74,7 +74,7 @@ namespace PostaFlya.Application.Domain.Tests.Email.Claims
                     });
             Kernel.Rebind<SendEmailServiceInterface>().ToConstant(emailMock.Object);
 
-            var service = Kernel.Get<BrowserClaimEmailPublicationService>();
+            var service = Kernel.Get<BrowserClaimEmailSubscription>();
 
             var test = ClaimTestData.GetOne(Kernel, storedFlier.Id) as Claim;
             test.BrowserId = claimBrowser.Id;
@@ -123,7 +123,7 @@ namespace PostaFlya.Application.Domain.Tests.Email.Claims
                 });
             Kernel.Rebind<SendEmailServiceInterface>().ToConstant(emailMock.Object);
 
-            var service = Kernel.Get<BrowserClaimEmailPublicationService>();
+            var service = Kernel.Get<BrowserClaimEmailSubscription>();
 
             var test = ClaimTestData.GetOne(Kernel, storedFlier.Id) as Claim;
             test.BrowserId = claimBrowser.Id;

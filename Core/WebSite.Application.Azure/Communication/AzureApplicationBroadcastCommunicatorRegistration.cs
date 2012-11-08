@@ -9,28 +9,28 @@ using Website.Azure.Common.TableStorage;
 
 namespace Website.Application.Azure.Communication
 {
-    public class AzureBroadcastRegistration : SimpleExtendableEntity
+    public class AzureBroadcastRegistrationEntry : SimpleExtendableEntity
     {
         
     }
 
-    public class AzureBroadcastRegistrator : RepositoryBase<AzureBroadcastRegistration>, BroadcastRegistratorInterface
+    public class AzureApplicationBroadcastCommunicatorRegistration : RepositoryBase<AzureBroadcastRegistrationEntry>, ApplicationBroadcastCommunicatorRegistrationInterface
     {
         private readonly CommandQueueFactoryInterface _commandQueueFactory;
 
         private readonly string _tableName;
-        public AzureBroadcastRegistrator(TableContextInterface tableContext
+        public AzureApplicationBroadcastCommunicatorRegistration(TableContextInterface tableContext
             , TableNameAndPartitionProviderServiceInterface nameAndPartitionProviderService
             , CommandQueueFactoryInterface commandQueueFactory) 
             : base(tableContext, nameAndPartitionProviderService)
         {
             _commandQueueFactory = commandQueueFactory;
-            _tableName = nameAndPartitionProviderService.GetTableName<AzureBroadcastRegistration>(IdPartition);
+            _tableName = nameAndPartitionProviderService.GetTableName<AzureBroadcastRegistrationEntry>(IdPartition);
         }
 
         public void RegisterEndpoint(string myEndpoint)
         {
-            Action<AzureBroadcastRegistration> update 
+            Action<AzureBroadcastRegistrationEntry> update 
                 = registrationEntry =>
                     {
                         registrationEntry["LastRegisterTime"] = DateTime.UtcNow;
@@ -39,12 +39,12 @@ namespace Website.Application.Azure.Communication
                         registrationEntry.PartitionKey = "";
                     };
 
-            var existing = FindById<AzureBroadcastRegistration>(myEndpoint);
+            var existing = FindById<AzureBroadcastRegistrationEntry>(myEndpoint);
             if (existing != null)
                 UpdateEntity(myEndpoint, update);
             else
             {
-                var newEntry = new AzureBroadcastRegistration();
+                var newEntry = new AzureBroadcastRegistrationEntry();
                 update(newEntry);
                 Store(newEntry);
             }
@@ -52,7 +52,7 @@ namespace Website.Application.Azure.Communication
 
             PerformMutationActionOnContext(context =>
                     {
-                        foreach (var extendableTableServiceEntity in context.PerformQuery<AzureBroadcastRegistration>(_tableName)
+                        foreach (var extendableTableServiceEntity in context.PerformQuery<AzureBroadcastRegistrationEntry>(_tableName)
                             .Where(e => IsAboveRegThreshHold(e) && (string)e["Endpoint"] != myEndpoint))
                         {
                             context.Delete(extendableTableServiceEntity);
@@ -64,7 +64,7 @@ namespace Website.Application.Azure.Communication
 
         public IList<string> GetCurrentEndpoints()
         {
-            var registrationEntries = TableContext.PerformQuery<AzureBroadcastRegistration>(_tableName);
+            var registrationEntries = TableContext.PerformQuery<AzureBroadcastRegistrationEntry>(_tableName);
             return registrationEntries
                 .Where(e => (DateTime.UtcNow - e.Get<DateTime>("LastRegisterTime")).Minutes < 10 )
                 .Select(e => e.Get<string>("Endpoint"))
@@ -87,7 +87,7 @@ namespace Website.Application.Azure.Communication
             if (root == null)
                 return null;
             var ret = new StorageAggregate(root, NameAndPartitionProviderService);
-            ret.LoadAllTableEntriesForUpdate<AzureBroadcastRegistration>(TableContext);
+            ret.LoadAllTableEntriesForUpdate<AzureBroadcastRegistrationEntry>(TableContext);
             return ret;
         }
 

@@ -6,6 +6,6 @@ namespace Website.Application.Command
     {
         CommandBusInterface GetCommandBusForEndpoint(string queueEndpoint);
         void Delete(string queueEndpoint);
-        QueuedCommandScheduler GetSchedulerForEndpoint(string queueEndpoint);
+        QueuedCommandProcessor GetSchedulerForEndpoint(string queueEndpoint);
     }
 }

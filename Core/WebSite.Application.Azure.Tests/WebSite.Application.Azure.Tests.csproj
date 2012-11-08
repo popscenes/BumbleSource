@@ -94,7 +94,7 @@
     <Compile Include="AzureCloudBlobStorageTests.cs" />
     <Compile Include="AzureCloudQueueTests.cs" />
     <Compile Include="AzureCommandQueueFactoryTests.cs" />
-    <Compile Include="Communication\AzureBroadcastRegistratorTests.cs" />
+    <Compile Include="Communication\AzureApplicationBroadcastCommunicatorRegistrationTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestFixtureSetup.cs" />
     <Compile Include="WebsiteInfoServiceAzureTests.cs" />

@@ -125,9 +125,9 @@ namespace Website.Application.Tests.Classes
             _queues.TryRemove(queueEndpoint, out currentQueue);
         }
 
-        public QueuedCommandScheduler GetSchedulerForEndpoint(string queueEndpoint)
+        public QueuedCommandProcessor GetSchedulerForEndpoint(string queueEndpoint)
         {
-            return new QueuedCommandScheduler(GetQueue(queueEndpoint)
+            return new QueuedCommandProcessor(GetQueue(queueEndpoint)
                                               , _commandSerializer
                                               , _kernel.Get<CommandHandlerRespositoryInterface>());
         }

@@ -7,12 +7,12 @@ using Website.Infrastructure.Publish;
 
 namespace Website.Application.Publish
 {
-    public class DefaultPublishBroadcastService : PublishBroadcastServiceInterface
+    public class DefaultBroadcastService : BroadcastServiceInterface
     {
         private readonly IResolutionRoot _resolutionRoot;
-        private readonly Type _publishService = typeof(PublishServiceInterface<>);
+        private readonly Type _publishService = typeof(SubscriptionInterface<>);
 
-        public DefaultPublishBroadcastService(IResolutionRoot resolutionRoot)
+        public DefaultBroadcastService(IResolutionRoot resolutionRoot)
         {
             _resolutionRoot = resolutionRoot;
         }

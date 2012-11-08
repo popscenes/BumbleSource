@@ -21,33 +21,33 @@ namespace Website.Application.Binding
             Kernel.Bind<WebsiteInfoServiceInterface>().To<CachedWebsiteInfoService>();
 
             //broadcast communicator
-            Kernel.Bind<BroadcastCommunicatorFactoryInterface>()
-                .To<DefaultBroadcastCommunicatorFactory>()
+            Kernel.Bind<ApplicationBroadcastCommunicatorFactoryInterface>()
+                .To<DefaultApplicationBroadcastCommunicatorFactory>()
                 .InSingletonScope();
 
-            Bind<BroadcastCommunicatorInterface>()
+            Bind<ApplicationBroadcastCommunicatorInterface>()
                 .ToMethod(ctx =>
                 {
                     var idFunc = ctx.Kernel.Get<Func<string>>(metadata => metadata.Has("BroadcastCommunicator"));
                     var endpoint = idFunc();
-                    var fact = ctx.Kernel.Get<BroadcastCommunicatorFactoryInterface>();
+                    var fact = ctx.Kernel.Get<ApplicationBroadcastCommunicatorFactoryInterface>();
                     return fact.GetCommunicatorForEndpoint(endpoint);
                 })
                 .WithMetadata("BroadcastCommunicator", true);
 
-            Bind<QueuedCommandScheduler>()
+            Bind<QueuedCommandProcessor>()
                 .ToMethod(ctx =>
                 {
                     var idFunc = ctx.Kernel.Get<Func<string>>(metadata => metadata.Has("BroadcastCommunicator"));
                     var endpoint = idFunc();
-                    var fact = ctx.Kernel.Get<BroadcastCommunicatorFactoryInterface>();
+                    var fact = ctx.Kernel.Get<ApplicationBroadcastCommunicatorFactoryInterface>();
                     return fact.GetCommunicatorForEndpoint(endpoint)
                         .GetScheduler();
                 })
                 .WithMetadata("BroadcastCommunicator", true);
 
-            Bind<PublishBroadcastServiceInterface>()
-                .To<DefaultPublishBroadcastService>();
+            Bind<BroadcastServiceInterface>()
+                .To<DefaultBroadcastService>();
 
             Trace.TraceInformation("Finished Binding ApplicationNinjectBinding");
 

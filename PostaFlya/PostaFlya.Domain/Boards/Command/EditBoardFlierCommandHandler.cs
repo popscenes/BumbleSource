@@ -1,3 +1,4 @@
+using Website.Domain.Service;
 using Website.Infrastructure.Command;
 using Website.Infrastructure.Query;
 
@@ -8,12 +9,15 @@ namespace PostaFlya.Domain.Boards.Command
         private readonly GenericRepositoryInterface _repository;
         private readonly GenericQueryServiceInterface _queryService;
         private readonly UnitOfWorkFactoryInterface _unitOfWorkFactory;
+        private readonly DomainEventPublicationServiceInterface _domainEventPublicationService;
 
-        public EditBoardFlierCommandHandler(UnitOfWorkFactoryInterface unitOfWorkFactory, GenericQueryServiceInterface queryService, GenericRepositoryInterface repository)
+
+        public EditBoardFlierCommandHandler(UnitOfWorkFactoryInterface unitOfWorkFactory, GenericQueryServiceInterface queryService, GenericRepositoryInterface repository, DomainEventPublicationServiceInterface domainEventPublicationService)
         {
             _unitOfWorkFactory = unitOfWorkFactory;
             _queryService = queryService;
             _repository = repository;
+            _domainEventPublicationService = domainEventPublicationService;
         }
 
         public object Handle(EditBoardFlierCommand command)
@@ -38,6 +42,8 @@ namespace PostaFlya.Domain.Boards.Command
             if (!unitOfWork.Successful)
                 return new MsgResponse("Updating Flier On Board Status Failed", true)
                         .AddCommandId(command);
+
+            _domainEventPublicationService.Publish(_queryService.FindById<BoardFlier>(command.FlierId + command.BoardId));
 
             return new MsgResponse("Updated Flier On Board Status", false)
                 .AddCommandId(command);

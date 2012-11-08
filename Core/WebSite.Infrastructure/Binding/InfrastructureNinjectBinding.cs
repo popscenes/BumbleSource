@@ -50,7 +50,7 @@ namespace Website.Infrastructure.Binding
                 x => x.From(asm)
                          .IncludingNonePublicTypes()
                          .SelectAllClasses()
-                         .Where(t => t.GetInterfaces().Any(i => i == typeof(PublishServiceInterface))
+                         .Where(t => t.GetInterfaces().Any(i => i == typeof(SubscriptionInterface))
                          )
                          .BindAllInterfaces()
                          .Configure(ninjectConfiguration));

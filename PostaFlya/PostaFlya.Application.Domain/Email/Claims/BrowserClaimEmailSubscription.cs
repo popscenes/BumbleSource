@@ -14,12 +14,12 @@ using Website.Infrastructure.Query;
 
 namespace PostaFlya.Application.Domain.Email.Claims
 {
-    public class BrowserClaimEmailPublicationService : PublishServiceBrowserSubscriptionBase<Claim>
+    public class BrowserClaimEmailSubscription : BrowserSubscriptionBase<Claim>
     {
         private readonly GenericQueryServiceInterface _entityQueryService;
         private readonly SendEmailServiceInterface _emailService;
 
-        public BrowserClaimEmailPublicationService(CommandBusInterface commandBus
+        public BrowserClaimEmailSubscription(CommandBusInterface commandBus
                                                    , GenericQueryServiceInterface entityQueryService
                                                    , SendEmailServiceInterface emailService  ) : base(commandBus)
         {

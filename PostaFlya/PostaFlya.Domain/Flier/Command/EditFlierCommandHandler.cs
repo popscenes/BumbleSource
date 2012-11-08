@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using PostaFlya.Domain.Flier.Query;
 using PostaFlya.Domain.Service;
+using Website.Domain.Service;
 using Website.Infrastructure.Command;
 using Website.Infrastructure.Domain;
 
@@ -11,14 +12,17 @@ namespace PostaFlya.Domain.Flier.Command
         private readonly FlierRepositoryInterface _flierRepository;
         private readonly UnitOfWorkFactoryInterface _unitOfWorkFactory;
         private readonly FlierQueryServiceInterface _flierQueryService;
+        private readonly DomainEventPublicationServiceInterface _domainEventPublicationService;
+
 
         public EditFlierCommandHandler(FlierRepositoryInterface flierRepository
             ,UnitOfWorkFactoryInterface unitOfWorkFactory
-            , FlierQueryServiceInterface flierQueryService)
+            , FlierQueryServiceInterface flierQueryService, DomainEventPublicationServiceInterface domainEventPublicationService)
         {
             _flierRepository = flierRepository;
             _unitOfWorkFactory = unitOfWorkFactory;
             _flierQueryService = flierQueryService;
+            _domainEventPublicationService = domainEventPublicationService;
         }
 
         public object Handle(EditFlierCommand command)
@@ -51,6 +55,8 @@ namespace PostaFlya.Domain.Flier.Command
             if (!unitOfWork.Successful)
                 return new MsgResponse("Flier Edit Failed", true)
                     .AddCommandId(command);
+
+            _domainEventPublicationService.Publish(_flierQueryService.FindById<Flier>(command.Id));
 
             return new MsgResponse("Flier Edit", false)
                 .AddEntityId(command.Id)

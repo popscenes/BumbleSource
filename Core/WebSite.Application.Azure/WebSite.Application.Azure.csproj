@@ -99,7 +99,7 @@
     <Compile Include="Command\AzureCloudQueueMessage.cs" />
     <Compile Include="Command\AzureMessageFactory.cs" />
     <Compile Include="Command\AzureCommandQueueFactory.cs" />
-    <Compile Include="Communication\AzureBroadcastRegistrator.cs" />
+    <Compile Include="Communication\AzureApplicationBroadcastCommunicatorRegistration.cs" />
     <Compile Include="Content\AzureCloudBlobStorage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WebsiteInformation\WebsiteInfoServiceAzure.cs" />

@@ -5,11 +5,11 @@ using Website.Infrastructure.Util.Extension;
 
 namespace Website.Domain.Browser.Publish
 {
-    public abstract class PublishServiceBrowserSubscriptionBase<PublishType> : PublishServiceBrowserSubscriptionInterface<PublishType>
+    public abstract class BrowserSubscriptionBase<PublishType> : BrowserSubscriptionInterface<PublishType>
     {
         private readonly CommandBusInterface _commandBus;
 
-        protected PublishServiceBrowserSubscriptionBase(CommandBusInterface commandBus)
+        protected BrowserSubscriptionBase(CommandBusInterface commandBus)
         {
             _commandBus = commandBus;
         }

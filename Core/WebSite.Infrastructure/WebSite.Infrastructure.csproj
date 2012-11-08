@@ -166,8 +166,8 @@
     <Compile Include="Domain\EntityInterface.cs" />
     <Compile Include="Domain\MsgResponseEntityExtension.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Publish\PublishBroadcastServiceInterface.cs" />
-    <Compile Include="Publish\PublishServiceInterface.cs" />
+    <Compile Include="Publish\BroadcastServiceInterface.cs" />
+    <Compile Include="Publish\SubscriptionInterface.cs" />
     <Compile Include="Query\GenericQueryServiceInterface.cs" />
     <Compile Include="Query\QueryServiceInterface.cs" />
     <Compile Include="Util\CryptoUtil.cs" />

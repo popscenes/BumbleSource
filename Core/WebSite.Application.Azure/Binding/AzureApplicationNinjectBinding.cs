@@ -38,7 +38,7 @@ namespace Website.Application.Azure.Binding
             )
             .WhenTargetHas<WorkerCommandBusAttribute>();
 
-            Kernel.Bind<QueuedCommandScheduler>().ToMethod(
+            Kernel.Bind<QueuedCommandProcessor>().ToMethod(
                 ctx =>
                 ctx.Kernel.Get<CommandQueueFactoryInterface>()
                     .GetSchedulerForEndpoint("workercommandqueue")
@@ -59,12 +59,12 @@ namespace Website.Application.Azure.Binding
             //end image storage
 
             var tableNameProv = Kernel.Get<TableNameAndPartitionProviderServiceInterface>();
-            Kernel.Bind<BroadcastRegistratorInterface>().To<AzureBroadcastRegistrator>();
+            Kernel.Bind<ApplicationBroadcastCommunicatorRegistrationInterface>().To<AzureApplicationBroadcastCommunicatorRegistration>();
             //            Kernel.Bind<AzureTableContext>().ToSelf().Named("broadcastCommunicators");
             //            Kernel.Bind<TableNameAndPartitionProviderInterface>()
             //                .ToConstant(AzureBroadcastRegistrator.TableNameBinding)
             //                .WhenAnyAnchestorNamed("broadcastCommunicators");
-            tableNameProv.Add<AzureBroadcastRegistration>(0, "broadcastCommunicators", e => "", e => e.Get<string>("Endpoint"));
+            tableNameProv.Add<AzureBroadcastRegistrationEntry>(0, "broadcastCommunicators", e => "", e => e.Get<string>("Endpoint"));
 
             Kernel.Bind<WebsiteInfoServiceInterface>().To<WebsiteInfoServiceAzure>().WhenTargetHas<SourceDataSourceAttribute>();         
             tableNameProv.Add<WebsiteInfoEntity>(0, "websiteinfo", e => "", e => e.Get<string>("url"));
