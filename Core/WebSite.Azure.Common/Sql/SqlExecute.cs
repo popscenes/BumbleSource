@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Configuration;
 using System.Data.SqlClient;
 using System.Data.SqlTypes;
@@ -557,7 +558,24 @@ namespace Website.Azure.Common.Sql
             if (needed == result.GetType())
                 return result;
 
-            return Convert.ChangeType(result, needed);
+            try
+            {
+                var converter = TypeDescriptor.GetConverter(needed);
+                if (converter.CanConvertFrom(result.GetType()))
+                    return converter.ConvertFrom(result);
+
+                converter = TypeDescriptor.GetConverter(result.GetType());
+                if (converter.CanConvertTo(needed))
+                    return converter.ConvertTo(result, needed);
+
+                return Convert.ChangeType(result, needed);
+            }
+            catch(Exception e)
+            {
+                Trace.TraceError("SqlExecute error converting from {0} to {1}", result.GetType().FullName, needed.FullName);
+                return null;
+                
+            }         
         }
 
         private static void ResultSetToObjectProperties<RecordType>(RecordType loadRec, SqlDataReader reader)

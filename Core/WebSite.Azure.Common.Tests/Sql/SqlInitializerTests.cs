@@ -90,6 +90,28 @@ namespace Website.Azure.Common.Tests.Sql
         }
 
         [Test]
+        [TestCase(typeof(SqlInitializerTestFederatedTable), typeof(SqlInitializerTestAnotherFederatedTable))]
+        public void SqlInitializerCreateFederationsForTwoDifferentTypes(Type tableTyp, Type tableTypTwo)
+        {
+            const string databasename = "SqlInitializerTests";
+            using (var initializer = new SqlInitializer())
+            {
+                initializer.CreateDb(databasename);
+
+                using (var connection = new SqlConnection(SqlExecute.GetConnectionStringFromConfig("DbConnectionString", databasename)))
+                {
+                    SqlInitializer.CreateFederationFor(tableTyp, connection);
+                    SqlInitializer.CreateFederationFor(tableTypTwo, connection);
+
+                    SqlInitializer.DeleteFederationFor(tableTyp, connection);
+                    SqlInitializer.DeleteFederationFor(tableTypTwo, connection);
+                }
+
+                initializer.DeleteDb(databasename);
+            }
+        }
+
+        [Test]
         public void SqlInitializerCreateTableFromTypeSpecifyingNameCreatesTable()
         {
             const string databasename = "SqlInitializerTests";
@@ -172,6 +194,29 @@ namespace Website.Azure.Common.Tests.Sql
 
         [FederationCol(FederationName = "TestFederation", DistributionName = "long_col")]
         public long LongCol { get; set; }
+
+        [NotNullable]
+        [SpatialIndex]
+        public SqlGeography Geography { get; set; }
+    }
+
+    internal class SqlInitializerTestAnotherFederatedTable
+    {
+        public Guid Id { get; set; }
+
+        public string Stringcol { get; set; }
+
+        [PrimaryKey]
+        public int Intcol { get; set; }
+
+        public double Doublecol { get; set; }
+
+        public DateTimeOffset Datecol { get; set; }
+
+        public SqlXml XmlCol { get; set; }
+
+        [FederationCol(FederationName = "TestFederationAnother", DistributionName = "fed_col")]
+        public Guid FedCol { get; set; }
 
         [NotNullable]
         [SpatialIndex]
