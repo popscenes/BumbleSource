@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
 using Ninject;
+using PostaFlya.DataRepository.Search.Command;
+using PostaFlya.DataRepository.Search.Event;
+using PostaFlya.DataRepository.Search.Services;
+using PostaFlya.Domain.Flier.Event;
 using Website.Azure.Common.Environment;
 using PostaFlya.DataRepository.Flier;
 using PostaFlya.DataRepository.Search.Implementation;
@@ -125,16 +129,20 @@ namespace PostaFlya.DataRepository.Tests
             var flier = FlierTestData.GetOne(Kernel, _loc);
             var uow = Kernel.Get<UnitOfWorkFactoryInterface>()
                 .GetUnitOfWork(new List<RepositoryInterface>() {_repository});
+
+            var indexer = Kernel.Get<SqlFlierIndexService>();
             using (uow)
             {
                 var beh = FlierTestData.GetBehaviour(Kernel, flier);
                 _repository.Store(flier);
+                indexer.Publish(new FlierModifiedEvent(){NewState = flier});
 
                 var earlierFlier = new Domain.Flier.Flier();
                 earlierFlier.CopyFieldsFrom(flier);
                 earlierFlier.CreateDate = earlierFlier.CreateDate.AddDays(-1);
                 earlierFlier.Id = Guid.NewGuid().ToString();
                 _repository.Store(earlierFlier);
+                indexer.Publish(new FlierModifiedEvent() { NewState = earlierFlier });
 
                 //add fliers with variations on longitude and latitude
                 var outOfRangeFlier = new Domain.Flier.Flier();
@@ -142,18 +150,23 @@ namespace PostaFlya.DataRepository.Tests
                 outOfRangeFlier.Id = Guid.NewGuid().ToString();
                 outOfRangeFlier.Location = new Location(flier.Location.Longitude + 10, flier.Location.Latitude);
                 _repository.Store(outOfRangeFlier);
+                indexer.Publish(new FlierModifiedEvent() { NewState = outOfRangeFlier });
 
                 outOfRangeFlier = new Domain.Flier.Flier();
                 outOfRangeFlier.CopyFieldsFrom(flier);
                 outOfRangeFlier.Id = Guid.NewGuid().ToString();
                 outOfRangeFlier.Location = new Location(flier.Location.Longitude, flier.Location.Latitude + 10);
                 _repository.Store(outOfRangeFlier);
+                indexer.Publish(new FlierModifiedEvent() { NewState = outOfRangeFlier });
+
 
                 outOfRangeFlier = new Domain.Flier.Flier();
                 outOfRangeFlier.CopyFieldsFrom(flier);
                 outOfRangeFlier.Id = Guid.NewGuid().ToString();
                 outOfRangeFlier.Location = new Location(flier.Location.Longitude + 10, flier.Location.Latitude + 10);
                 _repository.Store(outOfRangeFlier);
+                indexer.Publish(new FlierModifiedEvent() { NewState = outOfRangeFlier });
+
             }
 
             Assert.IsTrue(uow.Successful);
@@ -474,10 +487,13 @@ namespace PostaFlya.DataRepository.Tests
             var flier = FlierTestData.GetOne(Kernel, _loc);
             var uow = Kernel.Get<UnitOfWorkFactoryInterface>()
                 .GetUnitOfWork(new List<RepositoryInterface>() { _repository });
+
+            var indexer = Kernel.Get<SqlFlierIndexService>();
             using (uow)
             {
                 var beh = FlierTestData.GetBehaviour(Kernel, flier);
                 _repository.Store(flier);
+                indexer.Publish(new FlierModifiedEvent() { NewState = flier });
 
                 var earlierFlier = new Domain.Flier.Flier();
                 earlierFlier.CopyFieldsFrom(flier);
@@ -485,6 +501,7 @@ namespace PostaFlya.DataRepository.Tests
                 earlierFlier.Id = Guid.NewGuid().ToString();
                 earlierFlier.NumberOfClaims = 1;
                 _repository.Store(earlierFlier);
+                indexer.Publish(new FlierModifiedEvent() { NewState = earlierFlier });
 
                 var expiresLaterFlier = new Domain.Flier.Flier();
                 expiresLaterFlier.CopyFieldsFrom(flier);
@@ -493,6 +510,8 @@ namespace PostaFlya.DataRepository.Tests
                 expiresLaterFlier.Id = Guid.NewGuid().ToString();
                 expiresLaterFlier.NumberOfClaims = 2;
                 _repository.Store(expiresLaterFlier);
+                indexer.Publish(new FlierModifiedEvent() { NewState = expiresLaterFlier });
+
 
                 //add fliers with variations on longitude and latitude
                 var outOfRangeFlier = new Domain.Flier.Flier();
@@ -500,18 +519,24 @@ namespace PostaFlya.DataRepository.Tests
                 outOfRangeFlier.Id = Guid.NewGuid().ToString();
                 outOfRangeFlier.Location = new Location(flier.Location.Longitude + 10, flier.Location.Latitude);
                 _repository.Store(outOfRangeFlier);
+                indexer.Publish(new FlierModifiedEvent() { NewState = outOfRangeFlier });
+
 
                 outOfRangeFlier = new Domain.Flier.Flier();
                 outOfRangeFlier.CopyFieldsFrom(flier);
                 outOfRangeFlier.Id = Guid.NewGuid().ToString();
                 outOfRangeFlier.Location = new Location(flier.Location.Longitude, flier.Location.Latitude + 10);
                 _repository.Store(outOfRangeFlier);
+                indexer.Publish(new FlierModifiedEvent() { NewState = outOfRangeFlier });
+
 
                 outOfRangeFlier = new Domain.Flier.Flier();
                 outOfRangeFlier.CopyFieldsFrom(flier);
                 outOfRangeFlier.Id = Guid.NewGuid().ToString();
                 outOfRangeFlier.Location = new Location(flier.Location.Longitude + 10, flier.Location.Latitude + 10);
                 _repository.Store(outOfRangeFlier);
+                indexer.Publish(new FlierModifiedEvent() { NewState = outOfRangeFlier });
+
             }
 
             Assert.IsTrue(uow.Successful);

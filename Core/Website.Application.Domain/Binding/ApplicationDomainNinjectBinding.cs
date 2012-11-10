@@ -28,7 +28,7 @@ namespace Website.Application.Domain.Binding
 
             Bind<ContentStorageServiceInterface>().To<ImageProcessContentStorageService>();
 
-            Bind<DomainEventPublicationServiceInterface>().To<DomainEventPublicationService>();
+            Bind<DomainEventPublishServiceInterface>().To<DomainEventPublishService>();
 
 
             //this is for appication command handlers to use, 
@@ -41,7 +41,7 @@ namespace Website.Application.Domain.Binding
             kernel.BindCommandHandlersFromCallingAssembly(c => c.InTransientScope());
 
             //publish services
-            kernel.BindPublishServicesFromCallingAssembly(syntax => syntax.InTransientScope());
+            kernel.BindSubscribersFromCallingAssembly(syntax => syntax.InTransientScope());
 
             Trace.TraceInformation("Finished Binding ApplicationDomainNinjectBinding");
         }

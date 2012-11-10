@@ -29,7 +29,7 @@ namespace PostaFlya.DataRepository.Flier
         public AzureFlierRepository(TableContextInterface tableContext
             , TableNameAndPartitionProviderServiceInterface nameAndPartitionProviderService
             , FlierSearchServiceInterface flierSearchService)
-            : base(tableContext, nameAndPartitionProviderService, flierSearchService)
+            : base(tableContext, nameAndPartitionProviderService)
         {
             _flierSearchService = flierSearchService;
         }

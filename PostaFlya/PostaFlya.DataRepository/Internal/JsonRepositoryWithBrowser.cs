@@ -14,9 +14,8 @@ namespace PostaFlya.DataRepository.Internal
     {
         public const int BrowserPartitionId = 11;
         public JsonRepositoryWithBrowser(TableContextInterface tableContext
-            , TableNameAndPartitionProviderServiceInterface nameAndPartitionProviderService
-            , EntityUpdateNotificationInterface<EntityInterface> updateNotification = null)
-            : base(tableContext, nameAndPartitionProviderService, updateNotification)
+            , TableNameAndPartitionProviderServiceInterface nameAndPartitionProviderService)
+            : base(tableContext, nameAndPartitionProviderService)
         {
         }
 

@@ -9,12 +9,13 @@ using Website.Application.Email.VCard;
 using Website.Domain.Browser;
 using Website.Domain.Browser.Publish;
 using Website.Domain.Claims;
+using Website.Domain.Claims.Event;
 using Website.Infrastructure.Command;
 using Website.Infrastructure.Query;
 
 namespace PostaFlya.Application.Domain.Email.Claims
 {
-    public class BrowserClaimEmailSubscription : BrowserSubscriptionBase<Claim>
+    public class BrowserClaimEmailSubscription : BrowserSubscriptionBase<ClaimEvent>
     {
         private readonly GenericQueryServiceInterface _entityQueryService;
         private readonly SendEmailServiceInterface _emailService;
@@ -38,15 +39,16 @@ namespace PostaFlya.Application.Domain.Email.Claims
         }
 
         //just returning browser who claims atm, future use may be charging for contact details the other way.
-        public override BrowserInterface[] GetBrowsersForPublish(Claim publish)
+        public override BrowserInterface[] GetBrowsersForPublish(ClaimEvent publish)
         {
-            BrowserInterface browser = _entityQueryService.FindById<Browser>(publish.BrowserId);
+            var claim = publish.NewState;
+            BrowserInterface browser = _entityQueryService.FindById<Browser>(claim.BrowserId);
             return browser == null ? null : new[]{browser};
         }
 
-        public override bool PublishToBrowser(BrowserInterface browser, Claim publish)
+        public override bool PublishToBrowser(BrowserInterface browser, ClaimEvent publish)
         {
-            var flier = _entityQueryService.FindById<PostaFlya.Domain.Flier.Flier>(publish.AggregateId);
+            var flier = _entityQueryService.FindById<PostaFlya.Domain.Flier.Flier>(publish.NewState.AggregateId);
 
             var email = new MailMessage();
             

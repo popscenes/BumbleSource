@@ -122,7 +122,7 @@ namespace Website.Azure.Common.Tests.TableStorage
     {
         public TestRespositoryBase(TableContextInterface tableContext
             , TableNameAndPartitionProviderServiceInterface nameAndPartitionProviderService) 
-            : base(tableContext, nameAndPartitionProviderService, null)
+            : base(tableContext, nameAndPartitionProviderService)
         {
             MockDeserializationStore = new Dictionary<string, object>();
         }

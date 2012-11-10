@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
+using PostaFlya.Domain.Boards.Event;
 using Website.Domain.Service;
 using Website.Infrastructure.Command;
 using Website.Infrastructure.Query;
@@ -14,17 +15,17 @@ namespace PostaFlya.Domain.Boards.Command
         private readonly GenericRepositoryInterface _repository;
         private readonly GenericQueryServiceInterface _queryService;
         private readonly UnitOfWorkFactoryInterface _unitOfWorkFactory;
-        private readonly DomainEventPublicationServiceInterface _domainEventPublicationService;
+        private readonly DomainEventPublishServiceInterface _domainEventPublishService;
 
 
         public AddFlierToBoardCommandHandler(GenericRepositoryInterface repository
             , GenericQueryServiceInterface queryService
-            , UnitOfWorkFactoryInterface unitOfWorkFactory, DomainEventPublicationServiceInterface domainEventPublicationService)
+            , UnitOfWorkFactoryInterface unitOfWorkFactory, DomainEventPublishServiceInterface domainEventPublishService)
         {
             _repository = repository;
             _queryService = queryService;
             _unitOfWorkFactory = unitOfWorkFactory;
-            _domainEventPublicationService = domainEventPublicationService;
+            _domainEventPublishService = domainEventPublishService;
         }
 
         public object Handle(AddFlierToBoardCommand command)
@@ -79,7 +80,7 @@ namespace PostaFlya.Domain.Boards.Command
 
             foreach (var boardFlier in boardFliers)
             {
-                _domainEventPublicationService.Publish(boardFlier);
+                _domainEventPublishService.Publish(new BoardFlierModifiedEvent(){NewState = boardFlier});
             }
 
             return new MsgResponse("Added Fliers To Boards", false)

@@ -12,7 +12,7 @@ using Website.Domain.Tag;
 
 namespace PostaFlya.DataRepository.Search.Services
 {
-    internal static class FlierInterfaceSearchExtensions
+    public static class FlierInterfaceSearchExtensions
     {
         public static FlierSearchRecord ToSearchRecord(this FlierInterface flier)
         {
@@ -74,7 +74,9 @@ namespace PostaFlya.DataRepository.Search.Services
             }
         }
     }
-    internal class FlierSearchRecord
+
+    [Serializable]
+    public class FlierSearchRecord
     {
         [PrimaryKey]
         public String Id { get; set; }

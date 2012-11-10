@@ -92,6 +92,8 @@ namespace PostaFlya.DataRepository.Binding
 //                => new DefaultPropertyGroupTableSerializer(CustomEdmSerializers.CustomSerializers)
 //                ).InSingletonScope();
 
+            kernel.BindCommandHandlersFromCallingAssembly(syntax => syntax.InTransientScope());
+            kernel.BindSubscribersFromCallingAssembly(syntax => syntax.InTransientScope());
             Bind<FlierSearchServiceInterface>()
                 .To<SqlFlierSearchService>();
 

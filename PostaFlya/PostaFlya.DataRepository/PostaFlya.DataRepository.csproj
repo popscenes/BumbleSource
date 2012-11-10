@@ -95,6 +95,9 @@
     <Compile Include="Flier\AzureFlierRepository.cs" />
     <Compile Include="Internal\JsonRepositoryWithBrowser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Search\Command\ReindexFlierCommand.cs" />
+    <Compile Include="Search\Command\ReindexFlierCommandHandler.cs" />
+    <Compile Include="Search\Event\SqlFlierIndexService.cs" />
     <Compile Include="Search\Implementation\SqlFlierSearchService.cs" />
     <Compile Include="Search\Implementation\SqlSeachDbInitializer.cs" />
     <Compile Include="Search\Services\FlierSearchRecord.cs" />

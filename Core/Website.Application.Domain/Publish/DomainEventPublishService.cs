@@ -1,18 +1,19 @@
 using Website.Domain.Service;
+using Website.Infrastructure.Domain;
 using Website.Infrastructure.Publish;
 
 namespace Website.Application.Domain.Publish
 {
-    public class DomainEventPublicationService : DomainEventPublicationServiceInterface
+    public class DomainEventPublishService : DomainEventPublishServiceInterface
     {
         private readonly BroadcastServiceInterface _broadcastService;
 
-        public DomainEventPublicationService(BroadcastServiceInterface broadcastService)
+        public DomainEventPublishService(BroadcastServiceInterface broadcastService)
         {
             _broadcastService = broadcastService;
         }
 
-        public void Publish<PublishType>(PublishType subject)
+        public void Publish<PublishType>(PublishType subject) where PublishType : DomainEventInterface
         {
             _broadcastService.Broadcast(subject);
         }

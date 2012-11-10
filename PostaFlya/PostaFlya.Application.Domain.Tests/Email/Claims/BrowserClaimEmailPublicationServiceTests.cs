@@ -10,6 +10,7 @@ using PostaFlya.Mocks.Domain.Data;
 using Website.Application.Email;
 using Website.Domain.Browser;
 using Website.Domain.Claims;
+using Website.Domain.Claims.Event;
 using Website.Infrastructure.Command;
 using Website.Mocks.Domain.Data;
 
@@ -78,9 +79,14 @@ namespace PostaFlya.Application.Domain.Tests.Email.Claims
 
             var test = ClaimTestData.GetOne(Kernel, storedFlier.Id) as Claim;
             test.BrowserId = claimBrowser.Id;
+            var evnt = new ClaimEvent()
+                {
+                    NewState = test
+                };
+
             service.BrowserSubscribe(claimBrowser);
 
-            var ret = service.Publish(test);
+            var ret = service.Publish(evnt);
 
             Assert.IsTrue(ret); 
             Assert.IsTrue(emailSent);
@@ -129,7 +135,12 @@ namespace PostaFlya.Application.Domain.Tests.Email.Claims
             test.BrowserId = claimBrowser.Id;
             service.BrowserSubscribe(claimBrowser);
 
-            var ret = service.Publish(test);
+            var evnt = new ClaimEvent()
+                {
+                    NewState = test
+                };
+
+            var ret = service.Publish(evnt);
 
             Assert.IsTrue(ret);
             Assert.IsTrue(emailSent);

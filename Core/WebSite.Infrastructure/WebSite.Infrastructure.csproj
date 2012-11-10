@@ -162,8 +162,12 @@
     <Compile Include="Command\UnitOfWorkFactoryInterface.cs" />
     <Compile Include="Configuration\ConfigurationServiceInterface.cs" />
     <Compile Include="Domain\AggregateMemberEntityAttribute.cs" />
+    <Compile Include="Domain\EntityModifiedDomainEvent.cs" />
+    <Compile Include="Domain\DomainEventBase.cs" />
+    <Compile Include="Domain\DomainEventInterface.cs" />
     <Compile Include="Domain\EntityBase.cs" />
     <Compile Include="Domain\EntityInterface.cs" />
+    <Compile Include="Domain\EntityModifiedDomainEventInterface.cs" />
     <Compile Include="Domain\MsgResponseEntityExtension.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Publish\BroadcastServiceInterface.cs" />

@@ -44,7 +44,7 @@ namespace PostaFlya.Application.Domain.Binding
             var kernel = Kernel as StandardKernel;
             kernel.BindCommandHandlersFromCallingAssembly(c => c.InTransientScope());
 
-            kernel.BindPublishServicesFromCallingAssembly(c => c.InTransientScope());
+            kernel.BindSubscribersFromCallingAssembly(c => c.InTransientScope());
 
             Trace.TraceInformation("Finished Binding ApplicationDomainNinjectBinding");
         }

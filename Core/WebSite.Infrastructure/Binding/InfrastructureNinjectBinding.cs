@@ -41,11 +41,11 @@ namespace Website.Infrastructure.Binding
     public static class InfrastructureNinjectExtensions
     {
 
-        public static void BindPublishServicesFromCallingAssembly(this StandardKernel kernel
+        public static void BindSubscribersFromCallingAssembly(this StandardKernel kernel
                                                           , ConfigurationAction ninjectConfiguration)
         {
             var asm = Assembly.GetCallingAssembly();
-            Trace.TraceInformation("Binding PublishServices from {0}", asm.FullName);
+            Trace.TraceInformation("Binding Subscribers from {0}", asm.FullName);
             kernel.Bind(
                 x => x.From(asm)
                          .IncludingNonePublicTypes()
@@ -66,7 +66,8 @@ namespace Website.Infrastructure.Binding
                 x => x.From(asm)
                          .IncludingNonePublicTypes()
                          .SelectAllClasses()
-                         .Where(t => t.GetInterfaces().Any(i =>
+                         .Where(t => 
+                             t.GetInterfaces().Any(i =>
                                                            i.IsGenericType &&
                                                            i.GetGenericTypeDefinition() ==
                                                            typeof(CommandHandlerInterface<>))

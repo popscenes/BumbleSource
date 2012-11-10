@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Threading;
 using Ninject;
 using Ninject.Modules;
+using PostaFlya.Application.Domain.Binding;
 using Website.Application.Command;
 
 namespace PostaFlya.CommandWorker
@@ -10,16 +11,19 @@ namespace PostaFlya.CommandWorker
     {
         private static readonly List<INinjectModule> NinjectModules = new List<INinjectModule>()
                   {
-                      new Domain.Binding.DefaultServicesNinjectBinding(),
                       new Website.Infrastructure.Binding.InfrastructureNinjectBinding(),
+                      new Website.Domain.Binding.DefaultServicesNinjectBinding(),
+                      new Website.Domain.Binding.CommandNinjectBinding(),                 
+                      new PostaFlya.Domain.Binding.DefaultServicesNinjectBinding(),
                       new PostaFlya.Domain.Binding.CommandNinjectBinding(),
                       new Website.Azure.Common.Binding.AzureCommonNinjectBinding(),
                       new DataRepository.Binding.AzureRepositoryNinjectBinding(c => c.InTransientScope()),
                       new DataRepository.Binding.TableNameNinjectBinding(),
                       new Website.Application.Binding.ApplicationCommandHandlersNinjectBinding(),
                       new Website.Application.Binding.ApplicationNinjectBinding(),
-                      new Application.Domain.Binding.ApplicationDomainNinjectBinding(),
+                      new Website.Application.Domain.Binding.ApplicationDomainNinjectBinding(),                
                       new Website.Application.Azure.Binding.AzureApplicationNinjectBinding(),
+                       new PostaFlya.Application.Domain.Binding.ApplicationDomainNinjectBinding(),
                   };
 
         private StandardKernel _kernel;

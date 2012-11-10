@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Website.Domain.Claims.Event;
 using Website.Infrastructure.Command;
 using Website.Infrastructure.Domain;
 using Website.Infrastructure.Query;
@@ -18,19 +19,19 @@ namespace Website.Domain.Claims.Command
         private readonly BrowserQueryServiceInterface _browserQueryService;
         private readonly GenericRepositoryInterface _genericRepository;
         private readonly GenericQueryServiceInterface _genericQueryService;
-        private readonly DomainEventPublicationServiceInterface _domainEventPublicationService;
+        private readonly DomainEventPublishServiceInterface _domainEventPublishService;
 
         public ClaimCommandHandler(UnitOfWorkFactoryInterface unitOfWorkFactory
             , BrowserQueryServiceInterface browserQueryService
             , GenericRepositoryInterface genericRepository
             , GenericQueryServiceInterface genericQueryService
-            , DomainEventPublicationServiceInterface domainEventPublicationService)
+            , DomainEventPublishServiceInterface domainEventPublishService)
         {
             _unitOfWorkFactory = unitOfWorkFactory;
             _browserQueryService = browserQueryService;
             _genericRepository = genericRepository;
             _genericQueryService = genericQueryService;
-            _domainEventPublicationService = domainEventPublicationService;
+            _domainEventPublishService = domainEventPublishService;
         }
 
         public object Handle(ClaimCommand command)
@@ -79,7 +80,7 @@ namespace Website.Domain.Claims.Command
                 return new MsgResponse("Claim Entity failed", true)
                         .AddCommandId(command);
          
-            _domainEventPublicationService.Publish(claim);
+            _domainEventPublishService.Publish(new ClaimEvent(){NewState = claim});
 
             return new MsgResponse("Claim Entity", false)
              .AddCommandId(command)

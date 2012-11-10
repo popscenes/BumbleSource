@@ -13,26 +13,19 @@ namespace Website.Azure.Common.TableStorage
         where TableEntryType : class, StorageTableEntryInterface, new()
     {
 
-        private readonly EntityUpdateNotificationInterface<EntityInterface> _updateNotification;
 
         protected RepositoryBase(TableContextInterface tableContext,
-                                 TableNameAndPartitionProviderServiceInterface nameAndPartitionProviderService,
-                                 EntityUpdateNotificationInterface<EntityInterface> updateNotification = null) 
+                                 TableNameAndPartitionProviderServiceInterface nameAndPartitionProviderService) 
             : base(tableContext, nameAndPartitionProviderService)
         {
-            _updateNotification = updateNotification;
         }
 
         private readonly List<Action> _mutatorsForRetry = new List<Action>();
-        private readonly HashSet<EntityInterface> _updatedEntities = new HashSet<EntityInterface>();
 
         public virtual bool SaveChanges()
         {
             var ret = TableContext.SaveChangesRetryMutatorsOnConcurrencyException(_mutatorsForRetry);
             _mutatorsForRetry.Clear();
-            if (ret && _updateNotification != null)
-                _updateNotification.NotifyUpdate(_updatedEntities);
-            _updatedEntities.Clear();
             return ret;
         }
 
@@ -109,9 +102,6 @@ namespace Website.Azure.Common.TableStorage
             {
                 TableContext.Store(tableEntry.TableName, tableEntry.Entry);
             }
-
-            if (aggregate.AggregateRoot is EntityInterface && !_updatedEntities.Contains((EntityInterface)aggregate.AggregateRoot))
-                _updatedEntities.Add((EntityInterface)aggregate.AggregateRoot);
         }
 
 

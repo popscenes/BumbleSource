@@ -12,6 +12,7 @@ using PostaFlya.Domain.Flier.Query;
 using PostaFlya.Specification.Fliers;
 using PostaFlya.Specification.Util;
 using Website.Domain.Claims;
+using Website.Domain.Claims.Event;
 using Website.Domain.Service;
 using Website.Infrastructure.Query;
 
@@ -123,18 +124,18 @@ namespace PostaFlya.Specification.DynamicBulletinBoard
         [BeforeScenario("TearOffNotification")]
         public void SetupNotificationBinding()
         {
-            var claimBind = SpecUtil.CurrIocKernel.GetMock<DomainEventPublicationServiceInterface>();
-            claimBind.Setup(service => service.Publish(It.IsAny<Claim>()))
-                .Callback<Claim>(claim => 
+            var claimBind = SpecUtil.CurrIocKernel.GetMock<DomainEventPublishServiceInterface>();
+            claimBind.Setup(service => service.Publish(It.IsAny<ClaimEvent>()))
+                .Callback<ClaimEvent>(claim => 
                     ScenarioContext.Current["tearoffnotification"] = true);
-            SpecUtil.CurrIocKernel.Bind<DomainEventPublicationServiceInterface>()
+            SpecUtil.CurrIocKernel.Bind<DomainEventPublishServiceInterface>()
                 .ToConstant(claimBind.Object);
         }
 
         [AfterScenario("TearOffNotification")]
         public void TearDownNotificationBinding()
         {
-            SpecUtil.CurrIocKernel.Unbind<DomainEventPublicationServiceInterface>();
+            SpecUtil.CurrIocKernel.Unbind<DomainEventPublishServiceInterface>();
         }
     }
 }

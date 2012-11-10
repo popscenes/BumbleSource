@@ -101,7 +101,6 @@
     <Compile Include="Sql\SqlOpenClose.cs" />
     <Compile Include="TableStorage\AggregateEntityTableEntryCollection.cs" />
     <Compile Include="TableStorage\EdmProp.cs" />
-    <Compile Include="TableStorage\EntityUpdateNotificationInterface.cs" />
     <Compile Include="TableStorage\ExtendableTableEntry.cs" />
     <Compile Include="TableStorage\JsonRepository.cs" />
     <Compile Include="TableStorage\JsonTableEntry.cs" />

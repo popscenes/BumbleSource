@@ -4,6 +4,7 @@ using System.Data.SqlClient;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using PostaFlya.Domain.Flier.Event;
 using Website.Azure.Common.Sql;
 using PostaFlya.DataRepository.Binding;
 using PostaFlya.DataRepository.Search.Services;
@@ -11,6 +12,7 @@ using PostaFlya.Domain.Flier;
 using Website.Infrastructure.Domain;
 using Website.Domain.Location;
 using Website.Domain.Tag;
+using Website.Infrastructure.Publish;
 
 namespace PostaFlya.DataRepository.Search.Implementation
 {
@@ -20,22 +22,6 @@ namespace PostaFlya.DataRepository.Search.Implementation
         public SqlFlierSearchService([SqlSearchConnectionString]string searchDbConnectionString)
         {
             _connection = new SqlConnection(searchDbConnectionString);
-        }
-
-        public void NotifyUpdate(IEnumerable<EntityInterface> values)
-        {
-            foreach (var flier in values.OfType<FlierInterface>())
-            {
-                SqlExecute.InsertOrUpdate(flier.ToSearchRecord(), _connection);
-            }
-        }
-
-        public void NotifyDelete(IEnumerable<EntityInterface> values)
-        {
-            foreach (var flier in values.OfType<FlierInterface>())
-            {
-                SqlExecute.Delete(flier.ToSearchRecord(), _connection);
-            }
         }
 
         public IList<string> FindFliersByLocationTagsAndDistance(Location location, Tags tags, int distance = 0, int take = 0, FlierSortOrder sortOrder = FlierSortOrder.CreatedDate, int skip = 0)
@@ -115,6 +101,7 @@ namespace PostaFlya.DataRepository.Search.Implementation
             @"SELECT  {2} * " +
             @"FROM sorted " +
             @"WHERE RN > (@skip) ";
+
 
     }
 }
