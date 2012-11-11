@@ -45,11 +45,17 @@ namespace PostaFlya.Domain.Flier
                                             ? new Dictionary<string, object>(source.ExtendedProperties)
                                             : null;
             target.UseBrowserContactDetails = source.UseBrowserContactDetails;
+            target.Boards = source.Boards != null ? new List<string>(source.Boards) : null;
         }        
 
         public static bool HasContactDetails(this FlierInterface flier)
         {
             return flier.UseBrowserContactDetails || flier.ContactDetails != null;
+        }
+
+        public static bool RequiresPayment(this FlierInterface flier)
+        {
+            return flier.HasContactDetails();
         }
 
         public static ContactDetailsInterface GetContactDetailsForFlier(this FlierInterface flier, BrowserInterface browser)
@@ -82,5 +88,6 @@ namespace PostaFlya.Domain.Flier
         Dictionary<string, object> ExtendedProperties { get;set; }
         ContactDetails ContactDetails { get; set; }
         bool UseBrowserContactDetails { get; set; }
+        List<string> Boards { get; set; } 
     }
 }

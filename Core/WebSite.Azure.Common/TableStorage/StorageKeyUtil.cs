@@ -29,5 +29,16 @@ namespace Website.Azure.Common.TableStorage
         {
             return (DateTime.MaxValue.Ticks - dateTime.Ticks).ToString("D20");
         }
+
+        public static string ToAscendingTimeKey(this string id, DateTime dateTime)
+        {
+            return id.CreateRowKeyForEntityId(dateTime.GetTimestampAscending());
+        }
+
+        public static string ToDescendingTimeKey(this string id, DateTime dateTime)
+        {
+            return id.CreateRowKeyForEntityId(dateTime.GetTimestampDescending());
+        }
+
     }
 }

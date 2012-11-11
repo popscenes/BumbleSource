@@ -24,6 +24,7 @@ using PostaFlya.Models.Flier;
 using PostaFlya.Models.Content;
 using Website.Application.Domain.Content;
 using Website.Domain.Tag;
+using Website.Infrastructure.Util.Extension;
 
 namespace PostaFlya.Controllers
 {
@@ -87,7 +88,8 @@ namespace PostaFlya.Controllers
                 AttachContactDetails = createModel.AttachContactDetails,
                 UseBrowserContactDetails = createModel.AttachContactDetails,//only supporting browser contact dets atm
                 ExternalSource = createModel.ExternalSource,
-                ExternalId = createModel.ExternalId
+                ExternalId = createModel.ExternalId,
+                BoardList = createModel.BoardList
                 //TODO add new details, and validate details both browser and new. Allow updating of browser details
             };
 
@@ -101,14 +103,16 @@ namespace PostaFlya.Controllers
             {
                 Id = editModel.Id,
                 BrowserId = browserId,
-                Tags = new Tags(editModel.TagsString),
+                Tags = new Tags(editModel.TagsString.EmptyIfNull()),
                 Title = editModel.Title.SafeText(),
                 Description = editModel.Description.SafeText(),
                 Location = editModel.Location.ToDomainModel(),
                 Image = new Guid(editModel.FlierImageId),
                 EffectiveDate = editModel.EffectiveDate,
-                ImageList = editModel.ImageList.Select(_ => new FlierImage(_.ImageId)).ToList()
-
+                ImageList = editModel.ImageList.Select(_ => new FlierImage(_.ImageId)).ToList(),
+                AttachContactDetails = editModel.AttachContactDetails,
+                UseBrowserContactDetails = editModel.AttachContactDetails,
+                BoardList = editModel.BoardList
             };
 
             var res = _commandBus.Send(editFlier);

@@ -33,7 +33,9 @@ namespace PostaFlya.Models.Flier
                            FlierBehaviour = flier.FlierBehaviour,
                            ImageList = flier.ImageList.Select(_ => new ImageViewModel(){ImageId = _.ImageID}).ToList(),
                            ExternalSource = flier.ExternalSource,
-                           ExternalId = flier.ExternalId
+                           ExternalId = flier.ExternalId,
+                           AttachContactDetails = flier.HasContactDetails(),
+                           BoardList =  flier.Boards ?? new List<string>(),
                        };
         }
 
@@ -53,6 +55,7 @@ namespace PostaFlya.Models.Flier
         public FlierCreateModel()
         {
             ImageList = new List<ImageViewModel>();
+            BoardList = new List<string>();
         }
         [DisplayName("FlierId")]
         [DataMember]
@@ -115,6 +118,10 @@ namespace PostaFlya.Models.Flier
 
         [DataMember]
         public String ExternalId { get; set; }
+
+        [DisplayName("BoardList")]
+        [DataMember]
+        public List<string> BoardList { get; set; }
        
         public static FlierCreateModel DefaultForTemplate()
         {

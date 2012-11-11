@@ -7,6 +7,7 @@ using PostaFlya.Domain.Boards;
 using PostaFlya.Domain.Flier;
 using PostaFlya.Mocks.Domain.Data;
 using PostaFlya.Models.Board;
+using PostaFlya.Models.Flier;
 using PostaFlya.Specification.Util;
 using TechTalk.SpecFlow;
 using Website.Infrastructure.Query;
@@ -104,29 +105,11 @@ namespace PostaFlya.Specification.Fliers
         public void WhenIAddTheFLIERToTheBoard()
         {
             var browserId = SpecUtil.GetCurrBrowser().Browser.Id;
-            WhenABrowserAddsTheFlierToTheBoard(browserId);
-        }
-
-        [When(@"A BROWSER adds the FLIER to the board")]
-        public void WhenABrowserAddsTheFLIERToTheBoard()
-        {
-            var browserId = _common.GivenThereIsAnExistingBrowserWithParticipantRole();
-            WhenABrowserAddsTheFlierToTheBoard(browserId);
-        }
-
-        [Given(@"A BROWSER has added the FLIER to the board")]
-        public void GivenABrowserAddsTheFLIERToTheBoard()
-        {
-            WhenABrowserAddsTheFLIERToTheBoard();
-            ThenItWillBeAMemberOfTheBoardWithAStatusOf(BoardFlierStatus.PendingApproval);
-        }
-
-        private static void WhenABrowserAddsTheFlierToTheBoard(string browserId)
-        {
             var flier = ScenarioContext.Current["flier"] as FlierInterface;
             var board = ScenarioContext.Current["board"] as BoardInterface;
 
             var controller = SpecUtil.GetApiController<BoardFlierController>();
+
             var addFlierModel = new AddBoardFlierModel()
             {
                 BoardId = board.Id,
@@ -134,6 +117,28 @@ namespace PostaFlya.Specification.Fliers
             };
             var res = controller.Post(browserId, addFlierModel);
             res.AssertStatusCode();
+        }
+
+        [When(@"A BROWSER adds the FLIER to the board")]
+        public void WhenABrowserAddsTheFLIERToTheBoard()
+        {
+            var browserId = _common.GivenThereIsAnExistingBrowserWithParticipantRole();
+            var flier = ScenarioContext.Current["flier"] as FlierInterface;
+            var board = ScenarioContext.Current["board"] as BoardInterface;
+
+            var controller = SpecUtil.GetApiController<MyFliersController>();
+
+            var addFlierModel = flier.ToCreateModel();
+            addFlierModel.BoardList.Add(board.Id);
+            var res = controller.Put(browserId, addFlierModel);
+            res.AssertStatusCode();
+        }
+
+        [Given(@"A BROWSER has added the FLIER to the board")]
+        public void GivenABrowserAddsTheFLIERToTheBoard()
+        {
+            WhenABrowserAddsTheFLIERToTheBoard();
+            ThenItWillBeAMemberOfTheBoardWithAStatusOf(BoardFlierStatus.PendingApproval);
         }
 
         [Then(@"The FLIER will be a member of the board with a status of (.*)")]
@@ -149,6 +154,7 @@ namespace PostaFlya.Specification.Fliers
             var ret = boardFlier.SingleOrDefault(bf => bf.FlierId == flier.Id);
             Assert.IsNotNull(ret);
             Assert.That(ret.Status, Is.EqualTo(status));
+            ScenarioContext.Current["flier"] = queryService.FindById<Flier>(flier.Id);
         }
 
         [When(@"I approve the FLIER")]
@@ -169,6 +175,30 @@ namespace PostaFlya.Specification.Fliers
                                {BoardId = board.Id, FlierId = ret.Flier.Id, Status = BoardFlierStatus.Approved});
 
             updateRes.AssertStatusCode();
+        }
+
+
+        [Given(@"There is a FLIER that is Approved on a Board")]
+        public void GivenThereIsAFLIERThatIsApprovedOnABoard()
+        {
+            GivenIHaveCreatedAPublicBoardThatRequiresApprovalNamed("testBoard");
+            new FlierSteps().GivenABrowserHasCreatedAFlierofBehaviour();
+            GivenABrowserAddsTheFLIERToTheBoard();
+            WhenIApproveTheFLIER();
+            ThenItWillBeAMemberOfTheBoardWithAStatusOf(BoardFlierStatus.Approved);
+        }
+
+        [When(@"A BROWSER modifies the FLIER on a Board")]
+        public void WhenABROWSERModifiesTheFLIEROnABoard()
+        {
+            var flier = ScenarioContext.Current["flier"] as FlierInterface;
+            var controller = SpecUtil.GetApiController<MyFliersController>();
+
+            var browserId = _common.GivenThereIsAnExistingBrowserWithParticipantRole();
+            var edit = flier.ToCreateModel();
+            var updateRes = controller.Put(browserId, edit);
+            updateRes.AssertStatusCode();
+
         }
 
 

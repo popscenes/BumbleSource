@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using PostaFlya.Domain.Behaviour;
+using PostaFlya.Domain.Boards.Command;
+using PostaFlya.Domain.Boards.Event;
 using PostaFlya.Domain.Flier.Event;
 using PostaFlya.Domain.Flier.Query;
 using PostaFlya.Domain.Service;
@@ -16,15 +18,18 @@ namespace PostaFlya.Domain.Flier.Command
         private readonly UnitOfWorkFactoryInterface _unitOfWorkFactory;
         private readonly FlierQueryServiceInterface _flierQueryService;
         private readonly DomainEventPublishServiceInterface _domainEventPublishService;
+        private readonly CommandBusInterface _commandBus;
 
         public CreateFlierCommandHandler(FlierRepositoryInterface flierRepository
             , UnitOfWorkFactoryInterface unitOfWorkFactory, FlierQueryServiceInterface flierQueryService
-            , DomainEventPublishServiceInterface domainEventPublishService)
+            , DomainEventPublishServiceInterface domainEventPublishService
+            , CommandBusInterface commandBus)
         {
             _flierRepository = flierRepository;
             _unitOfWorkFactory = unitOfWorkFactory;
             _flierQueryService = flierQueryService;
             _domainEventPublishService = domainEventPublishService;
+            _commandBus = commandBus;
         }
 
         public object Handle(CreateFlierCommand command)
@@ -52,12 +57,14 @@ namespace PostaFlya.Domain.Flier.Command
                 newFlier.Status = FlierStatus.PaymentPending;
 
             newFlier.FriendlyId = _flierQueryService.FindFreeFriendlyId(newFlier);
-  
+
+            List<BoardFlierModifiedEvent> boardFliers = null;
             UnitOfWorkInterface unitOfWork;
             using (unitOfWork = _unitOfWorkFactory.GetUnitOfWork(new[] { _flierRepository }))
-            {
-                
+            {      
                 _flierRepository.Store(newFlier);
+                boardFliers = AddFlierToBoardCommandHandler.UpdateAddFlierToBoards(command.BoardList, newFlier, _flierQueryService,
+                                                                     _flierRepository);
             }
 
             if(!unitOfWork.Successful)
@@ -65,6 +72,10 @@ namespace PostaFlya.Domain.Flier.Command
                         .AddCommandId(command);
 
             _domainEventPublishService.Publish(new FlierModifiedEvent() { NewState = newFlier });
+            foreach (var boardFlierModifiedEvent in boardFliers)
+            {
+                _domainEventPublishService.Publish(boardFlierModifiedEvent);
+            }
 
             return new MsgResponse("Flier Create", false)
                 .AddEntityId(newFlier.Id)

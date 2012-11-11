@@ -7,6 +7,7 @@ using System.Text;
 using Ninject;
 using Ninject.Modules;
 using PostaFlya.Domain.Behaviour;
+using PostaFlya.Domain.Boards;
 using PostaFlya.Domain.Flier;
 using Website.Azure.Common.TableStorage;
 using PostaFlya.DataRepository.Behaviour.TaskJob;
@@ -19,6 +20,7 @@ using Website.Domain.Browser;
 using Website.Domain.Claims;
 using Website.Domain.Comments;
 using Website.Domain.Content;
+using Website.Azure.Common.TableStorage;
 
 namespace PostaFlya.DataRepository.Binding
 {
@@ -31,6 +33,14 @@ namespace PostaFlya.DataRepository.Binding
             Trace.TraceInformation("Binding TableNameNinjectBinding");
 
             var tableNameProv = Kernel.Get<TableNameAndPartitionProviderServiceInterface>();
+
+            tableNameProv.Add<BoardInterface>(JsonRepositoryWithBrowser.IdPartition, "board", e => e.Id);
+            tableNameProv.Add<BoardInterface>(JsonRepository.FriendlyIdPartiton, "board", e => e.FriendlyId, e => e.Id);
+            tableNameProv.Add<BoardInterface>(JsonRepositoryWithBrowser.BrowserPartitionId, "board", e => e.BrowserId, e => e.Id);
+
+            tableNameProv.Add<BoardFlierInterface>(JsonRepositoryWithBrowser.IdPartition, "boardflier", e => e.Id);
+            tableNameProv.Add<BoardFlierInterface>(JsonRepositoryWithBrowser.AggregateIdPartition, "boardflier", e => e.AggregateId, e => e.Id.ToDescendingTimeKey(e.DateAdded));
+
 
             tableNameProv.Add<FlierInterface>(JsonRepositoryWithBrowser.IdPartition, "flier", e => e.Id);
             tableNameProv.Add<FlierInterface>(JsonRepository.FriendlyIdPartiton, "flier", e => e.FriendlyId, e => e.Id);

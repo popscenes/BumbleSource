@@ -16,7 +16,7 @@ namespace Website.Common.Extension
 
         public static string Sanitize(this string html)
         {
-            if (String.IsNullOrEmpty(html)) return html;
+            if (String.IsNullOrWhiteSpace(html)) return html;
 
             // match every HTML tag in the input
             var tags = Tags.Matches(html);

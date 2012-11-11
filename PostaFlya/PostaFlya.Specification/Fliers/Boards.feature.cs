@@ -112,6 +112,18 @@ namespace PostaFlya.Specification.Fliers
             testRunner.Then("The FLIER will be a member of the board with a status of Approved", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
             this.ScenarioCleanup();
         }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("When a Flier Approved on a Board is modified It requires re-approval")]
+        public virtual void WhenAFlierApprovedOnABoardIsModifiedItRequiresRe_Approval()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("When a Flier Approved on a Board is modified It requires re-approval", ((string[])(null)));
+            this.ScenarioSetup(scenarioInfo);
+            testRunner.Given("There is a FLIER that is Approved on a Board", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+            testRunner.When("A BROWSER modifies the FLIER on a Board", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+            testRunner.Then("The FLIER will be a member of the board with a status of PendingApproval", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+            this.ScenarioCleanup();
+        }
     }
 }
 #pragma warning restore

@@ -26,6 +26,11 @@ And A BROWSER has added the FLIER to the board
 When I approve the FLIER
 Then The FLIER will be a member of the board with a status of Approved
 
+Scenario: When a Flier Approved on a Board is modified It requires re-approval
+Given There is a FLIER that is Approved on a Board
+When A BROWSER modifies the FLIER on a Board
+Then The FLIER will be a member of the board with a status of PendingApproval 
+
 
 
 
