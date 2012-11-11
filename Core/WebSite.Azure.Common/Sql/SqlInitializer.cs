@@ -132,7 +132,26 @@ namespace Website.Azure.Common.Sql
                 return false;
             }
 
-            return true;
+            return CreateIndexesFor(metaTyp, connection, tableName);
+        }
+
+        private static bool CreateIndexesFor(Type metaTyp, SqlConnection connection, string tableName = null)
+        {
+            var indexes = SqlExecute.GetSingleColIndexes(metaTyp);
+            if (indexes.Count == 0)
+                return true;
+            return (from propertyInfo in indexes
+                        let indexInfo = propertyInfo.GetCustomAttributes(true).First(a => a.GetType() == typeof (SqlIndex)) as SqlIndex
+                        where indexInfo != null
+                        let unique = indexInfo.Unique ? "UNIQUE" : ""
+                        let clustered = indexInfo.Clustered ? "" : "NON"
+                        let table = tableName ?? metaTyp.Name
+                        let column = propertyInfo.Name
+                        select string.Format(Properties.Resources.DbCreateSingleColIndex, unique, clustered, table, column))
+                            .Aggregate(true, 
+                                (current, sqlCmd) => 
+                                    current &&
+                                    SqlExecute.ExecuteCommandInRecordTypeContext(metaTyp, sqlCmd, connection));
         }
 
         private static bool IsNotNullable(object attribute)
@@ -206,8 +225,12 @@ namespace Website.Azure.Common.Sql
             if (fedProp != null && !SqlExecute.FederationDisabled)
             {
                 fedAtt = fedProp.GetCustomAttributes(true).First(a => a.GetType() == typeof(FederationCol)) as FederationCol;
-                colList += "," + ColumnTextFor(fedProp);
-                keyList += "," + fedProp.Name;
+                if (fedAtt != null && !fedAtt.IsReferenceTable)
+                {
+                    colList += "," + ColumnTextFor(fedProp);
+                    keyList += "," + fedProp.Name;    
+                }
+                
             }
 
             var sqlCmd = string.Format(
@@ -216,12 +239,13 @@ namespace Website.Azure.Common.Sql
 
             if(fedAtt != null)
             {
-                sqlCmd += string.Format(Properties.Resources.DbFederatedOn, fedAtt.DistributionName, fedProp.Name);
+                if(!fedAtt.IsReferenceTable)
+                    sqlCmd += string.Format(Properties.Resources.DbFederatedOn, fedAtt.DistributionName, fedProp.Name);
 
                 //this should create the default federation key
                 var instanceForDefaultFed = Activator.CreateInstance(metaTyp, true);
                 return SqlExecute.ExecuteCommandInRecordContext(instanceForDefaultFed,
-                    sqlCmd, connection, string.Format("create table {0}", tableName));
+                    sqlCmd, connection);
             }
                 
             return SqlExecute.ExecuteCommand(sqlCmd, connection);

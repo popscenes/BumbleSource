@@ -152,6 +152,51 @@ namespace Website.Azure.Common.Tests.Sql
                 SqlInitializer.DeleteFederationFor(typeof(TableType), connection);
             }
         }
+
+        [Test]
+        public void SqlInitializerCreatesTableWithIndex()
+        {
+            const string databasename = "SqlInitializerTests";
+            using (var initializer = new SqlInitializer())
+            {
+                initializer.CreateDb(databasename);
+
+
+                using (var connection = new SqlConnection(SqlExecute.GetConnectionStringFromConfig("DbConnectionString", databasename)))
+                {
+                    initializer.DeleteTable(typeof(SqlInitializerTestIndexTable).Name, connection);
+
+                    Assert.IsTrue(SqlInitializer.CreateTableFrom(typeof(SqlInitializerTestIndexTable), connection));
+
+                    Assert.IsTrue(initializer.DeleteTable(typeof(SqlInitializerTestIndexTable).Name, connection));
+                }
+
+                initializer.DeleteDb(databasename);
+            }
+        }
+
+        [Test]
+        public void SqlInitializerCreatesFederatedReferenceTableWithIndex()
+        {
+            const string databasename = "SqlInitializerTests";
+            using (var initializer = new SqlInitializer())
+            {
+                initializer.CreateDb(databasename);
+
+
+                using (var connection = new SqlConnection(SqlExecute.GetConnectionStringFromConfig("DbConnectionString", databasename)))
+                {
+                    initializer.DeleteTable(typeof(SqlInitializerTestFedRefernceTableWithIndex).Name, connection);
+
+                    Assert.IsTrue(SqlInitializer.CreateTableFrom(typeof(SqlInitializerTestFedRefernceTableWithIndex), connection));
+
+                    Assert.IsTrue(initializer.DeleteTable(typeof(SqlInitializerTestFedRefernceTableWithIndex).Name, connection));
+                    SqlInitializer.DeleteFederationFor(typeof(SqlInitializerTestFedRefernceTableWithIndex), connection);
+                }
+
+                initializer.DeleteDb(databasename);
+            }
+        }
     }
 
     internal class SqlInitializerTestTable
@@ -175,6 +220,30 @@ namespace Website.Azure.Common.Tests.Sql
         [NotNullable]
         [SpatialIndex]
         public SqlGeography Geography { get; set; }
+    }
+
+
+    internal class SqlInitializerTestFedRefernceTableWithIndex
+    {
+        [PrimaryKey]
+        public string Stringcol { get; set; }
+
+        [SqlIndex]
+        public long LongCol { get; set; }
+
+        [FederationCol(FederationName = "TestFederation", DistributionName = "long_col", IsReferenceTable = true)]        
+        public long FedRefCol { get; set; }
+
+    }
+
+    internal class SqlInitializerTestIndexTable
+    {
+        [PrimaryKey]
+        public string Stringcol { get; set; }
+
+        [SqlIndex]
+        public long LongCol { get; set; }
+
     }
 
     internal class SqlInitializerTestFederatedTable

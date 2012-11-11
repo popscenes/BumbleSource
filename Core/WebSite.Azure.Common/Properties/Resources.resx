@@ -216,4 +216,9 @@ commit tran</value>
   <data name="DbUseFederationRoot" xml:space="preserve">
     <value>USE FEDERATION ROOT WITH RESET</value>
   </data>
+  <data name="DbCreateSingleColIndex" xml:space="preserve">
+    <value>IF NOT EXISTS (SELECT name FROM sys.indexes
+            WHERE name = N'INDEX IDX_{2}_{3}')
+CREATE {0} {1}CLUSTERED INDEX IDX_{2}_{3} ON {2}({3});</value>
+  </data>
 </root>

@@ -376,6 +376,7 @@ namespace Website.Azure.Common.Sql
                                   });
         }
 
+        //performs operation in all federations if a federated type
         public static bool ExecuteCommandInRecordTypeContext(Type contextRecordTyp, string sqlCmd, 
             SqlConnection connection, object parameters = null)
         {
@@ -532,6 +533,11 @@ namespace Website.Azure.Common.Sql
         public static PropertyInfo GetPrimaryKey(Type source)
         {
             return SerializeUtil.GetPropertyWithAttribute(source, typeof (PrimaryKey));
+        }
+
+        public static IList<PropertyInfo> GetSingleColIndexes(Type source)//todo add multicol that look at att on class
+        {
+            return SerializeUtil.GetPropertiesWithAttribute(source, typeof(SqlIndex));
         }
 
         private static object ConvertResult(SqlDataReader reader, int ordinal, Type needed)
