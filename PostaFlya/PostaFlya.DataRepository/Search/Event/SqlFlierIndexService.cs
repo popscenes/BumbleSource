@@ -6,16 +6,21 @@ using System.Text;
 using PostaFlya.DataRepository.Binding;
 using PostaFlya.DataRepository.Search.Command;
 using PostaFlya.DataRepository.Search.Services;
+using PostaFlya.Domain.Boards.Event;
 using PostaFlya.Domain.Flier.Event;
 using Website.Application.Binding;
 using Website.Azure.Common.Sql;
 using Website.Infrastructure.Command;
 using Website.Infrastructure.Publish;
+using Website.Infrastructure.Query;
 
 namespace PostaFlya.DataRepository.Search.Event
 {
-    public class SqlFlierIndexService : SubscriptionInterface<FlierModifiedEvent>
+    public class SqlFlierIndexService : 
+        SubscriptionInterface<FlierModifiedEvent>
+        , SubscriptionInterface<BoardFlierModifiedEvent>
     {
+        private readonly GenericQueryServiceInterface _queryService;
         //if we wanna push this to a worker....not really needed atm.
 //        private readonly CommandBusInterface _commandBus;
 
@@ -28,8 +33,10 @@ namespace PostaFlya.DataRepository.Search.Event
 //        }
 
         private readonly SqlConnection _connection;
-        public SqlFlierIndexService([SqlSearchConnectionString]string searchDbConnectionString)
+        public SqlFlierIndexService([SqlSearchConnectionString]string searchDbConnectionString
+            , GenericQueryServiceInterface queryService)
         {
+            _queryService = queryService;
             _connection = new SqlConnection(searchDbConnectionString);
             IsEnabled = true;
             Name = "SqlFlierIndexService";
@@ -63,14 +70,42 @@ namespace PostaFlya.DataRepository.Search.Event
             {
                 var searchRecord = publish.NewState.ToSearchRecord();
                 SqlExecute.InsertOrUpdate(searchRecord, _connection);
+                return true;
             }
                         
             if(publish.OrigState != null)
             {
                 var searchRecord = publish.OrigState.ToSearchRecord();
                 SqlExecute.Delete(searchRecord, _connection);
+                return true;
             }
         
+            return false;
+        }
+
+        public bool Publish(BoardFlierModifiedEvent publish)
+        {
+
+            if (publish.NewState != null)
+            {
+                var flier = _queryService.FindById<Domain.Flier.Flier>(publish.NewState.FlierId);
+                if (flier == null)
+                    return false;
+                var searchRecord = publish.NewState.ToSearchRecord(flier.Location.GetShardId());
+                SqlExecute.InsertOrUpdate(searchRecord, _connection);
+                return true;
+            }
+
+            if (publish.OrigState != null)
+            {
+                var flier = _queryService.FindById<Domain.Flier.Flier>(publish.OrigState.FlierId);
+                if (flier == null)
+                    return false;
+                var searchRecord = publish.OrigState.ToSearchRecord(flier.Location.GetShardId());
+                SqlExecute.Delete(searchRecord, _connection);
+                return true;
+            }
+
             return false;
         }
 

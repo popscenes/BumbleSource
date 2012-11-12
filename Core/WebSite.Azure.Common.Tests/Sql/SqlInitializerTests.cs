@@ -21,7 +21,10 @@ namespace Website.Azure.Common.Tests.Sql
                 Assert.IsTrue(initializer.HasDb(databasename));
 
                 initializer.CreateDb(databasename);//second create doesn't cause error
+            }
 
+            using (var initializer = new SqlInitializer())
+            {
                 initializer.DeleteDb(databasename);
 
                 Assert.IsFalse(initializer.HasDb(databasename));
@@ -166,6 +169,8 @@ namespace Website.Azure.Common.Tests.Sql
                 {
                     initializer.DeleteTable(typeof(SqlInitializerTestIndexTable).Name, connection);
 
+                    //test twice to make sure that indexes are checked before creating
+                    Assert.IsTrue(SqlInitializer.CreateTableFrom(typeof(SqlInitializerTestIndexTable), connection));
                     Assert.IsTrue(SqlInitializer.CreateTableFrom(typeof(SqlInitializerTestIndexTable), connection));
 
                     Assert.IsTrue(initializer.DeleteTable(typeof(SqlInitializerTestIndexTable).Name, connection));

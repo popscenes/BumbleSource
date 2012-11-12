@@ -13,7 +13,7 @@ using Website.Domain.Location;
 namespace PostaFlya.DataRepository.Tests.Behaviour.TaskJob
 {
     [TestFixture("dev")]
-    [TestFixture("real")]
+    //[TestFixture("real")]
     public class TaskJobRepositoryTests
     {
 

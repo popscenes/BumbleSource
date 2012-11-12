@@ -100,7 +100,7 @@ namespace Website.Azure.Common.Properties {
         
         /// <summary>
         ///   Looks up a localized string similar to IF NOT EXISTS (SELECT name FROM sys.indexes
-        ///            WHERE name = N&apos;INDEX IDX_{2}_{3}&apos;)
+        ///            WHERE name = N&apos;IDX_{2}_{3}&apos;)
         ///CREATE {0} {1}CLUSTERED INDEX IDX_{2}_{3} ON {2}({3});.
         /// </summary>
         internal static string DbCreateSingleColIndex {

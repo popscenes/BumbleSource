@@ -6,6 +6,8 @@ using Ninject;
 using PostaFlya.DataRepository.Search.Command;
 using PostaFlya.DataRepository.Search.Event;
 using PostaFlya.DataRepository.Search.Services;
+using PostaFlya.Domain.Boards;
+using PostaFlya.Domain.Boards.Event;
 using PostaFlya.Domain.Flier.Event;
 using Website.Azure.Common.Environment;
 using PostaFlya.DataRepository.Flier;
@@ -31,7 +33,7 @@ using Website.Test.Common;
 namespace PostaFlya.DataRepository.Tests
 {
     [TestFixture("dev")]
-    [TestFixture("real")]
+    //[TestFixture("real")]
     public class AzureFlierRepositoryTests
     {
         private FlierRepositoryInterface _repository;
@@ -192,6 +194,42 @@ namespace PostaFlya.DataRepository.Tests
             FindFliersByLocationAndTagsRepository();
         }
 
+        [Test]
+        public void FindFliersByLocationAndTagsAndBoard()
+        {
+            var storedFlier = StoreFlierRepository();
+            var board = BoardTestData.GetOne(Kernel, "TestBoardName", _loc);
+            board = BoardTestData.StoreOne(board, _repository, Kernel);
+
+            var boardFlier = new BoardFlier()
+                {
+                    Id = storedFlier.Id + board.Id,
+                    AggregateId = board.Id,
+                    FlierId = storedFlier.Id,
+                    Status = BoardFlierStatus.Approved
+                };
+
+            var uow = Kernel.Get<UnitOfWorkFactoryInterface>()
+                .GetUnitOfWork(new List<RepositoryInterface>() {_repository});
+
+            var indexer = Kernel.Get<SqlFlierIndexService>();
+            using (uow)
+            {
+                _repository.Store(boardFlier);
+                indexer.Publish(new BoardFlierModifiedEvent() {NewState = boardFlier});
+            }
+
+            var location = _loc;
+            var tag = Kernel.Get<Tags>(bm => bm.Has("default"));
+
+            var retrievedFliers = _queryService.FindFliersByLocationTagsAndDistance(location, tag, board.Id)
+                .Select(id => _queryService.FindById<Domain.Flier.Flier>(id)).ToList();
+
+            Assert.That(retrievedFliers.Count(), Is.EqualTo(1));
+
+            FlierTestData.AssertStoreRetrieve(storedFlier, retrievedFliers.FirstOrDefault());
+        }
+
         public IQueryable<FlierInterface> FindFliersByLocationAndTagsRepository()
         {
             var storedFlier = StoreFlierRepository();
@@ -254,44 +292,6 @@ namespace PostaFlya.DataRepository.Tests
             AssertUtil.Count(1, retFlier.ExtendedProperties);
             var behaviourRet = FlierTestData.GetBehaviour(Kernel, testFlier) as TaskJobFlierBehaviourInterface;
             Assert.AreEqual(111, behaviourRet.CostOverhead);
-        }
-
-
-        [Test]
-        public void AzureFlierRepositoryRetriedUpdateIfConcurrencyExceptionOccurs()
-        {
-            var testFlier = FlierTestData.GetOne(Kernel);
-            testFlier.FlierBehaviour = FlierBehaviour.Default;
-            testFlier = FlierTestData.StoreOne(testFlier, _repository, Kernel);
-
-            var tryCount     = 0;
-            UnitOfWorkInterface unitOfWork;
-            using (unitOfWork = Kernel.Get<UnitOfWorkFactoryInterface>().GetUnitOfWork(new List<RepositoryInterface>() {_repository}))
-            {
-
-                _repository.UpdateEntity<Domain.Flier.Flier>(testFlier.Id
-                    , flier =>
-                        {
-                            if(tryCount++ == 0)
-                            {
-                                var otherrepo = Kernel.Get<FlierRepositoryInterface>();
-                                otherrepo.UpdateEntity<Domain.Flier.Flier>(testFlier.Id, f => f.NumberOfComments++);
-                                otherrepo.SaveChanges();
-                            }
-
-                            flier.NumberOfComments++;
-
-                        }
-
-                    );
-            }
-
-            Assert.IsTrue(unitOfWork.Successful);
-
-            testFlier.NumberOfComments = 2;//this is what they should be
-            var retFlier = FlierTestData.AssertGetById(testFlier, _queryService);
-            Assert.AreEqual(2, retFlier.NumberOfComments);
-
         }
 
         [Test]
@@ -444,7 +444,7 @@ namespace PostaFlya.DataRepository.Tests
             var location = _loc;
             var tag = Kernel.Get<Tags>(bm => bm.Has("default"));
 
-            var retrievedFliers = _queryService.FindFliersByLocationTagsAndDistance(location, tag, 10, 0, sortOrder)
+            var retrievedFliers = _queryService.FindFliersByLocationTagsAndDistance(location, tag, null, 10, 0, sortOrder)
                 .Select(id => _queryService.FindById<Domain.Flier.Flier>(id)).Where(f => f != null).AsQueryable();
 
             Assert.IsTrue(retrievedFliers.Any());

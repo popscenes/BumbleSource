@@ -50,10 +50,10 @@ namespace PostaFlya.Controllers
         }
 
         public IList<BulletinFlierModel> Get([FromUri]LocationModel loc
-            ,int count, int skip = 0, int distance = 0, string tags = "")
+            ,int count, string board = "", int skip = 0, int distance = 0, string tags = "")
         {
             return GetFliers(_flierQueryService, _blobStorage, _viewModelFactory
-                             , loc, count, skip, distance, tags);
+                             , loc, count, board, skip, distance, tags);
         }
 
         [NonAction]
@@ -83,7 +83,7 @@ namespace PostaFlya.Controllers
         [NonAction]
         public static IList<BulletinFlierModel> GetFliers(FlierQueryServiceInterface flierQueryService
             , BlobStorageInterface blobStorage, FlierBehaviourViewModelFactoryInterface viewModelFactory
-            , LocationModel loc, int count, int skip = 0, int distance = 0, string tags = "")
+            , LocationModel loc, int count, string board="", int skip = 0, int distance = 0, string tags = "")
         {
             Location locDomainModel = loc.ToDomainModel();
             var tagsModel = new Tags(tags);
@@ -95,7 +95,7 @@ namespace PostaFlya.Controllers
 
             var fliersIds =
                 flierQueryService.FindFliersByLocationTagsAndDistance(locDomainModel,
-                tagsModel, distance, count, FlierSortOrder.CreatedDate, skip);
+                tagsModel, board, distance, count, FlierSortOrder.CreatedDate, skip);
 
             var watch = new Stopwatch();
             watch.Start();

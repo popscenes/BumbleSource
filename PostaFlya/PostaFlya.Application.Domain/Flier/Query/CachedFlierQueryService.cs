@@ -6,6 +6,7 @@ using Website.Application.Binding;
 using Website.Application.Caching.Query;
 using PostaFlya.Domain.Flier;
 using PostaFlya.Domain.Flier.Query;
+using Website.Domain.Location;
 using Website.Infrastructure.Command;
 using Website.Infrastructure.Query;
 using Website.Infrastructure.Binding;
@@ -27,9 +28,9 @@ namespace PostaFlya.Application.Domain.Flier.Query
             _queryService = queryService;
         }
 
-        public IList<string> FindFliersByLocationTagsAndDistance(Website.Domain.Location.Location location, Tags tags, int distance = 0, int take = 0, FlierSortOrder sortOrder = FlierSortOrder.CreatedDate, int skip = 0)
+        public IList<string> FindFliersByLocationTagsAndDistance(Location location, Tags tags, string board = null, int distance = 0, int take = 0, FlierSortOrder sortOrder = FlierSortOrder.CreatedDate, int skip = 0)
         {
-            return _queryService.FindFliersByLocationTagsAndDistance(location, tags, distance, take, sortOrder, skip);
+            return _queryService.FindFliersByLocationTagsAndDistance(location, tags, board, distance, take, sortOrder, skip);
         }
 
     }

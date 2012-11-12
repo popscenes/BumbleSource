@@ -47,7 +47,7 @@ namespace PostaFlya.Domain.Boards.Command
                 foreach (var flierBoards in command.BoardFliers.ToLookup(bf => bf.FlierId, bf => bf.AggregateId))
                 {
                     var flier = _queryService.FindById<Flier.Flier>(flierBoards.Key);
-                    var boards = flierBoards.Where(id => flier.Boards == null || flier.Boards.Contains(id)).ToList();
+                    var boards = flierBoards.Where(id => flier.Boards == null || !flier.Boards.Contains(id)).ToList();
                     boardFliers.AddRange(
                         UpdateAddFlierToBoards(boards, flier, _queryService, _repository));
 

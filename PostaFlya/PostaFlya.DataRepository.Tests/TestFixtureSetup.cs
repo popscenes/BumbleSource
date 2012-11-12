@@ -42,15 +42,17 @@ namespace PostaFlya.DataRepository.Tests
 
             tableNameProv.SuffixTableNames("test");
 
-            AzureEnv.UseRealStorage = true;
-            var tctx = CurrIocKernel.Get<TableContextInterface>();
-            foreach (var tableName in tableNameProv.GetAllTableNames())
-            {
-                tctx.InitTable<JsonTableEntry>(tableName);
-                tctx.Delete<JsonTableEntry>(tableName, null);
-            }
+            //mmm moving away from testing repos, now that json repo is the primary
+            //store there is no need to test every repo, only specific query service functionality
+//            AzureEnv.UseRealStorage = true;
+//            var tctx = CurrIocKernel.Get<TableContextInterface>();
+//            foreach (var tableName in tableNameProv.GetAllTableNames())
+//            {
+//                tctx.InitTable<JsonTableEntry>(tableName);
+//                tctx.Delete<JsonTableEntry>(tableName, null);
+//            }
             AzureEnv.UseRealStorage = false;
-            tctx = CurrIocKernel.Get<TableContextInterface>();
+            var tctx = CurrIocKernel.Get<TableContextInterface>();
             foreach (var tableName in tableNameProv.GetAllTableNames())
             {
                 tctx.InitTable<JsonTableEntry>(tableName);

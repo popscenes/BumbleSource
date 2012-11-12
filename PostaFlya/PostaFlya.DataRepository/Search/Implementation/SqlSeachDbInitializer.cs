@@ -38,6 +38,7 @@ namespace PostaFlya.DataRepository.Search.Implementation
             using (var newConn = new SqlConnection(_searchDbConnectionString))
             {
                 SqlInitializer.CreateTableFrom(typeof (FlierSearchRecord), newConn);
+                SqlInitializer.CreateTableFrom(typeof(BoardFlierSearchRecord), newConn);
 
 //not needed
 //                var res = SqlExecute
@@ -62,6 +63,7 @@ namespace PostaFlya.DataRepository.Search.Implementation
             using (var newConn = new SqlConnection(_searchDbConnectionString))
             {
                 SqlExecute.ExecuteCommand("delete from FlierSearchRecord", newConn, "Clearing Flier Searchtable");
+                SqlExecute.ExecuteCommand("delete from BoardFlierSearchRecord", newConn, "Clearing Flier Searchtable");
             }
         }
     }

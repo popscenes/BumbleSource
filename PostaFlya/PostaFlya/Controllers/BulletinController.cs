@@ -38,13 +38,13 @@ namespace PostaFlya.Controllers
         }
 
         public ActionResult Get(LocationModel loc
-            ,int count = 40, int skip = 0, int distance = 0, string tags = "")
+            ,int count = 40, int skip = 0, int distance = 0, string tags = "", string board="")
         {
             if(!loc.IsValid())
                 return View(new List<BulletinFlierModel>());
 
             var model =  BulletinApiController.GetFliers(_flierQueryService, _blobStorage, _viewModelFactory
-                             , loc, count, skip, distance, tags);
+                             , loc, count, board, skip, distance, tags);
 
             ViewBag.Location = loc;
             ViewBag.Distance = distance;

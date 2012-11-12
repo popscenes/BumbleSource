@@ -29,7 +29,7 @@ namespace PostaFlya.Specification.DynamicBulletinBoard
             var browserInfoService = SpecUtil.GetCurrBrowser();
             
             SpecUtil.ControllerResult = bulletinController
-                .Get(location.ToViewModel(), 30, 0
+                .Get(location.ToViewModel(), 30, "", 0
                 , browserInfoService.Browser.Distance ?? 0
                 , browserInfoService.Browser.Tags.ToString());
         }
@@ -100,7 +100,7 @@ namespace PostaFlya.Specification.DynamicBulletinBoard
             var bulletinApiController = SpecUtil.GetController<BulletinApiController>();
             var location = SpecUtil.CurrIocKernel.Get<Location>(ib => ib.Get<bool>("default"));
             var browserInfoService = SpecUtil.GetCurrBrowser();
-            var result = bulletinApiController.Get(location.ToViewModel(), 30, 0
+            var result = bulletinApiController.Get(location.ToViewModel(), 30, "", 0
                 , browserInfoService.Browser.Distance.GetValueOrDefault(), browserInfoService.Browser.Tags.ToString());
 
             var locationService = SpecUtil.CurrIocKernel.Get<LocationServiceInterface>();

@@ -40,7 +40,8 @@ namespace PostaFlya.Specification.Util
             TestRepositoriesNinjectModule.SetUpFlierRepositoryAndQueryService(kernel
                 , SpecUtil.GetMockStore<HashSet<FlierInterface>>("flierstore")
                 , SpecUtil.GetMockStore<HashSet<CommentInterface>>("fliercommentstore")
-                , SpecUtil.GetMockStore<HashSet<ClaimInterface>>("claimstore"));
+                , SpecUtil.GetMockStore<HashSet<ClaimInterface>>("claimstore")
+                , SpecUtil.GetMockStore<HashSet<BoardFlierInterface>>("boardflierstore"));
 
             TestRepositoriesNinjectModule.SetUpBoardRepositoryAndQueryService(kernel
                 , SpecUtil.GetMockStore<HashSet<BoardInterface>>("boardstore"));

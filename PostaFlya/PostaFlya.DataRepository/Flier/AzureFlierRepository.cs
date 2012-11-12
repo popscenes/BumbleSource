@@ -34,10 +34,10 @@ namespace PostaFlya.DataRepository.Flier
             _flierSearchService = flierSearchService;
         }
 
-        public IList<string> FindFliersByLocationTagsAndDistance(Location location, Tags tags, int distance = 0, int take = 0, FlierSortOrder sortOrder = FlierSortOrder.CreatedDate, int skip = 0)
+        public IList<string> FindFliersByLocationTagsAndDistance(Location location, Tags tags, string board = null, int distance = 0, int take = 0, FlierSortOrder sortOrder = FlierSortOrder.CreatedDate, int skip = 0)
         {
             return _flierSearchService
-                .FindFliersByLocationTagsAndDistance(location, tags, distance, take, sortOrder,
+                .FindFliersByLocationTagsAndDistance(location, tags, board, distance, take, sortOrder,
                                                                            skip);
        
         }

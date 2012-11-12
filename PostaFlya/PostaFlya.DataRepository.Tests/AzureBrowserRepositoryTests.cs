@@ -17,7 +17,7 @@ using Website.Mocks.Domain.Defaults;
 namespace PostaFlya.DataRepository.Tests
 {
     [TestFixture("dev")]
-    [TestFixture("real")]
+    //[TestFixture("real")]
     public class AzureBrowserRepositoryTests
     {
         private BrowserRepositoryInterface _repository;

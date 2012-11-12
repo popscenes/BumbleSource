@@ -117,108 +117,35 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="DbAddColumn" xml:space="preserve">
-    <value>if not Exists(select * from sys.columns where Name = N'{1}' and Object_ID = Object_ID(N'{0}'))ALTER TABLE dbo.{0} ADD {2}</value>
+  <data name="SqlSearchFliersByBoardLocationTags" xml:space="preserve">
+    <value>;WITH sorted AS 
+( 
+	SELECT  Location.STDistance(@loc) as meters, fr.*, 
+			ROW_NUMBER() OVER
+					 (ORDER BY {0}) AS RN 
+	FROM    FlierSearchRecord fr
+	INNER JOIN BoardFlierSearchRecord bfr
+	ON fr.Id = bfr.FlierId				
+	WHERE bfr.BoardId = @board AND bfr.BoardStatus = 2 AND
+	Location.STDistance(@loc) &lt;= @distance*1000 
+	{1}  
+) 
+SELECT  {2} * 
+FROM sorted 
+WHERE RN &gt; (@skip)</value>
   </data>
-  <data name="DbCreate" xml:space="preserve">
-    <value>create database {0}</value>
-  </data>
-  <data name="DbCreateFederation" xml:space="preserve">
-    <value>CREATE FEDERATION {0}({1} {2} RANGE)</value>
-  </data>
-  <data name="DbCreatePrimaryKey" xml:space="preserve">
-    <value>if not Exists(select * from sys.key_constraints where Parent_Object_ID = Object_ID(N'{0}') and type = 'PK')
-ALTER TABLE dbo.{0} ADD CONSTRAINT PK_{0} PRIMARY KEY 
-({1})</value>
-  </data>
-  <data name="DbCreateSpatialIndex" xml:space="preserve">
-    <value>if not Exists(select * from 
-    sys.spatial_indexes spat
-    inner join
-    sys.index_columns idxcol on idxcol.index_id = spat.index_id
-    inner join
-    sys.columns cols on cols.column_id = idxcol.column_id
-    where  cols.Object_ID = Object_ID(N'{0}') and cols.name = N'{1}')
-CREATE SPATIAL INDEX SPATIAL_{0}_{1} ON dbo.{0}({1}) 
-USING GEOGRAPHY_GRID 
-WITH( GRIDS  = ( LEVEL_1  = MEDIUM, LEVEL_2  = MEDIUM, LEVEL_3  = MEDIUM, LEVEL_4  = MEDIUM), 
-  CELLS_PER_OBJECT  = 16, STATISTICS_NORECOMPUTE = OFF)</value>
-  </data>
-  <data name="DbCreateTable" xml:space="preserve">
-    <value>if not Exists(select * from sys.tables where Name = N'{0}' and Object_ID = Object_ID(N'{0}')) 
-create table dbo.{0}
-(
-  {1},
-  CONSTRAINT [PK_{0}] PRIMARY KEY CLUSTERED
-  ({2})
-  WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF)
-)</value>
-  </data>
-  <data name="DbDeleteFederation" xml:space="preserve">
-    <value>DROP FEDERATION {0}</value>
-  </data>
-  <data name="DbDeleteRecord" xml:space="preserve">
-    <value>delete from {0} where {1} = @{1}</value>
-  </data>
-  <data name="DbDeleteTable" xml:space="preserve">
-    <value>if Exists(select * from sys.tables where Name = N'{0}' and Object_ID = Object_ID(N'{0}'))
-drop table dbo.{0}</value>
-  </data>
-  <data name="DbDrop" xml:space="preserve">
-    <value>drop database {0}</value>
-  </data>
-  <data name="DbDropConnections" xml:space="preserve">
-    <value>ALTER DATABASE {0} SET READ_ONLY WITH ROLLBACK IMMEDIATE;ALTER DATABASE {0} SET READ_WRITE WITH ROLLBACK IMMEDIATE;</value>
-  </data>
-  <data name="DbExists" xml:space="preserve">
-    <value>select count(*) as Count from sys.databases where name = '{0}'</value>
-  </data>
-  <data name="DbFederatedOn" xml:space="preserve">
-    <value>FEDERATED ON ({0}={1})</value>
-  </data>
-  <data name="DbGetFederationInfo" xml:space="preserve">
-    <value>SELECT fed.federation_id as FederationId
-       , fed.name as Name
-       , fmd.distribution_name as DistributionName
-       , fmd.member_id as MemberId 
-       , range_low as RangeLow
-       , range_high as RangeHigh
-       , typ.name as FedTyp
-  FROM sys.federations fed
-  JOIN sys.Federation_distributions dis ON dis.federation_id = fed.federation_id
-  JOIN sys.federation_member_distributions fmd ON fmd.federation_id = fed.federation_id
-  JOIN sys.types typ ON typ.system_type_id = dis.system_type_id
- ORDER BY fed.name, range_low</value>
-  </data>
-  <data name="DbGetRecord" xml:space="preserve">
-    <value>select * from {0} where {1} = @{1}</value>
-  </data>
-  <data name="DBHasFederation" xml:space="preserve">
-    <value>select count(*) as Count from sys.federations where name = '{0}'</value>
-  </data>
-  <data name="DbInsertOrUpdateRecord" xml:space="preserve">
-    <value>begin tran
-if exists (select * from {0} with (updlock,serializable) where {1} = @{1} )
-begin
-   update {0} set {2}
-   where {1} = @{1}
-end
-else
-begin
-   insert into {0} ({3})
-   values ({4})
-end
-commit tran</value>
-  </data>
-  <data name="DbUseFederation" xml:space="preserve">
-    <value>USE FEDERATION {0}({1}={2}) WITH RESET, FILTERING=OFF</value>
-  </data>
-  <data name="DbUseFederationRoot" xml:space="preserve">
-    <value>USE FEDERATION ROOT WITH RESET</value>
-  </data>
-  <data name="DbCreateSingleColIndex" xml:space="preserve">
-    <value>IF NOT EXISTS (SELECT name FROM sys.indexes
-            WHERE name = N'IDX_{2}_{3}')
-CREATE {0} {1}CLUSTERED INDEX IDX_{2}_{3} ON {2}({3});</value>
+  <data name="SqlSearchFliersByLocationTags" xml:space="preserve">
+    <value>;WITH sorted AS 
+            ( 
+                SELECT  Location.STDistance(@loc) as meters, *, 
+                        ROW_NUMBER() OVER
+                                 (ORDER BY {0}) AS RN 
+                FROM    FlierSearchRecord 
+                WHERE Location.STDistance(@loc) &lt;= @distance*1000 
+            	        {1}  
+            ) 
+            SELECT  {2} * 
+            FROM sorted 
+            WHERE RN &gt; (@skip)</value>
   </data>
 </root>

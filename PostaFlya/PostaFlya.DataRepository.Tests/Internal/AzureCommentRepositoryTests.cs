@@ -13,7 +13,7 @@ using Website.Mocks.Domain.Data;
 namespace PostaFlya.DataRepository.Tests.Internal
 {
     [TestFixture("dev")]
-    [TestFixture("real")]
+    //[TestFixture("real")]
     public class AzureCommentRepositoryTests
     {
         MoqMockingKernel Kernel

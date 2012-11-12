@@ -168,7 +168,9 @@ namespace Website.Azure.Common.Sql
 
             var type = SqlExecute.TypeToDbTypeDictionary[prop.PropertyType];
 
-            if (type == SqlExecute.DbString && SerializeUtil.HasAttribute(prop, typeof(PrimaryKey)))
+            if (type == SqlExecute.DbString 
+                && (SerializeUtil.HasAttribute(prop, typeof(PrimaryKey))
+                    || SerializeUtil.HasAttribute(prop, typeof(SqlIndex))))
                 type = type.Replace("MAX", "255");
 
             var name = prop.Name;

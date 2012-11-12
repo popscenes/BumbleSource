@@ -2,9 +2,9 @@ namespace PostaFlya.Domain.Boards
 {
     public enum BoardFlierStatus
     {
-        PendingApproval,
-        Approved,
-        Declined,
-        UnKnown
+        UnKnown = 0,
+        PendingApproval = 1,
+        Approved = 2,
+        Declined = 3,     
     }
 }

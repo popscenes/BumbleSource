@@ -6,6 +6,7 @@ using NUnit.Framework;
 using Ninject;
 using Ninject.MockingKernel.Moq;
 using Website.Azure.Common.TableStorage;
+using Website.Infrastructure.Command;
 using Website.Infrastructure.Domain;
 using Website.Test.Common;
 
@@ -114,6 +115,8 @@ namespace Website.Azure.Common.Tests.TableStorage
             Assert.IsTrue(_mockStore["testOneEntity"].Any(entry => entry.GetJson().Contains("Some Updated Text")));
 
         }
+
+
     }
 
     public class TestRespositoryBase<TableEntryType> 

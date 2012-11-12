@@ -15,7 +15,7 @@ using Website.Domain.Location;
 namespace PostaFlya.DataRepository.Tests
 {
     [TestFixture("dev")]
-    [TestFixture("real")]
+    //[TestFixture("real")]
     public class ImageRepositoryTests
     {
         StandardKernel Kernel

@@ -29,10 +29,12 @@ namespace PostaFlya.Mocks.Domain.Data
         {
             var kernel = Kernel as MoqMockingKernel;
 
+            var boardFlierStore = RepoUtil.GetMockStore<BoardFlierInterface>();
             SetUpFlierRepositoryAndQueryService(kernel
                 , RepoUtil.GetMockStore<FlierInterface>()
                 , RepoUtil.GetMockStore<CommentInterface>()
-                , RepoUtil.GetMockStore<ClaimInterface>());
+                , RepoUtil.GetMockStore<ClaimInterface>()
+                , boardFlierStore);
  
             SetUpTaskJobRepositoryAndQueryService(kernel
                 , RepoUtil.GetMockStore<TaskJobFlierBehaviourInterface>()
@@ -42,7 +44,7 @@ namespace PostaFlya.Mocks.Domain.Data
                 , RepoUtil.GetMockStore<BoardInterface>());
 
             SetUpBoardFlierRepositoryAndQueryService(kernel
-                , RepoUtil.GetMockStore<BoardFlierInterface>());
+                , boardFlierStore);
 
         }
 
@@ -69,7 +71,8 @@ namespace PostaFlya.Mocks.Domain.Data
         public static void SetUpFlierRepositoryAndQueryService(MoqMockingKernel kernel
             , HashSet<FlierInterface> store
             , HashSet<CommentInterface> storeComment
-            , HashSet<ClaimInterface> claimStore)
+            , HashSet<ClaimInterface> claimStore
+            , HashSet<BoardFlierInterface> boardFlierStore )
         {
      
             ////////////repo
@@ -121,10 +124,10 @@ namespace PostaFlya.Mocks.Domain.Data
             var locationService = kernel.Get<LocationServiceInterface>();
 
             flierQueryService.Setup(o => o.FindFliersByLocationTagsAndDistance(
-                It.IsAny<Location>(), It.IsAny<Tags>(),
+                It.IsAny<Location>(), It.IsAny<Tags>(), It.IsAny<string>(),
                 It.IsAny<int>(), It.IsAny<int>(), It.IsAny<FlierSortOrder>(), It.IsAny<int>()))
-                .Returns<Location, Tags, int, int, FlierSortOrder, int>(
-                    (l, t, d, c, s, skip) =>
+                .Returns<Location, Tags, string, int, int, FlierSortOrder, int>(
+                    (l, t, b, d, c, s, skip) =>
                     {
                         var boundingBox = d <= 0 ? locationService.GetDefaultBox(l) : 
                             locationService.GetBoundingBox(l, d);
@@ -133,7 +136,12 @@ namespace PostaFlya.Mocks.Domain.Data
                             .Where(
                                 f =>
                                 locationService.IsWithinBoundingBox(boundingBox, f.Location) &&
-                                f.Tags.Intersect(t).Any()
+                                f.Tags.Intersect(t).Any() &&
+                                (string.IsNullOrWhiteSpace(b) 
+                                || boardFlierStore.Any(
+                                bf => bf.AggregateId == b && 
+                                    bf.FlierId == f.Id && 
+                                    bf.Status == BoardFlierStatus.Approved))
                              )
                              .Select(f => f.Id);
 
