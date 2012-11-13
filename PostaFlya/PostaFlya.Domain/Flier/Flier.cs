@@ -61,7 +61,7 @@ namespace PostaFlya.Domain.Flier
         public int NumberOfComments { get; set; }
         public ContactDetails ContactDetails { get; set; }
         public bool UseBrowserContactDetails { get; set; }
-        public List<string> Boards { get; set; } 
+        public HashSet<string> Boards { get; set; } 
 
 
     }

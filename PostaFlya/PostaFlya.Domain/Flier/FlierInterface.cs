@@ -45,7 +45,7 @@ namespace PostaFlya.Domain.Flier
                                             ? new Dictionary<string, object>(source.ExtendedProperties)
                                             : null;
             target.UseBrowserContactDetails = source.UseBrowserContactDetails;
-            target.Boards = source.Boards != null ? new List<string>(source.Boards) : null;
+            target.Boards = source.Boards != null ? new HashSet<string>(source.Boards) : null;
         }        
 
         public static bool HasContactDetails(this FlierInterface flier)
@@ -88,6 +88,6 @@ namespace PostaFlya.Domain.Flier
         Dictionary<string, object> ExtendedProperties { get;set; }
         ContactDetails ContactDetails { get; set; }
         bool UseBrowserContactDetails { get; set; }
-        List<string> Boards { get; set; } 
+        HashSet<string> Boards { get; set; } 
     }
 }

@@ -89,7 +89,7 @@ namespace PostaFlya.Controllers
                 UseBrowserContactDetails = createModel.AttachContactDetails,//only supporting browser contact dets atm
                 ExternalSource = createModel.ExternalSource,
                 ExternalId = createModel.ExternalId,
-                BoardList = createModel.BoardList
+                BoardSet = new HashSet<string>(createModel.BoardList)
                 //TODO add new details, and validate details both browser and new. Allow updating of browser details
             };
 
@@ -112,7 +112,7 @@ namespace PostaFlya.Controllers
                 ImageList = editModel.ImageList.Select(_ => new FlierImage(_.ImageId)).ToList(),
                 AttachContactDetails = editModel.AttachContactDetails,
                 UseBrowserContactDetails = editModel.AttachContactDetails,
-                BoardList = editModel.BoardList
+                BoardSet = new HashSet<string>(editModel.BoardList)
             };
 
             var res = _commandBus.Send(editFlier);

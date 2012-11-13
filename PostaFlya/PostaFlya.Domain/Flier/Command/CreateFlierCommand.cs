@@ -23,6 +23,6 @@ namespace PostaFlya.Domain.Flier.Command
         public bool UseBrowserContactDetails { get; set; }
         public string ExternalSource { get; set; }
         public string ExternalId { get; set; }
-        public List<string> BoardList { get; set; } 
+        public HashSet<string> BoardSet { get; set; } 
     }
 }

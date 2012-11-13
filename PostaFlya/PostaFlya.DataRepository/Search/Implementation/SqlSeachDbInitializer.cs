@@ -37,8 +37,13 @@ namespace PostaFlya.DataRepository.Search.Implementation
 
             using (var newConn = new SqlConnection(_searchDbConnectionString))
             {
+                //todo use reflection and interface to dynamically create all tables from 
+                //an assembly cbfd right now
                 SqlInitializer.CreateTableFrom(typeof (FlierSearchRecord), newConn);
+                SqlInitializer.CreateTableFrom(typeof(BoardFlierLocationSearchRecord), newConn);
+                SqlInitializer.CreateTableFrom(typeof(BoardSearchRecord), newConn); 
                 SqlInitializer.CreateTableFrom(typeof(BoardFlierSearchRecord), newConn);
+
 
 //not needed
 //                var res = SqlExecute
@@ -64,6 +69,8 @@ namespace PostaFlya.DataRepository.Search.Implementation
             {
                 SqlExecute.ExecuteCommand("delete from FlierSearchRecord", newConn, "Clearing Flier Searchtable");
                 SqlExecute.ExecuteCommand("delete from BoardFlierSearchRecord", newConn, "Clearing Flier Searchtable");
+                SqlExecute.ExecuteCommand("delete from BoardFlierLocationSearchRecord", newConn, "Clearing Flier Searchtable");
+                SqlExecute.ExecuteCommand("delete from BoardSearchRecord", newConn, "Clearing Flier Searchtable");
             }
         }
     }

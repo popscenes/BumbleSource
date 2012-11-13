@@ -28,14 +28,39 @@ namespace PostaFlya.DataRepository.Search.Implementation
         {
             if (distance <= 0)
                 distance = 10;
+            if (!location.IsValid && !string.IsNullOrWhiteSpace(board))
+                return FindFliersByTagsAndBoard(tags, board, take, sortOrder, skip);
+            
+            if(!location.IsValid)
+                return new List<string>();
 
-            return string.IsNullOrWhiteSpace(board)
-                       ? FindFliersByLocationTagsAndDistanceWithoutBoard(location, tags, distance, take, sortOrder,
-                                                                         skip)
-                       : FindFliersByLocationTagsAndDistanceWithBoard(location, tags, board, distance, take, sortOrder,
-                                                                      skip);
+            if(string.IsNullOrWhiteSpace(board))
+                return FindFliersByLocationTagsAndDistanceWithoutBoard(location
+                    , tags, distance, take, sortOrder, skip);
+
+            return FindFliersByLocationTagsAndDistanceWithBoard(location
+                , tags, board, distance, take, sortOrder, skip);
+        }
+
+        private IList<string> FindFliersByTagsAndBoard(Tags tags, string board, int take, FlierSortOrder sortOrder, int skip)
+        {
+            var orderbyexpress = GetBoardOrderByForSortOrder(sortOrder);
+            var xpathtags = GetTagFilter(tags);
+            var gettagfilter = string.IsNullOrWhiteSpace(xpathtags) ? "" : string.Format(TagFilterTemplate, GetTagFilter(tags));
+            var takeexpress = take > 0 ? "top (@take)" : "";
+            var sqlCmd = string.Format(_searhStringByBoardOnly, orderbyexpress, gettagfilter, takeexpress);
+
+            var watch = new Stopwatch();
+            watch.Start();
 
 
+            var ret = SqlExecute.Query<BoardFlierSearchRecord>(sqlCmd,
+                _connection
+                , new object[] { new Guid(board) }//todo if we expand shards pass all shards where fliers may exist in here
+                , new { skip, take, board });
+
+            Trace.TraceInformation("FindFliers time: {0}, numfliers {1}", watch.ElapsedMilliseconds, ret.Count());
+            return ret.Select(sr => sr.FlierId).ToList();
         }
 
         private IList<string> FindFliersByLocationTagsAndDistanceWithBoard(Location location, Tags tags, string board, int distance, int take, FlierSortOrder sortOrder, int skip)
@@ -55,7 +80,7 @@ namespace PostaFlya.DataRepository.Search.Implementation
 
             var ret = SqlExecute.Query<FlierSearchRecord>(sqlCmd,
                 _connection
-                , new object[] { location.GetShardId() }//todo if we expand shards pass all shards where fliers may exist in here
+                , new object[] { location.GetShardId() }//todo if we expand shards pass all shards where fliers may exist in here by doing quick boundbox calcs
                 , new { loc, skip, take, distance, board });
 
             Trace.TraceInformation("FindFliers time: {0}, numfliers {1}", watch.ElapsedMilliseconds, ret.Count());
@@ -117,6 +142,19 @@ namespace PostaFlya.DataRepository.Search.Implementation
             }
         }
 
+        private static string GetBoardOrderByForSortOrder(FlierSortOrder sortOrder)
+        {
+            switch (sortOrder)
+            {
+                case FlierSortOrder.CreatedDate:
+                case FlierSortOrder.EffectiveDate:
+                    return "DateAdded desc, BoardRank";
+                case FlierSortOrder.Popularity:
+                default:
+                    return "BoardRank, DateAdded desc";
+            }
+        }
+
         private const string TagFilterTemplate = "and Tags.exist('{0}') > 0";
 
         //{0} orderby
@@ -124,6 +162,6 @@ namespace PostaFlya.DataRepository.Search.Implementation
         //{2} take expression
         private readonly string _searchString = Properties.Resources.SqlSearchFliersByLocationTags;
         private readonly string _searchStringByBoard = Properties.Resources.SqlSearchFliersByBoardLocationTags;
-
+        private readonly string _searhStringByBoardOnly = Properties.Resources.SqlSeachFliersByBoard;
     }
 }

@@ -230,6 +230,41 @@ namespace PostaFlya.DataRepository.Tests
             FlierTestData.AssertStoreRetrieve(storedFlier, retrievedFliers.FirstOrDefault());
         }
 
+        [Test]
+        public void FindFliersByTagsAndBoard()
+        {
+            var storedFlier = StoreFlierRepository();
+            var board = BoardTestData.GetOne(Kernel, "TestBoardNameNoLoc", _loc);
+            board = BoardTestData.StoreOne(board, _repository, Kernel);
+
+            var boardFlier = new BoardFlier()
+            {
+                Id = storedFlier.Id + board.Id,
+                AggregateId = board.Id,
+                FlierId = storedFlier.Id,
+                Status = BoardFlierStatus.Approved
+            };
+
+            var uow = Kernel.Get<UnitOfWorkFactoryInterface>()
+                .GetUnitOfWork(new List<RepositoryInterface>() { _repository });
+
+            var indexer = Kernel.Get<SqlFlierIndexService>();
+            using (uow)
+            {
+                _repository.Store(boardFlier);
+                indexer.Publish(new BoardFlierModifiedEvent() { NewState = boardFlier });
+            }
+
+            var tag = Kernel.Get<Tags>(bm => bm.Has("default"));
+
+            var retrievedFliers = _queryService.FindFliersByLocationTagsAndDistance(new Location(), tag, board.Id)
+                .Select(id => _queryService.FindById<Domain.Flier.Flier>(id)).ToList();
+
+            Assert.That(retrievedFliers.Count(), Is.EqualTo(1));
+
+            FlierTestData.AssertStoreRetrieve(storedFlier, retrievedFliers.FirstOrDefault());
+        }
+
         public IQueryable<FlierInterface> FindFliersByLocationAndTagsRepository()
         {
             var storedFlier = StoreFlierRepository();

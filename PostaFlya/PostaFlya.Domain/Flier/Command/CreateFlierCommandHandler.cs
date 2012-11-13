@@ -63,13 +63,14 @@ namespace PostaFlya.Domain.Flier.Command
             using (unitOfWork = _unitOfWorkFactory.GetUnitOfWork(new[] { _flierRepository }))
             {      
                 _flierRepository.Store(newFlier);
-                boardFliers = AddFlierToBoardCommandHandler.UpdateAddFlierToBoards(command.BoardList, newFlier, _flierQueryService,
+                boardFliers = AddFlierToBoardCommandHandler.UpdateAddFlierToBoards(command.BoardSet, newFlier, _flierQueryService,
                                                                      _flierRepository);
             }
 
             if(!unitOfWork.Successful)
                 return new MsgResponse("Flier Creation Failed", true)
                         .AddCommandId(command);
+            
 
             _domainEventPublishService.Publish(new FlierModifiedEvent() { NewState = newFlier });
             foreach (var boardFlierModifiedEvent in boardFliers)

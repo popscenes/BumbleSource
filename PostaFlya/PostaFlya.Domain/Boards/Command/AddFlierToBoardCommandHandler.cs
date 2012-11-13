@@ -6,6 +6,7 @@ using PostaFlya.Domain.Boards.Event;
 using PostaFlya.Domain.Flier;
 using Website.Domain.Service;
 using Website.Infrastructure.Command;
+using Website.Infrastructure.Domain;
 using Website.Infrastructure.Query;
 
 namespace PostaFlya.Domain.Boards.Command
@@ -47,11 +48,9 @@ namespace PostaFlya.Domain.Boards.Command
                 foreach (var flierBoards in command.BoardFliers.ToLookup(bf => bf.FlierId, bf => bf.AggregateId))
                 {
                     var flier = _queryService.FindById<Flier.Flier>(flierBoards.Key);
-                    var boards = flierBoards.Where(id => flier.Boards == null || !flier.Boards.Contains(id)).ToList();
+                    var boards = flierBoards.Where(id => flier.Boards == null || !flier.Boards.Contains(id));
                     boardFliers.AddRange(
-                        UpdateAddFlierToBoards(boards, flier, _queryService, _repository));
-
-
+                        UpdateAddFlierToBoards(new HashSet<string>(boards), flier, _queryService, _repository));
                 }
             }
 
@@ -69,8 +68,8 @@ namespace PostaFlya.Domain.Boards.Command
 
         }
 
-        internal static List<BoardFlierModifiedEvent> UpdateAddFlierToBoards(List<string> boardIds
-            , FlierInterface flier, GenericQueryServiceInterface queryService
+        internal static List<BoardFlierModifiedEvent> UpdateAddFlierToBoards(HashSet<string> boardIds
+            , Flier.Flier flier, GenericQueryServiceInterface queryService
             , GenericRepositoryInterface repository)
         {
             var ret = new List<BoardFlierModifiedEvent>();
@@ -84,7 +83,8 @@ namespace PostaFlya.Domain.Boards.Command
                     continue;
                 }
 
-                var existing = queryService.FindById<BoardFlier>(flier.Id + board.Id);
+                var existing = new BoardFlier(){FlierId = flier.Id, AggregateId = board.Id};
+                existing = queryService.FindById<BoardFlier>(existing.GetIdFor());
 
                 var boardFlier = new BoardFlier();
                 if (board.BrowserId == flier.BrowserId)
@@ -102,26 +102,27 @@ namespace PostaFlya.Domain.Boards.Command
                     continue;
                 }
 
-                boardFlier.Id = flier.Id + board.Id;
+                
                 boardFlier.FlierId = flier.Id;
                 boardFlier.AggregateId = board.Id;
                 boardFlier.DateAdded = DateTime.UtcNow;
+                boardFlier.Id = boardFlier.GetIdFor();
                 if(existing != null)
                     repository.UpdateEntity<BoardFlier>(existing.Id, bf => bf.CopyFieldsFrom(boardFlier));
                 else
                     repository.Store(boardFlier);
 
-                ret.Add(new BoardFlierModifiedEvent(){OrigState = existing, NewState = boardFlier});
+                var modEvent = new BoardFlierModifiedEvent {NewState = boardFlier, OrigState = existing};
+                ret.Add(modEvent);
             }
 
             repository.UpdateEntity<Flier.Flier>(flier.Id, update =>
             {
                 if (update.Boards == null)
-                    update.Boards = new List<string>();
+                    update.Boards = new HashSet<string>();
 
-                update.Boards.AddRange(ret
-                    .Select(r => r.NewState.AggregateId)
-                    .Where(id => !update.Boards.Contains(id)).ToList());
+                update.Boards.UnionWith(ret.Select(r => r.NewState.AggregateId));
+                flier.Boards.UnionWith(update.Boards);
             });
 
             return ret;

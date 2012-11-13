@@ -63,11 +63,31 @@ namespace PostaFlya.DataRepository.Properties {
         /// <summary>
         ///   Looks up a localized string similar to ;WITH sorted AS 
         ///( 
+        ///	SELECT  bfr.*, 
+        ///			ROW_NUMBER() OVER
+        ///					 (ORDER BY {0}) AS RN 
+        ///	FROM    BoardFlierSearchRecord bfr			
+        ///	WHERE bfr.BoardId = @board AND bfr.BoardStatus = 2
+        ///	{1}  
+        ///) 
+        ///SELECT  {2} *
+        ///FROM sorted 
+        ///WHERE RN &gt; (@skip).
+        /// </summary>
+        internal static string SqlSeachFliersByBoard {
+            get {
+                return ResourceManager.GetString("SqlSeachFliersByBoard", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ;WITH sorted AS 
+        ///( 
         ///	SELECT  Location.STDistance(@loc) as meters, fr.*, 
         ///			ROW_NUMBER() OVER
         ///					 (ORDER BY {0}) AS RN 
         ///	FROM    FlierSearchRecord fr
-        ///	INNER JOIN BoardFlierSearchRecord bfr
+        ///	INNER JOIN BoardFlierLocationSearchRecord bfr
         ///	ON fr.Id = bfr.FlierId				
         ///	WHERE bfr.BoardId = @board AND bfr.BoardStatus = 2 AND
         ///	Location.STDistance(@loc) &lt;= @distance*1000 

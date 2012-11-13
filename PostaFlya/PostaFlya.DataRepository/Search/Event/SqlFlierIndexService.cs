@@ -6,6 +6,7 @@ using System.Text;
 using PostaFlya.DataRepository.Binding;
 using PostaFlya.DataRepository.Search.Command;
 using PostaFlya.DataRepository.Search.Services;
+using PostaFlya.Domain.Boards;
 using PostaFlya.Domain.Boards.Event;
 using PostaFlya.Domain.Flier.Event;
 using Website.Application.Binding;
@@ -19,6 +20,7 @@ namespace PostaFlya.DataRepository.Search.Event
     public class SqlFlierIndexService : 
         SubscriptionInterface<FlierModifiedEvent>
         , SubscriptionInterface<BoardFlierModifiedEvent>
+        , SubscriptionInterface<BoardModifiedEvent>
     {
         private readonly GenericQueryServiceInterface _queryService;
         //if we wanna push this to a worker....not really needed atm.
@@ -64,49 +66,83 @@ namespace PostaFlya.DataRepository.Search.Event
 //            return false;
 //        }
 
+        
         public bool Publish(FlierModifiedEvent publish)
         {
+            if (publish.OrigState != null &&
+                (publish.NewState == null || !publish.NewState.Location.Equals(publish.OrigState.Location)))
+            {
+                var searchRecord = publish.OrigState.ToSearchRecord();
+                SqlExecute.Delete(searchRecord, _connection);
+                if (publish.OrigState.Boards != null)
+                {
+                    foreach (var searcRec in publish.OrigState.Boards
+                        .Select(id => new BoardFlier() { FlierId = publish.NewState.Id, AggregateId = id })
+                        .Select(boardFlier => _queryService.FindById<BoardFlier>(boardFlier.GetIdFor()))
+                        .Select(retrieved => retrieved.ToSearchRecord(publish.NewState.Location.GetShardId())))
+                    {
+                        SqlExecute.Delete(searchRecord, _connection);
+                    }    
+                }
+            }
+
             if (publish.NewState != null)
             {
                 var searchRecord = publish.NewState.ToSearchRecord();
                 SqlExecute.InsertOrUpdate(searchRecord, _connection);
-                return true;
+                if (publish.NewState.Boards != null)
+                {
+                    foreach (var searcRec in publish.NewState.Boards
+                        .Select(id => new BoardFlier() { FlierId = publish.NewState.Id, AggregateId = id })
+                        .Select(boardFlier => _queryService.FindById<BoardFlier>(boardFlier.GetIdFor()))
+                        .Select(retrieved => retrieved.ToSearchRecord(publish.NewState.Location.GetShardId())))
+                    {
+                        SqlExecute.InsertOrUpdate(searchRecord, _connection);
+                    }    
+                }
             }
-                        
-            if(publish.OrigState != null)
-            {
-                var searchRecord = publish.OrigState.ToSearchRecord();
-                SqlExecute.Delete(searchRecord, _connection);
-                return true;
-            }
-        
-            return false;
+
+            return (publish.OrigState != null) || (publish.NewState != null);
         }
 
         public bool Publish(BoardFlierModifiedEvent publish)
         {
+            if (publish.OrigState != null && publish.NewState == null)
+            {
+                var flier = _queryService.FindById<Domain.Flier.Flier>(publish.OrigState.FlierId);
+                var searchRecord = publish.OrigState.ToSearchRecord(flier);
+                SqlExecute.Delete(searchRecord, _connection);
+            }
 
             if (publish.NewState != null)
             {
                 var flier = _queryService.FindById<Domain.Flier.Flier>(publish.NewState.FlierId);
                 if (flier == null)
                     return false;
-                var searchRecord = publish.NewState.ToSearchRecord(flier.Location.GetShardId());
+                var searchRecord = publish.NewState.ToSearchRecord(flier);
                 SqlExecute.InsertOrUpdate(searchRecord, _connection);
-                return true;
             }
 
-            if (publish.OrigState != null)
+            return (publish.OrigState != null) || (publish.NewState != null);
+
+        }
+
+        public bool Publish(BoardModifiedEvent publish)
+        {
+            if (publish.OrigState != null &&
+                (publish.NewState == null || !publish.NewState.Location.Equals(publish.OrigState.Location)))
             {
-                var flier = _queryService.FindById<Domain.Flier.Flier>(publish.OrigState.FlierId);
-                if (flier == null)
-                    return false;
-                var searchRecord = publish.OrigState.ToSearchRecord(flier.Location.GetShardId());
+                var searchRecord = publish.OrigState.ToSearchRecord();
                 SqlExecute.Delete(searchRecord, _connection);
-                return true;
             }
 
-            return false;
+            if (publish.NewState != null)
+            {
+                var searchRecord = publish.NewState.ToSearchRecord();
+                SqlExecute.InsertOrUpdate(searchRecord, _connection);
+            }
+            return (publish.OrigState != null) || (publish.NewState != null);
+
         }
 
         public bool IsEnabled { get; private set; }

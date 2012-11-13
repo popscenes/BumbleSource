@@ -207,34 +207,45 @@ namespace Website.Azure.Common.Sql
         }
 
         public static bool Delete<RecordType>(RecordType deleterec, SqlConnection connection, string tableName = null)
-        {         
+        {
+            return DeleteBy(GetPrimaryKey(typeof(RecordType)), deleterec, connection, tableName);
+        }
+
+        public static bool DeleteBy<RecordType>(string propertyName, RecordType deleterec, SqlConnection connection, string tableName = null)
+        {
+            var recordTyp = typeof(RecordType);
+            return DeleteBy(recordTyp.GetProperty(propertyName), deleterec, connection, tableName);
+        }
+
+        private static bool DeleteBy<RecordType>(PropertyInfo property, RecordType deleterec, SqlConnection connection, string tableName = null)
+        {
             Type recordTyp = typeof(RecordType);
             if (String.IsNullOrWhiteSpace(tableName))
                 tableName = recordTyp.Name;
 
-            var keyCol = GetPrimaryKey(recordTyp);
-            if (keyCol == null)
+            if (property == null)
                 throw new ArgumentNullException(String.Format("no key column for type {0}", recordTyp.Name));
 
             Action tryact =
                 () =>
+                {
+                    using (var conn = new SqlOpenClose(connection))
                     {
-                        using (var conn = new SqlOpenClose(connection))
-                        {
-                            CheckUseFederationFor(deleterec, connection);
+                        CheckUseFederationFor(deleterec, connection);
 
-                            conn.Cmd.CommandText = String.Format(DeleteTemplate, tableName, keyCol.Name);
+                        conn.Cmd.CommandText = String.Format(DeleteTemplate, tableName, property.Name);
 
-                            var keyval = deleterec.GetPropertyVal(keyCol.Name);
-                            AddParameter(conn.Cmd.Parameters, keyCol.Name, keyval);
+                        var keyval = deleterec.GetPropertyVal(property.Name);
+                        AddParameter(conn.Cmd.Parameters, property.Name, keyval);
 
-                            ExecuteCommand(conn.Cmd);
-                        }
-                    };
+                        ExecuteCommand(conn.Cmd);
+                    }
+                };
 
             return ExecuteSqlActionWithRetries(tryact);
 
         }
+
 
         public static bool Get<RecordType>(RecordType fillrec, SqlConnection connection, string tableName = null)
         {

@@ -55,9 +55,9 @@ namespace PostaFlya.Domain.Flier.Command
                 
                 //add all existing board to the operation, as if a flier is modified it needs to be re-approved
                 if (flierQuery.Boards != null)
-                    command.BoardList.AddRange(flierQuery.Boards.Where(id => !command.BoardList.Contains(id)).ToList());
+                    command.BoardSet.UnionWith(flierQuery.Boards);
                 
-                boardFliers = AddFlierToBoardCommandHandler.UpdateAddFlierToBoards(command.BoardList, flierQuery, _queryService,
+                boardFliers = AddFlierToBoardCommandHandler.UpdateAddFlierToBoards(command.BoardSet, flierQuery, _queryService,
                                                      _repository);           
             }
 

@@ -35,13 +35,13 @@ namespace PostaFlya.Models.Flier
                            ExternalSource = flier.ExternalSource,
                            ExternalId = flier.ExternalId,
                            AttachContactDetails = flier.HasContactDetails(),
-                           BoardList =  flier.Boards ?? new List<string>(),
+                           BoardList =  flier.Boards != null ? flier.Boards.ToList() : new List<string>(),
                        };
         }
 
         public static FlierCreateModel GetDefaultImageUrl(this FlierCreateModel model, BlobStorageInterface blobStorage, ThumbOrientation orientation = ThumbOrientation.Horizontal, ThumbSize thumbSize = ThumbSize.S450)
         {
-            var uri = blobStorage.GetBlobUri(model.FlierImageId.ToString());
+            var uri = blobStorage.GetBlobUri(model.FlierImageId);
             if (uri == null) return model;
             model.FlierImageUrl = uri.GetUrlForImage(orientation, thumbSize);
             return model;

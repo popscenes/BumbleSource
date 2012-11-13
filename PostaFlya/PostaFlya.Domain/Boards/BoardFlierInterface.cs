@@ -5,6 +5,10 @@ namespace PostaFlya.Domain.Boards
 {
     public static class BoardFlierInterfaceExtensions
     {
+        public static string GetIdFor(this BoardFlierInterface source)
+        {
+            return source.FlierId + source.AggregateId;
+        }
         public static void CopyFieldsFrom(this BoardFlierInterface target, BoardFlierInterface source)
         {
             EntityInterfaceExtensions.CopyFieldsFrom(target, source);

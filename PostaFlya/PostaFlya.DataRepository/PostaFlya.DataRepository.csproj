@@ -105,7 +105,9 @@
     <Compile Include="Search\Event\SqlFlierIndexService.cs" />
     <Compile Include="Search\Implementation\SqlFlierSearchService.cs" />
     <Compile Include="Search\Implementation\SqlSeachDbInitializer.cs" />
+    <Compile Include="Search\Services\BoardFlierLocationSearchRecord.cs" />
     <Compile Include="Search\Services\BoardFlierSearchRecord.cs" />
+    <Compile Include="Search\Services\BoardSearchRecord.cs" />
     <Compile Include="Search\Services\FlierSearchRecord.cs" />
     <Compile Include="Search\Services\FlierSearchServiceInterface.cs" />
   </ItemGroup>
