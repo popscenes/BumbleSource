@@ -77,9 +77,9 @@ namespace PostaFlya.DataRepository.Search.Event
                 if (publish.OrigState.Boards != null)
                 {
                     foreach (var boardFlierSearchRec in publish.OrigState.Boards
-                        .Select(id => new BoardFlier() { FlierId = publish.NewState.Id, AggregateId = id })
+                        .Select(id => new BoardFlier() { FlierId = publish.OrigState.Id, AggregateId = id })
                         .Select(boardFlier => _queryService.FindById<BoardFlier>(boardFlier.GetIdFor()))
-                        .Select(retrieved => retrieved.ToSearchRecord(publish.NewState.Location.GetShardId())))
+                        .Select(retrieved => retrieved.ToSearchRecord(publish.OrigState.Location.GetShardId())))
                     {
                         SqlExecute.Delete(boardFlierSearchRec, _connection);
                     }    
