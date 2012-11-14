@@ -23,6 +23,7 @@ namespace PostaFlya.Domain.Flier
             ImageList = new List<FlierImage>();
             CreateDate = DateTime.UtcNow;
             PaymentOptions = new HashSet<PaymentOption>();
+            Boards = new HashSet<string>();
         }
 
         public Flier(Location location)
