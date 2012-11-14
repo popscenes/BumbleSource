@@ -124,7 +124,7 @@ namespace PostaFlya.DataRepository.Tests
             StoreFlierRepository();
         }
 
-        public FlierInterface StoreFlierRepository()
+        public Domain.Flier.Flier StoreFlierRepository()
         {
             DeleteAll();
 
@@ -216,8 +216,13 @@ namespace PostaFlya.DataRepository.Tests
             using (uow)
             {
                 _repository.Store(boardFlier);
-                indexer.Publish(new BoardFlierModifiedEvent() {NewState = boardFlier});
+                _repository.UpdateEntity<Domain.Flier.Flier>(storedFlier.Id, 
+                    flier => flier.Boards.Add(board.Id));  
             }
+            Assert.IsTrue(uow.Successful);
+
+            indexer.Publish(new FlierModifiedEvent() { NewState = _queryService.FindById<Domain.Flier.Flier>(storedFlier.Id), OrigState = storedFlier});
+            indexer.Publish(new BoardFlierModifiedEvent() { NewState = boardFlier });
 
             var location = _loc;
             var tag = Kernel.Get<Tags>(bm => bm.Has("default"));

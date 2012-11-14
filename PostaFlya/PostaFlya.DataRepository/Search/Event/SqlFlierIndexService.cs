@@ -76,12 +76,12 @@ namespace PostaFlya.DataRepository.Search.Event
                 SqlExecute.Delete(searchRecord, _connection);
                 if (publish.OrigState.Boards != null)
                 {
-                    foreach (var searcRec in publish.OrigState.Boards
+                    foreach (var boardFlierSearchRec in publish.OrigState.Boards
                         .Select(id => new BoardFlier() { FlierId = publish.NewState.Id, AggregateId = id })
                         .Select(boardFlier => _queryService.FindById<BoardFlier>(boardFlier.GetIdFor()))
                         .Select(retrieved => retrieved.ToSearchRecord(publish.NewState.Location.GetShardId())))
                     {
-                        SqlExecute.Delete(searchRecord, _connection);
+                        SqlExecute.Delete(boardFlierSearchRec, _connection);
                     }    
                 }
             }
@@ -92,12 +92,12 @@ namespace PostaFlya.DataRepository.Search.Event
                 SqlExecute.InsertOrUpdate(searchRecord, _connection);
                 if (publish.NewState.Boards != null)
                 {
-                    foreach (var searcRec in publish.NewState.Boards
+                    foreach (var boardFlierSearchRec in publish.NewState.Boards
                         .Select(id => new BoardFlier() { FlierId = publish.NewState.Id, AggregateId = id })
                         .Select(boardFlier => _queryService.FindById<BoardFlier>(boardFlier.GetIdFor()))
                         .Select(retrieved => retrieved.ToSearchRecord(publish.NewState.Location.GetShardId())))
                     {
-                        SqlExecute.InsertOrUpdate(searchRecord, _connection);
+                        SqlExecute.InsertOrUpdate(boardFlierSearchRec, _connection);
                     }    
                 }
             }
