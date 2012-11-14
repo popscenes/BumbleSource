@@ -485,6 +485,37 @@ namespace PostaFlya.Specification.Fliers
             createModel.AttachContactDetails = false;
         }
 
+        [Given(@"I choose to attach my Tear Off")]
+        public void GivenIChooseToAttachMyTearOff()
+        {
+            ScenarioContext.Current.Pending();
+        }
+
+        [Given(@"I dont have sufficient Account Credit")]
+        public void GivenIDontHaveSufficientAccountCredit()
+        {
+            ScenarioContext.Current.Pending();
+        }
+
+        [Then(@"the FLIER will contain a FEATURE for Tear Off in a disabled state")]
+        public void ThenTheFLIERWillContainAFEATUREForTearOffInADisabledState()
+        {
+            ScenarioContext.Current.Pending();
+        }
+
+        [Given(@"I have sufficient Account Credit")]
+        public void GivenIHaveSufficientAccountCredit()
+        {
+            ScenarioContext.Current.Pending();
+        }
+
+        [Then(@"the FLIER will contain a FEATURE for Tear Off in a enabled state")]
+        public void ThenTheFLIERWillContainAFEATUREForTearOffInAEnabledState()
+        {
+            ScenarioContext.Current.Pending();
+        }
+
+
     }
 
     
