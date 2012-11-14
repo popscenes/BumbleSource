@@ -16,7 +16,7 @@ Then The FLIER will contain the extra images
 
 Scenario: Create Flier With Tear Off With Insufficient Credit
 Given i have navigated to the CREATE PAGE for a FLIER TYPE Default
-And I choose to attach my Tear Off
+And I choose to attach Tear Offs
 And I dont have sufficient Account Credit
 When I SUBMIT the data for that FLIER 
 Then the new FLIER will be created for behviour Default
@@ -25,7 +25,7 @@ And the FLIER will contain a FEATURE for Tear Off in a disabled state
 
 Scenario: Create Flier With Tear Off With sufficient Credit
 Given i have navigated to the CREATE PAGE for a FLIER TYPE Default
-And I choose to attach my Tear Off
+And I choose to attach Tear Offs
 And I have sufficient Account Credit
 When I SUBMIT the data for that FLIER 
 Then the new FLIER will be created for behviour Default

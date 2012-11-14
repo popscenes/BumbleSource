@@ -485,34 +485,58 @@ namespace PostaFlya.Specification.Fliers
             createModel.AttachContactDetails = false;
         }
 
-        [Given(@"I choose to attach my Tear Off")]
-        public void GivenIChooseToAttachMyTearOff()
+        [Given(@"I choose to attach Tear Offs")]
+        public void GivenIChooseToAttachTearOffs()
         {
-            ScenarioContext.Current.Pending();
+            var createFlierModel = ScenarioContext.Current["createflya"] as FlierCreateModel;
+            createFlierModel.AttachTearOffs = true;
         }
+
 
         [Given(@"I dont have sufficient Account Credit")]
         public void GivenIDontHaveSufficientAccountCredit()
         {
-            ScenarioContext.Current.Pending();
+            var browserInformation = SpecUtil.GetCurrBrowser();
+            browserInformation.Browser.AccountCredit = 0.0;
         }
 
         [Then(@"the FLIER will contain a FEATURE for Tear Off in a disabled state")]
         public void ThenTheFLIERWillContainAFEATUREForTearOffInADisabledState()
         {
-            ScenarioContext.Current.Pending();
+            var flierid = ScenarioContext.Current["createdflyaid"] as string;
+
+            var flierQueryService = SpecUtil.CurrIocKernel.Get<FlierQueryServiceInterface>();
+            var flier = flierQueryService.FindById<Flier>(flierid);
+
+            Assert.AreEqual(flier.Features.Count, 1);
+            var flierFeatures = flier.Features.First();
+
+            Assert.AreEqual(flierFeatures.FeatureType, FeatureType.TearOff);
+            Assert.AreEqual(flierFeatures.Status, FeatureStatus.Disabled);
+            Assert.AreEqual(flierFeatures.Cost, 2.00);
         }
 
         [Given(@"I have sufficient Account Credit")]
         public void GivenIHaveSufficientAccountCredit()
         {
-            ScenarioContext.Current.Pending();
+            var browserInformation = SpecUtil.GetCurrBrowser();
+            browserInformation.Browser.AccountCredit = 10.0;
         }
 
         [Then(@"the FLIER will contain a FEATURE for Tear Off in a enabled state")]
         public void ThenTheFLIERWillContainAFEATUREForTearOffInAEnabledState()
         {
-            ScenarioContext.Current.Pending();
+            var flierid = ScenarioContext.Current["createdflyaid"] as string;
+
+            var flierQueryService = SpecUtil.CurrIocKernel.Get<FlierQueryServiceInterface>();
+            var flier = flierQueryService.FindById<Flier>(flierid);
+
+            Assert.AreEqual(flier.Features.Count, 1);
+            var flierFeatures = flier.Features.First();
+
+            Assert.AreEqual(flierFeatures.FeatureType, FeatureType.TearOff);
+            Assert.AreEqual(flierFeatures.Status, FeatureStatus.Enabled);
+            Assert.AreEqual(flierFeatures.Cost, 2.00);
         }
 
 

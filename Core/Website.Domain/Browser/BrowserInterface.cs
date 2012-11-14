@@ -59,6 +59,7 @@ namespace Website.Domain.Browser
         
         string AvatarImageId { get; set; }
         bool AddressPublic { get; set; }
-        Dictionary<string, object> Properties { get; set; } 
+        Dictionary<string, object> Properties { get; set; }
+        double AccountCredit { get; set; }
     }
 }

@@ -20,7 +20,7 @@ namespace PostaFlya.Specification.Fliers
     [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     [NUnit.Framework.TestFixtureAttribute()]
     [NUnit.Framework.DescriptionAttribute("PARTICIPANT can POST FLIER")]
-    public partial class PARTICIPANTCanPOSTFLIERFeature
+    public partial class EDITFLIERFeature
     {
         
         private static TechTalk.SpecFlow.ITestRunner testRunner;

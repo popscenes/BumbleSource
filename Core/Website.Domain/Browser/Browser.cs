@@ -42,6 +42,7 @@ namespace Website.Domain.Browser
         public List<Tags> SavedTags  { get; set; }
         [AggregateMemberEntity]
         public HashSet<BrowserIdentityProviderCredential> ExternalCredentials { get; set; }
-        public Dictionary<string, object> Properties { get; set; } 
+        public Dictionary<string, object> Properties { get; set; }
+        public double AccountCredit { get; set; }
     }
 }

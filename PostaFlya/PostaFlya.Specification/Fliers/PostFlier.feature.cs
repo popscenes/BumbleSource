@@ -94,7 +94,7 @@ namespace PostaFlya.Specification.Fliers
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Create Flier With Tear Off With Insufficient Credit", ((string[])(null)));
             this.ScenarioSetup(scenarioInfo);
             testRunner.Given("i have navigated to the CREATE PAGE for a FLIER TYPE Default", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-            testRunner.And("I choose to attach my Tear Off", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+            testRunner.And("I choose to attach Tear Offs", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
             testRunner.And("I dont have sufficient Account Credit", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
             testRunner.When("I SUBMIT the data for that FLIER", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
             testRunner.Then("the new FLIER will be created for behviour Default", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
@@ -110,7 +110,7 @@ namespace PostaFlya.Specification.Fliers
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Create Flier With Tear Off With sufficient Credit", ((string[])(null)));
             this.ScenarioSetup(scenarioInfo);
             testRunner.Given("i have navigated to the CREATE PAGE for a FLIER TYPE Default", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-            testRunner.And("I choose to attach my Tear Off", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+            testRunner.And("I choose to attach Tear Offs", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
             testRunner.And("I have sufficient Account Credit", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
             testRunner.When("I SUBMIT the data for that FLIER", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
             testRunner.Then("the new FLIER will be created for behviour Default", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");

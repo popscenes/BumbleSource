@@ -122,7 +122,10 @@ namespace PostaFlya.Models.Flier
         [DisplayName("BoardList")]
         [DataMember]
         public List<string> BoardList { get; set; }
-       
+
+        [DataMember]
+        public Boolean AttachTearOffs { get; set; }
+
         public static FlierCreateModel DefaultForTemplate()
         {
             return new FlierCreateModel();

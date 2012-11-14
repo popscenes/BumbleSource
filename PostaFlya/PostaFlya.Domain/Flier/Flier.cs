@@ -67,5 +67,27 @@ namespace PostaFlya.Domain.Flier
 
 
         public HashSet<PaymentOption> PaymentOptions { get; set; }
+
+        public HashSet<EntityFeature> Features{ get; set; }
+    }
+
+    public enum FeatureStatus
+    {
+        Disabled,
+        Enabled
+    }
+
+    public enum FeatureType
+    {
+        TearOff
+    }
+
+    public class EntityFeature
+    {
+        public FeatureType FeatureType { get; set; }
+
+        public FeatureStatus Status { get; set; }
+
+        public double Cost { get; set; }
     }
 }
