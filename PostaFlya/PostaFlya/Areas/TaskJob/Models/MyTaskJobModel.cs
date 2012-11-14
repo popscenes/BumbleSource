@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 using PostaFlya.Areas.Default.Models.Bulletin;
@@ -29,13 +30,13 @@ namespace PostaFlya.Areas.TaskJob.Models
 
     public class MyTaskJobModel
     {
-        [DisplayName("MaxTaskAmount")]
+        [Display(Name = "MaxTaskAmount", ResourceType = typeof(Properties.Resources))] 
         public double MaxAmount { get; set; }
 
-        [DisplayName("ExtraLocations")]
+        [Display(Name = "ExtraLocations", ResourceType = typeof(Properties.Resources))] 
         public List<LocationModel> ExtraLocations { get; set; }
 
-        [DisplayName("CostOverhead")]
+        [Display(Name = "CostOverhead", ResourceType = typeof(Properties.Resources))] 
         public double CostOverhead { get; set; }
 
         public BulletinFlierModel Flier { get; set; } 

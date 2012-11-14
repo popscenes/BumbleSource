@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using Website.Application.Content;
 using Website.Application.Extension.Validation;
 using PostaFlya.Binding;
@@ -41,10 +42,10 @@ namespace PostaFlya.Models.Comments
         public EntityTypeEnum CommentEntity { get; set; }       
         public string EntityId { get; set; }
 
-        [DisplayName("Comment")]
+        [Display(Name = "Comment", ResourceType = typeof(Properties.Resources))] 
         public string Comment { get; set; }
 
-        [DisplayName("CommentTime")]
+        [Display(Name = "CommentTime", ResourceType = typeof(Properties.Resources))] 
         public DateTime CommentTime { get; set; }
 
         public BrowserModel Browser{ get; set; }

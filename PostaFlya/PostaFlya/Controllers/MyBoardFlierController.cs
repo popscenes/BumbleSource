@@ -44,7 +44,7 @@ namespace PostaFlya.Controllers
                 .Where( bf=> status == BoardFlierStatus.UnKnown || bf.Status == status)
                 .Select(bf => new BoardFlierModel()
                     {
-                        Flier = _viewModelFactory.GetBulletinViewModel(_queryService.FindById<Flier>(bf.FlierId), false)
+                        BoardFlier = _viewModelFactory.GetBulletinViewModel(_queryService.FindById<Flier>(bf.FlierId), false)
                                   .GetImageUrl(_blobStorage),
                         BoardId = bf.AggregateId,
                         Status = bf.Status

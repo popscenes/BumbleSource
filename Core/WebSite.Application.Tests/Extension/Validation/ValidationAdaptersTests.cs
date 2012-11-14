@@ -39,7 +39,7 @@ namespace Website.Application.Tests.Extension.Validation
         public void StringLengthWithMessageValidatorGeneratesCorrectErrorString()
         {
             var rule = StringLengthWithMessageValidatorRule();
-            var errstring = string.Format(ErrorStrings.StringTooLarge, "DummyAttribute");
+            var errstring = string.Format("{0} is too long.", "DummyAttribute");
             Assert.AreEqual(errstring, rule.ErrorMessage);
         }
 
@@ -67,7 +67,7 @@ namespace Website.Application.Tests.Extension.Validation
         public void RequiredWithMessageValidatorGeneratesCorrectErrorString()
         {
             var rule = RequiredWithMessageValidatorRule();
-            var errstring = string.Format(ErrorStrings.Required, "DummyAttribute");
+            var errstring = string.Format("{0} is required.", "DummyAttribute");
             Assert.AreEqual(errstring, rule.ErrorMessage);
         }
     }

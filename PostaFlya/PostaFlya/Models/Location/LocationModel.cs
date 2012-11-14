@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 using System.Web.Http.ModelBinding;
@@ -47,23 +48,23 @@ namespace PostaFlya.Models.Location
             return ret;
         }
 
-        [DisplayName("Longitude")]
+        [Display(Name = "Longitude", ResourceType = typeof(Properties.Resources))] 
         public double Longitude { get; set; }
-        [DisplayName("Latitude")]
+        [Display(Name = "Latitude", ResourceType = typeof(Properties.Resources))] 
         public double Latitude { get; set; }
 
-        [DisplayName("Description")]
+        [Display(Name = "Description", ResourceType = typeof(Properties.Resources))] 
         public string Description { get; set; }
 
-        [DisplayName("StreetAddress")]
+        [Display(Name = "StreetAddress", ResourceType = typeof(Properties.Resources))] 
         public string StreetAddress { get; set; }
-        [DisplayName("Locality")]
+        [Display(Name = "Locality", ResourceType = typeof(Properties.Resources))] 
         public string Locality { get; set; }
-        [DisplayName("Region")]
+        [Display(Name = "Region", ResourceType = typeof(Properties.Resources))] 
         public string Region { get; set; }
-        [DisplayName("PostCode")]
+        [Display(Name = "PostCode", ResourceType = typeof(Properties.Resources))] 
         public string PostCode { get; set; }
-        [DisplayName("CountryName")]
+        [Display(Name = "CountryName", ResourceType = typeof(Properties.Resources))] 
         public string CountryName { get; set; }
 
     }

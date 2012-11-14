@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using PostaFlya.Areas.Default.Models;
 using PostaFlya.Areas.Default.Models.Bulletin;
 using PostaFlya.Domain.Flier;
@@ -16,7 +17,7 @@ namespace PostaFlya.Areas.TaskJob.Models.Bulletin
 
     public class BulletinTaskJobBehaviourModel
     {
-        [DisplayName("CostOverheadDisplay")]
+        [Display(Name = "CostOverheadDisplay", ResourceType = typeof(Properties.Resources))]
         public double CostOverhead { get; set; }
 
         public static BulletinTaskJobBehaviourModel FromFlierProperties(FlierInterface flier)

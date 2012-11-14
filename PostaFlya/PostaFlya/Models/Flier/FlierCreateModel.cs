@@ -57,59 +57,59 @@ namespace PostaFlya.Models.Flier
             ImageList = new List<ImageViewModel>();
             BoardList = new List<string>();
         }
-        [DisplayName("FlierId")]
+        [Display(Name = "FlierId", ResourceType = typeof(Properties.Resources))] 
         [DataMember]
         public string Id { get; set; }
 
         [RequiredWithMessage]
         [StringLengthWithMessage(100)]
-        [DisplayName("FlierTitle")]
+        [Display(Name = "FlierTitle", ResourceType = typeof(Properties.Resources))] 
         [DataMember]
         public string Title { get; set; }
 
         [RequiredWithMessage]
         [StringLengthWithMessage(2000)]
-        [DisplayName("FlierDescription")]//TODO change to LocalizedDisplayName
+        [Display(Name = "FlierDescription", ResourceType = typeof(Properties.Resources))] //TODO change to LocalizedDisplayName
         [DataMember]
         public string Description { get; set; }
 
         [RequiredWithMessage]
         [ValidLocation]
-        [DisplayName("FlierLocation")]
+        [Display(Name = "FlierLocation", ResourceType = typeof(Properties.Resources))] 
         [DataMember]
         public LocationModel Location { get; set; }
 
         [RequiredWithMessage]
         [StringLengthWithMessage(100)]
-        [DisplayName("FlierTags")]
+        [Display(Name = "FlierTags", ResourceType = typeof(Properties.Resources))] 
         [DataMember]
         public string TagsString { get; set; }
 
         [RequiredWithMessage]
         [ConvertableToGuidAttributeWithMessage]
-        [DisplayName("FlierImage")]
+        [Display(Name = "FlierImage", ResourceType = typeof(Properties.Resources))] 
         [DataMember]
         public String FlierImageId { get; set; }
 
         [RequiredWithMessage]
-        [DisplayName("FlierType")]
+        [Display(Name = "BehaviourType", ResourceType = typeof(Properties.Resources))] 
         [DataMember(IsRequired = true)]
         public FlierBehaviour FlierBehaviour { get; set; }
 
         [RequiredWithMessage]
-        [DisplayName("FlierDate")]
+        [Display(Name = "EffectiveDate", ResourceType = typeof(Properties.Resources))] 
         [DataMember(IsRequired = true)]
         public DateTime EffectiveDate { get; set; }
 
-        [DisplayName("ImageList")]
+        [Display(Name = "FlierImages", ResourceType = typeof(Properties.Resources))] 
         [DataMember]
         public List<ImageViewModel> ImageList { get; set; }
 
-        [DisplayName("FlierImageUrl")]
+        [Display(Name = "FlierImage", ResourceType = typeof(Properties.Resources))] 
         [DataMember]
         public String FlierImageUrl { get; set; }
 
-        [DisplayName("AttachContactDetails")]
+        [Display(Name = "AttachContactDetails", ResourceType = typeof(Properties.Resources))] 
         [DataMember]
         public bool AttachContactDetails { get; set; }
 
@@ -119,7 +119,7 @@ namespace PostaFlya.Models.Flier
         [DataMember]
         public String ExternalId { get; set; }
 
-        [DisplayName("BoardList")]
+        [Display(Name = "BoardList", ResourceType = typeof(Properties.Resources))] 
         [DataMember]
         public List<string> BoardList { get; set; }
 

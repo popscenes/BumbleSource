@@ -8,7 +8,7 @@ namespace PostaFlya.Areas.TaskJob.Models
     {
         public string TaskJobId { get; set; }
 
-        [DisplayName("BidAmount")]
+        [Display(Name = "BidAmount", ResourceType = typeof(Properties.Resources))] 
         [Required]
         [RangeWithMessage(0, 1000000)]
         public double BidAmount { get; set; }

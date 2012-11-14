@@ -8,7 +8,7 @@ namespace PostaFlya.Models.Tags
     {
         [RequiredWithMessage]
         [StringLengthWithMessage(100)]
-        [DisplayName("AddNewTag")]
+        [Display(Name = "AddNewTag", ResourceType = typeof(Properties.Resources))] 
         public string TagsString { get; set; }
 
         public Website.Domain.Tag.Tags Tags

@@ -1,5 +1,6 @@
 using System;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using PostaFlya.Binding;
 using PostaFlya.Models.Browser;
 using Website.Application.Content;
@@ -33,7 +34,7 @@ namespace PostaFlya.Models.Claims
         public EntityTypeEnum ClaimEntity { get; set; }
         public string EntityId { get; set; }
 
-        [DisplayName("ClaimTime")]
+        [Display(Name = "ClaimTime", ResourceType = typeof(Properties.Resources))] 
         public DateTime ClaimTime { get; set; }
 
         public BrowserModel Browser { get; set; }

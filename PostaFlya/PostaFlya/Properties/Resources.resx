@@ -117,6 +117,125 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AddressPublic" xml:space="preserve">
+    <value>AddressPublic</value>
+    <comment>ProfileEditModel</comment>
+  </data>
+  <data name="AllowOthersToPostFliers" xml:space="preserve">
+    <value>AllowOthersToPostFliers</value>
+    <comment>BoardCreateEditModel</comment>
+  </data>
+  <data name="AttachContactDetails" xml:space="preserve">
+    <value>AttachContactDetails</value>
+    <comment>FlierCreateModel</comment>
+  </data>
+  <data name="BehaviourType" xml:space="preserve">
+    <value>BehaviourType</value>
+    <comment>BulletinFlierModel FlierCreateModel</comment>
+  </data>
+  <data name="BidAmount" xml:space="preserve">
+    <value>BidAmount</value>
+    <comment>TaskJobBidModel</comment>
+  </data>
+  <data name="BoardFlier" xml:space="preserve">
+    <value>BoardFlier</value>
+    <comment>BoardFlierModel</comment>
+  </data>
+  <data name="BoardId" xml:space="preserve">
+    <value>BoardId</value>
+    <comment>BoardFlierModel</comment>
+  </data>
+  <data name="BoardList" xml:space="preserve">
+    <value>BoardList</value>
+    <comment>FlierCreateModel</comment>
+  </data>
+  <data name="BoardName" xml:space="preserve">
+    <value>BoardName</value>
+    <comment>BoardCreateEditModel</comment>
+  </data>
+  <data name="ClaimTime" xml:space="preserve">
+    <value>ClaimTime</value>
+    <comment>ClaimModel</comment>
+  </data>
+  <data name="Comment" xml:space="preserve">
+    <value>Comment</value>
+    <comment>CommentModel</comment>
+  </data>
+  <data name="CommentTime" xml:space="preserve">
+    <value>CommentTime</value>
+    <comment>CommentModel</comment>
+  </data>
+  <data name="CostOverhead" xml:space="preserve">
+    <value>CostOverhead</value>
+    <comment>MyTaskJobModel</comment>
+  </data>
+  <data name="CostOverheadDisplay" xml:space="preserve">
+    <value>CostOverheadDisplay</value>
+  </data>
+  <data name="CountryName" xml:space="preserve">
+    <value>CountryName</value>
+    <comment>LocationModel</comment>
+  </data>
+  <data name="CreateDate" xml:space="preserve">
+    <value>CreateDate</value>
+    <comment>BulletinFlierModel</comment>
+  </data>
+  <data name="Description" xml:space="preserve">
+    <value>Description</value>
+    <comment>LocationModel</comment>
+  </data>
+  <data name="EffectiveDate" xml:space="preserve">
+    <value>EffectiveDate</value>
+    <comment>BulletinFlierModel FlierCreateModel</comment>
+  </data>
+  <data name="EmailAddress" xml:space="preserve">
+    <value>EmailAddress</value>
+    <comment>ProfileEditModel</comment>
+  </data>
+  <data name="ExtraLocations" xml:space="preserve">
+    <value>ExtraLocations</value>
+    <comment>MyTaskJobModel</comment>
+  </data>
+  <data name="FirstName" xml:space="preserve">
+    <value>FirstName</value>
+    <comment>ProfileEditModel</comment>
+  </data>
+  <data name="FlierDescription" xml:space="preserve">
+    <value>FlierDescription</value>
+    <comment>BulletinFlierModel FlierCreateModel</comment>
+  </data>
+  <data name="FlierId" xml:space="preserve">
+    <value>FlierId</value>
+    <comment>BulletinFlierModel FlierCreateModel</comment>
+  </data>
+  <data name="FlierImage" xml:space="preserve">
+    <value>FlierImage</value>
+    <comment>BulletinFlierModel FlierCreateModel</comment>
+  </data>
+  <data name="FlierImages" xml:space="preserve">
+    <value>FlierImages</value>
+    <comment>BulletinFlierModel FlierCreateModel</comment>
+  </data>
+  <data name="FlierLocation" xml:space="preserve">
+    <value>FlierLocation</value>
+    <comment>BulletinFlierModel FlierCreateModel</comment>
+  </data>
+  <data name="FlierTags" xml:space="preserve">
+    <value>FlierTags</value>
+    <comment>BulletinFlierModel FlierCreateModel</comment>
+  </data>
+  <data name="FlierTitle" xml:space="preserve">
+    <value>FlierTitle</value>
+    <comment>BulletinFlierModel FlierCreateModel</comment>
+  </data>
+  <data name="FriendlyId" xml:space="preserve">
+    <value>FriendlyId</value>
+    <comment>BulletinFlierModel FlierCreateModel</comment>
+  </data>
+  <data name="Handle" xml:space="preserve">
+    <value>Handle</value>
+    <comment>ProfileEditModel</comment>
+  </data>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="ImageProcessing" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ImageProcessing.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -124,7 +243,70 @@
   <data name="ImageProcessingFailed" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ImageProcessingFailed.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="ImageTitle" xml:space="preserve">
+    <value>ImageTitle</value>
+    <comment>ImageCreateModel</comment>
+  </data>
+  <data name="Latitude" xml:space="preserve">
+    <value>Latitude</value>
+    <comment>LocationModel</comment>
+  </data>
+  <data name="Locality" xml:space="preserve">
+    <value>Locality</value>
+    <comment>LocationModel</comment>
+  </data>
+  <data name="Location" xml:space="preserve">
+    <value>Location</value>
+  </data>
+  <data name="Longitude" xml:space="preserve">
+    <value>Longitude</value>
+    <comment>LocationModel</comment>
+  </data>
+  <data name="MaxTaskAmount" xml:space="preserve">
+    <value>MaxTaskAmount</value>
+    <comment>MyTaskJobModel</comment>
+  </data>
+  <data name="MiddleNames" xml:space="preserve">
+    <value>MiddleNames</value>
+    <comment>ProfileEditModel</comment>
+  </data>
   <data name="NotFoundImg" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\NotFoundImg.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="NumberOfClaims" xml:space="preserve">
+    <value>NumberOfClaims</value>
+    <comment>BulletinFlierModel</comment>
+  </data>
+  <data name="NumberOfComments" xml:space="preserve">
+    <value>NumberOfComments</value>
+    <comment>BulletinFlierModel</comment>
+  </data>
+  <data name="PostCode" xml:space="preserve">
+    <value>PostCode</value>
+    <comment>LocationModel</comment>
+  </data>
+  <data name="Region" xml:space="preserve">
+    <value>Region</value>
+    <comment>LocationModel</comment>
+  </data>
+  <data name="RequireApprovalOfPostedFliers" xml:space="preserve">
+    <value>RequireApprovalOfPostedFliers</value>
+    <comment>BoardCreateEditModel</comment>
+  </data>
+  <data name="Status" xml:space="preserve">
+    <value>Status</value>
+    <comment>BoardFlierModel</comment>
+  </data>
+  <data name="StreetAddress" xml:space="preserve">
+    <value>StreetAddress</value>
+    <comment>LocationModel</comment>
+  </data>
+  <data name="Surname" xml:space="preserve">
+    <value>Surname</value>
+    <comment>ProfileEditModel</comment>
+  </data>
+  <data name="TagList" xml:space="preserve">
+    <value>TagList</value>
+    <comment>TagSetListViewModel</comment>
   </data>
 </root>

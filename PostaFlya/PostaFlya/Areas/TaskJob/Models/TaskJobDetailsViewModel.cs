@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 using Website.Application.Binding;
@@ -30,7 +31,7 @@ namespace PostaFlya.Areas.TaskJob.Models
 
     public class TaskJobDetailsViewModel : DefaultDetailsViewModel
     {
-        [DisplayName("CostOverhead")]
+        [Display(Name = "CostOverhead", ResourceType = typeof(Properties.Resources))] 
         public double CostOverhead { get; set; }
 
         public new static TaskJobDetailsViewModel DefaultForTemplate()

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 using Newtonsoft.Json;
@@ -63,46 +64,47 @@ namespace PostaFlya.Models.Flier
     public class BulletinFlierModel
     {
         
-        [DisplayName("FlierId")]//TODO change to LocalizedDisplayName
+        [Display(Name = "FlierId", ResourceType = typeof(Properties.Resources))] 
         public string Id { get; set; }
 
-        [DisplayName("FriendlyId")]//TODO change to LocalizedDisplayName
+        [Display(Name = "FriendlyId", ResourceType = typeof(Properties.Resources))] 
         public string FriendlyId { get; set; }
 
-        [DisplayName("FlierTitle")]
+        [Display(Name = "FlierTitle", ResourceType = typeof(Properties.Resources))] 
         public string Title { get; set; }
 
-        [DisplayName("FlierDescription")]
+        [Display(Name = "FlierDescription", ResourceType = typeof(Properties.Resources))] 
         public string Description { get; set; }
 
-        [DisplayName("FlierLocation")]
+        [Display(Name = "FlierLocation", ResourceType = typeof(Properties.Resources))] 
         public LocationModel Location { get; set; }
 
-        [DisplayName("FlierTags")]
+        [Display(Name = "FlierTags", ResourceType = typeof(Properties.Resources))] 
         public string TagsString { get; set; }
 
-        [DisplayName("EffectiveDate")]
+        [Display(Name = "EffectiveDate", ResourceType = typeof(Properties.Resources))] 
         public DateTime EffectiveDate { get; set; }
 
-        [DisplayName("FlierImage")]
+        [Display(Name = "FlierImage", ResourceType = typeof(Properties.Resources))] 
         public string FlierImageUrl { get; set; }
 
         public string FlierImageId { get; set; }
 
-        [DisplayName("BehaviourType")]
+        [Display(Name = "BehaviourType", ResourceType = typeof(Properties.Resources))] 
         public string FlierBehaviour { get; set; }
 
-        [DisplayName("NumberOfClaims")]
+        [Display(Name = "NumberOfClaims", ResourceType = typeof(Properties.Resources))] 
         public int NumberOfClaims { get; set; }
 
-        [DisplayName("NumberOfComments")]
+        [Display(Name = "NumberOfComments", ResourceType = typeof(Properties.Resources))] 
         public int NumberOfComments { get; set; }
 
         public string BrowserId { get; set; }
 
-        [DisplayName("CreateDate")]
+        [Display(Name = "CreateDate", ResourceType = typeof(Properties.Resources))] 
         public DateTime CreateDate { get; set; }
 
+        [Display(Name = "FlierImages", ResourceType = typeof(Properties.Resources))] 
         public List<ImageViewModel> ImageList { get; set; }
     }
 

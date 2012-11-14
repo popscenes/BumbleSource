@@ -5,51 +5,52 @@ using System.ComponentModel.DataAnnotations;
 using System.Text.RegularExpressions;
 using System.Web.Mvc;
 using DataAnnotationsExtensions;
+using Website.Application.Properties;
 
 namespace Website.Application.Extension.Validation
 {
     //These are in part to enable easier localization in the future without
     //massive attributes all over properties, however also
     //for custom attributes
-    public static class ErrorStrings
-    {
-        //TODO use localised string resource
-        public static string StringTooLarge
-        {
-            get { return "{0} is too long."; }
-        }
-
-        public static string Required
-        {
-            get { return "{0} is required."; }
-        }
-
-        public static string InvalidEmailAddress
-        {
-            get { return "{0} is not a valid email address."; }
-        }
-
-        public static string InvalidCharacters
-        {
-            get { return "{0} can contain only letters, digits and underscores"; }
-        }
-
-        public static string InvalidGuid
-        {
-            get { return "{0} is an invalid id"; } 
-        }
-
-        public static string InvalidCount
-        {
-            get { return "{0} has an invalid number of elements"; } 
-        }
-    }
+//    public static class ErrorStrings
+//    {
+//        //TODO use localised string resource
+//        public static string StringTooLarge
+//        {
+//            get { return "{0} is too long."; }
+//        }
+//
+//        public static string Required
+//        {
+//            get { return "{0} is required."; }
+//        }
+//
+//        public static string InvalidEmailAddress
+//        {
+//            get { return "{0} is not a valid email address."; }
+//        }
+//
+//        public static string InvalidCharacters
+//        {
+//            get { return "{0} can contain only letters, digits and underscores"; }
+//        }
+//
+//        public static string InvalidGuid
+//        {
+//            get { return "{0} is an invalid id"; } 
+//        }
+//
+//        public static string InvalidCount
+//        {
+//            get { return "{0} has an invalid number of elements"; } 
+//        }
+//    }
 
     public class EmailAddressWithMessage : EmailAttribute//can prolly replace WHEN .NET4.5
     {
         public EmailAddressWithMessage()
         {
-            ErrorMessageResourceType = typeof(ErrorStrings);
+            ErrorMessageResourceType = typeof(Resources);
             ErrorMessageResourceName = "InvalidEmailAddress";
         }
     }
@@ -58,7 +59,7 @@ namespace Website.Application.Extension.Validation
     {
         public StringLengthWithMessage(int maximumLength) : base(maximumLength)
         {
-            ErrorMessageResourceType = typeof(ErrorStrings);
+            ErrorMessageResourceType = typeof(Resources);
             ErrorMessageResourceName = "StringTooLarge";
         }
     }
@@ -67,7 +68,7 @@ namespace Website.Application.Extension.Validation
     {
         public RequiredWithMessage()
         {
-            ErrorMessageResourceType = typeof(ErrorStrings);
+            ErrorMessageResourceType = typeof(Resources);
             ErrorMessageResourceName = "Required";
         }
     }
@@ -77,7 +78,7 @@ namespace Website.Application.Extension.Validation
         public RangeWithMessage(double minimum, double maximum)
             : base(minimum, maximum)
         {
-            ErrorMessageResourceType = typeof(ErrorStrings);
+            ErrorMessageResourceType = typeof(Resources);
             ErrorMessageResourceName = "InvalidRange";
         }
     }
@@ -86,7 +87,7 @@ namespace Website.Application.Extension.Validation
     {
         public AlphaNumericAndUnderscoreWithMessage()
         {
-            ErrorMessageResourceType = typeof(ErrorStrings);
+            ErrorMessageResourceType = typeof(Resources);
             ErrorMessageResourceName = "InvalidCharacters";
         }
     }
@@ -128,7 +129,7 @@ namespace Website.Application.Extension.Validation
     {
         public ConvertableToGuidAttributeWithMessage()
         {
-            ErrorMessageResourceType = typeof(ErrorStrings);
+            ErrorMessageResourceType = typeof(Resources);
             ErrorMessageResourceName = "InvalidGuid";
         }
     }
@@ -164,7 +165,7 @@ namespace Website.Application.Extension.Validation
         public CollectionCountWithMessageAttribute(int minimum, int maximum = -1)
             : base(minimum, maximum)
         {
-            ErrorMessageResourceType = typeof (ErrorStrings);
+            ErrorMessageResourceType = typeof(Resources);
             ErrorMessageResourceName = "InvalidCount";
         }
     }
@@ -180,7 +181,7 @@ namespace Website.Application.Extension.Validation
 
         public CollectionCountAttribute(int minimum, int maximum = -1)
         {
-            ErrorMessageResourceType = typeof(ErrorStrings);
+            ErrorMessageResourceType = typeof(Resources);
             ErrorMessageResourceName = "InvalidCount";
             this.MinimumLength = minimum;
             this.MaximumLength = maximum;

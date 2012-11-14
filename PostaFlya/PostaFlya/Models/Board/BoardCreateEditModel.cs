@@ -1,4 +1,5 @@
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
 using PostaFlya.Models.Location;
 using Website.Application.Extension.Validation;
@@ -10,21 +11,21 @@ namespace PostaFlya.Models.Board
     {
         public string Id { get; set; }
 
-        [DisplayName("BoardName")]
+        [Display(Name = "BoardName", ResourceType = typeof(Properties.Resources))] 
         [RequiredWithMessage]
         public string BoardName { get; set; }
 
-        [DisplayName("AllowOthersToPostFliers")]
+        [Display(Name = "AllowOthersToPostFliers", ResourceType = typeof(Properties.Resources))] 
         [DataMember]
         [RequiredWithMessage]
         public bool AllowOthersToPostFliers { get; set; }
 
-        [DisplayName("RequireApprovalOfPostedFliers")]
+        [Display(Name = "RequireApprovalOfPostedFliers", ResourceType = typeof(Properties.Resources))] 
         [DataMember]
         [RequiredWithMessage]
         public bool RequireApprovalOfPostedFliers { get; set; }
 
-        [DisplayName("Location")]
+        [Display(Name = "Location", ResourceType = typeof(Properties.Resources))] 
         public LocationModel Location { get; set; }
 
     }

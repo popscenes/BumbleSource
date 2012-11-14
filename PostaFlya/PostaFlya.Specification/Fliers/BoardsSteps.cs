@@ -167,12 +167,12 @@ namespace PostaFlya.Specification.Fliers
             var browserId = SpecUtil.GetCurrBrowser().Browser.Id;
             var res = controller.Get(browserId, board.Id, BoardFlierStatus.PendingApproval);
 
-            var ret = res.SingleOrDefault(bf => bf.Flier.Id == flier.Id);
+            var ret = res.SingleOrDefault(bf => bf.BoardFlier.Id == flier.Id);
             Assert.IsNotNull(ret);
 
             var updateRes = controller.Put(browserId,
                            new EditBoardFlierModel()
-                               {BoardId = board.Id, FlierId = ret.Flier.Id, Status = BoardFlierStatus.Approved});
+                               {BoardId = board.Id, FlierId = ret.BoardFlier.Id, Status = BoardFlierStatus.Approved});
 
             updateRes.AssertStatusCode();
         }

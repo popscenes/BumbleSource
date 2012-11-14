@@ -1,4 +1,5 @@
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
 using Website.Application.Extension.Validation;
 using PostaFlya.Binding;
@@ -13,7 +14,7 @@ namespace PostaFlya.Models.Comments
         [DataMember(IsRequired = true)]
         public EntityTypeEnum CommentEntity { get; set; }
         
-        [DisplayName("Comment")]
+        [Display(Name = "Comment", ResourceType = typeof(Properties.Resources))] 
         [StringLengthWithMessage(100, MinimumLength = 1)]
         [DataMember]
         public string Comment { get; set; }     

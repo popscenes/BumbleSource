@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using Website.Application.Extension.Validation;
 using PostaFlya.Models;
 using PostaFlya.Models.Location;
@@ -11,7 +12,7 @@ namespace PostaFlya.Areas.TaskJob.Models
     {
         [RequiredWithMessage]
         [RangeWithMessage(1, 1000000)]
-        [DisplayName("MaxTaskAmount")]
+        [Display(Name = "MaxTaskAmount", ResourceType = typeof(Properties.Resources))] 
         public double MaxAmount { get; set; }
 
         [ValidLocations]
