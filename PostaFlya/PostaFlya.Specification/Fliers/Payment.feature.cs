@@ -100,6 +100,7 @@ namespace PostaFlya.Specification.Fliers
             testRunner.And("I Have Selected a PAYMENT OPTION", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
             testRunner.When("The Payment OPTION is Completed Successfully", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
             testRunner.Then("I will be Shown the Transaction Details", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+            testRunner.And("the FLIER STATUS will be Active", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
             this.ScenarioCleanup();
         }
         
@@ -113,6 +114,7 @@ namespace PostaFlya.Specification.Fliers
             testRunner.And("I Have Selected a PAYMENT OPTION", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
             testRunner.When("The Payment OPTION is Completed Unsuccessfully", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
             testRunner.Then("I will be Shown the Error Details", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+            testRunner.And("the FLIER STATUS will be PaymentPending", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
             this.ScenarioCleanup();
         }
         

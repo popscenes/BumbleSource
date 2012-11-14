@@ -9,6 +9,7 @@ using Ninject.MockingKernel.Moq;
 using Ninject.Modules;
 using TechTalk.SpecFlow;
 using PostaFlya.Mocks.Domain.Data;
+using Website.Mocks.Domain.Data;
 using Website.Test.Common;
 using Website.Application.Domain.Browser;
 using Website.Domain.Browser;
@@ -133,7 +134,8 @@ namespace PostaFlya.Specification.Util
                       new PostaFlya.Areas.TaskJob.Binding.TaskJobBehaviourWebNinjectBinding(),
                       new MockRepositoriesNinjectModule(),
                       new Website.Mocks.Domain.Data.TestIdentityProvidersNinjectModult(),
-                      new ExternalSourceNinjectModule()
+                      new ExternalSourceNinjectModule(),
+                      new PaymentTestData()
                   };
     }
 }

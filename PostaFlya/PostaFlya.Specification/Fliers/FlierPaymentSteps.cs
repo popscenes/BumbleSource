@@ -3,8 +3,10 @@ using System.Linq;
 using System.Text;
 using System.Web.Mvc;
 using NUnit.Framework;
+using Ninject;
 using PostaFlya.Controllers;
 using PostaFlya.Domain.Flier;
+using PostaFlya.Domain.Flier.Query;
 using PostaFlya.Models;
 using PostaFlya.Models.Flier;
 using PostaFlya.Specification.Util;
@@ -30,7 +32,11 @@ namespace PostaFlya.Specification.Fliers
         [When(@"I go to the FLIER PAYMENT PAGE")]
         public void WhenIGoToTheFLIERPAYMENTPAGE()
         {
-            var flier = ScenarioContext.Current["flier"] as FlierInterface;
+            var flierid = ScenarioContext.Current["createdflyaid"] as string;
+
+            var flierQueryService = SpecUtil.CurrIocKernel.Get<FlierQueryServiceInterface>();
+            var flier = flierQueryService.FindById<Flier>(flierid);
+
             var paymentController = SpecUtil.GetController<PaymentController>();
             SpecUtil.ControllerResult = paymentController.FlierPayment(flier.Id);
         }
@@ -56,14 +62,18 @@ namespace PostaFlya.Specification.Fliers
         public void GivenIAmOnTheFLIERPAYMENTPAGE()
         {
 
-            var flier = ScenarioContext.Current["flier"] as FlierInterface;
-            var paymentController = SpecUtil.GetController<PaymentController>();
+            GivenIHaveAFLIERThatRequiresPayment();
+            WhenIGoToTheFLIERPAYMENTPAGE();
         }
 
         [When(@"I go Select a PAYMENT OPTION")]
         public void WhenIGoSelectAPAYMENTOPTION()
         {
-            var flier = ScenarioContext.Current["flier"] as FlierInterface;
+            var flierid = ScenarioContext.Current["createdflyaid"] as string;
+
+            var flierQueryService = SpecUtil.CurrIocKernel.Get<FlierQueryServiceInterface>();
+            var flier = flierQueryService.FindById<Flier>(flierid);
+
             var paymentController = SpecUtil.GetController<PaymentController>();
             SpecUtil.ControllerResult = paymentController.PaymentProcess(flier.Id, "Flier", 2.00);
         }
@@ -72,7 +82,7 @@ namespace PostaFlya.Specification.Fliers
         public void ThenIWillBeRedirectedToThatOPTIONSPROCESS()
         {
             var controllerResult = SpecUtil.ControllerResult as RedirectResult;
-            Assert.AreEqual(controllerResult.Url, "http://testpayment.com/");
+            Assert.AreEqual(controllerResult.Url, "http://test.com/?amt=2");
         }
 
         [Given(@"I Have Selected a PAYMENT OPTION")]

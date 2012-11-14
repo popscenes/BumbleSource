@@ -22,12 +22,14 @@ Scenario: Flier Payment Callback Success
 	And I Have Selected a PAYMENT OPTION
 	When The Payment OPTION is Completed Successfully
 	Then I will be Shown the Transaction Details
+	And the FLIER STATUS will be Active
 
 Scenario: Flier Payment Callback Failure
 	Given I have a FLIER that requires payment
 	And I Have Selected a PAYMENT OPTION
 	When The Payment OPTION is Completed Unsuccessfully
 	Then I will be Shown the Error Details
+	And the FLIER STATUS will be PaymentPending
 
 Scenario: Payment Transaction History
 	Given I have a Successful PAYMENT TRANSACTION

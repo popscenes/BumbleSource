@@ -112,7 +112,7 @@ namespace PostaFlya.Specification.Fliers
         [Given(@"I have created a FLIER with Contact Details")]
         public void GivenIHaveCreatedAflierWithContactDetails()
         {
-            GivenIHaveCreatedAflierofBehaviour(FlierBehaviour.Default.ToString());
+            GivenIHaveCreatedAflierofBehaviourWithContactDetails(FlierBehaviour.Default.ToString());
         }
 
         [Given(@"I have created a FLIER of BEHAVIOUR (.*) with Contact Details")]
@@ -153,20 +153,6 @@ namespace PostaFlya.Specification.Fliers
         [When(@"I navigate to the edit page for that FLIER and update any of the required data for a FLIER")]
         public void WhenINavigateToTheEditPageForThatFlierAndUpdate()
         {
-            //var flierController = SpecUtil.GetController<FlierController>();
-            //var flier = ScenarioContext.Current["flier"] as Flier;
-            //var res = flierController.Edit(flier.Id) as ViewResult;
-
-            //Assert.IsNotNull(res);
-            //var flierEditModel = res.Model as FlierCreateModel;
-            //Assert.IsNotNull(res);
-
-            //flierEditModel.Id = flier.Id;
-            //flierEditModel.Description = flier.Description + "UPDATED";
-            //flierEditModel.Title = flier.Title + "UPDATED";
-            //flierEditModel.TagsString = flier.Tags.ToString();
-            //flierEditModel.Location = flier.Location.ToViewModel();
-
             var flierEditModel = FlierCreateModelFromFlier();
             flierEditModel.Description += "UPDATED";
             flierEditModel.Title += "UPDATED";
@@ -176,6 +162,47 @@ namespace PostaFlya.Specification.Fliers
             var browserInformation = SpecUtil.GetCurrBrowser();
             myFliersApiController.Put(browserInformation.Browser.Id, flierEditModel);
         }
+
+        [When(@"I navigate to the edit page for that FLIER and add default contact details for a FLIER")]
+        public void WhenINavigateToTheEditPageForThatFLIERAndAddDefaultContactDetailsForAFLIER()
+        {
+            var flierEditModel = FlierCreateModelFromFlier();
+
+            flierEditModel.AttachContactDetails = true;
+            flierEditModel.Description += "UPDATED";
+            flierEditModel.Title += "UPDATED";
+
+            var myFliersApiController = SpecUtil.GetController<MyFliersController>();
+            var browserInformation = SpecUtil.GetCurrBrowser();
+            myFliersApiController.Put(browserInformation.Browser.Id, flierEditModel);
+        }
+
+        [When(@"I navigate to the edit page for that FLIER and remove default contact details for a FLIER")]
+        public void WhenINavigateToTheEditPageForThatFLIERAndRemoveDefaultContactDetailsForAFLIER()
+        {
+            var flierEditModel = FlierCreateModelFromFlier();
+
+            flierEditModel.AttachContactDetails = false;
+            flierEditModel.Description += "UPDATED";
+            flierEditModel.Title += "UPDATED";
+
+            var myFliersApiController = SpecUtil.GetController<MyFliersController>();
+            var browserInformation = SpecUtil.GetCurrBrowser();
+            myFliersApiController.Put(browserInformation.Browser.Id, flierEditModel);
+        }
+
+        [Then(@"the FLIER will not contain a PAYMENT OPTION for Added Contact Details")]
+        public void ThenTheFLIERWillNotContainAPAYMENTOPTIONForAddedContactDetails()
+        {
+            var flierid = ScenarioContext.Current["createdflyaid"] as string;
+
+            var flierQueryService = SpecUtil.CurrIocKernel.Get<FlierQueryServiceInterface>();
+            var flier = flierQueryService.FindById<Flier>(flierid);
+
+            Assert.AreEqual(flier.PaymentOptions.Count, 0);
+        }
+
+
 
         [Then(@"the FLIER will be updated to reflect those changes")]
         public void ThenTheFlierWillBeUpdatedToReflectThoseChanges()
@@ -190,6 +217,7 @@ namespace PostaFlya.Specification.Fliers
             Assert.IsNotNull(flierUpdated, "Flier Not Updated");
             StringAssert.Contains("UPDATED", flierUpdated.Description);
             StringAssert.Contains("UPDATED", flierUpdated.Title);
+            ScenarioContext.Current["flier"] = flierUpdated;
         }
 
 
@@ -284,8 +312,9 @@ namespace PostaFlya.Specification.Fliers
             flierEditModel.TagsString = flier.Tags.ToString();
             flierEditModel.Location = flier.Location.ToViewModel();
             flierEditModel.FlierImageId = flier.Image.Value.ToString();
-
+            flierEditModel.AttachContactDetails = flier.UseBrowserContactDetails;
             return flierEditModel;
+            
         }
 
         [When(@"I add images to the FLIER")]
@@ -433,8 +462,28 @@ namespace PostaFlya.Specification.Fliers
             }
         }
 
+        [Then(@"the FLIER will contain a PAYMENT OPTION for Added Contact Details")]
+        public void ThenTheFLIERWillContainAPAYMENTOPTIONForAddedContactDetails()
+        {
+            var flierid = ScenarioContext.Current["createdflyaid"] as string;
 
-       
+            var flierQueryService = SpecUtil.CurrIocKernel.Get<FlierQueryServiceInterface>();
+            var flier = flierQueryService.FindById<Flier>(flierid);
+
+            Assert.AreEqual(flier.PaymentOptions.Count, 1);
+
+            var paymentOption = flier.PaymentOptions.First();
+
+            Assert.AreEqual(paymentOption.Status, PaymentOptionStatus.PaymentPending);
+            Assert.AreEqual(paymentOption.Type, PaymentOptionType.ContactDetails);
+        }
+
+        [When(@"I choose to remove my default contact details")]
+        public void WhenIChooseToRemoveMyDefaultContactDetails()
+        {
+            var createModel = ScenarioContext.Current["createflya"] as FlierCreateModel;
+            createModel.AttachContactDetails = false;
+        }
 
     }
 

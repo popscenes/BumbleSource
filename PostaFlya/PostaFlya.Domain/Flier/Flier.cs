@@ -22,6 +22,7 @@ namespace PostaFlya.Domain.Flier
             ExtendedProperties = new Dictionary<string, object>();
             ImageList = new List<FlierImage>();
             CreateDate = DateTime.UtcNow;
+            PaymentOptions = new HashSet<PaymentOption>();
         }
 
         public Flier(Location location)
@@ -64,5 +65,6 @@ namespace PostaFlya.Domain.Flier
         public HashSet<string> Boards { get; set; } 
 
 
+        public HashSet<PaymentOption> PaymentOptions { get; set; }
     }
 }

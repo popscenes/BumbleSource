@@ -53,8 +53,15 @@ namespace PostaFlya.Domain.Flier.Command
             if(newFlier.FlierBehaviour == FlierBehaviour.Default)
                 newFlier.Status = FlierStatus.Active;
 
-            if(newFlier.UseBrowserContactDetails)
+            if (newFlier.UseBrowserContactDetails)
+            {
+                newFlier.PaymentOptions.Add(new PaymentOption { Type = PaymentOptionType.ContactDetails, Status = PaymentOptionStatus.PaymentPending });
+            }
+
+            if (newFlier.PaymentOptions.Count > 0)
+            {
                 newFlier.Status = FlierStatus.PaymentPending;
+            }
 
             newFlier.FriendlyId = _flierQueryService.FindFreeFriendlyId(newFlier);
 

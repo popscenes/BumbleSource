@@ -1,18 +1,35 @@
 using System;
+using System.Collections.Generic;
 using System.Web.Mvc;
+using PostaFlya.Models;
+using Website.Application.Payment;
 
 namespace PostaFlya.Controllers
 {
-    public class PaymentController
+    public class PaymentController : Controller
     {
-        public ViewResult FlierPayment(string id)
+        private readonly PaymentServiceProviderInterface _paymentServiceProviderInterface;
+
+
+        public PaymentController(PaymentServiceProviderInterface paymentServiceProviderInterface)
         {
-            throw new NotImplementedException();
+            _paymentServiceProviderInterface = paymentServiceProviderInterface;
         }
 
-        public RedirectResult PaymentProcess(string id, string flier, double d)
+        public ActionResult FlierPayment(string id)
         {
-            throw new NotImplementedException();
+            var flierPaymnetsModel = new FlierPaymentModel();
+
+            var paymentServiceList = _paymentServiceProviderInterface.GetAllPaymentServices();
+            flierPaymnetsModel.PaymentOptions = paymentServiceList as List<PaymentServiceInterface>;
+            flierPaymnetsModel.FlierCost = 2.00;
+            return View(flierPaymnetsModel);
+        }
+
+        public RedirectResult PaymentProcess(string paymentServiceName, string flierId, double amount)
+        {
+            var paymentService = _paymentServiceProviderInterface.GetPaymentServiceByName(paymentServiceName);
+            return new RedirectResult(paymentService.LaunchPaymentProcess(PaymentType.Flier, flierId, amount).ToString());
         }
 
         public ViewResult PaymnetCallback(string paymnetid, string payerid, int entityId, double paymentAmount, string errorMessage)
