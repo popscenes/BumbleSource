@@ -15,7 +15,7 @@ using Website.Mocks.Domain.Data;
 namespace Website.Domain.Tests.Browser.Publish
 {
     [TestFixture]
-    public class PublishServiceBrowserSubscriptionBaseTests
+    public class BrowserSubscriptionBaseTests
     {
         MoqMockingKernel Kernel
         {

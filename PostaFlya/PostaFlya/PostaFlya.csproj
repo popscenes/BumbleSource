@@ -131,8 +131,12 @@
     <Reference Include="DotNetOpenAuth.OpenIdOAuth">
       <HintPath>..\..\..\Libraries\DotNetOpenAuth.OpenIdOAuth.4.1.0.12182\lib\net40-full\DotNetOpenAuth.OpenIdOAuth.dll</HintPath>
     </Reference>
-    <Reference Include="EntityFramework">
-      <HintPath>..\..\..\Libraries\EntityFramework.5.0.0\lib\net40\EntityFramework.dll</HintPath>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Libraries\EntityFramework.6.0.0-alpha1\lib\net40\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>..\..\..\Libraries\EntityFramework.6.0.0-alpha1\lib\net40\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
     <Reference Include="FiftyOne.Foundation, Version=2.1.10.3, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -182,7 +186,8 @@
       <HintPath>..\..\..\Libraries\Microsoft.WindowsAzure.Caching.1.7.0.0\lib\net35-full\Microsoft.WindowsFabric.Data.Common.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\..\..\Libraries\Newtonsoft.Json.4.5.9\lib\net40\Newtonsoft.Json.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Libraries\Newtonsoft.Json.4.5.10\lib\net40\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="Ninject, Version=3.0.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
       <HintPath>..\..\..\Libraries\Ninject.3.0.1.10\lib\net40\Ninject.dll</HintPath>
@@ -276,9 +281,9 @@
     <Reference Include="System.Configuration" />
     <Reference Include="System.Web.Services" />
     <Reference Include="System.EnterpriseServices" />
-    <Reference Include="WebActivator, Version=1.5.1.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="WebActivator, Version=1.5.2.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\Libraries\WebActivator.1.5.1\lib\net40\WebActivator.dll</HintPath>
+      <HintPath>..\..\..\Libraries\WebActivator.1.5.2\lib\net40\WebActivator.dll</HintPath>
     </Reference>
     <Reference Include="WebGrease, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\..\..\Libraries\WebGrease.1.1.0\lib\WebGrease.dll</HintPath>
