@@ -1,4 +1,4 @@
-﻿Feature: PARTICIPANT can POST FLIER
+﻿Feature: PARTICIPANT can Edit FLIER
 	As a BROWSER in a PARTICIPANT role
 	I want to be able to Edir a FLIER 
 	so that the changes can be included in a DYNAMIC BULLETIN BOARD

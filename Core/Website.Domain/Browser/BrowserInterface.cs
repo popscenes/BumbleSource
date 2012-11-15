@@ -24,6 +24,7 @@ namespace Website.Domain.Browser
             target.AddressPublic = source.AddressPublic;
             target.AvatarImageId = source.AvatarImageId;
             target.Properties = source.Properties != null ? new Dictionary<string, object>(source.Properties) : null;
+            target.AccountCredit = source.AccountCredit;
         }
 
         public static bool HasRole(this BrowserInterface browser, Role role)
