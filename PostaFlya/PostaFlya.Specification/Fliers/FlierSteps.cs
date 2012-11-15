@@ -13,6 +13,8 @@ using PostaFlya.Models.Flier;
 using PostaFlya.Models.Location;
 using PostaFlya.Specification.Util;
 using PostaFlya.Models.Content;
+using Website.Domain.Browser.Command;
+using Website.Domain.Browser.Query;
 using Website.Infrastructure.Authentication;
 using Website.Test.Common;
 using Website.Domain.Browser;
@@ -189,17 +191,6 @@ namespace PostaFlya.Specification.Fliers
             var myFliersApiController = SpecUtil.GetController<MyFliersController>();
             var browserInformation = SpecUtil.GetCurrBrowser();
             myFliersApiController.Put(browserInformation.Browser.Id, flierEditModel);
-        }
-
-        [Then(@"the FLIER will not contain a PAYMENT OPTION for Added Contact Details")]
-        public void ThenTheFLIERWillNotContainAPAYMENTOPTIONForAddedContactDetails()
-        {
-            var flierid = ScenarioContext.Current["createdflyaid"] as string;
-
-            var flierQueryService = SpecUtil.CurrIocKernel.Get<FlierQueryServiceInterface>();
-            var flier = flierQueryService.FindById<Flier>(flierid);
-
-            Assert.AreEqual(flier.PaymentOptions.Count, 0);
         }
 
 
@@ -462,21 +453,6 @@ namespace PostaFlya.Specification.Fliers
             }
         }
 
-        [Then(@"the FLIER will contain a PAYMENT OPTION for Added Contact Details")]
-        public void ThenTheFLIERWillContainAPAYMENTOPTIONForAddedContactDetails()
-        {
-            var flierid = ScenarioContext.Current["createdflyaid"] as string;
-
-            var flierQueryService = SpecUtil.CurrIocKernel.Get<FlierQueryServiceInterface>();
-            var flier = flierQueryService.FindById<Flier>(flierid);
-
-            Assert.AreEqual(flier.PaymentOptions.Count, 1);
-
-            var paymentOption = flier.PaymentOptions.First();
-
-            Assert.AreEqual(paymentOption.Status, PaymentOptionStatus.PaymentPending);
-            Assert.AreEqual(paymentOption.Type, PaymentOptionType.ContactDetails);
-        }
 
         [When(@"I choose to remove my default contact details")]
         public void WhenIChooseToRemoveMyDefaultContactDetails()
@@ -497,7 +473,14 @@ namespace PostaFlya.Specification.Fliers
         public void GivenIDontHaveSufficientAccountCredit()
         {
             var browserInformation = SpecUtil.GetCurrBrowser();
-            browserInformation.Browser.AccountCredit = 0.0;
+            var browserReo = SpecUtil.CurrIocKernel.Get<BrowserRepositoryInterface>();
+
+            browserReo.UpdateEntity<Browser>(browserInformation.Browser.Id,
+                    b =>
+                    {
+                        b.AccountCredit = 0.00;
+                    });
+
         }
 
         [Then(@"the FLIER will contain a FEATURE for Tear Off in a disabled state")]
@@ -512,7 +495,7 @@ namespace PostaFlya.Specification.Fliers
             var flierFeatures = flier.Features.First();
 
             Assert.AreEqual(flierFeatures.FeatureType, FeatureType.TearOff);
-            Assert.AreEqual(flierFeatures.Status, FeatureStatus.Disabled);
+            Assert.AreEqual(flierFeatures.IsEnabled(SpecUtil.CurrIocKernel.Get<BrowserQueryServiceInterface>()), false);
             Assert.AreEqual(flierFeatures.Cost, 2.00);
         }
 
@@ -520,7 +503,12 @@ namespace PostaFlya.Specification.Fliers
         public void GivenIHaveSufficientAccountCredit()
         {
             var browserInformation = SpecUtil.GetCurrBrowser();
-            browserInformation.Browser.AccountCredit = 10.0;
+            var browserReo = SpecUtil.CurrIocKernel.Get<BrowserRepositoryInterface>();
+            browserReo.UpdateEntity<Browser>(browserInformation.Browser.Id, 
+                    b =>
+                        {
+                            b.AccountCredit = 10.00;
+                        });
         }
 
         [Then(@"the FLIER will contain a FEATURE for Tear Off in a enabled state")]
@@ -535,7 +523,7 @@ namespace PostaFlya.Specification.Fliers
             var flierFeatures = flier.Features.First();
 
             Assert.AreEqual(flierFeatures.FeatureType, FeatureType.TearOff);
-            Assert.AreEqual(flierFeatures.Status, FeatureStatus.Enabled);
+            Assert.AreEqual(flierFeatures.IsEnabled(SpecUtil.CurrIocKernel.Get<BrowserQueryServiceInterface>()), true);
             Assert.AreEqual(flierFeatures.Cost, 2.00);
         }
 

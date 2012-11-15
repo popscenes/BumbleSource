@@ -19,8 +19,8 @@ namespace PostaFlya.Specification.Fliers
     [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "1.9.0.77")]
     [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     [NUnit.Framework.TestFixtureAttribute()]
-    [NUnit.Framework.DescriptionAttribute("PARTICIPANT can POST FLIER")]
-    public partial class EDITFLIERFeature
+    [NUnit.Framework.DescriptionAttribute("PARTICIPANT can Edit FLIER")]
+    public partial class PARTICIPANTCanEditFLIERFeature
     {
         
         private static TechTalk.SpecFlow.ITestRunner testRunner;
@@ -29,7 +29,7 @@ namespace PostaFlya.Specification.Fliers
         public virtual void FeatureSetup()
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
-            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "PARTICIPANT can POST FLIER", "As a BROWSER in a PARTICIPANT role\r\nI want to be able to Edir a FLIER \r\nso that t" +
+            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "PARTICIPANT can Edit FLIER", "As a BROWSER in a PARTICIPANT role\r\nI want to be able to Edir a FLIER \r\nso that t" +
                     "he changes can be included in a DYNAMIC BULLETIN BOARD", ProgrammingLanguage.CSharp, ((string[])(null)));
             testRunner.OnFeatureStart(featureInfo);
         }

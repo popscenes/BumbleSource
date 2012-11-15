@@ -82,15 +82,12 @@ namespace PostaFlya.Controllers
                 Location = createModel.Location.ToDomainModel(),
                 Image = new Guid(createModel.FlierImageId),
                 FlierBehaviour = createModel.FlierBehaviour,
-                //WebSiteTags = _websiteInfoService.GetWebsiteTags(Request.RequestUri.Host),
                 EffectiveDate = createModel.EffectiveDate,
                 ImageList = createModel.ImageList.Select(_ => new FlierImage(_.ImageId)).ToList(),
-                AttachContactDetails = createModel.AttachContactDetails,
-                UseBrowserContactDetails = createModel.AttachContactDetails,//only supporting browser contact dets atm
                 ExternalSource = createModel.ExternalSource,
                 ExternalId = createModel.ExternalId,
-                BoardSet = new HashSet<string>(createModel.BoardList)
-                //TODO add new details, and validate details both browser and new. Allow updating of browser details
+                BoardSet = new HashSet<string>(createModel.BoardList),
+                AttachTearOffs = createModel.AttachTearOffs
             };
 
             var res = _commandBus.Send(createFlier);

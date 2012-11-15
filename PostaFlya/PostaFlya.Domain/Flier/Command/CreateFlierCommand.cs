@@ -19,8 +19,7 @@ namespace PostaFlya.Domain.Flier.Command
         public Tags WebSiteTags { get;set;}
         public DateTime EffectiveDate { get; set; }
         public List<FlierImage> ImageList { get; set; }
-        public bool AttachContactDetails { get; set; }
-        public bool UseBrowserContactDetails { get; set; }
+        public bool AttachTearOffs { get; set; }
         public string ExternalSource { get; set; }
         public string ExternalId { get; set; }
         public HashSet<string> BoardSet { get; set; } 
