@@ -19,7 +19,7 @@ namespace PostaFlya.DataRepository.Search.Services
                 BoardId = new Guid(boardFlier.AggregateId),
                 Id = boardFlier.Id,
                 BoardStatus = (int)boardFlier.Status,
-
+                BoardRank = boardFlier.BoardRank
             };
 
             if (flier != null)
