@@ -87,7 +87,8 @@ namespace PostaFlya.Controllers
                 ExternalSource = createModel.ExternalSource,
                 ExternalId = createModel.ExternalId,
                 BoardSet = new HashSet<string>(createModel.BoardList),
-                AttachTearOffs = createModel.AttachTearOffs
+                AttachTearOffs = createModel.AttachTearOffs,
+                AllowUserContact = createModel.AllowUserContact
             };
 
             var res = _commandBus.Send(createFlier);

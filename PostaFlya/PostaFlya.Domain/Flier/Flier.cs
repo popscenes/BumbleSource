@@ -71,7 +71,8 @@ namespace PostaFlya.Domain.Flier
 
     public enum FeatureType
     {
-        TearOff
+        TearOff,
+        UserContact
     }
 
     public interface EntityFeatureInterface

@@ -22,6 +22,7 @@ namespace PostaFlya.Domain.Flier.Command
         public bool AttachTearOffs { get; set; }
         public string ExternalSource { get; set; }
         public string ExternalId { get; set; }
-        public HashSet<string> BoardSet { get; set; } 
+        public HashSet<string> BoardSet { get; set; }
+        public bool AllowUserContact { get; set; }
     }
 }

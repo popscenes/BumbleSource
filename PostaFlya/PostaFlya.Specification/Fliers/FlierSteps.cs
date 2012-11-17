@@ -527,6 +527,46 @@ namespace PostaFlya.Specification.Fliers
             Assert.AreEqual(flierFeatures.Cost, 2.00);
         }
 
+        [Given(@"I choose to allow User Contact")]
+        public void GivenIChooseToAllowUserContact()
+        {
+            var createFlierModel = ScenarioContext.Current["createflya"] as FlierCreateModel;
+            createFlierModel.AllowUserContact = true;
+        }
+
+        [Then(@"the FLIER will contain a FEATURE for User Contact in a disabled state")]
+        public void ThenTheFLIERWillContainAFEATUREForUserContactInADisabledState()
+        {
+            var flierid = ScenarioContext.Current["createdflyaid"] as string;
+
+            var flierQueryService = SpecUtil.CurrIocKernel.Get<FlierQueryServiceInterface>();
+            var flier = flierQueryService.FindById<Flier>(flierid);
+
+            Assert.AreEqual(flier.Features.Count, 1);
+            var flierFeatures = flier.Features.First();
+
+            Assert.AreEqual(flierFeatures.FeatureType, FeatureType.UserContact);
+            Assert.AreEqual(flierFeatures.IsEnabled(SpecUtil.CurrIocKernel.Get<BrowserQueryServiceInterface>()), false);
+            Assert.AreEqual(flierFeatures.Cost, 5.00);
+        }
+
+        [Then(@"the FLIER will contain a FEATURE for User Contact in a enabled state")]
+        public void ThenTheFLIERWillContainAFEATUREForUserContactInAEnabledState()
+        {
+            var flierid = ScenarioContext.Current["createdflyaid"] as string;
+
+            var flierQueryService = SpecUtil.CurrIocKernel.Get<FlierQueryServiceInterface>();
+            var flier = flierQueryService.FindById<Flier>(flierid);
+
+            Assert.AreEqual(flier.Features.Count, 1);
+            var flierFeatures = flier.Features.First();
+
+            Assert.AreEqual(flierFeatures.FeatureType, FeatureType.UserContact);
+            Assert.AreEqual(flierFeatures.IsEnabled(SpecUtil.CurrIocKernel.Get<BrowserQueryServiceInterface>()), true);
+            Assert.AreEqual(flierFeatures.Cost, 5.00);
+        }
+
+
 
     }
 

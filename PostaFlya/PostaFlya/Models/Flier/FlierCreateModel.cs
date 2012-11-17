@@ -126,6 +126,9 @@ namespace PostaFlya.Models.Flier
         [DataMember]
         public Boolean AttachTearOffs { get; set; }
 
+        [DataMember]
+        public bool AllowUserContact { get; set; }
+
         public static FlierCreateModel DefaultForTemplate()
         {
             return new FlierCreateModel();

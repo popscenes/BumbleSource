@@ -53,18 +53,17 @@ namespace PostaFlya.Domain.Flier.Command
                                    EffectiveDate = command.EffectiveDate == default(System.DateTime) ? DateTime.UtcNow : command.EffectiveDate,
                                    ImageList = command.ImageList,
                                    ExternalSource = command.ExternalSource,
-                                   ExternalId = command.ExternalId
+                                   ExternalId = command.ExternalId,
+                                   
+                                   
                                };
 
             if(newFlier.FlierBehaviour == FlierBehaviour.Default)
                 newFlier.Status = FlierStatus.Active;
 
-            if (command.AttachTearOffs)
-            {
-                newFlier.Features.Add(new SimpleEntityFeature() { FeatureType = FeatureType.TearOff, Cost = 2.00, BrowserId = command.BrowserId });
-            }
 
             newFlier.FriendlyId = _flierQueryService.FindFreeFriendlyId(newFlier);
+            newFlier.Features = (GetPaymentFeatures(command));
 
             List<BoardFlierModifiedEvent> boardFliers = null;
             UnitOfWorkInterface unitOfWork;
@@ -90,6 +89,23 @@ namespace PostaFlya.Domain.Flier.Command
             return new MsgResponse("Flier Create", false)
                 .AddEntityId(newFlier.Id)
                 .AddCommandId(command);
+        }
+
+        private HashSet<EntityFeatureInterface>  GetPaymentFeatures(CreateFlierCommand command)
+        {
+            var featureList = new HashSet<EntityFeatureInterface>();
+            if (command.AttachTearOffs)
+            {
+                featureList.Add(new SimpleEntityFeature() { FeatureType = FeatureType.TearOff, Cost = 2.00, BrowserId = command.BrowserId });
+            }
+
+            if (command.AllowUserContact)
+            {
+                featureList.Add(new SimpleEntityFeature() { FeatureType = FeatureType.UserContact, Cost = 5.00, BrowserId = command.BrowserId });
+            }
+
+            return featureList;
+
         }
     }
 }
