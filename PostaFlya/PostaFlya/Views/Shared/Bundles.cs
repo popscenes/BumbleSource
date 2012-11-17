@@ -47,6 +47,7 @@ namespace PostaFlya.Views.Shared
             "Extension/showdown.js",
             "Extension/knockout.custombindings.js",
             "Base/CurrentBrowser.js",
+            "Base/LocationModel.js",
             "Base/LocationBase.js",           
             "Base/LocationService.js",
             "Base/LocationSelector.js",

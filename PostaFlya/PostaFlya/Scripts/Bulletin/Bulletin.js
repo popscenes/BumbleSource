@@ -26,7 +26,8 @@
         };
 
         self.GetReqArgs = function (nextpage) {
-            var params = { loc: { Latitude: self.locationSelector.latitude(), Longitude: self.locationSelector.longitude() }
+            var params = {
+                loc: self.locationSelector.currentLocation().LatLong()
                 , distance: self.distanceSelector.currentDistance()
                 , count: self.initialPagesize
             };
@@ -66,12 +67,8 @@
             });
         };
 
-        self.InvalidLocation = ko.computed(function () {
-            return !self.locationSelector.ValidLocation();
-        }, self);
-
         self.LocationAndDistanceCallback = function () {
-            if (!self.InvalidLocation())
+            if (self.locationSelector.ValidLocation())
                 self.Request();
         };
 

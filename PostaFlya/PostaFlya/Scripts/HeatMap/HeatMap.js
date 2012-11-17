@@ -4,7 +4,7 @@
 
     ko.bindingHandlers.heatMapBinding = {
         update: function (element, valueAccessor, allBindingsAccessor, viewModel) {
-            SetMapPosition($('#heatMap'), viewModel.currentLocation().Longitude, viewModel.currentLocation().Latitude);
+            bf.SetMapPosition($('#heatMap'), viewModel.currentLocation().Longitude(), viewModel.currentLocation().Latitude());
             viewModel.loadHeatMapPoints();
         }
     };
@@ -42,7 +42,7 @@
                 heatmap = new HeatmapOverlay(map, { "radius": 20, "visible": true, "opacity": 60 });
             });
 
-            LocationSearchAutoComplete($("#locationSearch"), $('#heatMap'), self.currentLocation);
+            bf.LocationSearchAutoComplete($("#locationSearch"), $('#heatMap'), self.currentLocation);
 
         };
 

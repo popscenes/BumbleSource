@@ -12,40 +12,20 @@
             locSearchId: 'locationSearch'
         };
 
-        var options = $.extend(defaults, options);
+        options = $.extend(defaults, options);
 
         self.displayInline = ko.observable(options.displayInline);
         self.mapElementId = ko.observable(options.mapElementId);
         self.locSearchId = ko.observable(options.locSearchId);
 
-        self.description = ko.observable('');
         self.errorMessage = ko.observable(null);
-        self.longitude = ko.observable(-300);
-        self.latitude = ko.observable(-300);
+
+        self.currentLocation = ko.observable(new bf.LocationModel());
+               
         self.locationType = ko.observable('current');
         self.showMain = ko.observable(options.displayInline);
         self.canGetCurrentLocation = ko.observable(true);
         self.updateCallback = null;
-
-        self.currentLocation = ko.computed({
-            read: function () {
-                return { Description: self.description(), Longitude: self.longitude(), Latitude: self.latitude() };
-            },
-            write: function (value) {
-                if (value != undefined) {
-                    self.description(value.Description);
-                    self.longitude(value.Longitude);
-                    self.latitude(value.Latitude);
-
-                    if (self.updateCallback != null) {
-                        self.updateCallback();
-                    }
-                }
-
-
-            },
-            owner: self
-        });
 
         self.toggleShowMain = function () {
             var showMain = !self.showMain();
@@ -55,12 +35,17 @@
 
         self.savedLocations = ko.observableArray(bf.currentBrowserInstance.SavedLocations);
 
+        self.ValidLocation = function() {
+            return self.currentLocation() != null &&  self.currentLocation() != 'undefined' &&
+                self.currentLocation().ValidLocation();
+        };
+        
         self.ShowMap = function () {
             $('#' + self.mapElementId()).gmap().bind('init', function (ev, map) {
 
             });
 
-            LocationSearchAutoComplete($("#" + self.locSearchId()), $('#' + self.mapElementId()), self.currentLocation);
+            bf.LocationSearchAutoComplete($("#" + self.locSearchId()), $('#' + self.mapElementId()), self.currentLocation);
         };
 
         self.searchFromDescription = function (description) {
@@ -91,24 +76,30 @@
             $('#' + self.mapElementId()).gmap('getCurrentPosition', function (position, status) {
 
                 if (status === 'OK') {
+                    
+                    self.currentLocation(
+                        new bf.LocationModel({ Longitude: position.coords.longitude, Latitude: position.coords.latitude })
+                    );
+
                     //self.locationType('current');
                     var latlng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
                     $('#' + self.mapElementId()).gmap('search', { 'location': latlng },
                         function (results, status) {
                             if (status === 'OK') {
-                                if (results.length >= 3) {
-                                    self.description(results[2].formatted_address);
-                                }
-                                else {
-                                    self.description(results[0].formatted_address);
-                                }
+                                //var loc = new bf.LocationModel({ Longitude: position.coords.longitude, Latitude: position.coords.latitude })
+                                self.currentLocation().SetFromGeo(results[0]);
+                                //self.currentLocation(loc);
+//                                if (results.length >= 3) {
+//                                    self.description(results[2].formatted_address);
+//                                }
+//                                else {
+//                                    self.description(results[0].formatted_address);
+//                                }
                             }
                         });
 
-                    self.currentLocation({ Description: self.description(), Longitude: position.coords.longitude, Latitude: position.coords.latitude });
-                    SetMapPosition($('#' + self.mapElementId()), position.coords.longitude, position.coords.latitude);
+                    bf.SetMapPosition($('#' + self.mapElementId()), position.coords.longitude, position.coords.latitude);
                     $('#' + self.mapElementId()).gmap('refresh');
-
 
                 }
                 else if (status == 'NOT_SUPPORTED') {
@@ -122,14 +113,15 @@
             return true;
         };
 
-        self.ValidLocation = function () {
-            return !(self.longitude() < -180
-                || self.longitude() > 180
-                || self.latitude() < -90
-                || self.latitude() > 90);
-        };
 
         self.Init = function () {
+            
+            self.currentLocation.subscribe(function (newValue) {
+                if (self.updateCallback != null) {
+                    self.updateCallback();
+                }
+            });
+
             if (bf.pageState !== undefined && bf.pageState.Location !== undefined) {
                 self.longitude(bf.pageState.Location.Longitude);
                 self.latitude(bf.pageState.Location.Latitude);

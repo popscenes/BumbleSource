@@ -8,7 +8,14 @@
         self.apiUrl = sprintf("/api/Browser/%s/MyFliers", bf.currentBrowserInstance.BrowserId);
         self.Steps = ['Flyer', 'Location', 'Info', 'Tags', 'Images'];
 
-        ko.mapping.fromJS(data, {}, this);
+        var mapping = {
+            'Location': {
+                create: function(options) {
+                    return new bf.LocationModel(options.data);
+                }
+            }
+        };
+        ko.mapping.fromJS(data, mapping, this);
 
         self.locationSelector = locationSelector;
         self.imageSelector = imageSelector;

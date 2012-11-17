@@ -9,6 +9,7 @@ namespace PostaFlya.Domain.Boards
         public BoardFlierStatus Status { get; set; }
         public string FlierId { get; set; }
         public DateTime DateAdded { get; set; }
+        public int BoardRank { get; set; }
         public string AggregateId { get; set; }
     }
 }

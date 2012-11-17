@@ -23,7 +23,7 @@
 
 
         self.CreateFlierLaunch = function () {
-            var emptyFlier = new bf.CreateEditFlier({ Id: '', Title: '', Description: '', TagsString: '', EffectiveDate: '', FlierImageId: '', FlierImageUrl: '', ImageList: [] },
+            var emptyFlier = new bf.CreateEditFlier({ Id: '', Title: '', Description: '', TagsString: '', EffectiveDate: '', FlierImageId: '', FlierImageUrl: '', ImageList: [], Location: {} },
                 self.LocationSelector, self.ImageSelector, self.TagsSelector, self.FlierFormClose);
 
             self.CreateFlier(emptyFlier);
@@ -38,7 +38,7 @@
 
             self.ImageSelector.Init();
             self.ImageSelector.selectedImageId(editFlier.FlierImageId());
-            self.LocationSelector.currentLocation(ko.mapping.toJS(editFlier.Location));
+            self.LocationSelector.currentLocation(editFlier.Location);
             self.TagsSelector.LoadTags();
 
             if (!self.LocationSelector.ValidLocation() && editFlier.Location.Description() != "") {

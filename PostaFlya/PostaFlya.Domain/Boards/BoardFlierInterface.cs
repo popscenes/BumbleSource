@@ -15,6 +15,7 @@ namespace PostaFlya.Domain.Boards
             AggregateInterfaceExtensions.CopyFieldsFrom(target, source);
             target.Status = source.Status;
             target.FlierId = source.FlierId;
+            target.BoardRank = source.BoardRank;
         }
     }
 
@@ -23,5 +24,6 @@ namespace PostaFlya.Domain.Boards
         BoardFlierStatus Status { get; set; }
         string FlierId { get; set; }
         DateTime DateAdded { get; set; }
+        int BoardRank { get; set; }
     }
 }
