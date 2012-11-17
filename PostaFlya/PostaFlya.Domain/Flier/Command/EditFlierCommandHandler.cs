@@ -39,6 +39,8 @@ namespace PostaFlya.Domain.Flier.Command
 
             List<BoardFlierModifiedEvent> boardFliers = null;
             UnitOfWorkInterface unitOfWork;
+            var features = (FlierFeaturesCommand.GetPaymentFeatures(command.FlierFeaturesCommand, command.BrowserId));
+
             using (unitOfWork = _unitOfWorkFactory.GetUnitOfWork(new[] { _repository }))
             {
                 //
@@ -54,6 +56,7 @@ namespace PostaFlya.Domain.Flier.Command
                             flier.Image = command.Image;
                             flier.EffectiveDate = command.EffectiveDate;
                             flier.ImageList = command.ImageList;
+                            flier.Features = new HashSet<EntityFeatureInterface>(features);
                         });
                 
                 //add all existing board to the operation, as if a flier is modified it needs to be re-approved

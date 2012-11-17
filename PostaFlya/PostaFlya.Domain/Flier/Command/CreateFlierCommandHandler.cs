@@ -63,7 +63,7 @@ namespace PostaFlya.Domain.Flier.Command
 
 
             newFlier.FriendlyId = _flierQueryService.FindFreeFriendlyId(newFlier);
-            newFlier.Features = (GetPaymentFeatures(command));
+            newFlier.Features = (FlierFeaturesCommand.GetPaymentFeatures(command.FlierFeaturesCommand, command.BrowserId));
 
             List<BoardFlierModifiedEvent> boardFliers = null;
             UnitOfWorkInterface unitOfWork;
@@ -91,21 +91,6 @@ namespace PostaFlya.Domain.Flier.Command
                 .AddCommandId(command);
         }
 
-        private HashSet<EntityFeatureInterface>  GetPaymentFeatures(CreateFlierCommand command)
-        {
-            var featureList = new HashSet<EntityFeatureInterface>();
-            if (command.AttachTearOffs)
-            {
-                featureList.Add(new SimpleEntityFeature() { FeatureType = FeatureType.TearOff, Cost = 2.00, BrowserId = command.BrowserId });
-            }
-
-            if (command.AllowUserContact)
-            {
-                featureList.Add(new SimpleEntityFeature() { FeatureType = FeatureType.UserContact, Cost = 5.00, BrowserId = command.BrowserId });
-            }
-
-            return featureList;
-
-        }
+        
     }
 }

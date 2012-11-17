@@ -39,12 +39,12 @@ namespace PostaFlya.Specification.Fliers
             flierController.Create(type);
         }
 
-        [Given(@"I choose to attach my default contact details")]
-        public void AndIChooseToAttachMyDefaultContactDetails()
-        {
-            var createModel = ScenarioContext.Current["createflya"] as FlierCreateModel;
-            createModel.AttachContactDetails = true;
-        }
+       // [Given(@"I choose to attach my default contact details")]
+        //public void AndIChooseToAttachMyDefaultContactDetails()
+        //{
+         //   var createModel = ScenarioContext.Current["createflya"] as FlierCreateModel;
+         //   createModel.AttachContactDetails = true;
+        //}
 
         [Then(@"contact details will be retrievable for the FLIER")]
         public void ThenContactDetailsWillBeRetrievableForTheFlier()
@@ -110,21 +110,21 @@ namespace PostaFlya.Specification.Fliers
             GivenIHaveCreatedAflierofBehaviour(FlierBehaviour.Default.ToString());
         }
 
-        [Given(@"There is a FLIER with Contact Details")]
-        [Given(@"I have created a FLIER with Contact Details")]
-        public void GivenIHaveCreatedAflierWithContactDetails()
-        {
-            GivenIHaveCreatedAflierofBehaviourWithContactDetails(FlierBehaviour.Default.ToString());
-        }
+        //[Given(@"There is a FLIER with Contact Details")]
+        //[Given(@"I have created a FLIER with Contact Details")]
+        //public void GivenIHaveCreatedAflierWithContactDetails()
+        //{
+         //   GivenIHaveCreatedAflierofBehaviourWithContactDetails(FlierBehaviour.Default.ToString());
+        //}
 
-        [Given(@"I have created a FLIER of BEHAVIOUR (.*) with Contact Details")]
-        public void GivenIHaveCreatedAflierofBehaviourWithContactDetails(string flierbehaviour)
-        {
-            GivenABrowserHasNavigatedToTheCreateFlierPage(flierbehaviour);
-            AndIChooseToAttachMyDefaultContactDetails();
-            WhenISubmitTheRequiredDataForAFlier();
-            ThenTheNewFlierWillBeCreated(flierbehaviour);
-        }
+        //[Given(@"I have created a FLIER of BEHAVIOUR (.*) with Contact Details")]
+        //public void GivenIHaveCreatedAflierofBehaviourWithContactDetails(string flierbehaviour)
+        //{
+         //   GivenABrowserHasNavigatedToTheCreateFlierPage(flierbehaviour);
+         //   AndIChooseToAttachMyDefaultContactDetails();
+         //   WhenISubmitTheRequiredDataForAFlier();
+         //   ThenTheNewFlierWillBeCreated(flierbehaviour);
+       // }
 
         [Given(@"I have created a FLIER of BEHAVIOUR (.*)")]
         public void GivenIHaveCreatedAflierofBehaviour(string flierbehaviour)
@@ -164,36 +164,6 @@ namespace PostaFlya.Specification.Fliers
             var browserInformation = SpecUtil.GetCurrBrowser();
             myFliersApiController.Put(browserInformation.Browser.Id, flierEditModel);
         }
-
-        [When(@"I navigate to the edit page for that FLIER and add default contact details for a FLIER")]
-        public void WhenINavigateToTheEditPageForThatFLIERAndAddDefaultContactDetailsForAFLIER()
-        {
-            var flierEditModel = FlierCreateModelFromFlier();
-
-            flierEditModel.AttachContactDetails = true;
-            flierEditModel.Description += "UPDATED";
-            flierEditModel.Title += "UPDATED";
-
-            var myFliersApiController = SpecUtil.GetController<MyFliersController>();
-            var browserInformation = SpecUtil.GetCurrBrowser();
-            myFliersApiController.Put(browserInformation.Browser.Id, flierEditModel);
-        }
-
-        [When(@"I navigate to the edit page for that FLIER and remove default contact details for a FLIER")]
-        public void WhenINavigateToTheEditPageForThatFLIERAndRemoveDefaultContactDetailsForAFLIER()
-        {
-            var flierEditModel = FlierCreateModelFromFlier();
-
-            flierEditModel.AttachContactDetails = false;
-            flierEditModel.Description += "UPDATED";
-            flierEditModel.Title += "UPDATED";
-
-            var myFliersApiController = SpecUtil.GetController<MyFliersController>();
-            var browserInformation = SpecUtil.GetCurrBrowser();
-            myFliersApiController.Put(browserInformation.Browser.Id, flierEditModel);
-        }
-
-
 
         [Then(@"the FLIER will be updated to reflect those changes")]
         public void ThenTheFlierWillBeUpdatedToReflectThoseChanges()
@@ -303,7 +273,7 @@ namespace PostaFlya.Specification.Fliers
             flierEditModel.TagsString = flier.Tags.ToString();
             flierEditModel.Location = flier.Location.ToViewModel();
             flierEditModel.FlierImageId = flier.Image.Value.ToString();
-            flierEditModel.AttachContactDetails = flier.UseBrowserContactDetails;
+            //flierEditModel.AttachContactDetails = flier.UseBrowserContactDetails;
             return flierEditModel;
             
         }
@@ -453,14 +423,6 @@ namespace PostaFlya.Specification.Fliers
             }
         }
 
-
-        [When(@"I choose to remove my default contact details")]
-        public void WhenIChooseToRemoveMyDefaultContactDetails()
-        {
-            var createModel = ScenarioContext.Current["createflya"] as FlierCreateModel;
-            createModel.AttachContactDetails = false;
-        }
-
         [Given(@"I choose to attach Tear Offs")]
         public void GivenIChooseToAttachTearOffs()
         {
@@ -483,21 +445,7 @@ namespace PostaFlya.Specification.Fliers
 
         }
 
-        [Then(@"the FLIER will contain a FEATURE for Tear Off in a disabled state")]
-        public void ThenTheFLIERWillContainAFEATUREForTearOffInADisabledState()
-        {
-            var flierid = ScenarioContext.Current["createdflyaid"] as string;
 
-            var flierQueryService = SpecUtil.CurrIocKernel.Get<FlierQueryServiceInterface>();
-            var flier = flierQueryService.FindById<Flier>(flierid);
-
-            Assert.AreEqual(flier.Features.Count, 1);
-            var flierFeatures = flier.Features.First();
-
-            Assert.AreEqual(flierFeatures.FeatureType, FeatureType.TearOff);
-            Assert.AreEqual(flierFeatures.IsEnabled(SpecUtil.CurrIocKernel.Get<BrowserQueryServiceInterface>()), false);
-            Assert.AreEqual(flierFeatures.Cost, 2.00);
-        }
 
         [Given(@"I have sufficient Account Credit")]
         public void GivenIHaveSufficientAccountCredit()
@@ -511,9 +459,13 @@ namespace PostaFlya.Specification.Fliers
                         });
         }
 
-        [Then(@"the FLIER will contain a FEATURE for Tear Off in a enabled state")]
-        public void ThenTheFLIERWillContainAFEATUREForTearOffInAEnabledState()
+        [Then(@"the FLIER will contain a FEATURE for (.*) in a (.*) state with a cost of (.*)")]
+        public void ThenTheFLIERWillContainAFEATUREForTearOffInAEnabledState(string featureType, string enabled, string cost)
         {
+            var featureEnum = (FeatureType)Enum.Parse(typeof(FeatureType), featureType); 
+            var isEnabled = (enabled == "enabled");
+            var creditCost = Double.Parse(cost);
+            
             var flierid = ScenarioContext.Current["createdflyaid"] as string;
 
             var flierQueryService = SpecUtil.CurrIocKernel.Get<FlierQueryServiceInterface>();
@@ -522,9 +474,9 @@ namespace PostaFlya.Specification.Fliers
             Assert.AreEqual(flier.Features.Count, 1);
             var flierFeatures = flier.Features.First();
 
-            Assert.AreEqual(flierFeatures.FeatureType, FeatureType.TearOff);
-            Assert.AreEqual(flierFeatures.IsEnabled(SpecUtil.CurrIocKernel.Get<BrowserQueryServiceInterface>()), true);
-            Assert.AreEqual(flierFeatures.Cost, 2.00);
+            Assert.AreEqual(flierFeatures.FeatureType, featureEnum);
+            Assert.AreEqual(flierFeatures.IsEnabled(SpecUtil.CurrIocKernel.Get<BrowserQueryServiceInterface>()), isEnabled);
+            Assert.AreEqual(flierFeatures.Cost, creditCost);
         }
 
         [Given(@"I choose to allow User Contact")]
@@ -534,39 +486,77 @@ namespace PostaFlya.Specification.Fliers
             createFlierModel.AllowUserContact = true;
         }
 
-        [Then(@"the FLIER will contain a FEATURE for User Contact in a disabled state")]
-        public void ThenTheFLIERWillContainAFEATUREForUserContactInADisabledState()
+        [When(@"I navigate to the edit page for that FLIER and add TEAR OFF to a FLIER")]
+        public void WhenINavigateToTheEditPageForThatFLIERAndAddTEAROFFToAFLIER()
         {
+            EditFlierWithFeatures(true, false);
+        }
+
+        [Given(@"I have created a FLIER with TEAR OFF")]
+        public void GivenIHaveCreatedAFLIERWithTEAROFF()
+        {
+            GivenABrowserHasNavigatedToTheCreateFlierPage("Default");
+            GivenIChooseToAttachTearOffs();
+            WhenISubmitTheRequiredDataForAFlier();
+            ThenTheNewFlierWillBeCreated("Default");
+        }
+
+        private void EditFlierWithFeatures(bool AttachTearOffs, bool AllowUserContact)
+        {
+            var flierEditModel = FlierCreateModelFromFlier();
+
+            flierEditModel.AttachTearOffs = AttachTearOffs;
+            flierEditModel.AllowUserContact = AllowUserContact;
+            flierEditModel.Description += "UPDATED";
+            flierEditModel.Title += "UPDATED";
+
+            var myFliersApiController = SpecUtil.GetController<MyFliersController>();
+            var browserInformation = SpecUtil.GetCurrBrowser();
+            myFliersApiController.Put(browserInformation.Browser.Id, flierEditModel);
+        }
+
+        [When(@"I navigate to the edit page for that FLIER and remove TEAR OFF to a FLIER")]
+        public void WhenINavigateToTheEditPageForThatFLIERAndRemoveTEAROFFToAFLIER()
+        {
+            EditFlierWithFeatures(false, false);
+        }
+
+        [Then(@"the FLIER will not contain a FEATURE for (.*)")]
+        public void ThenTheFLIERWillNotContainAFEATUREForTearOff(string featureType)
+        {
+            var featureEnum = (FeatureType)Enum.Parse(typeof(FeatureType), featureType); 
+ 
+
             var flierid = ScenarioContext.Current["createdflyaid"] as string;
 
             var flierQueryService = SpecUtil.CurrIocKernel.Get<FlierQueryServiceInterface>();
             var flier = flierQueryService.FindById<Flier>(flierid);
 
-            Assert.AreEqual(flier.Features.Count, 1);
-            var flierFeatures = flier.Features.First();
+            var feature = flier.Features.FirstOrDefault(_ => _.FeatureType == featureEnum);
 
-            Assert.AreEqual(flierFeatures.FeatureType, FeatureType.UserContact);
-            Assert.AreEqual(flierFeatures.IsEnabled(SpecUtil.CurrIocKernel.Get<BrowserQueryServiceInterface>()), false);
-            Assert.AreEqual(flierFeatures.Cost, 5.00);
+            Assert.IsNull(feature);
         }
 
-        [Then(@"the FLIER will contain a FEATURE for User Contact in a enabled state")]
-        public void ThenTheFLIERWillContainAFEATUREForUserContactInAEnabledState()
+        [When(@"I navigate to the edit page for that FLIER and add USER CONTACT to a FLIER")]
+        public void WhenINavigateToTheEditPageForThatFLIERAndAddUSERCONTACTToAFLIER()
         {
-            var flierid = ScenarioContext.Current["createdflyaid"] as string;
-
-            var flierQueryService = SpecUtil.CurrIocKernel.Get<FlierQueryServiceInterface>();
-            var flier = flierQueryService.FindById<Flier>(flierid);
-
-            Assert.AreEqual(flier.Features.Count, 1);
-            var flierFeatures = flier.Features.First();
-
-            Assert.AreEqual(flierFeatures.FeatureType, FeatureType.UserContact);
-            Assert.AreEqual(flierFeatures.IsEnabled(SpecUtil.CurrIocKernel.Get<BrowserQueryServiceInterface>()), true);
-            Assert.AreEqual(flierFeatures.Cost, 5.00);
+            EditFlierWithFeatures(false, true);
         }
 
+        [Given(@"I have created a FLIER with USER CONTACT")]
+        public void GivenIHaveCreatedAFLIERWithUSERCONTACT()
+        {
+            GivenABrowserHasNavigatedToTheCreateFlierPage("Default");
+            GivenIChooseToAllowUserContact();
+            WhenISubmitTheRequiredDataForAFlier();
+            ThenTheNewFlierWillBeCreated("Default");
+        }
 
+        [When(@"I navigate to the edit page for that FLIER and remove USER CONTACT to a FLIER")]
+        public void WhenINavigateToTheEditPageForThatFLIERAndRemoveUSERCONTACTToAFLIER()
+        {
+            EditFlierWithFeatures(false, false);
+        }
 
     }
 

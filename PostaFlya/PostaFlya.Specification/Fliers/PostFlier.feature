@@ -21,7 +21,7 @@ And I dont have sufficient Account Credit
 When I SUBMIT the data for that FLIER 
 Then the new FLIER will be created for behviour Default
 And the FLIER STATUS will be Active
-And the FLIER will contain a FEATURE for Tear Off in a disabled state
+And the FLIER will contain a FEATURE for TearOff in a disabled state with a cost of 2.00
 
 Scenario: Create Flier With Tear Off With sufficient Credit
 Given i have navigated to the CREATE PAGE for a FLIER TYPE Default
@@ -30,7 +30,7 @@ And I have sufficient Account Credit
 When I SUBMIT the data for that FLIER 
 Then the new FLIER will be created for behviour Default
 And the FLIER STATUS will be Active
-And the FLIER will contain a FEATURE for Tear Off in a enabled state
+And the FLIER will contain a FEATURE for TearOff in a enabled state with a cost of 2.00
 
 Scenario: Create Flier With User Contact With Insufficient Credit
 Given i have navigated to the CREATE PAGE for a FLIER TYPE Default
@@ -39,7 +39,7 @@ And I dont have sufficient Account Credit
 When I SUBMIT the data for that FLIER 
 Then the new FLIER will be created for behviour Default
 And the FLIER STATUS will be Active
-And the FLIER will contain a FEATURE for User Contact in a disabled state
+And the FLIER will contain a FEATURE for UserContact in a disabled state with a cost of 5.00
 
 Scenario: Create Flier With User Contact With sufficient Credit
 Given i have navigated to the CREATE PAGE for a FLIER TYPE Default
@@ -48,4 +48,4 @@ And I have sufficient Account Credit
 When I SUBMIT the data for that FLIER 
 Then the new FLIER will be created for behviour Default
 And the FLIER STATUS will be Active
-And the FLIER will contain a FEATURE for User Contact in a enabled state
+And the FLIER will contain a FEATURE for UserContact in a enabled state with a cost of 5.00

@@ -8,17 +8,32 @@ Given I have created a FLIER
 When I navigate to the edit page for that FLIER and update any of the required data for a FLIER 
 Then the FLIER will be updated to reflect those changes
 
-Scenario: Edit Flier Add Contact Details Payment Option
+Scenario: Edit Flier Add TEAR OFF
 Given I have created a FLIER 
-When I navigate to the edit page for that FLIER and add default contact details for a FLIER 
+And I have sufficient Account Credit
+When I navigate to the edit page for that FLIER and add TEAR OFF to a FLIER 
 Then the FLIER will be updated to reflect those changes
-And contact details will be retrievable for the FLIER
-And the FLIER will contain a PAYMENT OPTION for Added Contact Details
-And the FLIER STATUS will be PaymentPending
-
-Scenario: Edit Flier Remove Contact Details Payment Option
-Given I have created a FLIER with Contact Details
-When I navigate to the edit page for that FLIER and remove default contact details for a FLIER 
-Then the FLIER will be updated to reflect those changes
-And the FLIER will not contain a PAYMENT OPTION for Added Contact Details 
 And the FLIER STATUS will be ACTIVE
+And the FLIER will contain a FEATURE for TearOff in a enabled state with a cost of 2.00
+
+Scenario: Edit Flier RemoveTearOff
+Given I have created a FLIER with TEAR OFF
+When I navigate to the edit page for that FLIER and remove TEAR OFF to a FLIER 
+Then the FLIER will be updated to reflect those changes
+And the FLIER STATUS will be ACTIVE
+And the FLIER will not contain a FEATURE for TearOff
+
+Scenario: Edit Flier Add USER CONTACT
+Given I have created a FLIER 
+And I have sufficient Account Credit
+When I navigate to the edit page for that FLIER and add USER CONTACT to a FLIER 
+Then the FLIER will be updated to reflect those changes
+And the FLIER STATUS will be ACTIVE
+And the FLIER will contain a FEATURE for UserContact in a enabled state with a cost of 5.00
+
+Scenario: Edit Flier Remove USER CONTACT
+Given I have created a FLIER with USER CONTACT
+When I navigate to the edit page for that FLIER and remove USER CONTACT to a FLIER 
+Then the FLIER will be updated to reflect those changes
+And the FLIER STATUS will be ACTIVE
+And the FLIER will not contain a FEATURE for UserContact

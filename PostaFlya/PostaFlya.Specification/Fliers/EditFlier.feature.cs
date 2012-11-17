@@ -76,33 +76,62 @@ namespace PostaFlya.Specification.Fliers
         }
         
         [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("Edit Flier Add Contact Details Payment Option")]
-        public virtual void EditFlierAddContactDetailsPaymentOption()
+        [NUnit.Framework.DescriptionAttribute("Edit Flier Add TEAR OFF")]
+        public virtual void EditFlierAddTEAROFF()
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Edit Flier Add Contact Details Payment Option", ((string[])(null)));
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Edit Flier Add TEAR OFF", ((string[])(null)));
             this.ScenarioSetup(scenarioInfo);
             testRunner.Given("I have created a FLIER", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-            testRunner.When("I navigate to the edit page for that FLIER and add default contact details for a " +
-                    "FLIER", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+            testRunner.And("I have sufficient Account Credit", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+            testRunner.When("I navigate to the edit page for that FLIER and add TEAR OFF to a FLIER", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
             testRunner.Then("the FLIER will be updated to reflect those changes", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-            testRunner.And("contact details will be retrievable for the FLIER", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-            testRunner.And("the FLIER will contain a PAYMENT OPTION for Added Contact Details", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-            testRunner.And("the FLIER STATUS will be PaymentPending", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+            testRunner.And("the FLIER STATUS will be ACTIVE", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+            testRunner.And("the FLIER will contain a FEATURE for TearOff in a enabled state with a cost of 2." +
+                    "00", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
             this.ScenarioCleanup();
         }
         
         [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("Edit Flier Remove Contact Details Payment Option")]
-        public virtual void EditFlierRemoveContactDetailsPaymentOption()
+        [NUnit.Framework.DescriptionAttribute("Edit Flier RemoveTearOff")]
+        public virtual void EditFlierRemoveTearOff()
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Edit Flier Remove Contact Details Payment Option", ((string[])(null)));
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Edit Flier RemoveTearOff", ((string[])(null)));
             this.ScenarioSetup(scenarioInfo);
-            testRunner.Given("I have created a FLIER with Contact Details", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-            testRunner.When("I navigate to the edit page for that FLIER and remove default contact details for" +
-                    " a FLIER", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+            testRunner.Given("I have created a FLIER with TEAR OFF", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+            testRunner.When("I navigate to the edit page for that FLIER and remove TEAR OFF to a FLIER", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
             testRunner.Then("the FLIER will be updated to reflect those changes", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-            testRunner.And("the FLIER will not contain a PAYMENT OPTION for Added Contact Details", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
             testRunner.And("the FLIER STATUS will be ACTIVE", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+            testRunner.And("the FLIER will not contain a FEATURE for TearOff", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+            this.ScenarioCleanup();
+        }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Edit Flier Add USER CONTACT")]
+        public virtual void EditFlierAddUSERCONTACT()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Edit Flier Add USER CONTACT", ((string[])(null)));
+            this.ScenarioSetup(scenarioInfo);
+            testRunner.Given("I have created a FLIER", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+            testRunner.And("I have sufficient Account Credit", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+            testRunner.When("I navigate to the edit page for that FLIER and add USER CONTACT to a FLIER", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+            testRunner.Then("the FLIER will be updated to reflect those changes", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+            testRunner.And("the FLIER STATUS will be ACTIVE", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+            testRunner.And("the FLIER will contain a FEATURE for UserContact in a enabled state with a cost o" +
+                    "f 5.00", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+            this.ScenarioCleanup();
+        }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Edit Flier Remove USER CONTACT")]
+        public virtual void EditFlierRemoveUSERCONTACT()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Edit Flier Remove USER CONTACT", ((string[])(null)));
+            this.ScenarioSetup(scenarioInfo);
+            testRunner.Given("I have created a FLIER with USER CONTACT", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+            testRunner.When("I navigate to the edit page for that FLIER and remove USER CONTACT to a FLIER", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+            testRunner.Then("the FLIER will be updated to reflect those changes", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+            testRunner.And("the FLIER STATUS will be ACTIVE", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+            testRunner.And("the FLIER will not contain a FEATURE for UserContact", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
             this.ScenarioCleanup();
         }
     }
