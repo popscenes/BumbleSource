@@ -39,28 +39,12 @@ namespace PostaFlya.Domain.Flier.Command
 
             List<BoardFlierModifiedEvent> boardFliers = null;
             UnitOfWorkInterface unitOfWork;
+            var features = (FlierFeaturesCommand.GetPaymentFeatures(command.FlierFeaturesCommand, command.BrowserId));
+
             using (unitOfWork = _unitOfWorkFactory.GetUnitOfWork(new[] { _repository }))
             {
                 //
-                var attachContactDetails = command.UseBrowserContactDetails && command.AttachContactDetails;
 
-                if(!flierQuery.PaymentOptions.Any(_ => _.Type ==PaymentOptionType.ContactDetails && _.Status == PaymentOptionStatus.PaymentAccepted) )
-                {
-                    if (attachContactDetails)
-                    {
-                        flierQuery.PaymentOptions.Add(new PaymentOption{Type = PaymentOptionType.ContactDetails, Status = PaymentOptionStatus.PaymentPending});
-                    }
-                    else
-                    {
-                        flierQuery.PaymentOptions.RemoveWhere(_ => _.Type == PaymentOptionType.ContactDetails);
-                    }
-                }
-
-                var flierStatus = FlierStatus.Active;
-                if (flierQuery.PaymentOptions.Any(_ => _.Status == PaymentOptionStatus.PaymentPending))
-                {
-                    flierStatus = FlierStatus.PaymentPending;
-                }
                 _repository.UpdateEntity<Flier>(command.Id, 
                     flier =>
                         {
@@ -72,9 +56,7 @@ namespace PostaFlya.Domain.Flier.Command
                             flier.Image = command.Image;
                             flier.EffectiveDate = command.EffectiveDate;
                             flier.ImageList = command.ImageList;
-                            flier.PaymentOptions = flierQuery.PaymentOptions;
-                            flier.UseBrowserContactDetails = attachContactDetails;
-                            flier.Status = flierStatus;
+                            flier.Features = new HashSet<EntityFeatureInterface>(features);
                         });
                 
                 //add all existing board to the operation, as if a flier is modified it needs to be re-approved

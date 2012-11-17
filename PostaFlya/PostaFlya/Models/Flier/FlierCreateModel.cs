@@ -34,7 +34,6 @@ namespace PostaFlya.Models.Flier
                            ImageList = flier.ImageList.Select(_ => new ImageViewModel(){ImageId = _.ImageID}).ToList(),
                            ExternalSource = flier.ExternalSource,
                            ExternalId = flier.ExternalId,
-                           AttachContactDetails = flier.HasContactDetails(),
                            BoardList =  flier.Boards != null ? flier.Boards.ToList() : new List<string>(),
                        };
         }
@@ -109,9 +108,9 @@ namespace PostaFlya.Models.Flier
         [DataMember]
         public String FlierImageUrl { get; set; }
 
-        [Display(Name = "AttachContactDetails", ResourceType = typeof(Properties.Resources))] 
-        [DataMember]
-        public bool AttachContactDetails { get; set; }
+        //[Display(Name = "AttachContactDetails", ResourceType = typeof(Properties.Resources))] 
+        //[DataMember]
+        //public bool AttachContactDetails { get; set; }
 
         [DataMember]
         public String ExternalSource { get; set; }
@@ -125,6 +124,9 @@ namespace PostaFlya.Models.Flier
 
         [DataMember]
         public Boolean AttachTearOffs { get; set; }
+
+        [DataMember]
+        public bool AllowUserContact { get; set; }
 
         public static FlierCreateModel DefaultForTemplate()
         {

@@ -6,9 +6,13 @@ using PostaFlya.Domain.Boards.Event;
 using PostaFlya.Domain.Flier.Event;
 using PostaFlya.Domain.Flier.Query;
 using PostaFlya.Domain.Service;
+using Website.Domain.Browser;
+using Website.Domain.Browser.Command;
+using Website.Domain.Browser.Query;
 using Website.Domain.Service;
 using Website.Infrastructure.Command;
 using Website.Infrastructure.Domain;
+using System.Linq;
 
 namespace PostaFlya.Domain.Flier.Command
 {
@@ -19,17 +23,20 @@ namespace PostaFlya.Domain.Flier.Command
         private readonly FlierQueryServiceInterface _flierQueryService;
         private readonly DomainEventPublishServiceInterface _domainEventPublishService;
         private readonly CommandBusInterface _commandBus;
+        private readonly BrowserQueryServiceInterface _browserQueryService;
 
         public CreateFlierCommandHandler(FlierRepositoryInterface flierRepository
             , UnitOfWorkFactoryInterface unitOfWorkFactory, FlierQueryServiceInterface flierQueryService
             , DomainEventPublishServiceInterface domainEventPublishService
-            , CommandBusInterface commandBus)
+            , CommandBusInterface commandBus
+            , BrowserQueryServiceInterface browserQueryService)
         {
             _flierRepository = flierRepository;
             _unitOfWorkFactory = unitOfWorkFactory;
             _flierQueryService = flierQueryService;
             _domainEventPublishService = domainEventPublishService;
             _commandBus = commandBus;
+            _browserQueryService = browserQueryService;
         }
 
         public object Handle(CreateFlierCommand command)
@@ -45,25 +52,18 @@ namespace PostaFlya.Domain.Flier.Command
                                    FlierBehaviour = command.FlierBehaviour,
                                    EffectiveDate = command.EffectiveDate == default(System.DateTime) ? DateTime.UtcNow : command.EffectiveDate,
                                    ImageList = command.ImageList,
-                                   UseBrowserContactDetails = command.AttachContactDetails && command.UseBrowserContactDetails,
                                    ExternalSource = command.ExternalSource,
-                                   ExternalId = command.ExternalId
+                                   ExternalId = command.ExternalId,
+                                   
+                                   
                                };
 
             if(newFlier.FlierBehaviour == FlierBehaviour.Default)
                 newFlier.Status = FlierStatus.Active;
 
-            if (newFlier.UseBrowserContactDetails)
-            {
-                newFlier.PaymentOptions.Add(new PaymentOption { Type = PaymentOptionType.ContactDetails, Status = PaymentOptionStatus.PaymentPending });
-            }
-
-            if (newFlier.PaymentOptions.Count > 0)
-            {
-                newFlier.Status = FlierStatus.PaymentPending;
-            }
 
             newFlier.FriendlyId = _flierQueryService.FindFreeFriendlyId(newFlier);
+            newFlier.Features = (FlierFeaturesCommand.GetPaymentFeatures(command.FlierFeaturesCommand, command.BrowserId));
 
             List<BoardFlierModifiedEvent> boardFliers = null;
             UnitOfWorkInterface unitOfWork;
@@ -80,6 +80,7 @@ namespace PostaFlya.Domain.Flier.Command
             
 
             _domainEventPublishService.Publish(new FlierModifiedEvent() { NewState = newFlier });
+
             foreach (var boardFlierModifiedEvent in boardFliers)
             {
                 _domainEventPublishService.Publish(boardFlierModifiedEvent);
@@ -89,5 +90,7 @@ namespace PostaFlya.Domain.Flier.Command
                 .AddEntityId(newFlier.Id)
                 .AddCommandId(command);
         }
+
+        
     }
 }

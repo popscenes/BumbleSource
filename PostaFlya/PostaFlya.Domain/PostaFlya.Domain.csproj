@@ -85,6 +85,7 @@
     <Compile Include="Boards\Event\BoardFlierModifiedEvent.cs" />
     <Compile Include="Boards\Event\BoardModifiedEvent.cs" />
     <Compile Include="Boards\Query\BoardQueryServiceUtil.cs" />
+    <Compile Include="Flier\Command\FlierFeaturesCommand.cs" />
     <Compile Include="Flier\Event\FlierModifiedEvent.cs" />
     <Compile Include="Flier\FlierImage.cs" />
     <Compile Include="Flier\PaymentOption.cs" />

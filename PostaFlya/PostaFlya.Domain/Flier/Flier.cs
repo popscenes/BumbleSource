@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using PostaFlya.Domain.Behaviour;
+using Website.Domain.Browser;
+using Website.Domain.Browser.Query;
 using Website.Domain.Contact;
 using Website.Infrastructure.Domain;
 using Website.Domain.Location;
@@ -22,8 +24,8 @@ namespace PostaFlya.Domain.Flier
             ExtendedProperties = new Dictionary<string, object>();
             ImageList = new List<FlierImage>();
             CreateDate = DateTime.UtcNow;
-            PaymentOptions = new HashSet<PaymentOption>();
             Boards = new HashSet<string>();
+            Features = new HashSet<EntityFeatureInterface>();
         }
 
         public Flier(Location location)
@@ -63,31 +65,37 @@ namespace PostaFlya.Domain.Flier
         public int NumberOfComments { get; set; }
         public ContactDetails ContactDetails { get; set; }
         public bool UseBrowserContactDetails { get; set; }
-        public HashSet<string> Boards { get; set; } 
-
-
-        public HashSet<PaymentOption> PaymentOptions { get; set; }
-
-        public HashSet<EntityFeature> Features{ get; set; }
-    }
-
-    public enum FeatureStatus
-    {
-        Disabled,
-        Enabled
+        public HashSet<string> Boards { get; set; }
+        public HashSet<EntityFeatureInterface> Features { get; set; }
     }
 
     public enum FeatureType
     {
-        TearOff
+        TearOff,
+        UserContact
     }
 
-    public class EntityFeature
+    public interface EntityFeatureInterface
     {
+        double Cost { get; set; }
+        String BrowserId { get; set; }
+        FeatureType FeatureType { get; set; }
+        bool IsEnabled(BrowserQueryServiceInterface browserQueryService);
+    }
+
+    public class SimpleEntityFeature : EntityFeatureInterface
+    {
+        public double Cost { get; set; }
+
         public FeatureType FeatureType { get; set; }
 
-        public FeatureStatus Status { get; set; }
+        public bool IsEnabled(BrowserQueryServiceInterface browserQueryService)
+        {
+            var browser = browserQueryService.FindById<Browser>(BrowserId);
+            return (browser.AccountCredit >= Cost);
+        }
 
-        public double Cost { get; set; }
+
+        public string BrowserId { get; set; }
     }
 }

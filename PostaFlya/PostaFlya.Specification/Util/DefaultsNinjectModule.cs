@@ -42,8 +42,7 @@ namespace PostaFlya.Specification.Util
                                     new ImageViewModel() { ImageId = Guid.NewGuid().ToString() }, 
                                     new ImageViewModel() { ImageId = Guid.NewGuid().ToString() }, 
                                     new ImageViewModel() { ImageId = Guid.NewGuid().ToString() } 
-                                },
-                                AttachContactDetails = false
+                                }
                             })
             .InTransientScope()
             .WithMetadata("fliercreate", true);

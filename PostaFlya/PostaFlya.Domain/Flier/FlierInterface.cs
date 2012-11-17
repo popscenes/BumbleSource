@@ -46,7 +46,8 @@ namespace PostaFlya.Domain.Flier
                                             : null;
             target.UseBrowserContactDetails = source.UseBrowserContactDetails;
             target.Boards = source.Boards != null ? new HashSet<string>(source.Boards) : null;
-            target.PaymentOptions = source.PaymentOptions;
+            target.Features = source.Features != null ? new HashSet<EntityFeatureInterface>(source.Features) : null;
+
         }        
 
         public static bool HasContactDetails(this FlierInterface flier)
@@ -89,8 +90,7 @@ namespace PostaFlya.Domain.Flier
         Dictionary<string, object> ExtendedProperties { get;set; }
         ContactDetails ContactDetails { get; set; }
         bool UseBrowserContactDetails { get; set; }
-        HashSet<string> Boards { get; set; } 
-        HashSet<PaymentOption> PaymentOptions { get; set; }
-
+        HashSet<string> Boards { get; set; }
+        HashSet<EntityFeatureInterface> Features { get; set; }
     }
 }
