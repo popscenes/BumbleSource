@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
-using Microsoft.WindowsAzure.StorageClient;
+using Microsoft.WindowsAzure.Storage.Blob;
+using Microsoft.WindowsAzure.Storage.Queue;
 using NUnit.Framework;
 using Ninject;
 using Ninject.MockingKernel.Moq;

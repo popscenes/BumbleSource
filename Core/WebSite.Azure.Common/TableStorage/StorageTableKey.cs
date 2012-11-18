@@ -1,4 +1,4 @@
-using Microsoft.WindowsAzure.StorageClient;
+using Microsoft.WindowsAzure.Storage.Table.DataServices;
 
 namespace Website.Azure.Common.TableStorage
 {

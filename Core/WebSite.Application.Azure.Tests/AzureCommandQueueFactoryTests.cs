@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
-using Microsoft.WindowsAzure.StorageClient;
+using Microsoft.WindowsAzure.Storage.Blob;
+using Microsoft.WindowsAzure.Storage.Queue;
 using NUnit.Framework;
 using Ninject;
 using Website.Application.Azure.Command;

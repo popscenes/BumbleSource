@@ -6,10 +6,10 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
-using System.Text;
-using Microsoft.WindowsAzure.StorageClient;
+using Microsoft.WindowsAzure.Storage;
+using Microsoft.WindowsAzure.Storage.Blob;
+using Microsoft.WindowsAzure.Storage.Shared.Protocol;
 using Website.Application.Content;
-using BlobProperties = Website.Application.Content.BlobProperties;
 
 namespace Website.Application.Azure.Content
 {
@@ -29,7 +29,15 @@ namespace Website.Application.Azure.Content
             if (string.IsNullOrWhiteSpace(id))
                 return null;
 
-            Func<byte[]> getBlob = () => _blobContainer.GetBlobReference(id).DownloadByteArray();
+
+            Func<byte[]> getBlob = () =>
+                {
+                    var ms = new MemoryStream();
+                    _blobContainer.GetBlockBlobReference(id).DownloadToStream(ms);
+                    return ms.ToArray();
+                };
+
+                //.DownloadByteArray();
             return RetryQuery(getBlob);
         }
 
@@ -38,7 +46,9 @@ namespace Website.Application.Azure.Content
             if (string.IsNullOrWhiteSpace(id))
                 return false;
 
-            Func<bool> getBlob = () => { _blobContainer.GetBlobReference(id).DownloadToStream(s);
+            Func<bool> getBlob = () =>
+            {
+                _blobContainer.GetBlockBlobReference(id).DownloadToStream(s);
                                            return true;
             };
             return RetryQuery(getBlob);
@@ -49,7 +59,7 @@ namespace Website.Application.Azure.Content
             if (string.IsNullOrWhiteSpace(id))
                 return null;
 
-            return _blobContainer.GetBlobReference(id).Uri;
+            return _blobContainer.GetBlockBlobReference(id).Uri;
         }
 
         public bool Exists(string id)
@@ -57,11 +67,7 @@ namespace Website.Application.Azure.Content
             if (string.IsNullOrWhiteSpace(id))
                 return false;
 
-            Func<bool> getBlob = () =>
-            {
-                _blobContainer.GetBlobReference(id).FetchAttributes();
-                return true;
-            };
+            Func<bool> getBlob = () => _blobContainer.GetBlockBlobReference(id).Exists();
             return RetryQuery(getBlob);
         }
 
@@ -73,11 +79,11 @@ namespace Website.Application.Azure.Content
             Func<Application.Content.BlobProperties> getProperties = 
                 () =>
                     {
-                        var blob = _blobContainer.GetBlobReference(id);
+                        var blob = _blobContainer.GetBlockBlobReference(id);
                         blob.FetchAttributes();
                         return new Application.Content.BlobProperties()
                                     {
-                                        MetaData = new NameValueCollection(blob.Metadata),
+                                        MetaData = new Dictionary<string, string>(blob.Metadata),
                                         ContentTyp = blob.Properties.ContentType
                                     };
                     };
@@ -90,9 +96,12 @@ namespace Website.Application.Azure.Content
             Func<bool> setBlob = 
                 () =>
                     {
-                        var blob = _blobContainer.GetBlobReference(id);
+                        //var blob = _blobContainer.GetBlobReferenceFromServer(id);
+                        var blob = _blobContainer.GetBlockBlobReference(id);
                         UpdateFromProperties(blob, properties);
-                        blob.UploadByteArray(bytes); return true;
+                        var ms = new MemoryStream(bytes);
+                        blob.UploadFromStream(ms);
+                        return true;
                     };
             return RetryQuery(setBlob);
         }
@@ -102,7 +111,7 @@ namespace Website.Application.Azure.Content
             Func<bool> setBlob =
                 () =>
                     {
-                        var blob = _blobContainer.GetBlobReference(id);
+                        var blob = _blobContainer.GetBlockBlobReference(id);
                         UpdateFromProperties(blob, properties, true);
                         return true;
                     };
@@ -111,7 +120,8 @@ namespace Website.Application.Azure.Content
 
         public bool DeleteBlob(string id)
         {
-            Func<bool> deleteBlob = () => _blobContainer.GetBlobReference(id).DeleteIfExists();
+            Func<bool> deleteBlob = () =>         
+                _blobContainer.GetBlockBlobReference(id).DeleteIfExists();
             return RetryQuery(deleteBlob);
         }
 
@@ -128,7 +138,7 @@ namespace Website.Application.Azure.Content
 
         public bool CreateIfNotExists()
         {
-            Func<bool> create = () => _blobContainer.CreateIfNotExist();
+            Func<bool> create = () => _blobContainer.CreateIfNotExists();
             return RetryQuery(create);
         }
 
@@ -152,7 +162,7 @@ namespace Website.Application.Azure.Content
             return RetryQuery(delete);
         }
 
-        private static void UpdateFromProperties(CloudBlob blob, Application.Content.BlobProperties properties, bool update = false)
+        private static void UpdateFromProperties(ICloudBlob blob, Application.Content.BlobProperties properties, bool update = false)
         {
             if (properties == null) return;
             
@@ -165,7 +175,13 @@ namespace Website.Application.Azure.Content
                     
             if (properties.MetaData != null)
             {
-                blob.Metadata.Add(properties.MetaData);
+                foreach (var metaData in properties.MetaData)
+                {
+                    blob.Metadata.Remove(metaData.Key);
+                    blob.Metadata.Add(metaData.Key, metaData.Value);
+                }
+                
+
                 if (update)
                     blob.SetMetadata();
             }
@@ -187,14 +203,17 @@ namespace Website.Application.Azure.Content
                 {
                     return action();
                 }
-                catch (StorageClientException ex)
+                //catch (StorageClientException ex)
+                catch (StorageException ex)
                 {
-                    if (ex.ExtendedErrorInformation == null || !ex.ExtendedErrorInformation.ErrorCode.Equals(
+                    var reqInfo = ex.RequestInformation;
+                    
+                    if (reqInfo.ExtendedErrorInformation == null || !reqInfo.ExtendedErrorInformation.ErrorCode.Equals(
                         StorageErrorCodeStrings.InternalError.ToString(CultureInfo.InvariantCulture)))
                     {
                         canRetry = false;
 
-                        if(!GracefulFailCodes.Contains(ex.StatusCode))
+                        if (!GracefulFailCodes.Contains((HttpStatusCode) reqInfo.HttpStatusCode))
                             Trace.TraceError("AzureStorageClient Error: {0}, Stack {1}", ex.Message, ex.StackTrace);
                     }
                     else 

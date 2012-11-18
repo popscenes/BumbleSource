@@ -105,7 +105,7 @@ namespace Website.Application.Command
                 }
                 catch (Exception e)
                 {
-                    Trace.TraceError("QueuedCommandScheduler Error: %s, Stack %s", e.Message, e.StackTrace);
+                    Trace.TraceError("QueuedCommandProcessor Error: {0}, Stack {1}", e.Message, e.StackTrace);
                 }
             }
 

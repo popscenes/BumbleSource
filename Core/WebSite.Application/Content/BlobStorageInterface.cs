@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.IO;
 
@@ -7,7 +8,7 @@ namespace Website.Application.Content
     public class BlobProperties
     {
         public string ContentTyp { get; set; }
-        public NameValueCollection MetaData { get; set; }
+        public IDictionary<string, string> MetaData { get; set; }
     }
 
     public interface BlobStorageInterface

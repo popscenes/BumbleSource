@@ -1,7 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.IO;
-using Microsoft.WindowsAzure.StorageClient;
+using Microsoft.WindowsAzure.Storage.Blob;
 using NUnit.Framework;
 using Ninject;
 using Website.Application.Azure.Content;
@@ -31,7 +32,9 @@ namespace Website.Application.Azure.Tests
         [TestFixtureSetUp]
         public void FixtureSetUp()
         {
-            Kernel.Get<CloudBlobClient>().GetContainerReference("blobstoragettest").CreateIfNotExist();
+
+            var cont = Kernel.Get<CloudBlobClient>().GetContainerReference("blobstoragettest");
+            cont.CreateIfNotExists();
 
             Kernel.Rebind<BlobStorageInterface>().ToMethod(
                 ctx => 
@@ -61,11 +64,11 @@ namespace Website.Application.Azure.Tests
         {
             
             var testCont = Kernel.Get<CloudBlobClient>().GetContainerReference("blobstoragettest");
-            testCont.CreateIfNotExist();
+            testCont.CreateIfNotExists();
             var blobs = testCont.ListBlobs();
             foreach (var iListBlobItem in blobs)
             {
-                var blob = iListBlobItem as CloudBlob;
+                var blob = iListBlobItem as ICloudBlob;
                 if (blob != null) blob.DeleteIfExists();
             }
         }
@@ -162,7 +165,7 @@ namespace Website.Application.Azure.Tests
             var blobProperties = new Application.Content.BlobProperties()
                                      {
                                          ContentTyp = "image/jpeg",
-                                         MetaData = new NameValueCollection(){{"test", "value"}}
+                                         MetaData = new Dictionary<string, string>(){{"test", "value"}}
                                      };
             var id = StoreABlob(data, blobProperties);
             return id;
@@ -178,7 +181,7 @@ namespace Website.Application.Azure.Tests
             var blobProperties = new Application.Content.BlobProperties()
             {
                 ContentTyp = "image/jpeg",
-                MetaData = new NameValueCollection() { { "test", "value" } }
+                MetaData = new Dictionary<string, string>() { { "test", "value" } }
             };
             var storage = Kernel.Get<BlobStorageInterface>();
             storage.SetBlobProperties(id, blobProperties);
@@ -250,7 +253,7 @@ namespace Website.Application.Azure.Tests
             var blobProperties = new Application.Content.BlobProperties()
             {
                 ContentTyp = "image/jpeg",
-                MetaData = new NameValueCollection() { { "test", "value" } }
+                MetaData = new Dictionary<string, string>(){ { "test", "value" } }
             };
             var storage = Kernel.Get<BlobStorageInterface>();
             var ret = storage.GetBlobProperties(id);

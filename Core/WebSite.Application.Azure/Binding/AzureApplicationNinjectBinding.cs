@@ -1,6 +1,5 @@
 ﻿using System.Diagnostics;
-using Microsoft.WindowsAzure;
-using Microsoft.WindowsAzure.StorageClient;
+using Microsoft.WindowsAzure.Storage.Blob;
 using Ninject;
 using Ninject.Modules;
 using Website.Application.ApplicationCommunication;

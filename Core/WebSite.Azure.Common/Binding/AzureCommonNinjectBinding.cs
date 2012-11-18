@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
+﻿using System.Configuration;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using Microsoft.WindowsAzure;
 using Microsoft.WindowsAzure.ServiceRuntime;
-using Microsoft.WindowsAzure.StorageClient;
+using Microsoft.WindowsAzure.Storage;
+using Microsoft.WindowsAzure.Storage.Blob;
+using Microsoft.WindowsAzure.Storage.Queue;
+using Microsoft.WindowsAzure.Storage.Table;
 using Ninject;
 using Ninject.Modules;
 using Website.Azure.Common.Environment;
@@ -28,15 +26,17 @@ namespace Website.Azure.Common.Binding
             Config.Instance = Kernel.Get<ConfigurationServiceInterface>();
 
             //don't know where to put this, but can just go here for now
-            CloudStorageAccount.SetConfigurationSettingPublisher((configName, configSetter) =>
-            configSetter(Config.Instance.GetSetting(configName)));
-            
+            //seems to have disappeared from 2.0
+//            CloudStorageAccount.SetConfigurationSettingPublisher((configName, configSetter) =>
+//            configSetter(Config.Instance.GetSetting(configName)));
 
+            
 
             Bind<CloudStorageAccount>()
                 .ToMethod(ctx =>
                     (RoleEnvironment.IsAvailable) ? //in the cloud (dev or real)
-                    CloudStorageAccount.FromConfigurationSetting("StorageConnectionString") :
+                    CloudStorageAccount.Parse(RoleEnvironment.GetConfigurationSettingValue("StorageConnectionString"))
+                    :
                         AzureEnv.UseRealStorage ? 
                             CloudStorageAccount.Parse(ConfigurationManager.AppSettings["StorageConnectionString"])
                             : CloudStorageAccount.Parse("UseDevelopmentStorage=true")

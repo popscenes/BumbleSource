@@ -1,12 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<ServiceConfiguration serviceName="AzureProject" xmlns="http://schemas.microsoft.com/ServiceHosting/2008/10/ServiceConfiguration" osFamily="2" osVersion="*" schemaVersion="2012-05.1.7">
+<ServiceConfiguration serviceName="AzureProject" xmlns="http://schemas.microsoft.com/ServiceHosting/2008/10/ServiceConfiguration" osFamily="2" osVersion="*" schemaVersion="2012-10.1.8">
   <Role name="PostaFlya">
     <Instances count="1" />
     <ConfigurationSettings>
       <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" value="DefaultEndpointsProtocol=https;AccountName=flya;AccountKey=TOir5gJpa5iNu1ba7H0/cbqcId5fmU98ts82J/R2usy/cE4+7uMvpfn5MEfg+yofVPgYuhGxbdyMtndbQEv0lA==" />
       <Setting name="StorageConnectionString" value="DefaultEndpointsProtocol=http;AccountName=flya;AccountKey=TOir5gJpa5iNu1ba7H0/cbqcId5fmU98ts82J/R2usy/cE4+7uMvpfn5MEfg+yofVPgYuhGxbdyMtndbQEv0lA==" />
       <Setting name="Microsoft.WindowsAzure.Plugins.Caching.NamedCaches" value="{&quot;caches&quot;:[{&quot;name&quot;:&quot;default&quot;,&quot;policy&quot;:{&quot;eviction&quot;:{&quot;type&quot;:0},&quot;expiration&quot;:{&quot;defaultTTL&quot;:10,&quot;isExpirable&quot;:true,&quot;type&quot;:1},&quot;serverNotification&quot;:{&quot;isEnabled&quot;:true}},&quot;secondaries&quot;:0}]}" />
-      <Setting name="Microsoft.WindowsAzure.Plugins.Caching.Loglevel" value="" />
+      <Setting name="Microsoft.WindowsAzure.Plugins.Caching.DiagnosticLevel" value="1" />
+      <Setting name="Microsoft.WindowsAzure.Plugins.Caching.ClientDiagnosticLevel" value="1" />
       <Setting name="Microsoft.WindowsAzure.Plugins.Caching.CacheSizePercentage" value="50" />
       <Setting name="Microsoft.WindowsAzure.Plugins.Caching.ConfigStoreConnectionString" value="DefaultEndpointsProtocol=http;AccountName=flya;AccountKey=TOir5gJpa5iNu1ba7H0/cbqcId5fmU98ts82J/R2usy/cE4+7uMvpfn5MEfg+yofVPgYuhGxbdyMtndbQEv0lA==" />
       <!--<Setting name="Microsoft.WindowsAzure.Plugins.RemoteAccess.Enabled" value="false" />

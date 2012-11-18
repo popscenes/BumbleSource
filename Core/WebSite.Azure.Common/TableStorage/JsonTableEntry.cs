@@ -1,5 +1,5 @@
 using System;
-using Microsoft.WindowsAzure.StorageClient;
+using Microsoft.WindowsAzure.Storage.Table.DataServices;
 using Newtonsoft.Json;
 
 namespace Website.Azure.Common.TableStorage

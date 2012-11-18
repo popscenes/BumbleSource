@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Linq;
-using Microsoft.WindowsAzure.StorageClient;
+using Microsoft.WindowsAzure.Storage.Table;
 using NUnit.Framework;
 using Ninject;
 using Website.Application.ApplicationCommunication;
@@ -44,7 +44,9 @@ namespace Website.Application.Azure.Tests.Communication
         private void Reinit()   
         {
             var cloudTable = Kernel.Get<CloudTableClient>();
-            cloudTable.DeleteTableIfExist(_tableName);
+            var tabRef = cloudTable.GetTableReference(_tableName);
+            tabRef.DeleteIfExists();
+
             var ctx = Kernel.Get<TableContextInterface>();
             ctx.InitTable<SimpleExtendableEntity>(_tableName);
 

@@ -1,11 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using Microsoft.WindowsAzure;
-using Microsoft.WindowsAzure.StorageClient;
+using Microsoft.WindowsAzure.Storage.Queue;
 using Website.Application.Azure.Content;
 using Website.Application.Command;
 
@@ -84,7 +78,7 @@ namespace Website.Application.Azure.Command
 
         public bool CreateIfNotExist()
         {
-            Func<bool> create = () => _cloudQueue.CreateIfNotExist();
+            Func<bool> create = () => _cloudQueue.CreateIfNotExists();
             return AzureCloudBlobStorage.RetryQuery(create);
         }
     }

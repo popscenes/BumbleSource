@@ -1,4 +1,5 @@
-using Microsoft.WindowsAzure.StorageClient;
+using Microsoft.WindowsAzure.Storage.Blob;
+using Microsoft.WindowsAzure.Storage.Queue;
 using Website.Application.Azure.Content;
 using Website.Application.Command;
 using Website.Infrastructure.Command;

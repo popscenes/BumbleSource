@@ -7,8 +7,9 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
-using Microsoft.WindowsAzure;
-using Microsoft.WindowsAzure.StorageClient;
+using Microsoft.WindowsAzure.Storage;
+using Microsoft.WindowsAzure.Storage.Table;
+using Microsoft.WindowsAzure.Storage.Table.DataServices;
 using Website.Azure.Common.DataServices;
 using Website.Azure.Common.Environment;
 
@@ -51,7 +52,8 @@ namespace Website.Azure.Common.TableStorage
         public TableContext(CloudStorageAccount account)
         {
             _account = account;
-            _containedContext = new TableServiceContext(account.TableEndpoint.AbsoluteUri, account.Credentials);
+            var client = new CloudTableClient(new Uri(account.TableEndpoint.AbsoluteUri), account.Credentials);
+            _containedContext = new TableServiceContext(client);
             _containedContext.WritingEntity += OnWritingEntity;
             _containedContext.ReadingEntity += OnReadingEntity;
         }
@@ -60,13 +62,16 @@ namespace Website.Azure.Common.TableStorage
         {
             var cli = _account.CreateCloudTableClient();
 
-            if (cli.DoesTableExist(tableName))
+
+            var peopleTable = cli.GetTableReference(tableName);
+
+            if (peopleTable.Exists())
                 return;
 
             Func<bool> create =
                 () =>
                     {
-                        cli.CreateTable(tableName);
+                        peopleTable.CreateIfNotExists();
                         SaveChanges();
                         return true;
                     };
@@ -244,11 +249,11 @@ namespace Website.Azure.Common.TableStorage
             
         }
 
-        private static IQueryable<TableEntryType> ExecuteQuery<TableEntryType>(IQueryable<TableEntryType> query, int take = -1)
+        private  IQueryable<TableEntryType> ExecuteQuery<TableEntryType>(IQueryable<TableEntryType> query, int take = -1)
         {
-            var ret = query.AsTableServiceQuery();
+            var ret = query.AsTableServiceQuery(_containedContext);
             if (take > 0)
-                ret = ret.Take(take).AsTableServiceQuery();
+                ret = ret.Take(take).AsTableServiceQuery(_containedContext);
 
             return ret.Execute().ToList()//cause evaluation of enumeration to occur;
                 .AsQueryable();

@@ -1,4 +1,5 @@
-﻿using Microsoft.WindowsAzure.StorageClient;
+﻿using Microsoft.WindowsAzure.Storage.Blob;
+using Microsoft.WindowsAzure.Storage.Queue;
 using NUnit.Framework;
 using Ninject;
 using Website.Application.Azure.Command;
@@ -25,8 +26,8 @@ namespace Website.Application.Azure.Tests
                 ctx => ctx.Kernel.Get<CloudBlobClient>().GetContainerReference("commandqueuestoragetest"))
                 .WithMetadata("commandqueue", true);
 
-            Kernel.Get<CloudBlobContainer>(metadata => metadata.Has("commandqueue")).CreateIfNotExist();
-            Kernel.Get<CloudQueue>(metadata => metadata.Has("commandqueue")).CreateIfNotExist();
+            Kernel.Get<CloudBlobContainer>(metadata => metadata.Has("commandqueue")).CreateIfNotExists();
+            Kernel.Get<CloudQueue>(metadata => metadata.Has("commandqueue")).CreateIfNotExists();
 
             Kernel.Bind<MessageFactoryInterface>().To<AzureMessageFactory>();
             Kernel.Bind<QueueInterface>().To<AzureCloudQueue>().WithMetadata("commandqueue", true);

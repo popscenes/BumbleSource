@@ -1,6 +1,8 @@
 ﻿using System.Linq;
 using Microsoft.WindowsAzure;
-using Microsoft.WindowsAzure.StorageClient;
+using Microsoft.WindowsAzure.Storage.Blob;
+using Microsoft.WindowsAzure.Storage.Queue;
+using Microsoft.WindowsAzure.Storage.Table;
 using Ninject;
 using Ninject.Syntax;
 using Website.Application.Command;
@@ -26,7 +28,7 @@ namespace Website.Application.Azure.Binding
         public void Init(IResolutionRoot iocContainer)
         {
             var imageContainer = _cloudBlobClient.GetContainerReference("imagestorage");
-            imageContainer.CreateIfNotExist();
+            imageContainer.CreateIfNotExists();
             var permissions = imageContainer.GetPermissions();
             permissions.PublicAccess = BlobContainerPublicAccessType.Container;
             imageContainer.SetPermissions(permissions);
