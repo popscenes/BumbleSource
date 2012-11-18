@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Web.Http;
+using PostaFlya.Models.Browser;
 using Website.Application.Binding;
 using PostaFlya.Attributes;
 using PostaFlya.Binding;
@@ -11,9 +12,7 @@ using Website.Common.Extension;
 using Website.Infrastructure.Command;
 using Website.Infrastructure.Domain;
 using Website.Infrastructure.Query;
-using PostaFlya.Models.Browser;
 using PostaFlya.Models.Comments;
-using Website.Domain.Browser.Query;
 using Website.Domain.Comments;
 using Website.Domain.Comments.Command;
 
@@ -22,28 +21,22 @@ namespace PostaFlya.Controllers
     public class CommentController : ApiController
     {
         private readonly CommandBusInterface _commandBus;
-        private readonly GenericQueryServiceInterface _entityQueryService;
-        private readonly BrowserQueryServiceInterface _browserQueryService;
-        private readonly GenericQueryServiceInterface _queryComments;
+        private readonly GenericQueryServiceInterface _queryService;
         private readonly BlobStorageInterface _blobStorage;
 
         public CommentController(CommandBusInterface commandBus
-            , GenericQueryServiceInterface entityQueryService
-            , BrowserQueryServiceInterface browserQueryService
-            , GenericQueryServiceInterface queryComments
+            , GenericQueryServiceInterface queryService
             , [ImageStorage]BlobStorageInterface blobStorage)
         {
             _commandBus = commandBus;
-            _entityQueryService = entityQueryService;
-            _browserQueryService = browserQueryService;
-            _queryComments = queryComments;
+            _queryService = queryService;
             _blobStorage = blobStorage;
         }
 
         [BrowserAuthorize(Roles = "Participant")]
         public HttpResponseMessage Post(CreateCommentModel commentCreateModel)
         {
-            var entity = _entityQueryService.FindById(ClaimController.GetTypeForClaimEntity(commentCreateModel.CommentEntity),
+            var entity = _queryService.FindById(ClaimController.GetTypeForClaimEntity(commentCreateModel.CommentEntity),
                 commentCreateModel.EntityId) as EntityInterface;
             if (entity == null)
                 return this.GetResponseForRes(new MsgResponse("Comment Failed", true)
@@ -62,8 +55,8 @@ namespace PostaFlya.Controllers
 
         public IQueryable<CommentModel> Get(EntityTypeEnum entityTypeEnum, string id)
         {
-            return GetComments(_queryComments, id)
-                .Select(c => c.FillBrowserModel(_browserQueryService, _blobStorage));
+            return GetComments(_queryService, id)
+                .Select(c => c.FillBrowserModel(_queryService, _blobStorage));
         }
 
         public static IQueryable<CommentModel> GetComments(GenericQueryServiceInterface commentQuery, string id)
@@ -111,7 +104,7 @@ namespace PostaFlya.Controllers
                                                            Id = "4"
                                                     }
                                                };
-            return list.Select(c => c.ToViewModel(_browserQueryService, _blobStorage)).ToList();
+            return list.Select(c => c.ToViewModel(_queryService, _blobStorage)).ToList();
         }
     }
 }

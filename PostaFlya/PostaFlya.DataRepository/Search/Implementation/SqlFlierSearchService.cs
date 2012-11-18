@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using PostaFlya.Domain.Flier.Event;
+using PostaFlya.Domain.Flier.Query;
 using Website.Azure.Common.Sql;
 using PostaFlya.DataRepository.Binding;
 using PostaFlya.DataRepository.Search.Services;

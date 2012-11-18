@@ -6,14 +6,15 @@ using System.Web.Mvc;
 using System.Web.Routing;
 using System.Web.Security;
 using Website.Application.Authentication;
+using Website.Domain.Browser.Query;
 using Website.Infrastructure.Authentication;
 using Website.Infrastructure.Command;
 using PostaFlya.Models;
 using Website.Application.Domain.Browser;
 using Website.Domain.Browser;
 using Website.Domain.Browser.Command;
-using Website.Domain.Browser.Query;
 using Website.Domain.Location;
+using Website.Infrastructure.Query;
 
 namespace PostaFlya.Controllers
 {
@@ -22,15 +23,15 @@ namespace PostaFlya.Controllers
     public class AccountController : Controller
     {
         private readonly IdentityProviderServiceInterface _identityProviderService;
-        private readonly BrowserQueryServiceInterface _browserRepository;
+        private readonly GenericQueryServiceInterface _queryService;
         private readonly CommandBusInterface _commandBus;
         private readonly BrowserInformationInterface _browserInformation;
 
-        public AccountController(IdentityProviderServiceInterface identityProviderService, BrowserQueryServiceInterface browserRepository,
+        public AccountController(IdentityProviderServiceInterface identityProviderService, GenericQueryServiceInterface queryService,
             CommandBusInterface commandBus, BrowserInformationInterface browserInformation)
         {
             _identityProviderService = identityProviderService;
-            _browserRepository = browserRepository;
+            _queryService = queryService;
             _commandBus = commandBus;
             _browserInformation = browserInformation;
         }
@@ -106,12 +107,12 @@ namespace PostaFlya.Controllers
         [Authorize]
         public void SetBrowserFromIdentityProviderCredentials(IdentityProviderCredential identityProviderCredentials)
         {
-            var browserAsParticipant = _browserRepository.FindByIdentityProvider(identityProviderCredentials);
+            var browserAsParticipant = _queryService.FindBrowserByIdentityProvider(identityProviderCredentials);
 
             if (browserAsParticipant == null)
             {
                 CreateBrowserFromIdentityProviderCredentials(identityProviderCredentials);
-                browserAsParticipant = _browserRepository.FindByIdentityProvider(identityProviderCredentials);
+                browserAsParticipant = _queryService.FindBrowserByIdentityProvider(identityProviderCredentials);
             }
 
             //just set the current browser as the browser
@@ -147,12 +148,12 @@ namespace PostaFlya.Controllers
         public ActionResult Authenticate(FormCollection formCollection)
         {
             var principal = ((AzureWebPrincipal)User);
-            var browserAsParticipant = _browserRepository.FindByIdentityProvider(principal.ToCredential());
+            var browserAsParticipant = _queryService.FindBrowserByIdentityProvider(principal.ToCredential());
                 
             if (browserAsParticipant == null)
             {
                 CreateBrowser(principal);
-                browserAsParticipant = _browserRepository.FindByIdentityProvider(principal.ToCredential());
+                browserAsParticipant = _queryService.FindBrowserByIdentityProvider(principal.ToCredential());
             }
 
             //just set the current browser as the browser

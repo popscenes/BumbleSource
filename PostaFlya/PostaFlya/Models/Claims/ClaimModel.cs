@@ -4,15 +4,15 @@ using System.ComponentModel.DataAnnotations;
 using PostaFlya.Binding;
 using PostaFlya.Models.Browser;
 using Website.Application.Content;
-using Website.Domain.Browser.Query;
 using Website.Domain.Claims;
+using Website.Infrastructure.Query;
 
 namespace PostaFlya.Models.Claims
 {
     public static class ClaimModelInterfaceExtension
     {
         public static ClaimModel ToViewModel(this ClaimInterface claim
-            , BrowserQueryServiceInterface browserQuery
+            , GenericQueryServiceInterface browserQuery
             , BlobStorageInterface blobStorage)
         {
             var ret = claim.ToViewModel();

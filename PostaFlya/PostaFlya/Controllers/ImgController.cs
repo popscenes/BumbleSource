@@ -15,7 +15,7 @@ using Website.Application.Domain.Browser;
 using Website.Application.Domain.Content;
 using Website.Domain.Content;
 using Website.Domain.Content.Command;
-using Website.Domain.Content.Query;
+using Website.Infrastructure.Query;
 
 namespace PostaFlya.Controllers
 {
@@ -25,20 +25,20 @@ namespace PostaFlya.Controllers
         private readonly RequestContentRetrieverFactoryInterface _contentRetrieverFactory;
         private readonly BrowserInformationInterface _browserInformation;
         private readonly CommandBusInterface _commandBus;
-        private readonly ImageQueryServiceInterface _imageQueryService;
+        private readonly GenericQueryServiceInterface _queryService;
         //private readonly HttpContextBase _httpContext;
 
         public ImgController([ImageStorage]BlobStorageInterface blobStorage
             , RequestContentRetrieverFactoryInterface contentRetrieverFactory
             , BrowserInformationInterface browserInformation, CommandBusInterface commandBus
-            , ImageQueryServiceInterface imageQueryService
+            , GenericQueryServiceInterface queryService
             )
         {
             _blobStorage = blobStorage;
             _contentRetrieverFactory = contentRetrieverFactory;
             _browserInformation = browserInformation;
             _commandBus = commandBus;
-            _imageQueryService = imageQueryService;
+            _queryService = queryService;
             //_httpContext = httpContext;
         }
 
@@ -51,7 +51,7 @@ namespace PostaFlya.Controllers
                 return File(GetNotFoundData(), "image/jpeg");
 
             id = id.Substring(0, idLength);
-            var image = _imageQueryService.FindById<Image>(id);
+            var image = _queryService.FindById<Image>(id);
             if(image == null)
                 return File(GetNotFoundData(), "image/jpeg");
 
@@ -75,7 +75,7 @@ namespace PostaFlya.Controllers
 //                return new EmptyResult();
 //            }
 //
-//            var image = _imageQueryService.FindById(id);
+//            var image = _queryService.FindById(id);
 //            if (image == null)
 //            {
 //                Response.StatusCode = (int)HttpStatusCode.NotFound;

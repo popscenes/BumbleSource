@@ -8,7 +8,6 @@ using PostaFlya.Areas.Default.Models;
 using PostaFlya.Binding;
 using PostaFlya.Controllers;
 using PostaFlya.Domain.Flier;
-using PostaFlya.Domain.Flier.Query;
 using PostaFlya.Specification.Fliers;
 using PostaFlya.Specification.Util;
 using Website.Domain.Claims;
@@ -55,14 +54,14 @@ namespace PostaFlya.Specification.DynamicBulletinBoard
             //reload the new version of the flier
             var flier = ScenarioContext.Current["flier"] as FlierInterface;
             ScenarioContext.Current["flier"] =
-                SpecUtil.CurrIocKernel.Get<FlierQueryServiceInterface>().FindById<Flier>(flier.Id);
+                SpecUtil.CurrIocKernel.Get<GenericQueryServiceInterface>().FindById<Flier>(flier.Id);
         }
 
         [Then(@"I will be recorded as having claimed the flier once")]
         public void ThenIWillBeRecordedAsHavingClaimedATearOff()
         {
             var flier = ScenarioContext.Current["flier"] as FlierInterface;
-            var queryService = SpecUtil.CurrIocKernel.Get<FlierQueryServiceInterface>();
+            var queryService = SpecUtil.CurrIocKernel.Get<GenericQueryServiceInterface>();
             var browserInformation = SpecUtil.GetCurrBrowser();
 
             var claims = queryService.FindAggregateEntities<Claim>(flier.Id);
@@ -74,7 +73,7 @@ namespace PostaFlya.Specification.DynamicBulletinBoard
         {
             var initClaims = (int)ScenarioContext.Current["initialclaims"];
             var flier = ScenarioContext.Current["flier"] as FlierInterface;
-            var queryService = SpecUtil.CurrIocKernel.Get<FlierQueryServiceInterface>();
+            var queryService = SpecUtil.CurrIocKernel.Get<GenericQueryServiceInterface>();
             var retFlier = queryService.FindById<Flier>(flier.Id);
 
             Assert.AreEqual(initClaims, retFlier.NumberOfClaims);
@@ -85,7 +84,7 @@ namespace PostaFlya.Specification.DynamicBulletinBoard
         {
             var initClaims = (int)ScenarioContext.Current["initialclaims"];
             var flier = ScenarioContext.Current["flier"] as FlierInterface;
-            var queryService = SpecUtil.CurrIocKernel.Get<FlierQueryServiceInterface>();
+            var queryService = SpecUtil.CurrIocKernel.Get<GenericQueryServiceInterface>();
             var retFlier = queryService.FindById<Flier>(flier.Id);
 
             Assert.AreEqual(initClaims + 1, retFlier.NumberOfClaims);

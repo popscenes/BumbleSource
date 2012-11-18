@@ -5,7 +5,6 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Website.Application.Binding;
-using PostaFlya.Domain.Flier.Query;
 using PostaFlya.Models.Factory;
 using Website.Application.Content;
 using Website.Application.Domain.Browser;
@@ -16,20 +15,16 @@ namespace PostaFlya.Controllers
     public class ProfileController : Controller
     {
         private readonly BrowserInformationInterface _browserInformation;
-        private readonly BrowserQueryServiceInterface _browserQueryService;
-        private readonly FlierQueryServiceInterface _flierQueryService;
+        private readonly QueryServiceForBrowserAggregateInterface _queryService;
         private readonly BlobStorageInterface _blobStorage;
         private readonly FlierBehaviourViewModelFactoryInterface _viewModelFactory;
 
         public ProfileController( BrowserInformationInterface browserInformation
-            , BrowserQueryServiceInterface browserQueryService
-            , FlierQueryServiceInterface flierQueryService
-            , [ImageStorage]BlobStorageInterface blobStorage
+            , QueryServiceForBrowserAggregateInterface queryService, [ImageStorage]BlobStorageInterface blobStorage
             , FlierBehaviourViewModelFactoryInterface viewModelFactory)
         {
             _browserInformation = browserInformation;
-            _browserQueryService = browserQueryService;
-            _flierQueryService = flierQueryService;
+            _queryService = queryService;
             _blobStorage = blobStorage;
             _viewModelFactory = viewModelFactory;
         }
@@ -39,7 +34,7 @@ namespace PostaFlya.Controllers
 
         public ActionResult Get(string name)
         {
-            var model = ProfileApiController.GetForHandle(name, _browserQueryService, _flierQueryService,
+            var model = ProfileApiController.GetForHandle(name, _queryService,
                                                                      _blobStorage, _viewModelFactory);
             ViewBag.ProfileModel = model;
             return View(model);
@@ -58,7 +53,7 @@ namespace PostaFlya.Controllers
 
         public ActionResult CheckHandle(string handle)
         {
-            var result = _browserQueryService.FindFreeHandle(handle, _browserInformation.Browser.Id);
+            var result = _queryService.FindFreeHandleForBrowser(handle, _browserInformation.Browser.Id);
             if (result == handle)
                 return Json(true,  JsonRequestBehavior.AllowGet);
 

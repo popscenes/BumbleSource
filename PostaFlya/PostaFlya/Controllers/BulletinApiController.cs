@@ -23,42 +23,46 @@ using Website.Application.Content;
 using Website.Application.Domain.Content;
 using Website.Domain.Location;
 using Website.Domain.Tag;
+using Website.Infrastructure.Query;
 
 namespace PostaFlya.Controllers
 {
     public class BulletinApiController : ApiController
     {
-        private readonly FlierQueryServiceInterface _flierQueryService;
+        private readonly GenericQueryServiceInterface _queryService;
         private readonly BlobStorageInterface _blobStorage;
         private readonly FlierBehaviourQueryServiceInterface _behaviourQueryService;
         private readonly FlierBehaviourViewModelFactoryInterface _viewModelFactory;
+        private readonly FlierSearchServiceInterface _flierSearchService;
 
-        public BulletinApiController(FlierQueryServiceInterface flierQueryService,
+
+        public BulletinApiController(GenericQueryServiceInterface queryService,
             [ImageStorage]BlobStorageInterface blobStorage
             , FlierBehaviourQueryServiceInterface behaviourQueryService
-            , FlierBehaviourViewModelFactoryInterface viewModelFactory)
+            , FlierBehaviourViewModelFactoryInterface viewModelFactory, FlierSearchServiceInterface flierSearchService)
         {
-            _flierQueryService = flierQueryService;
+            _queryService = queryService;
             _blobStorage = blobStorage;
             _behaviourQueryService = behaviourQueryService;
             _viewModelFactory = viewModelFactory;
+            _flierSearchService = flierSearchService;
         }
 
         public DefaultDetailsViewModel Get(string id)
         {
-            return GetDetail(id, _flierQueryService, _behaviourQueryService, _blobStorage, _viewModelFactory);
+            return GetDetail(id, _queryService, _behaviourQueryService, _blobStorage, _viewModelFactory);
         }
 
         public IList<BulletinFlierModel> Get([FromUri]LocationModel loc
             ,int count, string board = "", int skip = 0, int distance = 0, string tags = "")
         {
-            return GetFliers(_flierQueryService, _blobStorage, _viewModelFactory
+            return GetFliers(_flierSearchService, _queryService, _blobStorage, _viewModelFactory
                              , loc, count, board, skip, distance, tags);
         }
 
         [NonAction]
         public static DefaultDetailsViewModel GetDetail(string id
-            , FlierQueryServiceInterface flierQueryService
+            , GenericQueryServiceInterface flierQueryService
             , FlierBehaviourQueryServiceInterface behaviourQueryService
             , BlobStorageInterface blobStorage
             , FlierBehaviourViewModelFactoryInterface viewModelFactory)
@@ -81,9 +85,7 @@ namespace PostaFlya.Controllers
 
 
         [NonAction]
-        public static IList<BulletinFlierModel> GetFliers(FlierQueryServiceInterface flierQueryService
-            , BlobStorageInterface blobStorage, FlierBehaviourViewModelFactoryInterface viewModelFactory
-            , LocationModel loc, int count, string board="", int skip = 0, int distance = 0, string tags = "")
+        public static IList<BulletinFlierModel> GetFliers(FlierSearchServiceInterface flierSearchService, GenericQueryServiceInterface flierQueryService, BlobStorageInterface blobStorage, FlierBehaviourViewModelFactoryInterface viewModelFactory, LocationModel loc, int count, string board = "", int skip = 0, int distance = 0, string tags = "")
         {
             Location locDomainModel = loc.ToDomainModel();
             var tagsModel = new Tags(tags);
@@ -94,7 +96,7 @@ namespace PostaFlya.Controllers
             count = Math.Min(count, 50);
 
             var fliersIds =
-                flierQueryService.FindFliersByLocationTagsAndDistance(locDomainModel,
+                flierSearchService.FindFliersByLocationTagsAndDistance(locDomainModel,
                 tagsModel, board, distance, count, FlierSortOrder.CreatedDate, skip);
 
             var watch = new Stopwatch();

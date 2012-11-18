@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlTypes;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Xml.Linq;
@@ -57,7 +58,8 @@ namespace PostaFlya.DataRepository.Search.Services
             }
             catch (Exception e)
             {
-                return null;//invalid location
+                Trace.TraceError("SqlGeography ToGeography failed: {0}\n {0}", e.Message, e.StackTrace);
+                return null;
             }
         }
         public static SqlGeography ToGeography(this BoundingBox boundingBox)
@@ -70,6 +72,8 @@ namespace PostaFlya.DataRepository.Search.Services
             }
             catch (Exception e)
             {
+                Trace.TraceError("SqlGeography ToGeography failed: {0}\n {0}", e.Message, e.StackTrace);
+
                 return null;//invalid location
             }
         }

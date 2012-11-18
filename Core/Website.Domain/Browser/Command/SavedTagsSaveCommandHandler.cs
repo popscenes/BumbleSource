@@ -7,13 +7,13 @@ namespace Website.Domain.Browser.Command
 {
     internal class SavedTagsSaveCommandHandler : CommandHandlerInterface<SavedTagsSaveCommand>
     {
-        private readonly BrowserRepositoryInterface _browserRepository;
+        private readonly GenericRepositoryInterface _repository;
         private readonly UnitOfWorkFactoryInterface _unitOfWorkFactory;
 
-        public SavedTagsSaveCommandHandler(BrowserRepositoryInterface browserRepository, 
+        public SavedTagsSaveCommandHandler(GenericRepositoryInterface repository, 
                                       UnitOfWorkFactoryInterface unitOfWorkFactory)
         {
-            _browserRepository = browserRepository;
+            _repository = repository;
             _unitOfWorkFactory = unitOfWorkFactory;
         }
 
@@ -21,7 +21,7 @@ namespace Website.Domain.Browser.Command
         {
             using (_unitOfWorkFactory.GetUnitOfWork(GetReposForUnitOfWork()))
             {
-                _browserRepository.UpdateEntity<Browser>(command.BrowserId
+                _repository.UpdateEntity<Browser>(command.BrowserId
                     , browser =>
                           {
                                 if (browser.SavedTags.Any(t => t.Equals(command.Tags))) 
@@ -37,7 +37,7 @@ namespace Website.Domain.Browser.Command
 
         private IList<RepositoryInterface> GetReposForUnitOfWork()
         {
-            return new List<RepositoryInterface>() { _browserRepository };
+            return new List<RepositoryInterface>() { _repository };
         }
     }
 }

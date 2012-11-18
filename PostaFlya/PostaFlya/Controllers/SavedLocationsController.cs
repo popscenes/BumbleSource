@@ -9,8 +9,8 @@ using Website.Infrastructure.Command;
 using PostaFlya.Models.Location;
 using Website.Domain.Browser;
 using Website.Domain.Browser.Command;
-using Website.Domain.Browser.Query;
 using Website.Domain.Location;
+using Website.Infrastructure.Query;
 
 namespace PostaFlya.Controllers
 {
@@ -18,26 +18,26 @@ namespace PostaFlya.Controllers
     public class SavedLocationsController : ApiController
     {
         private readonly CommandBusInterface _commandBus;
-        private readonly BrowserQueryServiceInterface _browserQueryService;
+        private readonly GenericQueryServiceInterface _queryService;
 
-        public SavedLocationsController(BrowserQueryServiceInterface browserQueryService, 
+        public SavedLocationsController(GenericQueryServiceInterface queryService, 
             CommandBusInterface commandBus)
         {
-            _browserQueryService = browserQueryService;
+            _queryService = queryService;
             _commandBus = commandBus;
         }
 
 
         public IQueryable<LocationModel> Get(string browserId)
         {
-            var browser = _browserQueryService.FindById<Browser>(browserId);
+            var browser = _queryService.FindById<Browser>(browserId);
             return browser.SavedLocations.Select(_ => _.ToViewModel()).AsQueryable();
         }
 
 
         public HttpResponseMessage Post(string browserId, LocationModel location)
         {
-            var browser = _browserQueryService.FindById<Browser>(browserId);
+            var browser = _queryService.FindById<Browser>(browserId);
 
             var command = new SavedLocationAddCommand()
             {
@@ -53,7 +53,7 @@ namespace PostaFlya.Controllers
         //sets the active location
         public HttpResponseMessage Put(string browserId, LocationModel location)
         {
-            var browser = _browserQueryService.FindById<Browser>(browserId);
+            var browser = _queryService.FindById<Browser>(browserId);
             var command = new SavedLocationSelectCommand()
             {
                 BrowserId = browser.Id,
@@ -67,7 +67,7 @@ namespace PostaFlya.Controllers
 
         public void Delete(string browserId, Location location)
         {
-            var browser = _browserQueryService.FindById<Browser>(browserId);
+            var browser = _queryService.FindById<Browser>(browserId);
             var command = new SavedLocationDeleteCommand()
             {
                 BrowserId = browser.Id,

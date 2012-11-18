@@ -4,6 +4,7 @@ using Website.Application.Binding;
 using Website.Application.Caching.Command;
 using PostaFlya.Domain.TaskJob;
 using PostaFlya.Domain.TaskJob.Command;
+using Website.Infrastructure.Caching.Query;
 using Website.Infrastructure.Command;
 using Website.Infrastructure.Binding;
 
@@ -17,7 +18,7 @@ namespace PostaFlya.Application.Domain.Behaviour.TaskJob.Command
         public CachedTaskJobRepository([SourceDataSource]TaskJobRepositoryInterface taskJobRepository
             , ObjectCache cacheProvider           
             , CacheNotifier notifier)
-            : base(cacheProvider, CachedTaskJobContext.Region, notifier, taskJobRepository)
+            : base(cacheProvider, notifier, taskJobRepository)
         {
             _taskJobRepository = taskJobRepository;
         }
@@ -26,7 +27,7 @@ namespace PostaFlya.Application.Domain.Behaviour.TaskJob.Command
         {
             var ret = _taskJobRepository.BidOnTask(bid);
             if (ret)
-                this.InvalidateCachedData(GetKeyFor(CachedTaskJobContext.Bids, bid.TaskJobId));
+                this.InvalidateCachedData(bid.TaskJobId.GetCacheKeyFor<TaskJobBid>("AggregateId"));
             return ret;
         }
 

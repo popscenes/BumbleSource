@@ -1,15 +1,12 @@
 using System.Collections.Generic;
-using System.Linq;
 using PostaFlya.Domain.Boards.Command;
 using PostaFlya.Domain.Boards.Event;
 using PostaFlya.Domain.Flier.Event;
 using PostaFlya.Domain.Flier.Query;
-using PostaFlya.Domain.Service;
 using Website.Domain.Service;
 using Website.Infrastructure.Command;
 using Website.Infrastructure.Domain;
 using Website.Infrastructure.Query;
-using System.Linq;
 
 namespace PostaFlya.Domain.Flier.Command
 {
@@ -48,7 +45,7 @@ namespace PostaFlya.Domain.Flier.Command
                 _repository.UpdateEntity<Flier>(command.Id, 
                     flier =>
                         {
-                            flier.FriendlyId = _queryService.FindFreeFriendlyId(flierQuery);
+                            flier.FriendlyId = _queryService.FindFreeFriendlyIdForFlier(flierQuery);
                             flier.Title = command.Title;
                             flier.Description = command.Description;
                             flier.Tags = command.Tags;

@@ -2,7 +2,7 @@ using System;
 using Website.Application.Content;
 using Website.Application.Domain.Content;
 using Website.Domain.Browser;
-using Website.Domain.Browser.Query;
+using Website.Infrastructure.Query;
 
 namespace PostaFlya.Models.Browser
 {
@@ -11,7 +11,7 @@ namespace PostaFlya.Models.Browser
         //TODO use siteService to get default avatar url
         private const string DefaultAvatar = "/Content/themes/taskflya/images/icon_0001_Group-5.png";
 
-        public static BrowserModel GetBrowserViewModel(string browserId, BrowserQueryServiceInterface browserQuery, BlobStorageInterface blobStorage)
+        public static BrowserModel GetBrowserViewModel(string browserId, GenericQueryServiceInterface browserQuery, BlobStorageInterface blobStorage)
         {
             var browser = browserQuery.FindById<Website.Domain.Browser.Browser>(browserId);
             if (browser == null)
@@ -19,7 +19,7 @@ namespace PostaFlya.Models.Browser
             return browser.ToViewModel(blobStorage);
         }
 
-        public static BrowserModel FillViewModel(this BrowserModel browser, BrowserQueryServiceInterface browserQuery, BlobStorageInterface blobStorage)
+        public static BrowserModel FillViewModel(this BrowserModel browser, GenericQueryServiceInterface browserQuery, BlobStorageInterface blobStorage)
         {
             var browserDomain = browserQuery.FindById<Website.Domain.Browser.Browser>(browser.Id);
             if (browserDomain == null)
@@ -54,7 +54,7 @@ namespace PostaFlya.Models.Browser
             }
         }
 
-        public static ModelType FillBrowserModel<ModelType>(this ModelType model, BrowserQueryServiceInterface browserQuery
+        public static ModelType FillBrowserModel<ModelType>(this ModelType model, GenericQueryServiceInterface browserQuery
                 , BlobStorageInterface blobStorage) where ModelType : HasBrowserModelInterface
         {
             model.Browser = model.Browser.FillViewModel(browserQuery, blobStorage);

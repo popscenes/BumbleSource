@@ -33,7 +33,7 @@
 
                     self.imageSelector.Init();
                     self.imageSelector.selectedImageId(editFlier.FlierImageId());
-                    self.locationSelector.currentLocation(ko.mapping.toJS(editFlier.Location));
+                    self.locationSelector.currentLocation(editFlier.Location);
                     self.tagsSelector.LoadTags();
                 }
             });

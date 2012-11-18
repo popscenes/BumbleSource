@@ -6,11 +6,11 @@ using Ninject.MockingKernel.Moq;
 using Ninject.Modules;
 using PostaFlya.Domain.Boards;
 using PostaFlya.Domain.Flier;
-using PostaFlya.Domain.Flier.Command;
 using PostaFlya.Domain.Flier.Query;
 using PostaFlya.Domain.TaskJob;
 using PostaFlya.Domain.TaskJob.Command;
 using PostaFlya.Domain.TaskJob.Query;
+using Website.Domain.Browser.Query;
 using Website.Infrastructure.Command;
 using Website.Infrastructure.Domain;
 using Website.Domain.Claims;
@@ -76,32 +76,33 @@ namespace PostaFlya.Mocks.Domain.Data
         {
      
             ////////////repo
-            var flierRepository = RepoUtil.SetupRepo<FlierRepositoryInterface, Flier, FlierInterface>(store, kernel, FlierInterfaceExtensions.CopyFieldsFrom);
+            var flierRepository = RepoUtil.SetupRepo<GenericRepositoryInterface, Flier, FlierInterface>(store, kernel, FlierInterfaceExtensions.CopyFieldsFrom);
 
             //comments
-            //RepoUtil.SetupAddComment<FlierRepositoryInterface, FlierInterface, Flier>(flierRepository, storeComment, kernel);
+            //RepoUtil.SetupAddComment<FlierRepositoryInterface, FlierInterface, Flier>(repository, storeComment, kernel);
 
             //claimable
-            //RepoUtil.SetupAddClaim<FlierRepositoryInterface, FlierInterface, Flier>(flierRepository, claimStore, kernel);
+            //RepoUtil.SetupAddClaim<FlierRepositoryInterface, FlierInterface, Flier>(repository, claimStore, kernel);
 
 
             /////////////query service
-            var flierQueryService = RepoUtil.SetupQueryService<FlierQueryServiceInterface, Flier, FlierInterface>(store, kernel, FlierInterfaceExtensions.CopyFieldsFrom);
-
+            var flierQueryService = RepoUtil.SetupQueryService<QueryServiceForBrowserAggregateInterface, Flier, FlierInterface>(store, kernel, FlierInterfaceExtensions.CopyFieldsFrom);
 
             //by browser
-            RepoUtil.SetupQueryByBrowser<FlierQueryServiceInterface, Flier, FlierInterface>(flierQueryService, store,
+            RepoUtil.SetupQueryByBrowser<QueryServiceForBrowserAggregateInterface, Flier, FlierInterface>(flierQueryService, store,
                                                                                               kernel,
                                                                                               FlierInterfaceExtensions.
                                                                                                   CopyFieldsFrom);
 
             //Comments
-            RepoUtil.SetupRepo<FlierRepositoryInterface, Comment, CommentInterface>(storeComment, kernel, CommentInterfaceExtensions.CopyFieldsFrom);
-            RepoUtil.SetupQueryService<FlierQueryServiceInterface, Comment, CommentInterface>(storeComment, kernel, CommentInterfaceExtensions.CopyFieldsFrom);
-            RepoUtil.FindAggregateEntities<FlierQueryServiceInterface, Comment, CommentInterface>(storeComment, kernel,
+            RepoUtil.SetupRepo<GenericRepositoryInterface, Comment, CommentInterface>(storeComment, kernel, CommentInterfaceExtensions.CopyFieldsFrom);
+            RepoUtil.SetupQueryService<QueryServiceForBrowserAggregateInterface, Comment, CommentInterface>(storeComment, kernel, CommentInterfaceExtensions.CopyFieldsFrom);
+
+            RepoUtil.FindAggregateEntities<QueryServiceForBrowserAggregateInterface, Comment, CommentInterface>(storeComment, kernel,
                                                                                                   CommentInterfaceExtensions
                                                                                                       .CopyFieldsFrom);
-            RepoUtil.SetupQueryByBrowser<FlierQueryServiceInterface, Comment, CommentInterface>(flierQueryService, storeComment,
+
+            RepoUtil.SetupQueryByBrowser<QueryServiceForBrowserAggregateInterface, Comment, CommentInterface>(flierQueryService, storeComment,
                                                                                               kernel,
                                                                                               CommentInterfaceExtensions.
                                                                                                   CopyFieldsFrom);
@@ -110,12 +111,13 @@ namespace PostaFlya.Mocks.Domain.Data
 
 
             //claims
-            RepoUtil.SetupRepo<FlierRepositoryInterface, Claim, ClaimInterface>(claimStore, kernel, ClaimInterfaceExtensions.CopyFieldsFrom);
-            RepoUtil.SetupQueryService<FlierQueryServiceInterface, Claim, ClaimInterface>(claimStore, kernel, ClaimInterfaceExtensions.CopyFieldsFrom);
-            RepoUtil.FindAggregateEntities<FlierQueryServiceInterface, Claim, ClaimInterface>(claimStore, kernel,
+            RepoUtil.SetupRepo<GenericRepositoryInterface, Claim, ClaimInterface>(claimStore, kernel, ClaimInterfaceExtensions.CopyFieldsFrom);
+            RepoUtil.SetupQueryService<QueryServiceForBrowserAggregateInterface, Claim, ClaimInterface>(claimStore, kernel, ClaimInterfaceExtensions.CopyFieldsFrom);
+
+            RepoUtil.FindAggregateEntities<QueryServiceForBrowserAggregateInterface, Claim, ClaimInterface>(claimStore, kernel,
                                                                                       ClaimInterfaceExtensions
                                                                                           .CopyFieldsFrom);
-            RepoUtil.SetupQueryByBrowser<FlierQueryServiceInterface, Claim, ClaimInterface>(flierQueryService, claimStore,
+            RepoUtil.SetupQueryByBrowser<QueryServiceForBrowserAggregateInterface, Claim, ClaimInterface>(flierQueryService, claimStore,
                                                                                   kernel,
                                                                                   ClaimInterfaceExtensions.
                                                                                       CopyFieldsFrom);
@@ -123,7 +125,8 @@ namespace PostaFlya.Mocks.Domain.Data
             //query by location
             var locationService = kernel.Get<LocationServiceInterface>();
 
-            flierQueryService.Setup(o => o.FindFliersByLocationTagsAndDistance(
+            var flierSearchService = kernel.GetMock<FlierSearchServiceInterface>();
+            flierSearchService.Setup(o => o.FindFliersByLocationTagsAndDistance(
                 It.IsAny<Location>(), It.IsAny<Tags>(), It.IsAny<string>(),
                 It.IsAny<int>(), It.IsAny<int>(), It.IsAny<FlierSortOrder>(), It.IsAny<int>()))
                 .Returns<Location, Tags, string, int, int, FlierSortOrder, int>(

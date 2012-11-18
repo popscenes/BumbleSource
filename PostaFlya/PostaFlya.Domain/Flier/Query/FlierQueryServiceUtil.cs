@@ -11,7 +11,7 @@ namespace PostaFlya.Domain.Flier.Query
     public static class FlierQueryServiceUtil
     {
 
-        public static string FindFreeFriendlyId(this GenericQueryServiceInterface queryService, FlierInterface targetFlier)
+        public static string FindFreeFriendlyIdForFlier(this GenericQueryServiceInterface queryService, FlierInterface targetFlier)
         {
             const string pattern = "@dd-MMM-yy";
 

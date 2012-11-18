@@ -6,32 +6,29 @@ using PostaFlya.Domain.Flier.Query;
 using Website.Application.Intergrations;
 using Website.Domain.Browser.Query;
 using Website.Domain.Content;
-using Website.Domain.Content.Query;
 using Website.Infrastructure.Authentication;
 using Website.Infrastructure.Command;
 using Website.Application.Domain.Content;
 using Website.Domain.Browser;
 using Website.Domain.Content.Command;
+using Website.Infrastructure.Query;
 
 namespace PostaFlya.Application.Domain.ExternalSource
 {
     public class FacebookFlierImporter: FlierImporterInterface
     {
 
-        private readonly FlierQueryServiceInterface _queryService;
+        private readonly QueryServiceForBrowserAggregateInterface _queryService;
         private readonly UrlContentRetrieverFactoryInterface _contentRetrieverFactory;
         private readonly CommandBusInterface _commandBus;
-        private readonly ImageQueryServiceInterface _imageQueryServiceInterface;
         private FacebookGraph _graphApi;
-        public FacebookFlierImporter(FlierQueryServiceInterface queryService, 
+        public FacebookFlierImporter(QueryServiceForBrowserAggregateInterface queryService, 
             UrlContentRetrieverFactoryInterface contentRetrieverFactory, 
-            CommandBusInterface commandBus,
-            ImageQueryServiceInterface imageQueryServiceInterface)
+            CommandBusInterface commandBus)
         {
             _queryService = queryService;
             _contentRetrieverFactory = contentRetrieverFactory;
             _commandBus = commandBus;
-            this._imageQueryServiceInterface = imageQueryServiceInterface;
         }
 
         public bool CanImport(Website.Domain.Browser.BrowserInterface browser)
@@ -101,7 +98,7 @@ namespace PostaFlya.Application.Domain.ExternalSource
             }
 
             String externalId = "facebook" + fbEvent.id;
-            var imagesList = _imageQueryServiceInterface.GetByBrowserId<Image>(browser.Id);
+            var imagesList = _queryService.GetByBrowserId<Image>(browser.Id);
             var externalImage = imagesList.Where(_ => _.ExternalId == externalId);
 
             var imgId = Guid.NewGuid().ToString();

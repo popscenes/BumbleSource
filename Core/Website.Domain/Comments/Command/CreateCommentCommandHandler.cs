@@ -5,7 +5,6 @@ using Website.Infrastructure.Command;
 using Website.Infrastructure.Domain;
 using Website.Infrastructure.Query;
 using Website.Domain.Browser;
-using Website.Domain.Browser.Query;
 
 //using Website.Infrastructure.Service;
 
@@ -14,24 +13,21 @@ namespace Website.Domain.Comments.Command
     internal class CreateCommentCommandHandler : CommandHandlerInterface<CreateCommentCommand>
     {
         private readonly UnitOfWorkFactoryInterface _unitOfWorkFactory;
-        private readonly BrowserQueryServiceInterface _browserQueryService;
         private readonly GenericRepositoryInterface _genericRepository;
         private readonly GenericQueryServiceInterface _genericQueryService;
 
         public CreateCommentCommandHandler(UnitOfWorkFactoryInterface unitOfWorkFactory
-            , BrowserQueryServiceInterface browserQueryService
             , GenericRepositoryInterface genericRepository
             , GenericQueryServiceInterface genericQueryService)
         {
             _unitOfWorkFactory = unitOfWorkFactory;
-            _browserQueryService = browserQueryService;
             _genericRepository = genericRepository;
             _genericQueryService = genericQueryService;
         }
 
         public object Handle(CreateCommentCommand command)
         {
-            var browser = _browserQueryService.FindById<Browser.Browser>(command.BrowserId);
+            var browser = _genericQueryService.FindById<Browser.Browser>(command.BrowserId);
 
             if (browser == null || !browser.HasRole(Role.Participant)
                 || string.IsNullOrWhiteSpace(command.Comment))

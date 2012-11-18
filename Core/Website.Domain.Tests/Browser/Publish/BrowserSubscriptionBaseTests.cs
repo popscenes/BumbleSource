@@ -5,11 +5,10 @@ using Ninject;
 using Ninject.MockingKernel.Moq;
 using Website.Application.Publish;
 using Website.Domain.Browser;
-using Website.Domain.Browser.Command;
 using Website.Domain.Browser.Publish;
-using Website.Domain.Browser.Query;
 using Website.Infrastructure.Command;
 using Website.Infrastructure.Publish;
+using Website.Infrastructure.Query;
 using Website.Mocks.Domain.Data;
 
 namespace Website.Domain.Tests.Browser.Publish
@@ -57,7 +56,7 @@ namespace Website.Domain.Tests.Browser.Publish
         [Test]
         public void PublishServiceBrowserSubscriptionBaseHandlesBrowsesrSubscription()
         {
-            var repo = Kernel.Get<BrowserRepositoryInterface>();
+            var repo = Kernel.Get<GenericRepositoryInterface>();
             var browser = BrowserTestData.GetOne(Kernel);
             BrowserTestData.StoreOne(browser, repo, Kernel);
 
@@ -68,13 +67,13 @@ namespace Website.Domain.Tests.Browser.Publish
 
             testSub.BrowserSubscribe(browser);
 
-            browser = BrowserTestData.AssertGetById(browser, Kernel.Get<BrowserQueryServiceInterface>());
+            browser = BrowserTestData.AssertGetById(browser, Kernel.Get<GenericQueryServiceInterface>());
 
             Assert.IsTrue(testSub.IsBrowserSubscribed(browser));
 
             testSub.BrowserUnsubscribe(browser);
 
-            browser = BrowserTestData.AssertGetById(browser, Kernel.Get<BrowserQueryServiceInterface>());
+            browser = BrowserTestData.AssertGetById(browser, Kernel.Get<GenericQueryServiceInterface>());
 
             Assert.IsFalse(testSub.IsBrowserSubscribed(browser));
         }
@@ -82,7 +81,7 @@ namespace Website.Domain.Tests.Browser.Publish
         [Test]
         public void PublishServiceBrowserSubscriptionBasePublishesToAllBrowsersRequiredForPublish()
         {
-            var repo = Kernel.Get<BrowserRepositoryInterface>();
+            var repo = Kernel.Get<GenericRepositoryInterface>();
             var browser = BrowserTestData.GetOne(Kernel);
             BrowserTestData.StoreOne(browser, repo, Kernel);
 
@@ -97,8 +96,8 @@ namespace Website.Domain.Tests.Browser.Publish
             testSub.BrowserSubscribe(browser);
             testSub.BrowserSubscribe(browserTwo);
 
-            browser = BrowserTestData.AssertGetById(browser, Kernel.Get<BrowserQueryServiceInterface>());
-            browserTwo = BrowserTestData.AssertGetById(browserTwo, Kernel.Get<BrowserQueryServiceInterface>());
+            browser = BrowserTestData.AssertGetById(browser, Kernel.Get<GenericQueryServiceInterface>());
+            browserTwo = BrowserTestData.AssertGetById(browserTwo, Kernel.Get<GenericQueryServiceInterface>());
 
             Assert.IsTrue(testSub.IsBrowserSubscribed(browser));
             Assert.IsTrue(testSub.IsBrowserSubscribed(browserTwo));
@@ -123,8 +122,9 @@ namespace Website.Domain.Tests.Browser.Publish
         }
         public class TestPublishClass : BrowserSubscriptionBase<TestPublishObject>
         {
-            private readonly BrowserQueryServiceInterface _browserQueryService;
-            public TestPublishClass(CommandBusInterface commandBus, BrowserQueryServiceInterface browserQueryService) : base(commandBus)
+            private readonly GenericQueryServiceInterface _browserQueryService;
+            public TestPublishClass(CommandBusInterface commandBus, GenericQueryServiceInterface browserQueryService) 
+                : base(commandBus)
             {
                 _browserQueryService = browserQueryService;
             }

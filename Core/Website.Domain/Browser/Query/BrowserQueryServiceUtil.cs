@@ -1,12 +1,13 @@
 using System;
 using System.Text;
+using Website.Infrastructure.Query;
 using Website.Infrastructure.Util.Extension;
 
 namespace Website.Domain.Browser.Query
 {
     public static class BrowserQueryServiceUtil
     {
-        public static string FindFreeHandle(this BrowserQueryServiceInterface queryService, string handle, string id)
+        public static string FindFreeHandleForBrowser(this GenericQueryServiceInterface queryService, string handle, string id)
         {
             var tryHandle = handle.ToLowerUnderScore();
             var tryHandleBase = tryHandle;

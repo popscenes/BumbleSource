@@ -4,14 +4,13 @@ using Moq;
 using NUnit.Framework;
 using Ninject.MockingKernel.Moq;
 using PostaFlya.Application.Domain.ExternalSource;
-using Website.Domain.Content.Query;
+using Website.Domain.Browser.Query;
 using Website.Infrastructure.Command;
 using Website.Infrastructure.Authentication;
 using Website.Test.Common;
 using Website.Test.Common.Facebook;
 using PostaFlya.Domain.Flier;
 using PostaFlya.Domain.Flier.Query;
-using PostaFlya.Domain.Flier.Command;
 using Website.Application.Domain.Content;
 using Website.Mocks.Domain.Data;
 
@@ -100,9 +99,9 @@ namespace PostaFlya.Application.Domain.Tests.ExternalSource
         [Test]        
         public void FacebookFlierImporterCanImportTest()
         {
-            var facebookFlierImporter = new FacebookFlierImporter(Kernel.GetMock<FlierQueryServiceInterface>().Object,
+            var facebookFlierImporter = new FacebookFlierImporter(Kernel.GetMock<QueryServiceForBrowserAggregateInterface>().Object,
                 Kernel.GetMock<UrlContentRetrieverFactoryInterface>().Object,
-                Kernel.GetMock<CommandBusInterface>().Object, Kernel.GetMock<ImageQueryServiceInterface>().Object);
+                Kernel.GetMock<CommandBusInterface>().Object);
 
             browser.ExternalCredentials.First(_ => _.IdentityProvider == IdentityProviders.FACEBOOK).AccessToken = validToken;
             Assert.IsTrue(facebookFlierImporter.CanImport(browser));
@@ -118,14 +117,14 @@ namespace PostaFlya.Application.Domain.Tests.ExternalSource
         public void FacebookFlierImporterImportFliersTest()
         {
             browser.ExternalCredentials.First(_ => _.IdentityProvider == IdentityProviders.FACEBOOK).AccessToken = validToken;
-            var facebookFlierImporter = new FacebookFlierImporter(Kernel.GetMock<FlierQueryServiceInterface>().Object, 
+            var facebookFlierImporter = new FacebookFlierImporter(Kernel.GetMock<QueryServiceForBrowserAggregateInterface>().Object, 
                 Kernel.GetMock<UrlContentRetrieverFactoryInterface>().Object,
-                Kernel.GetMock<CommandBusInterface>().Object, Kernel.GetMock<ImageQueryServiceInterface>().Object);
+                Kernel.GetMock<CommandBusInterface>().Object);
 
             var fliers = facebookFlierImporter.ImportFliers(browser);
             AssertUtil.Count(5, fliers.ToList());
             var fliersList = fliers.ToList();
-            var repo = Kernel.GetMock<FlierRepositoryInterface>();
+            var repo = Kernel.GetMock<GenericRepositoryInterface>();
             fliersList[0].Id = "extflier1";
             repo.Object.Store(fliersList[0]);
             fliersList[1].Id = "extflier2";

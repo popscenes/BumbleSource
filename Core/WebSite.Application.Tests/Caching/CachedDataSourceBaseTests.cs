@@ -15,16 +15,15 @@ namespace Website.Application.Tests.Caching
         private readonly ObjectCache _cacheProvider;
 
         public CachedRepositoryTest(ObjectCache cacheProvider
-            , string regionName
             , CacheNotifier notifier)
-            : base(cacheProvider, regionName, notifier, null)
+            : base(cacheProvider, notifier, null)
         {
             _cacheProvider = cacheProvider;
         }
 
         public CacheItem GetCacheItem(string key)
         {
-            return _cacheProvider.GetCacheItem(GetInternalKey(key), GetRegion());
+            return _cacheProvider.GetCacheItem(key);
         }
 
         public void TestRemoveKey(string key)
@@ -38,9 +37,8 @@ namespace Website.Application.Tests.Caching
         private readonly ObjectCache _cacheProvider;
 
         public CachedQueryServiceTest(ObjectCache cacheProvider
-            , string regionName
             , int defaultSecondsToCache)
-            : base(cacheProvider, regionName, null, defaultSecondsToCache)
+            : base(cacheProvider, null, defaultSecondsToCache)
         {
             _cacheProvider = cacheProvider;
         }
@@ -52,7 +50,7 @@ namespace Website.Application.Tests.Caching
 
         public CacheItem GetCacheItem(string key)
         {
-            return _cacheProvider.GetCacheItem(GetInternalKey(key), GetRegion());
+            return _cacheProvider.GetCacheItem(key);
         }
 
         public CacheItemPolicy GetPolicy()
@@ -88,7 +86,7 @@ namespace Website.Application.Tests.Caching
         public void CachedDataSourceBaseInvalidateCachedDataBroadcastsInvalidateCacheDataCommand()
         {
             var localCache = TestUtil.GetMemoryCache();
-            var queryServ = new CachedQueryServiceTest(localCache, "testreg", 60);
+            var queryServ = new CachedQueryServiceTest(localCache, 60);
             queryServ.GetCachedData("testkey");
             var cacheEntry = queryServ.GetCacheItem("testkey");
 
@@ -100,7 +98,6 @@ namespace Website.Application.Tests.Caching
 
             var notifier = new CacheNotifier(Kernel.Get<DefaultCommandBus>());
             var repo = new CachedRepositoryTest(localCache
-                , "testreg"
                 , notifier);
             repo.TestRemoveKey("testkey");
 

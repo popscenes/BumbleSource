@@ -10,12 +10,12 @@ using Ninject.MockingKernel.Moq;
 using Website.Application.Content;
 using Website.Domain.Browser.Query;
 using Website.Infrastructure.Command;
+using Website.Infrastructure.Query;
 using Website.Test.Common;
 using Website.Application.Domain.Content;
 using Website.Application.Domain.Content.Command;
 using Website.Domain.Content;
 using Website.Domain.Content.Command;
-using Website.Domain.Content.Query;
 using Website.Domain.Service;
 using Image = System.Drawing.Image;
 
@@ -132,7 +132,7 @@ namespace Website.Application.Domain.Tests.Content
             //test the state was initially processing
             Assert.AreEqual(ImageStatus.Processing, imageInterface.Status);
 
-            var imageQueryService = ResolutionExtensions.Get<ImageQueryServiceInterface>(kernel);
+            var imageQueryService = ResolutionExtensions.Get<QueryServiceForBrowserAggregateInterface>(kernel);
             
 
             //test the state is ready
@@ -343,7 +343,7 @@ namespace Website.Application.Domain.Tests.Content
 
             //test the state is failed
             Assert.AreEqual(ImageStatus.Failed,
-                ResolutionExtensions.Get<ImageQueryServiceInterface>(kernel).FindById<Website.Domain.Content.Image>(imageInterface.Id).Status);
+                ResolutionExtensions.Get<GenericQueryServiceInterface>(kernel).FindById<Website.Domain.Content.Image>(imageInterface.Id).Status);
 
             return imageInterface.Id;
         }

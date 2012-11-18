@@ -3,14 +3,13 @@ using System.Collections.Generic;
 using NUnit.Framework;
 using Ninject;
 using Website.Azure.Common.Environment;
-using PostaFlya.DataRepository.Browser;
+using Website.Azure.Common.TableStorage;
 using Website.Infrastructure.Authentication;
 using Website.Infrastructure.Command;
 using Website.Domain.Browser;
-using Website.Domain.Browser.Command;
-using Website.Domain.Browser.Query;
 using Website.Domain.Location;
 using Website.Domain.Tag;
+using Website.Infrastructure.Query;
 using Website.Mocks.Domain.Data;
 using Website.Mocks.Domain.Defaults;
 
@@ -20,8 +19,8 @@ namespace PostaFlya.DataRepository.Tests
     //[TestFixture("real")]
     public class AzureBrowserRepositoryTests
     {
-        private BrowserRepositoryInterface _repository;
-        private BrowserQueryServiceInterface _queryService;
+        private GenericRepositoryInterface _repository;
+        private GenericQueryServiceInterface _queryService;
 
         StandardKernel Kernel
         {
@@ -64,8 +63,8 @@ namespace PostaFlya.DataRepository.Tests
 //            context.Delete<BrowserCredentialsTableEntry>(null, BrowserIdentityProviderCredential.HashPartition);
 //            context.SaveChanges();
 
-            _repository = Kernel.Get<BrowserRepositoryInterface>();
-            _queryService = Kernel.Get<BrowserQueryServiceInterface>();
+            _repository = Kernel.Get<GenericRepositoryInterface>();
+            _queryService = Kernel.Get<GenericQueryServiceInterface>();
         }
 
         [TestFixtureTearDown]
@@ -78,13 +77,13 @@ namespace PostaFlya.DataRepository.Tests
         [Test]
         public void TestCreateBrowserRepository()
         {
-            var browserRepository = Kernel.Get<BrowserRepositoryInterface>();
+            var browserRepository = Kernel.Get<GenericRepositoryInterface>();
             Assert.IsNotNull(browserRepository);
-            Assert.That(browserRepository, Is.InstanceOf<AzureBrowserRepository>());
+            Assert.That(browserRepository, Is.InstanceOf<JsonRepository>());
 
-            var browserQuery = Kernel.Get<BrowserQueryServiceInterface>();
+            var browserQuery = Kernel.Get<GenericQueryServiceInterface>();
             Assert.IsNotNull(browserQuery);
-            Assert.That(browserQuery, Is.InstanceOf<AzureBrowserRepository>());
+            Assert.That(browserQuery, Is.InstanceOf<JsonRepository>());
         }
 
         [Test]
@@ -115,7 +114,7 @@ namespace PostaFlya.DataRepository.Tests
         {
             var externalId = Guid.NewGuid();
 
-            AccessToken token = new AccessToken()
+            var token = new AccessToken()
             {
                 Expires = DateTime.Now.AddDays(1),
                 Token = "memememe",

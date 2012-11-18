@@ -16,8 +16,8 @@ using PostaFlya.Models.Location;
 using PostaFlya.Specification.Util;
 using Website.Domain.Content;
 using Website.Domain.Content.Command;
-using Website.Domain.Content.Query;
 using Website.Domain.Location;
+using Website.Infrastructure.Query;
 using Website.Mocks.Domain.Data;
 
 namespace PostaFlya.Specification.Content
@@ -64,7 +64,7 @@ namespace PostaFlya.Specification.Content
             var img = ScenarioContext.Current["uploadedImage"] as string;
             var browserInformation = SpecUtil.GetCurrBrowser();
 
-            var imageQs = SpecUtil.CurrIocKernel.Get<ImageQueryServiceInterface>();
+            var imageQs = SpecUtil.CurrIocKernel.Get<QueryServiceForBrowserAggregateInterface>();
             var imgs = imageQs.GetByBrowserId<Image>(browserInformation.Browser.Id);
             Assert.IsNotEmpty(imgs);
             Assert.IsNotEmpty(imgs.Where(i => i.Id == img));
@@ -76,7 +76,7 @@ namespace PostaFlya.Specification.Content
         {
             var img = ScenarioContext.Current["uploadedImage"] as string;
             var browserInformation = SpecUtil.GetCurrBrowser();
-            var imageQs = SpecUtil.CurrIocKernel.Get<ImageQueryServiceInterface>();
+            var imageQs = SpecUtil.CurrIocKernel.Get<GenericQueryServiceInterface>();
             var retImg = imageQs.FindById<Image>(img);
             Assert.IsNotNull(retImg);
             Assert.IsTrue(retImg.Status == ImageStatus.Processing);
@@ -86,7 +86,7 @@ namespace PostaFlya.Specification.Content
         public void WhenTheImageIsFinishedProcessing()
         {
             var img = ScenarioContext.Current["uploadedImage"] as string;
-            var imageQs = SpecUtil.CurrIocKernel.Get<ImageQueryServiceInterface>();
+            var imageQs = SpecUtil.CurrIocKernel.Get<GenericQueryServiceInterface>();
             var retImg = imageQs.FindById<Image>(img);
             Assert.IsNotNull(retImg);
 
@@ -102,7 +102,7 @@ namespace PostaFlya.Specification.Content
         public void ThenTheImageStatusShouldBeReady()
         {
             var img = ScenarioContext.Current["uploadedImage"] as string;
-            var imageQs = SpecUtil.CurrIocKernel.Get<ImageQueryServiceInterface>();
+            var imageQs = SpecUtil.CurrIocKernel.Get<GenericQueryServiceInterface>();
             var retImg = imageQs.FindById<Image>(img);
             Assert.IsNotNull(retImg);
             Assert.AreEqual(retImg.Status, ImageStatus.Ready);
@@ -113,7 +113,7 @@ namespace PostaFlya.Specification.Content
         {
             WhenIUploadAnImage();//just pretend the image fails processing
             var img = ScenarioContext.Current["uploadedImage"] as string;
-            var imageQs = SpecUtil.CurrIocKernel.Get<ImageQueryServiceInterface>();
+            var imageQs = SpecUtil.CurrIocKernel.Get<GenericQueryServiceInterface>();
             var retImg = imageQs.FindById<Image>(img);
             Assert.IsNotNull(retImg);
 
@@ -129,7 +129,7 @@ namespace PostaFlya.Specification.Content
         public void ThenTheImageStatusShouldBeFailed()
         {
             var img = ScenarioContext.Current["uploadedImage"] as string;
-            var imageQs = SpecUtil.CurrIocKernel.Get<ImageQueryServiceInterface>();
+            var imageQs = SpecUtil.CurrIocKernel.Get<GenericQueryServiceInterface>();
             var retImg = imageQs.FindById<Image>(img);
             Assert.IsNotNull(retImg);
             Assert.AreEqual(retImg.Status, ImageStatus.Failed);
@@ -162,7 +162,7 @@ namespace PostaFlya.Specification.Content
                 Location = new Location(longitude.Value, latitude.Value)
             });
 
-            var imageQs = SpecUtil.CurrIocKernel.Get<ImageQueryServiceInterface>();
+            var imageQs = SpecUtil.CurrIocKernel.Get<GenericQueryServiceInterface>();
             var retImg = imageQs.FindById<Image>(img);
             Assert.IsNotNull(retImg);
             Assert.AreEqual(retImg.Status, ImageStatus.Ready);

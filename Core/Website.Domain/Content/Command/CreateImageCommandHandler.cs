@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using Website.Infrastructure.Command;
-using Website.Domain.Content.Query;
 using Website.Domain.Service;
 using System.Linq;
 
@@ -10,17 +9,15 @@ namespace Website.Domain.Content.Command
     internal class CreateImageCommandHandler : CommandHandlerInterface<CreateImageCommand>
     {
         private readonly ContentStorageServiceInterface _contentStorageService;
-        private readonly ImageRepositoryInterface _imageRepository;
+        private readonly GenericRepositoryInterface _repository;
         private readonly UnitOfWorkFactoryInterface _unitOfWorkFactory;
-        private readonly ImageQueryServiceInterface _imageQueryServiceInterface;
 
         public CreateImageCommandHandler(ContentStorageServiceInterface contentStorageService
-                                         , ImageRepositoryInterface imageRepository, UnitOfWorkFactoryInterface unitOfWorkFactory, ImageQueryServiceInterface imageQueryServiceInterface)
+            , GenericRepositoryInterface repository, UnitOfWorkFactoryInterface unitOfWorkFactory)
         {
             _contentStorageService = contentStorageService;
-            _imageRepository = imageRepository;
+            _repository = repository;
             _unitOfWorkFactory = unitOfWorkFactory;
-            _imageQueryServiceInterface = imageQueryServiceInterface;
         }
 
         #region Implementation of CommandHandlerInterface<in CreateImageCommand>
@@ -40,7 +37,7 @@ namespace Website.Domain.Content.Command
             UnitOfWorkInterface unitOfWork;
             using (unitOfWork = _unitOfWorkFactory.GetUnitOfWork(GetReposForUnitOfWork()))
             {
-                _imageRepository.Store(insert);
+                _repository.Store(insert);
             }
 
             if (unitOfWork.Successful)
@@ -53,7 +50,7 @@ namespace Website.Domain.Content.Command
 
         private IList<RepositoryInterface> GetReposForUnitOfWork()
         {
-            return new List<RepositoryInterface>() { _imageRepository };
+            return new List<RepositoryInterface>() { _repository };
         }
     }
 }

@@ -8,7 +8,7 @@ using Website.Common.ActionResult;
 using PostaFlya.Controllers;
 using Website.Application.Domain.Tests.Content;
 using Website.Domain.Content;
-using Website.Domain.Content.Command;
+using Website.Infrastructure.Command;
 using Website.Test.Common;
 //using Website.Mocks.Domain.Data;
 
@@ -136,7 +136,7 @@ namespace PostaFlya.Website.Tests.Controllers
         {
             var id = Guid.NewGuid().ToString();
             var image = new Image() { Id = id, Status = ImageStatus.Processing};
-            Kernel.Get<ImageRepositoryInterface>().Store(image);
+            Kernel.Get<GenericRepositoryInterface>().Store(image);
 
             var imgController = Kernel.Get<ImgController>();
             ControllerContextMock.FakeControllerContext(Kernel, imgController);

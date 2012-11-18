@@ -4,6 +4,8 @@ using System.Runtime.Caching;
 using Website.Application.Caching.Query;
 using Website.Domain.Browser;
 using Website.Domain.Browser.Query;
+using Website.Infrastructure.Binding;
+using Website.Infrastructure.Caching.Query;
 
 namespace Website.Application.Domain.Query
 {
@@ -12,25 +14,18 @@ namespace Website.Application.Domain.Query
     {
         private readonly QueryServiceForBrowserAggregateInterface _queryService;
         public CachedQueryServiceWithBrowser(ObjectCache cacheProvider
-            , string regionName
-            , QueryServiceForBrowserAggregateInterface queryService
-            , int defaultSecondsToCache)
-            : base(cacheProvider, regionName, queryService, defaultSecondsToCache)
+            , [SourceDataSource] QueryServiceForBrowserAggregateInterface queryService
+            , int defaultSecondsToCache = -1)
+            : base(cacheProvider, queryService, defaultSecondsToCache)
         {
             _queryService = queryService;
         }
 
         public IQueryable<string> GetEntityIdsByBrowserId<EntityType>(String browserId) where EntityType : class, BrowserIdInterface, new()
         {
-            return RetrieveCachedData(
-                GetKeyFor(BrowserIdPrefix(typeof(EntityType)), browserId),
+            return RetrieveCachedData(browserId.GetCacheKeyFor<EntityType>("BrowserId"),
                 () => this._queryService.GetEntityIdsByBrowserId<EntityType>(browserId).ToList())
                 .AsQueryable();
-        }
-
-        public static string BrowserIdPrefix(Type entityTyp)
-        {
-            return entityTyp.FullName + " by browser";
         }
     }
 }

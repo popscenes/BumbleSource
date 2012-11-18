@@ -5,13 +5,13 @@ namespace Website.Domain.Content.Command
 {
     internal class SetImageStatusCommandHandler : CommandHandlerInterface<SetImageStatusCommand>
     {
-        private readonly ImageRepositoryInterface _imageRepository;
+        private readonly GenericRepositoryInterface _repository;
         private readonly UnitOfWorkFactoryInterface _unitOfWorkFactory;
 
-        public SetImageStatusCommandHandler(ImageRepositoryInterface imageRepository
+        public SetImageStatusCommandHandler(GenericRepositoryInterface repository
                                             , UnitOfWorkFactoryInterface unitOfWorkFactory)
         {
-            _imageRepository = imageRepository;
+            _repository = repository;
             _unitOfWorkFactory = unitOfWorkFactory;
         }
 
@@ -20,9 +20,9 @@ namespace Website.Domain.Content.Command
         public object Handle(SetImageStatusCommand command)
         {
             UnitOfWorkInterface unitOfWork;
-            using (unitOfWork = _unitOfWorkFactory.GetUnitOfWork(new List<RepositoryInterface>() {_imageRepository}))
+            using (unitOfWork = _unitOfWorkFactory.GetUnitOfWork(new List<RepositoryInterface>() {_repository}))
             {
-                _imageRepository.UpdateEntity<Image>(command.Id, image => image.Status = command.Status);
+                _repository.UpdateEntity<Image>(command.Id, image => image.Status = command.Status);
             }
 
             return unitOfWork.Successful;

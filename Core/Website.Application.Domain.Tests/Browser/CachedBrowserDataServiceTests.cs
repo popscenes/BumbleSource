@@ -3,12 +3,13 @@ using NUnit.Framework;
 using Ninject;
 using Ninject.MockingKernel.Moq;
 using Website.Application.Caching.Command;
+using Website.Application.Caching.Query;
+using Website.Infrastructure.Caching.Command;
+using Website.Infrastructure.Caching.Query;
+using Website.Infrastructure.Command;
+using Website.Infrastructure.Query;
 using Website.Test.Common;
-using Website.Application.Domain.Browser.Command;
-using Website.Application.Domain.Browser.Query;
 using Website.Domain.Browser;
-using Website.Domain.Browser.Command;
-using Website.Domain.Browser.Query;
 using Website.Mocks.Domain.Data;
 
 namespace Website.Application.Domain.Tests.Browser
@@ -34,9 +35,9 @@ namespace Website.Application.Domain.Tests.Browser
 
         public static void CachedDataIsReturnedForBrowserFindById(MoqMockingKernel kernel, ObjectCache cache)
         {
-            var queryService = ResolutionExtensions.Get<BrowserQueryServiceInterface>(kernel);
-            BrowserQueryServiceInterface cachedQueryService = new CachedBrowserQueryService(queryService, cache);
-            var repository = ResolutionExtensions.Get<BrowserRepositoryInterface>(kernel);
+            var queryService = kernel.Get<GenericQueryServiceInterface>();
+            GenericQueryServiceInterface cachedQueryService = new TimedExpiryCachedQueryService(cache, queryService);
+            var repository = kernel.Get<GenericRepositoryInterface>();
 
             var storedBrowser = BrowserTestData.StoreOne(BrowserTestData.GetOne(kernel), repository, kernel);
             var retrievedBrowser = cachedQueryService.FindById<Website.Domain.Browser.Browser>(storedBrowser.Id);
@@ -69,11 +70,10 @@ namespace Website.Application.Domain.Tests.Browser
 
         public static void CachedDataIsRefreshedWhenUsingCachedRepositoryForBrowserFindById(MoqMockingKernel kernel, ObjectCache cache)
         {
-            var queryService = ResolutionExtensions.Get<BrowserQueryServiceInterface>(kernel);
+            var queryService = kernel.Get<GenericQueryServiceInterface>();
+            GenericQueryServiceInterface cachedQueryService = new TimedExpiryCachedQueryService(cache, queryService);
 
-            BrowserQueryServiceInterface cachedQueryService = new CachedBrowserQueryService(queryService, cache);
-
-            var cachedBrowserRepository = new CachedBrowserRepository(ResolutionExtensions.Get<BrowserRepositoryInterface>(kernel), cache, new CacheNotifier());
+            var cachedBrowserRepository = new CachedRepositoryBase(cache, kernel.Get<GenericRepositoryInterface>());
 
             var storedBrowser = BrowserTestData.StoreOne(BrowserTestData.GetOne(kernel), cachedBrowserRepository, kernel);
             BrowserInterface retrievedBrowser = cachedQueryService.FindById<Website.Domain.Browser.Browser>(storedBrowser.Id);

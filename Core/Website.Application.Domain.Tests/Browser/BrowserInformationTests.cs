@@ -6,12 +6,13 @@ using NUnit.Framework;
 using Ninject;
 using Ninject.MockingKernel.Moq;
 using Website.Application.Authentication;
+using Website.Domain.Browser.Query;
 using Website.Infrastructure.Authentication;
+using Website.Infrastructure.Command;
+using Website.Infrastructure.Query;
 using Website.Test.Common;
 using Website.Application.Domain.Browser;
 using Website.Domain.Browser;
-using Website.Domain.Browser.Command;
-using Website.Domain.Browser.Query;
 
 namespace Website.Application.Domain.Tests.Browser
 {
@@ -81,23 +82,23 @@ namespace Website.Application.Domain.Tests.Browser
         [Test]
         public void BrowserInformationForNotEmptyPrincipalIsCreated()
         {
-            WebIdentity id = new WebIdentity();
-            GenericPrincipal prin = new GenericPrincipal(id, new string[] { "Participant" });
+            var id = new WebIdentity();
+            var prin = new GenericPrincipal(id, new string[] { "Participant" });
 
             var mockHttpContext = Kernel.GetMock<HttpContextBase>();
             mockHttpContext.Setup(_ => _.User).Returns(prin);
 
             //add the default sts browser to the repo.
-            var repo = ResolutionExtensions.Get<BrowserRepositoryInterface>(Kernel);
+            var repo = Kernel.Get<GenericRepositoryInterface>();
             repo.Store(Kernel.Get<BrowserInterface>(ctx => ctx.Has("ststestbrowser")));
 
-            var browser = ResolutionExtensions.Get<BrowserInformationInterface>(Kernel);
+            var browser = Kernel.Get<BrowserInformationInterface>();
             Assert.That(browser, Is.InstanceOf<BrowserInformation>());
 
-            var queryinterface = ResolutionExtensions.Get<BrowserQueryServiceInterface>(Kernel);
+            var queryinterface = Kernel.Get<GenericQueryServiceInterface>();
             var principal = Kernel.Get<WebPrincipalInterface>();
 
-            var storedBrowser = queryinterface.FindByIdentityProvider(principal.ToCredential());
+            var storedBrowser = queryinterface.FindBrowserByIdentityProvider(principal.ToCredential());
 
             Assert.IsNotNull(browser.Browser);
             Assert.IsFalse(string.IsNullOrWhiteSpace(browser.Browser.Id));

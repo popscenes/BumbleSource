@@ -5,7 +5,6 @@ using NUnit.Framework;
 using Ninject;
 using PostaFlya.Domain.Behaviour;
 using PostaFlya.Domain.Flier;
-using PostaFlya.Domain.Flier.Command;
 using PostaFlya.Domain.Flier.Query;
 using PostaFlya.Domain.Service;
 using Website.Infrastructure.Command;
@@ -39,7 +38,7 @@ namespace PostaFlya.Mocks.Domain.Data
                            ExternalId = "123"
                            
                        };
-            ret.FriendlyId = FlierQueryServiceUtil.FindFreeFriendlyId(null, ret);
+            ret.FriendlyId = FlierQueryServiceUtil.FindFreeFriendlyIdForFlier(null, ret);
             return ret;
         }
 
@@ -54,7 +53,7 @@ namespace PostaFlya.Mocks.Domain.Data
             return behave;
         }
 
-        internal static void AddSomeDataForHeatMapToMockFlierStore(FlierRepositoryInterface flierRepository, IKernel kernel)
+        internal static void AddSomeDataForHeatMapToMockFlierStore(GenericRepositoryInterface flierRepository, IKernel kernel)
         {
             //Jr's house
             for(var i = 0; i < 100; i++)
@@ -154,7 +153,7 @@ namespace PostaFlya.Mocks.Domain.Data
             return ret;
         }
 
-        internal static void AddSomeDataToMockFlierStore(FlierRepositoryInterface flierRepository, IKernel kernel)
+        internal static void AddSomeDataToMockFlierStore(GenericRepositoryInterface flierRepository, IKernel kernel)
         {
             var locationService = kernel.Get<LocationServiceInterface>();
             var defaultlocation = kernel.Get<Location>(ib => ib.Get<bool>("default"));
@@ -249,7 +248,7 @@ namespace PostaFlya.Mocks.Domain.Data
             //Assert.HasSameElements
         }
 
-        internal static FlierInterface AssertGetById(FlierInterface flier, FlierQueryServiceInterface queryService)
+        internal static FlierInterface AssertGetById(FlierInterface flier, GenericQueryServiceInterface queryService)
         {
             var retrievedFlier = queryService.FindById<Flier>(flier.Id);
             AssertStoreRetrieve(flier, retrievedFlier);
@@ -272,7 +271,7 @@ namespace PostaFlya.Mocks.Domain.Data
             return flier;
         }
 
-        internal static void UpdateOne(FlierInterface flier, FlierRepositoryInterface repository, StandardKernel kernel)
+        internal static void UpdateOne(FlierInterface flier, GenericRepositoryInterface repository, StandardKernel kernel)
         {
             using (kernel.Get<UnitOfWorkFactoryInterface>()
                 .GetUnitOfWork(new List<RepositoryInterface>() { repository }))

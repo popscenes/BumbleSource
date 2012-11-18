@@ -8,15 +8,15 @@ using PostaFlya.Binding;
 using Website.Infrastructure.Authentication;
 using Website.Infrastructure.Domain;
 using PostaFlya.Models.Browser;
-using Website.Domain.Browser.Query;
 using Website.Domain.Comments;
+using Website.Infrastructure.Query;
 
 namespace PostaFlya.Models.Comments
 {
     public static class CommentModelCommentInterfaceExtension
     {
         public static CommentModel ToViewModel(this CommentInterface comment
-            , BrowserQueryServiceInterface browserQuery
+            , GenericQueryServiceInterface browserQuery
             , BlobStorageInterface blobStorage)
         {
             var ret = comment.ToViewModel();

@@ -69,7 +69,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Behaviour\TaskJob\CachedTaskJobContext.cs" />
     <Compile Include="Behaviour\TaskJob\Command\CachedTaskJobRepository.cs" />
     <Compile Include="Behaviour\TaskJob\Query\CachedTaskJobQueryService.cs" />
     <Compile Include="Binding\ApplicationDomainNinjectBinding.cs" />
@@ -80,9 +79,6 @@
     <Compile Include="ExternalSource\FlierImporterInterface.cs" />
     <Compile Include="ExternalSource\FlierImportService.cs" />
     <Compile Include="ExternalSource\FlierImportServiceInterface.cs" />
-    <Compile Include="Flier\CachedFlierDataSourceBase.cs" />
-    <Compile Include="Flier\Command\CachedFlierRepository.cs" />
-    <Compile Include="Flier\Query\CachedFlierQueryService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -138,6 +134,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Claims\" />
+    <Folder Include="Flier\Command\" />
+    <Folder Include="Flier\Query\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />

@@ -116,6 +116,10 @@ namespace PostaFlya.Domain.Boards.Command
                 ret.Add(modEvent);
             }
 
+            if (!ret.Any())
+                return ret;
+
+
             repository.UpdateEntity<Flier.Flier>(flier.Id, update =>
             {
                 if (update.Boards == null)

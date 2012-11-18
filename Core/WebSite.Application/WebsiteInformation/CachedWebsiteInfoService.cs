@@ -16,7 +16,7 @@ namespace Website.Application.WebsiteInformation
         public CachedWebsiteInfoService([SourceDataSource]WebsiteInfoServiceInterface queryService
                 , ObjectCache cacheProvider
                 , int defaultSecondsToCache = -1)
-            : base(cacheProvider, "websiteinfo", null, defaultSecondsToCache)
+            : base(cacheProvider, null, defaultSecondsToCache)
         {
             _queryService = queryService;
         }
@@ -30,28 +30,28 @@ namespace Website.Application.WebsiteInformation
         public string GetBehaivourTags(string url)
         {
             return RetrieveCachedData(
-                GetKeyFor("behaivourtags", url),
+                "behaivourtags" + url,
                 () => this._queryService.GetBehaivourTags(url));
         }
 
         public string GetTags(string url)
         {
             return RetrieveCachedData(
-                GetKeyFor("tags", url),
+                "tags" + url,
                 () => this._queryService.GetTags(url));
         }
 
         public string GetWebsiteName(string url)
         {
             return RetrieveCachedData(
-                GetKeyFor("websitename", url),
+                "websitename" + url,
                 () => this._queryService.GetWebsiteName(url));
         }
 
         public WebsiteInfo GetWebsiteInfo(string url)
         {
             return RetrieveCachedData(
-                GetKeyFor("websiteInfo", url),
+                "websiteInfo" + url,
                 () => this._queryService.GetWebsiteInfo(url));
         }
     }

@@ -1,16 +1,6 @@
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Threading;
-using Microsoft.WindowsAzure;
-using Microsoft.WindowsAzure.Diagnostics;
 using Microsoft.WindowsAzure.ServiceRuntime;
-using Ninject;
-using PostaFlya.App_Start;
-using Website.Application.Command;
 using PostaFlya.CommandWorker;
-using Microsoft.WindowsAzure.Diagnostics;
 
 namespace PostaFlya
 {

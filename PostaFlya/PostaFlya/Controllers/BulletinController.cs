@@ -10,31 +10,30 @@ using PostaFlya.Models.Factory;
 using PostaFlya.Models.Flier;
 using PostaFlya.Models.Location;
 using Website.Application.Content;
-using Website.Domain.Browser.Query;
 using Website.Domain.Location;
 using Website.Domain.Tag;
+using Website.Infrastructure.Query;
 
 namespace PostaFlya.Controllers
 {
     public class BulletinController : Controller
     {
-        private readonly FlierQueryServiceInterface _flierQueryService;
+        private readonly GenericQueryServiceInterface _queryService;
         private readonly BlobStorageInterface _blobStorage;
         private readonly FlierBehaviourQueryServiceInterface _behaviourQueryService;
         private readonly FlierBehaviourViewModelFactoryInterface _viewModelFactory;
-        private readonly BrowserQueryServiceInterface _browserQueryService;
+        private readonly FlierSearchServiceInterface _flierSearchService;
 
-        public BulletinController(FlierQueryServiceInterface flierQueryService
+        public BulletinController(GenericQueryServiceInterface queryService
             , [ImageStorage]BlobStorageInterface blobStorage
             , FlierBehaviourQueryServiceInterface behaviourQueryService
-            , FlierBehaviourViewModelFactoryInterface viewModelFactory
-            , BrowserQueryServiceInterface browserQueryService)
+            , FlierBehaviourViewModelFactoryInterface viewModelFactory, FlierSearchServiceInterface flierSearchService)
         {
-            _flierQueryService = flierQueryService;
+            _queryService = queryService;
             _blobStorage = blobStorage;
             _behaviourQueryService = behaviourQueryService;
             _viewModelFactory = viewModelFactory;
-            _browserQueryService = browserQueryService;
+            _flierSearchService = flierSearchService;
         }
 
         public ActionResult Get(LocationModel loc
@@ -43,8 +42,8 @@ namespace PostaFlya.Controllers
             if(!loc.IsValid())
                 return View(new List<BulletinFlierModel>());
 
-            var model =  BulletinApiController.GetFliers(_flierQueryService, _blobStorage, _viewModelFactory
-                             , loc, count, board, skip, distance, tags);
+            var model = BulletinApiController.GetFliers(_flierSearchService, _queryService, _blobStorage, _viewModelFactory
+                             , loc, count, board: board, skip: skip, distance: distance, tags: tags);
 
             ViewBag.Location = loc;
             ViewBag.Distance = distance;
@@ -61,14 +60,14 @@ namespace PostaFlya.Controllers
 
         public ActionResult Detail(string id)
         {
-            var model = BulletinApiController.GetDetail(id, _flierQueryService, _behaviourQueryService, _blobStorage,
+            var model = BulletinApiController.GetDetail(id, _queryService, _behaviourQueryService, _blobStorage,
                                             _viewModelFactory);
 
             ViewBag.FlierDetail = model;
-            ViewBag.Comments = CommentController.GetComments(_flierQueryService, id)
-                .Select(c => c.FillBrowserModel(_browserQueryService, _blobStorage)).ToList();
-            ViewBag.Claims = ClaimController.GetClaims(_flierQueryService, id)
-                .Select(l => l.FillBrowserModel(_browserQueryService, _blobStorage)).ToList();
+            ViewBag.Comments = CommentController.GetComments(_queryService, id)
+                .Select(c => c.FillBrowserModel(_queryService, _blobStorage)).ToList();
+            ViewBag.Claims = ClaimController.GetClaims(_queryService, id)
+                .Select(l => l.FillBrowserModel(_queryService, _blobStorage)).ToList();
            
             return View("DetailGet", model);
         }

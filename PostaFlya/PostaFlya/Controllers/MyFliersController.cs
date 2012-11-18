@@ -5,14 +5,13 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using PostaFlya.Models.Content;
 using Website.Application.Binding;
 using Website.Application.Content;
-using Website.Application.WebsiteInformation;
 using PostaFlya.Areas.Default.Models.Bulletin;
 using PostaFlya.Attributes;
 using PostaFlya.Domain.Flier;
 using PostaFlya.Domain.Flier.Command;
-using PostaFlya.Domain.Flier.Query;
 using PostaFlya.Domain.Service;
 using Website.Common.Extension;
 using PostaFlya.Helpers;
@@ -21,9 +20,9 @@ using Website.Infrastructure.Command;
 using PostaFlya.Models;
 using PostaFlya.Models.Factory;
 using PostaFlya.Models.Flier;
-using PostaFlya.Models.Content;
 using Website.Application.Domain.Content;
 using Website.Domain.Tag;
+using Website.Infrastructure.Query;
 using Website.Infrastructure.Util.Extension;
 
 namespace PostaFlya.Controllers
@@ -32,28 +31,25 @@ namespace PostaFlya.Controllers
     public class MyFliersController : ApiController
     {
         private readonly CommandBusInterface _commandBus;
-        private readonly FlierQueryServiceInterface _flierQueryService;
+        private readonly QueryServiceForBrowserAggregateInterface _queryService;
         private readonly BlobStorageInterface _blobStorage;
-        private readonly WebsiteInfoServiceInterface _websiteInfoService;
         private readonly FlierBehaviourViewModelFactoryInterface _viewModelFactory;
 
         public MyFliersController(CommandBusInterface commandBus,
-            FlierQueryServiceInterface flierQueryService,
+            QueryServiceForBrowserAggregateInterface queryService,
             [ImageStorage]BlobStorageInterface blobStorage
-            , WebsiteInfoServiceInterface websiteInfoService
             , FlierBehaviourViewModelFactoryInterface viewModelFactory)
         {
             _commandBus = commandBus;
-            _flierQueryService = flierQueryService;
+            _queryService = queryService;
             _blobStorage = blobStorage;
-            _websiteInfoService = websiteInfoService;
             _viewModelFactory = viewModelFactory;
         }
 
         // GET /api/myfliersapi
         public IQueryable<BulletinFlierModel> Get(string browserId)
         {
-            var fliers = _flierQueryService.GetByBrowserId<Flier>(browserId);
+            var fliers = _queryService.GetByBrowserId<Flier>(browserId);
             return fliers.Select(_ => _viewModelFactory.GetBulletinViewModel(_, false)
                 .GetImageUrl(_blobStorage))
                 .AsQueryable();
@@ -62,7 +58,7 @@ namespace PostaFlya.Controllers
         // GET /api/Browser/browserId/myfliers/5
         public FlierCreateModel Get(string browserId, string id)
         {
-            var flier = _flierQueryService.FindById<Flier>(id);
+            var flier = _queryService.FindById<Flier>(id);
             if (flier != null && flier.BrowserId != browserId)
                 return null;
 
@@ -128,7 +124,7 @@ namespace PostaFlya.Controllers
 
         public void Delete(string browserId, string id)
         {
-            var flier = _flierQueryService.FindById<Flier>(id);
+            var flier = _queryService.FindById<Flier>(id);
             if (flier != null && flier.BrowserId != browserId)
                 return;
             //TODO delete...

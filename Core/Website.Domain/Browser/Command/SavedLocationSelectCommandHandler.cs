@@ -5,29 +5,25 @@ namespace Website.Domain.Browser.Command
 {
     internal class SavedLocationSelectCommandHandler: CommandHandlerInterface<SavedLocationSelectCommand>
     {
-        private readonly BrowserRepositoryInterface _browserRepository;
+        private readonly GenericRepositoryInterface _repository;
         private readonly UnitOfWorkFactoryInterface _unitOfWorkFactory;
 
-        public SavedLocationSelectCommandHandler(BrowserRepositoryInterface browserRepository, 
+        public SavedLocationSelectCommandHandler(GenericRepositoryInterface repository, 
                                     UnitOfWorkFactoryInterface unitOfWorkFactory)
         {
-            _browserRepository = browserRepository;
+            _repository = repository;
             _unitOfWorkFactory = unitOfWorkFactory;
         }
 
         public object Handle(SavedLocationSelectCommand command)
         {
-            using (_unitOfWorkFactory.GetUnitOfWork(GetReposForUnitOfWork()))
+            using (_unitOfWorkFactory.GetUnitOfWork(new[] { _repository }))
             {
-                _browserRepository.UpdateEntity<Browser>(command.BrowserId, browser => browser.DefaultLocation = command.Location);
+                _repository.UpdateEntity<Browser>(command.BrowserId, browser => browser.DefaultLocation = command.Location);
             }
 
             return new MsgResponse("Saved Location Select", false).AddCommandId(command);
         }
 
-        private IList<RepositoryInterface> GetReposForUnitOfWork()
-        {
-            return new List<RepositoryInterface>() { _browserRepository };
-        }
     }
 }

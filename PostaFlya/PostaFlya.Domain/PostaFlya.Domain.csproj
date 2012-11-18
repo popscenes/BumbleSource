@@ -90,6 +90,7 @@
     <Compile Include="Flier\FlierImage.cs" />
     <Compile Include="Flier\PaymentOption.cs" />
     <Compile Include="Flier\Query\FlierQueryServiceUtil.cs" />
+    <Compile Include="Flier\Query\FlierSearchServiceInterface.cs" />
     <Compile Include="Service\BehaviourFactoryInterface.cs" />
     <Compile Include="Behaviour\FlierBehaviour.cs" />
     <Compile Include="Behaviour\FlierBehaviourInterface.cs" />
@@ -100,11 +101,9 @@
     <Compile Include="Flier\Command\CreateFlierCommandHandler.cs" />
     <Compile Include="Flier\Command\EditFlierCommand.cs" />
     <Compile Include="Flier\Command\EditFlierCommandHandler.cs" />
-    <Compile Include="Flier\Command\FlierRepositoryInterface.cs" />
     <Compile Include="Flier\Flier.cs" />
     <Compile Include="Flier\FlierInterface.cs" />
     <Compile Include="Flier\FlierStatus.cs" />
-    <Compile Include="Flier\Query\FlierQueryServiceInterface.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />

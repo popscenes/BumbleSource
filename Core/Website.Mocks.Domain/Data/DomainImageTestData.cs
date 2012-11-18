@@ -6,9 +6,8 @@ using Ninject.MockingKernel.Moq;
 using Website.Infrastructure.Command;
 using Website.Domain.Browser;
 using Website.Domain.Content;
-using Website.Domain.Content.Command;
-using Website.Domain.Content.Query;
 using Website.Domain.Location;
+using Website.Infrastructure.Query;
 
 namespace Website.Mocks.Domain.Data
 {
@@ -23,7 +22,7 @@ namespace Website.Mocks.Domain.Data
             Assert.AreEqual(storedImageInfo.Status, retrievedImageInfo.Status);
         }
 
-        internal static ImageInterface AssertGetById(ImageInterface image, ImageQueryServiceInterface queryService)
+        internal static ImageInterface AssertGetById(ImageInterface image, GenericQueryServiceInterface queryService)
         {
             var retrievedFlier = queryService.FindById<Image>(image.Id);
             AssertStoreRetrieve(image, retrievedFlier);
@@ -32,7 +31,7 @@ namespace Website.Mocks.Domain.Data
         }
 
 
-        internal static ImageInterface StoreOne(Image image, ImageRepositoryInterface repository, StandardKernel kernel)
+        internal static ImageInterface StoreOne(Image image, GenericRepositoryInterface repository, StandardKernel kernel)
         {
             var uow = kernel.Get<UnitOfWorkFactoryInterface>()
                 .GetUnitOfWork(new List<RepositoryInterface>() {repository});
@@ -46,7 +45,7 @@ namespace Website.Mocks.Domain.Data
             return image;
         }
 
-        internal static void UpdateOne(ImageInterface image, ImageRepositoryInterface repository, StandardKernel kernel)
+        internal static void UpdateOne(ImageInterface image, GenericRepositoryInterface repository, StandardKernel kernel)
         {
             using (kernel.Get<UnitOfWorkFactoryInterface>()
                 .GetUnitOfWork(new List<RepositoryInterface>() { repository }))

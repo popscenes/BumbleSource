@@ -6,12 +6,12 @@ using NUnit.Framework;
 using Ninject;
 using PostaFlya.Controllers;
 using PostaFlya.Domain.Flier;
-using PostaFlya.Domain.Flier.Query;
 using PostaFlya.Models;
 using PostaFlya.Models.Flier;
 using PostaFlya.Specification.Util;
 using TechTalk.SpecFlow;
 using Website.Application.Payment;
+using Website.Infrastructure.Query;
 
 namespace PostaFlya.Specification.Fliers
 {
@@ -34,7 +34,7 @@ namespace PostaFlya.Specification.Fliers
         {
             var flierid = ScenarioContext.Current["createdflyaid"] as string;
 
-            var flierQueryService = SpecUtil.CurrIocKernel.Get<FlierQueryServiceInterface>();
+            var flierQueryService = SpecUtil.CurrIocKernel.Get<GenericQueryServiceInterface>();
             var flier = flierQueryService.FindById<Flier>(flierid);
 
             var paymentController = SpecUtil.GetController<PaymentController>();
@@ -71,7 +71,7 @@ namespace PostaFlya.Specification.Fliers
         {
             var flierid = ScenarioContext.Current["createdflyaid"] as string;
 
-            var flierQueryService = SpecUtil.CurrIocKernel.Get<FlierQueryServiceInterface>();
+            var flierQueryService = SpecUtil.CurrIocKernel.Get<GenericQueryServiceInterface>();
             var flier = flierQueryService.FindById<Flier>(flierid);
 
             var paymentController = SpecUtil.GetController<PaymentController>();

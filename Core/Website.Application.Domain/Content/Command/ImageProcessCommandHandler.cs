@@ -94,7 +94,7 @@ namespace Website.Application.Domain.Content.Command
                 if (maxDimImg != null)
                     maxDimImg.Dispose();
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 if (aspectImg != null)
                     aspectImg.Dispose();

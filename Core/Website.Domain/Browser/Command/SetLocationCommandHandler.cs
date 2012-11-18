@@ -5,30 +5,25 @@ namespace Website.Domain.Browser.Command
 {
     internal class SetLocationCommandHandler : CommandHandlerInterface<SetLocationCommand>
     {
-        private readonly BrowserRepositoryInterface _browserRepository;
+        private readonly GenericRepositoryInterface _repository;
         private readonly UnitOfWorkFactoryInterface _unitOfWorkFactory;
 
-        public SetLocationCommandHandler(BrowserRepositoryInterface browserRepository, 
+        public SetLocationCommandHandler(GenericRepositoryInterface repository, 
                                     UnitOfWorkFactoryInterface unitOfWorkFactory)
         {
-            _browserRepository = browserRepository;
+            _repository = repository;
             _unitOfWorkFactory = unitOfWorkFactory;
         }
 
         public object Handle(SetLocationCommand command)
         {
-            using (_unitOfWorkFactory.GetUnitOfWork(GetReposForUnitOfWork()))
+            using (_unitOfWorkFactory.GetUnitOfWork(new[] { _repository }))
             {
-                _browserRepository.UpdateEntity<Browser>(command.BrowserId
+                _repository.UpdateEntity<Browser>(command.BrowserId
                                                 , browser => browser.DefaultLocation = command.Location);
             }
 
             return true;
-        }
-
-        private IList<RepositoryInterface> GetReposForUnitOfWork()
-        {
-            return new List<RepositoryInterface>() { _browserRepository };
         }
     }
 }

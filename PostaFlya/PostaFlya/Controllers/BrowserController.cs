@@ -4,8 +4,8 @@ using PostaFlya.Models.Tags;
 using Website.Application.Domain.Browser;
 using Website.Domain.Browser;
 using Website.Domain.Browser.Command;
-using Website.Domain.Browser.Query;
 using Website.Domain.Location;
+using Website.Infrastructure.Query;
 
 namespace PostaFlya.Controllers
 {
@@ -13,10 +13,10 @@ namespace PostaFlya.Controllers
     {
         private readonly CommandBusInterface _commandBus;
         private readonly BrowserInformationInterface _browserInformation;
-        private readonly BrowserQueryServiceInterface _browserQueryService;
+        private readonly GenericQueryServiceInterface _browserQueryService;
 
         public BrowserController(CommandBusInterface commandBus, 
-            BrowserInformationInterface browserInformation, BrowserQueryServiceInterface browserQueryService)
+            BrowserInformationInterface browserInformation, GenericQueryServiceInterface browserQueryService)
         {
             _commandBus = commandBus;
             _browserInformation = browserInformation;

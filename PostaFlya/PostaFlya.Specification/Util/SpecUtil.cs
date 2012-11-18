@@ -9,11 +9,11 @@ using Ninject.MockingKernel.Moq;
 using Ninject.Modules;
 using TechTalk.SpecFlow;
 using PostaFlya.Mocks.Domain.Data;
+using Website.Infrastructure.Query;
 using Website.Mocks.Domain.Data;
 using Website.Test.Common;
 using Website.Application.Domain.Browser;
 using Website.Domain.Browser;
-using Website.Domain.Browser.Query;
 using Website.Mocks.Domain.Defaults;
 
 namespace PostaFlya.Specification.Util
@@ -111,7 +111,7 @@ namespace PostaFlya.Specification.Util
 
         public static BrowserInterface AssertGetParticipantBrowser(string id)
         {
-            var browserQuery = SpecUtil.CurrIocKernel.Get<BrowserQueryServiceInterface>();
+            var browserQuery = SpecUtil.CurrIocKernel.Get<GenericQueryServiceInterface>();
             var browser = browserQuery.FindById<Browser>(id);
             Assert.IsTrue(browser != null);
             Assert.IsTrue(browser.HasRole(Role.Participant));

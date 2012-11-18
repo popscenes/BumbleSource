@@ -3,13 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
 using Ninject;
+using PostaFlya.DataRepository.Internal;
 using Website.Azure.Common.Environment;
-using PostaFlya.DataRepository.Content;
+using Website.Azure.Common.TableStorage;
 using Website.Domain.Browser.Query;
 using Website.Infrastructure.Command;
 using Website.Domain.Content;
-using Website.Domain.Content.Command;
-using Website.Domain.Content.Query;
 using Website.Domain.Location;
 
 namespace PostaFlya.DataRepository.Tests
@@ -29,8 +28,8 @@ namespace PostaFlya.DataRepository.Tests
         } 
 
 
-        ImageRepositoryInterface _repository;
-        ImageQueryServiceInterface _queryService;
+        GenericRepositoryInterface _repository;
+        QueryServiceForBrowserAggregateInterface _queryService;
 
         [TestFixtureSetUp]
         public void FixtureSetUp()
@@ -50,8 +49,8 @@ namespace PostaFlya.DataRepository.Tests
 //            context.Delete<ImageTableEntry>(null, ImageStorageDomain.BrowserPartition);
 //            context.SaveChanges();
 
-            _repository = Kernel.Get<ImageRepositoryInterface>();
-            _queryService = Kernel.Get<ImageQueryServiceInterface>();
+            _repository = Kernel.Get<GenericRepositoryInterface>();
+            _queryService = Kernel.Get<QueryServiceForBrowserAggregateInterface>();
         }
         
         [TestFixtureTearDown]
@@ -64,13 +63,13 @@ namespace PostaFlya.DataRepository.Tests
         [Test]
         public void TestCreateImageRepository()
         {
-            var repository = Kernel.Get<ImageRepositoryInterface>();
+            var repository = Kernel.Get<GenericRepositoryInterface>();
             Assert.IsNotNull(repository);
-            Assert.That(repository, Is.InstanceOf<AzureImageRepository>());
+            Assert.That(repository, Is.InstanceOf<JsonRepository>());
 
-            var queryService = Kernel.Get<ImageQueryServiceInterface>();
+            var queryService = Kernel.Get<QueryServiceForBrowserAggregateInterface>();
             Assert.IsNotNull(queryService);
-            Assert.That(queryService, Is.InstanceOf<AzureImageRepository>());
+            Assert.That(queryService, Is.InstanceOf<JsonRepositoryWithBrowser>());
         }
 
         [Test]

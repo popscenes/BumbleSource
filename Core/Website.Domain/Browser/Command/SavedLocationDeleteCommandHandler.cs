@@ -5,10 +5,10 @@ namespace Website.Domain.Browser.Command
 {
     internal class SavedLocationDeleteCommandHandler: CommandHandlerInterface<SavedLocationDeleteCommand>
     {
-        private readonly BrowserRepositoryInterface _browserRepository;
+        private readonly GenericRepositoryInterface _browserRepository;
         private readonly UnitOfWorkFactoryInterface _unitOfWorkFactory;
 
-        public SavedLocationDeleteCommandHandler(BrowserRepositoryInterface browserRepository, 
+        public SavedLocationDeleteCommandHandler(GenericRepositoryInterface browserRepository, 
                                     UnitOfWorkFactoryInterface unitOfWorkFactory)
         {
             _browserRepository = browserRepository;
@@ -17,17 +17,12 @@ namespace Website.Domain.Browser.Command
 
         public object Handle(SavedLocationDeleteCommand command)
         {
-            using (_unitOfWorkFactory.GetUnitOfWork(GetReposForUnitOfWork()))
+            using (_unitOfWorkFactory.GetUnitOfWork(new[] { _browserRepository }))
             {
                 _browserRepository.UpdateEntity<Browser>(command.BrowserId, browser => browser.SavedLocations.Remove(command.Location));
             }
 
             return true;
-        }
-
-        private IList<RepositoryInterface> GetReposForUnitOfWork()
-        {
-            return new List<RepositoryInterface>() { _browserRepository };
         }
     }
 }

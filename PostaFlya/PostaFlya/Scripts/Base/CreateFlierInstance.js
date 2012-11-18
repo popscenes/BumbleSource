@@ -48,7 +48,7 @@
 
 
 
-        self.EditFlierLaunch = function (flier) {
+        self.EditFlierLaunch = function (flier, evnt) {
             self.apiUrl = sprintf("/api/Browser/%s/MyFliers", bf.currentBrowserInstance.BrowserId);
             $.ajax(self.apiUrl + "/" + flier.Id, {
                 type: "get", contentType: "application/json",
@@ -56,11 +56,13 @@
                     self.InitialiseFlier(result);
                 }
             });
+            evnt.stopImmediatePropagation();
+            return false;
         };
 
-        self.FlierFormClose = function () {
+        self.FlierFormClose = function() {
             self.CreateFlier(null);
-        }
+        };
     };
 
     $(function () {

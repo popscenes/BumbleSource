@@ -3,22 +3,22 @@ using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
 using Ninject;
+using PostaFlya.DataRepository.Internal;
 using PostaFlya.DataRepository.Search.Command;
 using PostaFlya.DataRepository.Search.Event;
 using PostaFlya.DataRepository.Search.Services;
 using PostaFlya.Domain.Boards;
 using PostaFlya.Domain.Boards.Event;
 using PostaFlya.Domain.Flier.Event;
+using PostaFlya.Domain.Flier.Query;
 using Website.Azure.Common.Environment;
-using PostaFlya.DataRepository.Flier;
 using PostaFlya.DataRepository.Search.Implementation;
 using PostaFlya.DataRepository.Tests.Behaviour.TaskJob;
 using PostaFlya.DataRepository.Tests.Internal;
 using PostaFlya.Domain.Behaviour;
 using PostaFlya.Domain.Flier;
-using PostaFlya.Domain.Flier.Command;
-using PostaFlya.Domain.Flier.Query;
 using PostaFlya.Domain.TaskJob;
+using Website.Azure.Common.TableStorage;
 using Website.Domain.Browser.Query;
 using Website.Infrastructure.Command;
 using PostaFlya.Mocks.Domain.Data;
@@ -36,8 +36,9 @@ namespace PostaFlya.DataRepository.Tests
     //[TestFixture("real")]
     public class AzureFlierRepositoryTests
     {
-        private FlierRepositoryInterface _repository;
-        private FlierQueryServiceInterface _queryService;
+        private GenericRepositoryInterface _repository;
+        private QueryServiceForBrowserAggregateInterface _queryService;
+        private FlierSearchServiceInterface _searchService;
 
         StandardKernel Kernel
         {
@@ -79,8 +80,9 @@ namespace PostaFlya.DataRepository.Tests
 
             TaskJobRepositoryTests.BindTaskJobRepository(Kernel);
             
-            _repository = Kernel.Get<FlierRepositoryInterface>();
-            _queryService = Kernel.Get<FlierQueryServiceInterface>();          
+            _repository = Kernel.Get<GenericRepositoryInterface>();
+            _queryService = Kernel.Get<QueryServiceForBrowserAggregateInterface>();
+            _searchService = Kernel.Get<FlierSearchServiceInterface>();
         }
 
         [TestFixtureTearDown]
@@ -107,13 +109,13 @@ namespace PostaFlya.DataRepository.Tests
         [Test]
         public void TestCreateFlierRepository()
         {
-            var repository = Kernel.Get<FlierRepositoryInterface>();
+            var repository = Kernel.Get<GenericRepositoryInterface>();
             Assert.IsNotNull(repository);
-            Assert.That(repository, Is.InstanceOf<AzureFlierRepository>());
+            Assert.That(repository, Is.InstanceOf<JsonRepository>());
 
-            var queryService = Kernel.Get<FlierQueryServiceInterface>();
+            var queryService = Kernel.Get<QueryServiceForBrowserAggregateInterface>();
             Assert.IsNotNull(queryService);
-            Assert.That(queryService, Is.InstanceOf<AzureFlierRepository>());
+            Assert.That(queryService, Is.InstanceOf<JsonRepositoryWithBrowser>());
         }
 
         private static Location _loc = new Location(55,55);
@@ -227,7 +229,7 @@ namespace PostaFlya.DataRepository.Tests
             var location = _loc;
             var tag = Kernel.Get<Tags>(bm => bm.Has("default"));
 
-            var retrievedFliers = _queryService.FindFliersByLocationTagsAndDistance(location, tag, board.Id)
+            var retrievedFliers = _searchService.FindFliersByLocationTagsAndDistance(location, tag, board.Id)
                 .Select(id => _queryService.FindById<Domain.Flier.Flier>(id)).ToList();
 
             Assert.That(retrievedFliers.Count(), Is.EqualTo(1));
@@ -262,7 +264,7 @@ namespace PostaFlya.DataRepository.Tests
 
             var tag = Kernel.Get<Tags>(bm => bm.Has("default"));
 
-            var retrievedFliers = _queryService.FindFliersByLocationTagsAndDistance(new Location(), tag, board.Id)
+            var retrievedFliers = _searchService.FindFliersByLocationTagsAndDistance(new Location(), tag, board.Id)
                 .Select(id => _queryService.FindById<Domain.Flier.Flier>(id)).ToList();
 
             Assert.That(retrievedFliers.Count(), Is.EqualTo(1));
@@ -277,19 +279,19 @@ namespace PostaFlya.DataRepository.Tests
             var location = _loc;
             var tag = Kernel.Get<Tags>(bm => bm.Has("default"));
 
-            var retrievedFliers = _queryService.FindFliersByLocationTagsAndDistance(location, tag)
+            var retrievedFliers = _searchService.FindFliersByLocationTagsAndDistance(location, tag)
                 .Select(id => _queryService.FindById<Domain.Flier.Flier>(id)).AsQueryable();
 
             Assert.IsTrue(retrievedFliers.Any());
             AssertRetrievedFliersAreSameLocation(retrievedFliers);
 
 
-            retrievedFliers = _queryService.FindFliersByLocationTagsAndDistance(new Location(130, 130), tag)
+            retrievedFliers = _searchService.FindFliersByLocationTagsAndDistance(new Location(130, 130), tag)
                 .Select(id => _queryService.FindById<Domain.Flier.Flier>(id)).AsQueryable();
             Assert.IsTrue(!retrievedFliers.Any());
 
             var theBadTags = new Tags(){"crapolla","shitolla"};
-            retrievedFliers = _queryService.FindFliersByLocationTagsAndDistance(location, theBadTags)
+            retrievedFliers = _searchService.FindFliersByLocationTagsAndDistance(location, theBadTags)
                 .Select(id => _queryService.FindById<Domain.Flier.Flier>(id)).AsQueryable();
             Assert.IsTrue(!retrievedFliers.Any());
 
@@ -484,7 +486,7 @@ namespace PostaFlya.DataRepository.Tests
             var location = _loc;
             var tag = Kernel.Get<Tags>(bm => bm.Has("default"));
 
-            var retrievedFliers = _queryService.FindFliersByLocationTagsAndDistance(location, tag, null, 10, 0, sortOrder)
+            var retrievedFliers = _searchService.FindFliersByLocationTagsAndDistance(location, tag, null, 10, 0, sortOrder)
                 .Select(id => _queryService.FindById<Domain.Flier.Flier>(id)).Where(f => f != null).AsQueryable();
 
             Assert.IsTrue(retrievedFliers.Any());

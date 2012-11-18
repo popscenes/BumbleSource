@@ -14,10 +14,9 @@ namespace Website.Application.Caching.Query
         private readonly int _defaultSecondsToCache;
 
         public TimedExpiryCachedQueryService(ObjectCache cacheProvider
-            , string regionName
-            , [SourceDataSource]GenericQueryServiceInterface genericQueryService
+            , [SourceDataSource] GenericQueryServiceInterface genericQueryService
             , int defaultSecondsToCache = -1)
-            : base(cacheProvider, regionName, genericQueryService)
+            : base(cacheProvider, genericQueryService)
         {
             _defaultSecondsToCache = defaultSecondsToCache;
         }

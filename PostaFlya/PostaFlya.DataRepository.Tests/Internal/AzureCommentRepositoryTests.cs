@@ -99,9 +99,8 @@ namespace PostaFlya.DataRepository.Tests.Internal
         {
             var entityId = Guid.NewGuid().ToString();
             var stored = CommentTestData.StoreSome(_repository, Kernel, entityId);
-            var retd = _queryService.FindAggregateEntities<Comment>(entityId, 3);
-            AssertUtil.Count(3, retd);
-            CollectionAssert.AreEqual(stored.Take(3), retd, new CommentTestData.CommentTestDataEq());
+            var retd = _queryService.FindAggregateEntities<Comment>(entityId);
+            CollectionAssert.AreEqual(stored, retd, new CommentTestData.CommentTestDataEq());
             AssertUtil.AssertAdjacentElementsAre(retd, (current, next) => current.CommentTime < next.CommentTime );
         }
 

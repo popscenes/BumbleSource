@@ -7,15 +7,16 @@ using Ninject;
 using TechTalk.SpecFlow;
 using PostaFlya.Controllers;
 using PostaFlya.Domain.Behaviour;
+using Website.Domain.Browser.Query;
 using Website.Infrastructure.Authentication;
 using PostaFlya.Models.Browser;
 using PostaFlya.Models.Location;
 using PostaFlya.Specification.DynamicBulletinBoard;
 using PostaFlya.Specification.Fliers;
 using PostaFlya.Specification.Util;
+using Website.Infrastructure.Query;
 using Website.Test.Common;
 using Website.Domain.Browser;
-using Website.Domain.Browser.Query;
 using Roles = Website.Domain.Browser.Roles;
 
 namespace PostaFlya.Specification.Browsers
@@ -98,10 +99,10 @@ namespace PostaFlya.Specification.Browsers
 
         public BrowserInterface AssertBrowserInParticipantRole(bool exists)
         {
-            var browserQuery = SpecUtil.CurrIocKernel.Get<BrowserQueryServiceInterface>();
+            var browserQuery = SpecUtil.CurrIocKernel.Get<GenericQueryServiceInterface>();
             var creds = new IdentityProviderCredential()
                             {IdentityProvider = IdentityProviders.GOOGLE, UserIdentifier = "AItOawnldHWXFZoFpHDwBAMy34d1aO7qHSPz1ho"};
-            var browser = browserQuery.FindByIdentityProvider(creds);
+            var browser = browserQuery.FindBrowserByIdentityProvider(creds);
             if (exists)
             {
                 Assert.IsTrue(browser != null);

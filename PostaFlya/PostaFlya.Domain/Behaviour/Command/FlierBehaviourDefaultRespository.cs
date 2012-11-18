@@ -62,7 +62,7 @@ namespace PostaFlya.Domain.Behaviour.Command
             return null;
         }
 
-        public IQueryable<string> FindAggregateEntityIds<EntityRetType>(string aggregateRootId, int take = -1)
+        public IQueryable<string> FindAggregateEntityIds<EntityRetType>(string aggregateRootId)
             where EntityRetType : class, AggregateInterface, new()
         {
             return new List<string>().AsQueryable();

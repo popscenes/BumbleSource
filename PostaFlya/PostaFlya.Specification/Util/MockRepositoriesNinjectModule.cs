@@ -10,11 +10,11 @@ using PostaFlya.Domain.Flier;
 using PostaFlya.Domain.TaskJob;
 using Website.Application.Domain.Browser;
 using Website.Domain.Browser;
-using Website.Domain.Browser.Query;
 using Website.Domain.Claims;
 using Website.Domain.Comments;
 using Website.Domain.Content;
 using Website.Domain.Location;
+using Website.Infrastructure.Query;
 using Website.Mocks.Domain.Data;
 using TestRepositoriesNinjectModule = PostaFlya.Mocks.Domain.Data.TestRepositoriesNinjectModule;
 
@@ -32,7 +32,11 @@ namespace PostaFlya.Specification.Util
             SetUpBrowserInformation(kernel);
             Website.Mocks.Domain.Data.TestRepositoriesNinjectModule.SetUpWebsiteInfo(kernel);
 
-            Website.Mocks.Domain.Data.TestRepositoriesNinjectModule.SetUpBrowserRepositoryAndQueryService(kernel, SpecUtil.GetMockStore<HashSet<BrowserInterface>>("browserstore"));
+            Website.Mocks.Domain.Data.TestRepositoriesNinjectModule.SetUpBrowserRepositoryAndQueryService(
+                kernel 
+                , SpecUtil.GetMockStore<HashSet<BrowserInterface>>("browserstore")
+                , SpecUtil.GetMockStore<HashSet<BrowserIdentityProviderCredentialInterface>>("browsercredstore"));
+
             Website.Mocks.Domain.Data.TestRepositoriesNinjectModule.SetUpImageRepositoryAndQueryService(kernel
                 , SpecUtil.GetMockStore<HashSet<ImageInterface>>("imagestore"));
 
@@ -78,7 +82,7 @@ namespace PostaFlya.Specification.Util
 
             if (ScenarioContext.Current.ContainsKey("browserId"))
             {
-                browser = Kernel.Get<BrowserQueryServiceInterface>()
+                browser = Kernel.Get<GenericQueryServiceInterface>()
                     .FindById<Browser>(ScenarioContext.Current.Get<string>("browserId"));
             }
             else

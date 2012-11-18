@@ -6,14 +6,12 @@ using System.Runtime.Caching;
 using NUnit.Framework;
 using Ninject;
 using Ninject.MockingKernel.Moq;
+using Website.Application.Domain.Command;
 using Website.Application.Domain.Query;
 using Website.Domain.Browser.Query;
+using Website.Infrastructure.Command;
 using Website.Test.Common;
-using Website.Application.Domain.Content.Command;
-using Website.Application.Domain.Content.Query;
 using Website.Domain.Content;
-using Website.Domain.Content.Command;
-using Website.Domain.Content.Query;
 using Website.Mocks.Domain.Data;
 
 namespace Website.Application.Domain.Tests.Content
@@ -39,10 +37,10 @@ namespace Website.Application.Domain.Tests.Content
 
         public static void CachedDataIsReturnedForImageFindById(MoqMockingKernel kernel, ObjectCache cache)
         {
-            var queryService = ResolutionExtensions.Get<ImageQueryServiceInterface>(kernel);
-            ImageQueryServiceInterface cachedQueryService = new CachedImageQueryService(queryService, cache);
+            var queryService = ResolutionExtensions.Get<QueryServiceForBrowserAggregateInterface>(kernel);
+            QueryServiceForBrowserAggregateInterface cachedQueryService = new CachedQueryServiceWithBrowser(cache, queryService);
 
-            var repository = ResolutionExtensions.Get<ImageRepositoryInterface>(kernel);
+            var repository = ResolutionExtensions.Get<GenericRepositoryInterface>(kernel);
 
             var storedImage = DomainImageTestData.StoreOne(DomainImageTestData.GetOne(kernel), repository, kernel);
             var retrievedImage = cachedQueryService.FindById<Image>(storedImage.Id);
@@ -75,10 +73,11 @@ namespace Website.Application.Domain.Tests.Content
 
         public static void CachedDataIsRefreshedWhenUsingCachedRepositoryForImageFindById(MoqMockingKernel kernel, ObjectCache cache)
         {
-            var queryService = ResolutionExtensions.Get<ImageQueryServiceInterface>(kernel);
-            ImageQueryServiceInterface cachedQueryService = new CachedImageQueryService(queryService, cache);
+            var queryService = ResolutionExtensions.Get<QueryServiceForBrowserAggregateInterface>(kernel);
+            QueryServiceForBrowserAggregateInterface cachedQueryService = new CachedQueryServiceWithBrowser(cache,
+                                                                                                            queryService);
 
-            var cachedImageRepository = new CachedImageRepository(ResolutionExtensions.Get<ImageRepositoryInterface>(kernel), cache);
+            var cachedImageRepository = new CachedRepositoryWithBrowser(cache, kernel.Get<GenericRepositoryInterface>());
 
             var storedImage = DomainImageTestData.StoreOne(DomainImageTestData.GetOne(kernel), cachedImageRepository, kernel);
             ImageInterface retrievedImage = cachedQueryService.FindById<Image>(storedImage.Id);
@@ -150,11 +149,10 @@ namespace Website.Application.Domain.Tests.Content
 
         public static void CachedDataIsReturnedForImageGetByBrowserId(MoqMockingKernel kernel, ObjectCache cache)
         {
-            var queryService = kernel.Get<ImageQueryServiceInterface>();
-
-            ImageQueryServiceInterface cachedQueryService = new CachedImageQueryService(queryService, cache);
-
-            var repository = kernel.Get<ImageRepositoryInterface>();
+            var queryService = ResolutionExtensions.Get<QueryServiceForBrowserAggregateInterface>(kernel);
+            QueryServiceForBrowserAggregateInterface cachedQueryService = new CachedQueryServiceWithBrowser(cache,
+                                                                                                            queryService);
+            var repository = kernel.Get<GenericRepositoryInterface>();
 
             var browserId = Guid.NewGuid().ToString();
             var img = DomainImageTestData.StoreOne(DomainImageTestData.GetOne(kernel, browserId), repository, kernel);
@@ -167,7 +165,7 @@ namespace Website.Application.Domain.Tests.Content
             Assert.That(retrievedImages.Count(), Is.EqualTo(2));
 
             var cacheStore = (cache.ToList().FirstOrDefault(kv => 
-                kv.Key.Contains(CachedQueryServiceWithBrowser.BrowserIdPrefix(typeof(Image)))).Value as IEnumerable<string>);
+                kv.Key.Contains("BrowserId")).Value as IEnumerable<string>);
             Assert.That(cacheStore.Count(), Is.EqualTo(2));
 
             TestUtil.ClearMemoryCache(cache);
@@ -190,11 +188,11 @@ namespace Website.Application.Domain.Tests.Content
 
         public static void CachedDataIsInvalidatedByStoreForImageGetByBrowserId(MoqMockingKernel kernel, ObjectCache cache)
         {
-            var queryService = ResolutionExtensions.Get<ImageQueryServiceInterface>(kernel);
+            var queryService = ResolutionExtensions.Get<QueryServiceForBrowserAggregateInterface>(kernel);
+            QueryServiceForBrowserAggregateInterface cachedQueryService = new CachedQueryServiceWithBrowser(cache,
+                                                                                                            queryService);
 
-            ImageQueryServiceInterface cachedQueryService = new CachedImageQueryService(queryService, cache);
-
-            var cachedImageRepository = new CachedImageRepository(ResolutionExtensions.Get<ImageRepositoryInterface>(kernel), cache);
+            var cachedImageRepository = new CachedRepositoryWithBrowser(cache, kernel.Get<GenericRepositoryInterface>());
             var browserId = Guid.NewGuid().ToString();
             var storedImage = DomainImageTestData.StoreOne(DomainImageTestData.GetOne(kernel, browserId), cachedImageRepository, kernel);
             var retrievedImages = cachedQueryService.GetByBrowserId<Image>(storedImage.BrowserId);

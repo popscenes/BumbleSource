@@ -4,18 +4,19 @@ using System.Linq;
 using System.Web.Mvc;
 using NUnit.Framework;
 using Ninject;
+using PostaFlya.Domain.Flier.Query;
 using TechTalk.SpecFlow;
 using PostaFlya.Controllers;
 using PostaFlya.Domain.Behaviour;
 using PostaFlya.Domain.Flier;
-using PostaFlya.Domain.Flier.Query;
 using PostaFlya.Models.Flier;
 using PostaFlya.Models.Location;
 using PostaFlya.Specification.Util;
 using PostaFlya.Models.Content;
-using Website.Domain.Browser.Command;
 using Website.Domain.Browser.Query;
 using Website.Infrastructure.Authentication;
+using Website.Infrastructure.Command;
+using Website.Infrastructure.Query;
 using Website.Test.Common;
 using Website.Domain.Browser;
 using Website.Domain.Location;
@@ -81,7 +82,7 @@ namespace PostaFlya.Specification.Fliers
             Assert.IsFalse(string.IsNullOrWhiteSpace(flierid));
 
             //var createModel = ScenarioContext.Current["createflya"] as FlierCreateModel;
-            var flierQueryService = SpecUtil.CurrIocKernel.Get<FlierQueryServiceInterface>();
+            var flierQueryService = SpecUtil.CurrIocKernel.Get<GenericQueryServiceInterface>();
             var flier = flierQueryService.FindById<Flier>(flierid);
 
             var type = (FlierBehaviour)Enum.Parse(typeof(FlierBehaviour), flierBehaviour);
@@ -169,8 +170,10 @@ namespace PostaFlya.Specification.Fliers
         public void ThenTheFlierWillBeUpdatedToReflectThoseChanges()
         {
             var flier = ScenarioContext.Current["flier"] as Flier;
-            var flierQueryService = SpecUtil.CurrIocKernel.Get<FlierQueryServiceInterface>();
-            var flierUpdatedId = flierQueryService
+            var flierQueryService = SpecUtil.CurrIocKernel.Get<GenericQueryServiceInterface>();
+            var flierSearchService = SpecUtil.CurrIocKernel.Get<FlierSearchServiceInterface>();
+
+            var flierUpdatedId = flierSearchService
                 .FindFliersByLocationTagsAndDistance(flier.Location, flier.Tags)
                 .SingleOrDefault(id => flier.Id == id);
 
@@ -304,7 +307,7 @@ namespace PostaFlya.Specification.Fliers
         {
             var flierid = ScenarioContext.Current["createdflyaid"] as string;
 
-            var flierQueryService = SpecUtil.CurrIocKernel.Get<FlierQueryServiceInterface>();
+            var flierQueryService = SpecUtil.CurrIocKernel.Get<GenericQueryServiceInterface>();
             var flier = flierQueryService.FindById<Flier>(flierid);
             Assert.That(flier.ImageList.Count(), Is.EqualTo(3));
         }
@@ -435,7 +438,7 @@ namespace PostaFlya.Specification.Fliers
         public void GivenIDontHaveSufficientAccountCredit()
         {
             var browserInformation = SpecUtil.GetCurrBrowser();
-            var browserReo = SpecUtil.CurrIocKernel.Get<BrowserRepositoryInterface>();
+            var browserReo = SpecUtil.CurrIocKernel.Get<GenericRepositoryInterface>();
 
             browserReo.UpdateEntity<Browser>(browserInformation.Browser.Id,
                     b =>
@@ -451,7 +454,7 @@ namespace PostaFlya.Specification.Fliers
         public void GivenIHaveSufficientAccountCredit()
         {
             var browserInformation = SpecUtil.GetCurrBrowser();
-            var browserReo = SpecUtil.CurrIocKernel.Get<BrowserRepositoryInterface>();
+            var browserReo = SpecUtil.CurrIocKernel.Get<GenericRepositoryInterface>();
             browserReo.UpdateEntity<Browser>(browserInformation.Browser.Id, 
                     b =>
                         {
@@ -468,14 +471,14 @@ namespace PostaFlya.Specification.Fliers
             
             var flierid = ScenarioContext.Current["createdflyaid"] as string;
 
-            var flierQueryService = SpecUtil.CurrIocKernel.Get<FlierQueryServiceInterface>();
+            var flierQueryService = SpecUtil.CurrIocKernel.Get<GenericQueryServiceInterface>();
             var flier = flierQueryService.FindById<Flier>(flierid);
 
             Assert.AreEqual(flier.Features.Count, 1);
             var flierFeatures = flier.Features.First();
 
             Assert.AreEqual(flierFeatures.FeatureType, featureEnum);
-            Assert.AreEqual(flierFeatures.IsEnabled(SpecUtil.CurrIocKernel.Get<BrowserQueryServiceInterface>()), isEnabled);
+            Assert.AreEqual(flierFeatures.IsEnabled(SpecUtil.CurrIocKernel.Get<GenericQueryServiceInterface>()), isEnabled);
             Assert.AreEqual(flierFeatures.Cost, creditCost);
         }
 
@@ -529,7 +532,7 @@ namespace PostaFlya.Specification.Fliers
 
             var flierid = ScenarioContext.Current["createdflyaid"] as string;
 
-            var flierQueryService = SpecUtil.CurrIocKernel.Get<FlierQueryServiceInterface>();
+            var flierQueryService = SpecUtil.CurrIocKernel.Get<GenericQueryServiceInterface>();
             var flier = flierQueryService.FindById<Flier>(flierid);
 
             var feature = flier.Features.FirstOrDefault(_ => _.FeatureType == featureEnum);

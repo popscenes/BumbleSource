@@ -4,22 +4,22 @@ namespace Website.Domain.Browser.Command
 {
     internal class SetBrowserPropertyCommandHandler : CommandHandlerInterface<SetBrowserPropertyCommand>
     {
-        private readonly BrowserRepositoryInterface _browserRepository;
+        private readonly GenericRepositoryInterface _repository;
         private readonly UnitOfWorkFactoryInterface _unitOfWorkFactory;
 
-        public SetBrowserPropertyCommandHandler(BrowserRepositoryInterface browserRepository
+        public SetBrowserPropertyCommandHandler(GenericRepositoryInterface repository
                                                 , UnitOfWorkFactoryInterface unitOfWorkFactory)
         {
-            _browserRepository = browserRepository;
+            _repository = repository;
             _unitOfWorkFactory = unitOfWorkFactory;
         }
 
         public object Handle(SetBrowserPropertyCommand command)
         {
-            var uow = _unitOfWorkFactory.GetUnitOfWork(new[] {_browserRepository});
+            var uow = _unitOfWorkFactory.GetUnitOfWork(new[] {_repository});
             using (uow)
             {
-                _browserRepository.UpdateEntity<Website.Domain.Browser.Browser>(
+                _repository.UpdateEntity<Browser>(
                     command.Browser.Id,
                     browser => 
                     browser.Properties[command.PropertyName] = command.PropertyValue);

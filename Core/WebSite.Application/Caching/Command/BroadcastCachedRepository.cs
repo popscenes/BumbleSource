@@ -20,7 +20,7 @@ namespace Website.Application.Caching.Command
                 _notificationCommandBus = null;
         }
 
-        public void NotifyInvalidateKey(string region, string key)
+        public void NotifyInvalidateKey(string key)
         {
             if (_notificationCommandBus != null)
             {
@@ -28,7 +28,6 @@ namespace Website.Application.Caching.Command
                     new InvalidateCacheDataCommand()
                     {
                         Key = key,
-                        Region = region,
                         CommandId = Guid.NewGuid().ToString()
                     }
                     );
@@ -41,10 +40,9 @@ namespace Website.Application.Caching.Command
         private readonly CacheNotifier _notifier;
 
         protected BroadcastCachedRepository(ObjectCache cacheProvider
-            , string regionName
             , CacheNotifier notifier
             , GenericRepositoryInterface genericRepository)
-            : base(cacheProvider, regionName, genericRepository)
+            : base(cacheProvider, genericRepository)
         {
             _notifier = notifier;
         }
@@ -52,7 +50,7 @@ namespace Website.Application.Caching.Command
         protected override void InvalidateCachedData(string cacheKey)
         {
             base.InvalidateCachedData(cacheKey);
-            _notifier.NotifyInvalidateKey(GetRegion(), GetInternalKey(cacheKey));
+            _notifier.NotifyInvalidateKey(cacheKey);
         }
     }
 }

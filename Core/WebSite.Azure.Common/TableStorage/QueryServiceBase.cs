@@ -35,10 +35,10 @@ namespace Website.Azure.Common.TableStorage
             return tableEntry == null ? null : tableEntry.GetEntity(entity);
         }
 
-        public IQueryable<string> FindAggregateEntityIds<EntityType>(string myAggregateRootId, int take = -1)
+        public IQueryable<string> FindAggregateEntityIds<EntityType>(string myAggregateRootId)
             where EntityType : class, AggregateInterface, new()
         {
-            return FindEntityIdsByPartition<EntityType>(myAggregateRootId, AggregateIdPartition, take);
+            return FindEntityIdsByPartition<EntityType>(myAggregateRootId, AggregateIdPartition);
         }
 
         public EntityRetType FindByFriendlyId<EntityRetType>(string id) where EntityRetType : class, new()

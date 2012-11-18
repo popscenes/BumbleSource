@@ -22,7 +22,7 @@
 
             var reqdata = ko.mapping.toJS(self);
             if (self.locationSelector.ValidLocation())
-                reqdata.Address = self.locationSelector.currentLocation();
+                reqdata.Address = ko.mapping.toJS(self.locationSelector.currentLocation());
             else
                 reqdata.Address = null;
 

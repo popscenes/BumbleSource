@@ -1,23 +1,24 @@
 using System.Collections.Generic;
+using Website.Domain.Browser.Query;
 using Website.Infrastructure.Command;
 using Website.Infrastructure.Domain;
-using Website.Domain.Browser.Query;
+using Website.Infrastructure.Query;
 
 namespace Website.Domain.Browser.Command
 {
     internal class AddBrowserCommandHandler: CommandHandlerInterface<AddBrowserCommand>
     {
-        private readonly BrowserRepositoryInterface _browserRepository;
+        private readonly GenericRepositoryInterface _repository;
         private readonly UnitOfWorkFactoryInterface _unitOfWorkFactory;
-        private readonly BrowserQueryServiceInterface _browserQueryService;
+        private readonly GenericQueryServiceInterface _queryService;
 
-        public AddBrowserCommandHandler(BrowserRepositoryInterface browserRepository, 
-                                    UnitOfWorkFactoryInterface unitOfWorkFactory, 
-            BrowserQueryServiceInterface browserQueryService)
+        public AddBrowserCommandHandler(GenericRepositoryInterface repository, 
+                                    UnitOfWorkFactoryInterface unitOfWorkFactory,
+            GenericQueryServiceInterface queryService)
         {
-            _browserRepository = browserRepository;
+            _repository = repository;
             _unitOfWorkFactory = unitOfWorkFactory;
-            _browserQueryService = browserQueryService;
+            _queryService = queryService;
         }
 
         public object Handle(AddBrowserCommand command)
@@ -38,13 +39,13 @@ namespace Website.Domain.Browser.Command
                     browser.Surname = parts[partsIndx];
             }
 
-            browser.FriendlyId = _browserQueryService
-                .FindFreeHandle(string.IsNullOrWhiteSpace(browser.FriendlyId) ? browser.Id : browser.FriendlyId, browser.Id);
+            browser.FriendlyId = _queryService
+                .FindFreeHandleForBrowser(string.IsNullOrWhiteSpace(browser.FriendlyId) ? browser.Id : browser.FriendlyId, browser.Id);
 
             var uow = _unitOfWorkFactory.GetUnitOfWork(GetReposForUnitOfWork());
             using (uow)
             {
-                _browserRepository.Store(browser);
+                _repository.Store(browser);
             }
 
             if (uow.Successful)
@@ -61,7 +62,7 @@ namespace Website.Domain.Browser.Command
 
         private IList<RepositoryInterface> GetReposForUnitOfWork()
         {
-            return new List<RepositoryInterface>() { _browserRepository };
+            return new List<RepositoryInterface>() { _repository };
         }
     }
 }

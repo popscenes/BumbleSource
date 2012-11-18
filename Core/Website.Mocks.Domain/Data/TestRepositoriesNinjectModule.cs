@@ -1,19 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using Moq;
 using NUnit.Framework;
 using Ninject;
 using Ninject.MockingKernel.Moq;
 using Ninject.Modules;
-using Website.Infrastructure.Authentication;
 using Website.Application.WebsiteInformation;
 using Website.Domain.Browser;
-using Website.Domain.Browser.Command;
 using Website.Domain.Browser.Query;
 using Website.Domain.Content;
-using Website.Domain.Content.Command;
-using Website.Domain.Content.Query;
+using Website.Infrastructure.Command;
 
 namespace Website.Mocks.Domain.Data
 {
@@ -24,7 +20,7 @@ namespace Website.Mocks.Domain.Data
         {
             var kernel = Kernel as MoqMockingKernel;
             Assert.IsNotNull(kernel, "should be using mock kernel for tests");
-            SetUpBrowserRepositoryAndQueryService(kernel, RepoUtil.GetMockStore<BrowserInterface>());
+            SetUpBrowserRepositoryAndQueryService(kernel, RepoUtil.GetMockStore<BrowserInterface>(), RepoUtil.GetMockStore<BrowserIdentityProviderCredentialInterface>());
             SetUpImageRepositoryAndQueryService(kernel, RepoUtil.GetMockStore<ImageInterface>());   
             PrincipalData.SetPrincipal(kernel);
             SetUpWebsiteInfo(kernel);
@@ -34,13 +30,13 @@ namespace Website.Mocks.Domain.Data
         public static void SetUpImageRepositoryAndQueryService(MoqMockingKernel kernel, HashSet<ImageInterface> store)
         {
             //repo
-            var imageRepository = RepoUtil.SetupRepo<ImageRepositoryInterface, Image, ImageInterface>(store, kernel, ImageInterfaceExtensions.CopyFieldsFrom);
+            var imageRepository = RepoUtil.SetupRepo<GenericRepositoryInterface, Image, ImageInterface>(store, kernel, ImageInterfaceExtensions.CopyFieldsFrom);
 
             //query service
-            var imageQueryService = RepoUtil.SetupQueryService<ImageQueryServiceInterface, Image, ImageInterface>(store, kernel, ImageInterfaceExtensions.CopyFieldsFrom);
+            var imageQueryService = RepoUtil.SetupQueryService<QueryServiceForBrowserAggregateInterface, Image, ImageInterface>(store, kernel, ImageInterfaceExtensions.CopyFieldsFrom);
 
             //by browser
-            RepoUtil.SetupQueryByBrowser<ImageQueryServiceInterface, Image, ImageInterface>(imageQueryService, store,
+            RepoUtil.SetupQueryByBrowser<QueryServiceForBrowserAggregateInterface, Image, ImageInterface>(imageQueryService, store,
                                                                                               kernel,
                                                                                               ImageInterfaceExtensions.
                                                                                                   CopyFieldsFrom);
@@ -61,20 +57,30 @@ namespace Website.Mocks.Domain.Data
 
 
 
-        public static void SetUpBrowserRepositoryAndQueryService(MoqMockingKernel kernel, HashSet<BrowserInterface> store)
+        public static void SetUpBrowserRepositoryAndQueryService(MoqMockingKernel kernel
+            , HashSet<BrowserInterface> store
+            , HashSet<BrowserIdentityProviderCredentialInterface> credStore)
         {
+
             //repo
-            var browserRepository = RepoUtil.SetupRepo<BrowserRepositoryInterface, Browser, BrowserInterface>(store, kernel, BrowserInterfaceExtensions.CopyFieldsFrom);
+            var browserCredRepository = RepoUtil.SetupRepo<GenericRepositoryInterface, BrowserIdentityProviderCredential, BrowserIdentityProviderCredentialInterface>(credStore, kernel, BrowserIdentityProviderCredentialInterfaceExtensions.CopyFieldsFrom);
 
             //queryservice
-            var browserQueryService = 
-                RepoUtil.SetupQueryService<BrowserQueryServiceInterface, Browser, BrowserInterface>(store, kernel, BrowserInterfaceExtensions.CopyFieldsFrom);
+            var browserCredQueryService =
+                RepoUtil.SetupQueryService<QueryServiceForBrowserAggregateInterface, BrowserIdentityProviderCredential, BrowserIdentityProviderCredentialInterface>(credStore, kernel, BrowserIdentityProviderCredentialInterfaceExtensions.CopyFieldsFrom);
 
-            browserQueryService.Setup(m => m.FindByIdentityProvider(It.IsAny<IdentityProviderCredential>()))
-                .Returns<IdentityProviderCredential>(prov =>
-                    store.SingleOrDefault(bi =>
-                        bi.ExternalCredentials != null &&
-                        bi.ExternalCredentials.Any(ic => ic.Equals(prov))));
+            //repo
+            var browserRepository = RepoUtil.SetupRepo<GenericRepositoryInterface, Browser, BrowserInterface>(store, kernel, BrowserInterfaceExtensions.CopyFieldsFrom);
+
+            //queryservice
+            var browserQueryService =
+                RepoUtil.SetupQueryService<QueryServiceForBrowserAggregateInterface, Browser, BrowserInterface>(store, kernel, BrowserInterfaceExtensions.CopyFieldsFrom);
+
+//            browserQueryService.Setup(m => m.FindBrowserByIdentityProvider(It.IsAny<IdentityProviderCredential>()))
+//                .Returns<IdentityProviderCredential>(prov =>
+//                    store.SingleOrDefault(bi =>
+//                        bi.ExternalCredentials != null &&
+//                        bi.ExternalCredentials.Any(ic => ic.Equals(prov))));
 
 //            browserQueryService.Setup(m => m.FindByHandle(It.IsAny<string>()))
 //                .Returns<string>(handle => store.SingleOrDefault(bi => bi.Handle == handle));

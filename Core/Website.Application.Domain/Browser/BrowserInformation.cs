@@ -1,25 +1,24 @@
 using System;
 using System.Web;
+using Website.Domain.Browser.Query;
 using Website.Infrastructure.Authentication;
 using Website.Domain.Browser;
-using Website.Domain.Browser.Query;
+using Website.Infrastructure.Query;
 
 namespace Website.Application.Domain.Browser
 {
     public class BrowserInformation : BrowserInformationInterface
     {
-        private readonly BrowserQueryServiceInterface _browserQueryService;
         private readonly HttpContextBase _httpContext;
 
         protected const string TEMP_BROWSER_COOKIEID = "tempId";
 
-        public BrowserInformation(BrowserQueryServiceInterface browserQueryService, HttpContextBase httpContext)
-        {          
-            _browserQueryService = browserQueryService;
+        public BrowserInformation(GenericQueryServiceInterface browserQueryService, HttpContextBase httpContext)
+        {
             _httpContext = httpContext;
             
             var identity = (WebIdentityInterface)_httpContext.User.Identity;
-            Browser = (!identity.IsAuthenticated ? AnonymousBrowserGet() : browserQueryService.FindByIdentityProvider(identity.ToCredential())) ??
+            Browser = (!identity.IsAuthenticated ? AnonymousBrowserGet() : browserQueryService.FindBrowserByIdentityProvider(identity.ToCredential())) ??
                       AnonymousBrowserGet();
         }
 

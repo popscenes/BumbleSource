@@ -1,26 +1,26 @@
 using System.Collections.Generic;
-using PostaFlya.Domain.Flier.Query;
 using Website.Infrastructure.Command;
 using Website.Infrastructure.Domain;
+using Website.Infrastructure.Query;
 
 namespace PostaFlya.Domain.TaskJob.Command
 {
     internal class TaskJobBehaviourCreateCommandHandler : CommandHandlerInterface<TaskJobBehaviourCreateCommand>
     {
-        private readonly FlierQueryServiceInterface _flierQueryService;
+        private readonly GenericQueryServiceInterface _queryService;
         private readonly TaskJobRepositoryInterface _taskJobRepository;
         private readonly UnitOfWorkFactoryInterface _unitOfWorkFactory;
 
-        public TaskJobBehaviourCreateCommandHandler(FlierQueryServiceInterface flierQueryService, TaskJobRepositoryInterface taskJobRepository, UnitOfWorkFactoryInterface unitOfWorkFactory)
+        public TaskJobBehaviourCreateCommandHandler(GenericQueryServiceInterface queryService, TaskJobRepositoryInterface taskJobRepository, UnitOfWorkFactoryInterface unitOfWorkFactory)
         {
-            _flierQueryService = flierQueryService;
+            _queryService = queryService;
             _taskJobRepository = taskJobRepository;
             _unitOfWorkFactory = unitOfWorkFactory;
         }
 
         public object Handle(TaskJobBehaviourCreateCommand command)
         {
-            var flier = _flierQueryService.FindById<Flier.Flier>(command.FlierId);
+            var flier = _queryService.FindById<Flier.Flier>(command.FlierId);
             if (flier == null)
                 return new MsgResponse("Task Job Create Failed", true)
                     .AddCommandId(command)

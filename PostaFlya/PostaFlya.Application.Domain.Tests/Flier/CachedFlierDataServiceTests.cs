@@ -3,14 +3,14 @@ using System.Runtime.Caching;
 using NUnit.Framework;
 using Ninject;
 using Ninject.MockingKernel.Moq;
-using PostaFlya.Application.Domain.Flier.Command;
-using PostaFlya.Application.Domain.Flier.Query;
 using PostaFlya.Domain.Flier;
-using PostaFlya.Domain.Flier.Command;
-using PostaFlya.Domain.Flier.Query;
 using PostaFlya.Mocks.Domain.Data;
+using Website.Application.Caching.Query;
 using Website.Domain.Claims;
 using Website.Domain.Comments;
+using Website.Infrastructure.Caching.Command;
+using Website.Infrastructure.Command;
+using Website.Infrastructure.Query;
 using TestUtil = Website.Test.Common.TestUtil;
 
 namespace PostaFlya.Application.Domain.Tests.Flier
@@ -36,11 +36,10 @@ namespace PostaFlya.Application.Domain.Tests.Flier
 
         public static void CachedDataIsReturnedForFlierFindById(MoqMockingKernel kernel, ObjectCache cache)
         {
-            var queryService = kernel.Get<FlierQueryServiceInterface>();
+            var queryService = kernel.Get<GenericQueryServiceInterface>();
+            GenericQueryServiceInterface cachedQueryService = new TimedExpiryCachedQueryService(cache, queryService);
 
-            FlierQueryServiceInterface cachedQueryService = new CachedFlierQueryService(queryService, cache);
-
-            var repository = kernel.Get<FlierRepositoryInterface>();
+            var repository = kernel.Get<GenericRepositoryInterface>();
 
             var storedFlier = FlierTestData.StoreOne(FlierTestData.GetOne(kernel), repository, kernel);
             FlierInterface retrievedFlier = cachedQueryService.FindById<PostaFlya.Domain.Flier.Flier>(storedFlier.Id);
@@ -73,11 +72,10 @@ namespace PostaFlya.Application.Domain.Tests.Flier
 
         public static void CachedDataIsRefreshedWhenUsingCachedRepositoryForFlierFindById(MoqMockingKernel kernel, ObjectCache cache)
         {
-            var queryService = kernel.Get<FlierQueryServiceInterface>();
+            var queryService = kernel.Get<GenericQueryServiceInterface>();
+            GenericQueryServiceInterface cachedQueryService = new TimedExpiryCachedQueryService(cache, queryService);
 
-            FlierQueryServiceInterface cachedQueryService = new CachedFlierQueryService(queryService, cache);
-
-            var cachedFlierRepository = new CachedFlierRepository(kernel.Get<FlierRepositoryInterface>(), cache);
+            var cachedFlierRepository = new CachedRepositoryBase(cache, kernel.Get<GenericRepositoryInterface>());
 
             var storedFlier = FlierTestData.StoreOne(FlierTestData.GetOne(kernel), cachedFlierRepository, kernel);
             FlierInterface retrievedFlier = cachedQueryService.FindById<PostaFlya.Domain.Flier.Flier>(storedFlier.Id);
@@ -104,11 +102,10 @@ namespace PostaFlya.Application.Domain.Tests.Flier
 
         public static void CachedDataIsRefreshedAfterClaimOrComment(MoqMockingKernel kernel, ObjectCache cache)
         {
-            var queryService = kernel.Get<FlierQueryServiceInterface>();
+            var queryService = kernel.Get<GenericQueryServiceInterface>();
+            GenericQueryServiceInterface cachedQueryService = new TimedExpiryCachedQueryService(cache, queryService);
 
-            FlierQueryServiceInterface cachedQueryService = new CachedFlierQueryService(queryService, cache);
-
-            var cachedFlierRepository = new CachedFlierRepository(kernel.Get<FlierRepositoryInterface>(), cache);
+            var cachedFlierRepository = new CachedRepositoryBase(cache, kernel.Get<GenericRepositoryInterface>());
 
             var storedFlier = FlierTestData.StoreOne(FlierTestData.GetOne(kernel), cachedFlierRepository, kernel);
             FlierInterface retrievedFlier = cachedQueryService.FindById<PostaFlya.Domain.Flier.Flier>(storedFlier.Id);

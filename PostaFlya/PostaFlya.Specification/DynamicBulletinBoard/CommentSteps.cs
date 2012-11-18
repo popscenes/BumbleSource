@@ -5,7 +5,6 @@ using TechTalk.SpecFlow;
 using PostaFlya.Areas.Default.Models;
 using PostaFlya.Binding;
 using PostaFlya.Controllers;
-using PostaFlya.Domain.Flier.Query;
 using PostaFlya.Models.Comments;
 using PostaFlya.Specification.Util;
 using Website.Domain.Comments;
@@ -65,7 +64,7 @@ namespace PostaFlya.Specification.DynamicBulletinBoard
             var commentId = ScenarioContext.Current["fliercommentid"] as string;
             var viewMod = ScenarioContext.Current["fliermodel"] as DefaultDetailsViewModel;
             var commentModel = ScenarioContext.Current["fliercommentmodel"] as CreateCommentModel;
-            var queryService = SpecUtil.CurrIocKernel.Get<FlierQueryServiceInterface>();
+            var queryService = SpecUtil.CurrIocKernel.Get<GenericQueryServiceInterface>();
             var comments = queryService.FindAggregateEntities<Comment>(viewMod.Flier.Id);
             Assert.IsTrue(comments.Any(c =>
                 c.BrowserId == commentModel.BrowserId &&

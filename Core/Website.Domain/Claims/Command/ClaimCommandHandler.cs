@@ -6,7 +6,6 @@ using Website.Infrastructure.Command;
 using Website.Infrastructure.Domain;
 using Website.Infrastructure.Query;
 using Website.Domain.Browser;
-using Website.Domain.Browser.Query;
 using Website.Domain.Service;
 
 //using Website.Infrastructure.Service;
@@ -16,19 +15,16 @@ namespace Website.Domain.Claims.Command
     internal class ClaimCommandHandler : CommandHandlerInterface<ClaimCommand>
     {
         private readonly UnitOfWorkFactoryInterface _unitOfWorkFactory;
-        private readonly BrowserQueryServiceInterface _browserQueryService;
         private readonly GenericRepositoryInterface _genericRepository;
         private readonly GenericQueryServiceInterface _genericQueryService;
         private readonly DomainEventPublishServiceInterface _domainEventPublishService;
 
         public ClaimCommandHandler(UnitOfWorkFactoryInterface unitOfWorkFactory
-            , BrowserQueryServiceInterface browserQueryService
             , GenericRepositoryInterface genericRepository
             , GenericQueryServiceInterface genericQueryService
             , DomainEventPublishServiceInterface domainEventPublishService)
         {
             _unitOfWorkFactory = unitOfWorkFactory;
-            _browserQueryService = browserQueryService;
             _genericRepository = genericRepository;
             _genericQueryService = genericQueryService;
             _domainEventPublishService = domainEventPublishService;
@@ -36,7 +32,7 @@ namespace Website.Domain.Claims.Command
 
         public object Handle(ClaimCommand command)
         {
-            var browser = _browserQueryService.FindById<Browser.Browser>(command.BrowserId); 
+            var browser = _genericQueryService.FindById<Browser.Browser>(command.BrowserId); 
 
             if(browser == null || !browser.HasRole(Role.Participant))
             {

@@ -91,9 +91,6 @@
     <Compile Include="Binding\AzureRepositoryNinjectBinding.cs" />
     <Compile Include="Binding\BindingAttributes.cs" />
     <Compile Include="Binding\TableNameNinjectBinding.cs" />
-    <Compile Include="Browser\AzureBrowserRepository.cs" />
-    <Compile Include="Content\AzureImageRepository.cs" />
-    <Compile Include="Flier\AzureFlierRepository.cs" />
     <Compile Include="Internal\JsonRepositoryWithBrowser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
@@ -110,7 +107,6 @@
     <Compile Include="Search\Services\BoardFlierSearchRecord.cs" />
     <Compile Include="Search\Services\BoardSearchRecord.cs" />
     <Compile Include="Search\Services\FlierSearchRecord.cs" />
-    <Compile Include="Search\Services\FlierSearchServiceInterface.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0">
@@ -168,9 +164,7 @@
       <Name>Website.Infrastructure</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="WebsiteInformation\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

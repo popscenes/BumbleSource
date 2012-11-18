@@ -8,35 +8,29 @@ using PostaFlya.Domain.Flier.Query;
 using PostaFlya.Domain.Service;
 using Website.Domain.Browser;
 using Website.Domain.Browser.Command;
-using Website.Domain.Browser.Query;
 using Website.Domain.Service;
 using Website.Infrastructure.Command;
 using Website.Infrastructure.Domain;
 using System.Linq;
+using Website.Infrastructure.Query;
 
 namespace PostaFlya.Domain.Flier.Command
 {
     internal class CreateFlierCommandHandler : CommandHandlerInterface<CreateFlierCommand>
     {
-        private readonly FlierRepositoryInterface _flierRepository;
+        private readonly GenericRepositoryInterface _repository;
         private readonly UnitOfWorkFactoryInterface _unitOfWorkFactory;
-        private readonly FlierQueryServiceInterface _flierQueryService;
+        private readonly GenericQueryServiceInterface _flierQueryService;
         private readonly DomainEventPublishServiceInterface _domainEventPublishService;
-        private readonly CommandBusInterface _commandBus;
-        private readonly BrowserQueryServiceInterface _browserQueryService;
 
-        public CreateFlierCommandHandler(FlierRepositoryInterface flierRepository
-            , UnitOfWorkFactoryInterface unitOfWorkFactory, FlierQueryServiceInterface flierQueryService
-            , DomainEventPublishServiceInterface domainEventPublishService
-            , CommandBusInterface commandBus
-            , BrowserQueryServiceInterface browserQueryService)
+        public CreateFlierCommandHandler(GenericRepositoryInterface repository
+            , UnitOfWorkFactoryInterface unitOfWorkFactory, GenericQueryServiceInterface flierQueryService
+            , DomainEventPublishServiceInterface domainEventPublishService)
         {
-            _flierRepository = flierRepository;
+            _repository = repository;
             _unitOfWorkFactory = unitOfWorkFactory;
             _flierQueryService = flierQueryService;
             _domainEventPublishService = domainEventPublishService;
-            _commandBus = commandBus;
-            _browserQueryService = browserQueryService;
         }
 
         public object Handle(CreateFlierCommand command)
@@ -62,16 +56,16 @@ namespace PostaFlya.Domain.Flier.Command
                 newFlier.Status = FlierStatus.Active;
 
 
-            newFlier.FriendlyId = _flierQueryService.FindFreeFriendlyId(newFlier);
+            newFlier.FriendlyId = _flierQueryService.FindFreeFriendlyIdForFlier(newFlier);
             newFlier.Features = (FlierFeaturesCommand.GetPaymentFeatures(command.FlierFeaturesCommand, command.BrowserId));
 
             List<BoardFlierModifiedEvent> boardFliers = null;
             UnitOfWorkInterface unitOfWork;
-            using (unitOfWork = _unitOfWorkFactory.GetUnitOfWork(new[] { _flierRepository }))
+            using (unitOfWork = _unitOfWorkFactory.GetUnitOfWork(new[] { _repository }))
             {      
-                _flierRepository.Store(newFlier);
+                _repository.Store(newFlier);
                 boardFliers = AddFlierToBoardCommandHandler.UpdateAddFlierToBoards(command.BoardSet, newFlier, _flierQueryService,
-                                                                     _flierRepository);
+                                                                     _repository);
             }
 
             if(!unitOfWork.Successful)

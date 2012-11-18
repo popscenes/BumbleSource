@@ -8,8 +8,8 @@ using Website.Common.Extension;
 using Website.Infrastructure.Command;
 using Website.Domain.Browser;
 using Website.Domain.Browser.Command;
-using Website.Domain.Browser.Query;
 using Website.Domain.Tag;
+using Website.Infrastructure.Query;
 
 namespace PostaFlya.Controllers
 {
@@ -17,26 +17,26 @@ namespace PostaFlya.Controllers
     public class SavedTagsController : ApiController
     {
         private readonly CommandBusInterface _commandBus;
-        private readonly BrowserQueryServiceInterface _browserQueryService;
+        private readonly GenericQueryServiceInterface _queryService;
 
         public SavedTagsController(CommandBusInterface commandBus
-            , BrowserQueryServiceInterface browserQueryService)
+            , GenericQueryServiceInterface queryService)
         {
             _commandBus = commandBus;
-            _browserQueryService = browserQueryService;
+            _queryService = queryService;
         }
 
         // GET /api/savedtagsapi
         public IQueryable<Tags> Get(string browserId)
         {
-            var browser = _browserQueryService.FindById<Browser>(browserId);
+            var browser = _queryService.FindById<Browser>(browserId);
            return browser.SavedTags.AsQueryable();
         }
 
         // POST /api/savedtagsapi
         public HttpResponseMessage Post(string browserId, Tags tags)
         {
-            var browser = _browserQueryService.FindById<Browser>(browserId);
+            var browser = _queryService.FindById<Browser>(browserId);
             var command = new SavedTagsSaveCommand()
             {
                 BrowserId = browser.Id,
@@ -50,7 +50,7 @@ namespace PostaFlya.Controllers
         //sets the active saved tags
         public HttpResponseMessage Put(string browserId, Tags tags)
         {
-            var browser = _browserQueryService.FindById<Browser>(browserId);
+            var browser = _queryService.FindById<Browser>(browserId);
             var command = new SavedTagsSelectCommand()
             {
                 BrowserId = browser.Id,
@@ -64,7 +64,7 @@ namespace PostaFlya.Controllers
         // DELETE /api/savedtagsapi/5
         public HttpResponseMessage Delete(string browserId, Tags tags)
         {
-            var browser = _browserQueryService.FindById<Browser>(browserId);
+            var browser = _queryService.FindById<Browser>(browserId);
             var command = new SavedTagsDeleteCommand()
             {
                 BrowserId = browser.Id,

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Moq;
+using Ninject;
 using Ninject.MockingKernel.Moq;
 using Website.Infrastructure.Command;
 using Website.Infrastructure.Domain;
@@ -24,7 +25,7 @@ namespace Website.Mocks.Domain.Data
         public static bool CopyAndStore<EntityType, EntityInterfaceType>(this HashSet<EntityInterfaceType> store
             , EntityInterfaceType source, Action<EntityInterfaceType, EntityInterfaceType> copyFields)
             where EntityType : class, EntityInterfaceType, new() 
-            where EntityInterfaceType : EntityInterface
+            where EntityInterfaceType : EntityIdInterface
         {
             store.RemoveWhere(e => e.Id == source.Id);
             var newb = source.CreateCopy<EntityType, EntityInterfaceType>(copyFields);
@@ -37,7 +38,7 @@ namespace Website.Mocks.Domain.Data
             , MoqMockingKernel kernel
             , Action<EntityInterfaceType, EntityInterfaceType> copyFields)
             where RepoType : class, GenericRepositoryInterface where EntityType : class, EntityInterfaceType, new()
-            where EntityInterfaceType : EntityInterface
+            where EntityInterfaceType : EntityIdInterface
         {
             var repository = kernel.GetMock<RepoType>();
             kernel.Rebind<RepoType>()
@@ -47,35 +48,48 @@ namespace Website.Mocks.Domain.Data
             kernel.Rebind<GenericRepositoryInterface>()
                 .ToConstant(repositoryGeneric.Object).InSingletonScope();
 
+            Action<EntityInterfaceType> storeAction = entity =>
+                {
+                    store.CopyAndStore<EntityType, EntityInterfaceType>(entity, copyFields);
+                    //find any top level aggregate members and store them
+                    var aggMembers = new HashSet<object>();
+                    AggregateMemberEntityAttribute.GetAggregateEnities(aggMembers, entity, false);
+                    var repoForAggs = kernel.Get<GenericRepositoryInterface>();
+                    foreach (dynamic aggMember in aggMembers.Where(m => !ReferenceEquals(m, entity)))
+                    {
+                       repoForAggs.Store(aggMember);
+                    }
+                };
+
             repository.Setup(o => o.Store(It.IsAny<EntityType>()))
-                .Callback<EntityType>(entity => 
-                    store.CopyAndStore<EntityType, EntityInterfaceType>(entity, copyFields));
+                .Callback<EntityType>(storeAction);
             repository.Setup(o => o.Store(It.IsAny<EntityInterfaceType>()))
-                .Callback<EntityInterfaceType>(entity =>
-                    store.CopyAndStore<EntityType, EntityInterfaceType>(entity, copyFields));
+                .Callback<EntityInterfaceType>(storeAction);
 
             repositoryGeneric.Setup(o => o.Store(It.IsAny<EntityType>()))
-                .Callback<EntityType>(entity => 
-                    store.CopyAndStore<EntityType, EntityInterfaceType>(entity, copyFields));
+                .Callback<EntityType>(storeAction);
             repositoryGeneric.Setup(o => o.Store(It.IsAny<EntityInterfaceType>()))
-                .Callback<EntityInterfaceType>(entity =>
-                    store.CopyAndStore<EntityType, EntityInterfaceType>(entity, copyFields));
+                .Callback<EntityInterfaceType>(storeAction);
+
+
+            Action<string, Action<EntityType>> updateAction = (id, act) =>
+                {
+                    var entity = store.OfType<EntityType>().SingleOrDefault(b => b.Id == id);
+                    act(entity);
+                    storeAction(entity);
+                };
 
             repository.Setup(m => m.UpdateEntity(It.IsAny<string>(), It.IsAny<Action<EntityType>>()))
-                .Callback<string, Action<EntityType>>((id, act) =>
-                                 act(store.OfType<EntityType>().SingleOrDefault(b => b.Id == id)));
+                .Callback<string, Action<EntityType>>(updateAction);
 
             repositoryGeneric.Setup(m => m.UpdateEntity(It.IsAny<string>(), It.IsAny<Action<EntityType>>()))
-                .Callback<string, Action<EntityType>>((id, act) =>
-                                 act(store.OfType<EntityType>().SingleOrDefault(b => b.Id == id)));
+                .Callback<string, Action<EntityType>>(updateAction);
 
             repository.Setup(m => m.UpdateEntity(typeof(EntityType), It.IsAny<string>(), It.IsAny<Action<object>>()))
-                .Callback<Type, string, Action<EntityType>>((type, id, act) =>
-                     act(store.OfType<EntityType>().SingleOrDefault(b => b.Id == id)));
+                .Callback<Type, string, Action<EntityType>>((type, id, act) => updateAction(id, act));
 
             repositoryGeneric.Setup(m => m.UpdateEntity(typeof(EntityType), It.IsAny<string>(), It.IsAny<Action<object>>()))
-                .Callback<Type, string, Action<EntityType>>((type, id, act) =>
-                     act(store.OfType<EntityType>().SingleOrDefault(b => b.Id == id)));
+                .Callback<Type, string, Action<EntityType>>((type, id, act) => updateAction(id, act));
 
             repository.Setup(r => r.SaveChanges()).Returns(true);
             repositoryGeneric.Setup(r => r.SaveChanges()).Returns(true);
@@ -88,15 +102,22 @@ namespace Website.Mocks.Domain.Data
             , MoqMockingKernel kernel
             , Action<EntityInterfaceType, EntityInterfaceType> copyFields)
             where QsType : class, GenericQueryServiceInterface where EntityType : class, EntityInterfaceType, new()
-            where EntityInterfaceType : class, EntityInterface
+            where EntityInterfaceType : class, EntityIdInterface
         {
             var queryService = kernel.GetMock<QsType>();
             var queryServiceGeneric = kernel.GetMock<GenericQueryServiceInterface>();
+            var queryServiceWithBrowser = (typeof (QueryServiceForBrowserAggregateInterface)
+                                              .IsAssignableFrom(typeof (QsType)))
+                                              ? kernel.GetMock<QueryServiceForBrowserAggregateInterface>()
+                                              : null;
 
             kernel.Rebind<QsType>()
                 .ToConstant(queryService.Object);
             kernel.Rebind<GenericQueryServiceInterface>()
                 .ToConstant(queryServiceGeneric.Object);
+            if(queryServiceWithBrowser != null)
+                kernel.Rebind<QueryServiceForBrowserAggregateInterface>()
+                .ToConstant(queryServiceWithBrowser.Object);
 
             Func<string, EntityType> findById =
                 id =>
@@ -113,6 +134,9 @@ namespace Website.Mocks.Domain.Data
                 .Returns<string>(findById);
             queryServiceGeneric.Setup(m => m.FindById<EntityType>(It.IsAny<string>()))
                 .Returns<string>(findById);
+            if(queryServiceWithBrowser != null)
+                queryServiceWithBrowser.Setup(m => m.FindById<EntityType>(It.IsAny<string>()))
+                    .Returns<string>(findById);
 
             Func<Type, string, EntityType> findByTypeId = (type, id) => findById(id);
 
@@ -120,6 +144,10 @@ namespace Website.Mocks.Domain.Data
                 .Returns<Type, string>(findByTypeId);
             queryServiceGeneric.Setup(m => m.FindById(typeof(EntityType), It.IsAny<string>()))
                 .Returns<Type, string>(findByTypeId);
+            if(queryServiceWithBrowser != null)
+                queryServiceWithBrowser.Setup(m => m.FindById(typeof(EntityType), It.IsAny<string>()))
+                .Returns<Type, string>(findByTypeId);
+
 
             Func<string, EntityType> findByFriendlyId =
             friendlyId =>
@@ -136,13 +164,18 @@ namespace Website.Mocks.Domain.Data
                 .Returns<string>(findByFriendlyId);
             queryServiceGeneric.Setup(m => m.FindByFriendlyId<EntityType>(It.IsAny<string>()))
                 .Returns<string>(findByFriendlyId);
+            if(queryServiceWithBrowser != null)
+                queryServiceWithBrowser.Setup(m => m.FindByFriendlyId<EntityType>(It.IsAny<string>()))
+                .Returns<string>(findByFriendlyId);
 
             Func<Type, string, EntityType> findFriendlyByTypeId = (type, id) => findById(id);
             queryService.Setup(m => m.FindByFriendlyId(typeof(EntityType), It.IsAny<string>()))
                 .Returns<Type, string>(findFriendlyByTypeId);
             queryServiceGeneric.Setup(m => m.FindByFriendlyId(typeof(EntityType), It.IsAny<string>()))
                 .Returns<Type, string>(findFriendlyByTypeId);
-
+            if (queryServiceWithBrowser != null)
+                queryServiceWithBrowser.Setup(m => m.FindByFriendlyId(typeof(EntityType), It.IsAny<string>()))
+                .Returns<Type, string>(findFriendlyByTypeId);
             return queryService;
         }
 
@@ -164,8 +197,8 @@ namespace Website.Mocks.Domain.Data
 //            kernel.Rebind<GenericQueryServiceInterface>()
 //                .ToConstant(queryServiceGeneric.Object);
 
-            Func<string, int, IQueryable<string>> findById =
-                (id, take) =>
+            Func<string, IQueryable<string>> findById =
+                (id) =>
                     {
                         var list = store.Where(f => f.AggregateId == id)
                             .Select(
@@ -175,15 +208,13 @@ namespace Website.Mocks.Domain.Data
                                         copyFields(ret, e);
                                         return ret;
                                     }).AsQueryable();
-                        if (take > 0)
-                            list = list.Take(take);
                         return list.Select(e => e.Id);
                     };
 
-            queryService.Setup(m => m.FindAggregateEntityIds<EntityType>(It.IsAny<string>(), It.IsAny<int>()))
-                .Returns<string, int>(findById);
-            queryServiceGeneric.Setup(m => m.FindAggregateEntityIds<EntityType>(It.IsAny<string>(), It.IsAny<int>()))
-                .Returns<string, int>(findById);
+            queryService.Setup(m => m.FindAggregateEntityIds<EntityType>(It.IsAny<string>()))
+                .Returns<string>(findById);
+            queryServiceGeneric.Setup(m => m.FindAggregateEntityIds<EntityType>(It.IsAny<string>()))
+                .Returns<string>(findById);
 
             return queryService;
         }
@@ -199,16 +230,25 @@ namespace Website.Mocks.Domain.Data
 //            kernel.Bind<QueryByBrowserInterface>()
 //                .ToConstant(queryService.Object);
 
+            var queryServiceGeneric = kernel.GetMock<QueryServiceForBrowserAggregateInterface>();
+            kernel.Rebind<QueryServiceForBrowserAggregateInterface>()
+                .ToConstant(queryServiceGeneric.Object);
+
+            Func<string, IQueryable<string>> findByBrows = id =>
+                                                           store.Where(f => f.BrowserId == id)
+                                                                .Select(f =>
+                                                                    {
+                                                                        var fli = new EntityType();
+                                                                        copyFields(fli, f);
+                                                                        return fli;
+                                                                    }).Select(e => e.Id)
+                                                                .AsQueryable();
+
             queryService.Setup(o => o.GetEntityIdsByBrowserId<EntityType>(It.IsAny<string>()))
-            .Returns<String>(id =>
-                store.Where(f => f.BrowserId == id)
-                .Select(f =>
-                {
-                    var fli = new EntityType();
-                    copyFields(fli, f);
-                    return fli;
-                }).Select(e => e.Id)
-                .AsQueryable());
+                .Returns<String>(findByBrows);
+            queryServiceGeneric.Setup(o => o.GetEntityIdsByBrowserId<EntityType>(It.IsAny<string>()))
+                .Returns<String>(findByBrows);
+            
             return queryService;
         }
 

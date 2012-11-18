@@ -110,11 +110,11 @@
       <Name>Website.Infrastructure</Name>
     </ProjectReference>
     <ProjectReference Include="..\PostaFlya.Application.Domain\PostaFlya.Application.Domain.csproj">
-      <Project>{1510EA95-D2A1-47B5-8652-49895B97FC9F}</Project>
+      <Project>{1510ea95-d2a1-47b5-8652-49895b97fc9f}</Project>
       <Name>PostaFlya.Application.Domain</Name>
     </ProjectReference>
     <ProjectReference Include="..\PostaFlya.DataRepository\PostaFlya.DataRepository.csproj">
-      <Project>{787DCEAB-23A8-476E-859F-5CD98F9ABDDC}</Project>
+      <Project>{787dceab-23a8-476e-859f-5cd98f9abddc}</Project>
       <Name>PostaFlya.DataRepository</Name>
     </ProjectReference>
     <ProjectReference Include="..\PostaFlya.Domain\PostaFlya.Domain.csproj">

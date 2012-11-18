@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using PostaFlya.Domain.Behaviour;
 using Website.Domain.Browser;
-using Website.Domain.Browser.Query;
 using Website.Domain.Contact;
 using Website.Infrastructure.Domain;
 using Website.Domain.Location;
 using Website.Domain.Tag;
+using Website.Infrastructure.Query;
 
 
 namespace PostaFlya.Domain.Flier
@@ -80,7 +80,7 @@ namespace PostaFlya.Domain.Flier
         double Cost { get; set; }
         String BrowserId { get; set; }
         FeatureType FeatureType { get; set; }
-        bool IsEnabled(BrowserQueryServiceInterface browserQueryService);
+        bool IsEnabled(GenericQueryServiceInterface browserQueryService);
     }
 
     public class SimpleEntityFeature : EntityFeatureInterface
@@ -89,7 +89,7 @@ namespace PostaFlya.Domain.Flier
 
         public FeatureType FeatureType { get; set; }
 
-        public bool IsEnabled(BrowserQueryServiceInterface browserQueryService)
+        public bool IsEnabled(GenericQueryServiceInterface browserQueryService)
         {
             var browser = browserQueryService.FindById<Browser>(BrowserId);
             return (browser.AccountCredit >= Cost);

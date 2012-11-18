@@ -5,14 +5,13 @@ using System.Web;
 using System.Web.Http;
 using System.Web.Mvc;
 using PostaFlya.Attributes;
+using PostaFlya.Models.Location;
 using Website.Common.Extension;
 using Website.Infrastructure.Command;
 using PostaFlya.Models.Browser;
-using PostaFlya.Models.Location;
 using PostaFlya.Models.Tags;
-using Website.Application.Domain.Browser;
 using Website.Domain.Browser.Command;
-using Website.Domain.Browser.Query;
+using Website.Infrastructure.Query;
 using Website.Infrastructure.Util.Extension;
 
 namespace PostaFlya.Controllers
@@ -21,13 +20,12 @@ namespace PostaFlya.Controllers
     public class MyDetailsController : ApiController
     {
         private readonly CommandBusInterface _commandBus;
-        private readonly BrowserInformationInterface _browserInformation;
-        private readonly BrowserQueryServiceInterface _browserQueryService;
-        
-        public MyDetailsController(CommandBusInterface commandBus, BrowserQueryServiceInterface browserQueryService)
+        private readonly GenericQueryServiceInterface _queryService;
+
+        public MyDetailsController(CommandBusInterface commandBus, GenericQueryServiceInterface queryService)
         {
             _commandBus = commandBus;
-            _browserQueryService = browserQueryService;
+            _queryService = queryService;
         }
 
         public HttpResponseMessage Put(ProfileEditModel editModel)
@@ -51,7 +49,7 @@ namespace PostaFlya.Controllers
 
         public ProfileEditModel Get(string browserId)
         {
-            var browser = _browserQueryService.FindById<Website.Domain.Browser.Browser>(browserId);
+            var browser = _queryService.FindById<Website.Domain.Browser.Browser>(browserId);
             return new ProfileEditModel()
                        {
                            Id = browser.Id,

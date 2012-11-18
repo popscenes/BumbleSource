@@ -125,7 +125,7 @@
       <Name>Website.Infrastructure</Name>
     </ProjectReference>
     <ProjectReference Include="..\Website.Test.Common\Website.Test.Common.csproj">
-      <Project>{DC7CC356-EE06-49C0-9985-9D0101AAF45F}</Project>
+      <Project>{dc7cc356-ee06-49c0-9985-9d0101aaf45f}</Project>
       <Name>Website.Test.Common</Name>
     </ProjectReference>
   </ItemGroup>

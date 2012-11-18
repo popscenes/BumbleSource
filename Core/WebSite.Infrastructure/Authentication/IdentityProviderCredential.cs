@@ -3,8 +3,38 @@ using Website.Infrastructure.Util;
 
 namespace Website.Infrastructure.Authentication
 {
+    public static class IdentityProviderCredentialInterfaceExtensions
+    {
+        public static void CopyFieldsFrom(this IdentityProviderCredentialInterface target,
+            IdentityProviderCredentialInterface source)
+        {
+            target.IdentityProvider = source.IdentityProvider;
+            target.UserIdentifier = source.UserIdentifier;
+            target.Name = source.Name;
+            target.Email = source.Email;
+            if (source.AccessToken != null)
+            {
+                target.AccessToken = new AccessToken()
+                {
+                    Expires = source.AccessToken.Expires,
+                    Permissions = source.AccessToken.Permissions,
+                    Token = source.AccessToken.Token
+                };
+            }
+        }
+    }
+
+    public interface IdentityProviderCredentialInterface
+    {
+        string IdentityProvider { get; set; }
+        string UserIdentifier { get; set; }
+        string Name { get; set; }
+        string Email { get; set; }
+        AccessToken AccessToken { get; set; }        
+    }
+
     [Serializable]
-    public class IdentityProviderCredential
+    public class IdentityProviderCredential : IdentityProviderCredentialInterface
     {
         public string IdentityProvider { get; set; }
         public string UserIdentifier { get; set; }
@@ -30,23 +60,6 @@ namespace Website.Infrastructure.Authentication
         public override string ToString()
         {
             return IdentityProvider + "|" + UserIdentifier + "|" + Name + "|" + Email;
-        }
-
-        public void CopyFieldsFrom(IdentityProviderCredential credential)
-        {
-            IdentityProvider = credential.IdentityProvider;
-            UserIdentifier = credential.UserIdentifier;
-            Name = credential.Name;
-            Email = credential.Email;
-            if (credential.AccessToken != null)
-            {
-                AccessToken = new AccessToken()
-                                  {
-                                      Expires = credential.AccessToken.Expires,
-                                      Permissions = credential.AccessToken.Permissions,
-                                      Token = credential.AccessToken.Token
-                                  };
-            }
         }
 
         public bool Equals(IdentityProviderCredential other)

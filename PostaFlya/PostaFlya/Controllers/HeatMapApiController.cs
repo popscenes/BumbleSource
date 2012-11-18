@@ -2,33 +2,33 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
-using Website.Application.WebsiteInformation;
-using PostaFlya.Domain.Flier;
 using PostaFlya.Domain.Flier.Query;
+using PostaFlya.Domain.Flier;
 using PostaFlya.Models.Flier;
 using PostaFlya.Models.Location;
 using Website.Domain.Tag;
+using Website.Infrastructure.Query;
 
 namespace PostaFlya.Controllers
 {
     public class HeatMapApiController : ApiController
     {
-        private readonly FlierQueryServiceInterface _flierQueryService;
-        private readonly WebsiteInfoServiceInterface _websiteInfoService;
+        private readonly GenericQueryServiceInterface _flierQueryService;
+        private readonly FlierSearchServiceInterface _flierSearchService;
 
         private const int RoundingForHeatmapGrouping = 4;
 
-        public HeatMapApiController(FlierQueryServiceInterface flierQueryService, WebsiteInfoServiceInterface websiteInfoService)
+        public HeatMapApiController(GenericQueryServiceInterface flierQueryService, FlierSearchServiceInterface flierSearchService)
         {
             _flierQueryService = flierQueryService;
-            _websiteInfoService = websiteInfoService;
+            _flierSearchService = flierSearchService;
         }
 
         public IQueryable<HeatMapPoint> Get([FromUri]LocationModel loc, int distance = 20, string tagstring = "")
         {
             var location = loc.ToDomainModel();
             var tags = new Tags(tagstring);
-            var flierIds = _flierQueryService.FindFliersByLocationTagsAndDistance(location, tags, null, distance);
+            var flierIds = _flierSearchService.FindFliersByLocationTagsAndDistance(location, tags, null, distance);
 
             var fliers = flierIds.Select(id => _flierQueryService.FindById<Flier>(id)).Where(f => f != null).AsQueryable();
             return GetHeatMapPointsFromFliers(fliers);

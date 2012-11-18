@@ -5,13 +5,13 @@ namespace Website.Domain.Browser.Command
 {
     internal class SetExternalCredentialCommandHandler : CommandHandlerInterface<SetExternalCredentialCommand>
     {
-        private readonly BrowserRepositoryInterface _browserRepository;
+        private readonly GenericRepositoryInterface _repository;
         private readonly UnitOfWorkFactoryInterface _unitOfWorkFactory;
 
-        public SetExternalCredentialCommandHandler(BrowserRepositoryInterface browserRepository, 
+        public SetExternalCredentialCommandHandler(GenericRepositoryInterface repository, 
                                     UnitOfWorkFactoryInterface unitOfWorkFactory)
         {
-            _browserRepository = browserRepository;
+            _repository = repository;
             _unitOfWorkFactory = unitOfWorkFactory;
         }
 
@@ -19,7 +19,7 @@ namespace Website.Domain.Browser.Command
         {
             using (_unitOfWorkFactory.GetUnitOfWork(GetReposForUnitOfWork()))
             {
-                _browserRepository.UpdateEntity<Browser>(command.Credential.BrowserId, browser =>
+                _repository.UpdateEntity<Browser>(command.Credential.BrowserId, browser =>
                                                                                            {
                                                                                                browser.
                                                                                                    ExternalCredentials.
@@ -39,7 +39,7 @@ namespace Website.Domain.Browser.Command
 
         private IList<RepositoryInterface> GetReposForUnitOfWork()
         {
-            return new List<RepositoryInterface>() { _browserRepository };
+            return new List<RepositoryInterface>() { _repository };
         }
     }
 }

@@ -32,7 +32,7 @@ namespace Website.Azure.Common.TableStorage
         public void UpdateFrom(object root, TableNameAndPartitionProviderServiceInterface nameAndPartitionProviderService)
         {
             var entities = new HashSet<object>(); 
-            GetAggregateEnities(entities, root);
+            AggregateMemberEntityAttribute.GetAggregateEnities(entities, root);
 
             foreach (var clonedTableEntry in _clonedTableEntries)
             {
@@ -53,43 +53,6 @@ namespace Website.Azure.Common.TableStorage
             else
                 _clonedTableEntries.Add(new Entry(){Entity = entity, TableEntry = new ClonedTableEntry(nameAndPartitionProviderService)
                     , IsActive = true});
-        }
-
-        private void GetAggregateEnities(HashSet<object> list, object root)
-        {
-            if(list.Contains(root))
-            {
-                Trace.TraceWarning("Aggregate list already contains object, possible circular reference in aggregate: " + root);
-                return;
-            }
-            
-            list.Add(root);
-
-            var props = SerializeUtil.GetPropertiesWithAttribute(root.GetType(), typeof (AggregateMemberEntityAttribute));
-            var topLevelMembers = new List<object>();
-            foreach (var propertyInfo in props)
-            {
-                if(propertyInfo.PropertyType.FindInterfaces((m, criteria) => 
-                                                            m.Equals(criteria), typeof(IEnumerable)).Any())
-                {
-                    var coll = propertyInfo.GetValue(root, null) as IEnumerable;
-                    topLevelMembers.AddRange(coll.Cast<object>());
-                }
-                else if(!propertyInfo.GetIndexParameters().Any())
-                {
-                    topLevelMembers.Add(propertyInfo.GetValue(root, null));
-                }
-                else
-                {
-                    throw new ArgumentException("Can't apply AggregateMemberEntityAttribute to index parameters atm: " + propertyInfo.Name);
-                }
-            }
-
-            foreach (var topLevelMember in topLevelMembers)
-            {
-                GetAggregateEnities(list, topLevelMember);
-            }
-
         }
     }
 }

@@ -7,15 +7,15 @@ namespace Website.Domain.Content.Command
 {
     internal class SetImageMetaDataCommandHandler : CommandHandlerInterface<SetImageMetaDataCommand>
     {
-        private readonly ImageRepositoryInterface _imageRepository;
+        private readonly GenericRepositoryInterface _repository;
         private readonly UnitOfWorkFactoryInterface _unitOfWorkFactory;
         private readonly ContentStorageServiceInterface _contentStorageService;
 
-        public SetImageMetaDataCommandHandler(ImageRepositoryInterface imageRepository
+        public SetImageMetaDataCommandHandler(GenericRepositoryInterface repository
             , UnitOfWorkFactoryInterface unitOfWorkFactory
             , ContentStorageServiceInterface contentStorageService)
         {
-            _imageRepository = imageRepository;
+            _repository = repository;
             _unitOfWorkFactory = unitOfWorkFactory;
             _contentStorageService = contentStorageService;
         }
@@ -26,9 +26,9 @@ namespace Website.Domain.Content.Command
         {
             var change = false;
             UnitOfWorkInterface unitOfWork;
-            using (unitOfWork = _unitOfWorkFactory.GetUnitOfWork(new List<RepositoryInterface>() {_imageRepository}))
+            using (unitOfWork = _unitOfWorkFactory.GetUnitOfWork(new List<RepositoryInterface>() {_repository}))
             {
-                _imageRepository.UpdateEntity<Image>(command.Id,
+                _repository.UpdateEntity<Image>(command.Id,
                     image =>
                         {
                             if (command.Location != null && command.Location.IsValid())

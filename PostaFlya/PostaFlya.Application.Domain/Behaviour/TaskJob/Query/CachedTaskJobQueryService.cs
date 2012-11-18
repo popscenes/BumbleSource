@@ -4,6 +4,7 @@ using Website.Application.Binding;
 using Website.Application.Caching.Query;
 using PostaFlya.Domain.TaskJob;
 using PostaFlya.Domain.TaskJob.Query;
+using Website.Infrastructure.Caching.Query;
 using Website.Infrastructure.Command;
 using Website.Infrastructure.Query;
 using Website.Infrastructure.Binding;
@@ -18,7 +19,7 @@ namespace PostaFlya.Application.Domain.Behaviour.TaskJob.Query
                 , ObjectCache cacheProvider
                 , int defaultSecondsToCache = -1
                 )
-            : base(cacheProvider, CachedTaskJobContext.Region, taskJobQueryService, defaultSecondsToCache)
+            : base(cacheProvider, taskJobQueryService, defaultSecondsToCache)
         {
             _taskJobQueryService = taskJobQueryService;
         }
@@ -27,7 +28,7 @@ namespace PostaFlya.Application.Domain.Behaviour.TaskJob.Query
         public IQueryable<TaskJobBidInterface> GetBids(string taskJobId)
         {
             return RetrieveCachedData(
-                GetKeyFor(CachedTaskJobContext.Bids, taskJobId),
+                taskJobId.GetCacheKeyFor<TaskJobBid>("AggregateId"),
                 () => _taskJobQueryService.GetBids(taskJobId).ToList())
                 .AsQueryable();
         }

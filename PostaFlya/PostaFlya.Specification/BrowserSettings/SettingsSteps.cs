@@ -10,9 +10,9 @@ using PostaFlya.Specification.DynamicBulletinBoard;
 using PostaFlya.Specification.Util;
 using Website.Application.Domain.Browser;
 using Website.Domain.Content;
-using Website.Domain.Content.Command;
 using Website.Domain.Location;
 using Website.Domain.Tag;
+using Website.Infrastructure.Command;
 
 namespace PostaFlya.Specification.BrowserSettings
 {
@@ -70,7 +70,7 @@ namespace PostaFlya.Specification.BrowserSettings
         {
             var savedLocationList = SpecUtil.ControllerResult;
             Assert.IsNotNull(savedLocationList);
-            Assert.IsInstanceOfType(typeof(IQueryable<LocationModel>), savedLocationList);
+            Assert.That(savedLocationList, Is.InstanceOf<IQueryable<LocationModel>>());
         }
 
          [When(@"i Select a SAVED LOCATION")]
@@ -200,7 +200,7 @@ namespace PostaFlya.Specification.BrowserSettings
             var browserInformation = SpecUtil.CurrIocKernel.Get<BrowserInformationInterface>();
             var savedImagesApiController = SpecUtil.GetController<MyImagesController>();
 
-            var imageRepo = SpecUtil.CurrIocKernel.Get<ImageRepositoryInterface>();
+            var imageRepo = SpecUtil.CurrIocKernel.Get<GenericRepositoryInterface>();
             var testImage = new Image()
                              {
                                  Id = Guid.NewGuid().ToString(),

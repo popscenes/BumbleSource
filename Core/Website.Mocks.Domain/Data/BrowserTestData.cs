@@ -6,8 +6,7 @@ using Ninject.MockingKernel.Moq;
 using Website.Domain.Contact;
 using Website.Infrastructure.Command;
 using Website.Domain.Browser;
-using Website.Domain.Browser.Command;
-using Website.Domain.Browser.Query;
+using Website.Infrastructure.Query;
 
 namespace Website.Mocks.Domain.Data
 {
@@ -42,7 +41,7 @@ namespace Website.Mocks.Domain.Data
             Assert.AreEqual(storedBrowser.Address, retrievedBrowser.Address);
         }
 
-        public static BrowserInterface AssertGetById(BrowserInterface browser, BrowserQueryServiceInterface queryService)
+        public static BrowserInterface AssertGetById(BrowserInterface browser, GenericQueryServiceInterface queryService)
         {
             var retrievedBrowser = queryService.FindById<Browser>(browser.Id);
             AssertStoreRetrieve(browser, retrievedBrowser);
@@ -64,7 +63,7 @@ namespace Website.Mocks.Domain.Data
             return browser;
         }
 
-        public static void UpdateOne(BrowserInterface browser, BrowserRepositoryInterface repository, StandardKernel kernel)
+        public static void UpdateOne(BrowserInterface browser, GenericRepositoryInterface repository, StandardKernel kernel)
         {
             using (kernel.Get<UnitOfWorkFactoryInterface>()
                 .GetUnitOfWork(new List<RepositoryInterface>() { repository }))

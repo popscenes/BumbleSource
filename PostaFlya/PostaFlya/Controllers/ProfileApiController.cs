@@ -15,51 +15,48 @@ using Website.Application.Content;
 using Website.Domain.Browser;
 using Website.Domain.Browser.Query;
 using Website.Domain.Claims;
+using Website.Infrastructure.Query;
 
 namespace PostaFlya.Controllers
 {
     public class ProfileApiController : ApiController
     {
-        private readonly BrowserQueryServiceInterface _browserQueryService;
-        private readonly FlierQueryServiceInterface _flierQueryService;
+        private readonly QueryServiceForBrowserAggregateInterface _queryService;
         private readonly BlobStorageInterface _blobStorage;
         private readonly FlierBehaviourViewModelFactoryInterface _viewModelFactory;
 
-        public ProfileApiController(BrowserQueryServiceInterface browserQueryService
-            , FlierQueryServiceInterface flierQueryService
+        public ProfileApiController(QueryServiceForBrowserAggregateInterface queryService
             , [ImageStorage]BlobStorageInterface blobStorage
             , FlierBehaviourViewModelFactoryInterface viewModelFactory)
         {
-            _browserQueryService = browserQueryService;
-            _flierQueryService = flierQueryService;
+            _queryService = queryService;
             _blobStorage = blobStorage;
             _viewModelFactory = viewModelFactory;
         }
 
         public ProfileViewModel Get(string handle)
         {
-            return GetForHandle(handle, _browserQueryService, _flierQueryService, _blobStorage, _viewModelFactory);
+            return GetForHandle(handle, _queryService, _blobStorage, _viewModelFactory);
         }
 
         public static ProfileViewModel GetForHandle(string handle
-            , BrowserQueryServiceInterface browserQueryService
-            , FlierQueryServiceInterface flierQueryService
+            , QueryServiceForBrowserAggregateInterface queryService
             , BlobStorageInterface blobStorage
             , FlierBehaviourViewModelFactoryInterface viewModelFactory)
         {
-            var browser = browserQueryService.FindByFriendlyId<Browser>(handle);
+            var browser = queryService.FindByFriendlyId<Browser>(handle);
             if (browser == null)
                 return null;
             var ret = new ProfileViewModel
             {
                 Browser = browser.ToViewModel(blobStorage),
                 Fliers =
-                    flierQueryService.GetByBrowserId<Flier>(browser.Id)
+                    queryService.GetByBrowserId<Flier>(browser.Id)
                       .Select(f => viewModelFactory
                           .GetBulletinViewModel(f, false).GetImageUrl(blobStorage))
                       .ToList(),
-                ClaimedFliers = flierQueryService.GetByBrowserId<Claim>(browser.Id)
-                      .Select(l => flierQueryService.FindById<Flier>(l.AggregateId))
+                ClaimedFliers = queryService.GetByBrowserId<Claim>(browser.Id)
+                      .Select(l => queryService.FindById<Flier>(l.AggregateId))
                       .Where(f => f != null)
                       .Select(f => viewModelFactory
                           .GetBulletinViewModel(f, false).GetImageUrl(blobStorage))

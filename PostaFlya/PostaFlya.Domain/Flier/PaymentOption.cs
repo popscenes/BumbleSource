@@ -21,7 +21,7 @@ namespace PostaFlya.Domain.Flier
 
         public override int GetHashCode()
         {
-            return (Type != null ? Type.GetHashCode() : 0);
+            return (Type.GetHashCode());
         }
     }
 }

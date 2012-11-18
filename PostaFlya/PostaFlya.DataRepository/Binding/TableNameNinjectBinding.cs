@@ -1,26 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Reflection;
-using System.Text;
+﻿using System.Diagnostics;
 using Ninject;
 using Ninject.Modules;
 using PostaFlya.Domain.Behaviour;
 using PostaFlya.Domain.Boards;
 using PostaFlya.Domain.Flier;
 using Website.Azure.Common.TableStorage;
-using PostaFlya.DataRepository.Behaviour.TaskJob;
-using PostaFlya.DataRepository.Browser;
-using PostaFlya.DataRepository.Content;
-using PostaFlya.DataRepository.Flier;
 using PostaFlya.DataRepository.Internal;
-using Website.Infrastructure.Domain;
 using Website.Domain.Browser;
 using Website.Domain.Claims;
 using Website.Domain.Comments;
 using Website.Domain.Content;
-using Website.Azure.Common.TableStorage;
 
 namespace PostaFlya.DataRepository.Binding
 {
