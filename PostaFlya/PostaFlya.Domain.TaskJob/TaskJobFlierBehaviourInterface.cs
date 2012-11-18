@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using PostaFlya.Domain.Behaviour;
 using Website.Infrastructure.Domain;
 using Website.Domain.Location;
@@ -13,6 +14,7 @@ namespace PostaFlya.Domain.TaskJob
             target.MaxAmount = source.MaxAmount;
             target.CostOverhead = source.CostOverhead;
             target.ExtraLocations = source.ExtraLocations;
+            target.Bids = source.Bids != null ? new HashSet<TaskJobBid>(source.Bids) : null;
         }
     }
 
@@ -21,5 +23,6 @@ namespace PostaFlya.Domain.TaskJob
         double MaxAmount { get; set; }
         double CostOverhead { get; set; }
         Locations ExtraLocations { get; set; }
+        HashSet<TaskJobBid> Bids { get; set; } 
     }
 }

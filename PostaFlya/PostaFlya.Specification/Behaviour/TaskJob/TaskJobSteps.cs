@@ -10,11 +10,11 @@ using PostaFlya.Areas.TaskJob.Controllers;
 using PostaFlya.Areas.TaskJob.Models;
 using PostaFlya.Domain.Flier;
 using PostaFlya.Domain.TaskJob;
-using PostaFlya.Domain.TaskJob.Query;
 using PostaFlya.Models.Location;
 using PostaFlya.Specification.Fliers;
 using PostaFlya.Specification.Util;
 using Website.Domain.Location;
+using Website.Infrastructure.Query;
 
 namespace PostaFlya.Specification.Behaviour.TaskJob
 {
@@ -59,7 +59,7 @@ namespace PostaFlya.Specification.Behaviour.TaskJob
 
             var flier = ScenarioContext.Current["flier"] as FlierInterface;
 
-            var queryService = SpecUtil.CurrIocKernel.Get<TaskJobQueryServiceInterface>();
+            var queryService = SpecUtil.CurrIocKernel.Get<GenericQueryServiceInterface>();
             var behaviour = queryService.FindById<TaskJobFlierBehaviour>(flier.Id);
             Assert.IsNotNull(behaviour);
 
@@ -129,8 +129,9 @@ namespace PostaFlya.Specification.Behaviour.TaskJob
             var model = ScenarioContext.Current["taskjobbidmodel"] as TaskJobBidModel;
             var browserInformation = SpecUtil.GetCurrBrowser();
 
-            var taskJobQueryService = SpecUtil.CurrIocKernel.Get<TaskJobQueryServiceInterface>();
-            var bid = taskJobQueryService.GetBids(model.TaskJobId).SingleOrDefault(b => b.BrowserId == browserInformation.Browser.Id);
+            var taskJobQueryService = SpecUtil.CurrIocKernel.Get<GenericQueryServiceInterface>();
+            var taskJob = taskJobQueryService.FindById<TaskJobFlierBehaviour>(model.TaskJobId);
+            var bid = taskJob.Bids.SingleOrDefault(b => b.BrowserId == browserInformation.Browser.Id);
             Assert.IsNotNull(bid);
             Assert.AreEqual(model.BidAmount, bid.BidAmount);
         }

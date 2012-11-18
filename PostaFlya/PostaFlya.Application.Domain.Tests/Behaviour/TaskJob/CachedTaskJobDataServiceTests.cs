@@ -1,15 +1,14 @@
-﻿using System.Linq;
-using System.Runtime.Caching;
+﻿using System.Runtime.Caching;
 using NUnit.Framework;
 using Ninject;
 using Ninject.MockingKernel.Moq;
 using PostaFlya.Domain.TaskJob;
 using Website.Application.Caching.Command;
-using PostaFlya.Application.Domain.Behaviour.TaskJob.Command;
-using PostaFlya.Application.Domain.Behaviour.TaskJob.Query;
-using PostaFlya.Domain.TaskJob.Command;
-using PostaFlya.Domain.TaskJob.Query;
 using PostaFlya.Mocks.Domain.Data.Behaviour;
+using Website.Application.Caching.Query;
+using Website.Infrastructure.Caching.Command;
+using Website.Infrastructure.Command;
+using Website.Infrastructure.Query;
 using Website.Test.Common;
 using TestUtil = Website.Test.Common.TestUtil;
 
@@ -36,11 +35,10 @@ namespace PostaFlya.Application.Domain.Tests.Behaviour.TaskJob
 
         public static void CachedDataIsReturnedForTaskJobFindById(MoqMockingKernel kernel, ObjectCache cache)
         {
-            var queryService = kernel.Get<TaskJobQueryServiceInterface>();
+            var queryService = kernel.Get<GenericQueryServiceInterface>();
+            GenericQueryServiceInterface cachedQueryService = new TimedExpiryCachedQueryService(cache, queryService);
 
-            TaskJobQueryServiceInterface cachedQueryService = new CachedTaskJobQueryService(queryService, cache);
-
-            var repository = kernel.Get<TaskJobRepositoryInterface>();
+            var repository = kernel.Get<GenericRepositoryInterface>();
 
             var stored = TaskJobTestData.GetOne(kernel);
             TaskJobTestData.StoreOne(stored, repository, kernel);
@@ -74,28 +72,30 @@ namespace PostaFlya.Application.Domain.Tests.Behaviour.TaskJob
 
         public static void CachedDataIsReturnedForTaskJobGetBids(MoqMockingKernel kernel, ObjectCache memoryCache)
         {
-            var queryService = kernel.Get<TaskJobQueryServiceInterface>();
+            var queryService = kernel.Get<GenericQueryServiceInterface>();
+            GenericQueryServiceInterface cachedQueryService = new TimedExpiryCachedQueryService(memoryCache, queryService);
 
-            TaskJobQueryServiceInterface cachedQueryService = new CachedTaskJobQueryService(queryService, memoryCache);
-
-            var repository = kernel.Get<TaskJobRepositoryInterface>();
+            var repository = kernel.Get<GenericRepositoryInterface>();
 
             var stored = TaskJobTestData.StoreOne(TaskJobTestData.GetOne(kernel), repository, kernel);
-            var retrieved = cachedQueryService.FindById<TaskJobFlierBehaviour>(stored.Id);
-            TaskJobTestData.AssertStoreRetrieve(stored, retrieved);
 
-            repository.BidOnTask(TaskJobTestData.GetBid(stored));
-            repository.BidOnTask(TaskJobTestData.GetBid(stored));
+            repository.UpdateEntity<TaskJobFlierBehaviour>(stored.Id, task =>
+                {
+                    task.Bids.Add(TaskJobTestData.GetBid(stored));
+                    task.Bids.Add(TaskJobTestData.GetBid(stored));
+                });
+            
+            var taskJob = cachedQueryService.FindById<TaskJobFlierBehaviour>(stored.Id);
+            AssertUtil.Count(2, taskJob.Bids);
 
-            var bids = cachedQueryService.GetBids(stored.Id);
-            AssertUtil.Count(2, bids);
-            repository.BidOnTask(TaskJobTestData.GetBid(stored));
-            bids = cachedQueryService.GetBids(stored.Id);
-            AssertUtil.Count(2, bids);
+            repository.UpdateEntity<TaskJobFlierBehaviour>(stored.Id, task => task.Bids.Add(TaskJobTestData.GetBid(stored)));
+
+            taskJob = cachedQueryService.FindById<TaskJobFlierBehaviour>(stored.Id);
+            AssertUtil.Count(2, taskJob.Bids);
 
             TestUtil.ClearMemoryCache(memoryCache);
-            bids = cachedQueryService.GetBids(stored.Id);
-            AssertUtil.Count(3, bids);
+            taskJob = cachedQueryService.FindById<TaskJobFlierBehaviour>(stored.Id);
+            AssertUtil.Count(3, taskJob.Bids);
         }
 
         [Test]//note implement the same in other application test projects for different cache implementations
@@ -111,27 +111,31 @@ namespace PostaFlya.Application.Domain.Tests.Behaviour.TaskJob
 
         public static void CachedDataIsRefreshedWhenUsingCachedRepositoryForTaskJobGetBids(MoqMockingKernel kernel, ObjectCache cache)
         {
-            var queryService = kernel.Get<TaskJobQueryServiceInterface>();
+            var queryService = kernel.Get<GenericQueryServiceInterface>();
+            GenericQueryServiceInterface cachedQueryService = new TimedExpiryCachedQueryService(cache, queryService);
 
-            TaskJobQueryServiceInterface cachedQueryService = new CachedTaskJobQueryService(queryService, cache);
-            var repository = new CachedTaskJobRepository(kernel.Get<TaskJobRepositoryInterface>(), cache, new CacheNotifier());
+            var repository = new CachedRepositoryBase(cache, kernel.Get<GenericRepositoryInterface>());
 
             var stored = TaskJobTestData.StoreOne(TaskJobTestData.GetOne(kernel), repository, kernel);
             var retrieved = cachedQueryService.FindById<TaskJobFlierBehaviour>(stored.Id);
             TaskJobTestData.AssertStoreRetrieve(stored, retrieved);
 
-            repository.BidOnTask(TaskJobTestData.GetBid(stored));
-            repository.BidOnTask(TaskJobTestData.GetBid(stored));
+            repository.UpdateEntity<TaskJobFlierBehaviour>(stored.Id, task =>
+                {
+                    task.Bids.Add(TaskJobTestData.GetBid(stored));
+                    task.Bids.Add(TaskJobTestData.GetBid(stored));
+                });
 
-            var bids = cachedQueryService.GetBids(stored.Id);
-            Assert.That(bids.Count(), Is.EqualTo(2));
-            repository.BidOnTask(TaskJobTestData.GetBid(stored));
-            bids = cachedQueryService.GetBids(stored.Id);
-            Assert.That(bids.Count(), Is.EqualTo(3));
+            var taskJob = cachedQueryService.FindById<TaskJobFlierBehaviour>(stored.Id);
+            Assert.That(taskJob.Bids.Count, Is.EqualTo(2));
+
+            repository.UpdateEntity<TaskJobFlierBehaviour>(stored.Id, task => task.Bids.Add(TaskJobTestData.GetBid(stored)));
+            taskJob = cachedQueryService.FindById<TaskJobFlierBehaviour>(stored.Id);
+            Assert.That(taskJob.Bids.Count, Is.EqualTo(3));
 
             TestUtil.ClearMemoryCache(cache);
-            bids = cachedQueryService.GetBids(stored.Id);
-            Assert.That(bids.Count(), Is.EqualTo(3));
+            taskJob = cachedQueryService.FindById<TaskJobFlierBehaviour>(stored.Id);
+            Assert.That(taskJob.Bids.Count, Is.EqualTo(3));
         }
 
 
@@ -148,12 +152,10 @@ namespace PostaFlya.Application.Domain.Tests.Behaviour.TaskJob
 
         public static void CachedDataIsRefreshedWhenUsingCachedRepositoryForTaskJobFindById(MoqMockingKernel kernel, ObjectCache memoryCache)
         {
-            var queryService = kernel.Get<TaskJobQueryServiceInterface>();
+            var queryService = kernel.Get<GenericQueryServiceInterface>();
+            GenericQueryServiceInterface cachedQueryService = new TimedExpiryCachedQueryService(memoryCache, queryService);
 
-
-            TaskJobQueryServiceInterface cachedQueryService = new CachedTaskJobQueryService(queryService, memoryCache);
-
-            var cachedRepository = new CachedTaskJobRepository(kernel.Get<TaskJobRepositoryInterface>(), memoryCache, new CacheNotifier());
+            var cachedRepository = new CachedRepositoryBase(memoryCache, kernel.Get<GenericRepositoryInterface>());
 
             var stored = TaskJobTestData.StoreOne(TaskJobTestData.GetOne(kernel), cachedRepository, kernel);
             var retrieved = cachedQueryService.FindById<TaskJobFlierBehaviour>(stored.Id);

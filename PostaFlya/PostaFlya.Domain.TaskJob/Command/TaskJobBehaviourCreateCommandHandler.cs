@@ -8,13 +8,13 @@ namespace PostaFlya.Domain.TaskJob.Command
     internal class TaskJobBehaviourCreateCommandHandler : CommandHandlerInterface<TaskJobBehaviourCreateCommand>
     {
         private readonly GenericQueryServiceInterface _queryService;
-        private readonly TaskJobRepositoryInterface _taskJobRepository;
+        private readonly GenericRepositoryInterface _repository;
         private readonly UnitOfWorkFactoryInterface _unitOfWorkFactory;
 
-        public TaskJobBehaviourCreateCommandHandler(GenericQueryServiceInterface queryService, TaskJobRepositoryInterface taskJobRepository, UnitOfWorkFactoryInterface unitOfWorkFactory)
+        public TaskJobBehaviourCreateCommandHandler(GenericQueryServiceInterface queryService, GenericRepositoryInterface repository, UnitOfWorkFactoryInterface unitOfWorkFactory)
         {
             _queryService = queryService;
-            _taskJobRepository = taskJobRepository;
+            _repository = repository;
             _unitOfWorkFactory = unitOfWorkFactory;
         }
 
@@ -44,9 +44,9 @@ namespace PostaFlya.Domain.TaskJob.Command
                                        };
 
             UnitOfWorkInterface unitOfWork;
-            using (unitOfWork = _unitOfWorkFactory.GetUnitOfWork(new List<RepositoryInterface> {_taskJobRepository}))
+            using (unitOfWork = _unitOfWorkFactory.GetUnitOfWork(new List<RepositoryInterface> {_repository}))
             {
-                _taskJobRepository.Store(taskJobBehaviour);
+                _repository.Store(taskJobBehaviour);
             }
 
             if(!unitOfWork.Successful)

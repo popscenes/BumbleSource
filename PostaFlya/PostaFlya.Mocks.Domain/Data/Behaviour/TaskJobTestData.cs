@@ -5,10 +5,9 @@ using Ninject;
 using Ninject.MockingKernel.Moq;
 using PostaFlya.Domain.Behaviour;
 using PostaFlya.Domain.TaskJob;
-using PostaFlya.Domain.TaskJob.Command;
-using PostaFlya.Domain.TaskJob.Query;
 using Website.Infrastructure.Command;
 using Website.Domain.Location;
+using Website.Infrastructure.Query;
 
 namespace PostaFlya.Mocks.Domain.Data.Behaviour
 {
@@ -22,7 +21,7 @@ namespace PostaFlya.Mocks.Domain.Data.Behaviour
             CollectionAssert.AreEquivalent(storedTaskJob.ExtraLocations, retrievedTaskJob.ExtraLocations);
         }
 
-        internal static TaskJobFlierBehaviourInterface AssertGetById(TaskJobFlierBehaviourInterface taskJob, TaskJobQueryServiceInterface queryService)
+        internal static TaskJobFlierBehaviourInterface AssertGetById(TaskJobFlierBehaviourInterface taskJob, GenericQueryServiceInterface queryService)
         {
             var retrievedFlier = queryService.FindById<TaskJobFlierBehaviour>(taskJob.Id);
             AssertStoreRetrieve(taskJob, retrievedFlier);
@@ -31,7 +30,7 @@ namespace PostaFlya.Mocks.Domain.Data.Behaviour
         }
 
 
-        internal static TaskJobFlierBehaviourInterface StoreOne(TaskJobFlierBehaviourInterface taskJob, TaskJobRepositoryInterface repository, StandardKernel kernel)
+        internal static TaskJobFlierBehaviourInterface StoreOne(TaskJobFlierBehaviourInterface taskJob, GenericRepositoryInterface repository, StandardKernel kernel)
         {
             var uow = kernel.Get<UnitOfWorkFactoryInterface>()
                 .GetUnitOfWork(new List<RepositoryInterface>() {repository});
@@ -45,7 +44,7 @@ namespace PostaFlya.Mocks.Domain.Data.Behaviour
             return taskJob;
         }
 
-        internal static void UpdateOne(TaskJobFlierBehaviourInterface taskJob, TaskJobRepositoryInterface repository, StandardKernel kernel)
+        internal static void UpdateOne(TaskJobFlierBehaviourInterface taskJob, GenericRepositoryInterface repository, StandardKernel kernel)
         {
             using (kernel.Get<UnitOfWorkFactoryInterface>()
                 .GetUnitOfWork(new List<RepositoryInterface>() { repository }))
@@ -66,7 +65,7 @@ namespace PostaFlya.Mocks.Domain.Data.Behaviour
             return ret;
         }
 
-        public static TaskJobBidInterface GetBid(TaskJobFlierBehaviourInterface flierBehaviour)
+        public static TaskJobBid GetBid(TaskJobFlierBehaviourInterface flierBehaviour)
         {
             var rnd = new Random();
             return new TaskJobBid()

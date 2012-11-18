@@ -2,13 +2,13 @@ using System;
 using System.Collections.Generic;
 using NUnit.Framework;
 using Ninject;
+using PostaFlya.DataRepository.Internal;
 using Website.Azure.Common.Environment;
-using PostaFlya.DataRepository.Behaviour.TaskJob;
 using PostaFlya.Domain.TaskJob;
-using PostaFlya.Domain.TaskJob.Command;
-using PostaFlya.Domain.TaskJob.Query;
+using Website.Azure.Common.TableStorage;
 using Website.Infrastructure.Command;
 using Website.Domain.Location;
+using Website.Infrastructure.Query;
 
 namespace PostaFlya.DataRepository.Tests.Behaviour.TaskJob
 {
@@ -28,10 +28,10 @@ namespace PostaFlya.DataRepository.Tests.Behaviour.TaskJob
             AzureEnv.UseRealStorage = env == "real";
         } 
 
-        TaskJobRepositoryInterface _taskJobRepository = null;
+        GenericRepositoryInterface _taskJobRepository = null;
 
 
-        private TaskJobQueryServiceInterface _taskJobQueryService;
+        private GenericQueryServiceInterface _taskJobQueryService;
 
         public static void BindTaskJobRepository(StandardKernel kernel)
         {
@@ -55,8 +55,8 @@ namespace PostaFlya.DataRepository.Tests.Behaviour.TaskJob
 
             BindTaskJobRepository(Kernel);
 
-            _taskJobRepository = Kernel.Get<TaskJobRepositoryInterface>();
-            _taskJobQueryService = Kernel.Get<TaskJobQueryServiceInterface>();
+            _taskJobRepository = Kernel.Get<GenericRepositoryInterface>();
+            _taskJobQueryService = Kernel.Get<GenericQueryServiceInterface>();
         }
 
 
@@ -71,13 +71,13 @@ namespace PostaFlya.DataRepository.Tests.Behaviour.TaskJob
         [Test]
         public void TestCreateTaskJobRepository()
         {
-            var repository = Kernel.Get<TaskJobRepositoryInterface>();
+            var repository = Kernel.Get<GenericRepositoryInterface>();
             Assert.IsNotNull(repository);
-            Assert.That(repository, Is.InstanceOf<AzureTaskJobRepository>());
+            Assert.That(repository, Is.InstanceOf<JsonRepository>());
 
-            var queryService = Kernel.Get<TaskJobQueryServiceInterface>();
+            var queryService = Kernel.Get<GenericQueryServiceInterface>();
             Assert.IsNotNull(queryService);
-            Assert.That(queryService, Is.InstanceOf<AzureTaskJobRepository>());
+            Assert.That(queryService, Is.InstanceOf<JsonRepository>());
         }
 
         [Test]

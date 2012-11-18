@@ -7,7 +7,6 @@ using Microsoft.WindowsAzure.StorageClient;
 using Ninject;
 using Ninject.Syntax;
 using Website.Azure.Common.TableStorage;
-using PostaFlya.DataRepository.Behaviour.TaskJob;
 using PostaFlya.DataRepository.Search.Implementation;
 using Website.Infrastructure.Util;
 

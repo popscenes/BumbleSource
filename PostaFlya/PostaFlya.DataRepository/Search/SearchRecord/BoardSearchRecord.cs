@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Microsoft.SqlServer.Types;
 using PostaFlya.Domain.Boards;
 using Website.Azure.Common.Sql;
 
-namespace PostaFlya.DataRepository.Search.Services
+namespace PostaFlya.DataRepository.Search.SearchRecord
 {
     public static class BoardIntefaceSearchExtension
     {

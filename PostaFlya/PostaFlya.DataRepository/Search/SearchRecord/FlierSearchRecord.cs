@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data.SqlTypes;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
 using System.Xml.Linq;
 using Microsoft.SqlServer.Types;
 using Website.Azure.Common.Sql;
@@ -11,7 +8,7 @@ using PostaFlya.Domain.Flier;
 using Website.Domain.Location;
 using Website.Domain.Tag;
 
-namespace PostaFlya.DataRepository.Search.Services
+namespace PostaFlya.DataRepository.Search.SearchRecord
 {
     public static class FlierInterfaceSearchExtensions
     {

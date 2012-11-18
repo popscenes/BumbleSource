@@ -13,7 +13,14 @@ namespace PostaFlya.Domain.TaskJob
     public class TaskJobFlierBehaviour : FlierBehaviourBase<TaskJobFlierBehaviourInterface>, TaskJobFlierBehaviourInterface
     { 
         public Locations ExtraLocations { get; set; }
+        public HashSet<TaskJobBid> Bids { get; set; }
         public double MaxAmount { get; set; }
+
+        public TaskJobFlierBehaviour()
+        {
+            Bids = new HashSet<TaskJobBid>();
+            ExtraLocations = new Locations();
+        }
 
         #region FlierProperties
         public double CostOverhead

@@ -6,7 +6,6 @@ using Ninject;
 using PostaFlya.DataRepository.Internal;
 using PostaFlya.DataRepository.Search.Command;
 using PostaFlya.DataRepository.Search.Event;
-using PostaFlya.DataRepository.Search.Services;
 using PostaFlya.Domain.Boards;
 using PostaFlya.Domain.Boards.Event;
 using PostaFlya.Domain.Flier.Event;

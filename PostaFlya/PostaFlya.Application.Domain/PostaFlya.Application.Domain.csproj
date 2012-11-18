@@ -69,8 +69,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Behaviour\TaskJob\Command\CachedTaskJobRepository.cs" />
-    <Compile Include="Behaviour\TaskJob\Query\CachedTaskJobQueryService.cs" />
     <Compile Include="Binding\ApplicationDomainNinjectBinding.cs" />
     <Compile Include="Binding\ApplicationDomainRepositoriesNinjectBinding.cs" />
     <Compile Include="Email\Claims\BrowserClaimEmailSubscription.cs" />
@@ -133,6 +131,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Behaviour\TaskJob\Command\" />
+    <Folder Include="Behaviour\TaskJob\Query\" />
     <Folder Include="Claims\" />
     <Folder Include="Flier\Command\" />
     <Folder Include="Flier\Query\" />

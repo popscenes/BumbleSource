@@ -10,7 +10,6 @@ using PostaFlya.Controllers;
 using PostaFlya.Domain.Behaviour;
 using PostaFlya.Domain.TaskJob;
 using PostaFlya.Domain.TaskJob.Command;
-using PostaFlya.Domain.TaskJob.Query;
 using Website.Domain.Browser.Query;
 using Website.Infrastructure.Command;
 using Website.Domain.Location;
@@ -23,17 +22,14 @@ namespace PostaFlya.Areas.TaskJob.Controllers
     {
         private readonly CommandBusInterface _commandBus;
         private readonly QueryServiceForBrowserAggregateInterface _queryService;
-        private readonly TaskJobQueryServiceInterface _jobQueryService;
         private readonly BlobStorageInterface _blobStorage;
 
         public MyTaskJobsController(CommandBusInterface commandBus,
             QueryServiceForBrowserAggregateInterface queryService
-            , TaskJobQueryServiceInterface jobQueryService
             , [ImageStorage]BlobStorageInterface blobStorage)
         {
             _commandBus = commandBus;
             _queryService = queryService;
-            _jobQueryService = jobQueryService;
             _blobStorage = blobStorage;
         }
 
@@ -42,7 +38,7 @@ namespace PostaFlya.Areas.TaskJob.Controllers
         public IQueryable<MyTaskJobModel> Get(string browserId)
         {
            return _queryService.GetByBrowserId<Domain.Flier.Flier>(browserId).Where(f => f.FlierBehaviour == FlierBehaviour.TaskJob)
-                .Select(f => _jobQueryService.FindById<TaskJobFlierBehaviour>(f.Id)
+                .Select(f => _queryService.FindById<TaskJobFlierBehaviour>(f.Id)
                     .ToMyTaskJobModel(_blobStorage));
         }
 

@@ -86,7 +86,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Behaviour\TaskJob\AzureTaskJobRepository.cs" />
     <Compile Include="Binding\AzureInitCreateTables.cs" />
     <Compile Include="Binding\AzureRepositoryNinjectBinding.cs" />
     <Compile Include="Binding\BindingAttributes.cs" />
@@ -103,10 +102,10 @@
     <Compile Include="Search\Event\SqlFlierIndexService.cs" />
     <Compile Include="Search\Implementation\SqlFlierSearchService.cs" />
     <Compile Include="Search\Implementation\SqlSeachDbInitializer.cs" />
-    <Compile Include="Search\Services\BoardFlierLocationSearchRecord.cs" />
-    <Compile Include="Search\Services\BoardFlierSearchRecord.cs" />
-    <Compile Include="Search\Services\BoardSearchRecord.cs" />
-    <Compile Include="Search\Services\FlierSearchRecord.cs" />
+    <Compile Include="Search\SearchRecord\BoardFlierLocationSearchRecord.cs" />
+    <Compile Include="Search\SearchRecord\BoardFlierSearchRecord.cs" />
+    <Compile Include="Search\SearchRecord\BoardSearchRecord.cs" />
+    <Compile Include="Search\SearchRecord\FlierSearchRecord.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0">

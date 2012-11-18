@@ -5,11 +5,11 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using Ninject;
+using PostaFlya.DataRepository.Search.SearchRecord;
 using Website.Azure.Common.Binding;
 using Website.Azure.Common.Sql;
 using Website.Azure.Common.TableStorage;
 using PostaFlya.DataRepository.Binding;
-using PostaFlya.DataRepository.Search.Services;
 using PostaFlya.Domain.Flier;
 
 namespace PostaFlya.DataRepository.Search.Implementation

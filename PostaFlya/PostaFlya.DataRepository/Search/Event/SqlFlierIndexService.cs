@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using PostaFlya.DataRepository.Binding;
 using PostaFlya.DataRepository.Search.Command;
-using PostaFlya.DataRepository.Search.Services;
+using PostaFlya.DataRepository.Search.SearchRecord;
 using PostaFlya.Domain.Boards;
 using PostaFlya.Domain.Boards.Event;
 using PostaFlya.Domain.Flier.Event;

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using PostaFlya.DataRepository.Search.Services;
+using PostaFlya.DataRepository.Search.SearchRecord;
 using Website.Infrastructure.Command;
 
 namespace PostaFlya.DataRepository.Search.Command
