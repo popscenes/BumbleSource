@@ -9,7 +9,7 @@
       <Setting name="Microsoft.WindowsAzure.Plugins.Caching.DiagnosticLevel" value="1" />
       <Setting name="Microsoft.WindowsAzure.Plugins.Caching.ClientDiagnosticLevel" value="1" />
       <Setting name="Microsoft.WindowsAzure.Plugins.Caching.CacheSizePercentage" value="50" />
-      <Setting name="Microsoft.WindowsAzure.Plugins.Caching.ConfigStoreConnectionString" value="DefaultEndpointsProtocol=http;AccountName=flya;AccountKey=TOir5gJpa5iNu1ba7H0/cbqcId5fmU98ts82J/R2usy/cE4+7uMvpfn5MEfg+yofVPgYuhGxbdyMtndbQEv0lA==" />
+      <Setting name="Microsoft.WindowsAzure.Plugins.Caching.ConfigStoreConnectionString" value="UseDevelopmentStorage=true" />
       <!--<Setting name="Microsoft.WindowsAzure.Plugins.RemoteAccess.Enabled" value="true" />
       <Setting name="Microsoft.WindowsAzure.Plugins.RemoteAccess.AccountUsername" value="bumble" />
       <Setting name="Microsoft.WindowsAzure.Plugins.RemoteAccess.AccountEncryptedPassword" value="MIIBnQYJKoZIhvcNAQcDoIIBjjCCAYoCAQAxggFOMIIBSgIBADAyMB4xHDAaBgNVBAMME1dpbmRvd3MgQXp1cmUgVG9vbHMCEEaa7lA1z4aWTk/xIkNfB2YwDQYJKoZIhvcNAQEBBQAEggEAd5HtXlV+8TKpwOXSmIzwV8NaWHknRpz1+hO9x8HQ5DduyH5zbUMnyN0Mfo1lcN/PhnT7djEQe+XbQnKTTUbepLQuSMGZmxnDgVRa0XVemmR5kdyic9CK9ql8YVKuZs4X2IXwRs3WyywDAabXLrhJwVJmBbsPb4Qf2/q9K1kqW+/DhRdtOUUgQtggysRo5+nQYf5hbxoluOp/xu3lA4DS8zmqV/P/PvntAfsMJJhl8JXXrLIbxD3irNMPhqlL++QaV/D07c5ocvwfCd3FsQKmvr/b2SNOUtCxA2g11KHRM0HnHvPm8gQey8f1CE1vvOWqwGPcsBxZgQ2zKbzpo1S56TAzBgkqhkiG9w0BBwEwFAYIKoZIhvcNAwcECLO24ttbUVfQgBBZiK7JNPq7n1bEUqPlnj5i" />

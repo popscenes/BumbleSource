@@ -29,10 +29,13 @@
     <Setting name="Microsoft.WindowsAzure.Plugins.Caching.ClientDiagnosticLevel" /></ConfigurationSettings>
     <LocalResources>
       <LocalStorage name="Microsoft.WindowsAzure.Plugins.Caching.FileStore" sizeInMB="3000" cleanOnRoleRecycle="false" />
-      <LocalStorage name="DiagnosticStore" cleanOnRoleRecycle="false" sizeInMB="20000" />
+      <LocalStorage name="DiagnosticStore" cleanOnRoleRecycle="true" sizeInMB="12000" />
       <!-- remove or change on redeployment-->
     </LocalResources>
-  <Startup priority="-2"><Task commandLine="Microsoft.WindowsAzure.Caching\ClientPerfCountersInstaller.exe install" executionContext="elevated" taskType="simple" /><Task commandLine="Microsoft.WindowsAzure.Caching\ClientPerfCountersInstaller.exe install" executionContext="elevated" taskType="simple" /></Startup></WebRole>
+  <Startup priority="-2">
+    <Task commandLine="Microsoft.WindowsAzure.Caching\ClientPerfCountersInstaller.exe install" executionContext="elevated" taskType="simple" />
+  </Startup>
+  </WebRole>
   <!--<WorkerRole name="Website.CommandWorker" vmsize="Small">
     <Imports>
       <Import moduleName="Diagnostics" />
