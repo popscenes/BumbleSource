@@ -21,5 +21,8 @@ namespace PostaFlya.Domain.Boards
         bool AllowOthersToPostFliers { get; set; }
         bool RequireApprovalOfPostedFliers { get; set; }
         Location Location { get; set; }
-    } 
+        string Description { get; set; }
+        BoardStatus Status { get; set; }
+        int PercentageOfPublicFliersToShow { get; set; }
+    }
 }

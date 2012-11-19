@@ -9,5 +9,7 @@ namespace PostaFlya.Domain.Boards
         public bool AllowOthersToPostFliers { get; set; }
         public bool RequireApprovalOfPostedFliers { get; set; }
         public Location Location { get; set; }
+        public string Description { get; set; }
+        public BoardStatus Status { get; set; }
     }
 }

@@ -31,8 +31,8 @@
       scheduledTransferLogLevelFilter="Verbose"
       scheduledTransferPeriod="PT1M">
       <!-- The event log name is in the same format as the imperative 
-           diagnostics configuration API -->
-      <!--<DataSource name="System!*" /> -->
+           diagnostics configuration API System seems to cause problems in debug -->
+      <!--<DataSource name="System!*" /> --> 
      <DataSource name="Application!*" />
      
    </WindowsEventLog>
