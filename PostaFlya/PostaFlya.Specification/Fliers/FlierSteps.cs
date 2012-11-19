@@ -450,11 +450,12 @@ namespace PostaFlya.Specification.Fliers
 
 
 
+        
         [Given(@"I have sufficient Account Credit")]
         public void GivenIHaveSufficientAccountCredit()
         {
             var browserInformation = SpecUtil.GetCurrBrowser();
-            var browserReo = SpecUtil.CurrIocKernel.Get<GenericRepositoryInterface>();
+            var browserReo = SpecUtil.CurrIocKernel.Get<BrowserRepositoryInterface>();
             browserReo.UpdateEntity<Browser>(browserInformation.Browser.Id, 
                     b =>
                         {

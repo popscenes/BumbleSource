@@ -62,6 +62,23 @@ namespace PostaFlya.Domain.Flier
         public string PostCode { get; set; }
         public Dictionary<string, object> ExtendedProperties { get; set; }
         public int NumberOfClaims { get; set; }
+        
+        public Double ClaimCost
+        {
+            get
+            {
+                if(NumberOfClaims > 0)
+                {
+                    return 0.00;
+                }
+                else
+                {
+                    var feature = Features.FirstOrDefault(_ => _.FeatureType == FeatureType.TearOff);
+                    return feature == null ? 0.00 : feature.Cost;
+                }
+            }
+        }
+
         public int NumberOfComments { get; set; }
         public ContactDetails ContactDetails { get; set; }
         public bool UseBrowserContactDetails { get; set; }

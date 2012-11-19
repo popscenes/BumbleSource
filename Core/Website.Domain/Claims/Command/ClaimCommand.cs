@@ -8,5 +8,6 @@ namespace Website.Domain.Claims.Command
         public string Context { get; set; }
         public EntityInterface ClaimEntity { get; set; }
         public string BrowserId { get; set; }
+        public EntityIdInterface OwnerEntity { get; set; }
     }
 }
