@@ -48,7 +48,7 @@ namespace PostaFlya.Controllers
             if (browserIdInterface != null)
             {
                 var ownerId = browserIdInterface.BrowserId;
-                ownerEntity = _browserQueryService.FindById<Browser>(ownerId);
+                ownerEntity = _queryService.FindById<Browser>(ownerId);
             }
 
             var claimCommand = new ClaimCommand()

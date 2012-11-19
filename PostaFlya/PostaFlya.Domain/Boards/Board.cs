@@ -11,5 +11,6 @@ namespace PostaFlya.Domain.Boards
         public Location Location { get; set; }
         public string Description { get; set; }
         public BoardStatus Status { get; set; }
+        public int PercentageOfPublicFliersToShow { get; set; }
     }
 }

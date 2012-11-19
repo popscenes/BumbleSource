@@ -76,6 +76,7 @@
     <Compile Include="Boards\BoardFlierInterface.cs" />
     <Compile Include="Boards\BoardFlierStatus.cs" />
     <Compile Include="Boards\BoardInterface.cs" />
+    <Compile Include="Boards\BoardStatus.cs" />
     <Compile Include="Boards\Command\AddFlierToBoardCommand.cs" />
     <Compile Include="Boards\Command\AddFlierToBoardCommandHandler.cs" />
     <Compile Include="Boards\Command\CreateBoardCommand.cs" />

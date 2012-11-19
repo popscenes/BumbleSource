@@ -114,7 +114,7 @@ namespace PostaFlya.Specification
         public void GivenIHaveSufficientAccountCredit()
         {
             var browserInformation = SpecUtil.GetCurrBrowser();
-            var browserReo = SpecUtil.CurrIocKernel.Get<BrowserRepositoryInterface>();
+            var browserReo = SpecUtil.CurrIocKernel.Get<GenericRepositoryInterface>();
             browserReo.UpdateEntity<Browser>(browserInformation.Browser.Id,
                     b =>
                     {

@@ -138,11 +138,10 @@ namespace PostaFlya.Specification.DynamicBulletinBoard
         public void ThenWillBeDeductedFromTheFlierCreatorsAccount(Double deduction)
         {
             var flier = ScenarioContext.Current["flier"] as FlierInterface;
-            var queryService = SpecUtil.CurrIocKernel.Get<FlierQueryServiceInterface>();
+            var queryService = SpecUtil.CurrIocKernel.Get<GenericQueryServiceInterface>();
             var retFlier = queryService.FindById<Flier>(flier.Id);
 
-            var browserQueryService = SpecUtil.CurrIocKernel.Get<BrowserQueryServiceInterface>();
-            var browser = browserQueryService.FindById<Browser>(retFlier.BrowserId);
+            var browser = queryService.FindById<Browser>(retFlier.BrowserId);
 
             Assert.AreEqual(browser.AccountCredit, 10.00 - deduction);
         }
