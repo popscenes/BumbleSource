@@ -14,7 +14,8 @@ namespace PostaFlya.DataRepository.Search.SearchRecord
                     Location = board.Location.ToGeography(),
                     LocationShard = board.Location.GetShardId(),
                     FriendlyId = board.FriendlyId,
-                    Id = board.Id
+                    Id = board.Id,
+                    BoardStatus = (int) board.Status
                 };
         }
     }
@@ -31,6 +32,8 @@ namespace PostaFlya.DataRepository.Search.SearchRecord
         [NotNullable]
         [SpatialIndex]
         public SqlGeography Location { get; set; }
+
+        public int BoardStatus { get; set; }
 
     }
 }
