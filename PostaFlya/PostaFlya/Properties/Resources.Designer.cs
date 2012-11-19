@@ -151,6 +151,15 @@ namespace PostaFlya.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Status.
+        /// </summary>
+        public static string BoardCreateEditModel_Status {
+            get {
+                return ResourceManager.GetString("BoardCreateEditModel_Status", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to BoardFlier.
         /// </summary>
         public static string BoardFlier {

@@ -15,13 +15,13 @@ And the BOARD will require approval for posted FLIERS
 And the BOARD will have the status PendingApproval
 
 Scenario: Participant Adds Flier To Board They Dont Own
-Given there is a public board named publicBoard that requires approval
+Given there is an approved public board named publicBoard
 And I have created a FLIER
 When I add the FLIER to the board 
 Then The FLIER will be a member of the board with a status of PendingApproval 
 
 Scenario: Participant Approves Flier On Board They Own
-Given I have created a public board named coolBoard that requires approval
+Given I have created an approved public board named coolBoard 
 And A BROWSER has created a FLIER
 And A BROWSER has added the FLIER to the board
 When I approve the FLIER
@@ -38,6 +38,13 @@ And the BOARD has the status PendingApproval
 And I am a PARTICIPANT with Admin ROLE
 When I approve the BOARD
 Then the BOARD will have the status Approved
+
+Scenario: NonAdmin Cant Approve Board
+Given I am a PARTICIPANT without Admin ROLE
+Given I have created a public board named publicBoard that requires approval
+And the BOARD has the status PendingApproval
+When I approve the BOARD
+Then the BOARD will have the status PendingApproval
 
 
 

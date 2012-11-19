@@ -10,6 +10,7 @@ using PostaFlya.Models.Board;
 using PostaFlya.Models.Flier;
 using PostaFlya.Specification.Util;
 using TechTalk.SpecFlow;
+using Website.Domain.Browser;
 using Website.Infrastructure.Command;
 using Website.Infrastructure.Query;
 
@@ -86,6 +87,7 @@ namespace PostaFlya.Specification.Fliers
             ThenABOARDNamedBoardWillBeCreated(targetBoard);
             ThenTheBOARDWillAllowOthersToPost();
             ThenTheBOARDWillRequireApprovalForPostedFliers();
+            ThenTheBOARDHasStatus(BoardStatus.PendingApproval);
         }
 
         [Given(@"there is a public board named (.*) that requires approval")]
@@ -95,11 +97,31 @@ namespace PostaFlya.Specification.Fliers
             GivenThereIsAPublicBoardForBrowserThatRequiresApprovalNamed(browserId, targetBoard);
         }
 
+        [Given(@"there is an approved public board named (.*)")]
+        public void GivenThereIsAnApprovedPublicBoardNamed(string targetBoard)
+        {
+            var browserId = _common.GivenThereIsAnExistingBrowserWithParticipantRole();
+            GivenThereIsAPublicBoardForBrowserThatRequiresApprovalNamed(browserId, targetBoard);
+            _common.GivenIHaveRole(Role.Admin.ToString());
+            WhenIApproveTheBOARD();
+            ThenTheBOARDHasStatus(BoardStatus.Approved);
+        }
+
         [Given(@"I have created a public board named (.*) that requires approval")]
         public void GivenIHaveCreatedAPublicBoardThatRequiresApprovalNamed(string targetBoard)
         {
             var browserId = SpecUtil.GetCurrBrowser().Browser.Id;
             GivenThereIsAPublicBoardForBrowserThatRequiresApprovalNamed(browserId, targetBoard);
+        }
+
+        [Given(@"I have created an approved public board named (.*)")]
+        public void GivenIHaveCreatedAnApprovedPublicBoardNamed(string targetBoard)
+        {
+            var browserId = SpecUtil.GetCurrBrowser().Browser.Id;
+            GivenThereIsAPublicBoardForBrowserThatRequiresApprovalNamed(browserId, targetBoard);
+            _common.GivenIHaveRole(Role.Admin.ToString());
+            WhenIApproveTheBOARD();
+            ThenTheBOARDHasStatus(BoardStatus.Approved);
         }
 
         [When(@"I add the FLIER to the board")]
@@ -211,13 +233,33 @@ namespace PostaFlya.Specification.Fliers
         }
 
         [Given(@"the BOARD has the status (.*)")]
-        public void ThenTheBOARDHasStatusPendingApproval(BoardStatus status)
+        public void ThenTheBOARDHasStatus(BoardStatus status)
         {
             var board = ScenarioContext.Current["board"] as BoardInterface;
             var repo = SpecUtil.CurrIocKernel.Get<GenericRepositoryInterface>();
             repo.UpdateEntity<Board>(board.Id, boardUp => boardUp.Status = status);
             board.Status = status;
 
+        }
+
+        [When(@"I approve the BOARD")]
+        public void WhenIApproveTheBOARD()
+        {
+            var board = ScenarioContext.Current["board"] as BoardInterface;
+            var controller = SpecUtil.GetApiController<MyBoardsController>();
+            var editModel = new BoardCreateEditModel()
+                {
+                    Id = board.Id,
+                    Status = BoardStatus.Approved
+                };         
+            
+            var browserId = SpecUtil.GetCurrBrowser().Browser.Id;
+
+            var res = controller.Put(browserId, editModel);
+            res.AssertStatusCode();
+
+            var query = SpecUtil.CurrIocKernel.Get<GenericQueryServiceInterface>();
+            ScenarioContext.Current["board"] = query.FindById<Board>(board.Id);
         }
 
 

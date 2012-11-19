@@ -5,6 +5,7 @@ namespace PostaFlya.Domain.Boards.Command
 {
     public class EditBoardCommand : DefaultCommandBase
     {
+        public string Id { get; set; }
         public string BrowserId { get; set; }
         public string BoardName { get; set; }
         public bool AllowOthersToPostFliers { get; set; }
@@ -13,13 +14,5 @@ namespace PostaFlya.Domain.Boards.Command
         public string Description { get; set; }
         public BoardStatus Status { get; set; }
         public int PercentageOfPublicFliersToShow { get; set; }
-    }
-
-    public class EditBoardCommandHandler : CommandHandlerInterface<EditBoardCommand>
-    {
-        public object Handle(EditBoardCommand command)
-        {
-            throw new System.NotImplementedException();
-        }
     }
 }

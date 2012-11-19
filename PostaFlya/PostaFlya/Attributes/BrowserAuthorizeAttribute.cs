@@ -41,9 +41,8 @@ namespace PostaFlya.Attributes
             var browserid = actionContext.ControllerContext.RouteData.Values["BrowserId"] as string;
             if (string.IsNullOrWhiteSpace(browserid))
             {
-                foreach (var arg in actionContext.ActionArguments)
+                foreach (var browserInt in actionContext.ActionArguments.Select(arg => arg.Value as BrowserIdInterface))
                 {
-                    var browserInt = arg.Value as BrowserIdInterface;
                     object browOut;
                     if(browserInt != null)
                     {
@@ -56,10 +55,12 @@ namespace PostaFlya.Attributes
                         if (!string.IsNullOrWhiteSpace(browserid))
                             break;                    
                     }
-                        
-               }
+                }
                 
             }
+
+            if (browserInfo.Browser.HasRole(Role.Admin))
+                return;
 
             if (browserInfo.Browser.Id == browserid && (Roles.Length == 0 ||
                 browserInfo.Browser.HasAnyRole(_rolesSplit)))

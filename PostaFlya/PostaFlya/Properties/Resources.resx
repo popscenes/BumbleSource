@@ -315,4 +315,7 @@
   <data name="BoardCreateEditModel_PercentageOfPublicFliersToShow" xml:space="preserve">
     <value>PercentageOfPublicFliersToShow</value>
   </data>
+  <data name="BoardCreateEditModel_Status" xml:space="preserve">
+    <value>Status</value>
+  </data>
 </root>

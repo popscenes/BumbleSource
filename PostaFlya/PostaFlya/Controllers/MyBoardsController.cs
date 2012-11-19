@@ -1,5 +1,7 @@
 using System.Net.Http;
 using System.Web.Http;
+using PostaFlya.Attributes;
+using PostaFlya.Domain.Boards;
 using PostaFlya.Domain.Boards.Command;
 using PostaFlya.Models.Board;
 using Website.Common.Extension;
@@ -7,6 +9,7 @@ using Website.Infrastructure.Command;
 
 namespace PostaFlya.Controllers
 {
+    [BrowserAuthorize(Roles = "Participant")]
     public class MyBoardsController : ApiController
     {
         private readonly CommandBusInterface _commandBus;
@@ -32,18 +35,20 @@ namespace PostaFlya.Controllers
             return this.GetResponseForRes(res);
         }
 
-        public HttpResponseMessage Put(string browserId, BoardCreateEditModel boardCreate)
+        public HttpResponseMessage Put(string browserId, BoardCreateEditModel boardEdit)
         {
-            var createBoardCommand = new EditBoardCommand()
+            var editBoardCommand = new EditBoardCommand()
             {
+                Id = boardEdit.Id,
                 BrowserId = browserId,
-                BoardName = boardCreate.BoardName,
-                Location = boardCreate.Location != null ? boardCreate.Location.ToDomainModel() : null,
-                AllowOthersToPostFliers = boardCreate.AllowOthersToPostFliers,
-                RequireApprovalOfPostedFliers = boardCreate.RequireApprovalOfPostedFliers
+                BoardName = boardEdit.BoardName,
+                Location = boardEdit.Location != null ? boardEdit.Location.ToDomainModel() : null,
+                AllowOthersToPostFliers = boardEdit.AllowOthersToPostFliers,
+                RequireApprovalOfPostedFliers = boardEdit.RequireApprovalOfPostedFliers,
+                Status = BoardStatus.Approved
             };
 
-            var res = _commandBus.Send(createBoardCommand);
+            var res = _commandBus.Send(editBoardCommand);
             return this.GetResponseForRes(res);
         }
     }

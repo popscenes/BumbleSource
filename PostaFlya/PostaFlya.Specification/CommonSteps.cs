@@ -84,9 +84,20 @@ namespace PostaFlya.Specification
             GivenIAmAnExistingBrowserWithParticipantRole();
             _browserSteps.WhenIProvideCorrectCredentials();
             _browserSteps.ThenMyRegisteredBrowserWillBeLoadedAsTheActiveBrowser();
+            GivenIHaveRole(role);
+        }
+
+        [Given(@"I have (.*) ROLE")]
+        public void GivenIHaveRole(string role)
+        {
             var browserInformation = SpecUtil.GetCurrBrowser();
             if (!browserInformation.Browser.Roles.Contains(role))
+            {
                 browserInformation.Browser.Roles.Add(role);
+                SpecUtil.CurrIocKernel.Get<GenericRepositoryInterface>()
+                    .UpdateEntity<Browser>(
+                        browserInformation.Browser.Id, browser => browser.Roles.Add(role));
+            }
         }
 
         //REUSE
@@ -98,7 +109,13 @@ namespace PostaFlya.Specification
             _browserSteps.ThenMyRegisteredBrowserWillBeLoadedAsTheActiveBrowser();
             var browserInformation = SpecUtil.GetCurrBrowser();
             if (browserInformation.Browser.Roles.Contains(role))
+            {
                 browserInformation.Browser.Roles.Remove(role);
+
+                SpecUtil.CurrIocKernel.Get<GenericRepositoryInterface>()
+                .UpdateEntity<Browser>(
+                    browserInformation.Browser.Id, browser => browser.Roles.Remove(role));
+            }
         }
 
         //REUSE

@@ -93,7 +93,7 @@ namespace PostaFlya.Specification.Fliers
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Participant Adds Flier To Board They Dont Own", ((string[])(null)));
             this.ScenarioSetup(scenarioInfo);
-            testRunner.Given("there is a public board named publicBoard that requires approval", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+            testRunner.Given("there is an approved public board named publicBoard", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
             testRunner.And("I have created a FLIER", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
             testRunner.When("I add the FLIER to the board", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
             testRunner.Then("The FLIER will be a member of the board with a status of PendingApproval", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
@@ -106,7 +106,7 @@ namespace PostaFlya.Specification.Fliers
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Participant Approves Flier On Board They Own", ((string[])(null)));
             this.ScenarioSetup(scenarioInfo);
-            testRunner.Given("I have created a public board named coolBoard that requires approval", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+            testRunner.Given("I have created an approved public board named coolBoard", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
             testRunner.And("A BROWSER has created a FLIER", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
             testRunner.And("A BROWSER has added the FLIER to the board", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
             testRunner.When("I approve the FLIER", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
@@ -137,6 +137,20 @@ namespace PostaFlya.Specification.Fliers
             testRunner.And("I am a PARTICIPANT with Admin ROLE", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
             testRunner.When("I approve the BOARD", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
             testRunner.Then("the BOARD will have the status Approved", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+            this.ScenarioCleanup();
+        }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("NonAdmin Cant Approve Board")]
+        public virtual void NonAdminCantApproveBoard()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("NonAdmin Cant Approve Board", ((string[])(null)));
+            this.ScenarioSetup(scenarioInfo);
+            testRunner.Given("I am a PARTICIPANT without Admin ROLE", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+            testRunner.Given("I have created a public board named publicBoard that requires approval", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+            testRunner.And("the BOARD has the status PendingApproval", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+            testRunner.When("I approve the BOARD", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+            testRunner.Then("the BOARD will have the status PendingApproval", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
             this.ScenarioCleanup();
         }
     }
