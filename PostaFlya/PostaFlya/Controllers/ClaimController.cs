@@ -11,6 +11,7 @@ using Website.Application.Binding;
 using PostaFlya.Binding;
 using Website.Application.Content;
 using Website.Common.Extension;
+using Website.Domain.Browser;
 using Website.Infrastructure.Command;
 using Website.Infrastructure.Domain;
 using Website.Infrastructure.Query;
@@ -41,11 +42,21 @@ namespace PostaFlya.Controllers
             if (entity == null)
                 return new HttpResponseMessage(HttpStatusCode.BadRequest);
 
+            EntityIdInterface ownerEntity = null;
+
+            var browserIdInterface = entity as BrowserIdInterface;
+            if (browserIdInterface != null)
+            {
+                var ownerId = browserIdInterface.BrowserId;
+                ownerEntity = _browserQueryService.FindById<Browser>(ownerId);
+            }
+
             var claimCommand = new ClaimCommand()
                                   {
                                       BrowserId = claim.BrowserId,
                                       ClaimEntity = entity,
-                                      Context = "tearoff"
+                                      Context = "tearoff",
+                                      OwnerEntity = ownerEntity
                                   };
 
             var res = _commandBus.Send(claimCommand);

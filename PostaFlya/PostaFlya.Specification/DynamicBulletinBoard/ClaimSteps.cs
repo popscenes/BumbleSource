@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using Moq;
 using NUnit.Framework;
 using Ninject;
@@ -10,10 +11,14 @@ using PostaFlya.Controllers;
 using PostaFlya.Domain.Flier;
 using PostaFlya.Specification.Fliers;
 using PostaFlya.Specification.Util;
+using Website.Domain.Browser;
+using Website.Domain.Browser.Query;
 using Website.Domain.Claims;
 using Website.Domain.Claims.Event;
 using Website.Domain.Service;
+using Website.Infrastructure.Command;
 using Website.Infrastructure.Query;
+using Website.Mocks.Domain.Data;
 
 namespace PostaFlya.Specification.DynamicBulletinBoard
 {
@@ -27,6 +32,16 @@ namespace PostaFlya.Specification.DynamicBulletinBoard
             var browserInformation = SpecUtil.GetCurrBrowser();
             WhenABrowserClaimsATearOffForThatFlier(browserInformation.Browser.Id);
         }
+
+        [When(@"Another Browser claims a tear off for that FLIER")]
+        public void WhenAnotherBrowserClaimsATearOffForThatFLIER()
+        {
+            var newBrowser = BrowserTestData.GetOne(SpecUtil.CurrIocKernel);
+
+            BrowserTestData.StoreOne(newBrowser, SpecUtil.CurrIocKernel.Get<GenericRepositoryInterface>(), SpecUtil.CurrIocKernel);
+            WhenABrowserClaimsATearOffForThatFlier(newBrowser.Id);
+        }
+
 
         public void WhenABrowserClaimsATearOffForThatFlier(string browserId)
         {
@@ -119,6 +134,18 @@ namespace PostaFlya.Specification.DynamicBulletinBoard
             var test = ScenarioContext.Current["tearoffnotification"];
             Assert.IsNotNull(test);
         }
+        [Then(@"(.*) will be deducted from the Flier Creators Account")]
+        public void ThenWillBeDeductedFromTheFlierCreatorsAccount(Double deduction)
+        {
+            var flier = ScenarioContext.Current["flier"] as FlierInterface;
+            var queryService = SpecUtil.CurrIocKernel.Get<FlierQueryServiceInterface>();
+            var retFlier = queryService.FindById<Flier>(flier.Id);
+
+            var browserQueryService = SpecUtil.CurrIocKernel.Get<BrowserQueryServiceInterface>();
+            var browser = browserQueryService.FindById<Browser>(retFlier.BrowserId);
+
+            Assert.AreEqual(browser.AccountCredit, 10.00 - deduction);
+        }
 
         [BeforeScenario("TearOffNotification")]
         public void SetupNotificationBinding()
@@ -136,5 +163,6 @@ namespace PostaFlya.Specification.DynamicBulletinBoard
         {
             SpecUtil.CurrIocKernel.Unbind<DomainEventPublishServiceInterface>();
         }
+
     }
 }

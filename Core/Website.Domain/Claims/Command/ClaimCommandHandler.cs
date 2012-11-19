@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Website.Domain.Claims.Event;
+using Website.Domain.Payment;
 using Website.Infrastructure.Command;
 using Website.Infrastructure.Domain;
 using Website.Infrastructure.Query;
@@ -58,10 +59,13 @@ namespace Website.Domain.Claims.Command
             if(!uow.Successful)
                 return new MsgResponse("Claim Entity failed", true)
                 .AddCommandId(command);
+
+            
             
             uow = _unitOfWorkFactory.GetUnitOfWork(new List<object>() { _genericRepository });
             using (uow)
             {
+                
                 _genericRepository.UpdateEntity(command.ClaimEntity.GetType()
                 , command.ClaimEntity.Id
                 , o =>
@@ -69,12 +73,23 @@ namespace Website.Domain.Claims.Command
                     var com = o as ClaimableInterface;
                     if (com != null)
                         com.NumberOfClaims = _genericQueryService.FindAggregateEntities<Claim>(claim.AggregateId).Count();
-                }); 
+                });
+
             }
 
             if (!uow.Successful)
                 return new MsgResponse("Claim Entity failed", true)
                         .AddCommandId(command);
+
+            if (command.OwnerEntity is ChargableEntityInterface)
+            {
+                HandleChargableEntity(command.OwnerEntity as ChargableEntityInterface, uow, command.ClaimEntity as ClaimableInterface);
+                if (!uow.Successful)
+                {
+                    return new MsgResponse("Charging Claim Entity failed", true).AddCommandId(command);
+                }
+            }
+
          
             _domainEventPublishService.Publish(new ClaimEvent(){NewState = claim});
 
@@ -83,5 +98,28 @@ namespace Website.Domain.Claims.Command
              .AddEntityId(claim.AggregateId);
 
         }
+
+        public UnitOfWorkInterface HandleChargableEntity(ChargableEntityInterface ownerEntity, UnitOfWorkInterface uow, ClaimableInterface claimEnitity)
+        {
+            uow = _unitOfWorkFactory.GetUnitOfWork(new List<object>() { _genericRepository });
+            using (uow)
+            {
+
+                _genericRepository.UpdateEntity(ownerEntity.GetType()
+                , ownerEntity.Id
+                , o =>
+                    {
+                        var chargeable = o as ChargableEntityInterface;
+                        var claimable = claimEnitity as ClaimableInterface;
+
+
+                        if (chargeable != null) chargeable.AccountCredit -= claimable.ClaimCost;
+                    });
+
+            }
+
+            return uow;
+        }
+
     }
 }

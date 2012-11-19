@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Net.Http;
 using NUnit.Framework;
+using Ninject;
 using TechTalk.SpecFlow;
 using PostaFlya.Controllers;
+using Website.Domain.Browser;
+using Website.Domain.Browser.Command;
 using Website.Infrastructure.Authentication;
 using Website.Infrastructure.Command;
 using Website.Infrastructure.Domain;
@@ -104,6 +107,19 @@ namespace PostaFlya.Specification
         {
             var browserInformation = SpecUtil.GetCurrBrowser();
             CollectionAssert.Contains(browserInformation.Browser.Roles, role);
+        }
+
+        [Given(@"I have sufficient Account Credit")]
+        [Given(@"The Flier Creator Has Sufficirnt Credit")]
+        public void GivenIHaveSufficientAccountCredit()
+        {
+            var browserInformation = SpecUtil.GetCurrBrowser();
+            var browserReo = SpecUtil.CurrIocKernel.Get<BrowserRepositoryInterface>();
+            browserReo.UpdateEntity<Browser>(browserInformation.Browser.Id,
+                    b =>
+                    {
+                        b.AccountCredit = 10.00;
+                    });
         }
     }
 }

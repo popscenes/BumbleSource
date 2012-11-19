@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Website.Domain.Contact;
+using Website.Domain.Payment;
 using Website.Infrastructure.Domain;
 using Website.Domain.Location;
 using Website.Domain.Tag;
@@ -48,7 +49,7 @@ namespace Website.Domain.Browser
         }
     }
 
-    public interface BrowserInterface : EntityInterface, ContactDetailsInterface
+    public interface BrowserInterface : EntityInterface, ContactDetailsInterface, ChargableEntityInterface
     {
         Tags Tags { get; set; }
         int? Distance { get; set; }
@@ -61,6 +62,5 @@ namespace Website.Domain.Browser
         string AvatarImageId { get; set; }
         bool AddressPublic { get; set; }
         Dictionary<string, object> Properties { get; set; }
-        double AccountCredit { get; set; }
     }
 }
