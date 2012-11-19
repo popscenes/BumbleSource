@@ -83,6 +83,7 @@ namespace PostaFlya.Specification.Fliers
             testRunner.Then("a BOARD named MyBoard will be created", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
             testRunner.And("the BOARD will allow Others to post FLIERS", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
             testRunner.And("the BOARD will require approval for posted FLIERS", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+            testRunner.And("the BOARD will have the status PendingApproval", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
             this.ScenarioCleanup();
         }
         
@@ -122,6 +123,20 @@ namespace PostaFlya.Specification.Fliers
             testRunner.Given("There is a FLIER that is Approved on a Board", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
             testRunner.When("A BROWSER modifies the FLIER on a Board", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
             testRunner.Then("The FLIER will be a member of the board with a status of PendingApproval", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+            this.ScenarioCleanup();
+        }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Admin Approves Board")]
+        public virtual void AdminApprovesBoard()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Admin Approves Board", ((string[])(null)));
+            this.ScenarioSetup(scenarioInfo);
+            testRunner.Given("there is a public board named publicBoard that requires approval", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+            testRunner.And("the BOARD has the status PendingApproval", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+            testRunner.And("I am a PARTICIPANT with Admin ROLE", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+            testRunner.When("I approve the BOARD", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+            testRunner.Then("the BOARD will have the status Approved", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
             this.ScenarioCleanup();
         }
     }

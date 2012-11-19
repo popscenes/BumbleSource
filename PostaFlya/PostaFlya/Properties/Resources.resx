@@ -121,7 +121,7 @@
     <value>AddressPublic</value>
     <comment>ProfileEditModel</comment>
   </data>
-  <data name="AllowOthersToPostFliers" xml:space="preserve">
+  <data name="BoardCreateEditModel_AllowOthersToPostFliers" xml:space="preserve">
     <value>AllowOthersToPostFliers</value>
     <comment>BoardCreateEditModel</comment>
   </data>
@@ -149,7 +149,7 @@
     <value>BoardList</value>
     <comment>FlierCreateModel</comment>
   </data>
-  <data name="BoardName" xml:space="preserve">
+  <data name="BoardCreateEditModel_BoardName" xml:space="preserve">
     <value>BoardName</value>
     <comment>BoardCreateEditModel</comment>
   </data>
@@ -255,7 +255,7 @@
     <value>Locality</value>
     <comment>LocationModel</comment>
   </data>
-  <data name="Location" xml:space="preserve">
+  <data name="BoardCreateEditModel_Location" xml:space="preserve">
     <value>Location</value>
   </data>
   <data name="Longitude" xml:space="preserve">
@@ -289,7 +289,7 @@
     <value>Region</value>
     <comment>LocationModel</comment>
   </data>
-  <data name="RequireApprovalOfPostedFliers" xml:space="preserve">
+  <data name="BoardCreateEditModel_RequireApprovalOfPostedFliers" xml:space="preserve">
     <value>RequireApprovalOfPostedFliers</value>
     <comment>BoardCreateEditModel</comment>
   </data>
@@ -308,5 +308,11 @@
   <data name="TagList" xml:space="preserve">
     <value>TagList</value>
     <comment>TagSetListViewModel</comment>
+  </data>
+  <data name="BoardCreateEditModel_Description" xml:space="preserve">
+    <value>BoardDescription</value>
+  </data>
+  <data name="BoardCreateEditModel_PercentageOfPublicFliersToShow" xml:space="preserve">
+    <value>PercentageOfPublicFliersToShow</value>
   </data>
 </root>

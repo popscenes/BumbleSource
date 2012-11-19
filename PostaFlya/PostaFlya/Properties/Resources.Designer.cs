@@ -70,15 +70,6 @@ namespace PostaFlya.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to AllowOthersToPostFliers.
-        /// </summary>
-        public static string AllowOthersToPostFliers {
-            get {
-                return ResourceManager.GetString("AllowOthersToPostFliers", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to AttachContactDetails.
         /// </summary>
         public static string AttachContactDetails {
@@ -106,6 +97,60 @@ namespace PostaFlya.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to AllowOthersToPostFliers.
+        /// </summary>
+        public static string BoardCreateEditModel_AllowOthersToPostFliers {
+            get {
+                return ResourceManager.GetString("BoardCreateEditModel_AllowOthersToPostFliers", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to BoardName.
+        /// </summary>
+        public static string BoardCreateEditModel_BoardName {
+            get {
+                return ResourceManager.GetString("BoardCreateEditModel_BoardName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to BoardDescription.
+        /// </summary>
+        public static string BoardCreateEditModel_Description {
+            get {
+                return ResourceManager.GetString("BoardCreateEditModel_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Location.
+        /// </summary>
+        public static string BoardCreateEditModel_Location {
+            get {
+                return ResourceManager.GetString("BoardCreateEditModel_Location", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to PercentageOfPublicFliersToShow.
+        /// </summary>
+        public static string BoardCreateEditModel_PercentageOfPublicFliersToShow {
+            get {
+                return ResourceManager.GetString("BoardCreateEditModel_PercentageOfPublicFliersToShow", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to RequireApprovalOfPostedFliers.
+        /// </summary>
+        public static string BoardCreateEditModel_RequireApprovalOfPostedFliers {
+            get {
+                return ResourceManager.GetString("BoardCreateEditModel_RequireApprovalOfPostedFliers", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to BoardFlier.
         /// </summary>
         public static string BoardFlier {
@@ -129,15 +174,6 @@ namespace PostaFlya.Properties {
         public static string BoardList {
             get {
                 return ResourceManager.GetString("BoardList", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to BoardName.
-        /// </summary>
-        public static string BoardName {
-            get {
-                return ResourceManager.GetString("BoardName", resourceCulture);
             }
         }
         
@@ -378,15 +414,6 @@ namespace PostaFlya.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Location.
-        /// </summary>
-        public static string Location {
-            get {
-                return ResourceManager.GetString("Location", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Longitude.
         /// </summary>
         public static string Longitude {
@@ -456,15 +483,6 @@ namespace PostaFlya.Properties {
         public static string Region {
             get {
                 return ResourceManager.GetString("Region", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to RequireApprovalOfPostedFliers.
-        /// </summary>
-        public static string RequireApprovalOfPostedFliers {
-            get {
-                return ResourceManager.GetString("RequireApprovalOfPostedFliers", resourceCulture);
             }
         }
         

@@ -13,6 +13,8 @@ namespace PostaFlya.Domain.Boards
             target.AllowOthersToPostFliers = source.AllowOthersToPostFliers;
             target.RequireApprovalOfPostedFliers = source.RequireApprovalOfPostedFliers;
             target.Location = source.Location != null ? new Location(source.Location) : null;
+            target.PercentageOfPublicFliersToShow = source.PercentageOfPublicFliersToShow;
+            target.Status = source.Status;
         }
     }
 

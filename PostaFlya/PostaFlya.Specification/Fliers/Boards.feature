@@ -12,6 +12,7 @@ When I submit the following data for the BOARD:
 Then a BOARD named MyBoard will be created
 And the BOARD will allow Others to post FLIERS
 And the BOARD will require approval for posted FLIERS
+And the BOARD will have the status PendingApproval
 
 Scenario: Participant Adds Flier To Board They Dont Own
 Given there is a public board named publicBoard that requires approval
@@ -30,6 +31,13 @@ Scenario: When a Flier Approved on a Board is modified It requires re-approval
 Given There is a FLIER that is Approved on a Board
 When A BROWSER modifies the FLIER on a Board
 Then The FLIER will be a member of the board with a status of PendingApproval 
+
+Scenario: Admin Approves Board
+Given there is a public board named publicBoard that requires approval
+And the BOARD has the status PendingApproval
+And I am a PARTICIPANT with Admin ROLE
+When I approve the BOARD
+Then the BOARD will have the status Approved
 
 
 

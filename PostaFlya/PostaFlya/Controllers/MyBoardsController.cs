@@ -24,8 +24,24 @@ namespace PostaFlya.Controllers
                     BoardName = boardCreate.BoardName,
                     Location = boardCreate.Location != null ? boardCreate.Location.ToDomainModel() : null,
                     AllowOthersToPostFliers = boardCreate.AllowOthersToPostFliers,
-                    RequireApprovalOfPostedFliers = boardCreate.RequireApprovalOfPostedFliers
+                    RequireApprovalOfPostedFliers = boardCreate.RequireApprovalOfPostedFliers,
+                    
                 };
+
+            var res = _commandBus.Send(createBoardCommand);
+            return this.GetResponseForRes(res);
+        }
+
+        public HttpResponseMessage Put(string browserId, BoardCreateEditModel boardCreate)
+        {
+            var createBoardCommand = new EditBoardCommand()
+            {
+                BrowserId = browserId,
+                BoardName = boardCreate.BoardName,
+                Location = boardCreate.Location != null ? boardCreate.Location.ToDomainModel() : null,
+                AllowOthersToPostFliers = boardCreate.AllowOthersToPostFliers,
+                RequireApprovalOfPostedFliers = boardCreate.RequireApprovalOfPostedFliers
+            };
 
             var res = _commandBus.Send(createBoardCommand);
             return this.GetResponseForRes(res);

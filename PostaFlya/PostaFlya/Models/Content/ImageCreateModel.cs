@@ -10,7 +10,7 @@ namespace PostaFlya.Models.Content
 {
     public class ImageCreateModel
     {
-        [Display(Name = "Location", ResourceType = typeof(Properties.Resources))] 
+        [Display(Name = "BoardCreateEditModel_Location", ResourceType = typeof(Properties.Resources))] 
         public LocationModel Location { get; set; }
 
         [Display(Name = "ImageTitle", ResourceType = typeof(Properties.Resources))] 

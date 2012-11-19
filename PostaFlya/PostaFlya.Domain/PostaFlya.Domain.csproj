@@ -81,6 +81,7 @@
     <Compile Include="Boards\Command\AddFlierToBoardCommandHandler.cs" />
     <Compile Include="Boards\Command\CreateBoardCommand.cs" />
     <Compile Include="Boards\Command\CreateBoardCommandHandler.cs" />
+    <Compile Include="Boards\Command\EditBoardCommand.cs" />
     <Compile Include="Boards\Command\EditBoardFlierCommand.cs" />
     <Compile Include="Boards\Command\EditBoardFlierCommandHandler.cs" />
     <Compile Include="Boards\Event\BoardFlierModifiedEvent.cs" />

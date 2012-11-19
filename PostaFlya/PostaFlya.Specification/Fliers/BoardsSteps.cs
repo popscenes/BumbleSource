@@ -10,6 +10,7 @@ using PostaFlya.Models.Board;
 using PostaFlya.Models.Flier;
 using PostaFlya.Specification.Util;
 using TechTalk.SpecFlow;
+using Website.Infrastructure.Command;
 using Website.Infrastructure.Query;
 
 namespace PostaFlya.Specification.Fliers
@@ -198,6 +199,24 @@ namespace PostaFlya.Specification.Fliers
             var edit = flier.ToCreateModel();
             var updateRes = controller.Put(browserId, edit);
             updateRes.AssertStatusCode();
+
+        }
+
+        [Then(@"the BOARD will have the status (.*)")]
+        public void ThenTheBOARDWillHaveTheStatusPendingApproval(BoardStatus status)
+        {
+            var board = ScenarioContext.Current["board"] as BoardInterface;
+
+            Assert.That(board.Status, Is.EqualTo(status));
+        }
+
+        [Given(@"the BOARD has the status (.*)")]
+        public void ThenTheBOARDHasStatusPendingApproval(BoardStatus status)
+        {
+            var board = ScenarioContext.Current["board"] as BoardInterface;
+            var repo = SpecUtil.CurrIocKernel.Get<GenericRepositoryInterface>();
+            repo.UpdateEntity<Board>(board.Id, boardUp => boardUp.Status = status);
+            board.Status = status;
 
         }
 
