@@ -448,21 +448,6 @@ namespace PostaFlya.Specification.Fliers
 
         }
 
-
-
-        
-        [Given(@"I have sufficient Account Credit")]
-        public void GivenIHaveSufficientAccountCredit()
-        {
-            var browserInformation = SpecUtil.GetCurrBrowser();
-            var browserReo = SpecUtil.CurrIocKernel.Get<GenericRepositoryInterface>();
-            browserReo.UpdateEntity<Browser>(browserInformation.Browser.Id, 
-                    b =>
-                        {
-                            b.AccountCredit = 10.00;
-                        });
-        }
-
         [Then(@"the FLIER will contain a FEATURE for (.*) in a (.*) state with a cost of (.*)")]
         public void ThenTheFLIERWillContainAFEATUREForTearOffInAEnabledState(string featureType, string enabled, string cost)
         {
