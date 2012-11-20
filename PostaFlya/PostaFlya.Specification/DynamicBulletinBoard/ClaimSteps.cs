@@ -146,6 +146,55 @@ namespace PostaFlya.Specification.DynamicBulletinBoard
             Assert.AreEqual(browser.AccountCredit, 10.00 - deduction);
         }
 
+        
+
+        [When(@"I claim a tear off for that FLIER and send my contact details")]
+        public void WhenIClaimATearOffForThatFLIERAndSendMyContactDetails()
+        {
+            var flier = ScenarioContext.Current["flier"] as FlierInterface;
+            var claimController = SpecUtil.GetApiController<ClaimController>();
+            var browserInformation = SpecUtil.GetCurrBrowser();
+
+            var claim = new CreateClaimModel()
+            {
+                ClaimEntity = EntityTypeEnum.Flier,
+                EntityId = flier.Id,
+                BrowserId = browserInformation.Browser.Id,
+                SendClaimerContactDetails = true,
+                ClaimerMessage = "FIx My Plumbing!"
+            };
+
+            ScenarioContext.Current["initialclaims"] = flier.NumberOfClaims;
+            ScenarioContext.Current["CreateClaimModel"] = claim;
+            var res = claimController.Post(claim);
+            res.EnsureSuccessStatusCode();
+        }
+
+        [Then(@"the Claim will be ecorded as having My Contact Details")]
+        public void ThenTheClaimWillBeEcordedAsHavingMyContactDetails()
+        {
+            var flier = ScenarioContext.Current["flier"] as FlierInterface;
+            var queryService = SpecUtil.CurrIocKernel.Get<GenericQueryServiceInterface>();
+            var browserInformation = SpecUtil.GetCurrBrowser();
+
+            var claims = queryService.FindAggregateEntities<Claim>(flier.Id);
+
+            var claim = claims.First();
+            Assert.AreEqual(claim.ClaimContext, "SendUserDetails|FIx My Plumbing!");
+        }
+
+        [Then(@"the number of claims against the FLIER will not be incremented")]
+        public void ThenTheNumberOfClaimsAgainstTheFLIERWillNotBeIncremented()
+        {
+            var initClaims = (int)ScenarioContext.Current["initialclaims"];
+            var flier = ScenarioContext.Current["flier"] as FlierInterface;
+            var queryService = SpecUtil.CurrIocKernel.Get<GenericQueryServiceInterface>();
+            var retFlier = queryService.FindById<Flier>(flier.Id);
+
+            Assert.AreEqual(initClaims, retFlier.NumberOfClaims);
+        }
+
+
         [BeforeScenario("TearOffNotification")]
         public void SetupNotificationBinding()
         {
