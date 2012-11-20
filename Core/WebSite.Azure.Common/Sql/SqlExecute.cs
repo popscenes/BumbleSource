@@ -587,7 +587,7 @@ namespace Website.Azure.Common.Sql
 
                 return Convert.ChangeType(result, needed);
             }
-            catch(Exception e)
+            catch(Exception)
             {
                 Trace.TraceError("SqlExecute error converting from {0} to {1}", result.GetType().FullName, needed.FullName);
                 return null;

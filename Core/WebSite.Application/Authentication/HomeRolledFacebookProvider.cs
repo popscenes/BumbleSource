@@ -24,8 +24,6 @@ namespace Website.Application.Authentication
 
         public string CallbackUrl { get; set; }
 
-        private FaceBookUser _facebookUser;
-        
         //testing purposes
 
         //public AccessToken AccessToken { get; set; }

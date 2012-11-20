@@ -23,7 +23,7 @@ namespace PostaFlya.Models
 
         [DataType(DataType.Password)]
         [Display(Name = "ConfirmPassword", ResourceType = typeof(Properties.Resources))]
-        [Compare("NewPassword", ErrorMessage = "The new password and confirmation password do not match.")]
+        [System.ComponentModel.DataAnnotations.Compare("NewPassword", ErrorMessage = "The new password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
     }
 
@@ -61,7 +61,7 @@ namespace PostaFlya.Models
 
         [DataType(DataType.Password)]
         [Display(Name = "ConfirmPassword", ResourceType = typeof(Properties.Resources))]
-        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+        [System.ComponentModel.DataAnnotations.Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
     }
 }
