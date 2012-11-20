@@ -19,10 +19,9 @@
       <Setting name="DisableFederation" value="True" />
       <Setting name="Microsoft.WindowsAzure.Plugins.RemoteAccess.Enabled" value="true" />
       <Setting name="Microsoft.WindowsAzure.Plugins.RemoteAccess.AccountUsername" value="flya" />
-      <Setting name="Microsoft.WindowsAzure.Plugins.RemoteAccess.AccountEncryptedPassword" value="MIIBnQYJKoZIhvcNAQcDoIIBjjCCAYoCAQAxggFOMIIBSgIBADAyMB4xHDAaBgNVBAMME1dpbmRvd3MgQXp1cmUgVG9vbHMCECX3rMPVezutQD0zzfM4kzkwDQYJKoZIhvcNAQEBBQAEggEAv/abAK6WT6XMxgxAFzSB/GtqM8IHd86VMZcVp4zyHvoz2CTne097Zehp7Ok9A+/9hTvTrS5GNgfZf1SUqnK+f5X0L5/zU3JJDJDMndg5KeWajzjcl+pkOoyX5J5lK/iLMbYewspPceCJcouCGlh6Vesm8dNXWpRqYlMZmeFA+jnPqRh6S33DNBAWVRvcSB/8PEBDjggwvjYj9rWFoecHhhb3WtittwCWGc2sN5p+9kDXy/FnbrLt13lZkPuck7WXbJk0bUBZhy0Cnru4I85c1s8d1avwd43cWnvTGvuDRHXAv5qalTTJyKBeD/hgcF8ZBDknm9B0jYOEPMuDxQTQsDAzBgkqhkiG9w0BBwEwFAYIKoZIhvcNAwcECLSJdXMg74FngBCP5zI0UDKqSDNdSTJkuU1D" />
+      <Setting name="Microsoft.WindowsAzure.Plugins.RemoteAccess.AccountEncryptedPassword" value="MIIBnQYJKoZIhvcNAQcDoIIBjjCCAYoCAQAxggFOMIIBSgIBADAyMB4xHDAaBgNVBAMME1dpbmRvd3MgQXp1cmUgVG9vbHMCECX3rMPVezutQD0zzfM4kzkwDQYJKoZIhvcNAQEBBQAEggEAiCuZyW5VRglkF2v3mz2/Q6Iuw065tTfUP80bX/FNiucmVJbnx8VDqQ0Ssct5jEIsYuqQUq465imBz1LY3moL+SZqY/1SgJQGWsK8Xz+xPxyqWW2kpEe2zzm2cof5ivnLPUqDt38e9zgZVNjOX0eJIyQW2rhoJ1SrjpCe70trp1g+C5ZevBhq69JRlUIeLvpxHuXQwXEbHned9Xtt5R1r9tJ78Lb7mNQDEdR1nMu33KUeV0/nBjM3VpncfX5C9PjfCAKbwmueW5HEDrHwSoeWMD6EgmVccFZ+l/2Y0NBqZBQTlJVIX+WFYyxJWvx3WHdWaMdaI+vMXijWe2v/SoBmSjAzBgkqhkiG9w0BBwEwFAYIKoZIhvcNAwcECKdJAhexSZKsgBBhSMnrDLBnyY0KUlyDl9uc" />
       <Setting name="Microsoft.WindowsAzure.Plugins.RemoteAccess.AccountExpiration" value="2013-11-01T23:59:59.0000000+11:00" />
       <Setting name="Microsoft.WindowsAzure.Plugins.RemoteForwarder.Enabled" value="true" />
-      
     </ConfigurationSettings>
     <Certificates>
       <!--<Certificate name="Microsoft.WindowsAzure.Plugins.RemoteAccess.PasswordEncryption" thumbprint="B5EB70801A6D0B9319FDE06E891D90737F129018" thumbprintAlgorithm="sha1" />-->

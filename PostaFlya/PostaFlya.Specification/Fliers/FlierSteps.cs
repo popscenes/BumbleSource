@@ -490,6 +490,15 @@ namespace PostaFlya.Specification.Fliers
             ThenTheNewFlierWillBeCreated("Default");
         }
 
+        public void GivenIHaveCreatedAFLIERWithTEAROFFAndUserContact()
+        {
+            GivenABrowserHasNavigatedToTheCreateFlierPage("Default");
+            GivenIChooseToAttachTearOffs();
+            GivenIChooseToAllowUserContact();
+            WhenISubmitTheRequiredDataForAFlier();
+            ThenTheNewFlierWillBeCreated("Default");
+        }
+
         private void EditFlierWithFeatures(bool AttachTearOffs, bool AllowUserContact)
         {
             var flierEditModel = FlierCreateModelFromFlier();

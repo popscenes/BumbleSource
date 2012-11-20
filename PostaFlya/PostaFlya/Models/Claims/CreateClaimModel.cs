@@ -19,5 +19,13 @@ namespace PostaFlya.Models.Claims
         [RequiredWithMessage]
         [DataMember]
         public string BrowserId { get; set; }
+
+        [RequiredWithMessage]
+        [DataMember]
+        public bool SendClaimerContactDetails { get; set; }
+
+        [RequiredWithMessage]
+        [DataMember]
+        public string ClaimerMessage { get; set; }
     }
 }
