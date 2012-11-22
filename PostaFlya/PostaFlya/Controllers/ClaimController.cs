@@ -51,12 +51,20 @@ namespace PostaFlya.Controllers
                 ownerEntity = _queryService.FindById<Browser>(ownerId);
             }
 
+            String context = "tearoff";
+
+            if (claim.SendClaimerContactDetails)
+            {
+                context = "senduserdetails";
+            }
+
             var claimCommand = new ClaimCommand()
                                   {
                                       BrowserId = claim.BrowserId,
                                       ClaimEntity = entity,
-                                      Context = "tearoff",
-                                      OwnerEntity = ownerEntity
+                                      Context = context,
+                                      OwnerEntity = ownerEntity,
+                                      Message = claim.ClaimerMessage 
                                   };
 
             var res = _commandBus.Send(claimCommand);

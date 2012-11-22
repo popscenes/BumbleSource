@@ -17,6 +17,7 @@ namespace Website.Domain.Claims
             BrowserIdInterfaceExtensions.CopyFieldsFrom(target, source);
             AggregateInterfaceExtensions.CopyFieldsFrom(target, source);
             target.ClaimContext = source.ClaimContext;
+            target.ClaimMessage = source.ClaimMessage;
             target.ClaimTime = source.ClaimTime;
             target.EntityTypeTag = source.EntityTypeTag;
         }
@@ -27,6 +28,7 @@ namespace Website.Domain.Claims
     {
         string EntityTypeTag { get; set; } 
         string ClaimContext { get; set; }
+        string ClaimMessage { get; set; }
         DateTime ClaimTime { get; set; }
     }
 }

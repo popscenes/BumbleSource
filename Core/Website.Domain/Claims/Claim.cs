@@ -11,5 +11,6 @@ namespace Website.Domain.Claims
         public string BrowserId { get; set; }
         public string ClaimContext { get; set; }
         public DateTime ClaimTime { get; set; }
+        public String ClaimMessage { get; set; }
     }
 }

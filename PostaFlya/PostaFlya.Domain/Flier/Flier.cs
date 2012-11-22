@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using PostaFlya.Domain.Behaviour;
 using Website.Domain.Browser;
+using Website.Domain.Claims;
 using Website.Domain.Contact;
 using Website.Infrastructure.Domain;
 using Website.Domain.Location;
@@ -63,11 +64,14 @@ namespace PostaFlya.Domain.Flier
         public Dictionary<string, object> ExtendedProperties { get; set; }
         public int NumberOfClaims { get; set; }
         
-        public Double ClaimCost
+        public Double ClaimCost(Claim claim)
         {
-            get
+
+            var contextType = claim.ClaimContext.Split(new char[] {'|'}, StringSplitOptions.None).First();
+
+            if (contextType == "tearoff")
             {
-                if(NumberOfClaims > 0)
+                if (NumberOfClaims > 0)
                 {
                     return 0.00;
                 }
@@ -77,6 +81,12 @@ namespace PostaFlya.Domain.Flier
                     return feature == null ? 0.00 : feature.Cost;
                 }
             }
+            else
+            {
+                var feature = Features.FirstOrDefault(_ => _.FeatureType == FeatureType.UserContact);
+                return feature == null ? 0.00 : feature.Cost;
+            }
+
         }
 
         public int NumberOfComments { get; set; }

@@ -161,7 +161,7 @@ namespace PostaFlya.Specification.DynamicBulletinBoard
                 EntityId = flier.Id,
                 BrowserId = browserInformation.Browser.Id,
                 SendClaimerContactDetails = true,
-                ClaimerMessage = "FIx My Plumbing!"
+                ClaimerMessage = "Fix My Plumbing!"
             };
 
             ScenarioContext.Current["initialclaims"] = flier.NumberOfClaims;
@@ -180,7 +180,8 @@ namespace PostaFlya.Specification.DynamicBulletinBoard
             var claims = queryService.FindAggregateEntities<Claim>(flier.Id);
 
             var claim = claims.First();
-            Assert.AreEqual(claim.ClaimContext, "SendUserDetails|FIx My Plumbing!");
+            Assert.AreEqual(claim.ClaimContext, "senduserdetails");
+            Assert.AreEqual(claim.ClaimMessage, "Fix My Plumbing!");
         }
 
         [Then(@"the number of claims against the FLIER will not be incremented")]

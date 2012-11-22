@@ -5,7 +5,7 @@ namespace Website.Domain.Claims
     public interface ClaimableInterface
     {
         int NumberOfClaims { get; set; }
-        Double ClaimCost { get;}
+        Double ClaimCost(Claim claim);
     }
 
     public static class ClaimableInterfaceExtensions

@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net.Mail;
 using PostaFlya.Application.Domain.Email.ICalendar;
 using PostaFlya.Domain.Flier;
@@ -43,26 +45,77 @@ namespace PostaFlya.Application.Domain.Email.Claims
         {
             var claim = publish.NewState;
             BrowserInterface browser = _entityQueryService.FindById<Browser>(claim.BrowserId);
-            return browser == null ? null : new[]{browser};
+            
+
+            var browserPublishList = new List<BrowserInterface>();
+
+            if(browser != null)
+                browserPublishList.Add(browser);
+
+            if (claim.ClaimContext.Equals("senduserdetails", StringComparison.CurrentCultureIgnoreCase))
+            {
+                FlierInterface flier = _entityQueryService.FindById<Flier>(claim.AggregateId);
+                BrowserInterface ownerBrowser = _entityQueryService.FindById<Browser>(flier.BrowserId);
+                if (ownerBrowser != null)
+                    browserPublishList.Add(ownerBrowser);
+            }
+
+            return browserPublishList.Any() ? browserPublishList.ToArray() : null;
         }
 
         public override bool PublishToBrowser(BrowserInterface browser, ClaimEvent publish)
         {
             var flier = _entityQueryService.FindById<PostaFlya.Domain.Flier.Flier>(publish.NewState.AggregateId);
 
+            if (browser.Id.Equals(publish.NewState.BrowserId))
+            {
+                return SendToClaimer(browser, publish, flier);
+            }
+            else if (browser.Id.Equals(flier.BrowserId))
+            {
+                SendToOwner(browser, publish, flier);
+            }
+
+            return false;
+
+
+        }
+
+        private bool SendToOwner(BrowserInterface browser, ClaimEvent publish, Flier flier)
+        {
             var email = new MailMessage();
-            
-            if(flier.HasContactDetails())
+
+            if (flier.HasContactDetails())
             {
                 var vcard = GetVCardForFlier(flier);
-                if(vcard != null)
+                if (vcard != null)
                     email.AddVCardAsAttachment(vcard);
             }
 
-            if(flier.EffectiveDate > DateTime.UtcNow)
+            email.Subject = "User Contact Details";
+            email.Body = "Posta flya tearoff details " + publish.NewState.ClaimMessage;
+            email.IsBodyHtml = false;
+            email.To.Add(new MailAddress(browser.EmailAddress));
+            _emailService.Send(email);
+
+            return true;
+        }
+
+        private bool SendToClaimer(BrowserInterface browser, ClaimEvent publish, Flier flier)
+        {
+            var email = new MailMessage();
+
+            if (flier.HasContactDetails())
+            {
+                var vcard = GetVCardForFlier(flier);
+                if (vcard != null)
+                    email.AddVCardAsAttachment(vcard);
+            }
+
+            if (flier.EffectiveDate > DateTime.UtcNow)
             {
                 var calEvent = GetEventForFlier(flier);
-                if(calEvent != null)
+                if (calEvent != null)
                     email.AddEventAsAttachment(calEvent);
             }
 
@@ -71,7 +124,7 @@ namespace PostaFlya.Application.Domain.Email.Claims
             email.IsBodyHtml = false;
             email.To.Add(new MailAddress(browser.EmailAddress));
             _emailService.Send(email);
-            
+
             return true;
         }
 

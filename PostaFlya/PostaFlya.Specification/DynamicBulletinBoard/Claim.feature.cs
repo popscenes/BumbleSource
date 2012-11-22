@@ -108,7 +108,7 @@ namespace PostaFlya.Specification.DynamicBulletinBoard
             testRunner.Then("I will be recorded as having claimed the flier once", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
             testRunner.And("the number of claims against the FLIER will not be incremented", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
             testRunner.And("the Claim will be ecorded as having My Contact Details", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-            testRunner.And("5.00 will be deducted from the Flier Creators Account", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+            testRunner.And("7.00 will be deducted from the Flier Creators Account", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
             this.ScenarioCleanup();
         }
         
