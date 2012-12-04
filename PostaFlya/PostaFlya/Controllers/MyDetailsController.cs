@@ -32,8 +32,7 @@ namespace PostaFlya.Controllers
         {
             var editProfileCommand = new ProfileEditCommand()
                                          {
-                                             BrowserId = editModel.Id,
-                                             Address = editModel.Address.ToDomainModel(),
+                                             BrowserId = editModel.Id,                                         
                                              AddressPublic = editModel.AddressPublic,
                                              Handle = editModel.Handle,
                                              FirstName = editModel.FirstName,
@@ -42,6 +41,9 @@ namespace PostaFlya.Controllers
                                              EmailAddress = editModel.Email,
                                              AvatarImageId = editModel.AvatarImageId
                                          };
+
+            if (editModel.Address != null)
+                editProfileCommand.Address = editModel.Address.ToDomainModel();
 
             var res = _commandBus.Send(editProfileCommand);
             return this.GetResponseForRes(res);            

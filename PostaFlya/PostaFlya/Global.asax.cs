@@ -86,7 +86,7 @@ namespace PostaFlya
                 name: "ProfileView",
                 url: "{name}",
                 defaults: new { controller = "Profile", action = "Get" },
-                constraints: new { name = "[0-9a-zA-Z]+" }
+                constraints: new { name = "[0-9a-zA-Z_]+" }
             );
 
             //default routes
