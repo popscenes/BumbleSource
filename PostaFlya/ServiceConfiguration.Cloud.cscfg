@@ -15,7 +15,7 @@
       <Setting name="Microsoft.WindowsAzure.Plugins.RemoteAccess.AccountEncryptedPassword" value="TOir5gJpa5iNu1ba7H0/cbqcId5fmU98ts82J/R2usy/cE4+7uMvpfn5MEfg+yofVPgYuhGxbdyMtndbQEv0lA==" />
       <Setting name="Microsoft.WindowsAzure.Plugins.RemoteAccess.AccountExpiration" value="2013-06-18T23:59:59.0000000+10:00" />
       <Setting name="Microsoft.WindowsAzure.Plugins.RemoteForwarder.Enabled" value="true" />-->
-      <Setting name="SearchDbConnectionString" value="Data Source=w9iec72tpc.database.windows.net,1433;User ID=jimmy;Password=Weezer1313" />
+      <Setting name="SearchDbConnectionString" value="Data Source=oo6h1elzi7.database.windows.net,1433;User ID=jimmy;Password=Weezer1313" />
       <Setting name="DisableFederation" value="False" />
       <Setting name="Microsoft.WindowsAzure.Plugins.RemoteAccess.Enabled" value="true" />
       <Setting name="Microsoft.WindowsAzure.Plugins.RemoteAccess.AccountUsername" value="flya" />
@@ -38,7 +38,7 @@
       <Setting name="Microsoft.WindowsAzure.Plugins.RemoteAccess.AccountEncryptedPassword" value="MIIBnQYJKoZIhvcNAQcDoIIBjjCCAYoCAQAxggFOMIIBSgIBADAyMB4xHDAaBgNVBAMME1dpbmRvd3MgQXp1cmUgVG9vbHMCED0CYsJLx3ekSb4H5mPKWgQwDQYJKoZIhvcNAQEBBQAEggEAv5PblGdxtgltbieNXebzIL/wXC5AGvYvvLhuR5RfjumBj9Dox5ZrM+kQlMcYYFgMPW35i3G2KT1i6n8m8es0jygEdU/3HdMSfc60BjheYM79p1Weu1h2V/st+NXHtJe9Tt+W52DoOZQfnLpgNdT8ou2TNBxAJIzHTCWzWg4ClmxriMIxNZ3kCVCICMlnQRvPyO6EJCsEpfVU9BEzTvIP4DxV2eyynlLmYxp3gsTipyBsTKN4ReUQuzHtmwgsRrMqPHGKJG062Bavxvq+PTRTuff7hHoXyIPU/8LXTlkV/QMwEtD99j9I4j9YMpkZTCTFFZFAm1wwKPI38z+jRjXdYzAzBgkqhkiG9w0BBwEwFAYIKoZIhvcNAwcECMkhictcos1fgBBBjVoCeacZIiudcb7e21ne" />
       <Setting name="Microsoft.WindowsAzure.Plugins.RemoteAccess.AccountExpiration" value="2013-06-18T23:59:59.0000000+10:00" />
       <Setting name="Microsoft.WindowsAzure.Plugins.RemoteForwarder.Enabled" value="true" />
-      <Setting name="SearchDbConnectionString" value="Data Source=myhgxvazii.database.windows.net;User ID=jimmy;Password=Weezer1313" />
+      <Setting name="SearchDbConnectionString" value="Data Source=oo6h1elzi7.database.windows.net;User ID=jimmy;Password=Weezer1313" />
     </ConfigurationSettings>
     <Certificates>
       <Certificate name="Microsoft.WindowsAzure.Plugins.RemoteAccess.PasswordEncryption" thumbprint="E9CCEAA8D2E9FB9FD4AFB47A0BFD522095DA2108" thumbprintAlgorithm="sha1" />
