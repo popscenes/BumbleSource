@@ -14,6 +14,7 @@ using Website.Domain.Claims;
 using Website.Domain.Comments;
 using Website.Domain.Content;
 using Website.Domain.Location;
+using Website.Domain.Payment;
 using Website.Infrastructure.Query;
 using Website.Mocks.Domain.Data;
 using TestRepositoriesNinjectModule = PostaFlya.Mocks.Domain.Data.TestRepositoriesNinjectModule;
@@ -45,7 +46,8 @@ namespace PostaFlya.Specification.Util
                 , SpecUtil.GetMockStore<HashSet<FlierInterface>>("flierstore")
                 , SpecUtil.GetMockStore<HashSet<CommentInterface>>("fliercommentstore")
                 , SpecUtil.GetMockStore<HashSet<ClaimInterface>>("claimstore")
-                , SpecUtil.GetMockStore<HashSet<BoardFlierInterface>>("boardflierstore"));
+                , SpecUtil.GetMockStore<HashSet<BoardFlierInterface>>("boardflierstore")
+                , SpecUtil.GetMockStore<HashSet<PaymentTransactionInterface>>("paymentTransactionflierstore"));
 
             TestRepositoriesNinjectModule.SetUpBoardRepositoryAndQueryService(kernel
                 , SpecUtil.GetMockStore<HashSet<BoardInterface>>("boardstore"));

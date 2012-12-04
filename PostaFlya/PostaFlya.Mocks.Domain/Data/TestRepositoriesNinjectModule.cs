@@ -9,6 +9,7 @@ using PostaFlya.Domain.Flier;
 using PostaFlya.Domain.Flier.Query;
 using PostaFlya.Domain.TaskJob;
 using Website.Domain.Browser.Query;
+using Website.Domain.Payment;
 using Website.Infrastructure.Command;
 using Website.Infrastructure.Domain;
 using Website.Domain.Claims;
@@ -32,7 +33,8 @@ namespace PostaFlya.Mocks.Domain.Data
                 , RepoUtil.GetMockStore<FlierInterface>()
                 , RepoUtil.GetMockStore<CommentInterface>()
                 , RepoUtil.GetMockStore<ClaimInterface>()
-                , boardFlierStore);
+                , boardFlierStore
+                , RepoUtil.GetMockStore<PaymentTransactionInterface>());
  
             SetUpTaskJobRepositoryAndQueryService(kernel
                 , RepoUtil.GetMockStore<TaskJobFlierBehaviourInterface>()
@@ -70,7 +72,8 @@ namespace PostaFlya.Mocks.Domain.Data
             , HashSet<FlierInterface> store
             , HashSet<CommentInterface> storeComment
             , HashSet<ClaimInterface> claimStore
-            , HashSet<BoardFlierInterface> boardFlierStore )
+            , HashSet<BoardFlierInterface> boardFlierStore
+            , HashSet<PaymentTransactionInterface> paymentTransactionStore)
         {
      
             ////////////repo
@@ -119,6 +122,17 @@ namespace PostaFlya.Mocks.Domain.Data
                                                                                   kernel,
                                                                                   ClaimInterfaceExtensions.
                                                                                       CopyFieldsFrom);
+            //payment transaction
+            RepoUtil.SetupRepo<GenericRepositoryInterface, PaymentTransaction, PaymentTransactionInterface>(paymentTransactionStore, kernel, PaymentTransactionInterfaceExtensions.CopyFieldsFrom);
+            RepoUtil.SetupQueryService<QueryServiceForBrowserAggregateInterface, PaymentTransaction, PaymentTransactionInterface>(paymentTransactionStore, kernel, PaymentTransactionInterfaceExtensions.CopyFieldsFrom);
+            RepoUtil.FindAggregateEntities<QueryServiceForBrowserAggregateInterface, PaymentTransaction, PaymentTransactionInterface>(paymentTransactionStore, kernel,
+                                                                                                  PaymentTransactionInterfaceExtensions
+                                                                                                      .CopyFieldsFrom);
+
+            RepoUtil.SetupQueryByBrowser<QueryServiceForBrowserAggregateInterface, PaymentTransaction, PaymentTransactionInterface>(flierQueryService, paymentTransactionStore,
+                                                                                              kernel,
+                                                                                              PaymentTransactionInterfaceExtensions.
+                                                                                                  CopyFieldsFrom);
 
             //query by location
             var locationService = kernel.Get<LocationServiceInterface>();
