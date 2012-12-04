@@ -4,32 +4,28 @@
 	I want to be pay to attach these features to my fliers
 
 @mytag
-Scenario: Flier Payment Page
-	Given I have a FLIER that requires payment
-	When I go to the FLIER PAYMENT PAGE
+Scenario: Accouunt Credit Page
+	Given I am a BROWSER in PARTICIPANT ROLE
+	When I go to the Add ACCOUUNT CREDIT PAGE
 	Then I will be presented with the valid PAYMENT OPTIONS
-	And the FLIER COST
 
-Scenario: Flier Payment
-	Given I have a FLIER that requires payment
-	And I Am on the FLIER PAYMENT PAGE
+Scenario: Add Credit TO Account
+	Given I Am on the Add ACCOUUNT CREDIT PAGE
 	When I go Select a PAYMENT OPTION
 	Then I will be redirected to that OPTIONS PROCESS
 
 
-Scenario: Flier Payment Callback Success
-	Given I have a FLIER that requires payment
-	And I Have Selected a PAYMENT OPTION
+Scenario: Payment Callback Success
+	Given I Have Selected a PAYMENT OPTION
 	When The Payment OPTION is Completed Successfully
 	Then I will be Shown the Transaction Details
-	And the FLIER STATUS will be Active
+	And the my account will have the credit i purchased
 
-Scenario: Flier Payment Callback Failure
-	Given I have a FLIER that requires payment
-	And I Have Selected a PAYMENT OPTION
+Scenario: Payment Callback Failure
+	Given I Have Selected a PAYMENT OPTION
 	When The Payment OPTION is Completed Unsuccessfully
 	Then I will be Shown the Error Details
-	And the FLIER STATUS will be PaymentPending
+	And the my account will not have the credit i purchased
 
 Scenario: Payment Transaction History
 	Given I have a Successful PAYMENT TRANSACTION

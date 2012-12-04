@@ -7,6 +7,5 @@ namespace PostaFlya.Models
     public class FlierPaymentModel
     {
         public List<PaymentServiceInterface> PaymentOptions { get; set; }
-        public double FlierCost { get; set; }
     }
 }

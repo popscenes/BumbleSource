@@ -11,7 +11,12 @@ using PostaFlya.Models.Flier;
 using PostaFlya.Specification.Util;
 using TechTalk.SpecFlow;
 using Website.Application.Payment;
+using Website.Domain.Payment;
 using Website.Infrastructure.Query;
+
+namespace Website.Domain.Payment
+{
+}
 
 namespace PostaFlya.Specification.Fliers
 {
@@ -29,17 +34,6 @@ namespace PostaFlya.Specification.Fliers
             _flier.WhenISubmitTheRequiredDataForAFlier();
         }
 
-        [When(@"I go to the FLIER PAYMENT PAGE")]
-        public void WhenIGoToTheFLIERPAYMENTPAGE()
-        {
-            var flierid = ScenarioContext.Current["createdflyaid"] as string;
-
-            var flierQueryService = SpecUtil.CurrIocKernel.Get<GenericQueryServiceInterface>();
-            var flier = flierQueryService.FindById<Flier>(flierid);
-
-            var paymentController = SpecUtil.GetController<PaymentController>();
-            SpecUtil.ControllerResult = paymentController.FlierPayment(flier.Id);
-        }
 
         [Then(@"I will be presented with the valid PAYMENT OPTIONS")]
         public void ThenIWillBePresentedWithTheValidPAYMENTOPTIONS()
@@ -50,39 +44,20 @@ namespace PostaFlya.Specification.Fliers
             Assert.AreEqual(flierPaymnetsModel.PaymentOptions.Count, 2);
         }
 
-        [Then(@"the FLIER COST")]
-        public void ThenTheFLIERCOST()
-        {
-            var controllerResult = SpecUtil.ControllerResult as ViewResult;
-            var flierPaymnetsModel = controllerResult.Model as FlierPaymentModel;
-            Assert.AreEqual(flierPaymnetsModel.FlierCost, 2.00);
-        }
-
-        [Given(@"I Am on the FLIER PAYMENT PAGE")]
-        public void GivenIAmOnTheFLIERPAYMENTPAGE()
-        {
-
-            GivenIHaveAFLIERThatRequiresPayment();
-            WhenIGoToTheFLIERPAYMENTPAGE();
-        }
-
         [When(@"I go Select a PAYMENT OPTION")]
         public void WhenIGoSelectAPAYMENTOPTION()
         {
-            var flierid = ScenarioContext.Current["createdflyaid"] as string;
-
-            var flierQueryService = SpecUtil.CurrIocKernel.Get<GenericQueryServiceInterface>();
-            var flier = flierQueryService.FindById<Flier>(flierid);
+            var browserInformation = SpecUtil.GetCurrBrowser();
 
             var paymentController = SpecUtil.GetController<PaymentController>();
-            SpecUtil.ControllerResult = paymentController.PaymentProcess(flier.Id, "Flier", 2.00);
+            SpecUtil.ControllerResult = paymentController.PaymentProcess(browserInformation.Browser.Id, "Account Credit", 10.00);
         }
 
         [Then(@"I will be redirected to that OPTIONS PROCESS")]
         public void ThenIWillBeRedirectedToThatOPTIONSPROCESS()
         {
             var controllerResult = SpecUtil.ControllerResult as RedirectResult;
-            Assert.AreEqual(controllerResult.Url, "http://test.com/?amt=2");
+            Assert.AreEqual(controllerResult.Url, "http://test.com/?amt=10");
         }
 
         [Given(@"I Have Selected a PAYMENT OPTION")]
@@ -97,7 +72,9 @@ namespace PostaFlya.Specification.Fliers
         public void WhenThePaymentOPTIONIsCompletedUnsuccessfully()
         {
             var paymentController = SpecUtil.GetController<PaymentController>();
-            SpecUtil.ControllerResult = paymentController.PaymnetCallback("paymnetId", "PayerId", -1, 0.00, "Test Error Message");
+            var browserInformation = SpecUtil.GetCurrBrowser();
+
+            SpecUtil.ControllerResult = paymentController.PaymnetCallback("test1", browserInformation.Browser.Id, browserInformation.Browser.Id, 0.00, "Test Error Message");
         }
 
         [Then(@"I will be Shown the Error Details")]
@@ -106,13 +83,20 @@ namespace PostaFlya.Specification.Fliers
             var controllerResult = SpecUtil.ControllerResult as ViewResult;
             var flierPaymentResult = controllerResult.Model as FlierPaymentResult;
             Assert.AreEqual(flierPaymentResult.PaymentMessage, "Test Error Message");
+
+            Assert.AreEqual(flierPaymentResult.Transaction.PayerId, "40D8AC2A-F95C-40A8-9A75-EE87146838A2");
+
+            Assert.AreEqual(flierPaymentResult.Transaction.Type, "Account Credit");
+            Assert.AreEqual(flierPaymentResult.Transaction.PaymentEntityId, "40D8AC2A-F95C-40A8-9A75-EE87146838A2");
+            Assert.AreEqual(flierPaymentResult.Transaction.Status, PaymentTransactionStatus.Fail);
         }
 
         [When(@"The Payment OPTION is Completed Successfully")]
         public void WhenThePaymentOPTIONIsCompletedSuccessfully()
         {
             var paymentController = SpecUtil.GetController<PaymentController>();
-            SpecUtil.ControllerResult = paymentController.PaymnetCallback("test1", "test2", 1, 2.00, "Success");
+            var browserInformation = SpecUtil.GetCurrBrowser();
+            SpecUtil.ControllerResult = paymentController.PaymnetCallback("test1", browserInformation.Browser.Id, browserInformation.Browser.Id, 10.00, "");
         }
 
         [Then(@"I will be Shown the Transaction Details")]
@@ -120,11 +104,12 @@ namespace PostaFlya.Specification.Fliers
         {
             var controllerResult = SpecUtil.ControllerResult as ViewResult;
             var flierPaymentResult = controllerResult.Model as FlierPaymentResult;
-            Assert.AreEqual(flierPaymentResult.PaymentMessage, "Success");
-            Assert.AreEqual(flierPaymentResult.Transaction.PayerId, "test2");
-            Assert.AreEqual(flierPaymentResult.Transaction.TrandactionId, "test1");
-            Assert.AreEqual(flierPaymentResult.Transaction.Type, "flier");
-            Assert.AreEqual(flierPaymentResult.Transaction.EntityId, 1);
+            Assert.IsTrue(string.IsNullOrEmpty(flierPaymentResult.PaymentMessage));
+            Assert.AreEqual(flierPaymentResult.Transaction.PayerId, "40D8AC2A-F95C-40A8-9A75-EE87146838A2");
+            
+            Assert.AreEqual(flierPaymentResult.Transaction.Type, "Account Credit");
+            Assert.AreEqual(flierPaymentResult.Transaction.PaymentEntityId, "40D8AC2A-F95C-40A8-9A75-EE87146838A2");
+            Assert.AreEqual(flierPaymentResult.Transaction.Status, PaymentTransactionStatus.Success);
         }
 
         [Given(@"I have a Successful PAYMENT TRANSACTION")]
@@ -154,6 +139,35 @@ namespace PostaFlya.Specification.Fliers
             var controllerResult = SpecUtil.ControllerResult as ViewResult;
             var transactionList = controllerResult.Model as List<PaymentTransaction>;
             Assert.AreEqual(transactionList.Count, 2);
+            Assert.AreEqual(transactionList.Count(_ => _.Status == PaymentTransactionStatus.Success), 1);
+            Assert.AreEqual(transactionList.Count(_ => _.Status == PaymentTransactionStatus.Fail), 1);
+            Assert.AreEqual(transactionList.First(_ => _.Status == PaymentTransactionStatus.Fail).Message, "Test Error Message");
+
         }
+
+
+        [When(@"I go to the Add ACCOUUNT CREDIT PAGE")]
+        [Given(@"I Am on the Add ACCOUUNT CREDIT PAGE")]
+        public void WhenIGoToTheAddACCOUUNTCREDITPAGE()
+        {
+            var paymentController = SpecUtil.GetController<PaymentController>();
+            SpecUtil.ControllerResult = paymentController.AddAccountCredit();
+        }
+
+
+        [Then(@"the my account will have the credit i purchased")]
+        public void ThenTheMyAccountWillHaveTheCreditIPurchased()
+        {
+            var browserInformation = SpecUtil.GetCurrBrowser();
+            Assert.AreEqual(browserInformation.Browser.AccountCredit, 10.00);
+        }
+
+        [Then(@"the my account will not have the credit i purchased")]
+        public void ThenTheMyAccountWillNotHaveTheCreditIPurchased()
+        {
+            var browserInformation = SpecUtil.GetCurrBrowser();
+            Assert.AreEqual(browserInformation.Browser.AccountCredit, 0.00);
+        }
+
     }
 }

@@ -1,20 +1,13 @@
 using System;
 using Website.Application.Payment;
+using Website.Domain.Payment;
 
 namespace PostaFlya.Models.Flier
 {
     public class FlierPaymentResult
     {
-        public String PaymentMessage
-        {
-            get { throw new NotImplementedException(); }
-            set { throw new NotImplementedException(); }
-        }
+        public String PaymentMessage { get; set; }
 
-        public PaymentTransaction Transaction
-        {
-            get { throw new NotImplementedException(); }
-            set { throw new NotImplementedException(); }
-        }
+        public PaymentTransaction Transaction { get; set; }
     }
 }

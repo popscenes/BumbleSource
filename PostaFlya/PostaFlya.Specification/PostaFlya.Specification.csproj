@@ -227,7 +227,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>EditFlier.feature</DependentUpon>
     </Compile>
-    <Compile Include="Fliers\FlierPaymentSteps.cs" />
+    <Compile Include="Browsers\FlierPaymentSteps.cs" />
     <Compile Include="Fliers\FlierSteps.cs" />
     <Compile Include="Fliers\HeatMap.feature.cs">
       <AutoGen>True</AutoGen>
@@ -244,7 +244,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>MyFliers.feature</DependentUpon>
     </Compile>
-    <Compile Include="Fliers\Payment.feature.cs">
+    <Compile Include="Browsers\Payment.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Payment.feature</DependentUpon>
@@ -333,7 +333,7 @@
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>MyFliers.feature.cs</LastGenOutput>
     </None>
-    <None Include="Fliers\Payment.feature">
+    <None Include="Browsers\Payment.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>Payment.feature.cs</LastGenOutput>
     </None>
