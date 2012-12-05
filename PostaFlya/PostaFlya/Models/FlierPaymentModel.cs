@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using Website.Application.Payment;
+using Website.Application.Domain.Payment;
 
 namespace PostaFlya.Models
 {

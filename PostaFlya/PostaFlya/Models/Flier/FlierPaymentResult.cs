@@ -1,5 +1,4 @@
 using System;
-using Website.Application.Payment;
 using Website.Domain.Payment;
 
 namespace PostaFlya.Models.Flier

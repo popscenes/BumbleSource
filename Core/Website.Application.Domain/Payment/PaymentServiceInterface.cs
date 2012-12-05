@@ -1,16 +1,12 @@
 using System;
 
-namespace Website.Application.Payment
+namespace Website.Application.Domain.Payment
 {
-    public enum PaymentType
-    {
-        Flier
-    }
     public interface PaymentServiceInterface
     {
         String PaymentServiceName { get; set; }
 
-        Uri LaunchPaymentProcess(PaymentType paymentType, String enitityId,  double amount);
+        Uri LaunchPaymentProcess(String paymentType, String enitityId,  double amount);
     }
 
     public class PaymentServiceTest : PaymentServiceInterface
@@ -18,7 +14,7 @@ namespace Website.Application.Payment
         public string PaymentServiceName { get; set; }
 
 
-        public Uri LaunchPaymentProcess(PaymentType paymentType, string enitityId, double amount)
+        public Uri LaunchPaymentProcess(String paymentType, string enitityId, double amount)
         {
  	        return new Uri("http://test.com/?amt=" + amount);
         }

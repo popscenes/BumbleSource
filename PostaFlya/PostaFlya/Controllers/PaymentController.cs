@@ -5,7 +5,7 @@ using System.Web.Mvc;
 using PostaFlya.Models;
 using PostaFlya.Models.Flier;
 using Website.Application.Domain.Browser;
-using Website.Application.Payment;
+using Website.Application.Domain.Payment;
 using Website.Domain.Browser;
 using Website.Domain.Payment;
 using Website.Domain.Payment.Command;
@@ -38,13 +38,13 @@ namespace PostaFlya.Controllers
         }
 
 
-        public RedirectResult PaymentProcess(string paymentServiceName, string flierId, double amount)
+        public RedirectResult PaymentProcess(string paymentServiceName, string browserId, double amount)
         {
             var paymentService = _paymentServiceProviderInterface.GetPaymentServiceByName(paymentServiceName);
-            return new RedirectResult(paymentService.LaunchPaymentProcess(PaymentType.Flier, flierId, amount).ToString());
+            return new RedirectResult(paymentService.LaunchPaymentProcess(PaymentType.AccountCredit.ToString(), browserId, amount).ToString());
         }
 
-        public ViewResult PaymnetCallback(string paymnetId, string payerid, string entityId, double paymentAmount, string errorMessage)
+        public ViewResult PaymnetCallback(string paymnetId, string payerid, string entityId, double paymentAmount, string paymentType, string errorMessage)
         {
             var browser = _queryService.FindById<Browser>(entityId);
             var status = PaymentTransactionStatus.Fail;
@@ -60,7 +60,7 @@ namespace PostaFlya.Controllers
                     PaymentId = paymnetId,
                     PaymentAmount = paymentAmount,
                     PaymentTransactionStatus = status,
-                    PaymentType = "Account Credit",
+                    PaymentType = (PaymentType)Enum.Parse(typeof(PaymentType), paymentType),
                     ErrorMessage = errorMessage
                 };
 
