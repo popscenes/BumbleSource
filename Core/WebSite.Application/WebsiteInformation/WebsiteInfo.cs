@@ -12,6 +12,8 @@ namespace Website.Application.WebsiteInformation
         public String Tags { get; set; }
         public String FacebookAppID { get; set; }
         public String FacebookAppSecret { get; set; }
-
+        public String PaypalUserId { get; set; }
+        public String PaypalPassword { get; set; }
+        public String PaypalSignitures { get; set; }
     }
 }

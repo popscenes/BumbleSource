@@ -1,5 +1,4 @@
 using System;
-using System.Reflection;
 using Website.Domain.Browser;
 using Website.Infrastructure.Domain;
 
@@ -30,7 +29,7 @@ namespace Website.Domain.Payment
 
         String TransactionId { get; set; }
 
-        String Type { get; set; }
+        PaymentType Type { get; set; }
 
         String PaymentEntityId { get; set; }
 
@@ -49,7 +48,7 @@ namespace Website.Domain.Payment
 
         public string TransactionId { get; set; }
 
-        public string Type { get; set; }
+        public PaymentType Type { get; set; }
 
         public string PaymentEntityId { get; set; }
 

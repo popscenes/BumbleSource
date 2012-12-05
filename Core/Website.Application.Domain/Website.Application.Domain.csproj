@@ -77,6 +77,9 @@
     <Compile Include="Content\WebImageRequestContentRetriever.cs" />
     <Compile Include="Email\VCard\ContactDetailsInterfaceExtensions.cs" />
     <Compile Include="Location\ValidationAttributes.cs" />
+    <Compile Include="Payment\PaymentServiceInterface.cs" />
+    <Compile Include="Payment\PaymentServiceProviderInterface.cs" />
+    <Compile Include="Payment\PaypalPaymentService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Publish\DomainEventPublishService.cs" />
     <Compile Include="Query\CachedQueryServiceWithBrowser.cs" />

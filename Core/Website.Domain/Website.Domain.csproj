@@ -130,6 +130,7 @@
     <Compile Include="Payment\Command\PaymentTransactionCommandHandler.cs" />
     <Compile Include="Payment\PaymentTransactionInterface.cs" />
     <Compile Include="Payment\PaymentTransactionStatus.cs" />
+    <Compile Include="Payment\PaymentType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service\DomainEventPublishServiceInterface.cs" />
     <Compile Include="Service\ContentStorageServiceInterface.cs" />

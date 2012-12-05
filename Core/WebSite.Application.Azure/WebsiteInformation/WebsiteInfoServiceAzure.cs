@@ -22,6 +22,10 @@ namespace Website.Application.Azure.WebsiteInformation
         private const string FIELD_FACEBOOKAPPID = "facebookappid";
         private const string FIELD_FACEBOOKSECRET = "facebooksecret";
 
+        private const string FIELD_PAYPALID = "paypalId";
+        private const string FIELD_PAYPALPW = "paypalPw";
+        private const string FIELD_PAYPALSIG = "paypalSig";
+
 
 //        public static TableNameAndPartitionProvider<SimpleExtendableEntity> TableNameBinding
 //            = new TableNameAndPartitionProvider<SimpleExtendableEntity>()
@@ -46,7 +50,9 @@ namespace Website.Application.Azure.WebsiteInformation
                     registrationEntry[FIELD_WEBSITENAME] = GetWebsiteInfo.WebsiteName;
                     registrationEntry[FIELD_FACEBOOKAPPID] = GetWebsiteInfo.FacebookAppID;
                     registrationEntry[FIELD_FACEBOOKSECRET] = GetWebsiteInfo.FacebookAppSecret;
-
+                    registrationEntry[FIELD_PAYPALID] = GetWebsiteInfo.PaypalUserId;
+                    registrationEntry[FIELD_PAYPALPW] = GetWebsiteInfo.PaypalPassword;
+                    registrationEntry[FIELD_PAYPALSIG] = GetWebsiteInfo.PaypalSignitures;
 
                     registrationEntry.RowKey = url;
                     registrationEntry.PartitionKey = "";
@@ -108,6 +114,9 @@ namespace Website.Application.Azure.WebsiteInformation
                     BehaivoirTags = _.Get<string>(FIELD_BEHAIVORTAGS),
                     FacebookAppID = _.Get<string>(FIELD_FACEBOOKAPPID),
                     FacebookAppSecret = _.Get<string>(FIELD_FACEBOOKSECRET),
+                    PaypalPassword = _.Get<string>(FIELD_PAYPALPW),
+                    PaypalSignitures = _.Get<string>(FIELD_PAYPALSIG),
+                    PaypalUserId = _.Get<string>(FIELD_PAYPALID),
                     WebsiteName = _.Get<string>(FIELD_WEBSITENAME)
 
                 }

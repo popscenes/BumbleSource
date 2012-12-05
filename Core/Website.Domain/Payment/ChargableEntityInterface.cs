@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Website.Infrastructure.Domain;
+﻿using Website.Infrastructure.Domain;
 
 namespace Website.Domain.Payment
 {

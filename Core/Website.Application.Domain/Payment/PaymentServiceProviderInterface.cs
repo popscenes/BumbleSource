@@ -1,8 +1,6 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
-namespace Website.Application.Payment
+namespace Website.Application.Domain.Payment
 {
     public interface PaymentServiceProviderInterface
     {

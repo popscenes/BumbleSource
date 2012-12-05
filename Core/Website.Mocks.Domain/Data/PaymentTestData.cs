@@ -5,7 +5,7 @@ using System.Text;
 using Moq;
 using Ninject.MockingKernel.Moq;
 using Ninject.Modules;
-using Website.Application.Payment;
+using Website.Application.Domain.Payment;
 
 namespace Website.Mocks.Domain.Data
 {

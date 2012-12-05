@@ -62,7 +62,10 @@ namespace Website.Application.Azure.Tests
                 WebsiteName = "postaFlya",
                 BehaivoirTags = "postaFlya",
                 FacebookAppID = "facebookappid",
-                FacebookAppSecret = "itsasecret"
+                FacebookAppSecret = "itsasecret",
+                PaypalUserId = "paypalId",
+                PaypalPassword = "paypalPassword",
+                PaypalSignitures = "paypalSigniture",
             };
 
             websiteInfoService.RegisterWebsite("www.postaFlya.com", websiteInfo);
@@ -119,6 +122,10 @@ namespace Website.Application.Azure.Tests
             Assert.AreEqual(websiteInfo.FacebookAppID, "facebookappid");
             Assert.AreEqual(websiteInfo.FacebookAppSecret, "itsasecret");
             Assert.AreEqual(websiteInfo.Tags.ToString(), "event,social,comedy,theatre,books,pets,lost,found,services,music,fashion,food & drink,job,task,wanted,for sale,for free,sport,automotive,education,sale,garage,film,art & craft,photography,accommodation,technology,property,kids,politics");
+
+            Assert.AreEqual(websiteInfo.PaypalUserId, "paypalId");
+            Assert.AreEqual(websiteInfo.PaypalSignitures, "paypalSigniture");
+            Assert.AreEqual(websiteInfo.PaypalPassword, "paypalPassword");
 
         }
 
