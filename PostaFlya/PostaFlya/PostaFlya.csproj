@@ -528,8 +528,6 @@
     <None Include="Microsoft.WindowsAzure.Caching\ClientPerfCountersInstaller.exe.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Properties\PublishProfiles\bumble - Production.pubxml" />
-    <None Include="Properties\PublishProfiles\bumble - Staging.pubxml" />
     <None Include="Resources\NotFoundImg.jpg" />
     <None Include="Resources\ImageProcessing.jpg" />
     <None Include="Resources\ImageProcessingFailed.jpg" />
@@ -723,6 +721,7 @@
     <Folder Include="Areas\Default\Views\Shared\" />
     <Folder Include="Areas\TaskJob\Views\Shared\" />
     <Folder Include="Extensions\" />
+    <Folder Include="Properties\PublishProfiles\" />
     <Folder Include="Scripts\plupload\jquery.plupload.queue\css\" />
     <Folder Include="Scripts\plupload\jquery.plupload.queue\img\" />
   </ItemGroup>

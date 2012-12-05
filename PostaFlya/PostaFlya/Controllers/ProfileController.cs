@@ -36,6 +36,9 @@ namespace PostaFlya.Controllers
         {
             var model = ProfileApiController.GetForHandle(name, _queryService,
                                                                      _blobStorage, _viewModelFactory);
+            if (model == null)
+                return new HttpNotFoundResult();
+
             ViewBag.ProfileModel = model;
             return View(model);
         }
