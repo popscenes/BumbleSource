@@ -31,26 +31,7 @@ namespace Website.Domain.Payment.Command
         {
 
             var paymentEntity = command.Entity;
-            var payerId = command.PayerId;
-            var paymentId = command.PaymentId;
-            var amount = command.PaymentAmount;
-            var type = command.PaymentType;
-            var status = command.PaymentTransactionStatus;
-
-            var transaction = new PaymentTransaction()
-                {
-                    PayerId = payerId,
-                    PaymentEntityId = paymentEntity.Id,
-                    TransactionId = paymentId,
-                    Type = type,
-                    Amount = amount,
-                    Status = status,
-                    Id = Guid.NewGuid().ToString(),
-                    FriendlyId = "trns" + paymentId,
-                    AggregateId = payerId,
-                    BrowserId = payerId,
-                    Message = command.ErrorMessage
-                };
+            var transaction = command.Transaction;
 
             var uow = _unitOfWorkFactory.GetUnitOfWork(new List<object>() { _genericRepository });
             using (uow)
@@ -58,7 +39,7 @@ namespace Website.Domain.Payment.Command
                 _genericRepository.Store(transaction);
             }
 
-            if (paymentEntity is ChargableEntityInterface && status == PaymentTransactionStatus.Success)
+            if (paymentEntity is ChargableEntityInterface && transaction.Status == PaymentTransactionStatus.Success)
             {
                 uow = _unitOfWorkFactory.GetUnitOfWork(new List<object>() { _genericRepository });
                 using (uow)
@@ -68,7 +49,7 @@ namespace Website.Domain.Payment.Command
                     , o =>
                     {
                         var chargeable = o as ChargableEntityInterface;
-                        if (chargeable != null) chargeable.AccountCredit += amount;
+                        if (chargeable != null) chargeable.AccountCredit += transaction.Amount;
                     });
                 }
             }
