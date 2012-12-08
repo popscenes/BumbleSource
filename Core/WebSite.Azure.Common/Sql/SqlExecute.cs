@@ -59,7 +59,7 @@ namespace Website.Azure.Common.Sql
             if (prop == null || SqlExecute.FederationDisabled)
                 return false;
 
-            prop.SetValue(fedObject, SqlExecute.ConvertVal(fedVal, prop.PropertyType), null);
+            prop.SetValue(fedObject, SerializeUtil.ConvertVal(fedVal, prop.PropertyType), null);
             return true;
         }
 
@@ -75,7 +75,7 @@ namespace Website.Azure.Common.Sql
             {
                 FederationName = fedAtt.FederationName,
                 DistributionName = fedAtt.DistributionName,
-                FedVal = null
+                FedVal = null,
             };
         }
     }
@@ -89,6 +89,18 @@ namespace Website.Azure.Common.Sql
         public string RangeLow { get; set; }
         public string RangeHigh { get; set; }
         public string FedTyp { get; set; }
+        public bool IsRangeFor(IComparable val)
+        {
+            var low = SerializeUtil.ConvertVal(RangeLow, val.GetType()) as IComparable;
+            if (low == null || !val.IsGreaterThanOrEqualTo(low))
+                return false;
+
+            if (string.IsNullOrEmpty(RangeHigh))
+                return true;
+
+            var high = SerializeUtil.ConvertVal(RangeHigh, val.GetType()) as IComparable;
+            return high != null && (val.IsLessThanOrEqualTo(high));
+        }
     }
 
     public class FederationInstance
@@ -174,17 +186,18 @@ namespace Website.Azure.Common.Sql
                 tableName = recordTyp.Name;
             
             var keyCol = GetPrimaryKey(recordTyp);
-            if(keyCol == null)
+            if(keyCol == null || keyCol.Count == 0)
                 throw new ArgumentNullException(String.Format("no key column for type {0}", recordTyp.Name));
 
 
             var vals = new Dictionary<string, object>();
             SerializeUtil.PropertiesToDictionary(insert, vals, null, null, false);
             var propertyList = vals.ToList();
-            var setExpression = GetSetExpression(propertyList.Where(p => p.Key != keyCol.Name));
+            var setExpression = GetSetExpression(propertyList.Where(p => !keyCol.Any(kp => kp.Name.Equals(p.Key))));
             var insertList = GetInsertList(propertyList);
             var valuesList = GetValuesList(propertyList);
-            var sqlCmd = String.Format(InsertOrUpdateTemplate, tableName, keyCol.Name, setExpression, insertList,
+            var keyPropList = AddParametersEqText("", keyCol, true);
+            var sqlCmd = String.Format(InsertOrUpdateTemplate, tableName, keyPropList, setExpression, insertList,
                                        valuesList);
 
             Action tryact =
@@ -214,16 +227,16 @@ namespace Website.Azure.Common.Sql
         public static bool DeleteBy<RecordType>(string propertyName, RecordType deleterec, SqlConnection connection, string tableName = null)
         {
             var recordTyp = typeof(RecordType);
-            return DeleteBy(recordTyp.GetProperty(propertyName), deleterec, connection, tableName);
+            return DeleteBy(new List<PropertyInfo>(){recordTyp.GetProperty(propertyName)}, deleterec, connection, tableName);
         }
 
-        private static bool DeleteBy<RecordType>(PropertyInfo property, RecordType deleterec, SqlConnection connection, string tableName = null)
+        private static bool DeleteBy<RecordType>(IList<PropertyInfo> properties, RecordType deleterec, SqlConnection connection, string tableName = null)
         {
             Type recordTyp = typeof(RecordType);
             if (String.IsNullOrWhiteSpace(tableName))
                 tableName = recordTyp.Name;
 
-            if (property == null)
+            if (properties == null)
                 throw new ArgumentNullException(String.Format("no key column for type {0}", recordTyp.Name));
 
             Action tryact =
@@ -233,11 +246,8 @@ namespace Website.Azure.Common.Sql
                     {
                         CheckUseFederationFor(deleterec, connection);
 
-                        conn.Cmd.CommandText = String.Format(DeleteTemplate, tableName, property.Name);
-
-                        var keyval = deleterec.GetPropertyVal(property.Name);
-                        AddParameter(conn.Cmd.Parameters, property.Name, keyval);
-
+                        conn.Cmd.CommandText = String.Format(DeleteTemplate, tableName);
+                        AddParametersEq(conn.Cmd, deleterec, properties);                           
                         ExecuteCommand(conn.Cmd);
                     }
                 };
@@ -246,15 +256,14 @@ namespace Website.Azure.Common.Sql
 
         }
 
-
         public static bool Get<RecordType>(RecordType fillrec, SqlConnection connection, string tableName = null)
         {
             Type recordTyp = typeof(RecordType);
             if (String.IsNullOrWhiteSpace(tableName))
                 tableName = recordTyp.Name;
 
-            var keyCol = GetPrimaryKey(recordTyp);
-            if (keyCol == null)
+            var keyCols = GetPrimaryKey(recordTyp);
+            if (keyCols == null)
                 throw new ArgumentNullException(String.Format("no key column for type {0}", recordTyp.Name));
 
             var ret = false;
@@ -265,11 +274,8 @@ namespace Website.Azure.Common.Sql
                         {
                             CheckUseFederationFor(fillrec, connection);
 
-                            conn.Cmd.CommandText = String.Format(GetTemplate, tableName, keyCol.Name);
-
-                            var keyval = fillrec.GetPropertyVal(keyCol.Name);
-                            AddParameter(conn.Cmd.Parameters, keyCol.Name, keyval);
-
+                            conn.Cmd.CommandText = String.Format(GetTemplate, tableName);
+                            AddParametersEq(conn.Cmd, fillrec, keyCols);                           
                             ret = ExecuteSingleRead(fillrec, conn.Cmd);
                         }
                     };
@@ -418,28 +424,39 @@ namespace Website.Azure.Common.Sql
             return res.IsCompleted;
         }
 
+        private static IList<FederationInstance> GetFederationRangesFor(FederationInstance sourceFederationInfo
+            , SqlConnection connection, IEnumerable<object> federationValues = null)
+        {
+            var values = federationValues as IList<object> ?? 
+                (federationValues == null ? new List<object>() : federationValues.ToList());
+
+            var info = GetFederationInfo(connection).ToList();
+            var infoInRange = info.Where(
+                fi => fi.Name.Equals(sourceFederationInfo.FederationName)
+                    && (!values.Any() || values.Any(o => fi.IsRangeFor(o as IComparable)))).ToList();
+
+            var ret = infoInRange.Any() ? infoInRange : info;
+
+            return ret.Select(fi => new FederationInstance()
+            {
+                FederationName = fi.Name,
+                DistributionName = fi.DistributionName,
+                FedVal = fi.RangeLow
+            }).ToList();                        
+
+        }
+
         public static IEnumerable<RecordType> Query<RecordType>
             (string command, SqlConnection connection, object[] federationValues = null, object parameters = null) 
             where RecordType : new()
         {
-            //if it isn't a federated type just perform normal query
+            //if it isn't a federated type just perform normal queryParams
             var contextRecordTyp = typeof (RecordType);
                 var fedInfo = contextRecordTyp.GetFedInfo();
                 if (fedInfo == null)
                     return Query<RecordType>(command, connection, (FederationInstance) null, parameters);
 
-            //if it is a federated type check if federation shards are specified. If not
-            //peform parallel queries across all federations
-            var federations = federationValues != null && federationValues.Length > 0 ?
-                 federationValues.Select(v => new FederationInstance() 
-                    { FederationName = fedInfo.FederationName, DistributionName = fedInfo.DistributionName, FedVal = v})
-                 :
-                 GetFederationInfo(connection)
-                    .Where(fi => fi.Name.Equals(fedInfo.FederationName))
-                    .Select(fi => new FederationInstance()
-                        {FederationName = fi.Name, 
-                            DistributionName = fi.DistributionName, FedVal = fi.RangeLow});
-
+            var federations = GetFederationRangesFor(fedInfo, connection, federationValues);
             var connectionFact = new SqlConnectionFactory(connection);
             var ret = new ConcurrentQueue<RecordType>();
             var parallelOptions = new ParallelOptions { MaxDegreeOfParallelism = Math.Min(8, federations.Count()) };
@@ -457,18 +474,39 @@ namespace Website.Azure.Common.Sql
 
             return ret;          
         }
-        
-        public static void AddParameters(SqlParameterCollection parameters, object source)
+
+        public static void AddParametersEq(SqlCommand query, object source, IList<PropertyInfo> properties)
         {
-            var propertyList = new Dictionary<string, object>();
-            SerializeUtil.PropertiesToDictionary(source, propertyList);
-            foreach (var keyValuePair in propertyList)
+            query.CommandText = AddParametersEqText(query.CommandText, properties);
+            AddParameters(query.Parameters, source, properties);
+        }
+
+        private static string AddParametersEqText(string query, IEnumerable<PropertyInfo> properties, bool noWhere = false)
+        {
+            var builder = new StringBuilder(query);
+            bool first = true;
+            var where = noWhere || query.ToLower().Contains("where") ? "" : " where ";
+            foreach (var propertyInfo in properties)
             {
-                AddParameter(parameters, keyValuePair.Key, keyValuePair.Value);
+                builder.Append(!first ? " and " : where);
+                first = false;
+                builder.Append(string.Format(PropEq, propertyInfo.Name));
+            }
+
+            return builder.ToString();
+        }
+
+        private static void AddParameters(SqlParameterCollection queryParams, object source, IEnumerable<PropertyInfo> properties = null)
+        {
+            if (properties == null)
+                properties = source.GetType().GetProperties();
+            foreach (var keyCol in properties)
+            {
+                var keyval = source.GetPropertyVal(keyCol.Name);
+                AddParameter(queryParams, keyCol.Name, keyval);
             }
         }
 
-        
         private static void AddParameters(SqlParameterCollection parameters, IEnumerable<KeyValuePair<string, object>> propertyList)
         {
             foreach (var keyValuePair in propertyList)
@@ -534,16 +572,25 @@ namespace Website.Azure.Common.Sql
                 if (builder.Length > 0)
                     builder.Append(',');
 
-                builder.Append(keyValuePair.Key);
-                builder.Append(" = @");
-                builder.Append(keyValuePair.Key);
+                builder.Append(string.Format(PropEq, keyValuePair.Key));
             }
             return builder.ToString();
         }
 
-        public static PropertyInfo GetPrimaryKey(Type source)
+        public static IList<PropertyInfo> GetPrimaryKey(Type source)
         {
-            return SerializeUtil.GetPropertyWithAttribute(source, typeof (PrimaryKey));
+            var ret = SerializeUtil.GetPropertiesWithAttribute(source, typeof(PrimaryKey));
+
+            var fedProp = SerializeUtil.GetPropertyWithAttribute(source, typeof(FederationCol));
+            FederationCol fedAtt = null;
+            if (fedProp == null)
+                return ret;
+            
+            fedAtt = fedProp.GetCustomAttributes(true).First(a => a.GetType() == typeof(FederationCol)) as FederationCol;
+            if (fedAtt != null && !fedAtt.IsReferenceTable)
+                ret.Add(fedProp);
+
+            return ret;
         }
 
         public static IList<PropertyInfo> GetSingleColIndexes(Type source)//todo add multicol that look at att on class
@@ -564,36 +611,10 @@ namespace Website.Azure.Common.Sql
 //            if (needed == typeof(SqlGeometry))
 //                return SqlGeometry.Deserialize(reader.GetSqlBytes(ordinal));
 
-            return ConvertVal(result, needed);
+            return SerializeUtil.ConvertVal(result, needed);
         }
 
-        public static object ConvertVal(object result, Type needed)
-        {
-            if (result == null)
-                return null;
 
-            if (needed == result.GetType())
-                return result;
-
-            try
-            {
-                var converter = TypeDescriptor.GetConverter(needed);
-                if (converter.CanConvertFrom(result.GetType()))
-                    return converter.ConvertFrom(result);
-
-                converter = TypeDescriptor.GetConverter(result.GetType());
-                if (converter.CanConvertTo(needed))
-                    return converter.ConvertTo(result, needed);
-
-                return Convert.ChangeType(result, needed);
-            }
-            catch(Exception)
-            {
-                Trace.TraceError("SqlExecute error converting from {0} to {1}", result.GetType().FullName, needed.FullName);
-                return null;
-                
-            }         
-        }
 
         private static void ResultSetToObjectProperties<RecordType>(RecordType loadRec, SqlDataReader reader)
         {
@@ -717,5 +738,8 @@ namespace Website.Azure.Common.Sql
         //{0} TableName
         //{1} WhereExpression
         private static readonly string GetTemplate = Resources.DbGetRecord;
+
+        //{0} Property/Col name
+        private static readonly string PropEq = Resources.DbColEqProp;
     }
 }

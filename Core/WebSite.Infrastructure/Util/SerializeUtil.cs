@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -117,6 +119,54 @@ namespace Website.Infrastructure.Util
         {
             return source.GetCustomAttributes(true).Any(a
                                                         => a.GetType() == attribute);
+        }
+
+        public static object ConvertVal(object result, Type needed)
+        {
+            if (result == null)
+                return null;
+
+            if (needed == result.GetType())
+                return result;
+
+            try
+            {
+                var converter = TypeDescriptor.GetConverter(needed);
+                if (converter.CanConvertFrom(result.GetType()))
+                    return converter.ConvertFrom(result);
+
+                converter = TypeDescriptor.GetConverter(result.GetType());
+                if (converter.CanConvertTo(needed))
+                    return converter.ConvertTo(result, needed);
+
+                return Convert.ChangeType(result, needed);
+            }
+            catch (Exception e)
+            {
+                Trace.TraceError("Error converting from {0} to {1} : {2}", result.GetType().FullName, needed.FullName, e.Message);
+                return null;
+
+            }
+        }
+
+        public static bool IsGreaterThan<SourceType>(this SourceType value, SourceType other) where SourceType : IComparable
+        {
+            return value.CompareTo(other) > 0;
+        }
+
+        public static bool IsGreaterThanOrEqualTo<SourceType>(this SourceType value, SourceType other) where SourceType : IComparable
+        {
+            return value.CompareTo(other) >= 0;
+        }
+
+        public static bool IsLessThan<SourceType>(this SourceType value, SourceType other) where SourceType : IComparable
+        {
+            return value.CompareTo(other) < 0;
+        }
+
+        public static bool IsLessThanOrEqualTo<SourceType>(this SourceType value, SourceType other) where SourceType : IComparable
+        {
+            return value.CompareTo(other) <= 0;
         }
     }
 }

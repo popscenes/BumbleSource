@@ -75,7 +75,6 @@ namespace Website.Application.Intergrations.Payment
         {
 
             String agent = "Mozilla/4.0";
-            Dictionary<String, String> nvp = null;
 
             //deformatNVP( nvpStr );	
             String encodedData = "METHOD=" + methodName + "&VERSION=" + Version + "&PWD=" + Password + "&USER=" + Name +

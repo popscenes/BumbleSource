@@ -50,6 +50,15 @@
             </li>
         }
     </ul>
+    
+    <div class="claim-stats">
+        @*replace with image*@
+        <div class="claim-icon">Claims:</div>
+        <span data-bind="text:Flier.NumberOfClaims">
+            @Flier.NumberOfClaims  
+        </span>
+    </div>
+    @Html.Partial("ClaimsPartial")
         
     <div class="comment-stats">
         @*replace with image*@
@@ -60,14 +69,7 @@
     </div>   
     @Html.Partial("CommentsPartial")
 
-    <div class="claim-stats">
-        @*replace with image*@
-        <div class="claim-icon">Claims:</div>
-        <span data-bind="text:Flier.NumberOfClaims">
-            @Flier.NumberOfClaims  
-        </span>
-    </div>
-    @Html.Partial("ClaimsPartial")
+
 </div>
     
 

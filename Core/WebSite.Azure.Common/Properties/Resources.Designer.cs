@@ -70,6 +70,15 @@ namespace Website.Azure.Common.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to {0} = @{0}.
+        /// </summary>
+        internal static string DbColEqProp {
+            get {
+                return ResourceManager.GetString("DbColEqProp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to create database {0}.
         /// </summary>
         internal static string DbCreate {
@@ -154,7 +163,7 @@ namespace Website.Azure.Common.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to delete from {0} where {1} = @{1}.
+        ///   Looks up a localized string similar to delete from {0}.
         /// </summary>
         internal static string DbDeleteRecord {
             get {
@@ -228,7 +237,7 @@ namespace Website.Azure.Common.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to select * from {0} where {1} = @{1}.
+        ///   Looks up a localized string similar to select * from {0}.
         /// </summary>
         internal static string DbGetRecord {
             get {
@@ -247,10 +256,10 @@ namespace Website.Azure.Common.Properties {
         
         /// <summary>
         ///   Looks up a localized string similar to begin tran
-        ///if exists (select * from {0} with (updlock,serializable) where {1} = @{1} )
+        ///if exists (select * from {0} with (updlock,serializable) where {1})
         ///begin
         ///   update {0} set {2}
-        ///   where {1} = @{1}
+        ///   where {1}
         ///end
         ///else
         ///begin

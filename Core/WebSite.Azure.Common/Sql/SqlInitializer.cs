@@ -218,30 +218,29 @@ namespace Website.Azure.Common.Sql
 
         private static bool CreateTable(string tableName, Type metaTyp, SqlConnection connection)
         {
-            var keyProp = SqlExecute.GetPrimaryKey(metaTyp);
-            var colList = ColumnTextFor(keyProp);
-            var keyList = keyProp.Name;
-
-            var fedProp = SerializeUtil.GetPropertyWithAttribute(metaTyp, typeof(FederationCol));
-            FederationCol fedAtt = null;
-            if (fedProp != null && !SqlExecute.FederationDisabled)
+            var colList = new StringBuilder();
+            var keyList = new StringBuilder();
+            foreach (var keyProp in SqlExecute.GetPrimaryKey(metaTyp))
             {
-                fedAtt = fedProp.GetCustomAttributes(true).First(a => a.GetType() == typeof(FederationCol)) as FederationCol;
-                if (fedAtt != null && !fedAtt.IsReferenceTable)
-                {
-                    colList += "," + ColumnTextFor(fedProp);
-                    keyList += "," + fedProp.Name;    
-                }
-                
+                if (colList.Length > 0)
+                    colList.Append(",");
+                if (keyList.Length > 0)
+                    keyList.Append(",");
+                colList.Append(ColumnTextFor(keyProp));
+                keyList.Append(keyProp.Name);
             }
+
 
             var sqlCmd = string.Format(
                 Properties.Resources.DbCreateTable
                 , tableName, colList, keyList);
 
-            if(fedAtt != null)
+            var fedProp = SerializeUtil.GetPropertyWithAttribute(metaTyp, typeof(FederationCol));
+            var info = metaTyp.GetFedInfo();
+            if (info != null )
             {
-                if(!fedAtt.IsReferenceTable)
+                var fedAtt = fedProp.GetCustomAttributes(true).First(a => a.GetType() == typeof(FederationCol)) as FederationCol;
+                if (!fedAtt.IsReferenceTable)
                     sqlCmd += string.Format(Properties.Resources.DbFederatedOn, fedAtt.DistributionName, fedProp.Name);
 
                 //this should create the default federation key

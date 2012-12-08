@@ -14,6 +14,15 @@
         self.claims = ko.observable();
         self.claims(claimsViewModel);
         ko.mapping.fromJS(data, mapping, self);
+
+        self.print = function() {
+
+        };
+        
+        self.preparePrint = function () {
+
+        };
+        
     };
 
 

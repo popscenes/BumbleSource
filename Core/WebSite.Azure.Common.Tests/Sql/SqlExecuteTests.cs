@@ -165,7 +165,7 @@ namespace Website.Azure.Common.Tests.Sql
             {
                 const string sqlCmd = "select * from SqlInitializerTestFederatedTable";
 
-                var ret = SqlExecute.Query<SqlInitializerTestFederatedTable>(sqlCmd, conn, new object[]{0}, null);
+                var ret = SqlExecute.Query<SqlInitializerTestFederatedTable>(sqlCmd, conn, new object[]{0L}, null);
                 AssertUtil.Count(5, ret);
                 foreach (var sqlInitializerTestTable in ret)
                 {

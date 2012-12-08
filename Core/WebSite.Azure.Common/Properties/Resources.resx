@@ -158,7 +158,7 @@ create table dbo.{0}
     <value>DROP FEDERATION {0}</value>
   </data>
   <data name="DbDeleteRecord" xml:space="preserve">
-    <value>delete from {0} where {1} = @{1}</value>
+    <value>delete from {0}</value>
   </data>
   <data name="DbDeleteTable" xml:space="preserve">
     <value>if Exists(select * from sys.tables where Name = N'{0}' and Object_ID = Object_ID(N'{0}'))
@@ -191,17 +191,17 @@ drop table dbo.{0}</value>
  ORDER BY fed.name, range_low</value>
   </data>
   <data name="DbGetRecord" xml:space="preserve">
-    <value>select * from {0} where {1} = @{1}</value>
+    <value>select * from {0}</value>
   </data>
   <data name="DBHasFederation" xml:space="preserve">
     <value>select count(*) as Count from sys.federations where name = '{0}'</value>
   </data>
   <data name="DbInsertOrUpdateRecord" xml:space="preserve">
     <value>begin tran
-if exists (select * from {0} with (updlock,serializable) where {1} = @{1} )
+if exists (select * from {0} with (updlock,serializable) where {1})
 begin
    update {0} set {2}
-   where {1} = @{1}
+   where {1}
 end
 else
 begin
@@ -220,5 +220,8 @@ commit tran</value>
     <value>IF NOT EXISTS (SELECT name FROM sys.indexes
             WHERE name = N'IDX_{2}_{3}')
 CREATE {0} {1}CLUSTERED INDEX IDX_{2}_{3} ON {2}({3});</value>
+  </data>
+  <data name="DbColEqProp" xml:space="preserve">
+    <value>{0} = @{0}</value>
   </data>
 </root>
