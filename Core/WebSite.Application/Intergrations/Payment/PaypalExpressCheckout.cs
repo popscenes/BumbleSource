@@ -22,18 +22,18 @@ namespace Website.Application.Intergrations.Payment
         public String CancelUrl { get; set; }
 
 
-        public NameValueCollection SetExpressCheckout(String paymentAmount)
+        public NameValueCollection SetExpressCheckout(String paymentAmount, String paymentType, String entityId)
         {
             String arguments =
-                "NOSHIPPING=1&ALLOWNOTE=0&HDRIMG=http://www.eatnow.com.au/img/eatnow-logo-takeaway-home-delivery1.png&PAYMENTREQUEST_0_PAYMENTACTION=Sale&PAYMENTREQUEST_0_CURRENCYCODE=AUD&PAYMENTREQUEST_0_DESC=Eat Now Food Order&PAYMENTREQUEST_0_ITEMAMT=" +
-                paymentAmount + "&PAYMENTREQUEST_0_AMT=" + paymentAmount + "&RETURNURL=" + CallbackUrl + "&CANCELURL=" +
-                CancelUrl;
+                "NOSHIPPING=1&ALLOWNOTE=0&PAYMENTREQUEST_0_PAYMENTACTION=Sale&PAYMENTREQUEST_0_CURRENCYCODE=AUD&PAYMENTREQUEST_0_DESC=" + paymentType + 
+                "&PAYMENTREQUEST_0_ITEMAMT=" + paymentAmount + "&PAYMENTREQUEST_0_AMT=" + paymentAmount +
+                "&RETURNURL=" + CallbackUrl + "&CANCELURL=" + CancelUrl + "PAYMENTREQUEST_0_INVNUM=" + entityId + "PAYMENTREQUEST_0_DESC=" + paymentType;
             return MakeCallToPaypal("SetExpressCheckout", arguments);
         }
 
-        public String GetPayPalOrderUrl(String Token)
+        public String GetPayPalOrderUrl(String token)
         {
-            return Url + Token;
+            return Url + token;
         }
 
 
@@ -60,7 +60,7 @@ namespace Website.Application.Intergrations.Payment
         }
 
 
-        public bool IsValidResult(Dictionary<String, String> result)
+        public bool IsValidResult(NameValueCollection result)
         {
             if (result == null)
             {

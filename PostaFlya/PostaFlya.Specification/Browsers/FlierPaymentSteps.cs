@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Web.Mvc;
@@ -68,7 +69,21 @@ namespace PostaFlya.Specification.Fliers
             var paymentController = SpecUtil.GetController<PaymentController>();
             var browserInformation = SpecUtil.GetCurrBrowser();
 
-            SpecUtil.ControllerResult = paymentController.PaymnetCallback("test1", browserInformation.Browser.Id, browserInformation.Browser.Id, 0.00, "AccountCredit", "Test Error Message");
+            var transaction = new PaymentTransaction()
+                {
+                    TransactionId = "test1",
+                    PaymentEntityId = browserInformation.Browser.Id,
+                    BrowserId =  browserInformation.Browser.Id,
+                    AggregateId = browserInformation.Browser.Id,
+                    PayerId = browserInformation.Browser.Id,
+                    Amount = 0.00,
+                    Type =  PaymentType.AccountCredit,
+                    Status = PaymentTransactionStatus.Fail,
+                    Message = "Test Error Message",
+                    Id = Guid.NewGuid().ToString()
+                };
+
+            SpecUtil.ControllerResult = paymentController.PaymnetCallback(transaction);
         }
 
         [Then(@"I will be Shown the Error Details")]
@@ -90,7 +105,21 @@ namespace PostaFlya.Specification.Fliers
         {
             var paymentController = SpecUtil.GetController<PaymentController>();
             var browserInformation = SpecUtil.GetCurrBrowser();
-            SpecUtil.ControllerResult = paymentController.PaymnetCallback("test1", browserInformation.Browser.Id, browserInformation.Browser.Id, 10.00, "AccountCredit", "");
+
+            var transaction = new PaymentTransaction()
+            {
+                TransactionId = "test1",
+                PaymentEntityId = browserInformation.Browser.Id,
+                BrowserId = browserInformation.Browser.Id,
+                AggregateId = browserInformation.Browser.Id,
+                PayerId = browserInformation.Browser.Id,
+                Amount = 10.00,
+                Type = PaymentType.AccountCredit,
+                Status = PaymentTransactionStatus.Success,
+                Message = "",
+                Id = Guid.NewGuid().ToString()
+            };
+            SpecUtil.ControllerResult = paymentController.PaymnetCallback(transaction);
         }
 
         [Then(@"I will be Shown the Transaction Details")]

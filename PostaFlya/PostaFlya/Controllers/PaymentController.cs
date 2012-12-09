@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Web;
 using System.Web.Mvc;
 using PostaFlya.Models;
 using PostaFlya.Models.Flier;
@@ -21,6 +22,7 @@ namespace PostaFlya.Controllers
         private readonly GenericQueryServiceInterface _queryService;
         private readonly GenericRepositoryInterface _repositoryService;
         private readonly BrowserInformationInterface _browserInfo;
+        private readonly HttpContextBase _httpContext;
         private readonly CommandBusInterface _commandBus;
 
 
@@ -28,13 +30,15 @@ namespace PostaFlya.Controllers
             CommandBusInterface commandBus,
             GenericQueryServiceInterface queryService,
             GenericRepositoryInterface repositoryService,
-            BrowserInformationInterface browserInfo)
+            BrowserInformationInterface browserInfo,
+            HttpContextBase httpContext)
         {
             _paymentServiceProviderInterface = paymentServiceProviderInterface;
             _commandBus = commandBus;
             _queryService = queryService;
             _repositoryService = repositoryService;
             _browserInfo = browserInfo;
+            _httpContext = httpContext;
         }
 
 
@@ -44,32 +48,35 @@ namespace PostaFlya.Controllers
             return new RedirectResult(paymentService.LaunchPaymentProcess(PaymentType.AccountCredit.ToString(), browserId, amount).ToString());
         }
 
-        public ViewResult PaymnetCallback(string paymnetId, string payerid, string entityId, double paymentAmount, string paymentType, string errorMessage)
+        public ViewResult PayPalSuccess()
         {
-            var browser = _queryService.FindById<Browser>(entityId);
-            var status = PaymentTransactionStatus.Fail;
-            if (String.IsNullOrEmpty(errorMessage))
-            {
-                status = PaymentTransactionStatus.Success;
-            }
+            var paymentService = _paymentServiceProviderInterface.GetPaymentServiceByName("paypal");
+            var transaction = paymentService.Processpayment(_httpContext.Request);
+            return PaymnetCallback(transaction);
+
+        }
+
+        //public ViewResult PayPalCancel()
+        //{
+
+        //}
+
+        public ViewResult PaymnetCallback(PaymentTransaction transaction)
+        {
+            var browser = _queryService.FindById<Browser>(transaction.PaymentEntityId);
             
             var transactionCommand = new PaymentTransactionCommand()
                 {
                     Entity = browser,
-                    PayerId = payerid,
-                    PaymentId = paymnetId,
-                    PaymentAmount = paymentAmount,
-                    PaymentTransactionStatus = status,
-                    PaymentType = (PaymentType)Enum.Parse(typeof(PaymentType), paymentType),
-                    ErrorMessage = errorMessage
+                    Transaction = transaction
                 };
 
             var res = _commandBus.Send(transactionCommand) as MsgResponse;
 
-            var transaction = _queryService.FindById<PaymentTransaction>(res.GetEntityId());
+            var savedTransaction = _queryService.FindById<PaymentTransaction>(res.GetEntityId());
             var viewModel = new FlierPaymentResult()
                 {
-                    PaymentMessage = errorMessage,
+                    PaymentMessage = transaction.Message,
                     Transaction = transaction
                 };
             return View(viewModel);
