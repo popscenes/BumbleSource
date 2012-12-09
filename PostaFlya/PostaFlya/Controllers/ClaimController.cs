@@ -73,8 +73,7 @@ namespace PostaFlya.Controllers
 
         public IQueryable<ClaimModel> Get(EntityTypeEnum entityTypeEnum, string id)
         {
-            return GetClaims(_queryService, id)
-                .Select(claim => claim.FillBrowserModel(_queryService, _blobStorage));
+            return GetClaims(_queryService, id);
         }
 
         public static IQueryable<ClaimModel> GetClaims(GenericQueryServiceInterface queryClaims, string id)
@@ -126,7 +125,7 @@ namespace PostaFlya.Controllers
                                                            ClaimTime = DateTime.UtcNow,
                                                     }
                                                };
-            return list.Select(c => c.ToViewModel(_queryService, _blobStorage)).ToList();
+            return list.Select(c => c.ToViewModel()).ToList();
         }
     }
 }

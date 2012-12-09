@@ -52,6 +52,7 @@ namespace Website.Azure.Common.Tests.TableStorage
         }
 
         public string AggregateId { get; set; }
+        public string AggregateTypeTag { get; set; }
     }
 
     class ThreeEntity 

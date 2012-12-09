@@ -27,5 +27,6 @@ namespace Website.Domain.Comments
     {
         string CommentContent { get; set; }
         DateTime CommentTime { get; set; }
+        
     }
 }

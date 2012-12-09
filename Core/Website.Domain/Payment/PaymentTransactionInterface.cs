@@ -69,6 +69,7 @@ namespace Website.Domain.Payment
         public string FriendlyId { get; set; }
 
         public string AggregateId { get; set; }
+        public string AggregateTypeTag { get; set; }
         public string BrowserId { get; set; }
     }
 }

@@ -13,6 +13,7 @@ using PostaFlya.Models.Content;
 using Website.Application.Domain.Content;
 using Website.Application.Domain.Location;
 using System.Runtime.Serialization;
+using Resources = PostaFlya.Properties.Resources;
 
 namespace PostaFlya.Models.Flier
 {
@@ -77,6 +78,10 @@ namespace PostaFlya.Models.Flier
         [Display(Name = "FlierLocation", ResourceType = typeof(Properties.Resources))] 
         [DataMember]
         public LocationModel Location { get; set; }
+
+        [Display(Name = "FlierCreateModel_PostRadius", ResourceType = typeof(Properties.Resources))]
+        [DataMember(IsRequired = false)]
+        public int PostRadius { get; set; }
 
         [RequiredWithMessage]
         [StringLengthWithMessage(100)]

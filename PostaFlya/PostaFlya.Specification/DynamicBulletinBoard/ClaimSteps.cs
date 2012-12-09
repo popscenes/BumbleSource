@@ -114,7 +114,8 @@ namespace PostaFlya.Specification.DynamicBulletinBoard
             var ret = claimController.Get(EntityTypeEnum.Flier, viewMod.Flier.Id);
             Assert.IsNotNull(ret);
             Assert.IsNotEmpty(ret);
-            Assert.IsTrue(ret.Any(c => c.Browser.Id == createClaimModel.BrowserId));
+            
+            //Assert.IsTrue(ret.Any(c => c.Browser.Id == createClaimModel.BrowserId));
 
         }
 
@@ -135,7 +136,7 @@ namespace PostaFlya.Specification.DynamicBulletinBoard
             Assert.IsNotNull(test);
         }
         [Then(@"(.*) will be deducted from the Flier Creators Account")]
-        public void ThenWillBeDeductedFromTheFlierCreatorsAccount(Double deduction)
+        public void ThenWillBeDeductedFromTheFlierCreatorsAccount(int deduction)
         {
             var flier = ScenarioContext.Current["flier"] as FlierInterface;
             var queryService = SpecUtil.CurrIocKernel.Get<GenericQueryServiceInterface>();
@@ -143,7 +144,7 @@ namespace PostaFlya.Specification.DynamicBulletinBoard
 
             var browser = queryService.FindById<Browser>(retFlier.BrowserId);
 
-            Assert.AreEqual(browser.AccountCredit, 10.00 - deduction);
+            Assert.AreEqual(browser.AccountCredit, 1000 - deduction);
         }
 
         
@@ -170,8 +171,8 @@ namespace PostaFlya.Specification.DynamicBulletinBoard
             res.EnsureSuccessStatusCode();
         }
 
-        [Then(@"the Claim will be ecorded as having My Contact Details")]
-        public void ThenTheClaimWillBeEcordedAsHavingMyContactDetails()
+        [Then(@"the Claim will be recorded as having My Contact Details")]
+        public void ThenTheClaimWillBeRecordedAsHavingMyContactDetails()
         {
             var flier = ScenarioContext.Current["flier"] as FlierInterface;
             var queryService = SpecUtil.CurrIocKernel.Get<GenericQueryServiceInterface>();

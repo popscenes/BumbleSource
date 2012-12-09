@@ -346,7 +346,7 @@ namespace Website.Mocks.Domain.Data
 //
 //                    var newl = new Like()
 //                    {
-//                        EntityTypeTag = typeof(EntityInterfaceType).Name,
+//                        AggregateTypeTag = typeof(EntityInterfaceType).Name,
 //                        BrowserId = l.BrowserId,
 //                        LikeContent = l.LikeContent,
 //                        EntityId = l.EntityId,
@@ -383,7 +383,7 @@ namespace Website.Mocks.Domain.Data
 //
 //            queryService.Setup(o => o.GetLikesByBrowser(It.IsAny<string>()))
 //            .Returns<String>(id =>
-//                store.Where(like => like.BrowserId == id && like.EntityTypeTag == typeof(EntityInterfaceType).Name)
+//                store.Where(like => like.BrowserId == id && like.AggregateTypeTag == typeof(EntityInterfaceType).Name)
 //                .AsQueryable());
 //            return queryService;
 //        }

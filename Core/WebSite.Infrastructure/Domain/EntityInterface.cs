@@ -45,11 +45,13 @@ namespace Website.Infrastructure.Domain
         public static void CopyFieldsFrom(this AggregateInterface target, AggregateInterface source)
         {
             target.AggregateId = source.AggregateId;
+            target.AggregateTypeTag = source.AggregateTypeTag;
         }
     }
 
     public interface AggregateInterface
     {
         string AggregateId { get; set; }
+        string AggregateTypeTag { get; set; } 
     }
 }

@@ -1,5 +1,6 @@
 using System;
 using PostaFlya.Domain.Behaviour;
+using Website.Domain.Payment;
 using Website.Infrastructure.Command;
 using System.Collections.Generic;
 using Website.Domain.Location;
@@ -22,6 +23,24 @@ namespace PostaFlya.Domain.Flier.Command
         public string ExternalSource { get; set; }
         public string ExternalId { get; set; }
         public HashSet<string> BoardSet { get; set; }
-        public FlierFeaturesCommand FlierFeaturesCommand { get; set; }
+        public bool AllowUserContact { get; set; }
+        public bool AttachTearOffs { get; set; }
+        public int ExtendPostRadius { get; set; }
+
+        public static HashSet<EntityFeatureChargeDecorator> GetPaymentFeatures(CreateFlierCommand createCommand, string browserId)
+        {
+            var featureList = new HashSet<EntityFeatureChargeDecorator>();
+//            if (createCommand.AttachTearOffs)
+//            {
+//                featureList.Add(new SimpleEntityFeatureCharge() { FeatureType = FeatureType.PostAreaCharge, Cost = 80, BrowserId = browserId });
+//            }
+//
+//            if (createCommand.AllowUserContact)
+//            {
+//                featureList.Add(new SimpleEntityFeatureCharge() { FeatureType = FeatureType.UserContact, Cost = 500, BrowserId = browserId });
+//            }
+
+            return featureList;
+        }
     }
 }

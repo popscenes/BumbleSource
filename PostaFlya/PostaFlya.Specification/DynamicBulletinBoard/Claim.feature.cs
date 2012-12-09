@@ -69,11 +69,9 @@ namespace PostaFlya.Specification.DynamicBulletinBoard
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Claim An Initial Tear Off", ((string[])(null)));
             this.ScenarioSetup(scenarioInfo);
             testRunner.Given("I have navigated to the public view page for a FLIER With TEAR OFF", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-            testRunner.And("The Flier Creator Has Sufficirnt Credit", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
             testRunner.When("I claim a tear off for that FLIER", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
             testRunner.Then("I will be recorded as having claimed the flier once", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
             testRunner.And("the number of claims against the FLIER will be incremented", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-            testRunner.And("2.00 will be deducted from the Flier Creators Account", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
             this.ScenarioCleanup();
         }
         
@@ -85,30 +83,12 @@ namespace PostaFlya.Specification.DynamicBulletinBoard
             this.ScenarioSetup(scenarioInfo);
             testRunner.Given("I have navigated to the public view page for a FLIER With TEAR OFF And USER CONTA" +
                     "CT", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-            testRunner.And("The Flier Creator Has Sufficirnt Credit", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+            testRunner.And("The Flier Creator Has Sufficient Credit", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
             testRunner.When("I claim a tear off for that FLIER and send my contact details", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
             testRunner.Then("I will be recorded as having claimed the flier once", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
             testRunner.And("the number of claims against the FLIER will be incremented", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-            testRunner.And("the Claim will be ecorded as having My Contact Details", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-            testRunner.And("5.00 will be deducted from the Flier Creators Account", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-            this.ScenarioCleanup();
-        }
-        
-        [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("Claim A Tear Off When One Has Been Claimed and Send Contact Details")]
-        public virtual void ClaimATearOffWhenOneHasBeenClaimedAndSendContactDetails()
-        {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Claim A Tear Off When One Has Been Claimed and Send Contact Details", ((string[])(null)));
-            this.ScenarioSetup(scenarioInfo);
-            testRunner.Given("I have navigated to the public view page for a FLIER With TEAR OFF And USER CONTA" +
-                    "CT", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-            testRunner.And("The Flier Creator Has Sufficirnt Credit", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-            testRunner.And("I have already claimed a tear off for that FLIER", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-            testRunner.When("I claim a tear off for that FLIER and send my contact details", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-            testRunner.Then("I will be recorded as having claimed the flier once", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-            testRunner.And("the number of claims against the FLIER will not be incremented", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-            testRunner.And("the Claim will be ecorded as having My Contact Details", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-            testRunner.And("7.00 will be deducted from the Flier Creators Account", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+            testRunner.And("the Claim will be recorded as having My Contact Details", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+            testRunner.And("500 will be deducted from the Flier Creators Account", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
             this.ScenarioCleanup();
         }
         
@@ -119,12 +99,9 @@ namespace PostaFlya.Specification.DynamicBulletinBoard
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Claim A Tear Off When One Has Been Claimed", ((string[])(null)));
             this.ScenarioSetup(scenarioInfo);
             testRunner.Given("I have navigated to the public view page for a FLIER With TEAR OFF", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-            testRunner.And("The Flier Creator Has Sufficirnt Credit", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
             testRunner.And("I have already claimed a tear off for that FLIER", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
             testRunner.When("Another Browser claims a tear off for that FLIER", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-            testRunner.Then("I will be recorded as having claimed the flier once", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-            testRunner.And("the number of claims against the FLIER will be incremented", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-            testRunner.And("2.00 will be deducted from the Flier Creators Account", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+            testRunner.Then("the number of claims against the FLIER will be incremented", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
             this.ScenarioCleanup();
         }
         

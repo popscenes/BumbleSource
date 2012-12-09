@@ -127,7 +127,7 @@ namespace PostaFlya.Specification
         }
 
         [Given(@"I have sufficient Account Credit")]
-        [Given(@"The Flier Creator Has Sufficirnt Credit")]
+        [Given(@"The Flier Creator Has Sufficient Credit")]
         public void GivenIHaveSufficientAccountCredit()
         {
             var browserInformation = SpecUtil.GetCurrBrowser();
@@ -135,7 +135,7 @@ namespace PostaFlya.Specification
             browserReo.UpdateEntity<Browser>(browserInformation.Browser.Id,
                     b =>
                     {
-                        b.AccountCredit = 10.00;
+                        b.AccountCredit = 1000;
                     });
         }
     }

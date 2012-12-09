@@ -8,10 +8,14 @@ using PostaFlya.DataRepository.Search.Command;
 using PostaFlya.DataRepository.Search.SearchRecord;
 using PostaFlya.Domain.Boards;
 using PostaFlya.Domain.Boards.Event;
+using PostaFlya.Domain.Flier;
 using PostaFlya.Domain.Flier.Event;
 using Website.Application.Binding;
 using Website.Azure.Common.Sql;
+using Website.Domain.Claims.Event;
+using Website.Domain.Comments.Event;
 using Website.Infrastructure.Command;
+using Website.Infrastructure.Domain;
 using Website.Infrastructure.Publish;
 using Website.Infrastructure.Query;
 
@@ -21,6 +25,8 @@ namespace PostaFlya.DataRepository.Search.Event
         SubscriptionInterface<FlierModifiedEvent>
         , SubscriptionInterface<BoardFlierModifiedEvent>
         , SubscriptionInterface<BoardModifiedEvent>
+        , SubscriptionInterface<ClaimEvent>
+        , SubscriptionInterface<CommentEvent>
     {
         private readonly GenericQueryServiceInterface _queryService;
         //if we wanna push this to a worker....not really needed atm.
@@ -143,6 +149,29 @@ namespace PostaFlya.DataRepository.Search.Event
             }
             return (publish.OrigState != null) || (publish.NewState != null);
 
+        }
+
+        private bool ProcessAggregateMemberChanged(AggregateInterface newState)
+        {
+            if (newState == null || newState.AggregateTypeTag == typeof(Flier).Name)
+                return false;
+
+            var flier = _queryService.FindById<Domain.Flier.Flier>(newState.AggregateId);
+            if (flier == null)
+                return false;
+
+            var searchRecord = flier.ToSearchRecord();
+            SqlExecute.InsertOrUpdate(searchRecord, _connection);
+            return true;
+        }
+        public bool Publish(ClaimEvent publish)
+        {
+            return ProcessAggregateMemberChanged(publish.NewState);
+        }
+
+        public bool Publish(CommentEvent publish)
+        {
+            return ProcessAggregateMemberChanged(publish.NewState);
         }
 
         public bool IsEnabled { get; private set; }

@@ -98,6 +98,7 @@
     <Compile Include="Comments\Comment.cs" />
     <Compile Include="Comments\CommentableInterface.cs" />
     <Compile Include="Comments\CommentInterface.cs" />
+    <Compile Include="Comments\Event\CommentEvent.cs" />
     <Compile Include="Comments\Query\QueryCommentsInterface.cs" />
     <Compile Include="Contact\ContactDetails.cs" />
     <Compile Include="Contact\ContactDetailsInterface.cs" />
@@ -128,6 +129,7 @@
     <Compile Include="Payment\ChargableEntityInterface.cs" />
     <Compile Include="Payment\Command\PaymentTransactionCommand.cs" />
     <Compile Include="Payment\Command\PaymentTransactionCommandHandler.cs" />
+    <Compile Include="Payment\EntityFeatureChargesInterface.cs" />
     <Compile Include="Payment\PaymentTransactionInterface.cs" />
     <Compile Include="Payment\PaymentTransactionStatus.cs" />
     <Compile Include="Payment\PaymentType.cs" />

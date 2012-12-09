@@ -1,4 +1,5 @@
 using System;
+using Website.Domain.Payment;
 using Website.Infrastructure.Domain;
 using Website.Domain.Browser;
 
@@ -19,14 +20,13 @@ namespace Website.Domain.Claims
             target.ClaimContext = source.ClaimContext;
             target.ClaimMessage = source.ClaimMessage;
             target.ClaimTime = source.ClaimTime;
-            target.EntityTypeTag = source.EntityTypeTag;
         }
     }
     public interface ClaimInterface : EntityInterface
         , BrowserIdInterface
         , AggregateInterface
+        , EntityFeatureChargesInterface
     {
-        string EntityTypeTag { get; set; } 
         string ClaimContext { get; set; }
         string ClaimMessage { get; set; }
         DateTime ClaimTime { get; set; }

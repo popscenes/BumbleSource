@@ -11,5 +11,6 @@ namespace PostaFlya.Domain.Boards
         public DateTime DateAdded { get; set; }
         public int BoardRank { get; set; }
         public string AggregateId { get; set; }
+        public string AggregateTypeTag { get; set; }
     }
 }

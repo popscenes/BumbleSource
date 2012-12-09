@@ -45,6 +45,7 @@ namespace Website.Domain.Claims.Command
             {    
                 Id = command.ClaimEntity.Id + browser.Id,
                 AggregateId = command.ClaimEntity.Id,
+                AggregateTypeTag = command.ClaimEntity.GetType().Name,
                 BrowserId = browser.Id,
                 ClaimContext = command.Context,
                 ClaimTime = DateTime.UtcNow,

@@ -113,7 +113,7 @@ namespace Website.Mocks.Domain.Data
                 claim.Id = claim.GetId();
                 claim.ClaimContext = "Claim number " + i;
                 claim.ClaimTime = time;
-                claim.EntityTypeTag = "TestEntityType";
+                claim.AggregateTypeTag = "TestEntityType";
                 ret.Add(claim);
                 time = time.AddMinutes(10);
             }
@@ -136,7 +136,7 @@ namespace Website.Mocks.Domain.Data
                               AggregateId = entityId,
                               BrowserId = Guid.NewGuid().ToString(),
                               ClaimContext = "This is a claim",
-                              EntityTypeTag = "TestEntityType",
+                              AggregateTypeTag = "TestEntityType",
                               ClaimTime = DateTime.UtcNow
                           };
             ret.Id = ret.GetId();

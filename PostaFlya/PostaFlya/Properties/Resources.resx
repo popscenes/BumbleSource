@@ -318,4 +318,7 @@
   <data name="BoardCreateEditModel_Status" xml:space="preserve">
     <value>Status</value>
   </data>
+  <data name="FlierCreateModel_PostRadius" xml:space="preserve">
+    <value>PostLocationRadius</value>
+  </data>
 </root>

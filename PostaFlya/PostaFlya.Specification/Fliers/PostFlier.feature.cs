@@ -99,16 +99,16 @@ namespace PostaFlya.Specification.Fliers
             testRunner.When("I SUBMIT the data for that FLIER", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
             testRunner.Then("the new FLIER will be created for behviour Default", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
             testRunner.And("the FLIER STATUS will be Active", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-            testRunner.And("the FLIER will contain a FEATURE for TearOff in a disabled state with a cost of 2" +
-                    ".00", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+            testRunner.And("the FLIER will contain a FEATURE for PostAreaCharge in a disabled state with a cost of 8" +
+                    "0 credits", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
             this.ScenarioCleanup();
         }
         
         [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("Create Flier With Tear Off With sufficient Credit")]
-        public virtual void CreateFlierWithTearOffWithSufficientCredit()
+        [NUnit.Framework.DescriptionAttribute("Create Flier With sufficient Credit")]
+        public virtual void CreateFlierWithSufficientCredit()
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Create Flier With Tear Off With sufficient Credit", ((string[])(null)));
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Create Flier With sufficient Credit", ((string[])(null)));
             this.ScenarioSetup(scenarioInfo);
             testRunner.Given("i have navigated to the CREATE PAGE for a FLIER TYPE Default", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
             testRunner.And("I choose to attach Tear Offs", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
@@ -116,8 +116,8 @@ namespace PostaFlya.Specification.Fliers
             testRunner.When("I SUBMIT the data for that FLIER", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
             testRunner.Then("the new FLIER will be created for behviour Default", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
             testRunner.And("the FLIER STATUS will be Active", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-            testRunner.And("the FLIER will contain a FEATURE for TearOff in a enabled state with a cost of 2." +
-                    "00", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+            testRunner.And("the FLIER will contain a FEATURE for PostAreaCharge in a enabled state with a cost of 80" +
+                    " credits", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
             this.ScenarioCleanup();
         }
         
@@ -132,9 +132,9 @@ namespace PostaFlya.Specification.Fliers
             testRunner.And("I dont have sufficient Account Credit", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
             testRunner.When("I SUBMIT the data for that FLIER", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
             testRunner.Then("the new FLIER will be created for behviour Default", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-            testRunner.And("the FLIER STATUS will be Active", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+            testRunner.And("the FLIER STATUS will be PaymentPending", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
             testRunner.And("the FLIER will contain a FEATURE for UserContact in a disabled state with a cost " +
-                    "of 5.00", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+                    "of 500 credits", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
             this.ScenarioCleanup();
         }
         
@@ -151,7 +151,7 @@ namespace PostaFlya.Specification.Fliers
             testRunner.Then("the new FLIER will be created for behviour Default", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
             testRunner.And("the FLIER STATUS will be Active", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
             testRunner.And("the FLIER will contain a FEATURE for UserContact in a enabled state with a cost o" +
-                    "f 5.00", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+                    "f 500 credits", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
             this.ScenarioCleanup();
         }
     }

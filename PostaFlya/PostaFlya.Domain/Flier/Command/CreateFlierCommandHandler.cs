@@ -48,8 +48,7 @@ namespace PostaFlya.Domain.Flier.Command
                                    ImageList = command.ImageList,
                                    ExternalSource = command.ExternalSource,
                                    ExternalId = command.ExternalId,
-                                   
-                                   
+                                   UseBrowserContactDetails = command.AttachTearOffs,//todo add ability to specify other contact details                                 
                                };
 
             if(newFlier.FlierBehaviour == FlierBehaviour.Default)
@@ -57,7 +56,7 @@ namespace PostaFlya.Domain.Flier.Command
 
 
             newFlier.FriendlyId = _flierQueryService.FindFreeFriendlyIdForFlier(newFlier);
-            newFlier.Features = (FlierFeaturesCommand.GetPaymentFeatures(command.FlierFeaturesCommand, command.BrowserId));
+            newFlier.Features = (CreateFlierCommand.GetPaymentFeatures(command, command.BrowserId));
 
             List<BoardFlierModifiedEvent> boardFliers = null;
             UnitOfWorkInterface unitOfWork;

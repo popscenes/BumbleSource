@@ -68,12 +68,7 @@ namespace PostaFlya.Controllers
         }
 
         public HttpResponseMessage Post(string browserId, FlierCreateModel createModel)
-        {
-            var featuresCommand = new FlierFeaturesCommand()
-                {
-                    AllowUserContact =  createModel.AllowUserContact, 
-                    AttachTearOffs =  createModel.AttachTearOffs
-                };
+        {         
             var createFlier = new CreateFlierCommand()
             {
                 BrowserId = browserId,
@@ -88,7 +83,9 @@ namespace PostaFlya.Controllers
                 ExternalSource = createModel.ExternalSource,
                 ExternalId = createModel.ExternalId,
                 BoardSet = new HashSet<string>(createModel.BoardList),
-                FlierFeaturesCommand = featuresCommand
+                AllowUserContact = createModel.AllowUserContact,
+                AttachTearOffs = createModel.AttachTearOffs,
+                ExtendPostRadius = createModel.PostRadius
             };
 
             var res = _commandBus.Send(createFlier);
@@ -97,12 +94,6 @@ namespace PostaFlya.Controllers
 
         public HttpResponseMessage Put(string browserId, FlierCreateModel editModel)
         {
-            var featuresCommand = new FlierFeaturesCommand()
-            {
-                AllowUserContact = editModel.AllowUserContact,
-                AttachTearOffs = editModel.AttachTearOffs
-            };
-
             var editFlier = new EditFlierCommand()
             {
                 Id = editModel.Id,
@@ -114,8 +105,9 @@ namespace PostaFlya.Controllers
                 Image = new Guid(editModel.FlierImageId),
                 EffectiveDate = editModel.EffectiveDate,
                 ImageList = editModel.ImageList.Select(_ => new FlierImage(_.ImageId)).ToList(),
-                FlierFeaturesCommand = featuresCommand,
-                BoardSet = new HashSet<string>(editModel.BoardList)
+                BoardSet = new HashSet<string>(editModel.BoardList),
+                AllowUserContact = editModel.AllowUserContact,
+                AttachTearOffs = editModel.AttachTearOffs
             };
 
             var res = _commandBus.Send(editFlier);

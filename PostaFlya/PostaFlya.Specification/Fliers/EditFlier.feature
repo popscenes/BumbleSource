@@ -14,7 +14,7 @@ And I have sufficient Account Credit
 When I navigate to the edit page for that FLIER and add TEAR OFF to a FLIER 
 Then the FLIER will be updated to reflect those changes
 And the FLIER STATUS will be ACTIVE
-And the FLIER will contain a FEATURE for TearOff in a enabled state with a cost of 2.00
+And the FLIER will contain a FEATURE for TearOff in a enabled state with a cost of 80 credits
 
 Scenario: Edit Flier RemoveTearOff
 Given I have created a FLIER with TEAR OFF
@@ -29,7 +29,7 @@ And I have sufficient Account Credit
 When I navigate to the edit page for that FLIER and add USER CONTACT to a FLIER 
 Then the FLIER will be updated to reflect those changes
 And the FLIER STATUS will be ACTIVE
-And the FLIER will contain a FEATURE for UserContact in a enabled state with a cost of 5.00
+And the FLIER will contain a FEATURE for UserContact in a enabled state with a cost of 500 credits
 
 Scenario: Edit Flier Remove USER CONTACT
 Given I have created a FLIER with USER CONTACT

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using PostaFlya.Domain.Behaviour;
 using Website.Domain.Contact;
+using Website.Domain.Payment;
 using Website.Infrastructure.Domain;
 using Website.Domain.Browser;
 using Website.Domain.Claims;
@@ -26,6 +27,7 @@ namespace PostaFlya.Domain.Flier
             BrowserIdInterfaceExtensions.CopyFieldsFrom(target, source);
             CommentableInterfaceExtensions.CopyFieldsFrom(target, source);
             ClaimableInterfaceExtensions.CopyFieldsFrom(target, source);
+            EntityFeatureChargesInterfaceExtension.CopyFieldsFrom(target, source);
             target.ContactDetails = source.ContactDetails != null ? new ContactDetails() : null;
             target.ContactDetails.CopyFieldsFrom(source.ContactDetails);
 
@@ -46,8 +48,7 @@ namespace PostaFlya.Domain.Flier
                                             : null;
             target.UseBrowserContactDetails = source.UseBrowserContactDetails;
             target.Boards = source.Boards != null ? new HashSet<string>(source.Boards) : null;
-            target.Features = source.Features != null ? new HashSet<EntityFeatureInterface>(source.Features) : null;
-
+            target.HasLeadGeneration = source.HasLeadGeneration;
         }        
 
         public static bool HasContactDetails(this FlierInterface flier)
@@ -71,7 +72,8 @@ namespace PostaFlya.Domain.Flier
         EntityInterface, 
         BrowserIdInterface, 
         ClaimableInterface,
-        CommentableInterface
+        CommentableInterface,
+        EntityFeatureChargesInterface
     {
         string Title { get; set; }
         string Description { get; set; }
@@ -91,6 +93,6 @@ namespace PostaFlya.Domain.Flier
         ContactDetails ContactDetails { get; set; }
         bool UseBrowserContactDetails { get; set; }
         HashSet<string> Boards { get; set; }
-        HashSet<EntityFeatureInterface> Features { get; set; }
+        bool HasLeadGeneration { get; set; }
     }
 }

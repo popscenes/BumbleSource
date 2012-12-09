@@ -448,12 +448,12 @@ namespace PostaFlya.Specification.Fliers
 
         }
 
-        [Then(@"the FLIER will contain a FEATURE for (.*) in a (.*) state with a cost of (.*)")]
+        [Then(@"the FLIER will contain a FEATURE for (.*) in a (.*) state with a cost of (.*) credits")]
         public void ThenTheFLIERWillContainAFEATUREForTearOffInAEnabledState(string featureType, string enabled, string cost)
         {
             var featureEnum = (FeatureType)Enum.Parse(typeof(FeatureType), featureType); 
             var isEnabled = (enabled == "enabled");
-            var creditCost = Double.Parse(cost);
+            var creditCost = Int32.Parse(cost);
             
             var flierid = ScenarioContext.Current["createdflyaid"] as string;
 

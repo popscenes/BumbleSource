@@ -295,6 +295,15 @@ namespace PostaFlya.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to PostLocationRadius.
+        /// </summary>
+        public static string FlierCreateModel_PostRadius {
+            get {
+                return ResourceManager.GetString("FlierCreateModel_PostRadius", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to FlierDescription.
         /// </summary>
         public static string FlierDescription {

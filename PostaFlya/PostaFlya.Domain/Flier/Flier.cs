@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using PostaFlya.Domain.Behaviour;
-using Website.Domain.Browser;
 using Website.Domain.Claims;
 using Website.Domain.Contact;
+using Website.Domain.Payment;
 using Website.Infrastructure.Domain;
 using Website.Domain.Location;
 using Website.Domain.Tag;
@@ -26,7 +26,7 @@ namespace PostaFlya.Domain.Flier
             ImageList = new List<FlierImage>();
             CreateDate = DateTime.UtcNow;
             Boards = new HashSet<string>();
-            Features = new HashSet<EntityFeatureInterface>();
+            Features = new HashSet<EntityFeatureChargeDecorator>();
         }
 
         public Flier(Location location)
@@ -66,26 +66,26 @@ namespace PostaFlya.Domain.Flier
         
         public Double ClaimCost(Claim claim)
         {
-
-            var contextType = claim.ClaimContext.Split(new char[] {'|'}, StringSplitOptions.None).First();
-
-            if (contextType == "tearoff")
-            {
-                if (NumberOfClaims > 0)
-                {
-                    return 0.00;
-                }
-                else
-                {
-                    var feature = Features.FirstOrDefault(_ => _.FeatureType == FeatureType.TearOff);
-                    return feature == null ? 0.00 : feature.Cost;
-                }
-            }
-            else
-            {
-                var feature = Features.FirstOrDefault(_ => _.FeatureType == FeatureType.UserContact);
-                return feature == null ? 0.00 : feature.Cost;
-            }
+            return 0;
+//            var contextType = claim.ClaimContext.Split(new char[] {'|'}, StringSplitOptions.None).First();
+//
+//            if (contextType == "tearoff")
+//            {
+//                if (NumberOfClaims > 0)
+//                {
+//                    return 0.00;
+//                }
+//                else
+//                {
+//                    var feature = Features.FirstOrDefault(_ => _.FeatureType == FeatureType.PostAreaCharge);
+//                    return feature == null ? 0.00 : feature.Cost;
+//                }
+//            }
+//            else
+//            {
+//                var feature = Features.FirstOrDefault(_ => _.FeatureType == FeatureType.UserContact);
+//                return feature == null ? 0.00 : feature.Cost;
+//            }
 
         }
 
@@ -93,36 +93,7 @@ namespace PostaFlya.Domain.Flier
         public ContactDetails ContactDetails { get; set; }
         public bool UseBrowserContactDetails { get; set; }
         public HashSet<string> Boards { get; set; }
-        public HashSet<EntityFeatureInterface> Features { get; set; }
-    }
-
-    public enum FeatureType
-    {
-        TearOff,
-        UserContact
-    }
-
-    public interface EntityFeatureInterface
-    {
-        double Cost { get; set; }
-        String BrowserId { get; set; }
-        FeatureType FeatureType { get; set; }
-        bool IsEnabled(GenericQueryServiceInterface browserQueryService);
-    }
-
-    public class SimpleEntityFeature : EntityFeatureInterface
-    {
-        public double Cost { get; set; }
-
-        public FeatureType FeatureType { get; set; }
-
-        public bool IsEnabled(GenericQueryServiceInterface browserQueryService)
-        {
-            var browser = browserQueryService.FindById<Browser>(BrowserId);
-            return (browser.AccountCredit >= Cost);
-        }
-
-
-        public string BrowserId { get; set; }
+        public HashSet<EntityFeatureChargeDecorator> Features { get; set; }
+        public bool HasLeadGeneration { get; set; }
     }
 }

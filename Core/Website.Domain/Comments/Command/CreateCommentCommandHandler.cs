@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Website.Domain.Comments.Event;
+using Website.Domain.Service;
 using Website.Infrastructure.Command;
 using Website.Infrastructure.Domain;
 using Website.Infrastructure.Query;
@@ -15,14 +17,17 @@ namespace Website.Domain.Comments.Command
         private readonly UnitOfWorkFactoryInterface _unitOfWorkFactory;
         private readonly GenericRepositoryInterface _genericRepository;
         private readonly GenericQueryServiceInterface _genericQueryService;
+        private readonly DomainEventPublishServiceInterface _domainEventPublishService;
 
         public CreateCommentCommandHandler(UnitOfWorkFactoryInterface unitOfWorkFactory
             , GenericRepositoryInterface genericRepository
-            , GenericQueryServiceInterface genericQueryService)
+            , GenericQueryServiceInterface genericQueryService
+            , DomainEventPublishServiceInterface domainEventPublishService)
         {
             _unitOfWorkFactory = unitOfWorkFactory;
             _genericRepository = genericRepository;
             _genericQueryService = genericQueryService;
+            _domainEventPublishService = domainEventPublishService;
         }
 
         public object Handle(CreateCommentCommand command)
@@ -42,7 +47,7 @@ namespace Website.Domain.Comments.Command
                 CommentContent = command.Comment,
                 BrowserId = command.BrowserId,
                 AggregateId = command.CommentEntity.Id,
-                
+                AggregateTypeTag = command.CommentEntity.GetType().Name 
             };
             comment.SetId();
 
@@ -69,13 +74,15 @@ namespace Website.Domain.Comments.Command
                     });
             }
 
-            if(uow.Successful)
-                return new MsgResponse("Comment Create", false)
-                    .AddEntityId(comment.AggregateId)
-                    .AddCommandId(command);
+            if(!uow.Successful)
+                return new MsgResponse("Comment Failed", true)
+                   .AddCommandId(command); 
 
-            return new MsgResponse("Comment Failed", true)
-                    .AddCommandId(command); 
+            _domainEventPublishService.Publish(new CommentEvent(){NewState = comment});
+
+            return new MsgResponse("Comment Create", false)
+                .AddEntityId(comment.AggregateId)
+                .AddCommandId(command);
 
         }
     }
