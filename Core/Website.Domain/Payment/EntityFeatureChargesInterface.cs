@@ -2,7 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Website.Domain.Browser;
+using Website.Infrastructure.Command;
 using Website.Infrastructure.Domain;
+using Website.Infrastructure.Query;
 
 namespace Website.Domain.Payment
 {
@@ -28,6 +30,44 @@ namespace Website.Domain.Payment
                 aggregateMemberEntity.Features.Add(charge);
             }
         }
+
+        public static void EnableOrDisablePaidFeaturesBasedOnState<EntityType>(this EntityType entity)
+            where EntityType : EntityInterface, EntityFeatureChargesInterface
+        {
+            foreach (var chargeFeature in entity.Features)
+            {
+                chargeFeature.EnableOrDisableFeaturesBasedOnState(entity);
+            }
+        }
+
+        public static void ChargeForState<EntityType>(this EntityType entity, GenericRepositoryInterface repository, GenericQueryServiceInterface queryService)
+            where EntityType : class, EntityInterface, EntityFeatureChargesInterface
+        {
+            foreach (var chargeFeature in entity.Features)
+            {
+                chargeFeature.ChargeForState(entity, repository, queryService);
+            }
+        }
+
+        public static void MergeUpdateFeatureCharges<EntityType>(this EntityType target, HashSet<EntityFeatureCharge> source)
+            where EntityType : class, EntityInterface, EntityFeatureChargesInterface
+        {
+
+            foreach (var chargeFeature in 
+                source.Where(chargeFeature => !target.Features.Contains(chargeFeature)))
+            {
+                target.Features.Add(chargeFeature);
+            }
+
+            target.Features.RemoveWhere(f => !source.Contains(f));
+
+            foreach (var chargeFeature in target.Features)
+            {
+                var src = source.FirstOrDefault(f => f.Equals(chargeFeature));          
+                if(src != null)
+                    chargeFeature.UpdateCost(src);
+            }
+        }
     }
 
     public interface EntityFeatureChargesInterface
@@ -41,16 +81,33 @@ namespace Website.Domain.Payment
         public string Description { get; set; }
         public string CurrentStateMessage { get; set; }
         public int Cost { get; set; }
-        public bool IsPaid { get; set; }
+        public int Paid { get; set; }
+        public bool IsPaid {
+            get { return OutstandingBalance <= 0; }
+        }
+        public int OutstandingBalance
+        {
+            get { return Cost - Paid; }
+        }
         //not sure if we need extra storage here like a hash table to pass to the behaviour
 
-        public void EnableOrDisableFeaturesBasedOnAvailableCredit(
-            EntityInterface entity, ChargableEntityInterface chargableEntity)
+        public void UpdateCost(EntityFeatureCharge source)
         {
-            Behvaiour.EnableOrDisableFeaturesBasedOnAvailableCredit(this, entity, chargableEntity);
+            Cost = source.Cost;
         }
 
-        public EntityFeatureCharge GetChargeForAggregateMemberEntity(EntityInterface entity)
+        public void EnableOrDisableFeaturesBasedOnState<EntityType>(EntityType entity) where EntityType : EntityInterface
+        {
+            Behvaiour.EnableOrDisableFeaturesBasedOnState(this, entity);
+        }
+
+        public void ChargeForState<EntityType>(EntityType entity, GenericRepositoryInterface repository, GenericQueryServiceInterface queryService) where EntityType : EntityInterface
+        {
+            Behvaiour.ChargeForState<EntityType>(this, entity, repository, queryService);
+            EnableOrDisableFeaturesBasedOnState(entity);
+        }
+
+        public EntityFeatureCharge GetChargeForAggregateMemberEntity<MemberEntityType>(MemberEntityType entity) where MemberEntityType : EntityInterface
         {
             return Behvaiour.GetChargeForAggregateMemberEntity(this, entity);
         }
@@ -92,7 +149,8 @@ namespace Website.Domain.Payment
 
     public interface EntityFeatureChargeBehaviourInterface
     {
-        void EnableOrDisableFeaturesBasedOnAvailableCredit(EntityFeatureCharge entityFeatureCharge, EntityInterface entity, ChargableEntityInterface chargableEntity);
-        EntityFeatureCharge GetChargeForAggregateMemberEntity(EntityFeatureCharge entityFeatureCharge, EntityInterface entity);
+        void EnableOrDisableFeaturesBasedOnState<EntityType>(EntityFeatureCharge entityFeatureCharge, EntityType entity) where EntityType : EntityInterface;
+        EntityFeatureCharge GetChargeForAggregateMemberEntity<MemberEntityType>(EntityFeatureCharge entityFeatureCharge, MemberEntityType entity) where MemberEntityType : EntityInterface;
+        void ChargeForState<EntityType>(EntityFeatureCharge entityFeatureCharge, EntityType entity, GenericRepositoryInterface repository, GenericQueryServiceInterface queryService) where EntityType : EntityInterface;
     }
 }

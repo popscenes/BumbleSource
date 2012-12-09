@@ -26,7 +26,7 @@ namespace PostaFlya.Domain.Flier
             ImageList = new List<FlierImage>();
             CreateDate = DateTime.UtcNow;
             Boards = new HashSet<string>();
-            Features = new HashSet<EntityFeatureChargeDecorator>();
+            Features = new HashSet<EntityFeatureCharge>();
         }
 
         public Flier(Location location)
@@ -93,7 +93,8 @@ namespace PostaFlya.Domain.Flier
         public ContactDetails ContactDetails { get; set; }
         public bool UseBrowserContactDetails { get; set; }
         public HashSet<string> Boards { get; set; }
-        public HashSet<EntityFeatureChargeDecorator> Features { get; set; }
+        public HashSet<EntityFeatureCharge> Features { get; set; }
         public bool HasLeadGeneration { get; set; }
+        public int LocationRadius { get; set; }
     }
 }

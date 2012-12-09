@@ -449,10 +449,8 @@ namespace PostaFlya.Specification.Fliers
         }
 
         [Then(@"the FLIER will contain a FEATURE for (.*) in a (.*) state with a cost of (.*) credits")]
-        public void ThenTheFLIERWillContainAFEATUREForTearOffInAEnabledState(string featureType, string enabled, string cost)
+        public void ThenTheFLIERWillContainAFEATUREForTearOffInAEnabledState(string featureDescription, string statemsg, string cost)
         {
-            var featureEnum = (FeatureType)Enum.Parse(typeof(FeatureType), featureType); 
-            var isEnabled = (enabled == "enabled");
             var creditCost = Int32.Parse(cost);
             
             var flierid = ScenarioContext.Current["createdflyaid"] as string;
@@ -463,8 +461,8 @@ namespace PostaFlya.Specification.Fliers
             Assert.AreEqual(flier.Features.Count, 1);
             var flierFeatures = flier.Features.First();
 
-            Assert.AreEqual(flierFeatures.FeatureType, featureEnum);
-            Assert.AreEqual(flierFeatures.IsEnabled(SpecUtil.CurrIocKernel.Get<GenericQueryServiceInterface>()), isEnabled);
+            Assert.AreEqual(flierFeatures.Description, featureDescription);
+            Assert.AreEqual(flierFeatures.CurrentStateMessage, statemsg);
             Assert.AreEqual(flierFeatures.Cost, creditCost);
         }
 
@@ -520,9 +518,8 @@ namespace PostaFlya.Specification.Fliers
         }
 
         [Then(@"the FLIER will not contain a FEATURE for (.*)")]
-        public void ThenTheFLIERWillNotContainAFEATUREForTearOff(string featureType)
+        public void ThenTheFLIERWillNotContainAFEATUREForTearOff(string featureDesc)
         {
-            var featureEnum = (FeatureType)Enum.Parse(typeof(FeatureType), featureType); 
  
 
             var flierid = ScenarioContext.Current["createdflyaid"] as string;
@@ -530,7 +527,7 @@ namespace PostaFlya.Specification.Fliers
             var flierQueryService = SpecUtil.CurrIocKernel.Get<GenericQueryServiceInterface>();
             var flier = flierQueryService.FindById<Flier>(flierid);
 
-            var feature = flier.Features.FirstOrDefault(_ => _.FeatureType == featureEnum);
+            var feature = flier.Features.FirstOrDefault(_ => _.Description == featureDesc);
 
             Assert.IsNull(feature);
         }

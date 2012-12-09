@@ -21,6 +21,10 @@ namespace PostaFlya.Domain.Flier
     }
     public static class FlierInterfaceExtensions
     {
+        public static readonly string ClaimContextSendUserDetails = "senduserdetails";
+        public static readonly string ClaimContextSendUserDetailsEnabled = "senduserdetails[paid]";
+        public static readonly string ClaimContextSendUserDetailsDisabled = "senduserdetails[notpaid]";
+
         public static void CopyFieldsFrom(this FlierInterface target, FlierInterface source)
         {
             EntityInterfaceExtensions.CopyFieldsFrom(target, source);
@@ -49,6 +53,7 @@ namespace PostaFlya.Domain.Flier
             target.UseBrowserContactDetails = source.UseBrowserContactDetails;
             target.Boards = source.Boards != null ? new HashSet<string>(source.Boards) : null;
             target.HasLeadGeneration = source.HasLeadGeneration;
+            target.LocationRadius = source.LocationRadius;
         }        
 
         public static bool HasContactDetails(this FlierInterface flier)
@@ -94,5 +99,6 @@ namespace PostaFlya.Domain.Flier
         bool UseBrowserContactDetails { get; set; }
         HashSet<string> Boards { get; set; }
         bool HasLeadGeneration { get; set; }
+        int LocationRadius { get; set; }
     }
 }

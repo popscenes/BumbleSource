@@ -52,9 +52,14 @@ namespace Website.Domain.Claims.Command
                 ClaimMessage = command.Message
             };
 
+            var entityFeaturesCharges = command.ClaimEntity as EntityFeatureChargesInterface;
+            if (entityFeaturesCharges != null)
+                entityFeaturesCharges.MergeChargesForAggregateMemberEntity(claim);
+
             var uow = _unitOfWorkFactory.GetUnitOfWork(new List<object>() { _genericRepository });
             using (uow)
             {
+                claim.ChargeForState(_genericRepository, _genericQueryService);
                 _genericRepository.Store(claim); 
             }
 
@@ -62,6 +67,8 @@ namespace Website.Domain.Claims.Command
                 return new MsgResponse("Claim Entity failed", true)
                 .AddCommandId(command);
 
+
+            _domainEventPublishService.Publish(new ClaimEvent() { NewState = claim });
             
             
             uow = _unitOfWorkFactory.GetUnitOfWork(new List<object>() { _genericRepository });
@@ -83,17 +90,14 @@ namespace Website.Domain.Claims.Command
                 return new MsgResponse("Claim Entity failed", true)
                         .AddCommandId(command);
 
-            if (command.OwnerEntity is ChargableEntityInterface)
-            {
-                HandleChargableEntity(command.OwnerEntity as ChargableEntityInterface, uow, command.ClaimEntity as ClaimableInterface, claim);
-                if (!uow.Successful)
-                {
-                    return new MsgResponse("Charging Claim Entity failed", true).AddCommandId(command);
-                }
-            }
-
-         
-            _domainEventPublishService.Publish(new ClaimEvent(){NewState = claim});
+//            if (command.OwnerEntity is ChargableEntityInterface)
+//            {
+//                HandleChargableEntity(command.OwnerEntity as ChargableEntityInterface, uow, command.ClaimEntity as ClaimableInterface, claim);
+//                if (!uow.Successful)
+//                {
+//                    return new MsgResponse("Charging Claim Entity failed", true).AddCommandId(command);
+//                }
+//            }
 
             return new MsgResponse("Claim Entity", false)
              .AddCommandId(command)
@@ -101,27 +105,27 @@ namespace Website.Domain.Claims.Command
 
         }
 
-        public UnitOfWorkInterface HandleChargableEntity(ChargableEntityInterface ownerEntity, UnitOfWorkInterface uow, ClaimableInterface claimEnitity, Claim claim)
-        {
-            uow = _unitOfWorkFactory.GetUnitOfWork(new List<object>() { _genericRepository });
-            using (uow)
-            {
-
-                _genericRepository.UpdateEntity(ownerEntity.GetType()
-                , ownerEntity.Id
-                , o =>
-                    {
-                        var chargeable = o as ChargableEntityInterface;
-                        var claimable = claimEnitity as ClaimableInterface;
-
-
-                        if (chargeable != null) chargeable.AccountCredit -= claimable.ClaimCost(claim);
-                    });
-
-            }
-
-            return uow;
-        }
+//        public UnitOfWorkInterface HandleChargableEntity(ChargableEntityInterface ownerEntity, UnitOfWorkInterface uow, ClaimableInterface claimEnitity, Claim claim)
+//        {
+//            uow = _unitOfWorkFactory.GetUnitOfWork(new List<object>() { _genericRepository });
+//            using (uow)
+//            {
+//
+//                _genericRepository.UpdateEntity(ownerEntity.GetType()
+//                , ownerEntity.Id
+//                , o =>
+//                    {
+//                        var chargeable = o as ChargableEntityInterface;
+//                        var claimable = claimEnitity as ClaimableInterface;
+//
+//
+//                        if (chargeable != null) chargeable.AccountCredit -= claimable.ClaimCost(claim);
+//                    });
+//
+//            }
+//
+//            return uow;
+//        }
 
     }
 }

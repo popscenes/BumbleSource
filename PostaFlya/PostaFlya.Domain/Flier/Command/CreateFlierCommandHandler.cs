@@ -4,10 +4,12 @@ using PostaFlya.Domain.Behaviour;
 using PostaFlya.Domain.Boards.Command;
 using PostaFlya.Domain.Boards.Event;
 using PostaFlya.Domain.Flier.Event;
+using PostaFlya.Domain.Flier.Payment;
 using PostaFlya.Domain.Flier.Query;
 using PostaFlya.Domain.Service;
 using Website.Domain.Browser;
 using Website.Domain.Browser.Command;
+using Website.Domain.Payment;
 using Website.Domain.Service;
 using Website.Infrastructure.Command;
 using Website.Infrastructure.Domain;
@@ -48,20 +50,19 @@ namespace PostaFlya.Domain.Flier.Command
                                    ImageList = command.ImageList,
                                    ExternalSource = command.ExternalSource,
                                    ExternalId = command.ExternalId,
-                                   UseBrowserContactDetails = command.AttachTearOffs,//todo add ability to specify other contact details                                 
+                                   UseBrowserContactDetails = command.AttachTearOffs,//todo add ability to specify other contact details
+                                   LocationRadius = command.ExtendPostRadius,
+                                   Status = FlierStatus.Pending
                                };
 
-            if(newFlier.FlierBehaviour == FlierBehaviour.Default)
-                newFlier.Status = FlierStatus.Active;
-
-
             newFlier.FriendlyId = _flierQueryService.FindFreeFriendlyIdForFlier(newFlier);
-            newFlier.Features = (CreateFlierCommand.GetPaymentFeatures(command, command.BrowserId));
+            newFlier.Features = GetPaymentFeatures(newFlier);
 
             List<BoardFlierModifiedEvent> boardFliers = null;
             UnitOfWorkInterface unitOfWork;
             using (unitOfWork = _unitOfWorkFactory.GetUnitOfWork(new[] { _repository }))
             {      
+                newFlier.ChargeForState(_repository, _flierQueryService);
                 _repository.Store(newFlier);
                 boardFliers = AddFlierToBoardCommandHandler.UpdateAddFlierToBoards(command.BoardSet, newFlier, _flierQueryService,
                                                                      _repository);
@@ -84,6 +85,18 @@ namespace PostaFlya.Domain.Flier.Command
                 .AddCommandId(command);
         }
 
+        public static HashSet<EntityFeatureCharge>  GetPaymentFeatures(FlierInterface newFlier)
+        {
+            var  features = new HashSet<EntityFeatureCharge>
+                {
+                    PostRadiusFeatureChargeBehaviour.GetPostRadiusFeatureCharge(newFlier.LocationRadius)
+                };
+
+            if (newFlier.HasLeadGeneration)
+                features.Add(LeadGenerationFeatureChargeBehaviour.GetLeadGenerationFeatureCharge());
+            
+            return features;
+        }
         
     }
 }

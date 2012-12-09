@@ -14,6 +14,6 @@ namespace Website.Domain.Claims
         public string ClaimContext { get; set; }
         public DateTime ClaimTime { get; set; }
         public String ClaimMessage { get; set; }
-        public HashSet<EntityFeatureChargeDecorator> Features { get; set; }
+        public HashSet<EntityFeatureCharge> Features { get; set; }
     }
 }

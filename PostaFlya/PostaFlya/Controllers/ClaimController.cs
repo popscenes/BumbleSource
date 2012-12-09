@@ -55,7 +55,7 @@ namespace PostaFlya.Controllers
 
             if (claim.SendClaimerContactDetails)
             {
-                context = "senduserdetails";
+                context = FlierInterfaceExtensions.ClaimContextSendUserDetails;
             }
 
             var claimCommand = new ClaimCommand()

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Diagnostics;
 using PostaFlya.Domain.Boards.Command;
 using PostaFlya.Domain.Boards.Event;
 using PostaFlya.Domain.Flier.Event;
@@ -54,7 +55,10 @@ namespace PostaFlya.Domain.Flier.Command
                             flier.Image = command.Image;
                             flier.EffectiveDate = command.EffectiveDate;
                             flier.ImageList = command.ImageList;
-                            flier.Features = new HashSet<EntityFeatureChargeDecorator>(features);
+
+                            flier.MergeUpdateFeatureCharges(CreateFlierCommandHandler.GetPaymentFeatures(flier));
+  
+                            flier.Features = new HashSet<EntityFeatureCharge>(features);
                         });
                 
                 //add all existing board to the operation, as if a flier is modified it needs to be re-approved
@@ -68,6 +72,16 @@ namespace PostaFlya.Domain.Flier.Command
             if (!unitOfWork.Successful)
                 return new MsgResponse("Flier Edit Failed", true)
                     .AddCommandId(command);
+
+            using (unitOfWork = _unitOfWorkFactory.GetUnitOfWork(new[] {_repository}))
+            {
+                var flierCurrent = _queryService.FindById<Flier>(command.Id);
+                flierCurrent.ChargeForState(_repository, _queryService);
+            }
+
+            if(!unitOfWork.Successful)
+                Trace.TraceError("Error charging for flier features");
+            
 
             _domainEventPublishService.Publish(
                 new FlierModifiedEvent()
