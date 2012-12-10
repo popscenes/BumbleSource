@@ -73,6 +73,7 @@ namespace Website.Domain.Payment
         HashSet<EntityFeatureCharge> Features { get; set; }
     }
 
+    [Serializable]
     public class EntityFeatureCharge
     {
         public string BehaviourTypeString { get; set; }

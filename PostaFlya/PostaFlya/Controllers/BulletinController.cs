@@ -63,6 +63,7 @@ namespace PostaFlya.Controllers
             var model = BulletinApiController.GetDetail(id, _queryService, _behaviourQueryService, _blobStorage,
                                             _viewModelFactory);
 
+
             ViewBag.FlierDetail = model;
             ViewBag.Comments = CommentController.GetComments(_queryService, id)
                 .Select(c => c.FillBrowserModel(_queryService, _blobStorage)).ToList();

@@ -13,7 +13,7 @@ namespace Website.Azure.Common.Tests.Sql
         [Test]
         public void SqlInitializerCreatesDatabaseIfNeeded()
         {
-            const string databasename = "SqlInitializerTests";
+            const string databasename = "SqlInitializerTestsCreateDelete";
             using (var initializer = new SqlInitializer())
             {
                 initializer.CreateDb(databasename);
@@ -63,8 +63,6 @@ namespace Website.Azure.Common.Tests.Sql
 
                     Assert.IsTrue(initializer.DeleteTable(typeof(SqlInitializerTestTable).Name, connection));
                 }
-
-                initializer.DeleteDb(databasename);
             }
         }
 
@@ -88,7 +86,6 @@ namespace Website.Azure.Common.Tests.Sql
                     SqlInitializer.DeleteFederationFor(tableTyp, connection);
                 }
 
-                initializer.DeleteDb(databasename);
             }
         }
 
@@ -110,7 +107,6 @@ namespace Website.Azure.Common.Tests.Sql
                     SqlInitializer.DeleteFederationFor(tableTypTwo, connection);
                 }
 
-                initializer.DeleteDb(databasename);
             }
         }
 
@@ -131,7 +127,6 @@ namespace Website.Azure.Common.Tests.Sql
                     Assert.IsTrue(initializer.DeleteTable("BlahTable", connection));
                 }
 
-                initializer.DeleteDb(databasename);
             }
         }
 
@@ -176,7 +171,6 @@ namespace Website.Azure.Common.Tests.Sql
                     Assert.IsTrue(initializer.DeleteTable(typeof(SqlInitializerTestIndexTable).Name, connection));
                 }
 
-                initializer.DeleteDb(databasename);
             }
         }
 
@@ -199,7 +193,7 @@ namespace Website.Azure.Common.Tests.Sql
                     SqlInitializer.DeleteFederationFor(typeof(SqlInitializerTestFedRefernceTableWithIndex), connection);
                 }
 
-                initializer.DeleteDb(databasename);
+
             }
         }
     }

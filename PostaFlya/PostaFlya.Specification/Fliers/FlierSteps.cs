@@ -510,6 +510,16 @@ namespace PostaFlya.Specification.Fliers
             ThenTheNewFlierWillBeCreated("Default");
         }
 
+        [Given(@"I have created a FLIER with USER CONTACT")]
+        public void GivenIHaveCreatedAFLIERWithUSERCONTACT()
+        {
+            GivenIOrAnotherBrowserHasNavigatedToTheCreateFlierPage("Default");
+            GivenIOrAnotherBrowserChooseToAllowUserContact();
+            _common.GivenIHaveAccountCredit(1000);
+            WhenISubmitTheRequiredDataForAFlier();
+            ThenTheNewFlierWillBeCreated("Default");
+        }
+
         private void EditFlierWithFeatures(bool AttachTearOffs, bool AllowUserContact)
         {
             var flierEditModel = FlierCreateModelFromFlier();
@@ -552,14 +562,6 @@ namespace PostaFlya.Specification.Fliers
             EditFlierWithFeatures(false, true);
         }
 
-        [Given(@"I have created a FLIER with USER CONTACT")]
-        public void GivenIHaveCreatedAFLIERWithUSERCONTACT()
-        {
-            GivenIOrAnotherBrowserHasNavigatedToTheCreateFlierPage("Default");
-            GivenIOrAnotherBrowserChooseToAllowUserContact();
-            WhenISubmitTheRequiredDataForAFlier();
-            ThenTheNewFlierWillBeCreated("Default");
-        }
 
         [When(@"I navigate to the edit page for that FLIER and remove USER CONTACT to a FLIER")]
         public void WhenINavigateToTheEditPageForThatFLIERAndRemoveUSERCONTACTToAFLIER()
