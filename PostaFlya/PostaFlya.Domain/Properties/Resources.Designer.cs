@@ -61,11 +61,48 @@ namespace PostaFlya.Domain.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to It will cost 500 credits to retrieve contact details for people that wish for you to contact them.
+        /// </summary>
+        internal static string LeadGenerationFeatureChargeBehaviour_CurrentStateMessage_Flier_LeadGenerationStatus {
+            get {
+                return ResourceManager.GetString("LeadGenerationFeatureChargeBehaviour_CurrentStateMessage_Flier_LeadGenerationStat" +
+                        "us", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to People can send their contact details to you.
+        /// </summary>
+        internal static string LeadGenerationFeatureChargeBehaviour_Description {
+            get {
+                return ResourceManager.GetString("LeadGenerationFeatureChargeBehaviour_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Lead Contact Information is unavailable until paid for.
         /// </summary>
         internal static string LeadGenerationFeatureChargeBehaviour_LeadContactUnavailableUntilPaidFor {
             get {
                 return ResourceManager.GetString("LeadGenerationFeatureChargeBehaviour_LeadContactUnavailableUntilPaidFor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Your flier won&apos;t appear until it is paid for.
+        /// </summary>
+        internal static string PostRadiusFeatureChargeBehaviour_CurrentStateMessage_Unpaid {
+            get {
+                return ResourceManager.GetString("PostRadiusFeatureChargeBehaviour_CurrentStateMessage_Unpaid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Posting a flier to an area.
+        /// </summary>
+        internal static string PostRadiusFeatureChargeBehaviour_GetPostRadiusFeatureCharge_Description {
+            get {
+                return ResourceManager.GetString("PostRadiusFeatureChargeBehaviour_GetPostRadiusFeatureCharge_Description", resourceCulture);
             }
         }
     }

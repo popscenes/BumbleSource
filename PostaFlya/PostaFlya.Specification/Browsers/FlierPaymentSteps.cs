@@ -24,7 +24,7 @@ namespace PostaFlya.Specification.Fliers
         [Given(@"I have a FLIER that requires payment")]
         public void GivenIHaveAFLIERThatRequiresPayment()
         {
-            _flier.GivenABrowserHasNavigatedToTheCreateFlierPage("Default");
+            _flier.GivenIOrAnotherBrowserHasNavigatedToTheCreateFlierPage("Default");
             //_flier.AndIChooseToAttachMyDefaultContactDetails();
             _flier.WhenISubmitTheRequiredDataForAFlier();
         }

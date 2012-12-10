@@ -30,7 +30,7 @@ namespace PostaFlya.Specification.Fliers
         private readonly CommonSteps _common = new CommonSteps();
 
         [Given(@"i have navigated to the CREATE PAGE for a FLIER TYPE (.*)")]
-        public void GivenABrowserHasNavigatedToTheCreateFlierPage(string flierBehaviour)
+        public void GivenIOrAnotherBrowserHasNavigatedToTheCreateFlierPage(string flierBehaviour)
         {
             var flierController = SpecUtil.GetController<FlierController>();
             var type = (FlierBehaviour)Enum.Parse(typeof(FlierBehaviour), flierBehaviour);
@@ -61,10 +61,10 @@ namespace PostaFlya.Specification.Fliers
         public void WhenISubmitTheRequiredDataForAFlier()
         {
             var browserInformation = SpecUtil.GetCurrBrowser();
-            WhenABrowserSubmitsTheRequiredDataForAFlier(browserInformation.Browser.Id);
+            WhenTheBrowserSubmitsTheRequiredDataForAFlier(browserInformation.Browser.Id);
         }
 
-        public void WhenABrowserSubmitsTheRequiredDataForAFlier(string browserId)
+        public void WhenTheBrowserSubmitsTheRequiredDataForAFlier(string browserId)
         {
             var myFliersApiController = SpecUtil.GetApiController<MyFliersController>();
             var createModel = ScenarioContext.Current["createflya"] as FlierCreateModel;
@@ -121,7 +121,7 @@ namespace PostaFlya.Specification.Fliers
         //[Given(@"I have created a FLIER of BEHAVIOUR (.*) with Contact Details")]
         //public void GivenIHaveCreatedAflierofBehaviourWithContactDetails(string flierbehaviour)
         //{
-         //   GivenABrowserHasNavigatedToTheCreateFlierPage(flierbehaviour);
+         //   GivenIOrAnotherBrowserHasNavigatedToTheCreateFlierPage(flierbehaviour);
          //   AndIChooseToAttachMyDefaultContactDetails();
          //   WhenISubmitTheRequiredDataForAFlier();
          //   ThenTheNewFlierWillBeCreated(flierbehaviour);
@@ -130,7 +130,7 @@ namespace PostaFlya.Specification.Fliers
         [Given(@"I have created a FLIER of BEHAVIOUR (.*)")]
         public void GivenIHaveCreatedAflierofBehaviour(string flierbehaviour)
         {           
-            GivenABrowserHasNavigatedToTheCreateFlierPage(flierbehaviour);
+            GivenIOrAnotherBrowserHasNavigatedToTheCreateFlierPage(flierbehaviour);
             WhenISubmitTheRequiredDataForAFlier();
             ThenTheNewFlierWillBeCreated(flierbehaviour);
         }
@@ -139,8 +139,8 @@ namespace PostaFlya.Specification.Fliers
         public void GivenABrowserHasCreatedAFlierofBehaviour()
         {
             var browserId = _common.GivenThereIsAnExistingBrowserWithParticipantRole();
-            GivenABrowserHasNavigatedToTheCreateFlierPage(FlierBehaviour.Default.ToString());
-            WhenABrowserSubmitsTheRequiredDataForAFlier(browserId);
+            GivenIOrAnotherBrowserHasNavigatedToTheCreateFlierPage(FlierBehaviour.Default.ToString());
+            WhenTheBrowserSubmitsTheRequiredDataForAFlier(browserId);
             ThenTheNewFlierWillBeCreated(FlierBehaviour.Default.ToString());
         }
 
@@ -148,8 +148,8 @@ namespace PostaFlya.Specification.Fliers
         public void GivenABrowserHasCreatedAFlierofBehaviour(string flierbehaviour)
         {
             var browserId = _common.GivenThereIsAnExistingBrowserWithParticipantRole();
-            GivenABrowserHasNavigatedToTheCreateFlierPage(flierbehaviour);
-            WhenABrowserSubmitsTheRequiredDataForAFlier(browserId);
+            GivenIOrAnotherBrowserHasNavigatedToTheCreateFlierPage(flierbehaviour);
+            WhenTheBrowserSubmitsTheRequiredDataForAFlier(browserId);
             ThenTheNewFlierWillBeCreated(flierbehaviour);
         }
 
@@ -160,6 +160,7 @@ namespace PostaFlya.Specification.Fliers
             flierEditModel.Description += "UPDATED";
             flierEditModel.Title += "UPDATED";
 
+            ScenarioContext.Current["flierEditModel"] = flierEditModel;
 
             var myFliersApiController = SpecUtil.GetController<MyFliersController>();
             var browserInformation = SpecUtil.GetCurrBrowser();
@@ -179,8 +180,13 @@ namespace PostaFlya.Specification.Fliers
 
             var flierUpdated = flierQueryService.FindById<Flier>(flierUpdatedId);
             Assert.IsNotNull(flierUpdated, "Flier Not Updated");
-            StringAssert.Contains("UPDATED", flierUpdated.Description);
-            StringAssert.Contains("UPDATED", flierUpdated.Title);
+            var editMod = ScenarioContext.Current["flierEditModel"] as FlierCreateModel;
+
+            Assert.AreEqual(editMod.Description, flierUpdated.Description);
+            Assert.AreEqual(editMod.Title, flierUpdated.Title);
+            Assert.AreEqual(editMod.AttachTearOffs, flierUpdated.HasContactDetails());
+            Assert.AreEqual(editMod.AllowUserContact, flierUpdated.HasLeadGeneration);
+
             ScenarioContext.Current["flier"] = flierUpdated;
         }
 
@@ -276,7 +282,7 @@ namespace PostaFlya.Specification.Fliers
             flierEditModel.TagsString = flier.Tags.ToString();
             flierEditModel.Location = flier.Location.ToViewModel();
             flierEditModel.FlierImageId = flier.Image.Value.ToString();
-            //flierEditModel.AttachContactDetails = flier.UseBrowserContactDetails;
+            flierEditModel.AttachTearOffs = flier.HasContactDetails();
             return flierEditModel;
             
         }
@@ -427,30 +433,16 @@ namespace PostaFlya.Specification.Fliers
         }
 
         [Given(@"I choose to attach Tear Offs")]
-        public void GivenIChooseToAttachTearOffs()
+        public void GivenIOrAnotherBrowserChooseToAttachTearOffs()
         {
             var createFlierModel = ScenarioContext.Current["createflya"] as FlierCreateModel;
             createFlierModel.AttachTearOffs = true;
         }
 
-
-        [Given(@"I dont have sufficient Account Credit")]
-        public void GivenIDontHaveSufficientAccountCredit()
+        [Then(@"the FLIER will contain a FEATURE described as (.*) with a cost of (.*) credits")]
+        public void ThenTheFLIERWillContainAFEATUREForTearOffInAEnabledState(string featureDescription, string cost)
         {
-            var browserInformation = SpecUtil.GetCurrBrowser();
-            var browserReo = SpecUtil.CurrIocKernel.Get<GenericRepositoryInterface>();
-
-            browserReo.UpdateEntity<Browser>(browserInformation.Browser.Id,
-                    b =>
-                    {
-                        b.AccountCredit = 0.00;
-                    });
-
-        }
-
-        [Then(@"the FLIER will contain a FEATURE for (.*) in a (.*) state with a cost of (.*) credits")]
-        public void ThenTheFLIERWillContainAFEATUREForTearOffInAEnabledState(string featureDescription, string statemsg, string cost)
-        {
+            featureDescription = featureDescription.Trim('\"');
             var creditCost = Int32.Parse(cost);
             
             var flierid = ScenarioContext.Current["createdflyaid"] as string;
@@ -458,16 +450,14 @@ namespace PostaFlya.Specification.Fliers
             var flierQueryService = SpecUtil.CurrIocKernel.Get<GenericQueryServiceInterface>();
             var flier = flierQueryService.FindById<Flier>(flierid);
 
-            Assert.AreEqual(flier.Features.Count, 1);
-            var flierFeatures = flier.Features.First();
-
-            Assert.AreEqual(flierFeatures.Description, featureDescription);
-            Assert.AreEqual(flierFeatures.CurrentStateMessage, statemsg);
-            Assert.AreEqual(flierFeatures.Cost, creditCost);
+            Assert.AreEqual(flier.Features.Count, 2);
+            var flierFeature = flier.Features.FirstOrDefault(f => f.Description.Equals(featureDescription));
+            Assert.NotNull(flierFeature, "no feature found with description " + featureDescription);
+            Assert.AreEqual(flierFeature.Cost, creditCost);
         }
 
         [Given(@"I choose to allow User Contact")]
-        public void GivenIChooseToAllowUserContact()
+        public void GivenIOrAnotherBrowserChooseToAllowUserContact()
         {
             var createFlierModel = ScenarioContext.Current["createflya"] as FlierCreateModel;
             createFlierModel.AllowUserContact = true;
@@ -482,18 +472,41 @@ namespace PostaFlya.Specification.Fliers
         [Given(@"I have created a FLIER with TEAR OFF")]
         public void GivenIHaveCreatedAFLIERWithTEAROFF()
         {
-            GivenABrowserHasNavigatedToTheCreateFlierPage("Default");
-            GivenIChooseToAttachTearOffs();
+            GivenIOrAnotherBrowserHasNavigatedToTheCreateFlierPage("Default");
+            GivenIOrAnotherBrowserChooseToAttachTearOffs();
+            _common.GivenIHaveAccountCredit(1000);
             WhenISubmitTheRequiredDataForAFlier();
+            ThenTheNewFlierWillBeCreated("Default");
+        }
+
+        public void GivenAnotherBrowserHasCreatedAFLIERWithTEAROFF()
+        {
+            var browserId = _common.GivenThereIsAnExistingBrowserWithParticipantRole();
+            GivenIOrAnotherBrowserHasNavigatedToTheCreateFlierPage("Default");
+            GivenIOrAnotherBrowserChooseToAttachTearOffs();
+            _common.GivenABrowserHasAccountCredit(browserId, 1000);
+            WhenTheBrowserSubmitsTheRequiredDataForAFlier(browserId);
             ThenTheNewFlierWillBeCreated("Default");
         }
 
         public void GivenIHaveCreatedAFLIERWithTEAROFFAndUserContact()
         {
-            GivenABrowserHasNavigatedToTheCreateFlierPage("Default");
-            GivenIChooseToAttachTearOffs();
-            GivenIChooseToAllowUserContact();
+            GivenIOrAnotherBrowserHasNavigatedToTheCreateFlierPage("Default");
+            GivenIOrAnotherBrowserChooseToAttachTearOffs();
+            GivenIOrAnotherBrowserChooseToAllowUserContact();
+            _common.GivenIHaveAccountCredit(1000);
             WhenISubmitTheRequiredDataForAFlier();
+            ThenTheNewFlierWillBeCreated("Default");
+        }
+
+        public void GivenAnotherBrowserHasCreatedAFLIERWithTEAROFFAndUserContact()
+        {
+            var browserId = _common.GivenThereIsAnExistingBrowserWithParticipantRole();
+            GivenIOrAnotherBrowserHasNavigatedToTheCreateFlierPage("Default");
+            GivenIOrAnotherBrowserChooseToAttachTearOffs();
+            GivenIOrAnotherBrowserChooseToAllowUserContact();
+            _common.GivenABrowserHasAccountCredit(browserId, 1000);
+            WhenTheBrowserSubmitsTheRequiredDataForAFlier(browserId);
             ThenTheNewFlierWillBeCreated("Default");
         }
 
@@ -509,6 +522,7 @@ namespace PostaFlya.Specification.Fliers
             var myFliersApiController = SpecUtil.GetController<MyFliersController>();
             var browserInformation = SpecUtil.GetCurrBrowser();
             myFliersApiController.Put(browserInformation.Browser.Id, flierEditModel);
+            ScenarioContext.Current["flierEditModel"] = flierEditModel;
         }
 
         [When(@"I navigate to the edit page for that FLIER and remove TEAR OFF to a FLIER")]
@@ -517,7 +531,7 @@ namespace PostaFlya.Specification.Fliers
             EditFlierWithFeatures(false, false);
         }
 
-        [Then(@"the FLIER will not contain a FEATURE for (.*)")]
+        [Then(@"the FLIER will not contain a FEATURE described as (.*)")]
         public void ThenTheFLIERWillNotContainAFEATUREForTearOff(string featureDesc)
         {
  
@@ -541,8 +555,8 @@ namespace PostaFlya.Specification.Fliers
         [Given(@"I have created a FLIER with USER CONTACT")]
         public void GivenIHaveCreatedAFLIERWithUSERCONTACT()
         {
-            GivenABrowserHasNavigatedToTheCreateFlierPage("Default");
-            GivenIChooseToAllowUserContact();
+            GivenIOrAnotherBrowserHasNavigatedToTheCreateFlierPage("Default");
+            GivenIOrAnotherBrowserChooseToAllowUserContact();
             WhenISubmitTheRequiredDataForAFlier();
             ThenTheNewFlierWillBeCreated("Default");
         }
@@ -552,6 +566,8 @@ namespace PostaFlya.Specification.Fliers
         {
             EditFlierWithFeatures(false, false);
         }
+
+
 
     }
 

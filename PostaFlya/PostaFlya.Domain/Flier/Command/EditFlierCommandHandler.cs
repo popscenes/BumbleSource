@@ -55,10 +55,12 @@ namespace PostaFlya.Domain.Flier.Command
                             flier.Image = command.Image;
                             flier.EffectiveDate = command.EffectiveDate;
                             flier.ImageList = command.ImageList;
-
-                            flier.MergeUpdateFeatureCharges(CreateFlierCommandHandler.GetPaymentFeatures(flier));
-  
-                            flier.Features = new HashSet<EntityFeatureCharge>(features);
+                            flier.UseBrowserContactDetails = command.AttachTearOffs;//todo add ability to specify other contact details
+                            flier.LocationRadius = command.ExtendPostRadius;
+                            flier.HasLeadGeneration = command.AllowUserContact;
+                            flier.Status = FlierStatus.Pending;
+                            flier.Features = CreateFlierCommandHandler.GetPaymentFeatures(flier);
+                            flier.MergeUpdateFeatureCharges(flierQuery.Features); 
                         });
                 
                 //add all existing board to the operation, as if a flier is modified it needs to be re-approved
@@ -73,10 +75,12 @@ namespace PostaFlya.Domain.Flier.Command
                 return new MsgResponse("Flier Edit Failed", true)
                     .AddCommandId(command);
 
+            //charge for any new state
             using (unitOfWork = _unitOfWorkFactory.GetUnitOfWork(new[] {_repository}))
             {
                 var flierCurrent = _queryService.FindById<Flier>(command.Id);
-                flierCurrent.ChargeForState(_repository, _queryService);
+                if(flierCurrent.ChargeForState(_repository, _queryService))
+                    _repository.UpdateEntity<Flier>(flierCurrent.Id, f => f.CopyFieldsFrom(flierCurrent));
             }
 
             if(!unitOfWork.Successful)

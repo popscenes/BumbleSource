@@ -52,6 +52,7 @@ namespace PostaFlya.Domain.Flier.Command
                                    ExternalId = command.ExternalId,
                                    UseBrowserContactDetails = command.AttachTearOffs,//todo add ability to specify other contact details
                                    LocationRadius = command.ExtendPostRadius,
+                                   HasLeadGeneration = command.AllowUserContact,
                                    Status = FlierStatus.Pending
                                };
 

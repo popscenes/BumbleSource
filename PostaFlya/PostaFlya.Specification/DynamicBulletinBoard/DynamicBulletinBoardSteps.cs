@@ -184,7 +184,7 @@ namespace PostaFlya.Specification.DynamicBulletinBoard
         [Given("I have navigated to the public view page for a FLIER With TEAR OFF")]
         public void GivenIHaveNavigatedToThePublicViewPageForAFlierWithTearOff()
         {
-            new FlierSteps().GivenIHaveCreatedAFLIERWithTEAROFF();
+            new FlierSteps().GivenAnotherBrowserHasCreatedAFLIERWithTEAROFF();
             WhenIHaveNavigatedToTheViewPageForThatFlier();
             ThenIShouldSeeThePublicDetailsOfThatFlier();
         }
@@ -192,7 +192,7 @@ namespace PostaFlya.Specification.DynamicBulletinBoard
         [Given(@"I have navigated to the public view page for a FLIER With TEAR OFF And USER CONTACT")]
         public void GivenIHaveNavigatedToThePublicViewPageForAFLIERWithTEAROFFAndUSERCONTACT()
         {
-            new FlierSteps().GivenIHaveCreatedAFLIERWithTEAROFFAndUserContact();
+            new FlierSteps().GivenAnotherBrowserHasCreatedAFLIERWithTEAROFFAndUserContact();
             WhenIHaveNavigatedToTheViewPageForThatFlier();
             ThenIShouldSeeThePublicDetailsOfThatFlier();
         }

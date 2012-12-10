@@ -82,12 +82,10 @@ namespace PostaFlya.Specification.Fliers
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Edit Flier Add TEAR OFF", ((string[])(null)));
             this.ScenarioSetup(scenarioInfo);
             testRunner.Given("I have created a FLIER", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-            testRunner.And("I have sufficient Account Credit", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+            testRunner.And("I have 1000 Account Credits", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
             testRunner.When("I navigate to the edit page for that FLIER and add TEAR OFF to a FLIER", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
             testRunner.Then("the FLIER will be updated to reflect those changes", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
             testRunner.And("the FLIER STATUS will be ACTIVE", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-            testRunner.And("the FLIER will contain a FEATURE for PostAreaCharge in a enabled state with a cost of 80" +
-                    " credits", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
             this.ScenarioCleanup();
         }
         
@@ -101,7 +99,6 @@ namespace PostaFlya.Specification.Fliers
             testRunner.When("I navigate to the edit page for that FLIER and remove TEAR OFF to a FLIER", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
             testRunner.Then("the FLIER will be updated to reflect those changes", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
             testRunner.And("the FLIER STATUS will be ACTIVE", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-            testRunner.And("the FLIER will not contain a FEATURE for PostAreaCharge", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
             this.ScenarioCleanup();
         }
         
@@ -112,12 +109,12 @@ namespace PostaFlya.Specification.Fliers
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Edit Flier Add USER CONTACT", ((string[])(null)));
             this.ScenarioSetup(scenarioInfo);
             testRunner.Given("I have created a FLIER", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-            testRunner.And("I have sufficient Account Credit", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+            testRunner.And("I have 1000 Account Credits", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
             testRunner.When("I navigate to the edit page for that FLIER and add USER CONTACT to a FLIER", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
             testRunner.Then("the FLIER will be updated to reflect those changes", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
             testRunner.And("the FLIER STATUS will be ACTIVE", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-            testRunner.And("the FLIER will contain a FEATURE for UserContact in a enabled state with a cost o" +
-                    "f 500 credits", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+            testRunner.And("the FLIER will contain a FEATURE described as \"People can send their contact deta" +
+                    "ils to you\" with a cost of 500 credits", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
             this.ScenarioCleanup();
         }
         
@@ -131,7 +128,8 @@ namespace PostaFlya.Specification.Fliers
             testRunner.When("I navigate to the edit page for that FLIER and remove USER CONTACT to a FLIER", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
             testRunner.Then("the FLIER will be updated to reflect those changes", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
             testRunner.And("the FLIER STATUS will be ACTIVE", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-            testRunner.And("the FLIER will not contain a FEATURE for UserContact", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+            testRunner.And("the FLIER will not contain a FEATURE described as \"People can send their contact " +
+                    "details to you\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
             this.ScenarioCleanup();
         }
     }

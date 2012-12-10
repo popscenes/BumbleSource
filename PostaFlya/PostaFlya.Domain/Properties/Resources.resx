@@ -120,4 +120,16 @@
   <data name="LeadGenerationFeatureChargeBehaviour_LeadContactUnavailableUntilPaidFor" xml:space="preserve">
     <value>Lead Contact Information is unavailable until paid for</value>
   </data>
+  <data name="LeadGenerationFeatureChargeBehaviour_Description" xml:space="preserve">
+    <value>People can send their contact details to you</value>
+  </data>
+  <data name="PostRadiusFeatureChargeBehaviour_GetPostRadiusFeatureCharge_Description" xml:space="preserve">
+    <value>Posting a flier to an area</value>
+  </data>
+  <data name="PostRadiusFeatureChargeBehaviour_CurrentStateMessage_Unpaid" xml:space="preserve">
+    <value>Your flier won't appear until it is paid for</value>
+  </data>
+  <data name="LeadGenerationFeatureChargeBehaviour_CurrentStateMessage_Flier_LeadGenerationStatus" xml:space="preserve">
+    <value>It will cost 500 credits to retrieve contact details for people that wish for you to contact them</value>
+  </data>
 </root>

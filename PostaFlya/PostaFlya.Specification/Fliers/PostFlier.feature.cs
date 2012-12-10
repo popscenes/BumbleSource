@@ -69,9 +69,24 @@ namespace PostaFlya.Specification.Fliers
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Create Flier With Default Behaviour", ((string[])(null)));
             this.ScenarioSetup(scenarioInfo);
             testRunner.Given("i have navigated to the CREATE PAGE for a FLIER TYPE Default", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+            testRunner.And("I have 1000 Account Credits", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
             testRunner.When("I SUBMIT the data for that FLIER", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
             testRunner.Then("the new FLIER will be created for behviour Default", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
             testRunner.And("the FLIER STATUS will be ACTIVE", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+            this.ScenarioCleanup();
+        }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Create Flier With With Insufficient Credit")]
+        public virtual void CreateFlierWithWithInsufficientCredit()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Create Flier With With Insufficient Credit", ((string[])(null)));
+            this.ScenarioSetup(scenarioInfo);
+            testRunner.Given("i have navigated to the CREATE PAGE for a FLIER TYPE Default", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+            testRunner.And("I have 0 Account Credits", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+            testRunner.When("I SUBMIT the data for that FLIER", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+            testRunner.Then("the new FLIER will be created for behviour Default", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+            testRunner.And("the FLIER STATUS will be PaymentPending", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
             this.ScenarioCleanup();
         }
         
@@ -88,57 +103,6 @@ namespace PostaFlya.Specification.Fliers
         }
         
         [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("Create Flier With Tear Off With Insufficient Credit")]
-        public virtual void CreateFlierWithTearOffWithInsufficientCredit()
-        {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Create Flier With Tear Off With Insufficient Credit", ((string[])(null)));
-            this.ScenarioSetup(scenarioInfo);
-            testRunner.Given("i have navigated to the CREATE PAGE for a FLIER TYPE Default", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-            testRunner.And("I choose to attach Tear Offs", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-            testRunner.And("I dont have sufficient Account Credit", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-            testRunner.When("I SUBMIT the data for that FLIER", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-            testRunner.Then("the new FLIER will be created for behviour Default", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-            testRunner.And("the FLIER STATUS will be Active", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-            testRunner.And("the FLIER will contain a FEATURE for PostAreaCharge in a disabled state with a cost of 8" +
-                    "0 credits", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-            this.ScenarioCleanup();
-        }
-        
-        [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("Create Flier With sufficient Credit")]
-        public virtual void CreateFlierWithSufficientCredit()
-        {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Create Flier With sufficient Credit", ((string[])(null)));
-            this.ScenarioSetup(scenarioInfo);
-            testRunner.Given("i have navigated to the CREATE PAGE for a FLIER TYPE Default", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-            testRunner.And("I choose to attach Tear Offs", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-            testRunner.And("I have sufficient Account Credit", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-            testRunner.When("I SUBMIT the data for that FLIER", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-            testRunner.Then("the new FLIER will be created for behviour Default", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-            testRunner.And("the FLIER STATUS will be Active", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-            testRunner.And("the FLIER will contain a FEATURE for PostAreaCharge in a enabled state with a cost of 80" +
-                    " credits", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-            this.ScenarioCleanup();
-        }
-        
-        [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("Create Flier With User Contact With Insufficient Credit")]
-        public virtual void CreateFlierWithUserContactWithInsufficientCredit()
-        {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Create Flier With User Contact With Insufficient Credit", ((string[])(null)));
-            this.ScenarioSetup(scenarioInfo);
-            testRunner.Given("i have navigated to the CREATE PAGE for a FLIER TYPE Default", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-            testRunner.And("I choose to allow User Contact", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-            testRunner.And("I dont have sufficient Account Credit", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-            testRunner.When("I SUBMIT the data for that FLIER", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-            testRunner.Then("the new FLIER will be created for behviour Default", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-            testRunner.And("the FLIER STATUS will be PaymentPending", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-            testRunner.And("the FLIER will contain a FEATURE for UserContact in a disabled state with a cost " +
-                    "of 500 credits", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-            this.ScenarioCleanup();
-        }
-        
-        [NUnit.Framework.TestAttribute()]
         [NUnit.Framework.DescriptionAttribute("Create Flier With User Contact With sufficient Credit")]
         public virtual void CreateFlierWithUserContactWithSufficientCredit()
         {
@@ -146,12 +110,12 @@ namespace PostaFlya.Specification.Fliers
             this.ScenarioSetup(scenarioInfo);
             testRunner.Given("i have navigated to the CREATE PAGE for a FLIER TYPE Default", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
             testRunner.And("I choose to allow User Contact", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-            testRunner.And("I have sufficient Account Credit", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+            testRunner.And("I have 1000 Account Credits", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
             testRunner.When("I SUBMIT the data for that FLIER", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
             testRunner.Then("the new FLIER will be created for behviour Default", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
             testRunner.And("the FLIER STATUS will be Active", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-            testRunner.And("the FLIER will contain a FEATURE for UserContact in a enabled state with a cost o" +
-                    "f 500 credits", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+            testRunner.And("the FLIER will contain a FEATURE described as \"People can send their contact deta" +
+                    "ils to you\" with a cost of 500 credits", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
             this.ScenarioCleanup();
         }
     }

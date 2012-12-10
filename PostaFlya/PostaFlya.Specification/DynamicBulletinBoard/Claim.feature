@@ -11,7 +11,7 @@ And the number of claims against the FLIER will be incremented
 
 Scenario: Claim An Initial Tear Off And Send Contact Details
 Given I have navigated to the public view page for a FLIER With TEAR OFF And USER CONTACT
-And The Flier Creator Has Sufficient Credit
+And The Flier Creator Has 1000 Account Credits
 When I claim a tear off for that FLIER and send my contact details
 Then I will be recorded as having claimed the flier once
 And the number of claims against the FLIER will be incremented

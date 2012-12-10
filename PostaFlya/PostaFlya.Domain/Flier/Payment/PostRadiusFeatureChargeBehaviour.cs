@@ -1,4 +1,5 @@
 using System;
+using PostaFlya.Domain.Properties;
 using Website.Domain.Browser;
 using Website.Domain.Payment;
 using Website.Infrastructure.Command;
@@ -18,20 +19,26 @@ namespace PostaFlya.Domain.Flier.Payment
             return new EntityFeatureCharge()
                 {
                     Cost = cost,
-                    Description = "UserContact",
-                    CurrentStateMessage = "enabled",
+                    Description = Resources.PostRadiusFeatureChargeBehaviour_GetPostRadiusFeatureCharge_Description,
+                    CurrentStateMessage = Resources.PostRadiusFeatureChargeBehaviour_CurrentStateMessage_Unpaid,
                     Paid = 0,
-                    BehaviourTypeString = typeof (LeadGenerationFeatureChargeBehaviour).FullName
+                    BehaviourTypeString = typeof(PostRadiusFeatureChargeBehaviour).AssemblyQualifiedName
                 };
         }
 
-        public void EnableOrDisableFeaturesBasedOnState<EntityType>(EntityFeatureCharge entityFeatureCharge, EntityType entity) where EntityType : EntityInterface
+        public bool EnableOrDisableFeaturesBasedOnState<EntityType>(EntityFeatureCharge entityFeatureCharge, EntityType entity) where EntityType : EntityInterface
         {
             var flier = entity as FlierInterface;
             if (flier == null)
-                return;
+                return false;
 
+            entityFeatureCharge.CurrentStateMessage = !entityFeatureCharge.IsPaid ?
+                Resources.PostRadiusFeatureChargeBehaviour_CurrentStateMessage_Unpaid : 
+                "";
+
+            var orig = flier.Status;
             flier.Status = !entityFeatureCharge.IsPaid ? FlierStatus.PaymentPending : FlierStatus.Active;
+            return orig != flier.Status;
         }
 
         public EntityFeatureCharge GetChargeForAggregateMemberEntity<MemberEntityType>(EntityFeatureCharge entityFeatureCharge,
@@ -40,16 +47,16 @@ namespace PostaFlya.Domain.Flier.Payment
             return null;//doesn't propagate
         }
 
-        public void ChargeForState<EntityType>(EntityFeatureCharge entityFeatureCharge, EntityType entity,
-                                               GenericRepositoryInterface repository, GenericQueryServiceInterface queryService) where EntityType : EntityInterface
+        public bool ChargeForState<EntityType>(EntityFeatureCharge entityFeatureCharge, EntityType entity, GenericRepositoryInterface repository, GenericQueryServiceInterface queryService) where EntityType : EntityInterface
         {
             var flier = entity as FlierInterface;
             if (flier == null)
-                return;
+                return false;
             if (entityFeatureCharge.IsPaid || queryService.FindById<Browser>(flier.BrowserId).AccountCredit < entityFeatureCharge.OutstandingBalance)
-                return;
+                return false;
 
-            if(queryService.FindById<Browser>(flier.BrowserId).AccountCredit < entityFeatureCharge.OutstandingBalance)
+            if (queryService.FindById<Browser>(flier.BrowserId).AccountCredit < entityFeatureCharge.OutstandingBalance)
+                return false;
 
             repository.UpdateEntity<Browser>(flier.BrowserId, browser =>
             {
@@ -57,6 +64,7 @@ namespace PostaFlya.Domain.Flier.Payment
             }); 
 
             entityFeatureCharge.Paid = entityFeatureCharge.Cost;
+            return true;
         }
     }
 }

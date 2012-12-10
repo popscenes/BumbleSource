@@ -144,7 +144,9 @@ namespace PostaFlya.Specification.DynamicBulletinBoard
 
             var browser = queryService.FindById<Browser>(retFlier.BrowserId);
 
-            Assert.AreEqual(browser.AccountCredit, 1000 - deduction);
+            var initcredit = (int)ScenarioContext.Current["initialcredit"];
+
+            Assert.AreEqual(browser.AccountCredit, initcredit - deduction);
         }
 
         
@@ -181,7 +183,7 @@ namespace PostaFlya.Specification.DynamicBulletinBoard
             var claims = queryService.FindAggregateEntities<Claim>(flier.Id);
 
             var claim = claims.First();
-            Assert.AreEqual(claim.ClaimContext, "senduserdetails");
+            Assert.AreEqual(claim.ClaimContext, FlierInterfaceExtensions.ClaimContextSendUserDetailsEnabled);
             Assert.AreEqual(claim.ClaimMessage, "Fix My Plumbing!");
         }
 

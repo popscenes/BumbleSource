@@ -83,7 +83,7 @@ namespace PostaFlya.Specification.DynamicBulletinBoard
             this.ScenarioSetup(scenarioInfo);
             testRunner.Given("I have navigated to the public view page for a FLIER With TEAR OFF And USER CONTA" +
                     "CT", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-            testRunner.And("The Flier Creator Has Sufficient Credit", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+            testRunner.And("The Flier Creator Has 1000 Account Credits", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
             testRunner.When("I claim a tear off for that FLIER and send my contact details", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
             testRunner.Then("I will be recorded as having claimed the flier once", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
             testRunner.And("the number of claims against the FLIER will be incremented", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");

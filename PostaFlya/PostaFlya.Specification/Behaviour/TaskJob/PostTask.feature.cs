@@ -71,7 +71,7 @@ namespace PostaFlya.Specification.Behaviour.TaskJob
             testRunner.Given("i have navigated to the CREATE PAGE for a FLIER TYPE TaskJob", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
             testRunner.When("I SUBMIT the data for that FLIER", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
             testRunner.Then("the new FLIER will be created for behviour TaskJob", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-            testRunner.And("the FLIER STATUS will be PENDING", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+            testRunner.And("the FLIER STATUS will be PaymentPending", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
             this.ScenarioCleanup();
         }
         

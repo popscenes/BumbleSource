@@ -2,6 +2,7 @@
 using System.Net.Http;
 using NUnit.Framework;
 using Ninject;
+using PostaFlya.Domain.Flier;
 using TechTalk.SpecFlow;
 using PostaFlya.Controllers;
 using Website.Domain.Browser;
@@ -126,17 +127,30 @@ namespace PostaFlya.Specification
             CollectionAssert.Contains(browserInformation.Browser.Roles, role);
         }
 
-        [Given(@"I have sufficient Account Credit")]
-        [Given(@"The Flier Creator Has Sufficient Credit")]
-        public void GivenIHaveSufficientAccountCredit()
+        public void GivenABrowserHasAccountCredit(string browserId, int credit)
         {
-            var browserInformation = SpecUtil.GetCurrBrowser();
             var browserReo = SpecUtil.CurrIocKernel.Get<GenericRepositoryInterface>();
-            browserReo.UpdateEntity<Browser>(browserInformation.Browser.Id,
+            browserReo.UpdateEntity<Browser>(browserId,
                     b =>
                     {
-                        b.AccountCredit = 1000;
+                        b.AccountCredit = credit;
                     });
+            ScenarioContext.Current["initialcredit"] = credit;
         }
+
+        [Given(@"I have (.*) Account Credits")]
+        public void GivenIHaveAccountCredit(int credit)
+        {
+            var browserInformation = SpecUtil.GetCurrBrowser();
+            GivenABrowserHasAccountCredit(browserInformation.Browser.Id, credit);
+        }
+
+        [Given(@"The Flier Creator Has (.*) Account Credits")]
+        public void GivenTheFlierCreatorHasAccountCredit(int credit)
+        {
+            var flier = ScenarioContext.Current["flier"] as FlierInterface;
+            GivenABrowserHasAccountCredit(flier.BrowserId, credit);
+        }
+
     }
 }

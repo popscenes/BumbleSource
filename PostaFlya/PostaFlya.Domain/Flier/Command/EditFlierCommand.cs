@@ -21,6 +21,7 @@ namespace PostaFlya.Domain.Flier.Command
         public HashSet<string> BoardSet { get; set; }
         public bool AllowUserContact { get; set; }
         public bool AttachTearOffs { get; set; }
+        public int ExtendPostRadius { get; set; }
 
         public static HashSet<EntityFeatureCharge> GetPaymentFeatures(EditFlierCommand editCommand, string browserId)
         {
