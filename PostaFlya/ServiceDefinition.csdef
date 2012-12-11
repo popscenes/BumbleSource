@@ -23,10 +23,11 @@
       <Import moduleName="RemoteForwarder" />
     </Imports>
     <ConfigurationSettings>
-      <Setting name="StorageConnectionString" />
+      <Setting name="StorageConnectionString" /> 
       <Setting name="SearchDbConnectionString" />
       <Setting name="DisableFederation" />
       <Setting name="Microsoft.WindowsAzure.Plugins.Caching.ClientDiagnosticLevel" />
+      <Setting name="BlobCdnUrl"/>
     </ConfigurationSettings>
     <LocalResources>
       <LocalStorage name="Microsoft.WindowsAzure.Plugins.Caching.FileStore" sizeInMB="8192" cleanOnRoleRecycle="false" />

@@ -10,16 +10,20 @@ using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Blob;
 using Microsoft.WindowsAzure.Storage.Shared.Protocol;
 using Website.Application.Content;
+using Website.Infrastructure.Configuration;
 
 namespace Website.Application.Azure.Content
 {
     public class AzureCloudBlobStorage : BlobStorageInterface
     {
         private readonly CloudBlobContainer _blobContainer;
+        private readonly string _cdnUrl = "";
 
         public AzureCloudBlobStorage(CloudBlobContainer blobContainer)
         {
             _blobContainer = blobContainer;
+            if (Config.Instance != null)
+                _cdnUrl = Config.Instance.GetSetting("BlobCdnUrl") ?? "";
         }
 
         #region Implementation of BlobStorageInterface
@@ -59,8 +63,10 @@ namespace Website.Application.Azure.Content
             if (string.IsNullOrWhiteSpace(id))
                 return null;
 
-            return _blobContainer.GetBlockBlobReference(id).Uri;
+            var ret = _blobContainer.GetBlockBlobReference(id).Uri;
+            return string.IsNullOrWhiteSpace(_cdnUrl) ? ret : new Uri(_cdnUrl + ret.PathAndQuery);
         }
+
 
         public bool Exists(string id)
         {

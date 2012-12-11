@@ -4,7 +4,7 @@
     <Instances count="1" />
     <ConfigurationSettings>
       <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" value="DefaultEndpointsProtocol=https;AccountName=flyastorage;AccountKey=mjpcImHWvu3zRzWlQGVANBiyPbOmpMSGiGbrC10HJc4gqK6Rov5/c9uuAhWlF/9UEbOzwtfKsFitSv3UajzgHw==" />
-      <Setting name="StorageConnectionString" value="DefaultEndpointsProtocol=https;AccountName=flyastorage;AccountKey=mjpcImHWvu3zRzWlQGVANBiyPbOmpMSGiGbrC10HJc4gqK6Rov5/c9uuAhWlF/9UEbOzwtfKsFitSv3UajzgHw==" />
+      <Setting name="StorageConnectionString" value="DefaultEndpointsProtocol=http;AccountName=flyastorage;AccountKey=mjpcImHWvu3zRzWlQGVANBiyPbOmpMSGiGbrC10HJc4gqK6Rov5/c9uuAhWlF/9UEbOzwtfKsFitSv3UajzgHw==" />
       <Setting name="Microsoft.WindowsAzure.Plugins.Caching.NamedCaches" value="{&quot;caches&quot;:[{&quot;name&quot;:&quot;default&quot;,&quot;policy&quot;:{&quot;eviction&quot;:{&quot;type&quot;:0},&quot;expiration&quot;:{&quot;defaultTTL&quot;:10,&quot;isExpirable&quot;:true,&quot;type&quot;:1},&quot;serverNotification&quot;:{&quot;isEnabled&quot;:true}},&quot;secondaries&quot;:0}]}" />
       <Setting name="Microsoft.WindowsAzure.Plugins.Caching.DiagnosticLevel" value="1" />
       <Setting name="Microsoft.WindowsAzure.Plugins.Caching.ClientDiagnosticLevel" value="1" />
@@ -22,6 +22,7 @@
       <Setting name="Microsoft.WindowsAzure.Plugins.RemoteAccess.AccountEncryptedPassword" value="MIIBnQYJKoZIhvcNAQcDoIIBjjCCAYoCAQAxggFOMIIBSgIBADAyMB4xHDAaBgNVBAMME1dpbmRvd3MgQXp1cmUgVG9vbHMCECX3rMPVezutQD0zzfM4kzkwDQYJKoZIhvcNAQEBBQAEggEAiCuZyW5VRglkF2v3mz2/Q6Iuw065tTfUP80bX/FNiucmVJbnx8VDqQ0Ssct5jEIsYuqQUq465imBz1LY3moL+SZqY/1SgJQGWsK8Xz+xPxyqWW2kpEe2zzm2cof5ivnLPUqDt38e9zgZVNjOX0eJIyQW2rhoJ1SrjpCe70trp1g+C5ZevBhq69JRlUIeLvpxHuXQwXEbHned9Xtt5R1r9tJ78Lb7mNQDEdR1nMu33KUeV0/nBjM3VpncfX5C9PjfCAKbwmueW5HEDrHwSoeWMD6EgmVccFZ+l/2Y0NBqZBQTlJVIX+WFYyxJWvx3WHdWaMdaI+vMXijWe2v/SoBmSjAzBgkqhkiG9w0BBwEwFAYIKoZIhvcNAwcECKdJAhexSZKsgBBhSMnrDLBnyY0KUlyDl9uc" />
       <Setting name="Microsoft.WindowsAzure.Plugins.RemoteAccess.AccountExpiration" value="2013-11-01T23:59:59.0000000+11:00" />
       <Setting name="Microsoft.WindowsAzure.Plugins.RemoteForwarder.Enabled" value="true" />
+      <Setting name="BlobCdnUrl" value="http://static.postaflya.com"/>
     </ConfigurationSettings>
     <Certificates>
       <!--<Certificate name="Microsoft.WindowsAzure.Plugins.RemoteAccess.PasswordEncryption" thumbprint="B5EB70801A6D0B9319FDE06E891D90737F129018" thumbprintAlgorithm="sha1" />-->
