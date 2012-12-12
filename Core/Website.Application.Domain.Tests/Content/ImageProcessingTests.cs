@@ -217,7 +217,7 @@ namespace Website.Application.Domain.Tests.Content
             foreach (ThumbSize size in Enum.GetValues(typeof(ThumbSize)))
             {
                 var data = storage[id.ToString() +
-                ImageUtil.GetIdExtensionForThumb(
+                ImageUtil.GetIdFileExtension(
                     ThumbOrientation.Horizontal,
                     size
                 )];
@@ -248,7 +248,7 @@ namespace Website.Application.Domain.Tests.Content
             foreach (ThumbSize size in Enum.GetValues(typeof(ThumbSize)))
             {
                 var data = storage[id.ToString() +
-                ImageUtil.GetIdExtensionForThumb(
+                ImageUtil.GetIdFileExtension(
                     ThumbOrientation.Vertical,
                     size
                 )];
@@ -278,7 +278,7 @@ namespace Website.Application.Domain.Tests.Content
         private void TestForTwoThumbnailsOffSource(Guid id, Dictionary<string, byte[]> storage)
         {
             var data = storage[id.ToString() +
-            ImageUtil.GetIdExtensionForThumb(
+            ImageUtil.GetIdFileExtension(
                 ThumbOrientation.Original,
                 ThumbSize.S50
             )];
@@ -293,7 +293,7 @@ namespace Website.Application.Domain.Tests.Content
             }
 
             data = storage[id.ToString() +
-            ImageUtil.GetIdExtensionForThumb(
+            ImageUtil.GetIdFileExtension(
                 ThumbOrientation.Original,
                 ThumbSize.S100
             )];

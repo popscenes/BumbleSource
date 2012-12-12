@@ -43,13 +43,13 @@ namespace PostaFlya.Models.Browser
 
             Uri uri;
             if (string.IsNullOrWhiteSpace(domain.AvatarImageId)
-                || (uri = blobStorage.GetBlobUri(domain.AvatarImageId)) == null)
+                || (uri = blobStorage.GetBlobUri(domain.AvatarImageId + ImageUtil.GetIdFileExtension())) == null)
             {
                 view.AvatarUrl = DefaultAvatar;
             }
             else
             {
-                view.AvatarUrl = uri.GetUrlForImage(ThumbOrientation.Square, ThumbSize.S50);
+                view.AvatarUrl = uri.GetThumbUrlForImage(ThumbOrientation.Square, ThumbSize.S50);
 
             }
         }

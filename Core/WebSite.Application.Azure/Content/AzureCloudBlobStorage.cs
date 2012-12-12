@@ -58,13 +58,13 @@ namespace Website.Application.Azure.Content
             return RetryQuery(getBlob);
         }
 
-        public Uri GetBlobUri(string id)
+        public Uri GetBlobUri(string id, bool cdnUri = true)
         {
             if (string.IsNullOrWhiteSpace(id))
                 return null;
 
             var ret = _blobContainer.GetBlockBlobReference(id).Uri;
-            return string.IsNullOrWhiteSpace(_cdnUrl) ? ret : new Uri(_cdnUrl + ret.PathAndQuery);
+            return (!cdnUri || string.IsNullOrWhiteSpace(_cdnUrl)) ? ret : new Uri(_cdnUrl + ret.PathAndQuery);
         }
 
 

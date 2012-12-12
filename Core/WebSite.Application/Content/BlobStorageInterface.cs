@@ -20,7 +20,7 @@ namespace Website.Application.Content
         bool DeleteBlob(string id);
         int BlobCount { get; }
         bool GetToStream(string id, Stream s);
-        Uri GetBlobUri(string id);
+        Uri GetBlobUri(string id, bool cdnUri = true);
         bool Exists(string id);
     }
 }

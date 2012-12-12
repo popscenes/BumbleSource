@@ -115,7 +115,7 @@ ko.bindingHandlers.imgRetry = {
         jele.bind("error", function () {
             var reloadTimes = jele.data("reload-times");
             var imgSrc = jele.data("imgsrc");
-            var errorSrc = "/Img/GetError" + imgSrc.substring(imgSrc.lastIndexOf('/'));
+            var errorSrc = "/Img/GetError?id=" + imgSrc.substring(imgSrc.lastIndexOf('/') + 1);
 
             imageReplacer.attr('src', errorSrc);
             jele.hide();
@@ -123,7 +123,7 @@ ko.bindingHandlers.imgRetry = {
             //jele.attr("src", errorSrc);
 
             var timeOut = reloadTimes == 0 ? 0 : 1000;
-            if (reloadTimes < 5) {
+            if (reloadTimes < 20) {
                 setTimeout(function () {
                     //jele.attr("src", null);
                     jele.attr("src", imgSrc + "?" + reloadTimes);
@@ -187,7 +187,6 @@ ko.bindingHandlers.bulletinimg = {
         var jele = $(element);
         var baseurl = valueAccessor();
         var all = allBindingsAccessor();
-        baseurl = baseurl + all.root.Layout.GetImgTileArgs();
         jele.attr('src', baseurl);
         jele.attr('alt', all.alt);
 

@@ -77,7 +77,7 @@ namespace Website.Application.Domain.Content.Command
                     curr = maxDimImg;
 
                 var convdata = curr.GetBytes();
-                _blobStorage.SetBlob(command.CommandId, convdata);
+                _blobStorage.SetBlob(command.CommandId + ImageUtil.GetIdFileExtension(), convdata);
 
                 CreateThumbs(command.CommandId, curr);
 
@@ -148,10 +148,9 @@ namespace Website.Application.Domain.Content.Command
 
         private void CreateSquareThumb(string commandId, Image img, int size)
         {
-            var idExtension = ImageUtil.GetIdExtensionForThumb(ThumbOrientation.Square, (ThumbSize)size);
             var aspectImg = EnsureAspectRatio(img, 1);
             var thumb = aspectImg != null ? aspectImg.Resize(size, size) : img.Resize(size, size);
-            _blobStorage.SetBlob(commandId + idExtension, thumb.GetBytes());
+            _blobStorage.SetBlob(GetIdForStorage(commandId, ThumbOrientation.Square, (ThumbSize)size), thumb.GetBytes());
 
             if (aspectImg != null)
                 aspectImg.Dispose();
@@ -160,36 +159,38 @@ namespace Website.Application.Domain.Content.Command
 
         private void CreateOriginalThumb(string commandId, Image img, int size)
         {
-            var idExtension = ImageUtil.GetIdExtensionForThumb(ThumbOrientation.Original, (ThumbSize)size);
-
             var thumb = img.Width > img.Height ? 
                             img.Resize(size, img.Height) : 
                             img.Resize(img.Width, size);
 
-            _blobStorage.SetBlob(commandId + idExtension, thumb.GetBytes());                
+            _blobStorage.SetBlob(GetIdForStorage(commandId, ThumbOrientation.Original, (ThumbSize)size), thumb.GetBytes());                
             
             thumb.Dispose();
         }
 
         private void CreateLengthThumb(string commandId, Image img, int size)
         {
-            var idExtension = ImageUtil.GetIdExtensionForThumb(ThumbOrientation.Vertical, (ThumbSize)size);
             var thumb = img.Resize((int)Math.Ceiling(img.Width * (size / (double)img.Height)), size);
-            _blobStorage.SetBlob(commandId + idExtension, thumb.GetBytes());
+            _blobStorage.SetBlob(GetIdForStorage(commandId, ThumbOrientation.Vertical, (ThumbSize)size), thumb.GetBytes());
             thumb.Dispose();
         }
 
         private void CreateWidthThumb(string commandId, Image img, int size)
         {
-            var idExtension = ImageUtil.GetIdExtensionForThumb(ThumbOrientation.Horizontal, (ThumbSize) size);
             var thumb = img.Resize(size, (int)Math.Ceiling(img.Height * (size / (double)img.Width)));
-            _blobStorage.SetBlob(commandId + idExtension, thumb.GetBytes());   
+            _blobStorage.SetBlob(GetIdForStorage(commandId, ThumbOrientation.Horizontal, (ThumbSize) size), thumb.GetBytes());   
             thumb.Dispose();
         }
 
         #endregion
 
-        private Image EnsureAspectRatio(Image img, double aspectRatio)
+        private static string GetIdForStorage(string imageId, ThumbOrientation orientation, ThumbSize size)
+        {
+            return imageId +
+            ImageUtil.GetIdFileExtension(orientation, size);
+        }
+
+        private static Image EnsureAspectRatio(Image img, double aspectRatio)
         {
             var imgcurr = img;
             var resWidth = CropWidthIfAspectOver(imgcurr, aspectRatio);

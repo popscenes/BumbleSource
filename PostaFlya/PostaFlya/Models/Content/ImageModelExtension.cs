@@ -18,11 +18,11 @@ namespace PostaFlya.Models.Content
                        }; 
         }
 
-        public static ImageViewModel GetImageUrl(this ImageViewModel model, BlobStorageInterface blobStorage)
+        public static ImageViewModel GetImageUrl(this ImageViewModel model, BlobStorageInterface blobStorage, bool fromCdn = true)
         {
-            var uri = blobStorage.GetBlobUri(model.ImageId);
+            var uri = blobStorage.GetBlobUri(model.ImageId + ImageUtil.GetIdFileExtension(), fromCdn);
             if (uri == null) return model;
-            model.ImageUrl = uri.GetUrlForImage(ThumbOrientation.Vertical, ThumbSize.S100);
+            model.ImageUrl = uri.GetThumbUrlForImage(ThumbOrientation.Vertical, ThumbSize.S100);
             return model;
         } 
     }

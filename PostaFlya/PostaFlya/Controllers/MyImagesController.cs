@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
+using PostaFlya.Attributes;
 using Website.Application.Binding;
 using System.Linq.Expressions;
 using System.Collections;
@@ -13,6 +14,7 @@ using Website.Domain.Content;
 
 namespace PostaFlya.Controllers
 {
+    [BrowserAuthorize]
     public class MyImagesController : ApiController
     {
         private readonly QueryServiceForBrowserAggregateInterface _queryService;
@@ -27,7 +29,7 @@ namespace PostaFlya.Controllers
 
         public List<ImageViewModel> Get(string browserid)
         {
-            return _queryService.GetByBrowserId<Image>(browserid).Select(_ => _.ToViewModel().GetImageUrl(_blobStorage)).ToList();
+            return _queryService.GetByBrowserId<Image>(browserid).Select(_ => _.ToViewModel().GetImageUrl(_blobStorage, false)).ToList();
         }
     }
 }

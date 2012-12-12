@@ -75,7 +75,7 @@ namespace PostaFlya.Controllers
             var importedFliers = flierImporter.ImportFliers(browser);
             ViewBag.Fliers = importedFliers;
 
-            var createFliers = importedFliers.Select(_ => _.ToCreateModel().GetDefaultImageUrl(_blobStorage, ThumbOrientation.Horizontal, ThumbSize.S250));
+            var createFliers = importedFliers.Select(_ => _.ToCreateModel().GetImageUrl(_blobStorage, ThumbOrientation.Vertical, ThumbSize.S250));
             ViewBag.Fliers = createFliers;
             return View(createFliers);
         }

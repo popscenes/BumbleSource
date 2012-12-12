@@ -23,7 +23,7 @@ namespace PostaFlya.Areas.TaskJob.Models
             return new TaskJobDetailsViewModel()
             {
                 Flier = behaviour.Flier.ToViewModel<BulletinTaskJobBehaviourModel>(true)
-                    .GetDefaultImageUrl(blobStorage, ThumbOrientation.Horizontal),
+                    .GetImageUrl(blobStorage, ThumbOrientation.Horizontal),
                 CostOverhead = behaviour.CostOverhead
             };
         }

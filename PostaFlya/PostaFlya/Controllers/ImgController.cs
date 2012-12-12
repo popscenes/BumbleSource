@@ -46,7 +46,11 @@ namespace PostaFlya.Controllers
         [HttpGet]
         public ActionResult GetError(string id)
         {
-            int idLength = Guid.NewGuid().ToString().Length;
+            var dotIndx = id.IndexOf('.');
+            if (dotIndx >= 0)
+                id = id.Remove(dotIndx);
+
+            var idLength = Guid.NewGuid().ToString().Length;
             if (String.IsNullOrWhiteSpace(id) || id.Length < idLength)
                 return File(GetNotFoundData(), "image/jpeg");
 
@@ -56,13 +60,11 @@ namespace PostaFlya.Controllers
                 return File(GetNotFoundData(), "image/jpeg");
 
             switch (image.Status)
-            {
-                case ImageStatus.Processing:
-                    return File(GetStillProcessingData(), "image/jpeg");
+            {   
                 case ImageStatus.Failed:
                     return File(GetFailedProcessingData(), "image/jpeg");
                 default:
-                    return File(GetNotFoundData(), "image/jpeg");
+                    return File(GetStillProcessingData(), "image/jpeg");
             }
         }
 

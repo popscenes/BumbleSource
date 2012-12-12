@@ -56,7 +56,7 @@ namespace PostaFlya.Controllers
         public IList<BulletinFlierModel> Get([FromUri]LocationModel loc
             ,int count, string board = "", int skip = 0, int distance = 0, string tags = "")
         {
-            return GetFliers(_flierSearchService, _queryService, _blobStorage, _viewModelFactory
+            return GetFliers(_flierSearchService, _queryService, _blobStorage, ThumbOrientation.Horizontal, ThumbSize.S250, _viewModelFactory
                              , loc, count, board, skip, distance, tags);
         }
 
@@ -79,13 +79,16 @@ namespace PostaFlya.Controllers
             var ret = viewModelFactory
                 .GetBehaviourViewModel(behaviour);
             ret.Flier.GetImageUrl(blobStorage);
-            ret.Flier.ImageList.ForEach(_ => _.GetDefaultImageUrl(blobStorage, ThumbOrientation.Vertical, ThumbSize.S50));
+            ret.Flier.ImageList.ForEach(_ => _.GetImageUrl(blobStorage, ThumbOrientation.Horizontal, ThumbSize.S50));
             return ret;
         }
 
 
         [NonAction]
-        public static IList<BulletinFlierModel> GetFliers(FlierSearchServiceInterface flierSearchService, GenericQueryServiceInterface flierQueryService, BlobStorageInterface blobStorage, FlierBehaviourViewModelFactoryInterface viewModelFactory, LocationModel loc, int count, string board = "", int skip = 0, int distance = 0, string tags = "")
+        public static IList<BulletinFlierModel> GetFliers(FlierSearchServiceInterface flierSearchService
+            , GenericQueryServiceInterface flierQueryService
+            , BlobStorageInterface blobStorage, ThumbOrientation orientation, ThumbSize thumbSize
+            , FlierBehaviourViewModelFactoryInterface viewModelFactory, LocationModel loc, int count, string board = "", int skip = 0, int distance = 0, string tags = "")
         {
             Location locDomainModel = loc.ToDomainModel();
             var tagsModel = new Tags(tags);
@@ -103,7 +106,7 @@ namespace PostaFlya.Controllers
             watch.Start();
             var ret = fliersIds
                 .Select(f => viewModelFactory.GetBulletinViewModel(flierQueryService.FindById<Flier>(f), false)
-                    .GetImageUrl(blobStorage))
+                    .GetImageUrl(blobStorage, orientation, thumbSize))
                 .ToList();
             Trace.TraceInformation("Bulletin Get FindById time: {0}, numfliers {1}", watch.ElapsedMilliseconds, ret.Count());
             return ret;

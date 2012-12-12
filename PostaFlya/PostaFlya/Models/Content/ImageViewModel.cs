@@ -22,11 +22,11 @@ namespace PostaFlya.Models.Content
 
     public static class ImageViewModelExtensions
     {
-        public static ImageViewModel GetDefaultImageUrl(this ImageViewModel model, BlobStorageInterface blobStorage, ThumbOrientation orientation = ThumbOrientation.Horizontal, ThumbSize thumbSize = ThumbSize.S450)
+        public static ImageViewModel GetImageUrl(this ImageViewModel model, BlobStorageInterface blobStorage, ThumbOrientation orientation = ThumbOrientation.Horizontal, ThumbSize thumbSize = ThumbSize.S450)
         {
-            var uri = blobStorage.GetBlobUri(model.ImageId.ToString());
+            var uri = blobStorage.GetBlobUri(model.ImageId + ImageUtil.GetIdFileExtension());
             if (uri == null) return model;
-            model.ImageUrl = uri.GetUrlForImage(orientation, thumbSize);
+            model.ImageUrl = uri.GetThumbUrlForImage(orientation, thumbSize);
             return model;
         }
     }

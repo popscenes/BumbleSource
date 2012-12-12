@@ -6,9 +6,6 @@
         var self = this;
 
         self.Properties = layoutProperties;
-        self.GetImgTileArgs = function () {
-            return self.Properties.GetImgTileArgs();
-        };
 
         self.FlierTemplate = function (flier) {
             return self.Properties.FlierTemplate(flier);
@@ -23,9 +20,6 @@
         var self = this;
 
         self.Properties = layoutProperties;
-        self.GetImgTileArgs = function () {
-            return self.Properties.GetImgTileArgs();
-        };
 
         self.FlierTemplate = function (flier) {
             return self.Properties.FlierTemplate(flier);

@@ -39,11 +39,11 @@ namespace PostaFlya.Models.Flier
                        };
         }
 
-        public static FlierCreateModel GetDefaultImageUrl(this FlierCreateModel model, BlobStorageInterface blobStorage, ThumbOrientation orientation = ThumbOrientation.Horizontal, ThumbSize thumbSize = ThumbSize.S450)
+        public static FlierCreateModel GetImageUrl(this FlierCreateModel model, BlobStorageInterface blobStorage, ThumbOrientation orientation = ThumbOrientation.Horizontal, ThumbSize thumbSize = ThumbSize.S450)
         {
-            var uri = blobStorage.GetBlobUri(model.FlierImageId);
+            var uri = blobStorage.GetBlobUri(model.FlierImageId + ImageUtil.GetIdFileExtension());
             if (uri == null) return model;
-            model.FlierImageUrl = uri.GetUrlForImage(orientation, thumbSize);
+            model.FlierImageUrl = uri.GetThumbUrlForImage(orientation, thumbSize);
             return model;
         }
     }

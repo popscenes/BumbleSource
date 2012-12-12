@@ -32,7 +32,7 @@
             
         <div class="flier-img">
             <img data-bind="imgRetry: FlierImageUrl" 
-                 src="@ImageUtil.GetUrlForImageUri(Flier.FlierImageUrl, ThumbOrientation.Vertical, ThumbSize.S450)" 
+                 src="@Flier.FlierImageUrl" 
                  alt="@Flier.Title"/>
         </div>
             
@@ -46,7 +46,7 @@
         {
             <li>
                 <img data-bind="attr:{src: ImageUrl}" 
-                    src="@ImageUtil.GetUrlForImageUri(img.ImageUrl, ThumbOrientation.Vertical, ThumbSize.S200)"/>
+                    src="@ImageUtil.GetThumbUrlForImageUri(img.ImageUrl, ThumbOrientation.Vertical, ThumbSize.S200)"/>
             </li>
         }
     </ul>

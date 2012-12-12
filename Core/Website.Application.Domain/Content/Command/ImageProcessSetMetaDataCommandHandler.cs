@@ -26,7 +26,7 @@ namespace Website.Application.Domain.Content.Command
 
             var q = from ts in Enum.GetValues(typeof(ThumbSize)).OfType<ThumbSize>()
                     from to in Enum.GetValues(typeof(ThumbOrientation)).OfType<ThumbOrientation>()
-                    select imgId + ImageUtil.GetIdExtensionForThumb(to, ts);
+                    select imgId + ImageUtil.GetIdFileExtension(to, ts);
             var list = q.ToList();
             list.Add(imgId);
 

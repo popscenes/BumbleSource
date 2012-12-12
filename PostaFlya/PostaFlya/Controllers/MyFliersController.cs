@@ -62,8 +62,8 @@ namespace PostaFlya.Controllers
             if (flier != null && flier.BrowserId != browserId)
                 return null;
 
-            var flierModel = flier.ToCreateModel().GetDefaultImageUrl(_blobStorage, ThumbOrientation.Horizontal, ThumbSize.S250);
-            flierModel.ImageList.ForEach(_ => _.GetDefaultImageUrl(_blobStorage, ThumbOrientation.Vertical, ThumbSize.S100));
+            var flierModel = flier.ToCreateModel().GetImageUrl(_blobStorage, ThumbOrientation.Horizontal, ThumbSize.S250);
+            flierModel.ImageList.ForEach(_ => _.GetImageUrl(_blobStorage, ThumbOrientation.Vertical, ThumbSize.S100));
             return flierModel;
         }
 

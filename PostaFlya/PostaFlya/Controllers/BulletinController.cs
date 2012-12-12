@@ -10,6 +10,7 @@ using PostaFlya.Models.Factory;
 using PostaFlya.Models.Flier;
 using PostaFlya.Models.Location;
 using Website.Application.Content;
+using Website.Application.Domain.Content;
 using Website.Domain.Location;
 using Website.Domain.Tag;
 using Website.Infrastructure.Query;
@@ -42,7 +43,7 @@ namespace PostaFlya.Controllers
             if(!loc.IsValid())
                 return View(new List<BulletinFlierModel>());
 
-            var model = BulletinApiController.GetFliers(_flierSearchService, _queryService, _blobStorage, _viewModelFactory
+            var model = BulletinApiController.GetFliers(_flierSearchService, _queryService, _blobStorage, ThumbOrientation.Horizontal, ThumbSize.S250, _viewModelFactory
                              , loc, count, board: board, skip: skip, distance: distance, tags: tags);
 
             ViewBag.Location = loc;
