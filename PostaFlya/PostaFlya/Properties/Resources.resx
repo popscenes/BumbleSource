@@ -321,4 +321,8 @@
   <data name="FlierCreateModel_PostRadius" xml:space="preserve">
     <value>PostLocationRadius</value>
   </data>
+  <data name="Credits" xml:space="preserve">
+    <value>Flya Credits</value>
+    <comment>ProfileEditModel</comment>
+  </data>
 </root>

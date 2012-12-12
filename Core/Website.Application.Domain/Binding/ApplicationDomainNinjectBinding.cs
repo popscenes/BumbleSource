@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics;
 using Ninject;
 using Ninject.Modules;
+using Website.Application.Domain.Payment;
 using Website.Application.Domain.Publish;
 using Website.Domain.Service;
 using Website.Infrastructure.Binding;
@@ -29,6 +30,13 @@ namespace Website.Application.Domain.Binding
             Bind<ContentStorageServiceInterface>().To<ImageProcessContentStorageService>();
 
             Bind<DomainEventPublishServiceInterface>().To<DomainEventPublishService>();
+
+            Bind<PaymentServiceProviderInterface>()
+                .To<PaymentServiceProvider>()
+                .InSingletonScope();
+
+            var paymentServiveProvider = Kernel.Get<PaymentServiceProviderInterface>();
+            paymentServiveProvider.Add(new PaypalPaymentService());
 
 
             //this is for appication command handlers to use, 

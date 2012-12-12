@@ -30,6 +30,9 @@ namespace PostaFlya.Models.Browser
         [StringLengthWithMessage(100)]
         public string Surname { get; set; }
 
+        [Display(Name = "Credits", ResourceType = typeof(Properties.Resources))]
+        public double Credits { get; set; }      
+
         [Display(Name = "EmailAddress", ResourceType = typeof(Properties.Resources))] 
         [StringLengthWithMessage(100)]
         [EmailAddressWithMessage]
