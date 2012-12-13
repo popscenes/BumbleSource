@@ -11,6 +11,7 @@ using PostaFlya.Domain.Behaviour.Command;
 using PostaFlya.Domain.Behaviour.Query;
 using PostaFlya.Domain.Flier;
 using PostaFlya.Domain.Service;
+using Website.Domain.Payment;
 using Website.Infrastructure.Binding;
 using Website.Infrastructure.Command;
 using Website.Infrastructure.Query;
@@ -46,6 +47,16 @@ namespace PostaFlya.Domain.Binding
             Bind<FlierBehaviourDefaultRespositoryInterface>()
                 .To<FlierBehaviourDefaultRespository>()
                 .InSingletonScope();
+
+            Bind<PaymentPackageServiceInterface>()
+                .To<PaymentPackageService>()
+                .InSingletonScope();
+
+            var paymentServiveProvider = Kernel.Get<PaymentPackageServiceInterface>();
+            paymentServiveProvider.Add(new CreditPaymentPackage(){Credits = 1000, Payment = 10.00});
+            paymentServiveProvider.Add(new CreditPaymentPackage() { Credits = 2000, Payment = 18.00 });
+            paymentServiveProvider.Add(new CreditPaymentPackage() { Credits = 3000, Payment = 25.00 });
+            
 
             var kernel = Kernel as StandardKernel;
             

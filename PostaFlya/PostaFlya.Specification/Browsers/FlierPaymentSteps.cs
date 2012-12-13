@@ -182,7 +182,7 @@ namespace PostaFlya.Specification.Fliers
         public void ThenTheMyAccountWillHaveTheCreditIPurchased()
         {
             var browserInformation = SpecUtil.GetCurrBrowser();
-            Assert.AreEqual(browserInformation.Browser.AccountCredit, 10.00);
+            Assert.AreEqual(browserInformation.Browser.AccountCredit, 1000);
         }
 
         [Then(@"the my account will not have the credit i purchased")]

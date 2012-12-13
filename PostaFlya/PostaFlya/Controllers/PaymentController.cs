@@ -22,6 +22,7 @@ namespace PostaFlya.Controllers
         private readonly GenericQueryServiceInterface _queryService;
         private readonly GenericRepositoryInterface _repositoryService;
         private readonly BrowserInformationInterface _browserInfo;
+        private readonly PaymentPackageServiceInterface _paymentPackageService;
         private readonly HttpContextBase _httpContext;
         private readonly CommandBusInterface _commandBus;
 
@@ -31,6 +32,7 @@ namespace PostaFlya.Controllers
             GenericQueryServiceInterface queryService,
             GenericRepositoryInterface repositoryService,
             BrowserInformationInterface browserInfo,
+            PaymentPackageServiceInterface paymentPackageService,
             HttpContextBase httpContext)
         {
             _paymentServiceProviderInterface = paymentServiceProviderInterface;
@@ -38,6 +40,7 @@ namespace PostaFlya.Controllers
             _queryService = queryService;
             _repositoryService = repositoryService;
             _browserInfo = browserInfo;
+            _paymentPackageService = paymentPackageService;
             _httpContext = httpContext;
         }
 
@@ -64,11 +67,13 @@ namespace PostaFlya.Controllers
         public ViewResult PaymnetCallback(PaymentTransaction transaction)
         {
             var browser = _queryService.FindById<Browser>(transaction.PaymentEntityId);
+            var paymentPackage = _paymentPackageService.Get(transaction.Amount);
             
             var transactionCommand = new PaymentTransactionCommand()
                 {
                     Entity = browser,
-                    Transaction = transaction
+                    Transaction = transaction,
+                    Package = paymentPackage
                 };
 
             var res = _commandBus.Send(transactionCommand) as MsgResponse;
