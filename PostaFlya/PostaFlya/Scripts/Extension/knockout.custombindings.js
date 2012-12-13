@@ -187,7 +187,12 @@ ko.bindingHandlers.bulletinimg = {
         var jele = $(element);
         var baseurl = valueAccessor();
         var all = allBindingsAccessor();
-        jele.attr('src', baseurl);
+        
+        var position = baseurl.indexOf(".jpg");
+        var width = getFlierImageSizeFromWidth(jele.width());
+        var url = [baseurl.slice(0, position), width, baseurl.slice(position)].join('');
+
+        jele.attr('src', url);
         jele.attr('alt', all.alt);
 
         var overlays = jele.siblings('.detail-overlay');
@@ -201,6 +206,20 @@ ko.bindingHandlers.bulletinimg = {
     update: function (element, valueAccessor, allBindingsAccessor, viewModel) {
 
     }
+};
+
+function getFlierImageSizeFromWidth(width) {
+    
+    if (width <= 50)
+        return 'h50';
+    if (width <= 100)
+        return 'h100';
+    if (width <= 200)
+        return 'h200';
+    if (width <= 250)
+        return 'h250';
+
+    return 'h450';    
 };
 
 ko.bindingHandlers.absolutePosFromScroll = {

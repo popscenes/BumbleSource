@@ -9,6 +9,14 @@ namespace Website.Application.Content
     {
         public string ContentTyp { get; set; }
         public IDictionary<string, string> MetaData { get; set; }
+
+        public static BlobProperties JpegContentTypeDefault
+        {
+            get
+            {
+                return new BlobProperties() { ContentTyp = "image/jpeg" };
+            }
+        }
     }
 
     public interface BlobStorageInterface
