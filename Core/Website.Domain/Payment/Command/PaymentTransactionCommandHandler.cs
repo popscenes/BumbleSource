@@ -49,7 +49,8 @@ namespace Website.Domain.Payment.Command
                     , o =>
                     {
                         var chargeable = o as ChargableEntityInterface;
-                        if (chargeable != null) chargeable.AccountCredit += transaction.Amount;
+                        var package = command.Package as CreditPaymentPackage;
+                        if (chargeable != null && package != null) chargeable.AccountCredit += package.Credits;
                     });
                 }
             }

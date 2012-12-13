@@ -62,7 +62,8 @@ namespace PostaFlya.Controllers
                            MiddleNames = browser.MiddleNames.EmptyIfNull(),
                            Surname = browser.Surname.EmptyIfNull(),
                            Email = browser.EmailAddress.EmptyIfNull(),
-                           AvatarImageId = browser.AvatarImageId.EmptyIfNull()
+                           AvatarImageId = browser.AvatarImageId.EmptyIfNull(),
+                           Credits = browser.AccountCredit
                        };
         }
     }

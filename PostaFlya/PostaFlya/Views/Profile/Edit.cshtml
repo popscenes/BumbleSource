@@ -35,13 +35,23 @@
             </ol>
  
         </fieldset>
-        <fieldset>
-            <legend> @Html.LabelFor(model => model.Handle) </legend>
+    <fieldset>
+        <legend> @Html.LabelFor(model => model.Handle) </legend>
+        <ol>
+            <li>
+                @Html.LabelFor(model => model.Handle)
+                @Html.TextBoxFor(model => model.Handle, new { data_bind = "value:Handle" })
+                @Html.ValidationMessageFor(model => model.Handle)
+            </li>
+        </ol>
+    </fieldset>
+    <fieldset>
+            <legend> @Html.LabelFor(model => model.Credits)</legend>
             <ol>
                 <li>
-                    @Html.LabelFor(model => model.Handle)
-                    @Html.TextBoxFor(model => model.Handle, new { data_bind = "value:Handle" })
-                    @Html.ValidationMessageFor(model => model.Handle)
+                    @Html.LabelFor(model => model.Credits)
+                    @Html.DisplayFor(model => model.Credits)
+                    @Html.ActionLink("Add More", "AddAccountCredit", "Payment")
                 </li>
             </ol>
         </fieldset>
