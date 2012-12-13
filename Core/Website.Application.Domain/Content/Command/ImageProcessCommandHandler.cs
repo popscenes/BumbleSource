@@ -14,7 +14,7 @@ namespace Website.Application.Domain.Content.Command
     public class ImageProcessCommandHandler : CommandHandlerInterface<ImageProcessCommand>
     {
         public const int MaxWidthHeight = 750;
-        public const double A4AspectRatio = 1.414213562373095;//not used atm
+       
 
 
         public const double MaxAspectRatio = 2.5;
