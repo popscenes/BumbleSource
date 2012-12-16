@@ -47,12 +47,12 @@ namespace PostaFlya.Controllers
         }
 
         // GET /api/myfliersapi
-        public IQueryable<BulletinFlierModel> Get(string browserId)
+        public IQueryable<FlierCreateModel> Get(string browserId)
         {
             var fliers = _queryService.GetByBrowserId<Flier>(browserId);
-            return fliers.Select(_ => _viewModelFactory.GetBulletinViewModel(_, false)
-                .GetImageUrl(_blobStorage))
-                .AsQueryable();
+            return
+                fliers.Select(
+                    _ => _.ToCreateModel().GetImageUrl(_blobStorage));
         }
 
         // GET /api/Browser/browserId/myfliers/5
@@ -62,7 +62,7 @@ namespace PostaFlya.Controllers
             if (flier != null && flier.BrowserId != browserId)
                 return null;
 
-            var flierModel = flier.ToCreateModel().GetImageUrl(_blobStorage, ThumbOrientation.Horizontal, ThumbSize.S250);
+            var flierModel = flier.ToCreateModel().GetImageUrl(_blobStorage);
             flierModel.ImageList.ForEach(_ => _.GetImageUrl(_blobStorage, ThumbOrientation.Vertical, ThumbSize.S100));
             return flierModel;
         }

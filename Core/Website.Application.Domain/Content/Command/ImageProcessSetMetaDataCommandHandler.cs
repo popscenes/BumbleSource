@@ -28,7 +28,7 @@ namespace Website.Application.Domain.Content.Command
                     from to in Enum.GetValues(typeof(ThumbOrientation)).OfType<ThumbOrientation>()
                     select imgId + ImageUtil.GetIdFileExtension(to, ts);
             var list = q.ToList();
-            list.Add(imgId);
+            list.Add(imgId + ImageUtil.GetIdFileExtension());
 
             foreach (var imgid in list)
             {

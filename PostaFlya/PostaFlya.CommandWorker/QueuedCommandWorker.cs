@@ -24,6 +24,7 @@ namespace PostaFlya.CommandWorker
                       new Website.Application.Domain.Binding.ApplicationDomainNinjectBinding(),                
                       new Website.Application.Azure.Binding.AzureApplicationNinjectBinding(),
                        new PostaFlya.Application.Domain.Binding.ApplicationDomainNinjectBinding(),
+                       new PostaFlya.Application.Domain.Binding.ApplicationDomainServicesNinjectBinding()
                   };
 
         private StandardKernel _kernel;

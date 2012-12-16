@@ -42,6 +42,8 @@
             </div>
 
             <button data-bind="click:$root.CreateFlierInstance.EditFlierLaunch, visible:BrowserId==bf.currentBrowserInstance.BrowserId">Edit</button>
+            <a href="@Url.Action("GetPrintFlier","Img", new {id = Flier.Id})"
+               data-bind="click: function(){return true;}, clickBubble: false, attr:{href: '@Url.Action("GetPrintFlier","Img")/' + Id}, visible:BrowserId==bf.currentBrowserInstance.BrowserId">Download Print</a>
         </div>
     </div>      
 </div>

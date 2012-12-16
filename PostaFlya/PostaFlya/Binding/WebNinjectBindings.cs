@@ -163,6 +163,7 @@ namespace PostaFlya.Binding
                       new Website.Application.Binding.ApplicationCommandHandlersNinjectBinding(),
                       new Website.Application.Binding.ApplicationNinjectBinding(),
                       new PostaFlya.Application.Domain.Binding.ApplicationDomainNinjectBinding(),
+                      new PostaFlya.Application.Domain.Binding.ApplicationDomainServicesNinjectBinding(),
                       new Website.Application.Domain.Binding.ApplicationDomainNinjectBinding(),
                       new Website.Application.Azure.Binding.AzureApplicationNinjectBinding(),
                       new PostaFlya.Binding.WebNinjectBindings(),

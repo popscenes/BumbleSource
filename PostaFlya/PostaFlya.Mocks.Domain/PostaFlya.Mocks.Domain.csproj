@@ -94,7 +94,7 @@
   <ItemGroup>
     <Compile Include="Data\Behaviour\TaskJobTestData.cs" />
     <Compile Include="Data\BoardTestData.cs" />
-    <Compile Include="Data\ExternalSourceNinjectModule.cs" />
+    <Compile Include="Data\MockApplicationServicesNinjectModule.cs" />
     <Compile Include="Data\FlierTestData.cs" />
     <Compile Include="Data\TestRepositoriesNinjectModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

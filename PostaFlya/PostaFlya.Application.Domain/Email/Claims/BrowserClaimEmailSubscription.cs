@@ -54,7 +54,7 @@ namespace PostaFlya.Application.Domain.Email.Claims
 
             if (claim.ClaimContext.Equals("senduserdetails", StringComparison.CurrentCultureIgnoreCase))
             {
-                FlierInterface flier = _entityQueryService.FindById<Flier>(claim.AggregateId);
+                FlierInterface flier = _entityQueryService.FindById<PostaFlya.Domain.Flier.Flier>(claim.AggregateId);
                 BrowserInterface ownerBrowser = _entityQueryService.FindById<Browser>(flier.BrowserId);
                 if (ownerBrowser != null)
                     browserPublishList.Add(ownerBrowser);
@@ -81,7 +81,7 @@ namespace PostaFlya.Application.Domain.Email.Claims
 
         }
 
-        private bool SendToOwner(BrowserInterface browser, ClaimEvent publish, Flier flier)
+        private bool SendToOwner(BrowserInterface browser, ClaimEvent publish, PostaFlya.Domain.Flier.Flier flier)
         {
             var email = new MailMessage();
 
@@ -101,7 +101,7 @@ namespace PostaFlya.Application.Domain.Email.Claims
             return true;
         }
 
-        private bool SendToClaimer(BrowserInterface browser, ClaimEvent publish, Flier flier)
+        private bool SendToClaimer(BrowserInterface browser, ClaimEvent publish, PostaFlya.Domain.Flier.Flier flier)
         {
             var email = new MailMessage();
 

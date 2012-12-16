@@ -89,6 +89,18 @@ namespace PostaFlya.Specification.Fliers
             testRunner.Then("I should see the details for my FLIER", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
             this.ScenarioCleanup();
         }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Download Print Image From Detail View")]
+        public virtual void DownloadPrintImageFromDetailView()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Download Print Image From Detail View", ((string[])(null)));
+            this.ScenarioSetup(scenarioInfo);
+            testRunner.Given("I have created a FLIER", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+            testRunner.When("I choose to download the printable flier image", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+            testRunner.Then("I should recieve the printable flier image", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+            this.ScenarioCleanup();
+        }
     }
 }
 #pragma warning restore

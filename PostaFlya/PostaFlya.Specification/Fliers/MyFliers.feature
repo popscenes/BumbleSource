@@ -15,3 +15,8 @@ Scenario: Show Fliers Detail View
 	And I have navigated to the my fliers page 
 	When I click on view for my FLIER 
 	Then I should see the details for my FLIER
+
+Scenario: Download Print Image From Detail View
+	Given I have created a FLIER
+	When I choose to download the printable flier image
+	Then I should recieve the printable flier image

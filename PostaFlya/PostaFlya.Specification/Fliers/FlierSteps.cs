@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Web.Mvc;
 using NUnit.Framework;
@@ -13,6 +15,7 @@ using PostaFlya.Models.Flier;
 using PostaFlya.Models.Location;
 using PostaFlya.Specification.Util;
 using PostaFlya.Models.Content;
+using Website.Application.Domain.Content;
 using Website.Domain.Browser.Query;
 using Website.Infrastructure.Authentication;
 using Website.Infrastructure.Command;
@@ -209,7 +212,7 @@ namespace PostaFlya.Specification.Fliers
         public void WhenIClickOnViewForAFlier()
         {
             var browserInformation = SpecUtil.GetCurrBrowser();
-            var fliers = SpecUtil.ControllerResult as IQueryable<BulletinFlierModel>;
+            var fliers = SpecUtil.ControllerResult as IQueryable<FlierCreateModel>;
 
             var myFliersApiController = SpecUtil.GetController<MyFliersController>();
             SpecUtil.ControllerResult = myFliersApiController.Get(browserInformation.Browser.Id, fliers.First().Id);
@@ -226,7 +229,7 @@ namespace PostaFlya.Specification.Fliers
         [Then(@"I should see a list of fliers I have created")]
         public void ThenIShouldSeeAListOfFliersIHaveCreated()
         {
-            var fliers = SpecUtil.ControllerResult as IQueryable<BulletinFlierModel>;
+            var fliers = SpecUtil.ControllerResult as IQueryable<FlierCreateModel>;
 
             Assert.IsTrue(fliers.Count() == 3);
         }
@@ -570,6 +573,27 @@ namespace PostaFlya.Specification.Fliers
         }
 
 
+        [When(@"I choose to download the printable flier image")]
+        public void WhenIChooseToDownloadThePrintableFlierImage()
+        {
+            var imgController = SpecUtil.GetController<ImgController>();
+            var flier = ScenarioContext.Current["flier"] as FlierInterface;
+            SpecUtil.ControllerResult = imgController.GetPrintFlier(flier.Id);
+        }
+
+        [Then(@"I should recieve the printable flier image")]
+        public void ThenIShouldRecieveThePrintableFlierImage()
+        {
+            var ret = SpecUtil.ControllerResult as FileContentResult;
+            Assert.IsNotNull(ret);
+            using (var ms = new MemoryStream(ret.FileContents))
+            {
+                using (var img = Image.FromStream(ms))
+                {                  
+                    Assert.That(img.Size, Is.EqualTo(ImageUtil.A4300DpiSize));
+                }
+            }            
+        }
 
     }
 

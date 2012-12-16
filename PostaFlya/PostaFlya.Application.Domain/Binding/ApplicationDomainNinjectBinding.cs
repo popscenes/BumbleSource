@@ -3,6 +3,7 @@ using System.Linq;
 using Ninject;
 using Ninject.Modules;
 using PostaFlya.Application.Domain.ExternalSource;
+using PostaFlya.Application.Domain.Flier;
 using Website.Application.Binding;
 using Website.Application.Command;
 using PostaFlya.Domain.Service;
@@ -24,21 +25,6 @@ namespace PostaFlya.Application.Domain.Binding
         public override void Load()
         {
             Trace.TraceInformation("Binding ApplicationDomainNinjectBinding");
-
-            //Kernel.Bind<BrowserInformationInterface>().To<BrowserInformation>();
-
-            //Bind<RequestContentRetrieverFactoryInterface>().To<RequestContentRetrieverFactory>();
-
-            //Bind<UrlContentRetrieverFactoryInterface>().To<UrlContentRetrieverFactory>();
-
-            //Bind<ContentStorageServiceInterface>().To<ImageProcessContentStorageService>();
-
-            Bind<FlierImportServiceInterface>().To<FlierImportService>();
-
-            //this is for appication command handlers to use, 
-            //need to consider putting context on this
-            //Bind<CommandBusInterface>()
-            //    .To<DefaultCommandBus>(); 
 
             //command handlers
             var kernel = Kernel as StandardKernel;

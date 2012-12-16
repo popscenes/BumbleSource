@@ -134,8 +134,8 @@ namespace PostaFlya.Specification.Util
                       new PostaFlya.Areas.TaskJob.Binding.TaskJobBehaviourWebNinjectBinding(),
                       new MockRepositoriesNinjectModule(),
                       new Website.Mocks.Domain.Data.TestIdentityProvidersNinjectModult(),
-                      new ExternalSourceNinjectModule(),
-                      new PaymentTestData()
+                      new MockApplicationServicesNinjectModule(),
+                      new PaymentTestData(),
                   };
     }
 }

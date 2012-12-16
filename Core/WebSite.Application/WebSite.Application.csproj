@@ -167,6 +167,12 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\Libraries\WebActivator.1.5.2\lib\net40\WebActivator.dll</HintPath>
     </Reference>
+    <Reference Include="zxing">
+      <HintPath>..\..\..\Libraries\ZXing.Net.0.10.0.0\lib\net40\zxing.dll</HintPath>
+    </Reference>
+    <Reference Include="zxing.presentation">
+      <HintPath>..\..\..\Libraries\ZXing.Net.0.10.0.0\lib\net40\zxing.presentation.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Authentication\AzureAcsIdentityProvider.cs" />
@@ -199,6 +205,9 @@
     <Compile Include="Command\QueuedCommandResult.cs" />
     <Compile Include="Content\BlobStorageInterface.cs" />
     <Compile Include="Content\ExifImage.cs" />
+    <Compile Include="Content\GoogleQrCode.cs" />
+    <Compile Include="Content\QrCodeServiceInterface.cs" />
+    <Compile Include="Content\ZXingQrCode.cs" />
     <Compile Include="Email\Command\SendMailCommand.cs" />
     <Compile Include="Email\Command\SendMailCommandHandler.cs" />
     <Compile Include="Email\Command\SerializableMailMessage.cs" />
@@ -233,6 +242,7 @@
     <Compile Include="Command\QueueMessageInterface.cs" />
     <Compile Include="Command\QueuedCommandProcessor.cs" />
     <Compile Include="Extension\TypeConverter\FromStringTypeConverter.cs" />
+    <Compile Include="Extension\Web\HtmlHelperExtensions.cs" />
     <Compile Include="Intergrations\FaceBookEvent.cs" />
     <Compile Include="Intergrations\FacebookGraph.cs" />
     <Compile Include="Intergrations\FacebookPermissionSet.cs" />

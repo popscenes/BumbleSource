@@ -6,8 +6,11 @@ using System.Net;
 using System.Net.Http;
 using System.Web;
 using System.Web.Mvc;
+using PostaFlya.Application.Domain.Flier;
+using PostaFlya.Domain.Flier;
 using Website.Application.Binding;
 using Website.Application.Content;
+using Website.Application.Extension.Content;
 using Website.Common.ActionResult;
 using Website.Infrastructure.Command;
 using PostaFlya.Models.Content;
@@ -26,19 +29,21 @@ namespace PostaFlya.Controllers
         private readonly BrowserInformationInterface _browserInformation;
         private readonly CommandBusInterface _commandBus;
         private readonly GenericQueryServiceInterface _queryService;
+        private readonly FlierPrintImageServiceInterface _flierPrintImageService;
         //private readonly HttpContextBase _httpContext;
 
         public ImgController([ImageStorage]BlobStorageInterface blobStorage
             , RequestContentRetrieverFactoryInterface contentRetrieverFactory
             , BrowserInformationInterface browserInformation, CommandBusInterface commandBus
-            , GenericQueryServiceInterface queryService
-            )
+            , GenericQueryServiceInterface queryService, 
+            FlierPrintImageServiceInterface flierPrintImageService)
         {
             _blobStorage = blobStorage;
             _contentRetrieverFactory = contentRetrieverFactory;
             _browserInformation = browserInformation;
             _commandBus = commandBus;
             _queryService = queryService;
+            _flierPrintImageService = flierPrintImageService;
             //_httpContext = httpContext;
         }
 
@@ -68,57 +73,6 @@ namespace PostaFlya.Controllers
             }
         }
 
-//        [HttpGet]
-//        public ActionResult Get(string id, string view = "")
-//        {
-//            if (string.IsNullOrWhiteSpace(id))
-//            {
-//                Response.StatusCode = (int)HttpStatusCode.NotFound;
-//                return new EmptyResult();
-//            }
-//
-//            var image = _queryService.FindById(id);
-//            if (image == null)
-//            {
-//                Response.StatusCode = (int)HttpStatusCode.NotFound;
-//                return new EmptyResult();
-//
-//            }
-//
-//            if (image.Status == ImageStatus.Processing)
-//            {
-//                Response.StatusCode = (int)HttpStatusCode.NotFound;
-//                return new EmptyResult();
-//
-//            }
-//
-//            if(image.Status == ImageStatus.Failed)
-//            {
-//                Response.StatusCode = (int)HttpStatusCode.NotFound;
-//                return new EmptyResult();
-//
-//            }
-//
-//            if (_blobStorage.Exists(id + view))
-//                SetClientCacheResponse();
-//            else
-//            {
-//                Trace.TraceWarning("image {0} exists in table storage but not in blob storage for view {1}"
-//                    ,id ,view);
-//                //Response.StatusCode = (int)HttpStatusCode.NotFound;
-//                return File(GetNotFoundData(), "image/jpeg");
-//            }
-//            
-//            Action<Stream> write = stream => _blobStorage.GetToStream(id + view, stream);
-//            return new WriteToStreamFileResult(write, "image/jpeg"); 
-//        }
-
-        // [HttpPost] //todo authorize browser.IsInRole(Role.Participant) [Authorize(Roles = "Participant")]
-        //public HttpStatusCodeResult Post()
-        //{
-        //    return new HttpStatusCodeResult(HttpStatusCode.Created);
-        //}
-
         [HttpPost] //todo authorize browser.IsInRole(Role.Participant) [Authorize(Roles = "Participant")]
         public HttpStatusCodeResult Post(ImageCreateModel createModel)
         {
@@ -140,7 +94,8 @@ namespace PostaFlya.Controllers
                                      Location = createModel.Location != null ? createModel.Location.ToDomainModel() : null
                                  });
 
-            Response.Headers["Location"] = Url != null ? Url.Action("Get", new {id = imgId}) : imgId.ToString();
+            var uri = _blobStorage.GetBlobUri(imgId + ImageUtil.GetIdFileExtension(), false);
+            Response.Headers["Location"] = uri != null ? uri.ToString() : imgId.ToString();
             return new HttpStatusCodeResult(HttpStatusCode.Created);
         }
 
@@ -148,31 +103,19 @@ namespace PostaFlya.Controllers
         [NonAction]
         public byte[] GetNotFoundData()
         {
-            using (var ms = new MemoryStream())
-            {
-                PostaFlya.Properties.Resources.NotFoundImg.Save(ms, ImageFormat.Jpeg);
-                return ms.ToArray();
-            }
+            return Properties.Resources.NotFoundImg.GetBytes(ImageFormat.Jpeg);
         }
 
         [NonAction]
         public byte[] GetStillProcessingData()
         {
-            using (var ms = new MemoryStream())
-            {
-                PostaFlya.Properties.Resources.ImageProcessing.Save(ms, ImageFormat.Jpeg);
-                return ms.ToArray();
-            }
+            return Properties.Resources.ImageProcessing.GetBytes(ImageFormat.Jpeg);
         }
 
         [NonAction]
         public byte[] GetFailedProcessingData()
         {
-            using (var ms = new MemoryStream())
-            {
-                PostaFlya.Properties.Resources.ImageProcessingFailed.Save(ms, ImageFormat.Jpeg);
-                return ms.ToArray();
-            }
+            return Properties.Resources.ImageProcessingFailed.GetBytes(ImageFormat.Jpeg);
         }
 
         [NonAction]
@@ -208,5 +151,17 @@ namespace PostaFlya.Controllers
         //            {
         //                
         //            }
+        public ActionResult GetPrintFlier(string id)
+        {
+            var flier = _queryService.FindById<Flier>(id);
+            if(flier == null)
+                return new HttpNotFoundResult();
+
+            var img = _flierPrintImageService.GetPrintImageForFlier(id);
+            if(img == null)
+                return new HttpNotFoundResult();
+
+            return File(img.GetBytes(ImageFormat.Jpeg), "image/jpeg", flier.FriendlyId + ".jpg");
+        }
     }
 }

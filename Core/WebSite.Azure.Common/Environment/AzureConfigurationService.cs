@@ -12,9 +12,16 @@ namespace Website.Azure.Common.Environment
     {
         public string GetSetting(string setting)
         {
-            return RoleEnvironment.IsAvailable ?
+            try
+            {
+                return RoleEnvironment.IsAvailable ?
                     RoleEnvironment.GetConfigurationSettingValue(setting)
-                    :ConfigurationManager.AppSettings[setting];
+                    : ConfigurationManager.AppSettings[setting];
+            }
+            catch (Exception)
+            {
+                return null;
+            }
         }
     }
 }

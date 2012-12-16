@@ -1,18 +1,23 @@
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using Moq;
 using NUnit.Framework;
+using Ninject;
 using Ninject.MockingKernel.Moq;
 using Ninject.Modules;
 using PostaFlya.Application.Domain.ExternalSource;
+using PostaFlya.Application.Domain.Flier;
 using PostaFlya.Domain.Flier;
+using Website.Application.Domain.Content;
 using Website.Infrastructure.Authentication;
 using Website.Domain.Browser;
+using Website.Infrastructure.Query;
 
 namespace PostaFlya.Mocks.Domain.Data
 {
-    public class ExternalSourceNinjectModule: NinjectModule
+    public class MockApplicationServicesNinjectModule: NinjectModule
     {
         public override void Load()
         {
@@ -20,6 +25,23 @@ namespace PostaFlya.Mocks.Domain.Data
             Assert.IsNotNull(kernel, "should be using mock kernel for tests");
 
             SetUpTestExternalSourceServices(kernel);
+            SetUpFlierPrintService(kernel);
+        }
+
+        private void SetUpFlierPrintService(MoqMockingKernel kernel)
+        {
+            var printService = kernel.GetMock<FlierPrintImageServiceInterface>();
+            
+            printService.Setup(ps => ps.GetPrintImageForFlier(It.IsAny<string>()))
+                        .Returns<string>(s =>
+                            {
+                                var qs = kernel.Get<GenericQueryServiceInterface>();
+                                return qs.FindById<Flier>(s) == null ? null 
+                                    : new Bitmap(ImageUtil.A4300DpiSize.Width, ImageUtil.A4300DpiSize.Height);
+                            });
+
+            Bind<FlierPrintImageServiceInterface>()
+                .ToConstant(printService.Object);
         }
 
         public void SetUpTestExternalSourceServices(MoqMockingKernel kernel)

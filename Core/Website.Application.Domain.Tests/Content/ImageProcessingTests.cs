@@ -153,7 +153,7 @@ namespace Website.Application.Domain.Tests.Content
 
         private static void TestImageProcessedIsSmallerThanMax(Guid guid, Dictionary<string, byte[]> dictionary)
         {
-            var data = dictionary[guid.ToString()];
+            var data = dictionary[guid.ToString() + ImageUtil.GetIdFileExtension()];
             using (var ms = new MemoryStream(data))
             {
                 var conv = Image.FromStream(ms);
@@ -179,7 +179,7 @@ namespace Website.Application.Domain.Tests.Content
         private static void TestImageWidthAspectRatioIsLessThanMaxAspectRatio(Guid guid, Dictionary<string, byte[]> dictionary)
         {
 
-            var data = dictionary[guid.ToString()];
+            var data = dictionary[guid.ToString() + ImageUtil.GetIdFileExtension()];
             using (var ms = new MemoryStream(data))
             {
                 var conv = Image.FromStream(ms);
@@ -190,7 +190,7 @@ namespace Website.Application.Domain.Tests.Content
 
         private static void TestImageHeightAspectRatioIsLessThanMaxAspectRatio(Guid guid, Dictionary<string, byte[]> dictionary)
         {
-            var data = dictionary[guid.ToString()];
+            var data = dictionary[guid.ToString() + ImageUtil.GetIdFileExtension()];
             using (var ms = new MemoryStream(data))
             {
                 var conv = Image.FromStream(ms);

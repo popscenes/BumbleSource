@@ -1,10 +1,12 @@
 using System;
+using System.Drawing;
 
 namespace Website.Application.Domain.Content
 {
     public static class ImageUtil
     {
         public const double A4AspectRatio = 1.414213562373095;//not used atm
+        public static readonly Size A4300DpiSize = new Size(2480, 3508);
 
         public static string GetIdFileExtension(ThumbOrientation orientation, ThumbSize thumbSize)
         {
