@@ -5,6 +5,7 @@ using System.Linq;
 using Ninject;
 using Ninject.MockingKernel.Moq;
 using Website.Application.Command;
+using Website.Application.Queue;
 using Website.Infrastructure.Command;
 using Website.Infrastructure.Util;
 
@@ -24,7 +25,7 @@ namespace Website.Application.Tests.Classes
             public byte[] Bytes { get; set; }
         }
 
-        public class TestMessageFactory : MessageFactoryInterface
+        public class TestMessageFactory
         {
             public QueueMessageInterface GetMessageForBytes(byte[] bytes)
             {
@@ -114,8 +115,7 @@ namespace Website.Application.Tests.Classes
         {
             return new QueuedCommandBus(
                 _commandSerializer,
-                GetQueue(queueEndpoint),
-                _messageFactory
+                GetQueue(queueEndpoint)
                 );
         }
 

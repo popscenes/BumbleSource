@@ -109,13 +109,13 @@
     <Compile Include="Binding\AzureInitCreateQueueAndBlobs.cs" />
     <Compile Include="Binding\AzureApplicationNinjectBinding.cs" />
     <Compile Include="Caching\AzureCacheProvider.cs" />
-    <Compile Include="Command\AzureCloudQueue.cs" />
-    <Compile Include="Command\AzureCloudQueueMessage.cs" />
-    <Compile Include="Command\AzureMessageFactory.cs" />
     <Compile Include="Command\AzureCommandQueueFactory.cs" />
     <Compile Include="Communication\AzureApplicationBroadcastCommunicatorRegistration.cs" />
     <Compile Include="Content\AzureCloudBlobStorage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Queue\AzureCloudQueue.cs" />
+    <Compile Include="Queue\AzureCloudQueueFactoryInterface.cs" />
+    <Compile Include="Queue\AzureCloudQueueMessage.cs" />
     <Compile Include="WebsiteInformation\WebsiteInfoServiceAzure.cs" />
   </ItemGroup>
   <ItemGroup>

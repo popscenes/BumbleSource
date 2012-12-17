@@ -3,8 +3,10 @@ using Microsoft.WindowsAzure.Storage.Queue;
 using NUnit.Framework;
 using Ninject;
 using Website.Application.Azure.Command;
+using Website.Application.Azure.Queue;
 using Website.Application.Command;
 using Website.Application.Content;
+using Website.Application.Queue;
 
 namespace Website.Application.Azure.Tests
 {
@@ -29,7 +31,6 @@ namespace Website.Application.Azure.Tests
             Kernel.Get<CloudBlobContainer>(metadata => metadata.Has("commandqueue")).CreateIfNotExists();
             Kernel.Get<CloudQueue>(metadata => metadata.Has("commandqueue")).CreateIfNotExists();
 
-            Kernel.Bind<MessageFactoryInterface>().To<AzureMessageFactory>();
             Kernel.Bind<QueueInterface>().To<AzureCloudQueue>().WithMetadata("commandqueue", true);
 
         }
@@ -39,7 +40,6 @@ namespace Website.Application.Azure.Tests
         {
             Kernel.Unbind<BlobStorageInterface>();   
             Kernel.Unbind<QueueInterface>();
-            Kernel.Unbind<MessageFactoryInterface>();
 
             Kernel.Get<CloudBlobContainer>(metadata => metadata.Has("commandqueue")).Delete();
             Kernel.Get<CloudQueue>(metadata => metadata.Has("commandqueue")).Delete();
@@ -51,15 +51,13 @@ namespace Website.Application.Azure.Tests
         [Test]
         public void TestAzureCloudQueueAddGetDeleteMessage()
         {
-            var messageFactory = Kernel.Get<MessageFactoryInterface>();
-            Assert.That(messageFactory, Is.InstanceOf<AzureMessageFactory>());
 
             var azureQueue = Kernel.Get<QueueInterface>(md => md.Has("commandqueue"));
             Assert.That(azureQueue, Is.InstanceOf<AzureCloudQueue>());
 
             var data = new byte[1024 * 5]; //just 5 k
             data[0] = 0; data[1] = 1; data[2] = 2;
-            var msg = messageFactory.GetMessageForBytes(data);
+            var msg = new QueueMessage(data);
 
             azureQueue.AddMessage(msg);
 

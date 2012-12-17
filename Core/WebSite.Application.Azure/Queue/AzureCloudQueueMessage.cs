@@ -1,7 +1,7 @@
 ﻿using Microsoft.WindowsAzure.Storage.Queue;
-using Website.Application.Command;
+using Website.Application.Queue;
 
-namespace Website.Application.Azure.Command
+namespace Website.Application.Azure.Queue
 {
     public class AzureCloudQueueMessage : QueueMessageInterface
     {

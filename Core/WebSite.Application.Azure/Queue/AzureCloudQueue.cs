@@ -1,9 +1,9 @@
 ﻿using System;
 using Microsoft.WindowsAzure.Storage.Queue;
 using Website.Application.Azure.Content;
-using Website.Application.Command;
+using Website.Application.Queue;
 
-namespace Website.Application.Azure.Command
+namespace Website.Application.Azure.Queue
 {
     public class AzureCloudQueue : QueueInterface
     {
@@ -20,12 +20,11 @@ namespace Website.Application.Azure.Command
 
         void QueueInterface.AddMessage(QueueMessageInterface message)
         {
-            var azureMsg = message as AzureCloudQueueMessage;
-            if (azureMsg != null)
-            {
-                Func<bool> addMsg = () => { _cloudQueue.AddMessage(azureMsg.Message); return true;};
-                AzureCloudBlobStorage.RetryQuery(addMsg);
-            }            
+            var azureMsg = message as AzureCloudQueueMessage ?? new AzureCloudQueueMessage(message.Bytes);
+
+            Func<bool> addMsg = () => { _cloudQueue.AddMessage(azureMsg.Message); return true;};
+            AzureCloudBlobStorage.RetryQuery(addMsg);
+                        
         }
 
         public QueueMessageInterface GetMessage(TimeSpan invisibilityTimeOut)

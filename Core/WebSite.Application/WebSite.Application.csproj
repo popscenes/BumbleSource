@@ -193,7 +193,6 @@
     <Compile Include="Caching\Query\TimedExpiryCachedQueryService.cs" />
     <Compile Include="Command\DataBusCommandSerializer.cs" />
     <Compile Include="Command\DataBusRedirectToStorage.cs" />
-    <Compile Include="Command\MessageFactoryInterface.cs" />
     <Compile Include="Command\QueuedCommandBus.cs" />
     <Compile Include="Binding\BindingAttributes.cs" />
     <Compile Include="Command\CommandQueueFactoryInterface.cs" />
@@ -238,8 +237,6 @@
     <Compile Include="Extension\Validation\ValidationAdapters.cs" />
     <Compile Include="Extension\Validation\ValidationAttributes.cs" />
     <Compile Include="Command\CommandSerializerInterface.cs" />
-    <Compile Include="Command\QueueInterface.cs" />
-    <Compile Include="Command\QueueMessageInterface.cs" />
     <Compile Include="Command\QueuedCommandProcessor.cs" />
     <Compile Include="Extension\TypeConverter\FromStringTypeConverter.cs" />
     <Compile Include="Extension\Web\HtmlHelperExtensions.cs" />
@@ -255,6 +252,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="Publish\DefaultBroadcastService.cs" />
+    <Compile Include="Queue\QueueFactoryInterface.cs" />
+    <Compile Include="Queue\QueueInterface.cs" />
+    <Compile Include="Queue\QueueMessageInterface.cs" />
     <Compile Include="Util\WebRequestUtil.cs" />
     <Compile Include="WebsiteInformation\CachedWebsiteInfoService.cs" />
     <Compile Include="WebsiteInformation\WebsiteInfo.cs" />

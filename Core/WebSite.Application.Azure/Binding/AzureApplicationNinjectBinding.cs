@@ -6,10 +6,12 @@ using Website.Application.ApplicationCommunication;
 using Website.Application.Azure.Command;
 using Website.Application.Azure.Communication;
 using Website.Application.Azure.Content;
+using Website.Application.Azure.Queue;
 using Website.Application.Azure.WebsiteInformation;
 using Website.Application.Binding;
 using Website.Application.Command;
 using Website.Application.Content;
+using Website.Application.Queue;
 using Website.Application.WebsiteInformation;
 using Website.Azure.Common.TableStorage;
 using Website.Infrastructure.Binding;
@@ -28,6 +30,10 @@ namespace Website.Application.Azure.Binding
                 .To<AzureCommandQueueFactory>()
                 .InThreadScope();
 
+            //queue factory
+            Kernel.Bind<QueueFactoryInterface>()
+                  .To<AzureCloudQueueFactory>()
+                  .InThreadScope();
             
             //worker command queue
             Kernel.Bind<CommandBusInterface>().ToMethod(

@@ -1,3 +1,4 @@
+using Website.Application.Queue;
 using Website.Infrastructure.Command;
 
 namespace Website.Application.Command
@@ -6,14 +7,12 @@ namespace Website.Application.Command
     {
         private readonly CommandSerializerInterface _commandSerializer;
         private readonly QueueInterface _queue;
-        private readonly MessageFactoryInterface _messageFactory;
 
         public QueuedCommandBus(CommandSerializerInterface commandSerializer, 
-                               QueueInterface queue, MessageFactoryInterface messageFactory)
+                               QueueInterface queue)
         {
             _commandSerializer = commandSerializer;
             _queue = queue;
-            _messageFactory = messageFactory;
         }
 
         #region Implementation of CommandBusInterface
@@ -21,7 +20,7 @@ namespace Website.Application.Command
         public object Send<TCommand>(TCommand command) where TCommand : class, CommandInterface
         {
             var msg = _commandSerializer.ToByteArray(command);
-            var sendmessage = _messageFactory.GetMessageForBytes(msg);
+            var sendmessage = new QueueMessage(msg);
             _queue.AddMessage(sendmessage);
             return true;
         }

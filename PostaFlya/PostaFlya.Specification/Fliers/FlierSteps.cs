@@ -595,6 +595,13 @@ namespace PostaFlya.Specification.Fliers
             }            
         }
 
+        [Then(@"It should have a unique Tiny Url")]
+        public void ThenItShouldHaveAUniqueTinyUrl()
+        {
+            var flier = ScenarioContext.Current["flier"] as FlierInterface;
+        }
+
+
     }
 
     

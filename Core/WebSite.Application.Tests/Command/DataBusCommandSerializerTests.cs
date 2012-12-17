@@ -6,6 +6,7 @@ using Ninject;
 using Ninject.MockingKernel.Moq;
 using Website.Application.Command;
 using Website.Application.Content;
+using Website.Application.Queue;
 using Website.Infrastructure.Command;
 
 namespace Website.Application.Tests.Command
@@ -32,7 +33,6 @@ namespace Website.Application.Tests.Command
             Kernel.Unbind<QueueMessageInterface>();
             Kernel.Unbind<CommandSerializerInterface>();
             Kernel.Unbind<CommandHandlerInterface<QueuedCommandSchedulerTests.TestCommand>>();
-            Kernel.Unbind<MessageFactoryInterface>();
             Kernel.Unbind<BlobStorageInterface>();
         }
 

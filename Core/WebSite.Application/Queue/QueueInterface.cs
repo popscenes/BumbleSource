@@ -1,7 +1,7 @@
 using System;
-using System.Threading;
+using Website.Application.Command;
 
-namespace Website.Application.Command
+namespace Website.Application.Queue
 {
     public interface QueueInterface
     {

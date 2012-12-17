@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using Website.Application.Queue;
 using Website.Infrastructure.Command;
 
 namespace Website.Application.Command

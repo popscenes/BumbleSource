@@ -8,6 +8,7 @@ using Ninject.Modules;
 using Website.Application.Azure.Binding;
 using Website.Application.Command;
 using Website.Application.Content;
+using Website.Application.Queue;
 using Website.Azure.Common.Binding;
 using Website.Azure.Common.Environment;
 using Website.Azure.Common.TableStorage;
@@ -45,7 +46,6 @@ namespace Website.Application.Azure.Tests
         {
             CurrIocKernel.Unbind<BlobStorageInterface>();
             CurrIocKernel.Unbind<QueueInterface>();
-            CurrIocKernel.Unbind<MessageFactoryInterface>();
             CurrIocKernel.Unbind<CloudQueue>();
             CurrIocKernel.Unbind<CloudBlobContainer>();
 
