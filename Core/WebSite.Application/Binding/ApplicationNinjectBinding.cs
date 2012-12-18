@@ -6,6 +6,8 @@ using Website.Application.ApplicationCommunication;
 using Website.Application.Command;
 using Website.Application.Content;
 using Website.Application.Publish;
+using Website.Application.Queue;
+using Website.Application.Schedule;
 using Website.Application.WebsiteInformation;
 using Website.Infrastructure.Publish;
 
@@ -53,6 +55,18 @@ namespace Website.Application.Binding
             Bind<QrCodeServiceInterface>()
                 .To<ZXingQrCodeService>()
                 .InSingletonScope();
+
+            Bind<QueueInterface>()
+                .ToMethod(ctx => 
+                    ctx.Kernel.Get<QueueFactoryInterface>().GetQueue("tinyurls"))
+                .WhenTargetHas<TinyUrlQueue>()
+                .InThreadScope();
+
+            Bind<TimeServiceInterface>()
+                .To<DefaultTimeService>()
+                .InSingletonScope();
+
+            
 
             Trace.TraceInformation("Finished Binding ApplicationNinjectBinding");
 

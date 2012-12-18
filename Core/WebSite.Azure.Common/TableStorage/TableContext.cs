@@ -357,7 +357,10 @@ namespace Website.Azure.Common.TableStorage
 
             var q = (from p in propertiesEle.Elements()
                      select new EdmRet(p)).ToDictionary(p => p.Name);
-
+            
+            if (!q.ContainsKey("JsonCount"))
+                return;
+            
             var jsonCount = q["JsonCount"].Get<int>();
             var jsonGzip = q["JsonGzip"].Get<bool>();
             var jsonBinary = q["JsonBinary"].Get<bool>();

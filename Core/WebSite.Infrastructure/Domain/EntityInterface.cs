@@ -21,7 +21,7 @@ namespace Website.Infrastructure.Domain
      
     public static class EntityIdInterfaceExtensions
     {
-        public static void CopyFieldsFrom(this EntityInterface target, EntityInterface source)
+        public static void CopyFieldsFrom(this EntityIdInterface target, EntityIdInterface source)
         {
             target.Id = source.Id;
             target.FriendlyId = source.FriendlyId;

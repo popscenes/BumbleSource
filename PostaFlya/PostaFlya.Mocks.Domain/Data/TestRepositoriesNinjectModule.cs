@@ -18,6 +18,7 @@ using Website.Domain.Location;
 using Website.Domain.Tag;
 using Website.Infrastructure.Query;
 using Website.Mocks.Domain.Data;
+using Website.Test.Common;
 
 namespace PostaFlya.Mocks.Domain.Data
 {
@@ -28,20 +29,20 @@ namespace PostaFlya.Mocks.Domain.Data
         {
             var kernel = Kernel as MoqMockingKernel;
 
-            var boardFlierStore = RepoUtil.GetMockStore<BoardFlierInterface>();
+            var boardFlierStore = RepoCoreUtil.GetMockStore<BoardFlierInterface>();
             SetUpFlierRepositoryAndQueryService(kernel
-                , RepoUtil.GetMockStore<FlierInterface>()
-                , RepoUtil.GetMockStore<CommentInterface>()
-                , RepoUtil.GetMockStore<ClaimInterface>()
+                , RepoCoreUtil.GetMockStore<FlierInterface>()
+                , RepoCoreUtil.GetMockStore<CommentInterface>()
+                , RepoCoreUtil.GetMockStore<ClaimInterface>()
                 , boardFlierStore
-                , RepoUtil.GetMockStore<PaymentTransactionInterface>());
+                , RepoCoreUtil.GetMockStore<PaymentTransactionInterface>());
  
             SetUpTaskJobRepositoryAndQueryService(kernel
-                , RepoUtil.GetMockStore<TaskJobFlierBehaviourInterface>()
-                , RepoUtil.GetMockStore<TaskJobBidInterface>());
+                , RepoCoreUtil.GetMockStore<TaskJobFlierBehaviourInterface>()
+                , RepoCoreUtil.GetMockStore<TaskJobBidInterface>());
 
             SetUpBoardRepositoryAndQueryService(kernel
-                , RepoUtil.GetMockStore<BoardInterface>());
+                , RepoCoreUtil.GetMockStore<BoardInterface>());
 
             SetUpBoardFlierRepositoryAndQueryService(kernel
                 , boardFlierStore);

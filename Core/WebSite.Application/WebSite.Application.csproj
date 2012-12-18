@@ -255,6 +255,14 @@
     <Compile Include="Queue\QueueFactoryInterface.cs" />
     <Compile Include="Queue\QueueInterface.cs" />
     <Compile Include="Queue\QueueMessageInterface.cs" />
+    <Compile Include="Schedule\Command\JobCommandHandler.cs" />
+    <Compile Include="Schedule\DefaultTimeService.cs" />
+    <Compile Include="Schedule\JobActionInterface.cs" />
+    <Compile Include="Schedule\JobBase.cs" />
+    <Compile Include="Schedule\Command\JobCommand.cs" />
+    <Compile Include="Schedule\RepeatJob.cs" />
+    <Compile Include="Schedule\Scheduler.cs" />
+    <Compile Include="Schedule\TimeServiceInterface.cs" />
     <Compile Include="Util\WebRequestUtil.cs" />
     <Compile Include="WebsiteInformation\CachedWebsiteInfoService.cs" />
     <Compile Include="WebsiteInformation\WebsiteInfo.cs" />

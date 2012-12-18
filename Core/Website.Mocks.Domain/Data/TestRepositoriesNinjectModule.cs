@@ -10,6 +10,7 @@ using Website.Domain.Browser;
 using Website.Domain.Browser.Query;
 using Website.Domain.Content;
 using Website.Infrastructure.Command;
+using Website.Test.Common;
 
 namespace Website.Mocks.Domain.Data
 {
@@ -20,8 +21,8 @@ namespace Website.Mocks.Domain.Data
         {
             var kernel = Kernel as MoqMockingKernel;
             Assert.IsNotNull(kernel, "should be using mock kernel for tests");
-            SetUpBrowserRepositoryAndQueryService(kernel, RepoUtil.GetMockStore<BrowserInterface>(), RepoUtil.GetMockStore<BrowserIdentityProviderCredentialInterface>());
-            SetUpImageRepositoryAndQueryService(kernel, RepoUtil.GetMockStore<ImageInterface>());   
+            SetUpBrowserRepositoryAndQueryService(kernel, RepoCoreUtil.GetMockStore<BrowserInterface>(), RepoCoreUtil.GetMockStore<BrowserIdentityProviderCredentialInterface>());
+            SetUpImageRepositoryAndQueryService(kernel, RepoCoreUtil.GetMockStore<ImageInterface>());   
             PrincipalData.SetPrincipal(kernel);
             SetUpWebsiteInfo(kernel);
 

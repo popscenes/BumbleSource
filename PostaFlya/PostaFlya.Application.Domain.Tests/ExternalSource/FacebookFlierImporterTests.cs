@@ -63,8 +63,8 @@ namespace PostaFlya.Application.Domain.Tests.ExternalSource
             };
 
             //TestRepositoriesNinjectModule.SetUpFlierRepositoryAndQueryService(Kernel,
-            //     RepoUtil.GetMockStore<FlierInterface>()
-            //    , RepoUtil.GetMockStore<CommentInterface>()
+            //     RepoCoreUtil.GetMockStore<FlierInterface>()
+            //    , RepoCoreUtil.GetMockStore<CommentInterface>()
             //    , new List<LikeInterface>());
 
             

@@ -13,4 +13,7 @@ namespace Website.Application.Binding
 
     //for broadcast communication
     public class BroadcastCommunicatorAttribute : Attribute { }
+
+    //for tiny url generation
+    public class TinyUrlQueue : Attribute{} 
 }

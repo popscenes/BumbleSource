@@ -110,6 +110,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="Publish\DefaultPublishBroadcastServiceTests.cs" />
+    <Compile Include="Schedule\SchedulerTests.cs" />
     <Compile Include="TestFixtureSetup.cs" />
     <Compile Include="Command\QueuedCommandSchedulerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
