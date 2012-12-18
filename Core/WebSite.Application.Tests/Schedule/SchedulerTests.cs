@@ -80,6 +80,7 @@ namespace Website.Application.Tests.Schedule
             cmdHandler.Setup(ch => ch.Handle(It.IsAny<JobCommand>()))
                 .Returns<JobCommand>(tc =>
                 {
+                    Trace.TraceInformation("Elapsed {0}", watch.ElapsedMilliseconds);
                     commandCount++;
                     if(commandCount == 2)
                         cancellationTokenSource.Cancel();
@@ -100,7 +101,7 @@ namespace Website.Application.Tests.Schedule
             sub.Jobs.Add(job);
             watch.Start();
             sub.Run(cancellationTokenSource);
-            Assert.That( watch.ElapsedMilliseconds/1000, Is.GreaterThanOrEqualTo(2));
+            Assert.That( watch.ElapsedMilliseconds, Is.GreaterThanOrEqualTo(1000));
 
             Kernel.Unbind<CommandHandlerInterface<JobCommand>>();
         }
