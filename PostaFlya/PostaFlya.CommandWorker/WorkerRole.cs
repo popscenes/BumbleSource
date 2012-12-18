@@ -15,11 +15,11 @@ namespace PostaFlya.CommandWorker
 {
     public class WorkerRole : RoleEntryPoint
     {
-        private readonly QueuedCommandWorker _commandWorker;
+        private readonly CommonWorkers _commandWorker;
 
         public WorkerRole()
         {
-            _commandWorker = new QueuedCommandWorker();
+            _commandWorker = new CommonWorkers();
             Trace.WriteLine("WorkerRole created", "Information");        
         }
 

@@ -6,11 +6,11 @@ namespace PostaFlya
 {
     public class WebRole : RoleEntryPoint
     {
-        //if you want to share one web and worker roles for now uncomment = new QueuedCommandWorker();
+        //if you want to share one web and worker roles for now uncomment = new CommonWorkers();
 //#if !DEBUG
-//        private readonly QueuedCommandWorker _commandWorker = new QueuedCommandWorker();
+//        private readonly CommonWorkers _commandWorker = new CommonWorkers();
 //#else
-        private readonly QueuedCommandWorker _commandWorker;// = new QueuedCommandWorker();
+        private readonly CommonWorkers _commandWorker;// = new CommonWorkers();
 //#endif
         public override bool OnStart()
         {
@@ -36,7 +36,7 @@ namespace PostaFlya
         public WebRole()
         {
             if (_commandWorker != null)
-                _commandWorker = new QueuedCommandWorker();
+                _commandWorker = new CommonWorkers();
         }
 
         public override void Run()

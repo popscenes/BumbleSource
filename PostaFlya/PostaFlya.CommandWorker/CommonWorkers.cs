@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Threading;
+using System.Threading.Tasks;
 using Ninject;
 using Ninject.Modules;
 using PostaFlya.Application.Domain.Binding;
@@ -7,7 +8,7 @@ using Website.Application.Command;
 
 namespace PostaFlya.CommandWorker
 {
-    public class QueuedCommandWorker
+    public class CommonWorkers
     {
         private static readonly List<INinjectModule> NinjectModules = new List<INinjectModule>()
                   {
@@ -39,8 +40,14 @@ namespace PostaFlya.CommandWorker
 
         public void Run()
         {
-            var processor = _kernel.Get<QueuedCommandProcessor>(ctx => ctx.Has("workercommandqueue"));
-            processor.Run(_cancellationTokenSource.Token);
+            var task = new Task(() =>
+                {
+                    var processor = _kernel.Get<QueuedCommandProcessor>(ctx => ctx.Has("workercommandqueue"));
+                    processor.Run(_cancellationTokenSource.Token);
+                }, TaskCreationOptions.LongRunning);
+            task.Start();
+
+            //add other workers as above
         }
 
         public void Stop()
