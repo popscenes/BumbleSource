@@ -8,7 +8,14 @@ using Website.Infrastructure.Query;
 
 namespace Website.Application.Schedule
 {
-    public class Scheduler
+    public interface SchedulerInterface
+    {
+        int RunInterval { get; set; }
+        List<JobBase> Jobs { get; }
+        void Run(CancellationTokenSource cancellationTokenSource);
+    }
+
+    public class Scheduler : SchedulerInterface
     {
         private readonly GenericQueryServiceInterface _genericQueryService;
         private readonly UnitOfWorkFactoryInterface _unitOfWorkFactory;

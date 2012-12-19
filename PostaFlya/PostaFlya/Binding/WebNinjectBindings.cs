@@ -89,12 +89,12 @@ namespace PostaFlya.Binding
             //turn off notifications for cached repositories when using azure cache          
             Bind<CacheNotifier>().ToMethod(context => new CacheNotifier(null, false));
 //end azure caching
-            
-            //broadcast communicator id func
-            Func<string> broadcastEndpointId = () => CryptoUtil.CalculateHash(AzureEnv.GetIdForInstance());
-            Bind<Func<string>>().ToConstant(broadcastEndpointId).WithMetadata("BroadcastCommunicator", true);
+
 
             //if we need a broadcast bus injected in request scope
+//            Func<string> broadcastEndpointId = () => CryptoUtil.CalculateHash(AzureEnv.GetIdForInstance());
+//            Bind<Func<string>>().ToConstant(broadcastEndpointId).WithMetadata("BroadcastCommunicator", true);
+           
 //            Bind<CommandBusInterface>()
 //                .ToMethod(ctx => ctx.Kernel.Get<CommandBusInterface>(metadata => metadata.Has("BroadcastCommunicator")))
 //            .WhenTargetHas<BroadcastCommunicatorAttribute>()
@@ -128,6 +128,8 @@ namespace PostaFlya.Binding
             Bind<FlierBehaviourViewModelFactoryRegistryInterface>()
                 .ToConstant(Kernel.Get<FlierBehaviourViewModelFactory>())
                 .InSingletonScope();
+
+            
 
             Trace.TraceInformation("Finished Binding WebNinjectBindings");
 

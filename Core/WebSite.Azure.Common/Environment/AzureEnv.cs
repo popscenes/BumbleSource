@@ -25,6 +25,8 @@ namespace Website.Azure.Common.Environment
         //not using anywhere yet but might as well know how to do it!
         public static bool IsRunningInDevFabric()
         {
+            if (!IsRunningInCloud())
+                return false;
             // easiest check: try translate deployment ID into guid
             Guid guidId;
             return !Guid.TryParse(RoleEnvironment.DeploymentId, out guidId);
@@ -42,10 +44,21 @@ namespace Website.Azure.Common.Environment
 
         public static string GetIdForInstance()
         {
-            if (IsRunningInCloud())
-                return RoleEnvironment.CurrentRoleInstance.Id;
+             return RoleEnvironment.CurrentRoleInstance.Id;
+        }
 
-            return "devinstance";
+        public static int GetInstanceIndex()
+        {
+            if (!IsRunningInCloud())
+                return 0;
+
+            var instanceId = RoleEnvironment.CurrentRoleInstance.Id;
+            var instanceIndex = 0;
+            if (int.TryParse(instanceId.Substring(instanceId.LastIndexOf(".", System.StringComparison.Ordinal) + 1), out instanceIndex)) // On cloud.
+            {
+                int.TryParse(instanceId.Substring(instanceId.LastIndexOf("_", System.StringComparison.Ordinal) + 1), out instanceIndex); // On compute emulator.
+            }
+            return instanceIndex;
         }
     }
 }

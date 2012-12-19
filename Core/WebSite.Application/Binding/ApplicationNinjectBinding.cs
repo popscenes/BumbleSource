@@ -66,6 +66,12 @@ namespace Website.Application.Binding
                 .To<DefaultTimeService>()
                 .InSingletonScope();
 
+            Bind<SchedulerInterface>().ToMethod(context =>
+                {
+                    var ret = context.Kernel.Get<Scheduler>();
+                    ret.RunInterval = 60000;
+                    return ret;
+                }).InSingletonScope();
             
 
             Trace.TraceInformation("Finished Binding ApplicationNinjectBinding");

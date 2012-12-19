@@ -11,15 +11,14 @@ namespace Website.Application.Command
 {
     public class QueuedCommandProcessor
     {
-        private readonly ConcurrentDictionary<string, Task<WorkInProgress>> _tasks = new ConcurrentDictionary<string, Task<WorkInProgress>>();
         private readonly QueueInterface _messageQueue;
         private readonly CommandSerializerInterface _commandSerializer;
         private readonly CommandHandlerRespositoryInterface _handlerRespository;
         private int _messageCount;
-
         private int _waitLength = 200;
         private const int MaxBackOffLimit = 1000;
         private const int MaxWorkInProgress = 15;
+
         
 
         public QueuedCommandProcessor(QueueInterface messageQueue,  
@@ -36,7 +35,7 @@ namespace Website.Application.Command
         {
             while (!cancellationToken.IsCancellationRequested)
             {
-                if (this.CheckProcessedMessages() >= MaxWorkInProgress) continue;
+                if (Wip >= MaxWorkInProgress) continue;
 
                 var gotMsg = this.CheckForMessage();
                 if (!gotMsg)
@@ -50,8 +49,9 @@ namespace Website.Application.Command
                 }
             }
 
-            while(this.CheckProcessedMessages() > 0)
+            while (_wip > 0)
             {
+                Thread.Sleep(_waitLength);
             }
         }
 
@@ -70,7 +70,7 @@ namespace Website.Application.Command
 
         private bool CheckForMessage()
         {
-            var message = _messageQueue.GetMessage();
+            var message = GetMessage();
             if (message == null) 
                return false;
             
@@ -80,37 +80,64 @@ namespace Website.Application.Command
                                          Id = Guid.NewGuid().ToString(),
                                          Message = message,
                                      };
-            
-            var task = new Task<WorkInProgress>(() => TaskProc(workInProgress));
-            _tasks[workInProgress.Id] = task;
-            task.Start();
+
+            RunTask(workInProgress);
             return true;
         }
 
-        private int CheckProcessedMessages()
+        private QueueMessageInterface GetMessage()
         {
-            foreach (var wip in _tasks.ToArray())
+            lock (_messageQueue)
             {
-                try
-                {
-                    if (!wip.Value.IsCompleted) continue;
+                return _messageQueue.GetMessage();
+            }          
+        }
 
-                    Task<WorkInProgress> wipTask;
-                    if (!_tasks.TryRemove(wip.Key, out wipTask)) continue;
-                    if (wipTask.IsCanceled || wipTask.IsFaulted) continue;
-                    if (wipTask.Result.Result == QueuedCommandResult.Retry) continue;
+        private async void RunTask(WorkInProgress workInProgress)
+        {
+            Wip++;
+            var progress = workInProgress;
+            var task = new Task<WorkInProgress>(() => TaskProc(progress));
+            task.Start();
+            var wipret = await task;
 
-                    _commandSerializer.ReleaseCommand(wipTask.Result.Command);
-                    _messageQueue.DeleteMessage(wipTask.Result.Message);
-                    _messageCount++;
-                }
-                catch (Exception e)
-                {
-                    Trace.TraceError("QueuedCommandProcessor Error: {0}, Stack {1}", e.Message, e.StackTrace);
-                }
+            if ((task.IsCanceled || task.IsFaulted) || (wipret.Result == QueuedCommandResult.Retry))
+            {
+                Wip--;
+                return;
             }
 
-            return _tasks.Count;
+            WorkComplete(wipret);
+        }
+
+        private int _wip;
+        private int Wip
+        {
+            get
+            {
+                lock (_messageQueue)
+                {
+                    return _wip;
+                }
+            }
+            set
+            {
+                lock (_messageQueue)
+                {
+                    _wip = value;
+                }
+            }
+        }
+
+        private void WorkComplete(WorkInProgress wipret)
+        {
+            Wip--;
+            lock (_messageQueue)
+            {
+                _commandSerializer.ReleaseCommand(wipret.Command);
+                _messageQueue.DeleteMessage(wipret.Message);
+                _messageCount++;
+            }
         }
 
         private WorkInProgress TaskProc(WorkInProgress work)

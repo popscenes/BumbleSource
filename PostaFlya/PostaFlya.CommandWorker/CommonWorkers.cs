@@ -5,6 +5,8 @@ using Ninject;
 using Ninject.Modules;
 using PostaFlya.Application.Domain.Binding;
 using Website.Application.Command;
+using Website.Application.Schedule;
+using Website.Azure.Common.Environment;
 
 namespace PostaFlya.CommandWorker
 {
@@ -48,6 +50,15 @@ namespace PostaFlya.CommandWorker
             task.Start();
 
             //add other workers as above
+
+            //only run scheduler on one instance
+            if (AzureEnv.GetInstanceIndex() != 0) return;
+            var schedtask = new Task(() =>
+                {
+                    var scheduler = _kernel.Get<SchedulerInterface>();
+                    scheduler.Run(_cancellationTokenSource);
+                }, TaskCreationOptions.LongRunning);
+            schedtask.Start();            
         }
 
         public void Stop()

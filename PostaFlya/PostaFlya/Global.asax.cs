@@ -18,6 +18,7 @@ using Ninject.Syntax;
 using PostaFlya.App_Start;
 using Website.Application.Authentication;
 using Website.Application.Command;
+using Website.Application.Schedule;
 using Website.Application.WebsiteInformation;
 using Website.Application.Extension.Validation;
 using PostaFlya.Areas.Default;
@@ -284,35 +285,50 @@ namespace PostaFlya
         }
 
 
-        private WebBackgroundWorker _communicatorQueueWorker;
-        private void RunCommunicatorProcessorQueue()
-        {
-
-            _communicatorQueueWorker = new WebBackgroundWorker((t)
-                =>
-            {
-                //start afresh if there is an unhandled exception
-                var processor = DependencyResolver.Get<QueuedCommandProcessor>(
-                        ctx => ctx.Has("BroadcastCommunicator"));
-                    
-                processor.Run(t);
-            });
-            _communicatorQueueWorker.Start();
-        }
+//broadcast role communitcation not needed atm, was being used for role your own distributed caching
+//        private WebBackgroundWorker _communicatorQueueWorker;
+//        private void RunCommunicatorProcessorQueue()
+//        {
+//
+//            _communicatorQueueWorker = new WebBackgroundWorker((t)
+//                =>
+//            {
+//                //start afresh if there is an unhandled exception
+//                var processor = DependencyResolver.Get<QueuedCommandProcessor>(
+//                        ctx => ctx.Has("BroadcastCommunicator"));
+//                    
+//                processor.Run(t.Token);
+//            });
+//            _communicatorQueueWorker.Start();
+//        }
 
         //See workerrole.cs and webrole.cs.. this only gets run here out of the cloud 
         private WebBackgroundWorker _commandQueueWorker;
+        private WebBackgroundWorker _schedulerWorker;
         private void RunCommandProcessorQueue()
         {
             
             _commandQueueWorker = new WebBackgroundWorker((t)
                 =>
                     {
-                        //start afresh if there is an unhandled exception
+                        //will start afresh if there is an unhandled exception
                         var processor = NinjectWebCommon.bootstrapper.Kernel.Get<QueuedCommandProcessor>(ctx => ctx.Has("workercommandqueue"));
-                        processor.Run(t);                   
+                        processor.Run(t.Token);                   
                     });
             _commandQueueWorker.Start();
+
+            if (AzureEnv.GetInstanceIndex() != 0)//just run scheduler or 1st intance
+                return;
+
+            _schedulerWorker = new WebBackgroundWorker((t)
+                 =>
+            {
+                //swill start afresh if there is an unhandled exception
+                var processor = NinjectWebCommon.bootstrapper.Kernel.Get<SchedulerInterface>();
+                processor.Run(t);
+            });
+            _schedulerWorker.Start();
+
         }
 
     }

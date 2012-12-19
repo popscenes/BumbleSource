@@ -8,11 +8,11 @@ namespace Website.Common.Environment
     public class WebBackgroundWorker : IRegisteredObject
     {
         private readonly object _lock = new object();
-        private readonly Action<CancellationToken> _run;
+        private readonly Action<CancellationTokenSource> _run;
         readonly CancellationTokenSource _cancellationTokenSource = new CancellationTokenSource();
         private readonly Thread _thread;
 
-        public WebBackgroundWorker(Action<CancellationToken> run)
+        public WebBackgroundWorker(Action<CancellationTokenSource> run)
         {
             _run = run;
             HostingEnvironment.RegisterObject(this);
@@ -42,7 +42,7 @@ namespace Website.Common.Environment
                 {
                     try
                     {
-                        _run(_cancellationTokenSource.Token);
+                        _run(_cancellationTokenSource);
                     }
                     catch (Exception e)
                     {
