@@ -19,10 +19,13 @@ using Website.Application.Command;
 using Website.Application.Content;
 using PostaFlya.Areas.Default.Binding;
 using PostaFlya.Areas.TaskJob.Binding;
+using Website.Application.Domain.Payment;
+using Website.Application.Intergrations.Payment;
 using Website.Azure.Common.Environment;
 using Website.Infrastructure.Authentication;
 using Website.Infrastructure.Binding;
 using Website.Infrastructure.Command;
+using Website.Infrastructure.Configuration;
 using Website.Infrastructure.Util;
 using PostaFlya.Models.Factory;
 using Website.Application.Domain.Content;
@@ -58,6 +61,28 @@ namespace PostaFlya.Binding
 
             Bind<UrlContentRetrieverInterface>().To<ImageUrlContentRetriever>()
                 .WithMetadata(Content.ContentType.Image.ToString(), true);
+
+            Bind<PaymentServiceProviderInterface>()
+                .To<PaymentServiceProvider>()
+                .InSingletonScope();
+
+            var paymentServiveProvider = Kernel.Get<PaymentServiceProviderInterface>();
+            var paypal = new PaypalExpressCheckout();
+            if (Config.Instance != null)
+            {
+                paypal = new PaypalExpressCheckout()
+                    {
+                        ApiEndpoint = Config.Instance.GetSetting("PaypalAPIEndpoint"),
+                        Url = Config.Instance.GetSetting("PaypalUrl"),
+                        Name = Config.Instance.GetSetting("PaypalName"),
+                        Password = Config.Instance.GetSetting("PaypalPassword"),
+                        Signiture = Config.Instance.GetSetting("PaypalSigniture"),
+                        Version = Config.Instance.GetSetting("PaypalVersion"),
+                        CallbackUrl = Config.Instance.GetSetting("PaypalCallbackUrl"),
+                        CancelUrl = Config.Instance.GetSetting("PaypalCancelUrl")
+                    };
+            }
+            paymentServiveProvider.Add(new PaypalPaymentService(){ PaypalExpressCheckout = paypal});
 
 
 //in memory caching

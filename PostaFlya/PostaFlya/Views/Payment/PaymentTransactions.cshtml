@@ -1,0 +1,16 @@
+﻿@using System.Web.Optimization
+@model System.Collections.Generic.List<Website.Domain.Payment.PaymentTransaction>
+@section scripts {
+    @Styles.Render("~/Content/structure/Payment/DeskCss")   
+    @Styles.Render("~/Content/themes/taskflya/Payment/DeskCss")   
+    @Scripts.Render("~/Script/PaymentDeskJs") 
+}
+
+<h2>Previous Transactions</h2>
+
+<ul>
+@foreach (var transaction in Model)
+{
+    <li>$@transaction.Amount @transaction.Type @transaction.Message</li>    
+}
+</ul>

@@ -370,7 +370,7 @@
     <Compile Include="Models\Factory\FlierBehaviourViewModelFactoryInterface.cs" />
     <Compile Include="Models\Factory\FlierBehaviourViewModelFactoryRegistryInterface.cs" />
     <Compile Include="Models\FlierPaymentModel.cs" />
-    <Compile Include="Models\Flier\FlierPaymentResult.cs" />
+    <Compile Include="Models\Flier\PaymentResult.cs" />
     <Compile Include="Models\Flier\HeatMapPoint.cs" />
     <Compile Include="Controllers\ImgController.cs" />
     <Compile Include="Controllers\MyFliersController.cs" />
@@ -403,6 +403,7 @@
     <Compile Include="Views\FlierImport\Bundles.cs" />
     <Compile Include="Views\Flier\Bundles.cs" />
     <Compile Include="Views\HeatMap\Bundle.cs" />
+    <Compile Include="Views\Payment\Bundles.cs" />
     <Compile Include="Views\Profile\Bundles.cs" />
     <Compile Include="Views\Profile\BundlesEdit.cs" />
     <Compile Include="Views\Shared\Bundles.cs" />
@@ -614,6 +615,7 @@
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\openid\openid-en.js" />
     <Content Include="Scripts\openid\openid-jquery.js" />
+    <Content Include="Scripts\Payment\Payment.js" />
     <Content Include="Scripts\plupload\i18n\cs.js" />
     <Content Include="Scripts\plupload\i18n\da.js" />
     <Content Include="Scripts\plupload\i18n\de.js" />
@@ -714,6 +716,9 @@
     <Content Include="Views\FlierImport\Import.cshtml" />
     <Content Include="Views\Shared\ClaimsPartial.cshtml" />
     <Content Include="Views\Account\ManageTokens.cshtml" />
+    <Content Include="Views\Payment\AddAccountCredit.cshtml" />
+    <Content Include="Views\Payment\PaymnetCallback.cshtml" />
+    <Content Include="Views\Payment\PaymentTransactions.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

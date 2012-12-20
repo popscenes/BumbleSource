@@ -36,7 +36,7 @@ namespace PostaFlya.Specification.Fliers
             var controllerResult = SpecUtil.ControllerResult as ViewResult;
             var flierPaymnetsModel = controllerResult.Model as FlierPaymentModel;
 
-            Assert.AreEqual(flierPaymnetsModel.PaymentOptions.Count, 2);
+            Assert.AreEqual(flierPaymnetsModel.PaymentOptions.Count, 3);
         }
 
         [When(@"I go Select a PAYMENT OPTION")]
@@ -45,7 +45,7 @@ namespace PostaFlya.Specification.Fliers
             var browserInformation = SpecUtil.GetCurrBrowser();
 
             var paymentController = SpecUtil.GetController<PaymentController>();
-            SpecUtil.ControllerResult = paymentController.PaymentProcess(browserInformation.Browser.Id, "AccountCredit", 10.00);
+            SpecUtil.ControllerResult = paymentController.PaymentProcess("AccountCredit", 10.00);
         }
 
         [Then(@"I will be redirected to that OPTIONS PROCESS")]
@@ -90,7 +90,7 @@ namespace PostaFlya.Specification.Fliers
         public void ThenIWillBeShownTheErrorDetails()
         {
             var controllerResult = SpecUtil.ControllerResult as ViewResult;
-            var flierPaymentResult = controllerResult.Model as FlierPaymentResult;
+            var flierPaymentResult = controllerResult.Model as PaymentResult;
             Assert.AreEqual(flierPaymentResult.PaymentMessage, "Test Error Message");
 
             Assert.AreEqual(flierPaymentResult.Transaction.PayerId, "40D8AC2A-F95C-40A8-9A75-EE87146838A2");
@@ -126,7 +126,7 @@ namespace PostaFlya.Specification.Fliers
         public void ThenIWillBeShownTheTransactionDetails()
         {
             var controllerResult = SpecUtil.ControllerResult as ViewResult;
-            var flierPaymentResult = controllerResult.Model as FlierPaymentResult;
+            var flierPaymentResult = controllerResult.Model as PaymentResult;
             Assert.IsTrue(string.IsNullOrEmpty(flierPaymentResult.PaymentMessage));
             Assert.AreEqual(flierPaymentResult.Transaction.PayerId, "40D8AC2A-F95C-40A8-9A75-EE87146838A2");
             

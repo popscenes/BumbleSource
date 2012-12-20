@@ -23,6 +23,15 @@
       <Setting name="Microsoft.WindowsAzure.Plugins.RemoteAccess.AccountExpiration" value="2013-11-01T23:59:59.0000000+11:00" />
       <Setting name="Microsoft.WindowsAzure.Plugins.RemoteForwarder.Enabled" value="true" />
       <Setting name="BlobCdnUrl" value=""/>
+
+      <Setting name="PaypalApiEndpoint" value="https://api-3t.sandbox.paypal.com/nvp"/>
+      <Setting name="PaypalUrl" value="https://www.sandbox.paypal.com/webscr?cmd=_express-checkout&amp;useraction=commit&amp;token="/>
+      <Setting name="PaypalName" value="teddy_1354614467_biz_api1.bumbleflya.com"/>
+      <Setting name="PaypalPassword" value="1354614484"/>
+      <Setting name="PaypalSigniture" value="AKL0BHttgt4y7V9TMc6a-MVrjQrzAI7DEOtgV8YofbavU1TCcr-Nyslc"/>
+      <Setting name="PaypalVersion" value="92.0"/>
+      <Setting name="PaypalCallbackUrl" value="http://127.0.0.1:81/Payment/PayPalSuccess"/>
+      <Setting name="PaypalCancelUrl" value="http://127.0.0.1:81/Payment/Cancel"/>
     </ConfigurationSettings>
     <Certificates>
       <!--<Certificate name="Microsoft.WindowsAzure.Plugins.RemoteAccess.PasswordEncryption" thumbprint="B5EB70801A6D0B9319FDE06E891D90737F129018" thumbprintAlgorithm="sha1" />-->
