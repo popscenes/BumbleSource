@@ -129,6 +129,9 @@
     <Compile Include="Payment\ChargableEntityInterface.cs" />
     <Compile Include="Payment\Command\PaymentTransactionCommand.cs" />
     <Compile Include="Payment\Command\PaymentTransactionCommandHandler.cs" />
+    <Compile Include="Payment\CreditChargeService.cs" />
+    <Compile Include="Payment\CreditChargeServiceInterface.cs" />
+    <Compile Include="Payment\CreditTransaction.cs" />
     <Compile Include="Payment\EntityFeatureChargesInterface.cs" />
     <Compile Include="Payment\CreditPaymentPackage.cs" />
     <Compile Include="Payment\PaymentPackageService.cs" />

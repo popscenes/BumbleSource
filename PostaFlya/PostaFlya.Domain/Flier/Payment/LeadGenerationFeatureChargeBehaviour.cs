@@ -52,7 +52,7 @@ namespace PostaFlya.Domain.Flier.Payment
             return claim == null ? null : GetLeadGenerationFeatureCharge();
         }
 
-        public bool ChargeForState<EntityType>(EntityFeatureCharge entityFeatureCharge, EntityType entity, GenericRepositoryInterface repository, GenericQueryServiceInterface queryService) where EntityType : EntityInterface
+        public bool ChargeForState<EntityType>(EntityFeatureCharge entityFeatureCharge, EntityType entity, GenericRepositoryInterface repository, GenericQueryServiceInterface queryService, CreditChargeServiceInterface creditPaymentService) where EntityType : EntityInterface
         {
             var claim = entity as ClaimInterface;
             if (claim == null || entityFeatureCharge.IsPaid)
@@ -62,16 +62,20 @@ namespace PostaFlya.Domain.Flier.Payment
             if (flier == null)
                 return false;
 
+            var chargableEntity = queryService.FindById<Browser>(flier.BrowserId);
+
             if (!claim.ClaimContext.Contains(FlierInterfaceExtensions.ClaimContextSendUserDetails)
-                || queryService.FindById<Browser>(flier.BrowserId).AccountCredit < entityFeatureCharge.OutstandingBalance) 
+                || chargableEntity.AccountCredit < entityFeatureCharge.OutstandingBalance) 
                 return false;
-    
+
+            creditPaymentService.ChargeCreditsToEntity(entityFeatureCharge, chargableEntity, repository);
+            /*
             repository.UpdateEntity<Browser>(flier.BrowserId, browser =>
                 {
                     browser.AccountCredit -= entityFeatureCharge.OutstandingBalance;                     
                 });
 
-            entityFeatureCharge.Paid = entityFeatureCharge.Cost;
+            entityFeatureCharge.Paid = entityFeatureCharge.Cost;*/
             return true;
         }
     }

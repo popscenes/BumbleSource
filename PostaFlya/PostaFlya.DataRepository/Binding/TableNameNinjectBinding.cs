@@ -57,6 +57,9 @@ namespace PostaFlya.DataRepository.Binding
             tableNameProv.Add<PaymentTransaction>(JsonRepository.IdPartition, "paymentTransaction", e => e.Id);
             tableNameProv.Add<PaymentTransaction>(JsonRepository.AggregateIdPartition, "paymentTransaction", e => e.AggregateId, e => e.Id);
 
+            tableNameProv.Add<CreditTransaction>(JsonRepository.IdPartition, "creditTransaction", e => e.Id);
+            tableNameProv.Add<CreditTransaction>(JsonRepository.AggregateIdPartition, "creditTransaction", e => e.AggregateId, e => e.Id);
+
 
             var tctx = Kernel.Get<TableContextInterface>();
             foreach (var tableName in tableNameProv.GetAllTableNames())

@@ -94,9 +94,20 @@ namespace PostaFlya.Controllers
 
             var savedTransaction = _queryService.FindById<PaymentTransaction>(res.GetEntityId());
 
+            var paymentMessage = "";
+            if (transaction.Status == PaymentTransactionStatus.Success)
+            {
+                paymentMessage = ((CreditPaymentPackage) paymentPackage).Credits + " for $" + transaction.Amount +
+                                     " " + transaction.Message;
+            }
+            else
+            {
+                paymentMessage = transaction.Message;
+            }
+
             var viewModel = new PaymentResult()
             {
-                PaymentMessage = ((CreditPaymentPackage)paymentPackage).Credits + " for $" + transaction.Amount +  " " + transaction.Message,
+                PaymentMessage = paymentMessage,
                 Transaction = transaction
             };
 

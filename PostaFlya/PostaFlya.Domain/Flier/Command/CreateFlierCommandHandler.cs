@@ -24,15 +24,18 @@ namespace PostaFlya.Domain.Flier.Command
         private readonly UnitOfWorkFactoryInterface _unitOfWorkFactory;
         private readonly GenericQueryServiceInterface _flierQueryService;
         private readonly DomainEventPublishServiceInterface _domainEventPublishService;
+        private readonly CreditChargeServiceInterface _creditChargeServiceInterface;
 
         public CreateFlierCommandHandler(GenericRepositoryInterface repository
             , UnitOfWorkFactoryInterface unitOfWorkFactory, GenericQueryServiceInterface flierQueryService
-            , DomainEventPublishServiceInterface domainEventPublishService)
+            , DomainEventPublishServiceInterface domainEventPublishService
+            , CreditChargeServiceInterface creditChargeServiceInterface)
         {
             _repository = repository;
             _unitOfWorkFactory = unitOfWorkFactory;
             _flierQueryService = flierQueryService;
             _domainEventPublishService = domainEventPublishService;
+            _creditChargeServiceInterface = creditChargeServiceInterface;
         }
 
         public object Handle(CreateFlierCommand command)
@@ -62,8 +65,8 @@ namespace PostaFlya.Domain.Flier.Command
             List<BoardFlierModifiedEvent> boardFliers = null;
             UnitOfWorkInterface unitOfWork;
             using (unitOfWork = _unitOfWorkFactory.GetUnitOfWork(new[] { _repository }))
-            {      
-                newFlier.ChargeForState(_repository, _flierQueryService);
+            {
+                newFlier.ChargeForState(_repository, _flierQueryService, _creditChargeServiceInterface);
                 _repository.Store(newFlier);
                 boardFliers = AddFlierToBoardCommandHandler.UpdateAddFlierToBoards(command.BoardSet, newFlier, _flierQueryService,
                                                                      _repository);

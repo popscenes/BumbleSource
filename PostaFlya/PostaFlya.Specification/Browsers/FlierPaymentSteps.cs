@@ -127,7 +127,7 @@ namespace PostaFlya.Specification.Fliers
         {
             var controllerResult = SpecUtil.ControllerResult as ViewResult;
             var flierPaymentResult = controllerResult.Model as PaymentResult;
-            Assert.IsTrue(string.IsNullOrEmpty(flierPaymentResult.PaymentMessage));
+            Assert.IsTrue(!string.IsNullOrEmpty(flierPaymentResult.PaymentMessage));
             Assert.AreEqual(flierPaymentResult.Transaction.PayerId, "40D8AC2A-F95C-40A8-9A75-EE87146838A2");
             
             Assert.AreEqual(flierPaymentResult.Transaction.Type, PaymentType.AccountCredit);

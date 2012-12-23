@@ -17,8 +17,10 @@ using PostaFlya.Specification.Util;
 using PostaFlya.Models.Content;
 using Website.Application.Domain.Content;
 using Website.Domain.Browser.Query;
+using Website.Domain.Payment;
 using Website.Infrastructure.Authentication;
 using Website.Infrastructure.Command;
+using Website.Infrastructure.Domain;
 using Website.Infrastructure.Query;
 using Website.Test.Common;
 using Website.Domain.Browser;
@@ -601,8 +603,14 @@ namespace PostaFlya.Specification.Fliers
             var flier = ScenarioContext.Current["flier"] as FlierInterface;
         }
 
-
+        [Then(@"A CREDIT TRANSACTION of type createFlier will be created")]
+        public void ThenACREDITTRANSACTIONOfTypeCreateFlierWillBeCreated()
+        {
+            var creditTransactionsQueryService = SpecUtil.CurrIocKernel.Get<GenericQueryServiceInterface>();
+            var browserInformation = SpecUtil.GetCurrBrowser();
+            var transactions = creditTransactionsQueryService.FindAggregateEntities<CreditTransaction>(browserInformation.Browser.Id);
+            Assert.IsTrue(transactions.First().CreditTransactionType == "Posting a flier to an area");
+            Assert.IsTrue(transactions.First().Credits == 80);
+        }
     }
-
-    
 }

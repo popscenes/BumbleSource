@@ -35,7 +35,8 @@ namespace PostaFlya.Mocks.Domain.Data
                 , RepoCoreUtil.GetMockStore<CommentInterface>()
                 , RepoCoreUtil.GetMockStore<ClaimInterface>()
                 , boardFlierStore
-                , RepoCoreUtil.GetMockStore<PaymentTransactionInterface>());
+                , RepoCoreUtil.GetMockStore<PaymentTransactionInterface>()
+                , RepoCoreUtil.GetMockStore<CreditTransactionInterface>());
  
             SetUpTaskJobRepositoryAndQueryService(kernel
                 , RepoCoreUtil.GetMockStore<TaskJobFlierBehaviourInterface>()
@@ -74,7 +75,8 @@ namespace PostaFlya.Mocks.Domain.Data
             , HashSet<CommentInterface> storeComment
             , HashSet<ClaimInterface> claimStore
             , HashSet<BoardFlierInterface> boardFlierStore
-            , HashSet<PaymentTransactionInterface> paymentTransactionStore)
+            , HashSet<PaymentTransactionInterface> paymentTransactionStore
+            , HashSet<CreditTransactionInterface> creditTransactionStore)
         {
      
             ////////////repo
@@ -125,7 +127,9 @@ namespace PostaFlya.Mocks.Domain.Data
                                                                                       CopyFieldsFrom);
             //payment transaction
             RepoUtil.SetupRepo<GenericRepositoryInterface, PaymentTransaction, PaymentTransactionInterface>(paymentTransactionStore, kernel, PaymentTransactionInterfaceExtensions.CopyFieldsFrom);
-            RepoUtil.SetupQueryService<QueryServiceForBrowserAggregateInterface, PaymentTransaction, PaymentTransactionInterface>(paymentTransactionStore, kernel, PaymentTransactionInterfaceExtensions.CopyFieldsFrom);
+
+            RepoUtil.SetupQueryService<QueryServiceForBrowserAggregateInterface, PaymentTransaction, PaymentTransactionInterface>(paymentTransactionStore, kernel, 
+                PaymentTransactionInterfaceExtensions.CopyFieldsFrom);
             RepoUtil.FindAggregateEntities<QueryServiceForBrowserAggregateInterface, PaymentTransaction, PaymentTransactionInterface>(paymentTransactionStore, kernel,
                                                                                                   PaymentTransactionInterfaceExtensions
                                                                                                       .CopyFieldsFrom);
@@ -133,6 +137,20 @@ namespace PostaFlya.Mocks.Domain.Data
             RepoUtil.SetupQueryByBrowser<QueryServiceForBrowserAggregateInterface, PaymentTransaction, PaymentTransactionInterface>(flierQueryService, paymentTransactionStore,
                                                                                               kernel,
                                                                                               PaymentTransactionInterfaceExtensions.
+                                                                                                  CopyFieldsFrom);
+
+            //payment transaction
+            RepoUtil.SetupRepo<GenericRepositoryInterface, CreditTransaction, CreditTransactionInterface>(creditTransactionStore, kernel, CreditTransactionInterfaceExtensions.CopyFieldsFrom);
+
+            RepoUtil.SetupQueryService<QueryServiceForBrowserAggregateInterface, CreditTransaction, CreditTransactionInterface>(creditTransactionStore, kernel,
+                CreditTransactionInterfaceExtensions.CopyFieldsFrom);
+            RepoUtil.FindAggregateEntities<QueryServiceForBrowserAggregateInterface, CreditTransaction, CreditTransactionInterface>(creditTransactionStore, kernel,
+                                                                                                  CreditTransactionInterfaceExtensions
+                                                                                                      .CopyFieldsFrom);
+
+            RepoUtil.SetupQueryByBrowser<QueryServiceForBrowserAggregateInterface, CreditTransaction, CreditTransactionInterface>(flierQueryService, creditTransactionStore,
+                                                                                              kernel,
+                                                                                              CreditTransactionInterfaceExtensions.
                                                                                                   CopyFieldsFrom);
 
             //query by location
