@@ -18,35 +18,36 @@
 @section header {
     
     @Html.Partial("GlobalToolbar")
+}
 
-    <div id="controls">
-        <div class="page-toolbar">
-            <div class="locSel">
-                <div data-bind="click: ToggleMap" class="Button" id="btn-location">Location</div>
-                <span data-bind="with:$root.locationSelector">
-                        @Html.Partial("Location/LocationSelector")
-                </span>
-            </div>
-
-            <div class="distSel" data-bind="with:$root.distanceSelector">
-                @Html.Partial("Distance/DistanceSelector")
-            </div>
-            
-            <div class="tagsSel" >
-                <div class="Button" id="btn-tags" data-bind="click:ShowTags">Select Tags</div>
-                <span data-bind="with:$root.tagsSelector"> 
-                    @Html.Partial("Tags/TagsSelector")
-                </span>
-            </div>
-            <div class="sortSel" style="display:none;">
-                <div class="Button" id="btn-sort">Select Tags</div>
+<div id="controls">
+    <div class="page-toolbar">
+        <div class="locSel">
+            <div data-bind="click: ToggleMap" class="Button" id="btn-location">Location</div>
+            <div class="ls-holder" data-bind="with:$root.locationSelector">
+                <input type="text" data-bind="value: currentLocation().Description, attr:{id:locSearchId}"/>
             </div>
         </div>
+
+        <div class="distSel" data-bind="with:$root.distanceSelector">
+            @Html.Partial("Distance/DistanceSelector")
+        </div>
+            
+        <div class="tagsSel">
+            <div class="Button" id="btn-tags" data-bind="click:ShowTags">Select Tags</div>
+            
+        </div>
     </div>
+</div>
 
-    
-
-    }
+<div id="main-controls">
+    <span data-bind="with:$root.tagsSelector">
+          @Html.Partial("Tags/TagsSelector")
+    </span>
+    <span data-bind="with:$root.locationSelector">
+        @Html.Partial("Location/LocationSelector")
+    </span>
+</div>
     
 @Html.Partial("Bulletin/SelectedBulletinViewPartial")
 @Html.Partial("Bulletin/BulletinList")

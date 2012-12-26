@@ -2,9 +2,6 @@
 @Html.Partial("State/PageStateAdd", "Location")
 
 <div class="ls-holder">
-    
-    <input type="text" data-bind="value: currentLocation().Description, attr:{id:locSearchId}"/>
-
     <div id="lsMain" data-bind="visible: showMain">
         
         <div data-bind="visible: ValidLocation()==false">

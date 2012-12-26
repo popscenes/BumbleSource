@@ -37,7 +37,6 @@ header{
 #controls .Button{
 	background-image:url(images/icons.png);
 	background-size:2000px 150px;
-	border:1px solid #ccc;
 	outline:none;
 	color:#fff;
 	float:left;
@@ -97,12 +96,12 @@ a.toolbar-item div{
 }
 
 a.toolbar-item div.profile-edit-tool-bar-item {
-	background-image:url(images/icon_0002_Group-3.png);
+	background-image:url(images/edit-profile-btn.png);
 }
 
 a.toolbar-item div.add-flier-tool-bar-item
 {
-    background-image:url(images/icon_0000_Group-4.png);
+    background-image:url(images/post-flya-btn.png);
 }
 
 a.toolbar-item div.facebook-tool-bar-item
@@ -198,7 +197,7 @@ div#selected-item-popup-overlay, div#create-flier-popup-overlay {
 }
 .ui-slider-horizontal {
 	height: 10px;
-	background:#c00!important;
+	background:#8EC7D5!important;
 }
 .ui-slider-horizontal .ui-slider-handle {
 	top: -1px;
