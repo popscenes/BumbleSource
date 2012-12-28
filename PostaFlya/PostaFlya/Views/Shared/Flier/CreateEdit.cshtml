@@ -28,28 +28,30 @@
 <script type="text/html" id="Flyer-template">
     <form id="flierForm" class="form" data-bind="validate: true">
     
-    @Html.ValidationSummary(false)
-    @Html.HiddenFor(model => model.Id, new { data_bind = "value:Id" })
-    <fieldset>
-        <legend>Select an image for your flier</legend>
-        <ol>
+        @Html.ValidationSummary(false)
+        @Html.HiddenFor(model => model.Id, new { data_bind = "value:Id" })
+        <fieldset>
+            <legend>Select an image for your flier</legend>
             <h2>Select an image for your flier</h2>
-            <img data-bind="attr: { src: FlierImageUrlH250}, visible:FlierImageUrl" />
-            <span class="selected-image" data-bind="visible:(FlierImageUrl()==null)">please select an image</span>
+            
             
 
-            @Html.HiddenFor(model => model.FlierImageId, new { data_bind = "value:FlierImageId" })
-            @Html.ValidationMessageFor(model => model.FlierImageId)
+           
 
-            <li data-bind="with:imageSelector">
+            <span class="image-selector" data-bind="with:imageSelector">
                 @Html.Partial("Image/ImageSelector")
-            </li>
-        </ol>
-        
-    </fieldset>
+            </span>
+            
+            <span class="selected-image">
+                <img data-bind="attr: { src: FlierImageUrlH250}, visible:FlierImageUrl" />
+                <span class="selected-image" data-bind="visible:(FlierImageUrl()==null)">please select an image</span>
+            </span>
+        </fieldset>
     </form>
 
 </script>
+
+@Html.Partial("Image/ImageListTemplate")
 
 <script type="text/html" id="Images-template">
     <form id="flierForm" class="form" data-bind="validate: true">

@@ -616,6 +616,8 @@
     <Content Include="Scripts\knockout-2.1.0.js" />
     <Content Include="Scripts\HeatMap\heatmap-gmaps.js" />
     <Content Include="Scripts\HeatMap\heatmap-lib.js" />
+    <Content Include="Scripts\knockout-2.2.0.debug.js" />
+    <Content Include="Scripts\knockout-2.2.0.js" />
     <Content Include="Scripts\knockout.mapping-latest.debug.js" />
     <Content Include="Scripts\knockout.mapping-latest.js" />
     <Content Include="Scripts\Maps\jquery.ui.map.extensions.js" />
@@ -733,6 +735,7 @@
     <Content Include="Views\Payment\AddAccountCredit.cshtml" />
     <Content Include="Views\Payment\PaymnetCallback.cshtml" />
     <Content Include="Views\Payment\PaymentTransactions.cshtml" />
+    <Content Include="Views\Shared\Image\ImageListTemplate.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

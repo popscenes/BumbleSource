@@ -12,7 +12,7 @@
     @Styles.Render("~/Content/themes/taskflya/ProfileEdit/DeskCss")   
     @Scripts.Render("~/Script/ProfileEditDeskJs") 
 }
-
+@Html.Partial("Image/ImageListTemplate")
 <form id="profileeditform" class="form" data-bind="submit: update">
     
     @Html.ValidationSummary(false)

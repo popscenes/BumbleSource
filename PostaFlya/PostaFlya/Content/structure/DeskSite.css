@@ -398,6 +398,10 @@ fieldset {
     height: 90px;
 }
 
+.image-selector, .selected-image {
+    display: inline-block;
+}
+
 
 /****claims*****/
 

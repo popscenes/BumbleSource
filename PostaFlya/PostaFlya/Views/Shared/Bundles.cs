@@ -17,7 +17,7 @@ namespace PostaFlya.Views.Shared
             "jquery.unobtrusive-ajax.js",
             "jquery.validate.js",
             "jquery.validate.unobtrusive.js",
-            "knockout-2.1.0.js",
+            "knockout-2.2.0.js",
 //            "knockout-2.1.0.debug.js",          
             "knockout.mapping-latest.js",
 //            "knockout.mapping-latest.debug.js",
