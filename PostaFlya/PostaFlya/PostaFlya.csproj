@@ -570,9 +570,9 @@
     <Content Include="Scripts\FlierImport\Desk\FlierImport.js" />
     <Content Include="Scripts\FlierImport\FlierImport.js" />
     <Content Include="Scripts\FlierImport\Mobile\FlierImport.js" />
-    <Content Include="Scripts\jquery-1.8.1-vsdoc.js" />
-    <Content Include="Scripts\jquery-1.8.1.js" />
-    <Content Include="Scripts\jquery-1.8.1.min.js" />
+    <None Include="Scripts\jquery-1.8.3.intellisense.js" />
+    <Content Include="Scripts\jquery-1.8.3.js" />
+    <Content Include="Scripts\jquery-1.8.3.min.js" />
     <Content Include="Scripts\jquery-ui-1.9-RC1.js" />
     <Content Include="Scripts\jquery-ui-1.9-RC1.min.js" />
     <Content Include="Scripts\jquery.bxslider.js" />
@@ -609,9 +609,6 @@
     <Content Include="Scripts\jquery.mobile-1.1.0.min.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
-    <Content Include="Scripts\jquery.validate-vsdoc.js" />
-    <Content Include="Scripts\jquery.validate.js" />
-    <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\knockout-2.1.0.debug.js" />

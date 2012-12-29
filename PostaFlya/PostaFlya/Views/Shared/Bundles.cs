@@ -13,7 +13,7 @@ namespace PostaFlya.Views.Shared
         //javascript      
         private static readonly string[] CoreJsFiles =
         {
-            "jquery-1.8.1.js",
+            "jquery-1.8.3.js",
             "jquery.unobtrusive-ajax.js",
             "jquery.validate.js",
             "jquery.validate.unobtrusive.js",
