@@ -38,7 +38,8 @@ namespace PostaFlya.Views.Shared
             "plupload/plupload.html4.js", 
             "plupload/plupload.html5.js", 
             "plupload/jquery.plupload.queue/jquery.plupload.queue.js", 
-            "jquery.bxSlider.js", 
+            "jquery.bxSlider.js",
+            "jquery.galleriffic.js",
             "sammy.js",
             "URI.js",
  

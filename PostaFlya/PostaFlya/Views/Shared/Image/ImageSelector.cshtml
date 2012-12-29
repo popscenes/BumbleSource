@@ -5,9 +5,15 @@
        
     </div>
     
-    <ul data-bind="template: { name: 'image-template', foreach: imageList}, attr:{id:imageListId}">
+    <div id="thumbs">
+        <ul class="thumbs noscript" data-bind="template: { name: 'image-template2', foreach: imageList}, attr:{id:imageListId}">
         
-    </ul>
+        </ul>
+    </div>
+    
+    <div class="image-holder">
+        
+    </div>
     
     <button data-bind="click: toggleAddImage" class="Button">add image</button>
 </div>

@@ -576,6 +576,7 @@
     <Content Include="Scripts\jquery-ui-1.9-RC1.js" />
     <Content Include="Scripts\jquery-ui-1.9-RC1.min.js" />
     <Content Include="Scripts\jquery.bxslider.js" />
+    <Content Include="Scripts\jquery.galleriffic.js" />
     <Content Include="Scripts\jquery.imagesloaded.js" />
     <Content Include="Scripts\jquery.imagesloaded.min.js" />
     <Content Include="Scripts\jquery.isotope.centered.js" />

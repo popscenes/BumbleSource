@@ -1,5 +1,16 @@
-﻿<script type="text/html" id="image-template">
-        <li>
-            <img data-bind="attr: { id: ImageId, src: ImageUrl  }, click: $parent.clickImage, imgRetry: ImageUrl" height="100" />
-        </li>
-    </script>
+﻿
+
+<script type="text/html" id="image-template">
+    <li>
+        <img data-bind="attr: { id: ImageId, src: ImageUrl  }, click: $parent.clickImage, imgRetry: ImageUrl" height="100" />
+    </li>
+</script>
+
+
+<script type="text/html" id="image-template2">
+    <li>
+           <a class="thumb" data-bind="attr: { href: ImageId, id: ImageId}, click: $parent.clickImage, imgRetry: ImageUrl">
+               <img data-bind="attr: {src: ImageUrl  }"/>
+           </a>
+       </li>
+</script>
