@@ -3,6 +3,7 @@
 	background-image:url(images/bg-texture-01.png);
 	background-repeat:no-repeat;
 	background-position:0 0;
+    font-family:Helvetica, Geneva, sans-serif;
 }
 
 header{
@@ -512,5 +513,15 @@ div#selected-item-popup-overlay, div#create-flier-popup-overlay {
 .tags-selector ul li.tag-selected .job
 {
     background-position:-3260px bottom;
+}
+
+/*****flier form*****/
+
+#flierForm h2 {
+    font-weight: normal;
+    font-size: 30px;
+    color: #98D5E4;
+    text-transform: uppercase;
+
 }
 

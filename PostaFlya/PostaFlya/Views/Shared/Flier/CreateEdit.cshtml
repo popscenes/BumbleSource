@@ -31,12 +31,8 @@
         @Html.ValidationSummary(false)
         @Html.HiddenFor(model => model.Id, new { data_bind = "value:Id" })
         <fieldset>
-            <legend>Select an image for your flier</legend>
-            <h2>Select an image for your flier</h2>
-            
-            
-
-           
+            <legend>ADD IMAGE TO YOUR FLYA</legend>
+            <h2>ADD IMAGE TO YOUR FLYA</h2>
 
             <span class="image-selector" data-bind="with:imageSelector">
                 @Html.Partial("Image/ImageSelector")

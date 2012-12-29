@@ -2,6 +2,7 @@
 	margin:0;
 	padding:0;
 	background-color:#f6f0e7;
+    font-family:Verdana, Geneva, sans-serif;
 	
 }
 
@@ -170,6 +171,7 @@ display:block;
     overflow: hidden;
     text-align:center;
     background-color: white;
+    font-size:13px;
 }
 
 #create-flier-imageList .img-error
@@ -504,4 +506,16 @@ a.toolbar-item
     div#printholder {
         display: none;
     }
+}
+
+.imageSelector ul {
+    height: 350px;
+    width: 300px;
+}
+
+.imageSelector ul li {
+    padding: 0px;
+    margin: 0px;
+    width: 133px;
+    display: inline-block;
 }

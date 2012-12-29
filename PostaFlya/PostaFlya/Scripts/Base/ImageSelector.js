@@ -9,7 +9,7 @@
             uploaderElementId: "uploader",
             imageListId: "imageList",
             callback: null
-        }
+        };
 
         var options = $.extend(defaults, options);
 
@@ -66,8 +66,8 @@
                     imagesDisplayNum = self.imageList().length;
 
                 if (imagesDisplayNum > 0) {
-                    self.slider = $('#' + options.imageListId).bxSlider({ displaySlideQty: imagesDisplayNum, moveSlideQty: 1, infiniteLoop: false });
-                    self.slider.goToPreviousSlide();
+                    //self.slider = $('#' + options.imageListId).bxSlider({ displaySlideQty: imagesDisplayNum, moveSlideQty: 1, infiniteLoop: false });
+                    //self.slider.goToPreviousSlide();
                     self._loadSelectedImageFromId();
                 }
             });
