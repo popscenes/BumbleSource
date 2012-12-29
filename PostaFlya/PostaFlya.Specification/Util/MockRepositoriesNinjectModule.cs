@@ -47,7 +47,8 @@ namespace PostaFlya.Specification.Util
                 , SpecUtil.GetMockStore<HashSet<CommentInterface>>("fliercommentstore")
                 , SpecUtil.GetMockStore<HashSet<ClaimInterface>>("claimstore")
                 , SpecUtil.GetMockStore<HashSet<BoardFlierInterface>>("boardflierstore")
-                , SpecUtil.GetMockStore<HashSet<PaymentTransactionInterface>>("paymentTransactionflierstore"));
+                , SpecUtil.GetMockStore<HashSet<PaymentTransactionInterface>>("paymentTransactionflierstore")
+                , SpecUtil.GetMockStore<HashSet<CreditTransactionInterface>>("creditTransactionflierstore"));
 
             TestRepositoriesNinjectModule.SetUpBoardRepositoryAndQueryService(kernel
                 , SpecUtil.GetMockStore<HashSet<BoardInterface>>("boardstore"));

@@ -28,6 +28,16 @@
       <Setting name="DisableFederation" />
       <Setting name="Microsoft.WindowsAzure.Plugins.Caching.ClientDiagnosticLevel" />
       <Setting name="BlobCdnUrl"/>
+
+      <Setting name="PaypalApiEndpoint"/>
+      <Setting name="PaypalUrl"/>
+      <Setting name="PaypalName"/>
+      <Setting name="PaypalPassword"/>
+      <Setting name="PaypalSigniture"/>
+      <Setting name="PaypalVersion"/>
+      <Setting name="PaypalCallbackUrl"/>
+      <Setting name="PaypalCancelUrl"/>
+
     </ConfigurationSettings>
     <LocalResources>
       <LocalStorage name="Microsoft.WindowsAzure.Plugins.Caching.FileStore" sizeInMB="8192" cleanOnRoleRecycle="false" />

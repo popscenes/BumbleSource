@@ -370,7 +370,7 @@
     <Compile Include="Models\Factory\FlierBehaviourViewModelFactoryInterface.cs" />
     <Compile Include="Models\Factory\FlierBehaviourViewModelFactoryRegistryInterface.cs" />
     <Compile Include="Models\FlierPaymentModel.cs" />
-    <Compile Include="Models\Flier\FlierPaymentResult.cs" />
+    <Compile Include="Models\Flier\PaymentResult.cs" />
     <Compile Include="Models\Flier\HeatMapPoint.cs" />
     <Compile Include="Controllers\ImgController.cs" />
     <Compile Include="Controllers\MyFliersController.cs" />
@@ -403,6 +403,7 @@
     <Compile Include="Views\FlierImport\Bundles.cs" />
     <Compile Include="Views\Flier\Bundles.cs" />
     <Compile Include="Views\HeatMap\Bundle.cs" />
+    <Compile Include="Views\Payment\Bundles.cs" />
     <Compile Include="Views\Profile\Bundles.cs" />
     <Compile Include="Views\Profile\BundlesEdit.cs" />
     <Compile Include="Views\Shared\Bundles.cs" />
@@ -418,13 +419,19 @@
     <Content Include="Content\structure\FlierImport\FlierImport.css" />
     <Content Include="Content\structure\Fliers\Fliers.css" />
     <Content Include="Content\themes\taskflya\DeskSiteOld.css" />
+    <Content Include="Content\themes\taskflya\images\add-btn.png" />
+    <Content Include="Content\themes\taskflya\images\back-btn.png" />
     <Content Include="Content\themes\taskflya\images\bg-button-ro.gif" />
     <Content Include="Content\themes\taskflya\images\bg-button.gif" />
     <Content Include="Content\themes\taskflya\images\bg-texture-01.png" />
+    <Content Include="Content\themes\taskflya\images\browse-btn.png" />
+    <Content Include="Content\themes\taskflya\images\continue-btn.png" />
     <Content Include="Content\themes\taskflya\images\create-flier.png" />
     <Content Include="Content\themes\taskflya\images\defaultavatar.jpg" />
     <Content Include="Content\themes\taskflya\images\edit-icon.png" />
+    <Content Include="Content\themes\taskflya\images\edit-profile-btn.png" />
     <Content Include="Content\themes\taskflya\images\facebook.png" />
+    <Content Include="Content\themes\taskflya\images\flya-message.png" />
     <Content Include="Content\themes\taskflya\images\google.png" />
     <Content Include="Content\images\loading.gif" />
     <Content Include="Content\images\next-horizontal.png" />
@@ -441,6 +448,7 @@
     <Content Include="Content\structure\CommonSite.css" />
     <Content Include="Content\structure\jcarousel-skin-tango.css" />
     <Content Include="Content\themes\taskflya\images\header-bg-shim.png" />
+    <Content Include="Content\themes\taskflya\images\hide-btn.png" />
     <Content Include="Content\themes\taskflya\images\icon-cross.gif" />
     <Content Include="Content\themes\taskflya\images\icon-crossed.gif" />
     <Content Include="Content\themes\taskflya\images\icon-menu.gif" />
@@ -456,11 +464,18 @@
     <Content Include="Content\themes\taskflya\images\icon_arrow_left.png" />
     <Content Include="Content\themes\taskflya\images\icon_arrow_right.png" />
     <Content Include="Content\themes\taskflya\images\logo.png" />
+    <Content Include="Content\themes\taskflya\images\mag-glass.png" />
+    <Content Include="Content\themes\taskflya\images\next-btn.png" />
     <Content Include="Content\themes\taskflya\images\openid-providers-en.png" />
+    <Content Include="Content\themes\taskflya\images\post-flya-btn.png" />
+    <Content Include="Content\themes\taskflya\images\postaflya-logo-blue.png" />
     <Content Include="Content\themes\taskflya\images\postaflya-logo.png" />
+    <Content Include="Content\themes\taskflya\images\prev-btn-disabled.png" />
     <Content Include="Content\themes\taskflya\images\slider-handle.png" />
     <Content Include="Content\themes\taskflya\images\tempbutton400x379.jpg" />
     <Content Include="Content\themes\taskflya\images\tempbutton64x61.jpg" />
+    <Content Include="Content\themes\taskflya\images\tick-disabled.png" />
+    <Content Include="Content\themes\taskflya\images\tick.png" />
     <Content Include="Content\themes\taskflya\images\white-90.png" />
     <Content Include="Content\themes\taskflya\openid-shadow.css" />
     <Content Include="Content\themes\taskflya\openid.css" />
@@ -560,6 +575,8 @@
     <Content Include="Scripts\jquery-1.8.1.min.js" />
     <Content Include="Scripts\jquery-ui-1.9-RC1.js" />
     <Content Include="Scripts\jquery-ui-1.9-RC1.min.js" />
+    <Content Include="Scripts\jquery.bxslider.js" />
+    <Content Include="Scripts\jquery.galleriffic.js" />
     <Content Include="Scripts\jquery.imagesloaded.js" />
     <Content Include="Scripts\jquery.imagesloaded.min.js" />
     <Content Include="Scripts\jquery.isotope.centered.js" />
@@ -582,7 +599,7 @@
     <Content Include="Scripts\HeatMap\Desk\HeatMap.js" />
     <Content Include="Scripts\HeatMap\HeatMap.js" />
     <Content Include="Scripts\HeatMap\Mobile\HeatMap.js" />
-    <Content Include="Scripts\jquery.bxSlider.js" />
+    <Content Include="Scripts\jquery.bxSlider.V3.js" />
     <Content Include="Scripts\jquery.easing.1.3.js" />
     <Content Include="Scripts\jquery.endless-scroll.js" />
     <Content Include="Scripts\jquery.isotope.js" />
@@ -601,6 +618,8 @@
     <Content Include="Scripts\knockout-2.1.0.js" />
     <Content Include="Scripts\HeatMap\heatmap-gmaps.js" />
     <Content Include="Scripts\HeatMap\heatmap-lib.js" />
+    <Content Include="Scripts\knockout-2.2.0.debug.js" />
+    <Content Include="Scripts\knockout-2.2.0.js" />
     <Content Include="Scripts\knockout.mapping-latest.debug.js" />
     <Content Include="Scripts\knockout.mapping-latest.js" />
     <Content Include="Scripts\Maps\jquery.ui.map.extensions.js" />
@@ -614,6 +633,7 @@
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\openid\openid-en.js" />
     <Content Include="Scripts\openid\openid-jquery.js" />
+    <Content Include="Scripts\Payment\Payment.js" />
     <Content Include="Scripts\plupload\i18n\cs.js" />
     <Content Include="Scripts\plupload\i18n\da.js" />
     <Content Include="Scripts\plupload\i18n\de.js" />
@@ -714,6 +734,10 @@
     <Content Include="Views\FlierImport\Import.cshtml" />
     <Content Include="Views\Shared\ClaimsPartial.cshtml" />
     <Content Include="Views\Account\ManageTokens.cshtml" />
+    <Content Include="Views\Payment\AddAccountCredit.cshtml" />
+    <Content Include="Views\Payment\PaymnetCallback.cshtml" />
+    <Content Include="Views\Payment\PaymentTransactions.cshtml" />
+    <Content Include="Views\Shared\Image\ImageListTemplate.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

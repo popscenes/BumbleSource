@@ -116,6 +116,7 @@ namespace PostaFlya.Specification.Fliers
             testRunner.And("the FLIER STATUS will be Active", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
             testRunner.And("the FLIER will contain a FEATURE described as \"People can send their contact deta" +
                     "ils to you\" with a cost of 500 credits", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+            testRunner.And("A CREDIT TRANSACTION of type createFlier will be created", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
             this.ScenarioCleanup();
         }
         

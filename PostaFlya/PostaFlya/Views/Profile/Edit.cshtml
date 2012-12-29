@@ -12,7 +12,7 @@
     @Styles.Render("~/Content/themes/taskflya/ProfileEdit/DeskCss")   
     @Scripts.Render("~/Script/ProfileEditDeskJs") 
 }
-
+@Html.Partial("Image/ImageListTemplate")
 <form id="profileeditform" class="form" data-bind="submit: update">
     
     @Html.ValidationSummary(false)
@@ -50,8 +50,9 @@
             <ol>
                 <li>
                     @Html.LabelFor(model => model.Credits)
-                    @Html.DisplayFor(model => model.Credits)
+                    <span data-bind="text: Credits"></span>
                     @Html.ActionLink("Add More", "AddAccountCredit", "Payment")
+                    @Html.ActionLink("View Transactions", "PaymentTransactions", "Payment")
                 </li>
             </ol>
         </fieldset>

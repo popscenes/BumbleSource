@@ -31,14 +31,6 @@ namespace Website.Application.Domain.Binding
 
             Bind<DomainEventPublishServiceInterface>().To<DomainEventPublishService>();
 
-            Bind<PaymentServiceProviderInterface>()
-                .To<PaymentServiceProvider>()
-                .InSingletonScope();
-
-            var paymentServiveProvider = Kernel.Get<PaymentServiceProviderInterface>();
-            paymentServiveProvider.Add(new PaypalPaymentService());
-
-
             //this is for appication command handlers to use, 
             //need to consider putting context on this
             Bind<CommandBusInterface>()

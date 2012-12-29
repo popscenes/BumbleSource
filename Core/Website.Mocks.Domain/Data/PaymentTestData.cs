@@ -14,7 +14,7 @@ namespace Website.Mocks.Domain.Data
         public override void Load()
         {
             var kernel = Kernel as MoqMockingKernel;
-
+            kernel.Unbind<PaymentServiceProviderInterface>();
             var paymentServiceProviderMock = kernel.GetMock<PaymentServiceProviderInterface>();
 
             kernel.Bind<PaymentServiceProviderInterface>()

@@ -2,18 +2,19 @@
 	margin:0;
 	padding:0;
 	background-color:#f6f0e7;
+    font-family:Verdana, Geneva, sans-serif;
 	
 }
 
 
 header{
 	width:100%;
-	height:72px;
+	height:50px;
 	min-height:50px;
 	font-family:Verdana, Geneva, sans-serif;
 	font-size:11px;
 	min-width:1200px;
-	margin-bottom:60px;
+    border: 1px #D0CBC4 solid;
 	
 }
 
@@ -45,7 +46,6 @@ header{
 {
     margin-right:30px;
 	height:70px;
-	padding-top:8px;
 	z-index:500; 
     float:right;
 }
@@ -55,6 +55,7 @@ header{
 	overflow:visible;
 	float:left;
 	margin-left:15px;
+    position: relative;
 }
 
 #controls .ls-current
@@ -91,7 +92,6 @@ display:block;
     height:20px;
     line-height:20px;
     overflow: hidden;
-    border-radius: 5px;
     outline:none;
 }
 
@@ -101,13 +101,13 @@ display:block;
 	margin-top:0px;
 	width:100%;
 	background-color:transparent;
-
-	position:absolute;
+	position:relative;
 	top:70px;
 	left:0;
 	z-index:3;
 	text-align:center;
 	opacity:1;
+    clear:both;
 }
 
 #lsMain .map
@@ -170,7 +170,8 @@ display:block;
     line-height:20px;
     overflow: hidden;
     text-align:center;
-    border-radius: 5px;
+    background-color: white;
+    font-size:13px;
 }
 
 #create-flier-imageList .img-error
@@ -218,7 +219,6 @@ ul.flier-images li
 	margin-top:0px;
 	width:100%;
 	background-color:transparent;
-	position:absolute;
 	top:70px;
 	left:0;
 	z-index:3;
@@ -400,6 +400,10 @@ fieldset {
     height: 90px;
 }
 
+.image-selector, .selected-image {
+    display: inline-block;
+}
+
 
 /****claims*****/
 
@@ -502,4 +506,16 @@ a.toolbar-item
     div#printholder {
         display: none;
     }
+}
+
+.imageSelector ul {
+    height: 350px;
+    width: 300px;
+}
+
+.imageSelector ul li {
+    padding: 0px;
+    margin: 0px;
+    width: 133px;
+    display: inline-block;
 }

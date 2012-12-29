@@ -1,0 +1,13 @@
+﻿@using System.Web.Optimization
+@model PostaFlya.Models.Flier.PaymentResult
+
+@section scripts {
+    @Styles.Render("~/Content/structure/Payment/DeskCss")   
+    @Styles.Render("~/Content/themes/taskflya/Payment/DeskCss")   
+    @Scripts.Render("~/Script/PaymentDeskJs") 
+}
+
+<h2>Transaction Complete</h2>
+@Model.PaymentMessage
+
+

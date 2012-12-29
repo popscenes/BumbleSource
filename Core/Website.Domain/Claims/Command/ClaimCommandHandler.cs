@@ -19,16 +19,19 @@ namespace Website.Domain.Claims.Command
         private readonly GenericRepositoryInterface _genericRepository;
         private readonly GenericQueryServiceInterface _genericQueryService;
         private readonly DomainEventPublishServiceInterface _domainEventPublishService;
+        private readonly CreditChargeServiceInterface _creditChargeService;
 
         public ClaimCommandHandler(UnitOfWorkFactoryInterface unitOfWorkFactory
             , GenericRepositoryInterface genericRepository
             , GenericQueryServiceInterface genericQueryService
-            , DomainEventPublishServiceInterface domainEventPublishService)
+            , DomainEventPublishServiceInterface domainEventPublishService
+            , CreditChargeServiceInterface creditChargeService)
         {
             _unitOfWorkFactory = unitOfWorkFactory;
             _genericRepository = genericRepository;
             _genericQueryService = genericQueryService;
             _domainEventPublishService = domainEventPublishService;
+            _creditChargeService = creditChargeService;
         }
 
         public object Handle(ClaimCommand command)
@@ -59,7 +62,7 @@ namespace Website.Domain.Claims.Command
             var uow = _unitOfWorkFactory.GetUnitOfWork(new List<object>() { _genericRepository });
             using (uow)
             {
-                claim.ChargeForState(_genericRepository, _genericQueryService);
+                claim.ChargeForState(_genericRepository, _genericQueryService, _creditChargeService);
                 _genericRepository.Store(claim); 
             }
 

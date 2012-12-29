@@ -18,16 +18,19 @@ namespace PostaFlya.Domain.Flier.Command
         private readonly UnitOfWorkFactoryInterface _unitOfWorkFactory;
         private readonly GenericQueryServiceInterface _queryService;
         private readonly DomainEventPublishServiceInterface _domainEventPublishService;
+        private readonly CreditChargeServiceInterface _creditChargeServiceInterface;
 
 
         public EditFlierCommandHandler(GenericRepositoryInterface repository
             ,UnitOfWorkFactoryInterface unitOfWorkFactory
-            , GenericQueryServiceInterface queryService, DomainEventPublishServiceInterface domainEventPublishService)
+            , GenericQueryServiceInterface queryService, DomainEventPublishServiceInterface domainEventPublishService
+            , CreditChargeServiceInterface creditChargeServiceInterface)
         {
             _repository = repository;
             _unitOfWorkFactory = unitOfWorkFactory;
             _queryService = queryService;
             _domainEventPublishService = domainEventPublishService;
+            _creditChargeServiceInterface = creditChargeServiceInterface;
         }
 
         public object Handle(EditFlierCommand command)
@@ -79,7 +82,7 @@ namespace PostaFlya.Domain.Flier.Command
             using (unitOfWork = _unitOfWorkFactory.GetUnitOfWork(new[] {_repository}))
             {
                 var flierCurrent = _queryService.FindById<Flier>(command.Id);
-                if(flierCurrent.ChargeForState(_repository, _queryService))
+                if (flierCurrent.ChargeForState(_repository, _queryService, _creditChargeServiceInterface))
                     _repository.UpdateEntity<Flier>(flierCurrent.Id, f => f.CopyFieldsFrom(flierCurrent));
             }
 

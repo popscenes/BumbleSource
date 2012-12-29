@@ -1,18 +1,38 @@
-﻿@model PostaFlya.Models.FlierPaymentModel
+﻿@using System.Globalization
+@using System.Web.Optimization
+@model PostaFlya.Models.FlierPaymentModel
 
-@{
-    Layout = null;
+@section scripts {
+    @Styles.Render("~/Content/structure/Payment/DeskCss")   
+    @Styles.Render("~/Content/themes/taskflya/Payment/DeskCss")   
+    @Scripts.Render("~/Script/PaymentDeskJs") 
 }
 
-<!DOCTYPE html>
+payment page
+@{
+    using (Html.BeginForm("PaymentProcess", "Payment", FormMethod.Post))
+    {
 
-<html>
-    <head>
-        <title>title</title>
-    </head>
-    <body>
-        <div>
-              
-        </div>
-    </body>
-</html>
+        <ul>
+            @foreach (var service in Model.PaymentServiceList)
+            {
+                <li>
+                    @Html.Label(service.PaymentServiceName)
+                    @Html.RadioButton("paymentServiceName", service.PaymentServiceName)
+                </li>
+            }
+        </ul>
+
+        <ul>
+            @foreach (var package in Model.PaymentOptions)
+            {
+                <li>
+                    @Html.Label(package.Credits.ToString(CultureInfo.InvariantCulture) + " for $" + package.Payment.ToString(CultureInfo.InvariantCulture))
+                    @Html.RadioButton("amount", package.Payment.ToString(CultureInfo.InvariantCulture))
+                </li>
+            }
+        </ul>
+    
+        <input type="submit" title="submit" value="Pay" />
+    }
+}

@@ -10,6 +10,7 @@ using Website.Domain.Browser;
 using Website.Domain.Claims;
 using Website.Domain.Comments;
 using Website.Domain.Content;
+using Website.Domain.Payment;
 
 namespace PostaFlya.DataRepository.Binding
 {
@@ -52,6 +53,12 @@ namespace PostaFlya.DataRepository.Binding
 
             tableNameProv.Add<FlierBehaviourInterface>(JsonRepository.IdPartition, "flierbehaviour", e => e.Id);
             tableNameProv.Add<FlierBehaviourInterface>(JsonRepository.FriendlyIdPartiton, "flierbehaviour", e => e.FriendlyId, e => e.Id);
+
+            tableNameProv.Add<PaymentTransaction>(JsonRepository.IdPartition, "paymentTransaction", e => e.Id);
+            tableNameProv.Add<PaymentTransaction>(JsonRepository.AggregateIdPartition, "paymentTransaction", e => e.AggregateId, e => e.Id);
+
+            tableNameProv.Add<CreditTransaction>(JsonRepository.IdPartition, "creditTransaction", e => e.Id);
+            tableNameProv.Add<CreditTransaction>(JsonRepository.AggregateIdPartition, "creditTransaction", e => e.AggregateId, e => e.Id);
 
 
             var tctx = Kernel.Get<TableContextInterface>();

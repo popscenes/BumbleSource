@@ -27,7 +27,7 @@ namespace Website.Application.Intergrations.Payment
             String arguments =
                 "NOSHIPPING=1&ALLOWNOTE=0&PAYMENTREQUEST_0_PAYMENTACTION=Sale&PAYMENTREQUEST_0_CURRENCYCODE=AUD&PAYMENTREQUEST_0_DESC=" + paymentType + 
                 "&PAYMENTREQUEST_0_ITEMAMT=" + paymentAmount + "&PAYMENTREQUEST_0_AMT=" + paymentAmount +
-                "&RETURNURL=" + CallbackUrl + "&CANCELURL=" + CancelUrl + "PAYMENTREQUEST_0_INVNUM=" + entityId + "PAYMENTREQUEST_0_DESC=" + paymentType;
+                "&RETURNURL=" + CallbackUrl + "&CANCELURL=" + CancelUrl + "&PAYMENTREQUEST_0_INVNUM=" + entityId + "&PAYMENTREQUEST_0_DESC=" + paymentType;
             return MakeCallToPaypal("SetExpressCheckout", arguments);
         }
 
@@ -77,10 +77,10 @@ namespace Website.Application.Intergrations.Payment
             String agent = "Mozilla/4.0";
 
             //deformatNVP( nvpStr );	
-            String encodedData = "METHOD=" + methodName + "&VERSION=" + Version + "&PWD=" + Password + "&USER=" + Name +
+            String encodedData = "?METHOD=" + methodName + "&VERSION=" + Version + "&PWD=" + Password + "&USER=" + Name +
                                  "&SIGNATURE=" + Signiture + "&" + nvpStr;
 
-            var request = WebRequest.Create(Url + encodedData);
+            var request = WebRequest.Create(ApiEndpoint + encodedData);
             ((HttpWebRequest) request).UserAgent = agent;
 
             var response = request.GetResponse();

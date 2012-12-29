@@ -30,6 +30,7 @@ When I SUBMIT the data for that FLIER
 Then the new FLIER will be created for behviour Default
 And the FLIER STATUS will be Active
 And the FLIER will contain a FEATURE described as "People can send their contact details to you" with a cost of 500 credits
+And A CREDIT TRANSACTION of type createFlier will be created
 
 Scenario: Create Flier creates a Tiny Url for a flier
 Given I have created a FLIER 
