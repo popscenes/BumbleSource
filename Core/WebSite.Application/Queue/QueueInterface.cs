@@ -9,5 +9,6 @@ namespace Website.Application.Queue
         QueueMessageInterface GetMessage();
         QueueMessageInterface GetMessage(TimeSpan invisibilityTimeOut);
         void DeleteMessage(QueueMessageInterface message);
+        int? ApproximateMessageCount { get; }
     }
 }

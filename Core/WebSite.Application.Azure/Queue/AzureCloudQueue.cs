@@ -57,6 +57,16 @@ namespace Website.Application.Azure.Queue
             AzureCloudBlobStorage.RetryQuery(deleteMessage);
         }
 
+        public int? ApproximateMessageCount
+        {
+            get
+            {
+                if (!_cloudQueue.ApproximateMessageCount.HasValue)
+                    _cloudQueue.FetchAttributes();
+                return _cloudQueue.ApproximateMessageCount;
+            }
+        }
+
         #endregion
 
         public void Delete()

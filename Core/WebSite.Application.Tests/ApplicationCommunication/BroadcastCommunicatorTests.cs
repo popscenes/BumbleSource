@@ -8,8 +8,8 @@ using Ninject;
 using Ninject.MockingKernel.Moq;
 using Website.Application.ApplicationCommunication;
 using Website.Application.Command;
-using Website.Application.Tests.Classes;
 using Website.Application.Tests.Command;
+using Website.Application.Tests.Mocks;
 using Website.Infrastructure.Command;
 using Website.Infrastructure.Util;
 

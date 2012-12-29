@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using Ninject;
 using Ninject.Modules;
@@ -73,6 +74,14 @@ namespace Website.Application.Binding
                     return ret;
                 }).InSingletonScope();
             
+            Kernel.Get<SchedulerInterface>().Jobs.Add(new RepeatJob()
+                {
+                    Id = "TinyUrlGenerator",
+                    FriendlyId = "Tiny Url Generator",
+                    RepeatSeconds = 60,
+                    JobStorage = TinyUrlJobAction.GetDefaults(),
+                    JobActionCommandClass = typeof(TinyUrlJobAction)
+                });
 
             Trace.TraceInformation("Finished Binding ApplicationNinjectBinding");
 
@@ -81,4 +90,63 @@ namespace Website.Application.Binding
         #endregion
     }
 
+    public class TinyUrlJobAction : JobActionInterface
+    {
+        private const string UrlBase = "urlbase";
+        private const string StartPath = "startpath";
+
+        public static Dictionary<string, string> GetDefaults()
+        {
+            return new Dictionary<string, string>() { { UrlBase, "http://pfly.in/" }, { StartPath, "" } };
+        }
+        private readonly QueueInterface _urlQueue;
+
+        public TinyUrlJobAction([TinyUrlQueue]QueueInterface urlQueue)
+        {
+            _urlQueue = urlQueue;
+        }
+
+        public void Run(JobBase job)
+        {
+            if (!_urlQueue.ApproximateMessageCount.HasValue || _urlQueue.ApproximateMessageCount.Value > 5000)
+                return;
+
+            if (job.JobStorage == null || !job.JobStorage.ContainsKey(UrlBase))
+                job.JobStorage = GetDefaults();
+
+            for (var i = 0; i < 10000; i++)
+            {
+                AddNewUrlToQueue(job);
+            }
+        }
+
+        private void AddNewUrlToQueue(JobBase job)
+        {
+
+            var start = job.JobStorage[StartPath];
+            var next = Increment(start);
+            
+            _urlQueue.AddMessage(
+                new QueueMessage(System.Text.Encoding.ASCII.GetBytes(job.JobStorage[UrlBase] + next))
+            );
+                
+            job.JobStorage[StartPath] = next;
+            
+        }
+
+        private static string Increment(string start)
+        {
+            if (string.IsNullOrEmpty(start))
+                return "0";
+
+            var last = start[start.Length - 1];
+            last++;
+            if (last == 'z' + 1)
+                return start + '0';
+            if (last == '0' + 10)
+                return start.Remove(start.Length - 1) + 'a';
+            return start.Remove(start.Length - 1) + last;
+
+        }
+    }
 }

@@ -14,7 +14,7 @@ namespace Website.Application.Azure.Tests.Schedule
     {
         public class TestAction : JobActionInterface
         {
-            public void Run()
+            public void Run(JobBase job)
             {
                 throw new NotImplementedException();
             }

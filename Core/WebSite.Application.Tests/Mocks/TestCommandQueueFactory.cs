@@ -9,7 +9,7 @@ using Website.Application.Queue;
 using Website.Infrastructure.Command;
 using Website.Infrastructure.Util;
 
-namespace Website.Application.Tests.Classes
+namespace Website.Application.Tests.Mocks
 {
     public class TestCommandQueueFactory : CommandQueueFactoryInterface
     {
@@ -60,49 +60,6 @@ namespace Website.Application.Tests.Classes
             {
                 if (CommandSerializerActionCallback != null)
                     CommandSerializerActionCallback(methodName, cmd);
-            }
-        }
-
-        public class TestQueue : QueueInterface
-        {
-            public string EndpointName { get; set; }
-            public Action<string, string, QueueMessageInterface> QueueActionCallback { get; set; }
-
-            private readonly ConcurrentQueue<QueueMessageInterface> _messages = new ConcurrentQueue<QueueMessageInterface>();
-            public void AddMessage(QueueMessageInterface message)
-            {
-                _messages.Enqueue(message);
-                Callback(EndpointName, "AddMessage", message);
-            }
-
-            public QueueMessageInterface GetMessage()
-            {
-                QueueMessageInterface ret;
-                _messages.TryDequeue(out ret);
-                Callback(EndpointName, "GetMessage", ret);
-                return ret;
-            }
-
-            public QueueMessageInterface GetMessage(TimeSpan invisibilityTimeOut)
-            {
-                return GetMessage();
-            }
-
-            public void DeleteMessage(QueueMessageInterface message)
-            {
-                //not implemented because get message removes message (ie simulates invisibility of the message)
-                Callback(EndpointName, "DeleteMessage", message);
-            }
-
-            public ConcurrentQueue<QueueMessageInterface> Storage
-            {
-                get { return _messages;}
-            }
-
-            private void Callback(string endPoint, string methodName, QueueMessageInterface queueMessage)
-            {
-                if(QueueActionCallback != null)
-                    QueueActionCallback(endPoint, methodName, queueMessage);
             }
         }
 
@@ -165,6 +122,51 @@ namespace Website.Application.Tests.Classes
         public IList<TestQueue> GetTestQueues()
         {
             return _queues.Select(kv => kv.Value).ToList();
+        }
+    }
+
+    public class TestQueue : QueueInterface
+    {
+        public string EndpointName { get; set; }
+        public Action<string, string, QueueMessageInterface> QueueActionCallback { get; set; }
+
+        private readonly ConcurrentQueue<QueueMessageInterface> _messages = new ConcurrentQueue<QueueMessageInterface>();
+        public void AddMessage(QueueMessageInterface message)
+        {
+            _messages.Enqueue(message);
+            Callback(EndpointName, "AddMessage", message);
+        }
+
+        public QueueMessageInterface GetMessage()
+        {
+            QueueMessageInterface ret;
+            _messages.TryDequeue(out ret);
+            Callback(EndpointName, "GetMessage", ret);
+            return ret;
+        }
+
+        public QueueMessageInterface GetMessage(TimeSpan invisibilityTimeOut)
+        {
+            return GetMessage();
+        }
+
+        public void DeleteMessage(QueueMessageInterface message)
+        {
+            //not implemented because get message removes message (ie simulates invisibility of the message)
+            Callback(EndpointName, "DeleteMessage", message);
+        }
+
+        public int? ApproximateMessageCount { get { return _messages.Count; } }
+
+        public ConcurrentQueue<QueueMessageInterface> Storage
+        {
+            get { return _messages;}
+        }
+
+        private void Callback(string endPoint, string methodName, QueueMessageInterface queueMessage)
+        {
+            if(QueueActionCallback != null)
+                QueueActionCallback(endPoint, methodName, queueMessage);
         }
     }
 }

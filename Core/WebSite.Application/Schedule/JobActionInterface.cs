@@ -2,6 +2,6 @@
 {
     public interface JobActionInterface
     {
-        void Run();
+        void Run(JobBase job);
     }
 }

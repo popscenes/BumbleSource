@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Website.Infrastructure.Domain;
 
 namespace Website.Application.Schedule
@@ -41,6 +42,7 @@ namespace Website.Application.Schedule
             return timeService.GetCurrentTime() > NextRun;
         }
         public virtual void CopyState<JobBaseType>(JobBaseType source) where JobBaseType : JobInterface{}
+        public Dictionary<string, string> JobStorage { get; set; }
     }
 
          

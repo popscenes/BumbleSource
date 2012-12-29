@@ -112,7 +112,7 @@ namespace Website.Application.Tests.Schedule
             {
             }
 
-            public void Run()
+            public void Run(JobBase job)
             {
                 
             }

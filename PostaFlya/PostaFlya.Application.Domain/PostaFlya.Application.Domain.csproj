@@ -75,6 +75,7 @@
     <Compile Include="Binding\ApplicationDomainNinjectBinding.cs" />
     <Compile Include="Binding\ApplicationDomainRepositoriesNinjectBinding.cs" />
     <Compile Include="Binding\ApplicationDomainServicesNinjectBinding.cs" />
+    <Compile Include="Binding\JobsNinjectBinding.cs" />
     <Compile Include="Email\Claims\BrowserClaimEmailSubscription.cs" />
     <Compile Include="Email\ICalendar\FlierInterfaceExtensions.cs" />
     <Compile Include="ExternalSource\FacebookFlierImporter.cs" />

@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Web;
 using Newtonsoft.Json;
+using PostaFlya.Areas.TaskJob.Models.Bulletin;
 using Website.Application.Content;
 using Website.Application.Extension.Validation;
 using PostaFlya.Areas.Default.Models;
@@ -61,6 +63,8 @@ namespace PostaFlya.Models.Flier
         }
     }
 
+    [KnownType(typeof(BulletinFlierModel<BulletinBehaviourModel>))]
+    [KnownType(typeof(BulletinFlierModel<BulletinTaskJobBehaviourModel>))]
     public class BulletinFlierModel
     {
         
