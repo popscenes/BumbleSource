@@ -525,3 +525,40 @@ div#selected-item-popup-overlay, div#create-flier-popup-overlay {
 
 }
 
+#flierForm h3 {
+    font-weight: normal;
+    font-size: 20px;
+    color: #98D5E4;
+    text-transform: uppercase;
+    border-bottom: #98d5e4 solid 2px;
+}
+
+.nav-controls a {
+    display: inline-block;
+    width: 125px;
+    height: 40px;
+}
+
+.nav-controls a.next {
+    background: url(images/next-btn.png);
+}
+
+.nav-controls a.prev {
+    background: url(images/prev-btn-disabled.png);
+    margin-right: 14px;
+}
+
+#upload-controls a {
+    display: inline-block;
+}
+
+#pickfiles {
+    width: 146px;
+    height: 40px;
+    background: url(images/browse-btn.png);
+}
+#uploadfiles {
+    width: 98px;
+    height: 40px;
+    background: url(images/add-btn.png);
+}

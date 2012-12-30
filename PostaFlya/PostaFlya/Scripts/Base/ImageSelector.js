@@ -73,8 +73,8 @@
                         numThumbs: 6, // The number of thumbnails to show page
                         preloadAhead: 40, // Set to -1 to preload all images
                         enableTopPager: false,
-                        enableBottomPager: true,
-                        maxPagesToShow: 7,  // The maximum number of pages to display in either the top or bottom pager
+                        enableBottomPager: false,
+                        maxPagesToShow: 0,  // The maximum number of pages to display in either the top or bottom pager
                         imageContainerSel: '.image-holder', // The CSS selector for the element within which the main slideshow image should be rendered
                         controlsContainerSel: '', // The CSS selector for the element within which the slideshow controls should be rendered
                         captionContainerSel: '', // The CSS selector for the element within which the captions should be rendered
@@ -100,6 +100,16 @@
                         onImageAdded: undefined, // accepts a delegate like such: function(imageData, $li) { ... }
                         onImageRemoved: undefined  // accepts a delegate like such: function(imageData, $li) { ... }
                     });
+                    
+                    $('a.prev').click(function (e) {
+                        gallery.previousPage();
+                        e.preventDefault();
+                    });
+
+                    $('a.next').click(function (e) {
+                        gallery.nextPage();
+                        e.preventDefault();
+                    });
                     self._loadSelectedImageFromId();
                 }
             });
@@ -118,27 +128,66 @@
         };
 
         self._InitPLUpload = function () {
-            $("#" + self.uploaderElementId()).pluploadQueue({
+            var uploader = new plupload.Uploader({
 
                 runtimes: 'html5,html4',
+                browse_button: 'pickfiles',
+                container: 'upload-container',
                 url: '/Img/Post/',
                 max_file_size: '10mb',
                 unique_names: true,
                 multiple_queues: true,
                 filters: [
-                    { title: "Image files", extensions: "jpg,gif,png" }
+                    { title: "Image files", extensions: "jpg,jpeg,gif,png" }
                 ]
 
             });
+           
 
-            var uploader = $("#" + self.uploaderElementId()).pluploadQueue();
+            $('#uploadfiles').click(function (e) {
+                uploader.start();
+                e.preventDefault();
+            });
+
+            uploader.init();
+
+            uploader.bind('FilesAdded', function (up, files) {
+                $.each(files, function (i, file) {
+                    $('#filelist').append(
+                        '<div id="' + file.id + '">' +
+                        file.name + '<b></b>' +
+                    '</div>');
+                });
+
+                up.refresh(); // Reposition Flash/Silverlight
+            });
+
+            uploader.bind('UploadProgress', function (up, file) {
+                $('#' + file.id + " b").html(file.percent + "%");
+            });
+
+            uploader.bind('Error', function (up, err) {
+                $('#filelist').append("<div>Error: " + err.code +
+                    ", Message: " + err.message +
+                    (err.file ? ", File: " + err.file.name : "") +
+                    "</div>"
+                );
+
+                up.refresh(); // Reposition Flash/Silverlight
+            });
+
+            uploader.bind('FileUploaded', function (up, file) {
+                $('#' + file.id + " b").html("100%");
+            });
+
+
+            
             uploader.bind('UploadComplete', function (up, files) {
 
-                if (self.imageList().length > 0)
-                    self.slider.destroyShow();
+                //if (self.imageList().length > 0)
+                //    self.slider.destroyShow();
                 self._LoadImageList();
-
-                $("#" + self.uploaderElementId()).dialog("close");
+                $('#filelist').html('');
             });
         };
     };

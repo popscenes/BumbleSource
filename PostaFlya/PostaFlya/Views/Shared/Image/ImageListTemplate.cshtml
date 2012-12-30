@@ -10,7 +10,7 @@
 <script type="text/html" id="image-template2">
     <li>
            <a class="thumb" data-bind="attr: { href: ImageId, id: ImageId}, click: $parent.clickImage, imgRetry: ImageUrl">
-               <img data-bind="attr: {src: ImageUrl  }"/>
+               <img data-bind="attr: {src: ImageUrl  }, imgRetry: ImageUrl"/>
            </a>
        </li>
 </script>
