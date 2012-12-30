@@ -7,6 +7,17 @@ namespace PostaFlya.Application.Domain.Flier
 {
     public interface FlierPrintImageServiceInterface
     {
-        Image GetPrintImageForFlier(string flierId);
+        Image GetPrintImageForFlierWithTearOffs(string flierId);
+        Image GetQrCodeImageForFlier(string flierId);
+        Image GetPrintImageForFlier(string flierId, FlierPrintImageServiceQrLocation qrLocation);   
     }
+
+    public enum FlierPrintImageServiceQrLocation
+    {
+        TopLeft,
+        BottomLeft,
+        TopRight,
+        BottomRight
+    }
+    
 }

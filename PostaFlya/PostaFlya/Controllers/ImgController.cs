@@ -139,25 +139,37 @@ namespace PostaFlya.Controllers
             cachePolicy.SetLastModified(old);
         }
 
-        //todo local caching ...?
-        //            var cachedir = _cacheDirService.Get(); // service could return HttpRuntime.CodegenDir/img/
-        //            string cachePath = Path.Combine(cachedir, imageId);
-        //            var fileInfo = new FileInfo(cachePath);
-        //            if (fileInfo.Exists)
-        //            {
-        //                return System.IO.File.ReadAllBytes(fileInfo.Name);
-        //            }
-        //            else //get from blob and cache locally in _cacheDirService.Get()
-        //            {
-        //                
-        //            }
-        public ActionResult GetPrintFlier(string id)
+        public const string TearOffPrintStyle = "tearoff";
+        public const string CodeOnlyPrintStyle = "codeonly";
+        public const string TopLeftPrintStyle = "topleft";
+        public const string TopRightPrintStyle = "topright";
+        public const string BottomLeftPrintStyle = "bottomleft";
+        public const string BottomRightPrintStyle = "bottomright";
+
+        public ActionResult GetPrintFlier(string id, string printStyle = TearOffPrintStyle)
         {
             var flier = _queryService.FindById<Flier>(id);
             if(flier == null)
                 return new HttpNotFoundResult();
 
-            var img = _flierPrintImageService.GetPrintImageForFlier(id);
+
+            System.Drawing.Image img = null;
+
+            if (printStyle.Equals(TearOffPrintStyle, StringComparison.CurrentCultureIgnoreCase))
+                img = _flierPrintImageService.GetPrintImageForFlierWithTearOffs(id);
+
+            if (printStyle.Equals(CodeOnlyPrintStyle, StringComparison.CurrentCultureIgnoreCase))
+                img = _flierPrintImageService.GetQrCodeImageForFlier(id);
+
+            if (printStyle.Equals(TopLeftPrintStyle, StringComparison.CurrentCultureIgnoreCase))
+                img = _flierPrintImageService.GetPrintImageForFlier(id, FlierPrintImageServiceQrLocation.TopLeft);
+            if (printStyle.Equals(TopRightPrintStyle, StringComparison.CurrentCultureIgnoreCase))
+                img = _flierPrintImageService.GetPrintImageForFlier(id, FlierPrintImageServiceQrLocation.TopRight);
+            if (printStyle.Equals(BottomLeftPrintStyle, StringComparison.CurrentCultureIgnoreCase))
+                img = _flierPrintImageService.GetPrintImageForFlier(id, FlierPrintImageServiceQrLocation.BottomLeft);
+            if (printStyle.Equals(BottomRightPrintStyle, StringComparison.CurrentCultureIgnoreCase))
+                img = _flierPrintImageService.GetPrintImageForFlier(id, FlierPrintImageServiceQrLocation.BottomRight);
+
             if(img == null)
                 return new HttpNotFoundResult();
 
