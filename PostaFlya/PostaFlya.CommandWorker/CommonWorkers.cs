@@ -14,20 +14,21 @@ namespace PostaFlya.CommandWorker
     {
         private static readonly List<INinjectModule> NinjectModules = new List<INinjectModule>()
                   {
-                      new Website.Infrastructure.Binding.InfrastructureNinjectBinding(),
-                      new Website.Domain.Binding.DefaultServicesNinjectBinding(),
-                      new Website.Domain.Binding.CommandNinjectBinding(),                 
-                      new PostaFlya.Domain.Binding.DefaultServicesNinjectBinding(),
-                      new PostaFlya.Domain.Binding.CommandNinjectBinding(),
-                      new Website.Azure.Common.Binding.AzureCommonNinjectBinding(),
-                      new DataRepository.Binding.AzureRepositoryNinjectBinding(c => c.InTransientScope()),
-                      new DataRepository.Binding.TableNameNinjectBinding(),
-                      new Website.Application.Binding.ApplicationCommandHandlersNinjectBinding(),
-                      new Website.Application.Binding.ApplicationNinjectBinding(),
-                      new Website.Application.Domain.Binding.ApplicationDomainNinjectBinding(),                
-                      new Website.Application.Azure.Binding.AzureApplicationNinjectBinding(),
-                       new PostaFlya.Application.Domain.Binding.ApplicationDomainNinjectBinding(),
-                       new PostaFlya.Application.Domain.Binding.ApplicationDomainServicesNinjectBinding()
+                          new Website.Infrastructure.Binding.InfrastructureNinjectBinding(),
+                          new Website.Domain.Binding.DefaultServicesNinjectBinding(),
+                          new Website.Domain.Binding.CommandNinjectBinding(),                 
+                          new PostaFlya.Domain.Binding.DefaultServicesNinjectBinding(),
+                          new PostaFlya.Domain.Binding.CommandNinjectBinding(),
+                          new Website.Azure.Common.Binding.AzureCommonNinjectBinding(),
+                          new DataRepository.Binding.AzureRepositoryNinjectBinding(c => c.InTransientScope()),
+                          new DataRepository.Binding.TableNameNinjectBinding(),
+                          new Website.Application.Binding.ApplicationCommandHandlersNinjectBinding(),
+                          new Website.Application.Binding.ApplicationNinjectBinding(),
+                          new Website.Application.Domain.Binding.ApplicationDomainNinjectBinding(),                
+                          new Website.Application.Azure.Binding.AzureApplicationNinjectBinding(),
+                           new PostaFlya.Application.Domain.Binding.ApplicationDomainNinjectBinding(),
+                           new PostaFlya.Application.Domain.Binding.ApplicationDomainServicesNinjectBinding(),
+                           new Website.Application.Binding.ApplicationJobs(),
                   };
 
         private StandardKernel _kernel;

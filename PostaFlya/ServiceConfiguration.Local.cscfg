@@ -10,11 +10,6 @@
       <Setting name="Microsoft.WindowsAzure.Plugins.Caching.ClientDiagnosticLevel" value="1" />
       <Setting name="Microsoft.WindowsAzure.Plugins.Caching.CacheSizePercentage" value="50" />
       <Setting name="Microsoft.WindowsAzure.Plugins.Caching.ConfigStoreConnectionString" value="UseDevelopmentStorage=true" />
-      <!--<Setting name="Microsoft.WindowsAzure.Plugins.RemoteAccess.Enabled" value="true" />
-      <Setting name="Microsoft.WindowsAzure.Plugins.RemoteAccess.AccountUsername" value="bumble" />
-      <Setting name="Microsoft.WindowsAzure.Plugins.RemoteAccess.AccountEncryptedPassword" value="MIIBnQYJKoZIhvcNAQcDoIIBjjCCAYoCAQAxggFOMIIBSgIBADAyMB4xHDAaBgNVBAMME1dpbmRvd3MgQXp1cmUgVG9vbHMCEEaa7lA1z4aWTk/xIkNfB2YwDQYJKoZIhvcNAQEBBQAEggEAd5HtXlV+8TKpwOXSmIzwV8NaWHknRpz1+hO9x8HQ5DduyH5zbUMnyN0Mfo1lcN/PhnT7djEQe+XbQnKTTUbepLQuSMGZmxnDgVRa0XVemmR5kdyic9CK9ql8YVKuZs4X2IXwRs3WyywDAabXLrhJwVJmBbsPb4Qf2/q9K1kqW+/DhRdtOUUgQtggysRo5+nQYf5hbxoluOp/xu3lA4DS8zmqV/P/PvntAfsMJJhl8JXXrLIbxD3irNMPhqlL++QaV/D07c5ocvwfCd3FsQKmvr/b2SNOUtCxA2g11KHRM0HnHvPm8gQey8f1CE1vvOWqwGPcsBxZgQ2zKbzpo1S56TAzBgkqhkiG9w0BBwEwFAYIKoZIhvcNAwcECLO24ttbUVfQgBBZiK7JNPq7n1bEUqPlnj5i" />
-      <Setting name="Microsoft.WindowsAzure.Plugins.RemoteAccess.AccountExpiration" value="2013-06-18T23:59:59.0000000+10:00" />
-      <Setting name="Microsoft.WindowsAzure.Plugins.RemoteForwarder.Enabled" value="true" />-->
       <Setting name="SearchDbConnectionString" value="Data Source=.\SQLEXPRESS;Integrated Security=True" />
       <Setting name="DisableFederation" value="True" />
       <Setting name="Microsoft.WindowsAzure.Plugins.RemoteAccess.Enabled" value="true" />
@@ -32,9 +27,11 @@
       <Setting name="PaypalVersion" value="92.0"/>
       <Setting name="PaypalCallbackUrl" value="http://127.0.0.1:81/Payment/PayPalSuccess"/>
       <Setting name="PaypalCancelUrl" value="http://127.0.0.1:81/Payment/Cancel"/>
+
+      <Setting name="TinyUrlBase" value="http://tfly.in/"/> <!-- set hosts file to point to localhost -->
+      
     </ConfigurationSettings>
     <Certificates>
-      <!--<Certificate name="Microsoft.WindowsAzure.Plugins.RemoteAccess.PasswordEncryption" thumbprint="B5EB70801A6D0B9319FDE06E891D90737F129018" thumbprintAlgorithm="sha1" />-->
       <Certificate name="Microsoft.WindowsAzure.Plugins.RemoteAccess.PasswordEncryption" thumbprint="7593F3A6D11139FB0C94EBFDD541874BAAC9C4BA" thumbprintAlgorithm="sha1" />
     </Certificates>
   </Role>
@@ -49,6 +46,8 @@
       <Setting name="Microsoft.WindowsAzure.Plugins.RemoteAccess.AccountExpiration" value="2013-06-18T23:59:59.0000000+10:00" />
       <Setting name="Microsoft.WindowsAzure.Plugins.RemoteForwarder.Enabled" value="true" />
       <Setting name="SearchDbConnectionString" value="Data Source=.\SQLEXPRESS;Integrated Security=True" />
+      <Setting name="DisableFederation" value="True" />
+      <Setting name="TinyUrlBase" value="http://tfly.in/"/>
     </ConfigurationSettings>
     <Certificates>
       <Certificate name="Microsoft.WindowsAzure.Plugins.RemoteAccess.PasswordEncryption" thumbprint="E9CCEAA8D2E9FB9FD4AFB47A0BFD522095DA2108" thumbprintAlgorithm="sha1" />

@@ -38,6 +38,8 @@
       <Setting name="PaypalCallbackUrl"/>
       <Setting name="PaypalCancelUrl"/>
 
+      <Setting name="TinyUrlBase"/>
+
     </ConfigurationSettings>
     <LocalResources>
       <LocalStorage name="Microsoft.WindowsAzure.Plugins.Caching.FileStore" sizeInMB="8192" cleanOnRoleRecycle="false" />
@@ -56,7 +58,13 @@
     </Imports>
     <ConfigurationSettings>
       <Setting name="StorageConnectionString" />
+      <Setting name="SearchDbConnectionString" />
+      <Setting name="DisableFederation" />
+      <Setting name="TinyUrlBase"/>
     </ConfigurationSettings>
+    <LocalResources>
+      <LocalStorage name="DiagnosticStore" cleanOnRoleRecycle="true" sizeInMB="20480" />
+    </LocalResources>
     <Endpoints>
       <InternalEndpoint name="MainEndpoint" protocol="tcp" />
     </Endpoints>

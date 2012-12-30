@@ -48,7 +48,7 @@ namespace Website.Application.Tests.Schedule
             {
                 Id = "Every 2 Seconds",
                 FriendlyId = "Every 2 Seconds",
-                JobActionCommandClass = typeof(TestJobAction),
+                JobActionClass = typeof(TestJobAction),
                 RepeatSeconds = 2,
                 InProgress = true
             };
@@ -94,7 +94,7 @@ namespace Website.Application.Tests.Schedule
                 {
                     Id = "Every 1 Seconds",
                     FriendlyId = "Every 1 Seconds",
-                    JobActionCommandClass = typeof(TestJobAction),
+                    JobActionClass = typeof(TestJobAction),
                     RepeatSeconds = 1
                 };
 

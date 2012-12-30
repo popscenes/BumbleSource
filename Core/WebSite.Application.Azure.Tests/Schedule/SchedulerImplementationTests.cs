@@ -26,7 +26,7 @@ namespace Website.Application.Azure.Tests.Schedule
              var  job = new RepeatJob()
                  {
                      FriendlyId = "123",
-                     JobActionCommandClass = typeof(TestAction),
+                     JobActionClass = typeof(TestAction),
                      InProgress = true,
                      LastRun = DateTimeOffset.UtcNow
                  };
@@ -34,8 +34,8 @@ namespace Website.Application.Azure.Tests.Schedule
             var ser = JsonConvert.SerializeObject(job);
             var ret = JsonConvert.DeserializeObject(ser, typeof(RepeatJob)) as RepeatJob;
 
-            Assert.NotNull(ret.JobActionCommandClass);
-            Assert.AreEqual(ret.JobActionCommandClass, job.JobActionCommandClass);
+            Assert.NotNull(ret.JobActionClass);
+            Assert.AreEqual(ret.JobActionClass, job.JobActionClass);
             Assert.AreEqual(ret.FriendlyId, job.FriendlyId);
             Assert.AreEqual(ret.InProgress, job.InProgress);
             Assert.AreEqual(ret.LastRun, job.LastRun);

@@ -10,11 +10,6 @@
       <Setting name="Microsoft.WindowsAzure.Plugins.Caching.ClientDiagnosticLevel" value="1" />
       <Setting name="Microsoft.WindowsAzure.Plugins.Caching.CacheSizePercentage" value="50" />
       <Setting name="Microsoft.WindowsAzure.Plugins.Caching.ConfigStoreConnectionString" value="DefaultEndpointsProtocol=https;AccountName=flyastorage;AccountKey=mjpcImHWvu3zRzWlQGVANBiyPbOmpMSGiGbrC10HJc4gqK6Rov5/c9uuAhWlF/9UEbOzwtfKsFitSv3UajzgHw==" />
-      <!--<Setting name="Microsoft.WindowsAzure.Plugins.RemoteAccess.Enabled" value="false" />
-      <Setting name="Microsoft.WindowsAzure.Plugins.RemoteAccess.AccountUsername" value="flya" />
-      <Setting name="Microsoft.WindowsAzure.Plugins.RemoteAccess.AccountEncryptedPassword" value="TOir5gJpa5iNu1ba7H0/cbqcId5fmU98ts82J/R2usy/cE4+7uMvpfn5MEfg+yofVPgYuhGxbdyMtndbQEv0lA==" />
-      <Setting name="Microsoft.WindowsAzure.Plugins.RemoteAccess.AccountExpiration" value="2013-06-18T23:59:59.0000000+10:00" />
-      <Setting name="Microsoft.WindowsAzure.Plugins.RemoteForwarder.Enabled" value="true" />-->
       <Setting name="SearchDbConnectionString" value="Data Source=oo6h1elzi7.database.windows.net,1433;User ID=jimmy;Password=Weezer1313" />
       <Setting name="DisableFederation" value="False" />
       <Setting name="Microsoft.WindowsAzure.Plugins.RemoteAccess.Enabled" value="true" />
@@ -32,6 +27,8 @@
       <Setting name="PaypalVersion" value="95.0"/>
       <Setting name="PaypalCallbackUrl" value="http://127.0.0.1/Payment/PayPalSuccess"/>
       <Setting name="PaypalCancelUrl" value="http://127.0.0.1/Payment/Cancel"/>
+
+      <Setting name="TinyUrlBase" value="http://pfly.in/"/>
     </ConfigurationSettings>
     <Certificates>
       <!--<Certificate name="Microsoft.WindowsAzure.Plugins.RemoteAccess.PasswordEncryption" thumbprint="B5EB70801A6D0B9319FDE06E891D90737F129018" thumbprintAlgorithm="sha1" />-->

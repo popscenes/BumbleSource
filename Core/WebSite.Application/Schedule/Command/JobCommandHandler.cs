@@ -26,7 +26,7 @@ namespace Website.Application.Schedule.Command
         {
             try
             {
-                var action = _resolutionRoot.Get(command.JobBase.JobActionCommandClass) as JobActionInterface;
+                var action = _resolutionRoot.Get(command.JobBase.JobActionClass) as JobActionInterface;
                 action.Run(command.JobBase);
             }
             catch (Exception e)

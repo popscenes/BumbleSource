@@ -136,7 +136,7 @@
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\Libraries\Newtonsoft.Json.4.5.10\lib\net40\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\..\..\Libraries\Newtonsoft.Json.4.5.11\lib\net40\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="Ninject, Version=3.0.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
       <HintPath>..\..\..\Libraries\Ninject.3.0.1.10\lib\net40\Ninject.dll</HintPath>
@@ -186,6 +186,7 @@
     <Compile Include="Authentication\WebIdentity.cs" />
     <Compile Include="Authentication\WebIdentityProviderService.cs" />
     <Compile Include="Binding\ApplicationCommandHandlersNinjectBinding.cs" />
+    <Compile Include="Binding\ApplicationJobs.cs" />
     <Compile Include="Binding\ApplicationNinjectBinding.cs" />
     <Compile Include="Caching\Command\BroadcastCachedRepository.cs" />
     <Compile Include="Caching\InvalidateCacheDataCommand.cs" />

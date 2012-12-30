@@ -13,7 +13,7 @@ namespace Website.Application.Schedule
             target.LastDuration = source.LastDuration;
             target.NextRun = source.NextRun;
             target.InProgress = source.InProgress;
-            target.JobActionCommandClass = source.JobActionCommandClass;
+            target.JobActionClass = source.JobActionClass;
         }
     }
     public interface JobInterface : EntityIdInterface
@@ -22,7 +22,7 @@ namespace Website.Application.Schedule
         TimeSpan LastDuration { get; set; }
         DateTimeOffset NextRun { get; set; }
         bool InProgress { get; set; }
-        Type JobActionCommandClass { get; set; }
+        Type JobActionClass { get; set; }
         void CalculateNextRun(TimeServiceInterface timeService);
         bool IsRunDue(TimeServiceInterface timeService);
     }
@@ -35,7 +35,7 @@ namespace Website.Application.Schedule
         public TimeSpan LastDuration { get; set; }
         public DateTimeOffset NextRun { get; set; }
         public bool InProgress { get; set; }
-        public Type JobActionCommandClass { get; set; }
+        public Type JobActionClass { get; set; }
         public virtual void CalculateNextRun(TimeServiceInterface timeService){}
         public bool IsRunDue(TimeServiceInterface timeService)
         {
