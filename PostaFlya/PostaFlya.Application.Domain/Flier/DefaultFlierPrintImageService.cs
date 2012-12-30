@@ -92,8 +92,8 @@ namespace PostaFlya.Application.Domain.Flier
 
             if (srcimage.Width > srcimage.Height)
             {
-                width = ImageUtil.A4300DpiSize.Width;
-                height = ImageUtil.A4300DpiSize.Height;
+                width = ImageUtil.A4300DpiSize.Height;
+                height = ImageUtil.A4300DpiSize.Width;
             }
             
             const int qrPadding = 10;
