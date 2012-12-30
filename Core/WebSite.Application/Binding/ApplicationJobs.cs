@@ -15,14 +15,14 @@ namespace Website.Application.Binding
     {
         public override void Load()
         {
-            Kernel.Get<SchedulerInterface>().Jobs.Add(new RepeatJob()
-            {
-                Id = "TinyUrlGenerator",
-                FriendlyId = "Tiny Url Generator",
-                RepeatSeconds = 60,
-                JobStorage = TinyUrlJobAction.GetDefaults(Kernel.Get<ConfigurationServiceInterface>()),
-                JobActionClass = typeof(TinyUrlJobAction)
-            });
+//            Kernel.Get<SchedulerInterface>().Jobs.Add(new RepeatJob()
+//            {
+//                Id = "TinyUrlGenerator",
+//                FriendlyId = "Tiny Url Generator",
+//                RepeatSeconds = 60,
+//                JobStorage = TinyUrlJobAction.GetDefaults(Kernel.Get<ConfigurationServiceInterface>()),
+//                JobActionClass = typeof(TinyUrlJobAction)
+//            });
         }
     }
 
