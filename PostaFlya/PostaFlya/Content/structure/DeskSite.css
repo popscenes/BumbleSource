@@ -326,7 +326,7 @@ a.toolbar-item div.profile-edit-tool-bar-item, a.toolbar-item div.add-flier-tool
 div#selected-item-div, div#create-flier-item-div {
     position: absolute;
     z-index: 751;
-    width: 800px;
+    width: 600px;
     left: 50%;
     margin-left: -400px;
     padding: 20px;
@@ -372,13 +372,7 @@ fieldset {
         }
 
 .form {
-    width:800px;
-    margin-left:auto;
-    margin-right:auto;  
-}
-#form-buttons
-{
-    width:300px;
+    width:600px;
     margin-left:auto;
     margin-right:auto;  
 }

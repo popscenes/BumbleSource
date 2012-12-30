@@ -516,13 +516,21 @@ div#selected-item-popup-overlay, div#create-flier-popup-overlay {
 }
 
 /*****flier form*****/
-
+#flierForm .map {
+    margin: 0;
+    width: 90% !important;
+}
 #flierForm h2 {
     font-weight: normal;
     font-size: 30px;
     color: #98D5E4;
     text-transform: uppercase;
 
+}
+
+.form input[type="text"].location-search {
+    border-radius: 0px;
+    width: 90%;
 }
 
 #flierForm h3 {
@@ -548,7 +556,7 @@ div#selected-item-popup-overlay, div#create-flier-popup-overlay {
     margin-right: 14px;
 }
 
-#upload-controls a {
+#upload-controls a, #form-buttons a {
     display: inline-block;
 }
 
@@ -561,4 +569,18 @@ div#selected-item-popup-overlay, div#create-flier-popup-overlay {
     width: 98px;
     height: 40px;
     background: url(images/add-btn.png);
+}
+
+#flya-create-continue, #flya-create-update, #flya-create-save {
+    width: 146px;
+    height: 40px;
+    background: url(images/continue-btn.png);
+    float: right;
+}
+
+#flya-create-back {
+    width: 146px;
+    height: 40px;
+    background: url(images/back-btn.png);
+    float: left;
 }

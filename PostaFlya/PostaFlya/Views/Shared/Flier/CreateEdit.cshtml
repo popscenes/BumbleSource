@@ -18,11 +18,11 @@
     </div>
 
     <div id="form-buttons">
-    <button data-bind="click: prevTemplate, visible:isPrevStep()" class="Button">Prev</button>
-    <button data-bind="click: nextTemplate, visible:isNextStep()" class="Button">Next</button>
+        <a id="flya-create-back" data-bind="click: prevTemplate, visible:isPrevStep()" class="Button"></a>
+        <a id="flya-create-continue" data-bind="click: nextTemplate, visible:isNextStep()" class="Button"></a>
 
-    <button data-bind="click: save, visible:!isUpdate() && !isNextStep()" class="Button">Save</button>
-    <button data-bind="click: update, visible:isUpdate() && !isNextStep()" class="Button">update</button>
+        <a id="flya-create-save" data-bind="click: save, visible:!isUpdate() && !isNextStep()" class="Button"></a>
+        <a id="flya-create-update" data-bind="click: update, visible:isUpdate() && !isNextStep()" class="Button"></a>
     </div>
 
 <script type="text/html" id="Flyer-template">
@@ -81,17 +81,15 @@
     @Html.HiddenFor(model => model.Id, new { data_bind = "value:Id" })
     <fieldset>
         <legend>Add a location</legend>
-        <ol>
-
-            <li data-bind="with:locationSelector">
+            <div data-bind="with:locationSelector">
                 <h2>Add a location to your flier</h2>
                 @Html.HiddenFor(model => model.Location, new { data_bind = "value:currentLocation()" })
                 @Html.ValidationMessageFor(model => model.Location)
+                <h3>ENTER THE ADDRESS BELOW</h3>
+                <input class="location-search" type="text" data-bind="value: currentLocation().Description, attr:{id:locSearchId}"/>
+                
                 @Html.Partial("Location/LocationSelector")
-            </li>
-            
-        </ol>
-        
+            </div>
     </fieldset>
     </form>
 </script>
