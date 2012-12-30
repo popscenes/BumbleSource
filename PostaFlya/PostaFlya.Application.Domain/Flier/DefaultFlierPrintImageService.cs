@@ -27,7 +27,7 @@ namespace PostaFlya.Application.Domain.Flier
             _qrCodeService = qrCodeService;
         }
 
-        public Image GetPrintImageForFlier(string flierId)
+        public Image GetPrintImageForFlierWithTearOffs(string flierId)
         {
             var flier = _queryService.FindById<PostaFlya.Domain.Flier.Flier>(flierId);
             if (flier == null || !flier.Image.HasValue)
@@ -47,15 +47,132 @@ namespace PostaFlya.Application.Domain.Flier
             }        
         }
 
+        public Image GetQrCodeImageForFlier(string flierId)
+        {
+            var flier = _queryService.FindById<PostaFlya.Domain.Flier.Flier>(flierId);
+            if (flier == null || !flier.Image.HasValue)
+                return null;
+
+            return CreateQrCodeImageForFlier(
+                                    GetSoureUrl(),
+                                    flier.FriendlyId,
+                                    Properties.Resources.PostaLogo,
+                                    _qrCodeService, Qrcodewidthheight, Logoheight);
+        }
+
+        public Image GetPrintImageForFlier(string flierId, FlierPrintImageServiceQrLocation qrLocation)
+        {
+            var flier = _queryService.FindById<PostaFlya.Domain.Flier.Flier>(flierId);
+            if (flier == null || !flier.Image.HasValue)
+                return null;
+
+            var imgData = _blobStorage.GetBlob(flier.Image.Value + ImageUtil.GetIdFileExtension());
+            if (imgData == null || imgData.Length == 0)
+                return null;
+
+            using (var ms = new MemoryStream(imgData))
+            {
+                var srcimage = Image.FromStream(ms);
+                return CreateFlierImage(srcimage, GetSoureUrl(),
+                                            flier.FriendlyId,
+                                            Properties.Resources.PostaLogo, _qrCodeService, qrLocation);
+            }  
+        }
+
+        const int Qrcodewidthheight = 480;
+        const int Logoheight = 200;
+
+        public static Image CreateFlierImage(Image srcimage, string baseurl, string idtext, Bitmap logo, QrCodeServiceInterface qrCodeService, FlierPrintImageServiceQrLocation qrLocation)
+        {
+            
+            var width = ImageUtil.A4300DpiSize.Width;
+            var height = ImageUtil.A4300DpiSize.Height;
+            const int qrcodewidthheight = Qrcodewidthheight;
+            const int logoheight = Logoheight;
+
+            if (srcimage.Width > srcimage.Height)
+            {
+                width = ImageUtil.A4300DpiSize.Width;
+                height = ImageUtil.A4300DpiSize.Height;
+            }
+            
+            const int qrPadding = 10;
+            int xloc = qrPadding, yloc = qrPadding; 
+            switch (qrLocation)
+            {
+                case FlierPrintImageServiceQrLocation.TopLeft:
+                    break;
+                case FlierPrintImageServiceQrLocation.TopRight:
+                    xloc = width - qrPadding - qrcodewidthheight;
+                    break;
+                case FlierPrintImageServiceQrLocation.BottomLeft:
+                    yloc = height - qrPadding - qrcodewidthheight - logoheight;
+                    break;
+                case FlierPrintImageServiceQrLocation.BottomRight:
+                    yloc = height - qrPadding - qrcodewidthheight - logoheight;
+                    xloc = width - qrPadding - qrcodewidthheight;
+                    break;
+
+                default:
+                    throw new ArgumentOutOfRangeException("qrLocation");
+            }
+                
+            var target = new Bitmap(srcimage, width, height);
+
+            var imgToDisp = new HashSet<IDisposable>();
+            var qrimage = CreateQrCodeImageForFlier(baseurl, idtext, logo, qrCodeService, qrcodewidthheight, 
+                                        logoheight);
+            imgToDisp.Add(qrimage);
+
+            var graphics = Graphics.FromImage(target);
+            imgToDisp.Add(graphics);
+            graphics.DrawImage(qrimage, xloc, yloc);
+
+            foreach (var iDisposable in imgToDisp)
+            {
+                iDisposable.Dispose();
+            }
+
+            return target;
+        }
+
+
+        public static Image CreateQrCodeImageForFlier(string baseurl
+            , string idtext, Image logo, QrCodeServiceInterface qrCodeService
+            , int qrcodewidthheight, int logoheight)
+        {
+            var imgToDisp = new HashSet<IDisposable>();
+
+            var qrimage = qrCodeService.QrCodeImg(baseurl + idtext, qrcodewidthheight, 1);
+            imgToDisp.Add(qrimage);
+            var logoResized = new Bitmap(logo, qrcodewidthheight, logoheight);
+            imgToDisp.Add(logoResized);
+
+            var target = new Bitmap(qrcodewidthheight, qrcodewidthheight + logoheight);
+
+            var graphics = Graphics.FromImage(target);
+            imgToDisp.Add(graphics);
+
+            graphics.DrawImage(logoResized, 0, 0);
+            graphics.DrawImage(qrimage, 0, logoheight);
+
+            foreach (var iDisposable in imgToDisp)
+            {
+                iDisposable.Dispose();
+            }
+
+            return target;
+        }
+
         public static Image CreateFlierImageWithTearOffs(Image srcimage
                                                          , string baseurl, string idtext, Image logo, QrCodeServiceInterface qrCodeService)
         {
             var width = ImageUtil.A4300DpiSize.Width;
             var height = ImageUtil.A4300DpiSize.Height;
 
-            const int qrcodewidthheight = 480;
-            const int logowidth = 480;
-            const int logoheight = 200;
+            const int qrcodewidthheight = Qrcodewidthheight;
+            //const int logowidth = qrcodewidthheight;
+            const int logoheight = Logoheight;
 
             const int tearoffheight = qrcodewidthheight + logoheight;
             const int tearoffwidth = 200;
@@ -71,18 +188,20 @@ namespace PostaFlya.Application.Domain.Flier
 
             var resized = new Bitmap(srcimage, width, height - tearoffheight);
             imgToDisp.Add(resized);
-            var qrimage = qrCodeService.QrCodeImg(baseurl + idtext, qrcodewidthheight, 1);
+
+            var qrimage = CreateQrCodeImageForFlier(baseurl, idtext, logo, qrCodeService, qrcodewidthheight, 
+                                                    logoheight);
             imgToDisp.Add(qrimage);
+            
             var qrimagetear = qrCodeService.QrCodeImg(baseurl + idtext, qrcodetearoffwidth, 2);
             imgToDisp.Add(qrimagetear);
-            var logoResized = new Bitmap(logo, logowidth, logoheight);
-            imgToDisp.Add(logoResized);
+
 
             var graphics = Graphics.FromImage(target);
+            imgToDisp.Add(graphics);
             graphics.FillRectangle(Brushes.White, -1, -1, target.Width + 1, target.Height + 1);
             graphics.DrawImage(resized, 0, 0);
-            graphics.DrawImage(logoResized, 0, height - tearoffheight);
-            graphics.DrawImage(qrimage, 0, height - qrcodewidthheight);
+            graphics.DrawImage(qrimage, 0, height - tearoffheight);
 
             var font = new Font("Arial", 22, FontStyle.Bold);
             imgToDisp.Add(font);

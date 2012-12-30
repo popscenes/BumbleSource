@@ -32,7 +32,7 @@ namespace PostaFlya.Mocks.Domain.Data
         {
             var printService = kernel.GetMock<FlierPrintImageServiceInterface>();
             
-            printService.Setup(ps => ps.GetPrintImageForFlier(It.IsAny<string>()))
+            printService.Setup(ps => ps.GetPrintImageForFlierWithTearOffs(It.IsAny<string>()))
                         .Returns<string>(s =>
                             {
                                 var qs = kernel.Get<GenericQueryServiceInterface>();
