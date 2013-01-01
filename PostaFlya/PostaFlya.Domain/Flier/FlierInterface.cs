@@ -4,6 +4,7 @@ using System.Linq;
 using PostaFlya.Domain.Behaviour;
 using Website.Domain.Contact;
 using Website.Domain.Payment;
+using Website.Domain.TinyUrl;
 using Website.Infrastructure.Domain;
 using Website.Domain.Browser;
 using Website.Domain.Claims;
@@ -32,6 +33,7 @@ namespace PostaFlya.Domain.Flier
             CommentableInterfaceExtensions.CopyFieldsFrom(target, source);
             ClaimableInterfaceExtensions.CopyFieldsFrom(target, source);
             EntityFeatureChargesInterfaceExtension.CopyFieldsFrom(target, source);
+            TinyUrlInterfaceExtensions.CopyFieldsFrom(target, source);
             target.ContactDetails = source.ContactDetails != null ? new ContactDetails() : null;
             target.ContactDetails.CopyFieldsFrom(source.ContactDetails);
 
@@ -73,12 +75,13 @@ namespace PostaFlya.Domain.Flier
                 flier.ContactDetails;
         }
     }
+
     public interface FlierInterface : 
         EntityInterface, 
         BrowserIdInterface, 
         ClaimableInterface,
         CommentableInterface,
-        EntityFeatureChargesInterface
+        EntityFeatureChargesInterface, TinyUrlInterface
     {
         string Title { get; set; }
         string Description { get; set; }
@@ -92,8 +95,6 @@ namespace PostaFlya.Domain.Flier
         List<FlierImage> ImageList { get; set; }
         string ExternalSource { get; set; }
         string ExternalId { get; set; }
-        string CountryCode { get; set; }
-        string PostCode { get; set; }
         Dictionary<string, object> ExtendedProperties { get;set; }
         ContactDetails ContactDetails { get; set; }
         bool UseBrowserContactDetails { get; set; }

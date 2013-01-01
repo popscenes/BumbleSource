@@ -116,7 +116,7 @@
     <Compile Include="TestFixtureSetup.cs" />
     <Compile Include="Command\QueuedCommandSchedulerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TinyUrl\TinyUrlTests.cs" />
+    <Compile Include="TinyUrl\TinyUrlGenerationJobActionTests.cs" />
     <Compile Include="WebsiteInformation\WebsiteInformationServiceCacheTests.cs" />
   </ItemGroup>
   <ItemGroup>

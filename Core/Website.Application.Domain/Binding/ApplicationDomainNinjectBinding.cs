@@ -3,7 +3,9 @@ using Ninject;
 using Ninject.Modules;
 using Website.Application.Domain.Payment;
 using Website.Application.Domain.Publish;
+using Website.Application.Domain.TinyUrl;
 using Website.Domain.Service;
+using Website.Domain.TinyUrl;
 using Website.Infrastructure.Binding;
 using Website.Infrastructure.Command;
 using Website.Application.Domain.Browser;
@@ -42,6 +44,9 @@ namespace Website.Application.Domain.Binding
 
             //publish services
             kernel.BindSubscribersFromCallingAssembly(syntax => syntax.InTransientScope());
+
+            Bind<TinyUrlServiceInterface>()
+                .To<DefaultTinyUrlService>();
 
             Trace.TraceInformation("Finished Binding ApplicationDomainNinjectBinding");
         }

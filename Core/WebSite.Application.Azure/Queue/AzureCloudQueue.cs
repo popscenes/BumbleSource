@@ -22,7 +22,7 @@ namespace Website.Application.Azure.Queue
         {
             var azureMsg = message as AzureCloudQueueMessage ?? new AzureCloudQueueMessage(message.Bytes);
 
-            Func<bool> addMsg = () => { _cloudQueue.AddMessage(azureMsg.Message); return true;};
+            Func<bool> addMsg = () => { _cloudQueue.AddMessage(azureMsg.Message, TimeSpan.MaxValue); return true;};
             AzureCloudBlobStorage.RetryQuery(addMsg);
                         
         }

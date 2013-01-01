@@ -27,6 +27,7 @@ namespace Website.Application.Schedule
         bool IsRunDue(TimeServiceInterface timeService);
     }
 
+    [Serializable]
     public class JobBase : JobInterface
     {
         public string Id { get; set; }

@@ -84,6 +84,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Publish\DomainEventPublishService.cs" />
     <Compile Include="Query\CachedQueryServiceWithBrowser.cs" />
+    <Compile Include="TinyUrl\DefaultTinyUrlService.cs" />
+    <Compile Include="TinyUrl\TinyUrlRecord.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -37,7 +37,6 @@ namespace Website.Application.Tests.Schedule
         public void FixtureTearDown()
         {
             Kernel.Unbind<CommandBusInterface>();
-            Kernel.Unbind<CommandBusInterface>();
         }
 
         [Test]

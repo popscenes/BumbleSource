@@ -601,6 +601,8 @@ namespace PostaFlya.Specification.Fliers
         public void ThenItShouldHaveAUniqueTinyUrl()
         {
             var flier = ScenarioContext.Current["flier"] as FlierInterface;
+            Assert.IsNotNull(flier);
+            Assert.IsNotNullOrEmpty(flier.TinyUrl);
         }
 
         [Then(@"A CREDIT TRANSACTION of type createFlier will be created")]

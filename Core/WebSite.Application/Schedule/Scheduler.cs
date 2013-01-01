@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using Website.Application.Binding;
@@ -43,10 +44,10 @@ namespace Website.Application.Schedule
 
 
         public void Run(CancellationTokenSource cancellationTokenSource)
-        {
-            Init();
+        {          
             while (!cancellationTokenSource.IsCancellationRequested)
             {
+                Init();
                 CheckRun();
                 Thread.Sleep(RunInterval);
             }
@@ -71,7 +72,8 @@ namespace Website.Application.Schedule
 
         private void Init()
         {
-            using (_unitOfWorkFactory.GetUnitOfWork(new[] {_repository}))
+            var uow = _unitOfWorkFactory.GetUnitOfWork(new[] {_repository});
+            using (uow)
             {
                 for (var i = 0; i < Jobs.Count; i++)
                 {
@@ -83,6 +85,9 @@ namespace Website.Application.Schedule
                         _repository.Store(job);
                 }
             }
+
+            if(!uow.Successful)
+                throw new Exception("Failed to initialize job storage");
         }
 
         private void Replace(JobBase jobBase)

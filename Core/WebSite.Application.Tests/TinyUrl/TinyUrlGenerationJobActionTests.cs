@@ -10,11 +10,12 @@ using Website.Application.Binding;
 using Website.Application.Queue;
 using Website.Application.Schedule;
 using Website.Application.Tests.Mocks;
+using Website.Application.TinyUrl;
 
 namespace Website.Application.Tests.TinyUrl
 {
     [TestFixture]
-    public class TinyUrlTests
+    public class TinyUrlGenerationJobActionTests
     {
         MoqMockingKernel Kernel
         {
@@ -36,22 +37,34 @@ namespace Website.Application.Tests.TinyUrl
         [Test]
         public void TinyUrlJobActionGenerates10000UrlsIfCurrentUrlCountIsLessThan5000Test()
         {
-            var stopWatch = new Stopwatch();
+            
             var test = new TestQueue();
-            var sub = new TinyUrlJobAction(test);
+            var sub = new TinyUrlGenerationJobAction(test);
             var job = new RepeatJob();
+            var stopWatch = new Stopwatch();
             stopWatch.Start();
             sub.Run(job);
-            Trace.TraceInformation("" + stopWatch.ElapsedMilliseconds);
-            Assert.That(test.ApproximateMessageCount.Value, Is.EqualTo(10000));
+            Trace.TraceInformation("TinyUrlJobAction generation time " + stopWatch.ElapsedMilliseconds);
+            Assert.That(test.ApproximateMessageCount.Value, Is.EqualTo(5000));
             QueueMessageInterface msg = null;
-            while (test.Storage.Count > 9700)
+            var noDups = new HashSet<string>();
+            while (test.Storage.Count > 4000)
             {
                 test.Storage.TryDequeue(out msg);
                 var ret = System.Text.Encoding.ASCII.GetString(msg.Bytes);
-                Trace.TraceInformation(ret);
+                Assert.IsFalse(noDups.Contains(ret));
+                noDups.Add(ret);
             }
 
+            sub.Run(job);
+            Assert.That(test.Storage.Count, Is.GreaterThanOrEqualTo(9000));
+            while (test.Storage.Count > 0)
+            {
+                test.Storage.TryDequeue(out msg);
+                var ret = System.Text.Encoding.ASCII.GetString(msg.Bytes);
+                Assert.IsFalse(noDups.Contains(ret));
+                noDups.Add(ret);
+            }
         }
 
     }

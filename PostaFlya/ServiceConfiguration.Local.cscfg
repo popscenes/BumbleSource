@@ -28,7 +28,7 @@
       <Setting name="PaypalCallbackUrl" value="http://127.0.0.1:81/Payment/PayPalSuccess"/>
       <Setting name="PaypalCancelUrl" value="http://127.0.0.1:81/Payment/Cancel"/>
 
-      <Setting name="TinyUrlBase" value="http://tfly.in/"/> <!-- set hosts file to point to localhost -->
+      <Setting name="TinyUrlBase" value="http://tfly.in:81/"/> <!-- set hosts file to point to localhost -->
       
     </ConfigurationSettings>
     <Certificates>
@@ -47,7 +47,7 @@
       <Setting name="Microsoft.WindowsAzure.Plugins.RemoteForwarder.Enabled" value="true" />
       <Setting name="SearchDbConnectionString" value="Data Source=.\SQLEXPRESS;Integrated Security=True" />
       <Setting name="DisableFederation" value="True" />
-      <Setting name="TinyUrlBase" value="http://tfly.in/"/>
+      <Setting name="TinyUrlBase" value="http://tfly.in:81/"/>
     </ConfigurationSettings>
     <Certificates>
       <Certificate name="Microsoft.WindowsAzure.Plugins.RemoteAccess.PasswordEncryption" thumbprint="E9CCEAA8D2E9FB9FD4AFB47A0BFD522095DA2108" thumbprintAlgorithm="sha1" />

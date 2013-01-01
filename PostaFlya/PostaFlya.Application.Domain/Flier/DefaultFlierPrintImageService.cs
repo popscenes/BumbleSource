@@ -41,8 +41,7 @@ namespace PostaFlya.Application.Domain.Flier
             {
                 var srcimage = Image.FromStream(ms);
                 return CreateFlierImageWithTearOffs(srcimage,
-                                                    GetSoureUrl(),
-                                                    flier.FriendlyId, 
+                                                    GetSourceUrl(flier),
                                                     Properties.Resources.PostaLogo, _qrCodeService);
             }        
         }
@@ -54,8 +53,7 @@ namespace PostaFlya.Application.Domain.Flier
                 return null;
 
             return CreateQrCodeImageForFlier(
-                                    GetSoureUrl(),
-                                    flier.FriendlyId,
+                                    GetSourceUrl(flier),
                                     Properties.Resources.PostaLogo,
                                     _qrCodeService, Qrcodewidthheight, Logoheight);
         }
@@ -73,8 +71,7 @@ namespace PostaFlya.Application.Domain.Flier
             using (var ms = new MemoryStream(imgData))
             {
                 var srcimage = Image.FromStream(ms);
-                return CreateFlierImage(srcimage, GetSoureUrl(),
-                                            flier.FriendlyId,
+                return CreateFlierImage(srcimage, GetSourceUrl(flier),
                                             Properties.Resources.PostaLogo, _qrCodeService, qrLocation);
             }  
         }
@@ -82,7 +79,7 @@ namespace PostaFlya.Application.Domain.Flier
         const int Qrcodewidthheight = 480;
         const int Logoheight = 200;
 
-        public static Image CreateFlierImage(Image srcimage, string baseurl, string idtext, Bitmap logo, QrCodeServiceInterface qrCodeService, FlierPrintImageServiceQrLocation qrLocation)
+        public static Image CreateFlierImage(Image srcimage, string url, Bitmap logo, QrCodeServiceInterface qrCodeService, FlierPrintImageServiceQrLocation qrLocation)
         {
             
             var width = ImageUtil.A4300DpiSize.Width;
@@ -120,7 +117,7 @@ namespace PostaFlya.Application.Domain.Flier
             var target = new Bitmap(srcimage, width, height);
 
             var imgToDisp = new HashSet<IDisposable>();
-            var qrimage = CreateQrCodeImageForFlier(baseurl, idtext, logo, qrCodeService, qrcodewidthheight, 
+            var qrimage = CreateQrCodeImageForFlier(url, logo, qrCodeService, qrcodewidthheight, 
                                         logoheight);
             imgToDisp.Add(qrimage);
 
@@ -137,13 +134,13 @@ namespace PostaFlya.Application.Domain.Flier
         }
 
 
-        public static Image CreateQrCodeImageForFlier(string baseurl
-            , string idtext, Image logo, QrCodeServiceInterface qrCodeService
+        public static Image CreateQrCodeImageForFlier(string url
+            , Image logo, QrCodeServiceInterface qrCodeService
             , int qrcodewidthheight, int logoheight)
         {
             var imgToDisp = new HashSet<IDisposable>();
 
-            var qrimage = qrCodeService.QrCodeImg(baseurl + idtext, qrcodewidthheight, 1);
+            var qrimage = qrCodeService.QrCodeImg(url, qrcodewidthheight, 1);
             imgToDisp.Add(qrimage);
             var logoResized = new Bitmap(logo, qrcodewidthheight, logoheight);
             imgToDisp.Add(logoResized);
@@ -165,7 +162,7 @@ namespace PostaFlya.Application.Domain.Flier
         }
 
         public static Image CreateFlierImageWithTearOffs(Image srcimage
-                                                         , string baseurl, string idtext, Image logo, QrCodeServiceInterface qrCodeService)
+                                                         , string url, Image logo, QrCodeServiceInterface qrCodeService)
         {
             var width = ImageUtil.A4300DpiSize.Width;
             var height = ImageUtil.A4300DpiSize.Height;
@@ -189,11 +186,11 @@ namespace PostaFlya.Application.Domain.Flier
             var resized = new Bitmap(srcimage, width, height - tearoffheight);
             imgToDisp.Add(resized);
 
-            var qrimage = CreateQrCodeImageForFlier(baseurl, idtext, logo, qrCodeService, qrcodewidthheight, 
+            var qrimage = CreateQrCodeImageForFlier(url, logo, qrCodeService, qrcodewidthheight, 
                                                     logoheight);
             imgToDisp.Add(qrimage);
             
-            var qrimagetear = qrCodeService.QrCodeImg(baseurl + idtext, qrcodetearoffwidth, 2);
+            var qrimagetear = qrCodeService.QrCodeImg(url, qrcodetearoffwidth, 2);
             imgToDisp.Add(qrimagetear);
 
 
@@ -203,7 +200,7 @@ namespace PostaFlya.Application.Domain.Flier
             graphics.DrawImage(resized, 0, 0);
             graphics.DrawImage(qrimage, 0, height - tearoffheight);
 
-            var font = new Font("Arial", 22, FontStyle.Bold);
+            var font = new Font("Times New Roman", 28, FontStyle.Regular);
             imgToDisp.Add(font);
 
             var blackPen = new Pen(Color.Black, 2);
@@ -213,32 +210,20 @@ namespace PostaFlya.Application.Domain.Flier
             {
                 var xOff = qrcodewidthheight + (i * tearoffwidth);
                 graphics.DrawImage(qrimagetear, xOff, height - qrcodetearoffwidth);
-
-                const int lineheight = tearoffwidth / 4;
                 
                 //tear off border
                 graphics.DrawRectangle(blackPen, xOff, height - tearoffheight, tearoffwidth, tearoffheight);
                 
-                //line 1
-                graphics.TranslateTransform(xOff + (lineheight * 2), height - tearoffheight);
+                graphics.TranslateTransform(xOff + tearoffwidth, height - tearoffheight);
                 graphics.RotateTransform(90);
-                SizeF textSize = graphics.MeasureString(baseurl, font);
+                SizeF textSize = graphics.MeasureString(url, font);
                 var scale = tearofftextheight / textSize.Width;
-                if (scale < 1)
-                    graphics.ScaleTransform(scale, scale);
-                var xoffset = Math.Max((tearofftextheight - textSize.Width) / 2, 0.0F);
-                graphics.DrawString(baseurl, font, Brushes.Black, xoffset, -textSize.Height);
-                graphics.ResetTransform();
+                graphics.ScaleTransform(scale, scale);
+                var textRect = new RectangleF(0, 0, tearofftextheight / scale, tearoffwidth / scale);
 
-                //line 2
-                graphics.TranslateTransform(xOff + (lineheight), height - tearoffheight);
-                graphics.RotateTransform(90);
-                textSize = graphics.MeasureString(idtext, font);
-                scale = tearofftextheight / textSize.Width;
-                if (scale < 1)
-                    graphics.ScaleTransform(scale, scale);
-                xoffset = Math.Max((tearofftextheight - textSize.Width) / 2, 0.0F);
-                graphics.DrawString(idtext, font, Brushes.Black, xoffset, -textSize.Height);
+                var fmt = new StringFormat { Alignment = StringAlignment.Center, LineAlignment = StringAlignment.Center, Trimming = StringTrimming.None };
+                graphics.DrawString(url, font, Brushes.Black, textRect, fmt);
+
                 graphics.ResetTransform();
 
             }
@@ -251,19 +236,17 @@ namespace PostaFlya.Application.Domain.Flier
             return target;
         }
 
-        private static string GetSoureUrl()
+        private static string GetSourceUrl(PostaFlya.Domain.Flier.Flier flier)
         {
-            var ret = Config.Instance.GetSetting("QrUrl");
+            //return "1234567";
+            if (!string.IsNullOrEmpty(flier.TinyUrl))
+                return flier.TinyUrl;
 
-            if (!string.IsNullOrWhiteSpace(ret) && ret.Equals("uselocal"))
-            {
-                var ipadd = Dns.GetHostEntry(Dns.GetHostName()).AddressList.FirstOrDefault(ip => ip.AddressFamily == AddressFamily.InterNetwork);
-                return "http://" + ipadd.ToString() + "/";
-            }
-                
-            if (string.IsNullOrWhiteSpace(ret))
-                return "http://www.postaflya.com/";
-            return (!ret.EndsWith("/")) ? ret + "/" : ret;
+            var ret = Config.Instance.GetSetting("WebsiteUrl");
+            if (string.IsNullOrEmpty(ret))
+                ret = "http://www.postaflya.com/";
+
+            return ret + flier.FriendlyId;
         }
     }
 }

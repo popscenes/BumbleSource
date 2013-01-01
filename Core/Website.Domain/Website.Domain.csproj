@@ -86,7 +86,7 @@
     <Compile Include="Browser\Command\SetLocationCommandHandler.cs" />
     <Compile Include="Browser\Publish\BrowserSubscriptionBase.cs" />
     <Compile Include="Browser\Publish\BrowserSubscriptionInterface.cs" />
-    <Compile Include="Browser\Query\BrowserQueryServiceInterface.cs" />
+    <Compile Include="Browser\Query\BrowserQueryServiceExtensions.cs" />
     <Compile Include="Browser\Query\BrowserQueryServiceUtil.cs" />
     <Compile Include="Browser\Query\QueryServiceForBrowserAggregateInterface.cs" />
     <Compile Include="Browser\Role.cs" />
@@ -144,6 +144,8 @@
     <Compile Include="Service\ContentStorageServiceInterface.cs" />
     <Compile Include="Tag\TagGroup.cs" />
     <Compile Include="Tag\Tags.cs" />
+    <Compile Include="TinyUrl\TinyUrlInterface.cs" />
+    <Compile Include="TinyUrl\TinyUrlServiceInterface.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

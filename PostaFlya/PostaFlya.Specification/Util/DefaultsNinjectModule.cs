@@ -1,7 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Web.Mvc;
 using Ninject;
+using Ninject.MockingKernel.Moq;
 using Ninject.Modules;
+using PostaFlya.Domain.Flier;
+using PostaFlya.Mocks.Domain.Data;
 using Website.Infrastructure.Command;
 using PostaFlya.Models.Flier;
 using PostaFlya.Models.Location;
@@ -49,6 +52,8 @@ namespace PostaFlya.Specification.Util
 
             //set a default command bus if it is needed
             Kernel.Bind<CommandBusInterface>().To<DefaultCommandBus>();
+
+            MockApplicationServicesNinjectModule.SetUpTinyUrlService<Flier>(Kernel as MoqMockingKernel);
         }
     }
 }

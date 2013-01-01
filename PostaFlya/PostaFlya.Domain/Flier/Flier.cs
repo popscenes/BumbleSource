@@ -59,8 +59,6 @@ namespace PostaFlya.Domain.Flier
         public string ExternalSource { get; set; }
         public string ExternalId { get; set; }
 
-        public string CountryCode { get; set; }
-        public string PostCode { get; set; }
         public Dictionary<string, object> ExtendedProperties { get; set; }
         public int NumberOfClaims { get; set; }
         public int NumberOfComments { get; set; }
@@ -70,5 +68,6 @@ namespace PostaFlya.Domain.Flier
         public HashSet<EntityFeatureCharge> Features { get; set; }
         public bool HasLeadGeneration { get; set; }
         public int LocationRadius { get; set; }
+        public string TinyUrl { get; set; }
     }
 }

@@ -15,6 +15,7 @@ namespace Website.Application.Schedule
         int RepeatSeconds { get; set; }
     }
 
+    [Serializable]
     public class RepeatJob : JobBase, RepeatJobInterface
     {
         public int RepeatSeconds { get; set; }

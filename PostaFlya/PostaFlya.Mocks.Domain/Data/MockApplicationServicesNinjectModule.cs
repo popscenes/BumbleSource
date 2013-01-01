@@ -11,8 +11,10 @@ using PostaFlya.Application.Domain.ExternalSource;
 using PostaFlya.Application.Domain.Flier;
 using PostaFlya.Domain.Flier;
 using Website.Application.Domain.Content;
+using Website.Domain.TinyUrl;
 using Website.Infrastructure.Authentication;
 using Website.Domain.Browser;
+using Website.Infrastructure.Domain;
 using Website.Infrastructure.Query;
 
 namespace PostaFlya.Mocks.Domain.Data
@@ -28,7 +30,17 @@ namespace PostaFlya.Mocks.Domain.Data
             SetUpFlierPrintService(kernel);
         }
 
-        private void SetUpFlierPrintService(MoqMockingKernel kernel)
+        public static void SetUpTinyUrlService<EnityType>(MoqMockingKernel kernel)
+            where EnityType : EntityInterface, TinyUrlInterface
+        {
+            var tinyUrlService = kernel.GetMock<TinyUrlServiceInterface>();
+            tinyUrlService.Setup(service => service.UrlFor(It.IsAny<EnityType>()))
+                .Returns("http://atiny.url/1");
+            kernel.Bind<TinyUrlServiceInterface>()
+                .ToConstant(tinyUrlService.Object);
+        }
+
+        private static void SetUpFlierPrintService(MoqMockingKernel kernel)
         {
             var printService = kernel.GetMock<FlierPrintImageServiceInterface>();
             
@@ -40,7 +52,7 @@ namespace PostaFlya.Mocks.Domain.Data
                                     : new Bitmap(ImageUtil.A4300DpiSize.Width, ImageUtil.A4300DpiSize.Height);
                             });
 
-            Bind<FlierPrintImageServiceInterface>()
+            kernel.Bind<FlierPrintImageServiceInterface>()
                 .ToConstant(printService.Object);
         }
 

@@ -168,5 +168,14 @@ namespace Website.Application.Tests.Mocks
             if(QueueActionCallback != null)
                 QueueActionCallback(endPoint, methodName, queueMessage);
         }
+
+        public void Clear()
+        {
+           while (!_messages.IsEmpty)
+           {
+               QueueMessageInterface ret;
+               _messages.TryDequeue(out ret);
+           }
+        }
     }
 }

@@ -12,6 +12,7 @@ namespace Website.Application.Schedule.Command
         private readonly GenericRepositoryInterface _genericRepository;
         private readonly IResolutionRoot _resolutionRoot;
         private readonly TimeServiceInterface _timeService;
+        readonly Stopwatch _stopWatch = new Stopwatch();
 
         public JobCommandHandler(UnitOfWorkFactoryInterface unitOfWorkFactory
                                  , GenericRepositoryInterface genericRepository, IResolutionRoot resolutionRoot, TimeServiceInterface timeService)
@@ -24,18 +25,21 @@ namespace Website.Application.Schedule.Command
 
         public object Handle(JobCommand command)
         {
+            _stopWatch.Start();
             try
-            {
+            {                               
                 var action = _resolutionRoot.Get(command.JobBase.JobActionClass) as JobActionInterface;
                 action.Run(command.JobBase);
+
+                Trace.TraceInformation("Schedule Job {0} Completed. type: {1}, time(ms): {2}", command.JobBase.Id, action.GetType().ToString(), _stopWatch.ElapsedMilliseconds);
             }
             catch (Exception e)
             {
-                Trace.TraceError("Schedule Job Error {0}, {1}, {2}", command.JobBase.Id, e.Message, e.StackTrace);
+                Trace.TraceError("Schedule Job {0} Error, time(ms): {3}\n msg:{1} \n {2}", command.JobBase.Id, e.Message, e.StackTrace, _stopWatch.ElapsedMilliseconds);
             }
 
             command.JobBase.InProgress = false;
-            command.JobBase.LastDuration = _timeService.GetCurrentTime() - command.JobBase.LastRun; 
+            command.JobBase.LastDuration = TimeSpan.FromMilliseconds(_stopWatch.ElapsedMilliseconds); 
             var uow = _unitOfWorkFactory.GetUnitOfWork(new[] {_genericRepository});
             using (uow)
             {

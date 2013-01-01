@@ -4,6 +4,8 @@ using Ninject.Modules;
 using PostaFlya.Domain.Behaviour;
 using PostaFlya.Domain.Boards;
 using PostaFlya.Domain.Flier;
+using Website.Application.Domain.TinyUrl;
+using Website.Application.Schedule;
 using Website.Azure.Common.TableStorage;
 using PostaFlya.DataRepository.Internal;
 using Website.Domain.Browser;
@@ -60,6 +62,11 @@ namespace PostaFlya.DataRepository.Binding
             tableNameProv.Add<CreditTransaction>(JsonRepository.IdPartition, "creditTransaction", e => e.Id);
             tableNameProv.Add<CreditTransaction>(JsonRepository.AggregateIdPartition, "creditTransaction", e => e.AggregateId, e => e.Id);
 
+            tableNameProv.Add<TinyUrlRecordInterface>(JsonRepository.IdPartition, "tinyurlentity", e => e.Id);
+            tableNameProv.Add<TinyUrlRecordInterface>(JsonRepository.AggregateIdPartition, "tinyurlentity", e => e.AggregateId, e => e.Id);
+
+
+            tableNameProv.Add<JobBase>(JsonRepository.IdPartition, "jobs", e => e.Id);
 
             var tctx = Kernel.Get<TableContextInterface>();
             foreach (var tableName in tableNameProv.GetAllTableNames())

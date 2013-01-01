@@ -169,7 +169,7 @@ namespace Website.Test.Common
             , Action<EntityInterfaceType, EntityInterfaceType> copyFields)
             where QsType : class, GenericQueryServiceInterface
             where EntityType : class, EntityInterfaceType,  new()
-            where EntityInterfaceType : class, EntityInterface, AggregateInterface
+            where EntityInterfaceType : class, EntityIdInterface, AggregateInterface
         {
             var queryService = kernel.GetMock<QsType>();
             var queryServiceGeneric = kernel.GetMock<GenericQueryServiceInterface>();
