@@ -388,6 +388,10 @@ form input[type='text'], .form textarea
     font-size: 1.2em;
 }
 
+form input[type='text'] {
+    height: 31px;
+}
+
 form textarea {
     height: 90px;
 }
