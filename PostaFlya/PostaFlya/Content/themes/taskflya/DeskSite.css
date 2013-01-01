@@ -128,7 +128,7 @@ div#create-flier-item-div
 
 #flierCreateStep
 {
-    margin: 15px 15px;
+    margin: 15px 0px;
 }
 
 /************selected item popup/overlay div ********************/
@@ -516,9 +516,9 @@ div#selected-item-popup-overlay, div#create-flier-popup-overlay {
 }
 
 /*****flier form*****/
-#flierForm .map {
+#flierForm #lsMain .map {
     margin: 0;
-    width: 90% !important;
+    width: 100% !important;
 }
 #flierForm h2 {
     font-weight: normal;
@@ -528,9 +528,10 @@ div#selected-item-popup-overlay, div#create-flier-popup-overlay {
 
 }
 
-.form input[type="text"].location-search {
+#flierForm input[type="text"].location-search {
     border-radius: 0px;
-    width: 90%;
+    width: 594px;
+    margin-bottom: 10px;
 }
 
 #flierForm h3 {
