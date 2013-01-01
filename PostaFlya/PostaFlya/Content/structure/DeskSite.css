@@ -372,25 +372,23 @@ fieldset {
         }
 
 .form {
-    width:600px;
+    width:500px;
     margin-left:auto;
     margin-right:auto;  
 }
 
-.form li {display: block;margin-bottom: 18px;}
-.form li label{font-size: 18px;width: 150px;vertical-align:top;}
-.form li > * { display: inline-block}
-.form input[type='text'], .form textarea 
+form li {display: block;margin-bottom: 18px;}
+form li label{font-size: 18px;width: 150px;vertical-align:top;}
+form li > * { display: inline-block}
+form input[type='text'], .form textarea 
 { 
     padding: 3px; 
     border: #93969C solid 1px;
-    -moz-border-radius: 5px;
-    border-radius: 5px;
     width: 300px;
     font-size: 1.2em;
 }
 
-.form textarea {
+form textarea {
     height: 90px;
 }
 

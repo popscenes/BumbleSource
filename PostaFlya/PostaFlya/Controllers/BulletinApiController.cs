@@ -106,7 +106,7 @@ namespace PostaFlya.Controllers
             watch.Start();
             var ret = fliersIds
                 .Select(f => viewModelFactory.GetBulletinViewModel(flierQueryService.FindById<Flier>(f), false)
-                    .GetImageUrl(blobStorage))
+                    .GetImageUrl(blobStorage).GetContactDetails(flierQueryService))
                 .ToList();
             Trace.TraceInformation("Bulletin Get FindById time: {0}, numfliers {1}", watch.ElapsedMilliseconds, ret.Count());
             return ret;

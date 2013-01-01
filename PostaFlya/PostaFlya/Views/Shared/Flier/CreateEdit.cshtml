@@ -18,15 +18,15 @@
     </div>
 
     <div id="form-buttons">
-        <a id="flya-create-back" data-bind="click: prevTemplate, visible:isPrevStep()" class="Button"></a>
+        <a id="flya-create-back" data-bind="click: prevTemplate, visible:isPrevStep()" class="Button">&nbsp;</a>
         <a id="flya-create-continue" data-bind="click: nextTemplate, visible:isNextStep()" class="Button"></a>
 
-        <a id="flya-create-save" data-bind="click: save, visible:!isUpdate() && !isNextStep()" class="Button"></a>
-        <a id="flya-create-update" data-bind="click: update, visible:isUpdate() && !isNextStep()" class="Button"></a>
+        <a id="flya-create-save" data-bind="click: save, visible:!isUpdate() && !isNextStep()" class="Button">&nbsp;</a>
+        <a id="flya-create-update" data-bind="click: update, visible:isUpdate() && !isNextStep()" class="Button">&nbsp;</a>
     </div>
 
 <script type="text/html" id="Flyer-template">
-    <form id="flierForm" class="form" data-bind="validate: true">
+    <form id="flierForm" class="" data-bind="validate: true">
     
         @Html.ValidationSummary(false)
         @Html.HiddenFor(model => model.Id, new { data_bind = "value:Id" })
@@ -34,7 +34,7 @@
             <legend>ADD IMAGE TO YOUR FLYA</legend>
             <h2>ADD IMAGE TO YOUR FLYA</h2>
 
-            <span class="image-selector" data-bind="with:imageSelector">
+            <span class="image-selector ignore" data-bind="with:imageSelector">
                 @Html.Partial("Image/ImageSelector")
             </span>
             
@@ -51,7 +51,7 @@
 @Html.Partial("Image/ImageListTemplate")
 
 <script type="text/html" id="Images-template">
-    <form id="flierForm" class="form" data-bind="validate: true">
+    <form id="flierForm" class="" data-bind="validate: true">
         <h2>Add images to your flier</h2>
 
     <ul class="flier-images" data-bind="foreach:ImageList">
@@ -75,7 +75,7 @@
 </script>
 
 <script type="text/html" id="Location-template">
-    <form id="flierForm" class="form" data-bind="validate: true">
+    <form id="flierForm" class="" data-bind="validate: true">
     
     @Html.ValidationSummary(false)
     @Html.HiddenFor(model => model.Id, new { data_bind = "value:Id" })
@@ -95,7 +95,7 @@
 </script>
 
 <script type="text/html" id="Info-template">
-        <form id="flierForm" class="form" data-bind="validate: true">
+        <form id="flierForm" class="" data-bind="validate: true">
     
     @Html.ValidationSummary(false)
     @Html.HiddenFor(model => model.Id, new { data_bind = "value:Id" })
@@ -129,7 +129,7 @@
 
 
 <script type="text/html" id="Tags-template">
-    <form id="flierForm" class="form" data-bind="validate: true">
+    <form id="flierForm" class="" data-bind="validate: true">
     
     @Html.ValidationSummary(false)
     @Html.HiddenFor(model => model.Id, new { data_bind = "value:Id" })

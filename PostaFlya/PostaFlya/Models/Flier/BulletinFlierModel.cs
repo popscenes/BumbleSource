@@ -17,6 +17,8 @@ using PostaFlya.Areas.TaskJob.Models;
 using PostaFlya.Models.Location;
 using PostaFlya.Models.Content;
 using Website.Application.Domain.Content;
+using Website.Domain.Browser;
+using Website.Infrastructure.Query;
 
 namespace PostaFlya.Models.Flier
 {
@@ -51,6 +53,13 @@ namespace PostaFlya.Models.Flier
             var uri = blobStorage.GetBlobUri(model.FlierImageId + ImageUtil.GetIdFileExtension());
             if(uri != null)
                 model.FlierImageUrl = uri.ToString();
+            return model;
+        }
+
+        public static BulletinFlierModel GetContactDetails(this BulletinFlierModel model, GenericQueryServiceInterface queryService)
+        {
+            var owner = queryService.FindById<Website.Domain.Browser.Browser>(model.BrowserId);
+            model.OwnerName = owner.FirstName + " " + owner.Surname;
             return model;
         }
 
@@ -110,6 +119,9 @@ namespace PostaFlya.Models.Flier
 
         [Display(Name = "FlierImages", ResourceType = typeof(Properties.Resources))] 
         public List<ImageViewModel> ImageList { get; set; }
+
+        public string OwnerName { get; set; }
+   
     }
 
     public class BulletinFlierModel<BehaviourType> : BulletinFlierModel where BehaviourType : new()
