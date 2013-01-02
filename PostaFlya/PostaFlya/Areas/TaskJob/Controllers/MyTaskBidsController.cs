@@ -1,7 +1,7 @@
 using System.Net.Http;
 using System.Web.Http;
 using PostaFlya.Areas.TaskJob.Models;
-using PostaFlya.Attributes;
+using Website.Application.Domain.Browser.Web;
 using Website.Common.Extension;
 using PostaFlya.Domain.TaskJob.Command;
 using Website.Infrastructure.Command;

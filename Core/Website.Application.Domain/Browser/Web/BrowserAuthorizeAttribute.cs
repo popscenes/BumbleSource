@@ -3,15 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Web;
 using System.Web.Http.Controllers;
 using System.Web.Http.Filters;
 using Ninject;
-using Website.Infrastructure.Command;
-using Website.Application.Domain.Browser;
 using Website.Domain.Browser;
+using Website.Infrastructure.Command;
 
-namespace PostaFlya.Attributes
+namespace Website.Application.Domain.Browser.Web
 {
     public class BrowserAuthorizeAttribute : ActionFilterAttribute
     {
@@ -31,13 +29,13 @@ namespace PostaFlya.Attributes
             }
         }
 
+        [Inject]
+        public BrowserInformationInterface BrowserInformation { get; set; }
+
         public override void OnActionExecuting(HttpActionContext actionContext)
         {
-            return;
-            var browserInfo = MvcApplication.DependencyResolver.Get<BrowserInformationInterface>();
-            //for now just check that the logged in browser is the same
-            //in the future if we support oauth and applications etc
-            //we can enhance this attribute.
+            //return; if you want to generate fliers without worrying bout authorization
+
             var browserid = actionContext.ControllerContext.RouteData.Values["BrowserId"] as string;
             if (string.IsNullOrWhiteSpace(browserid))
             {
@@ -59,11 +57,11 @@ namespace PostaFlya.Attributes
                 
             }
 
-            if (browserInfo.Browser.HasRole(Role.Admin))
+            if (BrowserInformation.Browser.HasRole(Role.Admin))
                 return;
 
-            if (browserInfo.Browser.Id == browserid && (Roles.Length == 0 ||
-                browserInfo.Browser.HasAnyRole(_rolesSplit)))
+            if (BrowserInformation.Browser.Id == browserid && (Roles.Length == 0 ||
+                BrowserInformation.Browser.HasAnyRole(_rolesSplit)))
                 return;
 //
 //#if DEBUG

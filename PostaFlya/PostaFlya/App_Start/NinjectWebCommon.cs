@@ -2,6 +2,8 @@ using System.Diagnostics;
 using System.Web.Http;
 using Website.Azure.Common.Environment;
 using PostaFlya.Binding;
+using Website.Common.Binding;
+using Website.Common.Filters;
 
 [assembly: WebActivator.PreApplicationStartMethod(typeof(PostaFlya.App_Start.NinjectWebCommon), "Start")]
 [assembly: WebActivator.ApplicationShutdownMethodAttribute(typeof(PostaFlya.App_Start.NinjectWebCommon), "Stop")]
@@ -53,9 +55,11 @@ namespace PostaFlya.App_Start
             
             RegisterServices(kernel);
 
-            //until a new version of ninject.webapi
-            GlobalConfiguration.Configuration.DependencyResolver = new NinjectDependencyResolver(kernel);
-
+            //until a new version of ninject that supports web api
+            GlobalConfiguration.Configuration.DependencyResolver = new NinjectHttpDependencyResolver(kernel);
+            //this means that properties in filter attributes can be bound for http controllers
+            kernel.Bind<System.Web.Http.Filters.IFilterProvider>().To<DefaultNinjectHttpFilterProvider>();
+            //end until a new version
             return kernel;
         }
 
@@ -65,25 +69,9 @@ namespace PostaFlya.App_Start
         /// <param name="kernel">The kernel.</param>
         private static void RegisterServices(IKernel kernel)
         {
-            //seems claim both mvc + wepapi ninject extensions bind HttpContext cause double binding errors
-            //just rebind
-//            kernel.Unbind<HttpContext>();
-//            kernel.Unbind<HttpContextBase>();
-//            kernel.Rebind<HttpContext>().ToMethod(ctx => HttpContext.Current).InRequestScope();
-//            kernel.Rebind<HttpContextBase>().ToMethod(ctx => new HttpContextWrapper(HttpContext.Current)).InTransientScope();
-            Trace.TraceInformation("Ninject load modules " + AzureEnv.GetIdForInstance());
-            System.Diagnostics.Trace.WriteLine("Ninject load modules trace writeln");
-            Trace.TraceError("Ninject load modules trace err");
-            Trace.TraceWarning("Ninject load modules trace warn");
-            Trace.TraceInformation("Ninject load modules trace info");
+            Trace.TraceInformation("Start Ninject load modules " + AzureEnv.GetIdForInstance());
 
             kernel.Load(AllBindings.NinjectModules);
-
-            Trace.TraceInformation("Ninject load modules " + AzureEnv.GetIdForInstance());
-            System.Diagnostics.Trace.WriteLine("Ninject load modules trace writeln");
-            Trace.TraceError("Ninject load modules trace err");
-            Trace.TraceWarning("Ninject load modules trace warn");
-            Trace.TraceInformation("Ninject load modules trace info");
 
             Trace.TraceInformation("Ninject load modules complete " + AzureEnv.GetIdForInstance() + ":" + AllBindings.NinjectModules);
         }        

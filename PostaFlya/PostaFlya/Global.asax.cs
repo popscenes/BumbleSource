@@ -103,8 +103,6 @@ namespace PostaFlya
         {
             //Web Api doesn't use model validators atm, if this changes in the future no need for this
             config.Filters.Add(new ApiValidationActionFilter());
-            //not supported anymore.
-            //config.ServiceResolver.SetService(typeof(IHttpControllerFactory), new AreaHttpControllerFactory(GlobalConfiguration.Configuration));
         }
 
         protected void Application_Start()

@@ -333,10 +333,7 @@
     <Compile Include="Areas\TaskJob\Models\TaskJobBidModel.cs" />
     <Compile Include="Areas\TaskJob\Models\TaskJobDetailsViewModel.cs" />
     <Compile Include="Areas\TaskJob\TaskJobAreaRegistration.cs" />
-    <Compile Include="Attributes\BrowserAuthorizeAttribute.cs" />
-    <Compile Include="Attributes\BrowserInformationRequiredAttribute.cs" />
     <Compile Include="Binding\EntityQueryServiceFactoryInterface.cs" />
-    <Compile Include="Binding\NinjectDependencyResolver.cs" />
     <Compile Include="Binding\WebNinjectBindings.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BrowserInformationController.cs" />
@@ -367,7 +364,6 @@
     <Compile Include="Areas\Default\Models\Bulletin\BulletinBehaviourModel.cs" />
     <Compile Include="Controllers\MyImagesController.cs" />
     <Compile Include="Controllers\TagsApiController.cs" />
-    <Compile Include="Helpers\UrlHelperExtensions.cs" />
     <Compile Include="Models\Browser\CurrentBrowserModel.cs" />
     <Compile Include="Models\Comments\CreateCommentModel.cs" />
     <Compile Include="Models\Content\ImageModelExtension.cs" />
@@ -749,7 +745,7 @@
     <Folder Include="Areas\Default\Controllers\" />
     <Folder Include="Areas\Default\Views\Shared\" />
     <Folder Include="Areas\TaskJob\Views\Shared\" />
-    <Folder Include="Extensions\" />
+    <Folder Include="Attributes\" />
     <Folder Include="Properties\PublishProfiles\" />
     <Folder Include="Scripts\plupload\jquery.plupload.queue\css\" />
     <Folder Include="Scripts\plupload\jquery.plupload.queue\img\" />

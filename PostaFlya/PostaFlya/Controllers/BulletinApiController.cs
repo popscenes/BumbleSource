@@ -1,27 +1,19 @@
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Diagnostics;
-using System.Globalization;
 using System.Linq;
-using System.Runtime.InteropServices;
 using System.Web.Http;
-using System.Web.Http.Routing;
 using Website.Application.Binding;
 using PostaFlya.Areas.Default.Models;
-using PostaFlya.Areas.Default.Models.Bulletin;
 using PostaFlya.Domain.Behaviour.Query;
 using PostaFlya.Domain.Flier;
 using PostaFlya.Domain.Flier.Query;
-using PostaFlya.Helpers;
 using PostaFlya.Models.Content;
 using PostaFlya.Models.Factory;
 using PostaFlya.Models.Flier;
 using PostaFlya.Models.Location;
-using PostaFlya.Models.Tags;
 using Website.Application.Content;
 using Website.Application.Domain.Content;
-using Website.Domain.Location;
 using Website.Domain.Tag;
 using Website.Infrastructure.Query;
 

@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics;
 using Ninject;
 using Ninject.Modules;
+using Ninject.Web.Common;
 using Website.Application.Domain.Payment;
 using Website.Application.Domain.Publish;
 using Website.Application.Domain.TinyUrl;
@@ -23,7 +24,7 @@ namespace Website.Application.Domain.Binding
         {
             Trace.TraceInformation("Binding ApplicationDomainNinjectBinding");
 
-            Kernel.Bind<BrowserInformationInterface>().To<BrowserInformation>();
+            Kernel.Bind<BrowserInformationInterface>().To<BrowserInformation>().InRequestScope();
 
             Bind<RequestContentRetrieverFactoryInterface>().To<RequestContentRetrieverFactory>();
 
