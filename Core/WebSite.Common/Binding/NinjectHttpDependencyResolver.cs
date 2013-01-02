@@ -5,7 +5,7 @@ using System.Web.Http.Dependencies;
 using Ninject;
 using Ninject.Syntax;
 
-namespace PostaFlya.Binding
+namespace Website.Common.Binding
 {
     public class NinjectDependencyScope : IDependencyScope
     {
@@ -44,11 +44,11 @@ namespace PostaFlya.Binding
         }
     }
 
-    public class NinjectDependencyResolver : NinjectDependencyScope, IDependencyResolver
+    public class NinjectHttpDependencyResolver : NinjectDependencyScope, IDependencyResolver
     {
         private IKernel kernel;
 
-        public NinjectDependencyResolver(IKernel kernel)
+        public NinjectHttpDependencyResolver(IKernel kernel)
             : base(kernel)
         {
             this.kernel = kernel;

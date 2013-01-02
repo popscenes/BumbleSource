@@ -35,7 +35,7 @@ namespace Website.Application.Tests.TinyUrl
         }
 
         [Test]
-        public void TinyUrlJobActionGenerates10000UrlsIfCurrentUrlCountIsLessThan5000Test()
+        public void TinyUrlJobActionGenerates500UrlsIfCurrentUrlCountIsLessThan5000Test()
         {
             
             var test = new TestQueue();
@@ -45,10 +45,10 @@ namespace Website.Application.Tests.TinyUrl
             stopWatch.Start();
             sub.Run(job);
             Trace.TraceInformation("TinyUrlJobAction generation time " + stopWatch.ElapsedMilliseconds);
-            Assert.That(test.ApproximateMessageCount.Value, Is.EqualTo(5000));
+            Assert.That(test.ApproximateMessageCount.Value, Is.EqualTo(500));
             QueueMessageInterface msg = null;
             var noDups = new HashSet<string>();
-            while (test.Storage.Count > 4000)
+            while (test.Storage.Count > 400)
             {
                 test.Storage.TryDequeue(out msg);
                 var ret = System.Text.Encoding.ASCII.GetString(msg.Bytes);
@@ -57,7 +57,7 @@ namespace Website.Application.Tests.TinyUrl
             }
 
             sub.Run(job);
-            Assert.That(test.Storage.Count, Is.GreaterThanOrEqualTo(9000));
+            Assert.That(test.Storage.Count, Is.GreaterThanOrEqualTo(900));
             while (test.Storage.Count > 0)
             {
                 test.Storage.TryDequeue(out msg);

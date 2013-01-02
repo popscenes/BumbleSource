@@ -10,14 +10,15 @@ namespace Website.Application.Domain.TinyUrl
         {
             EntityIdInterfaceExtensions.CopyFieldsFrom(target, source);
             AggregateInterfaceExtensions.CopyFieldsFrom(target, source);
+            TinyUrlInterfaceExtensions.CopyFieldsFrom(target, source);
         }
     }
 
-    public interface TinyUrlRecordInterface : EntityIdInterface, AggregateInterface
+    public interface TinyUrlRecordInterface : EntityIdInterface, AggregateInterface, TinyUrlInterface
     {
     }
 
-    public class TinyUrlRecord : TinyUrlRecordInterface, TinyUrlInterface
+    public class TinyUrlRecord : TinyUrlRecordInterface
     {
         public string AggregateId { get; set; }
         public string AggregateTypeTag { get; set; }

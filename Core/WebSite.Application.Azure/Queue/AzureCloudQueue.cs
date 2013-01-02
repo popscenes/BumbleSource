@@ -22,7 +22,7 @@ namespace Website.Application.Azure.Queue
         {
             var azureMsg = message as AzureCloudQueueMessage ?? new AzureCloudQueueMessage(message.Bytes);
 
-            Func<bool> addMsg = () => { _cloudQueue.AddMessage(azureMsg.Message, TimeSpan.MaxValue); return true;};
+            Func<bool> addMsg = () => { _cloudQueue.AddMessage(azureMsg.Message); return true;};
             AzureCloudBlobStorage.RetryQuery(addMsg);
                         
         }
@@ -61,8 +61,7 @@ namespace Website.Application.Azure.Queue
         {
             get
             {
-                if (!_cloudQueue.ApproximateMessageCount.HasValue)
-                    _cloudQueue.FetchAttributes();
+                _cloudQueue.FetchAttributes();
                 return _cloudQueue.ApproximateMessageCount;
             }
         }

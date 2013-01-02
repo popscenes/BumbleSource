@@ -18,7 +18,7 @@ namespace Website.Application.Binding
             {
                 Id = "TinyUrlGenerator",
                 FriendlyId = "Tiny Url Generator",
-                RepeatSeconds = 60,
+                RepeatSeconds = 10,
                 JobStorage = TinyUrlGenerationJobAction.GetDefaults(Kernel.Get<ConfigurationServiceInterface>()),
                 JobActionClass = typeof(TinyUrlGenerationJobAction)
             });

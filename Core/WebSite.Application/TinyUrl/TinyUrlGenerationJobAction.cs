@@ -34,13 +34,13 @@ namespace Website.Application.TinyUrl
 
         public void Run(JobBase job)
         {
-            if (!_urlQueue.ApproximateMessageCount.HasValue || _urlQueue.ApproximateMessageCount.Value > 5000)
+            if (!_urlQueue.ApproximateMessageCount.HasValue || _urlQueue.ApproximateMessageCount.Value > 500)
                 return;
 
             if (job.JobStorage == null || !job.JobStorage.ContainsKey(UrlBase))
                 job.JobStorage = GetDefaults(_configurationService);
 
-            for (var i = 0; i < 5000; i++)
+            for (var i = 0; i < 500; i++)
             {
                 AddNewUrlToQueue(job);
             }

@@ -70,22 +70,14 @@ namespace Website.Application.Tests.Schedule
         [Test]
         public void RepeatJobRepeatsAJobForEvery1SecondsTest()
         {
-            Kernel.Unbind<CommandHandlerInterface<JobCommand>>();
-            var cmdHandler = Kernel.GetMock<CommandHandlerInterface<JobCommand>>();
             var watch = new Stopwatch();
             var cancellationTokenSource = new CancellationTokenSource();
             var commandCount = 0;
 
-            cmdHandler.Setup(ch => ch.Handle(It.IsAny<JobCommand>()))
-                .Returns<JobCommand>(tc =>
-                {
-                    Trace.TraceInformation("Elapsed {0}", watch.ElapsedMilliseconds);
-                    commandCount++;
-                    if(commandCount == 2)
-                        cancellationTokenSource.Cancel();
-                    tc.JobBase.InProgress = false;
-                    return true;
-                });
+            Kernel.Bind<TestJobAction>()
+                  .ToMethod(context => 
+                      new TestJobAction(commandCount++, cancellationTokenSource))
+                  .InTransientScope();
 
             var sub = Kernel.Get<Scheduler>();
             sub.RunInterval = 50;
@@ -107,13 +99,19 @@ namespace Website.Application.Tests.Schedule
 
         public class TestJobAction : JobActionInterface 
         {
-            public TestJobAction(GenericRepositoryInterface testinject)
+            private readonly int _count;
+            private readonly CancellationTokenSource _cancel;
+
+            public TestJobAction(int count, CancellationTokenSource cancel)
             {
+                _count = count;
+                _cancel = cancel;
             }
 
             public void Run(JobBase job)
             {
-                
+                if(_count > 0)
+                    _cancel.Cancel();
             }
         }
     }
