@@ -472,11 +472,13 @@
     <Content Include="Content\themes\taskflya\images\logo.png" />
     <Content Include="Content\themes\taskflya\images\mag-glass.png" />
     <Content Include="Content\themes\taskflya\images\next-btn.png" />
+    <Content Include="Content\themes\taskflya\images\next-icon.png" />
     <Content Include="Content\themes\taskflya\images\openid-providers-en.png" />
     <Content Include="Content\themes\taskflya\images\post-flya-btn.png" />
     <Content Include="Content\themes\taskflya\images\postaflya-logo-blue.png" />
     <Content Include="Content\themes\taskflya\images\postaflya-logo.png" />
     <Content Include="Content\themes\taskflya\images\prev-btn-disabled.png" />
+    <Content Include="Content\themes\taskflya\images\prev-icon.png" />
     <Content Include="Content\themes\taskflya\images\slider-handle.png" />
     <Content Include="Content\themes\taskflya\images\tempbutton400x379.jpg" />
     <Content Include="Content\themes\taskflya\images\tempbutton64x61.jpg" />
@@ -508,7 +510,7 @@
     <Content Include="Content\structure\jquery.ui.autocomplete.css" />
     <Content Include="Content\structure\jquery.ui.button.css" />
     <Content Include="Content\structure\jquery.ui.core.css" />
-    <Content Include="Content\structure\jquery.ui.datepicker.css" />
+    <Content Include="Content\themes\taskflya\jquery.ui.datepicker.css" />
     <Content Include="Content\structure\jquery.ui.dialog.css" />
     <Content Include="Content\structure\jquery.ui.progressbar.css" />
     <Content Include="Content\structure\jquery.ui.resizable.css" />

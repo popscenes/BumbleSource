@@ -534,7 +534,7 @@ div#selected-item-popup-overlay, div#create-flier-popup-overlay {
     margin-bottom: 10px;
 }
 
-#flierForm input[type="text"]#Title {
+#flierForm input[type="text"]#Title, #flierForm textarea {
     width: 259px;
 }
 

@@ -96,9 +96,9 @@ namespace PostaFlya.Views.Shared
             "jquery.ui.autocomplete.css",
             "jquery.ui.button.css",
             "jquery.ui.dialog.css",
-            //"jquery.ui.slider.css",
-            "jquery.ui.tabs.css",
-            "jquery.ui.datepicker.css",
+            ////"jquery.ui.slider.css",
+            //"jquery.ui.tabs.css",
+            
             "jquery.ui.progressbar.css",
             //custom
             "DeskSite.css",
@@ -123,8 +123,9 @@ namespace PostaFlya.Views.Shared
         private static readonly string[] DeskThemeCss =
         {
             //jquery ui
-            "jquery.ui.theme.css",
+            //"jquery.ui.theme.css",
             //custom
+            "jquery.ui.datepicker.css",
             "DeskSite.css",
 
         };
