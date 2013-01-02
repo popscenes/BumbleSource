@@ -388,6 +388,10 @@ form input[type='text'], .form textarea
     font-size: 1.2em;
 }
 
+form input[type='text'] {
+    height: 31px;
+}
+
 form textarea {
     height: 90px;
 }
@@ -533,4 +537,14 @@ a.toolbar-item
 
 #filelist div {
     margin-top: 2px;
+}
+
+.form-divider {
+    display: block;
+    float: left;
+    width: 270px;
+}
+
+.form-divider-right {
+    float: right;
 }
