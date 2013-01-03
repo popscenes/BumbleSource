@@ -190,7 +190,6 @@
     <Compile Include="Authentication\WebIdentity.cs" />
     <Compile Include="Authentication\WebIdentityProviderService.cs" />
     <Compile Include="Binding\ApplicationCommandHandlersNinjectBinding.cs" />
-    <Compile Include="Binding\ApplicationJobs.cs" />
     <Compile Include="Binding\ApplicationNinjectBinding.cs" />
     <Compile Include="Caching\Command\BroadcastCachedRepository.cs" />
     <Compile Include="Caching\InvalidateCacheDataCommand.cs" />
@@ -268,7 +267,6 @@
     <Compile Include="Schedule\RepeatJob.cs" />
     <Compile Include="Schedule\Scheduler.cs" />
     <Compile Include="Schedule\TimeServiceInterface.cs" />
-    <Compile Include="TinyUrl\TinyUrlGenerationJobAction.cs" />
     <Compile Include="Util\WebRequestUtil.cs" />
     <Compile Include="WebsiteInformation\CachedWebsiteInfoService.cs" />
     <Compile Include="WebsiteInformation\WebsiteInfo.cs" />

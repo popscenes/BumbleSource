@@ -103,6 +103,7 @@
   <ItemGroup>
     <Compile Include="Binding\ApplicationDomainNinjectBinding.cs" />
     <Compile Include="Binding\ApplicationDomainRepositoriesNinjectBinding.cs" />
+    <Compile Include="Binding\ApplicationJobs.cs" />
     <Compile Include="Browser\BrowserInformation.cs" />
     <Compile Include="Browser\BrowserInformationInterface.cs" />
     <Compile Include="Browser\Web\BrowserAuthorizeAttribute.cs" />
@@ -131,6 +132,7 @@
     <Compile Include="Publish\DomainEventPublishService.cs" />
     <Compile Include="Query\CachedQueryServiceWithBrowser.cs" />
     <Compile Include="TinyUrl\DefaultTinyUrlService.cs" />
+    <Compile Include="TinyUrl\TinyUrlGenerationJobAction.cs" />
     <Compile Include="TinyUrl\TinyUrlRecord.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -67,5 +67,15 @@ namespace PostaFlya.Domain.Behaviour.Command
         {
             return new List<string>().AsQueryable();
         }
+
+        public IQueryable<string> GetAllIds<EntityRetType>() where EntityRetType : class, new()
+        {
+            return null;
+        }
+
+        public IQueryable<string> GetAllIds(Type type)
+        {
+            return null;
+        }
     }
 }

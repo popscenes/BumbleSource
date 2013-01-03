@@ -1,14 +1,15 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Text;
 using Website.Application.Binding;
 using Website.Application.Queue;
 using Website.Application.Schedule;
+using Website.Infrastructure.Command;
 using Website.Infrastructure.Configuration;
+using Website.Infrastructure.Query;
 
-namespace Website.Application.TinyUrl
+namespace Website.Application.Domain.TinyUrl
 {
     public class TinyUrlGenerationJobAction : JobActionInterface
     {
@@ -23,17 +24,28 @@ namespace Website.Application.TinyUrl
             return new Dictionary<string, string>() { { UrlBase, url }, { StartPath, "" } };
         }
         private readonly QueueInterface _urlQueue;
+        private readonly GenericQueryServiceInterface _queryService;
+        private readonly GenericRepositoryInterface _repository;
+        private readonly UnitOfWorkFactoryInterface _unitOfWorkFactory;
         private readonly ConfigurationServiceInterface _configurationService;
 
-        public TinyUrlGenerationJobAction([TinyUrlQueue]QueueInterface urlQueue
+        public TinyUrlGenerationJobAction([TinyUrlQueue]QueueInterface urlQueue, GenericQueryServiceInterface queryService = null,
+                                GenericRepositoryInterface repository = null, UnitOfWorkFactoryInterface unitOfWorkFactory = null
                                 , ConfigurationServiceInterface configurationService = null)
         {
             _urlQueue = urlQueue;
+            _queryService = queryService;
+            _repository = repository;
+            _unitOfWorkFactory = unitOfWorkFactory;
             _configurationService = configurationService;
         }
 
         public void Run(JobBase job)
         {
+//            var unassigned = _queryService.FindAggregateEntityIds<TinyUrlRecord>("");
+//            if (unassigned.Count() >= 5000)
+//                return;
+
             if (!_urlQueue.ApproximateMessageCount.HasValue || _urlQueue.ApproximateMessageCount.Value > 500)
                 return;
 
@@ -51,6 +63,12 @@ namespace Website.Application.TinyUrl
 
             var start = job.JobStorage[StartPath];
             var next = Increment(start);
+
+            var uow = _unitOfWorkFactory.GetUnitOfWork(new[] {_repository});
+            using (uow)
+            {
+                
+            }
 
             _urlQueue.AddMessage(
                 new QueueMessage(System.Text.Encoding.ASCII.GetBytes(job.JobStorage[UrlBase] + next))
@@ -81,7 +99,7 @@ namespace Website.Application.TinyUrl
         private static int[] InitCounter(string source)
         {
             source = '+' + source; //add bogus char to initialize first element to -1 for rollover space
-            return source.Select(chr => Array.IndexOf(UrlChars, chr)).ToArray();
+            return source.Select(chr => Array.IndexOf<char>(UrlChars, chr)).ToArray();
         }
 
         private static string Increment(string start)

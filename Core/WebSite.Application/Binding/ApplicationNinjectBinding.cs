@@ -70,7 +70,6 @@ namespace Website.Application.Binding
             Bind<SchedulerInterface>().ToMethod(context =>
                 {
                     var ret = context.Kernel.Get<Scheduler>();
-                    ret.RunInterval = 10000;
                     return ret;
                 }).InSingletonScope();
             

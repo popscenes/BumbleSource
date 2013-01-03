@@ -25,6 +25,27 @@ namespace Website.Application.Schedule.Command
 
         public object Handle(JobCommand command)
         {
+            if (command.JobBase.InProgress)
+                return true;
+            command.JobBase.LastRun = _timeService.GetCurrentTime();
+            command.JobBase.InProgress = true;
+            command.JobBase.CalculateNextRun(_timeService);
+            var uow = _unitOfWorkFactory.GetUnitOfWork(new[] { _genericRepository });
+            using (uow)
+            {
+                _genericRepository.UpdateEntity(command.JobBase.GetType(), command.JobBase.Id, o =>
+                {
+                    var update = o as JobBase;
+                    update.CopyState(command.JobBase);
+                });
+            }
+
+            if (!uow.Successful)
+            {
+                Trace.TraceError("Failed to update Schedule Job {0} state", command.JobBase.Id);
+                return false;
+            }
+
             _stopWatch.Start();
             try
             {                               
@@ -40,7 +61,7 @@ namespace Website.Application.Schedule.Command
 
             command.JobBase.InProgress = false;
             command.JobBase.LastDuration = TimeSpan.FromMilliseconds(_stopWatch.ElapsedMilliseconds); 
-            var uow = _unitOfWorkFactory.GetUnitOfWork(new[] {_genericRepository});
+            uow = _unitOfWorkFactory.GetUnitOfWork(new[] {_genericRepository});
             using (uow)
             {
                 _genericRepository.UpdateEntity(command.JobBase.GetType(), command.JobBase.Id, o =>

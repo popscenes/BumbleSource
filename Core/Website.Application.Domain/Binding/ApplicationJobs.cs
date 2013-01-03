@@ -1,14 +1,10 @@
-﻿using System;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Ninject;
 using Ninject.Modules;
+using Website.Application.Domain.TinyUrl;
 using Website.Application.Schedule;
-using Website.Application.TinyUrl;
 using Website.Infrastructure.Configuration;
 
-namespace Website.Application.Binding
+namespace Website.Application.Domain.Binding
 {
     public class ApplicationJobs : NinjectModule
     {
@@ -18,7 +14,7 @@ namespace Website.Application.Binding
             {
                 Id = "TinyUrlGenerator",
                 FriendlyId = "Tiny Url Generator",
-                RepeatSeconds = 10,
+                RepeatSeconds = 120,
                 JobStorage = TinyUrlGenerationJobAction.GetDefaults(Kernel.Get<ConfigurationServiceInterface>()),
                 JobActionClass = typeof(TinyUrlGenerationJobAction)
             });

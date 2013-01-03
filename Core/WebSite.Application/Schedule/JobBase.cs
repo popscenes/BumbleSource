@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using Website.Infrastructure.Domain;
 
 namespace Website.Application.Schedule
@@ -30,9 +31,14 @@ namespace Website.Application.Schedule
     [Serializable]
     public class JobBase : JobInterface
     {
+        public JobBase()
+        {
+            TimeOut = TimeSpan.FromMinutes(20);
+        }
         public string Id { get; set; }
         public string FriendlyId { get; set; }
         public DateTimeOffset LastRun { get; set; }
+        public TimeSpan TimeOut { get; set; }
         public TimeSpan LastDuration { get; set; }
         public DateTimeOffset NextRun { get; set; }
         public bool InProgress { get; set; }
@@ -40,6 +46,18 @@ namespace Website.Application.Schedule
         public virtual void CalculateNextRun(TimeServiceInterface timeService){}
         public bool IsRunDue(TimeServiceInterface timeService)
         {
+            if (InProgress)
+            {
+                if ((TimeOut != default(TimeSpan)) && (timeService.GetCurrentTime() - LastRun) > TimeOut)
+                {
+                    InProgress = false;
+                    Trace.TraceWarning("Job timed out and being reset assumed dead {0}", Id);
+                }
+                else
+                {
+                    return false;
+                }
+            }
             return timeService.GetCurrentTime() > NextRun;
         }
         public virtual void CopyState<JobBaseType>(JobBaseType source) where JobBaseType : JobInterface{}

@@ -18,6 +18,11 @@ namespace Website.Infrastructure.Query
 
         IQueryable<string> FindAggregateEntityIds<EntityRetType>(string aggregateRootId)
             where EntityRetType : class, AggregateInterface, new();
+
+        //common sense only use these for small data sets
+        IQueryable<string> GetAllIds<EntityRetType>() where EntityRetType : class, new();
+        IQueryable<string> GetAllIds(Type type);
+
     }
 
     public static class GenericQueryServiceInterfaceExtension
@@ -28,6 +33,19 @@ namespace Website.Infrastructure.Query
         {
             return queryService.FindAggregateEntityIds<EntityRetType>(aggregateRootId)
                 .Select(id => queryService.FindById<EntityRetType>(id));
+        }
+
+        public static IQueryable<EntityRetType> GetAll<EntityRetType>(this GenericQueryServiceInterface queryService)
+                where EntityRetType : class, AggregateInterface, new()
+        {
+            return queryService.GetAllIds<EntityRetType>()
+                .Select(id => queryService.FindById<EntityRetType>(id));
+        }
+
+        public static IQueryable<object> GetAll(this GenericQueryServiceInterface queryService, Type type)
+        {
+            return queryService.GetAllIds(type)
+                .Select(id => queryService.FindById(type, id));
         }
     }
 }

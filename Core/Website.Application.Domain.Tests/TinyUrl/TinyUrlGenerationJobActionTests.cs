@@ -1,31 +1,32 @@
-﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using NUnit.Framework;
 using Ninject.MockingKernel.Moq;
-using Website.Application.Binding;
+using Website.Application.Domain.TinyUrl;
 using Website.Application.Queue;
 using Website.Application.Schedule;
 using Website.Application.Tests.Mocks;
-using Website.Application.TinyUrl;
+using Website.Infrastructure.Command;
+using Website.Infrastructure.Query;
+using Website.Test.Common;
 
-namespace Website.Application.Tests.TinyUrl
+namespace Website.Application.Domain.Tests.TinyUrl
 {
     [TestFixture]
     public class TinyUrlGenerationJobActionTests
     {
         MoqMockingKernel Kernel
         {
-            get { return TestFixtureSetup.CurrIocKernel; }
+            get { return Application.Tests.TestFixtureSetup.CurrIocKernel; }
         }
 
+        readonly HashSet<TinyUrlRecordInterface> _store = RepoCoreUtil.GetMockStore<TinyUrlRecordInterface>();
         [TestFixtureSetUp]
         public void FixtureSetUp()
         {
-
+            RepoCoreUtil.SetupRepo<GenericRepositoryInterface, TinyUrlRecord, TinyUrlRecordInterface, TinyUrlRecordInterface>(_store, Kernel, TinyUrlRecordInterfaceExtensions.CopyFieldsFrom);
+            RepoCoreUtil.SetupQueryService<GenericQueryServiceInterface, TinyUrlRecord, TinyUrlRecordInterface, TinyUrlRecordInterface>(_store, Kernel, TinyUrlRecordInterfaceExtensions.CopyFieldsFrom);
+            RepoCoreUtil.FindAggregateEntities<GenericQueryServiceInterface, TinyUrlRecord, TinyUrlRecordInterface>(_store, Kernel, TinyUrlRecordInterfaceExtensions.CopyFieldsFrom);
         }
 
         [TestFixtureTearDown]

@@ -13,6 +13,7 @@ namespace Website.Infrastructure.Caching.Command
     {
         private readonly ObjectCache _cacheProvider;
         private readonly GenericRepositoryInterface _genericRepository;
+        private HashSet<object> _entitiesForInvalidation = new HashSet<object>();  
 
         public CachedRepositoryBase(ObjectCache cacheProvider,
             [SourceDataSource]GenericRepositoryInterface genericRepository)
@@ -38,7 +39,14 @@ namespace Website.Infrastructure.Caching.Command
 
         public bool SaveChanges()
         {
-            return _genericRepository.SaveChanges();
+            var ret = _genericRepository.SaveChanges();
+            foreach (var entity in _entitiesForInvalidation)
+            {
+                InvalidateEntity(entity);
+            }
+            _entitiesForInvalidation.Clear();
+            return ret;
+
         }
 
         public virtual void UpdateEntity<UpdateType>(string id
@@ -47,8 +55,9 @@ namespace Website.Infrastructure.Caching.Command
             Action<UpdateType> updateInvCacheAction
                 = entity =>
                     {
-                        InvalidateEntity(entity);                     
+                        InvalidateEntity(entity);//invalidate before state change just in case                     
                         updateAction(entity);
+                        _entitiesForInvalidation.Add(entity);//invalidate after successful save
                     };
             _genericRepository.UpdateEntity(id, updateInvCacheAction);
         }
@@ -58,8 +67,9 @@ namespace Website.Infrastructure.Caching.Command
             Action<object> updateInvCacheAction
                 = entity =>
                     {
-                        InvalidateEntity(entity);                     
-                        updateAction(entity);             
+                        InvalidateEntity(entity);//invalidate before state change just in case                     
+                        updateAction(entity);
+                        _entitiesForInvalidation.Add(entity);
                     };
             _genericRepository.UpdateEntity(entityTyp, id, updateInvCacheAction);
         }
@@ -78,6 +88,7 @@ namespace Website.Infrastructure.Caching.Command
             {
                 this.InvalidateCachedData(ent.FriendlyId.GetCacheKeyFor(ent.GetType(), "FriendlyId"));
                 this.InvalidateCachedData(ent.Id.GetCacheKeyFor(ent.GetType(), "Id"));
+                this.InvalidateCachedData("".GetCacheKeyFor(ent.GetType(), "AllIds"));
                 var hasRoot = ent as AggregateInterface;
                 if(hasRoot != null)
                     this.InvalidateCachedData(hasRoot.AggregateId.GetCacheKeyFor(ent.GetType(), "AggregateId"));

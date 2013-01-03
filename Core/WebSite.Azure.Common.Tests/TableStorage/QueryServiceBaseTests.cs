@@ -113,6 +113,24 @@ namespace Website.Azure.Common.Tests.TableStorage
         }
 
         [Test]
+        public void QueryServiceBaseGetsAllEntityIds()
+        {
+            _mockStore.Clear();
+    
+            var repo = Kernel.Get<TestRespositoryBase<JsonTableEntry>>();
+            repo.Store(new TwoEntity() {Id = Guid.NewGuid().ToString(), Prop = "123", PropTwo = "1" });
+            repo.Store(new TwoEntity() { Id = Guid.NewGuid().ToString(), Prop = "123", PropTwo = "1" });
+            repo.Store(new TwoEntity() { Id = Guid.NewGuid().ToString(), Prop = "123", PropTwo = "1" });
+            
+            repo.SaveChanges();
+
+            var qs = Kernel.Get<QueryServiceBase<JsonTableEntry>>();
+            var ret = qs.GetAllIds<TwoEntity>();
+
+            AssertUtil.Count(3, ret);
+        }
+
+        [Test]
         public void QueryServiceBaseFindsRelatedEntityIds()
         {
             var aggregateId = Guid.NewGuid().ToString();
@@ -138,7 +156,7 @@ namespace Website.Azure.Common.Tests.TableStorage
             var ret = qs.FindAggregateEntityIds<TwoEntity>(aggregateId);
 
             AssertUtil.Count(2, ret);
-            CollectionAssert.AreEquivalent(one.RelatedEntities.Select(e => e.Id) , ret);
+            CollectionAssert.AreEquivalent(one.RelatedEntities.Select(e => e.Id), ret);
         }
     }
 }

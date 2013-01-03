@@ -19,6 +19,7 @@ using Website.Application.Command;
 using Website.Application.Content;
 using PostaFlya.Areas.Default.Binding;
 using PostaFlya.Areas.TaskJob.Binding;
+using Website.Application.Domain.Binding;
 using Website.Application.Domain.Payment;
 using Website.Application.Intergrations.Payment;
 using Website.Azure.Common.Environment;
@@ -198,7 +199,7 @@ namespace PostaFlya.Binding
                       new PostaFlya.Areas.Default.Binding.DefaultBehaviourWebNinjectBinding(),
                       new PostaFlya.Areas.TaskJob.Binding.TaskJobBehaviourWebNinjectBinding(),
                       new PostaFlya.DataRepository.Binding.TableNameNinjectBinding(),
-                      new Website.Application.Binding.ApplicationJobs(),
+                      new ApplicationJobs(),
                   };
     }
 }

@@ -127,5 +127,24 @@ namespace Website.Infrastructure.Caching.Query
                 .ToList()).AsQueryable();
         }
 
+        public IQueryable<string> GetAllIds<EntityRetType>() where EntityRetType : class, new()
+        {
+            if (_genericQueryService == null)
+                return null;
+            return RetrieveCachedData(
+                "".GetCacheKeyFor<EntityRetType>("AllIds"),
+                () => _genericQueryService.GetAllIds<EntityRetType>()
+                .ToList()).AsQueryable();
+        }
+
+        public IQueryable<string> GetAllIds(Type type)
+        {
+            if (_genericQueryService == null)
+                return null;
+            return RetrieveCachedData(
+                "".GetCacheKeyFor(type, "AllIds"),
+                () => _genericQueryService.GetAllIds(type)
+                .ToList()).AsQueryable();
+        }
     }
 }

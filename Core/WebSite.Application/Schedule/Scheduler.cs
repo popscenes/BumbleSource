@@ -36,7 +36,7 @@ namespace Website.Application.Schedule
             _timeService = timeService;
             _commandBus = commandBus;
             Jobs = new List<JobBase>();
-            RunInterval = 30000;
+            RunInterval = 60000;
         }
 
         public int RunInterval { get; set; }
@@ -44,10 +44,10 @@ namespace Website.Application.Schedule
 
 
         public void Run(CancellationTokenSource cancellationTokenSource)
-        {          
+        {
+            Init();
             while (!cancellationTokenSource.IsCancellationRequested)
-            {
-                Init();
+            {           
                 CheckRun();
                 Thread.Sleep(RunInterval);
             }
@@ -56,16 +56,16 @@ namespace Website.Application.Schedule
 
         private void CheckRun()
         {
-            foreach (var jobBase in Jobs.Where(jobBase => !jobBase.InProgress && jobBase.IsRunDue(_timeService)))
+            var jobList = Jobs.Select(@base => new {@base.Id, type = @base.GetType()}).ToList();
+            foreach (var job in jobList.Select(job => _genericQueryService.FindById(job.type, job.Id) as JobBase).Where(j => j != null))
             {
-                jobBase.LastRun = _timeService.GetCurrentTime();
-                jobBase.InProgress = true;
-                jobBase.CalculateNextRun(_timeService);
-                Update();
+                Replace(job);
+                if (!job.IsRunDue(_timeService)) continue;
+                
                 var commandJobCommand = new JobCommand()
-                {
-                    JobBase = jobBase
-                };
+                    {
+                        JobBase = job
+                    };
                 _commandBus.Send(commandJobCommand);
             }
         }
@@ -79,9 +79,7 @@ namespace Website.Application.Schedule
                 {
                     dynamic job = Jobs.ElementAt(i);
                     var exist = _genericQueryService.FindById(job.GetType(), job.Id) as JobBase;
-                    if (exist != null)
-                        Replace(exist);
-                    else
+                    if (exist == null)                     
                         _repository.Store(job);
                 }
             }
@@ -97,24 +95,6 @@ namespace Website.Application.Schedule
                 Jobs.Remove(job);
           
             Jobs.Add(jobBase);           
-        }
-
-        private void Update()
-        {
-            using (_unitOfWorkFactory.GetUnitOfWork(new[]{_repository}))
-            {
-                for (var i = 0; i < Jobs.Count; i++)
-                {
-                    var job = Jobs.ElementAt(i);
-                    _repository.UpdateEntity(job.GetType(), job.Id, o =>
-                        {
-                            var update = o as JobBase;
-                            update.CopyState(job);
-                        });
-
-                }    
-            }
-            
         }
     }
 }

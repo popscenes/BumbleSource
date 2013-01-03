@@ -5,6 +5,7 @@ using Ninject;
 using Ninject.Modules;
 using PostaFlya.Application.Domain.Binding;
 using Website.Application.Command;
+using Website.Application.Domain.Binding;
 using Website.Application.Schedule;
 using Website.Azure.Common.Environment;
 
@@ -28,7 +29,7 @@ namespace PostaFlya.CommandWorker
                           new Website.Application.Azure.Binding.AzureApplicationNinjectBinding(),
                            new PostaFlya.Application.Domain.Binding.ApplicationDomainNinjectBinding(),
                            new PostaFlya.Application.Domain.Binding.ApplicationDomainServicesNinjectBinding(),
-                           new Website.Application.Binding.ApplicationJobs(),
+                           new ApplicationJobs(),
                   };
 
         private StandardKernel _kernel;
