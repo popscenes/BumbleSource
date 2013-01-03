@@ -209,7 +209,7 @@
     <comment>BulletinFlierModel FlierCreateModel</comment>
   </data>
   <data name="FlierImage" xml:space="preserve">
-    <value>FlierImage</value>
+    <value>Image</value>
     <comment>BulletinFlierModel FlierCreateModel</comment>
   </data>
   <data name="FlierImages" xml:space="preserve">

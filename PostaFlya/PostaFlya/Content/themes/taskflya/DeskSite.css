@@ -589,3 +589,13 @@ div#selected-item-popup-overlay, div#create-flier-popup-overlay {
     background: url(images/back-btn.png);
     float: left;
 }
+
+.field-validation-error {
+    display: block;
+    border: 1px solid #CD0A0A;
+    background: #FEF1EC;
+    color: #CD0A0A;
+    padding: 5px;
+    margin-bottom: 10px;
+    text-align: center;
+}
