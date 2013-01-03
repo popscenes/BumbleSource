@@ -69,19 +69,19 @@ namespace PostaFlya.Models.Flier
         [DataMember]
         public string Id { get; set; }
 
-        [RequiredWithMessage]
+        [RequiredWithMessage(ErrorMessageResourceType = typeof (Website.Application.Properties.Resources), ErrorMessageResourceName = "FlierCreateModel_Title_Title_Required")]
         [StringLengthWithMessage(100)]
         [Display(Name = "FlierTitle", ResourceType = typeof(Properties.Resources))] 
         [DataMember]
         public string Title { get; set; }
 
-        [RequiredWithMessage]
+        [RequiredWithMessage(ErrorMessageResourceType = typeof (Website.Application.Properties.Resources), ErrorMessageResourceName = "FlierCreateModel_Description_Description_Required")]
         [StringLengthWithMessage(2000)]
         [Display(Name = "FlierDescription", ResourceType = typeof(Properties.Resources))] //TODO change to LocalizedDisplayName
         [DataMember]
         public string Description { get; set; }
 
-        [RequiredWithMessage]
+        [RequiredWithMessage(ErrorMessageResourceType = typeof (Website.Application.Properties.Resources), ErrorMessageResourceName = "FlierCreateModel_Location_Give_Your_Flier_A_Location_")]
         [ValidLocation]
         [Display(Name = "FlierLocation", ResourceType = typeof(Properties.Resources))] 
         [DataMember]
@@ -97,7 +97,7 @@ namespace PostaFlya.Models.Flier
         [DataMember]
         public string TagsString { get; set; }
 
-        [RequiredWithMessage]
+        [RequiredWithMessage(ErrorMessageResourceType = typeof (Website.Application.Properties.Resources), ErrorMessageResourceName = "FlierImageIdRequired")]
         [ConvertableToGuidAttributeWithMessage]
         [Display(Name = "FlierImage", ResourceType = typeof(Properties.Resources))] 
         [DataMember]

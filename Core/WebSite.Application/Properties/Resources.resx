@@ -135,4 +135,16 @@
   <data name="StringTooLarge" xml:space="preserve">
     <value>{0} is too long.</value>
   </data>
+  <data name="FlierImageIdRequired" xml:space="preserve">
+    <value>Please Select An Image</value>
+  </data>
+  <data name="FlierCreateModel_Title_Title_Required" xml:space="preserve">
+    <value>Title Required</value>
+  </data>
+  <data name="FlierCreateModel_Description_Description_Required" xml:space="preserve">
+    <value>Description Required</value>
+  </data>
+  <data name="FlierCreateModel_Location_Give_Your_Flier_A_Location_" xml:space="preserve">
+    <value>Give Your Flier A Location!</value>
+  </data>
 </root>

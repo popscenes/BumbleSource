@@ -29,6 +29,14 @@
                 || self.Latitude() < -90
                 || self.Latitude() > 90);
         };
+
+        self.ValidLocationForValidation = function() {
+            if (self.ValidLocation()) {
+                return "valid";
+            } else {
+                return "";
+            }
+        };
         
         self.SetFromGeo = function (results) {
             var streetNo = '';

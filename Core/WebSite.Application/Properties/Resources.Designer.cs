@@ -61,6 +61,42 @@ namespace Website.Application.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Description Required.
+        /// </summary>
+        public static string FlierCreateModel_Description_Description_Required {
+            get {
+                return ResourceManager.GetString("FlierCreateModel_Description_Description_Required", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Give Your Flier A Location!.
+        /// </summary>
+        public static string FlierCreateModel_Location_Give_Your_Flier_A_Location_ {
+            get {
+                return ResourceManager.GetString("FlierCreateModel_Location_Give_Your_Flier_A_Location_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Title Required.
+        /// </summary>
+        public static string FlierCreateModel_Title_Title_Required {
+            get {
+                return ResourceManager.GetString("FlierCreateModel_Title_Title_Required", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please Select An Image.
+        /// </summary>
+        public static string FlierImageIdRequired {
+            get {
+                return ResourceManager.GetString("FlierImageIdRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to {0} can contain only letters, digits and underscores.
         /// </summary>
         public static string InvalidCharacters {

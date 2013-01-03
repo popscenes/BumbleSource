@@ -6,7 +6,7 @@
 
         var self = this;
         self.apiUrl = sprintf("/api/Browser/%s/MyFliers", bf.currentBrowserInstance.BrowserId);
-        self.Steps = ['Flyer', 'Location', 'Info', 'Tags', 'Images'];
+        self.Steps = ['Flyer', 'Location', 'Info', 'Tags'];
 
         var mapping = {
             'Location': {

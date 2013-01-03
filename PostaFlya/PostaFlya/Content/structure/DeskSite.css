@@ -547,4 +547,5 @@ a.toolbar-item
 
 .form-divider-right {
     float: right;
+    min-width: 270px;
 }
