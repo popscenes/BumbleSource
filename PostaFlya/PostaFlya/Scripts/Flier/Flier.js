@@ -12,7 +12,7 @@
 
         self.CreateEditFlier = ko.observable();
         self.MyFliersList = ko.observable();
-
+        
         self.ShowMyFliers = function () {
             $.ajax(self.apiUrl, {
                 type: "get", contentType: "application/json",

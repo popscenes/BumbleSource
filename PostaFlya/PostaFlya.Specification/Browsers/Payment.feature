@@ -32,3 +32,9 @@ Scenario: Payment Transaction History
 	And I have a Unuccessful PAYMENT TRANSACTION
 	When I navigate to the TRANSACTION HISTORY PAGE
 	Then I will be presented with My Transactions
+
+Scenario: View PaymentPending Fliers
+	Given I am a BROWSER in PARTICIPANT ROLE
+	And I Create Flier With With Insufficient Credit
+	When I navigate to the Pendng Fliers Page
+	Then I willo be shown all the fliers that are PaymentPending Status 

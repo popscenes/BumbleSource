@@ -614,5 +614,31 @@ namespace PostaFlya.Specification.Fliers
             Assert.IsTrue(transactions.First().CreditTransactionType == "Posting a flier to an area");
             Assert.IsTrue(transactions.First().Credits == 80);
         }
+
+        [Given(@"I Create Flier With With Insufficient Credit")]
+        public void GivenICreateFlierWithWithInsufficientCredit()
+        {
+            GivenIOrAnotherBrowserHasNavigatedToTheCreateFlierPage(FlierBehaviour.Default.ToString());
+            _common.GivenIHaveAccountCredit(0);
+            WhenISubmitTheRequiredDataForAFlier();
+        }
+
+        [When(@"I navigate to the Pendng Fliers Page")]
+        public void WhenINavigateToThePendngFliersPage()
+        {
+
+            var profileController = SpecUtil.GetController<ProfileController>();
+            SpecUtil.ControllerResult = profileController.PaymentPending();
+        }
+
+        [Then(@"I willo be shown all the fliers that are PaymentPending Status")]
+        public void ThenIWilloBeShownAllTheFliersThatArePaymentPendingStatus()
+        {
+            var paymentPendingResult = SpecUtil.ControllerResult as ViewResult;
+            var paymentPendingModel = paymentPendingResult.Model as List<BulletinFlierModel>;
+            Assert.IsTrue(paymentPendingModel.Count() == 1);
+            Assert.AreEqual(paymentPendingModel.First().Title, "This is a Title");
+            Assert.AreEqual(paymentPendingModel.First().PendingCredits, 80);
+        }
     }
 }

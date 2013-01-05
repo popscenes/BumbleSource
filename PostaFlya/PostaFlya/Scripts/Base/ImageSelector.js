@@ -109,7 +109,8 @@
                     $('a.next').click(function (e) {
                         gallery.nextPage();
                         e.preventDefault();
-                    });
+                    });
+
                     self._loadSelectedImageFromId();
                 }
             });

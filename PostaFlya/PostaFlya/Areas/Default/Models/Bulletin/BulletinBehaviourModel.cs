@@ -28,7 +28,8 @@ namespace PostaFlya.Areas.Default.Models.Bulletin
                 NumberOfClaims = flier.NumberOfClaims,
                 NumberOfComments = flier.NumberOfComments,
                 BrowserId = flier.BrowserId,
-                ImageList = flier.ImageList.Select(_ => new ImageViewModel() { ImageId = _.ImageID }).ToList()
+                ImageList = flier.ImageList.Select(_ => new ImageViewModel() { ImageId = _.ImageID }).ToList(),
+                PendingCredits = flier.Features.Sum(_ => _.OutstandingBalance)
 
             };
         }
