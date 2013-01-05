@@ -409,6 +409,7 @@
     <Compile Include="Views\Payment\Bundles.cs" />
     <Compile Include="Views\Profile\Bundles.cs" />
     <Compile Include="Views\Profile\BundlesEdit.cs" />
+    <Compile Include="Views\Profile\PaymentPendingBundle.cs" />
     <Compile Include="Views\Shared\Bundles.cs" />
     <Compile Include="Models\Tags\TagGroupViewModel.cs" />
     <Compile Include="WebRole.cs" />
@@ -674,6 +675,7 @@
     <Content Include="Scripts\plupload\plupload.html5.js" />
     <Content Include="Scripts\plupload\plupload.js" />
     <Content Include="Scripts\Profile\Desk\ProfileEdit.js" />
+    <Content Include="Scripts\Profile\PaymentPending.js" />
     <Content Include="Scripts\Profile\ProfileEdit.js" />
     <Content Include="Scripts\Profile\Desk\Profile.js" />
     <Content Include="Scripts\Profile\Profile.js" />
@@ -742,6 +744,7 @@
     <Content Include="Views\Payment\PaymentTransactions.cshtml" />
     <Content Include="Views\Shared\Image\ImageListTemplate.cshtml" />
     <Content Include="Views\Shared\Bulletin\DownloadPrintImagePartial.cshtml" />
+    <Content Include="Views\Profile\PaymentPending.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
