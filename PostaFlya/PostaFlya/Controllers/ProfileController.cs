@@ -69,10 +69,8 @@ namespace PostaFlya.Controllers
 
         public ActionResult PaymentPending()
         {
-            var fliers = _queryService.GetByBrowserId<Flier>(_browserInformation.Browser.Id);
-            var pendingFliers = fliers.Where(_ => _.Status == FlierStatus.PaymentPending);
-            var model = pendingFliers.Select(_ => _viewModelFactory.GetBulletinViewModel(_, false)).ToList();
-            return View(model);
+           
+            return View();
         }
     }
 }

@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using NUnit.Framework;
 using Ninject;
 using PostaFlya.Controllers;
+using PostaFlya.Domain.Behaviour;
 using PostaFlya.Domain.Flier;
 using PostaFlya.Models;
 using PostaFlya.Models.Flier;
@@ -191,6 +192,54 @@ namespace PostaFlya.Specification.Fliers
             var browserInformation = SpecUtil.GetCurrBrowser();
             Assert.AreEqual(browserInformation.Browser.AccountCredit, 0.00);
         }
+
+        [Given(@"I Create Flier With With Insufficient Credit")]
+        public void GivenICreateFlierWithWithInsufficientCredit()
+        {
+            _flier.GivenIOrAnotherBrowserHasNavigatedToTheCreateFlierPage(FlierBehaviour.Default.ToString());
+            _common.GivenIHaveAccountCredit(0);
+            _flier.WhenISubmitTheRequiredDataForAFlier();
+        }
+
+        [When(@"I navigate to the Pendng Fliers Page")]
+        public void WhenINavigateToThePendngFliersPage()
+        {
+
+            var profileController = SpecUtil.GetApiController<PendingFliersApiController>();
+            SpecUtil.ControllerResult = profileController.Get();
+        }
+
+        [Then(@"I will be shown all the fliers that are PaymentPending Status")]
+        public void ThenIWilloBeShownAllTheFliersThatArePaymentPendingStatus()
+        {
+            var paymentPendingModel = SpecUtil.ControllerResult as List<BulletinFlierModel>;
+            Assert.IsTrue(paymentPendingModel.Count() == 1);
+            Assert.AreEqual(paymentPendingModel.First().Title, "This is a Title");
+            Assert.AreEqual(paymentPendingModel.First().PendingCredits, 80);
+        }
+
+        [When(@"I Add Credit To My Account")]
+        public void WhenIAddCreditToMyAccount()
+        {
+            _common.GivenIHaveAccountCredit(1000);
+        }
+
+        [When(@"I Choose to pay for a flier")]
+        public void WhenIChooseToPayForAFlier()
+        {
+            var paymentPendingModel = SpecUtil.ControllerResult as List<BulletinFlierModel>;
+            var profileController = SpecUtil.GetApiController<PendingFliersApiController>();
+            profileController.Put(paymentPendingModel.First().Id);
+        }
+
+        [Then(@"I will no longer have fliers that are PaymentPending Status")]
+        public void ThenIWillNoLongerHaveFliersThatArePaymentPendingStatus()
+        {
+            var profileController = SpecUtil.GetApiController<PendingFliersApiController>();
+            var paymentPendingModel = profileController.Get();
+            Assert.AreEqual(paymentPendingModel.Count(), 0);
+        }
+
 
     }
 }

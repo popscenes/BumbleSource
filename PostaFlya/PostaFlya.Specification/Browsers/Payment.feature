@@ -37,4 +37,12 @@ Scenario: View PaymentPending Fliers
 	Given I am a BROWSER in PARTICIPANT ROLE
 	And I Create Flier With With Insufficient Credit
 	When I navigate to the Pendng Fliers Page
-	Then I willo be shown all the fliers that are PaymentPending Status 
+	Then I will be shown all the fliers that are PaymentPending Status
+	
+Scenario: Pay For Pending Fliers
+	Given I am a BROWSER in PARTICIPANT ROLE
+	And I Create Flier With With Insufficient Credit
+	When I Add Credit To My Account
+	And I navigate to the Pendng Fliers Page
+	And I Choose to pay for a flier
+	Then I will no longer have fliers that are PaymentPending Status

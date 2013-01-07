@@ -343,6 +343,7 @@
     <Compile Include="Controllers\MyBoardFlierController.cs" />
     <Compile Include="Controllers\MyBoardsController.cs" />
     <Compile Include="Controllers\PaymentController.cs" />
+    <Compile Include="Controllers\PendingFliersApiController.cs" />
     <Compile Include="Controllers\ProfileApiController.cs" />
     <Compile Include="Controllers\ProfileController.cs" />
     <Compile Include="Controllers\SneakyController.cs" />
