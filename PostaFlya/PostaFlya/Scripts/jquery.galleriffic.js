@@ -329,13 +329,13 @@
 				// Preload the image
 				var image = new Image();
 				
-				image.onload = function() {
+				/*image.onload = function() {
 					imageData.image = this;
 					gallery.preloadNext(startIndex, currentIndex);
 				};
 
 				image.alt = imageData.title;
-				image.src = imageData.slideUrl;
+				image.src = imageData.slideUrl;*/
 
 				return this;
 			},
@@ -593,7 +593,7 @@
 				if (isSync)
 					this.buildImage(imageData, isSync);
 
-				if (!imageData.image) {
+				/*if (!imageData.image) {
 					var image = new Image();
 					
 					// Wire up mainImage onload event
@@ -609,7 +609,7 @@
 					// set alt and src
 					image.alt = imageData.title;
 					image.src = imageData.slideUrl;
-				}
+				}*/
 
 				// This causes the preloader (if still running) to relocate out from the currentIndex
 				this.relocatePreload = true;

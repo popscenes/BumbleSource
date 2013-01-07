@@ -4,6 +4,7 @@ using System.Globalization;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using PostaFlya.Domain.Flier;
 using Website.Application.Binding;
 using PostaFlya.Models.Factory;
 using Website.Application.Content;
@@ -66,5 +67,10 @@ namespace PostaFlya.Controllers
             return Json(freeSuggestion, JsonRequestBehavior.AllowGet);
         }
 
+        public ActionResult PaymentPending()
+        {
+           
+            return View();
+        }
     }
 }

@@ -121,7 +121,8 @@ namespace PostaFlya.Models.Flier
         public List<ImageViewModel> ImageList { get; set; }
 
         public string OwnerName { get; set; }
-   
+
+        public Int32 PendingCredits { get; set; }
     }
 
     public class BulletinFlierModel<BehaviourType> : BulletinFlierModel where BehaviourType : new()

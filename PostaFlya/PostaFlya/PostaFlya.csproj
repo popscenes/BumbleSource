@@ -343,6 +343,7 @@
     <Compile Include="Controllers\MyBoardFlierController.cs" />
     <Compile Include="Controllers\MyBoardsController.cs" />
     <Compile Include="Controllers\PaymentController.cs" />
+    <Compile Include="Controllers\PendingFliersApiController.cs" />
     <Compile Include="Controllers\ProfileApiController.cs" />
     <Compile Include="Controllers\ProfileController.cs" />
     <Compile Include="Controllers\SneakyController.cs" />
@@ -372,6 +373,7 @@
     <Compile Include="Models\Factory\FlierBehaviourViewModelFactoryInterface.cs" />
     <Compile Include="Models\Factory\FlierBehaviourViewModelFactoryRegistryInterface.cs" />
     <Compile Include="Models\FlierPaymentModel.cs" />
+    <Compile Include="Models\Flier\PaymentPendingFlierModel.cs" />
     <Compile Include="Models\Flier\PaymentResult.cs" />
     <Compile Include="Models\Flier\HeatMapPoint.cs" />
     <Compile Include="Controllers\ImgController.cs" />
@@ -408,6 +410,7 @@
     <Compile Include="Views\Payment\Bundles.cs" />
     <Compile Include="Views\Profile\Bundles.cs" />
     <Compile Include="Views\Profile\BundlesEdit.cs" />
+    <Compile Include="Views\Profile\PaymentPendingBundle.cs" />
     <Compile Include="Views\Shared\Bundles.cs" />
     <Compile Include="Models\Tags\TagGroupViewModel.cs" />
     <Compile Include="WebRole.cs" />
@@ -673,6 +676,7 @@
     <Content Include="Scripts\plupload\plupload.html5.js" />
     <Content Include="Scripts\plupload\plupload.js" />
     <Content Include="Scripts\Profile\Desk\ProfileEdit.js" />
+    <Content Include="Scripts\Profile\PaymentPending.js" />
     <Content Include="Scripts\Profile\ProfileEdit.js" />
     <Content Include="Scripts\Profile\Desk\Profile.js" />
     <Content Include="Scripts\Profile\Profile.js" />
@@ -741,6 +745,7 @@
     <Content Include="Views\Payment\PaymentTransactions.cshtml" />
     <Content Include="Views\Shared\Image\ImageListTemplate.cshtml" />
     <Content Include="Views\Shared\Bulletin\DownloadPrintImagePartial.cshtml" />
+    <Content Include="Views\Profile\PaymentPending.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

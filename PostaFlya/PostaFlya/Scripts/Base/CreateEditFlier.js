@@ -130,8 +130,13 @@
                 }),
                 type: "post", contentType: "application/json",
                 success: function (result) {
+                    if (result.Details[2].Message == "PaymentPending") {
+                        window.location = "/profile/paymentpending";
+                        return false;
+                    }
                     if (self.afterUpdateCallback != undefined)
                         self.afterUpdateCallback();
+                    
                 }
             });
 

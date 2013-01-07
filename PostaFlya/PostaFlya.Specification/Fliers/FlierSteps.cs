@@ -614,5 +614,7 @@ namespace PostaFlya.Specification.Fliers
             Assert.IsTrue(transactions.First().CreditTransactionType == "Posting a flier to an area");
             Assert.IsTrue(transactions.First().Credits == 80);
         }
+
+        
     }
 }

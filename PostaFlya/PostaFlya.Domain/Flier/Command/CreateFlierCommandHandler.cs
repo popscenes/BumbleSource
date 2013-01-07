@@ -91,7 +91,8 @@ namespace PostaFlya.Domain.Flier.Command
 
             return new MsgResponse("Flier Create", false)
                 .AddEntityId(newFlier.Id)
-                .AddCommandId(command);
+                .AddCommandId(command)
+                .AddMessageProperty("status", newFlier.Status.ToString());
         }
 
         public static HashSet<EntityFeatureCharge>  GetPaymentFeatures(FlierInterface newFlier)
