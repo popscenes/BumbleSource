@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 using NUnit.Framework;
 using Ninject;
 using Ninject.MockingKernel.Moq;
-using Website.Application.Binding;
 using Website.Application.Domain.Browser;
 using Website.Application.Domain.TinyUrl;
 using Website.Application.Queue;
@@ -27,7 +27,6 @@ namespace Website.Application.Domain.Tests.TinyUrl
             get { return TestFixtureSetup.CurrIocKernel; }
         }
 
-        readonly TestQueue _testQueue = new TestQueue();
         readonly HashSet<TinyUrlRecordInterface> _store = RepoCoreUtil.GetMockStore<TinyUrlRecordInterface>();
         
         [TestFixtureSetUp]
@@ -36,19 +35,41 @@ namespace Website.Application.Domain.Tests.TinyUrl
             RepoCoreUtil.SetupRepo<GenericRepositoryInterface, TinyUrlRecord, TinyUrlRecordInterface, TinyUrlRecordInterface>(_store, Kernel, TinyUrlRecordInterfaceExtensions.CopyFieldsFrom);
             RepoCoreUtil.SetupQueryService<GenericQueryServiceInterface, TinyUrlRecord, TinyUrlRecordInterface, TinyUrlRecordInterface>(_store, Kernel, TinyUrlRecordInterfaceExtensions.CopyFieldsFrom);
             RepoCoreUtil.FindAggregateEntities<GenericQueryServiceInterface, TinyUrlRecord, TinyUrlRecordInterface>(_store, Kernel, TinyUrlRecordInterfaceExtensions.CopyFieldsFrom);
-            Kernel.Bind<QueueInterface>()
-              .ToConstant(_testQueue)
-              .WhenTargetHas<TinyUrlQueue>();
+
             ReInit();
         }
  
         private  void ReInit()
         {
             _store.Clear();
-            _testQueue.Clear();
-            _testQueue.AddMessage(new QueueMessage(){Bytes = System.Text.Encoding.ASCII.GetBytes("http://tin.y/1")});
-            _testQueue.AddMessage(new QueueMessage() { Bytes = System.Text.Encoding.ASCII.GetBytes("http://tin.y/2") });
-            _testQueue.AddMessage(new QueueMessage() { Bytes = System.Text.Encoding.ASCII.GetBytes("http://tin.y/3") });
+            var repo = Kernel.Get<GenericRepositoryInterface>();
+            repo.Store(new TinyUrlRecord()
+            {
+                AggregateId = "",
+                AggregateTypeTag = "",
+                FriendlyId = "",
+                Id = HttpUtility.UrlEncode("http://tin.y/1"),
+                TinyUrl = "http://tin.y/1"
+            });
+
+            repo.Store(new TinyUrlRecord()
+            {
+                AggregateId = "",
+                AggregateTypeTag = "",
+                FriendlyId = "",
+                Id = HttpUtility.UrlEncode("http://tin.y/2"),
+                TinyUrl = "http://tin.y/2"
+            });
+
+            repo.Store(new TinyUrlRecord()
+            {
+                AggregateId = "",
+                AggregateTypeTag = "",
+                FriendlyId = "",
+                Id = HttpUtility.UrlEncode("http://tin.y/3"),
+                TinyUrl = "http://tin.y/3"
+            });
+
         }
 
         [TestFixtureTearDown]

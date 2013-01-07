@@ -55,9 +55,12 @@ namespace Website.Infrastructure.Caching.Command
             Action<UpdateType> updateInvCacheAction
                 = entity =>
                     {
-                        InvalidateEntity(entity);//invalidate before state change just in case                     
+                        InvalidateEntity(entity);//invalidate before state change just in case  not 100% effective but
+                        //only matters for things like changing aggregate root or friendly id which shouldn't happen
+                        //considering removing
                         updateAction(entity);
-                        _entitiesForInvalidation.Add(entity);//invalidate after successful save
+                        _entitiesForInvalidation.Remove(entity);
+                        _entitiesForInvalidation.Add(entity);
                     };
             _genericRepository.UpdateEntity(id, updateInvCacheAction);
         }
@@ -67,8 +70,11 @@ namespace Website.Infrastructure.Caching.Command
             Action<object> updateInvCacheAction
                 = entity =>
                     {
-                        InvalidateEntity(entity);//invalidate before state change just in case                     
+                        InvalidateEntity(entity);//invalidate before state change just in case  not 100% effective but
+                                                //only matters for things like changing aggregate root or friendly id which shouldn't happen
+                                                //considering removing
                         updateAction(entity);
+                        _entitiesForInvalidation.Remove(entity);
                         _entitiesForInvalidation.Add(entity);
                     };
             _genericRepository.UpdateEntity(entityTyp, id, updateInvCacheAction);
@@ -78,6 +84,8 @@ namespace Website.Infrastructure.Caching.Command
         {
             InvalidateEntity(entity);
             _genericRepository.Store(entity);
+            _entitiesForInvalidation.Remove(entity);
+            _entitiesForInvalidation.Add(entity);
         }
 
         protected virtual void InvalidateEntity(object entity)

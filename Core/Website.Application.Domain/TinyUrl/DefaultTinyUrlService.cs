@@ -5,7 +5,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
-using Website.Application.Binding;
 using Website.Application.Queue;
 using Website.Domain.TinyUrl;
 using Website.Infrastructure.Command;
@@ -16,33 +15,32 @@ namespace Website.Application.Domain.TinyUrl
 {
     public class DefaultTinyUrlService : TinyUrlServiceInterface
     {
-        private readonly QueueInterface _tinyUrlQueue;
         private readonly UnitOfWorkFactoryInterface _unitOfWorkFactory;
         private readonly GenericRepositoryInterface _repository;
         private readonly GenericQueryServiceInterface _queryService;
 
-        public DefaultTinyUrlService([TinyUrlQueue]QueueInterface tinyUrlQueue,
+        public DefaultTinyUrlService(
             UnitOfWorkFactoryInterface unitOfWorkFactory, GenericRepositoryInterface repository,
             GenericQueryServiceInterface queryService)
         {
-            _tinyUrlQueue = tinyUrlQueue;
             _unitOfWorkFactory = unitOfWorkFactory;
             _repository = repository;
             _queryService = queryService;
         }
 
-        private string NewUrl()
+        private Random _picker;
+        private TinyUrlRecord NewUrl()
         {
-            var msg = _tinyUrlQueue.GetMessage();
-            if (msg == null)
+            var unassigned = _queryService.FindAggregateEntityIds<TinyUrlRecord>("").ToList();
+            if (!unassigned.Any())
             {
-                Trace.TraceError("DefaultTinyUrlService: TinyUrl Queue does not contain any urls");
+                Trace.TraceError("DefaultTinyUrlService: TinyUrl table does not contain any free urls");
                 return null;
             }
+            
+            var idxToTry = _picker.Next(0, unassigned.Count() - 1);
 
-            var ret = System.Text.Encoding.ASCII.GetString(msg.Bytes);
-            _tinyUrlQueue.DeleteMessage(msg);
-            return ret;
+            return _queryService.FindById<TinyUrlRecord>(unassigned[idxToTry]);
         }
 
         public string UrlFor<UrlEntityType>(UrlEntityType entity) where UrlEntityType : TinyUrlInterface, EntityInterface
@@ -52,26 +50,36 @@ namespace Website.Application.Domain.TinyUrl
             if (record != null)
                 return record.TinyUrl;
 
-            var url = NewUrl();
-            record = new TinyUrlRecord()
+            _picker = new Random(entity.Id.GetHashCode());
+            var gotone = true;
+            do
+            {
+                gotone = true;
+                var uow = _unitOfWorkFactory.GetUnitOfWork(new[] {_repository});
+                using (uow)
                 {
-                    AggregateId = entity.Id,
-                    AggregateTypeTag = entity.PrimaryInterface.AssemblyQualifiedName,
-                    Id = HttpUtility.UrlEncode(url),
-                    TinyUrl = url,
-                    FriendlyId = entity.FriendlyId
-                };
+                    record = NewUrl();
+                    _repository.UpdateEntity<TinyUrlRecord>(record.Id,
+                        urlRecord =>
+                            {
+                                if (!string.IsNullOrWhiteSpace(urlRecord.AggregateId))
+                                {
+                                    gotone = false;
+                                    return;
+                                }
+                                urlRecord.AggregateId = entity.Id;
+                                urlRecord.AggregateTypeTag =
+                                    entity.PrimaryInterface.AssemblyQualifiedName;
+                                urlRecord.FriendlyId = entity.FriendlyId;
+                            }
+                        );
+                }
 
-            var uow = _unitOfWorkFactory.GetUnitOfWork(new[] {_repository});
-            using (uow)
-            {
-                _repository.Store(record);
-            }
-            if (!uow.Successful)
-            {
+                if (uow.Successful) continue;
                 Trace.TraceError("Failed to save TinyUrl");
-                return null;
-            }
+                gotone = false;
+            } while (!gotone);
+
 
             return record.TinyUrl;
 

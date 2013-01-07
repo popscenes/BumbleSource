@@ -57,12 +57,6 @@ namespace Website.Application.Binding
                 .To<ZXingQrCodeService>()
                 .InSingletonScope();
 
-            Bind<QueueInterface>()
-                .ToMethod(ctx => 
-                    ctx.Kernel.Get<QueueFactoryInterface>().GetQueue("tinyurls"))
-                .WhenTargetHas<TinyUrlQueue>()
-                .InThreadScope();
-
             Bind<TimeServiceInterface>()
                 .To<DefaultTimeService>()
                 .InSingletonScope();

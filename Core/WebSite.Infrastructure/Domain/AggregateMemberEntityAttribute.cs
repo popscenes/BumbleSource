@@ -7,6 +7,7 @@ using Website.Infrastructure.Util;
 
 namespace Website.Infrastructure.Domain
 {
+    //CONSIDERING REMOVING
     //Only really meant for simple aggregates, like say you expect a list of 4 or 5 entities under 
     //an aggregate root and prefer the whole aggregate returned as one, however still occasionally
     //need to find the root from an aggregate lookup, if there are large number of entites under an

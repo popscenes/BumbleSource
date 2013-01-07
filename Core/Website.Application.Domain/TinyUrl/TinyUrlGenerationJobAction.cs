@@ -1,8 +1,9 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
-using Website.Application.Binding;
+using System.Web;
 using Website.Application.Queue;
 using Website.Application.Schedule;
 using Website.Infrastructure.Command;
@@ -23,17 +24,15 @@ namespace Website.Application.Domain.TinyUrl
                 url = "http://pfly.in/";
             return new Dictionary<string, string>() { { UrlBase, url }, { StartPath, "" } };
         }
-        private readonly QueueInterface _urlQueue;
         private readonly GenericQueryServiceInterface _queryService;
         private readonly GenericRepositoryInterface _repository;
         private readonly UnitOfWorkFactoryInterface _unitOfWorkFactory;
         private readonly ConfigurationServiceInterface _configurationService;
 
-        public TinyUrlGenerationJobAction([TinyUrlQueue]QueueInterface urlQueue, GenericQueryServiceInterface queryService = null,
+        public TinyUrlGenerationJobAction(GenericQueryServiceInterface queryService = null,
                                 GenericRepositoryInterface repository = null, UnitOfWorkFactoryInterface unitOfWorkFactory = null
                                 , ConfigurationServiceInterface configurationService = null)
         {
-            _urlQueue = urlQueue;
             _queryService = queryService;
             _repository = repository;
             _unitOfWorkFactory = unitOfWorkFactory;
@@ -42,40 +41,47 @@ namespace Website.Application.Domain.TinyUrl
 
         public void Run(JobBase job)
         {
-//            var unassigned = _queryService.FindAggregateEntityIds<TinyUrlRecord>("");
-//            if (unassigned.Count() >= 5000)
-//                return;
-
-            if (!_urlQueue.ApproximateMessageCount.HasValue || _urlQueue.ApproximateMessageCount.Value > 500)
+            var unassigned = _queryService.FindAggregateEntityIds<TinyUrlRecord>("").Count();
+            if (unassigned >= 5000)
                 return;
 
             if (job.JobStorage == null || !job.JobStorage.ContainsKey(UrlBase))
                 job.JobStorage = GetDefaults(_configurationService);
 
-            for (var i = 0; i < 500; i++)
+            var last = job.JobStorage[StartPath];
+            var uow = _unitOfWorkFactory.GetUnitOfWork(new[] {_repository});
+            using (uow)
+            {              
+                for (var i = 0; i < 5000 - unassigned; i++)
+                {
+                    last = AddNewUrl(job.JobStorage[UrlBase], last);
+                }
+            }
+
+            if (uow.Successful)
             {
-                AddNewUrlToQueue(job);
+                job.JobStorage[StartPath] = last;
+            }
+            else
+            {
+                Trace.TraceWarning("Tiny Url Generation Failed");
             }
         }
 
-        private void AddNewUrlToQueue(JobBase job)
+        private string AddNewUrl(string baseUrl, string start)
         {
-
-            var start = job.JobStorage[StartPath];
             var next = Increment(start);
 
-            var uow = _unitOfWorkFactory.GetUnitOfWork(new[] {_repository});
-            using (uow)
-            {
-                
-            }
+            _repository.Store(new TinyUrlRecord()
+                {
+                    AggregateId = "",
+                    AggregateTypeTag = "",
+                    FriendlyId = "",
+                    Id = HttpUtility.UrlEncode(baseUrl + next),
+                    TinyUrl = baseUrl + next
+                });
 
-            _urlQueue.AddMessage(
-                new QueueMessage(System.Text.Encoding.ASCII.GetBytes(job.JobStorage[UrlBase] + next))
-                );
-
-            job.JobStorage[StartPath] = next;
-
+            return next;
         }
 
         private static readonly char[] UrlChars;
