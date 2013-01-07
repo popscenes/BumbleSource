@@ -15,6 +15,9 @@ namespace Website.Application.Domain.TinyUrl
 {
     public class DefaultTinyUrlService : TinyUrlServiceInterface
     {
+        public const string UnassignedToAggregate = "unassigned";
+        public const int TinyUrlsToBuffer = 2000;
+
         private readonly UnitOfWorkFactoryInterface _unitOfWorkFactory;
         private readonly GenericRepositoryInterface _repository;
         private readonly GenericQueryServiceInterface _queryService;
@@ -31,7 +34,7 @@ namespace Website.Application.Domain.TinyUrl
         private Random _picker;
         private TinyUrlRecord NewUrl()
         {
-            var unassigned = _queryService.FindAggregateEntityIds<TinyUrlRecord>("").ToList();
+            var unassigned = _queryService.FindAggregateEntityIds<TinyUrlRecord>(UnassignedToAggregate).ToList();
             if (!unassigned.Any())
             {
                 Trace.TraceError("DefaultTinyUrlService: TinyUrl table does not contain any free urls");
@@ -62,7 +65,7 @@ namespace Website.Application.Domain.TinyUrl
                     _repository.UpdateEntity<TinyUrlRecord>(record.Id,
                         urlRecord =>
                             {
-                                if (!string.IsNullOrWhiteSpace(urlRecord.AggregateId))
+                                if (!urlRecord.AggregateId.Equals(UnassignedToAggregate))
                                 {
                                     gotone = false;
                                     return;

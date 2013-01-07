@@ -46,10 +46,10 @@ namespace Website.Application.Domain.Tests.TinyUrl
             stopWatch.Start();
             sub.Run(job);
             Trace.TraceInformation("TinyUrlJobAction generation time " + stopWatch.ElapsedMilliseconds);
-            Assert.That(_store.Count, Is.EqualTo(5000));
+            Assert.That(_store.Count, Is.EqualTo(DefaultTinyUrlService.TinyUrlsToBuffer));
             QueueMessageInterface msg = null;
             var noDups = new HashSet<string>();
-            while (_store.Count > 400)
+            while (_store.Count > (DefaultTinyUrlService.TinyUrlsToBuffer - (DefaultTinyUrlService.TinyUrlsToBuffer/2)))
             {
                 var @enum = _store.GetEnumerator();
                 @enum.MoveNext();
@@ -59,7 +59,7 @@ namespace Website.Application.Domain.Tests.TinyUrl
             }
 
             sub.Run(job);
-            Assert.That(_store.Count, Is.GreaterThanOrEqualTo(5000));
+            Assert.That(_store.Count, Is.GreaterThanOrEqualTo(DefaultTinyUrlService.TinyUrlsToBuffer));
             while (_store.Count > 0)
             {
                 var @enum = _store.GetEnumerator();

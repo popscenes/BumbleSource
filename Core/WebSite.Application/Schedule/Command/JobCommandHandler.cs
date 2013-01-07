@@ -3,6 +3,7 @@ using System.Diagnostics;
 using Ninject;
 using Ninject.Syntax;
 using Website.Infrastructure.Command;
+using Website.Infrastructure.Query;
 
 namespace Website.Application.Schedule.Command
 {
@@ -10,64 +11,67 @@ namespace Website.Application.Schedule.Command
     {
         private readonly UnitOfWorkFactoryInterface _unitOfWorkFactory;
         private readonly GenericRepositoryInterface _genericRepository;
+        private readonly GenericQueryServiceInterface _genericQueryService;
         private readonly IResolutionRoot _resolutionRoot;
         private readonly TimeServiceInterface _timeService;
         readonly Stopwatch _stopWatch = new Stopwatch();
 
         public JobCommandHandler(UnitOfWorkFactoryInterface unitOfWorkFactory
-                                 , GenericRepositoryInterface genericRepository, IResolutionRoot resolutionRoot, TimeServiceInterface timeService)
+                                 , GenericRepositoryInterface genericRepository, IResolutionRoot resolutionRoot, TimeServiceInterface timeService, GenericQueryServiceInterface genericQueryService)
         {
             _unitOfWorkFactory = unitOfWorkFactory;
             _genericRepository = genericRepository;
             _resolutionRoot = resolutionRoot;
             _timeService = timeService;
+            _genericQueryService = genericQueryService;
         }
 
         public object Handle(JobCommand command)
         {
-            if (command.JobBase.InProgress)
+            var job = _genericQueryService.FindById(command.JobType, command.JobId) as JobBase;
+            if (job.InProgress)
                 return true;
-            command.JobBase.LastRun = _timeService.GetCurrentTime();
-            command.JobBase.InProgress = true;
-            command.JobBase.CalculateNextRun(_timeService);
+            job.LastRun = _timeService.GetCurrentTime();
+            job.InProgress = true;
+            job.CalculateNextRun(_timeService);
             var uow = _unitOfWorkFactory.GetUnitOfWork(new[] { _genericRepository });
             using (uow)
             {
-                _genericRepository.UpdateEntity(command.JobBase.GetType(), command.JobBase.Id, o =>
+                _genericRepository.UpdateEntity(command.JobId.GetType(), job.Id, o =>
                 {
                     var update = o as JobBase;
-                    update.CopyState(command.JobBase);
+                    update.CopyState(job);
                 });
             }
 
             if (!uow.Successful)
             {
-                Trace.TraceError("Failed to update Schedule Job {0} state", command.JobBase.Id);
+                Trace.TraceError("Failed to update Schedule Job {0} state", command.JobId);
                 return false;
             }
 
             _stopWatch.Start();
             try
             {                               
-                var action = _resolutionRoot.Get(command.JobBase.JobActionClass) as JobActionInterface;
-                action.Run(command.JobBase);
+                var action = _resolutionRoot.Get(job.JobActionClass) as JobActionInterface;
+                action.Run(job);
 
-                Trace.TraceInformation("Schedule Job {0} Completed. type: {1}, time(ms): {2}", command.JobBase.Id, action.GetType().ToString(), _stopWatch.ElapsedMilliseconds);
+                Trace.TraceInformation("Schedule Job {0} Completed. type: {1}, time(ms): {2}", command.JobId, action.GetType().ToString(), _stopWatch.ElapsedMilliseconds);
             }
             catch (Exception e)
             {
-                Trace.TraceError("Schedule Job {0} Error, time(ms): {3}\n msg:{1} \n {2}", command.JobBase.Id, e.Message, e.StackTrace, _stopWatch.ElapsedMilliseconds);
+                Trace.TraceError("Schedule Job {0} Error, time(ms): {3}\n msg:{1} \n {2}", command.JobId, e.Message, e.StackTrace, _stopWatch.ElapsedMilliseconds);
             }
 
-            command.JobBase.InProgress = false;
-            command.JobBase.LastDuration = TimeSpan.FromMilliseconds(_stopWatch.ElapsedMilliseconds); 
+            job.InProgress = false;
+            job.LastDuration = TimeSpan.FromMilliseconds(_stopWatch.ElapsedMilliseconds); 
             uow = _unitOfWorkFactory.GetUnitOfWork(new[] {_genericRepository});
             using (uow)
             {
-                _genericRepository.UpdateEntity(command.JobBase.GetType(), command.JobBase.Id, o =>
+                _genericRepository.UpdateEntity(command.JobId.GetType(), job.Id, o =>
                     {
                         var update = o as JobBase;
-                        update.CopyState(command.JobBase);
+                        update.CopyState(job);
                     });
             }
 

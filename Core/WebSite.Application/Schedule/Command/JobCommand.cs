@@ -6,6 +6,7 @@ namespace Website.Application.Schedule.Command
     [Serializable]
     public class JobCommand : DefaultCommandBase
     {
-        public JobBase JobBase { get; set; }
+        public string JobId { get; set; }
+        public Type JobType { get; set; }
     }
 }

@@ -60,7 +60,7 @@ namespace Website.Application.Tests.Schedule
             Assert.That(jobret.InProgress, Is.True);
 
             var commmandHandler = Kernel.Get<JobCommandHandler>();
-            commmandHandler.Handle(new JobCommand() {JobBase = job});
+            commmandHandler.Handle(new JobCommand() {JobId = job.Id});
 
             jobret = qs.FindById<RepeatJob>(job.Id);
             Assert.IsNotNull(jobret);

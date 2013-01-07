@@ -64,7 +64,8 @@ namespace Website.Application.Schedule
                 
                 var commandJobCommand = new JobCommand()
                     {
-                        JobBase = job
+                        JobId = job.Id,
+                        JobType = job.GetType()
                     };
                 _commandBus.Send(commandJobCommand);
             }

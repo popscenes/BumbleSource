@@ -41,8 +41,8 @@ namespace Website.Application.Domain.TinyUrl
 
         public void Run(JobBase job)
         {
-            var unassigned = _queryService.FindAggregateEntityIds<TinyUrlRecord>("").Count();
-            if (unassigned >= 5000)
+            var unassigned = _queryService.FindAggregateEntityIds<TinyUrlRecord>(DefaultTinyUrlService.UnassignedToAggregate).Count();
+            if (unassigned >= DefaultTinyUrlService.TinyUrlsToBuffer)
                 return;
 
             if (job.JobStorage == null || !job.JobStorage.ContainsKey(UrlBase))
@@ -52,7 +52,7 @@ namespace Website.Application.Domain.TinyUrl
             var uow = _unitOfWorkFactory.GetUnitOfWork(new[] {_repository});
             using (uow)
             {              
-                for (var i = 0; i < 5000 - unassigned; i++)
+                for (var i = 0; i < DefaultTinyUrlService.TinyUrlsToBuffer - unassigned; i++)
                 {
                     last = AddNewUrl(job.JobStorage[UrlBase], last);
                 }
@@ -74,7 +74,7 @@ namespace Website.Application.Domain.TinyUrl
 
             _repository.Store(new TinyUrlRecord()
                 {
-                    AggregateId = "",
+                    AggregateId = DefaultTinyUrlService.UnassignedToAggregate,
                     AggregateTypeTag = "",
                     FriendlyId = "",
                     Id = HttpUtility.UrlEncode(baseUrl + next),
