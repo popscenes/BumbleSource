@@ -45,6 +45,10 @@ namespace Website.Application.Domain.Tests.TinyUrl
             var stopWatch = new Stopwatch();
             stopWatch.Start();
             sub.Run(job);
+            sub.Run(job);
+            sub.Run(job);
+            sub.Run(job);
+            sub.Run(job);
             Trace.TraceInformation("TinyUrlJobAction generation time " + stopWatch.ElapsedMilliseconds);
             Assert.That(_store.Count, Is.EqualTo(DefaultTinyUrlService.TinyUrlsToBuffer));
             QueueMessageInterface msg = null;
@@ -59,7 +63,11 @@ namespace Website.Application.Domain.Tests.TinyUrl
             }
 
             sub.Run(job);
-            Assert.That(_store.Count, Is.GreaterThanOrEqualTo(DefaultTinyUrlService.TinyUrlsToBuffer));
+            sub.Run(job);
+            sub.Run(job);
+            sub.Run(job);
+            sub.Run(job);
+            Assert.That(_store.Count, Is.EqualTo(DefaultTinyUrlService.TinyUrlsToBuffer));
             while (_store.Count > 0)
             {
                 var @enum = _store.GetEnumerator();

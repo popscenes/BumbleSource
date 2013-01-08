@@ -23,7 +23,8 @@ namespace Website.Application.Domain.TinyUrl
         public const string UnassignedToAggregateId = "unassigned";
         public static string GenerateIdFromUrl(string url)
         {
-            return url.Replace('/', '-');
+            var uri = new Uri(url);
+            return uri.Host + uri.AbsolutePath.Replace('/', '-');
         }
 
         public string AggregateId { get; set; }

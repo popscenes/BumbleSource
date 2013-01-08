@@ -39,6 +39,7 @@
       <Setting name="PaypalCancelUrl"/>
 
       <Setting name="TinyUrlBase"/>
+      <Setting name="SiteUrl"/>
 
     </ConfigurationSettings>
     <LocalResources>

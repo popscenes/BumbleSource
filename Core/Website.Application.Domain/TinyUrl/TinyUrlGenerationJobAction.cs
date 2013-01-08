@@ -52,7 +52,7 @@ namespace Website.Application.Domain.TinyUrl
             var uow = _unitOfWorkFactory.GetUnitOfWork(new[] {_repository});
             using (uow)
             {              
-                for (var i = 0; i < DefaultTinyUrlService.TinyUrlsToBuffer - unassigned; i++)
+                for (var i = 0; i < 500; i++)
                 {
                     last = AddNewUrl(job.JobStorage[UrlBase], last);
                 }

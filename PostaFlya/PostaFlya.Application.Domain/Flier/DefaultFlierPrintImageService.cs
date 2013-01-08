@@ -206,6 +206,7 @@ namespace PostaFlya.Application.Domain.Flier
             var blackPen = new Pen(Color.Black, 2);
             imgToDisp.Add(blackPen);
 
+            url = url.Replace("http://", ""); //no need to print http://
             for (var i = 0; i < 10; i++)
             {
                 var xOff = qrcodewidthheight + (i * tearoffwidth);

@@ -18,6 +18,7 @@ using Ninject.Syntax;
 using PostaFlya.App_Start;
 using Website.Application.Authentication;
 using Website.Application.Command;
+using Website.Application.Domain.TinyUrl.Web;
 using Website.Application.Schedule;
 using Website.Application.WebsiteInformation;
 using Website.Application.Extension.Validation;
@@ -82,6 +83,14 @@ namespace PostaFlya
                 constraints: new { id = ".+@[0-9]{2}-[a-zA-Z]{3}-[0-9]{2}" }
                 );
 
+            //tiny url route
+            routes.MapRoute(
+                name: "FlierTinyUrl",
+                url: "{path}",
+                defaults: new { controller = "TinyUrl", action = "Get" },
+                constraints: new { path = DependencyResolver.Current.GetService<TinyUrlRouteConstraint>()}
+            );
+
             //profile view routes
             routes.MapRoute(
                 name: "ProfileView",
@@ -116,13 +125,13 @@ namespace PostaFlya
             //BundleTable.Bundles.RegisterTemplateBundles();
             //BundleTable.Bundles.EnableDefaultBundles();
 
-            var init = DependencyResolver.Get<InitServiceInterface>(md => md.Has("tablestorageinit"));
+            var init = NinjectDependencyResolver.Get<InitServiceInterface>(md => md.Has("tablestorageinit"));
             if (init != null)
-                init.Init(DependencyResolver);
+                init.Init(NinjectDependencyResolver);
 
-            init = DependencyResolver.Get<InitServiceInterface>(md => md.Has("storageinit"));
+            init = NinjectDependencyResolver.Get<InitServiceInterface>(md => md.Has("storageinit"));
             if (init != null)
-                init.Init(DependencyResolver);
+                init.Init(NinjectDependencyResolver);
 
 
             RegisterWebsiteInformation();
@@ -147,7 +156,7 @@ namespace PostaFlya
 
         protected void RegisterWebsiteInformation()
         {
-            var websiteInfoService = DependencyResolver.Get<WebsiteInfoServiceInterface>();
+            var websiteInfoService = NinjectDependencyResolver.Get<WebsiteInfoServiceInterface>();
             var tags = new Tags(new string[]{ "event","social","comedy","theatre","books","pets","lost","found","services","music","fashion","food & drink","job","task","wanted","for sale","for free","sport","automotive","education","sale","garage","film","art & craft","photography","accommodation","technology","property","kids","politics"});
             var websiteInfo = new WebsiteInfo()
             {
@@ -185,14 +194,14 @@ namespace PostaFlya
         /// Use ONLY as last resort. When depenecy injection isn't possible
         /// otherwise will fall into the service locator anti-pattern
         /// </summary>
-        public static IResolutionRoot DependencyResolver
+        public static IResolutionRoot NinjectDependencyResolver
         {
             get { return NinjectWebCommon.bootstrapper.Kernel; }
         }
 
         public static void SetPrincipal()
         {
-            var context = DependencyResolver.Get<HttpContextBase>();
+            var context = NinjectDependencyResolver.Get<HttpContextBase>();
             if (context == null) return;
             if (context.User == null) return;
 
@@ -294,7 +303,7 @@ namespace PostaFlya
 //                =>
 //            {
 //                //start afresh if there is an unhandled exception
-//                var processor = DependencyResolver.Get<QueuedCommandProcessor>(
+//                var processor = NinjectDependencyResolver.Get<QueuedCommandProcessor>(
 //                        ctx => ctx.Has("BroadcastCommunicator"));
 //                    
 //                processor.Run(t.Token);
