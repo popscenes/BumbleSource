@@ -45,28 +45,28 @@ namespace Website.Application.Domain.Tests.TinyUrl
             var repo = Kernel.Get<GenericRepositoryInterface>();
             repo.Store(new TinyUrlRecord()
             {
-                AggregateId = "",
+                AggregateId = TinyUrlRecord.UnassignedToAggregateId,
                 AggregateTypeTag = "",
                 FriendlyId = "",
-                Id = HttpUtility.UrlEncode("http://tin.y/1"),
+                Id = TinyUrlRecord.GenerateIdFromUrl("http://tin.y/1"),
                 TinyUrl = "http://tin.y/1"
             });
 
             repo.Store(new TinyUrlRecord()
             {
-                AggregateId = "",
+                AggregateId = TinyUrlRecord.UnassignedToAggregateId,
                 AggregateTypeTag = "",
                 FriendlyId = "",
-                Id = HttpUtility.UrlEncode("http://tin.y/2"),
+                Id = TinyUrlRecord.GenerateIdFromUrl("http://tin.y/2"),
                 TinyUrl = "http://tin.y/2"
             });
 
             repo.Store(new TinyUrlRecord()
             {
-                AggregateId = "",
+                AggregateId = TinyUrlRecord.UnassignedToAggregateId,
                 AggregateTypeTag = "",
                 FriendlyId = "",
-                Id = HttpUtility.UrlEncode("http://tin.y/3"),
+                Id = TinyUrlRecord.GenerateIdFromUrl("http://tin.y/3"),
                 TinyUrl = "http://tin.y/3"
             });
 

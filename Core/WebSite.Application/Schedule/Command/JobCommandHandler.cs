@@ -37,7 +37,7 @@ namespace Website.Application.Schedule.Command
             var uow = _unitOfWorkFactory.GetUnitOfWork(new[] { _genericRepository });
             using (uow)
             {
-                _genericRepository.UpdateEntity(command.JobId.GetType(), job.Id, o =>
+                _genericRepository.UpdateEntity(command.JobType, command.JobId, o =>
                 {
                     var update = o as JobBase;
                     update.CopyState(job);
@@ -68,7 +68,7 @@ namespace Website.Application.Schedule.Command
             uow = _unitOfWorkFactory.GetUnitOfWork(new[] {_genericRepository});
             using (uow)
             {
-                _genericRepository.UpdateEntity(command.JobId.GetType(), job.Id, o =>
+                _genericRepository.UpdateEntity(command.JobType, command.JobId, o =>
                     {
                         var update = o as JobBase;
                         update.CopyState(job);

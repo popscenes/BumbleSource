@@ -20,10 +20,17 @@ namespace Website.Application.Domain.TinyUrl
 
     public class TinyUrlRecord : TinyUrlRecordInterface
     {
+        public const string UnassignedToAggregateId = "unassigned";
+        public static string GenerateIdFromUrl(string url)
+        {
+            return url.Replace('/', '-');
+        }
+
         public string AggregateId { get; set; }
         public string AggregateTypeTag { get; set; }
         public string Id { get; set; }
         public string FriendlyId { get; set; }
         public string TinyUrl { get; set; }
+        
     }
 }

@@ -15,6 +15,8 @@ namespace Website.Application.Schedule
             target.NextRun = source.NextRun;
             target.InProgress = source.InProgress;
             target.JobActionClass = source.JobActionClass;
+            if(source.JobStorage != null)
+                target.JobStorage = new Dictionary<string, string>(source.JobStorage);
         }
     }
     public interface JobInterface : EntityIdInterface
@@ -26,6 +28,7 @@ namespace Website.Application.Schedule
         Type JobActionClass { get; set; }
         void CalculateNextRun(TimeServiceInterface timeService);
         bool IsRunDue(TimeServiceInterface timeService);
+        Dictionary<string, string> JobStorage { get; set; }
     }
 
     [Serializable]
