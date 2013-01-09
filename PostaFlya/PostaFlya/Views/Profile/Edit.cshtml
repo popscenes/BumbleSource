@@ -51,8 +51,7 @@
                 <li>
                     @Html.LabelFor(model => model.Credits)
                     <span data-bind="text: Credits"></span>
-                    @Html.ActionLink("Add More", "AddAccountCredit", "Payment")
-                    @Html.ActionLink("View Transactions", "PaymentTransactions", "Payment")
+                    @Html.ActionLink("Manage Credits", "PaymentPending", "Profile")
                 </li>
             </ol>
         </fieldset>

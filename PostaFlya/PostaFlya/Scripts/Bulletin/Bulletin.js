@@ -3,14 +3,13 @@
     var bf = window.bf = window.bf || {};
 
     bf.BulletinBoard = function (locationSelector
-        , distanceSelector
         , selectedDetailViewModel
         , tagsSelector
         , tileLayout) {
         var self = this;
 
         self.locationSelector = locationSelector;
-        self.distanceSelector = distanceSelector;
+        //self.distanceSelector = distanceSelector;
         self.tagsSelector = tagsSelector;
         self.initialPagesize = 30;
         self.CreateFlierInstance = bf.globalCreateFlierInstance;
@@ -28,7 +27,7 @@
         self.GetReqArgs = function (nextpage) {
             var params = {
                 loc: self.locationSelector.currentLocation().LatLong()
-                , distance: self.distanceSelector.currentDistance()
+                , distance: self.locationSelector.currentDistance()
                 , count: self.initialPagesize
             };
 
@@ -96,7 +95,7 @@
 
             ko.applyBindings(self);
             self.locationSelector.updateCallback = self.LocationAndDistanceCallback;
-            self.distanceSelector.updateCallback = self.LocationAndDistanceCallback;
+            //self.distanceSelector.updateCallback = self.LocationAndDistanceCallback;
             self.tagsSelector.updateCallback = self.LocationAndDistanceCallback;
 
             self.tagsSelector.LoadTags();

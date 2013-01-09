@@ -43,6 +43,10 @@ header{
 	float:left;
 }
 
+.paymnet-flier {
+    display: inline-block;
+}
+
 .close-button {
 
 }

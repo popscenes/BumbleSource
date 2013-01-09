@@ -17,6 +17,7 @@
         self.displayInline = ko.observable(options.displayInline);
         self.mapElementId = ko.observable(options.mapElementId);
         self.locSearchId = ko.observable(options.locSearchId);
+        self.distanceSelector = new bf.DistanceSelector();
 
         self.errorMessage = ko.observable(null);
 
@@ -32,6 +33,8 @@
             self.showMain(showMain);
             $('#' + self.mapElementId()).gmap('refresh');
         };
+
+        self.currentDistance = ko.observable(self.distanceSelector.currentDistance);
 
         self.savedLocations = ko.observableArray(bf.currentBrowserInstance.SavedLocations);
 
@@ -81,20 +84,11 @@
                         new bf.LocationModel({ Longitude: position.coords.longitude, Latitude: position.coords.latitude })
                     );
 
-                    //self.locationType('current');
                     var latlng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
                     $('#' + self.mapElementId()).gmap('search', { 'location': latlng },
                         function (results, status) {
                             if (status === 'OK') {
-                                //var loc = new bf.LocationModel({ Longitude: position.coords.longitude, Latitude: position.coords.latitude })
                                 self.currentLocation().SetFromGeo(results[0]);
-                                //self.currentLocation(loc);
-//                                if (results.length >= 3) {
-//                                    self.description(results[2].formatted_address);
-//                                }
-//                                else {
-//                                    self.description(results[0].formatted_address);
-//                                }
                             }
                         });
 
@@ -112,6 +106,13 @@
 
             return true;
         };
+        
+        self.DistanceCallback = function () {
+            self.currentDistance = ko.observable(self.distanceSelector.currentDistance);
+            if (self.updateCallback != null) {
+                self.updateCallback();
+            }
+        };
 
 
         self.Init = function () {
@@ -121,6 +122,8 @@
                     self.updateCallback();
                 }
             });
+            
+            self.distanceSelector.updateCallback = self.DistanceCallback;
 
             if (bf.pageState !== undefined && bf.pageState.Location !== undefined) {
                 self.longitude(bf.pageState.Location.Longitude);

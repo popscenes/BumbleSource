@@ -28,10 +28,6 @@
                 <input type="text" data-bind="value: currentLocation().Description, attr:{id:locSearchId}"/>
             </div>
         </div>
-
-        <div class="distSel" data-bind="with:$root.distanceSelector">
-            @Html.Partial("Distance/DistanceSelector")
-        </div>
             
         <div class="tagsSel">
             <div class="Button" id="btn-tags" data-bind="click:ShowTags">Select Tags</div>
