@@ -229,7 +229,8 @@ namespace PostaFlya.Specification.Fliers
         {
             var paymentPendingModel = SpecUtil.ControllerResult as List<BulletinFlierModel>;
             var profileController = SpecUtil.GetApiController<PendingFliersApiController>();
-            profileController.Put(paymentPendingModel.First().Id);
+            var browserInformation = SpecUtil.GetCurrBrowser();
+            profileController.Put(browserInformation.Browser.Id, paymentPendingModel.First().Id);
         }
 
         [Then(@"I will no longer have fliers that are PaymentPending Status")]

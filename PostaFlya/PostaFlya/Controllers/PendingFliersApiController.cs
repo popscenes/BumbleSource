@@ -50,13 +50,13 @@ namespace PostaFlya.Controllers
         {
             var fliers = _browserQueryService.GetByBrowserId<Flier>(_browserInformation.Browser.Id);
             var pendingFliers = fliers.Where(_ => _.Status == FlierStatus.PaymentPending);
-            var model = pendingFliers.Select(_ => _viewModelFactory.GetBulletinViewModel(_, false)).ToList();
+            var model = pendingFliers.Select(_ => _viewModelFactory.GetBulletinViewModel(_, false).GetImageUrl(_blobStorage)).ToList();
             return model;
         }
         // PUT api/pendingfliersapi/5
-        public HttpResponseMessage Put(String flierId)
+        public HttpResponseMessage Put(string browserid, String id)
         {
-            var flier = _queryService.FindById<Flier>(flierId);
+            var flier = _queryService.FindById<Flier>(id);
 
             var editFlier = new EditFlierCommand()
             {
