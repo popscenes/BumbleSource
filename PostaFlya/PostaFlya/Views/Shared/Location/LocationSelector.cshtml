@@ -9,6 +9,10 @@
         </div>
 
         <div data-bind="attr:{id:mapElementId}" class="map" style="width: 70%; height: 450px;"></div>
+        
+        <div class="distSel" data-bind="with:distanceSelector">
+            @Html.Partial("Distance/DistanceSelector")
+        </div>
     
         <div class="locationTypeChoice" data-bind="visible: locationType() =='saved'">
             Saved Locations
