@@ -57,14 +57,14 @@ namespace PostaFlya.DataRepository.Search.Event
 //            var command = new ReindexFlierCommand();
 //            if (publish.NewState != null)
 //            {
-//                command.SearchRecord = publish.NewState.ToSearchRecord();
+//                command.SearchRecord = publish.NewState.ToSearchRecords();
 //                command.UpdateOrDelete = true;
 //                return (bool) _commandBus.Send(command);
 //            }
 //                
 //            if(publish.OrigState != null)
 //            {
-//                command.SearchRecord = publish.OrigState.ToSearchRecord();
+//                command.SearchRecord = publish.OrigState.ToSearchRecords();
 //                command.UpdateOrDelete = false;
 //                return (bool) _commandBus.Send(command);
 //            }
@@ -76,35 +76,46 @@ namespace PostaFlya.DataRepository.Search.Event
         public bool Publish(FlierModifiedEvent publish)
         {
             if (publish.OrigState != null &&
-                (publish.NewState == null || !publish.NewState.Location.Equals(publish.OrigState.Location)))
+                (publish.NewState == null || 
+                !publish.NewState.Location.Equals(publish.OrigState.Location) ||
+                (publish.OrigState.Status == FlierStatus.Active && publish.NewState.Status != FlierStatus.Active))
+             )
             {
-                var searchRecord = publish.OrigState.ToSearchRecord();
-                SqlExecute.Delete(searchRecord, _connection);
+                var searchRecords = publish.OrigState.ToSearchRecords().ToList();
+                SqlExecute.DeleteAll(searchRecords, _connection);
                 if (publish.OrigState.Boards != null)
                 {
-                    foreach (var boardFlierSearchRec in publish.OrigState.Boards
-                        .Select(id => new BoardFlier() { FlierId = publish.OrigState.Id, AggregateId = id })
-                        .Select(boardFlier => _queryService.FindById<BoardFlier>(boardFlier.GetIdFor()))
-                        .Select(retrieved => retrieved.ToSearchRecord(publish.OrigState.Location.GetShardId())))
+                    foreach (var boardsForShard in 
+                        searchRecords.Select(flierSearchRecord => publish.OrigState.Boards
+                            .Select(id => new BoardFlier() { FlierId = publish.OrigState.Id, AggregateId = id })
+                            .Select(boardFlier => _queryService.FindById<BoardFlier>(boardFlier.GetIdFor()))
+                            .Select(
+                                retrieved =>
+                                retrieved.ToSearchRecord(flierSearchRecord.LocationShard)).ToList()))
                     {
-                        SqlExecute.Delete(boardFlierSearchRec, _connection);
-                    }    
+                        SqlExecute.DeleteAll(boardsForShard, _connection);
+                    }
+                        
                 }
             }
 
-            if (publish.NewState != null)
+            if (publish.NewState != null && publish.NewState.Status == FlierStatus.Active)
             {
-                var searchRecord = publish.NewState.ToSearchRecord();
-                SqlExecute.InsertOrUpdate(searchRecord, _connection);
+                var searchRecords = publish.NewState.ToSearchRecords().ToList();
+                SqlExecute.InsertOrUpdateAll(searchRecords, _connection);
                 if (publish.NewState.Boards != null)
                 {
-                    foreach (var boardFlierSearchRec in publish.NewState.Boards
-                        .Select(id => new BoardFlier() { FlierId = publish.NewState.Id, AggregateId = id })
-                        .Select(boardFlier => _queryService.FindById<BoardFlier>(boardFlier.GetIdFor()))
-                        .Select(retrieved => retrieved.ToSearchRecord(publish.NewState.Location.GetShardId())))
+                    foreach (var boardsForShard in
+                        searchRecords.Select(flierSearchRecord => publish.NewState.Boards
+                            .Select(id => new BoardFlier() { FlierId = publish.NewState.Id, AggregateId = id })
+                            .Select(boardFlier => _queryService.FindById<BoardFlier>(boardFlier.GetIdFor()))
+                            .Select(
+                                retrieved =>
+                                retrieved.ToSearchRecord(flierSearchRecord.LocationShard)).ToList()))
                     {
-                        SqlExecute.InsertOrUpdate(boardFlierSearchRec, _connection);
-                    }    
+                        SqlExecute.InsertOrUpdateAll(boardsForShard, _connection);
+                    }
+
                 }
             }
 
@@ -160,8 +171,8 @@ namespace PostaFlya.DataRepository.Search.Event
             if (flier == null)
                 return false;
 
-            var searchRecord = flier.ToSearchRecord();
-            SqlExecute.InsertOrUpdate(searchRecord, _connection);
+            var searchRecord = flier.ToSearchRecords();
+            SqlExecute.InsertOrUpdateAll(searchRecord, _connection);
             return true;
         }
         public bool Publish(ClaimEvent publish)

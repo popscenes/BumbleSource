@@ -57,11 +57,11 @@ namespace PostaFlya.DataRepository.Search.Implementation
 
             var ret = SqlExecute.Query<BoardFlierSearchRecord>(sqlCmd,
                 _connection
-                , new object[] { new Guid(board) }//todo if we expand shards pass all shards where fliers may exist in here
+                , new object[] { new Guid(board) }
                 , new { skip, take, board });
 
             Trace.TraceInformation("FindFliers time: {0}, numfliers {1}", watch.ElapsedMilliseconds, ret.Count());
-            return ret.Select(sr => sr.FlierId).ToList();
+            return ret.Select(sr => sr.FlierId).Distinct().ToList();
         }
 
         private IList<string> FindFliersByLocationTagsAndDistanceWithBoard(Location location, Tags tags, string board, int distance, int take, FlierSortOrder sortOrder, int skip)
@@ -81,11 +81,11 @@ namespace PostaFlya.DataRepository.Search.Implementation
 
             var ret = SqlExecute.Query<FlierSearchRecord>(sqlCmd,
                 _connection
-                , new object[] { location.GetShardId() }//todo if we expand shards pass all shards where fliers may exist in here by doing quick boundbox calcs
+                , location.GetShardIdsFor(distance).Cast<object>().ToArray()
                 , new { loc, skip, take, distance, board });
 
             Trace.TraceInformation("FindFliers time: {0}, numfliers {1}", watch.ElapsedMilliseconds, ret.Count());
-            return ret.Select(sr => sr.Id.ToString()).ToList();
+            return ret.Select(sr => sr.Id.ToString()).Distinct().ToList();
         }
 
         public IList<string> FindFliersByLocationTagsAndDistanceWithoutBoard(Location location, Tags tags, int distance = 0, int take = 0, FlierSortOrder sortOrder = FlierSortOrder.CreatedDate, int skip = 0)
@@ -105,7 +105,7 @@ namespace PostaFlya.DataRepository.Search.Implementation
 
             var ret = SqlExecute.Query<FlierSearchRecord>(sqlCmd,
                 _connection
-                , new object[] { location.GetShardId() }//todo if we expand shards pass all shards where fliers may exist in here
+                , location.GetShardIdsFor(distance).Cast<object>().ToArray()
                 , new { loc, skip, take, distance });
 
             Trace.TraceInformation("FindFliers time: {0}, numfliers {1}", watch.ElapsedMilliseconds, ret.Count());

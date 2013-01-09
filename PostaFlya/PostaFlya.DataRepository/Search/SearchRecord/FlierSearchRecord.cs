@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data.SqlTypes;
 using System.Diagnostics;
+using System.Linq;
 using System.Xml.Linq;
 using Microsoft.SqlServer.Types;
 using Website.Azure.Common.Sql;
@@ -12,29 +14,56 @@ namespace PostaFlya.DataRepository.Search.SearchRecord
 {
     public static class FlierInterfaceSearchExtensions
     {
-        public static FlierSearchRecord ToSearchRecord(this FlierInterface flier)
+        public static IEnumerable<FlierSearchRecord> ToSearchRecords(this FlierInterface flier)
         {
-            var ret =  new FlierSearchRecord()
-            {
-                Id = flier.Id,
-                BrowserId = flier.BrowserId,
-                PopularityRank = flier.NumberOfComments + flier.NumberOfClaims,
-                NumberOfClaims = flier.NumberOfClaims,
-                NumberOfComments = flier.NumberOfComments,
-                EffectiveDate = flier.EffectiveDate,
-                CreateDate = flier.CreateDate,
-                LastActivity = DateTime.UtcNow,
-                Tags = flier.Tags.ToXml().ToSql(),
-                Location = flier.Location.ToGeography(),
-                LocationShard = flier.Location.GetShardId()
-            };
+            var geog = flier.Location.ToGeography();
+            var shards = new HashSet<long>();
+            geog = geog.BufferWithTolerance(flier.LocationRadius, 0.2, false);
 
-            return ret;
+            for (var i = 0; i < geog.STNumPoints(); i++)
+            {
+                var point = geog.STPointN(i + 1);
+                shards.Add(point.GetShardId());
+            }
+
+            return shards.Select(shard => new  FlierSearchRecord()
+                {
+                    Id = flier.Id,
+                    BrowserId = flier.BrowserId,
+                    PopularityRank = flier.NumberOfComments + flier.NumberOfClaims,
+                    NumberOfClaims = flier.NumberOfClaims,
+                    NumberOfComments = flier.NumberOfComments,
+                    EffectiveDate = flier.EffectiveDate,
+                    CreateDate = flier.CreateDate,
+                    LastActivity = DateTime.UtcNow,
+                    Tags = flier.Tags.ToXml().ToSql(),
+                    Location = geog,
+                    LocationShard = shard
+                });
+        }
+
+        public static long[] GetShardIdsFor(this Location location, int distance)
+        {
+            var geog = location.ToGeography();
+            var shards = new HashSet<long>();
+            geog = geog.BufferWithTolerance(distance, 0.2, false);
+
+            for (var i = 0; i < geog.STNumPoints(); i++)
+            {
+                var point = geog.STPointN(i + 1);
+                shards.Add(point.GetShardId());
+            }
+            return shards.ToArray();
         }
 
         public static long GetShardId(this Location loc)
         {
             return (long) ((((int)loc.Latitude + 90)*1000) + ((int)loc.Longitude + 180));
+        }
+
+        public static long GetShardId(this SqlGeography loc)
+        {
+            return (long)((((int)loc.Lat + 90) * 1000) + ((int)loc.Long + 180));
         }
 
         public static XElement ToXml(this Tags tags)

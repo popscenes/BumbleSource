@@ -179,6 +179,12 @@ namespace Website.Azure.Common.Sql
             return csBuilder.ToString();
         }
 
+        public static bool InsertOrUpdateAll<RecordType>(IEnumerable<RecordType> insert, SqlConnection connection,
+                                                      string tableName = null)
+        {
+            return insert.Aggregate(false, (b, record) => InsertOrUpdate(record, connection, tableName) || b);
+        }
+
         public static bool InsertOrUpdate<RecordType>(RecordType insert, SqlConnection connection, string tableName = null)
         {
             Type recordTyp = typeof (RecordType);
@@ -217,6 +223,11 @@ namespace Website.Azure.Common.Sql
 
             return ExecuteSqlActionWithRetries(tryact);
 
+        }
+
+        public static bool DeleteAll<RecordType>(IEnumerable<RecordType> deleterec, SqlConnection connection, string tableName = null)
+        {
+            return deleterec.Aggregate(false, (b, record) => Delete(record, connection, tableName) || b);            
         }
 
         public static bool Delete<RecordType>(RecordType deleterec, SqlConnection connection, string tableName = null)
