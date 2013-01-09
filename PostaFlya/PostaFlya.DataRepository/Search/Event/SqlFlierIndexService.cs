@@ -78,6 +78,7 @@ namespace PostaFlya.DataRepository.Search.Event
             if (publish.OrigState != null &&
                 (publish.NewState == null || 
                 !publish.NewState.Location.Equals(publish.OrigState.Location) ||
+                publish.NewState.LocationRadius != publish.OrigState.LocationRadius ||
                 (publish.OrigState.Status == FlierStatus.Active && publish.NewState.Status != FlierStatus.Active))
              )
             {
