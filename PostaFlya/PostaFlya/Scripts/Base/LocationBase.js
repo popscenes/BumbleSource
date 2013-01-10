@@ -12,7 +12,26 @@
         map.gmap('option', 'center', clientPosition);
 
 
-        map.gmap('option', 'zoom', 15);
+        map.gmap('option', 'zoom', 11);
+    };
+
+    bf.circle = new google.maps.Circle();
+
+    bf.setMapCircle = function (map, longitude, latitude, radius) {
+        var clientPosition = new google.maps.LatLng(latitude, longitude);
+        bf.circle.setMap(null);
+        var mapOptions = {
+            strokeColor: "#FF0000",
+            strokeOpacity: 0.8,
+            strokeWeight: 2,
+            fillColor: "#FF0000",
+            fillOpacity: 0.35,
+            map: map.gmap('get', 'map'),
+            center: clientPosition,
+            radius: radius*1000
+        };
+        
+        bf.circle = new google.maps.Circle(mapOptions);
     };
     
     /**/
