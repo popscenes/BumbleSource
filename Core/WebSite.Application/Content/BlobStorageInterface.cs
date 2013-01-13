@@ -24,6 +24,7 @@ namespace Website.Application.Content
         byte[] GetBlob(string id);
         BlobProperties GetBlobProperties(string id);
         bool SetBlob(string id, byte[] bytes, BlobProperties properties = null);
+        bool SetBlobFromStream(string id, Stream stream, BlobProperties properties = null);
         bool SetBlobProperties(string id, BlobProperties properties);
         bool DeleteBlob(string id);
         int BlobCount { get; }

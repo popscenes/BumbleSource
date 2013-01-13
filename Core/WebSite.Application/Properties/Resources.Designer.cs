@@ -133,15 +133,6 @@ namespace Website.Application.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {0} is required..
-        /// </summary>
-        public static string Required {
-            get {
-                return ResourceManager.GetString("Required", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to {0} is too long..
         /// </summary>
         public static string StringTooLarge {

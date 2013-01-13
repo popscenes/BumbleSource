@@ -27,9 +27,10 @@ namespace PostaFlya.CommandWorker
                           new Website.Application.Binding.ApplicationNinjectBinding(),
                           new Website.Application.Domain.Binding.ApplicationDomainNinjectBinding(),                
                           new Website.Application.Azure.Binding.AzureApplicationNinjectBinding(),
-                           new PostaFlya.Application.Domain.Binding.ApplicationDomainNinjectBinding(),
-                           new PostaFlya.Application.Domain.Binding.ApplicationDomainServicesNinjectBinding(),
-                           new ApplicationJobs(),
+                          new PostaFlya.Application.Domain.Binding.ApplicationDomainNinjectBinding(),
+                          new PostaFlya.Application.Domain.Binding.ApplicationDomainServicesNinjectBinding(),
+                          new Website.Application.Domain.Binding.ApplicationJobs(),
+                          new PostaFlya.Application.Domain.Binding.ApplicationJobs()
                   };
 
         private StandardKernel _kernel;

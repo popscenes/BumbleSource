@@ -22,7 +22,6 @@ namespace Website.Domain.Browser
             target.SavedLocations = new Locations(source.SavedLocations.Select(l => new Location.Location(l)));
             target.SavedTags = new List<Tags>(source.SavedTags.Select(t => new Tags(t)));
             target.ExternalCredentials = source.ExternalCredentials != null ? new HashSet<BrowserIdentityProviderCredential>(source.ExternalCredentials) : null;
-            target.AddressPublic = source.AddressPublic;
             target.AvatarImageId = source.AvatarImageId;
             target.Properties = source.Properties != null ? new Dictionary<string, object>(source.Properties) : null;
             target.AccountCredit = source.AccountCredit;
@@ -60,7 +59,6 @@ namespace Website.Domain.Browser
         HashSet<BrowserIdentityProviderCredential> ExternalCredentials { get; set; }
         
         string AvatarImageId { get; set; }
-        bool AddressPublic { get; set; }
         Dictionary<string, object> Properties { get; set; }
     }
 }

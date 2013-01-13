@@ -26,7 +26,7 @@ namespace Website.Application.Schedule
         DateTimeOffset NextRun { get; set; }
         bool InProgress { get; set; }
         Type JobActionClass { get; set; }
-        void CalculateNextRun(TimeServiceInterface timeService);
+        void CalculateNextRunFromNow(TimeServiceInterface timeService);
         bool IsRunDue(TimeServiceInterface timeService);
         Dictionary<string, string> JobStorage { get; set; }
     }
@@ -46,7 +46,7 @@ namespace Website.Application.Schedule
         public DateTimeOffset NextRun { get; set; }
         public bool InProgress { get; set; }
         public Type JobActionClass { get; set; }
-        public virtual void CalculateNextRun(TimeServiceInterface timeService){}
+        public virtual void CalculateNextRunFromNow(TimeServiceInterface timeService){}
         public bool IsRunDue(TimeServiceInterface timeService)
         {
             if (InProgress)
@@ -61,6 +61,7 @@ namespace Website.Application.Schedule
                     return false;
                 }
             }
+
             return timeService.GetCurrentTime() > NextRun;
         }
         public virtual void CopyState<JobBaseType>(JobBaseType source) where JobBaseType : JobInterface{}

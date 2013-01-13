@@ -10,7 +10,7 @@ namespace PostaFlya.Areas.TaskJob.Models
 {
     public class TaskJobBehaviourCreateModel : ViewModelBase
     {
-        [RequiredWithMessage]
+        [Required(ErrorMessageResourceName = "Required", ErrorMessageResourceType = typeof(Properties.Resources))]
         [RangeWithMessage(1, 1000000)]
         [Display(Name = "MaxTaskAmount", ResourceType = typeof(Properties.Resources))] 
         public double MaxAmount { get; set; }
@@ -21,7 +21,7 @@ namespace PostaFlya.Areas.TaskJob.Models
         [RangeWithMessage(0, 1000000)]
         public double CostOverhead { get; set; }
 
-        [RequiredWithMessage]
+        [Required(ErrorMessageResourceName = "Required", ErrorMessageResourceType = typeof(Properties.Resources))]
         public string FlierId{ get; set; }
     }
 }

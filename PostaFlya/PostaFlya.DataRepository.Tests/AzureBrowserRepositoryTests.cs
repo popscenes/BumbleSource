@@ -135,7 +135,6 @@ namespace PostaFlya.DataRepository.Tests
                            EmailAddress = "test@test.com",
                            AvatarImageId = GlobalDefaultsNinjectModule.DefaultImageId,
                            Address = GlobalDefaultsNinjectModule.DefaultLocation,
-                           AddressPublic = true
                        };
 
             ret.ExternalCredentials = new HashSet<BrowserIdentityProviderCredential>()

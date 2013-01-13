@@ -143,7 +143,8 @@ namespace PostaFlya.Specification.Browsers
             Assert.AreEqual(profileEditModel.Email, browserRet.Email);
             Assert.AreEqual(profileEditModel.Address.ToDomainModel(), browserRet.Address.ToDomainModel());
             Assert.AreEqual(profileEditModel.AvatarImageId, browserRet.AvatarImageId);
-            Assert.AreEqual(profileEditModel.AddressPublic, browserRet.AddressPublic);
+            Assert.AreEqual(profileEditModel.WebSite, browserRet.WebSite);
+
         }
 
         //| Name | FirstName | MiddleNames | Surname  | Email | Address  | Avatar |
@@ -161,7 +162,7 @@ namespace PostaFlya.Specification.Browsers
                                     MiddleNames = table.Rows[0]["MiddleNames"],
                                     Surname = table.Rows[0]["Surname"],
                                     Email = table.Rows[0]["Email"],
-                                    AddressPublic = bool.Parse(table.Rows[0]["AddressPublic"]),
+                                    WebSite = table.Rows[0]["WebSite"]
                                 };
             WhenIUpdateMyProfileDetails(editModel);
         }

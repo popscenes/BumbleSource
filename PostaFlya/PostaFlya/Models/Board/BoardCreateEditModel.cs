@@ -13,26 +13,26 @@ namespace PostaFlya.Models.Board
     {
         public string Id { get; set; }
 
-        [Display(Name = "BoardCreateEditModel_BoardName", ResourceType = typeof(Properties.Resources))] 
-        [RequiredWithMessage]
+        [Display(Name = "BoardCreateEditModel_BoardName", ResourceType = typeof(Properties.Resources))]
+        [Required(ErrorMessageResourceName = "Required", ErrorMessageResourceType = typeof(Properties.Resources))]
         [DataMember]
         public string BoardName { get; set; }
 
         [Display(Name = "BoardCreateEditModel_AllowOthersToPostFliers", ResourceType = typeof(Properties.Resources))] 
         [DataMember]
-        [RequiredWithMessage]
+        [Required(ErrorMessageResourceName = "Required", ErrorMessageResourceType = typeof(Properties.Resources))]
         public bool AllowOthersToPostFliers { get; set; }
 
         [Display(Name = "BoardCreateEditModel_RequireApprovalOfPostedFliers", ResourceType = typeof(Properties.Resources))] 
         [DataMember]
-        [RequiredWithMessage]
+        [Required(ErrorMessageResourceName = "Required", ErrorMessageResourceType = typeof(Properties.Resources))]
         public bool RequireApprovalOfPostedFliers { get; set; }
 
         [Display(Name = "BoardCreateEditModel_Location", ResourceType = typeof(Properties.Resources))] 
         public LocationModel Location { get; set; }
 
         [Display(Name = "BoardCreateEditModel_Description", ResourceType = typeof(Properties.Resources))] 
-        [RequiredWithMessage]
+        [Required(ErrorMessageResourceName = "Required", ErrorMessageResourceType = typeof(Properties.Resources))]
         public string Description { get; set; }
 
         [Display(Name = "BoardCreateEditModel_PercentageOfPublicFliersToShow", ResourceType = typeof(Properties.Resources))] 

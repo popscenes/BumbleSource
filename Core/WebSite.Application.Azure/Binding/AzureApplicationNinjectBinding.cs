@@ -7,11 +7,13 @@ using Website.Application.Azure.Command;
 using Website.Application.Azure.Communication;
 using Website.Application.Azure.Content;
 using Website.Application.Azure.Queue;
+using Website.Application.Azure.Util;
 using Website.Application.Azure.WebsiteInformation;
 using Website.Application.Binding;
 using Website.Application.Command;
 using Website.Application.Content;
 using Website.Application.Queue;
+using Website.Application.Util;
 using Website.Application.WebsiteInformation;
 using Website.Azure.Common.TableStorage;
 using Website.Infrastructure.Binding;
@@ -63,6 +65,16 @@ namespace Website.Application.Azure.Binding
 
             //end image storage
 
+            //applicationstorage
+            Kernel.Bind<BlobStorageInterface>().ToMethod(
+                ctx => new AzureCloudBlobStorage(ctx.Kernel.Get<CloudBlobContainer>(bm => bm.Has("applicationstorage"))))
+                .WhenTargetHas<ApplicationStorageAttribute>();
+
+            Kernel.Bind<CloudBlobContainer>().ToMethod(
+                ctx => ctx.Kernel.Get<CloudBlobClient>().GetContainerReference("applicationstorage"))
+                .WithMetadata("applicationstorage", true);
+            //end applicationstorage
+
             var tableNameProv = Kernel.Get<TableNameAndPartitionProviderServiceInterface>();
             Kernel.Bind<ApplicationBroadcastCommunicatorRegistrationInterface>().To<AzureApplicationBroadcastCommunicatorRegistration>();
             //            Kernel.Bind<AzureTableContext>().ToSelf().Named("broadcastCommunicators");
@@ -82,6 +94,8 @@ namespace Website.Application.Azure.Binding
             //need to call Kernel.Get<AzureInitCreateQueueAndBlobs>().Init();
             //from startup code somewhere
             Bind<InitServiceInterface>().To<AzureInitCreateQueueAndBlobs>().WithMetadata("storageinit", true);
+
+            Bind<TempFileStorageInterface>().To<AzureTempFileStorage>();
 
             Trace.TraceInformation("Finished Binding AzureApplicationNinjectBinding");
 

@@ -33,7 +33,6 @@ namespace PostaFlya.Controllers
             var editProfileCommand = new ProfileEditCommand()
                                          {
                                              BrowserId = editModel.Id,                                         
-                                             AddressPublic = editModel.AddressPublic,
                                              Handle = editModel.Handle,
                                              FirstName = editModel.FirstName,
                                              MiddleNames = editModel.MiddleNames,
@@ -56,7 +55,6 @@ namespace PostaFlya.Controllers
                        {
                            Id = browser.Id,
                            Address = browser.Address != null ? browser.Address.ToViewModel() : null,
-                           AddressPublic = browser.AddressPublic,
                            Handle = browser.FriendlyId.EmptyIfNull(),
                            FirstName = browser.FirstName.EmptyIfNull(),
                            MiddleNames = browser.MiddleNames.EmptyIfNull(),

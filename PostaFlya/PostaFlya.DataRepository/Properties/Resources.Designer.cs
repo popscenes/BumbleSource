@@ -63,6 +63,23 @@ namespace PostaFlya.DataRepository.Properties {
         /// <summary>
         ///   Looks up a localized string similar to ;WITH sorted AS 
         ///( 
+        ///    SELECT  Id, FriendlyId, CreateDate, ROW_NUMBER() OVER
+        ///                        (ORDER BY {0}) AS RN 
+        ///    FROM    FlierSearchRecord 
+        ///) 
+        ///SELECT top (@take) * 
+        ///FROM sorted 
+        ///WHERE RN &gt; (@skip).
+        /// </summary>
+        internal static string SqlAllOrderedBy {
+            get {
+                return ResourceManager.GetString("SqlAllOrderedBy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ;WITH sorted AS 
+        ///( 
         ///	SELECT  bfr.*, 
         ///			ROW_NUMBER() OVER
         ///					 (ORDER BY {0}) AS RN 
@@ -83,7 +100,7 @@ namespace PostaFlya.DataRepository.Properties {
         /// <summary>
         ///   Looks up a localized string similar to ;WITH sorted AS 
         ///( 
-        ///	SELECT  Location.STDistance(@loc) as meters, fr.*, 
+        ///	SELECT  Location.STDistance(@loc) as Metres, fr.*, 
         ///			ROW_NUMBER() OVER
         ///					 (ORDER BY {0}) AS RN 
         ///	FROM    FlierSearchRecord fr
@@ -106,7 +123,7 @@ namespace PostaFlya.DataRepository.Properties {
         /// <summary>
         ///   Looks up a localized string similar to ;WITH sorted AS 
         ///            ( 
-        ///                SELECT  Location.STDistance(@loc) as meters, *, 
+        ///                SELECT  Location.STDistance(@loc) as Metres, *, 
         ///                        ROW_NUMBER() OVER
         ///                                 (ORDER BY {0}) AS RN 
         ///                FROM    FlierSearchRecord 

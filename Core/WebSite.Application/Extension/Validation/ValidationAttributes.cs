@@ -6,70 +6,17 @@ using System.Text.RegularExpressions;
 using System.Web.Mvc;
 using DataAnnotationsExtensions;
 using Website.Application.Properties;
+using UrlAttribute = System.ComponentModel.DataAnnotations.UrlAttribute;
 
 namespace Website.Application.Extension.Validation
 {
-    //These are in part to enable easier localization in the future without
-    //massive attributes all over properties, however also
-    //for custom attributes
-//    public static class ErrorStrings
-//    {
-//        //TODO use localised string resource
-//        public static string StringTooLarge
-//        {
-//            get { return "{0} is too long."; }
-//        }
-//
-//        public static string Required
-//        {
-//            get { return "{0} is required."; }
-//        }
-//
-//        public static string InvalidEmailAddress
-//        {
-//            get { return "{0} is not a valid email address."; }
-//        }
-//
-//        public static string InvalidCharacters
-//        {
-//            get { return "{0} can contain only letters, digits and underscores"; }
-//        }
-//
-//        public static string InvalidGuid
-//        {
-//            get { return "{0} is an invalid id"; } 
-//        }
-//
-//        public static string InvalidCount
-//        {
-//            get { return "{0} has an invalid number of elements"; } 
-//        }
-//    }
-
-    public class EmailAddressWithMessage : EmailAttribute//can prolly replace WHEN .NET4.5
-    {
-        public EmailAddressWithMessage()
-        {
-            ErrorMessageResourceType = typeof(Resources);
-            ErrorMessageResourceName = "InvalidEmailAddress";
-        }
-    }
-
+ 
     public class StringLengthWithMessage : StringLengthAttribute
     {
         public StringLengthWithMessage(int maximumLength) : base(maximumLength)
         {
             ErrorMessageResourceType = typeof(Resources);
             ErrorMessageResourceName = "StringTooLarge";
-        }
-    }
-
-    public class RequiredWithMessage : RequiredAttribute
-    {
-        public RequiredWithMessage()
-        {
-            ErrorMessageResourceType = typeof(Resources);
-            ErrorMessageResourceName = "Required";
         }
     }
 

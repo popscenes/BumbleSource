@@ -266,7 +266,10 @@
     <Compile Include="Schedule\Command\JobCommand.cs" />
     <Compile Include="Schedule\RepeatJob.cs" />
     <Compile Include="Schedule\Scheduler.cs" />
+    <Compile Include="Schedule\AbsoluteRepeatJob.cs" />
     <Compile Include="Schedule\TimeServiceInterface.cs" />
+    <Compile Include="SiteMap\SiteMapIndexBuilder.cs" />
+    <Compile Include="Util\TempFileStorageInterface.cs" />
     <Compile Include="Util\WebRequestUtil.cs" />
     <Compile Include="WebsiteInformation\CachedWebsiteInfoService.cs" />
     <Compile Include="WebsiteInformation\WebsiteInfo.cs" />
@@ -311,6 +314,7 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

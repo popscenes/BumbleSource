@@ -33,6 +33,10 @@ namespace Website.Application.Azure.Binding
             permissions.PublicAccess = BlobContainerPublicAccessType.Container;
             imageContainer.SetPermissions(permissions);
 
+            var appStorageContainer = _cloudBlobClient.GetContainerReference("applicationstorage");
+            appStorageContainer.CreateIfNotExists();
+
+
 //            iocContainer.Get<AzureTableContext>("broadcastCommunicators").InitFirstTimeUse();
 //            iocContainer.Get<AzureTableContext>("websiteinfo").InitFirstTimeUse();
 

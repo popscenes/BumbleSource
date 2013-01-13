@@ -33,7 +33,7 @@ namespace Website.Application.Schedule.Command
                 return true;
             job.LastRun = _timeService.GetCurrentTime();
             job.InProgress = true;
-            job.CalculateNextRun(_timeService);
+            job.CalculateNextRunFromNow(_timeService);
             var uow = _unitOfWorkFactory.GetUnitOfWork(new[] { _genericRepository });
             using (uow)
             {

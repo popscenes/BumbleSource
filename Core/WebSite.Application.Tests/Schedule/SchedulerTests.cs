@@ -1,4 +1,6 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
+using System.Globalization;
 using System.Threading;
 using Moq;
 using NUnit.Framework;
@@ -28,9 +30,13 @@ namespace Website.Application.Tests.Schedule
 
             var store = RepoCoreUtil.GetMockStore<JobInterface>();
 
-            RepoCoreUtil.SetupRepo<GenericRepositoryInterface, RepeatJob, RepeatJobInterface, JobInterface>(store, Kernel, RepeatJobInterfaceExtensions.CopyFieldsFrom);
             RepoCoreUtil.SetupRepo<GenericRepositoryInterface, JobBase, JobInterface, JobInterface>(store, Kernel, JobInterfaceExtensions.CopyFieldsFrom);
+
+            RepoCoreUtil.SetupRepo<GenericRepositoryInterface, RepeatJob, RepeatJobInterface, JobInterface>(store, Kernel, RepeatJobInterfaceExtensions.CopyFieldsFrom);
             RepoCoreUtil.SetupQueryService<GenericQueryServiceInterface, RepeatJob, RepeatJobInterface, JobInterface>(store, Kernel, RepeatJobInterfaceExtensions.CopyFieldsFrom);
+
+            RepoCoreUtil.SetupRepo<GenericRepositoryInterface, AbsoluteRepeatJob, AbsoluteRepeatJobInterface, JobInterface>(store, Kernel, AbsoluteRepeatJobInterfaceExtensions.CopyFieldsFrom);
+            RepoCoreUtil.SetupQueryService<GenericQueryServiceInterface, AbsoluteRepeatJob, AbsoluteRepeatJobInterface, JobInterface>(store, Kernel, AbsoluteRepeatJobInterfaceExtensions.CopyFieldsFrom);
         }
 
         [TestFixtureTearDown]
@@ -76,7 +82,7 @@ namespace Website.Application.Tests.Schedule
 
             Kernel.Bind<TestJobAction>()
                   .ToMethod(context => 
-                      new TestJobAction(commandCount++, cancellationTokenSource))
+                      new TestJobAction(commandCount++, cancellationTokenSource, null, 2))
                   .InTransientScope();
 
             var sub = Kernel.Get<Scheduler>();
@@ -97,21 +103,109 @@ namespace Website.Application.Tests.Schedule
             Kernel.Unbind<CommandHandlerInterface<JobCommand>>();
         }
 
+        [Test]
+        public void AbsoluteRepeatJobRepeatsAtDailyIntervalTest()
+        {
+            var currentTime = new DateTimeOffset(2013, 8, 11, 11, 1, 0, new TimeSpan());
+
+            Kernel.Unbind<TimeServiceInterface>();
+            var timeService = Kernel.GetMock<TimeServiceInterface>();
+            timeService.Setup(service => service.GetCurrentTime()).Returns(
+                () => 
+                    currentTime);
+            Kernel.Rebind<TimeServiceInterface>().ToConstant(timeService.Object);
+
+            var job = new AbsoluteRepeatJob()
+            {
+                Id = "Every Day At 11am",
+                FriendlyId = "Every Day At 11am",
+                JobActionClass = typeof(TestJobAction),
+                DayOfWeek = AbsoluteRepeatJob.All,
+                HourOfDay = "11"
+            };
+
+            var ts = Kernel.Get<TimeServiceInterface>();
+            job.CalculateNextRunFromNow(ts);
+            Assert.That(job.NextRun, Is.EqualTo(new DateTimeOffset(2013, 8, 12, 11, 0, 0, new TimeSpan())));
+
+            currentTime = currentTime.AddDays(1);
+            job.CalculateNextRunFromNow(ts);
+            Assert.That(job.NextRun, Is.EqualTo(new DateTimeOffset(2013, 8, 13, 11, 0, 0, new TimeSpan())));
+
+            currentTime = currentTime.AddMinutes(-10);
+            job.CalculateNextRunFromNow(ts);
+            Assert.That(job.NextRun, Is.EqualTo(new DateTimeOffset(2013, 8, 12, 11, 0, 0, new TimeSpan())));
+
+            Kernel.Unbind<CommandHandlerInterface<JobCommand>>();
+            Kernel.Rebind<TimeServiceInterface>().To<DefaultTimeService>();
+        }
+
+        [Test] public void AbsoluteRepeatJobRepeatsAtHourlyIntervalMondayWednesdayTest()
+        {
+            var currentTime = new DateTimeOffset(2013, 8, 11, 11, 1, 0, new TimeSpan());
+
+            Kernel.Unbind<TimeServiceInterface>();
+            var timeService = Kernel.GetMock<TimeServiceInterface>();
+            timeService.Setup(service => service.GetCurrentTime()).Returns(
+                () => 
+                    currentTime);
+            Kernel.Rebind<TimeServiceInterface>().ToConstant(timeService.Object);
+
+            var job = new AbsoluteRepeatJob()
+            {
+                Id = "Every Hour Monday and Wednesday",
+                FriendlyId = "Every Hour Monday and Wednesday",
+                JobActionClass = typeof(TestJobAction),
+                DayOfWeek = AbsoluteRepeatJob.GetDaysOfWeekStringFor(DayOfWeek.Monday, DayOfWeek.Wednesday),
+                HourOfDay = AbsoluteRepeatJob.All,
+                Minute = "0"
+            };
+
+            var ts = Kernel.Get<TimeServiceInterface>();
+
+            for(var expectedHr = 0; expectedHr < 24; expectedHr++)
+            {
+                
+                job.CalculateNextRunFromNow(ts);
+                Assert.That(job.NextRun, Is.EqualTo(new DateTimeOffset(2013, 8, 12, expectedHr, 0, 0, new TimeSpan())));
+                currentTime = job.NextRun.AddMinutes(10);
+            }
+
+            for (var expectedHr = 0; expectedHr < 24; expectedHr++)
+            {
+                job.CalculateNextRunFromNow(ts);
+                Assert.That(job.NextRun, Is.EqualTo(new DateTimeOffset(2013, 8, 14, expectedHr, 0, 0, new TimeSpan())));
+                currentTime = job.NextRun.AddMinutes(10);
+            }
+
+            job.CalculateNextRunFromNow(ts);
+            Assert.That(job.NextRun, Is.EqualTo(new DateTimeOffset(2013, 8, 19, 0, 0, 0, new TimeSpan())));
+
+            Kernel.Unbind<CommandHandlerInterface<JobCommand>>();
+            Kernel.Rebind<TimeServiceInterface>().To<DefaultTimeService>();
+        }
+
         public class TestJobAction : JobActionInterface 
         {
             private readonly int _count;
             private readonly CancellationTokenSource _cancel;
+            private readonly Action _callback;
+            private readonly int _cancelAfter;
 
-            public TestJobAction(int count, CancellationTokenSource cancel)
+            public TestJobAction(int count, CancellationTokenSource cancel, Action callback, int cancelAfter)
             {
                 _count = count;
                 _cancel = cancel;
+                _callback = callback;
+                _cancelAfter = cancelAfter;
             }
 
             public void Run(JobBase job)
             {
-                if(_count > 0)
+                if (_count >= _cancelAfter && _cancelAfter > 0)
                     _cancel.Cancel();
+                if (_callback != null)
+                    _callback();
             }
         }
     }

@@ -45,10 +45,18 @@
     <LocalResources>
       <LocalStorage name="Microsoft.WindowsAzure.Plugins.Caching.FileStore" sizeInMB="8192" cleanOnRoleRecycle="false" />
       <LocalStorage name="DiagnosticStore" cleanOnRoleRecycle="true" sizeInMB="20480" />
+      <LocalStorage name="TempFileStorage" cleanOnRoleRecycle="true" sizeInMB="4096" />
       <!-- remove or change on redeployment-->
     </LocalResources>
-    <Startup priority="-2">
-      <Task commandLine="Microsoft.WindowsAzure.Caching\ClientPerfCountersInstaller.exe install" executionContext="elevated" taskType="simple" />
+    <Startup> <!--priority="-2"-->
+      <Task commandLine="CustomRoleSetup.cmd" executionContext="elevated">
+        <Environment>
+          <Variable name="EMULATED">
+            <RoleInstanceValue xpath="/RoleEnvironment/Deployment/@emulated" />
+          </Variable>
+        </Environment>
+      </Task>
+      <Task commandLine="Microsoft.WindowsAzure.Caching\ClientPerfCountersInstaller.exe install" executionContext="elevated" taskType="simple" /> 
     </Startup>
   </WebRole>
   <!--<WorkerRole name="Website.CommandWorker" vmsize="Small">

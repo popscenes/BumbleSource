@@ -10,7 +10,7 @@ namespace PostaFlya.Models.Comments
     [DataContract]
     public class CreateCommentModel : BrowserIdInterface
     {
-        [RequiredWithMessage]
+        [Required(ErrorMessageResourceName = "Required", ErrorMessageResourceType = typeof(Properties.Resources))]
         [DataMember(IsRequired = true)]
         public EntityTypeEnum CommentEntity { get; set; }
         
@@ -19,11 +19,11 @@ namespace PostaFlya.Models.Comments
         [DataMember]
         public string Comment { get; set; }     
         
-        [RequiredWithMessage]
+        [Required(ErrorMessageResourceName = "Required", ErrorMessageResourceType = typeof(Properties.Resources))]
         [DataMember]
         public string EntityId { get; set; }
         
-        [RequiredWithMessage]
+        [Required(ErrorMessageResourceName = "Required", ErrorMessageResourceType = typeof(Properties.Resources))]
         [DataMember]
         public string BrowserId { get; set; }
     }

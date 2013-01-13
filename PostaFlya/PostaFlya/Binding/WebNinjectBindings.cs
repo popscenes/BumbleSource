@@ -199,7 +199,8 @@ namespace PostaFlya.Binding
                       new PostaFlya.Areas.Default.Binding.DefaultBehaviourWebNinjectBinding(),
                       new PostaFlya.Areas.TaskJob.Binding.TaskJobBehaviourWebNinjectBinding(),
                       new PostaFlya.DataRepository.Binding.TableNameNinjectBinding(),
-                      new ApplicationJobs(),
+                      new Website.Application.Domain.Binding.ApplicationJobs(),
+                      new PostaFlya.Application.Domain.Binding.ApplicationJobs()
                   };
     }
 }

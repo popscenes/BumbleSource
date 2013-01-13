@@ -67,6 +67,14 @@ namespace PostaFlya
                 defaults: new { id = RouteParameter.Optional }
             );
 
+            
+            //sitemap
+            routes.MapRoute(
+                name: "SiteMap",
+                url: "{sitemap}",
+                defaults: new { controller = "SiteMap", action = "Index"},
+                constraints: new { sitemap = @"sitemap[0-9]*\.xml" }
+                );
 
 
             //bulletin route
@@ -80,7 +88,7 @@ namespace PostaFlya
                 name: "BulletinDetail",
                 url: "{id}",
                 defaults: new { controller = "Bulletin", action = "Detail" },
-                constraints: new { id = ".+@[0-9]{2}-[a-zA-Z]{3}-[0-9]{2}" }
+                constraints: new { id = "[-0-9a-zA-Z]+@[0-9]{2}-[a-zA-Z]{3}-[0-9]{2}" }
                 );
 
             //tiny url route
@@ -96,8 +104,10 @@ namespace PostaFlya
                 name: "ProfileView",
                 url: "{name}",
                 defaults: new { controller = "Profile", action = "Get" },
-                constraints: new { name = "[0-9a-zA-Z_]+" }
+                constraints: new { name = @"[-0-9a-zA-Z]+" }
             );
+
+
 
             //default routes
             routes.MapRoute(

@@ -29,6 +29,7 @@ namespace PostaFlya.DataRepository.Search.SearchRecord
             return shards.Select(shard => new  FlierSearchRecord()
                 {
                     Id = flier.Id,
+                    FriendlyId = flier.FriendlyId,
                     BrowserId = flier.BrowserId,
                     PopularityRank = flier.NumberOfComments + flier.NumberOfClaims,
                     NumberOfClaims = flier.NumberOfClaims,
@@ -105,11 +106,17 @@ namespace PostaFlya.DataRepository.Search.SearchRecord
         }
     }
 
+     public class FlierSearchRecordWithDistance : FlierSearchRecord
+     {
+         public double Metres { get; set; }
+     }
+
     [Serializable]
     public class FlierSearchRecord
     {
         [PrimaryKey]
         public String Id { get; set; }
+        public String FriendlyId { get; set; }
         public String BrowserId { get; set; }
         public int PopularityRank { get; set; }
         public int NumberOfClaims { get; set; }

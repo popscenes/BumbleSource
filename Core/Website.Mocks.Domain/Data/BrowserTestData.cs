@@ -20,6 +20,7 @@ namespace Website.Mocks.Domain.Data
             Assert.AreEqual(storedContactDetails.Surname, retrievedContactDetails.Surname);
             Assert.AreEqual(storedContactDetails.Address, retrievedContactDetails.Address);
             Assert.AreEqual(storedContactDetails.EmailAddress, retrievedContactDetails.EmailAddress);
+            Assert.AreEqual(storedContactDetails.WebSite, retrievedContactDetails.WebSite);
                
         }
     }
@@ -37,7 +38,6 @@ namespace Website.Mocks.Domain.Data
             CollectionAssert.AreEquivalent(storedBrowser.Roles, retrievedBrowser.Roles);
             CollectionAssert.AreEquivalent(storedBrowser.ExternalCredentials, retrievedBrowser.ExternalCredentials);
             Assert.AreEqual(storedBrowser.AvatarImageId, retrievedBrowser.AvatarImageId);
-            Assert.AreEqual(storedBrowser.AddressPublic, retrievedBrowser.AddressPublic);
             Assert.AreEqual(storedBrowser.Address, retrievedBrowser.Address);
         }
 

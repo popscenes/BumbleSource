@@ -12,7 +12,8 @@ namespace Website.Application.Domain.Email.VCard
                     FirstName = dets.FirstName,
                     LastName = dets.Surname,
                     Email = dets.EmailAddress,
-                    Phone = dets.PhoneNumber
+                    Phone = dets.PhoneNumber,
+                    HomePage = dets.WebSite
                 };
 
             if (dets.Address != null && dets.Address.HasAddressParts())

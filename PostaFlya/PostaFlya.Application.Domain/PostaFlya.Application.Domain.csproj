@@ -75,6 +75,7 @@
     <Compile Include="Binding\ApplicationDomainNinjectBinding.cs" />
     <Compile Include="Binding\ApplicationDomainRepositoriesNinjectBinding.cs" />
     <Compile Include="Binding\ApplicationDomainServicesNinjectBinding.cs" />
+    <Compile Include="Binding\ApplicationJobs.cs" />
     <Compile Include="Email\Claims\BrowserClaimEmailSubscription.cs" />
     <Compile Include="Email\ICalendar\FlierInterfaceExtensions.cs" />
     <Compile Include="ExternalSource\FacebookFlierImporter.cs" />
@@ -89,6 +90,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="SiteMap\SiteMapXmlGenJobAction.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0">
@@ -144,7 +146,6 @@
   <ItemGroup>
     <Folder Include="Behaviour\TaskJob\Command\" />
     <Folder Include="Behaviour\TaskJob\Query\" />
-    <Folder Include="Claims\" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">

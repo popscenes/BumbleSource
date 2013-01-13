@@ -5,7 +5,7 @@ namespace PostaFlya.Models.Flier
 {
     //public class FlierEditModel : FlierCreateModel
     //{
-    //    [RequiredWithMessage]
+    //    [Required(ErrorMessageResourceName = "Required", ErrorMessageResourceType = typeof(Properties.Resources))]
     //    public string Id { get; set; }
     //}
 }

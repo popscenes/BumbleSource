@@ -88,10 +88,6 @@
     <fieldset>
         <legend>@Html.LabelFor(model => model.Address)</legend>
         <ol>
-            <li>
-                @Html.LabelFor(model => model.AddressPublic)
-                @Html.CheckBoxFor(model => model.AddressPublic)
-            </li>
             <li data-bind="with:locationSelector">
                 @Html.LabelFor(model => model.Address)
                 @Html.HiddenFor(model => model.Address, new { data_bind = "value:currentLocation()" })

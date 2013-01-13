@@ -11,5 +11,6 @@ namespace Website.Domain.Contact
         public string MiddleNames { get; set; }
         public string Surname { get; set; }
         public Location.Location Address { get; set; }
+        public string WebSite { get; set; }
     }
 }

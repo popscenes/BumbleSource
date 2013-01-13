@@ -17,6 +17,7 @@ namespace Website.Domain.Contact
             target.Surname = source.Surname;
             target.Address = source.Address != null ? new Location.Location(source.Address) : null;
             target.PhoneNumber = source.PhoneNumber;
+            target.WebSite = source.WebSite;
         }
     }
 
@@ -28,6 +29,7 @@ namespace Website.Domain.Contact
         string MiddleNames { get; set; }
         string Surname { get; set; }
         Location.Location Address { get; set; }
+        string WebSite { get; set; }
         
     }
 }

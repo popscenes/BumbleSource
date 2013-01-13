@@ -39,7 +39,7 @@ namespace Website.Infrastructure.Domain
         string Id { get; set; }
         string FriendlyId { get; set; }
     }
-
+    
     public static class AggregateInterfaceExtensions
     {
         public static void CopyFieldsFrom(this AggregateInterface target, AggregateInterface source)

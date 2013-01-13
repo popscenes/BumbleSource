@@ -1,17 +1,14 @@
 using System.Diagnostics;
+using Microsoft.Web.Administration;
 using Microsoft.WindowsAzure.ServiceRuntime;
 using PostaFlya.CommandWorker;
+using Website.Azure.Common.Environment;
 
 namespace PostaFlya
 {
     public class WebRole : RoleEntryPoint
     {
-        //if you want to share one web and worker roles for now uncomment = new CommonWorkers();
-//#if !DEBUG
-//        private readonly CommonWorkers _commandWorker = new CommonWorkers();
-//#else
-        private readonly CommonWorkers _commandWorker;// = new CommonWorkers();
-//#endif
+
         public override bool OnStart()
         {
 //            var config = DiagnosticMonitor.GetDefaultInitialConfiguration();
@@ -26,8 +23,6 @@ namespace PostaFlya
             Trace.TraceInformation("Web Role On Start trace info");
 
             var ret =  base.OnStart();
-            if(_commandWorker != null)
-                _commandWorker.Init();
             return ret;
         }
 
@@ -35,21 +30,33 @@ namespace PostaFlya
 
         public WebRole()
         {
-            if (_commandWorker != null)
-                _commandWorker = new CommonWorkers();
         }
 
         public override void Run()
         {
-            base.Run();
-            if (_commandWorker != null)
-                _commandWorker.Run();            
+            if (AzureEnv.IsRunningInProdFabric())
+            {
+                //turn app pool to always on and pre-load enabled
+                using (var serverManager = new ServerManager())
+                {
+                    var mainSite = serverManager.Sites[RoleEnvironment.CurrentRoleInstance.Id + "_Web"];
+                    var mainApplication = mainSite.Applications["/"];
+                    mainApplication["preloadEnabled"] = true;
+
+                    var mainApplicationPool = serverManager.ApplicationPools[mainApplication.ApplicationPoolName];
+                    mainApplicationPool["startMode"] = "AlwaysRunning";
+                    mainApplicationPool.AutoStart = true;
+                    serverManager.CommitChanges();
+                }    
+            }
+
+            
+            base.Run();           
         }
 
         public override void OnStop()
         {
-            if (_commandWorker != null)
-                _commandWorker.Stop();
+  
             base.OnStop();
         }
     }

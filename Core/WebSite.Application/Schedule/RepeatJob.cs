@@ -19,15 +19,10 @@ namespace Website.Application.Schedule
     public class RepeatJob : JobBase, RepeatJobInterface
     {
         public int RepeatSeconds { get; set; }
-        public override void CalculateNextRun(TimeServiceInterface  timeService)
+        public override void CalculateNextRunFromNow(TimeServiceInterface  timeService)
         { 
             var curr = timeService.GetCurrentTime();
-            if (LastRun == default(DateTimeOffset))
-                LastRun = curr;
-
-            NextRun = LastRun + TimeSpan.FromSeconds(RepeatSeconds);
-            if (NextRun < curr)
-                NextRun = curr;
+            NextRun = curr + TimeSpan.FromSeconds(RepeatSeconds);
         }
         public override void CopyState<JobBaseType>(JobBaseType source)
         {

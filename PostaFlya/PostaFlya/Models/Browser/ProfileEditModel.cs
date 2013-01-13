@@ -8,7 +8,7 @@ namespace PostaFlya.Models.Browser
 {
     public class ProfileEditModel
     {  
-        [RequiredWithMessage]
+        [Required(ErrorMessageResourceName = "Required", ErrorMessageResourceType = typeof(Properties.Resources))]
         public string Id { get; set; }   
         
         [Display(Name = "Handle", ResourceType = typeof(Properties.Resources))]
@@ -35,14 +35,14 @@ namespace PostaFlya.Models.Browser
 
         [Display(Name = "EmailAddress", ResourceType = typeof(Properties.Resources))] 
         [StringLengthWithMessage(100)]
-        [EmailAddressWithMessage]
+        [EmailAddress(ErrorMessageResourceName = "InvalidEmailAddress", ErrorMessageResourceType = typeof(Properties.Resources))]
         public string Email { get; set; }
 
         [ValidLocation]
         public LocationModel Address { get; set; }
 
-        [Display(Name = "AddressPublic", ResourceType = typeof(Properties.Resources))] 
-        public bool AddressPublic { get; set; }
+        [UrlAttribute(ErrorMessageResourceName = "ValidUrl", ErrorMessageResourceType = typeof(Properties.Resources))]
+        public string WebSite { get; set; }
         
         public string AvatarImageId { get; set; } 
     }

@@ -80,8 +80,9 @@ namespace Website.Application.Schedule
                 {
                     dynamic job = Jobs.ElementAt(i);
                     var exist = _genericQueryService.FindById(job.GetType(), job.Id) as JobBase;
-                    if (exist == null)                     
-                        _repository.Store(job);
+                    if (exist != null) continue;
+                    job.CalculateNextRunFromNow(_timeService);
+                    _repository.Store(job);
                 }
             }
 

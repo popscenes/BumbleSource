@@ -127,7 +127,7 @@ namespace PostaFlya.Specification.Browsers
                         "Email",
                         "Address",
                         "Avatar",
-                        "AddressPublic"});
+                        "WebSite"});
             table1.AddRow(new string[] {
                         "User",
                         "FirstName",
@@ -136,7 +136,7 @@ namespace PostaFlya.Specification.Browsers
                         "user@email.com",
                         "-37.769:144.979:waihi avenue",
                         "8F68AE77-0F61-4BFD-92AC-BFCA1CC5B9E2",
-                        "True"});
+                        "http://test.com"});
             testRunner.When("I update my profile details with the following data:", ((string)(null)), table1, "When ");
             testRunner.Then("the profile details will be stored against my browser", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
             this.ScenarioCleanup();

@@ -61,15 +61,6 @@ namespace PostaFlya.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to AddressPublic.
-        /// </summary>
-        public static string AddressPublic {
-            get {
-                return ResourceManager.GetString("AddressPublic", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to AttachContactDetails.
         /// </summary>
         public static string AttachContactDetails {
@@ -423,6 +414,15 @@ namespace PostaFlya.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to {0} is not a valid email address..
+        /// </summary>
+        public static string InvalidEmailAddress {
+            get {
+                return ResourceManager.GetString("InvalidEmailAddress", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Latitude.
         /// </summary>
         public static string Latitude {
@@ -514,6 +514,15 @@ namespace PostaFlya.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to {0} is required..
+        /// </summary>
+        public static string Required {
+            get {
+                return ResourceManager.GetString("Required", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Status.
         /// </summary>
         public static string Status {
@@ -546,6 +555,15 @@ namespace PostaFlya.Properties {
         public static string TagList {
             get {
                 return ResourceManager.GetString("TagList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} is not a valid website address..
+        /// </summary>
+        public static string ValidUrl {
+            get {
+                return ResourceManager.GetString("ValidUrl", resourceCulture);
             }
         }
     }

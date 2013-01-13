@@ -22,14 +22,9 @@ namespace Website.Azure.Common.Environment
             set { _usingRealTableStorage = value; }
         }
 
-        //not using anywhere yet but might as well know how to do it!
         public static bool IsRunningInDevFabric()
         {
-            if (!IsRunningInCloud())
-                return false;
-            // easiest check: try translate deployment ID into guid
-            Guid guidId;
-            return !Guid.TryParse(RoleEnvironment.DeploymentId, out guidId);
+            return IsRunningInCloud() && RoleEnvironment.IsEmulated;
         }
 
         public static bool IsRunningInCloud()

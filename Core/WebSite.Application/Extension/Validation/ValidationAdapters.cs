@@ -1,15 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Web.Mvc;
 
 namespace Website.Application.Extension.Validation
 {
-    public class RequiredWithMessageValidator : DataAnnotationsModelValidator<RequiredWithMessage>
+    public class RequiredValidator : DataAnnotationsModelValidator<RequiredAttribute>
     {
 
-        public RequiredWithMessageValidator(ModelMetadata metaData, ControllerContext context, RequiredWithMessage attribute)
+        public RequiredValidator(ModelMetadata metaData, ControllerContext context, RequiredAttribute attribute)
             : base(metaData, context, attribute)
         {
         }
@@ -75,7 +76,7 @@ namespace Website.Application.Extension.Validation
         public static void Register()
         {
             DataAnnotationsModelValidatorProvider
-                .RegisterAdapter(typeof(RequiredWithMessage), typeof(RequiredWithMessageValidator));
+                .RegisterAdapter(typeof(RequiredAttribute), typeof(RequiredValidator));
             DataAnnotationsModelValidatorProvider
                 .RegisterAdapter(typeof(StringLengthWithMessage), typeof(StringLengthWithMessageValidator));
             DataAnnotationsModelValidatorProvider

@@ -55,7 +55,8 @@ namespace Website.Domain.Browser.Command
                                 browserUpdate.Address = command.Address;
                             if (!string.IsNullOrWhiteSpace(command.AvatarImageId))
                                 browserUpdate.AvatarImageId = command.AvatarImageId;
-                            browserUpdate.AddressPublic = command.AddressPublic;
+                            if (!string.IsNullOrWhiteSpace(command.WebSite))
+                                browserUpdate.WebSite = command.WebSite;
                         });    
             }
             var response = (!unitOfWork.Successful)

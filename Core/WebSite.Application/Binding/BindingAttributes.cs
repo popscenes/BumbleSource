@@ -5,6 +5,8 @@ namespace Website.Application.Binding
 {
     //blob storage contexts
     public class ImageStorageAttribute : Attribute { }
+    public class ApplicationStorageAttribute : Attribute { }
+
     //public class FlierImageStorageAttribute : Attribute { }
 
     //command bus contexts

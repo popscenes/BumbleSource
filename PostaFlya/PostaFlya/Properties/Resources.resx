@@ -117,10 +117,6 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AddressPublic" xml:space="preserve">
-    <value>AddressPublic</value>
-    <comment>ProfileEditModel</comment>
-  </data>
   <data name="BoardCreateEditModel_AllowOthersToPostFliers" xml:space="preserve">
     <value>AllowOthersToPostFliers</value>
     <comment>BoardCreateEditModel</comment>
@@ -324,5 +320,17 @@
   <data name="Credits" xml:space="preserve">
     <value>Flya Credits</value>
     <comment>ProfileEditModel</comment>
+  </data>
+  <data name="InvalidEmailAddress" xml:space="preserve">
+    <value>{0} is not a valid email address.</value>
+    <comment>Validation Attributes</comment>
+  </data>
+  <data name="Required" xml:space="preserve">
+    <value>{0} is required.</value>
+    <comment>Validation Attributes</comment>
+  </data>
+  <data name="ValidUrl" xml:space="preserve">
+    <value>{0} is not a valid website address.</value>
+    <comment>Validation Attributes</comment>
   </data>
 </root>

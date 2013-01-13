@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using System.Web.Mvc;
 using NUnit.Framework;
 using Ninject.MockingKernel.Moq;
@@ -56,8 +57,8 @@ namespace Website.Application.Tests.Extension.Validation
         {
             var contr = new DummyController();
             ControllerContextMock.FakeControllerContext(Kernel, contr);
-            var attribute = new RequiredWithMessage();
-            var subject = new RequiredWithMessageValidator(
+            var attribute = new RequiredAttribute();
+            var subject = new RequiredValidator(
                 ModelMetadata.FromLambdaExpression(m => m.DummyAttribute
                 , new ViewDataDictionary<DummyModel>()), contr.ControllerContext, attribute);
             return subject.GetClientValidationRules().First();

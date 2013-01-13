@@ -11,6 +11,7 @@ using Microsoft.WindowsAzure.Storage.Blob;
 using Microsoft.WindowsAzure.Storage.Shared.Protocol;
 using Website.Application.Content;
 using Website.Infrastructure.Configuration;
+using BlobProperties = Website.Application.Content.BlobProperties;
 
 namespace Website.Application.Azure.Content
 {
@@ -99,14 +100,18 @@ namespace Website.Application.Azure.Content
 
         public bool SetBlob(string id, byte[] bytes, Application.Content.BlobProperties properties = null)
         {
-            Func<bool> setBlob = 
+            var ms = new MemoryStream(bytes);
+            return SetBlobFromStream(id, ms, properties);
+        }
+
+        public bool SetBlobFromStream(string id, Stream stream, BlobProperties properties = null)
+        {
+            Func<bool> setBlob =
                 () =>
                     {
-                        //var blob = _blobContainer.GetBlobReferenceFromServer(id);
                         var blob = _blobContainer.GetBlockBlobReference(id);
                         UpdateFromProperties(blob, properties);
-                        var ms = new MemoryStream(bytes);
-                        blob.UploadFromStream(ms);
+                        blob.UploadFromStream(stream);
                         return true;
                     };
             return RetryQuery(setBlob);

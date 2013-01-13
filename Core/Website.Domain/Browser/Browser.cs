@@ -32,8 +32,8 @@ namespace Website.Domain.Browser
         public string MiddleNames { get; set; }
         public string Surname { get; set; }
         public Location.Location Address { get; set; }
+        public string WebSite { get; set; }
 
-        public bool AddressPublic { get; set; }
         public string AvatarImageId { get; set; }
         public int? Distance { get;set;}
         public Roles Roles { get; set; }
