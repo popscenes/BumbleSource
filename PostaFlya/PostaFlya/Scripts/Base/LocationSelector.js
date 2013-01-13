@@ -32,6 +32,7 @@
             var showMain = !self.showMain();
             self.showMain(showMain);
             $('#' + self.mapElementId()).gmap('refresh');
+            $('#' + self.mapElementId()).gmap('option', 'zoom', 11);
         };
 
         self.currentDistance = ko.observable(self.distanceSelector.currentDistance);
@@ -92,7 +93,7 @@
                             }
                         });
 
-                    bf.SetMapPosition($('#' + self.mapElementId()), position.coords.longitude, position.coords.latitude);
+                    //bf.SetMapPosition($('#' + self.mapElementId()), position.coords.longitude, position.coords.latitude);
                     $('#' + self.mapElementId()).gmap('refresh');
 
                 }

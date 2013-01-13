@@ -32,8 +32,10 @@ ko.bindingHandlers.mapBinding = {
     },
     update: function (element, valueAccessor, allBindingsAccessor, viewModel) {
         var currLoc = valueAccessor();
-        if (currLoc() != null && currLoc() != 'undefined')
+        if (currLoc() != null && currLoc() != 'undefined' && currLoc().Longitude() != -300) {
             bf.SetMapPosition($('#' + viewModel.mapElementId()), currLoc().Longitude(), currLoc().Latitude());
+            bf.setMapCircle($('#' + viewModel.mapElementId()), currLoc().Longitude(), currLoc().Latitude(), ko.utils.unwrapObservable(viewModel.currentDistance()));
+        }
     }
 };
 
