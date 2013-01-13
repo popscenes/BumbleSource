@@ -10,17 +10,17 @@ namespace Website.Infrastructure.Util.Extension
             return source ?? string.Empty;
         }
 
-        public static String ToLowerUnderScore(this string source)
+        public static String ToLowerHiphen(this string source)
         {
             if (source == null)
                 return null;
             var stringBuilder = new StringBuilder();
             foreach (var c in source)
             {
-                if (Char.IsLetterOrDigit(c) || c == '_')
+                if (Char.IsLetterOrDigit(c) || c == '-')
                     stringBuilder.Append(Char.ToLower(c));
                 else if (Char.IsWhiteSpace(c))
-                    stringBuilder.Append('_');
+                    stringBuilder.Append('-');
             }
             return stringBuilder.ToString(); 
         }

@@ -11,7 +11,7 @@ namespace PostaFlya.Domain.Boards.Query
         public static string FindFreeFriendlyId(this GenericQueryServiceInterface queryService, BoardInterface targetBoard)
         {
             var name = targetBoard.FriendlyId;
-            var tryName = name.ToLowerUnderScore();
+            var tryName = name.ToLowerHiphen();
             var tryNameBase = tryName;
 
             Board boardFind = null;
@@ -26,7 +26,7 @@ namespace PostaFlya.Domain.Boards.Query
                         locInfo = targetBoard.Location.PostCode;
                     if (!string.IsNullOrWhiteSpace(locInfo))
                     {
-                        tryNameBase = locInfo + "_" + tryNameBase;
+                        tryNameBase = locInfo + "-" + tryNameBase;
                         tryName = tryNameBase;
                     }
                 }
@@ -39,7 +39,7 @@ namespace PostaFlya.Domain.Boards.Query
             while ((boardFind = queryService.FindByFriendlyId<Board>(tryName)) != null
                 && boardFind.Id != targetBoard.Id)
             {
-                tryName = (counter++) + "_" + tryNameBase;
+                tryName = (counter++) + "-" + tryNameBase;
             }
             return tryName;            
         }

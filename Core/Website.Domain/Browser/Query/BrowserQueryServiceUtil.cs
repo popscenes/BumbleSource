@@ -9,7 +9,7 @@ namespace Website.Domain.Browser.Query
     {
         public static string FindFreeHandleForBrowser(this GenericQueryServiceInterface queryService, string handle, string id)
         {
-            var tryHandle = handle.ToLowerUnderScore();
+            var tryHandle = handle.ToLowerHiphen();
             var tryHandleBase = tryHandle;
 
             int counter = 0;

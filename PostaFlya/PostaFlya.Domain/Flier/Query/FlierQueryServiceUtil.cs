@@ -16,7 +16,7 @@ namespace PostaFlya.Domain.Flier.Query
             const string pattern = "@dd-MMM-yy";
 
             var title = targetFlier.Title;
-            var tryTitleBase = title.ToLowerUnderScore() + targetFlier.EffectiveDate.ToString(pattern);
+            var tryTitleBase = title.ToLowerHiphen() + targetFlier.EffectiveDate.ToString(pattern);
             var tryTitle = tryTitleBase;
 
             Flier flierFind = null;
@@ -26,12 +26,12 @@ namespace PostaFlya.Domain.Flier.Query
             {
                 if (targetFlier.Location.HasAddressParts())
                 {
-                    var locInfo = targetFlier.Location.Locality.ToLowerUnderScore();
+                    var locInfo = targetFlier.Location.Locality.ToLowerHiphen();
                     if (string.IsNullOrWhiteSpace(locInfo))
                         locInfo = targetFlier.Location.PostCode;
                     if (!string.IsNullOrWhiteSpace(locInfo))
                     {
-                        tryTitleBase = locInfo + "_" + tryTitleBase;
+                        tryTitleBase = locInfo + "-" + tryTitleBase;
                         tryTitle = tryTitleBase;                        
                     }
                 }
@@ -44,7 +44,7 @@ namespace PostaFlya.Domain.Flier.Query
             while ((flierFind = queryService.FindByFriendlyId<Flier>(tryTitle)) != null
                 && flierFind.Id != targetFlier.Id)
             {
-                tryTitle = (counter++) + "_" + tryTitleBase;
+                tryTitle = (counter++) + "-" + tryTitleBase;
             }
             return tryTitle;
         }
