@@ -142,16 +142,12 @@ namespace PostaFlya.Mocks.Domain.Data
             //payment transaction
             RepoUtil.SetupRepo<GenericRepositoryInterface, CreditTransaction, CreditTransactionInterface>(creditTransactionStore, kernel, CreditTransactionInterfaceExtensions.CopyFieldsFrom);
 
-            RepoUtil.SetupQueryService<QueryServiceForBrowserAggregateInterface, CreditTransaction, CreditTransactionInterface>(creditTransactionStore, kernel,
+            RepoUtil.SetupQueryService<GenericQueryServiceInterface, CreditTransaction, CreditTransactionInterface>(creditTransactionStore, kernel,
                 CreditTransactionInterfaceExtensions.CopyFieldsFrom);
             RepoUtil.FindAggregateEntities<QueryServiceForBrowserAggregateInterface, CreditTransaction, CreditTransactionInterface>(creditTransactionStore, kernel,
                                                                                                   CreditTransactionInterfaceExtensions
                                                                                                       .CopyFieldsFrom);
 
-            RepoUtil.SetupQueryByBrowser<QueryServiceForBrowserAggregateInterface, CreditTransaction, CreditTransactionInterface>(flierQueryService, creditTransactionStore,
-                                                                                              kernel,
-                                                                                              CreditTransactionInterfaceExtensions.
-                                                                                                  CopyFieldsFrom);
 
             //query by location
             var locationService = kernel.Get<LocationServiceInterface>();

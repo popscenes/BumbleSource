@@ -38,7 +38,8 @@ namespace PostaFlya.Controllers
                                              MiddleNames = editModel.MiddleNames,
                                              Surname = editModel.Surname,
                                              EmailAddress = editModel.Email,
-                                             AvatarImageId = editModel.AvatarImageId
+                                             AvatarImageId = editModel.AvatarImageId,
+                                             WebSite = editModel.WebSite
                                          };
 
             if (editModel.Address != null)
@@ -61,7 +62,8 @@ namespace PostaFlya.Controllers
                            Surname = browser.Surname.EmptyIfNull(),
                            Email = browser.EmailAddress.EmptyIfNull(),
                            AvatarImageId = browser.AvatarImageId.EmptyIfNull(),
-                           Credits = browser.AccountCredit
+                           Credits = browser.AccountCredit,
+                           WebSite = browser.WebSite
                        };
         }
     }

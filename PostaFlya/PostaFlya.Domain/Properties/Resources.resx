@@ -132,4 +132,10 @@
   <data name="LeadGenerationFeatureChargeBehaviour_CurrentStateMessage_Flier_LeadGenerationStatus" xml:space="preserve">
     <value>It will cost 500 credits to retrieve contact details for people that wish for you to contact them</value>
   </data>
+  <data name="AnalyticsFeatureChargeBehaviour_GetAnalyticsFeatureChargeBehaviour" xml:space="preserve">
+    <value>Gather Flier Analytics Feature</value>
+  </data>
+  <data name="AnalyticsFeatureChargeBehaviour_EnableOrDisableFeaturesBasedOnState_Not_Paid" xml:space="preserve">
+    <value>Analytics selected but not paid for</value>
+  </data>
 </root>

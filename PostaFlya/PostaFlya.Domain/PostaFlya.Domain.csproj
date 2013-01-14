@@ -93,6 +93,8 @@
     <Compile Include="Boards\Query\BoardQueryServiceUtil.cs" />
     <Compile Include="Flier\Event\FlierModifiedEvent.cs" />
     <Compile Include="Flier\FlierImage.cs" />
+    <Compile Include="Flier\Payment\AnalyticsFeatureChargeBehaviour.cs" />
+    <Compile Include="Flier\Payment\FlierChargeBehaviourBase.cs" />
     <Compile Include="Flier\Payment\LeadGenerationFeatureChargeBehaviour.cs" />
     <Compile Include="Flier\Payment\PostRadiusFeatureChargeBehaviour.cs" />
     <Compile Include="Flier\Query\FlierQueryServiceUtil.cs" />

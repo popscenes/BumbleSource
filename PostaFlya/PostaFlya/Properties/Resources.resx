@@ -333,4 +333,7 @@
     <value>{0} is not a valid website address.</value>
     <comment>Validation Attributes</comment>
   </data>
+  <data name="FlierCreateModel_EnableAnalytics_EnableAnalytics" xml:space="preserve">
+    <value>Enable Analytics for flier</value>
+  </data>
 </root>

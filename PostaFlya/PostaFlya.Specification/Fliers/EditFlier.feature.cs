@@ -101,37 +101,6 @@ namespace PostaFlya.Specification.Fliers
             testRunner.And("the FLIER STATUS will be ACTIVE", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
             this.ScenarioCleanup();
         }
-        
-        [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("Edit Flier Add USER CONTACT")]
-        public virtual void EditFlierAddUSERCONTACT()
-        {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Edit Flier Add USER CONTACT", ((string[])(null)));
-            this.ScenarioSetup(scenarioInfo);
-            testRunner.Given("I have created a FLIER", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-            testRunner.And("I have 1000 Account Credits", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-            testRunner.When("I navigate to the edit page for that FLIER and add USER CONTACT to a FLIER", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-            testRunner.Then("the FLIER will be updated to reflect those changes", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-            testRunner.And("the FLIER STATUS will be ACTIVE", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-            testRunner.And("the FLIER will contain a FEATURE described as \"People can send their contact deta" +
-                    "ils to you\" with a cost of 500 credits", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-            this.ScenarioCleanup();
-        }
-        
-        [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("Edit Flier Remove USER CONTACT")]
-        public virtual void EditFlierRemoveUSERCONTACT()
-        {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Edit Flier Remove USER CONTACT", ((string[])(null)));
-            this.ScenarioSetup(scenarioInfo);
-            testRunner.Given("I have created a FLIER with USER CONTACT", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-            testRunner.When("I navigate to the edit page for that FLIER and remove USER CONTACT to a FLIER", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-            testRunner.Then("the FLIER will be updated to reflect those changes", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-            testRunner.And("the FLIER STATUS will be ACTIVE", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-            testRunner.And("the FLIER will not contain a FEATURE described as \"People can send their contact " +
-                    "details to you\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-            this.ScenarioCleanup();
-        }
     }
 }
 #pragma warning restore

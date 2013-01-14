@@ -61,6 +61,24 @@ namespace PostaFlya.Domain.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Analytics selected but not paid for.
+        /// </summary>
+        internal static string AnalyticsFeatureChargeBehaviour_EnableOrDisableFeaturesBasedOnState_Not_Paid {
+            get {
+                return ResourceManager.GetString("AnalyticsFeatureChargeBehaviour_EnableOrDisableFeaturesBasedOnState_Not_Paid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Gather Flier Analytics Feature.
+        /// </summary>
+        internal static string AnalyticsFeatureChargeBehaviour_GetAnalyticsFeatureChargeBehaviour {
+            get {
+                return ResourceManager.GetString("AnalyticsFeatureChargeBehaviour_GetAnalyticsFeatureChargeBehaviour", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to It will cost 500 credits to retrieve contact details for people that wish for you to contact them.
         /// </summary>
         internal static string LeadGenerationFeatureChargeBehaviour_CurrentStateMessage_Flier_LeadGenerationStatus {

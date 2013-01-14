@@ -57,7 +57,7 @@ namespace Website.Application.Tests.Extension.Validation
         {
             var contr = new DummyController();
             ControllerContextMock.FakeControllerContext(Kernel, contr);
-            var attribute = new RequiredAttribute();
+            var attribute = new RequiredAttribute {ErrorMessage = "{0} is required."};
             var subject = new RequiredValidator(
                 ModelMetadata.FromLambdaExpression(m => m.DummyAttribute
                 , new ViewDataDictionary<DummyModel>()), contr.ControllerContext, attribute);

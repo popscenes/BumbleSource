@@ -68,6 +68,7 @@ namespace PostaFlya.Domain.Flier
         public HashSet<EntityFeatureCharge> Features { get; set; }
         public bool HasLeadGeneration { get; set; }
         public int LocationRadius { get; set; }
+        public bool EnableAnalytics { get; set; }
         public string TinyUrl { get; set; }
     }
 }

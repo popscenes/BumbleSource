@@ -55,7 +55,7 @@ namespace Website.Application.Tests.Schedule
                 FriendlyId = "Every 2 Seconds",
                 JobActionClass = typeof(TestJobAction),
                 RepeatSeconds = 2,
-                InProgress = true
+                InProgress = false
             };
             repo.Store(job);
             var qs = Kernel.Get<GenericQueryServiceInterface>();
@@ -63,10 +63,9 @@ namespace Website.Application.Tests.Schedule
 
             var jobret = qs.FindById<RepeatJob>(job.Id);
             Assert.IsNotNull(jobret);
-            Assert.That(jobret.InProgress, Is.True);
 
             var commmandHandler = Kernel.Get<JobCommandHandler>();
-            commmandHandler.Handle(new JobCommand() {JobId = job.Id});
+            commmandHandler.Handle(new JobCommand() {JobId = job.Id, JobType = typeof(RepeatJob)});
 
             jobret = qs.FindById<RepeatJob>(job.Id);
             Assert.IsNotNull(jobret);
@@ -100,7 +99,6 @@ namespace Website.Application.Tests.Schedule
             sub.Run(cancellationTokenSource);
             Assert.That( watch.ElapsedMilliseconds, Is.GreaterThanOrEqualTo(1000));
 
-            Kernel.Unbind<CommandHandlerInterface<JobCommand>>();
         }
 
         [Test]
@@ -136,7 +134,6 @@ namespace Website.Application.Tests.Schedule
             job.CalculateNextRunFromNow(ts);
             Assert.That(job.NextRun, Is.EqualTo(new DateTimeOffset(2013, 8, 12, 11, 0, 0, new TimeSpan())));
 
-            Kernel.Unbind<CommandHandlerInterface<JobCommand>>();
             Kernel.Rebind<TimeServiceInterface>().To<DefaultTimeService>();
         }
 
@@ -181,7 +178,6 @@ namespace Website.Application.Tests.Schedule
             job.CalculateNextRunFromNow(ts);
             Assert.That(job.NextRun, Is.EqualTo(new DateTimeOffset(2013, 8, 19, 0, 0, 0, new TimeSpan())));
 
-            Kernel.Unbind<CommandHandlerInterface<JobCommand>>();
             Kernel.Rebind<TimeServiceInterface>().To<DefaultTimeService>();
         }
 
@@ -202,6 +198,7 @@ namespace Website.Application.Tests.Schedule
 
             public void Run(JobBase job)
             {
+                Assert.IsTrue(job.InProgress);
                 if (_count >= _cancelAfter && _cancelAfter > 0)
                     _cancel.Cancel();
                 if (_callback != null)

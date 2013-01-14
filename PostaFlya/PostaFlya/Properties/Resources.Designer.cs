@@ -295,6 +295,15 @@ namespace PostaFlya.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Enable Analytics for flier.
+        /// </summary>
+        public static string FlierCreateModel_EnableAnalytics_EnableAnalytics {
+            get {
+                return ResourceManager.GetString("FlierCreateModel_EnableAnalytics_EnableAnalytics", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to PostLocationRadius.
         /// </summary>
         public static string FlierCreateModel_PostRadius {

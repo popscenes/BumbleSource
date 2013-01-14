@@ -60,6 +60,7 @@ namespace PostaFlya.Domain.Flier.Command
                                    UseBrowserContactDetails = command.AttachTearOffs,//todo add ability to specify other contact details
                                    LocationRadius = command.ExtendPostRadius,
                                    HasLeadGeneration = command.AllowUserContact,
+                                   EnableAnalytics = command.EnableAnalytics,
                                    Status = FlierStatus.Pending
                                };
 
@@ -105,6 +106,9 @@ namespace PostaFlya.Domain.Flier.Command
             if (newFlier.HasLeadGeneration)
                 features.Add(LeadGenerationFeatureChargeBehaviour.GetLeadGenerationFeatureCharge());
             
+            if(newFlier.EnableAnalytics)
+                features.Add(AnalyticsFeatureChargeBehaviour.GetAnalyticsFeatureChargeBehaviour());
+
             return features;
         }
         

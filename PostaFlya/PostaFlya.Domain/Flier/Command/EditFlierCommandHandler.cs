@@ -41,7 +41,6 @@ namespace PostaFlya.Domain.Flier.Command
 
             List<BoardFlierModifiedEvent> boardFliers = null;
             UnitOfWorkInterface unitOfWork;
-            var features = (EditFlierCommand.GetPaymentFeatures(command, command.BrowserId));
 
             using (unitOfWork = _unitOfWorkFactory.GetUnitOfWork(new[] { _repository }))
             {
@@ -61,6 +60,7 @@ namespace PostaFlya.Domain.Flier.Command
                             flier.UseBrowserContactDetails = command.AttachTearOffs;//todo add ability to specify other contact details
                             flier.LocationRadius = command.ExtendPostRadius;
                             flier.HasLeadGeneration = command.AllowUserContact;
+                            flier.EnableAnalytics = command.EnableAnalytics;
                             flier.Status = FlierStatus.Pending;
                             flier.Features = CreateFlierCommandHandler.GetPaymentFeatures(flier);
                             flier.MergeUpdateFeatureCharges(flierQuery.Features); 

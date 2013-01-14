@@ -605,14 +605,21 @@ namespace PostaFlya.Specification.Fliers
             Assert.IsNotNullOrEmpty(flier.TinyUrl);
         }
 
-        [Then(@"A CREDIT TRANSACTION of type createFlier will be created")]
-        public void ThenACREDITTRANSACTIONOfTypeCreateFlierWillBeCreated()
+        [Then(@"A CREDIT TRANSACTION for (.*) with description (.*) will be created")]
+        public void ThenAcredittransactionOfDescriptionWillBeCreated(int credits, string description)
         {
             var creditTransactionsQueryService = SpecUtil.CurrIocKernel.Get<GenericQueryServiceInterface>();
             var browserInformation = SpecUtil.GetCurrBrowser();
             var transactions = creditTransactionsQueryService.FindAggregateEntities<CreditTransaction>(browserInformation.Browser.Id);
-            Assert.IsTrue(transactions.First().CreditTransactionType == "Posting a flier to an area");
-            Assert.IsTrue(transactions.First().Credits == 80);
+            Assert.IsTrue(transactions.Any(transaction => transaction.CreditTransactionType == description
+                                                          && transaction.Credits == credits));
+        }
+
+        [Given(@"I choose to enable Analytics")]
+        public void GivenIChooseToEnableAnalytics()
+        {
+            var createFlierModel = ScenarioContext.Current["createflya"] as FlierCreateModel;
+            createFlierModel.EnableAnalytics = true;
         }
 
         

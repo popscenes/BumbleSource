@@ -10,15 +10,18 @@ namespace Website.Domain.Payment
         {
             target.Credits = source.Credits;
             target.CreditTransactionType = source.CreditTransactionType;
+            target.EntityIdForCharge = source.EntityIdForCharge;
+            target.EntityTypeTagForCharge = source.EntityTypeTagForCharge;
             EntityIdInterfaceExtensions.CopyFieldsFrom(target, source);
             AggregateInterfaceExtensions.CopyFieldsFrom(target, source);
-            BrowserIdInterfaceExtensions.CopyFieldsFrom(target, source);
         }
     }
-    public interface CreditTransactionInterface : EntityInterface, AggregateInterface, BrowserIdInterface
+    public interface CreditTransactionInterface : EntityInterface, AggregateInterface
     {
         String CreditTransactionType { get; set; }
         decimal Credits { get; set; }
+        string EntityIdForCharge { get; set; }
+        string EntityTypeTagForCharge { get; set; }
     }
     public class CreditTransaction : CreditTransactionInterface
     {
@@ -35,7 +38,7 @@ namespace Website.Domain.Payment
 
         public String CreditTransactionType { get; set; }
         public decimal Credits { get; set; }
-
-        public string BrowserId { get; set; }
+        public string EntityIdForCharge { get; set; }
+        public string EntityTypeTagForCharge { get; set; }
     }
 }

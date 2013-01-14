@@ -56,6 +56,7 @@ namespace PostaFlya.Domain.Flier
             target.Boards = source.Boards != null ? new HashSet<string>(source.Boards) : null;
             target.HasLeadGeneration = source.HasLeadGeneration;
             target.LocationRadius = source.LocationRadius;
+            target.EnableAnalytics = source.EnableAnalytics;
         }        
 
         public static bool HasContactDetails(this FlierInterface flier)
@@ -101,5 +102,7 @@ namespace PostaFlya.Domain.Flier
         HashSet<string> Boards { get; set; }
         bool HasLeadGeneration { get; set; }
         int LocationRadius { get; set; }
+        bool EnableAnalytics { get; set; }
+        
     }
 }

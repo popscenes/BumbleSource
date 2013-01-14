@@ -67,7 +67,7 @@ namespace Website.Application.Schedule
 
         private bool IsMinuteOk(DateTimeOffset current)
         {
-            if (Minute.Equals(All))
+            if (Minute != null && Minute.Equals(All))
                 return true;
 
             var min = Minute != null  ? Int32.Parse(Minute) : 0;
@@ -76,7 +76,7 @@ namespace Website.Application.Schedule
 
         private bool IsHourOk(DateTimeOffset current)
         {
-            if (HourOfDay.Equals(All))
+            if (HourOfDay != null && HourOfDay.Equals(All))
                 return true;
             var hour = HourOfDay != null ? Int32.Parse(HourOfDay) : 0;
             return current.Hour == hour;

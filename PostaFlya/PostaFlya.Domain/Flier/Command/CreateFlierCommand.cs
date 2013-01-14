@@ -25,6 +25,6 @@ namespace PostaFlya.Domain.Flier.Command
         public bool AllowUserContact { get; set; }
         public bool AttachTearOffs { get; set; }
         public int ExtendPostRadius { get; set; }
-
+        public bool EnableAnalytics { get; set; }
     }
 }

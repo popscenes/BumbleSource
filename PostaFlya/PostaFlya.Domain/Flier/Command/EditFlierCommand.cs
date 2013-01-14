@@ -22,21 +22,7 @@ namespace PostaFlya.Domain.Flier.Command
         public bool AllowUserContact { get; set; }
         public bool AttachTearOffs { get; set; }
         public int ExtendPostRadius { get; set; }
+        public bool EnableAnalytics { get; set; }
 
-        public static HashSet<EntityFeatureCharge> GetPaymentFeatures(EditFlierCommand editCommand, string browserId)
-        {
-            var featureList = new HashSet<EntityFeatureCharge>();
-//            if (editCommand.AttachTearOffs)
-//            {
-//                featureList.Add(new SimpleEntityFeatureCharge() { FeatureType = FeatureType.PostAreaCharge, Cost = 80, BrowserId = browserId });
-//            }
-//
-//            if (editCommand.AllowUserContact)
-//            {
-//                featureList.Add(new SimpleEntityFeatureCharge() { FeatureType = FeatureType.UserContact, Cost = 500, BrowserId = browserId });
-//            }
-
-            return featureList;
-        }
     }
 }

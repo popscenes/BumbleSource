@@ -21,17 +21,18 @@ When I navigate to the edit page for that FLIER and remove TEAR OFF to a FLIER
 Then the FLIER will be updated to reflect those changes
 And the FLIER STATUS will be ACTIVE
 
-Scenario: Edit Flier Add USER CONTACT
-Given I have created a FLIER 
-And I have 1000 Account Credits
-When I navigate to the edit page for that FLIER and add USER CONTACT to a FLIER 
-Then the FLIER will be updated to reflect those changes
-And the FLIER STATUS will be ACTIVE
-And the FLIER will contain a FEATURE described as "People can send their contact details to you" with a cost of 500 credits
+### removed for now
+#Scenario: Edit Flier Add USER CONTACT
+#Given I have created a FLIER 
+#And I have 1000 Account Credits
+#When I navigate to the edit page for that FLIER and add USER CONTACT to a FLIER 
+#Then the FLIER will be updated to reflect those changes
+#And the FLIER STATUS will be ACTIVE
+#And the FLIER will contain a FEATURE described as "People can send their contact details to you" with a cost of 500 credits
 
-Scenario: Edit Flier Remove USER CONTACT
-Given I have created a FLIER with USER CONTACT
-When I navigate to the edit page for that FLIER and remove USER CONTACT to a FLIER 
-Then the FLIER will be updated to reflect those changes
-And the FLIER STATUS will be ACTIVE
-And the FLIER will not contain a FEATURE described as "People can send their contact details to you"
+#Scenario: Edit Flier Remove USER CONTACT
+#Given I have created a FLIER with USER CONTACT
+#When I navigate to the edit page for that FLIER and remove USER CONTACT to a FLIER 
+#Then the FLIER will be updated to reflect those changes
+#And the FLIER STATUS will be ACTIVE
+#And the FLIER will not contain a FEATURE described as "People can send their contact details to you"

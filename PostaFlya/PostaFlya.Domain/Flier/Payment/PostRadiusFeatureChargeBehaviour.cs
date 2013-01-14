@@ -8,7 +8,7 @@ using Website.Infrastructure.Query;
 
 namespace PostaFlya.Domain.Flier.Payment
 {
-    public class PostRadiusFeatureChargeBehaviour : EntityFeatureChargeBehaviourInterface
+    public class PostRadiusFeatureChargeBehaviour : FlierChargeBehaviourBase
     {
         public static readonly int RatePerSqKm = 1; 
         public static EntityFeatureCharge GetPostRadiusFeatureCharge(int extendPostRadius)
@@ -26,7 +26,7 @@ namespace PostaFlya.Domain.Flier.Payment
                 };
         }
 
-        public bool EnableOrDisableFeaturesBasedOnState<EntityType>(EntityFeatureCharge entityFeatureCharge, EntityType entity) where EntityType : EntityInterface
+        public override bool EnableOrDisableFeaturesBasedOnState<EntityType>(EntityFeatureCharge entityFeatureCharge, EntityType entity)
         {
             var flier = entity as FlierInterface;
             if (flier == null)
@@ -41,34 +41,5 @@ namespace PostaFlya.Domain.Flier.Payment
             return orig != flier.Status;
         }
 
-        public EntityFeatureCharge GetChargeForAggregateMemberEntity<MemberEntityType>(EntityFeatureCharge entityFeatureCharge,
-                                                                                       MemberEntityType entity) where MemberEntityType : EntityInterface
-        {
-            return null;//doesn't propagate
-        }
-
-        public bool ChargeForState<EntityType>(EntityFeatureCharge entityFeatureCharge, EntityType entity, GenericRepositoryInterface repository, GenericQueryServiceInterface queryService, CreditChargeServiceInterface creditPaymentService) where EntityType : EntityInterface
-        {
-            var flier = entity as FlierInterface;
-            if (flier == null)
-                return false;
-
-            var chargableEntity = queryService.FindById<Browser>(flier.BrowserId);
-            if (entityFeatureCharge.IsPaid || chargableEntity.AccountCredit < entityFeatureCharge.OutstandingBalance)
-                return false;
-
-            if (chargableEntity.AccountCredit < entityFeatureCharge.OutstandingBalance)
-                return false;
-
-            creditPaymentService.ChargeCreditsToEntity(entityFeatureCharge, chargableEntity, repository);
-            /*
-            repository.UpdateEntity<Browser>(flier.BrowserId, browser =>
-            {
-                browser.AccountCredit -= entityFeatureCharge.OutstandingBalance;
-            }); 
-
-            entityFeatureCharge.Paid = entityFeatureCharge.Cost;*/
-            return true;
-        }
     }
 }

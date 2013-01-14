@@ -141,6 +141,10 @@ namespace PostaFlya.Models.Flier
         [DataMember]
         public bool AllowUserContact { get; set; }
 
+        [DataMember]
+        [Display(Name = "FlierCreateModel_EnableAnalytics_EnableAnalytics", ResourceType = typeof(Properties.Resources))] 
+        public bool EnableAnalytics { get; set; }
+
         public static FlierCreateModel DefaultForTemplate()
         {
             return new FlierCreateModel();

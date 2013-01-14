@@ -9,14 +9,14 @@ When I claim a tear off for that FLIER
 Then I will be recorded as having claimed the flier once
 And the number of claims against the FLIER will be incremented
 
-Scenario: Claim An Initial Tear Off And Send Contact Details
-Given I have navigated to the public view page for a FLIER With TEAR OFF And USER CONTACT
-And The Flier Creator Has 1000 Account Credits
-When I claim a tear off for that FLIER and send my contact details
-Then I will be recorded as having claimed the flier once
-And the number of claims against the FLIER will be incremented
-And the Claim will be recorded as having My Contact Details
-And 500 will be deducted from the Flier Creators Account
+#Scenario: Claim An Initial Tear Off And Send Contact Details
+#Given I have navigated to the public view page for a FLIER With TEAR OFF And USER CONTACT
+#And The Flier Creator Has 1000 Account Credits
+#When I claim a tear off for that FLIER and send my contact details
+#Then I will be recorded as having claimed the flier once
+#And the number of claims against the FLIER will be incremented
+#And the Claim will be recorded as having My Contact Details
+#And 500 will be deducted from the Flier Creators Account
 
 Scenario: Claim A Tear Off When One Has Been Claimed
 Given I have navigated to the public view page for a FLIER With TEAR OFF

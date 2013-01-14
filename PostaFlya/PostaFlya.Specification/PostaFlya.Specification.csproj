@@ -216,6 +216,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Comment.feature</DependentUpon>
     </Compile>
+    <Compile Include="Fliers\Analytics.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Analytics.feature</DependentUpon>
+    </Compile>
     <Compile Include="Fliers\Boards.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -312,6 +317,10 @@
     <None Include="DynamicBulletinBoard\Comment.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>Comment.feature.cs</LastGenOutput>
+    </None>
+    <None Include="Fliers\Analytics.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>Analytics.feature.cs</LastGenOutput>
     </None>
     <None Include="Fliers\Boards.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>

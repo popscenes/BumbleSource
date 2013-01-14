@@ -83,20 +83,21 @@ namespace PostaFlya.Application.Domain.Email.Claims
 
         private bool SendToOwner(BrowserInterface browser, ClaimEvent publish, PostaFlya.Domain.Flier.Flier flier)
         {
-            var email = new MailMessage();
-
-            if (flier.HasLeadGeneration)
-            {
-                var vcard = GetVCardForBrowser(publish.NewState.BrowserId);
-                if (vcard != null)
-                    email.AddVCardAsAttachment(vcard);
-            }
-
-            email.Subject = "PostaFlya User Contact Details";
-            email.Body = "Posta flya tearoff details " + publish.NewState.ClaimMessage;
-            email.IsBodyHtml = false;
-            email.To.Add(new MailAddress(browser.EmailAddress));
-            _emailService.Send(email);
+            //not sending through contact details for now...considering 
+//            var email = new MailMessage();
+//
+//            if (flier.HasLeadGeneration)
+//            {
+//                var vcard = GetVCardForBrowser(publish.NewState.BrowserId);
+//                if (vcard != null)
+//                    email.AddVCardAsAttachment(vcard);
+//            }
+//
+//            email.Subject = "PostaFlya User Contact Details";
+//            email.Body = "Posta flya tearoff details " + publish.NewState.ClaimMessage;
+//            email.IsBodyHtml = false;
+//            email.To.Add(new MailAddress(browser.EmailAddress));
+//            _emailService.Send(email);
 
             return true;
         }
