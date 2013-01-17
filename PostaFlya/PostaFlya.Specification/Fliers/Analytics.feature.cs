@@ -63,10 +63,10 @@ namespace PostaFlya.Specification.Fliers
         }
         
         [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("View Analytics")]
-        public virtual void ViewAnalytics()
+        [NUnit.Framework.DescriptionAttribute("Add Analytics")]
+        public virtual void AddAnalytics()
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("View Analytics", ((string[])(null)));
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Add Analytics", ((string[])(null)));
             this.ScenarioSetup(scenarioInfo);
             testRunner.Given("i have navigated to the CREATE PAGE for a FLIER TYPE Default", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
             testRunner.And("I choose to enable Analytics", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
@@ -78,6 +78,17 @@ namespace PostaFlya.Specification.Fliers
                     " a cost of 200 credits", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
             testRunner.And("A CREDIT TRANSACTION for 200 with description Gather Flier Analytics Feature will" +
                     " be created", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+            this.ScenarioCleanup();
+        }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("View Flier Details Records Visit")]
+        public virtual void ViewFlierDetailsRecordsVisit()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("View Flier Details Records Visit", ((string[])(null)));
+            this.ScenarioSetup(scenarioInfo);
+            testRunner.Given("I have navigated to the public view page for a FLIER", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+            testRunner.Then("My Visit will be recorded against the flier with my last known location details", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
             this.ScenarioCleanup();
         }
     }

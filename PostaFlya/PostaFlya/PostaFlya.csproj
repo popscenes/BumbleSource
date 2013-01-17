@@ -353,6 +353,8 @@
     <Compile Include="Controllers\SiteMapController.cs" />
     <Compile Include="Controllers\SneakyController.cs" />
     <Compile Include="Controllers\TinyUrlController.cs" />
+    <Compile Include="Controllers\TrackViewController.cs" />
+    <Compile Include="Controllers\VisitStatsApiController.cs" />
     <Compile Include="Models\Board\AddBoardFlierModel.cs" />
     <Compile Include="Models\Board\BoardCreateEditModel.cs" />
     <Compile Include="Models\Board\BoardFlierModel.cs" />

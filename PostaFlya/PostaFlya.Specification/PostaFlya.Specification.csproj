@@ -381,6 +381,10 @@
       <Project>{B8DA4F3A-23FF-46AA-A9E4-A22EAC11CA3A}</Project>
       <Name>Website.Common</Name>
     </ProjectReference>
+    <ProjectReference Include="..\PostaFlya.Application.Domain\PostaFlya.Application.Domain.csproj">
+      <Project>{1510EA95-D2A1-47B5-8652-49895B97FC9F}</Project>
+      <Name>PostaFlya.Application.Domain</Name>
+    </ProjectReference>
     <ProjectReference Include="..\PostaFlya.Domain.TaskJob\PostaFlya.Domain.TaskJob.csproj">
       <Project>{761D2C3C-2C8A-4277-AAD3-407872797B9C}</Project>
       <Name>PostaFlya.Domain.TaskJob</Name>

@@ -44,7 +44,7 @@ namespace PostaFlya.Application.Domain.Email.Claims
         public override BrowserInterface[] GetBrowsersForPublish(ClaimEvent publish)
         {
             var claim = publish.NewState;
-            BrowserInterface browser = _entityQueryService.FindById<Browser>(claim.BrowserId);
+            BrowserInterface browser = _entityQueryService.FindById<Website.Domain.Browser.Browser>(claim.BrowserId);
             
 
             var browserPublishList = new List<BrowserInterface>();
@@ -55,7 +55,7 @@ namespace PostaFlya.Application.Domain.Email.Claims
             if (claim.ClaimContext.Equals("senduserdetails", StringComparison.CurrentCultureIgnoreCase))
             {
                 FlierInterface flier = _entityQueryService.FindById<PostaFlya.Domain.Flier.Flier>(claim.AggregateId);
-                BrowserInterface ownerBrowser = _entityQueryService.FindById<Browser>(flier.BrowserId);
+                BrowserInterface ownerBrowser = _entityQueryService.FindById<Website.Domain.Browser.Browser>(flier.BrowserId);
                 if (ownerBrowser != null)
                     browserPublishList.Add(ownerBrowser);
             }
@@ -131,19 +131,19 @@ namespace PostaFlya.Application.Domain.Email.Claims
 
         private Event GetEventForFlier(PostaFlya.Domain.Flier.Flier flier)
         {
-            var browser = _entityQueryService.FindById<Browser>(flier.BrowserId);
+            var browser = _entityQueryService.FindById<Website.Domain.Browser.Browser>(flier.BrowserId);
             return flier.ToICalEvent(browser);
         }
 
         private VCard GetVCardForBrowser(string browserId)
         {
-            var browser = _entityQueryService.FindById<Browser>(browserId);
+            var browser = _entityQueryService.FindById<Website.Domain.Browser.Browser>(browserId);
             return browser.ToVCard();
         }
 
         private VCard GetVCardForFlier(PostaFlya.Domain.Flier.Flier flier)
         {
-            var browser = _entityQueryService.FindById<Browser>(flier.BrowserId);
+            var browser = _entityQueryService.FindById<Website.Domain.Browser.Browser>(flier.BrowserId);
             var dets = flier.GetContactDetailsForFlier(browser);
             return dets == null ? null : dets.ToVCard();
         }

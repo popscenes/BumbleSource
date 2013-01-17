@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Security.Principal;
 using System.Web;
 using System.Web.Security;
@@ -28,7 +29,7 @@ namespace Website.Application.Domain.Tests.Browser
         [TestFixtureSetUp]
         public void FixtureSetUp()
         {
-            Kernel.Bind<BrowserInformationInterface>().To<BrowserInformation>();
+            Kernel.Bind<BrowserInformationInterface>().To<BrowserInformation>().InTransientScope();
             HttpContextMock.FakeHttpContext(Kernel);
             
 
@@ -45,29 +46,14 @@ namespace Website.Application.Domain.Tests.Browser
         public void BrowserInformationForEmptyPrincipalIsCreated()
         {
 
-            IdentityProviderCredential identityProviderCredentials = new IdentityProviderCredential()
-                                                                         {
-                                                                            Email = "teddymccuddles@gmail.com",
-                                                                            IdentityProvider = IdentityProviders.GOOGLE,
-                                                                            Name = "anthony borg",
-                                                                            UserIdentifier = "fdskljflksdjfslkdfjsdlkjf"
-                                                                         };
-            FormsAuthenticationTicket authTicket = new
-                            FormsAuthenticationTicket(1, //version
-                            identityProviderCredentials.Name, // user name
-                            DateTime.Now,             //creation
-                            DateTime.Now.AddMinutes(30), //Expiration
-                            false, //Persistent
-                            identityProviderCredentials.ToString());
-
-            WebIdentity id = new WebIdentity();
-            GenericPrincipal prin = new GenericPrincipal(id, new string[] { "Participant" });
+            var id = new WebIdentity();
+            var prin = new GenericPrincipal(id, new string[] { "Participant" });
 
             var mockHttpContext = Kernel.GetMock<HttpContextBase>();
             mockHttpContext.Setup(_ => _.User).Returns(prin);
 
             Kernel.Unbind<WebPrincipalInterface>();
-            var browser = ResolutionExtensions.Get<BrowserInformationInterface>(Kernel);
+            var browser = Kernel.Get<BrowserInformationInterface>();
             Assert.That(browser, Is.InstanceOf<BrowserInformation>());
 
             Assert.IsNotNull(browser.Browser);
@@ -75,33 +61,45 @@ namespace Website.Application.Domain.Tests.Browser
 
             var httpContext = Kernel.Get<HttpContextBase>();
 
-            var httpCookie = httpContext.Response.Cookies["tempId"];
-            Assert.IsTrue(httpCookie != null && httpCookie.Value == browser.Browser.Id);
+            var httpCookie = httpContext.Response.Cookies[BrowserInformation.BrowserCookieId];
+            Assert.IsTrue(httpCookie != null);
+            Assert.IsNotNullOrEmpty(httpCookie.Values[BrowserInformation.TempBrowserId]);
+
+            httpContext.Request.Cookies.Add(httpCookie);
+
+            var browserRet = Kernel.Get<BrowserInformationInterface>();
+            Assert.IsNotNull(browserRet.Browser);
+            Assert.That(browserRet.Browser.Id, Is.EqualTo(browser.Browser.Id));
         }
 
         [Test]
         public void BrowserInformationForNotEmptyPrincipalIsCreated()
         {
-            var id = new WebIdentity();
+            //add the default sts browser to the repo.
+            var repo = Kernel.Get<GenericRepositoryInterface>();
+            var brows = Kernel.Get<BrowserInterface>(ctx => ctx.Has("ststestbrowser"));
+            repo.Store(brows);
+
+            var identityProviderCredentials = brows.ExternalCredentials.FirstOrDefault();
+            var authTicket = new
+                            FormsAuthenticationTicket(1, //version
+                            identityProviderCredentials.Name, // user name
+                            DateTime.Now,             //creation
+                            DateTime.Now.AddMinutes(30), //Expiration
+                            false, //Persistent
+                            identityProviderCredentials.ToString());
+
+
+            var id = new WebIdentity(authTicket);
             var prin = new GenericPrincipal(id, new string[] { "Participant" });
 
             var mockHttpContext = Kernel.GetMock<HttpContextBase>();
             mockHttpContext.Setup(_ => _.User).Returns(prin);
 
-            //add the default sts browser to the repo.
-            var repo = Kernel.Get<GenericRepositoryInterface>();
-            repo.Store(Kernel.Get<BrowserInterface>(ctx => ctx.Has("ststestbrowser")));
-
             var browser = Kernel.Get<BrowserInformationInterface>();
             Assert.That(browser, Is.InstanceOf<BrowserInformation>());
 
-            var queryinterface = Kernel.Get<GenericQueryServiceInterface>();
-            var principal = Kernel.Get<WebPrincipalInterface>();
-
-            var storedBrowser = queryinterface.FindBrowserByIdentityProvider(principal.ToCredential());
-
-            Assert.IsNotNull(browser.Browser);
-            Assert.IsFalse(string.IsNullOrWhiteSpace(browser.Browser.Id));
+            Assert.That(browser.Browser.Id, Is.EqualTo(brows.Id));
 
             Kernel.Unbind<WebPrincipalInterface>();
         }

@@ -2,6 +2,8 @@
 using System.Linq;
 using Ninject;
 using Ninject.Modules;
+using Ninject.Web.Common;
+using PostaFlya.Application.Domain.Browser;
 using PostaFlya.Application.Domain.ExternalSource;
 using PostaFlya.Application.Domain.Flier;
 using Website.Application.Binding;
@@ -31,6 +33,10 @@ namespace PostaFlya.Application.Domain.Binding
             kernel.BindCommandHandlersFromCallingAssembly(c => c.InTransientScope());
 
             kernel.BindSubscribersFromCallingAssembly(c => c.InTransientScope());
+
+            Kernel.Bind<PostaFlyaBrowserInformationInterface>()
+                .To<PostaFlyaBrowserInformation>()
+                .InRequestScope();
 
             Trace.TraceInformation("Finished Binding ApplicationDomainNinjectBinding");
         }

@@ -4,6 +4,7 @@ using NUnit.Framework;
 using Ninject;
 using Ninject.MockingKernel.Moq;
 using Ninject.Modules;
+using PostaFlya.Application.Domain.Browser;
 using PostaFlya.Domain.Boards;
 using TechTalk.SpecFlow;
 using PostaFlya.Domain.Flier;
@@ -69,12 +70,34 @@ namespace PostaFlya.Specification.Util
 
         private void SetUpBrowserInformation(MoqMockingKernel kernel)
         {
-            var mockBrowserInfo = kernel.GetMock<BrowserInformationInterface>();
+            
+            var mockBrowserInfo = kernel.GetMock<PostaFlyaBrowserInformationInterface>();
+
             kernel.Bind<BrowserInformationInterface>()
+                .ToConstant(mockBrowserInfo.Object).InSingletonScope();
+
+            kernel.Bind<PostaFlyaBrowserInformationInterface>()
                 .ToConstant(mockBrowserInfo.Object).InSingletonScope();
 
             mockBrowserInfo.SetupGet(m => m.Browser).Returns(GetBrowserInfo);
             mockBrowserInfo.SetupSet<BrowserInterface>(m => m.Browser = It.IsAny<BrowserInterface>()).Callback(SetBrowserInfo);
+            mockBrowserInfo.SetupGet(bi => bi.IpAddress).Returns("192.168.3.1");
+            mockBrowserInfo.SetupGet(bi => bi.UserAgent).Returns("some user agent string");
+
+            Location lastLoc = null;
+            mockBrowserInfo.SetupSet<Location>(bi => bi.LastLocation = It.IsAny<Location>())
+                           .Callback((loc) => lastLoc = loc);
+            mockBrowserInfo.SetupGet(bi => bi.LastLocation).Returns(lastLoc);
+
+            bool setbydevice = false;
+            mockBrowserInfo.SetupSet<bool>(bi => bi.LocationFromDevice = It.IsAny<bool>())
+                           .Callback((isdev) => setbydevice = isdev);
+            mockBrowserInfo.SetupGet(bi => bi.LocationFromDevice).Returns(setbydevice);
+
+            string trackingId = null;
+            mockBrowserInfo.SetupSet<string>(bi => bi.TrackingId = It.IsAny<string>())
+                           .Callback((tid) => trackingId = tid);
+            mockBrowserInfo.SetupGet(bi => bi.TrackingId).Returns(trackingId);
         }
 
         public Browser GetBrowserInfo()

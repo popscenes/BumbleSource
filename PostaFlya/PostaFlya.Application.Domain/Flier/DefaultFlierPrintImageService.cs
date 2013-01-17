@@ -27,6 +27,10 @@ namespace PostaFlya.Application.Domain.Flier
             _qrCodeService = qrCodeService;
         }
 
+
+        
+
+
         public Image GetPrintImageForFlierWithTearOffs(string flierId)
         {
             var flier = _queryService.FindById<PostaFlya.Domain.Flier.Flier>(flierId);
@@ -53,7 +57,7 @@ namespace PostaFlya.Application.Domain.Flier
                 return null;
 
             return CreateQrCodeImageForFlier(
-                                    GetSourceUrl(flier),
+                                    GetSourceUrl(flier) + QrSource.QrCodeSrcCodeOnly,
                                     Properties.Resources.PostaLogo,
                                     _qrCodeService, Qrcodewidthheight, Logoheight);
         }
@@ -117,7 +121,7 @@ namespace PostaFlya.Application.Domain.Flier
             var target = new Bitmap(srcimage, width, height);
 
             var imgToDisp = new HashSet<IDisposable>();
-            var qrimage = CreateQrCodeImageForFlier(url, logo, qrCodeService, qrcodewidthheight, 
+            var qrimage = CreateQrCodeImageForFlier(url + QrSource.QrCodeSrcOnFlierWithoutTearOffs, logo, qrCodeService, qrcodewidthheight, 
                                         logoheight);
             imgToDisp.Add(qrimage);
 
@@ -186,11 +190,11 @@ namespace PostaFlya.Application.Domain.Flier
             var resized = new Bitmap(srcimage, width, height - tearoffheight);
             imgToDisp.Add(resized);
 
-            var qrimage = CreateQrCodeImageForFlier(url, logo, qrCodeService, qrcodewidthheight, 
+            var qrimage = CreateQrCodeImageForFlier(url + QrSource.QrCodeSrcOnFlierWithTearOffs, logo, qrCodeService, qrcodewidthheight, 
                                                     logoheight);
             imgToDisp.Add(qrimage);
-            
-            var qrimagetear = qrCodeService.QrCodeImg(url, qrcodetearoffwidth, 2);
+
+            var qrimagetear = qrCodeService.QrCodeImg(url + QrSource.QrCodeSrcTearOff, qrcodetearoffwidth, 2);
             imgToDisp.Add(qrimagetear);
 
 

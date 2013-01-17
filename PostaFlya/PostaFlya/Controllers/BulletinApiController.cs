@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Web.Http;
+using PostaFlya.Application.Domain.Browser;
+using PostaFlya.Domain.Flier.Command;
 using Website.Application.Binding;
 using PostaFlya.Areas.Default.Models;
 using PostaFlya.Domain.Behaviour.Query;
@@ -15,6 +17,7 @@ using PostaFlya.Models.Location;
 using Website.Application.Content;
 using Website.Application.Domain.Content;
 using Website.Domain.Tag;
+using Website.Infrastructure.Command;
 using Website.Infrastructure.Query;
 
 namespace PostaFlya.Controllers
@@ -26,28 +29,45 @@ namespace PostaFlya.Controllers
         private readonly FlierBehaviourQueryServiceInterface _behaviourQueryService;
         private readonly FlierBehaviourViewModelFactoryInterface _viewModelFactory;
         private readonly FlierSearchServiceInterface _flierSearchService;
-
+        private readonly CommandBusInterface _workerCommandBus;
+        private readonly PostaFlyaBrowserInformationInterface _browserInformation;
 
         public BulletinApiController(GenericQueryServiceInterface queryService,
             [ImageStorage]BlobStorageInterface blobStorage
             , FlierBehaviourQueryServiceInterface behaviourQueryService
-            , FlierBehaviourViewModelFactoryInterface viewModelFactory, FlierSearchServiceInterface flierSearchService)
+            , FlierBehaviourViewModelFactoryInterface viewModelFactory, FlierSearchServiceInterface flierSearchService
+            , [WorkerCommandBus]CommandBusInterface workerCommandBus, PostaFlyaBrowserInformationInterface browserInformation)
         {
             _queryService = queryService;
             _blobStorage = blobStorage;
             _behaviourQueryService = behaviourQueryService;
             _viewModelFactory = viewModelFactory;
             _flierSearchService = flierSearchService;
+            _workerCommandBus = workerCommandBus;
+            _browserInformation = browserInformation;
         }
 
         public DefaultDetailsViewModel Get(string id)
         {
-            return GetDetail(id, _queryService, _behaviourQueryService, _blobStorage, _viewModelFactory);
+            var ret = GetDetail(id, _queryService, _behaviourQueryService, _blobStorage, _viewModelFactory);
+            
+            _workerCommandBus.Send(new FlierAnalyticCommand()
+            {
+                FlierId = ret.Flier.Id,
+                TrackingId = _browserInformation.TrackingId,
+                IpAddress = _browserInformation.IpAddress,
+                UserAgent = _browserInformation.UserAgent,
+                Location = _browserInformation.LastLocation,
+                Source = "BulletinApi"
+            });
+            
+            return ret;
         }
 
         public IList<BulletinFlierModel> Get([FromUri]LocationModel loc
             ,int count, string board = "", int skip = 0, int distance = 0, string tags = "")
         {
+            
             return GetFliers(_flierSearchService, _queryService, _blobStorage, _viewModelFactory
                              , loc, count, board, skip, distance, tags);
         }

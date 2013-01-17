@@ -46,7 +46,7 @@ namespace PostaFlya.Application.Domain.Tests.Email.Claims
         {
             var repository = Kernel.Get<GenericRepositoryInterface>();
             
-            BrowserInterface claimBrowser = new Browser {Id = Guid.NewGuid().ToString(), EmailAddress = "test@bumbleflya.com"};
+            BrowserInterface claimBrowser = new Website.Domain.Browser.Browser {Id = Guid.NewGuid().ToString(), EmailAddress = "test@bumbleflya.com"};
             claimBrowser = BrowserTestData.StoreOne(claimBrowser, repository, Kernel);
 
             var flierBrowser = BrowserTestData.GetOne(Kernel);
@@ -101,7 +101,7 @@ namespace PostaFlya.Application.Domain.Tests.Email.Claims
         {
             var repository = Kernel.Get<GenericRepositoryInterface>();
 
-            BrowserInterface claimBrowser = new Browser { Id = Guid.NewGuid().ToString(), EmailAddress = "test@bumbleflya.com" };
+            BrowserInterface claimBrowser = new Website.Domain.Browser.Browser { Id = Guid.NewGuid().ToString(), EmailAddress = "test@bumbleflya.com" };
             claimBrowser = BrowserTestData.StoreOne(claimBrowser, repository, Kernel);
 
             var flierBrowser = BrowserTestData.GetOne(Kernel);
