@@ -13,8 +13,18 @@
 @*</script>*@
 
 
+<div>
+    Flier Cost:<span data-bind="text:totalCost"></span> 
+    <a data-bind="click:showCostBreakdown">more</a>
+    <div data-bind="visible:costBreakdown, foreach:flierCosts">
+        <span data-bind="text:title"></span>
+        <span data-bind="text:credits"></span>
+        <div data-bind="text:description"></div>
+    </div>
+</div>
 
-   <div id="flierCreateStep"  data-bind="template: { name: stepTemplate}">
+
+<div id="flierCreateStep"  data-bind="template: { name: stepTemplate}">
     </div>
 
     <div id="form-buttons">
@@ -77,7 +87,7 @@
 
 <script type="text/html" id="Location-template">
     <form id="flierForm" class="" data-bind="validate: true">
-    
+        
         @Html.ValidationSummary(true)
         @Html.HiddenFor(model => model.Id, new { data_bind = "value:Id" })
         <fieldset>
@@ -87,6 +97,7 @@
                 @Html.HiddenFor(model => model.Location, new { data_bind = "value:currentLocation().ValidLocationForValidation()" })
                 
                 <h3>ENTER THE ADDRESS BELOW</h3>
+                
                 @Html.ValidationMessageFor(model => model.Location)
                 <input class="location-search" type="text" data-bind="value: currentLocation().Description, attr:{id:locSearchId}"/>
                 @Html.Partial("Location/LocationSelector")

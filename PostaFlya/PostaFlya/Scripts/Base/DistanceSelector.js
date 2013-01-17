@@ -6,7 +6,7 @@
     bf.DistanceSelector = function () {
         var self = this;
 
-        self.currentDistance = ko.observable(10);
+        self.currentDistance = ko.observable(5);
         self.updateCallback = null;
 
         self.Init = function () {
