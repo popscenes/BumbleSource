@@ -5,10 +5,9 @@ using System.Web;
 using System.Web.Mvc;
 using PostaFlya.Application.Domain.Flier;
 using PostaFlya.Domain.Flier;
+using PostaFlya.Domain.Flier.Analytic;
 using PostaFlya.Domain.Flier.Command;
-using Website.Application.Binding;
 using Website.Application.Domain.Browser;
-using Website.Infrastructure.Command;
 using Website.Infrastructure.Configuration;
 using Website.Infrastructure.Domain;
 
@@ -17,15 +16,16 @@ namespace PostaFlya.Controllers
     public class TinyUrlController : Controller
     {
         private readonly ConfigurationServiceInterface _configurationService;
-        private readonly CommandBusInterface _commandBus;
         private readonly BrowserInformationInterface _browserInformation;
+        private readonly FlierWebAnalyticServiceInterface _webAnalyticService;
 
-        public TinyUrlController(ConfigurationServiceInterface configurationService, [WorkerCommandBus]CommandBusInterface commandBus
-            , BrowserInformationInterface browserInformation)
+        public TinyUrlController(ConfigurationServiceInterface configurationService
+            , BrowserInformationInterface browserInformation
+            , FlierWebAnalyticServiceInterface webAnalyticService)
         {
             _configurationService = configurationService;
-            _commandBus = commandBus;
             _browserInformation = browserInformation;
+            _webAnalyticService = webAnalyticService;
         }
 
         public ActionResult Get(string path)
@@ -40,18 +40,13 @@ namespace PostaFlya.Controllers
 
             var siteUrl = _configurationService.GetSetting("SiteUrl") ?? "";
 
+            if (string.IsNullOrWhiteSpace(_browserInformation.TrackingId))
+                _browserInformation.TrackingId = Guid.NewGuid().ToString();
 
-            var s = QrSource.GetDescFromParam(Request.Params["q"]) ?? "tinyurl";
-            var routeVals = new {id = info.FriendlyId, t = Guid.NewGuid().ToString()};
+            var routeVals = new {id = info.FriendlyId, t = _browserInformation.TrackingId};
 
-            _commandBus.Send(new FlierAnalyticCommand()
-                {
-                    FlierId = info.Id,
-                    TrackingId = routeVals.t,
-                    IpAddress = _browserInformation.IpAddress,
-                    UserAgent = _browserInformation.UserAgent,
-                    Source = s
-                });
+            _webAnalyticService.RecordVisit(info.Id, 
+                FlierAnalyticUrlUtil.GetSourceActionFromParam(Request.Params["q"], FlierAnalyticSourceAction.TinyUrl));
 
             return Redirect(siteUrl + Url.Action("Index", "TrackView", routeVals));
         }

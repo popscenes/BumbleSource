@@ -1,5 +1,6 @@
 using System.Diagnostics;
 
+
 namespace Website.Infrastructure.Command
 {
     public class DefaultCommandBus : CommandBusInterface
@@ -14,8 +15,7 @@ namespace Website.Infrastructure.Command
         {
             var handler = _handlerRespository.FindHandler(command);
 
-//            var serializer = new JavaScriptSerializer();
-//            ViewBag.BrowserInfoJson = serializer.Serialize(_browserQueryService.ToCurrentBrowserModel(_blobStorage));
+             
             return handler.Handle(command);
         }
     }

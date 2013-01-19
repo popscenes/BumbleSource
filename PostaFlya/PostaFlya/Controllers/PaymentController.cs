@@ -1,8 +1,9 @@
 using System;
-using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Newtonsoft.Json;
 using PostaFlya.Models;
 using PostaFlya.Models.Flier;
 using Website.Application.Domain.Browser;
@@ -11,34 +12,30 @@ using Website.Domain.Browser;
 using Website.Domain.Payment;
 using Website.Domain.Payment.Command;
 using Website.Infrastructure.Command;
-using Website.Infrastructure.Domain;
 using Website.Infrastructure.Query;
 
 namespace PostaFlya.Controllers
 {
     public class PaymentController : Controller
     {
-        private readonly PaymentServiceProviderInterface _paymentServiceProviderInterface;
+        private readonly PaymentServiceProviderInterface _paymentServiceProvider;
         private readonly GenericQueryServiceInterface _queryService;
-        private readonly GenericRepositoryInterface _repositoryService;
         private readonly BrowserInformationInterface _browserInfo;
         private readonly PaymentPackageServiceInterface _paymentPackageService;
         private readonly HttpContextBase _httpContext;
         private readonly CommandBusInterface _commandBus;
 
 
-        public PaymentController(PaymentServiceProviderInterface paymentServiceProviderInterface,
+        public PaymentController(PaymentServiceProviderInterface paymentServiceProvider,
             CommandBusInterface commandBus,
             GenericQueryServiceInterface queryService,
-            GenericRepositoryInterface repositoryService,
             BrowserInformationInterface browserInfo,
             PaymentPackageServiceInterface paymentPackageService,
             HttpContextBase httpContext)
         {
-            _paymentServiceProviderInterface = paymentServiceProviderInterface;
+            _paymentServiceProvider = paymentServiceProvider;
             _commandBus = commandBus;
             _queryService = queryService;
-            _repositoryService = repositoryService;
             _browserInfo = browserInfo;
             _paymentPackageService = paymentPackageService;
             _httpContext = httpContext;
@@ -47,15 +44,15 @@ namespace PostaFlya.Controllers
 
         public RedirectResult PaymentProcess(string paymentServiceName, double amount)
         {
-            var paymentService = _paymentServiceProviderInterface.GetPaymentServiceByName(paymentServiceName);
+            var paymentService = _paymentServiceProvider.GetPaymentServiceByName(paymentServiceName);
             return new RedirectResult(paymentService.LaunchPaymentProcess(PaymentType.AccountCredit.ToString(), _browserInfo.Browser.Id, amount).ToString());
         }
 
         public ViewResult PayPalSuccess(String token, String PayerID)
         {
-            var paymentService = _paymentServiceProviderInterface.GetPaymentServiceByName("paypal");
+            var paymentService = _paymentServiceProvider.GetPaymentServiceByName("paypal");
             var transaction = paymentService.Processpayment(_httpContext.Request);
-            return PaymnetCallback(transaction);
+            return PaymentCallback(transaction);
 
         }
 
@@ -67,11 +64,11 @@ namespace PostaFlya.Controllers
                     Message = "Paypal Canceled",
                 };
 
-            //return RedirectToAction("PaymnetCallback", new {transaction = failedTransaction});
-            return PaymnetCallback(failedTransaction);
+            //return RedirectToAction("PaymentCallback", new {transaction = failedTransaction});
+            return PaymentCallback(failedTransaction);
         }
 
-        public ViewResult PaymnetCallback(PaymentTransaction transaction)
+        public ViewResult PaymentCallback(PaymentTransaction transaction)
         {
             
 
@@ -90,12 +87,17 @@ namespace PostaFlya.Controllers
                     Package = paymentPackage
                 };
 
-            var res = _commandBus.Send(transactionCommand) as MsgResponse;
-
-            var savedTransaction = _queryService.FindById<PaymentTransaction>(res.GetEntityId());
-
             var paymentMessage = "";
-            if (transaction.Status == PaymentTransactionStatus.Success)
+
+            //what if this fails?
+            var res = _commandBus.Send(transactionCommand) as MsgResponse;
+            if ((res == null || res.IsError) && transaction.Status == PaymentTransactionStatus.Success)
+            {
+                //todo refund
+                paymentMessage = "Failed to record transaction";
+                Trace.TraceError("Failed to record payment transaction: \n{0}", JsonConvert.SerializeObject(transaction, Formatting.Indented));
+            }       
+            else if (transaction.Status == PaymentTransactionStatus.Success)
             {
                 paymentMessage = ((CreditPaymentPackage) paymentPackage).Credits + " for $" + transaction.Amount +
                                      " " + transaction.Message;
@@ -111,7 +113,7 @@ namespace PostaFlya.Controllers
                 Transaction = transaction
             };
 
-            return View("PaymnetCallback", viewModel);
+            return View("PaymentCallback", viewModel);
         }
 
         public ViewResult PaymentTransactions()
@@ -122,13 +124,13 @@ namespace PostaFlya.Controllers
 
         public ActionResult AddAccountCredit()
         {
-            var flierPaymnetsModel = new FlierPaymentModel
+            var flierPaymentsModel = new FlierPaymentModel
                 {
-                    PaymentServiceList = _paymentServiceProviderInterface.GetAllPaymentServices(),
+                    PaymentServiceList = _paymentServiceProvider.GetAllPaymentServices(),
                     PaymentOptions = _paymentPackageService.GetAll().Select(_ => _ as CreditPaymentPackage).ToList()
                 };
 
-            return View(flierPaymnetsModel);
+            return View(flierPaymentsModel);
         }
     }
 }

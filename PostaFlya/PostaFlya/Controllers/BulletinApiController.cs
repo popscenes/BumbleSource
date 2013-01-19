@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Web.Http;
-using PostaFlya.Application.Domain.Browser;
+using PostaFlya.Application.Domain.Flier;
+using PostaFlya.Domain.Flier.Analytic;
 using PostaFlya.Domain.Flier.Command;
 using Website.Application.Binding;
 using PostaFlya.Areas.Default.Models;
@@ -17,7 +18,7 @@ using PostaFlya.Models.Location;
 using Website.Application.Content;
 using Website.Application.Domain.Content;
 using Website.Domain.Tag;
-using Website.Infrastructure.Command;
+using Website.Domain.TinyUrl;
 using Website.Infrastructure.Query;
 
 namespace PostaFlya.Controllers
@@ -29,37 +30,45 @@ namespace PostaFlya.Controllers
         private readonly FlierBehaviourQueryServiceInterface _behaviourQueryService;
         private readonly FlierBehaviourViewModelFactoryInterface _viewModelFactory;
         private readonly FlierSearchServiceInterface _flierSearchService;
-        private readonly CommandBusInterface _workerCommandBus;
-        private readonly PostaFlyaBrowserInformationInterface _browserInformation;
+        private readonly FlierWebAnalyticServiceInterface _webAnalyticService;
+        private readonly TinyUrlServiceInterface _tinyUrlService;
+
 
         public BulletinApiController(GenericQueryServiceInterface queryService,
             [ImageStorage]BlobStorageInterface blobStorage
             , FlierBehaviourQueryServiceInterface behaviourQueryService
             , FlierBehaviourViewModelFactoryInterface viewModelFactory, FlierSearchServiceInterface flierSearchService
-            , [WorkerCommandBus]CommandBusInterface workerCommandBus, PostaFlyaBrowserInformationInterface browserInformation)
+            , FlierWebAnalyticServiceInterface webAnalyticService, TinyUrlServiceInterface tinyUrlService)
         {
             _queryService = queryService;
             _blobStorage = blobStorage;
             _behaviourQueryService = behaviourQueryService;
             _viewModelFactory = viewModelFactory;
             _flierSearchService = flierSearchService;
-            _workerCommandBus = workerCommandBus;
-            _browserInformation = browserInformation;
+            _webAnalyticService = webAnalyticService;
+            _tinyUrlService = tinyUrlService;
+        }
+
+        public DefaultDetailsViewModel Get([FromUri] LocationModel currloc, string tinyUrl)
+        {
+            var ent = _tinyUrlService.EntityInfoFor(tinyUrl);
+            if (ent == null)
+                return null;
+
+            var ret = GetDetail(ent.Id, _queryService, _behaviourQueryService, _blobStorage, _viewModelFactory);
+            
+            if (ret != null)
+                _webAnalyticService.RecordVisit(ent.Id, FlierAnalyticSourceAction.TinyUrlByApi, currloc.ToDomainModel());
+
+            return ret;
         }
 
         public DefaultDetailsViewModel Get(string id)
-        {
+        {            
             var ret = GetDetail(id, _queryService, _behaviourQueryService, _blobStorage, _viewModelFactory);
             
-            _workerCommandBus.Send(new FlierAnalyticCommand()
-            {
-                FlierId = ret.Flier.Id,
-                TrackingId = _browserInformation.TrackingId,
-                IpAddress = _browserInformation.IpAddress,
-                UserAgent = _browserInformation.UserAgent,
-                Location = _browserInformation.LastLocation,
-                Source = "BulletinApi"
-            });
+            if(ret != null)
+                _webAnalyticService.RecordVisit(id, FlierAnalyticSourceAction.IdByApi);
             
             return ret;
         }

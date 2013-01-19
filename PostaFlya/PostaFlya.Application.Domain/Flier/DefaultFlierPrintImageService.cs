@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
+using PostaFlya.Domain.Flier.Analytic;
 using Website.Application.Binding;
 using Website.Application.Content;
 using Website.Application.Domain.Content;
@@ -57,7 +58,7 @@ namespace PostaFlya.Application.Domain.Flier
                 return null;
 
             return CreateQrCodeImageForFlier(
-                                    GetSourceUrl(flier) + QrSource.QrCodeSrcCodeOnly,
+                                    GetSourceUrl(flier).AddAnalyticString(FlierAnalyticSourceAction.QrCodeSrcCodeOnly),
                                     Properties.Resources.PostaLogo,
                                     _qrCodeService, Qrcodewidthheight, Logoheight);
         }
@@ -121,7 +122,7 @@ namespace PostaFlya.Application.Domain.Flier
             var target = new Bitmap(srcimage, width, height);
 
             var imgToDisp = new HashSet<IDisposable>();
-            var qrimage = CreateQrCodeImageForFlier(url + QrSource.QrCodeSrcOnFlierWithoutTearOffs, logo, qrCodeService, qrcodewidthheight, 
+            var qrimage = CreateQrCodeImageForFlier(url.AddAnalyticString(FlierAnalyticSourceAction.QrCodeSrcOnFlierWithoutTearOffs), logo, qrCodeService, qrcodewidthheight, 
                                         logoheight);
             imgToDisp.Add(qrimage);
 
@@ -190,11 +191,11 @@ namespace PostaFlya.Application.Domain.Flier
             var resized = new Bitmap(srcimage, width, height - tearoffheight);
             imgToDisp.Add(resized);
 
-            var qrimage = CreateQrCodeImageForFlier(url + QrSource.QrCodeSrcOnFlierWithTearOffs, logo, qrCodeService, qrcodewidthheight, 
+            var qrimage = CreateQrCodeImageForFlier(url.AddAnalyticString(FlierAnalyticSourceAction.QrCodeSrcOnFlierWithTearOffs), logo, qrCodeService, qrcodewidthheight, 
                                                     logoheight);
             imgToDisp.Add(qrimage);
 
-            var qrimagetear = qrCodeService.QrCodeImg(url + QrSource.QrCodeSrcTearOff, qrcodetearoffwidth, 2);
+            var qrimagetear = qrCodeService.QrCodeImg(url.AddAnalyticString(FlierAnalyticSourceAction.QrCodeSrcTearOff), qrcodetearoffwidth, 2);
             imgToDisp.Add(qrimagetear);
 
 

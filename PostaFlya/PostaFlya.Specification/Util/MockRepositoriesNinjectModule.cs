@@ -85,14 +85,9 @@ namespace PostaFlya.Specification.Util
             mockBrowserInfo.SetupGet(bi => bi.UserAgent).Returns("some user agent string");
 
             Location lastLoc = null;
-            mockBrowserInfo.SetupSet<Location>(bi => bi.LastLocation = It.IsAny<Location>())
+            mockBrowserInfo.SetupSet<Location>(bi => bi.LastSearchLocation = It.IsAny<Location>())
                            .Callback((loc) => lastLoc = loc);
-            mockBrowserInfo.SetupGet(bi => bi.LastLocation).Returns(lastLoc);
-
-            bool setbydevice = false;
-            mockBrowserInfo.SetupSet<bool>(bi => bi.LocationFromDevice = It.IsAny<bool>())
-                           .Callback((isdev) => setbydevice = isdev);
-            mockBrowserInfo.SetupGet(bi => bi.LocationFromDevice).Returns(setbydevice);
+            mockBrowserInfo.SetupGet(bi => bi.LastSearchLocation).Returns(lastLoc);
 
             string trackingId = null;
             mockBrowserInfo.SetupSet<string>(bi => bi.TrackingId = It.IsAny<string>())

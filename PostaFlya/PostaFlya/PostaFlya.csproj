@@ -758,7 +758,7 @@
     <Content Include="Views\Shared\ClaimsPartial.cshtml" />
     <Content Include="Views\Account\ManageTokens.cshtml" />
     <Content Include="Views\Payment\AddAccountCredit.cshtml" />
-    <Content Include="Views\Payment\PaymnetCallback.cshtml" />
+    <Content Include="Views\Payment\PaymentCallback.cshtml" />
     <Content Include="Views\Payment\PaymentTransactions.cshtml" />
     <Content Include="Views\Shared\Image\ImageListTemplate.cshtml" />
     <Content Include="Views\Shared\Bulletin\DownloadPrintImagePartial.cshtml" />

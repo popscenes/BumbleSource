@@ -88,7 +88,7 @@ namespace PostaFlya.Specification.Fliers
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("View Flier Details Records Visit", ((string[])(null)));
             this.ScenarioSetup(scenarioInfo);
             testRunner.Given("I have navigated to the public view page for a FLIER", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-            testRunner.Then("My Visit will be recorded against the flier with my last known location details", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+            testRunner.Then("My Visit will be recorded against the FLIER", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
             this.ScenarioCleanup();
         }
     }

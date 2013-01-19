@@ -15,7 +15,7 @@ And A CREDIT TRANSACTION for 200 with description Gather Flier Analytics Feature
 
 Scenario: View Flier Details Records Visit
 Given I have navigated to the public view page for a FLIER
-Then My Visit will be recorded against the flier with my last known location details
+Then My Visit will be recorded against the FLIER
 
 
 

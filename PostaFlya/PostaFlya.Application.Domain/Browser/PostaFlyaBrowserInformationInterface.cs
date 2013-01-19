@@ -7,8 +7,7 @@ namespace PostaFlya.Application.Domain.Browser
 {
     public interface PostaFlyaBrowserInformationInterface : BrowserInformationInterface
     {
-        Location LastLocation { get; set; }
-        bool LocationFromDevice { get; set; }
+        Location LastSearchLocation { get; set; }
     }
 
     public class PostaFlyaBrowserInformation : BrowserInformation, PostaFlyaBrowserInformationInterface
@@ -21,16 +20,10 @@ namespace PostaFlya.Application.Domain.Browser
             _httpContext = httpContext;
         }
 
-        public Location LastLocation
+        public Location LastSearchLocation
         {
-            get { return GetClientStateValue<Location>("LastLocation"); }
-            set { SetClientStateValue("LastLocation", value); }
-        }
-
-        public bool LocationFromDevice
-        {
-            get { return GetClientStateValue<bool>("LocationFromDevice"); }
-            set { SetClientStateValue("LocationFromDevice", value); }
+            get { return GetClientStateValue<Location>("LastSearchLocation"); }
+            set { SetClientStateValue("LastSearchLocation", value); }
         }
     }
 }

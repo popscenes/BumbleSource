@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Routing;
 using Website.Domain.TinyUrl;
-using Website.Infrastructure.Configuration;
 
 namespace Website.Application.Domain.TinyUrl.Web
 {
@@ -15,13 +14,10 @@ namespace Website.Application.Domain.TinyUrl.Web
     {
 
         private readonly TinyUrlServiceInterface _tinyUrlService;
-        private readonly ConfigurationServiceInterface _configurationService;
 
-        public TinyUrlRouteConstraint(TinyUrlServiceInterface tinyUrlService,
-            ConfigurationServiceInterface configurationService )
+        public TinyUrlRouteConstraint(TinyUrlServiceInterface tinyUrlService)
         {
             _tinyUrlService = tinyUrlService;
-            _configurationService = configurationService;
         }
 
         public bool Match(HttpContextBase httpContext, Route route,

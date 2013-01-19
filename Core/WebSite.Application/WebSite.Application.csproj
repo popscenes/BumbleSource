@@ -303,6 +303,7 @@
   <ItemGroup>
     <Folder Include="Extension\Framework\" />
     <Folder Include="Extension\Library\" />
+    <Folder Include="Tracing\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Website.Infrastructure\Website.Infrastructure.csproj">

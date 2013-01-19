@@ -34,15 +34,11 @@ namespace Website.Domain.Payment.Command
             var transaction = command.Transaction;
 
             var uow = _unitOfWorkFactory.GetUnitOfWork(new List<object>() { _genericRepository });
-            using (uow)
+            using (uow)//one unit of work for this
             {
                 _genericRepository.Store(transaction);
-            }
-
-            if (paymentEntity is ChargableEntityInterface && transaction.Status == PaymentTransactionStatus.Success)
-            {
-                uow = _unitOfWorkFactory.GetUnitOfWork(new List<object>() { _genericRepository });
-                using (uow)
+                if (paymentEntity is ChargableEntityInterface 
+                    && transaction.Status == PaymentTransactionStatus.Success)
                 {
                     _genericRepository.UpdateEntity(paymentEntity.GetType()
                     , paymentEntity.Id
@@ -54,6 +50,12 @@ namespace Website.Domain.Payment.Command
                     });
                 }
             }
+
+            if (!uow.Successful)
+                return new MsgResponse("Payment Transaction Failed", true)
+                  .AddCommandId(command)
+                  .AddEntityId(transaction.Id);
+
 
            return new MsgResponse("Payment Transaction", false)
              .AddCommandId(command)

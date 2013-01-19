@@ -35,9 +35,9 @@ namespace PostaFlya.Specification.Fliers
         public void ThenIWillBePresentedWithTheValidPAYMENTOPTIONS()
         {
             var controllerResult = SpecUtil.ControllerResult as ViewResult;
-            var flierPaymnetsModel = controllerResult.Model as FlierPaymentModel;
+            var flierPaymentsModel = controllerResult.Model as FlierPaymentModel;
 
-            Assert.AreEqual(flierPaymnetsModel.PaymentOptions.Count, 3);
+            Assert.AreEqual(flierPaymentsModel.PaymentOptions.Count, 3);
         }
 
         [When(@"I go Select a PAYMENT OPTION")]
@@ -84,7 +84,7 @@ namespace PostaFlya.Specification.Fliers
                     Id = Guid.NewGuid().ToString()
                 };
 
-            SpecUtil.ControllerResult = paymentController.PaymnetCallback(transaction);
+            SpecUtil.ControllerResult = paymentController.PaymentCallback(transaction);
         }
 
         [Then(@"I will be Shown the Error Details")]
@@ -120,7 +120,7 @@ namespace PostaFlya.Specification.Fliers
                 Message = "",
                 Id = Guid.NewGuid().ToString()
             };
-            SpecUtil.ControllerResult = paymentController.PaymnetCallback(transaction);
+            SpecUtil.ControllerResult = paymentController.PaymentCallback(transaction);
         }
 
         [Then(@"I will be Shown the Transaction Details")]

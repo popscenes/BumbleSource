@@ -38,6 +38,10 @@ namespace PostaFlya.Application.Domain.Binding
                 .To<PostaFlyaBrowserInformation>()
                 .InRequestScope();
 
+            Kernel.Bind<FlierWebAnalyticServiceInterface>()
+                  .To<DefaultFlierWebAnalyticService>()
+                  .InRequestScope();
+
             Trace.TraceInformation("Finished Binding ApplicationDomainNinjectBinding");
         }
 

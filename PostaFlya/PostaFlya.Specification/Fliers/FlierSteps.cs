@@ -622,14 +622,13 @@ namespace PostaFlya.Specification.Fliers
             createFlierModel.EnableAnalytics = true;
         }
 
-        [Then(@"My Visit will be recorded against the flier with my last known location details")]
-        public void ThenMyVisitWillBeRecordedAgainstTheFlierAndLocationDetailsIfAvailable()
+        [Then(@"My Visit will be recorded against the FLIER")]
+        public void ThenMyVisitWillBeRecordedAgainstTheFlier()
         {
 
-//            var mod = ScenarioContext.Current["fliermodel"]  as BulletinFlierModel;
-//
-//            var visitController = SpecUtil.GetController<VisitStatsApiController>();
-//            visitController.Put(mod.Id, )
+            var mod = ScenarioContext.Current["fliermodel"]  as BulletinFlierModel;
+
+            var queryService = SpecUtil.CurrIocKernel.Get<GenericQueryServiceInterface>();
 
         }
 

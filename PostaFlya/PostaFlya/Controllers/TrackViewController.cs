@@ -5,12 +5,12 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using PostaFlya.Application.Domain.Browser;
+using PostaFlya.Application.Domain.Flier;
 using PostaFlya.Domain.Flier;
+using PostaFlya.Domain.Flier.Analytic;
 using PostaFlya.Domain.Flier.Command;
 using PostaFlya.Models.Location;
-using Website.Application.Binding;
 using Website.Domain.Location;
-using Website.Infrastructure.Command;
 using Website.Infrastructure.Configuration;
 using Website.Infrastructure.Query;
 
@@ -20,17 +20,19 @@ namespace PostaFlya.Controllers
     {
         private readonly PostaFlyaBrowserInformationInterface _browserInformation;
         private readonly ConfigurationServiceInterface _configurationService;
-        private readonly CommandBusInterface _commandBus;
         private readonly GenericQueryServiceInterface _queryService;
+        private readonly FlierWebAnalyticServiceInterface _webAnalyticService;
+        
 
-
-        public TrackViewController(PostaFlyaBrowserInformationInterface browserInformation, ConfigurationServiceInterface configurationService
-            , [WorkerCommandBus]CommandBusInterface commandBus, GenericQueryServiceInterface queryService)
+        public TrackViewController(PostaFlyaBrowserInformationInterface browserInformation
+            , ConfigurationServiceInterface configurationService
+            , GenericQueryServiceInterface queryService
+            , FlierWebAnalyticServiceInterface webAnalyticService)
         {
             _browserInformation = browserInformation;
             _configurationService = configurationService;
-            _commandBus = commandBus;
             _queryService = queryService;
+            _webAnalyticService = webAnalyticService;
         }
 
         public ActionResult Index(string t, string id)
@@ -47,20 +49,8 @@ namespace PostaFlya.Controllers
             if(flier == null)
                 return new HttpStatusCodeResult(HttpStatusCode.NotFound);
 
-            if (loc != null && loc.IsValid())
-            {
-                _browserInformation.LastLocation = loc.ToDomainModel();
-                _browserInformation.LocationFromDevice = true;
-            }
+            _webAnalyticService.RecordVisit(flier.Id, FlierAnalyticSourceAction.LocationTrack, loc.ToDomainModel());
 
-            _commandBus.Send(new FlierAnalyticCommand()
-            {
-                FlierId = flier.Id,
-                TrackingId = _browserInformation.TrackingId,
-                IpAddress = _browserInformation.IpAddress,
-                UserAgent = _browserInformation.UserAgent,
-                Source = "LocationTrack"
-            });
             return new HttpStatusCodeResult(HttpStatusCode.OK);
         }
 
