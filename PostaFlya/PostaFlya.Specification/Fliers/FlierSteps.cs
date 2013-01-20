@@ -6,6 +6,8 @@ using System.Linq;
 using System.Web.Mvc;
 using NUnit.Framework;
 using Ninject;
+using PostaFlya.Areas.Default.Models;
+using PostaFlya.Domain.Flier.Analytic;
 using PostaFlya.Domain.Flier.Query;
 using TechTalk.SpecFlow;
 using PostaFlya.Controllers;
@@ -20,7 +22,6 @@ using Website.Domain.Browser.Query;
 using Website.Domain.Payment;
 using Website.Infrastructure.Authentication;
 using Website.Infrastructure.Command;
-using Website.Infrastructure.Domain;
 using Website.Infrastructure.Query;
 using Website.Test.Common;
 using Website.Domain.Browser;
@@ -626,9 +627,32 @@ namespace PostaFlya.Specification.Fliers
         public void ThenMyVisitWillBeRecordedAgainstTheFlier()
         {
 
-            var mod = ScenarioContext.Current["fliermodel"]  as BulletinFlierModel;
+            var mod = ScenarioContext.Current["fliermodel"] as DefaultDetailsViewModel;
 
             var queryService = SpecUtil.CurrIocKernel.Get<GenericQueryServiceInterface>();
+
+            var analytics = queryService.FindAggregateEntityIds<FlierAnalytic>(mod.Flier.Id);
+            Assert.That(analytics.Count(), Is.GreaterThan(0));
+
+            var item = queryService.FindById<FlierAnalytic>(analytics.First());
+
+            Assert.That(item.TemporaryBrowser, Is.False);
+
+            Assert.That(string.IsNullOrWhiteSpace(item.TrackingId), Is.False);
+
+            ScenarioContext.Current["analytic"] = item;
+        }
+
+        [Then(@"The Anayltic For The Visit will contain the search LOCATION")]
+        public void ThenTheAnaylticForTheVisitWillContainTheSearchLOCATION()
+        {
+            var analytic = ScenarioContext.Current["analytic"] as FlierAnalyticInterface;
+            Assert.That(analytic.Location, Is.Not.Null);
+            Assert.That(analytic.Location.IsValid, Is.True);
+
+            var location = SpecUtil.CurrIocKernel.Get<Location>(ib => ib.Get<bool>("default"));
+            Assert.AreEqual(location, analytic.Location);
+
 
         }
 

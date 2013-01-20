@@ -7,6 +7,7 @@ namespace Website.Infrastructure.Command
     public interface UnitOfWorkFactoryInterface
     {
         UnitOfWorkInterface GetUnitOfWork(IEnumerable contexts);
+        UnitOfWorkInterface GetUnitOfWork(params object[] contexts);
     }
 
     public interface UnitOfWorkInterface : IDisposable

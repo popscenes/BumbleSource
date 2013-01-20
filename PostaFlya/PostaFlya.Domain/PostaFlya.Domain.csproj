@@ -92,6 +92,7 @@
     <Compile Include="Boards\Event\BoardModifiedEvent.cs" />
     <Compile Include="Boards\Query\BoardQueryServiceUtil.cs" />
     <Compile Include="Flier\Analytic\FlierAnalyticSourceAction.cs" />
+    <Compile Include="Flier\Analytic\FlierAnalytic.cs" />
     <Compile Include="Flier\Command\FlierAnalyticCommand.cs" />
     <Compile Include="Flier\Command\FlierAnalyticCommandHandler.cs" />
     <Compile Include="Flier\Event\FlierModifiedEvent.cs" />

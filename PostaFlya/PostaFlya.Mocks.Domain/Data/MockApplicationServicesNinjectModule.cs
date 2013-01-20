@@ -28,6 +28,10 @@ namespace PostaFlya.Mocks.Domain.Data
 
             SetUpTestExternalSourceServices(kernel);
             SetUpFlierPrintService(kernel);
+
+            Kernel.Bind<FlierWebAnalyticServiceInterface>()
+                  .To<DefaultFlierWebAnalyticService>()
+                  .InTransientScope();
         }
 
         public static void SetUpTinyUrlService<EnityType>(MoqMockingKernel kernel)

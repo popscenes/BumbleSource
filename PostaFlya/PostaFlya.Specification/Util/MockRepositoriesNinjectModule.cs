@@ -6,6 +6,7 @@ using Ninject.MockingKernel.Moq;
 using Ninject.Modules;
 using PostaFlya.Application.Domain.Browser;
 using PostaFlya.Domain.Boards;
+using PostaFlya.Domain.Flier.Analytic;
 using TechTalk.SpecFlow;
 using PostaFlya.Domain.Flier;
 using PostaFlya.Domain.TaskJob;
@@ -57,6 +58,9 @@ namespace PostaFlya.Specification.Util
             TestRepositoriesNinjectModule.SetUpBoardFlierRepositoryAndQueryService(kernel
                 , SpecUtil.GetMockStore<HashSet<BoardFlierInterface>>("boardflierstore"));
             
+            TestRepositoriesNinjectModule.SetUpAnalyticRepositoryAndQueryService(kernel
+                , SpecUtil.GetMockStore<HashSet<FlierAnalyticInterface>>("analyticstore"));
+
 
             PrincipalData.SetPrincipal(kernel);
 
@@ -86,13 +90,17 @@ namespace PostaFlya.Specification.Util
 
             Location lastLoc = null;
             mockBrowserInfo.SetupSet<Location>(bi => bi.LastSearchLocation = It.IsAny<Location>())
-                           .Callback((loc) => lastLoc = loc);
-            mockBrowserInfo.SetupGet(bi => bi.LastSearchLocation).Returns(lastLoc);
+                           .Callback((loc) 
+                               => lastLoc = loc);
+            mockBrowserInfo.SetupGet(bi => bi.LastSearchLocation)
+                           .Returns(
+                           () => lastLoc);
 
             string trackingId = null;
             mockBrowserInfo.SetupSet<string>(bi => bi.TrackingId = It.IsAny<string>())
                            .Callback((tid) => trackingId = tid);
-            mockBrowserInfo.SetupGet(bi => bi.TrackingId).Returns(trackingId);
+            mockBrowserInfo.SetupGet(bi => bi.TrackingId).Returns(
+                () => trackingId);
         }
 
         public Browser GetBrowserInfo()

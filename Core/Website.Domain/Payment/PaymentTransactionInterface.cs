@@ -17,6 +17,7 @@ namespace Website.Domain.Payment
             target.Status = source.Status;
             target.TransactionId = source.TransactionId;
             target.Type = source.Type;
+            target.Time = source.Time;
             BrowserIdInterfaceExtensions.CopyFieldsFrom(target, source);
             EntityIdInterfaceExtensions.CopyFieldsFrom(target, source);
             AggregateInterfaceExtensions.CopyFieldsFrom(target, source);
@@ -39,6 +40,8 @@ namespace Website.Domain.Payment
 
         string Message{ get; set; }
 
+        DateTimeOffset Time { get; set; }
+
     }
 
     public class PaymentTransaction : PaymentTransactionInterface
@@ -57,6 +60,7 @@ namespace Website.Domain.Payment
         public PaymentTransactionStatus Status { get; set; }
 
         public string Message { get; set; }
+        public DateTimeOffset Time { get; set; }
 
         public int Version { get; set; }
 
@@ -71,5 +75,7 @@ namespace Website.Domain.Payment
         public string AggregateId { get; set; }
         public string AggregateTypeTag { get; set; }
         public string BrowserId { get; set; }
+
+        
     }
 }

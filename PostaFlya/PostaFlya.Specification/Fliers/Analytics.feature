@@ -17,6 +17,12 @@ Scenario: View Flier Details Records Visit
 Given I have navigated to the public view page for a FLIER
 Then My Visit will be recorded against the FLIER
 
+Scenario: View Flier Details from Dynamic Bulletin Board Records Search Location In Analytic
+	Given I have navigated to the BULLETIN BOARD for a LOCATION
+	When I navigate to the public view page for a FLIER from the BULLETIN BOARD
+	Then My Visit will be recorded against the FLIER
+	And The Anayltic For The Visit will contain the search LOCATION
+
 
 
 

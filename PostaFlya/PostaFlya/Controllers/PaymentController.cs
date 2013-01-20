@@ -79,7 +79,8 @@ namespace PostaFlya.Controllers
 
             var browser = _queryService.FindById<Browser>(transaction.PaymentEntityId);
             var paymentPackage = _paymentPackageService.Get(transaction.Amount);
-            
+
+            transaction.Time = DateTimeOffset.UtcNow;
             var transactionCommand = new PaymentTransactionCommand()
                 {
                     Entity = browser,

@@ -6,6 +6,7 @@ using Ninject.MockingKernel.Moq;
 using Ninject.Modules;
 using PostaFlya.Domain.Boards;
 using PostaFlya.Domain.Flier;
+using PostaFlya.Domain.Flier.Analytic;
 using PostaFlya.Domain.Flier.Query;
 using PostaFlya.Domain.TaskJob;
 using Website.Domain.Browser.Query;
@@ -48,6 +49,20 @@ namespace PostaFlya.Mocks.Domain.Data
             SetUpBoardFlierRepositoryAndQueryService(kernel
                 , boardFlierStore);
 
+            SetUpAnalyticRepositoryAndQueryService(kernel
+                , RepoCoreUtil.GetMockStore<FlierAnalyticInterface>());
+
+        }
+
+        public static void SetUpAnalyticRepositoryAndQueryService(MoqMockingKernel kernel, HashSet<FlierAnalyticInterface> store)
+        {
+            RepoUtil.SetupRepo<GenericRepositoryInterface, FlierAnalytic, FlierAnalyticInterface>(store, kernel, FlierAnalyticInterfaceExtensions.CopyFieldsFrom);
+
+            /////////////query service
+            RepoUtil.SetupQueryService<GenericQueryServiceInterface, FlierAnalytic, FlierAnalyticInterface>(store, kernel, FlierAnalyticInterfaceExtensions.CopyFieldsFrom);
+            RepoUtil.FindAggregateEntities<GenericQueryServiceInterface, FlierAnalytic, FlierAnalyticInterface>(store, kernel,
+                                                                                      FlierAnalyticInterfaceExtensions
+                                                                                          .CopyFieldsFrom);
         }
 
         public static  void SetUpBoardFlierRepositoryAndQueryService(MoqMockingKernel kernel, HashSet<BoardFlierInterface> store)
@@ -166,7 +181,7 @@ namespace PostaFlya.Mocks.Domain.Data
                             .Where(
                                 f =>
                                 locationService.IsWithinBoundingBox(boundingBox, f.Location) &&
-                                f.Tags.Intersect(t).Any() &&
+                                (t.Count == 0 || f.Tags.Intersect(t).Any()) &&
                                 (string.IsNullOrWhiteSpace(b) 
                                 || boardFlierStore.Any(
                                 bf => bf.AggregateId == b && 

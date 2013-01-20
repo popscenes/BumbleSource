@@ -4,6 +4,7 @@ using Ninject.Modules;
 using PostaFlya.Domain.Behaviour;
 using PostaFlya.Domain.Boards;
 using PostaFlya.Domain.Flier;
+using PostaFlya.Domain.Flier.Analytic;
 using Website.Application.Domain.TinyUrl;
 using Website.Application.Schedule;
 using Website.Azure.Common.TableStorage;
@@ -57,7 +58,7 @@ namespace PostaFlya.DataRepository.Binding
             tableNameProv.Add<FlierBehaviourInterface>(JsonRepository.FriendlyIdPartiton, "flierbehaviour", e => e.FriendlyId, e => e.Id);
 
             tableNameProv.Add<PaymentTransaction>(JsonRepository.IdPartition, "paymentTransaction", e => e.Id);
-            tableNameProv.Add<PaymentTransaction>(JsonRepository.AggregateIdPartition, "paymentTransaction", e => e.AggregateId, e => e.Id);
+            tableNameProv.Add<PaymentTransaction>(JsonRepository.AggregateIdPartition, "paymentTransaction", e => e.AggregateId, e => e.Id.ToDescendingTimeKey(e.Time));
 
             tableNameProv.Add<CreditTransaction>(JsonRepository.IdPartition, "creditTransaction", e => e.Id);
             tableNameProv.Add<CreditTransaction>(JsonRepository.AggregateIdPartition, "creditTransaction", e => e.AggregateId, e => e.Id);
@@ -65,8 +66,11 @@ namespace PostaFlya.DataRepository.Binding
             tableNameProv.Add<TinyUrlRecordInterface>(JsonRepository.IdPartition, "tinyurlentity", e => e.Id);
             tableNameProv.Add<TinyUrlRecordInterface>(JsonRepository.AggregateIdPartition, "tinyurlentity", e => e.AggregateId, e => e.Id);
 
-
             tableNameProv.Add<JobBase>(JsonRepository.IdPartition, "jobs", e => e.Id);
+
+            tableNameProv.Add<FlierAnalyticInterface>(JsonRepository.IdPartition, "analytics", e => e.Id);
+            tableNameProv.Add<FlierAnalyticInterface>(JsonRepositoryWithBrowser.AggregateIdPartition, "analytics", e => e.AggregateId, e => e.Id.ToAscendingTimeKey(e.Time));
+
 
             var tctx = Kernel.Get<TableContextInterface>();
             foreach (var tableName in tableNameProv.GetAllTableNames())

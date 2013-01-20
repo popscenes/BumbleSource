@@ -72,7 +72,11 @@ namespace Website.Application.Domain.Browser
                 SetClientStateValue(TempBrowserId, browserId);
             }
 
-            return new Website.Domain.Browser.Browser(browserId) { FriendlyId = "Anonymous-Browser" };
+            return new Website.Domain.Browser.Browser(browserId)
+                {
+                    FriendlyId = "Anonymous-Browser",
+                    Roles = new Website.Domain.Browser.Roles { Role.Temporary.ToString() },
+                };
         }
 
         #region Implementation of BrowserInformationInterface

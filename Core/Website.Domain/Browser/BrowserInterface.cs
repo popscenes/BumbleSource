@@ -46,6 +46,12 @@ namespace Website.Domain.Browser
         {
             return browser.FirstName + " " + browser.Surname;
         }
+
+
+        public static bool IsTemporary(this BrowserInterface browser)
+        {
+            return browser.HasRole(Role.Temporary);
+        }
     }
 
     public interface BrowserInterface : EntityInterface, ContactDetailsInterface, ChargableEntityInterface

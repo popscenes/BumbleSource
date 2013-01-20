@@ -91,6 +91,21 @@ namespace PostaFlya.Specification.Fliers
             testRunner.Then("My Visit will be recorded against the FLIER", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
             this.ScenarioCleanup();
         }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("View Flier Details from Dynamic Bulletin Board Records Search Location In Analyti" +
+            "c")]
+        public virtual void ViewFlierDetailsFromDynamicBulletinBoardRecordsSearchLocationInAnalytic()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("View Flier Details from Dynamic Bulletin Board Records Search Location In Analyti" +
+                    "c", ((string[])(null)));
+            this.ScenarioSetup(scenarioInfo);
+            testRunner.Given("I have navigated to the BULLETIN BOARD for a LOCATION", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+            testRunner.When("I navigate to the public view page for a FLIER from the BULLETIN BOARD", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+            testRunner.Then("My Visit will be recorded against the FLIER", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+            testRunner.And("The Anayltic For The Visit will contain the search LOCATION", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+            this.ScenarioCleanup();
+        }
     }
 }
 #pragma warning restore

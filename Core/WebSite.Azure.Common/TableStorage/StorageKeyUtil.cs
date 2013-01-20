@@ -40,5 +40,25 @@ namespace Website.Azure.Common.TableStorage
             return id.CreateRowKeyForEntityId(dateTime.GetTimestampDescending());
         }
 
+        public static string GetTimestampAscending(this DateTimeOffset dateTime)
+        {
+            return dateTime.ToString("D20");
+        }
+
+        public static string GetTimestampDescending(this DateTimeOffset dateTime)
+        {
+            return (DateTime.MaxValue.Ticks - dateTime.Ticks).ToString("D20");
+        }
+
+        public static string ToAscendingTimeKey(this string id, DateTimeOffset dateTime)
+        {
+            return id.CreateRowKeyForEntityId(dateTime.GetTimestampAscending());
+        }
+
+        public static string ToDescendingTimeKey(this string id, DateTimeOffset dateTime)
+        {
+            return id.CreateRowKeyForEntityId(dateTime.GetTimestampDescending());
+        }
+
     }
 }

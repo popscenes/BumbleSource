@@ -68,7 +68,7 @@ namespace PostaFlya.Controllers
             var ret = GetDetail(id, _queryService, _behaviourQueryService, _blobStorage, _viewModelFactory);
             
             if(ret != null)
-                _webAnalyticService.RecordVisit(id, FlierAnalyticSourceAction.IdByApi);
+                _webAnalyticService.RecordVisit(ret.Flier.Id, FlierAnalyticSourceAction.IdByApi);
             
             return ret;
         }
@@ -76,7 +76,7 @@ namespace PostaFlya.Controllers
         public IList<BulletinFlierModel> Get([FromUri]LocationModel loc
             ,int count, string board = "", int skip = 0, int distance = 0, string tags = "")
         {
-            
+            _webAnalyticService.SetLastSearchLocation(loc.ToDomainModel());
             return GetFliers(_flierSearchService, _queryService, _blobStorage, _viewModelFactory
                              , loc, count, board, skip, distance, tags);
         }

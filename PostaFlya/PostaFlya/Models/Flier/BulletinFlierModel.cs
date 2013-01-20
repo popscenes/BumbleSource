@@ -59,6 +59,8 @@ namespace PostaFlya.Models.Flier
         public static BulletinFlierModel GetContactDetails(this BulletinFlierModel model, GenericQueryServiceInterface queryService)
         {
             var owner = queryService.FindById<Website.Domain.Browser.Browser>(model.BrowserId);
+            if (owner == null)
+                return model;
             model.OwnerName = owner.FirstName + " " + owner.Surname;
             return model;
         }

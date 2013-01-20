@@ -178,52 +178,71 @@ namespace PostaFlya.Mocks.Domain.Data
                 
 
             //add inside the bounds with some matching tags
+            var count = 0;
             var flier = new Flier(getRandLoc(true)) {EffectiveDate = DateTime.Now};
             getTags(true, flier.Tags);
             flier.BrowserId = GlobalDefaultsNinjectModule.DefaultBrowserId;
+            flier.FriendlyId = "Bulletin" + count++;
             flierRepository.Store(flier);
 
             flier = new Flier(getRandLoc(true)) {EffectiveDate = DateTime.Now.AddDays(-1)};
             getTags(true, flier.Tags);
             flier.BrowserId = GlobalDefaultsNinjectModule.DefaultBrowserId;
+            flier.FriendlyId = "Bulletin" + count++;                     
             flierRepository.Store(flier);
 
             flier = new Flier(getRandLoc(true)) {EffectiveDate = DateTime.Now.AddDays(3)};
             getTags(true, flier.Tags);
             flier.BrowserId = GlobalDefaultsNinjectModule.DefaultBrowserId;
+            flier.FriendlyId = "Bulletin" + count++;                         
             flierRepository.Store(flier);
 
             //add inside the bounds without matching tags
             flier = new Flier(getRandLoc(true)) {EffectiveDate = DateTime.Now.AddDays(0)};
             getTags(false, flier.Tags);
+            flier.FriendlyId = "Bulletin" + count++;                         
             flierRepository.Store(flier);
+
             flier = new Flier(getRandLoc(true)) {EffectiveDate = DateTime.Now.AddDays(-1)};
             getTags(false, flier.Tags);
+            flier.FriendlyId = "Bulletin" + count++;                         
             flierRepository.Store(flier);
+
             flier = new Flier(getRandLoc(true)) {EffectiveDate = DateTime.Now.AddDays(3)};
             getTags(false, flier.Tags);
+            flier.FriendlyId = "Bulletin" + count++;                         
             flierRepository.Store(flier);
 
             //add some outside the bounds with some matching tags
             flier = new Flier(getRandLoc(false)) {EffectiveDate = DateTime.Now.AddDays(0)};
             getTags(true, flier.Tags);
+            flier.FriendlyId = "Bulletin" + count++;                         
             flierRepository.Store(flier);
+
             flier = new Flier(getRandLoc(false)) {EffectiveDate = DateTime.Now.AddDays(1)};
             getTags(true, flier.Tags);
+            flier.FriendlyId = "Bulletin" + count++;                         
             flierRepository.Store(flier);
+
             flier = new Flier(getRandLoc(false)) {EffectiveDate = DateTime.Now.AddDays(-3)};
             getTags(true, flier.Tags);
+            flier.FriendlyId = "Bulletin" + count++;                         
             flierRepository.Store(flier);
 
             //add some outside the bounds without matching tags
             flier = new Flier(getRandLoc(false)) {EffectiveDate = DateTime.Now.AddDays(0)};
             getTags(false, flier.Tags);
+            flier.FriendlyId = "Bulletin" + count++;                         
             flierRepository.Store(flier);
+
             flier = new Flier(getRandLoc(false)) {EffectiveDate = DateTime.Now.AddDays(1)};
             getTags(false, flier.Tags);
+            flier.FriendlyId = "Bulletin" + count++;                         
             flierRepository.Store(flier);
+
             flier = new Flier(getRandLoc(false)) {EffectiveDate = DateTime.Now.AddDays(-3)};
             getTags(false, flier.Tags);
+            flier.FriendlyId = "Bulletin" + count;                         
             flierRepository.Store(flier);
         }
 

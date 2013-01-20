@@ -32,5 +32,11 @@ namespace PostaFlya.Application.Domain.Flier
                 SourceAction = context
             });
         }
+
+        public void SetLastSearchLocation(Location loc)
+        {
+            if (loc.IsValid)
+                _browserInformation.LastSearchLocation = loc;
+        }
     }
 }

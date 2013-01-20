@@ -14,29 +14,34 @@ namespace Website.Infrastructure.Command
             return new UnitOfWorkForRepositories(contexts);
         }
 
+        public UnitOfWorkInterface GetUnitOfWork(params object[] contexts)
+        {
+            return new UnitOfWorkForRepositories(contexts);
+        }
+
         #endregion
     }
 
     class UnitOfWorkForRepositories : UnitOfWorkInterface
     {
-        private readonly IList<RepositoryInterface> _azureRepos;
+        private readonly IList<RepositoryInterface> _repos;
 
         public UnitOfWorkForRepositories(RepositoryInterface repository)
         {
-            _azureRepos = new List<RepositoryInterface>(){repository};
+            _repos = new List<RepositoryInterface>(){repository};
         }
 
         public UnitOfWorkForRepositories(IEnumerable repositories)
         {
             Successful = false;
-            _azureRepos = repositories.OfType<RepositoryInterface>().ToList();
+            _repos = repositories.OfType<RepositoryInterface>().ToList();
         }
 
         #region Implementation of UnitOfWorkInterface
 
         public void Dispose()
         {
-            Successful = _azureRepos.All(a => a.SaveChanges());
+            Successful = _repos.All(a => a.SaveChanges());
         }
 
         public bool Successful { get; private set; }

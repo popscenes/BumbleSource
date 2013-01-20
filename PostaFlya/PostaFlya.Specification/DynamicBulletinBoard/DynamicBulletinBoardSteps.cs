@@ -34,6 +34,18 @@ namespace PostaFlya.Specification.DynamicBulletinBoard
                 , browserInfoService.Browser.Tags.ToString());
         }
 
+        [Given(@"I have navigated to the public view page for a FLIER from the BULLETIN BOARD")]
+        [When(@"I navigate to the public view page for a FLIER from the BULLETIN BOARD")]
+        public void WhenIHaveNavigatedToThePublicViewPageForAFLIERFromTheBULLETINBOARD()
+        {
+            var fliers = SpecUtil.ControllerResult as IList<BulletinFlierModel>;
+            var flier = fliers.FirstOrDefault();
+            Assert.IsNotNull(flier, "no fliers in context");
+
+            var bulletinApiController = SpecUtil.GetController<BulletinApiController>();
+            var mod = bulletinApiController.Get(flier.FriendlyId);
+            ScenarioContext.Current["fliermodel"] = mod;
+        }
 
 
         //REUSE
