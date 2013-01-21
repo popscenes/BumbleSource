@@ -23,7 +23,7 @@ namespace Website.Domain.Browser
         IdentityProviderCredential, BrowserIdentityProviderCredentialInterface
     {
         public string BrowserId { get; set; }
-        public string Id { get { return GetHash(); } set { } }
+        public string Id { get { return ToUniqueString(); } set { } }
         public string FriendlyId { get { return ToString(); } set { } }
     }
 }

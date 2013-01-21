@@ -7,9 +7,7 @@ using System.Web.Http;
 using PostaFlya.Domain.Flier;
 using PostaFlya.Models.Browser;
 using PostaFlya.Models.Claims;
-using Website.Application.Binding;
 using PostaFlya.Binding;
-using Website.Application.Content;
 using Website.Common.Extension;
 using Website.Domain.Browser;
 using Website.Infrastructure.Command;
@@ -25,15 +23,12 @@ namespace PostaFlya.Controllers
     {
         private readonly CommandBusInterface _commandBus;
         private readonly GenericQueryServiceInterface _queryService;
-        private readonly BlobStorageInterface _blobStorage;
 
         public ClaimController(CommandBusInterface commandBus
-            , GenericQueryServiceInterface queryService
-            , [ImageStorage]BlobStorageInterface blobStorage)
+            , GenericQueryServiceInterface queryService)
         {
             _commandBus = commandBus;
             _queryService = queryService;
-            _blobStorage = blobStorage;
         }
 
         public HttpResponseMessage Post(CreateClaimModel claim)

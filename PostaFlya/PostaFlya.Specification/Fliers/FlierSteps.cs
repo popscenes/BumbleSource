@@ -656,8 +656,23 @@ namespace PostaFlya.Specification.Fliers
 
         }
 
-       
+        [Given(@"I have created a FLIER with a FEATURE described as Gather Flier Analytics Feature")]
+        public void GivenIHaveCreatedAFLIERWithAFEATUREDescribedAsGatherFlierAnalyticsFeature()
+        {
+            GivenIOrAnotherBrowserHasNavigatedToTheCreateFlierPage(FlierBehaviour.Default.ToString());
+            GivenIChooseToEnableAnalytics();
+            _common.GivenIHaveAccountCredit(1000);
+            WhenISubmitTheRequiredDataForAFlier();
+            ThenTheNewFlierWillBeCreated(FlierBehaviour.Default.ToString());
+            ThenTheFlierStatusWillBe(FlierStatus.Active.ToString());
+        }
 
-        
+        [Then(@"I should see the Analytic Info with the FLIER details")]
+        public void ThenIShouldSeeTheAnalyticInfoWithTheFLIERDetails()
+        {
+            var mod = ScenarioContext.Current["fliermodel"] as DefaultDetailsViewModel;
+            Assert.That(mod.AnalyticInfo, Is.Not.Null);
+        }
+
     }
 }

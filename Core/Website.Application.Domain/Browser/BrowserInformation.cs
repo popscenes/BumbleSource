@@ -1,5 +1,7 @@
 using System;
 using System.Diagnostics;
+using System.Linq;
+using System.Security.Principal;
 using System.Web;
 using Newtonsoft.Json;
 using Website.Domain.Browser.Query;
@@ -24,8 +26,17 @@ namespace Website.Application.Domain.Browser
             UserAgent = _httpContext.Request.UserAgent;
             
             var identity = (WebIdentityInterface)_httpContext.User.Identity;
-            Browser = (!identity.IsAuthenticated ? AnonymousBrowserGet() : browserQueryService.FindBrowserByIdentityProvider(identity.ToCredential())) ??
-                      AnonymousBrowserGet();
+            BrowserInterface browser = null;
+            if (identity.IsAuthenticated 
+                && (browser = browserQueryService.FindBrowserByIdentityProvider(identity.ToCredential())) != null)
+            {
+                //reset the roles
+                _httpContext.User = new GenericPrincipal(HttpContext.Current.User.Identity, browser.Roles.ToArray());
+            }
+            if (browser == null)
+                browser = AnonymousBrowserGet();
+
+            Browser = browser;
         }
 
         //don't over use these mmmK?

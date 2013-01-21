@@ -98,9 +98,11 @@ namespace PostaFlya.Specification.Util
 
             string trackingId = null;
             mockBrowserInfo.SetupSet<string>(bi => bi.TrackingId = It.IsAny<string>())
-                           .Callback((tid) => trackingId = tid);
+                           .Callback((tid) 
+                               => trackingId = tid);
             mockBrowserInfo.SetupGet(bi => bi.TrackingId).Returns(
-                () => trackingId);
+                () 
+                    => trackingId);
         }
 
         public Browser GetBrowserInfo()

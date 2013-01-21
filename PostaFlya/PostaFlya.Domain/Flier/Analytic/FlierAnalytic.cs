@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Website.Domain.Browser;
 using Website.Domain.Location;
 using Website.Infrastructure.Domain;
@@ -19,6 +20,11 @@ namespace PostaFlya.Domain.Flier.Analytic
             target.SourceAction = source.SourceAction;
             target.Time = source.Time;
             target.Location = source.Location;
+        }
+
+        public static FlierAnalyticInfo ToInfo(this IList<FlierAnalytic> analytics)
+        {
+            return new FlierAnalyticInfo(analytics);
         }
     }
 

@@ -11,7 +11,7 @@ namespace Website.Domain.Browser.Query
                 || string.IsNullOrWhiteSpace(credential.UserIdentifier))
                 return null;
 
-            var prov = queryService.FindById<BrowserIdentityProviderCredential>(credential.GetHash());
+            var prov = queryService.FindById<BrowserIdentityProviderCredential>(credential.ToUniqueString());
             return (prov != null) ?
                 queryService.FindById<Website.Domain.Browser.Browser>(prov.BrowserId) :
                 null;

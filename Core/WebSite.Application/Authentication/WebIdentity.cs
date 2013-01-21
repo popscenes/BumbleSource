@@ -14,15 +14,25 @@ namespace Website.Application.Authentication
             _nameIdentifier = "";
             _name = "";
             _emailAddress = "";
-            _isAUthenticated = false;
+            _isAuthenticated = false;
+        }
+
+        public WebIdentity(String userData)
+        {
+            Init(userData);
         }
 
         public WebIdentity(FormsAuthenticationTicket authTicket)
         {
-            var userdataArray = authTicket.UserData.Split(new char[] {'|'}, StringSplitOptions.None);
-            if(userdataArray.Count() < 4)
+            Init(authTicket.UserData);
+        }
+
+        private void Init(string userData)
+        {
+            var userdataArray = userData.Split(new[] { IdentityProviderCredential.Delimiter }, StringSplitOptions.None);
+            if (userdataArray.Count() < 2)
             {
-                _isAUthenticated = false;
+                _isAuthenticated = false;
                 return;
             }
 
@@ -36,7 +46,7 @@ namespace Website.Application.Authentication
             _name = userDataArray[2];
             _emailAddress = userDataArray[3];
 
-            _isAUthenticated = true;
+            _isAuthenticated = true;
         }
 
         private string _emailAddress;
@@ -71,10 +81,10 @@ namespace Website.Application.Authentication
             get { return "forms"; }
         }
 
-        private bool _isAUthenticated;
+        private bool _isAuthenticated;
         public bool IsAuthenticated
         {
-            get { return _isAUthenticated; }
+            get { return _isAuthenticated; }
         }
 
         private string _name;

@@ -106,6 +106,20 @@ namespace PostaFlya.Specification.Fliers
             testRunner.And("The Anayltic For The Visit will contain the search LOCATION", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
             this.ScenarioCleanup();
         }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("View Flier Analytics")]
+        public virtual void ViewFlierAnalytics()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("View Flier Analytics", ((string[])(null)));
+            this.ScenarioSetup(scenarioInfo);
+            testRunner.Given("I have created a FLIER with a FEATURE described as Gather Flier Analytics Feature" +
+                    "", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+            testRunner.When("I have navigated to the public view page for that FLIER", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+            testRunner.Then("I should see the public details of that FLIER", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+            testRunner.And("I should see the Analytic Info with the FLIER details", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+            this.ScenarioCleanup();
+        }
     }
 }
 #pragma warning restore

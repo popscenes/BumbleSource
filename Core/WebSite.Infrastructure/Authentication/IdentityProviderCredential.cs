@@ -1,4 +1,5 @@
 using System;
+using System.Text;
 using Website.Infrastructure.Util;
 
 namespace Website.Infrastructure.Authentication
@@ -36,6 +37,7 @@ namespace Website.Infrastructure.Authentication
     [Serializable]
     public class IdentityProviderCredential : IdentityProviderCredentialInterface
     {
+        public const string Delimiter = " | ";
         public string IdentityProvider { get; set; }
         public string UserIdentifier { get; set; }
         public string Name { get; set; }
@@ -52,14 +54,19 @@ namespace Website.Infrastructure.Authentication
             return Equals(identprovider);
         }
 
-        public string GetHash()
+        public string ToUniqueString()
         {
-            return CryptoUtil.CalculateHash(IdentityProvider + UserIdentifier);
+            var toEncodeAsBytes
+            = System.Text.Encoding.ASCII.GetBytes(IdentityProvider + UserIdentifier);
+            var sb = new StringBuilder();
+            for (var i = 0; i < toEncodeAsBytes.Length; i++)
+                sb.Append(toEncodeAsBytes[i].ToString("x2"));
+            return sb.ToString();
         }
 
         public override string ToString()
         {
-            return IdentityProvider + "|" + UserIdentifier + "|" + Name + "|" + Email;
+            return IdentityProvider + Delimiter + UserIdentifier + Delimiter + Name + Delimiter + Email;
         }
 
         public bool Equals(IdentityProviderCredential other)

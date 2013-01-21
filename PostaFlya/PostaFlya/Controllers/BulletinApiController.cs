@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Web.Http;
+using PostaFlya.Application.Domain.Browser;
 using PostaFlya.Application.Domain.Flier;
 using PostaFlya.Domain.Flier.Analytic;
 using PostaFlya.Domain.Flier.Command;
@@ -32,13 +33,15 @@ namespace PostaFlya.Controllers
         private readonly FlierSearchServiceInterface _flierSearchService;
         private readonly FlierWebAnalyticServiceInterface _webAnalyticService;
         private readonly TinyUrlServiceInterface _tinyUrlService;
+        private readonly PostaFlyaBrowserInformationInterface _browserInformation;
 
 
         public BulletinApiController(GenericQueryServiceInterface queryService,
             [ImageStorage]BlobStorageInterface blobStorage
             , FlierBehaviourQueryServiceInterface behaviourQueryService
             , FlierBehaviourViewModelFactoryInterface viewModelFactory, FlierSearchServiceInterface flierSearchService
-            , FlierWebAnalyticServiceInterface webAnalyticService, TinyUrlServiceInterface tinyUrlService)
+            , FlierWebAnalyticServiceInterface webAnalyticService, TinyUrlServiceInterface tinyUrlService
+            , PostaFlyaBrowserInformationInterface browserInformation)
         {
             _queryService = queryService;
             _blobStorage = blobStorage;
@@ -47,6 +50,7 @@ namespace PostaFlya.Controllers
             _flierSearchService = flierSearchService;
             _webAnalyticService = webAnalyticService;
             _tinyUrlService = tinyUrlService;
+            _browserInformation = browserInformation;
         }
 
         public DefaultDetailsViewModel Get([FromUri] LocationModel currloc, string tinyUrl)
@@ -55,7 +59,7 @@ namespace PostaFlya.Controllers
             if (ent == null)
                 return null;
 
-            var ret = GetDetail(ent.Id, _queryService, _behaviourQueryService, _blobStorage, _viewModelFactory);
+            var ret = GetDetail(ent.Id, _queryService, _behaviourQueryService, _blobStorage, _viewModelFactory, _browserInformation);
             
             if (ret != null)
                 _webAnalyticService.RecordVisit(ent.Id, FlierAnalyticSourceAction.TinyUrlByApi, currloc.ToDomainModel());
@@ -64,8 +68,8 @@ namespace PostaFlya.Controllers
         }
 
         public DefaultDetailsViewModel Get(string id)
-        {            
-            var ret = GetDetail(id, _queryService, _behaviourQueryService, _blobStorage, _viewModelFactory);
+        {
+            var ret = GetDetail(id, _queryService, _behaviourQueryService, _blobStorage, _viewModelFactory, _browserInformation);
             
             if(ret != null)
                 _webAnalyticService.RecordVisit(ret.Flier.Id, FlierAnalyticSourceAction.IdByApi);
@@ -82,14 +86,10 @@ namespace PostaFlya.Controllers
         }
 
         [NonAction]
-        public static DefaultDetailsViewModel GetDetail(string id
-            , GenericQueryServiceInterface flierQueryService
-            , FlierBehaviourQueryServiceInterface behaviourQueryService
-            , BlobStorageInterface blobStorage
-            , FlierBehaviourViewModelFactoryInterface viewModelFactory)
+        public static DefaultDetailsViewModel GetDetail(string id, GenericQueryServiceInterface queryService, FlierBehaviourQueryServiceInterface behaviourQueryService, BlobStorageInterface blobStorage, FlierBehaviourViewModelFactoryInterface viewModelFactory, PostaFlyaBrowserInformationInterface browserInformation)
         {
             
-            var flier = flierQueryService.FindByFriendlyId<Flier>(id);
+            var flier = queryService.FindByFriendlyId<Flier>(id);
             if (flier == null)
                 return null;
 
@@ -101,6 +101,12 @@ namespace PostaFlya.Controllers
                 .GetBehaviourViewModel(behaviour);
             ret.Flier.GetImageUrl(blobStorage);
             ret.Flier.ImageList.ForEach(_ => _.GetImageUrl(blobStorage, ThumbOrientation.Horizontal, ThumbSize.S50));
+
+            if (browserInformation.Browser.Id == ret.Flier.BrowserId)
+            {
+                var list = queryService.FindAggregateEntities<FlierAnalytic>(ret.Flier.Id).ToList();
+                ret.AnalyticInfo = list.ToInfo();//if this is inefficient long run move to qs
+            }
             return ret;
         }
 

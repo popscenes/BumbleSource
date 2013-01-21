@@ -182,7 +182,7 @@ namespace PostaFlya.Specification.DynamicBulletinBoard
         {
             var bulletinController = SpecUtil.GetController<BulletinController>();
             var flier = ScenarioContext.Current["flier"] as FlierInterface;
-            SpecUtil.ControllerResult = bulletinController.Detail(flier.Id);
+            SpecUtil.ControllerResult = bulletinController.Detail(flier.FriendlyId);
         }
 
         [Given("I have navigated to the public view page for a FLIER")]

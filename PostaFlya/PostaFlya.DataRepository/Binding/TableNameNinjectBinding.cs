@@ -41,8 +41,8 @@ namespace PostaFlya.DataRepository.Binding
 
             tableNameProv.Add<BrowserInterface>(JsonRepository.IdPartition, "browser", e => e.Id);
             tableNameProv.Add<BrowserInterface>(JsonRepository.FriendlyIdPartiton, "browser", e => e.FriendlyId, e => e.Id);
-            tableNameProv.Add<BrowserIdentityProviderCredential>(JsonRepositoryWithBrowser.IdPartition, "browsercreds", e => e.GetHash(), e => e.BrowserId);
-            tableNameProv.Add<BrowserIdentityProviderCredential>(JsonRepositoryWithBrowser.AggregateIdPartition, "browsercreds", e => e.BrowserId, e => e.GetHash());
+            tableNameProv.Add<BrowserIdentityProviderCredential>(JsonRepositoryWithBrowser.IdPartition, "browsercreds", e => e.ToUniqueString(), e => e.BrowserId);
+            tableNameProv.Add<BrowserIdentityProviderCredential>(JsonRepositoryWithBrowser.AggregateIdPartition, "browsercreds", e => e.BrowserId, e => e.ToUniqueString());
 
             tableNameProv.Add<ImageInterface>(JsonRepository.IdPartition, "image", e => e.Id);
             tableNameProv.Add<ImageInterface>(JsonRepositoryWithBrowser.BrowserPartitionId, "image", e => e.BrowserId, e => e.Id);
@@ -68,9 +68,9 @@ namespace PostaFlya.DataRepository.Binding
 
             tableNameProv.Add<JobBase>(JsonRepository.IdPartition, "jobs", e => e.Id);
 
-            tableNameProv.Add<FlierAnalyticInterface>(JsonRepository.IdPartition, "analytics", e => e.Id);
+            tableNameProv.Add<FlierAnalyticInterface>(JsonRepositoryWithBrowser.IdPartition, "analytics", e => e.Id);
             tableNameProv.Add<FlierAnalyticInterface>(JsonRepositoryWithBrowser.AggregateIdPartition, "analytics", e => e.AggregateId, e => e.Id.ToAscendingTimeKey(e.Time));
-
+            tableNameProv.Add<FlierAnalyticInterface>(JsonRepositoryWithBrowser.BrowserPartitionId, "analytics", e => e.BrowserId, e => e.Id);
 
             var tctx = Kernel.Get<TableContextInterface>();
             foreach (var tableName in tableNameProv.GetAllTableNames())

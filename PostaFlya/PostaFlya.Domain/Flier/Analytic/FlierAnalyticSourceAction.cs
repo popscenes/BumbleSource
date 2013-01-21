@@ -10,6 +10,7 @@
         TinyUrl,
         LocationTrack,
         TinyUrlByApi,
-        IdByApi
+        IdByApi,
+        IdByBulletin
     }
 }

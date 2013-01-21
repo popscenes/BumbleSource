@@ -1,4 +1,5 @@
-﻿using PostaFlya.Application.Domain.Browser;
+﻿using System;
+using PostaFlya.Application.Domain.Browser;
 using PostaFlya.Domain.Flier.Analytic;
 using PostaFlya.Domain.Flier.Command;
 using Website.Application.Binding;
@@ -20,7 +21,10 @@ namespace PostaFlya.Application.Domain.Flier
         }
 
         public void RecordVisit(string flierId, FlierAnalyticSourceAction context, Location location = null)
-        {    
+        {
+            if (string.IsNullOrWhiteSpace(_browserInformation.TrackingId))
+                _browserInformation.TrackingId = Guid.NewGuid().ToString();
+
             _workerCommandBus.Send(new FlierAnalyticCommand()
             {
                 FlierId = flierId,

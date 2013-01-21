@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using Ninject;
+using PostaFlya.Application.Domain.Browser;
+using PostaFlya.Application.Domain.Flier;
+using PostaFlya.Domain.Flier.Analytic;
 using Website.Application.Binding;
 using PostaFlya.Domain.Behaviour.Query;
 using PostaFlya.Domain.Flier.Query;
@@ -25,17 +28,24 @@ namespace PostaFlya.Controllers
         private readonly FlierBehaviourQueryServiceInterface _behaviourQueryService;
         private readonly FlierBehaviourViewModelFactoryInterface _viewModelFactory;
         private readonly FlierSearchServiceInterface _flierSearchService;
+        private readonly PostaFlyaBrowserInformationInterface _browserInformation;
+        private readonly FlierWebAnalyticServiceInterface _webAnalyticService;
 
         public BulletinController(GenericQueryServiceInterface queryService
             , [ImageStorage]BlobStorageInterface blobStorage
             , FlierBehaviourQueryServiceInterface behaviourQueryService
-            , FlierBehaviourViewModelFactoryInterface viewModelFactory, FlierSearchServiceInterface flierSearchService)
+            , FlierBehaviourViewModelFactoryInterface viewModelFactory
+            , FlierSearchServiceInterface flierSearchService
+            , PostaFlyaBrowserInformationInterface browserInformation
+            , FlierWebAnalyticServiceInterface webAnalyticService)
         {
             _queryService = queryService;
             _blobStorage = blobStorage;
             _behaviourQueryService = behaviourQueryService;
             _viewModelFactory = viewModelFactory;
             _flierSearchService = flierSearchService;
+            _browserInformation = browserInformation;
+            _webAnalyticService = webAnalyticService;
         }
 
         public ActionResult Get(LocationModel loc
@@ -63,10 +73,13 @@ namespace PostaFlya.Controllers
         public ActionResult Detail(string id)
         {
             var model = BulletinApiController.GetDetail(id, _queryService, _behaviourQueryService, _blobStorage,
-                                            _viewModelFactory);
+                                            _viewModelFactory, _browserInformation);
 
 
             ViewBag.FlierDetail = model;
+
+            if(model != null)
+                _webAnalyticService.RecordVisit(model.Flier.Id, FlierAnalyticSourceAction.IdByBulletin);
 //            ViewBag.Comments = CommentController.GetComments(_queryService, id)
 //                .Select(c => c.FillBrowserModel(_queryService, _blobStorage)).ToList();
 //            ViewBag.Claims = ClaimController.GetClaims(_queryService, id).ToList();

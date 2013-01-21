@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Security.Principal;
 using System.Threading;
 using System.Web;
@@ -215,26 +216,35 @@ namespace PostaFlya
             if (context == null) return;
             if (context.User == null) return;
 
-            WebIdentity id = new WebIdentity();
+            var id = new WebIdentity();
 
-            HttpCookie authCookie = context.Request.Cookies[FormsAuthentication.FormsCookieName];
+            var authCookie = context.Request.Cookies[FormsAuthentication.FormsCookieName];
             if (authCookie != null)
             {
-                string encTicket = authCookie.Value;
+                var encTicket = authCookie.Value;
                 if (!String.IsNullOrEmpty(encTicket))
                 {
-                    FormsAuthenticationTicket ticket = FormsAuthentication.Decrypt(encTicket);
+                    var ticket = FormsAuthentication.Decrypt(encTicket);
                     id = new WebIdentity(ticket);
-                    GenericPrincipal prin = new GenericPrincipal(id, new string[] { "Participant" });
-
-                    HttpContext.Current.User = prin;
-
+                    //reset in BrowserInformation, if needed
+                    var prin = new GenericPrincipal(id, new[] { Website.Domain.Browser.Role.Temporary.ToString() });
+                    context.User = prin;
                     return;
                 }
             }
 
-            GenericPrincipal emptyPrin = new GenericPrincipal(id, null);
-            HttpContext.Current.User = emptyPrin;
+            var appLogin = context.Request.Headers.Get(HttpRequestHeader.Authorization.ToString());
+            if (!string.IsNullOrWhiteSpace(appLogin))
+            {
+                id = new WebIdentity(appLogin);
+                //reset in BrowserInformation, if needed
+                var prin = new GenericPrincipal(id, new[] { Website.Domain.Browser.Role.Temporary.ToString() });
+                context.User = prin;
+                return;
+            }
+
+            var emptyPrin = new GenericPrincipal(id, null);
+            context.User = emptyPrin;
         }
 
         public static bool CheckDisplayMode(HttpContextBase context, bool mobile)

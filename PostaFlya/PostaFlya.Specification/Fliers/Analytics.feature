@@ -23,6 +23,11 @@ Scenario: View Flier Details from Dynamic Bulletin Board Records Search Location
 	Then My Visit will be recorded against the FLIER
 	And The Anayltic For The Visit will contain the search LOCATION
 
+Scenario: View Flier Analytics
+Given I have created a FLIER with a FEATURE described as Gather Flier Analytics Feature
+When I have navigated to the public view page for that FLIER
+Then I should see the public details of that FLIER
+And I should see the Analytic Info with the FLIER details
 
 
 
