@@ -107,6 +107,8 @@
                 self.fliers(bf.pageState.Fliers);
             }
 
+            self.locationSelector.ShowMap();
+
         };
 
         self._Init();

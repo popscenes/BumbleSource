@@ -550,3 +550,25 @@ a.toolbar-item
     float: right;
     min-width: 270px;
 }
+.cost-container {
+    position: relative;
+    width: 50%;
+}
+
+.cost-breakdown {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    background-color: white;
+    border: solid 1px #cccccc;
+    padding: 0 10px 10px 10px;
+}
+
+    .cost-breakdown li {
+        margin-top: 10px;
+    }
+
+    .cost-description {
+        font-size: 10px;
+    }

@@ -24,7 +24,8 @@
         };
         ko.mapping.fromJS(data, mapping, this);
 
-        self.locationSelector = locationSelector;
+        self.locationSelectorCreateEdit = locationSelector;
+        
         self.imageSelector = imageSelector;
         self.afterUpdateCallback = afterUpdateCallback;
         self.tagsSelector = tagsSelector;
@@ -37,7 +38,7 @@
 
         self.radiusFlierCost = ko.computed(function() {
             var ratePerSqKm = 1;
-            var distence = ko.utils.unwrapObservable(self.locationSelector.currentDistance()) - 5;
+            var distence = ko.utils.unwrapObservable(self.locationSelectorCreateEdit.currentDistance()) - 5;
             var init = ((5 + distence) * (5 + distence) * 3.14 * ratePerSqKm);
 
             var model = new bf.FlierCostModel();
@@ -94,6 +95,7 @@
 
             if (self.currentStep() < self.Steps.length - 1) {
                 self.currentStep(self.currentStep() + 1);
+                self.locationSelectorCreateEdit.ShowMap();
                 if ($(".imageSelector").length > 0) {
                     self.imageSelector.Init();
                 }
@@ -137,7 +139,7 @@
 
             $.ajax(self.apiUrl, {
                 data: ko.toJSON({ Id: self.Id, Title: self.Title, Description: self.Description,
-                    Location: ko.mapping.toJS(self.locationSelector.currentLocation()), TagsString: tagString,
+                    Location: ko.mapping.toJS(self.locationSelectorCreateEdit.currentLocation()), TagsString: tagString,
                     FlierImageId: self.FlierImageId(), FlierBehaviour: 0, EffectiveDate: self.EffectiveDate, ImageList: self.ImageList, ExternalSource: self.ExternalSource, ExternalId: self.ExternalId
                 }),
                 type: "put", contentType: "application/json",
@@ -160,7 +162,7 @@
 
             $.ajax(self.apiUrl, {
                 data: ko.toJSON({ Title: self.Title, Description: self.Description,
-                    Location: self.locationSelector.currentLocation(), TagsString: tagString,
+                    Location: self.locationSelectorCreateEdit.currentLocation(), TagsString: tagString,
                     FlierImageId: self.FlierImageId, FlierBehaviour: 0, EffectiveDate: self.EffectiveDate, ImageList: self.ImageList, ExternalSource: self.ExternalSource, ExternalId: self.ExternalId
                 }),
                 type: "post", contentType: "application/json",

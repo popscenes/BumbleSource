@@ -20,22 +20,22 @@ ko.bindingHandlers.datePicker = {
 
 ko.bindingHandlers.mapBinding = {
     init: function (element, valueAccessor, allBindingsAccessor, viewModel) {
-        var newLocation = viewModel.savedLocations()[$(this)[0].selectedIndex - 1];
-        $(element).change(function () {
-            var newLocation = viewModel.savedLocations()[$(this)[0].selectedIndex - 1];
-            viewModel.currentLocation(newLocation);
-        });
+        //var newLocation = viewModel.savedLocations()[$(this)[0].selectedIndex - 1];
+        //$(element).change(function () {
+        //    var newLocation = viewModel.savedLocations()[$(this)[0].selectedIndex - 1];
+        //    viewModel.currentLocation(newLocation);
+        //});
 
-        viewModel.ShowMap();
+        ///viewModel.ShowMap();
 
         
     },
     update: function (element, valueAccessor, allBindingsAccessor, viewModel) {
-        var currLoc = valueAccessor();
-        if (currLoc() != null && currLoc() != 'undefined' && currLoc().Longitude() != -300) {
-            bf.SetMapPosition($('#' + viewModel.mapElementId()), currLoc().Longitude(), currLoc().Latitude());
-            bf.setMapCircle($('#' + viewModel.mapElementId()), currLoc().Longitude(), currLoc().Latitude(), ko.utils.unwrapObservable(viewModel.currentDistance()));
-        }
+        //var currLoc = valueAccessor();
+        //if (currLoc() != null && currLoc() != 'undefined' && currLoc().Longitude() != -300) {
+        //    bf.SetMapPosition($('#' + viewModel.mapElementId()), currLoc().Longitude(), currLoc().Latitude());
+        //    //bf.setMapCircle($('#' + viewModel.mapElementId()), currLoc().Longitude(), currLoc().Latitude(), ko.utils.unwrapObservable(viewModel.currentDistance()));
+        //}
     }
 };
 
