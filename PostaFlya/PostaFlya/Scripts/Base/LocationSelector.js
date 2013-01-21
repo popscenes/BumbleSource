@@ -20,6 +20,9 @@
         self.distanceSelector = new bf.DistanceSelector();
 
         self.errorMessage = ko.observable(null);
+        self.map = ko.observable(null);
+        self.mapMarkers = [];
+        self.mapCircles = [];
 
         self.currentLocation = ko.observable(new bf.LocationModel());
                
@@ -31,12 +34,13 @@
         self.toggleShowMain = function () {
             var showMain = !self.showMain();
             self.showMain(showMain);
-            $('#' + self.mapElementId()).gmap('refresh');
-            $('#' + self.mapElementId()).gmap('option', 'zoom', 11);
+            
+            if (showMain) {
+                self.updateMap();
+            }
         };
 
-        self.currentDistance = ko.observable(self.distanceSelector.currentDistance);
-
+        self.currentDistance = ko.observable(self.distanceSelector.currentDistance());
         self.savedLocations = ko.observableArray(bf.currentBrowserInstance.SavedLocations);
 
         self.ValidLocation = function() {
@@ -45,22 +49,13 @@
         };
         
         self.ShowMap = function () {
-            $('#' + self.mapElementId()).gmap().bind('init', function (ev, map) {
-
-            });
-
-            bf.LocationSearchAutoComplete($("#" + self.locSearchId()), $('#' + self.mapElementId()), self.currentLocation);
+            var map = bf.createMap(self.mapElementId());
+            self.map(map);
+            bf.LocationSearchAutoComplete(self.locSearchId(), self.map(), self.currentLocation);
         };
 
-        self.searchFromDescription = function (description) {
-            $('#' + self.mapElementId()).gmap('search', { 'address': description },
-            function (results, status) {
-                if (status === 'OK') {
-                    response($.map(results, function (item) {
-                        self.currentLocation({ Description: item.formatted_address, Longitude: item.geometry.location.lng(), Latitude: item.geometry.location.lat() });
-                    }));
-                }
-            });
+        self.updateMap = function() {
+            bf.SetMapPosition(self.map(), self.currentLocation().Longitude(), self.currentLocation().Latitude(), self.currentDistance(), self.mapMarkers, self.mapCircles);
         };
 
         self.SaveCurrentLocation = function () {
@@ -77,42 +72,25 @@
         self.SetCurrentlocationFromGeoCode = function () {
             self.locationType('current');
 
-            $('#' + self.mapElementId()).gmap('getCurrentPosition', function (position, status) {
-
+            bf.getCurrentPosition(function (position, status) {
                 if (status === 'OK') {
-                    
                     self.currentLocation(
                         new bf.LocationModel({ Longitude: position.coords.longitude, Latitude: position.coords.latitude })
                     );
 
-                    var latlng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-                    $('#' + self.mapElementId()).gmap('search', { 'location': latlng },
-                        function (results, status) {
-                            if (status === 'OK') {
-                                self.currentLocation().SetFromGeo(results[0]);
-                            }
-                        });
-
-                    //bf.SetMapPosition($('#' + self.mapElementId()), position.coords.longitude, position.coords.latitude);
-                    $('#' + self.mapElementId()).gmap('refresh');
-
+                    bf.reverseGeocode(position.coords.latitude, position.coords.longitude, self.currentLocation());
                 }
                 else if (status == 'NOT_SUPPORTED') {
                     self.showMain(true);
                     self.canGetCurrentLocation(false);
                     self.locationType('search');
                 }
-
             });
-
             return true;
         };
         
         self.DistanceCallback = function () {
-            self.currentDistance = ko.observable(self.distanceSelector.currentDistance);
-            if (self.updateCallback != null) {
-                self.updateCallback();
-            }
+            self.currentDistance(self.distanceSelector.currentDistance());
         };
 
 
@@ -122,6 +100,14 @@
                 if (self.updateCallback != null) {
                     self.updateCallback();
                 }
+                self.updateMap();
+            });
+            
+            self.currentDistance.subscribe(function (newValue) {
+                if (self.updateCallback != null) {
+                    self.updateCallback();
+                }
+                bf.setMapCircleDistance(self.mapCircles, newValue);
             });
             
             self.distanceSelector.updateCallback = self.DistanceCallback;

@@ -12,13 +12,13 @@
             @Html.Partial("Distance/DistanceSelector")
         </div>
 
-        <div data-bind="attr:{id:mapElementId}" class="map" style="width: 70%; height: 450px;"></div>
+        <div data-bind="attr:{id:mapElementId}" class="map" style="width: 70%; height: 450px;" ></div>
         
         
     
         <div class="locationTypeChoice" data-bind="visible: locationType() =='saved'">
             Saved Locations
-            <select  data-bind="options:savedLocations, optionsCaption:'Choose Saved Location', optionsText: 'Description', mapBinding: currentLocation"> </select>
+            <select  data-bind="options:savedLocations, optionsCaption:'Choose Saved Location', optionsText: 'Description'"> </select>
         </div>
     </div>
 </div>

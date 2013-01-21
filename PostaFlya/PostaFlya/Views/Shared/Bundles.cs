@@ -28,13 +28,6 @@ namespace PostaFlya.Views.Shared
             "jquery.imagesloaded.js", //this overrides the implementation in isotope
             "External/ExternalScriptInit.js",
             "jquery.endless-scroll.js",
-            "maps/jquery.ui.map.js",
-            "maps/jquery.ui.map.extensions.js",            
-            "maps/jquery.ui.map.microdata.js",            
-            "maps/jquery.ui.map.microformat.js",            
-            "maps/jquery.ui.map.overlays.js",  
-            "maps/jquery.ui.map.rdfa.js",            
-            "maps/jquery.ui.map.services.js",
             "plupload/plupload.js", 
             "plupload/plupload.html4.js", 
             "plupload/plupload.html5.js", 

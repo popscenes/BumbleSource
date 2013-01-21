@@ -13,14 +13,16 @@
 @*</script>*@
 
 
-<div>
+<div class="cost-container">
     Flier Cost:<span data-bind="text:totalCost"></span> 
-    <a data-bind="click:showCostBreakdown">more</a>
-    <div data-bind="visible:costBreakdown, foreach:flierCosts">
-        <span data-bind="text:title"></span>
-        <span data-bind="text:credits"></span>
-        <div data-bind="text:description"></div>
-    </div>
+    <a data-bind="click:showCostBreakdown">+</a>
+    <ul class="cost-breakdown" data-bind="visible:costBreakdown, foreach:flierCosts">
+        <li>
+            <span data-bind="text:title"></span>:
+            <span data-bind="text:credits"></span>
+            <div class="cost-description" data-bind="text:description"></div>
+        </li>
+    </ul>
 </div>
 
 
@@ -92,7 +94,7 @@
         @Html.HiddenFor(model => model.Id, new { data_bind = "value:Id" })
         <fieldset>
             <legend>Add a location</legend>
-            <div data-bind="with:locationSelector">
+            <div data-bind="with:locationSelectorCreateEdit">
                 <h2>Add a location to your flier</h2>
                 @Html.HiddenFor(model => model.Location, new { data_bind = "value:currentLocation().ValidLocationForValidation()" })
                 

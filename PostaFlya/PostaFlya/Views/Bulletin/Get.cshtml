@@ -24,8 +24,8 @@
     <div class="page-toolbar">
         <div class="locSel">
             <div data-bind="click: ToggleMap" class="Button" id="btn-location">Location</div>
-            <div class="ls-holder" data-bind="with:$root.locationSelector">
-                <input type="text" data-bind="value: currentLocation().Description, attr:{id:locSearchId}"/>
+            <div class="ls-holder" data-bind="with:locationSelector">
+                <input type="text" data-bind="value: currentLocation().Description, attr:{id:locSearchId}, event: { change: updateMap}"/>
             </div>
         </div>
             
@@ -40,7 +40,7 @@
     <span data-bind="with:$root.tagsSelector">
           @Html.Partial("Tags/TagsSelector")
     </span>
-    <span data-bind="with:$root.locationSelector">
+    <span data-bind="with:locationSelector">
         @Html.Partial("Location/LocationSelector")
     </span>
 </div>
