@@ -38,7 +38,7 @@
 
         self.radiusFlierCost = ko.computed(function() {
             var ratePerSqKm = 1;
-            var distence = ko.utils.unwrapObservable(self.locationSelectorCreateEdit.currentDistance()) - 5;
+            var distence = ko.utils.unwrapObservable(self.locationSelectorCreateEdit.currentDistance());
             var init = ((5 + distence) * (5 + distence) * 3.14 * ratePerSqKm);
 
             var model = new bf.FlierCostModel();
