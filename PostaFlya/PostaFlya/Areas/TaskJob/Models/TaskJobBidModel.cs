@@ -8,9 +8,9 @@ namespace PostaFlya.Areas.TaskJob.Models
     {
         public string TaskJobId { get; set; }
 
-        [Display(Name = "BidAmount", ResourceType = typeof(Properties.Resources))] 
-        [Required]
-        [RangeWithMessage(0, 1000000)]
+        [Display(Name = "BidAmount", ResourceType = typeof(Properties.Resources))]
+        [Required(ErrorMessageResourceName = "Required", ErrorMessageResourceType = typeof(Properties.Resources), ErrorMessage = null)]        
+        [Range(0, 1000000, ErrorMessageResourceName = "OutOfRange", ErrorMessageResourceType = typeof(Properties.Resources), ErrorMessage = null)]        
         public double BidAmount { get; set; }
     }
 }

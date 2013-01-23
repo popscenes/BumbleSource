@@ -69,19 +69,19 @@ namespace PostaFlya.Models.Flier
         [DataMember]
         public string Id { get; set; }
 
-        [Required(ErrorMessageResourceType = typeof (Website.Application.Properties.Resources), ErrorMessageResourceName = "FlierCreateModel_Title_Title_Required")]
-        [StringLengthWithMessage(100)]
+        [Required(ErrorMessageResourceName = "Required", ErrorMessageResourceType = typeof(Properties.Resources), ErrorMessage = null)]
+        [StringLength(100, ErrorMessageResourceName = "StringTooLarge", ErrorMessageResourceType = typeof(Properties.Resources), ErrorMessage = null)]
         [Display(Name = "FlierTitle", ResourceType = typeof(Properties.Resources))] 
         [DataMember]
         public string Title { get; set; }
 
-        [Required(ErrorMessageResourceType = typeof(Website.Application.Properties.Resources), ErrorMessageResourceName = "FlierCreateModel_Description_Description_Required")]
-        [StringLengthWithMessage(2000)]
+        [Required(ErrorMessageResourceName = "Required", ErrorMessageResourceType = typeof(Properties.Resources), ErrorMessage = null)]
+        [StringLength(2000, ErrorMessageResourceName = "StringTooLarge", ErrorMessageResourceType = typeof(Properties.Resources), ErrorMessage = null)]
         [Display(Name = "FlierDescription", ResourceType = typeof(Properties.Resources))] //TODO change to LocalizedDisplayName
         [DataMember]
         public string Description { get; set; }
 
-        [Required(ErrorMessageResourceType = typeof(Website.Application.Properties.Resources), ErrorMessageResourceName = "FlierCreateModel_Location_Give_Your_Flier_A_Location_")]
+        [Required(ErrorMessageResourceName = "Required", ErrorMessageResourceType = typeof(Properties.Resources), ErrorMessage = null)]
         [ValidLocation]
         [Display(Name = "FlierLocation", ResourceType = typeof(Properties.Resources))] 
         [DataMember]
@@ -92,13 +92,13 @@ namespace PostaFlya.Models.Flier
         public int PostRadius { get; set; }
 
         [Required(ErrorMessageResourceName = "Required", ErrorMessageResourceType = typeof(Properties.Resources))]
-        [StringLengthWithMessage(100)]
+        [StringLength(100, ErrorMessageResourceName = "StringTooLarge", ErrorMessageResourceType = typeof(Properties.Resources), ErrorMessage = null)]
         [Display(Name = "FlierTags", ResourceType = typeof(Properties.Resources))] 
         [DataMember]
         public string TagsString { get; set; }
 
-        [Required(ErrorMessageResourceType = typeof(Website.Application.Properties.Resources), ErrorMessageResourceName = "FlierImageIdRequired")]
-        [ConvertableToGuidAttributeWithMessage]
+        [Required(ErrorMessageResourceName = "Required", ErrorMessageResourceType = typeof(Properties.Resources))]
+        [ConvertableToGuid(ErrorMessageResourceName = "InvalidGuid", ErrorMessageResourceType = typeof(Properties.Resources), ErrorMessage = null)]
         [Display(Name = "FlierImage", ResourceType = typeof(Properties.Resources))] 
         [DataMember]
         public String FlierImageId { get; set; }

@@ -11,12 +11,10 @@
         self.track = track;
         self.IsAsking = ko.observable(false);
 
-        self.StartTrackingLocation = function (callback) {
-            self.updateCallback = callback;
-            self.Start();
-        };
-
-        self.Start = function () {
+        self.Start = function (callback) {
+            if (callback !== 'undefined')
+                self.updateCallback = callback;
+            
             if (navigator.geolocation) {
                 // Locate position
                 self.IsAsking(true);
@@ -28,7 +26,7 @@
 
         self.Success = function (loc) {
             self.IsAsking(false);
-            self.currentLocation = loc;
+            self.currentLocation = { Latitude: loc.coords.latitude, Longitude: loc.coords.longitude };
             if (self.updateCallback != null)
                 self.updateCallback(self);
             if(self.track)

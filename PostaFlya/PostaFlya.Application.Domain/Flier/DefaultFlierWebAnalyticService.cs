@@ -28,7 +28,7 @@ namespace PostaFlya.Application.Domain.Flier
             _workerCommandBus.Send(new FlierAnalyticCommand()
             {
                 FlierId = flierId,
-                Browser = _browserInformation.Browser,
+                Browser = _browserInformation.Browser as Website.Domain.Browser.Browser,
                 TrackingId = _browserInformation.TrackingId,
                 IpAddress = _browserInformation.IpAddress,
                 UserAgent = _browserInformation.UserAgent,

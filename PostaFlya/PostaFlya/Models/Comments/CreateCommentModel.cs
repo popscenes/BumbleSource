@@ -10,20 +10,20 @@ namespace PostaFlya.Models.Comments
     [DataContract]
     public class CreateCommentModel : BrowserIdInterface
     {
-        [Required(ErrorMessageResourceName = "Required", ErrorMessageResourceType = typeof(Properties.Resources))]
+        [Required(ErrorMessageResourceName = "Required", ErrorMessageResourceType = typeof(Properties.Resources), ErrorMessage = null)]
         [DataMember(IsRequired = true)]
         public EntityTypeEnum CommentEntity { get; set; }
         
-        [Display(Name = "Comment", ResourceType = typeof(Properties.Resources))] 
-        [StringLengthWithMessage(100, MinimumLength = 1)]
+        [Display(Name = "Comment", ResourceType = typeof(Properties.Resources))]
+        [StringLength(100, MinimumLength = 1, ErrorMessageResourceName = "StringTooLargeOrSmall", ErrorMessageResourceType = typeof(Properties.Resources), ErrorMessage = null)]
         [DataMember]
-        public string Comment { get; set; }     
-        
-        [Required(ErrorMessageResourceName = "Required", ErrorMessageResourceType = typeof(Properties.Resources))]
+        public string Comment { get; set; }
+
+        [Required(ErrorMessageResourceName = "Required", ErrorMessageResourceType = typeof(Properties.Resources), ErrorMessage = null)]
         [DataMember]
         public string EntityId { get; set; }
-        
-        [Required(ErrorMessageResourceName = "Required", ErrorMessageResourceType = typeof(Properties.Resources))]
+
+        [Required(ErrorMessageResourceName = "Required", ErrorMessageResourceType = typeof(Properties.Resources), ErrorMessage = null)]
         [DataMember]
         public string BrowserId { get; set; }
     }

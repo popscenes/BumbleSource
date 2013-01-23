@@ -11,14 +11,14 @@ namespace PostaFlya.Areas.TaskJob.Models
     public class TaskJobBehaviourCreateModel : ViewModelBase
     {
         [Required(ErrorMessageResourceName = "Required", ErrorMessageResourceType = typeof(Properties.Resources))]
-        [RangeWithMessage(1, 1000000)]
+        [Range(0, 1000000, ErrorMessageResourceName = "OutOfRange", ErrorMessageResourceType = typeof(Properties.Resources), ErrorMessage = null)]        
         [Display(Name = "MaxTaskAmount", ResourceType = typeof(Properties.Resources))] 
         public double MaxAmount { get; set; }
 
         [ValidLocations]
         public List<LocationModel> ExtraLocations { get; set; }
 
-        [RangeWithMessage(0, 1000000)]
+        [Range(0, 1000000, ErrorMessageResourceName = "OutOfRange", ErrorMessageResourceType = typeof(Properties.Resources), ErrorMessage = null)]
         public double CostOverhead { get; set; }
 
         [Required(ErrorMessageResourceName = "Required", ErrorMessageResourceType = typeof(Properties.Resources))]

@@ -331,9 +331,33 @@
   </data>
   <data name="ValidUrl" xml:space="preserve">
     <value>{0} is not a valid website address.</value>
-    <comment>Validation Attributes</comment>
   </data>
   <data name="FlierCreateModel_EnableAnalytics_EnableAnalytics" xml:space="preserve">
     <value>Enable Analytics for flier</value>
+  </data>
+  <data name="StringTooLarge" xml:space="preserve">
+    <value>{0} must be less than {1} characters</value>
+  </data>
+  <data name="StringTooLargeOrSmall" xml:space="preserve">
+    <value>{0} must be between {2} and {1} characters</value>
+  </data>
+  <data name="AlpaNumericAndHiphensOnly" xml:space="preserve">
+    <value>{0} can consist of 'a-z' and '-' only</value>
+  </data>
+  <data name="OutOfRange" xml:space="preserve">
+    <value>{0} must be between {1} and {2}</value>
+  </data>
+  <data name="InvalidGuid" xml:space="preserve">
+    <value>{0} is and invalid Id</value>
+  </data>
+  <data name="FlierTitleRequired" xml:space="preserve">
+    <value>{0} is and invalid Id</value>
+  </data>
+  <data name="Address" xml:space="preserve">
+    <value>Address</value>
+  </data>
+  <data name="ValidLocation" xml:space="preserve">
+    <value>{0} must be a valid location</value>
+    <comment>ProfileEditModel</comment>
   </data>
 </root>

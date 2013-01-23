@@ -61,6 +61,24 @@ namespace PostaFlya.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Address.
+        /// </summary>
+        public static string Address {
+            get {
+                return ResourceManager.GetString("Address", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} can consist of &apos;a-z&apos; and &apos;-&apos; only.
+        /// </summary>
+        public static string AlpaNumericAndHiphensOnly {
+            get {
+                return ResourceManager.GetString("AlpaNumericAndHiphensOnly", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to AttachContactDetails.
         /// </summary>
         public static string AttachContactDetails {
@@ -376,6 +394,15 @@ namespace PostaFlya.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to {0} is and invalid Id.
+        /// </summary>
+        public static string FlierTitleRequired {
+            get {
+                return ResourceManager.GetString("FlierTitleRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to FriendlyId.
         /// </summary>
         public static string FriendlyId {
@@ -428,6 +455,15 @@ namespace PostaFlya.Properties {
         public static string InvalidEmailAddress {
             get {
                 return ResourceManager.GetString("InvalidEmailAddress", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} is and invalid Id.
+        /// </summary>
+        public static string InvalidGuid {
+            get {
+                return ResourceManager.GetString("InvalidGuid", resourceCulture);
             }
         }
         
@@ -505,6 +541,15 @@ namespace PostaFlya.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to {0} must be between {1} and {2}.
+        /// </summary>
+        public static string OutOfRange {
+            get {
+                return ResourceManager.GetString("OutOfRange", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to PostCode.
         /// </summary>
         public static string PostCode {
@@ -550,6 +595,24 @@ namespace PostaFlya.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to {0} must be less than {1} characters.
+        /// </summary>
+        public static string StringTooLarge {
+            get {
+                return ResourceManager.GetString("StringTooLarge", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} must be between {2} and {1} characters.
+        /// </summary>
+        public static string StringTooLargeOrSmall {
+            get {
+                return ResourceManager.GetString("StringTooLargeOrSmall", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Surname.
         /// </summary>
         public static string Surname {
@@ -564,6 +627,15 @@ namespace PostaFlya.Properties {
         public static string TagList {
             get {
                 return ResourceManager.GetString("TagList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} must be a valid location.
+        /// </summary>
+        public static string ValidLocation {
+            get {
+                return ResourceManager.GetString("ValidLocation", resourceCulture);
             }
         }
         

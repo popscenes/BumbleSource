@@ -29,8 +29,8 @@ namespace Website.Application.Tests.Extension.Validation
         {
             var contr = new DummyController();
             ControllerContextMock.FakeControllerContext(Kernel, contr);
-            var attribute = new StringLengthWithMessage(1000){MinimumLength = 1};
-            var subject = new StringLengthWithMessageValidator(
+            var attribute = new StringLengthAttribute(1000){MinimumLength = 1};
+            var subject = new StringLengthValidator(
                 ModelMetadata.FromLambdaExpression(m => m.DummyAttribute
                 , new ViewDataDictionary<DummyModel>()), contr.ControllerContext, attribute);
             return subject.GetClientValidationRules().First();            

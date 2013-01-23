@@ -6,6 +6,7 @@ using Website.Infrastructure.Command;
 
 namespace PostaFlya.Domain.Flier.Command
 {
+    [Serializable]
     public class FlierAnalyticCommand : DefaultCommandBase
     {
         public FlierAnalyticCommand()
@@ -19,6 +20,6 @@ namespace PostaFlya.Domain.Flier.Command
         public FlierAnalyticSourceAction SourceAction { get; set; }
         public DateTimeOffset Time { get; set; }
         public Location Location { get; set; }
-        public BrowserInterface Browser { get; set; }
+        public Browser Browser { get; set; }
     }
 }

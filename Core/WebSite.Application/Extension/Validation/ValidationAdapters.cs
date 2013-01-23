@@ -27,10 +27,10 @@ namespace Website.Application.Extension.Validation
         }
     }
 
-    public class StringLengthWithMessageValidator : DataAnnotationsModelValidator<StringLengthWithMessage>
+    public class StringLengthValidator : DataAnnotationsModelValidator<StringLengthAttribute>
     {
 
-        public StringLengthWithMessageValidator(ModelMetadata metaData, ControllerContext context, StringLengthWithMessage attribute)
+        public StringLengthValidator(ModelMetadata metaData, ControllerContext context, StringLengthAttribute attribute)
             : base(metaData, context, attribute)
         {
         }
@@ -50,10 +50,10 @@ namespace Website.Application.Extension.Validation
         }
     }
 
-    public class AlphaNumericAndUnderscoreWithMessageValidator : DataAnnotationsModelValidator<AlphaNumericAndUnderscoreWithMessage>
+    public class AlphaNumericAndHiphenValidator : DataAnnotationsModelValidator<AlphaNumericAndHiphenAttribute>
     {
 
-        public AlphaNumericAndUnderscoreWithMessageValidator(ModelMetadata metaData, ControllerContext context, AlphaNumericAndUnderscoreWithMessage attribute)
+        public AlphaNumericAndHiphenValidator(ModelMetadata metaData, ControllerContext context, AlphaNumericAndHiphenAttribute attribute)
             : base(metaData, context, attribute)
         {
         }
@@ -78,9 +78,9 @@ namespace Website.Application.Extension.Validation
             DataAnnotationsModelValidatorProvider
                 .RegisterAdapter(typeof(RequiredAttribute), typeof(RequiredValidator));
             DataAnnotationsModelValidatorProvider
-                .RegisterAdapter(typeof(StringLengthWithMessage), typeof(StringLengthWithMessageValidator));
+                .RegisterAdapter(typeof(StringLengthAttribute), typeof(StringLengthValidator));
             DataAnnotationsModelValidatorProvider
-                .RegisterAdapter(typeof(AlphaNumericAndUnderscoreWithMessage), typeof(AlphaNumericAndUnderscoreWithMessageValidator));
+                .RegisterAdapter(typeof(AlphaNumericAndHiphenAttribute), typeof(AlphaNumericAndHiphenValidator));
         }
     }
 

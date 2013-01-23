@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Globalization;
 using System.Text.RegularExpressions;
 using System.Web.Mvc;
 using DataAnnotationsExtensions;
@@ -11,38 +12,10 @@ using UrlAttribute = System.ComponentModel.DataAnnotations.UrlAttribute;
 namespace Website.Application.Extension.Validation
 {
  
-    public class StringLengthWithMessage : StringLengthAttribute
-    {
-        public StringLengthWithMessage(int maximumLength) : base(maximumLength)
-        {
-            ErrorMessageResourceType = typeof(Resources);
-            ErrorMessageResourceName = "StringTooLarge";
-        }
-    }
-
-    public class RangeWithMessage : RangeAttribute
-    {
-        public RangeWithMessage(double minimum, double maximum)
-            : base(minimum, maximum)
-        {
-            ErrorMessageResourceType = typeof(Resources);
-            ErrorMessageResourceName = "InvalidRange";
-        }
-    }
-
-    public class AlphaNumericAndUnderscoreWithMessage : AlphaNumericAndUnderscoreAttribute
-    {
-        public AlphaNumericAndUnderscoreWithMessage()
-        {
-            ErrorMessageResourceType = typeof(Resources);
-            ErrorMessageResourceName = "InvalidCharacters";
-        }
-    }
-
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = false)]
-    public class AlphaNumericAndUnderscoreAttribute : DataTypeAttribute
+    public class AlphaNumericAndHiphenAttribute : DataTypeAttribute
     {
-        private static readonly Regex _regex = new Regex("^[a-zA-Z0-9_]*$", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        private static readonly Regex _regex = new Regex("^[-a-zA-Z0-9]*$", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
         public string Regex
         {
@@ -52,11 +25,11 @@ namespace Website.Application.Extension.Validation
             }
         }
 
-        static AlphaNumericAndUnderscoreAttribute()
+        static AlphaNumericAndHiphenAttribute()
         {
         }
 
-        public AlphaNumericAndUnderscoreAttribute()
+        public AlphaNumericAndHiphenAttribute()
             : base(DataType.Text)
         {
         }
@@ -69,15 +42,6 @@ namespace Website.Application.Extension.Validation
             if (input != null)
                 return _regex.Match(input).Length > 0;
             return false;
-        }
-    }
-
-    public class ConvertableToGuidAttributeWithMessage : ConvertableToGuidAttribute
-    {
-        public ConvertableToGuidAttributeWithMessage()
-        {
-            ErrorMessageResourceType = typeof(Resources);
-            ErrorMessageResourceName = "InvalidGuid";
         }
     }
 
@@ -107,15 +71,6 @@ namespace Website.Application.Extension.Validation
         }
     }
 
-    public class CollectionCountWithMessageAttribute : CollectionCountAttribute
-    {
-        public CollectionCountWithMessageAttribute(int minimum, int maximum = -1)
-            : base(minimum, maximum)
-        {
-            ErrorMessageResourceType = typeof(Resources);
-            ErrorMessageResourceName = "InvalidCount";
-        }
-    }
 
     [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field | AttributeTargets.Parameter, AllowMultiple = false)]
     public class CollectionCountAttribute : ValidationAttribute
@@ -143,7 +98,12 @@ namespace Website.Application.Extension.Validation
             }
 
             return false;
-        }        
+        }
+
+        public override string FormatErrorMessage(string name)
+        {
+            return string.Format((IFormatProvider)CultureInfo.CurrentCulture, this.ErrorMessageString, (object)name, this.MinimumLength, this.MaximumLength);
+        }
     }
 
 }

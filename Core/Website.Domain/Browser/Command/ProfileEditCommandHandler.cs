@@ -51,7 +51,7 @@ namespace Website.Domain.Browser.Command
                                 browserUpdate.Surname = command.Surname;
                             if (!string.IsNullOrWhiteSpace(command.EmailAddress))
                                 browserUpdate.EmailAddress = command.EmailAddress;
-                            if (command.Address.IsValid)
+                            if (command.Address != null && command.Address.IsValid)
                                 browserUpdate.Address = command.Address;
                             if (!string.IsNullOrWhiteSpace(command.AvatarImageId))
                                 browserUpdate.AvatarImageId = command.AvatarImageId;

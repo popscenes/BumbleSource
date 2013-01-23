@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Web;
+using System.Web.Http;
 using System.Web.Mvc;
 using PostaFlya.Application.Domain.Browser;
 using PostaFlya.Application.Domain.Flier;
@@ -43,7 +44,7 @@ namespace PostaFlya.Controllers
             return RedirectPermanent(siteUrl + "/" + id);
         }
 
-        public ActionResult Loc(LocationModel loc, string id)
+        public ActionResult Loc([FromUri]LocationModel loc, string id)
         {
             var flier = _queryService.FindByFriendlyId<Flier>(id.Trim('/'));
             if(flier == null)

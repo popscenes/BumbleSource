@@ -7,7 +7,7 @@ namespace PostaFlya.Models.Tags
     public class AddTagsModel : ViewModelBase
     {
         [Required(ErrorMessageResourceName = "Required", ErrorMessageResourceType = typeof(Properties.Resources))]
-        [StringLengthWithMessage(100)]
+        [StringLength(100, ErrorMessageResourceName = "StringTooLarge", ErrorMessageResourceType = typeof(Properties.Resources), ErrorMessage = null)]
         [Display(Name = "AddNewTag", ResourceType = typeof(Properties.Resources))] 
         public string TagsString { get; set; }
 

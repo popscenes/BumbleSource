@@ -117,31 +117,4 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="InvalidCharacters" xml:space="preserve">
-    <value>{0} can contain only letters, digits and underscores</value>
-  </data>
-  <data name="InvalidCount" xml:space="preserve">
-    <value>{0} has an invalid number of elements</value>
-  </data>
-  <data name="InvalidEmailAddress" xml:space="preserve">
-    <value>{0} is not a valid email address.</value>
-  </data>
-  <data name="InvalidGuid" xml:space="preserve">
-    <value>{0} is an invalid id</value>
-  </data>
-  <data name="StringTooLarge" xml:space="preserve">
-    <value>{0} is too long.</value>
-  </data>
-  <data name="FlierImageIdRequired" xml:space="preserve">
-    <value>Please Select An Image</value>
-  </data>
-  <data name="FlierCreateModel_Title_Title_Required" xml:space="preserve">
-    <value>Title Required</value>
-  </data>
-  <data name="FlierCreateModel_Description_Description_Required" xml:space="preserve">
-    <value>Description Required</value>
-  </data>
-  <data name="FlierCreateModel_Location_Give_Your_Flier_A_Location_" xml:space="preserve">
-    <value>Give Your Flier A Location!</value>
-  </data>
 </root>
