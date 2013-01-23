@@ -10,6 +10,7 @@ using PostaFlya.Domain.Flier.Command;
 using Website.Application.Domain.Browser;
 using Website.Infrastructure.Configuration;
 using Website.Infrastructure.Domain;
+using Website.Infrastructure.Query;
 
 namespace PostaFlya.Controllers
 {
@@ -18,14 +19,17 @@ namespace PostaFlya.Controllers
         private readonly ConfigurationServiceInterface _configurationService;
         private readonly BrowserInformationInterface _browserInformation;
         private readonly FlierWebAnalyticServiceInterface _webAnalyticService;
+        private readonly GenericQueryServiceInterface _queryService;
 
         public TinyUrlController(ConfigurationServiceInterface configurationService
             , BrowserInformationInterface browserInformation
-            , FlierWebAnalyticServiceInterface webAnalyticService)
+            , FlierWebAnalyticServiceInterface webAnalyticService
+            , GenericQueryServiceInterface queryService)
         {
             _configurationService = configurationService;
             _browserInformation = browserInformation;
             _webAnalyticService = webAnalyticService;
+            _queryService = queryService;
         }
 
         public ActionResult Get(string path)
@@ -37,13 +41,17 @@ namespace PostaFlya.Controllers
             var info = fromRoute as EntityInterface;
             if(info == null || !(info.PrimaryInterface == typeof(FlierInterface)))
                 return new HttpNotFoundResult();
+            var flier = _queryService.FindById<Flier>(info.Id);
+            if(flier == null)
+                return new HttpNotFoundResult();
+
 
             var siteUrl = _configurationService.GetSetting("SiteUrl") ?? "";
 
             if (string.IsNullOrWhiteSpace(_browserInformation.TrackingId))
                 _browserInformation.TrackingId = Guid.NewGuid().ToString();
 
-            var routeVals = new {id = info.FriendlyId, t = _browserInformation.TrackingId};
+            var routeVals = new {id = flier.FriendlyId, t = _browserInformation.TrackingId};
 
             _webAnalyticService.RecordVisit(info.Id, 
                 FlierAnalyticUrlUtil.GetSourceActionFromParam(Request.Params["q"], FlierAnalyticSourceAction.TinyUrl));
