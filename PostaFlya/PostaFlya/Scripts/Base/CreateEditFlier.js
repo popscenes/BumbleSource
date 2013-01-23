@@ -140,7 +140,8 @@
             $.ajax(self.apiUrl, {
                 data: ko.toJSON({ Id: self.Id, Title: self.Title, Description: self.Description,
                     Location: ko.mapping.toJS(self.locationSelectorCreateEdit.currentLocation()), TagsString: tagString,
-                    FlierImageId: self.FlierImageId(), FlierBehaviour: 0, EffectiveDate: self.EffectiveDate, ImageList: self.ImageList, ExternalSource: self.ExternalSource, ExternalId: self.ExternalId
+                    FlierImageId: self.FlierImageId(), FlierBehaviour: 0, EffectiveDate: self.EffectiveDate,
+                    ImageList: self.ImageList, ExternalSource: self.ExternalSource, ExternalId: self.ExternalId, PostRadius: self.locationSelectorCreateEdit.currentDistance()
                 }),
                 type: "put", contentType: "application/json",
                 success: function (result) {
@@ -163,7 +164,8 @@
             $.ajax(self.apiUrl, {
                 data: ko.toJSON({ Title: self.Title, Description: self.Description,
                     Location: self.locationSelectorCreateEdit.currentLocation(), TagsString: tagString,
-                    FlierImageId: self.FlierImageId, FlierBehaviour: 0, EffectiveDate: self.EffectiveDate, ImageList: self.ImageList, ExternalSource: self.ExternalSource, ExternalId: self.ExternalId
+                    FlierImageId: self.FlierImageId, FlierBehaviour: 0, EffectiveDate: self.EffectiveDate, ImageList: self.ImageList,
+                    ExternalSource: self.ExternalSource, ExternalId: self.ExternalId, PostRadius: self.locationSelectorCreateEdit.currentDistance()
                 }),
                 type: "post", contentType: "application/json",
                 success: function (result) {
