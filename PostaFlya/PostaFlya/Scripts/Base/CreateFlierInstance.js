@@ -29,6 +29,8 @@
             self.CreateFlier(emptyFlier);
             self.ImageSelector.Init();
             self.TagsSelector.LoadTags();
+            self.LocationSelector.Init();
+            //self.locationSelectorCreateEdit.ShowMap();
         };
 
         self.InitialiseFlier = function (flier) {
@@ -40,7 +42,8 @@
             self.ImageSelector.selectedImageId(editFlier.FlierImageId());
             self.LocationSelector.currentLocation(editFlier.Location);
             self.TagsSelector.LoadTags();
-
+            self.LocationSelector.Init();
+            //self.locationSelectorCreateEdit.ShowMap();
             if (!self.LocationSelector.ValidLocation() && editFlier.Location.Description() != "") {
                 self.LocationSelector.errorMessage("Couldn't find " + editFlier.Location.Description() + " please search for location.");
             }

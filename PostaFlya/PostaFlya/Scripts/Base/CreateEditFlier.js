@@ -31,6 +31,7 @@
         self.tagsSelector = tagsSelector;
         self.currentStep = ko.observable(0);
         self.costBreakdown = ko.observable(false);
+        self.mapInitialsed = ko.observable(false);
 
         self.showCostBreakdown = function() {
             self.costBreakdown(!self.costBreakdown());
@@ -95,7 +96,15 @@
 
             if (self.currentStep() < self.Steps.length - 1) {
                 self.currentStep(self.currentStep() + 1);
-                self.locationSelectorCreateEdit.ShowMap();
+                
+                if (self.stepTemplate() == "Location-template") {
+                    if (self.mapInitialsed() == false) {
+                        self.locationSelectorCreateEdit.ShowMap();
+                        self.mapInitialsed(true);
+                    }
+                    self.locationSelectorCreateEdit.updateMap();
+                }
+
                 if ($(".imageSelector").length > 0) {
                     self.imageSelector.Init();
                 }
