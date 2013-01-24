@@ -101,7 +101,7 @@
                 <h3>ENTER THE ADDRESS BELOW</h3>
                 
                 @Html.ValidationMessageFor(model => model.Location)
-                <input class="location-search" type="text" data-bind="value: currentLocation().Description, attr:{id:locSearchId}"/>
+                <input class="location-search" type="text" data-bind="value: searchText, attr:{id:locSearchId}"/>
                 @Html.Partial("Location/LocationSelector")
             </div>
     </fieldset>

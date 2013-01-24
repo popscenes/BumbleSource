@@ -147,7 +147,7 @@ display:block;
 
 .distSel{
     width: 315px;
-    margin: 15px auto;
+    margin: 0px auto 15px auto;
 }
 
 .distance-slider{

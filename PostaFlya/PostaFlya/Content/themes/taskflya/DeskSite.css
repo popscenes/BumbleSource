@@ -86,11 +86,6 @@ header{
 
 }
 
-.tags-selector .tags-box
-{
-    background-image:url(images/white-90.png);
-
-}
 
 /************toolbar items**************************/
 
@@ -257,6 +252,7 @@ div#selected-item-popup-overlay, div#create-flier-popup-overlay {
 	height:60px;
 	padding:20px;
 	border-radius: 5px;
+    background-color: white;
 	
 }
 

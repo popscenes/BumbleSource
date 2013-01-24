@@ -25,7 +25,7 @@
         <div class="locSel">
             <div data-bind="click: ToggleMap" class="Button" id="btn-location">Location</div>
             <div class="ls-holder" data-bind="with:locationSelector">
-                <input type="text" data-bind="value: currentLocation().Description, attr:{id:locSearchId}, event: { change: updateMap}"/>
+                <input type="text" data-bind="value: searchText , attr:{id:locSearchId}, click: clearSearchText"/>
             </div>
         </div>
             

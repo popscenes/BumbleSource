@@ -17,13 +17,38 @@
             callback(null, 'NOT_SUPPORTED');
         }
     };
+
+    bf.getZoomLevel = function(radius) {
+        
+        if (radius < 10) {
+            return 11;
+        }
+        else if (radius >= 10 && radius < 20) {
+            return 10;
+        }
+        else if (radius >= 20 && radius < 30) {
+            return 9;
+        } else {
+            return 8;
+        }
+    };
     
     bf.SetMapPosition = function(map, longitude, latitude, radius, markers, circles) {
         var clientPosition = new google.maps.LatLng(latitude, longitude);
+
+
         google.maps.event.trigger(map, 'resize');
-        map.setZoom(11);
-        map.setCenter(clientPosition);
         map.setMapTypeId(google.maps.MapTypeId.ROADMAP);
+        if (latitude != -300 && latitude != -300) {
+            map.setZoom(bf.getZoomLevel(radius));
+            map.setCenter(clientPosition);
+        } else {
+            clientPosition = new google.maps.LatLng(0, 0);
+            map.setZoom(2);
+            map.setCenter(clientPosition);
+            return;
+        }
+        
 
         for (var i = 0; i < markers.length; i++) {
             markers[i].setMap(null);
@@ -77,10 +102,12 @@
         return map;
     };
 
-    bf.setMapCircleDistance = function (circles, radius) {
+    bf.setMapCircleDistance = function (map, circles, radius) {
         for (var j = 0; j < circles.length; j++) {
             circles[j].setRadius(radius*1000);
         }
+
+        map.setZoom(bf.getZoomLevel(radius));
     };
     
     /**/

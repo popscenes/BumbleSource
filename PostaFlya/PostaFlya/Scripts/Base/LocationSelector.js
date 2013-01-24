@@ -19,12 +19,25 @@
         self.locSearchId = ko.observable(options.locSearchId);
         self.distanceSelector = new bf.DistanceSelector();
 
+       
         self.errorMessage = ko.observable(null);
         self.map = ko.observable(null);
         self.mapMarkers = [];
         self.mapCircles = [];
 
         self.currentLocation = ko.observable(new bf.LocationModel());
+        
+        self.searchText = ko.computed(function () {
+            if (self.currentLocation().Description() == "") {
+                return "Please select a suburb or location";
+            }
+            return self.currentLocation().Description();
+        });
+
+        self.clearSearchText = function (data, event) {
+            event.currentTarget.select();
+        };
+
                
         self.locationType = ko.observable('current');
         self.showMain = ko.observable(options.displayInline);
@@ -80,10 +93,11 @@
 
                     bf.reverseGeocode(position.coords.latitude, position.coords.longitude, self.currentLocation());
                 }
-                else if (status == 'NOT_SUPPORTED') {
+                else{
                     self.showMain(true);
                     self.canGetCurrentLocation(false);
                     self.locationType('search');
+                    self.updateMap();
                 }
             });
             return true;
@@ -107,7 +121,7 @@
                 if (self.updateCallback != null) {
                     self.updateCallback();
                 }
-                bf.setMapCircleDistance(self.mapCircles, newValue);
+                bf.setMapCircleDistance(self.map(), self.mapCircles, newValue);
             });
             
             self.distanceSelector.updateCallback = self.DistanceCallback;
