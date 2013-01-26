@@ -433,6 +433,7 @@
     <Content Include="Content\structure\FlierImport\FlierImport.css" />
     <Content Include="Content\structure\Fliers\Fliers.css" />
     <Content Include="Content\themes\taskflya\DeskSiteOld.css" />
+    <Content Include="Content\themes\taskflya\images\about-flya.png" />
     <Content Include="Content\themes\taskflya\images\add-btn.png" />
     <Content Include="Content\themes\taskflya\images\back-btn.png" />
     <Content Include="Content\themes\taskflya\images\bg-button-ro.gif" />

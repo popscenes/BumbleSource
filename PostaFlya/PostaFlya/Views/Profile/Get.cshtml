@@ -21,7 +21,7 @@
 
 @Html.Partial("State/PageStateAdd", "ProfileModel")
 
-<div id="profile-view">
+<div id="profile-view" class="page-content">
 <h2 data-bind="visible: MyFliers().length > 0">My Fliers</h2>
     <div id="created-fliers"  data-bind="template: { name: MyFliersLayout.FlierTemplate, foreach: MyFliers }, visible: MyFliers().length > 0, updateLayout: MyFliersLayout">
         @Html.Partial("Bulletin/BulletinItems", (object)Model.Fliers)
