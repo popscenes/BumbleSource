@@ -7,6 +7,7 @@ using PostaFlya.Application.Domain.Browser;
 using PostaFlya.Application.Domain.Flier;
 using PostaFlya.Domain.Flier.Analytic;
 using PostaFlya.Domain.Flier.Command;
+using PostaFlya.Domain.Flier.Payment;
 using Website.Application.Binding;
 using PostaFlya.Areas.Default.Models;
 using PostaFlya.Domain.Behaviour.Query;
@@ -102,12 +103,18 @@ namespace PostaFlya.Controllers
             ret.Flier.GetImageUrl(blobStorage);
             ret.Flier.ImageList.ForEach(_ => _.GetImageUrl(blobStorage, ThumbOrientation.Horizontal, ThumbSize.S50));
 
-            if (browserInformation.Browser.Id == ret.Flier.BrowserId)
-            {
-                var list = queryService.FindAggregateEntities<FlierAnalytic>(ret.Flier.Id).ToList();
-                ret.AnalyticInfo = list.ToInfo();//if this is inefficient long run move to qs
-            }
+            if (browserInformation.Browser.Id == flier.BrowserId)
+                AddOwnerInfo(flier, ret, queryService);
+
             return ret;
+        }
+
+        public static void AddOwnerInfo(FlierInterface flier, DefaultDetailsViewModel model
+            , GenericQueryServiceInterface queryService)
+        {
+            if (!flier.HasFeatureAndIsEnabled(AnalyticsFeatureChargeBehaviour.Description)) return;
+            var list = queryService.FindAggregateEntities<FlierAnalytic>(flier.Id).ToList();
+            model.AnalyticInfo = list.ToInfo().ToModel();//if this is inefficient in long run move to qs
         }
 
 

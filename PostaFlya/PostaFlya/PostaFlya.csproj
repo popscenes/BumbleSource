@@ -380,6 +380,7 @@
     <Compile Include="Models\Factory\FlierBehaviourViewModelFactoryInterface.cs" />
     <Compile Include="Models\Factory\FlierBehaviourViewModelFactoryRegistryInterface.cs" />
     <Compile Include="Models\FlierPaymentModel.cs" />
+    <Compile Include="Models\Flier\FlierAnalyticInfoModel.cs" />
     <Compile Include="Models\Flier\PaymentPendingFlierModel.cs" />
     <Compile Include="Models\Flier\PaymentResult.cs" />
     <Compile Include="Models\Flier\HeatMapPoint.cs" />

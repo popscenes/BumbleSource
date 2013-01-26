@@ -14,12 +14,15 @@ namespace PostaFlya.Domain.Flier.Payment
 {
     public class AnalyticsFeatureChargeBehaviour : FlierChargeBehaviourBase
     {
+        public static readonly string Description =
+            Resources.AnalyticsFeatureChargeBehaviour_GetAnalyticsFeatureChargeBehaviour;
+
         public static EntityFeatureCharge GetAnalyticsFeatureChargeBehaviour()
         {
             return new EntityFeatureCharge()
             {
                 Cost = 200,
-                Description = Resources.AnalyticsFeatureChargeBehaviour_GetAnalyticsFeatureChargeBehaviour,
+                Description = Description,
                 CurrentStateMessage = "",
                 Paid = 0,
                 BehaviourTypeString = typeof(AnalyticsFeatureChargeBehaviour).AssemblyQualifiedName

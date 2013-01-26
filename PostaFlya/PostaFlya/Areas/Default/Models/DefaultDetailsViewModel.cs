@@ -15,7 +15,7 @@ namespace PostaFlya.Areas.Default.Models
     public class DefaultDetailsViewModel
     {
         public BulletinFlierModel Flier { get; set; }
-        public FlierAnalyticInfo AnalyticInfo { get; set; }
+        public FlierAnalyticInfoModel AnalyticInfo { get; set; }
         public static DefaultDetailsViewModel DefaultForTemplate()
         {
             var ret = new DefaultDetailsViewModel()

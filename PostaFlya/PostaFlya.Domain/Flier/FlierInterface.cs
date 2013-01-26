@@ -75,6 +75,16 @@ namespace PostaFlya.Domain.Flier
                 browser as ContactDetailsInterface : 
                 flier.ContactDetails;
         }
+
+        public static bool HasFeatureAndIsEnabled(this FlierInterface flier, string featureDescription)
+        {
+            if (flier.Features == null)
+                return false;
+            var ret = flier.Features.SingleOrDefault(f => f.Description.Equals(featureDescription));
+            if (ret == null)
+                return false;
+            return flier.Status == FlierStatus.Active;
+        }
     }
 
     public interface FlierInterface : 
