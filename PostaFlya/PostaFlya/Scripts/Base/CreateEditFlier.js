@@ -65,10 +65,15 @@
         self.FlierImageUrlH250 = ko.computed(
         {
             read: function () {
+                var newUrl = "";
                 if (self.FlierImageUrl() == undefined)
                     return '';
                 else {
-                    var newUrl = self.FlierImageUrl().replace('v100', 'h250');
+                    if (self.FlierImageUrl().indexOf("v100") == -1) {
+                        newUrl = self.FlierImageUrl().replace('.jpg', 'h250.jpg');
+                    } else {
+                        newUrl = self.FlierImageUrl().replace('v100', 'h250');
+                    }
                     return newUrl;
                 }
             }

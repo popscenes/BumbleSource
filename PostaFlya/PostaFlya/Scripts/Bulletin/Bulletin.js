@@ -42,6 +42,12 @@
             return params;
         };
 
+        self.hideShowAbout = ko.observable(true);
+
+        self.ShowAbout = function() {
+            self.hideShowAbout(!self.hideShowAbout());
+        };
+
         self.Request = function () {
             self.noMoreFliers(false);
 

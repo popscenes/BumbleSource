@@ -515,18 +515,29 @@ div#selected-item-popup-overlay, div#create-flier-popup-overlay {
     background-position:-3260px bottom;
 }
 
-/*****flier form*****/
-#flierForm #lsMain .map {
-    margin: 0;
-    width: 100% !important;
-}
-#flierForm h2 {
+h2 {
     font-weight: normal;
     font-size: 30px;
     color: #98D5E4;
     text-transform: uppercase;
 
 }
+
+.page-content {
+    background-color: white;
+    width: 70%;
+    margin: 30px auto;
+    border: 1px #D0CBC4 solid;
+    padding: 15px;
+}
+
+/*****flier form*****/
+#flierForm #lsMain .map {
+    margin: 0;
+    width: 100% !important;
+ 
+}
+
 
 #flierForm input[type="text"].location-search {
     border-radius: 0px;
@@ -598,4 +609,24 @@ div#selected-item-popup-overlay, div#create-flier-popup-overlay {
     padding: 5px;
     margin-bottom: 10px;
     text-align: center;
+}
+
+#about-posta {
+    background-image: url(images/about-flya.png);
+    width: 910px;
+    height: 400px;
+    margin: 0 auto;
+    position: absolute;
+    top: 100px;
+    left: 25%;
+    z-index: -1000;
+}
+
+#show-about {
+    text-align: right;
+    margin-top: 40px;
+}
+
+#controls.show-about {
+    height: 500px;
 }
