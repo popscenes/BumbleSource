@@ -442,9 +442,11 @@
     <Content Include="Content\themes\taskflya\images\continue-btn.png" />
     <Content Include="Content\themes\taskflya\images\create-flier.png" />
     <Content Include="Content\themes\taskflya\images\defaultavatar.jpg" />
+    <Content Include="Content\themes\taskflya\images\edit-btn.png" />
     <Content Include="Content\themes\taskflya\images\edit-icon.png" />
     <Content Include="Content\themes\taskflya\images\edit-profile-btn.png" />
     <Content Include="Content\themes\taskflya\images\facebook.png" />
+    <Content Include="Content\themes\taskflya\images\finish-btn.png" />
     <Content Include="Content\themes\taskflya\images\flya-message.png" />
     <Content Include="Content\themes\taskflya\images\google.png" />
     <Content Include="Content\images\loading.gif" />
@@ -479,6 +481,7 @@
     <Content Include="Content\themes\taskflya\images\icon_arrow_right.png" />
     <Content Include="Content\themes\taskflya\images\logo.png" />
     <Content Include="Content\themes\taskflya\images\mag-glass.png" />
+    <Content Include="Content\themes\taskflya\images\next-btn-disabled.png" />
     <Content Include="Content\themes\taskflya\images\next-btn.png" />
     <Content Include="Content\themes\taskflya\images\next-icon.png" />
     <Content Include="Content\themes\taskflya\images\openid-providers-en.png" />
@@ -486,6 +489,7 @@
     <Content Include="Content\themes\taskflya\images\postaflya-logo-blue.png" />
     <Content Include="Content\themes\taskflya\images\postaflya-logo.png" />
     <Content Include="Content\themes\taskflya\images\prev-btn-disabled.png" />
+    <Content Include="Content\themes\taskflya\images\prev-btn.png" />
     <Content Include="Content\themes\taskflya\images\prev-icon.png" />
     <Content Include="Content\themes\taskflya\images\slider-handle.png" />
     <Content Include="Content\themes\taskflya\images\tempbutton400x379.jpg" />

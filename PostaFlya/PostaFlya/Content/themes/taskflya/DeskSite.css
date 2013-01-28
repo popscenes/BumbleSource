@@ -568,7 +568,7 @@ h2 {
 }
 
 .nav-controls a.prev {
-    background: url(images/prev-btn-disabled.png);
+    background: url(images/prev-btn.png);
     margin-right: 14px;
 }
 
@@ -592,6 +592,10 @@ h2 {
     height: 40px;
     background: url(images/continue-btn.png);
     float: right;
+}
+
+#flya-create-save, #flya-create-update {
+    background: url(images/finish-btn.png);
 }
 
 #flya-create-back {
