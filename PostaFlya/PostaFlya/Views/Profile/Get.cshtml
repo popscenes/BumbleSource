@@ -22,14 +22,16 @@
 @Html.Partial("State/PageStateAdd", "ProfileModel")
 
 <div id="profile-view" class="page-content">
-<h2 data-bind="visible: MyFliers().length > 0">My Fliers</h2>
-    <div id="created-fliers"  data-bind="template: { name: MyFliersLayout.FlierTemplate, foreach: MyFliers }, visible: MyFliers().length > 0, updateLayout: MyFliersLayout">
-        @Html.Partial("Bulletin/BulletinItems", (object)Model.Fliers)
+    <div class="page-inner">
+        <h2 data-bind="visible: MyFliers().length > 0">My Fliers</h2>
+        <h3>Review and edit your existing fliers</h3>
+        <div id="created-fliers"  data-bind="template: { name: MyFliersLayout.FlierTemplate, foreach: MyFliers }, visible: MyFliers().length > 0, updateLayout: MyFliersLayout">
+            @Html.Partial("Bulletin/BulletinItems", (object)Model.Fliers)
+        </div>
+        <h2 data-bind="visible: ClaimedFliers().length > 0">Claimed Fliers</h2>
+        <div id="claimed-fliers"  data-bind="template: { name: ClaimedFliersLayout.FlierTemplate, foreach: ClaimedFliers }, visible: ClaimedFliers().length > 0, updateLayout: ClaimedFliersLayout">
+            @Html.Partial("Bulletin/BulletinItems", (object)Model.ClaimedFliers)
+        </div>
     </div>
-<h2 data-bind="visible: ClaimedFliers().length > 0">Claimed Fliers</h2>
-    <div id="claimed-fliers"  data-bind="template: { name: ClaimedFliersLayout.FlierTemplate, foreach: ClaimedFliers }, visible: ClaimedFliers().length > 0, updateLayout: ClaimedFliersLayout">
-        @Html.Partial("Bulletin/BulletinItems", (object)Model.ClaimedFliers)
-    </div>
-
 </div>
 

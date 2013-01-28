@@ -3,7 +3,7 @@
 	background-image:url(images/bg-texture-01.png);
 	background-repeat:no-repeat;
 	background-position:0 0;
-    font-family:Helvetica, Geneva, sans-serif;
+    font-family:Tahoma, Helvetica, Geneva, sans-serif;
 }
 
 header{
@@ -523,12 +523,29 @@ h2 {
 
 }
 
+h3 {
+    font-weight: normal;
+    font-size: 20px;
+    color: #98D5E4;
+    text-transform: uppercase;
+    border-bottom: #98d5e4 solid 2px;
+}
+
 .page-content {
     background-color: white;
     width: 70%;
     margin: 30px auto;
     border: 1px #D0CBC4 solid;
     padding: 15px;
+    min-height: 600px;
+}
+.page-inner {
+    width: 70%;
+    margin: 0 auto;
+}
+
+#profile-view .isotope {
+    margin: 0;
 }
 
 /*****flier form*****/
@@ -549,13 +566,12 @@ h2 {
     width: 259px;
 }
 
-#flierForm h3 {
-    font-weight: normal;
-    font-size: 20px;
-    color: #98D5E4;
-    text-transform: uppercase;
-    border-bottom: #98d5e4 solid 2px;
+input, textarea {
+    font-family: Tahoma, Helvetica, Geneva, sans-serif;
+    font-size: 1em
 }
+
+
 
 .nav-controls a {
     display: inline-block;

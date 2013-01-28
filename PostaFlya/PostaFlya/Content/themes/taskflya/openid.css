@@ -6,7 +6,7 @@
 */
 
 #openid_form {
-	width: 580px;
+	max-width: 420px;
 }
 
 #openid_form legend {
@@ -25,13 +25,6 @@
 #openid_btns, #openid_btns br {
 	clear: both;
 }
-
-#openid_highlight {
-	padding: 3px;
-	background-color: #FFFCC9;
-	float: left;
-}
-
 .openid_large_btn {
 	width: 100px;
 	height: 60px;
