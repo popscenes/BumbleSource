@@ -1,0 +1,25 @@
+﻿@using PostaFlya.Areas.Default.Models
+@model dynamic
+@{var analyticInfo = ViewBag.Template != null && ViewBag.Template ? DefaultDetailsViewModel.DefaultForTemplate().AnalyticInfo : Model.AnalyticInfo;}
+
+<div class="flier-analytic-summary">
+    
+    <section class="summary" title="Summary">
+        
+    </section>
+    <section class="breakdown" title="">
+        
+    <ul class="flier-images" data-bind="foreach:Flier.ImageList">
+        @foreach (ImageViewModel img in analyticInfo.ImageList)
+        {
+            <li>
+                
+                <div data-id="">
+                    
+                </div>
+            </li>
+        }
+    </ul>
+
+    </section>
+</div>

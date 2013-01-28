@@ -20,11 +20,19 @@ namespace PostaFlya.Domain.Flier.Analytic
             target.SourceAction = source.SourceAction;
             target.Time = source.Time;
             target.Location = source.Location;
+            target.LocationFromSearch = source.LocationFromSearch;
         }
 
         public static FlierAnalyticInfo ToInfo(this IList<FlierAnalytic> analytics)
         {
             return new FlierAnalyticInfo(analytics);
+        }
+
+        public static bool IsSourceADetailView(this FlierAnalyticInterface source)
+        {
+            return source.SourceAction == FlierAnalyticSourceAction.IdByApi
+                   || source.SourceAction == FlierAnalyticSourceAction.TinyUrlByApi
+                   || source.SourceAction == FlierAnalyticSourceAction.IdByBulletin;
         }
     }
 
@@ -37,6 +45,7 @@ namespace PostaFlya.Domain.Flier.Analytic
         FlierAnalyticSourceAction SourceAction { get; set; }
         DateTimeOffset Time { get; set; }
         Location Location { get; set; }
+        bool LocationFromSearch { get; set; }
     }
 
     public class FlierAnalytic : EntityBase<FlierAnalyticInterface>, FlierAnalyticInterface
@@ -50,7 +59,8 @@ namespace PostaFlya.Domain.Flier.Analytic
         public string UserAgent { get; set; }
         public FlierAnalyticSourceAction SourceAction { get; set; }
         public DateTimeOffset Time { get; set; }
-        public Location Location { get; set; } 
+        public Location Location { get; set; }
+        public bool LocationFromSearch { get; set; }
     }
 
     

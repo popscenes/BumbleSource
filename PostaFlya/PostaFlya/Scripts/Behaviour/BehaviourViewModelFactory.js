@@ -115,9 +115,11 @@
         };
 
         self.getDetailTemplate = function (behaviourViewModel) {
-            if (!behaviourViewModel || behaviourViewModel == undefined) return 'empty-detail';
+            if (!behaviourViewModel || behaviourViewModel == 'undefined') return 'empty-detail';
 
-            return 'Behaviour' + behaviourViewModel.Flier.FlierBehaviour + '-template-detail';
+            var isOwner = (behaviourViewModel.Flier.BrowserId == bf.currentBrowserInstance.BrowserId);
+            var ret = 'Behaviour' + behaviourViewModel.Flier.FlierBehaviour + '-template-detail';
+            return isOwner ? ret + '-owner' : ret;
         };
 
 

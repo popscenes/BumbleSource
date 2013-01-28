@@ -2,7 +2,7 @@
 {
     public enum FlierAnalyticSourceAction
     {
-        Unknown,
+        Unknown = 0,
         QrCodeSrcCodeOnly,
         QrCodeSrcOnFlierWithTearOffs,
         QrCodeSrcTearOff,

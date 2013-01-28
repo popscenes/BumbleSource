@@ -31,7 +31,8 @@ namespace PostaFlya.Domain.Flier.Command
                     UserAgent = command.UserAgent,
                     TrackingId = command.TrackingId,
                     Time = command.Time,
-                    SourceAction = command.SourceAction,                 
+                    SourceAction = command.SourceAction,
+                    LocationFromSearch = command.LocationFromSearch
                 };
 
             var uow = _unitOfWorkFactory.GetUnitOfWork(_repository);           

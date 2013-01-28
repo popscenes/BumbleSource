@@ -21,5 +21,6 @@ namespace PostaFlya.Domain.Flier.Command
         public DateTimeOffset Time { get; set; }
         public Location Location { get; set; }
         public Browser Browser { get; set; }
+        public bool LocationFromSearch { get; set; }
     }
 }

@@ -553,6 +553,10 @@
     <Content Include="CustomRoleSetup.cmd">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Areas\Default\Views\Bulletin\DetailOwnerTemplate.cshtml" />
+    <Content Include="Areas\Default\Views\Bulletin\DetailOwner.cshtml" />
+    <Content Include="Areas\Default\Views\Bulletin\SummaryOwner.cshtml" />
+    <Content Include="Areas\Default\Views\Bulletin\SummaryOwnerTemplate.cshtml" />
     <None Include="Diagnostics.wadcfg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>
@@ -764,6 +768,7 @@
     <Content Include="Views\Shared\Image\ImageListTemplate.cshtml" />
     <Content Include="Views\Shared\Bulletin\DownloadPrintImagePartial.cshtml" />
     <Content Include="Views\Profile\PaymentPending.cshtml" />
+    <Content Include="Views\Shared\Flier\AnalyticSummary.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

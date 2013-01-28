@@ -1,4 +1,5 @@
-﻿using PostaFlya.Domain.Flier.Analytic;
+﻿using System.Collections.Generic;
+using PostaFlya.Domain.Flier.Analytic;
 
 namespace PostaFlya.Models.Flier
 {
@@ -11,6 +12,17 @@ namespace PostaFlya.Models.Flier
     }
     public class FlierAnalyticInfoModel
     {
+        public List<AnalyticTrackingSummaryModel> Entries { get; set; }
+        public static FlierAnalyticInfoModel DefaultForTemplate()
+        {
+            return new FlierAnalyticInfoModel()
+                {
+                    
+                };
+        }
+    }
 
+    public class AnalyticTrackingSummaryModel
+    {
     }
 }

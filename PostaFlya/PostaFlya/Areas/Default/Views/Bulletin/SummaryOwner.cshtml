@@ -31,9 +31,19 @@
                     <span data-bind="text:NumberOfClaims">
                         @Flier.NumberOfClaims  
                     </span>
-                </div>             
+                </div>
+                <div class="comment-stats">
+                    @*replace with image*@
+                    <div class="comment-icon">Comments:</div>
+                    <span data-bind="text:NumberOfComments">
+                        @Flier.NumberOfComments                                     
+                    </span>
+                </div>               
             </div>
 
+            <button data-bind="click:$root.CreateFlierInstance.EditFlierLaunch">Edit</button>
+
+            @Html.Partial("Bulletin/DownloadPrintImagePartial")
         </div>
     </div>      
 </div>

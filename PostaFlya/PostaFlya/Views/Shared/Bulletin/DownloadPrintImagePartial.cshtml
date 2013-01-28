@@ -5,14 +5,14 @@
 @{var Flier = ViewBag.Template != null && ViewBag.Template ? BulletinFlierModel<BulletinBehaviourModel>.DefaultForTemplate(FlierBehaviour.Default) : Model;}
 
 <a href="@Url.Action("GetPrintFlier","Img", new {id = Flier.Id, printStyle="tearoff"})"
-   data-bind="click: function(){return true;}, clickBubble: false, attr:{href: '@Url.Action("GetPrintFlier","Img")/' + Id + '?printStyle=tearoff'}, visible:BrowserId==bf.currentBrowserInstance.BrowserId">Download Print Tearoff</a>
+   data-bind="click: function(){return true;}, clickBubble: false, attr:{href: '@Url.Action("GetPrintFlier","Img")/' + Id + '?printStyle=tearoff'}">Download Print Tearoff</a>
 <a href="@Url.Action("GetPrintFlier","Img", new {id = Flier.Id, printStyle="codeonly"})"
-   data-bind="click: function(){return true;}, clickBubble: false, attr:{href: '@Url.Action("GetPrintFlier","Img")/' + Id + '?printStyle=codeonly'}, visible:BrowserId==bf.currentBrowserInstance.BrowserId">Download Print codeonly</a>
+   data-bind="click: function(){return true;}, clickBubble: false, attr:{href: '@Url.Action("GetPrintFlier","Img")/' + Id + '?printStyle=codeonly'}">Download Print codeonly</a>
 <a href="@Url.Action("GetPrintFlier","Img", new {id = Flier.Id, printStyle="topleft"})"
-   data-bind="click: function(){return true;}, clickBubble: false, attr:{href: '@Url.Action("GetPrintFlier","Img")/' + Id + '?printStyle=topleft'}, visible:BrowserId==bf.currentBrowserInstance.BrowserId">Download Print topleft</a>
+   data-bind="click: function(){return true;}, clickBubble: false, attr:{href: '@Url.Action("GetPrintFlier","Img")/' + Id + '?printStyle=topleft'}">Download Print topleft</a>
 <a href="@Url.Action("GetPrintFlier","Img", new {id = Flier.Id, printStyle="topright"})"
-   data-bind="click: function(){return true;}, clickBubble: false, attr:{href: '@Url.Action("GetPrintFlier","Img")/' + Id + '?printStyle=topright'}, visible:BrowserId==bf.currentBrowserInstance.BrowserId">Download Print topright</a>
+   data-bind="click: function(){return true;}, clickBubble: false, attr:{href: '@Url.Action("GetPrintFlier","Img")/' + Id + '?printStyle=topright'}">Download Print topright</a>
 <a href="@Url.Action("GetPrintFlier","Img", new {id = Flier.Id, printStyle="bottomleft"})"
-   data-bind="click: function(){return true;}, clickBubble: false, attr:{href: '@Url.Action("GetPrintFlier","Img")/' + Id + '?printStyle=bottomleft'}, visible:BrowserId==bf.currentBrowserInstance.BrowserId">Download Print bottomleft</a>
+   data-bind="click: function(){return true;}, clickBubble: false, attr:{href: '@Url.Action("GetPrintFlier","Img")/' + Id + '?printStyle=bottomleft'}">Download Print bottomleft</a>
 <a href="@Url.Action("GetPrintFlier","Img", new {id = Flier.Id, printStyle="bottomright"})"
-   data-bind="click: function(){return true;}, clickBubble: false, attr:{href: '@Url.Action("GetPrintFlier","Img")/' + Id + '?printStyle=bottomright'}, visible:BrowserId==bf.currentBrowserInstance.BrowserId">Download Print bottomright</a>
+   data-bind="click: function(){return true;}, clickBubble: false, attr:{href: '@Url.Action("GetPrintFlier","Img")/' + Id + '?printStyle=bottomright'}">Download Print bottomright</a>

@@ -33,6 +33,7 @@ namespace PostaFlya.Application.Domain.Flier
                 IpAddress = _browserInformation.IpAddress,
                 UserAgent = _browserInformation.UserAgent,
                 Location = location ?? _browserInformation.LastSearchLocation,
+                LocationFromSearch = location == null,
                 SourceAction = context
             });
         }

@@ -20,7 +20,8 @@ namespace PostaFlya.Areas.Default.Models
         {
             var ret = new DefaultDetailsViewModel()
                        {
-                           Flier = BulletinFlierModel<BulletinBehaviourModel>.DefaultForTemplate(FlierBehaviour.Default)
+                           Flier = BulletinFlierModel<BulletinBehaviourModel>.DefaultForTemplate(FlierBehaviour.Default),
+                           AnalyticInfo = FlierAnalyticInfoModel.DefaultForTemplate()
                        };
             return ret;
         }

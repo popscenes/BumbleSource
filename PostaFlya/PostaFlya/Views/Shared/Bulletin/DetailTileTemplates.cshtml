@@ -3,7 +3,11 @@
 @* Todo we can pass in something from the view bag to say which templates to render*@
 @* if in different skins just render all for now *@
 
-@foreach (FlierBehaviour fb in Enum.GetValues(typeof(FlierBehaviour)))
-{
-    @Html.Partial("~/Areas/" + fb + "/Views/Bulletin/DetailTileTemplate.cshtml")
-}
+@* just supporting default for now *@
+@*@foreach (FlierBehaviour fb in Enum.GetValues(typeof(FlierBehaviour)))*@
+@*{*@
+@*    @Html.Partial("~/Areas/" + fb + "/Views/Bulletin/DetailTileTemplate.cshtml") *@
+@*}*@
+
+@Html.Partial("~/Areas/" + FlierBehaviour.Default + "/Views/Bulletin/DetailTileTemplate.cshtml") 
+@Html.Partial("~/Areas/" + FlierBehaviour.Default + "/Views/Bulletin/DetailOwnerTemplate.cshtml")

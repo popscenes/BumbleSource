@@ -115,6 +115,8 @@ namespace PostaFlya.Controllers
             if (!flier.HasFeatureAndIsEnabled(AnalyticsFeatureChargeBehaviour.Description)) return;
             var list = queryService.FindAggregateEntities<FlierAnalytic>(flier.Id).ToList();
             model.AnalyticInfo = list.ToInfo().ToModel();//if this is inefficient in long run move to qs
+
+
         }
 
 
