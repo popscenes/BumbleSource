@@ -492,6 +492,7 @@
     <Content Include="Content\themes\taskflya\images\prev-btn-disabled.png" />
     <Content Include="Content\themes\taskflya\images\prev-btn.png" />
     <Content Include="Content\themes\taskflya\images\prev-icon.png" />
+    <Content Include="Content\themes\taskflya\images\select-btn.png" />
     <Content Include="Content\themes\taskflya\images\slider-handle.png" />
     <Content Include="Content\themes\taskflya\images\tempbutton400x379.jpg" />
     <Content Include="Content\themes\taskflya\images\tempbutton64x61.jpg" />
