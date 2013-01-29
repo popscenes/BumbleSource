@@ -68,6 +68,7 @@ namespace Website.Application.Domain.Browser
 
             browserCookie.Values[property] = JsonConvert.SerializeObject(value);
 
+            browserCookie.Expires = DateTime.Now.AddYears(1);
             _httpContext.Response.Cookies.Add(browserCookie);
         }
 

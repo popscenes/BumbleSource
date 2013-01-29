@@ -56,6 +56,7 @@ namespace PostaFlya.Controllers
 
         public DefaultDetailsViewModel Get([FromUri] LocationModel currloc, string tinyUrl)
         {
+            
             var ent = _tinyUrlService.EntityInfoFor(tinyUrl);
             if (ent == null)
                 return null;
@@ -63,7 +64,14 @@ namespace PostaFlya.Controllers
             var ret = GetDetail(ent.Id, _queryService, _behaviourQueryService, _blobStorage, _viewModelFactory, _browserInformation);
             
             if (ret != null)
+            {
+                var source = FlierAnalyticUrlUtil.GetSourceAction(tinyUrl, FlierAnalyticSourceAction.Unknown);
+                if(source != FlierAnalyticSourceAction.Unknown)
+                    _webAnalyticService.RecordVisit(ent.Id, source,currloc.ToDomainModel());
+
                 _webAnalyticService.RecordVisit(ent.Id, FlierAnalyticSourceAction.TinyUrlByApi, currloc.ToDomainModel());
+
+            }
 
             return ret;
         }

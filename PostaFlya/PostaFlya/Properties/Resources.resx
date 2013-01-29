@@ -360,4 +360,46 @@
     <value>{0} must be a valid location</value>
     <comment>ProfileEditModel</comment>
   </data>
+  <data name="AnalyticTrackingSummaryExtensions_GetSourceDescription_Unknown" xml:space="preserve">
+    <value>Unknown</value>
+  </data>
+  <data name="AnalyticTrackingSummaryExtensions_GetSourceDescription_QrCodeSrcCodeOnly" xml:space="preserve">
+    <value>From Qr Code without poster</value>
+  </data>
+  <data name="AnalyticTrackingSummaryExtensions_GetSourceDescription_QrCodeSrcOnFlierWithTearOffs" xml:space="preserve">
+    <value>From large Qr Code on printed flier with tear offs</value>
+  </data>
+  <data name="AnalyticTrackingSummaryExtensions_GetSourceDescription_QrCodeSrcTearOff" xml:space="preserve">
+    <value>From Qr Code on tear off tag</value>
+  </data>
+  <data name="AnalyticTrackingSummaryExtensions_GetSourceDescription_QrCodeSrcOnFlierWithoutTearOffs" xml:space="preserve">
+    <value>From Qr Code on printed flya without tear offs</value>
+  </data>
+  <data name="AnalyticTrackingSummaryExtensions_GetSourceDescription_TinyUrl" xml:space="preserve">
+    <value>From Tiny Url typed in</value>
+  </data>
+  <data name="AnalyticTrackingSummaryExtensions_GetSourceDescription_LocationTrack" xml:space="preserve">
+    <value>From browser location detection</value>
+  </data>
+  <data name="AnalyticTrackingSummaryExtensions_GetSourceDescription_TinyUrlByApi" xml:space="preserve">
+    <value>From Tiny Url by Api</value>
+  </data>
+  <data name="AnalyticTrackingSummaryExtensions_GetSourceDescription_IdByApi" xml:space="preserve">
+    <value>From Api</value>
+  </data>
+  <data name="AnalyticTrackingSummaryExtensions_GetSourceDescription_IdByBulletin" xml:space="preserve">
+    <value>From Navigation directly to Url</value>
+  </data>
+  <data name="AnalyticTrackingSummaryExtensions_GetLocationSourceDesc_LocationNotKnown" xml:space="preserve">
+    <value>Location not known</value>
+  </data>
+  <data name="AnalyticTrackingSummaryExtensions_GetLocationSourceDesc_LocationFromSearch" xml:space="preserve">
+    <value>Location from search</value>
+  </data>
+  <data name="AnalyticTrackingSummaryExtensions_GetLocationSourceDesc_LocationFromDevice" xml:space="preserve">
+    <value>Location from device</value>
+  </data>
+  <data name="FlierAnalyticTrackingSummaryModel_TotalDetailViews" xml:space="preserve">
+    <value>Total number of views from this Tracking Id</value>
+  </data>
 </root>

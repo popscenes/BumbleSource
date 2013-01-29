@@ -79,6 +79,125 @@ namespace PostaFlya.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Location from device.
+        /// </summary>
+        public static string AnalyticTrackingSummaryExtensions_GetLocationSourceDesc_LocationFromDevice {
+            get {
+                return ResourceManager.GetString("AnalyticTrackingSummaryExtensions_GetLocationSourceDesc_LocationFromDevice", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Location from search.
+        /// </summary>
+        public static string AnalyticTrackingSummaryExtensions_GetLocationSourceDesc_LocationFromSearch {
+            get {
+                return ResourceManager.GetString("AnalyticTrackingSummaryExtensions_GetLocationSourceDesc_LocationFromSearch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Location not known.
+        /// </summary>
+        public static string AnalyticTrackingSummaryExtensions_GetLocationSourceDesc_LocationNotKnown {
+            get {
+                return ResourceManager.GetString("AnalyticTrackingSummaryExtensions_GetLocationSourceDesc_LocationNotKnown", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to From Api.
+        /// </summary>
+        public static string AnalyticTrackingSummaryExtensions_GetSourceDescription_IdByApi {
+            get {
+                return ResourceManager.GetString("AnalyticTrackingSummaryExtensions_GetSourceDescription_IdByApi", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to From Navigation directly to Url.
+        /// </summary>
+        public static string AnalyticTrackingSummaryExtensions_GetSourceDescription_IdByBulletin {
+            get {
+                return ResourceManager.GetString("AnalyticTrackingSummaryExtensions_GetSourceDescription_IdByBulletin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to From browser location detection.
+        /// </summary>
+        public static string AnalyticTrackingSummaryExtensions_GetSourceDescription_LocationTrack {
+            get {
+                return ResourceManager.GetString("AnalyticTrackingSummaryExtensions_GetSourceDescription_LocationTrack", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to From Qr Code without poster.
+        /// </summary>
+        public static string AnalyticTrackingSummaryExtensions_GetSourceDescription_QrCodeSrcCodeOnly {
+            get {
+                return ResourceManager.GetString("AnalyticTrackingSummaryExtensions_GetSourceDescription_QrCodeSrcCodeOnly", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to From Qr Code on printed flya without tear offs.
+        /// </summary>
+        public static string AnalyticTrackingSummaryExtensions_GetSourceDescription_QrCodeSrcOnFlierWithoutTearOffs {
+            get {
+                return ResourceManager.GetString("AnalyticTrackingSummaryExtensions_GetSourceDescription_QrCodeSrcOnFlierWithoutTea" +
+                        "rOffs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to From large Qr Code on printed flier with tear offs.
+        /// </summary>
+        public static string AnalyticTrackingSummaryExtensions_GetSourceDescription_QrCodeSrcOnFlierWithTearOffs {
+            get {
+                return ResourceManager.GetString("AnalyticTrackingSummaryExtensions_GetSourceDescription_QrCodeSrcOnFlierWithTearOf" +
+                        "fs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to From Qr Code on tear off tag.
+        /// </summary>
+        public static string AnalyticTrackingSummaryExtensions_GetSourceDescription_QrCodeSrcTearOff {
+            get {
+                return ResourceManager.GetString("AnalyticTrackingSummaryExtensions_GetSourceDescription_QrCodeSrcTearOff", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to From Tiny Url typed in.
+        /// </summary>
+        public static string AnalyticTrackingSummaryExtensions_GetSourceDescription_TinyUrl {
+            get {
+                return ResourceManager.GetString("AnalyticTrackingSummaryExtensions_GetSourceDescription_TinyUrl", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to From Tiny Url by Api.
+        /// </summary>
+        public static string AnalyticTrackingSummaryExtensions_GetSourceDescription_TinyUrlByApi {
+            get {
+                return ResourceManager.GetString("AnalyticTrackingSummaryExtensions_GetSourceDescription_TinyUrlByApi", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unknown.
+        /// </summary>
+        public static string AnalyticTrackingSummaryExtensions_GetSourceDescription_Unknown {
+            get {
+                return ResourceManager.GetString("AnalyticTrackingSummaryExtensions_GetSourceDescription_Unknown", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to AttachContactDetails.
         /// </summary>
         public static string AttachContactDetails {
@@ -309,6 +428,15 @@ namespace PostaFlya.Properties {
         public static string FirstName {
             get {
                 return ResourceManager.GetString("FirstName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Total number of views from this Tracking Id.
+        /// </summary>
+        public static string FlierAnalyticTrackingSummaryModel_TotalDetailViews {
+            get {
+                return ResourceManager.GetString("FlierAnalyticTrackingSummaryModel_TotalDetailViews", resourceCulture);
             }
         }
         

@@ -6,7 +6,7 @@ using Website.Infrastructure.Domain;
 
 namespace PostaFlya.Domain.Flier.Command
 {
-    internal class FlierAnalyticCommandHandler : CommandHandlerInterface<FlierAnalyticCommand>
+    public class FlierAnalyticCommandHandler : CommandHandlerInterface<FlierAnalyticCommand>
     {
         private readonly UnitOfWorkFactoryInterface _unitOfWorkFactory;
         private readonly GenericRepositoryInterface _repository;

@@ -1,6 +1,7 @@
 ﻿@using PostaFlya.Areas.Default.Models
+@using PostaFlya.Models.Flier
 @model dynamic
-@{var analyticInfo = ViewBag.Template != null && ViewBag.Template ? DefaultDetailsViewModel.DefaultForTemplate().AnalyticInfo : Model.AnalyticInfo;}
+@{FlierAnalyticInfoModel analyticInfo = ViewBag.Template != null && ViewBag.Template ? DefaultDetailsViewModel.DefaultForTemplate().AnalyticInfo : Model.AnalyticInfo;}
 
 <div class="flier-analytic-summary">
     
@@ -9,13 +10,51 @@
     </section>
     <section class="breakdown" title="">
         
-    <ul class="flier-images" data-bind="foreach:Flier.ImageList">
-        @foreach (ImageViewModel img in analyticInfo.ImageList)
+    <ul class="flier-images" data-bind="foreach:AnalyticInfo.Entries">
+        @foreach (var ts in analyticInfo.Entries)
         {
             <li>
                 
-                <div data-id="">
-                    
+                <div data-id="@ts.TrackingId" data-longitude="@ts.Location.Longitude" data-latitude="@ts.Location.Latitude"
+                    data-bind="attr:{'data-id': TrackingId, 'data-longitude': Location.Longitude, 'data-latitude': Location.Latitude }" >
+                    <ul class="analytic-summary-detail">
+                        <li class="property">
+                            @Html.LabelFor(model => ts.InitialVisitTime)
+                        </li>
+                        <li class="value" data-bind="text:InitialVisitTime">
+                            @ts.InitialVisitTime
+                        </li>
+
+                        <li class="property">
+                            @Html.LabelFor(model => ts.InitialSource)
+                        </li>
+                        <li class="value" data-bind="text:InitialSource">
+                            @ts.InitialSource
+                        </li>
+
+                        <li class="property">
+                            @Html.LabelFor(model => ts.TotalDetailViews)
+                        </li>
+                        <li class="value" data-bind="text:TotalDetailViews">
+                            @ts.TotalDetailViews
+                        </li>
+
+                        <li class="property">
+                            @Html.LabelFor(model => ts.UserAgent)
+                        </li>
+                        <li class="value" data-bind="text:UserAgent">
+                            @ts.UserAgent
+                        </li>
+
+                        <li class="property">
+                            @Html.LabelFor(model => ts.Location)
+                        </li>
+                        <li class="value">
+                            <span data-bind="text:LocationSource"> @ts.LocationSource </span>
+                            Lat: <span data-bind="text:Location.Latitude">@ts.Location.Latitude</span>
+                            Long: <span data-bind="text:Location.Longitude">@ts.Location.Longitude</span>
+                        </li>
+                    </ul>
                 </div>
             </li>
         }

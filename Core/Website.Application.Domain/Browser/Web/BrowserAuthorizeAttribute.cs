@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Web.Http.Controllers;
 using System.Web.Http.Filters;
 using Ninject;
+using Ninject.Syntax;
 using Website.Domain.Browser;
 using Website.Infrastructure.Command;
 
@@ -30,7 +31,10 @@ namespace Website.Application.Domain.Browser.Web
         }
 
         [Inject]
-        public BrowserInformationInterface BrowserInformation { get; set; }
+        public IResolutionRoot ResolutionRoot { get; set; }
+
+        protected BrowserInformationInterface BrowserInformation {
+            get { return ResolutionRoot.Get<BrowserInformationInterface>(); }}
 
         public override void OnActionExecuting(HttpActionContext actionContext)
         {
@@ -60,8 +64,11 @@ namespace Website.Application.Domain.Browser.Web
             if (BrowserInformation.Browser.HasRole(Role.Admin))
                 return;
 
-            if (BrowserInformation.Browser.Id == browserid && (Roles.Length == 0 ||
-                BrowserInformation.Browser.HasAnyRole(_rolesSplit)))
+            if (BrowserInformation.Browser.Id == browserid
+                && (
+                    (Roles.Length == 0 && !BrowserInformation.Browser.IsTemporary()) || 
+                    BrowserInformation.Browser.HasAnyRole(_rolesSplit))
+                )
                 return;
 //
 //#if DEBUG

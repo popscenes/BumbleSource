@@ -12,6 +12,8 @@ using Ninject.Syntax;
 namespace Website.Common.Filters
 {
     //this allows you to have properties with [Inject] in filter attiributes, haven't done one for mvc this is for http web api
+    //NOTE attributes are only contruted once per controller, so if you need a service in transient
+    //thread or request scope just inject resolution root and use as (crappy) service resolver.
     public class DefaultNinjectHttpFilterProvider : ActionDescriptorFilterProvider, IFilterProvider
     {
         private readonly IKernel _kernel;

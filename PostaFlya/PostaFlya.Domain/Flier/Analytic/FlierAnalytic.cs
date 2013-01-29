@@ -34,6 +34,7 @@ namespace PostaFlya.Domain.Flier.Analytic
                    || source.SourceAction == FlierAnalyticSourceAction.TinyUrlByApi
                    || source.SourceAction == FlierAnalyticSourceAction.IdByBulletin;
         }
+
     }
 
     public interface FlierAnalyticInterface : EntityInterface, AggregateInterface, BrowserIdInterface

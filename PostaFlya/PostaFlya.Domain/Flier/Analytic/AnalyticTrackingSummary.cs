@@ -1,4 +1,5 @@
-﻿using Website.Domain.Location;
+﻿using System;
+using Website.Domain.Location;
 
 namespace PostaFlya.Domain.Flier.Analytic
 {
@@ -10,5 +11,7 @@ namespace PostaFlya.Domain.Flier.Analytic
         public Location Location { get; set; }
         public string UserAgent { get; set; }
         public bool LocationFromSearch { get; set; }
+        public FlierAnalyticSourceAction InitialSource { get; set; }
+        public DateTimeOffset InitialVisitTime { get; set; }
     }
 }

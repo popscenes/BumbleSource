@@ -8,8 +8,7 @@ namespace PostaFlya.Domain.Flier.Analytic
 {
     public class FlierAnalyticInfo
     {
-        int TotalDetailVisits { get; set; }
-        List<AnalyticTrackingSummary> Entries { get; set; }
+        public List<AnalyticTrackingSummary> Entries { get; set; }
         public FlierAnalyticInfo(IEnumerable<FlierAnalytic> analytics)
         {
             Entries = new List<AnalyticTrackingSummary>();
@@ -34,13 +33,21 @@ namespace PostaFlya.Domain.Flier.Analytic
             }
 
             if (analytic.IsSourceADetailView())
-            {
                 summary.TotalDetailViews++;
-                TotalDetailVisits++;
-            }
-                
-            
-             
+
+            if (summary.InitialSource == FlierAnalyticSourceAction.Unknown &&
+                analytic.SourceAction != FlierAnalyticSourceAction.Unknown)
+                summary.InitialSource = analytic.SourceAction;
+
+            if (string.IsNullOrWhiteSpace(summary.UserAgent) && !string.IsNullOrWhiteSpace(analytic.UserAgent))
+                summary.UserAgent = analytic.UserAgent;
+
+            if (!analytic.TemporaryBrowser && string.IsNullOrWhiteSpace(summary.BrowserId))
+                summary.BrowserId = analytic.BrowserId;
+
+            if (summary.InitialVisitTime == default(DateTimeOffset) && analytic.Time != default(DateTimeOffset))
+                summary.InitialVisitTime = analytic.Time;
+
             return summary;
         }
     }
