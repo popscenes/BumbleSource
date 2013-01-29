@@ -95,9 +95,10 @@
                 <ol>
                     <li data-bind="with:locationSelector">
                         @Html.LabelFor(model => model.Address)
+                        <input  type="text" data-bind="attr:{id:locSearchId}, value: searchText, click: clearSearchText"/>
                         @Html.HiddenFor(model => model.Address, new { data_bind = "value:currentLocation()" })
                         @Html.ValidationMessageFor(model => model.Address)
-                        <input  type="text" data-bind="attr:{id:locSearchId}, value: searchText, click: clearSearchText"/>
+                        
                         @Html.Partial("Location/LocationSelector")
                     </li>
             

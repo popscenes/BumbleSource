@@ -17,6 +17,10 @@
 
         self.showImageSelect = function() {
             self.ImageSelectorVisible(!self.ImageSelectorVisible());
+            
+            if (self.ImageSelectorVisible() == true) {
+                self.imageSelector.Init();
+            }
         };
         
         self.update = function () {
@@ -66,17 +70,12 @@
                     self.locationSelector.ShowMap();
                     
                     if (!ko.isObservable(self.Address)) {
-                        //self.locationSelector.currentLocation(ko.mapping.toJS(self.Address));
-                        self.locationSelector.currentLocation(self.Address);
+                        self.locationSelector.currentLocation(new bf.LocationModel(self.Address));
                         
                     } else {
                         self.locationSelector.currentLocation(new bf.LocationModel());
                     }
-                    
-                    
-                    
-                    
-                    
+                   
 
                 }
             });
