@@ -603,14 +603,23 @@ input, textarea {
     background: url(images/add-btn.png);
 }
 
-#flya-create-continue, #flya-create-update, #flya-create-save {
+.select-mini-btn {
+    width: 49px;
+    height: 25px;
+    background: url(images/select-btn.png);
+    float: right;
+    cursor: pointer;
+}
+
+#flya-create-continue, #flya-create-update, #flya-create-save, #profile-save {
     width: 146px;
     height: 40px;
     background: url(images/continue-btn.png);
     float: right;
+    cursor: pointer;
 }
 
-#flya-create-save, #flya-create-update {
+#flya-create-save, #flya-create-update, #profile-save {
     background: url(images/finish-btn.png);
 }
 

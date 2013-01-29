@@ -9,8 +9,15 @@
         self.apiUrl = sprintf("/api/Browser/%s/MyDetails", bf.currentBrowserInstance.BrowserId);
 
         self.CreateFlierInstance = bf.globalCreateFlierInstance;
+        //self.locationSelector.ShowMap();
 
         self.ErrorHandler = ko.observable(null);
+
+        self.ImageSelectorVisible = ko.observable(false);
+
+        self.showImageSelect = function() {
+            self.ImageSelectorVisible(!self.ImageSelectorVisible());
+        };
         
         self.update = function () {
             if (!$('#profileeditform').valid()) {
@@ -42,6 +49,9 @@
         };
 
         self.load = function () {
+
+
+            
             $.ajax(self.apiUrl, {
                 type: "get", contentType: "application/json",
                 success: function (result) {
@@ -50,8 +60,13 @@
                     
                     self.imageSelector.Init();
                     self.imageSelector.selectedImageId(self.AvatarImageId());
-                    self.locationSelector.currentLocation(ko.mapping.toJS(self.Address));
                     
+                    if (self.Address() != null) {
+                        self.locationSelector.currentLocation(ko.mapping.toJS(self.Address));
+                    }
+                    self.locationSelector.Init();
+                    self.locationSelector.ShowMap();
+
                 }
             });
         };

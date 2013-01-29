@@ -12,92 +12,103 @@
     @Styles.Render("~/Content/themes/taskflya/ProfileEdit/DeskCss")   
     @Scripts.Render("~/Script/ProfileEditDeskJs") 
 }
-@Html.Partial("Image/ImageListTemplate")
-<form id="profileeditform" class="form" data-bind="submit: update">
-    
-    @Html.ValidationSummary(false)
-    
-    @Html.HiddenFor(model => model.Id, new { data_bind = "value:Id" })
-        <fieldset>           
-            <legend>@Html.LabelFor(model => model.AvatarImageId)</legend>
-            <ol>            
-                <li data-bind="with:imageSelector">
-                    @Html.LabelFor(model => model.AvatarImageId)
-                    <img data-bind="attr: { src: selectedImageUrl}, visible:selectedImageUrl" />
-                    <span class="selected-image" data-bind="visible:(selectedImageUrl()==null)">please select an image</span>
-                </li>
+<div class="page-content">
+    <div class="page-inner">
+        <h2>Edit Profile</h2>
+        <h3>Edit your postaflya details</h3>
 
-                <li data-bind="with:imageSelector">
-                    @Html.HiddenFor(model => model.AvatarImageId, new { data_bind = "value:selectedImageId()" })
-                    @Html.ValidationMessageFor(model => model.AvatarImageId)
-                    @Html.Partial("Image/ImageSelector")
-                </li>          
-            </ol>
+        @Html.Partial("Image/ImageListTemplate")
+        <form id="profileeditform" class="form">
+    
+            @Html.ValidationSummary(false)
+    
+            @Html.HiddenFor(model => model.Id, new { data_bind = "value:Id" })
+            <fieldset>           
+                <legend>@Html.LabelFor(model => model.AvatarImageId)</legend>
+                <ol>            
+                    <li data-bind="with:imageSelector">
+                        <img data-bind="attr: { src: selectedImageUrl}, visible:selectedImageUrl" />
+                        <span class="selected-image" data-bind="visible:(selectedImageUrl()==null)">Please select an image for your profile</span>
+                        <a id="select-images" data-bind="click: $root.showImageSelect" class="select-mini-btn" style="">&nbsp;</a>
+                    </li>
+
+                    <li data-bind="with:imageSelector, visible:$root.ImageSelectorVisible">
+                        @Html.HiddenFor(model => model.AvatarImageId, new { data_bind = "value:selectedImageId()" })
+                        @Html.ValidationMessageFor(model => model.AvatarImageId)
+                        @Html.Partial("Image/ImageSelector")
+                    </li>          
+                </ol>
  
-        </fieldset>
-    <fieldset>
-        <legend> @Html.LabelFor(model => model.Handle) </legend>
-        <ol>
-            <li>
-                @Html.LabelFor(model => model.Handle)
-                @Html.TextBoxFor(model => model.Handle, new { data_bind = "value:Handle" })
-                @Html.ValidationMessageFor(model => model.Handle)
-            </li>
-        </ol>
-    </fieldset>
-    <fieldset>
-            <legend> @Html.LabelFor(model => model.Credits)</legend>
-            <ol>
-                <li>
-                    @Html.LabelFor(model => model.Credits)
-                    <span data-bind="text: Credits"></span>
-                    @Html.ActionLink("Manage Credits", "PaymentPending", "Profile")
-                </li>
-            </ol>
-        </fieldset>
-        <fieldset>         
-            <legend> @Html.LabelForModel() </legend>
-            <ol>
-                <li>
-                    @Html.LabelFor(model => model.FirstName)
-                    @Html.TextBoxFor(model => model.FirstName, new { data_bind = "value:FirstName" })
-                    @Html.ValidationMessageFor(model => model.FirstName)
-                </li>
-                <li>
-                    @Html.LabelFor(model => model.MiddleNames)
-                    @Html.TextBoxFor(model => model.MiddleNames, new { data_bind = "value:MiddleNames" })
-                    @Html.ValidationMessageFor(model => model.MiddleNames)
-                </li>
-                <li>
-                    @Html.LabelFor(model => model.Surname)
-                    @Html.TextBoxFor(model => model.Surname, new { data_bind = "value:Surname" })
-                    @Html.ValidationMessageFor(model => model.Surname)
-                </li>
-            </ol>
-        </fieldset>
-        <fieldset>         
-            <legend> Contact details </legend>
-            <ol>
-                <li>
-                    @Html.LabelFor(model => model.Email)
-                    @Html.TextBoxFor(model => model.Email, new { data_bind = "value:Email" })
-                    @Html.ValidationMessageFor(model => model.Email)
-                </li>
-            </ol>
-        </fieldset>
-    <fieldset>
-        <legend>@Html.LabelFor(model => model.Address)</legend>
-        <ol>
-            <li data-bind="with:locationSelector">
-                @Html.LabelFor(model => model.Address)
-                @Html.HiddenFor(model => model.Address, new { data_bind = "value:currentLocation()" })
-                @Html.ValidationMessageFor(model => model.Address)
-                @Html.Partial("Location/LocationSelector")
-            </li>
+            </fieldset>
+            <fieldset>
+                <legend> @Html.LabelFor(model => model.Handle) </legend>
+                <ol>
+                    <li>
+                        @Html.LabelFor(model => model.Handle)
+                        @Html.TextBoxFor(model => model.Handle, new { data_bind = "value:Handle" })
+                        @Html.ValidationMessageFor(model => model.Handle)
+                    </li>
+                </ol>
+            </fieldset>
+            <fieldset>
+                <legend> @Html.LabelFor(model => model.Credits)</legend>
+                <ol>
+                    <li>
+                        @Html.LabelFor(model => model.Credits)
+                        <span data-bind="text: Credits"></span>
+                        @Html.ActionLink("Manage Credits", "PaymentPending", "Profile")
+                    </li>
+                </ol>
+            </fieldset>
+            <fieldset>         
+                <legend> @Html.LabelForModel() </legend>
+                <ol>
+                    <li>
+                        @Html.LabelFor(model => model.FirstName)
+                        @Html.TextBoxFor(model => model.FirstName, new { data_bind = "value:FirstName" })
+                        @Html.ValidationMessageFor(model => model.FirstName)
+                    </li>
+                    <li>
+                        @Html.LabelFor(model => model.MiddleNames)
+                        @Html.TextBoxFor(model => model.MiddleNames, new { data_bind = "value:MiddleNames" })
+                        @Html.ValidationMessageFor(model => model.MiddleNames)
+                    </li>
+                    <li>
+                        @Html.LabelFor(model => model.Surname)
+                        @Html.TextBoxFor(model => model.Surname, new { data_bind = "value:Surname" })
+                        @Html.ValidationMessageFor(model => model.Surname)
+                    </li>
+                </ol>
+            </fieldset>
+            <fieldset>         
+                <legend> Contact details </legend>
+                <ol>
+                    <li>
+                        @Html.LabelFor(model => model.Email)
+                        @Html.TextBoxFor(model => model.Email, new { data_bind = "value:Email" })
+                        @Html.ValidationMessageFor(model => model.Email)
+                    </li>
+                </ol>
+            </fieldset>
+            <fieldset>
+                <legend>@Html.LabelFor(model => model.Address)</legend>
+                <ol>
+                    <li data-bind="with:locationSelector">
+                        @Html.LabelFor(model => model.Address)
+                        @Html.HiddenFor(model => model.Address, new { data_bind = "value:currentLocation()" })
+                        @Html.ValidationMessageFor(model => model.Address)
+                        <input  type="text" data-bind="attr:{id:locSearchId}, value: searchText, click: clearSearchText"/>
+                        @Html.Partial("Location/LocationSelector")
+                    </li>
             
-        </ol>      
-    </fieldset>
-    <button type="submit">Update</button>
-    @*todo add error handling binding for our own messages*@
-    <span data-bind="text: ErrorHandler() != null ? ErrorHandler().Message : ''"></span>
-</form>
+                </ol>      
+            </fieldset>
+            <div>
+                <a id="profile-save" data-bind="click: update" class="Button" style="">&nbsp;</a>
+                <div style="clear: both;"></div>
+            </div>
+            @*todo add error handling binding for our own messages*@
+            <span data-bind="text: ErrorHandler() != null ? ErrorHandler().Message : ''"></span>
+        </form>
+    </div>
+    </div>
