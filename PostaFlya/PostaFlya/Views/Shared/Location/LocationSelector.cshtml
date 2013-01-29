@@ -3,11 +3,6 @@
 
 <div class="ls-holder">
     <div id="lsMain" data-bind="visible: showMain">
-        
-        <div data-bind="visible: ValidLocation()==false">
-            <div data-bind="text:errorMessage"></div>
-        </div>
-        
         <div class="distSel" data-bind="with:distanceSelector">
             @Html.Partial("Distance/DistanceSelector")
         </div>

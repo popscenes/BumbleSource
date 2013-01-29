@@ -56,16 +56,27 @@
                 type: "get", contentType: "application/json",
                 success: function (result) {
                     ko.mapping.fromJS(result, {}, self);
+                    
                     ko.applyBindings(self);
                     
                     self.imageSelector.Init();
                     self.imageSelector.selectedImageId(self.AvatarImageId());
                     
-                    if (self.Address() != null) {
-                        self.locationSelector.currentLocation(ko.mapping.toJS(self.Address));
-                    }
                     self.locationSelector.Init();
                     self.locationSelector.ShowMap();
+                    
+                    if (!ko.isObservable(self.Address)) {
+                        //self.locationSelector.currentLocation(ko.mapping.toJS(self.Address));
+                        self.locationSelector.currentLocation(self.Address);
+                        
+                    } else {
+                        self.locationSelector.currentLocation(new bf.LocationModel());
+                    }
+                    
+                    
+                    
+                    
+                    
 
                 }
             });
