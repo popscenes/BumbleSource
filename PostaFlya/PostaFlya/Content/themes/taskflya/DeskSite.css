@@ -609,6 +609,7 @@ input, textarea {
     background: url(images/select-btn.png);
     float: right;
     cursor: pointer;
+    margin-right: 15%;
 }
 
 #flya-create-continue, #flya-create-update, #flya-create-save, #profile-save {
@@ -628,6 +629,10 @@ input, textarea {
     height: 40px;
     background: url(images/back-btn.png);
     float: left;
+}
+
+.preview-avatar {
+    margin: 0 0 0 10%;
 }
 
 .field-validation-error {

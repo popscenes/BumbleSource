@@ -47,6 +47,7 @@ namespace PostaFlya.Models.Browser
         [UrlAttribute(ErrorMessageResourceName = "ValidUrl", ErrorMessageResourceType = typeof(Properties.Resources), ErrorMessage = null)]
         public string WebSite { get; set; }
         
+        [Display(ResourceType = typeof (Website.Application.Properties.Resources), Name = "ProfileEditModel_AvatarImageId_Profile_Picture")]
         public string AvatarImageId { get; set; } 
     }
 }

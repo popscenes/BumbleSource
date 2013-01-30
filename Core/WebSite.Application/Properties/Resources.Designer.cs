@@ -59,5 +59,14 @@ namespace Website.Application.Properties {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Profile Picture.
+        /// </summary>
+        public static string ProfileEditModel_AvatarImageId_Profile_Picture {
+            get {
+                return ResourceManager.GetString("ProfileEditModel_AvatarImageId_Profile_Picture", resourceCulture);
+            }
+        }
     }
 }

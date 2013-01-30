@@ -23,23 +23,7 @@
             @Html.ValidationSummary(false)
     
             @Html.HiddenFor(model => model.Id, new { data_bind = "value:Id" })
-            <fieldset>           
-                <legend>@Html.LabelFor(model => model.AvatarImageId)</legend>
-                <ol>            
-                    <li data-bind="with:imageSelector">
-                        <img data-bind="attr: { src: selectedImageUrl}, visible:selectedImageUrl" />
-                        <span class="selected-image" data-bind="visible:(selectedImageUrl()==null)">Please select an image for your profile</span>
-                        <a id="select-images" data-bind="click: $root.showImageSelect" class="select-mini-btn" style="">&nbsp;</a>
-                    </li>
-
-                    <li data-bind="with:imageSelector, visible:$root.ImageSelectorVisible">
-                        @Html.HiddenFor(model => model.AvatarImageId, new { data_bind = "value:selectedImageId()" })
-                        @Html.ValidationMessageFor(model => model.AvatarImageId)
-                        @Html.Partial("Image/ImageSelector")
-                    </li>          
-                </ol>
- 
-            </fieldset>
+            
             <fieldset>
                 <legend> @Html.LabelFor(model => model.Handle) </legend>
                 <ol>
@@ -103,6 +87,26 @@
                     </li>
             
                 </ol>      
+            </fieldset>
+            <fieldset>           
+                <legend>@Html.LabelFor(model => model.AvatarImageId)</legend>
+                <ol>
+                                
+                    <li data-bind="with:imageSelector">
+                        @Html.LabelFor(model => model.AvatarImageId)
+                        <img data-bind="attr: { src: selectedImageUrl}, visible:selectedImageUrl" class="preview-avatar" />
+                        <span class="selected-image" data-bind="visible:(selectedImageUrl()==null)">Please select an image for your profile</span>
+                        <a id="select-images" data-bind="click: $root.showImageSelect" class="select-mini-btn" style="">&nbsp;</a>
+                    </li>
+
+                    <li data-bind="with:imageSelector, visible:$root.ImageSelectorVisible">
+                        
+                        @Html.HiddenFor(model => model.AvatarImageId, new { data_bind = "value:selectedImageId()" })
+                        @Html.ValidationMessageFor(model => model.AvatarImageId)
+                        @Html.Partial("Image/ImageSelector")
+                    </li>          
+                </ol>
+ 
             </fieldset>
             <div>
                 <a id="profile-save" data-bind="click: update" class="Button" style="">&nbsp;</a>

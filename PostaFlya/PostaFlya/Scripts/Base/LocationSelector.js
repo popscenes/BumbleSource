@@ -94,7 +94,6 @@
                     bf.reverseGeocode(position.coords.latitude, position.coords.longitude, self.currentLocation());
                 }
                 else{
-                    self.showMain(true);
                     self.canGetCurrentLocation(false);
                     self.locationType('search');
                     self.updateMap();
