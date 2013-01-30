@@ -2,7 +2,6 @@
 using System.ComponentModel.DataAnnotations;
 using PostaFlya.Domain.Flier.Analytic;
 using PostaFlya.Models.Location;
-using Resources = PostaFlya.Properties.Resources;
 
 namespace PostaFlya.Models.Flier
 {
@@ -63,13 +62,25 @@ namespace PostaFlya.Models.Flier
 
     public class FlierAnalyticTrackingSummaryModel
     {
+        [Display(Name = "FlierAnalyticTrackingSummaryModel_TrackingId_TrackingId", ResourceType = typeof(Properties.Resources))]
         public string TrackingId { get; set; }
+        
         [Display(Name = "FlierAnalyticTrackingSummaryModel_TotalDetailViews", ResourceType = typeof (Properties.Resources))]
         public int TotalDetailViews { get; set; }
+
+        [Display(Name = "FlierAnalyticTrackingSummaryModel_Location", ResourceType = typeof(Properties.Resources))]
         public LocationModel Location { get; set; }
-        public string UserAgent { get; set; }
+
+        [Display(Name = "FlierAnalyticTrackingSummaryModel_LocationSource", ResourceType = typeof(Properties.Resources))]
         public string LocationSource { get; set; }
+
+        [Display(Name = "FlierAnalyticTrackingSummaryModel_UserAgent", ResourceType = typeof(Properties.Resources))]
+        public string UserAgent { get; set; }
+
+        [Display(Name = "FlierAnalyticTrackingSummaryModel_InitialSource", ResourceType = typeof(Properties.Resources))]
         public string InitialSource { get; set; }
+
+        [Display(Name = "FlierAnalyticTrackingSummaryModel_InitialVisitTime", ResourceType = typeof(Properties.Resources))]        
         public DateTimeOffset InitialVisitTime { get; set; }
         public static FlierAnalyticTrackingSummaryModel DefaultForTemplate()
         {

@@ -26,7 +26,8 @@ namespace PostaFlya.Domain.Flier.Analytic
         private AnalyticTrackingSummary AggregateFunc(AnalyticTrackingSummary summary, FlierAnalytic analytic)
         {
             summary.TrackingId = analytic.TrackingId;
-            if (summary.Location == null || !summary.Location.IsValid)
+            if (summary.Location == null || !summary.Location.IsValid ||
+                (summary.LocationFromSearch && !analytic.LocationFromSearch && analytic.Location.IsValid))
             {
                 summary.Location = analytic.Location;
                 summary.LocationFromSearch = analytic.LocationFromSearch;

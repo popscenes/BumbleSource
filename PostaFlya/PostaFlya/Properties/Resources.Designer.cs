@@ -432,11 +432,65 @@ namespace PostaFlya.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Initial source.
+        /// </summary>
+        public static string FlierAnalyticTrackingSummaryModel_InitialSource {
+            get {
+                return ResourceManager.GetString("FlierAnalyticTrackingSummaryModel_InitialSource", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Initial visit time.
+        /// </summary>
+        public static string FlierAnalyticTrackingSummaryModel_InitialVisitTime {
+            get {
+                return ResourceManager.GetString("FlierAnalyticTrackingSummaryModel_InitialVisitTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Recorded Location.
+        /// </summary>
+        public static string FlierAnalyticTrackingSummaryModel_Location {
+            get {
+                return ResourceManager.GetString("FlierAnalyticTrackingSummaryModel_Location", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Location source.
+        /// </summary>
+        public static string FlierAnalyticTrackingSummaryModel_LocationSource {
+            get {
+                return ResourceManager.GetString("FlierAnalyticTrackingSummaryModel_LocationSource", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Total number of views from this Tracking Id.
         /// </summary>
         public static string FlierAnalyticTrackingSummaryModel_TotalDetailViews {
             get {
                 return ResourceManager.GetString("FlierAnalyticTrackingSummaryModel_TotalDetailViews", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unique Tracking Id.
+        /// </summary>
+        public static string FlierAnalyticTrackingSummaryModel_TrackingId_TrackingId {
+            get {
+                return ResourceManager.GetString("FlierAnalyticTrackingSummaryModel_TrackingId_TrackingId", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to User agent (browser and or device) information .
+        /// </summary>
+        public static string FlierAnalyticTrackingSummaryModel_UserAgent {
+            get {
+                return ResourceManager.GetString("FlierAnalyticTrackingSummaryModel_UserAgent", resourceCulture);
             }
         }
         

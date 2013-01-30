@@ -402,4 +402,22 @@
   <data name="FlierAnalyticTrackingSummaryModel_TotalDetailViews" xml:space="preserve">
     <value>Total number of views from this Tracking Id</value>
   </data>
+  <data name="FlierAnalyticTrackingSummaryModel_TrackingId_TrackingId" xml:space="preserve">
+    <value>Unique Tracking Id</value>
+  </data>
+  <data name="FlierAnalyticTrackingSummaryModel_Location" xml:space="preserve">
+    <value>Recorded Location</value>
+  </data>
+  <data name="FlierAnalyticTrackingSummaryModel_UserAgent" xml:space="preserve">
+    <value>User agent (browser and or device) information </value>
+  </data>
+  <data name="FlierAnalyticTrackingSummaryModel_LocationSource" xml:space="preserve">
+    <value>Location source</value>
+  </data>
+  <data name="FlierAnalyticTrackingSummaryModel_InitialSource" xml:space="preserve">
+    <value>Initial source</value>
+  </data>
+  <data name="FlierAnalyticTrackingSummaryModel_InitialVisitTime" xml:space="preserve">
+    <value>Initial visit time</value>
+  </data>
 </root>

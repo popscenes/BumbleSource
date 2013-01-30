@@ -36,9 +36,14 @@ namespace PostaFlya.Controllers
             _webAnalyticService = webAnalyticService;
         }
 
-        public ActionResult Index(string t, string id)
+        public ActionResult Index(string src, string id)
         {
-            _browserInformation.TrackingId = t;
+            if (string.IsNullOrWhiteSpace(_browserInformation.TrackingId))
+                _browserInformation.TrackingId = Guid.NewGuid().ToString();
+            
+            _browserInformation.LastSearchLocation = null;
+
+            _webAnalyticService.RecordVisit(id, FlierAnalyticUrlUtil.GetSourceAction(src, FlierAnalyticSourceAction.TinyUrl));
 
             var siteUrl = _configurationService.GetSetting("SiteUrl") ?? "";
             return RedirectPermanent(siteUrl + "/" + id);
