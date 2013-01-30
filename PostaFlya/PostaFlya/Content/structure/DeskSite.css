@@ -372,8 +372,24 @@ fieldset {
             padding-bottom: 5px;
         }
 
+            .cost-breakdown li {
+        margin-top: 10px;
+    }
+
+    .cost-description {
+        font-size: 10px;
+    }
+
+    #current-images, #new-images-upload {
+        float: left;
+    }
+
+    #new-images-upload {
+        margin-left: 15px;
+    }
+
 .form {
-    width:465px;
+    width:560px;
     margin-left:auto;
     margin-right:auto;  
 }
@@ -564,10 +580,5 @@ a.toolbar-item
     padding: 0 10px 10px 10px;
 }
 
-    .cost-breakdown li {
-        margin-top: 10px;
-    }
 
-    .cost-description {
-        font-size: 10px;
-    }
+

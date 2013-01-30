@@ -44,18 +44,20 @@
         <fieldset>
             <legend>ADD IMAGE TO YOUR FLYA</legend>
             <h2>ADD IMAGE TO YOUR FLYA</h2>
-
-            <span class="form-divider ignore" data-bind="with:imageSelector">
-                @Html.Partial("Image/ImageSelector")
-            </span>
             
-            <span class="form-divider-right">
+            <div class="">
                 <h3>PREVIEW IMAGE</h3>
                 @Html.ValidationMessageFor(model => model.FlierImageId)
                 <img data-bind="attr: { src: FlierImageUrlH250}, visible:FlierImageUrl" />
                 @Html.HiddenFor(model => model.FlierImageId, new { data_bind = "value:FlierImageId" })
                 
+            </div>
+
+            <span class="" data-bind="with:imageSelector">
+                @Html.Partial("Image/ImageSelector")
             </span>
+            
+            
         </fieldset>
     </form>
 
