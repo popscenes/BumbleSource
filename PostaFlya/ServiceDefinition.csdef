@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ServiceDefinition name="AzureProject" xmlns="http://schemas.microsoft.com/ServiceHosting/2008/10/ServiceDefinition" schemaVersion="2012-10.1.8">
   <WebRole name="PostaFlya" vmsize="Small">
+    <Runtime executionContext="elevated" />
     <!--<Startup>
       <Task commandLine="ConfigureIIS.cmd" executionContext="elevated" taskType="simple" />
     </Startup>-->

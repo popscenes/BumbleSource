@@ -1,8 +1,10 @@
+using System;
 using System.Diagnostics;
 using Microsoft.Web.Administration;
 using Microsoft.WindowsAzure.ServiceRuntime;
 using PostaFlya.CommandWorker;
 using Website.Azure.Common.Environment;
+using WindowsAzure.DevelopmentFabric.IISConfigurator.Syncronizer;
 
 namespace PostaFlya
 {
@@ -36,18 +38,34 @@ namespace PostaFlya
         {
             if (AzureEnv.IsRunningInProdFabric())
             {
-                //turn app pool to always on and pre-load enabled
-                using (var serverManager = new ServerManager())
-                {
-                    var mainSite = serverManager.Sites[RoleEnvironment.CurrentRoleInstance.Id + "_Web"];
-                    var mainApplication = mainSite.Applications["/"];
-                    mainApplication["preloadEnabled"] = true;
 
-                    var mainApplicationPool = serverManager.ApplicationPools[mainApplication.ApplicationPoolName];
-                    mainApplicationPool["startMode"] = "AlwaysRunning";
-                    mainApplicationPool.AutoStart = true;
-                    serverManager.CommitChanges();
-                }    
+                Action<ServerManager> updatePreload = (serverManager) =>
+                    {
+                        try
+                        {
+                            //turn app pool to always on and pre-load enabled
+                            var mainSite = serverManager.Sites[RoleEnvironment.CurrentRoleInstance.Id + "_Web"];
+                            var mainApplication = mainSite.Applications["/"];
+                            mainApplication["preloadEnabled"] = true;
+
+                            var mainApplicationPool =
+                                serverManager.ApplicationPools[mainApplication.ApplicationPoolName];
+                            mainApplicationPool["startMode"] = "AlwaysRunning";
+                            mainApplicationPool.AutoStart = true;
+                            serverManager.CommitChanges();
+                            
+                        }
+                        catch (System.Exception e)
+                        {
+
+                            Trace.TraceError("Web Role On Start trace err {0} \n {1}", e.Message, e.StackTrace);
+                            System.Diagnostics.EventLog.WriteEntry("WebRoleSource", e.Message + "\n" + e.StackTrace,
+                                       System.Diagnostics.EventLogEntryType.Error);
+                        }
+                    };
+
+                ServerManagerBarrier.ApplyServerManagerActions(updatePreload); 
+
             }
 
             
