@@ -1,0 +1,1 @@
+start /w msiexec /i SQLSysClrTypes.msi /qn /l* SQLSysClrTypes.log
