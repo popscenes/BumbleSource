@@ -2,7 +2,7 @@
 	margin:0;
 	padding:0;
 	background-color:#f6f0e7;
-    font-family:Verdana, Geneva, sans-serif;
+    font-family:Tahoma, Verdana, Geneva, sans-serif;
 	
 }
 
@@ -578,6 +578,23 @@ a.toolbar-item
     background-color: white;
     border: solid 1px #cccccc;
     padding: 0 10px 10px 10px;
+}
+
+.std-btn {
+    display: inline-block;
+    font-family: Tahoma;
+    font-size: 12pt;
+    color: white;
+    background-color: #99D4E4;
+    height: 18px;
+    padding: 10px;
+    vertical-align: middle;
+    text-align: center;
+    padding-top: 10px;
+    border: #ACC8CD solid 1px;
+    cursor: pointer;
+    text-decoration: none;
+    text-transform: uppercase;
 }
 
 

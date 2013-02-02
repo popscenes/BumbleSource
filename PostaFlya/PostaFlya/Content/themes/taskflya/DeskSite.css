@@ -573,7 +573,9 @@ input, textarea {
     font-size: 1em
 }
 
-
+form li label {
+    color: #555555;
+}
 
 .nav-controls a {
     display: inline-block;
@@ -659,4 +661,10 @@ input, textarea {
     background-size: 30px 30px;
     background-position: center;
     background-repeat: no-repeat;
+}
+
+#openid_btns {
+    clear: both;
+width: 250px;
+margin: 0 auto;
 }
