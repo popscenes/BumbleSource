@@ -17,7 +17,7 @@
     Flier Cost:<span data-bind="text:totalCost"></span> 
     <a data-bind="click:showCostBreakdown">+</a>
     <ul class="cost-breakdown" data-bind="visible:costBreakdown, foreach:flierCosts">
-        <li>
+        <li data-bind="visible:credits() > 0">
             <span data-bind="text:title"></span>:
             <span data-bind="text:credits"></span>
             <div class="cost-description" data-bind="text:description"></div>

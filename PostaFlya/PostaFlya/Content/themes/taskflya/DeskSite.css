@@ -472,11 +472,11 @@ div#selected-item-popup-overlay, div#create-flier-popup-overlay {
     background-position:-2760px bottom;
 }
 
-.tags-selector ul li .politics
+.tags-selector ul li .community
 {
     background-position:-2860px top;
 }
-.tags-selector ul li.tag-selected .politics
+.tags-selector ul li.tag-selected .community
 {
     background-position:-2860px bottom;
 }

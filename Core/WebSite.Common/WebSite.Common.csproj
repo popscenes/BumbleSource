@@ -133,6 +133,7 @@
     <Compile Include="Filters\DefaultNinjectHttpFilterProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Environment\WebBackgroundWorker.cs" />
+    <Compile Include="Util\UriUtil.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

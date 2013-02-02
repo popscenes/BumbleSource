@@ -41,6 +41,7 @@
 
       <Setting name="TinyUrlBase"/>
       <Setting name="SiteUrl"/>
+      <Setting name="Tags"/>
 
     </ConfigurationSettings>
     <LocalResources>

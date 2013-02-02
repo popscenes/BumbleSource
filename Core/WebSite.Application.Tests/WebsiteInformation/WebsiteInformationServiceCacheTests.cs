@@ -35,7 +35,7 @@ namespace Website.Application.Tests.WebsiteInformation
 
             websiteInfo.Setup(_ => _.GetBehaivourTags(It.IsAny<String>())).Returns("postaFlya");
             websiteInfo.Setup(_ => _.GetWebsiteName(It.IsAny<String>())).Returns("postaFlya");
-            var tags = "event,social,comedy,theatre,books,pets,lost,found,services,music,fashion,food & drink,job,task,wanted,for sale,for free,sport,automotive,education,sale,garage,film,art & craft,photography,accommodation,technology,property,kids,politics";
+            var tags = "event,social,comedy,theatre,books,pets,lost,found,services,music,fashion,food & drink,job,task,wanted,for sale,for free,sport,automotive,education,sale,garage,film,art & craft,photography,accommodation,technology,property,kids,community";
             websiteInfo.Setup(_ => _.GetTags(It.IsAny<String>())).Returns(tags);
             //Kernel.Rebind<WebsiteInfoServiceInterface>().To<WebsiteInfoServiceInterface>(websiteInfo);
         }

@@ -58,7 +58,7 @@ namespace Website.Application.Azure.Tests
             var websiteInfoService = Kernel.Get<WebsiteInfoServiceInterface>();
             var websiteInfo = new WebsiteInfo()
             {
-                Tags = "event,social,comedy,theatre,books,pets,lost,found,services,music,fashion,food & drink,job,task,wanted,for sale,for free,sport,automotive,education,sale,garage,film,art & craft,photography,accommodation,technology,property,kids,politics",
+                Tags = "event,social,comedy,theatre,books,pets,lost,found,services,music,fashion,food & drink,job,task,wanted,for sale,for free,sport,automotive,education,sale,garage,film,art & craft,photography,accommodation,technology,property,kids,community",
                 WebsiteName = "postaFlya",
                 BehaivoirTags = "postaFlya",
                 FacebookAppID = "facebookappid",
@@ -121,7 +121,7 @@ namespace Website.Application.Azure.Tests
             Assert.AreEqual(websiteInfo.WebsiteName, "postaFlya");
             Assert.AreEqual(websiteInfo.FacebookAppID, "facebookappid");
             Assert.AreEqual(websiteInfo.FacebookAppSecret, "itsasecret");
-            Assert.AreEqual(websiteInfo.Tags.ToString(), "event,social,comedy,theatre,books,pets,lost,found,services,music,fashion,food & drink,job,task,wanted,for sale,for free,sport,automotive,education,sale,garage,film,art & craft,photography,accommodation,technology,property,kids,politics");
+            Assert.AreEqual(websiteInfo.Tags.ToString(), "event,social,comedy,theatre,books,pets,lost,found,services,music,fashion,food & drink,job,task,wanted,for sale,for free,sport,automotive,education,sale,garage,film,art & craft,photography,accommodation,technology,property,kids,community");
 
             Assert.AreEqual(websiteInfo.PaypalUserId, "paypalId");
             Assert.AreEqual(websiteInfo.PaypalSignitures, "paypalSigniture");
@@ -138,7 +138,7 @@ namespace Website.Application.Azure.Tests
 
             Assert.That(tagsList.Split(new[] { ',' }).Count(), Is.EqualTo(30));
 
-            Assert.AreEqual("event,social,comedy,theatre,books,pets,lost,found,services,music,fashion,food & drink,job,task,wanted,for sale,for free,sport,automotive,education,sale,garage,film,art & craft,photography,accommodation,technology,property,kids,politics", tagsList.ToString());
+            Assert.AreEqual("event,social,comedy,theatre,books,pets,lost,found,services,music,fashion,food & drink,job,task,wanted,for sale,for free,sport,automotive,education,sale,garage,film,art & craft,photography,accommodation,technology,property,kids,community", tagsList.ToString());
         }
     }
 }

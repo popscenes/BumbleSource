@@ -30,7 +30,8 @@
 
       <Setting name="TinyUrlBase" value="http://pfly.in/"/>
       <Setting name="SiteUrl" value="http://postaflyaprod.cloudapp.net"/>
-
+      <Setting name="Tags" value="event,services,for sale,property,community"/>
+      
     </ConfigurationSettings>
     <Certificates>
       <!--<Certificate name="Microsoft.WindowsAzure.Plugins.RemoteAccess.PasswordEncryption" thumbprint="B5EB70801A6D0B9319FDE06E891D90737F129018" thumbprintAlgorithm="sha1" />-->

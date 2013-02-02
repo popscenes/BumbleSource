@@ -1,19 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Net;
 using System.Security.Principal;
-using System.Threading;
 using System.Web;
 using System.Web.Http;
-using System.Web.Http.Dispatcher;
-using System.Web.Http.Filters;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
 using System.Web.Security;
 using System.Web.WebPages;
-using Microsoft.WindowsAzure;
-using Microsoft.WindowsAzure.ServiceRuntime;
 using Ninject;
 using Ninject.Syntax;
 using PostaFlya.App_Start;
@@ -23,13 +17,11 @@ using Website.Application.Domain.TinyUrl.Web;
 using Website.Application.Schedule;
 using Website.Application.WebsiteInformation;
 using Website.Application.Extension.Validation;
-using PostaFlya.Areas.Default;
-using PostaFlya.Areas.TaskJob;
 using Website.Azure.Common.Environment;
 using Website.Common.Environment;
-using Website.Common.Extension;
 using Website.Common.Filters;
-using PostaFlya.Domain.Behaviour;
+using Website.Common.Util;
+using Website.Infrastructure.Configuration;
 using Website.Infrastructure.Util;
 using Website.Domain.Tag;
 using GlobalFilterCollection = System.Web.Mvc.GlobalFilterCollection;
@@ -44,6 +36,7 @@ namespace PostaFlya
         public static void RegisterGlobalFilters(GlobalFilterCollection filters)
         {
             filters.Add(new HandleErrorAttribute());
+            filters.Add(new RemoveWwwRedirectFilter());
         }
 
         public static void RegisterRoutes(RouteCollection routes)
@@ -168,7 +161,9 @@ namespace PostaFlya
         protected void RegisterWebsiteInformation()
         {
             var websiteInfoService = NinjectDependencyResolver.Get<WebsiteInfoServiceInterface>();
-            var tags = new Tags(new string[]{ "event","social","comedy","theatre","books","pets","lost","found","services","music","fashion","food & drink","job","task","wanted","for sale","for free","sport","automotive","education","sale","garage","film","art & craft","photography","accommodation","technology","property","kids","politics"});
+            var config = NinjectDependencyResolver.Get<ConfigurationServiceInterface>();
+
+            var tags = new Tags(config.GetSetting("Tags"));
             var websiteInfo = new WebsiteInfo()
             {
                 Tags = tags.ToString(),
@@ -191,6 +186,7 @@ namespace PostaFlya
                 FacebookAppSecret = "f765d675dd653fa81e1ee25cfaa27494"
             };
              websiteInfoService.RegisterWebsite("postaflyaprod.cloudapp.net", websiteInfo);
+             websiteInfoService.RegisterWebsite(UriUtil.GetCoreDomain(config.GetSetting("SiteUrl")), websiteInfo);
         }
 
 

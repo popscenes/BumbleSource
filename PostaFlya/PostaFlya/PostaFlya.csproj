@@ -415,6 +415,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="RemoveWwwRedirectFilter.cs" />
     <Compile Include="Views\Account\Bundles.cs" />
     <Compile Include="Views\Bulletin\Bundles.cs" />
     <Compile Include="Views\FlierImport\Bundles.cs" />
