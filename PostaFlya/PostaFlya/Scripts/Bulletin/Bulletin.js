@@ -46,6 +46,8 @@
 
         self.ShowAbout = function() {
             self.hideShowAbout(!self.hideShowAbout());
+            self.locationSelector.showMain(false);
+            self.tagsSelector.ShowTags(false);
         };
 
         self.Request = function () {
@@ -86,11 +88,13 @@
         self.ToggleMap = function () {
             self.locationSelector.toggleShowMain();
             self.tagsSelector.ShowTags(false);
+            self.hideShowAbout(false);
         };
 
         self.ShowTags = function () {
             self.locationSelector.showMain(false);
             self.tagsSelector.ShowTags(!self.tagsSelector.ShowTags());
+            self.hideShowAbout(false);
         };
 
         self.Sam = Sammy('#bulletinboard');
