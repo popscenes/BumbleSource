@@ -18,6 +18,8 @@
       <Setting name="Microsoft.WindowsAzure.Plugins.RemoteAccess.AccountExpiration" value="2013-11-01T23:59:59.0000000+11:00" />
       <Setting name="Microsoft.WindowsAzure.Plugins.RemoteForwarder.Enabled" value="true" />
       <Setting name="BlobCdnUrl" value="http://static.postaflya.com" />
+      <Setting name="SiteCdnUrl" value="http://content.postaflya.com"/>
+
 
       <Setting name="PaypalApiEndpoint" value="https://api-3t.sandbox.paypal.com/nvp"/>
       <Setting name="PaypalUrl" value="https://api-3t.sandbox.paypal.com/nvp"/>

@@ -29,6 +29,7 @@
       <Setting name="DisableFederation" />
       <Setting name="Microsoft.WindowsAzure.Plugins.Caching.ClientDiagnosticLevel" />
       <Setting name="BlobCdnUrl"/>
+      <Setting name="SiteCdnUrl"/>
 
       <Setting name="PaypalApiEndpoint"/>
       <Setting name="PaypalUrl"/>

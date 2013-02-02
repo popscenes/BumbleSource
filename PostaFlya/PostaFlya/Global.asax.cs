@@ -112,6 +112,16 @@ namespace PostaFlya
 
         }
 
+        public static void UpdateScriptsAndStylesForCdn(ConfigurationServiceInterface config)
+        {
+            var cdn = config.GetSetting("SiteCdnUrl");
+            if(string.IsNullOrWhiteSpace(cdn))
+                return;
+
+            Scripts.DefaultTagFormat = Scripts.DefaultTagFormat.Replace("src=\"", "src=\"" + cdn);
+            Styles.DefaultTagFormat = Styles.DefaultTagFormat.Replace("href=\"", "href=\"" + cdn);
+
+        }
         public static void Configure(HttpConfiguration config)
         {
             //Web Api doesn't use model validators atm, if this changes in the future no need for this
@@ -145,6 +155,8 @@ namespace PostaFlya
             RegisterAssetBundles();
             
             ValidationAdapters.Register();
+
+            UpdateScriptsAndStylesForCdn(NinjectDependencyResolver.Get<ConfigurationServiceInterface>());
 
             //not using broadcast communicators for anything atm. Was being used for cache notifications but now using azure caching
             //re-enable if we ever need to communicate across roles
