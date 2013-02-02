@@ -23,7 +23,7 @@
 
 
         self.CreateFlierLaunch = function () {
-            var emptyFlier = new bf.CreateEditFlier({ Id: '', Title: '', Description: '', TagsString: '', EffectiveDate: new Date(), FlierImageId: '', FlierImageUrl: '', ImageList: [], Location: {} },
+            var emptyFlier = new bf.CreateEditFlier({ Id: '', Title: '', Description: '', TagsString: '', EffectiveDate: new Date(), FlierImageId: '', FlierImageUrl: '', ImageList: [], Location: {}, EnableAnalytics: false },
                 self.LocationSelector, self.ImageSelector, self.TagsSelector, self.FlierFormClose);
 
             self.CreateFlier(emptyFlier);

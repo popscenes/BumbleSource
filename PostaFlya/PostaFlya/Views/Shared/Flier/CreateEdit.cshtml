@@ -155,10 +155,22 @@
                     @Html.ValidationMessageFor(model => model.TagsString)
                     @Html.HiddenFor(model => model.TagsString, new { data_bind = "value:SelectedTags()" })
                 
-                @Html.Partial("Tags/TagsSelector")
-            </li>
-        </ol>
-        
-    </fieldset>
+                    @Html.Partial("Tags/TagsSelector")
+                </li>
+            </ol>        
+        </fieldset>
+        <fieldset>
+            <legend>Flier Features</legend>
+            <h2>Advanced Flier Features</h2>
+           
+            <ol>
+                <li>
+                    @Html.ValidationMessageFor(model => model.EnableAnalytics)
+                    @Html.CheckBoxFor(model => model.EnableAnalytics, new { data_bind = "checked: EnableAnalytics" }) 
+                    Enable Analytics
+                </li>
+            </ol>  
+
+        </fieldset>
     </form>
 </script>

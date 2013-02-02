@@ -78,7 +78,7 @@ namespace PostaFlya.Controllers
                 BoardSet = new HashSet<string>(createModel.BoardList),
                 //AllowUserContact = createModel.AllowUserContact,
                 AttachTearOffs = createModel.AttachTearOffs,
-                ExtendPostRadius = createModel.PostRadius,
+                ExtendPostRadius = createModel.PostRadius - 5,
                 EnableAnalytics = createModel.EnableAnalytics
             };
 

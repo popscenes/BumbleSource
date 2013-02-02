@@ -37,10 +37,13 @@
             self.costBreakdown(!self.costBreakdown());
         };
 
+
+        self.flierCosts = ko.observableArray([]);
+        
         self.radiusFlierCost = ko.computed(function() {
             var ratePerSqKm = 1;
             var distence = ko.utils.unwrapObservable(self.locationSelectorCreateEdit.currentDistance());
-            var init = ((5 + distence) * (5 + distence) * 3.14 * ratePerSqKm);
+            var init = ((distence) * (distence) * 3.14 * ratePerSqKm);
 
             var model = new bf.FlierCostModel();
             model.credits(init + 5 - (init % 5));
@@ -48,14 +51,24 @@
             model.description("This charge relates to the effective radius of your flier. The default distance is 5km, as you increase that disance the cost of your flier will increase.");
             return model;
         }, self);
-        
-        self.flierCosts = ko.observableArray([]);
         self.flierCosts.push(self.radiusFlierCost);
+
+        self.analyticsCost = ko.computed(function () {
+            
+            var model = new bf.FlierCostModel();
+            model.credits(self.EnableAnalytics() ? 500 : 0);
+            model.title("Flier Analytics");
+            model.description("This charge enables you to see how many people have viewed your flier, the location they viewed it and various other analytic details of flier views");
+            return model;
+            
+        }, self);
+        
+        self.flierCosts.push(self.analyticsCost);
 
         self.totalCost = ko.computed(function() {
             var cost = 0;
             for (var i = 0; i < self.flierCosts().length; i++) {
-                cost += self.flierCosts()[i]().credits();
+                    cost += self.flierCosts()[i]().credits();
             }
             return cost;
         }, self);
