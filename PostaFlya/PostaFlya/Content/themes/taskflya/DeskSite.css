@@ -28,12 +28,13 @@ header{
 	color:#fff;
 }*/
 
-#controls .Button:hover{
+
+/*#controls .Button:hover{
 	background-image:url(images/icons.png);
 
 	outline:none;
 	color:#fff;
-}
+}*/
 
 #controls .Button{
 	background-image:url(images/icons.png);
@@ -41,6 +42,7 @@ header{
 	outline:none;
 	color:#fff;
 	float:left;
+    cursor: pointer;
 }
 
 .paymnet-flier {
@@ -650,17 +652,11 @@ input, textarea {
     width: 910px;
     height: 400px;
     margin: 0 auto;
-    position: absolute;
-    top: 100px;
-    left: 25%;
-    z-index: -1000;
 }
 
-#show-about {
-    text-align: right;
-    margin-top: 40px;
-}
-
-#controls.show-about {
-    height: 500px;
+#controls .btn-question {
+    background-image: url(images/question-mark-icon.png);
+    background-size: 30px 30px;
+    background-position: center;
+    background-repeat: no-repeat;
 }
