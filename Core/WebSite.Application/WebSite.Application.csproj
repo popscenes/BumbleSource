@@ -146,6 +146,12 @@
     <Reference Include="Ninject.Extensions.Conventions, Version=3.0.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
       <HintPath>..\..\..\Libraries\Ninject.Extensions.Conventions.3.0.0.11\lib\net40\Ninject.Extensions.Conventions.dll</HintPath>
     </Reference>
+    <Reference Include="RestSharp">
+      <HintPath>..\..\..\Libraries\RestSharp.104.1\lib\net4\RestSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="SendGridMail">
+      <HintPath>..\..\..\Libraries\Sendgrid.1.1.1\lib\net40\SendGridMail.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
@@ -233,10 +239,12 @@
     <Compile Include="Email\MailExtension.cs" />
     <Compile Include="Email\QueuedSendEmailService.cs" />
     <Compile Include="Email\SendEmailServiceInterface.cs" />
+    <Compile Include="Email\SendGridSendMailImplementation.cs" />
     <Compile Include="Email\SendMailImplementationInterface.cs" />
     <Compile Include="Email\VCard\VCard.cs" />
     <Compile Include="Extension\Content\ImageExtensions.cs" />
     <Compile Include="Extension\Dynamic\DynamicExtensions.cs" />
+    <Compile Include="Extension\Email\MailMessageExtensions.cs" />
     <Compile Include="Extension\Expression\ExpressionExtension.cs" />
     <Compile Include="Extension\Validation\ValidationAdapters.cs" />
     <Compile Include="Extension\Validation\ValidationAttributes.cs" />
@@ -269,6 +277,7 @@
     <Compile Include="Schedule\AbsoluteRepeatJob.cs" />
     <Compile Include="Schedule\TimeServiceInterface.cs" />
     <Compile Include="SiteMap\SiteMapIndexBuilder.cs" />
+    <Compile Include="Util\StreamUtil.cs" />
     <Compile Include="Util\TempFileStorageInterface.cs" />
     <Compile Include="Util\WebRequestUtil.cs" />
     <Compile Include="WebsiteInformation\CachedWebsiteInfoService.cs" />

@@ -9,6 +9,7 @@ using Ninject.MockingKernel.Moq;
 using Website.Application.Email;
 using Website.Application.Email.Command;
 using Website.Application.Email.VCard;
+using Website.Application.Extension.Email;
 using Website.Infrastructure.Command;
 using Website.Infrastructure.Util;
 

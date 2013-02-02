@@ -19,6 +19,7 @@
       <Setting name="Microsoft.WindowsAzure.Plugins.RemoteForwarder.Enabled" value="true" />
       <Setting name="BlobCdnUrl" value=""/>
       <Setting name="SiteCdnUrl" value="/cdn"/>
+      <Setting name="SendGridCreds" value="firinflames;weezer11"/>
 
       <Setting name="PaypalApiEndpoint" value="https://api-3t.sandbox.paypal.com/nvp"/>
       <Setting name="PaypalUrl" value="https://www.sandbox.paypal.com/webscr?cmd=_express-checkout&amp;useraction=commit&amp;token="/>

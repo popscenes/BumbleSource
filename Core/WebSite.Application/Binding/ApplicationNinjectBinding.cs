@@ -6,6 +6,7 @@ using Ninject.Modules;
 using Website.Application.ApplicationCommunication;
 using Website.Application.Command;
 using Website.Application.Content;
+using Website.Application.Email;
 using Website.Application.Publish;
 using Website.Application.Queue;
 using Website.Application.Schedule;
@@ -66,7 +67,10 @@ namespace Website.Application.Binding
                     var ret = context.Kernel.Get<Scheduler>();
                     return ret;
                 }).InSingletonScope();
-            
+
+            Bind<SendEmailServiceInterface>().To<QueuedSendEmailService>().InTransientScope();
+            Bind<SendMailImplementationInterface>().To<SendGridSendMailImplementation>().InTransientScope();
+
             Trace.TraceInformation("Finished Binding ApplicationNinjectBinding");
 
         }

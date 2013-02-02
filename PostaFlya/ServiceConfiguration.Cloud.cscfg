@@ -19,7 +19,7 @@
       <Setting name="Microsoft.WindowsAzure.Plugins.RemoteForwarder.Enabled" value="true" />
       <Setting name="BlobCdnUrl" value="http://static.postaflya.com" />
       <Setting name="SiteCdnUrl" value="http://content.postaflya.com"/>
-
+      <Setting name="SendGridCreds" value="firinflames;weezer11"/>
 
       <Setting name="PaypalApiEndpoint" value="https://api-3t.sandbox.paypal.com/nvp"/>
       <Setting name="PaypalUrl" value="https://api-3t.sandbox.paypal.com/nvp"/>
