@@ -10,18 +10,25 @@
     @Scripts.Render("~/Script/PaymentPendingDeskJs") 
 }
 
-<h2>PaymentPending</h2>
-
-<div data-bind="foreach:MyPendingFliersList">
-    <div class="paymnet-flier">
-        <img style="width: 250px" data-bind="bulletinimg: FlierImageUrl, root: $root, alt: Title, imgRetry: FlierImageUrl"/>
-        <button data-bind="click:$root.payFlier" class="Button">Pay for Flier</button>
-        <div data-bind="text:PendingCredits"></div>
-    </div>
+<div class="page-content">
+<div class="page-inner">
+    <h2>Pending Fliers</h2>
+    <h3>Fliers that require payemnt</h3>
+    <div data-bind="foreach:MyPendingFliersList">
+        <div class="paymnet-flier">
+            <img style="width: 250px" data-bind="bulletinimg: FlierImageUrl, root: $root, alt: Title, imgRetry: FlierImageUrl"/>
+            <a data-bind="click:$root.payFlier" class="Button std-btn">PAY FOR FLIER</a>
+            <div data-bind="text:PendingCredits"></div>
+        </div>
     
 
+    </div>
+    
+    <h3>Current Flya Credits</h3>
+    Your Current Credit Account Balance <span data-bind="text:$root.currentBrowser.Credits"></span>
+    @Html.ActionLink("Add More", "AddAccountCredit", "Payment", null, new {@class = "std-btn"})
+    @Html.ActionLink("View Transactions", "PaymentTransactions", "Payment", null, new {@class = "std-btn"})
 </div>
+    </div>
 
-Your Current Credit Account Balance <span data-bind="text:$root.currentBrowser.Credits"></span>
-@Html.ActionLink("Add More", "AddAccountCredit", "Payment")
-@Html.ActionLink("View Transactions", "PaymentTransactions", "Payment")
+
