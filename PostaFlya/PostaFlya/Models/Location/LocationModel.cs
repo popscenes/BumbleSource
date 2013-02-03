@@ -25,7 +25,7 @@ namespace PostaFlya.Models.Location
         }
     }
 
-    public class LocationModel : LocationInterface, AddressInterface
+    public class LocationModel : LocationAndAddressInterface
     {
         public LocationModel(LocationInterface loc)
         {

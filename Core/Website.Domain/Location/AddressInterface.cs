@@ -85,4 +85,18 @@ namespace Website.Domain.Location
         string PostCode { get; set; }
         string CountryName { get; set; }
     }
+
+    public static class LocationAndAddressInterfaceExtensions
+    {
+        public static void CopyFieldsFrom(this LocationAndAddressInterface addressTarget, LocationAndAddressInterface addressSource)
+        {
+            LocationInterfaceExtensions.CopyFieldsFrom(addressTarget, addressSource);
+            AddressInterfaceExtensions.CopyFieldsFrom(addressTarget, addressSource);
+        }
+    }
+
+    public interface LocationAndAddressInterface : LocationInterface, AddressInterface
+    {
+        
+    }
 }

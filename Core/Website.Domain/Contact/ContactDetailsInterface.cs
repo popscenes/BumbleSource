@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Website.Domain.Location;
 
 namespace Website.Domain.Contact
 {
@@ -15,10 +16,32 @@ namespace Website.Domain.Contact
             target.FirstName = source.FirstName;
             target.MiddleNames = source.MiddleNames;
             target.Surname = source.Surname;
-            target.Address = source.Address != null ? new Location.Location(source.Address) : null;
             target.PhoneNumber = source.PhoneNumber;
             target.WebSite = source.WebSite;
         }
+    }
+
+    public static class ContactLocationInterfaceExtensions
+    {
+        public static void CopyFieldsFrom<LocationType>(this ContactLocationInterface<LocationType> target, ContactLocationInterface<LocationType> source) where LocationType : class, LocationAndAddressInterface, new()
+        {
+            if (source.Address != null)
+            {
+                target.Address = new LocationType();
+                target.Address.CopyFieldsFrom((AddressInterface)source.Address);
+                target.Address.CopyFieldsFrom((LocationInterface)source.Address);
+            }
+            else
+            {
+                target.Address = null;
+            }
+            target.Address =  ? new Location.Location(source.Address) : null;
+        }
+    }
+
+    public interface ContactLocationInterface<LocationType> where LocationType : LocationAndAddressInterface
+    {
+        LocationType Address { get; set; }
     }
 
     public interface ContactDetailsInterface
@@ -28,7 +51,7 @@ namespace Website.Domain.Contact
         string FirstName { get; set; }
         string MiddleNames { get; set; }
         string Surname { get; set; }
-        Location.Location Address { get; set; }
+        
         string WebSite { get; set; }
         
     }

@@ -5,7 +5,7 @@ namespace Website.Domain.Location
 
 
     [Serializable]
-    public class Location : LocationInterface, AddressInterface
+    public class Location : LocationAndAddressInterface
     {
         
         private const double Invalid = -200;
@@ -17,7 +17,7 @@ namespace Website.Domain.Location
             Description = "";
         }
 
-        public Location(Location source)
+        public Location(LocationAndAddressInterface source)
         {
             this.CopyFieldsFrom((LocationInterface) source);
             this.CopyFieldsFrom((AddressInterface) source); 

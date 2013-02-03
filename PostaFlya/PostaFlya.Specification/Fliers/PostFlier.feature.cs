@@ -120,7 +120,7 @@ namespace PostaFlya.Specification.Fliers
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Create Flier can attach user contact details", ((string[])(null)));
             this.ScenarioSetup(scenarioInfo);
             testRunner.Given("i have navigated to the CREATE PAGE for a FLIER TYPE Default", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-            testRunner.And("i choose to attach Contact Details", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+            testRunner.And("i choose to attach contact details other than my saved details", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
             testRunner.And("I have 1000 Account Credits", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
             this.ScenarioCleanup();
         }

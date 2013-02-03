@@ -19,6 +19,7 @@ using PostaFlya.Specification.Util;
 using PostaFlya.Models.Content;
 using Website.Application.Domain.Content;
 using Website.Domain.Browser.Query;
+using Website.Domain.Contact;
 using Website.Domain.Payment;
 using Website.Infrastructure.Authentication;
 using Website.Infrastructure.Command;
@@ -674,5 +675,24 @@ namespace PostaFlya.Specification.Fliers
             Assert.That(mod.AnalyticInfo, Is.Not.Null);
         }
 
+        [Given(@"i choose to attach contact details other than my saved details")]
+        public void GivenIChooseToAttachContactDetailsOtherThanMySavedDetails()
+        {
+            var createFlierModel = ScenarioContext.Current["createflya"] as FlierCreateModel;
+            createFlierModel.ContactDetails = new ContactDetailsModel();
+        }
+
+
+    }
+
+    public class ContactDetailsModel : ContactDetailsInterface
+    {
+        public string PhoneNumber { get; set; }
+        public string EmailAddress { get; set; }
+        public string FirstName { get; set; }
+        public string MiddleNames { get; set; }
+        public string Surname { get; set; }
+        public LocationModel Address { get; set; }
+        public string WebSite { get; set; }
     }
 }

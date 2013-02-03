@@ -38,7 +38,7 @@ Then It should have a unique Tiny Url
 
 Scenario: Create Flier can attach user contact details
 Given i have navigated to the CREATE PAGE for a FLIER TYPE Default
-And i choose to attach Contact Details
+And i choose to attach contact details other than my saved details
 And I have 1000 Account Credits
 
 
