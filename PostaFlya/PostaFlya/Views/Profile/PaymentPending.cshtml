@@ -17,8 +17,10 @@
     <div data-bind="foreach:MyPendingFliersList">
         <div class="paymnet-flier">
             <img style="width: 250px" data-bind="bulletinimg: FlierImageUrl, root: $root, alt: Title, imgRetry: FlierImageUrl"/>
-            <a data-bind="click:$root.payFlier" class="Button std-btn">PAY FOR FLIER</a>
             <div data-bind="text:PendingCredits"></div>
+            <div>
+                <a data-bind="click:$root.payFlier" class="Button std-btn">PAY FOR FLIER</a>
+            </div>
         </div>
     
 
