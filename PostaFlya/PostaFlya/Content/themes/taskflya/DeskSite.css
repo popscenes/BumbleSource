@@ -449,11 +449,11 @@ div#selected-item-popup-overlay, div#create-flier-popup-overlay {
 
 .tags-selector ul li .for-sale
 {
-    background-position:-3260px top;
+    background-position:-3360px top;
 }
 .tags-selector ul li.tag-selected .for-sale
 {
-    background-position:-3260px bottom;
+    background-position:-3360px bottom;
 }
 
 .tags-selector ul li .sale
