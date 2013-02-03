@@ -17,9 +17,10 @@
     <div data-bind="foreach:MyPendingFliersList">
         <div class="paymnet-flier">
             <img style="width: 250px" data-bind="bulletinimg: FlierImageUrl, root: $root, alt: Title, imgRetry: FlierImageUrl"/>
-            <div data-bind="text:PendingCredits"></div>
-            <div>
+            <div><span data-bind="text:PendingCredits"></span> Flya Credits</div>
+            <div class="btm-buttons">
                 <a data-bind="click:$root.payFlier" class="Button std-btn">PAY FOR FLIER</a>
+                <a data-bind="" class="Button std-btn">EDIT</a>
             </div>
         </div>
     
@@ -27,9 +28,13 @@
     </div>
     
     <h3>Current Flya Credits</h3>
+    
     Your Current Credit Account Balance <span data-bind="text:$root.currentBrowser.Credits"></span>
-    @Html.ActionLink("Add More", "AddAccountCredit", "Payment", null, new {@class = "std-btn"})
-    @Html.ActionLink("View Transactions", "PaymentTransactions", "Payment", null, new {@class = "std-btn"})
+    
+    <div class="btm-buttons">
+        @Html.ActionLink("Add More", "AddAccountCredit", "Payment", null, new {@class = "std-btn"})
+        @Html.ActionLink("View Transactions", "PaymentTransactions", "Payment", null, new {@class = "std-btn"})
+    </div>
 </div>
     </div>
 

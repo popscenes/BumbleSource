@@ -668,3 +668,7 @@ form li label {
 width: 250px;
 margin: 0 auto;
 }
+
+.btm-buttons {
+    margin-top: 15px;
+}
