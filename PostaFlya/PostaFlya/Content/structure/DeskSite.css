@@ -397,14 +397,14 @@ fieldset {
 form li {display: block;margin-bottom: 18px;}
 form li label{font-size: 18px;width: 150px;vertical-align:top;}
 form li > * { display: inline-block}
-form input[type='text'], .form textarea 
+form input[type='text'], .form textarea, form input[type="email"], form input[type="url"]  
 { 
     padding: 3px; 
     border: #93969C solid 1px;
     width: 300px;
 }
 
-form input[type='text'] {
+form input[type="text"], form input[type="email"], form input[type="url"] {
     height: 31px;
 }
 

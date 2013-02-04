@@ -51,7 +51,6 @@ namespace Website.Application.Domain.Tests.TinyUrl
             sub.Run(job);
             Trace.TraceInformation("TinyUrlJobAction generation time " + stopWatch.ElapsedMilliseconds);
             Assert.That(_store.Count, Is.EqualTo(DefaultTinyUrlService.TinyUrlsToBuffer));
-            QueueMessageInterface msg = null;
             var noDups = new HashSet<string>();
             while (_store.Count > (DefaultTinyUrlService.TinyUrlsToBuffer - (DefaultTinyUrlService.TinyUrlsToBuffer/2)))
             {

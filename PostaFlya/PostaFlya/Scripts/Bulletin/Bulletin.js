@@ -101,6 +101,7 @@
         self.SelectedViewModel.addDetailRoutes(self.Sam);
 
         self._Init = function () {
+            self.locationSelector.showMain(false);
             self.SelectedViewModel.runSammy(self.Sam);
 
             ko.applyBindings(self);

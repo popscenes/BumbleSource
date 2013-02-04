@@ -29,7 +29,7 @@
         
         self.searchText = ko.computed(function () {
             if (self.currentLocation().Description() == "") {
-                return "Please select a suburb or location";
+                return "Please select a suburb, location or address";
             }
             return self.currentLocation().Description();
         });
@@ -67,7 +67,20 @@
             bf.LocationSearchAutoComplete(self.locSearchId(), self.map(), self.currentLocation);
         };
 
-        self.updateMap = function() {
+        self.TryInitMap = function() {
+            if (!document.getElementById(self.mapElementId()))
+                return;
+
+            self.ShowMap();
+            
+            if (self.showMain()) {
+                self.updateMap();
+            }
+        };
+
+        self.updateMap = function () {
+            if (!document.getElementById(self.mapElementId()))
+                return;
             bf.SetMapPosition(self.map(), self.currentLocation().Longitude(), self.currentLocation().Latitude(), self.currentDistance(), self.mapMarkers, self.mapCircles);
         };
 

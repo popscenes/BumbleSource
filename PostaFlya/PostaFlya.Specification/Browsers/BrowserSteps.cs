@@ -140,7 +140,7 @@ namespace PostaFlya.Specification.Browsers
             Assert.AreEqual(profileEditModel.FirstName, browserRet.FirstName);
             Assert.AreEqual(profileEditModel.Surname, browserRet.Surname);
             Assert.AreEqual(profileEditModel.MiddleNames, browserRet.MiddleNames);
-            Assert.AreEqual(profileEditModel.Email, browserRet.Email);
+            Assert.AreEqual(profileEditModel.EmailAddress, browserRet.EmailAddress);
             Assert.AreEqual(profileEditModel.Address.ToDomainModel(), browserRet.Address.ToDomainModel());
             Assert.AreEqual(profileEditModel.AvatarImageId, browserRet.AvatarImageId);
             Assert.AreEqual(profileEditModel.WebSite, browserRet.WebSite);
@@ -161,7 +161,7 @@ namespace PostaFlya.Specification.Browsers
                                     FirstName = table.Rows[0]["FirstName"],
                                     MiddleNames = table.Rows[0]["MiddleNames"],
                                     Surname = table.Rows[0]["Surname"],
-                                    Email = table.Rows[0]["Email"],
+                                    EmailAddress = table.Rows[0]["Email"],
                                     WebSite = table.Rows[0]["WebSite"]
                                 };
             WhenIUpdateMyProfileDetails(editModel);

@@ -1,6 +1,5 @@
 ﻿
 @using System.Web.Optimization
-@using Website.Common.Extension
 @model PostaFlya.Models.Browser.ProfileEditModel
 
 @{
@@ -45,50 +44,9 @@
                     </li>
                 </ol>
             </fieldset>
-            <fieldset>         
-                <legend> @Html.LabelForModel() </legend>
-                <ol>
-                    <li>
-                        @Html.LabelFor(model => model.FirstName)
-                        @Html.TextBoxFor(model => model.FirstName, new { data_bind = "value:FirstName" })
-                        @Html.ValidationMessageFor(model => model.FirstName)
-                    </li>
-                    <li>
-                        @Html.LabelFor(model => model.MiddleNames)
-                        @Html.TextBoxFor(model => model.MiddleNames, new { data_bind = "value:MiddleNames" })
-                        @Html.ValidationMessageFor(model => model.MiddleNames)
-                    </li>
-                    <li>
-                        @Html.LabelFor(model => model.Surname)
-                        @Html.TextBoxFor(model => model.Surname, new { data_bind = "value:Surname" })
-                        @Html.ValidationMessageFor(model => model.Surname)
-                    </li>
-                </ol>
-            </fieldset>
-            <fieldset>         
-                <legend> Contact details </legend>
-                <ol>
-                    <li>
-                        @Html.LabelFor(model => model.Email)
-                        @Html.TextBoxFor(model => model.Email, new { data_bind = "value:Email" })
-                        @Html.ValidationMessageFor(model => model.Email)
-                    </li>
-                </ol>
-            </fieldset>
-            <fieldset>
-                <legend>@Html.LabelFor(model => model.Address)</legend>
-                <ol>
-                    <li data-bind="with:locationSelector">
-                        @Html.LabelFor(model => model.Address)
-                        <input  type="text" data-bind="attr:{id:locSearchId}, value: searchText, click: clearSearchText"/>
-                        @Html.HiddenFor(model => model.Address, new { data_bind = "value:currentLocation()" })
-                        @Html.ValidationMessageFor(model => model.Address)
-                        
-                        @Html.Partial("Location/LocationSelector")
-                    </li>
-            
-                </ol>      
-            </fieldset>
+
+            @Html.Partial("Contact/ContactDetailsEditPartial", Model)
+
             <fieldset>           
                 <legend>@Html.LabelFor(model => model.AvatarImageId)</legend>
                 <ol>

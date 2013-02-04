@@ -397,6 +397,7 @@
     <Compile Include="Models\Flier\BulletinFlierModel.cs" />
     <Compile Include="Models\Flier\FlierEditModel.cs" />
     <Compile Include="Binding\EntityTypeEnum.cs" />
+    <Compile Include="Models\Location\ContactDetailsModel.cs" />
     <Compile Include="Models\Location\LocationModel.cs" />
     <Compile Include="Models\Tags\TagSetListViewModel.cs" />
     <Compile Include="Models\ViewModelBase.cs" />
@@ -589,6 +590,7 @@
     <Content Include="robots.txt" />
     <Content Include="Scripts\Account\Account.js" />
     <Content Include="Scripts\Account\Desk\Account.js" />
+    <Content Include="Scripts\Base\ContactDetailsModel.js" />
     <Content Include="Scripts\Base\CreateFlierInstance.js" />
     <Content Include="Scripts\Base\ErrorHandling.js" />
     <Content Include="Scripts\Base\FlierCost.js" />
@@ -782,6 +784,7 @@
     <Content Include="Views\Shared\Bulletin\DownloadPrintImagePartial.cshtml" />
     <Content Include="Views\Profile\PaymentPending.cshtml" />
     <Content Include="Views\Shared\Flier\AnalyticSummary.cshtml" />
+    <Content Include="Views\Shared\Contact\ContactDetailsEditPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

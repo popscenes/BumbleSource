@@ -11,7 +11,12 @@
             mapElementId: 'creatre-flier-map',
             locSearchId: 'creatre-flier-loc'
         });
-
+        
+        self.AddressSelector = new bf.LocationSelector({
+            displayInline: false,
+            mapElementId: 'contact-address-map',
+            locSearchId: 'contact-address-loc'
+        });
 
         self.ImageSelector = new bf.ImageSelector({
             uploaderElementId: "create-flier-uploader",
@@ -23,26 +28,29 @@
 
 
         self.CreateFlierLaunch = function () {
-            var emptyFlier = new bf.CreateEditFlier({ Id: '', Title: '', Description: '', TagsString: '', EffectiveDate: new Date(), FlierImageId: '', FlierImageUrl: '', ImageList: [], Location: {}, EnableAnalytics: false },
-                self.LocationSelector, self.ImageSelector, self.TagsSelector, self.FlierFormClose);
+            var emptyFlier = new bf.CreateEditFlier({},self.LocationSelector, self.ImageSelector, self.TagsSelector, self.FlierFormClose, self.AddressSelector);
 
             self.CreateFlier(emptyFlier);
-            self.ImageSelector.Init();
-            self.TagsSelector.LoadTags();
-            self.LocationSelector.Init();
+            emptyFlier.InitControls();
+//            self.ImageSelector.Init();
+//            self.TagsSelector.LoadTags();
+//            self.LocationSelector.Init();
             //self.locationSelectorCreateEdit.ShowMap();
         };
 
         self.InitialiseFlier = function (flier) {
 
-            var editFlier = new bf.CreateEditFlier(flier, self.LocationSelector, self.ImageSelector, self.TagsSelector, self.FlierFormClose);
+            var editFlier = new bf.CreateEditFlier(flier, self.LocationSelector, self.ImageSelector, self.TagsSelector, self.FlierFormClose, self.AddressSelector);
             self.CreateFlier(editFlier);
 
-            self.ImageSelector.Init();
-            self.ImageSelector.selectedImageId(editFlier.FlierImageId());
-            self.LocationSelector.currentLocation(editFlier.Location);
-            self.TagsSelector.LoadTags();
-            self.LocationSelector.Init();
+            editFlier.InitControls();
+
+//            self.ImageSelector.Init();
+//            self.ImageSelector.selectedImageId(editFlier.FlierImageId());
+//            self.LocationSelector.currentLocation(editFlier.Location);
+//            self.TagsSelector.LoadTags();
+//            self.LocationSelector.Init();
+            
             //self.locationSelectorCreateEdit.ShowMap();
             if (!self.LocationSelector.ValidLocation() && editFlier.Location.Description() != "") {
                 self.LocationSelector.errorMessage("Couldn't find " + editFlier.Location.Description() + " please search for location.");

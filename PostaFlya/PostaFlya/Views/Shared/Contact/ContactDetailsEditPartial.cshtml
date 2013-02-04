@@ -1,0 +1,58 @@
+﻿
+@model PostaFlya.Models.Location.ContactDetailsModel
+
+
+<fieldset>
+    <legend>@Html.LabelForModel()</legend>
+    
+    <ol>
+                    
+        <li>
+            @Html.LabelFor(model => model.PhoneNumber)
+            @Html.TextBoxFor(model => model.PhoneNumber, new { data_bind = "value:PhoneNumber" })
+            @Html.ValidationMessageFor(model => model.PhoneNumber)
+        </li>
+        
+
+        <li>
+            @Html.LabelFor(model => model.EmailAddress)  
+            @Html.TextBoxFor(model => model.EmailAddress, new { type="email", data_bind = "value:EmailAddress" })
+            @Html.ValidationMessageFor(model => model.EmailAddress)
+        </li>
+
+        <li>
+            @Html.LabelFor(model => model.FirstName)
+            @Html.TextBoxFor(model => model.FirstName, new { data_bind = "value:FirstName" })
+            @Html.ValidationMessageFor(model => model.FirstName)
+        </li>
+
+        <li>
+            @Html.LabelFor(model => model.MiddleNames)
+            @Html.TextBoxFor(model => model.MiddleNames, new { data_bind = "value:MiddleNames" })
+            @Html.ValidationMessageFor(model => model.MiddleNames)
+        </li>
+
+        <li>
+            @Html.LabelFor(model => model.Surname)
+            @Html.TextBoxFor(model => model.Surname, new { data_bind = "value:Surname" })
+            @Html.ValidationMessageFor(model => model.Surname)
+        </li>
+
+        <li>
+            @Html.LabelFor(model => model.WebSite)
+            @Html.TextBoxFor(model => model.WebSite, new {  type="url", data_bind = "value:WebSite" })
+            @Html.ValidationMessageFor(model => model.WebSite)
+        </li>
+        
+        <li data-bind="with:contactAddressSelector">
+            @Html.LabelFor(model => model.Address)
+            <input  type="text" data-bind="attr:{id:locSearchId}, value: searchText, click: clearSearchText"/>
+            @Html.HiddenFor(model => model.Address, new { data_bind = "value:currentLocation()" })
+            @Html.ValidationMessageFor(model => model.Address)
+                        
+            @Html.Partial("Location/LocationSelector")
+        </li>
+    </ol>
+
+</fieldset>
+

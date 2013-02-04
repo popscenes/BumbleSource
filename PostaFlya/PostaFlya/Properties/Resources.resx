@@ -184,7 +184,7 @@
     <value>EffectiveDate</value>
     <comment>BulletinFlierModel FlierCreateModel</comment>
   </data>
-  <data name="EmailAddress" xml:space="preserve">
+  <data name="ContactDetailsModel_EmailAddress" xml:space="preserve">
     <value>EmailAddress</value>
     <comment>ProfileEditModel</comment>
   </data>
@@ -192,7 +192,7 @@
     <value>ExtraLocations</value>
     <comment>MyTaskJobModel</comment>
   </data>
-  <data name="FirstName" xml:space="preserve">
+  <data name="ContactDetailsModel_FirstName" xml:space="preserve">
     <value>FirstName</value>
     <comment>ProfileEditModel</comment>
   </data>
@@ -262,7 +262,7 @@
     <value>MaxTaskAmount</value>
     <comment>MyTaskJobModel</comment>
   </data>
-  <data name="MiddleNames" xml:space="preserve">
+  <data name="ContactDetailsModel_MiddleNames" xml:space="preserve">
     <value>MiddleNames</value>
     <comment>ProfileEditModel</comment>
   </data>
@@ -297,7 +297,7 @@
     <value>StreetAddress</value>
     <comment>LocationModel</comment>
   </data>
-  <data name="Surname" xml:space="preserve">
+  <data name="ContactDetailsModel_Surname" xml:space="preserve">
     <value>Surname</value>
     <comment>ProfileEditModel</comment>
   </data>
@@ -353,7 +353,7 @@
   <data name="FlierTitleRequired" xml:space="preserve">
     <value>{0} is and invalid Id</value>
   </data>
-  <data name="Address" xml:space="preserve">
+  <data name="ContactDetailsModel_Address" xml:space="preserve">
     <value>Address</value>
   </data>
   <data name="ValidLocation" xml:space="preserve">
@@ -419,5 +419,17 @@
   </data>
   <data name="FlierAnalyticTrackingSummaryModel_InitialVisitTime" xml:space="preserve">
     <value>Initial visit time</value>
+  </data>
+  <data name="ContactDetailsModel_WebSite" xml:space="preserve">
+    <value>Website</value>
+  </data>
+  <data name="ContactDetailsModel_PhoneNumber" xml:space="preserve">
+    <value>PhoneNumber</value>
+  </data>
+  <data name="FlierCreateModel_AttachSuppliedContactDetails" xml:space="preserve">
+    <value>Attach Specified Contact Details</value>
+  </data>
+  <data name="FlierCreateModel_AttachTearOffs" xml:space="preserve">
+    <value>Attach Contact Details to Flier</value>
   </data>
 </root>

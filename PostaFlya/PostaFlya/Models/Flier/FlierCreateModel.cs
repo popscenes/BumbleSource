@@ -1,8 +1,6 @@
 using System;
 using System.Linq;
-using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.Web.Mvc;
 using Website.Application.Content;
 using Website.Application.Extension.Validation;
 using PostaFlya.Domain.Behaviour;
@@ -13,7 +11,6 @@ using PostaFlya.Models.Content;
 using Website.Application.Domain.Content;
 using Website.Application.Domain.Location;
 using System.Runtime.Serialization;
-using Resources = PostaFlya.Properties.Resources;
 
 namespace PostaFlya.Models.Flier
 {
@@ -136,6 +133,7 @@ namespace PostaFlya.Models.Flier
         public List<string> BoardList { get; set; }
 
         [DataMember]
+        [Display(Name = "FlierCreateModel_AttachTearOffs", ResourceType = typeof(Properties.Resources))] 
         public Boolean AttachTearOffs { get; set; }
 
         [DataMember]
@@ -144,6 +142,13 @@ namespace PostaFlya.Models.Flier
         [DataMember]
         [Display(Name = "FlierCreateModel_EnableAnalytics_EnableAnalytics", ResourceType = typeof(Properties.Resources))] 
         public bool EnableAnalytics { get; set; }
+
+        [DataMember]
+        [Display(Name = "FlierCreateModel_AttachSuppliedContactDetails", ResourceType = typeof(Properties.Resources))] 
+        public bool AttachSuppliedContactDetails { get; set; }
+
+        [DataMember]
+        public ContactDetailsModel ContactDetails { get; set; }
 
         public static FlierCreateModel DefaultForTemplate()
         {

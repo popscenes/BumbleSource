@@ -61,15 +61,6 @@ namespace PostaFlya.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Address.
-        /// </summary>
-        public static string Address {
-            get {
-                return ResourceManager.GetString("Address", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to {0} can consist of &apos;a-z&apos; and &apos;-&apos; only.
         /// </summary>
         public static string AlpaNumericAndHiphensOnly {
@@ -342,6 +333,69 @@ namespace PostaFlya.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Address.
+        /// </summary>
+        public static string ContactDetailsModel_Address {
+            get {
+                return ResourceManager.GetString("ContactDetailsModel_Address", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to EmailAddress.
+        /// </summary>
+        public static string ContactDetailsModel_EmailAddress {
+            get {
+                return ResourceManager.GetString("ContactDetailsModel_EmailAddress", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to FirstName.
+        /// </summary>
+        public static string ContactDetailsModel_FirstName {
+            get {
+                return ResourceManager.GetString("ContactDetailsModel_FirstName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to MiddleNames.
+        /// </summary>
+        public static string ContactDetailsModel_MiddleNames {
+            get {
+                return ResourceManager.GetString("ContactDetailsModel_MiddleNames", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to PhoneNumber.
+        /// </summary>
+        public static string ContactDetailsModel_PhoneNumber {
+            get {
+                return ResourceManager.GetString("ContactDetailsModel_PhoneNumber", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Surname.
+        /// </summary>
+        public static string ContactDetailsModel_Surname {
+            get {
+                return ResourceManager.GetString("ContactDetailsModel_Surname", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Website.
+        /// </summary>
+        public static string ContactDetailsModel_WebSite {
+            get {
+                return ResourceManager.GetString("ContactDetailsModel_WebSite", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to CostOverhead.
         /// </summary>
         public static string CostOverhead {
@@ -405,29 +459,11 @@ namespace PostaFlya.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to EmailAddress.
-        /// </summary>
-        public static string EmailAddress {
-            get {
-                return ResourceManager.GetString("EmailAddress", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to ExtraLocations.
         /// </summary>
         public static string ExtraLocations {
             get {
                 return ResourceManager.GetString("ExtraLocations", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to FirstName.
-        /// </summary>
-        public static string FirstName {
-            get {
-                return ResourceManager.GetString("FirstName", resourceCulture);
             }
         }
         
@@ -491,6 +527,24 @@ namespace PostaFlya.Properties {
         public static string FlierAnalyticTrackingSummaryModel_UserAgent {
             get {
                 return ResourceManager.GetString("FlierAnalyticTrackingSummaryModel_UserAgent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Attach Specified Contact Details.
+        /// </summary>
+        public static string FlierCreateModel_AttachSuppliedContactDetails {
+            get {
+                return ResourceManager.GetString("FlierCreateModel_AttachSuppliedContactDetails", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Attach Contact Details to Flier.
+        /// </summary>
+        public static string FlierCreateModel_AttachTearOffs {
+            get {
+                return ResourceManager.GetString("FlierCreateModel_AttachTearOffs", resourceCulture);
             }
         }
         
@@ -686,15 +740,6 @@ namespace PostaFlya.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to MiddleNames.
-        /// </summary>
-        public static string MiddleNames {
-            get {
-                return ResourceManager.GetString("MiddleNames", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         public static System.Drawing.Bitmap NotFoundImg {
@@ -791,15 +836,6 @@ namespace PostaFlya.Properties {
         public static string StringTooLargeOrSmall {
             get {
                 return ResourceManager.GetString("StringTooLargeOrSmall", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Surname.
-        /// </summary>
-        public static string Surname {
-            get {
-                return ResourceManager.GetString("Surname", resourceCulture);
             }
         }
         

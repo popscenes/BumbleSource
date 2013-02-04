@@ -4,12 +4,11 @@
 
     bf.ProfileEditViewModel = function (locationSelector, imageSelector) {
         var self = this;
-        self.locationSelector = locationSelector;
+        self.contactAddressSelector = locationSelector;
         self.imageSelector = imageSelector;
         self.apiUrl = sprintf("/api/Browser/%s/MyDetails", bf.currentBrowserInstance.BrowserId);
 
         self.CreateFlierInstance = bf.globalCreateFlierInstance;
-        //self.locationSelector.ShowMap();
 
         self.ErrorHandler = ko.observable(null);
 
@@ -28,12 +27,11 @@
                 return false;
             }
 
-            //self.Address(self.locationSelector.currentLocation());
             self.AvatarImageId(self.imageSelector.selectedImageId());
 
             var reqdata = ko.mapping.toJS(self);
-            if (self.locationSelector.ValidLocation())
-                reqdata.Address = ko.mapping.toJS(self.locationSelector.currentLocation());
+            if (self.contactAddressSelector.ValidLocation())
+                reqdata.Address = ko.mapping.toJS(self.contactAddressSelector.currentLocation());
             else
                 reqdata.Address = null;
 
@@ -66,14 +64,14 @@
                     self.imageSelector.Init();
                     self.imageSelector.selectedImageId(self.AvatarImageId());
                     
-                    self.locationSelector.Init();
-                    self.locationSelector.ShowMap();
+                    self.contactAddressSelector.Init();
+                    self.contactAddressSelector.ShowMap();
                     
                     if (!ko.isObservable(self.Address)) {
-                        self.locationSelector.currentLocation(new bf.LocationModel(self.Address));
+                        self.contactAddressSelector.currentLocation(new bf.LocationModel(self.Address));
                         
                     } else {
-                        self.locationSelector.currentLocation(new bf.LocationModel());
+                        self.contactAddressSelector.currentLocation(new bf.LocationModel());
                     }
                    
 

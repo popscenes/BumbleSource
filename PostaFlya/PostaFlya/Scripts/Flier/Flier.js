@@ -40,7 +40,7 @@
         };
 
         self.CreateFlier = function () {
-            var emptyFlier = new bf.CreateEditFlier({ Id: '', Title: '', Description: '', TagsString: '', EffectiveDate: '' },
+            var emptyFlier = new bf.CreateEditFlier({},
                 self.locationSelector, self.imageSelector, self.tagsSelector, self.ShowMyFliers);
 
             self.CreateEditFlier(emptyFlier);

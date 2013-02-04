@@ -50,7 +50,7 @@ namespace PostaFlya.Models
 
         [Required]
         [DataType(DataType.EmailAddress)]
-        [Display(Name = "EmailAddress", ResourceType = typeof(Properties.Resources))]
+        [Display(Name = "ContactDetailsModel_EmailAddress", ResourceType = typeof(Properties.Resources))]
         public string Email { get; set; }
 
         [Required]

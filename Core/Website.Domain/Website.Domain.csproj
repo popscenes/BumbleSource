@@ -122,6 +122,7 @@
     <Compile Include="Location\AddressInterface.cs" />
     <Compile Include="Location\BoundingBox.cs" />
     <Compile Include="Location\Location.cs" />
+    <Compile Include="Location\LocationAndAddressInterface.cs" />
     <Compile Include="Location\LocationInterface.cs" />
     <Compile Include="Location\Locations.cs" />
     <Compile Include="Location\LocationService.cs" />
