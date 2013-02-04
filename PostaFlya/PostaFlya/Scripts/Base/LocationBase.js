@@ -124,7 +124,9 @@
 
     bf.LocationSearchAutoComplete = function (autoComplete, map, updateLocation) {
 
-        $("#" + autoComplete).autocomplete({
+        var $input = $("#" + autoComplete);
+        
+        $input.autocomplete({
             source: function (request, response) {
                 var geocoder = new google.maps.Geocoder();
                 geocoder.geocode({ 'address': request.term },
