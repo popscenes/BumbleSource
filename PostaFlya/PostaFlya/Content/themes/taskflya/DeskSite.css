@@ -7,8 +7,10 @@
 }
 
 header{
-	background-image:url(images/header-bg-shim.png);
-	background-repeat:repeat-x;
+	background-image: url(images/toolbar-heading.png);
+background-repeat: no-repeat;
+background-position: center center;
+background-color: white;
 }
 
 /*
@@ -676,4 +678,12 @@ margin: 0 auto;
 
 .transaction-item {
     list-style: none;
+}
+
+#toolbar-header {
+    background-image: url(images/toolbar-heading.png);
+    width: 490px;
+    height: 21px;
+    display: inline-block;
+    margin: 22px 0 0 200px;
 }

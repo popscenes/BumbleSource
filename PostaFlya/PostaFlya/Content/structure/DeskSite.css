@@ -21,10 +21,7 @@ header{
 #logo{
 	width:200px;
 	height:50px;
-	position:relative;
-	overflow:visible;
-	z-index:1000;
-	float:left;
+    display: inline-block;
 }
 #logo a img
 {
@@ -578,6 +575,7 @@ a.toolbar-item
     background-color: white;
     border: solid 1px #cccccc;
     padding: 0 10px 10px 10px;
+    z-index: 10;
 }
 
 .std-btn {
