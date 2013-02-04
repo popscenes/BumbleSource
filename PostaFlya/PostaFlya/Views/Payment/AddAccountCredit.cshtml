@@ -9,31 +9,32 @@
     @Scripts.Render("~/Script/PaymentDeskJs") 
 }
 
-payment page
-@{
-    using (Html.BeginForm("PaymentProcess", "Payment", FormMethod.Post))
-    {
+<div class="page-content">
+<div class="page-inner">
+    <h2>Add Credits To Your Flya Account</h2>
+    @{
+        using (Html.BeginForm("PaymentProcess", "Payment", FormMethod.Post))
+        {
 
+        <h3>Add Credits With Paypal</h3>
+        <input type="hidden" name="paymentServiceName" id="paymentServiceName" value="paypal"/>
+            <img src="https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif">
+        
+        <h3>Choose amount to add</h3>    
         <ul>
-            @foreach (var service in Model.PaymentServiceList)
-            {
-                <li>
-                    @Html.Label(service.PaymentServiceName)
-                    @Html.RadioButton("paymentServiceName", service.PaymentServiceName)
-                </li>
-            }
-        </ul>
-
-        <ul>
-            @foreach (var package in Model.PaymentOptions)
-            {
-                <li>
-                    @Html.Label(package.Credits.ToString(CultureInfo.InvariantCulture) + " for $" + package.Payment.ToString(CultureInfo.InvariantCulture))
-                    @Html.RadioButton("amount", package.Payment.ToString(CultureInfo.InvariantCulture))
-                </li>
-            }
-        </ul>
+                @foreach (var package in Model.PaymentOptions)
+                {
+                    <li>
+                        @Html.Label(package.Credits.ToString(CultureInfo.InvariantCulture) + " for $" + package.Payment.ToString(CultureInfo.InvariantCulture))
+                        @Html.RadioButton("amount", package.Payment.ToString(CultureInfo.InvariantCulture), true)
+                    </li>
+                }
+            </ul>
     
-        <input type="submit" title="submit" value="Pay" />
+        <div class="btm-buttons">
+            <a type="submit" title="submit" value="Pay" class="std-btn" data-bind="click: submit" >Add Credit</a>
+        </div>    
+        }
     }
-}
+</div>
+</div>

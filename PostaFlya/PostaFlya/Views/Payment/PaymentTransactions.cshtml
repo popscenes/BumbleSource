@@ -7,11 +7,19 @@
     @Scripts.Render("~/Script/PaymentDeskJs") 
 }
 
-<h2>Previous Transactions</h2>
-
-<ul>
-@foreach (var transaction in Model)
-{
-    <li>$@transaction.Amount @transaction.Type @transaction.Message</li>    
-}
-</ul>
+<div class="page-content">
+<div class="page-inner">
+    <h2>Previous Transactions</h2>
+    <h3>Previous Flya Credit Purchases</h3>
+    <ul>
+        @foreach (var transaction in Model)
+        {
+            <li class="transaction-item">$@transaction.Amount @transaction.Type @transaction.Message on @transaction.Time.ToString("dd/MM/yyyy hh:mm:ss")</li>    
+        }
+    </ul>
+    
+    <div class="btm-buttons">
+    @Html.ActionLink("Back to Flier Payment", "PaymentPending", "Profile",null, new{@class="std-btn"})
+    </div>
+</div>
+</div>

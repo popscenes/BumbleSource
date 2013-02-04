@@ -100,7 +100,7 @@ namespace PostaFlya.Controllers
             }       
             else if (transaction.Status == PaymentTransactionStatus.Success)
             {
-                paymentMessage = ((CreditPaymentPackage) paymentPackage).Credits + " for $" + transaction.Amount +
+                paymentMessage = ((CreditPaymentPackage) paymentPackage).Credits + " FLYA Credits for $" + transaction.Amount +
                                      " " + transaction.Message;
             }
             else

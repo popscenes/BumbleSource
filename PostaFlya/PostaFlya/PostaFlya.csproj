@@ -507,6 +507,7 @@
     <Content Include="Content\themes\taskflya\images\tempbutton64x61.jpg" />
     <Content Include="Content\themes\taskflya\images\tick-disabled.png" />
     <Content Include="Content\themes\taskflya\images\tick.png" />
+    <Content Include="Content\themes\taskflya\images\toolbar-heading.png" />
     <Content Include="Content\themes\taskflya\images\white-90.png" />
     <Content Include="Content\themes\taskflya\openid-shadow.css" />
     <Content Include="Content\themes\taskflya\openid.css" />

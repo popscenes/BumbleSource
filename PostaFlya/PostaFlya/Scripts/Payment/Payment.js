@@ -6,6 +6,10 @@
         var self = this;
         self.CreateFlierInstance = bf.globalCreateFlierInstance;
 
+        self.submit = function() {
+            $("form").submit();
+        };
+
         self._Init = function () {
             ko.applyBindings(self);
         };
