@@ -7,9 +7,19 @@
     @Scripts.Render("~/Script/PaymentDeskJs") 
 }
 
-<h2>Transaction Complete</h2>
-@Model.PaymentMessage
+<div class="page-content">
+<div class="page-inner">
+    <h2>Transaction Complete</h2>
+    <h3>Thank you for adding flya credits</h3>
+    @Model.PaymentMessage
+    
+    <p>You can now return to finalise pending fliers</p>
 
-@Html.ActionLink("Back to Flier Payment", "PaymentPending", "Profile")
+    <div class="btm-buttons">
+    @Html.ActionLink("Back to Flier Payment", "PaymentPending", "Profile",null, new{@class="std-btn"})
+    </div>
+    
+</div>
+</div>
 
 

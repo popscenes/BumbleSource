@@ -671,4 +671,9 @@ margin: 0 auto;
 
 .btm-buttons {
     margin-top: 15px;
+    text-align: left;
+}
+
+.transaction-item {
+    list-style: none;
 }
