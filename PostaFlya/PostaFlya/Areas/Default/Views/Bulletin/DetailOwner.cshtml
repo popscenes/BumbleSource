@@ -43,8 +43,9 @@
     </div>
     @Html.Partial("ClaimsPartial")
     
-    <a class="std-btn">EDIT</a>
-
+    <span data-bind="with:Flier">
+        <a class="std-btn" data-bind="click:$root.CreateFlierInstance.EditFlierLaunch">EDIT</a>
+    </span>
 
 </div>
 
