@@ -9,7 +9,8 @@
         var defaults = {
             displayInline: false,
             mapElementId: 'map',
-            locSearchId: 'locationSearch'
+            locSearchId: 'locationSearch',
+            bannerText: 'Please select a suburb or location'
         };
 
         options = $.extend(defaults, options);
@@ -18,6 +19,7 @@
         self.mapElementId = ko.observable(options.mapElementId);
         self.locSearchId = ko.observable(options.locSearchId);
         self.distanceSelector = new bf.DistanceSelector();
+        self.bannerText = options.bannerText;
 
        
         self.errorMessage = ko.observable(null);
@@ -29,7 +31,7 @@
         
         self.searchText = ko.computed(function () {
             if (self.currentLocation().Description() == "") {
-                return "Please select a suburb, location or address";
+                return self.bannerText;
             }
             return self.currentLocation().Description();
         });
