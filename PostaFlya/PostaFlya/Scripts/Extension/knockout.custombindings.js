@@ -160,7 +160,7 @@ ko.bindingHandlers.validate = {
 
         jQuery.validator.unobtrusive.parse(jele);
         var validatorSettings = $.data(jele[0], 'validator').settings;
-        validatorSettings.ignore = ".ignore input";
+        validatorSettings.ignore = ".ignore, .imageSelector *";
     },
 
     update: function (element, valueAccessor, allBindingsAccessor, viewModel) {
@@ -178,7 +178,7 @@ ko.bindingHandlers.validate = {
         $form.validate($form.data("unobtrusiveValidation").options);
 
         var validatorSettings = $.data($form[0], 'validator').settings;
-        validatorSettings.ignore = ".ignore input";
+        validatorSettings.ignore = ".ignore, .imageSelector *";
 
 
     }
