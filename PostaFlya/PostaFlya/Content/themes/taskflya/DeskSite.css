@@ -687,3 +687,22 @@ margin: 0 auto;
     display: inline-block;
     margin: 22px 0 0 200px;
 }
+
+.red-mini-button {
+    background-color: #D28282;
+    padding: 5px 10px;
+    border: #ACC8CD solid 1px;
+    font-size: 10px;
+    color: white;
+    cursor: pointer;
+}
+
+.flier-cost-summary {
+    background-color: white;
+    padding: 5px 10px;
+    border: #99D4E4 solid 1px;
+    font-size: 12px;
+    color: #99D4E4;
+    font-weight: bold;
+    cursor: pointer;   
+}

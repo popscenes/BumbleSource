@@ -4,7 +4,7 @@
 
 <div data-bind="click: SelectedViewModel.hideDetailView, visible: SelectedViewModel.SelectedDetail() != null" id="selected-item-popup-overlay" style="display: none"></div>
 <div id="selected-item-div" data-bind="with: SelectedViewModel, visible: SelectedViewModel.SelectedDetail() != null, absolutePosFromScroll: SelectedViewModel.SelectedDetail" style="display: none">
-    <div class="close-button" data-bind="click: hideDetailView">close</div>
+    <div class="close-button red-mini-button" data-bind="click: hideDetailView">close</div>
     <div class="selected-item-detail-div" 
          data-bind="template: { name: getDetailTemplate, data: SelectedDetail}"> 
     </div>
