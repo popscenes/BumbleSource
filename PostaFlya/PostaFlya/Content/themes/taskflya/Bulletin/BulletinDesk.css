@@ -44,13 +44,14 @@
 }
 
 .flier-view .flier-details .flier-claims-comments .claim-stats{
+    
 }
 
 .flier-view .flier-details .flier-claims-comments .comment-stats{
 }
 
 .flier-view .flier-details .flier-desc {
-    
+    margin-top: 15px;
 }
 
 .flier-view .comments {

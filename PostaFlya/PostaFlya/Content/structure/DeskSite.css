@@ -324,10 +324,14 @@ a.toolbar-item div.profile-edit-tool-bar-item, a.toolbar-item div.add-flier-tool
 div#selected-item-div, div#create-flier-item-div {
     position: absolute;
     z-index: 751;
-    width: 600px;
+    
     left: 50%;
     margin-left: -400px;
     padding: 20px;
+}
+
+div#create-flier-item-div {
+    width: 600px;
 }
 
 div#selected-item-popup-overlay, div#create-flier-popup-overlay {
@@ -421,7 +425,7 @@ form textarea {
 }
 
 .claim-stats {
-    
+    margin: 15px 0;
 }
 
 .claims-list {

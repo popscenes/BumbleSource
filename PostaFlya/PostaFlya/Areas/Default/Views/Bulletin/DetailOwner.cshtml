@@ -6,7 +6,7 @@
 
 <div class="flier-view flier-view-default">
     <div class="flier-details clear-fix" data-bind="with:Flier">  
-        <div class="flier-claims-comments">
+        <!--<div class="flier-claims-comments">
             <input type="button" data-bind="click: print, defaultprint: $root" title="print"/>
             <div class="claim-stats">
                 @*replace with image*@
@@ -15,11 +15,11 @@
                     @Flier.NumberOfClaims  
                 </span>
             </div>             
-        </div>
+        </div>-->
 
-        <div class="flier-title" data-bind="text:Title">
+        <h3 class="flier-title" data-bind="text:Title">
             @Flier.Title
-        </div>
+        </h3>
             
         <div class="flier-img">
             <img data-bind="imgRetry: FlierImageUrl" src="@ImageUtil.GetThumbUrlForImageUri(Flier.FlierImageUrl, ThumbOrientation.Vertical, ThumbSize.S250)"/>
@@ -30,26 +30,20 @@
         </div>                 
     </div>
 
-    <ul class="flier-images" data-bind="foreach:Flier.ImageList">
-        @foreach(ImageViewModel img in Flier.ImageList)
-        {
-            <li>
-                <img data-bind="attr:{src: ImageUrl}" src="@ImageUtil.GetThumbUrlForImageUri(img.ImageUrl, ThumbOrientation.Vertical, ThumbSize.S200)"/>
-            </li>
-        }
-    </ul>
     
     @Html.Partial("Flier/AnalyticSummary")
 
         
     <div class="claim-stats">
         @*replace with image*@
-        <div class="claim-icon">Claims:</div>
+        <div class="claim-icon">Tear Offs:</div>
         <span data-bind="text:Flier.NumberOfClaims">
             @Flier.NumberOfClaims  
         </span>
     </div>
     @Html.Partial("ClaimsPartial")
+    
+    <a class="std-btn">EDIT</a>
 
 
 </div>
