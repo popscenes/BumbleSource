@@ -7,7 +7,7 @@
 <div  class="claims" data-bind="with:claims">
     <div data-bind="visible: bf.currentBrowserInstance.IsParticipant()">
         <form data-bind="submit: addClaim">
-            <button type="submit">Claim</button>
+            <a class="std-btn" data-bind="click: addClaim">Tear Off</a>
         </form>
     </div>
 @*    <ul data-bind="foreach:List" class="claims-list">*@

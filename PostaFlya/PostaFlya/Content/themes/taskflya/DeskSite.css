@@ -120,7 +120,7 @@ a.toolbar-item div.login-tool-bar-item
 
 /************end toolbar items**************************/
 
-div#create-flier-item-div
+div#create-flier-item-div, div#selected-item-div
 {
     border-top: 1px solid #ccc;
     border-right: 1px solid #ccc;

@@ -13,6 +13,7 @@
 {
     position: relative;
     width: 250px;
+    cursor: pointer;
 }
 
 .detail-overlay {
@@ -46,13 +47,8 @@
     
 }
 
-.flier-view .flier-details .flier-title {
-    text-align: center;
-    font-size: 2em;
-}
 
 .flier-view .flier-details .flier-img {
-    float: left;
 }
 
 .flier-view .flier-details .flier-claims-comments{
@@ -76,7 +72,8 @@
 }
 
 .flier-view .claims {
-    
+    float: left;
+    margin-right: 15px;
 }
 /***end default detail view layout***/
 

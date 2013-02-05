@@ -6,12 +6,12 @@
 @model dynamic
 @{var Flier = ViewBag.Template != null && ViewBag.Template ? BulletinFlierModel<BulletinBehaviourModel>.DefaultForTemplate(FlierBehaviour.Default) : Model;}
 
-<div class="ui-flier-tile addedtile" data-bind="bulletintile: $root.Layout">     
+<div class="ui-flier-tile addedtile" data-bind="bulletintile: $root.Layout, click: $root.SelectedViewModel.showDetails">     
     <img class="tile-img bulletin-img" 
          data-bind="bulletinimg: FlierImageUrl, root: $root, alt: Title, imgRetry: FlierImageUrl"
          src="@Flier.FlierImageUrl"/>
         
-    <div class="detail-overlay" data-bind="click: $root.SelectedViewModel.showDetails">
+    <!--<div class="detail-overlay" data-bind="click: $root.SelectedViewModel.showDetails">
         <div data-bind="text:Title">
             @Flier.Title
         </div>
@@ -44,6 +44,6 @@
 
             @Html.Partial("Bulletin/DownloadPrintImagePartial")
         </div>
-    </div>      
+    </div>     --> 
 </div>
 
