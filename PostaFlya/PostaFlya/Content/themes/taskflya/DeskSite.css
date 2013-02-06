@@ -525,6 +525,8 @@ div#selected-item-popup-overlay, div#create-flier-popup-overlay {
     display: none;
     position: absolute;
     background-color: white;
+    top: 0px;
+    left:50px;
 }
 
 .flier-print:hover .print-options {
