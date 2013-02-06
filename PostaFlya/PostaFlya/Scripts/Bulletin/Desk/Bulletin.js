@@ -1,8 +1,7 @@
 ﻿$(function () {
     
     bf.page = new bf.BulletinBoard(
-        new bf.LocationSelector()
-        , new bf.SelectedFlierViewModel(new bf.BehaviourViewModelFactory())
+        new bf.SelectedFlierViewModel(new bf.BehaviourViewModelFactory())
         , new bf.TagsSelector()
         , new bf.TileLayoutViewModel('#bulletinboard', new bf.BulletinLayoutProperties()));
 

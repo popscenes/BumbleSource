@@ -3,27 +3,25 @@
 
     var bf = window.bf = window.bf || {};
 
-    bf.ContactDetailsModel = function (data, contactAddressSelector) {
+    bf.ContactDetailsModel = function (data) {
 
         var defaults = {
-            PhoneNumber: '',
-            EmailAddress: '',
-            FirstName: '',
-            MiddleNames: '',
-            Surname: '',
-            WebSite: '',
+            PhoneNumber: null,
+            EmailAddress: null,
+            FirstName: null,
+            MiddleNames: null,
+            Surname: null,
+            WebSite: null,
             Address: {}
         };
         
         data = $.extend(defaults, data);
         var self = this;
-
-        self.contactAddressSelector = contactAddressSelector;
         
         var mapping = {
             'Address': {
                 create: function (options) {
-                    return new bf.LocationModel(options.data);
+                    return ko.observable(new bf.LocationModel(options.data));
                 }
             }
         };  

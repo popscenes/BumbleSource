@@ -1,4 +1,5 @@
 using System;
+using Website.Domain.Contact;
 using Website.Domain.Payment;
 using Website.Infrastructure.Command;
 using System.Collections.Generic;
@@ -20,9 +21,8 @@ namespace PostaFlya.Domain.Flier.Command
         public List<FlierImage> ImageList { get; set; }
         public HashSet<string> BoardSet { get; set; }
         public bool AllowUserContact { get; set; }
-        public bool AttachTearOffs { get; set; }
         public int ExtendPostRadius { get; set; }
         public bool EnableAnalytics { get; set; }
-
+        public ContactDetails ContactDetails { get; set; }
     }
 }

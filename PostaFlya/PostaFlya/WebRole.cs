@@ -52,6 +52,14 @@ namespace PostaFlya
                                 serverManager.ApplicationPools[mainApplication.ApplicationPoolName];
                             mainApplicationPool["startMode"] = "AlwaysRunning";
                             mainApplicationPool.AutoStart = true;
+
+                            //force serve of gzip first time
+                            var config = serverManager.GetApplicationHostConfiguration();
+                            var serverRuntimeSection = config.GetSection("system.webServer/serverRuntime", "");
+                            serverRuntimeSection["enabled"] = true;
+                            serverRuntimeSection["frequentHitThreshold"] = 1;
+                            serverRuntimeSection["frequentHitTimePeriod"] = TimeSpan.Parse("00:00:10");
+
                             serverManager.CommitChanges();
                             
                         }

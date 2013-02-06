@@ -57,7 +57,6 @@ namespace PostaFlya.Domain.Flier.Command
                             flier.Image = command.Image;
                             flier.EffectiveDate = command.EffectiveDate;
                             flier.ImageList = command.ImageList;
-                            flier.UseBrowserContactDetails = command.AttachTearOffs;//todo add ability to specify other contact details
                             flier.LocationRadius = command.ExtendPostRadius;
                             flier.HasLeadGeneration = command.AllowUserContact;
                             flier.EnableAnalytics = command.EnableAnalytics;

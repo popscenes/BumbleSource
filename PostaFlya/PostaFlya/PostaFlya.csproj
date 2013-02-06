@@ -628,7 +628,6 @@
     <Content Include="Scripts\Base\ImageSelector.js" />
     <Content Include="Scripts\Base\LocationBase.js" />
     <Content Include="Scripts\Base\ScrollToTop.js" />
-    <Content Include="Scripts\Base\LocationSelector.js" />
     <Content Include="Scripts\Base\LocationService.js" />
     <Content Include="Scripts\Bulletin\Bulletin.js" />
     <Content Include="Scripts\Bulletin\Desk\Bulletin.js" />
@@ -754,10 +753,8 @@
     <Content Include="Views\Shared\Distance\DistanceSelector.cshtml" />
     <Content Include="Views\Shared\SelectedItemDetailViewPartial.cshtml" />
     <Content Include="Views\Shared\CommentsPartial.cshtml" />
-    <Content Include="Views\Shared\Location\LocationSelector.cshtml" />
     <Content Include="Views\Shared\DetailViewPartial.cshtml" />
     <Content Include="Views\Shared\Tags\TagsSelector.cshtml" />
-    <Content Include="Views\Shared\Location\LocationSelector.cshtml" />
     <Content Include="Views\Bulletin\DetailGet.cshtml">
       <SubType>Code</SubType>
     </Content>
@@ -786,6 +783,10 @@
     <Content Include="Views\Profile\PaymentPending.cshtml" />
     <Content Include="Views\Shared\Flier\AnalyticSummary.cshtml" />
     <Content Include="Views\Shared\Contact\ContactDetailsEditPartial.cshtml" />
+    <Content Include="Views\Shared\Location\Map.cshtml" />
+    <Content Include="Views\Shared\Location\LocationAndDistanceSelector.cshtml" />
+    <Content Include="Views\Shared\Location\LocationAutocomplete.cshtml" />
+    <Content Include="Views\Shared\Location\MapAndDistance.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

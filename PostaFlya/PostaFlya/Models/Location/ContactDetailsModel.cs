@@ -4,6 +4,17 @@ using Website.Domain.Contact;
 
 namespace PostaFlya.Models.Location
 {
+    public static class ContactDetailsInterfaceExtensions
+    {
+        public static ContactDetailsModel ToViewModel(this ContactDetailsInterface source)
+        {
+            var ret = new ContactDetailsModel();
+            ret.CopyFieldsFrom(source);
+            ret.Address = source.Address.ToViewModel();
+            return ret;
+        }
+  
+    }
     public class ContactDetailsModel : ContactDetailFieldsInterface 
     {
         [Display(Name = "ContactDetailsModel_PhoneNumber", ResourceType = typeof(Properties.Resources))]
@@ -33,5 +44,13 @@ namespace PostaFlya.Models.Location
         [Display(Name = "ContactDetailsModel_WebSite", ResourceType = typeof(Properties.Resources))]
         [UrlAttribute(ErrorMessageResourceName = "ValidUrl", ErrorMessageResourceType = typeof(Properties.Resources), ErrorMessage = null)]        
         public string WebSite { get; set; }
+
+        public ContactDetails ToDomainModel()
+        {
+            var ret = new ContactDetails();
+            ret.CopyFieldsFrom(this);
+            ret.Address = Address != null ? Address.ToDomainModel() : null;
+            return ret;
+        }
     }
 }

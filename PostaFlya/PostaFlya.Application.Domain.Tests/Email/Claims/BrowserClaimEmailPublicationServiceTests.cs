@@ -55,7 +55,6 @@ namespace PostaFlya.Application.Domain.Tests.Email.Claims
             var flier = FlierTestData.GetOne(Kernel);
             flier.EffectiveDate = DateTime.UtcNow.AddDays(-1);
             flier.BrowserId = flierBrowser.Id;
-            flier.UseBrowserContactDetails = true;
             var storedFlier = FlierTestData.StoreOne(flier, repository, Kernel);
 
             var emailSent = false;
@@ -109,7 +108,6 @@ namespace PostaFlya.Application.Domain.Tests.Email.Claims
 
             var flier = FlierTestData.GetOne(Kernel);
             flier.BrowserId = flierBrowser.Id;
-            flier.UseBrowserContactDetails = false;
             var storedFlier = FlierTestData.StoreOne(flier, repository, Kernel);
 
             var emailSent = false;

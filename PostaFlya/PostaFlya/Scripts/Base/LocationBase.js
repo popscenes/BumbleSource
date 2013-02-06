@@ -46,6 +46,7 @@
             clientPosition = new google.maps.LatLng(0, 0);
             map.setZoom(2);
             map.setCenter(clientPosition);
+            google.maps.event.trigger(map, 'resize');
             return;
         }
         
@@ -87,16 +88,22 @@
         
         circles.push(circle);
         
+        google.maps.event.trigger(map, 'resize');
         
     };
 
-    bf.createMap = function(mapElement) {
+    bf.createMap = function (mapElement) {
+        
         var mapOptions = {
             zoom: 11,
             mapTypeId: google.maps.MapTypeId.ROADMAP,
         };
 
-        map = new google.maps.Map(document.getElementById(mapElement),
+        var $element = $(mapElement);
+        
+        $element[0].style.display = "block";
+
+        map = new google.maps.Map($element[0],
                 mapOptions);
 
         return map;
@@ -111,8 +118,8 @@
     };
     
     /**/
-    bf.reverseGeocode = function(latitude, longitude, locationModel) {
-        var latlng = new google.maps.LatLng(latitude, longitude);
+    bf.reverseGeocode = function(locationModel) {
+        var latlng = new google.maps.LatLng(locationModel.Latitude(), locationModel.Longitude());
         var geocoder = new google.maps.Geocoder();
         geocoder.geocode({ 'location': latlng },
             function (results, status) {
@@ -121,6 +128,7 @@
                 }
             });
     };
+    
 
     bf.LocationSearchAutoComplete = function (autoComplete, map, updateLocation) {
 

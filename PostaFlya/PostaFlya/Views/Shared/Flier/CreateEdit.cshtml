@@ -15,6 +15,7 @@
 @*</script>*@
 
 
+
 <div class="cost-container">
     Flier Cost:<span data-bind="text:totalCost"></span> 
     <a data-bind="click:showCostBreakdown">+</a>
@@ -98,15 +99,23 @@
         @Html.HiddenFor(model => model.Id, new { data_bind = "value:Id" })
         <fieldset>
             <legend>Add a location</legend>
-            <div data-bind="with:locationSelectorCreateEdit">
+            <div>
                 <h2>Add a location to your flier</h2>
-                @Html.HiddenFor(model => model.Location, new { data_bind = "value:currentLocation().ValidLocationForValidation()" })
-                
+                          
                 <h3>ENTER THE ADDRESS BELOW</h3>
                 
+                @Html.HiddenFor(model => model.Location, new { data_bind = "value: Location().ValidLocationForValidation()" })
                 @Html.ValidationMessageFor(model => model.Location)
-                <input class="location-search" type="text" data-bind="value: searchText, attr:{id:locSearchId}, click: clearSearchText"/>
-                @Html.Partial("Location/LocationSelector")
+                                
+                @{
+                    ViewBag.MapId = "fliermap";
+                    ViewBag.DistanceVariable = "PostRadius";
+                    ViewBag.LocationVariable = "Location";
+                    ViewBag.AutoCompleteLocationBannerText = "'Please select a suburb or location'";
+                    ViewBag.AutoCompleteLocationId = "locationSearch";
+                    ViewBag.VisibleTrigger = null;
+                }
+                @Html.Partial("Location/LocationAndDistanceSelector")
             </div>
     </fieldset>
     </form>
@@ -165,16 +174,7 @@
             <legend>Contact Details</legend>
             <h2>Contact Details</h2>
             <ol>
-                <li>
-                    @Html.ValidationMessageFor(model => model.AttachTearOffs)
-                    @Html.CheckBoxFor(model => model.AttachTearOffs, new { data_bind = "checked: AttachTearOffs" })
-                    @Html.LabelFor(model => model.AttachTearOffs)
-                    
-                    @Html.ValidationMessageFor(model => model.AttachSuppliedContactDetails)
-                    @Html.CheckBoxFor(model => model.AttachSuppliedContactDetails, new { data_bind = "checked: AttachSuppliedContactDetails, enabled: AttachTearOffs"})
-                    @Html.LabelFor(model => model.AttachSuppliedContactDetails, new { data_bind = "enabled: AttachTearOffs"})
-                </li>
-                <li data-bind="with:ContactDetails, visible: AttachSuppliedContactDetails">
+                <li data-bind="with:ContactDetails">
                     @Html.Partial("Contact/ContactDetailsEditPartial",(Model != null && Model.ContactDetails !=  null) ? Model.ContactDetails : new ContactDetailsModel())
                 </li>
             </ol> 

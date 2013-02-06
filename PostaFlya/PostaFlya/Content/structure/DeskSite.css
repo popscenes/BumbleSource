@@ -110,6 +110,7 @@ display:block;
 #lsMain .map
 {
     width:70%;
+    height: 450px;
     margin-left:auto;
     margin-right:auto;
 }

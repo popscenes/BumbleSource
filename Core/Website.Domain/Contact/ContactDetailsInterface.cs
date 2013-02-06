@@ -25,6 +25,14 @@ namespace Website.Domain.Contact
             CopyFieldsFrom(target, (ContactDetailFieldsInterface)source);
             target.Address = source.Address != null ? new Location.Location(source.Address) : null;
         }
+
+        public static bool HasEnoughForContact(this ContactDetailsInterface target)
+        {
+            return 
+                   string.IsNullOrWhiteSpace(target.EmailAddress) ||
+                   string.IsNullOrWhiteSpace(target.PhoneNumber) ||
+                   string.IsNullOrWhiteSpace(target.WebSite);
+        }
     }
 
     public interface ContactDetailFieldsInterface

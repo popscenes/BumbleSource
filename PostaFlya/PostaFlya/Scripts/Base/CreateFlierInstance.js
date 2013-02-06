@@ -6,17 +6,17 @@
         var self = this;
         self.CreateFlier = ko.observable();
 
-        self.LocationSelector = new bf.LocationSelector({
-            displayInline: true,
-            mapElementId: 'creatre-flier-map',
-            locSearchId: 'creatre-flier-loc'
-        });
-        
-        self.AddressSelector = new bf.LocationSelector({
-            displayInline: false,
-            mapElementId: 'contact-address-map',
-            locSearchId: 'contact-address-loc'
-        });
+//        self.LocationSelector = new bf.LocationSelector({
+//            displayInline: true,
+//            mapElementId: 'creatre-flier-map',
+//            locSearchId: 'creatre-flier-loc'
+//        });
+//        
+//        self.AddressSelector = new bf.LocationSelector({
+//            displayInline: false,
+//            mapElementId: 'contact-address-map',
+//            locSearchId: 'contact-address-loc'
+//        });
 
         self.ImageSelector = new bf.ImageSelector({
             uploaderElementId: "create-flier-uploader",
@@ -28,33 +28,19 @@
 
 
         self.CreateFlierLaunch = function () {
-            var emptyFlier = new bf.CreateEditFlier({},self.LocationSelector, self.ImageSelector, self.TagsSelector, self.FlierFormClose, self.AddressSelector);
+            var emptyFlier = new bf.CreateEditFlier({}, self.ImageSelector, self.TagsSelector, self.FlierFormClose);
 
             self.CreateFlier(emptyFlier);
             emptyFlier.InitControls();
-//            self.ImageSelector.Init();
-//            self.TagsSelector.LoadTags();
-//            self.LocationSelector.Init();
-            //self.locationSelectorCreateEdit.ShowMap();
         };
 
         self.InitialiseFlier = function (flier) {
 
-            var editFlier = new bf.CreateEditFlier(flier, self.LocationSelector, self.ImageSelector, self.TagsSelector, self.FlierFormClose, self.AddressSelector);
+            var editFlier = new bf.CreateEditFlier(flier, self.ImageSelector, self.TagsSelector, self.FlierFormClose);
             self.CreateFlier(editFlier);
 
             editFlier.InitControls();
 
-//            self.ImageSelector.Init();
-//            self.ImageSelector.selectedImageId(editFlier.FlierImageId());
-//            self.LocationSelector.currentLocation(editFlier.Location);
-//            self.TagsSelector.LoadTags();
-//            self.LocationSelector.Init();
-            
-            //self.locationSelectorCreateEdit.ShowMap();
-            if (!self.LocationSelector.ValidLocation() && editFlier.Location.Description() != "") {
-                self.LocationSelector.errorMessage("Couldn't find " + editFlier.Location.Description() + " please search for location.");
-            }
         };
 
 

@@ -12,6 +12,10 @@ call SqlServerTypesInstall.bat
 
 popd
 
+Echo Enabling compression for 1.0
+%windir%\system32\inetsrv\appcmd set config -section:httpCompression -noCompressionForHttp10:false
+%windir%\system32\inetsrv\appcmd set config -section:httpCompression -noCompressionForProxies:false
+
 
 :skipappinit
 

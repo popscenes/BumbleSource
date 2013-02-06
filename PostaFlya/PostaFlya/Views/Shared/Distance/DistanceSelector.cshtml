@@ -1,6 +1,9 @@
 ﻿
-<div data-bind="distanceSlider: currentDistance" class="distance-slider"></div>
-<div id="distValue">
-    <span data-bind="text:currentDistance"></span>km
+<div class="distSel">
+    <div data-bind="distanceSlider: @ViewBag.DistanceVariable" class="distance-slider"></div>
+    <div id="distValue">
+        <span data-bind="text: @ViewBag.DistanceVariable"></span>km
+    </div>
+    <div style="clear: both"></div>
 </div>
-<div style="clear: both"></div>
+

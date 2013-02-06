@@ -18,24 +18,73 @@ ko.bindingHandlers.datePicker = {
 //    }
 //};
 
-ko.bindingHandlers.mapBinding = {
+ko.bindingHandlers.locationAutoComplete = {
     init: function (element, valueAccessor, allBindingsAccessor, viewModel) {
-        //var newLocation = viewModel.savedLocations()[$(this)[0].selectedIndex - 1];
-        //$(element).change(function () {
-        //    var newLocation = viewModel.savedLocations()[$(this)[0].selectedIndex - 1];
-        //    viewModel.currentLocation(newLocation);
-        //});
 
-        ///viewModel.ShowMap();
-
+        var $input = $(element);
         
+        $input.click(function () {
+            $(this).select();
+        });
+
+        $input.autocomplete({
+            source: function (request, response) {
+                var geocoder = new google.maps.Geocoder();
+                geocoder.geocode({ 'address': request.term },
+                    function (results, status) {
+                        if (status == google.maps.GeocoderStatus.OK) {
+                            response($.map(results, function (item) {
+                                var loc = new bf.LocationModel({ Longitude: item.geometry.location.lng(), Latitude: item.geometry.location.lat() });
+                                loc.SetFromGeo(item);
+                                return { label: item.formatted_address, value: item.formatted_address, position: loc };
+                            }));
+                        }
+                    });
+            },
+            minLength: 3,
+            select: function (event, ui) {
+                var location = valueAccessor();
+                location(ui.item.position);
+            },
+            open: function () { $(this).removeClass("ui-corner-all").addClass("ui-corner-top"); },
+            close: function () { $(this).removeClass("ui-corner-top").addClass("ui-corner-all"); }
+        });
+        
+
     },
     update: function (element, valueAccessor, allBindingsAccessor, viewModel) {
-        //var currLoc = valueAccessor();
-        //if (currLoc() != null && currLoc() != 'undefined' && currLoc().Longitude() != -300) {
-        //    bf.SetMapPosition($('#' + viewModel.mapElementId()), currLoc().Longitude(), currLoc().Latitude());
-        //    //bf.setMapCircle($('#' + viewModel.mapElementId()), currLoc().Longitude(), currLoc().Latitude(), ko.utils.unwrapObservable(viewModel.currentDistance()));
-        //}
+
+        var location = ko.utils.unwrapObservable(valueAccessor());
+        var banner = (location.Description() === "") ? allBindingsAccessor().bannerText : location.Description();
+        if (location.ValidLocation() && location.Description() === "")
+            bf.reverseGeocode(location);
+
+        $(element).val(banner);
+    }
+};
+
+ko.bindingHandlers.mapBinding = {
+    init: function (element, valueAccessor, allBindingsAccessor, viewModel) {
+        var map = bf.createMap(element);    
+        $.data(element, 'map', map);
+        $.data(element, 'circles', []);
+        $.data(element, 'markers', []);
+    },
+    update: function (element, valueAccessor, allBindingsAccessor, viewModel) {
+
+        var map = $.data(element, 'map');
+        var location = ko.utils.unwrapObservable(valueAccessor());
+
+        var visibleTrig = allBindingsAccessor().visibleTrigger;
+        if (visibleTrig && !visibleTrig())
+            return;
+
+        var distance = allBindingsAccessor().distance;
+        distance = (distance === undefined) ? 0 : ko.utils.unwrapObservable(distance);
+        var circles = $.data(element, 'circles');
+        var markers = $.data(element, 'markers');
+        bf.SetMapPosition(map, location.Longitude(), location.Latitude(), distance, markers, circles);
+        
     }
 };
 
@@ -48,10 +97,8 @@ ko.bindingHandlers.distanceSlider = {
 
         $(element).slider({
             change: function (event, ui) {
-                viewModel.currentDistance($(element).slider("value"));
-                if (viewModel.updateCallback != null) {
-                    viewModel.updateCallback();
-                }
+                var obs = valueAccessor();
+                obs($(element).slider("value"));
             }
         });
     }

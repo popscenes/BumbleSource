@@ -57,11 +57,11 @@ namespace PostaFlya.Domain.Flier.Command
                                    ImageList = command.ImageList,
                                    ExternalSource = command.ExternalSource,
                                    ExternalId = command.ExternalId,
-                                   UseBrowserContactDetails = command.AttachTearOffs,//todo add ability to specify other contact details
                                    LocationRadius = command.ExtendPostRadius,
                                    HasLeadGeneration = command.AllowUserContact,
                                    EnableAnalytics = command.EnableAnalytics,
-                                   Status = FlierStatus.Pending
+                                   Status = FlierStatus.Pending,
+                                   ContactDetails = command.ContactDetails
                                };
 
             newFlier.FriendlyId = _flierQueryService.FindFreeFriendlyIdForFlier(newFlier);

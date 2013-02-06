@@ -12,6 +12,7 @@ using Website.Domain.Browser;
 using Website.Domain.Browser.Publish;
 using Website.Domain.Claims;
 using Website.Domain.Claims.Event;
+using Website.Domain.Contact;
 using Website.Infrastructure.Command;
 using Website.Infrastructure.Query;
 
@@ -106,7 +107,7 @@ namespace PostaFlya.Application.Domain.Email.Claims
         {
             var email = new MailMessage();
 
-            if (flier.HasContactDetails())
+            if (flier.GetContactDetailsForFlier(browser).HasEnoughForContact())
             {
                 var vcard = GetVCardForFlier(flier);
                 if (vcard != null)

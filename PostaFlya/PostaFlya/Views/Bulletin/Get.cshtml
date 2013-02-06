@@ -20,12 +20,20 @@
     @Html.Partial("GlobalToolbar")
 }
 
+    @{ ViewBag.VisibleTrigger = "ShowMap";
+        ViewBag.DistanceVariable = "Distance";
+        ViewBag.LocationVariable = "Location";
+        ViewBag.AutoCompleteLocationBannerText = "'Please select a suburb or location'";
+        ViewBag.AutoCompleteLocationId = "locationSearch";
+    }
+
 <div id="controls">
     <div class="page-toolbar">
         <div class="locSel">
             <div data-bind="click: ToggleMap" class="Button" id="btn-location">Location</div>
-            <div class="ls-holder" data-bind="with:locationSelector">
-                <input type="text" data-bind="value: searchText , attr:{id:locSearchId}, click: clearSearchText"/>
+                     
+            <div class="ls-holder">
+                @Html.Partial("Location/LocationAutocomplete")
             </div>
         </div>
             
@@ -46,11 +54,11 @@
 
 <div id="main-controls">
     <span data-bind="with:$root.tagsSelector">
-          @Html.Partial("Tags/TagsSelector")
+        @Html.Partial("Tags/TagsSelector")
     </span>
-    <span data-bind="with:locationSelector">
-        @Html.Partial("Location/LocationSelector")
-    </span>
+
+    @Html.Partial("Location/MapAndDistance")
+
 </div>
     
 @Html.Partial("Bulletin/SelectedBulletinViewPartial")

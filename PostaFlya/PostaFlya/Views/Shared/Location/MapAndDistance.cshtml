@@ -1,0 +1,7 @@
+﻿
+<div class="ls-holder">
+    <div id="lsMain" data-bind="visible: @( ViewBag.VisibleTrigger ?? "true" )">
+        @Html.Partial("Distance/DistanceSelector")
+        @Html.Partial("Location/Map")
+    </div>
+</div>

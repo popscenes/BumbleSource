@@ -2,9 +2,10 @@
 
     var bf = window.bf = window.bf || {};
 
-    bf.ProfileEditViewModel = function (locationSelector, imageSelector) {
+    bf.ProfileEditViewModel = function (imageSelector) {
+
+
         var self = this;
-        self.contactAddressSelector = locationSelector;
         self.imageSelector = imageSelector;
         self.apiUrl = sprintf("/api/Browser/%s/MyDetails", bf.currentBrowserInstance.BrowserId);
 
@@ -30,9 +31,8 @@
             self.AvatarImageId(self.imageSelector.selectedImageId());
 
             var reqdata = ko.mapping.toJS(self);
-            if (self.contactAddressSelector.ValidLocation())
-                reqdata.Address = ko.mapping.toJS(self.contactAddressSelector.currentLocation());
-            else
+            
+            if (!self.Address().ValidLocation())
                 reqdata.Address = null;
 
             $.ajax(self.apiUrl, {
@@ -52,29 +52,25 @@
 
         self.load = function () {
 
+            var mapping = {
+                'Address': {
+                    create: function(options) {
+                        return ko.observable(new bf.LocationModel(options.data));
+                    }
+                }
+            };
 
-            
             $.ajax(self.apiUrl, {
                 type: "get", contentType: "application/json",
                 success: function (result) {
-                    ko.mapping.fromJS(result, {}, self);
+                    
+                    ko.mapping.fromJS(result, mapping, self);
                     
                     ko.applyBindings(self);
                     
                     self.imageSelector.Init();
                     self.imageSelector.selectedImageId(self.AvatarImageId());
                     
-                    self.contactAddressSelector.Init();
-                    self.contactAddressSelector.ShowMap();
-                    
-                    if (!ko.isObservable(self.Address)) {
-                        self.contactAddressSelector.currentLocation(new bf.LocationModel(self.Address));
-                        
-                    } else {
-                        self.contactAddressSelector.currentLocation(new bf.LocationModel());
-                    }
-                   
-
                 }
             });
         };

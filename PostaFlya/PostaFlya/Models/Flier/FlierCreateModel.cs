@@ -133,19 +133,11 @@ namespace PostaFlya.Models.Flier
         public List<string> BoardList { get; set; }
 
         [DataMember]
-        [Display(Name = "FlierCreateModel_AttachTearOffs", ResourceType = typeof(Properties.Resources))] 
-        public Boolean AttachTearOffs { get; set; }
-
-        [DataMember]
         public bool AllowUserContact { get; set; }
 
         [DataMember]
         [Display(Name = "FlierCreateModel_EnableAnalytics_EnableAnalytics", ResourceType = typeof(Properties.Resources))] 
         public bool EnableAnalytics { get; set; }
-
-        [DataMember]
-        [Display(Name = "FlierCreateModel_AttachSuppliedContactDetails", ResourceType = typeof(Properties.Resources))] 
-        public bool AttachSuppliedContactDetails { get; set; }
 
         [DataMember]
         public ContactDetailsModel ContactDetails { get; set; }

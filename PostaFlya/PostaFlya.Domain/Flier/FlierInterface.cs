@@ -52,28 +52,17 @@ namespace PostaFlya.Domain.Flier
             target.ExtendedProperties = source.ExtendedProperties != null
                                             ? new Dictionary<string, object>(source.ExtendedProperties)
                                             : null;
-            target.UseBrowserContactDetails = source.UseBrowserContactDetails;
             target.Boards = source.Boards != null ? new HashSet<string>(source.Boards) : null;
             target.HasLeadGeneration = source.HasLeadGeneration;
             target.LocationRadius = source.LocationRadius;
             target.EnableAnalytics = source.EnableAnalytics;
         }        
 
-        public static bool HasContactDetails(this FlierInterface flier)
-        {
-            return flier.UseBrowserContactDetails || flier.ContactDetails != null;
-        }
-
-        public static bool RequiresPayment(this FlierInterface flier)
-        {
-            return flier.HasContactDetails();
-        }
-
         public static ContactDetailsInterface GetContactDetailsForFlier(this FlierInterface flier, BrowserInterface browser)
         {
-            return flier.UseBrowserContactDetails ? 
-                browser as ContactDetailsInterface : 
-                flier.ContactDetails;
+            if (flier.ContactDetails != null && flier.ContactDetails.HasEnoughForContact())
+                return flier.ContactDetails;
+            return browser;
         }
 
         public static bool HasFeatureAndIsEnabled(this FlierInterface flier, string featureDescription)
@@ -108,7 +97,6 @@ namespace PostaFlya.Domain.Flier
         string ExternalId { get; set; }
         Dictionary<string, object> ExtendedProperties { get;set; }
         ContactDetails ContactDetails { get; set; }
-        bool UseBrowserContactDetails { get; set; }
         HashSet<string> Boards { get; set; }
         bool HasLeadGeneration { get; set; }
         int LocationRadius { get; set; }

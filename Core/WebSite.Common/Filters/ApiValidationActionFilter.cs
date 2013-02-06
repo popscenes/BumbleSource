@@ -35,7 +35,10 @@ namespace Website.Common.Filters
                              where state.Errors.Any()
                              select new MsgResponseDetail()
                                         {
-                                            Property = key, Message = state.Errors[0].ErrorMessage
+                                            Property = key, Message = 
+                                                state.Errors
+                                                    .First(e => !string.IsNullOrWhiteSpace(e.ErrorMessage))
+                                                    .ErrorMessage
                                         });
 
             return errorResponse;

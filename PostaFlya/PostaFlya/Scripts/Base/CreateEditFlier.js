@@ -9,7 +9,7 @@
         self.description = ko.observable(null);
     };
 
-    bf.CreateEditFlier = function (data, locationSelector, imageSelector, tagsSelector, afterUpdateCallback, addressSelector) {
+    bf.CreateEditFlier = function (data, imageSelector, tagsSelector, afterUpdateCallback) {
 
         var defdata = {
             Id: '',
@@ -22,9 +22,9 @@
             ImageList: [],
             Location: {},
             EnableAnalytics: false,
-            AttachTearOffs: true,
-            AttachSuppliedContactDetails: false,
-            ContactDetails: {}            
+            ContactDetails: {},
+            PostRadius: 5,
+            FlierBehaviour: 'Default'
         };
         
         data = $.extend(defdata, data);
@@ -32,20 +32,18 @@
         var self = this;
         self.apiUrl = sprintf("/api/Browser/%s/MyFliers", bf.currentBrowserInstance.BrowserId);
         self.Steps = ['Flyer', 'Location', 'Info', 'Tags'];
-        self.locationSelectorCreateEdit = locationSelector;
-        self.contactAddressSelector = addressSelector;
         self.imageSelector = imageSelector;
         self.tagsSelector = tagsSelector;
 
         var mapping = {
             'Location': {
                 create: function(options) {
-                    return new bf.LocationModel(options.data);
+                    return ko.observable(new bf.LocationModel(options.data));
                 }
             },   
             'ContactDetails': {
                 create: function(options) {
-                    return new bf.ContactDetailsModel(options.data, self.contactAddressSelector);
+                    return ko.observable(new bf.ContactDetailsModel(options.data));
                 }
             }
         };
@@ -65,7 +63,7 @@
         
         self.radiusFlierCost = ko.computed(function() {
             var ratePerSqKm = 1;
-            var distence = ko.utils.unwrapObservable(self.locationSelectorCreateEdit.currentDistance());
+            var distence = ko.utils.unwrapObservable(self.PostRadius());
             var init = ((distence) * (distence) * 3.14 * ratePerSqKm);
 
             var model = new bf.FlierCostModel();
@@ -132,29 +130,23 @@
 
         self.nextTemplate = function () {
             if (!$('#flierForm').valid()) {
-                return false;
+                return;
             }
 
             if (self.currentStep() < self.Steps.length - 1) {
                 self.currentStep(self.currentStep() + 1);
                 
-                self.TryInitMaps();
-
                 if ($(".imageSelector").length > 0) {
                     self.imageSelector.Init();
                 }
             }
         };
 
-        self.TryInitMaps = function() {
-            self.locationSelectorCreateEdit.TryInitMap();
-            self.contactAddressSelector.TryInitMap();
-        };
 
         self.prevTemplate = function () {
             if (self.currentStep() > 0) {
                 self.currentStep(self.currentStep() - 1);
-                self.TryInitMaps();
+ 
                 if ($(".imageSelector").length > 0) {
                     self.imageSelector.Init();
                 }
@@ -185,16 +177,14 @@
                 return false;
             }
 
+            var reqData = ko.mapping.toJS(self);
             var tagString = self.tagsSelector.SelectedTags().join();
+            reqData.TagsString = tagString;
+            if (!self.ContactDetails().Address().ValidLocation())
+                reqData.ContactDetails.Address = null;
 
             $.ajax(self.apiUrl, {
-                data: ko.toJSON({ Id: self.Id, Title: self.Title, Description: self.Description,
-                    Location: ko.mapping.toJS(self.locationSelectorCreateEdit.currentLocation()), TagsString: tagString,
-                    FlierImageId: self.FlierImageId(), FlierBehaviour: 0, EffectiveDate: self.EffectiveDate,
-                    ImageList: self.ImageList, ExternalSource: self.ExternalSource, ExternalId: self.ExternalId, PostRadius: self.locationSelectorCreateEdit.currentDistance(),
-                    EnableAnalytics: self.EnableAnalytics, AttachTearOffs: self.AttachTearOffs, AttachSuppliedContactDetails: self.AttachSuppliedContactDetails,
-                    ContactDetails: ko.mapping.toJS(self.ContactDetails)
-                }),
+                data: ko.utils.stringifyJson(reqData),
                 type: "put", contentType: "application/json",
                 success: function (result) {
                     if (self.afterUpdateCallback != undefined)
@@ -211,14 +201,14 @@
                 return false;
             }
 
+            var reqData = ko.mapping.toJS(self);
             var tagString = self.tagsSelector.SelectedTags().join();
+            reqData.TagsString = tagString;
+            if (!self.ContactDetails().Address().ValidLocation())
+                reqData.ContactDetails.Address = null;
 
             $.ajax(self.apiUrl, {
-                data: ko.toJSON({ Title: self.Title, Description: self.Description,
-                    Location: self.locationSelectorCreateEdit.currentLocation(), TagsString: tagString,
-                    FlierImageId: self.FlierImageId, FlierBehaviour: 0, EffectiveDate: self.EffectiveDate, ImageList: self.ImageList,
-                    ExternalSource: self.ExternalSource, ExternalId: self.ExternalId, PostRadius: self.locationSelectorCreateEdit.currentDistance()
-                }),
+                data: ko.utils.stringifyJson(reqData),
                 type: "post", contentType: "application/json",
                 success: function (result) {
                     if (result.Details[2].Message == "PaymentPending") {
@@ -235,20 +225,12 @@
         };
 
         self.InitControls = function() {
-            self.locationSelectorCreateEdit.Init();
-            self.contactAddressSelector.Init();
+
             self.imageSelector.Init();
             self.tagsSelector.LoadTags();
             
             if (self.FlierImageId())
                 self.imageSelector.selectedImageId(self.FlierImageId());
-
-            if (self.Location && self.Location.ValidLocation())
-                self.locationSelectorCreateEdit.currentLocation(self.Location);
-            
-            if (self.ContactDetails.Address && self.ContactDetails.Address.ValidLocation())
-                self.contactAddressSelector.currentLocation(self.ContactDetails.Address);
-
         };
     };
 

@@ -2,10 +2,10 @@
 
     var bf = window.bf = window.bf || {};
 
-    bf.MyFliers = function (locationSelector, imageSelector, tagsSelector, layout) {
+    bf.MyFliers = function (imageSelector, tagsSelector, layout) {
         var self = this;
         self.apiUrl = sprintf("/api/Browser/%s/MyFliers", bf.currentBrowserInstance.BrowserId);
-        self.locationSelector = locationSelector;
+        //self.locationSelector = locationSelector;
         self.imageSelector = imageSelector;
         self.tagsSelector = tagsSelector;
         self.Layout = layout;
@@ -27,26 +27,21 @@
             $.ajax(self.apiUrl + "/" + flier.Id, {
                 type: "get", contentType: "application/json",
                 success: function (result) {
-                    var editFlier = new bf.CreateEditFlier(result, self.locationSelector, self.imageSelector, self.tagsSelector, self.ShowMyFliers);
+                    var editFlier = new bf.CreateEditFlier(result, self.imageSelector, self.tagsSelector, self.ShowMyFliers);
                     self.MyFliersList(null);
                     self.CreateEditFlier(editFlier);
-
-                    self.imageSelector.Init();
-                    self.imageSelector.selectedImageId(editFlier.FlierImageId());
-                    self.locationSelector.currentLocation(editFlier.Location);
-                    self.tagsSelector.LoadTags();
+                    editFlier.InitControls();
                 }
             });
         };
 
         self.CreateFlier = function () {
-            var emptyFlier = new bf.CreateEditFlier({},
-                self.locationSelector, self.imageSelector, self.tagsSelector, self.ShowMyFliers);
+            var emptyFlier = new bf.CreateEditFlier({}, self.imageSelector, self.tagsSelector, self.ShowMyFliers);
 
             self.CreateEditFlier(emptyFlier);
             self.MyFliersList(null);
             self.imageSelector.Init();
-            self.tagsSelector.LoadTags();
+            emptyFlier.InitControls();
         };
 
 

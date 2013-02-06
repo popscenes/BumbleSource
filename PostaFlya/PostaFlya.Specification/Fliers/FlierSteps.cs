@@ -19,6 +19,7 @@ using PostaFlya.Specification.Util;
 using PostaFlya.Models.Content;
 using Website.Application.Domain.Content;
 using Website.Domain.Browser.Query;
+using Website.Domain.Contact;
 using Website.Domain.Payment;
 using Website.Infrastructure.Authentication;
 using Website.Infrastructure.Command;
@@ -59,7 +60,8 @@ namespace PostaFlya.Specification.Fliers
             var createdFlier = ScenarioContext.Current["flier"] as FlierInterface;
             Assert.IsNotNull(createdFlier);//test ThenTheNewFlierWillBeCreated(string flierBehaviour) first
 
-            Assert.IsTrue(createdFlier.HasContactDetails());
+            var browserInformation = SpecUtil.GetCurrBrowser();
+            Assert.IsTrue(createdFlier.GetContactDetailsForFlier(browserInformation.Browser).HasEnoughForContact());
             
         }
 
@@ -190,7 +192,6 @@ namespace PostaFlya.Specification.Fliers
 
             Assert.AreEqual(editMod.Description, flierUpdated.Description);
             Assert.AreEqual(editMod.Title, flierUpdated.Title);
-            Assert.AreEqual(editMod.AttachTearOffs, flierUpdated.HasContactDetails());
             Assert.AreEqual(editMod.AllowUserContact, flierUpdated.HasLeadGeneration);
 
             ScenarioContext.Current["flier"] = flierUpdated;
@@ -288,7 +289,6 @@ namespace PostaFlya.Specification.Fliers
             flierEditModel.TagsString = flier.Tags.ToString();
             flierEditModel.Location = flier.Location.ToViewModel();
             flierEditModel.FlierImageId = flier.Image.Value.ToString();
-            flierEditModel.AttachTearOffs = flier.HasContactDetails();
             return flierEditModel;
             
         }
@@ -442,7 +442,6 @@ namespace PostaFlya.Specification.Fliers
         public void GivenIOrAnotherBrowserChooseToAttachTearOffs()
         {
             var createFlierModel = ScenarioContext.Current["createflya"] as FlierCreateModel;
-            createFlierModel.AttachTearOffs = true;
         }
 
         [Then(@"the FLIER will contain a FEATURE described as (.*) with a cost of (.*) credits")]
@@ -526,12 +525,11 @@ namespace PostaFlya.Specification.Fliers
             ThenTheNewFlierWillBeCreated("Default");
         }
 
-        private void EditFlierWithFeatures(bool AttachTearOffs, bool AllowUserContact)
+        private void EditFlierWithFeatures(bool attachTearOffs, bool allowUserContact)
         {
             var flierEditModel = FlierCreateModelFromFlier();
 
-            flierEditModel.AttachTearOffs = AttachTearOffs;
-            flierEditModel.AllowUserContact = AllowUserContact;
+            flierEditModel.AllowUserContact = allowUserContact;
             flierEditModel.Description += "UPDATED";
             flierEditModel.Title += "UPDATED";
 

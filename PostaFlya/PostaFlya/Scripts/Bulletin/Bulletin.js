@@ -2,32 +2,34 @@
 
     var bf = window.bf = window.bf || {};
 
-    bf.BulletinBoard = function (locationSelector
-        , selectedDetailViewModel
+    bf.BulletinBoard = function (selectedDetailViewModel
         , tagsSelector
         , tileLayout) {
         var self = this;
 
-        self.locationSelector = locationSelector;
-        //self.distanceSelector = distanceSelector;
         self.tagsSelector = tagsSelector;
         self.initialPagesize = 30;
         self.CreateFlierInstance = bf.globalCreateFlierInstance;
 
         self.fliers = ko.observableArray([]);
 
+        self.ShowMap = ko.observable(false);
+        self.Distance = ko.observable(5);
+        self.Location = ko.observable(new bf.LocationModel());
+
         self.CreateFlier = ko.observable();
 
         self.Layout = tileLayout;
 
+        
         self.GetReqUrl = function () {
             return '/api/BulletinApi';
         };
 
         self.GetReqArgs = function (nextpage) {
             var params = {
-                loc: self.locationSelector.currentLocation().LatLong()
-                , distance: self.locationSelector.currentDistance()
+                loc: self.Location().LatLong()
+                , distance: self.Distance()
                 , count: self.initialPagesize
             };
 
@@ -46,7 +48,6 @@
 
         self.ShowAbout = function() {
             self.hideShowAbout(!self.hideShowAbout());
-            self.locationSelector.showMain(false);
             self.tagsSelector.ShowTags(false);
         };
 
@@ -56,6 +57,16 @@
             $.getJSON(self.GetReqUrl(), self.GetReqArgs(false), function (allData) {
                 self.fliers([]);
                 self.fliers(allData);
+            });
+        };
+
+        self.TryFindLocation = function() {
+            bf.getCurrentPosition(function (position, status) {
+                if (status === 'OK') {
+                    self.Location(
+                        new bf.LocationModel({ Longitude: position.coords.longitude, Latitude: position.coords.latitude })
+                    );                    
+                }
             });
         };
 
@@ -74,11 +85,6 @@
             });
         };
 
-        self.LocationAndDistanceCallback = function () {
-            if (self.locationSelector.ValidLocation())
-                self.Request();
-        };
-
         self.SelectedViewModel = selectedDetailViewModel;
 
         self.getDetailUrl = function (flier) {
@@ -86,13 +92,14 @@
         };
 
         self.ToggleMap = function () {
-            self.locationSelector.toggleShowMain();
+            self.ShowMap(!self.ShowMap());
+           
             self.tagsSelector.ShowTags(false);
             self.hideShowAbout(false);
         };
 
         self.ShowTags = function () {
-            self.locationSelector.showMain(false);
+            self.ShowMap(false);
             self.tagsSelector.ShowTags(!self.tagsSelector.ShowTags());
             self.hideShowAbout(false);
         };
@@ -101,16 +108,15 @@
         self.SelectedViewModel.addDetailRoutes(self.Sam);
 
         self._Init = function () {
-            self.locationSelector.showMain(false);
+
             self.SelectedViewModel.runSammy(self.Sam);
 
             ko.applyBindings(self);
-            self.locationSelector.updateCallback = self.LocationAndDistanceCallback;
-            //self.distanceSelector.updateCallback = self.LocationAndDistanceCallback;
+
             self.tagsSelector.updateCallback = self.LocationAndDistanceCallback;
 
             self.tagsSelector.LoadTags();
-            self.locationSelector.SetCurrentlocationFromGeoCode();
+
 
             if (bf.pageState !== undefined && bf.pageState.Fliers !== undefined) {
                 
@@ -118,7 +124,18 @@
                 self.fliers(bf.pageState.Fliers);
             }
 
-            self.locationSelector.ShowMap();
+            self.TryFindLocation();
+
+            self.Location.subscribe(function (newValue) {
+                if (newValue.ValidLocation() && self.Distance() > 0) {
+                    self.Request();
+                }
+            });
+            self.Distance.subscribe(function (newValue) {
+                if (self.Location().ValidLocation() && newValue > 0) {
+                    self.Request();
+                }
+            });
 
         };
 

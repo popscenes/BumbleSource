@@ -44,13 +44,16 @@
             @Html.ValidationMessageFor(model => model.WebSite)
         </li>
         
-        <li data-bind="with:contactAddressSelector">
+        <li>
             @Html.LabelFor(model => model.Address)
-            <input  type="text" data-bind="attr:{id:locSearchId}, value: searchText, click: clearSearchText"/>
-            @Html.HiddenFor(model => model.Address, new { data_bind = "value:currentLocation()" })
-            @Html.ValidationMessageFor(model => model.Address)
-                        
-            @Html.Partial("Location/LocationSelector")
+            @{
+                   
+                ViewBag.LocationVariable = "Address";
+                ViewBag.AutoCompleteLocationBannerText = "'Please enter an address'";
+                ViewBag.AutoCompleteLocationId = "addressSearch";
+            }
+            @Html.Partial("Location/LocationAutocomplete")
+            
         </li>
     </ol>
 

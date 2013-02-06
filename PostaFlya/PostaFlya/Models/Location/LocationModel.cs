@@ -16,12 +16,9 @@ namespace PostaFlya.Models.Location
             if(location == null)
                 return new LocationModel();
 
-            return new LocationModel()
-                       {
-                           Longitude = location.Longitude,
-                           Latitude = location.Latitude,
-                           Description = location.Description
-                       };
+            var ret = new LocationModel();
+            ret.CopyFieldsFrom(location);
+            return ret;
         }
     }
 

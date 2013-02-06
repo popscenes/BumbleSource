@@ -77,9 +77,9 @@ namespace PostaFlya.Controllers
                 ExternalId = createModel.ExternalId,
                 BoardSet = new HashSet<string>(createModel.BoardList),
                 //AllowUserContact = createModel.AllowUserContact,
-                AttachTearOffs = createModel.AttachTearOffs,
                 ExtendPostRadius = createModel.PostRadius - 5,
-                EnableAnalytics = createModel.EnableAnalytics
+                EnableAnalytics = createModel.EnableAnalytics,
+                ContactDetails = createModel.ContactDetails.ToDomainModel()
             };
 
             var res = _commandBus.Send(createFlier);
@@ -101,8 +101,8 @@ namespace PostaFlya.Controllers
                 ImageList = editModel.ImageList.Select(_ => new FlierImage(_.ImageId)).ToList(),
                 BoardSet = new HashSet<string>(editModel.BoardList),
                 //AllowUserContact = editModel.AllowUserContact,
-                AttachTearOffs = editModel.AttachTearOffs,
-                EnableAnalytics = editModel.EnableAnalytics
+                EnableAnalytics = editModel.EnableAnalytics,
+                ContactDetails = editModel.ContactDetails.ToDomainModel()
             };
 
             var res = _commandBus.Send(editFlier);
