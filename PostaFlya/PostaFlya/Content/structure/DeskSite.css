@@ -348,6 +348,7 @@ div#selected-item-div .close-button, div#create-flier-item-div .close-button {
     position: absolute;
     right: 20px;
     top: 20px;
+
 }
 /************end selected item popup/overlay div ********************/
 
@@ -581,6 +582,7 @@ a.toolbar-item
     border: solid 1px #cccccc;
     padding: 0 10px 10px 10px;
     z-index: 10;
+    top: 25px;
 }
 
 .std-btn {

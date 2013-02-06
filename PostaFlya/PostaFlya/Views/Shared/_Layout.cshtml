@@ -65,7 +65,7 @@
                     {
                         <div id="create-flier-popup-overlay" data-bind="visible:CreateFlierInstance.CreateFlier"></div>
                         <div id="create-flier-item-div" data-bind="with:CreateFlierInstance.CreateFlier, visible:CreateFlierInstance.CreateFlier, absolutePosFromScroll: CreateFlierInstance.CreateFlier">
-                            <a class="close-button" data-bind="click:$root.CreateFlierInstance.FlierFormClose">close</a>
+                            <a class="close-button red-mini-button" data-bind="click:$root.CreateFlierInstance.FlierFormClose">close</a>
                             @Html.Partial("Flier/CreateEdit", FlierCreateModel.DefaultForTemplate())
                         </div>
             

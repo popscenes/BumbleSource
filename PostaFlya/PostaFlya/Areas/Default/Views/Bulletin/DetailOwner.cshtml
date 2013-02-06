@@ -6,17 +6,10 @@
 @{var Flier = ViewBag.Template != null && ViewBag.Template ? DefaultDetailsViewModel.DefaultForTemplate().Flier : Model.Flier;}
 
 <div class="flier-view flier-view-default">
-    <div class="flier-details clear-fix" data-bind="with:Flier">  
-        <!--<div class="flier-claims-comments">
-            <input type="button" data-bind="click: print, defaultprint: $root" title="print"/>
-            <div class="claim-stats">
-                @*replace with image*@
-                <div class="claim-icon">Claims:</div>
-                <span data-bind="text:NumberOfClaims">
-                    @Flier.NumberOfClaims  
-                </span>
-            </div>             
-        </div>-->
+    <div class="flier-details clear-fix" data-bind="with:Flier">
+        
+        @Html.Partial("Bulletin/DownloadPrintImagePartial")
+        
 
         <h3 class="flier-title" data-bind="text:Title">
             @Flier.Title
@@ -44,8 +37,11 @@
     </div>
     @Html.Partial("ClaimsPartial")
     
-    <a class="std-btn">EDIT</a>
-
+    <span data-bind="with:Flier">
+        <a class="std-btn" data-bind="click:$root.CreateFlierInstance.EditFlierLaunch">EDIT</a>
+    </span>
+    
+    
 
 </div>
 

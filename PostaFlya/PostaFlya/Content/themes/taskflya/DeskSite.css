@@ -519,6 +519,64 @@ div#selected-item-popup-overlay, div#create-flier-popup-overlay {
     background-position:-3260px bottom;
 }
 
+.print-options {
+    width: 685px;
+    margin: 0 auto;
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: 0px;
+    left:50px;
+}
+
+.flier-print:hover .print-options {
+    display: block;
+}
+
+.flier-print {
+    display: inline-block;
+    position: relative;
+}
+
+.show-hide-print-options {
+    background-image: url(images/print-icon.png);
+    width: 50px;
+    height: 50px;
+    display: inline-block;   
+}
+
+.print-options a {
+background-image: url(images/print-options.png);
+outline: none;
+color: #fff;
+width: 110px;
+height: 115px;
+background-color: white;
+text-indent: -3000px;
+display: inline-block;
+}
+
+.print-opt-tearoff {
+    background-position: 0 -11px
+}
+.print-opt-code {
+    background-position: 238px -11px
+}
+.print-opt-topleft {
+    
+    background-position: 233px 139px
+}
+.print-opt-topright {
+    
+    background-position: 120px -11px
+}
+.print-opt-bottomleft {
+    background-position: 0 139px
+}
+.print-opt-bottomright {
+    background-position: 115px 139px
+}
+
 h2 {
     font-weight: normal;
     font-size: 30px;
@@ -686,4 +744,23 @@ margin: 0 auto;
     height: 21px;
     display: inline-block;
     margin: 22px 0 0 200px;
+}
+
+.red-mini-button {
+    background-color: #D28282;
+    padding: 5px 10px;
+    border: #ACC8CD solid 1px;
+    font-size: 10px;
+    color: white;
+    cursor: pointer;
+}
+
+.flier-cost-summary {
+    background-color: white;
+    padding: 5px 10px;
+    border: #99D4E4 solid 1px;
+    font-size: 12px;
+    color: #99D4E4;
+    font-weight: bold;
+    cursor: pointer;   
 }
