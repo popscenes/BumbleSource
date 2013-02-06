@@ -522,6 +522,25 @@ div#selected-item-popup-overlay, div#create-flier-popup-overlay {
 .print-options {
     width: 685px;
     margin: 0 auto;
+    display: none;
+    position: absolute;
+    background-color: white;
+}
+
+.flier-print:hover .print-options {
+    display: block;
+}
+
+.flier-print {
+    display: inline-block;
+    position: relative;
+}
+
+.show-hide-print-options {
+    background-image: url(images/print-icon.png);
+    width: 50px;
+    height: 50px;
+    display: inline-block;   
 }
 
 .print-options a {
