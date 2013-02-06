@@ -6,16 +6,6 @@
 
 <div class="flier-view flier-view-default">
     <div class="flier-details clear-fix" data-bind="with:Flier">  
-        <!--<div class="flier-claims-comments">
-            <input type="button" data-bind="click: print, defaultprint: $root" title="print"/>
-            <div class="claim-stats">
-                @*replace with image*@
-                <div class="claim-icon">Claims:</div>
-                <span data-bind="text:NumberOfClaims">
-                    @Flier.NumberOfClaims  
-                </span>
-            </div>             
-        </div>-->
 
         <h3 class="flier-title" data-bind="text:Title">
             @Flier.Title
@@ -46,6 +36,11 @@
     <span data-bind="with:Flier">
         <a class="std-btn" data-bind="click:$root.CreateFlierInstance.EditFlierLaunch">EDIT</a>
     </span>
+    
+    <span data-bind="with:Flier">
+    <h3>Print Options</h3>
+    @Html.Partial("Bulletin/DownloadPrintImagePartial")
+        </span>
 
 </div>
 

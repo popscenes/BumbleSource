@@ -519,6 +519,43 @@ div#selected-item-popup-overlay, div#create-flier-popup-overlay {
     background-position:-3260px bottom;
 }
 
+.print-options {
+    width: 685px;
+    margin: 0 auto;
+}
+
+.print-options a {
+background-image: url(images/print-options.png);
+outline: none;
+color: #fff;
+width: 110px;
+height: 115px;
+background-color: white;
+text-indent: -3000px;
+display: inline-block;
+}
+
+.print-opt-tearoff {
+    background-position: 0 -11px
+}
+.print-opt-code {
+    background-position: 238px -11px
+}
+.print-opt-topleft {
+    
+    background-position: 233px 139px
+}
+.print-opt-topright {
+    
+    background-position: 120px -11px
+}
+.print-opt-bottomleft {
+    background-position: 0 139px
+}
+.print-opt-bottomright {
+    background-position: 115px 139px
+}
+
 h2 {
     font-weight: normal;
     font-size: 30px;
