@@ -710,10 +710,15 @@ form li label {
 }
 
 #about-posta {
-    background-image: url(images/about-flya.png);
+    background-image: url(images/about-posta2.png);
     width: 910px;
-    height: 400px;
+    height: 500px;
     margin: 0 auto;
+    color: #98D5E4;
+    font-size: 1em;
+    font-weight: bold;
+    line-height: 150%;
+    text-align: center;
 }
 
 #controls .btn-question {
