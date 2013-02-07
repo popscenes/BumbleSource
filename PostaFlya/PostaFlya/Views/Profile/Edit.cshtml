@@ -20,7 +20,7 @@
         @Html.Partial("Image/ImageListTemplate")
         <form id="profileeditform" class="form">
     
-            @Html.ValidationSummary(false)
+            @Html.ValidationSummary(true)
     
             @Html.HiddenFor(model => model.Id, new { data_bind = "value:Id" })
             
@@ -67,9 +67,11 @@
                 </ol>
  
             </fieldset>
-            <div>
-                <a id="profile-save" data-bind="click: update" class="Button" style="">&nbsp;</a>
-                <div style="clear: both;"></div>
+            <div class="btm-buttons">
+                <a id="" class="std-btn" data-bind="click: update">FINISH</a>
+                <div class="big-tick">
+                    
+                </div>
             </div>
             @*todo add error handling binding for our own messages*@
             <span data-bind="text: ErrorHandler() != null ? ErrorHandler().Message : ''"></span>

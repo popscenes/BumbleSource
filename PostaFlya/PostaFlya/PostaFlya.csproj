@@ -446,6 +446,7 @@
     <Content Include="Content\themes\taskflya\images\bg-button-ro.gif" />
     <Content Include="Content\themes\taskflya\images\bg-button.gif" />
     <Content Include="Content\themes\taskflya\images\bg-texture-01.png" />
+    <Content Include="Content\themes\taskflya\images\big-tick.png" />
     <Content Include="Content\themes\taskflya\images\browse-btn.png" />
     <Content Include="Content\themes\taskflya\images\continue-btn.png" />
     <Content Include="Content\themes\taskflya\images\create-flier.png" />

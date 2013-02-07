@@ -709,6 +709,12 @@ form li label {
     text-align: center;
 }
 
+#profileeditform .field-validation-error
+{
+    margin: 10px 155px;
+    width: 297px;
+}
+
 #about-posta {
     background-image: url(images/about-flya.png);
     width: 910px;
@@ -763,4 +769,12 @@ margin: 0 auto;
     color: #99D4E4;
     font-weight: bold;
     cursor: pointer;   
+}
+
+.big-tick {
+    background-image: url(images/big-tick.png);
+    width: 40px;
+    height: 40px;
+    display: none;
+    vertical-align: bottom;
 }
