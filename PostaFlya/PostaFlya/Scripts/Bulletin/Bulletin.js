@@ -104,6 +104,12 @@
             self.hideShowAbout(false);
         };
 
+        self.TryRequest = function() {
+            if (self.Location().ValidLocation() && self.Distance() > 0) {
+                self.Request();
+            }
+        };
+
         self.Sam = Sammy('#bulletinboard');
         self.SelectedViewModel.addDetailRoutes(self.Sam);
 
@@ -113,7 +119,7 @@
 
             ko.applyBindings(self);
 
-            self.tagsSelector.updateCallback = self.LocationAndDistanceCallback;
+            self.tagsSelector.updateCallback = self.TryRequest;
 
             self.tagsSelector.LoadTags();
 
@@ -127,14 +133,10 @@
             self.TryFindLocation();
 
             self.Location.subscribe(function (newValue) {
-                if (newValue.ValidLocation() && self.Distance() > 0) {
-                    self.Request();
-                }
+                self.TryRequest();
             });
             self.Distance.subscribe(function (newValue) {
-                if (self.Location().ValidLocation() && newValue > 0) {
-                    self.Request();
-                }
+                self.TryRequest();
             });
 
         };
