@@ -24,6 +24,7 @@
         };
         
         self.update = function () {
+            $(".big-tick").css("display", "none");
             if (!$('#profileeditform').valid()) {
                 return false;
             }
@@ -39,6 +40,7 @@
                 data: ko.utils.stringifyJson(reqdata),
                 type: "put", contentType: "application/json",
                 success: function (result) {
+                    $(".big-tick").css("display", "inline-block");
                     if (self.afterUpdateCallback != undefined)
                         self.afterUpdateCallback();
                 },
@@ -46,6 +48,8 @@
                     bf.ErrorUtil.HandleSubmitError('#profileeditform', jqXhr, self.ErrorHandler);
                 }
             });
+            
+            
 
             return false;
         };

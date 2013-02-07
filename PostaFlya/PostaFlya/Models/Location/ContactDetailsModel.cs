@@ -23,10 +23,12 @@ namespace PostaFlya.Models.Location
         [Display(Name = "ContactDetailsModel_EmailAddress", ResourceType = typeof(Properties.Resources))]
         [StringLength(100, ErrorMessageResourceName = "StringTooLarge", ErrorMessageResourceType = typeof(Properties.Resources), ErrorMessage = null)]
         [EmailAddress(ErrorMessageResourceName = "InvalidEmailAddress", ErrorMessageResourceType = typeof(Properties.Resources), ErrorMessage = null)]
+        [Required(ErrorMessageResourceName = "Required", ErrorMessageResourceType = typeof(Properties.Resources), ErrorMessage = null)]
         public string EmailAddress { get; set; }
 
         [Display(Name = "ContactDetailsModel_FirstName", ResourceType = typeof(Properties.Resources))]
         [StringLength(100, ErrorMessageResourceName = "StringTooLarge", ErrorMessageResourceType = typeof(Properties.Resources), ErrorMessage = null)]
+        [Required(ErrorMessageResourceName = "Required", ErrorMessageResourceType = typeof(Properties.Resources), ErrorMessage = null)]
         public string FirstName { get; set; }
 
         [Display(Name = "ContactDetailsModel_MiddleNames", ResourceType = typeof(Properties.Resources))]
@@ -35,6 +37,7 @@ namespace PostaFlya.Models.Location
 
         [Display(Name = "ContactDetailsModel_Surname", ResourceType = typeof(Properties.Resources))]
         [StringLength(100, ErrorMessageResourceName = "StringTooLarge", ErrorMessageResourceType = typeof(Properties.Resources), ErrorMessage = null)]
+        [Required(ErrorMessageResourceName = "Required", ErrorMessageResourceType = typeof(Properties.Resources), ErrorMessage = null)]
         public string Surname { get; set; }
 
         [ValidLocation(ErrorMessageResourceName = "ValidLocation", ErrorMessageResourceType = typeof(Properties.Resources), ErrorMessage = null)]
