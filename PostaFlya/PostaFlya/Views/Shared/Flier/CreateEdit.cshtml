@@ -158,7 +158,6 @@
 <script type="text/html" id="Tags-template">
     <form id="flierForm" class="" data-bind="validate: true">
     
-        @Html.ValidationSummary(false)
         @Html.HiddenFor(model => model.Id, new { data_bind = "value:Id" })
         <fieldset>
             <legend>Now add some flyer tags</legend>
@@ -195,5 +194,16 @@
             </ol>  
 
         </fieldset>
+        <fieldset>
+            <legend>Validation</legend>       
+            <ol>
+                <li>
+                    @Html.ValidationSummary()
+                </li>
+            </ol>  
+        </fieldset>
+        
+
+
     </form>
 </script>

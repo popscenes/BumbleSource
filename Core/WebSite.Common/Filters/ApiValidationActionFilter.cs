@@ -40,7 +40,6 @@ namespace Website.Common.Filters
                                                     .First(e => !string.IsNullOrWhiteSpace(e.ErrorMessage))
                                                     .ErrorMessage
                                         });
-
             return errorResponse;
         }
     }

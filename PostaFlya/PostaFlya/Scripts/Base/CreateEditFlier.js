@@ -197,10 +197,13 @@
 
         self.save = function () {
 
-            if (!$('#flierForm').valid()) {
+            var validate = $('#flierForm').validate();
+            if (!validate.form()) {
                 return false;
             }
 
+            $('#flierForm').trigger('reset.unobtrusiveValidation');
+            
             var reqData = ko.mapping.toJS(self);
             var tagString = self.tagsSelector.SelectedTags().join();
             reqData.TagsString = tagString;
@@ -213,11 +216,15 @@
                 success: function (result) {
                     if (result.Details[2].Message == "PaymentPending") {
                         window.location = "/profile/paymentpending";
-                        return false;
+                        return;
                     }
                     if (self.afterUpdateCallback != undefined)
                         self.afterUpdateCallback();
                     
+                },
+                error: function (jqXhr, textStatus, errorThrown) {
+
+                    bf.ErrorUtil.HandleSubmitError('#flierForm', jqXhr, self.ErrorHandler);
                 }
             });
 

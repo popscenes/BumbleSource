@@ -699,7 +699,11 @@ form li label {
     margin: 0 0 0 10%;
 }
 
-.field-validation-error {
+.validation-summary-valid {
+    display: none;
+}
+
+.field-validation-error, .validation-summary-errors {
     display: block;
     border: 1px solid #CD0A0A;
     background: #FEF1EC;
@@ -715,10 +719,10 @@ form li label {
     width: 297px;
 }
 
-#about-posta {
+#about-posta { 
     background-image: url(images/about-posta2.png);
-    width: 910px;
-    height: 500px;
+    width: 900px;
+    height: 550px;
     margin: 0 auto;
     color: #98D5E4;
     font-size: 1em;

@@ -44,7 +44,7 @@
             return params;
         };
 
-        self.hideShowAbout = ko.observable(true);
+        self.hideShowAbout = ko.observable(false);
 
         self.ShowAbout = function() {
             self.hideShowAbout(!self.hideShowAbout());
