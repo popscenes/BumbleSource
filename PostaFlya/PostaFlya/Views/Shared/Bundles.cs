@@ -18,10 +18,8 @@ namespace PostaFlya.Views.Shared
             "jquery.unobtrusive-ajax.js",
             "jquery.validate.js",
             "jquery.validate.unobtrusive.js",
-            "knockout-2.2.0.js",
-//            "knockout-2.1.0.debug.js",          
+            "knockout-2.2.0.js",    
             "knockout.mapping-latest.js",
-//            "knockout.mapping-latest.debug.js",
             "modernizr-2.6.2.js",
             "jquery.isotope.js",
             "jquery.isotope.centered.js",
@@ -65,11 +63,7 @@ namespace PostaFlya.Views.Shared
             "jquery-ui-1.9-RC1.js",
         };
 
-        private static readonly string[] MobileJsFiles =
-        {
-            "jquery.mobile-1.1.0.js",
-        };
-
+ 
         //css
         //STRUCTURE FILES
         private static readonly string[] CoreStructureCss =
@@ -100,13 +94,6 @@ namespace PostaFlya.Views.Shared
             "jquery.plupload.queue.css"
         };
 
-        private static readonly string[] MobileStructureCss =
-        {
-            //jquery mobile
-            "jquery.mobile.structure-1.1.0.css",
-            //custom
-            "MobileSite.css"
-        };
 
         //THEME FILES
         private static readonly string[] CoreThemeCss =
@@ -125,14 +112,6 @@ namespace PostaFlya.Views.Shared
 
         };
 
-        private static readonly string[] MobileThemeCss =
-        {
-            //jquery mobile
-            "jquery.mobile.theme-1.1.0.css",
-            //custom
-            "MobileSite.css"
-        };
-
 
         public static void AddBundles(BundleCollection table)
         {
@@ -146,15 +125,11 @@ namespace PostaFlya.Views.Shared
             BundleTable.Bundles.AddStructureCssCollection("DeskCss.css",
                 CoreStructureCss, DeskStructureCss);
 
-            BundleTable.Bundles.AddStructureCssCollection("MobileCss.css",
-                CoreStructureCss, MobileStructureCss);
 
             //Themes bundles
             BundleTable.Bundles.AddThemedCssCollection("DeskCss.css", Themes,
                 CoreThemeCss, DeskThemeCss);
 
-            BundleTable.Bundles.AddThemedCssCollection("MobileCss.css", Themes,
-                CoreThemeCss, MobileThemeCss);
         }
 
         private static void AddJsBundles(BundleCollection table)
@@ -164,10 +139,6 @@ namespace PostaFlya.Views.Shared
             deskJsBundle.AddScriptFiles(DeskJsFiles);
             BundleTable.Bundles.Add(deskJsBundle);
 
-            var mobJsBundle = new ScriptBundle("~/Script/MobileJs.js");
-            mobJsBundle.AddScriptFiles(CoreJsFiles);
-            mobJsBundle.AddScriptFiles(MobileJsFiles);
-            BundleTable.Bundles.Add(mobJsBundle);
         }
     }
 }

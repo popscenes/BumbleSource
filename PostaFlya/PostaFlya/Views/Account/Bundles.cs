@@ -17,11 +17,6 @@ namespace PostaFlya.Views.Account
                    };
 
         private static readonly string[]
-            MobileJs = {
-                        
-                    };
-
-        private static readonly string[]
             DeskJs =  {
                        "Account/Desk/Account.js"
                     };
@@ -32,10 +27,6 @@ namespace PostaFlya.Views.Account
                         
                    };
 
-        private static readonly string[]
-            MobileStructureCss = {
-                        
-                    };
 
         private static readonly string[]
             DeskStructureCss =  {
@@ -49,10 +40,6 @@ namespace PostaFlya.Views.Account
                         "openid-shadow.css"
                    };
 
-        private static readonly string[]
-            MobileThemeCss = {
-                        
-                    };
 
         private static readonly string[]
             DeskThemeCss =  {
@@ -68,22 +55,15 @@ namespace PostaFlya.Views.Account
         private static void AddCssBundles(BundleCollection table)
         {
             //structure
-            table.AddStructureCssCollection("Account/MobileCss.css", CoreStructureCss, MobileStructureCss);
             table.AddStructureCssCollection("Account/DeskCss.css", CoreStructureCss, DeskStructureCss);
 
             //themes
-            table.AddThemedCssCollection("Account/MobileCss.css", PostaFlya.Views.Shared.Bundles.Themes,
-                CoreThemeCss, MobileThemeCss);
             table.AddThemedCssCollection("Account/DeskCss.css", PostaFlya.Views.Shared.Bundles.Themes,
                 CoreThemeCss, DeskThemeCss);
         }
 
         private static void AddJsBundles(BundleCollection table)
         {
-            var scriptBundleMobile = new ScriptBundle("~/Script/AccountMobileJs.js");
-            scriptBundleMobile.AddScriptFiles(CoreJs);
-            scriptBundleMobile.AddScriptFiles(MobileJs);
-            table.Add(scriptBundleMobile);
 
             var scriptBundleDesk = new ScriptBundle("~/Script/AccountDeskJs.js");
             scriptBundleDesk.AddScriptFiles(CoreJs);

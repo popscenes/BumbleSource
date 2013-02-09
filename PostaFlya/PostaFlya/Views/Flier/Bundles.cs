@@ -18,11 +18,6 @@ namespace PostaFlya.Views.Flier
                    };
 
         private static readonly string[] 
-            MobileJs = {
-                        "Flier/Mobile/Flier.js"
-                    };
-
-        private static readonly string[] 
             DeskJs =  {
                        "Flier/Desk/Flier.js"
                     };
@@ -33,10 +28,6 @@ namespace PostaFlya.Views.Flier
                         "Fliers/Fliers.css"
                    };
 
-        private static readonly string[]
-            MobileStructureCss = {
-                        
-                    };
 
         private static readonly string[]
             DeskStructureCss =  {
@@ -49,10 +40,6 @@ namespace PostaFlya.Views.Flier
                         
                    };
 
-        private static readonly string[]
-            MobileThemeCss = {
-                        
-                    };
 
         private static readonly string[]
             DeskThemeCss =  {
@@ -69,12 +56,9 @@ namespace PostaFlya.Views.Flier
         private static void AddCssBundles(BundleCollection table)
         {
             //structure
-            table.AddStructureCssCollection("Flier/MobileCss.css", CoreStructureCss, MobileStructureCss);
             table.AddStructureCssCollection("Flier/DeskCss.css", CoreStructureCss, DeskStructureCss);
 
             //themes
-            table.AddThemedCssCollection("Flier/MobileCss.css", Shared.Bundles.Themes,
-                CoreThemeCss, MobileThemeCss);
             table.AddThemedCssCollection("Flier/DeskCss.css", Shared.Bundles.Themes,
                 CoreThemeCss, DeskThemeCss);
 
@@ -82,11 +66,6 @@ namespace PostaFlya.Views.Flier
 
         private static void AddJsBundles(BundleCollection table)
         {
-            var scriptBundleMobile = new ScriptBundle("~/Script/FlierMobileJs.js");
-            scriptBundleMobile.AddScriptFiles(CoreJs);
-            scriptBundleMobile.AddScriptFiles(MobileJs);
-            table.Add(scriptBundleMobile);
-
             var scriptBundleDesk = new ScriptBundle("~/Script/FlierDeskJs.js");
             scriptBundleDesk.AddScriptFiles(CoreJs);
             scriptBundleDesk.AddScriptFiles(DeskJs);

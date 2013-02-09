@@ -48,6 +48,8 @@ namespace Website.Application.Tests.Schedule
         [Test]
         public void JobCommandHandlerSetsInProgressToFalseAtTheEndOfJobCompletion()
         {
+            Kernel.Rebind<TestJobAction>().ToSelf().InTransientScope();
+
             var repo = Kernel.Get<GenericRepositoryInterface>();
             var job = new RepeatJob()
             {
@@ -79,7 +81,7 @@ namespace Website.Application.Tests.Schedule
             var cancellationTokenSource = new CancellationTokenSource();
             var commandCount = 0;
 
-            Kernel.Bind<TestJobAction>()
+            Kernel.Rebind<TestJobAction>()
                   .ToMethod(context => 
                       new TestJobAction(commandCount++, cancellationTokenSource, null, 2))
                   .InTransientScope();
@@ -187,6 +189,11 @@ namespace Website.Application.Tests.Schedule
             private readonly CancellationTokenSource _cancel;
             private readonly Action _callback;
             private readonly int _cancelAfter;
+
+            public TestJobAction()
+            {
+                
+            }
 
             public TestJobAction(int count, CancellationTokenSource cancel, Action callback, int cancelAfter)
             {

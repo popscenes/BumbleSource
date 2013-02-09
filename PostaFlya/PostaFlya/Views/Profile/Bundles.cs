@@ -16,11 +16,6 @@ namespace PostaFlya.Views.Profile
 
         //Get
         private static readonly string[] 
-            MobileJs = {
-                        //"Profile/Mobile/Profile.js"
-                    };
-
-        private static readonly string[] 
             DeskJs =  {
                        "Profile/Desk/Profile.js"
                     };
@@ -31,10 +26,6 @@ namespace PostaFlya.Views.Profile
                         //"Bulletin/Bulletin.css"
                    };
 
-        private static readonly string[]
-            MobileStructureCss = {
-                        //"Bulletin/BulletinMobile.css"
-                    };
 
         private static readonly string[]
             DeskStructureCss =  {
@@ -47,10 +38,6 @@ namespace PostaFlya.Views.Profile
                         //"Bulletin/Bulletin.css"
                    };
 
-        private static readonly string[]
-            MobileThemeCss = {
-                        //"Bulletin/BulletinMobile.css"
-                    };
 
         private static readonly string[]
             DeskThemeCss =  {
@@ -66,12 +53,9 @@ namespace PostaFlya.Views.Profile
         private static void AddCssBundles(BundleCollection table)
         {
             //structure
-            table.AddStructureCssCollection("Profile/MobileCss.css", CoreStructureCss, MobileStructureCss);
             table.AddStructureCssCollection("Profile/DeskCss.css", CoreStructureCss, DeskStructureCss);
 
             //themes
-            table.AddThemedCssCollection("Profile/MobileCss.css", PostaFlya.Views.Shared.Bundles.Themes,
-                CoreThemeCss, MobileThemeCss);
             table.AddThemedCssCollection("Profile/DeskCss.css", PostaFlya.Views.Shared.Bundles.Themes,
                 CoreThemeCss, DeskThemeCss);
         }
@@ -79,10 +63,6 @@ namespace PostaFlya.Views.Profile
         private static void AddJsBundles(BundleCollection table)
         {
             //Bulletin
-            var scriptBundleMobile = new ScriptBundle("~/Script/ProfileMobileJs.js");
-            scriptBundleMobile.AddScriptFiles(CoreJs);
-            scriptBundleMobile.AddScriptFiles(MobileJs);
-            table.Add(scriptBundleMobile);
 
             var scriptBundleDesk = new ScriptBundle("~/Script/ProfileDeskJs.js");
             scriptBundleDesk.AddScriptFiles(CoreJs);

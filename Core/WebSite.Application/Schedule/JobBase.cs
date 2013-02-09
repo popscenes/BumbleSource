@@ -64,7 +64,11 @@ namespace Website.Application.Schedule
 
             return timeService.GetCurrentTime() > NextRun;
         }
-        public virtual void CopyState<JobBaseType>(JobBaseType source) where JobBaseType : JobInterface{}
+        public virtual void CopyState<JobBaseType>(JobBaseType source) where JobBaseType : JobInterface
+        {
+            //this.CopyFieldsFrom(source as JobInterface);
+        }
+
         public Dictionary<string, string> JobStorage { get; set; }
     }
 

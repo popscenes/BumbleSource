@@ -46,6 +46,11 @@ namespace Website.Application.Schedule
             NextRun = GetNextRun(curr);
         }
 
+        public override void CopyState<JobBaseType>(JobBaseType source)
+        {
+            this.CopyFieldsFrom(source as AbsoluteRepeatJobInterface);
+        }
+
         private DateTimeOffset GetNextRun(DateTimeOffset curr)
         {
             var current = new DateTimeOffset(curr.Year, curr.Month, curr.Day, curr.Hour, curr.Minute + 1, 0, curr.Offset);

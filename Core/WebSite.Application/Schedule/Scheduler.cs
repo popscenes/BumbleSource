@@ -14,6 +14,7 @@ namespace Website.Application.Schedule
         int RunInterval { get; set; }
         List<JobBase> Jobs { get; }
         void Run(CancellationTokenSource cancellationTokenSource);
+        string SchedulerIdentifier { get; set; }
     }
 
     public class Scheduler : SchedulerInterface
@@ -54,6 +55,8 @@ namespace Website.Application.Schedule
             
         }
 
+        public string SchedulerIdentifier { get; set; }
+
         private void CheckRun()
         {
             var jobList = Jobs.Select(@base => new {@base.Id, type = @base.GetType()}).ToList();
@@ -65,7 +68,8 @@ namespace Website.Application.Schedule
                 var commandJobCommand = new JobCommand()
                     {
                         JobId = job.Id,
-                        JobType = job.GetType()
+                        JobType = job.GetType(),
+                        SchedulerInfo = "Scheduled By" + SchedulerIdentifier
                     };
                 _commandBus.Send(commandJobCommand);
             }

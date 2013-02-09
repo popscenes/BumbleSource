@@ -8,5 +8,6 @@ namespace Website.Application.Schedule.Command
     {
         public string JobId { get; set; }
         public Type JobType { get; set; }
+        public string SchedulerInfo { get; set; }
     }
 }

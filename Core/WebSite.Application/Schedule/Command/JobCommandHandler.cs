@@ -52,11 +52,17 @@ namespace Website.Application.Schedule.Command
 
             _stopWatch.Start();
             try
-            {                               
+            {
+
                 var action = _resolutionRoot.Get(job.JobActionClass) as JobActionInterface;
+
+                Trace.TraceInformation("Schedule Job {0} Start at {1}. type: {2}, ScheduledInfo: {3} "
+                    , command.JobId, action.GetType().ToString(), _stopWatch.ElapsedMilliseconds, command.SchedulerInfo);
+
                 action.Run(job);
 
-                Trace.TraceInformation("Schedule Job {0} Completed. type: {1}, time(ms): {2}", command.JobId, action.GetType().ToString(), _stopWatch.ElapsedMilliseconds);
+                Trace.TraceInformation("Schedule Job {0} Completed. type: {1}, time(ms): {2}, ScheduledInfo: {3}"
+                    , command.JobId, action.GetType().ToString(), _stopWatch.ElapsedMilliseconds, command.SchedulerInfo);
             }
             catch (Exception e)
             {

@@ -466,10 +466,6 @@
     <Content Include="Content\structure\jquery.isotope.css" />
     <Content Include="Content\structure\Bulletin\BulletinDesk.css" />
     <Content Include="Content\structure\Bulletin\Bulletin.css" />
-    <Content Include="Content\structure\Bulletin\BulletinMobile.css" />
-    <Content Include="Content\structure\jquery.mobile.structure-1.1.0.css" />
-    <Content Include="Content\structure\jquery.mobile.structure-1.1.0.min.css" />
-    <Content Include="Content\structure\MobileSite.css" />
     <Content Include="Content\structure\CommonSite.css" />
     <Content Include="Content\structure\jcarousel-skin-tango.css" />
     <Content Include="Content\themes\taskflya\images\header-bg-shim.png" />
@@ -518,7 +514,6 @@
     <Content Include="Content\Testing\qunit.css" />
     <Content Include="Content\themes\taskflya\Bulletin\Bulletin.css" />
     <Content Include="Content\themes\taskflya\Bulletin\BulletinDesk.css" />
-    <Content Include="Content\themes\taskflya\Bulletin\BulletinMobile.css" />
     <Content Include="Content\themes\taskflya\CommonSite.css" />
     <Content Include="Content\themes\taskflya\DeskSite.css" />
     <Content Include="Content\themes\taskflya\images\ui-bg_flat_0_aaaaaa_40x100.png" />
@@ -554,9 +549,6 @@
     <Content Include="Content\themes\taskflya\images\icons-36-black.png" />
     <Content Include="Content\themes\taskflya\images\icons-36-white.png" />
     <Content Include="Content\themes\taskflya\images\loading.gif" />
-    <Content Include="Content\themes\taskflya\jquery.mobile.theme-1.1.0.css" />
-    <Content Include="Content\themes\taskflya\jquery.mobile.theme-1.1.0.min.css" />
-    <Content Include="Content\themes\taskflya\MobileSite.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Areas\TaskJob\Views\Web.config" />
@@ -610,12 +602,10 @@
     <Content Include="Scripts\Behaviour\Default\DefaultBehaviourViewModel.js" />
     <Content Include="Scripts\Bulletin\BulletinLayoutProperties.js" />
     <Content Include="Scripts\Bulletin\Desk\Detail.js" />
-    <Content Include="Scripts\Bulletin\Mobile\Detail.js" />
     <Content Include="Scripts\Bulletin\SelectedFlierViewModel.js" />
     <Content Include="Scripts\Base\CreateEditFlier.js" />
     <Content Include="Scripts\FlierImport\Desk\FlierImport.js" />
     <Content Include="Scripts\FlierImport\FlierImport.js" />
-    <Content Include="Scripts\FlierImport\Mobile\FlierImport.js" />
     <None Include="Scripts\jquery-1.8.3.intellisense.js" />
     <Content Include="Scripts\googleanalytics.js" />
     <Content Include="Scripts\jquery-1.8.3.js" />
@@ -635,24 +625,19 @@
     <Content Include="Scripts\Base\LocationService.js" />
     <Content Include="Scripts\Bulletin\Bulletin.js" />
     <Content Include="Scripts\Bulletin\Desk\Bulletin.js" />
-    <Content Include="Scripts\Bulletin\Mobile\Bulletin.js" />
     <Content Include="Scripts\Extension\knockout.custombindings.js" />
     <Content Include="Scripts\Extension\showdown.js" />
     <Content Include="Scripts\Extension\sprintf-0.7-beta1.js" />
     <Content Include="Scripts\Flier\Desk\Flier.js" />
     <Content Include="Scripts\Flier\Flier.js" />
-    <Content Include="Scripts\Flier\Mobile\Flier.js" />
     <Content Include="Scripts\HeatMap\Desk\HeatMap.js" />
     <Content Include="Scripts\HeatMap\HeatMap.js" />
-    <Content Include="Scripts\HeatMap\Mobile\HeatMap.js" />
     <Content Include="Scripts\jquery.bxSlider.V3.js" />
     <Content Include="Scripts\jquery.easing.1.3.js" />
     <Content Include="Scripts\jquery.endless-scroll.js" />
     <Content Include="Scripts\jquery.isotope.js" />
     <Content Include="Scripts\jquery.isotope.min.js" />
     <Content Include="Scripts\jquery.jcarousel.min.js" />
-    <Content Include="Scripts\jquery.mobile-1.1.0.js" />
-    <Content Include="Scripts\jquery.mobile-1.1.0.min.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
@@ -768,9 +753,6 @@
     <Content Include="Views\Shared\Bulletin\SelectedBulletinViewPartial.cshtml" />
     <Content Include="Views\Profile\Edit.cshtml" />
     <Content Include="Views\Shared\GlobalToolbar.cshtml" />
-    <Content Include="Views\Account\Login.Mobile.cshtml">
-      <SubType>Code</SubType>
-    </Content>
     <Content Include="Views\Shared\Bulletin\BulletinItems.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\BrowserAvatar.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\BrowserNameLink.cshtml" />
@@ -859,10 +841,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Shared\_Layout.Mobile.cshtml" />
     <Content Include="Views\Bulletin\Get.cshtml" />
     <Content Include="Views\Shared\Bulletin\BulletinList.cshtml" />
-    <Content Include="Views\Bulletin\Get.Mobile.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Shared\Social\SocialLinks.cshtml" />

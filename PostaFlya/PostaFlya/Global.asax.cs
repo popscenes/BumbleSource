@@ -282,28 +282,28 @@ namespace PostaFlya
             return false;
         }
 
-        public class MobileSpecifiedDisplayMode : DefaultDisplayMode
-        {
-            public MobileSpecifiedDisplayMode()
-                : base("Mobile")
-            {
-                ContextCondition = (context) => CheckDisplayMode(context, true);
-            }
-        }
-
-        public class DeskSpecifiedDisplayMode : DefaultDisplayMode
-        {
-            public DeskSpecifiedDisplayMode()
-                : base("")
-            {
-                ContextCondition = (context) => CheckDisplayMode(context, false);
-            }
-        }
+//        public class MobileSpecifiedDisplayMode : DefaultDisplayMode
+//        {
+//            public MobileSpecifiedDisplayMode()
+//                : base("Mobile")
+//            {
+//                ContextCondition = (context) => CheckDisplayMode(context, true);
+//            }
+//        }
+//
+//        public class DeskSpecifiedDisplayMode : DefaultDisplayMode
+//        {
+//            public DeskSpecifiedDisplayMode()
+//                : base("")
+//            {
+//                ContextCondition = (context) => CheckDisplayMode(context, false);
+//            }
+//        }
 
         private void AddSpecifiedDisplayModeProviders()
         {
-            DisplayModeProvider.Instance.Modes.Insert(0, new MobileSpecifiedDisplayMode());
-            DisplayModeProvider.Instance.Modes.Insert(1, new DeskSpecifiedDisplayMode());
+            //DisplayModeProvider.Instance.Modes.Insert(0, new MobileSpecifiedDisplayMode());
+            //DisplayModeProvider.Instance.Modes.Insert(1, new DeskSpecifiedDisplayMode());
         }
 
         private void RegisterAssetBundles()
@@ -362,6 +362,7 @@ namespace PostaFlya
             {
                 //swill start afresh if there is an unhandled exception
                 var processor = NinjectWebCommon.bootstrapper.Kernel.Get<SchedulerInterface>();
+                processor.SchedulerIdentifier = AzureEnv.GetIdForInstance();
                 processor.Run(t);
             });
             _schedulerWorker.Start();

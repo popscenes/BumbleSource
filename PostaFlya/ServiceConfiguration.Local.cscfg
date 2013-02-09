@@ -10,8 +10,13 @@
       <Setting name="Microsoft.WindowsAzure.Plugins.Caching.ClientDiagnosticLevel" value="1" />
       <Setting name="Microsoft.WindowsAzure.Plugins.Caching.CacheSizePercentage" value="50" />
       <Setting name="Microsoft.WindowsAzure.Plugins.Caching.ConfigStoreConnectionString" value="UseDevelopmentStorage=true" />
+      
       <Setting name="SearchDbConnectionString" value="Data Source=.\SQLEXPRESS;Integrated Security=True" />
       <Setting name="DisableFederation" value="True" />
+      
+      <!--<Setting name="SearchDbConnectionString" value="Data Source=oo6h1elzi7.database.windows.net,1433;User ID=jimmy;Password=Weezer1313" />
+      <Setting name="DisableFederation" value="False" /> -->
+      
       <Setting name="Microsoft.WindowsAzure.Plugins.RemoteAccess.Enabled" value="true" />
       <Setting name="Microsoft.WindowsAzure.Plugins.RemoteAccess.AccountUsername" value="flya" />
       <Setting name="Microsoft.WindowsAzure.Plugins.RemoteAccess.AccountEncryptedPassword" value="MIIBnQYJKoZIhvcNAQcDoIIBjjCCAYoCAQAxggFOMIIBSgIBADAyMB4xHDAaBgNVBAMME1dpbmRvd3MgQXp1cmUgVG9vbHMCECX3rMPVezutQD0zzfM4kzkwDQYJKoZIhvcNAQEBBQAEggEAiCuZyW5VRglkF2v3mz2/Q6Iuw065tTfUP80bX/FNiucmVJbnx8VDqQ0Ssct5jEIsYuqQUq465imBz1LY3moL+SZqY/1SgJQGWsK8Xz+xPxyqWW2kpEe2zzm2cof5ivnLPUqDt38e9zgZVNjOX0eJIyQW2rhoJ1SrjpCe70trp1g+C5ZevBhq69JRlUIeLvpxHuXQwXEbHned9Xtt5R1r9tJ78Lb7mNQDEdR1nMu33KUeV0/nBjM3VpncfX5C9PjfCAKbwmueW5HEDrHwSoeWMD6EgmVccFZ+l/2Y0NBqZBQTlJVIX+WFYyxJWvx3WHdWaMdaI+vMXijWe2v/SoBmSjAzBgkqhkiG9w0BBwEwFAYIKoZIhvcNAwcECKdJAhexSZKsgBBhSMnrDLBnyY0KUlyDl9uc" />
@@ -22,7 +27,7 @@
       <Setting name="SendGridCreds" value="firinflames;weezer11"/>
 
       <Setting name="PaypalApiEndpoint" value="https://api-3t.sandbox.paypal.com/nvp"/>
-      <Setting name="PaypalUrl" value="https://www.sandbox.paypal.com/webscr?cmd=_express-checkout&amp;useraction=commit&amp;token="/>
+      <Setting name="PaypalUrl" value="https://www.sandbox.paypal.com/webscr?cmd=express-checkout&amp;useraction=commit&amp;token="/>
       <Setting name="PaypalName" value="teddy_1354614467_biz_api1.bumbleflya.com"/>
       <Setting name="PaypalPassword" value="1354614484"/>
       <Setting name="PaypalSigniture" value="AKL0BHttgt4y7V9TMc6a-MVrjQrzAI7DEOtgV8YofbavU1TCcr-Nyslc"/>

@@ -45,10 +45,6 @@ namespace PostaFlya.Views.Profile
 
         private static void AddJsBundles(BundleCollection table)
         {
-            var scriptBundleMobile = new ScriptBundle("~/Script/PaymentPendingMobileJs.js");
-            scriptBundleMobile.AddScriptFiles(CoreJs);
-            table.Add(scriptBundleMobile);
-
             var scriptBundleDesk = new ScriptBundle("~/Script/PaymentPendingDeskJs.js");
             scriptBundleDesk.AddScriptFiles(CoreJs);
             table.Add(scriptBundleDesk);

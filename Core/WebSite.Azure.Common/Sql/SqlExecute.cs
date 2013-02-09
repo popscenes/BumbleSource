@@ -24,6 +24,12 @@ namespace Website.Azure.Common.Sql
 {
     public static class SqlExtensions
     {
+        public static string ToEqualExpression(this object val)
+        {
+            if (val != null && !val.IsNumeric())
+                return '\'' + val.ToString() + '\'';
+            return val != null ? val.ToString() : null;
+        }
         public static SqlXml ToSql(this XElement element)
         {
             using (var streamreader = new StringReader(element.ToString()))
@@ -109,6 +115,7 @@ namespace Website.Azure.Common.Sql
         {
             return FederationName + " " + DistributionName + "=" + FedVal;
         }
+
         public string FederationName { get; set; }
         public string DistributionName { get; set; }
         public object FedVal { get; set; }
@@ -312,7 +319,7 @@ namespace Website.Azure.Common.Sql
 
             command.CommandText = String.Format(
                 Resources.DbUseFederation,
-                federationInstance.FederationName, federationInstance.DistributionName, federationInstance.FedVal);
+                federationInstance.FederationName, federationInstance.DistributionName, federationInstance.FedVal.ToEqualExpression());
 
             ExecuteCommand(command);
         }
