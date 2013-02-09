@@ -36,20 +36,20 @@ namespace PostaFlya.Views.Profile
         private static void AddCssBundles(BundleCollection table)
         {
             //structure
-            table.AddStructureCssCollection("PaymentPending/DeskCss", CoreStructureCss);
+            table.AddStructureCssCollection("PaymentPending/DeskCss.css", CoreStructureCss);
 
             //themes
-            table.AddThemedCssCollection("PaymentPending/DeskCss", PostaFlya.Views.Shared.Bundles.Themes,
+            table.AddThemedCssCollection("PaymentPending/DeskCss.css", PostaFlya.Views.Shared.Bundles.Themes,
                 CoreThemeCss);
         }
 
         private static void AddJsBundles(BundleCollection table)
         {
-            var scriptBundleMobile = new ScriptBundle("~/Script/PaymentPendingMobileJs");
+            var scriptBundleMobile = new ScriptBundle("~/Script/PaymentPendingMobileJs.js");
             scriptBundleMobile.AddScriptFiles(CoreJs);
             table.Add(scriptBundleMobile);
 
-            var scriptBundleDesk = new ScriptBundle("~/Script/PaymentPendingDeskJs");
+            var scriptBundleDesk = new ScriptBundle("~/Script/PaymentPendingDeskJs.js");
             scriptBundleDesk.AddScriptFiles(CoreJs);
             table.Add(scriptBundleDesk);
         }

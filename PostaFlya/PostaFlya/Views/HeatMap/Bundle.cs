@@ -65,27 +65,27 @@ namespace PostaFlya.Views.HeatMap
         private static void AddCssBundles(BundleCollection table)
         {
             //structure
-            table.AddStructureCssCollection("HeatMap/MobileCss",
+            table.AddStructureCssCollection("HeatMap/MobileCss.css",
                 CoreStructureCss, MobileStructureCss);
-            table.AddStructureCssCollection("HeatMap/DeskCss",
+            table.AddStructureCssCollection("HeatMap/DeskCss.css",
                 CoreStructureCss, DeskStructureCss);
 
             //themes
-            table.AddThemedCssCollection("HeatMap/MobileCss", Shared.Bundles.Themes,
+            table.AddThemedCssCollection("HeatMap/MobileCss.css", Shared.Bundles.Themes,
                 CoreThemeCss, MobileThemeCss);
-            table.AddThemedCssCollection("HeatMap/DeskCss", Shared.Bundles.Themes,
+            table.AddThemedCssCollection("HeatMap/DeskCss.css", Shared.Bundles.Themes,
                 CoreThemeCss, DeskThemeCss);
 
         }
 
         private static void AddJsBundles(BundleCollection table)
         {
-            var scriptBundleMobile = new ScriptBundle("~/Script/HeatMap/MobileJs");
+            var scriptBundleMobile = new ScriptBundle("~/Script/HeatMap/MobileJs.js");
             scriptBundleMobile.AddScriptFiles(CoreJs);
             scriptBundleMobile.AddScriptFiles(MobileJs);
             table.Add(scriptBundleMobile);
 
-            var scriptBundleDesk = new ScriptBundle("~/Script/HeatMap/DeskJs");
+            var scriptBundleDesk = new ScriptBundle("~/Script/HeatMap/DeskJs.js");
             scriptBundleDesk.AddScriptFiles(CoreJs);
             scriptBundleDesk.AddScriptFiles(DeskJs);
             table.Add(scriptBundleDesk);

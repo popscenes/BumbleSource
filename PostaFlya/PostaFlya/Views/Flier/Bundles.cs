@@ -69,25 +69,25 @@ namespace PostaFlya.Views.Flier
         private static void AddCssBundles(BundleCollection table)
         {
             //structure
-            table.AddStructureCssCollection("Flier/MobileCss", CoreStructureCss, MobileStructureCss);
-            table.AddStructureCssCollection("Flier/DeskCss", CoreStructureCss, DeskStructureCss);
+            table.AddStructureCssCollection("Flier/MobileCss.css", CoreStructureCss, MobileStructureCss);
+            table.AddStructureCssCollection("Flier/DeskCss.css", CoreStructureCss, DeskStructureCss);
 
             //themes
-            table.AddThemedCssCollection("Flier/MobileCss", Shared.Bundles.Themes,
+            table.AddThemedCssCollection("Flier/MobileCss.css", Shared.Bundles.Themes,
                 CoreThemeCss, MobileThemeCss);
-            table.AddThemedCssCollection("Flier/DeskCss", Shared.Bundles.Themes,
+            table.AddThemedCssCollection("Flier/DeskCss.css", Shared.Bundles.Themes,
                 CoreThemeCss, DeskThemeCss);
 
         }
 
         private static void AddJsBundles(BundleCollection table)
         {
-            var scriptBundleMobile = new ScriptBundle("~/Script/FlierMobileJs");
+            var scriptBundleMobile = new ScriptBundle("~/Script/FlierMobileJs.js");
             scriptBundleMobile.AddScriptFiles(CoreJs);
             scriptBundleMobile.AddScriptFiles(MobileJs);
             table.Add(scriptBundleMobile);
 
-            var scriptBundleDesk = new ScriptBundle("~/Script/FlierDeskJs");
+            var scriptBundleDesk = new ScriptBundle("~/Script/FlierDeskJs.js");
             scriptBundleDesk.AddScriptFiles(CoreJs);
             scriptBundleDesk.AddScriptFiles(DeskJs);
             table.Add(scriptBundleDesk);            

@@ -82,36 +82,36 @@ namespace PostaFlya.Views.Bulletin
         private static void AddCssBundles(BundleCollection table)
         {
             //structure
-            table.AddStructureCssCollection("Bulletin/MobileCss", CoreStructureCss, MobileStructureCss);
-            table.AddStructureCssCollection("Bulletin/DeskCss", CoreStructureCss, DeskStructureCss);
+            table.AddStructureCssCollection("Bulletin/MobileCss.css", CoreStructureCss, MobileStructureCss);
+            table.AddStructureCssCollection("Bulletin/DeskCss.css", CoreStructureCss, DeskStructureCss);
 
             //themes
-            table.AddThemedCssCollection("Bulletin/MobileCss", PostaFlya.Views.Shared.Bundles.Themes,
+            table.AddThemedCssCollection("Bulletin/MobileCss.css", PostaFlya.Views.Shared.Bundles.Themes,
                 CoreThemeCss, MobileThemeCss);
-            table.AddThemedCssCollection("Bulletin/DeskCss", PostaFlya.Views.Shared.Bundles.Themes,
+            table.AddThemedCssCollection("Bulletin/DeskCss.css", PostaFlya.Views.Shared.Bundles.Themes,
                 CoreThemeCss, DeskThemeCss);
         }
 
         private static void AddJsBundles(BundleCollection table)
         {
             //Bulletin
-            var scriptBundleMobile = new ScriptBundle("~/Script/BulletinMobileJs");
+            var scriptBundleMobile = new ScriptBundle("~/Script/BulletinMobileJs.js");
             scriptBundleMobile.AddScriptFiles(CoreJs);
             scriptBundleMobile.AddScriptFiles(MobileJs);
             table.Add(scriptBundleMobile);
 
-            var scriptBundleDesk = new ScriptBundle("~/Script/BulletinDeskJs");
+            var scriptBundleDesk = new ScriptBundle("~/Script/BulletinDeskJs.js");
             scriptBundleDesk.AddScriptFiles(CoreJs);
             scriptBundleDesk.AddScriptFiles(DeskJs);
             table.Add(scriptBundleDesk);
 
             //Detail
-            var scriptDetBundleMobile = new ScriptBundle("~/Script/BulletinDetMobileJs");
+            var scriptDetBundleMobile = new ScriptBundle("~/Script/BulletinDetMobileJs.js");
             scriptDetBundleMobile.AddScriptFiles(CoreJs);
             scriptDetBundleMobile.AddScriptFiles(DetailMobileJs);
             table.Add(scriptDetBundleMobile);
 
-            var scriptDetBundleDesk = new ScriptBundle("~/Script/BulletinDetDeskJs");
+            var scriptDetBundleDesk = new ScriptBundle("~/Script/BulletinDetDeskJs.js");
             scriptDetBundleDesk.AddScriptFiles(CoreJs);
             scriptDetBundleDesk.AddScriptFiles(DetailDeskJs);
             table.Add(scriptDetBundleDesk); 

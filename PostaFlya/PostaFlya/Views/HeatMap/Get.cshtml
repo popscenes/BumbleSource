@@ -6,9 +6,9 @@
 }
 
 @section scripts {
-    @Styles.Render("~/Content/structure/HeatMap/DeskCss")   
-    @Styles.Render("~/Content/themes/taskflya/HeatMap/DeskCss")  
-    @Scripts.Render("~/Script/HeatMap/DeskJs") 
+    @Styles.Render("~/Content/structure/HeatMap/DeskCss.css")   
+    @Styles.Render("~/Content/themes/taskflya/HeatMap/DeskCss.css")  
+    @Scripts.Render("~/Script/HeatMap/DeskJs.js") 
 }
 
 <div id="heatMap" style="width: 640px; height: 480px;" data-bind="heatMapBinding: currentLocation"></div>

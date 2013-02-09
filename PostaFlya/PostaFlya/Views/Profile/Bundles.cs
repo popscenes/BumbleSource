@@ -66,25 +66,25 @@ namespace PostaFlya.Views.Profile
         private static void AddCssBundles(BundleCollection table)
         {
             //structure
-            table.AddStructureCssCollection("Profile/MobileCss", CoreStructureCss, MobileStructureCss);
-            table.AddStructureCssCollection("Profile/DeskCss", CoreStructureCss, DeskStructureCss);
+            table.AddStructureCssCollection("Profile/MobileCss.css", CoreStructureCss, MobileStructureCss);
+            table.AddStructureCssCollection("Profile/DeskCss.css", CoreStructureCss, DeskStructureCss);
 
             //themes
-            table.AddThemedCssCollection("Profile/MobileCss", PostaFlya.Views.Shared.Bundles.Themes,
+            table.AddThemedCssCollection("Profile/MobileCss.css", PostaFlya.Views.Shared.Bundles.Themes,
                 CoreThemeCss, MobileThemeCss);
-            table.AddThemedCssCollection("Profile/DeskCss", PostaFlya.Views.Shared.Bundles.Themes,
+            table.AddThemedCssCollection("Profile/DeskCss.css", PostaFlya.Views.Shared.Bundles.Themes,
                 CoreThemeCss, DeskThemeCss);
         }
 
         private static void AddJsBundles(BundleCollection table)
         {
             //Bulletin
-            var scriptBundleMobile = new ScriptBundle("~/Script/ProfileMobileJs");
+            var scriptBundleMobile = new ScriptBundle("~/Script/ProfileMobileJs.js");
             scriptBundleMobile.AddScriptFiles(CoreJs);
             scriptBundleMobile.AddScriptFiles(MobileJs);
             table.Add(scriptBundleMobile);
 
-            var scriptBundleDesk = new ScriptBundle("~/Script/ProfileDeskJs");
+            var scriptBundleDesk = new ScriptBundle("~/Script/ProfileDeskJs.js");
             scriptBundleDesk.AddScriptFiles(CoreJs);
             scriptBundleDesk.AddScriptFiles(DeskJs);
             table.Add(scriptBundleDesk); 
