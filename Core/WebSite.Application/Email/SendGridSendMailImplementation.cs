@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Net;
+using System.Net.Mail;
 using SendGridMail;
 using SendGridMail.Transport;
 using Website.Application.Command;
@@ -20,14 +21,24 @@ namespace Website.Application.Email
 
         public QueuedCommandResult ProcessSendMailCommand(SendMailCommand mailCommand)
         {
-            var msg = mailCommand.MailMessage.ToMailMessage().ToSendGridMessage();
+            var normalMsg = mailCommand.MailMessage.ToMailMessage();
+            //var msg = normalMsg.ToSendGridMessage();
 
             var creds = _config.GetSetting("SendGridCreds").Split(';');
             var credentials = new NetworkCredential(creds[0], creds[1]);
 
+            var cli = new SmtpClient("smtp.sendgrid.com", 2525)
+                {
+                    Credentials = credentials,
+                    DeliveryMethod = SmtpDeliveryMethod.Network
+                };
+            cli.Send(normalMsg);
+
             // Create an SMTP transport for sending email.
-            var transportSmtp = SMTP.GetInstance(credentials);
-            transportSmtp.Deliver(msg);
+//            var transportWeb = SendGridMail.Transport.Web.GetInstance(credentials);
+//            transportWeb.Deliver(msg);
+//            var transportSmtp = SMTP.GetInstance(credentials, "smtp.sendgrid.com", 2525);
+//            transportSmtp.Deliver(msg);
             return QueuedCommandResult.Successful;
         }
     }

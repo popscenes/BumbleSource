@@ -2,27 +2,45 @@
 
     var bf = window.bf = window.bf || {};
 
-    bf.DefaultBehaviourViewModel = function (data, commentsViewModel, claimsViewModel) {
+    bf.DefaultBehaviourViewModel = function (data) {
         var self = this;
 
         var mapping = {
-            'copy': ["Flier"]
+            'copy': ["Flier"],
+            'ContactDetails': {
+                create: function (options) {                
+                    return ko.observable(options.data == null ? null : new bf.ContactDetailsModel(options.data));
+                }
+            }
+            
         };
-
-        self.comments = ko.observable();
-        self.comments(commentsViewModel);
-        self.claims = ko.observable();
-        self.claims(claimsViewModel);
+        
         ko.mapping.fromJS(data, mapping, self);
 
-        self.print = function() {
+        self.TearOff = function() {
+            debugger;
+            var reqdata = ko.toJSON({
+                ClaimEntity: 'Flier',
+                EntityId: self.Flier.Id,
+                BrowserId: bf.currentBrowserInstance.BrowserId
+            });
 
+            $.ajax('/api/claim/', {
+                data: reqdata,
+                type: "post", contentType: "application/json",
+                success: function (result) {
+                    $.getJSON('/api/BulletinApi/' + self.Flier.Id
+                        , function (newdata) {
+                            ko.mapping.fromJS(newdata, self);
+                        });
+                },
+                error: function (jqXhr, textStatus, errorThrown) {
+                    bf.ErrorUtil.HandleSubmitError(null, jqXhr, self.ErrorHandler);
+                }
+            });
+            return true;
         };
-        
-        self.preparePrint = function () {
 
-        };
-        
     };
 
 

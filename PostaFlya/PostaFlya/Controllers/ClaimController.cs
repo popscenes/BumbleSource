@@ -8,6 +8,7 @@ using PostaFlya.Domain.Flier;
 using PostaFlya.Models.Browser;
 using PostaFlya.Models.Claims;
 using PostaFlya.Binding;
+using Website.Application.Domain.Browser.Web;
 using Website.Common.Extension;
 using Website.Domain.Browser;
 using Website.Infrastructure.Command;
@@ -19,6 +20,7 @@ using Website.Domain.Content;
 
 namespace PostaFlya.Controllers
 {
+    [BrowserAuthorize]
     public class ClaimController : ApiController
     {
         private readonly CommandBusInterface _commandBus;
@@ -46,18 +48,11 @@ namespace PostaFlya.Controllers
                 ownerEntity = _queryService.FindById<Browser>(ownerId);
             }
 
-            String context = "tearoff";
-
-            if (claim.SendClaimerContactDetails)
-            {
-                context = FlierInterfaceExtensions.ClaimContextSendUserDetails;
-            }
-
             var claimCommand = new ClaimCommand()
                                   {
                                       BrowserId = claim.BrowserId,
                                       ClaimEntity = entity,
-                                      Context = context,
+                                      Context = "tearoff",
                                       OwnerEntity = ownerEntity,
                                       Message = claim.ClaimerMessage 
                                   };

@@ -151,41 +151,41 @@ namespace PostaFlya.Specification.DynamicBulletinBoard
 
         
 
-        [When(@"I claim a tear off for that FLIER and send my contact details")]
-        public void WhenIClaimATearOffForThatFLIERAndSendMyContactDetails()
-        {
-            var flier = ScenarioContext.Current["flier"] as FlierInterface;
-            var claimController = SpecUtil.GetApiController<ClaimController>();
-            var browserInformation = SpecUtil.GetCurrBrowser();
+//        [When(@"I claim a tear off for that FLIER and send my contact details")]
+//        public void WhenIClaimATearOffForThatFLIERAndSendMyContactDetails()
+//        {
+//            var flier = ScenarioContext.Current["flier"] as FlierInterface;
+//            var claimController = SpecUtil.GetApiController<ClaimController>();
+//            var browserInformation = SpecUtil.GetCurrBrowser();
+//
+//            var claim = new CreateClaimModel()
+//            {
+//                ClaimEntity = EntityTypeEnum.Flier,
+//                EntityId = flier.Id,
+//                BrowserId = browserInformation.Browser.Id,
+//                //SendClaimerContactDetails = true,
+//                ClaimerMessage = "Fix My Plumbing!"
+//            };
+//
+//            ScenarioContext.Current["initialclaims"] = flier.NumberOfClaims;
+//            ScenarioContext.Current["CreateClaimModel"] = claim;
+//            var res = claimController.Post(claim);
+//            res.EnsureSuccessStatusCode();
+//        }
 
-            var claim = new CreateClaimModel()
-            {
-                ClaimEntity = EntityTypeEnum.Flier,
-                EntityId = flier.Id,
-                BrowserId = browserInformation.Browser.Id,
-                SendClaimerContactDetails = true,
-                ClaimerMessage = "Fix My Plumbing!"
-            };
-
-            ScenarioContext.Current["initialclaims"] = flier.NumberOfClaims;
-            ScenarioContext.Current["CreateClaimModel"] = claim;
-            var res = claimController.Post(claim);
-            res.EnsureSuccessStatusCode();
-        }
-
-        [Then(@"the Claim will be recorded as having My Contact Details")]
-        public void ThenTheClaimWillBeRecordedAsHavingMyContactDetails()
-        {
-            var flier = ScenarioContext.Current["flier"] as FlierInterface;
-            var queryService = SpecUtil.CurrIocKernel.Get<GenericQueryServiceInterface>();
-            var browserInformation = SpecUtil.GetCurrBrowser();
-
-            var claims = queryService.FindAggregateEntities<Claim>(flier.Id);
-
-            var claim = claims.First();
-            Assert.AreEqual(claim.ClaimContext, FlierInterfaceExtensions.ClaimContextSendUserDetailsEnabled);
-            Assert.AreEqual(claim.ClaimMessage, "Fix My Plumbing!");
-        }
+//        [Then(@"the Claim will be recorded as having My Contact Details")]
+//        public void ThenTheClaimWillBeRecordedAsHavingMyContactDetails()
+//        {
+//            var flier = ScenarioContext.Current["flier"] as FlierInterface;
+//            var queryService = SpecUtil.CurrIocKernel.Get<GenericQueryServiceInterface>();
+//            var browserInformation = SpecUtil.GetCurrBrowser();
+//
+//            var claims = queryService.FindAggregateEntities<Claim>(flier.Id);
+//
+//            var claim = claims.First();
+//            Assert.AreEqual(claim.ClaimContext, FlierInterfaceExtensions.ClaimContextSendUserDetailsEnabled);
+//            Assert.AreEqual(claim.ClaimMessage, "Fix My Plumbing!");
+//        }
 
         [Then(@"the number of claims against the FLIER will not be incremented")]
         public void ThenTheNumberOfClaimsAgainstTheFLIERWillNotBeIncremented()
@@ -215,6 +215,14 @@ namespace PostaFlya.Specification.DynamicBulletinBoard
         {
             SpecUtil.CurrIocKernel.Unbind<DomainEventPublishServiceInterface>();
         }
+
+        [Then(@"I should see the Contact Details associated with that FLIER")]
+        public void ThenIShouldSeeTheContactDetailsAssociatedWithThatFLIER()
+        {
+            var mod = ScenarioContext.Current["fliermodel"]  as DefaultDetailsViewModel;
+            Assert.That(mod.ContactDetails, Is.Not.Null);
+        }
+
 
     }
 }

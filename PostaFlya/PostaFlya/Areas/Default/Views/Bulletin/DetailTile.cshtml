@@ -1,37 +1,53 @@
 ﻿
+
+@using PostaFlya.Models.Flier
+@using PostaFlya.Models.Location
 @using Website.Application.Domain.Content
 @using PostaFlya.Areas.Default.Models
-@using PostaFlya.Models.Content
+
 @model dynamic
-@{var Flier = ViewBag.Template != null && ViewBag.Template ? DefaultDetailsViewModel.DefaultForTemplate().Flier : Model.Flier;}
+@{
+    var defForTemp = ViewBag.Template != null && ViewBag.Template ? DefaultDetailsViewModel.DefaultForTemplate() : Model;
+    BulletinFlierModel flier = defForTemp.Flier;
+    ContactDetailsModel contactDets = defForTemp.ContactDetails ?? new ContactDetailsModel();
+}
 
 <div class="flier-view flier-view-default">
     <div class="flier-details clear-fix" data-bind="with:Flier">  
         <!--<div class="flier-claims-comments">
-            <input type="button" data-bind="click: print, defaultprint: $root" title="print"/>
-            <div class="claim-stats">
-                @*replace with image*@
-                <div class="claim-icon">Claims:</div>
-                <span data-bind="text:NumberOfClaims">
-                    @Flier.NumberOfClaims  
-                </span>
-            </div>             
-        </div>-->
+                <input type="button" data-bind="click: print, defaultprint: $root" title="print"/>
+                <div class="claim-stats">
+                    @*replace with image*@
+                    <div class="claim-icon">Claims:</div>
+                    <span data-bind="text:NumberOfClaims">
+                        @flier.NumberOfClaims  
+                    </span>
+                </div>             
+            </div>-->
 
         <h3 class="flier-title" data-bind="text:Title">
-            @Flier.Title
+            @flier.Title
         </h3>
             
         <div class="flier-img">
-            <img data-bind="imgRetry: FlierImageUrl" src="@ImageUtil.GetThumbUrlForImageUri(Flier.FlierImageUrl, ThumbOrientation.Vertical, ThumbSize.S450)"/>
+            <img data-bind="imgRetry: FlierImageUrl" src="@ImageUtil.GetThumbUrlForImageUri(flier.FlierImageUrl, ThumbOrientation.Vertical, ThumbSize.S450)"/>
         </div>
             
         <div class="flier-desc" data-bind="text:Description">
-             @Flier.Description
-        </div>                 
+            @flier.Description
+        </div> 
+        
+                      
     </div>
+    <div class="tear-off" data-bind="visible: ContactDetails() == null">
+        <a class="std-btn" data-bind="click: TearOff">Tear Off Details</a>
+    </div> 
 
+    <div class="flier-contact-dets" data-bind="visible: ContactDetails() != null, with:ContactDetails">
+        @Html.Partial("Contact/ContactDetailsViewPartial", contactDets)
 
+        <a class="std-btn" data-bind="click: $parent.TearOff">Resend Details</a>
+    </div> 
 
 </div>
 

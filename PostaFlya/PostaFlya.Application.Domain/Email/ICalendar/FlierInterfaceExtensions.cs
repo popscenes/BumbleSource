@@ -32,7 +32,7 @@ namespace PostaFlya.Application.Domain.Email.ICalendar
             evnt.PriorityLevel = PriorityLevel.Normal;
             evnt.SequenceNbr = 1;
             evnt.Location = flier.Location.Description;
-            
+            evnt.UID = flier.Id;
             return evnt;
         }
     }

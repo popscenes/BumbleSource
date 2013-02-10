@@ -1,0 +1,47 @@
+﻿
+@model PostaFlya.Models.Location.ContactDetailsModel
+
+<fieldset>
+    <legend>@Html.LabelForModel()</legend>
+    
+    <ol>
+                    
+        <li data-bind="visible: PhoneNumber()" >
+            @Html.LabelFor(model => model.PhoneNumber)
+            <span data-bind="text:PhoneNumber">@Model.PhoneNumber</span>            
+        </li>
+        
+
+        <li data-bind="visible:EmailAddress()">
+            @Html.LabelFor(model => model.EmailAddress) 
+            <a data-bind="text:EmailAddress, attr:{href: 'mailto:' + EmailAddress()}">@Model.EmailAddress</a>              
+        </li>
+
+        <li data-bind="visible:FirstName()">
+            @Html.LabelFor(model => model.FirstName)
+            <span data-bind="text:FirstName">@Model.FirstName</span>                
+        </li>
+
+        <li data-bind="visible:MiddleNames()">
+            @Html.LabelFor(model => model.MiddleNames)
+            <span data-bind="text:MiddleNames">@Model.MiddleNames</span>                            
+        </li>
+
+        <li data-bind="visible:Surname()">
+            @Html.LabelFor(model => model.Surname)
+            <span data-bind="text:Surname">@Model.Surname</span>  
+        </li>
+
+        <li data-bind="visible:WebSite()">
+            @Html.LabelFor(model => model.WebSite)
+            <a data-bind="text:WebSite, attr:{href: WebSite}">@Model.Surname</a>            
+        </li>
+        
+        <li data-bind="visible:Address()">
+            @Html.LabelFor(model => model.Address)
+            <span data-bind="text:Address().Description()">@(Model.Address != null ? Model.Address.Description : "")</span>
+                        
+        </li>
+    </ol>
+
+</fieldset>

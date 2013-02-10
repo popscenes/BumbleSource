@@ -238,6 +238,8 @@
             
             if (self.FlierImageId())
                 self.imageSelector.selectedImageId(self.FlierImageId());
+            
+            
         };
     };
 

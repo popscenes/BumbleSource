@@ -105,8 +105,10 @@
         };
 
         self.TryRequest = function() {
-            if (self.Location().ValidLocation() && self.Distance() > 0) {
+            if (self.Location() && self.Location().ValidLocation() && self.Distance() > 0) {
                 self.Request();
+            } else if (!self.Location() || !self.Location().ValidLocation()){
+                self.fliers([]);
             }
         };
 

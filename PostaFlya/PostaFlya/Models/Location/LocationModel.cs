@@ -18,6 +18,7 @@ namespace PostaFlya.Models.Location
 
             var ret = new LocationModel();
             ret.CopyFieldsFrom(location);
+            ret.Description = location.Description;
             return ret;
         }
     }

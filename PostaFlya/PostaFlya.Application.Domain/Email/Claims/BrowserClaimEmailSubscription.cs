@@ -14,6 +14,7 @@ using Website.Domain.Claims;
 using Website.Domain.Claims.Event;
 using Website.Domain.Contact;
 using Website.Infrastructure.Command;
+using Website.Infrastructure.Configuration;
 using Website.Infrastructure.Query;
 
 namespace PostaFlya.Application.Domain.Email.Claims
@@ -22,13 +23,16 @@ namespace PostaFlya.Application.Domain.Email.Claims
     {
         private readonly GenericQueryServiceInterface _entityQueryService;
         private readonly SendEmailServiceInterface _emailService;
+        private readonly ConfigurationServiceInterface _config;
 
         public BrowserClaimEmailSubscription(CommandBusInterface commandBus
                                                    , GenericQueryServiceInterface entityQueryService
-                                                   , SendEmailServiceInterface emailService  ) : base(commandBus)
+                                                   , SendEmailServiceInterface emailService
+                                                    ,ConfigurationServiceInterface config) : base(commandBus)
         {
             _entityQueryService = entityQueryService;
             _emailService = emailService;
+            _config = config;
         }
 
         public override string Name
@@ -107,6 +111,15 @@ namespace PostaFlya.Application.Domain.Email.Claims
         {
             var email = new MailMessage();
 
+            email.From = new MailAddress("details@postaflya.com"); 
+            email.Subject = "PostaFlya Tear Off";
+            email.Body = "Posta flya tearoff details";
+            email.IsBodyHtml = true;
+            email.AddSimpleHtmlAlternate(email.Body);
+            if (string.IsNullOrWhiteSpace(browser.EmailAddress))
+                return false;
+            email.To.Add(new MailAddress(browser.EmailAddress));
+
             if (flier.GetContactDetailsForFlier(browser).HasEnoughForContact())
             {
                 var vcard = GetVCardForFlier(flier);
@@ -118,13 +131,9 @@ namespace PostaFlya.Application.Domain.Email.Claims
             {
                 var calEvent = GetEventForFlier(flier);
                 if (calEvent != null)
-                    email.AddEventAsAttachment(calEvent);
+                    email.AddEvent(calEvent);
             }
 
-            email.Subject = "PostaFlya Tear Off";
-            email.Body = "Posta flya tearoff details";
-            email.IsBodyHtml = false;
-            email.To.Add(new MailAddress(browser.EmailAddress));
             _emailService.Send(email);
 
             return true;

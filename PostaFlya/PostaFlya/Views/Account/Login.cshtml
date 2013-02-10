@@ -1,9 +1,9 @@
 @using System.Web.Optimization
 @using Website.Common.Extension
 @section scripts {
-    @Styles.Render("~/Content/structure/Account/DeskCss.css")   
-    @Styles.Render("~/Content/themes/taskflya/Account/DeskCss.css")   
-    @Scripts.Render("~/Script/AccountDeskJs.js") 
+    @Styles.Render("~/Content/structure/Account/DeskCss.css")
+    @Styles.Render("~/Content/themes/taskflya/Account/DeskCss.css")
+    @Scripts.Render("~/Script/AccountDeskJs.js")
 }
 
 <script type="text/javascript">
@@ -25,23 +25,28 @@
 
 <div class="page-content">
     <div id="identity-provider-content" class="page-inner">
-        <h2>
-            Sign in using one of the following options
+        <h2>Sign in using one of the following options
         </h2>
-            @using (Html.BeginForm("AuthRequest", "Account", FormMethod.Post, new { id = "openid_form" }))
-            {
-		    <input type="hidden" name="action" value="verify" />
-        <fieldset>
-            <div id="openid_choice">
-                <h3>Please choose your sign in option</h3>
-                <div id="openid_btns"></div>
-            </div>
-            <div id="openid_input_area">
-                <input id="openid_identifier" name="providerIdentifier" type="text" value="http://" />
-                <input id="openid_submit" type="submit" value="Sign-In"/>
-            </div>
-        </fieldset>
+        @using (Html.BeginForm("AuthRequest", "Account", FormMethod.Post, new { id = "openid_form" }))
+        {
+             if (!string.IsNullOrWhiteSpace(ViewBag.targetPath))
+             {
+                <input type="hidden" name="targetPath" value="@ViewBag.targetPath" /> 
+             }
+            
+            <input type="hidden" name="action" value="verify" />
+            <fieldset>
+                <legend>Sign In</legend>
+                <div id="openid_choice">
+                    <h3>Please choose your sign in option</h3>
+                    <div id="openid_btns"></div>
+                </div>
+                <div id="openid_input_area">
+                    <input id="openid_identifier" name="providerIdentifier" type="text" value="http://" />
+                    <input id="openid_submit" type="submit" value="Sign-In" />
+                </div>
+            </fieldset>
         }
-	
+
     </div>
 </div>

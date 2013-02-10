@@ -28,7 +28,8 @@
 
 
         self.CreateFlierLaunch = function () {
-            var emptyFlier = new bf.CreateEditFlier({}, self.ImageSelector, self.TagsSelector, self.FlierFormClose);
+            var data = { ContactDetails: bf.currentBrowserInstance.ContactDetails };
+            var emptyFlier = new bf.CreateEditFlier(data, self.ImageSelector, self.TagsSelector, self.FlierFormClose);
 
             self.CreateFlier(emptyFlier);
             emptyFlier.InitControls();
@@ -56,7 +57,7 @@
             evnt.stopImmediatePropagation();
             return false;
         };
-
+        
         self.FlierFormClose = function() {
             self.CreateFlier(null);
         };

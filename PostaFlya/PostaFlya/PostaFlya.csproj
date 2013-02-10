@@ -773,6 +773,7 @@
     <Content Include="Views\Shared\Location\LocationAndDistanceSelector.cshtml" />
     <Content Include="Views\Shared\Location\LocationAutocomplete.cshtml" />
     <Content Include="Views\Shared\Location\MapAndDistance.cshtml" />
+    <Content Include="Views\Shared\Contact\ContactDetailsViewPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

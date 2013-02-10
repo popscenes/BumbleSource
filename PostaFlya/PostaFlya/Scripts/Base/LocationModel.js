@@ -7,7 +7,6 @@
         var defaults = {
             Longitude:-300,
             Latitude:-300,
-            Description:'',
             StreetAddress:'',
             Locality:'',
             Region:'',
@@ -17,7 +16,11 @@
         initData = $.extend(defaults, initData);
         
         var self = this;
-        ko.mapping.fromJS(initData, {}, self);
+        
+        var mapping = {
+            'ignore': ["Description"]
+        };
+        ko.mapping.fromJS(initData, mapping, self);
 
         self.LatLong = function() {
             return {Latitude: self.Latitude(), Longitude: self.Longitude()};
@@ -63,10 +66,28 @@
                     self.PostCode(addressPart.long_name);
                 }
             }
-            self.StreetAddress(streetNo + ' ' + streetName);
-            self.Description(results.formatted_address);
 
+            var street = streetName;
+            if (streetNo.length > 0)
+                street = streetNo + ' ' + streetName;
+            self.StreetAddress(street);
         };
+        
+        self.AddAddressPart = function (addressPart, current, separator) {
+            if (!addressPart || addressPart.length == 0)
+                return current;
+            return current + ((current.length > 0) ? separator + addressPart : addressPart);
+        };
+
+        self.Description = ko.computed(function () {
+            var addDesc = '';
+            addDesc = self.AddAddressPart(self.StreetAddress(), addDesc, '');
+            addDesc = self.AddAddressPart(self.Locality(), addDesc, ', ');
+            addDesc = self.AddAddressPart(self.Region(), addDesc, ' ');
+            addDesc = self.AddAddressPart(self.PostCode(), addDesc, ' ');
+            return self.AddAddressPart(self.CountryName(), addDesc, ', ');
+        });
+
 
     };
 

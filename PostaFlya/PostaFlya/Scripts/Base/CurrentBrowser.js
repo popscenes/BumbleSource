@@ -16,6 +16,14 @@
         self.IsInRole = function (role) {
             return ($.inArray(role, self.Roles) >= 0);
         };
+
+        self.CheckLoginNeeded = function(url) {
+            if (!self.IsParticipant()) {
+                window.location = "/Account/Login?url=" + window.location.pathname;
+                return true;
+            }
+            return false;
+        };
     };
 
     $(function () {

@@ -22,7 +22,7 @@
       <Setting name="SendGridCreds" value="firinflames;weezer11"/>
 
       <Setting name="PaypalApiEndpoint" value="https://api-3t.sandbox.paypal.com/nvp"/>
-      <Setting name="PaypalUrl" value="https://www.sandbox.paypal.com/webscr?cmd=express-checkout&amp;useraction=commit&amp;token="/>
+      <Setting name="PaypalUrl" value="https://www.sandbox.paypal.com/webscr?cmd=_express-checkout&amp;useraction=commit&amp;token="/>
       <Setting name="PaypalName" value="teddy_1354614467_biz_api1.bumbleflya.com"/>
       <Setting name="PaypalPassword" value="1354614484"/>
       <Setting name="PaypalSigniture" value="AKL0BHttgt4y7V9TMc6a-MVrjQrzAI7DEOtgV8YofbavU1TCcr-Nyslc"/>

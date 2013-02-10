@@ -115,6 +115,20 @@ namespace PostaFlya.Specification.DynamicBulletinBoard
             testRunner.Then("A Notification for that Tear Off should be published", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
             this.ScenarioCleanup();
         }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Can See Contact Details on flier Once Tear Off Is Claimed")]
+        public virtual void CanSeeContactDetailsOnFlierOnceTearOffIsClaimed()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Can See Contact Details on flier Once Tear Off Is Claimed", ((string[])(null)));
+            this.ScenarioSetup(scenarioInfo);
+            testRunner.Given("I have navigated to the public view page for a FLIER With TEAR OFF", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+            testRunner.And("I have already claimed a tear off for that FLIER", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+            testRunner.When("I have navigated to the public view page for that FLIER", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+            testRunner.Then("I should see the public details of that FLIER", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+            testRunner.And("I should see the Contact Details associated with that FLIER", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+            this.ScenarioCleanup();
+        }
     }
 }
 #pragma warning restore

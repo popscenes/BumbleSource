@@ -25,15 +25,15 @@ namespace Website.Domain.Location
                     !string.IsNullOrWhiteSpace(address.CountryName);
         }
 
-        //1 Waihi Avenue, Brunswick East, VIC, 3057, Australia
+        //1 Waihi Avenue, Brunswick East VIC 3057, Australia
         public static string GetAddressDescription(this AddressInterface address)
         {
             var addDesc = new StringBuilder();
-            AddAddressPart(address.StreetAddress, addDesc);
-            AddAddressPart(address.Locality, addDesc);
-            AddAddressPart(address.Region, addDesc);
-            AddAddressPart(address.PostCode, addDesc);
-            AddAddressPart(address.CountryName, addDesc);  
+            AddAddressPart(address.StreetAddress, addDesc, "");
+            AddAddressPart(address.Locality, addDesc, ", ");
+            AddAddressPart(address.Region, addDesc, " ");
+            AddAddressPart(address.PostCode, addDesc, " ");
+            AddAddressPart(address.CountryName, addDesc, ", ");  
             return addDesc.ToString();
         }
 
@@ -69,12 +69,13 @@ namespace Website.Domain.Location
                 address.StreetAddress = parts[4].Trim('[', ']');     
         }
 
-        private static void AddAddressPart(string addressPart, StringBuilder builder)
+        private static void AddAddressPart(string addressPart, StringBuilder builder, string separator)
         {
             if (string.IsNullOrWhiteSpace(addressPart))
                 return;
-            builder.Append(addressPart);
-            builder.Append(", ");
+            if (builder.Length > 0)
+                builder.Append(separator);
+            builder.Append(addressPart);          
         }
 
         public static bool IsSimilarTo(this AddressInterface target, AddressInterface source)

@@ -42,6 +42,10 @@
                     $form.triggerHandler("invalid-form", [$formvalidator]);
                     return;
                 }
+                if (errormsg.Message == "Invalid Access") {
+                    window.location = "/Account/LoginPage?targetPath=" + window.location.pathname;
+                    return;
+                }
             }
 
             if (errorhandler && $.isFunction(errorhandler))

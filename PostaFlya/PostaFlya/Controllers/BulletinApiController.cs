@@ -19,6 +19,8 @@ using PostaFlya.Models.Flier;
 using PostaFlya.Models.Location;
 using Website.Application.Content;
 using Website.Application.Domain.Content;
+using Website.Domain.Browser;
+using Website.Domain.Claims;
 using Website.Domain.Tag;
 using Website.Domain.TinyUrl;
 using Website.Infrastructure.Query;
@@ -114,7 +116,24 @@ namespace PostaFlya.Controllers
             if (browserInformation.Browser.Id == flier.BrowserId)
                 AddOwnerInfo(flier, ret, queryService);
 
+            if (!browserInformation.Browser.IsTemporary())
+                AddContactDetailsIfTornOff(browserInformation.Browser, flier, ret, queryService);
+
             return ret;
+        }
+
+        [NonAction]
+        private static void AddContactDetailsIfTornOff(BrowserInterface current, FlierInterface flier, DefaultDetailsViewModel model
+            , GenericQueryServiceInterface queryService)
+        {
+            var claim = queryService.FindAggregateEntities<Claim>(flier.Id)
+                .FirstOrDefault(c => c.BrowserId == current.Id);
+            if (claim == null)
+                return;
+            var dets = flier.GetContactDetailsForFlier(queryService.FindById<Browser>(flier.BrowserId));
+            if (dets == null)
+                return;
+            model.ContactDetails = dets.ToViewModel();
         }
 
         public static void AddOwnerInfo(FlierInterface flier, DefaultDetailsViewModel model
@@ -123,8 +142,6 @@ namespace PostaFlya.Controllers
             if (!flier.HasFeatureAndIsEnabled(AnalyticsFeatureChargeBehaviour.Description)) return;
             var list = queryService.FindAggregateEntities<FlierAnalytic>(flier.Id).ToList();
             model.AnalyticInfo = list.ToInfo().ToModel();//if this is inefficient in long run move to qs
-
-
         }
 
 

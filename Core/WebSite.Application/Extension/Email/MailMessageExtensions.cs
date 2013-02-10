@@ -37,6 +37,13 @@ namespace Website.Application.Extension.Email
                 ret.AddAttachment(attach.ContentStream, attach.Name);
             }
 
+            foreach (var altview in source.AlternateViews.Where(
+                    view => !view.ContentType.ToString().Contains(MediaTypeNames.Text.Html)))
+            {
+                 //wtf doesn't support this
+            }
+
+
             return ret;
         }
 

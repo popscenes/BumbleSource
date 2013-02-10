@@ -27,6 +27,7 @@ ko.bindingHandlers.locationAutoComplete = {
             $(this).select();
         });
 
+        var eventFromSelector = false;
         $input.autocomplete({
             source: function (request, response) {
                 var geocoder = new google.maps.Geocoder();
@@ -36,9 +37,9 @@ ko.bindingHandlers.locationAutoComplete = {
                             response($.map(results, function (item) {
                                 var loc = new bf.LocationModel({ Longitude: item.geometry.location.lng(), Latitude: item.geometry.location.lat() });
                                 loc.SetFromGeo(item);
-                                return { label: item.formatted_address, value: item.formatted_address, position: loc };
+                                return { label: loc.Description(), value: loc.Description(), position: loc };
                             }));
-                        }
+                        }                       
                     });
             },
             minLength: 3,
@@ -49,14 +50,43 @@ ko.bindingHandlers.locationAutoComplete = {
             open: function () { $(this).removeClass("ui-corner-all").addClass("ui-corner-top"); },
             close: function () { $(this).removeClass("ui-corner-top").addClass("ui-corner-all"); }
         });
+
+        var changeHandler = function () {
+            var desc = $input.val();
+            var location = valueAccessor();
+            var loc = location();
+            if (!desc && !loc)
+                return;
+            if (loc && (desc == loc.Description()))
+                return;
+            if (!desc) {
+                location(null);
+                return;
+            }
+            $input.autocomplete("close");
+            
+            var geocoder = new google.maps.Geocoder();
+            geocoder.geocode({ 'address': desc },
+            function (results, status) {
+                if (status == google.maps.GeocoderStatus.OK) {
+                    var item = results[0];
+                    var newLoc = new bf.LocationModel({ Longitude: item.geometry.location.lng(), Latitude: item.geometry.location.lat() });
+                    newLoc.SetFromGeo(item);
+                    location(newLoc);
+                } else {
+                    location(null);
+                }
+            });
+        };
+        ko.utils.registerEventHandler(element, 'change', changeHandler);
         
 
     },
     update: function (element, valueAccessor, allBindingsAccessor, viewModel) {
 
         var location = ko.utils.unwrapObservable(valueAccessor());
-        var banner = (location.Description() === "") ? allBindingsAccessor().bannerText : location.Description();
-        if (location.ValidLocation() && location.Description() === "")
+        var banner = (location == null || location.Description() === "") ? allBindingsAccessor().bannerText : location.Description();
+        if (location != null && location.ValidLocation() && location.Description() === "")
             bf.reverseGeocode(location);
 
         $(element).val(banner);

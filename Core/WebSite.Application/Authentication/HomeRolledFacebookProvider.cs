@@ -63,7 +63,8 @@ namespace Website.Application.Authentication
 
         private String RequestAccessToken(String code)
         {
-            var accessCodeUrl = String.Format("https://graph.facebook.com/oauth/access_token?client_id={0}&client_secret={1}&code={2}&redirect_uri={3}", Uri.EscapeDataString(_facebookAppId), Uri.EscapeDataString(_facebookAppSecret), Uri.EscapeDataString(code), CallbackUrl);
+            var accessCodeUrl = String.Format("https://graph.facebook.com/oauth/access_token?client_id={0}&client_secret={1}&code={2}&redirect_uri={3}"
+                , Uri.EscapeDataString(_facebookAppId), Uri.EscapeDataString(_facebookAppSecret), Uri.EscapeDataString(code), Uri.EscapeDataString(CallbackUrl));
             var tokenRequest = WebRequest.Create(accessCodeUrl);
             var response = tokenRequest.GetResponse();
             return ReadWebResponseStream(response);
@@ -85,7 +86,8 @@ namespace Website.Application.Authentication
             if(_httpContext.Request["error"] != null)
             {
                 var errorMsg = _httpContext.Request["error_description"];
-                throw new ArgumentException(errorMsg);
+                return null;
+                //throw new ArgumentException(errorMsg);
             }
 
             var code = _httpContext.Request["code"];
@@ -103,13 +105,16 @@ namespace Website.Application.Authentication
 
         public void RequestAuthorisation()
         {
-            string url = String.Format("https://www.facebook.com/dialog/oauth?client_id={0}&redirect_uri={1}&scope={2}", _facebookAppId, CallbackUrl, "user_events,friends_events,publish_stream");
+            string url = String.Format("https://www.facebook.com/dialog/oauth?client_id={0}&redirect_uri={1}&scope={2}"
+                , Uri.EscapeDataString(_facebookAppId), Uri.EscapeDataString(CallbackUrl), Uri.EscapeDataString("user_events,friends_events,publish_stream"));
             _httpContext.Response.Redirect(url);
         }
 
         public IdentityProviderCredential GetCredentials()
         {
             var token = GetAccessTokenFromFacebookResponse();
+            if (token == null)
+                return null;
             var user = FacebookUserGet(token);
 
             return new IdentityProviderCredential()

@@ -30,7 +30,7 @@ namespace Website.Domain.Browser.Publish
 
         public bool IsBrowserSubscribed(BrowserInterface browser)
         {
-            const bool ret = false;
+            const bool ret = true;
             return browser.Properties.GetOrDefault(Name, ret);
         }
 

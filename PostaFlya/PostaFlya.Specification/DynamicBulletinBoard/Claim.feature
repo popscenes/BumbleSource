@@ -42,3 +42,10 @@ Given I have navigated to the public view page for a FLIER
 When I claim a tear off for that FLIER 
 Then A Notification for that Tear Off should be published
 
+Scenario: Can See Contact Details on flier Once Tear Off Is Claimed
+Given I have navigated to the public view page for a FLIER With TEAR OFF
+And I have already claimed a tear off for that FLIER
+When I have navigated to the public view page for that FLIER
+Then I should see the public details of that FLIER
+And I should see the Contact Details associated with that FLIER
+

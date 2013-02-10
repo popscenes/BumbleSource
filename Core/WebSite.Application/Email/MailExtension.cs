@@ -1,6 +1,7 @@
 using System.IO;
 using System.Linq;
 using System.Net.Mail;
+using System.Net.Mime;
 using System.Text;
 using Website.Application.Email.ICalendar;
 
@@ -13,10 +14,16 @@ namespace Website.Application.Email
         /// </summary>
         /// <param name="message">Mail message</param>
         /// <param name="calendar">Calendar</param>
+        /// <param name="attachmentName">name for part</param>
         public static void AddCalendar(this MailMessage message, Calendar calendar)
         {
-            var alt = AlternateView.CreateAlternateViewFromString(calendar.ToString(), new System.Net.Mime.ContentType("text/calendar; method=REQUEST;charset=\"utf-8\""));
-            //AlternateView alternative = new AlternateView(calendar.GetCalendarContentStream(), new System.Net.Mime.ContentType("text/calendar; method=REQUEST;charset=\"utf-8\""));
+            //"text/calendar; method=REQUEST;charset=\"utf-8\""
+
+            var content = new System.Net.Mime.ContentType("text/calendar");
+            content.Parameters.Add("method", "REQUEST");
+            content.Parameters.Add("name", "event.ics");
+            content.Parameters.Add("charset", "utf-8");
+            var alt = AlternateView.CreateAlternateViewFromString(calendar.ToString(),content);
             message.AlternateViews.Add(alt);
         }
 
@@ -30,6 +37,7 @@ namespace Website.Application.Email
         {
             if (attachmentName == null)
                 attachmentName = "calendarentry.ics";
+
             var attach = Attachment.CreateAttachmentFromString(calendar.ToString(), attachmentName, Encoding.UTF8,
                             "text/calendar");
             //new Attachment(calendar.GetCalendarContentStream(), "meeting.ics", "text/calendar")
@@ -81,13 +89,25 @@ namespace Website.Application.Email
 
         public static void AddVCard(this MailMessage mailMessage, VCard.VCard vCard)
         {
+            //var alt = AlternateView.CreateAlternateViewFromString(vCard.ToString(), new System.Net.Mime.ContentType("text/vcard; method=REQUEST;"));
+
             var alt = AlternateView.CreateAlternateViewFromString(vCard.ToString(), Encoding.UTF8, "text/vcard");
+
             mailMessage.AlternateViews.Add(alt);
         }
 
         private static string GetValidFileName(string fileName)
         {
             return Path.GetInvalidFileNameChars().Aggregate(fileName, (current, c) => current.Replace(c.ToString(), string.Empty));
+        }
+
+
+        public static void AddSimpleHtmlAlternate(this MailMessage message, string body)
+        {
+            const string html = "<html><body>{0}</body></html>";
+            var content = string.Format(html, body);
+            var alt = AlternateView.CreateAlternateViewFromString(content, Encoding.UTF8, "text/html");
+            message.AlternateViews.Add(alt);
         }
     }
 }

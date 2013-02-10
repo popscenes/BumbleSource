@@ -10,14 +10,14 @@
 
         self.createViewModel = function (behaviourData) {
 
-            var comments = new bf.CommentsViewModel('Flier', behaviourData.Flier.Id);
-            var claims = new bf.ClaimsViewModel('Flier', behaviourData.Flier.Id);
+//            var comments = new bf.CommentsViewModel('Flier', behaviourData.Flier.Id);
+//            var claims = new bf.ClaimsViewModel('Flier', behaviourData.Flier.Id);
             switch (behaviourData.Flier.FlierBehaviour) {
                 case 'Default':
-                    return new bf.DefaultBehaviourViewModel(behaviourData, comments, claims);
+                    return new bf.DefaultBehaviourViewModel(behaviourData);
                 case 'TaskJob':
                 default:
-                    return new bf.DefaultBehaviourViewModel(behaviourData, comments, claims);
+                    return new bf.DefaultBehaviourViewModel(behaviourData);
             }
         };
 

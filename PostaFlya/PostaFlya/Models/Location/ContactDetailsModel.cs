@@ -37,7 +37,6 @@ namespace PostaFlya.Models.Location
 
         [Display(Name = "ContactDetailsModel_Surname", ResourceType = typeof(Properties.Resources))]
         [StringLength(100, ErrorMessageResourceName = "StringTooLarge", ErrorMessageResourceType = typeof(Properties.Resources), ErrorMessage = null)]
-        [Required(ErrorMessageResourceName = "Required", ErrorMessageResourceType = typeof(Properties.Resources), ErrorMessage = null)]
         public string Surname { get; set; }
 
         [ValidLocation(ErrorMessageResourceName = "ValidLocation", ErrorMessageResourceType = typeof(Properties.Resources), ErrorMessage = null)]
