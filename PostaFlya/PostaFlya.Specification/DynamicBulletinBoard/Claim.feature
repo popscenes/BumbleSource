@@ -31,10 +31,10 @@ When I claim a tear off for that FLIER
 Then I will be recorded as having claimed the flier once
 And the FLIER tear off claims will remain the same
 
-Scenario: View Flier Claims
-Given I have navigated to the public view page for a FLIER With TEAR OFF 
-And Someone has claimed a tear off for a FLIER
-Then I should see the claimed tear offs for the FLIER
+#Scenario: View Flier Claims
+#Given I have navigated to the public view page for a FLIER With TEAR OFF 
+#And Someone has claimed a tear off for a FLIER
+#Then I should see the claimed tear offs for the FLIER
 
 @TearOffNotification
 Scenario: Tear Off Claim Publishes Tear Off Notification

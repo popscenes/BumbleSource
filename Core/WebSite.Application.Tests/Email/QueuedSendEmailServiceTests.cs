@@ -26,19 +26,13 @@ namespace Website.Application.Tests.Email
         [TestFixtureSetUp]
         public void FixtureSetUp()
         {
-            Kernel.Bind<CommandHandlerInterface<SendMailCommand>>()
-                .To<SendMailCommandHandler>();
-            
-            Kernel.Bind<SendEmailServiceInterface>()
-                .To<QueuedSendEmailService>();
+
         }
 
         [TestFixtureTearDown]
         public void FixtureTearDown()
         {
-            Kernel.Unbind<CommandHandlerInterface<SendMailCommand>>();
-            
-            Kernel.Unbind<SendEmailServiceInterface>();
+
         }
 
         [Test]

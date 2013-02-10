@@ -1,4 +1,5 @@
 using System;
+using Website.Infrastructure.Util;
 
 namespace Website.Domain.Location
 {
@@ -14,7 +15,6 @@ namespace Website.Domain.Location
         {
             Longitude = Invalid;
             Latitude = Invalid;
-            Description = "";
         }
 
         public Location(LocationAndAddressInterface source)
@@ -27,7 +27,7 @@ namespace Website.Domain.Location
         {
             Longitude = longitude;
             Latitude = latitude;
-            Description = description;
+            this.SetAddressFromStringFormat(description);
         }
 
         public Location(string coords)
@@ -40,15 +40,13 @@ namespace Website.Domain.Location
             Latitude = Double.Parse(arr[0]);
             Longitude = Double.Parse(arr[1]);
             if(arr.Length > 2)
-                Description = arr[2];
-            if(arr.Length > 3)
-                this.SetAddressFromStringFormat(arr[3]);
+                this.SetAddressFromStringFormat(arr[2]);
 
         }
 
         public override string ToString()
         {
-            var ret = Latitude + ":" + Longitude + ":" + Description;
+            var ret = Latitude + ":" + Longitude;
             if (this.HasAddressParts())
                 ret += ":" + this.GetAddressStringFormat();
             return ret;
@@ -67,7 +65,6 @@ namespace Website.Domain.Location
                     _description = this.GetAddressDescription();
                 return _description;
             } 
-            set { _description = value; }
         }
 
         public string StreetAddress { get; set; }
@@ -90,7 +87,7 @@ namespace Website.Domain.Location
                 equals = true;
             }
 
-            return equals;
+            return equals && this.IsSimilarTo(location);
 
         }
 

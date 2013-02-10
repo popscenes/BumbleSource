@@ -139,7 +139,6 @@ namespace PostaFlya.Application.Domain.Tests.ExternalSource
             Assert.AreEqual(fliersList[0].Title, "Test Event 1");
             Assert.AreEqual(fliersList[0].Description, "this is a test event yo");
             Assert.AreEqual(fliersList[0].EffectiveDate.ToString("yyyy-MM-dd"), DateTime.Today.AddDays(2).ToString("yyyy-MM-dd"));
-            Assert.AreEqual(fliersList[0].Location.Description, "After The Tears");
             Assert.IsTrue(Math.Abs(fliersList[0].Location.Latitude - -37.8839340209961) < 0.0001);
             Assert.IsTrue(Math.Abs(fliersList[0].Location.Longitude - 145.0004344094) < 0.0001);
             Assert.AreEqual(fliersList[0].Status, FlierStatus.Pending);

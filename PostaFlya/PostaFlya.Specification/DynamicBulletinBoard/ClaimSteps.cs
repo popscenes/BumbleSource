@@ -105,19 +105,19 @@ namespace PostaFlya.Specification.DynamicBulletinBoard
             Assert.AreEqual(initClaims + 1, retFlier.NumberOfClaims);
         }
 
-        [Then(@"I should see the claimed tear offs for the FLIER")]
-        public void ThenIShouldSeeTheClaimedTearOffsForTheFlier()
-        {
-            var viewMod = ScenarioContext.Current["fliermodel"] as DefaultDetailsViewModel;
-            var createClaimModel = ScenarioContext.Current["CreateClaimModel"] as CreateClaimModel;
-            var claimController = SpecUtil.GetApiController<ClaimController>();
-            var ret = claimController.Get(EntityTypeEnum.Flier, viewMod.Flier.Id);
-            Assert.IsNotNull(ret);
-            Assert.IsNotEmpty(ret);
-            
-            //Assert.IsTrue(ret.Any(c => c.Browser.Id == createClaimModel.BrowserId));
-
-        }
+//        [Then(@"I should see the claimed tear offs for the FLIER")]
+//        public void ThenIShouldSeeTheClaimedTearOffsForTheFlier()
+//        {
+//            var viewMod = ScenarioContext.Current["fliermodel"] as DefaultDetailsViewModel;
+//            var createClaimModel = ScenarioContext.Current["CreateClaimModel"] as CreateClaimModel;
+//            var claimController = SpecUtil.GetApiController<ClaimController>();
+//            var ret = claimController.Get(EntityTypeEnum.Flier, viewMod.Flier.Id);
+//            Assert.IsNotNull(ret);
+//            Assert.IsNotEmpty(ret);
+//            
+//            //Assert.IsTrue(ret.Any(c => c.Browser.Id == createClaimModel.BrowserId));
+//
+//        }
 
 
         [Given(@"There is a FLIER Someone has claimed a tear off for a FLIER")]

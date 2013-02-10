@@ -75,7 +75,6 @@ namespace PostaFlya.Application.Domain.ExternalSource
                 BrowserId = browser.Id,
                 Location = new Website.Domain.Location.Location()
                 {
-                    Description = fbEvent.location,
                     Latitude = fbEvent.venue.latitude == 0 ? -300 : fbEvent.venue.latitude,
                     Longitude = fbEvent.venue.longitude == 0 ? -300 : fbEvent.venue.longitude,
                 },

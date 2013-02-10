@@ -188,6 +188,7 @@
     <Compile Include="Util\Extension\StringExtensions.cs" />
     <Compile Include="Util\SerializeUtil.cs" />
     <Compile Include="Util\InitServiceInterface.cs" />
+    <Compile Include="Util\StringUtil.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

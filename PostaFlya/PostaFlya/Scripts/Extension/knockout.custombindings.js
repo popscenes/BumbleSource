@@ -65,26 +65,33 @@ ko.bindingHandlers.locationAutoComplete = {
 
 ko.bindingHandlers.mapBinding = {
     init: function (element, valueAccessor, allBindingsAccessor, viewModel) {
-        var map = bf.createMap(element);    
-        $.data(element, 'map', map);
-        $.data(element, 'circles', []);
-        $.data(element, 'markers', []);
+//        var map = bf.createMap(element);    
+//        $.data(element, 'map', map);
+//        $.data(element, 'circles', []);
+//        $.data(element, 'markers', []);
+//        $.data(element, 'beenshown', false);
     },
     update: function (element, valueAccessor, allBindingsAccessor, viewModel) {
 
-        var map = $.data(element, 'map');
-        var location = ko.utils.unwrapObservable(valueAccessor());
-
         var visibleTrig = allBindingsAccessor().visibleTrigger;
-        if (visibleTrig && !visibleTrig())
+        if (visibleTrig && !visibleTrig() || (!$(element).is(':visible')))
             return;
-
+        
+        var map = $.data(element, 'map');
+        if (!map) {
+            map = bf.createMap(element);
+            $.data(element, 'map', map);
+            $.data(element, 'circles', []);
+            $.data(element, 'markers', []);
+            google.maps.event.trigger(map, 'resize');
+        }
+        var location = ko.utils.unwrapObservable(valueAccessor());
+        
         var distance = allBindingsAccessor().distance;
         distance = (distance === undefined) ? 0 : ko.utils.unwrapObservable(distance);
         var circles = $.data(element, 'circles');
         var markers = $.data(element, 'markers');
         bf.SetMapPosition(map, location.Longitude(), location.Latitude(), distance, markers, circles);
-        
     }
 };
 
@@ -243,13 +250,6 @@ ko.bindingHandlers.bulletinimg = {
 
         jele.attr('src', url);
         jele.attr('alt', all.alt);
-
-        var overlays = jele.siblings('.detail-overlay');
-//        var toolbar = jele.siblings('.toolbar');
-//        
-//        overlays.height(overlays.height());
-        overlays.mouseenter(function () { overlays.css('opacity', '0.8'); });
-        overlays.mouseleave(function () { overlays.css('opacity', '0.0'); });
     },
 
     update: function (element, valueAccessor, allBindingsAccessor, viewModel) {

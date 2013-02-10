@@ -9,8 +9,8 @@ namespace Website.Application.Schedule
         {
             JobInterfaceExtensions.CopyFieldsFrom(target, source);
             target.DayOfWeek = source.DayOfWeek;
-            target.HourOfDay = source.DayOfWeek;
-            target.Minute = source.DayOfWeek;
+            target.HourOfDay = source.HourOfDay;
+            target.Minute = source.Minute;
         }
     }
 

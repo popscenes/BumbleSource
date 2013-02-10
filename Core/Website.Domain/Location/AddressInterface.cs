@@ -1,5 +1,6 @@
 using System.Linq;
 using System.Text;
+using Website.Infrastructure.Util;
 using Website.Infrastructure.Util.Extension;
 
 namespace Website.Domain.Location
@@ -74,6 +75,21 @@ namespace Website.Domain.Location
                 return;
             builder.Append(addressPart);
             builder.Append(", ");
+        }
+
+        public static bool IsSimilarTo(this AddressInterface target, AddressInterface source)
+        {
+            if (!StringUtil.AreBothEqualOrNullOrWhiteSpace(target.StreetAddress, source.StreetAddress))
+                return false;
+            if (!StringUtil.AreBothEqualOrNullOrWhiteSpace(target.Locality, source.Locality))
+                return false;
+            if (!StringUtil.AreBothEqualOrNullOrWhiteSpace(target.Region, source.Region))
+                return false;
+            if (!StringUtil.AreBothEqualOrNullOrWhiteSpace(target.PostCode, source.PostCode))
+                return false;
+            if (!StringUtil.AreBothEqualOrNullOrWhiteSpace(target.CountryName, source.CountryName))
+                return false;
+            return true;
         }
     }
 

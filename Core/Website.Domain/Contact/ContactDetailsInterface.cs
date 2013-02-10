@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Website.Domain.Location;
+using Website.Infrastructure.Util;
 
 namespace Website.Domain.Contact
 {
@@ -20,7 +21,7 @@ namespace Website.Domain.Contact
             target.WebSite = source.WebSite;
         }
 
-        public static void CopyFieldsFrom<AddressType>(this ContactDetailsInterface target, ContactDetailsInterface source)
+        public static void CopyFieldsFrom(this ContactDetailsInterface target, ContactDetailsInterface source)
         {
             CopyFieldsFrom(target, (ContactDetailFieldsInterface)source);
             target.Address = source.Address != null ? new Location.Location(source.Address) : null;
@@ -32,6 +33,34 @@ namespace Website.Domain.Contact
                    string.IsNullOrWhiteSpace(target.EmailAddress) ||
                    string.IsNullOrWhiteSpace(target.PhoneNumber) ||
                    string.IsNullOrWhiteSpace(target.WebSite);
+        }
+
+        public static bool IsSimilarTo(this ContactDetailFieldsInterface target, ContactDetailFieldsInterface source)
+        {
+            if (!StringUtil.AreBothEqualOrNullOrWhiteSpace(target.PhoneNumber, source.PhoneNumber))
+                return false;
+            if (!StringUtil.AreBothEqualOrNullOrWhiteSpace(target.EmailAddress, source.EmailAddress))
+                return false;
+            if (!StringUtil.AreBothEqualOrNullOrWhiteSpace(target.FirstName, source.FirstName))
+                return false;
+            if (!StringUtil.AreBothEqualOrNullOrWhiteSpace(target.MiddleNames, source.MiddleNames))
+                return false;
+            if (!StringUtil.AreBothEqualOrNullOrWhiteSpace(target.Surname, source.Surname))
+                return false;
+            if (!StringUtil.AreBothEqualOrNullOrWhiteSpace(target.WebSite, source.WebSite))
+                return false;
+            return true;
+        }
+
+        public static bool IsSimilarTo(this ContactDetailsInterface target, ContactDetailsInterface source)
+        {
+            if (!IsSimilarTo((ContactDetailFieldsInterface)target, source))
+                return false;
+            if (target.Address == null && source.Address == null)
+                return true;
+            if (target.Address != null && source.Address != null)
+                return target.Address.IsSimilarTo(source.Address);
+            return false;
         }
     }
 

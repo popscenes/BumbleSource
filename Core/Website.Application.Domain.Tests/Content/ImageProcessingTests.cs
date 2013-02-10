@@ -157,8 +157,8 @@ namespace Website.Application.Domain.Tests.Content
             using (var ms = new MemoryStream(data))
             {
                 var conv = Image.FromStream(ms);
-                Assert.IsTrue(conv.Height <= ImageProcessCommandHandler.MaxWidthHeight);
-                Assert.IsTrue(conv.Width <= ImageProcessCommandHandler.MaxWidthHeight);
+                Assert.IsTrue(conv.Height <= ImageProcessCommandHandler.MaxHeight);
+                Assert.IsTrue(conv.Width <= ImageProcessCommandHandler.MaxWidth);
             }
         }
 

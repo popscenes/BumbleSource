@@ -13,8 +13,8 @@ namespace Website.Application.Domain.Content.Command
 {
     public class ImageProcessCommandHandler : CommandHandlerInterface<ImageProcessCommand>
     {
-        public const int MaxWidthHeight = 750;
-       
+        public static readonly int MaxWidth = ImageUtil.A4300DpiSize.Width;
+        public static readonly int MaxHeight = ImageUtil.A4300DpiSize.Width;
 
 
         public const double MaxAspectRatio = 2.5;
@@ -243,9 +243,9 @@ namespace Website.Application.Domain.Content.Command
         private static Image EnsureMaxiums(Image img)
         {
             //ensure max's aren't violated
-            if (img.Width > MaxWidthHeight || img.Height > MaxWidthHeight)
+            if (img.Width > MaxWidth || img.Height > MaxHeight)
             {
-                return img.Resize(Math.Min((int) img.Width, MaxWidthHeight), Math.Min((int) img.Height, MaxWidthHeight));
+                return img.Resize(Math.Min((int)img.Width, MaxWidth), Math.Min((int)img.Height, MaxHeight));
             }
 
             return null;

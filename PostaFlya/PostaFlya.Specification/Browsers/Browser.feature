@@ -29,7 +29,7 @@ Scenario: update personal details
 	Given I am a BROWSER in PARTICIPANT ROLE
 	When I update my profile details with the following data:
 	  | Name | FirstName | MiddleNames | Surname  | Email          | Address                      | Avatar                               | WebSite         |
-	  | User | FirstName | M           | LastName | user@email.com | -37.769:144.979:waihi avenue | 8F68AE77-0F61-4BFD-92AC-BFCA1CC5B9E2 | http://test.com |
+	  | User | FirstName | M           | LastName | user@email.com | -37.769:144.979 | 8F68AE77-0F61-4BFD-92AC-BFCA1CC5B9E2 | http://test.com |
 	Then the profile details will be stored against my browser
 
 Scenario: Browser Verifies Identity

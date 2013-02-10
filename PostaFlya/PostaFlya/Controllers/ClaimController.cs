@@ -66,17 +66,17 @@ namespace PostaFlya.Controllers
             return this.GetResponseForRes(res);
         }
 
-        public IQueryable<ClaimModel> Get(EntityTypeEnum entityTypeEnum, string id)
-        {
-            return GetClaims(_queryService, id);
-        }
-
-        public static IQueryable<ClaimModel> GetClaims(GenericQueryServiceInterface queryClaims, string id)
-        {
-            if (queryClaims == null) return (new List<ClaimModel>()).AsQueryable();
-            return queryClaims.FindAggregateEntities<Claim>(id)
-                .Select(claim => claim.ToViewModel());
-        }
+//        public IQueryable<ClaimModel> Get(EntityTypeEnum entityTypeEnum, string id)
+//        {
+//            return GetClaims(_queryService, id);
+//        }
+//
+//        public static IQueryable<ClaimModel> GetClaims(GenericQueryServiceInterface queryClaims, string id)
+//        {
+//            if (queryClaims == null) return (new List<ClaimModel>()).AsQueryable();
+//            return queryClaims.FindAggregateEntities<Claim>(id)
+//                .Select(claim => claim.ToViewModel());
+//        }
 
         public static Type GetTypeForClaimEntity(EntityTypeEnum entityTypeEnum)
         {

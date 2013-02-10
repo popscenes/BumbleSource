@@ -37,7 +37,6 @@
         var clientPosition = new google.maps.LatLng(latitude, longitude);
 
 
-        google.maps.event.trigger(map, 'resize');
         map.setMapTypeId(google.maps.MapTypeId.ROADMAP);
         if (latitude != -300 && latitude != -300) {
             map.setZoom(bf.getZoomLevel(radius));
@@ -46,7 +45,6 @@
             clientPosition = new google.maps.LatLng(0, 0);
             map.setZoom(2);
             map.setCenter(clientPosition);
-            google.maps.event.trigger(map, 'resize');
             return;
         }
         
@@ -88,7 +86,7 @@
         
         circles.push(circle);
         
-        google.maps.event.trigger(map, 'resize');
+        //google.maps.event.trigger(map, 'resize');
         
     };
 

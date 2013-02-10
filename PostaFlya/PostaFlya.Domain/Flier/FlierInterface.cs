@@ -34,8 +34,8 @@ namespace PostaFlya.Domain.Flier
             ClaimableInterfaceExtensions.CopyFieldsFrom(target, source);
             EntityFeatureChargesInterfaceExtension.CopyFieldsFrom(target, source);
             TinyUrlInterfaceExtensions.CopyFieldsFrom(target, source);
-            target.ContactDetails = source.ContactDetails != null ? new ContactDetails() : null;
-            target.ContactDetails.CopyFieldsFrom(source.ContactDetails);
+            target.ContactDetails = source.ContactDetails != null ? new ContactDetails(source.ContactDetails) : null;
+
 
             target.Title = source.Title;
             target.Description = source.Description;

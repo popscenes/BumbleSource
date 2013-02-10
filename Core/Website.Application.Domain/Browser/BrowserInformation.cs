@@ -31,7 +31,7 @@ namespace Website.Application.Domain.Browser
                 && (browser = browserQueryService.FindBrowserByIdentityProvider(identity.ToCredential())) != null)
             {
                 //reset the roles
-                _httpContext.User = new GenericPrincipal(HttpContext.Current.User.Identity, browser.Roles.ToArray());
+                _httpContext.User = new GenericPrincipal(httpContext.User.Identity, browser.Roles.ToArray());
             }
             if (browser == null)
                 browser = AnonymousBrowserGet();

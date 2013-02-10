@@ -5,6 +5,16 @@ namespace Website.Domain.Contact
     [Serializable]
     public class ContactDetails : ContactDetailsInterface
     {
+        public ContactDetails()
+        {
+            
+        }
+
+        public ContactDetails(ContactDetailsInterface source)
+        {
+            this.CopyFieldsFrom(source);
+        }
+
         public string PhoneNumber { get; set; }
         public string EmailAddress { get; set; }
         public string FirstName { get; set; }

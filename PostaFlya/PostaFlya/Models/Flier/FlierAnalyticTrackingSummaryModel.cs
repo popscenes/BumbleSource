@@ -23,7 +23,7 @@ namespace PostaFlya.Models.Flier
 
         public static string GetLocationSourceDesc(AnalyticTrackingSummary info)
         {
-            if (!info.Location.IsValid)
+            if (info.Location == null || !info.Location.IsValid)
                 return Properties.Resources.AnalyticTrackingSummaryExtensions_GetLocationSourceDesc_LocationNotKnown;
             return info.LocationFromSearch
                 ? Properties.Resources.AnalyticTrackingSummaryExtensions_GetLocationSourceDesc_LocationFromSearch

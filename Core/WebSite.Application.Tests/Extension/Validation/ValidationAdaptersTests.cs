@@ -25,11 +25,15 @@ namespace Website.Application.Tests.Extension.Validation
             public string DummyAttribute { get; set; }
         }
 
-        private ModelClientValidationRule StringLengthWithMessageValidatorRule()
+        private ModelClientValidationRule StringLengthValidatorRule()
         {
             var contr = new DummyController();
             ControllerContextMock.FakeControllerContext(Kernel, contr);
-            var attribute = new StringLengthAttribute(1000){MinimumLength = 1};
+            var attribute = new StringLengthAttribute(1000)
+                {
+                    MinimumLength = 1,
+                    ErrorMessage = "{0} is too long."
+                };
             var subject = new StringLengthValidator(
                 ModelMetadata.FromLambdaExpression(m => m.DummyAttribute
                 , new ViewDataDictionary<DummyModel>()), contr.ControllerContext, attribute);
@@ -39,7 +43,7 @@ namespace Website.Application.Tests.Extension.Validation
         [Test]
         public void StringLengthWithMessageValidatorGeneratesCorrectErrorString()
         {
-            var rule = StringLengthWithMessageValidatorRule();
+            var rule = StringLengthValidatorRule();
             var errstring = string.Format("{0} is too long.", "DummyAttribute");
             Assert.AreEqual(errstring, rule.ErrorMessage);
         }
@@ -47,7 +51,7 @@ namespace Website.Application.Tests.Extension.Validation
         [Test]
         public void StringLengthWithMessageValidatorSetsMinAndMaxProperty()
         {
-            var rule = StringLengthWithMessageValidatorRule();
+            var rule = StringLengthValidatorRule();
             Assert.AreEqual(1, rule.ValidationParameters["min"]);
             Assert.AreEqual(1000, rule.ValidationParameters["max"]);
         }

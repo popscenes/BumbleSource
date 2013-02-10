@@ -14,7 +14,6 @@ namespace Website.Domain.Location
         {
             target.Latitude = source.Latitude;
             target.Longitude = source.Longitude;
-            target.Description = source.Description;
         }
     }
 
@@ -22,6 +21,6 @@ namespace Website.Domain.Location
     {
         double Longitude { get; set; }
         double Latitude { get; set; }
-        string Description { get; set; }
+        string Description { get; }
     }
 }

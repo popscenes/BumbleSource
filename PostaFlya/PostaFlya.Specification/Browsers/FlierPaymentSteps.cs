@@ -215,7 +215,7 @@ namespace PostaFlya.Specification.Fliers
             var paymentPendingModel = SpecUtil.ControllerResult as List<BulletinFlierModel>;
             Assert.IsTrue(paymentPendingModel.Count() == 1);
             Assert.AreEqual(paymentPendingModel.First().Title, "This is a Title");
-            Assert.AreEqual(paymentPendingModel.First().PendingCredits, 80);
+            Assert.AreEqual(80, paymentPendingModel.First().PendingCredits);
         }
 
         [When(@"I Add Credit To My Account")]
