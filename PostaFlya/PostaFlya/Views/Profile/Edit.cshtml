@@ -54,7 +54,7 @@
                     <li data-bind="with:imageSelector">
                         @Html.LabelFor(model => model.AvatarImageId)
                         <img data-bind="attr: { src: selectedImageUrl}, visible:selectedImageUrl" class="preview-avatar" />
-                        <span class="selected-image" data-bind="visible:(selectedImageUrl()==null)">Please select an image for your profile</span>
+                        <span class="selected-image" data-bind="visible:(selectedImageUrl()==null)">No profile image</span>
                         <a id="select-images" data-bind="click: $root.showImageSelect" class="select-mini-btn" style="">&nbsp;</a>
                     </li>
 
