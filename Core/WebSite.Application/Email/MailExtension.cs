@@ -21,7 +21,7 @@ namespace Website.Application.Email
 
             var content = new System.Net.Mime.ContentType("text/calendar");
             content.Parameters.Add("method", "REQUEST");
-            content.Parameters.Add("name", "event.ics");
+            content.Parameters.Add("name", "meeting.ics");
             content.Parameters.Add("charset", "utf-8");
             var alt = AlternateView.CreateAlternateViewFromString(calendar.ToString(),content);
             message.AlternateViews.Add(alt);

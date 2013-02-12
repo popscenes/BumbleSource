@@ -114,8 +114,8 @@ namespace PostaFlya.Application.Domain.Email.Claims
             email.From = new MailAddress("details@postaflya.com"); 
             email.Subject = "PostaFlya Tear Off";
             email.Body = "Posta flya tearoff details";
-            email.IsBodyHtml = true;
-            email.AddSimpleHtmlAlternate(email.Body);
+            email.IsBodyHtml = false;
+            //email.AddSimpleHtmlAlternate(email.Body);
             if (string.IsNullOrWhiteSpace(browser.EmailAddress))
                 return false;
             email.To.Add(new MailAddress(browser.EmailAddress));
