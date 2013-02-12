@@ -493,6 +493,7 @@
     <Content Include="Content\themes\taskflya\images\pay-btn.png" />
     <Content Include="Content\themes\taskflya\images\post-flya-btn.png" />
     <Content Include="Content\themes\taskflya\images\about-posta2.png" />
+    <Content Include="Content\themes\taskflya\images\postaflya-logo-blue-small.png" />
     <Content Include="Content\themes\taskflya\images\postaflya-logo-blue.png" />
     <Content Include="Content\themes\taskflya\images\postaflya-logo.png" />
     <Content Include="Content\themes\taskflya\images\prev-btn-disabled.png" />
@@ -608,6 +609,7 @@
     <Content Include="Scripts\FlierImport\FlierImport.js" />
     <None Include="Scripts\jquery-1.8.3.intellisense.js" />
     <Content Include="Scripts\googleanalytics.js" />
+    <Content Include="Scripts\jquery.ui.touch-punch.min.js" />
     <Content Include="Scripts\jquery-1.8.3.js" />
     <Content Include="Scripts\jquery-1.8.3.min.js" />
     <Content Include="Scripts\jquery-ui-1.9-RC1.js" />
