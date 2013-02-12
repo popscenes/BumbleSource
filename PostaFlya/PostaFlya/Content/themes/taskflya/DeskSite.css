@@ -789,6 +789,15 @@ margin: 0 auto;
     vertical-align: bottom;
 }
 
+.imageSelector ul li a.thumb .tick {
+    background-image: url(images/big-tick.png);
+    width: 40px;
+    height: 40px;
+    opacity: 0.8;
+}
+
+
+
 @media only screen and (max-width: 800px)
 {
     header{

@@ -20,14 +20,11 @@
         self.selectedImageId = ko.observable();
         self.selectedImageUrl = ko.observable();
 
-        
-
         self.SetCallback = function (callback) {
             options.callback = callback;
         };
 
         self.Init = function () {
-
             self._LoadImageList();
             self._InitPLUpload();
             $("#" + self.uploaderElementId()).dialog({ autoOpen: false });

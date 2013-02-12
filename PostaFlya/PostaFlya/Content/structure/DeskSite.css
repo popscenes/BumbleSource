@@ -383,13 +383,6 @@ fieldset {
         font-size: 10px;
     }
 
-    #current-images, #new-images-upload {
-        float: left;
-    }
-
-    #new-images-upload {
-        margin-left: 15px;
-    }
 
 .form {
     width:560px;
@@ -415,10 +408,11 @@ form textarea {
     height: 90px;
 }
 
-.image-selector, .selected-image {
+.form-component {
     display: inline-block;
+    width: 290px;
+    vertical-align: top;
 }
-
 
 /****claims*****/
 
@@ -537,13 +531,25 @@ a.toolbar-item
     height: 100px;
     width: 130px;
     display: inline-block;
+    overflow: hidden;
+}
+
+.imageSelector ul li a.thumb {
+    position: relative;
+}
+.imageSelector ul li a.thumb .tick {
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    
+
 }
 
 .imageSelector ul li img { border: 0;}
 
 .selected-image {
     vertical-align: top;
-    margin-left:10px; 
 }
 
 #filelist {
@@ -601,6 +607,8 @@ a.toolbar-item
     text-decoration: none;
     text-transform: uppercase;
 }
+
+
 
 
 

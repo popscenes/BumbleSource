@@ -17,10 +17,7 @@
 
 
 <div class="cost-container">
-    
-    
     <a data-bind="click:showCostBreakdown" class="flier-cost-summary">Flier Cost <span data-bind="text:totalCost"></span> </a>
-
     <ul class="cost-breakdown" data-bind="visible:costBreakdown, foreach:flierCosts">
         <li data-bind="visible:credits() > 0">
             <span data-bind="text:title"></span>:
@@ -50,22 +47,13 @@
             <legend>ADD IMAGE TO YOUR FLYA</legend>
             <h2>ADD IMAGE TO YOUR FLYA</h2>
             
-            <div class="">
-                <h3>PREVIEW IMAGE</h3>
-                @Html.ValidationMessageFor(model => model.FlierImageId)
-                <img data-bind="attr: { src: FlierImageUrlH250}, visible:FlierImageUrl" />
-                @Html.HiddenFor(model => model.FlierImageId, new { data_bind = "value:FlierImageId" })
-                
-            </div>
-
+            @Html.HiddenFor(model => model.FlierImageId, new { data_bind = "value:FlierImageId" })
+            @Html.ValidationMessageFor(model => model.FlierImageId)
             <span class="" data-bind="with:imageSelector">
                 @Html.Partial("Image/ImageSelector")
             </span>
-            
-            
         </fieldset>
     </form>
-
 </script>
 
 @Html.Partial("Image/ImageListTemplate")
@@ -201,9 +189,6 @@
                     @Html.ValidationSummary()
                 </li>
             </ol>  
-        </fieldset>
-        
-
-
+        </fieldset>        
     </form>
 </script>

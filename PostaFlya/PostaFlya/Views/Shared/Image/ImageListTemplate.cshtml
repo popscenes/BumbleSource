@@ -9,8 +9,9 @@
 
 <script type="text/html" id="image-template2">
     <li>
-           <a class="thumb" data-bind="attr: { href: ImageId, id: ImageId}, click: $parent.clickImage, imgRetry: ImageUrl">
-               <img data-bind="attr: {src: ImageUrl  }, imgRetry: ImageUrl"/>
+        <a class="thumb" data-bind="attr: { href: ImageId, id: ImageId}, click: $parent.clickImage, imgRetry: ImageUrl">
+            <div class="tick" data-bind="visible:ImageId == $parent.selectedImageId()"></div>
+            <img data-bind="attr: {src: ImageUrl  }, imgRetry: ImageUrl"/>
            </a>
        </li>
 </script>

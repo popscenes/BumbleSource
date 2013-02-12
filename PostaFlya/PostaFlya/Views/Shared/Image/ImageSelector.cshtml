@@ -1,33 +1,9 @@
 ﻿
-
 <div class="imageSelector ignore">
-
-
-    <div data-bind="attr:{id:uploaderElementId}">
-       
-    </div>
+    <div data-bind="attr:{id:uploaderElementId}"></div>
     
-    <div id="current-images">
-    <div id="thumbs">
-        <h3>SELECT EXISTING IMAGE</h3>
-        <ul class="thumbs noscript" data-bind="template: { name: 'image-template2', foreach: imageList}, attr:{id:imageListId}">
-        
-        </ul>
-    </div>
-    
-        <div class="nav-controls">
-            <a class="prev" title="‹ Previous Photo" href="javascript:void(0);"></a>
-            <a class="next" title="Next Photo ›" href="javascript:void(0);"></a>
-        </div>
-        </div>
-
-    
-
-    
-        <div id="new-images-upload">
+     <div id="new-images-upload" class="form-component">
         <h3>UPLOAD NEW IMAGE</h3>
-    <!--<button data-bind="click: toggleAddImage" class="Button">add image</button>-->
-        
         <div id="upload-container">
             <div id="filelist">
                 
@@ -40,8 +16,18 @@
         </div>
     </div>
     
-        <div class="image-holder" style="display:none;">
-        
-    </div>
     
+    <div id="current-images" class="form-component">
+        <div id="thumbs">
+            <h3>SELECT EXISTING IMAGE</h3>
+            <ul class="thumbs noscript" data-bind="template: { name: 'image-template2', foreach: imageList}, attr:{id:imageListId}">
+        
+            </ul>
+        </div>
+        <div class="nav-controls">
+            <a class="prev" title="‹ Previous Photo" href="javascript:void(0);"></a>
+            <a class="next" title="Next Photo ›" href="javascript:void(0);"></a>
+        </div>
+    </div>
+    <div class="image-holder" style="display:none;"></div>
 </div>
