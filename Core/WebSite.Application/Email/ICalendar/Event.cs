@@ -12,6 +12,8 @@ namespace Website.Application.Email.ICalendar
    [DataContract]
    public class Event : ICalendarElement
    {
+       public const string TimetranOpaque = "OPAQUE";
+       public const string TimetranTransparent = "TRANSPARENT";
       /// <summary>
       /// Organizer.
       /// </summary>
@@ -100,19 +102,26 @@ namespace Website.Application.Email.ICalendar
       public bool IsUtcTime { get; set; }
 
       /// <summary>
+      /// Time Transparency
+      /// </summary>
+      [DataMember]
+      public string TimeTransparency { get; set; }
+
+      /// <summary>
       /// Create a new event
       /// </summary>
       public Event()
       {
-         this.PriorityLevel = PriorityLevel.Normal;
-         this.Status = EventStatus.UNDEFINED;
+        this.PriorityLevel = PriorityLevel.Normal;
+        this.Status = EventStatus.UNDEFINED;
+        this.TimeTransparency = TimetranTransparent;
       }
 
       private List<Attendee> attendees = new List<Attendee>();
       private List<string> categories = new List<string>();
       private List<Alarm> alarms = new List<Alarm>();
 
-       private string GetTime(DateTime source)
+       private string GetTime(DateTimeOffset source)
        {
            return IsUtcTime
                       ? source.ToString(FormatHelper.CAL_DATEFORMAT)
@@ -129,7 +138,7 @@ namespace Website.Application.Email.ICalendar
 
          sb.AppendLine("SEQUENCE:" + this.SequenceNbr.ToString());
          sb.AppendLine("UID:" + this.UID);
-         sb.AppendLine("DTSTAMP:" + GetTime(DateTime.Now));
+         sb.AppendLine("DTSTAMP:" + GetTime(DateTimeOffset.Now));
 
          if ( this.Organizer != null )
             sb.AppendLine("ORGANIZER;" + this.Organizer.GetFormattedElement());
@@ -165,7 +174,8 @@ namespace Website.Application.Email.ICalendar
 
          sb.AppendLine("PRIORITY:" + ( (int)this.PriorityLevel ));
          sb.AppendLine("CLASS:PUBLIC");
-         sb.AppendLine("TRANSP:OPAQUE");
+
+         sb.AppendLine("TRANSP:" +  this.TimeTransparency);
 
          foreach ( var alarm in this.alarms )
             sb.Append(alarm.GetFormattedElement());

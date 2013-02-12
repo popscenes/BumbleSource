@@ -15,13 +15,16 @@ namespace Website.Application.Email
         /// <param name="message">Mail message</param>
         /// <param name="calendar">Calendar</param>
         /// <param name="attachmentName">name for part</param>
-        public static void AddCalendar(this MailMessage message, Calendar calendar)
+        public static void AddCalendar(this MailMessage message, Calendar calendar, string attachmentName = null)
         {
             //"text/calendar; method=REQUEST;charset=\"utf-8\""
 
+            if (attachmentName == null)
+                attachmentName = "invite.ics";
+
             var content = new System.Net.Mime.ContentType("text/calendar");
             content.Parameters.Add("method", "REQUEST");
-            content.Parameters.Add("name", "meeting.ics");
+            content.Parameters.Add("name", attachmentName);
             content.Parameters.Add("charset", "utf-8");
             var alt = AlternateView.CreateAlternateViewFromString(calendar.ToString(),content);
             message.AlternateViews.Add(alt);
@@ -36,11 +39,11 @@ namespace Website.Application.Email
         public static void AddCalendarAsAttachment(this MailMessage message, Calendar calendar, string attachmentName = null)
         {
             if (attachmentName == null)
-                attachmentName = "calendarentry.ics";
+                attachmentName = "invite.ics";
 
             var attach = Attachment.CreateAttachmentFromString(calendar.ToString(), attachmentName, Encoding.UTF8,
                             "text/calendar");
-            //new Attachment(calendar.GetCalendarContentStream(), "meeting.ics", "text/calendar")
+
             message.Attachments.Add(attach);
         }
 
@@ -69,7 +72,7 @@ namespace Website.Application.Email
             var calendar = new Calendar()
             {
                 Version = "2.0",
-                ProdID = "BumbleFlya//ICalendar 1.0 MIMEDIR//EN"
+                ProdID = "Postaflya//ICalendar 2.0//EN"
             };
 
             if (calEvent.Status == EventStatus.CANCELLED)
@@ -83,7 +86,7 @@ namespace Website.Application.Email
         public static void AddVCardAsAttachment(this MailMessage mailMessage, VCard.VCard vCard, string attachmentName = null)
         {
             var attach = Attachment.CreateAttachmentFromString(vCard.ToString(), GetValidFileName(vCard.GetFileName(attachmentName)), Encoding.UTF8,
-                                        "text/vcard");
+                                        "text/x-vcard");
             mailMessage.Attachments.Add(attach);
         }
 
@@ -91,7 +94,7 @@ namespace Website.Application.Email
         {
             //var alt = AlternateView.CreateAlternateViewFromString(vCard.ToString(), new System.Net.Mime.ContentType("text/vcard; method=REQUEST;"));
 
-            var alt = AlternateView.CreateAlternateViewFromString(vCard.ToString(), Encoding.UTF8, "text/vcard");
+            var alt = AlternateView.CreateAlternateViewFromString(vCard.ToString(), Encoding.UTF8, "text/x-vcard");
 
             mailMessage.AlternateViews.Add(alt);
         }
@@ -105,7 +108,7 @@ namespace Website.Application.Email
         public static void AddSimpleHtmlAlternate(this MailMessage message, string body)
         {
             const string html = "<html><body>{0}</body></html>";
-            var content = string.Format(html, body);
+            var content = string.Format(html, body.Replace("\n", "<br/>"));
             var alt = AlternateView.CreateAlternateViewFromString(content, Encoding.UTF8, "text/html");
             message.AlternateViews.Add(alt);
         }

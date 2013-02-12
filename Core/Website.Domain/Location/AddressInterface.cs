@@ -18,6 +18,7 @@ namespace Website.Domain.Location
 
         public static bool HasAddressParts(this AddressInterface address)
         {
+
             return !string.IsNullOrWhiteSpace(address.StreetAddress) ||
                     !string.IsNullOrWhiteSpace(address.Locality) ||
                     !string.IsNullOrWhiteSpace(address.Region) ||
@@ -28,6 +29,8 @@ namespace Website.Domain.Location
         //1 Waihi Avenue, Brunswick East VIC 3057, Australia
         public static string GetAddressDescription(this AddressInterface address)
         {
+            if (address == null)
+                return null;
             var addDesc = new StringBuilder();
             AddAddressPart(address.StreetAddress, addDesc, "");
             AddAddressPart(address.Locality, addDesc, ", ");

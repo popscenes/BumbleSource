@@ -66,7 +66,9 @@ namespace Website.Application.Email.ICalendar
             sb.AppendLine("PRODID:-//" + this.ProdID);
          if (!string.IsNullOrEmpty(this.Version))
             sb.AppendLine("VERSION:" + this.Version);
+
          sb.AppendLine("METHOD:" + CalendarMethodHelper.CalendarMethod(this.CalendarMethod));
+         sb.AppendLine("CALSCALE: GREGORIAN");
 
          foreach (ICalendarElement element in this.Elements)
             sb.Append(element.GetFormattedElement());

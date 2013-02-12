@@ -32,6 +32,16 @@ namespace Website.Application.Email
                     Credentials = credentials,
                     DeliveryMethod = SmtpDeliveryMethod.Network
                 };
+
+            //just use sendgrid package for the api to add to the header
+            //can't modify the attachment content types sufficiently to use whole lib
+            var ret = SendGrid.GetInstance();
+            ret.DisableUnsubscribe();
+            string str = ret.Header.AsJson();
+            if (!string.IsNullOrEmpty(str))
+                normalMsg.Headers.Add("X-Smtpapi", str);
+            ////
+
             cli.Send(normalMsg);
 
             // Create an SMTP transport for sending email.

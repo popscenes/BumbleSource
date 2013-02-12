@@ -13,6 +13,7 @@ namespace PostaFlya.Application.Domain.Email.ICalendar
                 {
                     Title = flier.Title, 
                     StartTime = flier.EffectiveDate, 
+                    EndTime = flier.EffectiveDate.AddDays(1),
                     Description = flier.Description
                 };
 

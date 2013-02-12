@@ -42,8 +42,8 @@ namespace Website.Application.Email.VCard
             builder.AppendLine("TITLE:" + JobTitle.EmptyIfNull());
             builder.AppendLine("TEL;HOME;VOICE:" + Phone.EmptyIfNull());
             builder.AppendLine("TEL;CELL;VOICE:" + Mobile.EmptyIfNull());
-            builder.AppendLine("URL;" + HomePage.EmptyIfNull());
-            builder.AppendLine("EMAIL;PREF;INTERNET:" + Email.EmptyIfNull());
+            builder.AppendLine("URL:" + HomePage.EmptyIfNull());
+            builder.AppendLine("EMAIL;PREF:" + Email.EmptyIfNull());
             
             if(Image != null && Image.Length > 0)
             {
@@ -74,6 +74,8 @@ namespace Website.Application.Email.VCard
                 ret += " ";
             ret += LastName.EmptyIfNull();
 
+            if (string.IsNullOrWhiteSpace(ret))
+                ret = "contact_details";
             return ret + ".vcf";
         }
 

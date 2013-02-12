@@ -62,6 +62,28 @@ namespace Website.Domain.Contact
                 return target.Address.IsSimilarTo(source.Address);
             return false;
         }
+
+        public static string ToNameString(this ContactDetailFieldsInterface target)
+        {
+            var builder = new StringBuilder();
+            if (!string.IsNullOrWhiteSpace(target.FirstName))
+                builder.Append(target.FirstName);
+            if (!string.IsNullOrWhiteSpace(target.MiddleNames))
+            {
+                if (builder.Length > 0)
+                    builder.Append(" ");
+                builder.Append(target.MiddleNames);
+            }
+
+            if (!string.IsNullOrWhiteSpace(target.Surname))
+            {
+                if (builder.Length > 0)
+                    builder.Append(" ");
+                builder.Append(target.Surname);
+            }
+
+            return builder.ToString();
+        }
     }
 
     public interface ContactDetailFieldsInterface

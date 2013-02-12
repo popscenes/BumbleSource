@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Mail;
+using System.Text;
 using PostaFlya.Application.Domain.Email.ICalendar;
 using PostaFlya.Domain.Flier;
 using Website.Application.Domain.Email.VCard;
@@ -13,6 +14,7 @@ using Website.Domain.Browser.Publish;
 using Website.Domain.Claims;
 using Website.Domain.Claims.Event;
 using Website.Domain.Contact;
+using Website.Domain.Location;
 using Website.Infrastructure.Command;
 using Website.Infrastructure.Configuration;
 using Website.Infrastructure.Query;
@@ -112,31 +114,126 @@ namespace PostaFlya.Application.Domain.Email.Claims
             var email = new MailMessage();
 
             email.From = new MailAddress("details@postaflya.com"); 
-            email.Subject = "PostaFlya Tear Off";
-            email.Body = "Posta flya tearoff details";
+            email.Subject = "PostaFlya details for: " + flier.Title;
+
+            var poster = _entityQueryService.FindById<Website.Domain.Browser.Browser>(flier.BrowserId);
+            var dets = flier.GetContactDetailsForFlier(poster);
+
+            email.Body = GetBodyFor(flier, dets);
+
             email.IsBodyHtml = false;
-            //email.AddSimpleHtmlAlternate(email.Body);
+            email.AddSimpleHtmlAlternate(email.Body);
             if (string.IsNullOrWhiteSpace(browser.EmailAddress))
                 return false;
             email.To.Add(new MailAddress(browser.EmailAddress));
-
-            if (flier.GetContactDetailsForFlier(browser).HasEnoughForContact())
-            {
-                var vcard = GetVCardForFlier(flier);
-                if (vcard != null)
-                    email.AddVCardAsAttachment(vcard);
-            }
 
             if (flier.EffectiveDate > DateTime.UtcNow)
             {
                 var calEvent = GetEventForFlier(flier);
                 if (calEvent != null)
+                {
                     email.AddEvent(calEvent);
+                    email.AddEventAsAttachment(calEvent);
+                }
+                    
+            }
+
+            if (flier.GetContactDetailsForFlier(browser).HasEnoughForContact())
+            {
+                var vcard = GetVCardForFlier(flier);
+                if (vcard != null)
+                {
+                    email.AddVCardAsAttachment(vcard);
+                }
+                                
             }
 
             _emailService.Send(email);
 
             return true;
+        }
+
+        private string GetBodyFor(PostaFlya.Domain.Flier.Flier flier, ContactDetailsInterface posterDetails)
+        {
+           
+            var builder = new StringBuilder();
+            builder.Append("Please find below the details for the flier ");
+            builder.Append(flier.Title);
+            builder.Append("\n\n");
+
+            if (posterDetails.HasEnoughForContact())
+                builder.Append("The contact details are also attached as a vcard for import into phone or web contacts \n");
+            
+            if(flier.EffectiveDate > DateTime.UtcNow)
+                builder.Append("The event date and details are also attached as a ical for import into your calendar \n");
+
+           
+            builder.Append("\n\n");
+            builder.Append("Postaflya Url: " + _config.GetSetting("SiteUrl") + "/" + flier.FriendlyId + "\n\n");
+
+            var contactDets = GetContactDetails(posterDetails);
+            if (!string.IsNullOrWhiteSpace(contactDets))
+            {
+                builder.AppendLine(contactDets);
+                builder.Append("\n");
+            }
+
+            if (flier.EffectiveDate > DateTime.UtcNow)
+            {
+                builder.Append("Event Date: ");
+                builder.Append(flier.EffectiveDate.ToLongDateString());
+                builder.Append("\n\n");
+            }
+
+            builder.Append("Description from flier:\n");
+            builder.Append(flier.Description);
+
+            return builder.ToString();
+
+        }
+
+        private string GetContactDetails(ContactDetailsInterface dets)
+        {
+            var builder = new StringBuilder();
+            builder.Append("Contact Details:\n");
+            var name = dets.ToNameString();
+            if (!string.IsNullOrWhiteSpace(name))
+            {
+                builder.Append("Name: ");
+                builder.Append(name);
+                builder.Append("\n");
+            }
+
+            if (!string.IsNullOrWhiteSpace(dets.PhoneNumber))
+            {
+                builder.Append("Phone: ");
+                builder.Append(dets.PhoneNumber);
+                builder.Append("\n");
+            }
+
+            if (!string.IsNullOrWhiteSpace(dets.EmailAddress))
+            {
+                builder.Append("Email: ");
+                builder.Append(dets.EmailAddress);
+                builder.Append("\n");
+            }
+
+            var address = dets.Address.GetAddressDescription();
+            if (!string.IsNullOrWhiteSpace(address))
+            {
+                builder.Append("Address: ");
+                builder.Append(address);
+                builder.Append("\n");
+            }
+
+            if (!string.IsNullOrWhiteSpace(dets.WebSite))
+            {
+                builder.Append("WebSite: ");
+                builder.Append(dets.WebSite);
+                builder.Append("\n");
+            }
+
+            return builder.ToString();
         }
 
         private Event GetEventForFlier(PostaFlya.Domain.Flier.Flier flier)
