@@ -38,9 +38,17 @@
     var methods = {
         initElement: function ($element) {
 
-            var tooltip = $("<div>")
-                .addClass("ui-tooltip");
-                
+            var tooltip = $('<div>')
+                .addClass("ui-tooltip")
+                .hide();
+
+            var eleid = $element.attr('id');
+            if (eleid)
+                tooltip.attr("id", eleid + '-helptip');
+
+            tooltip.insertAfter($element);
+            $element.data('helptips', tooltip)
+
         },
         init: function () {
             return this.each(function () {
@@ -58,6 +66,8 @@
                     methods.initElement($this);
                     $data = $this.data('helptips');
                 }
+
+                $data.text($this.attr("data-helptip-text"));
 
                 $data.toggle(showOrHide);
             });
