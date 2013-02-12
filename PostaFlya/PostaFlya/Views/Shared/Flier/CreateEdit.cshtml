@@ -89,7 +89,7 @@
         @Html.HiddenFor(model => model.Id, new { data_bind = "value:Id" })
         <fieldset>
             <legend>Add a location</legend>
-            <div>
+            <div class="form-component">
                 <h2>Add a location to your flier</h2>
                           
                 <h3>ENTER THE ADDRESS BELOW</h3>
@@ -120,7 +120,7 @@
             <legend>ADD DETAILS TO YOUR FLYA</legend>
             <h2>ADD DETAILS TO YOUR FLYA</h2>
 
-            <div class="form-divider">
+            <div class="form-component">
                 <h3>Title</h3>
                 @Html.ValidationMessageFor(model => model.Title)
                 @Html.TextBoxFor(model => model.Title, new { data_bind = "value:Title" })
@@ -131,7 +131,7 @@
                 @Html.TextAreaFor(model => model.Description, new { data_bind = "value:Description" })
                 
             </div>
-            <div class="form-divider-right">
+            <div class="form-componentt">
                 <h3>Date</h3>
                 @Html.ValidationMessageFor(model => model.EffectiveDate)
                 @Html.HiddenFor(model => model.EffectiveDate, new { data_bind = "value:EffectiveDate" })

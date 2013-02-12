@@ -42,7 +42,6 @@ header{
 #global-toolbar
 {
     margin-right:30px;
-	height:70px;
 	z-index:500; 
     float:right;
 }
@@ -325,14 +324,13 @@ a.toolbar-item div.profile-edit-tool-bar-item, a.toolbar-item div.add-flier-tool
 div#selected-item-div, div#create-flier-item-div {
     position: absolute;
     z-index: 751;
-    
-    left: 50%;
-    margin-left: -400px;
+    margin-left: -300px;
     padding: 20px;
+    left: 50%;
 }
 
 div#create-flier-item-div {
-    width: 600px;
+    max-width: 600px;
 }
 
 div#selected-item-popup-overlay, div#create-flier-popup-overlay {

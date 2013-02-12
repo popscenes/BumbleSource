@@ -796,6 +796,13 @@ margin: 0 auto;
     opacity: 0.8;
 }
 
+#logo a {
+    background-image: url("images/postaflya-logo-blue.png");
+    display: inline-block;
+    width: 198px;
+    height: 90px;    
+}
+
 
 
 @media only screen and (max-width: 800px)
@@ -818,4 +825,46 @@ margin: 0 auto;
         width: 400px;
         height: 250px;
     }
+
+    
 }
+
+@media only screen and (max-width: 320px)
+{
+ 
+
+    #logo {
+        width: 100px;
+    }
+
+    #logo a {
+        background-image: url("images/postaflya-logo-blue-small.png");
+        width: 100px;
+        height: 50px;
+        background-repeat: no-repeat;
+    }
+
+    div#selected-item-div, div#create-flier-item-div {
+        position: absolute;
+        z-index: 751;
+        left: 50%;
+        padding: 10px;
+        margin-left: -140px;
+        width: 280px;
+    }
+
+    #controls {
+        width: 320px;
+
+    }
+
+    .locSel {
+        width: 320px;
+    }
+
+    #global-toolbar {
+        margin-right: 0px;
+    }
+
+}
+

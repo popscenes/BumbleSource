@@ -188,6 +188,7 @@ namespace PostaFlya
             websiteInfoService.RegisterWebsite("127.0.0.1", websiteInfo);
             websiteInfoService.RegisterWebsite("127.0.0.2", websiteInfo);
             websiteInfoService.RegisterWebsite("localhost", websiteInfo);
+            websiteInfoService.RegisterWebsite("10.0.0.3", websiteInfo);
 
              websiteInfo = new WebsiteInfo()
             {

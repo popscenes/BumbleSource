@@ -138,6 +138,8 @@ ko.bindingHandlers.distanceSlider = {
                 obs($(element).slider("value"));
             }
         });
+        
+
     }
 };
 
