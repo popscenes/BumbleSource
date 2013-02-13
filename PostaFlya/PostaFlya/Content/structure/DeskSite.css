@@ -49,9 +49,6 @@ header{
 .locSel{
 	width:375px;
 	overflow:visible;
-	float:left;
-	margin-left:15px;
-    position: relative;
 }
 
 #controls .ls-current

@@ -803,6 +803,11 @@ margin: 0 auto;
     height: 90px;    
 }
 
+.page-toolbar-buttons {
+    float: left;
+    width: 160px;
+}
+
 
 
 @media only screen and (max-width: 800px)
@@ -826,15 +831,31 @@ margin: 0 auto;
         height: 250px;
     }
 
-    
-}
+    h2 {
+        font-size: 20px;
+        display: block;
+    }
+    h3 {
+        font-size: 16px;
+        display: block;
+    }
 
-@media only screen and (max-width: 320px)
-{
- 
+    .distSel {
+        width: 90%;
+    }
 
+    .distance-slider {
+        width: 70%;
+        margin-left: 5%;
+    }
+
+   
     #logo {
         width: 100px;
+    }
+
+    #flya-create-back {
+        width: 145px;
     }
 
     #logo a {
@@ -847,23 +868,35 @@ margin: 0 auto;
     div#selected-item-div, div#create-flier-item-div {
         position: absolute;
         z-index: 751;
-        left: 50%;
-        padding: 10px;
-        margin-left: -140px;
-        width: 280px;
+        left: 0;
+        padding: 5%;
+        width: 90%;
+        margin-left: 0;
     }
 
+    .page-toolbar-buttons {
+        margin: 0 auto;
+        float: none;
+    }
+    
+
     #controls {
-        width: 320px;
+        width: 90%;
 
     }
 
     .locSel {
-        width: 320px;
+        width: 100%;
+        margin: 0 auto;
     }
 
     #global-toolbar {
         margin-right: 0px;
+    }
+ 
+    input#locationSearch {
+        width: 90%;
+        margin: 10px auto;
     }
 
 }
