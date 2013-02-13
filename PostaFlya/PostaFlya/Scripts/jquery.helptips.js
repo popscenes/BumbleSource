@@ -31,46 +31,114 @@
 (function ($) {
 
     var defaults = {
-        position: "bottomleft",
-        distance: ""
+        position: "bottomright",
     };
+
+    function initElement($element) {
+        var $tooltip = $element.data('helptips');
+        if ($tooltip)
+            return;
+
+        $tooltip = $('<div>')
+            .addClass("helptips-container")
+            .hide();
+
+        $("<div>")
+            .addClass("helptips-content")
+            .text($element.attr("data-helptip-text"))
+            .appendTo($tooltip);
+
+        $tooltip.insertAfter($element);
+        $element.data('helptips', $tooltip)
+    }
+
+    function init($eles) {
+        $eles = $eles.filter('[data-helptip-text]');
+
+        $eles.not('[helptips-group]').each(function () {
+            initElement($(this));
+        });
+
+        $eles.filter('[helptips-group]').each(function () {
+            initGroup($(this));
+        });
+
+        return $eles;
+    }
+
+    function getContent($group) {
+        var $ret = $([]);
+        $group.each(function () {
+            $this = $(this);
+            var $row = $('<div>')
+                .append($this.clone().removeAttr('data-helptip-text').removeAttr('id').addClass('helptips-icon'))
+                .append($this.attr("data-helptip-text"));
+
+            $ret.add($row);
+                
+        });
+        return ret;
+    }
+
+    function initGroup($groupEle, $allGroup){
+
+        var $tooltip = $groupEle.data('helptips');
+        if ($tooltip)
+            return;
+
+        $tooltip = $('<div>')
+            .addClass("helptips-container")
+            .hide();
+
+        var $contentCont = $("<div>")
+            .addClass("helptips-content")
+            .appendTo($tooltip);
+
+        var groupId = $groupEle.attr('helptips-group');
+        var $group = $allGroup.filter('[helptips-group=' + groupId + ']');
+        var $content = methods.getContent($group);
+        $content.appendTo($contentCont);
+        $group.each(function () {
+            $(this).data('helptips', $tooltip);
+        });
+    }
+
+    function showHelpFor($eles, showOrHide) {
+
+        $eles.not('[helptips-group]').each(function () {
+            displayForEle($(this));
+        });
+
+        $eles.filter('[helptips-group]').each(function () {
+            initGroup($(this));
+        });
+    };
+
+    function getPositionFor($eles) {
+        var pos = {top: 0, right:0};
+        $eles.each(function () {
+            var $this = $(this);
+            var posEle = $this.position();
+            if (posEle.left + $this.width() > pos.right)
+                pos.right = posEle.left + $this.width();
+            if (posEle.top + $this.height() > pos.top)
+                pos.top = posEle.top + $this.height();
+        });
+        return pos;
+    }
     
-    var methods = {
-        initElement: function ($element) {
+    var publicmethods = {
 
-            var tooltip = $('<div>')
-                .addClass("ui-tooltip")
-                .hide();
-
-            var eleid = $element.attr('id');
-            if (eleid)
-                tooltip.attr("id", eleid + '-helptip');
-
-            tooltip.insertAfter($element);
-            $element.data('helptips', tooltip)
-
-        },
         init: function () {
-            return this.each(function () {
-                methods.initElement($(this));
-            });
+            init(this);
         },
+
         showHelp: function (showOrHide) {
+            var $eles = init(this);
 
-            return this.each(function () {
+            showHelpFor($eles, showOrHide);
 
-                var $this = $(this),
-                    $data = $this.data('helptips');
-
-                if (!$data) {
-                    methods.initElement($this);
-                    $data = $this.data('helptips');
-                }
-
-                $data.text($this.attr("data-helptip-text"));
-
-                $data.toggle(showOrHide);
-            });
+            return this;         
         },
 
     };
@@ -78,10 +146,10 @@
     $.fn.helptips = function (method) {
 
         // Method calling logic
-        if (methods[method]) {
-            return methods[method].apply(this, Array.prototype.slice.call(arguments, 1));
+        if (publicmethods[method]) {
+            return publicmethods[method].apply(this, Array.prototype.slice.call(arguments, 1));
         } else if (typeof method === 'object' || !method) {
-            return methods.init.apply(this, arguments);
+            return publicmethods.init.apply(this, arguments);
         } else {
             $.error('Method ' + method + ' does not exist on jQuery.helptips');
         }
