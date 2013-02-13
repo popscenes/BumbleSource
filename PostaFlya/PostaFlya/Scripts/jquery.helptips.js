@@ -50,6 +50,7 @@
 
         $tooltip.insertAfter($element);
         $element.data('helptips', $tooltip)
+        $tooltip.appendTo($element.document[0].body);
     }
 
     function init($eles) {
@@ -101,16 +102,41 @@
         $group.each(function () {
             $(this).data('helptips', $tooltip);
         });
+
+        $tooltip.appendTo($element.document[0].body);
+    }
+
+    function showHelpForEles($ele, showOrHide) {
+        var $tooltip = $ele.first().data('helptips');
+        $tooltip.remove();
+        if (showOrHide) {
+            var pos = getPositionFor($ele);
+            $tooltip.css("top", pos.top);
+            $tooltip.css("right", pos.right);
+            $tooltip.insertAfter($ele.last());
+            $tooltip.show();
+        }
+        else {
+            $tooltip.appendTo($ele.document[0].body);
+            $tooltip.hide();
+        }
     }
 
     function showHelpFor($eles, showOrHide) {
 
         $eles.not('[helptips-group]').each(function () {
-            displayForEle($(this));
+            showHelpForEles($(this), showOrHide);
         });
 
+        var done = {};
         $eles.filter('[helptips-group]').each(function () {
-            initGroup($(this));
+            var $this = $(this);
+            var groupid = $this.attr('helptips-group');
+            if (!done[groupid]) {
+                showHelpForEles($eles.filter('[helptips-group=' + groupid + ']'));
+                done[groupid] = true;
+            }
+
         });
     };
 
