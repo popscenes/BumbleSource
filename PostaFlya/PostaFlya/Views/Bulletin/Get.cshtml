@@ -30,18 +30,23 @@
 <div id="controls">
     <div class="page-toolbar">
         <div class="locSel">
-            <div data-bind="click: ToggleMap" class="Button" id="btn-location">Location</div>
+            
                      
             <div class="ls-holder">
                 @Html.Partial("Location/LocationAutocomplete")
             </div>
         </div>
             
-        <div class="tagsSel">
-            <div class="Button" id="btn-tags" data-bind="click:ShowTags">Select Tags</div>
-        </div>
-        <div id="show-about">
-            <div class="Button btn-question" data-bind="click: ShowAbout">hide</div>
+        <div class="page-toolbar-buttons">
+            <div data-bind="click: ToggleMap" class="Button" id="btn-location">Location</div>
+
+            <div class="tagsSel">
+                <div class="Button" id="btn-tags" data-bind="click:ShowTags">Select Tags</div>
+            </div>
+
+                <div id="show-about">
+                    <div class="Button btn-question" data-bind="click: ShowAbout">hide</div>
+                </div>
         </div>
     </div>
     

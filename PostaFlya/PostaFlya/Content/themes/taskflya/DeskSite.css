@@ -574,7 +574,7 @@ display: inline-block;
     background-position: 0 139px
 }
 .print-opt-bottomright {
-    background-position: 115px 139px
+    background-position: 118px 139px
 }
 
 h2 {
@@ -803,6 +803,11 @@ margin: 0 auto;
     height: 90px;    
 }
 
+.page-toolbar-buttons {
+    float: left;
+    width: 160px;
+}
+
 
 
 @media only screen and (max-width: 800px)
@@ -826,15 +831,40 @@ margin: 0 auto;
         height: 250px;
     }
 
-    
-}
+    .flier-view .flier-details .flier-img img {
+        width: 250px !important;
+    }
 
-@media only screen and (max-width: 320px)
-{
- 
 
+    h2 {
+        font-size: 20px;
+        display: block;
+    }
+    h3 {
+        font-size: 16px;
+        display: block;
+    }
+
+    .distSel {
+        width: 90%;
+    }
+
+    .distance-slider {
+        width: 70%;
+        margin-left: 5%;
+    }
+
+    #lsMain .map {
+        height: 250px;
+    }
+
+   
     #logo {
         width: 100px;
+    }
+
+    #flya-create-back {
+        width: 125px;
     }
 
     #logo a {
@@ -844,26 +874,73 @@ margin: 0 auto;
         background-repeat: no-repeat;
     }
 
+    .form {
+        width: 90%;
+    }
+
+    .preview-avatar {
+        margin: 0 10% 0 0;
+    }
+
+    .page-content {
+        margin: 0 0;
+        width: 96%;
+        padding: 2%;
+        margin-top: 10px;
+    }
+
+    .page-inner {
+        width: 100%
+    }
+
     div#selected-item-div, div#create-flier-item-div {
         position: absolute;
         z-index: 751;
-        left: 50%;
-        padding: 10px;
-        margin-left: -140px;
-        width: 280px;
+        left: 0;
+        padding: 5%;
+        width: 90%;
+        margin-left: 0;
+        
     }
+
+    .print-options {
+        width: 225px;
+    }
+
+     div#create-flier-item-div {
+         top: 0px !important;
+     }
+
+    #flierForm input[type="text"].location-search {
+        width: 90%
+    }
+    form input[type="text"], .form textarea, form input[type="email"], form input[type="url"] {
+        width: 90%;
+        margin-top: 10px;
+    }
+
+    .page-toolbar-buttons {
+        margin: 0 auto;
+        float: none;
+    }
+
 
     #controls {
-        width: 320px;
-
+        width: 90%;
     }
-
+   
     .locSel {
-        width: 320px;
+        width: 100%;
+        margin: 0 auto;
     }
 
     #global-toolbar {
         margin-right: 0px;
+    }
+ 
+    input#locationSearch {
+        width: 90%;
+        margin: 10px auto;
     }
 
 }
