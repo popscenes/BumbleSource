@@ -16,7 +16,7 @@
         </h3>
             
         <div class="flier-img">
-            <img data-bind="imgRetry: FlierImageUrl" src="@ImageUtil.GetThumbUrlForImageUri(Flier.FlierImageUrl, ThumbOrientation.Vertical, ThumbSize.S250)"/>
+            <img data-bind="imgRetry: FlierImageUrl, bulletinimg:FlierImageUrl"/>
         </div>
             
         <div class="flier-desc" data-bind="text:Description">

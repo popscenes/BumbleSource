@@ -48,7 +48,8 @@
 }
 
 
-.flier-view .flier-details .flier-img {
+.flier-view .flier-details .flier-img img {
+    width: 450px;
 }
 
 .flier-view .flier-details .flier-claims-comments{
