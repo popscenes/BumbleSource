@@ -1,34 +1,4 @@
 ﻿(function ($) {
-    var $jQ = $;
-
-
-    $jQ.tooltip = {
-
-
-        parseElement: function (element) {
-
-            var $element = $(element);
-        },
-
-        parse: function (selector) {
-
-            $(selector).find("[data-tooltip]").each(function () {
-                $jQ.tooltip.parseElement(this);
-            });
-
-        }
-    };
-
-
-
-    $(function () {
-        $jQ.tooltip.parse(document);
-    });
-}(jQuery));
-
-
-
-(function ($) {
 
     var defaults = {
         position: "bottomright",
