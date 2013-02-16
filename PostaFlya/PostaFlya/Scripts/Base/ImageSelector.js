@@ -109,8 +109,12 @@
                     });
 
                     self._loadSelectedImageFromId();
+                    
                 }
             });
+
+            
+            
         };
 
         self._loadSelectedImageFromId = function () {
@@ -123,6 +127,11 @@
                     break;
                 }
             }
+
+            while ($("#" + self.selectedImageId()).is(":visible") == false) {
+                $('a.next').click();
+            }
+            
         };
 
         self._InitPLUpload = function () {
@@ -152,8 +161,8 @@
             uploader.bind('FilesAdded', function (up, files) {
                 $.each(files, function (i, file) {
                     $('#filelist').append(
-                        '<div id="' + file.id + '">' +
-                        file.name + '<b></b>' +
+                        '<div class="file-upload-row" id="' + file.id + '">' +
+                        file.name + '<span></span>' +
                     '</div>');
                 });
 
@@ -161,7 +170,7 @@
             });
 
             uploader.bind('UploadProgress', function (up, file) {
-                $('#' + file.id + " b").html(file.percent + "%");
+                $('#' + file.id + " span").html(file.percent + "%");
             });
 
             uploader.bind('Error', function (up, err) {
@@ -175,7 +184,7 @@
             });
 
             uploader.bind('FileUploaded', function (up, file) {
-                $('#' + file.id + " b").html("100%");
+                $('#' + file.id + " span").html("100%");
             });
 
 
@@ -185,7 +194,7 @@
                 //if (self.imageList().length > 0)
                 //    self.slider.destroyShow();
                 self._LoadImageList();
-                $('#filelist').html('');
+                //$('#filelist').html('Upload complete feed me more images');
             });
         };
     };
