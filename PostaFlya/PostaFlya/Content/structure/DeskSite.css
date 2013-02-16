@@ -208,17 +208,21 @@ ul.flier-images li
     
 }
 
+#main-controls {
+    clear: both;
+}
+
 
 .tags-selector .tags-box{
 	padding:10px 0px 5px 0px;
 	margin-top:0px;
 	width:100%;
 	background-color:transparent;
-	top:70px;
 	left:0;
 	z-index:3;
 	text-align:center;
 	opacity:.9;
+    position: relative;
 }
 
 .displayInline {
@@ -525,12 +529,14 @@ a.toolbar-item
     margin-right: 2px; 
     height: 100px;
     width: 130px;
-    display: inline-block;
+    display: block;
     overflow: hidden;
+    float: left;
 }
 
 .imageSelector ul li a.thumb {
     position: relative;
+    width: 133px;
 }
 .imageSelector ul li a.thumb .tick {
     position: absolute;
@@ -541,7 +547,7 @@ a.toolbar-item
 
 }
 
-.imageSelector ul li img { border: 0;}
+.imageSelector ul li img { border: 0; }
 
 .selected-image {
     vertical-align: top;
