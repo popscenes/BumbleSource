@@ -45,7 +45,7 @@
                         self.afterUpdateCallback();
                 },
                 error: function (jqXhr, textStatus, errorThrown) {
-                    bf.ErrorUtil.HandleSubmitError('#profileeditform', jqXhr, self.ErrorHandler);
+                    bf.ErrorUtil.HandleRequestError('#profileeditform', jqXhr, self.ErrorHandler);
                 }
             });
             
@@ -75,7 +75,10 @@
                     self.imageSelector.Init();
                     self.imageSelector.selectedImageId(self.AvatarImageId());
                     
-                }
+                },
+                error: function (jqXhr, textStatus, errorThrown) {
+                        bf.ErrorUtil.HandleRequestError('#profileeditform', jqXhr, self.ErrorHandler);
+                    }
             });
         };
 

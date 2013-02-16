@@ -106,7 +106,8 @@
     <Compile Include="Binding\ApplicationJobs.cs" />
     <Compile Include="Browser\BrowserInformation.cs" />
     <Compile Include="Browser\BrowserInformationInterface.cs" />
-    <Compile Include="Browser\Web\BrowserAuthorizeAttribute.cs" />
+    <Compile Include="Browser\Web\BrowserAuthorizeHttpAttribute.cs" />
+    <Compile Include="Browser\Web\BrowserAuthorizeMvcAttribute.cs" />
     <Compile Include="Command\CachedRepositoryWithBrowser.cs" />
     <Compile Include="Content\Command\ImageProcessCommand.cs" />
     <Compile Include="Content\Command\ImageProcessCommandHandler.cs" />

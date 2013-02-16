@@ -36,9 +36,9 @@ namespace PostaFlya.Controllers
             _browserInformation = browserInformation;
         }
 
-        public ActionResult LoginPage(string targetPath = null)
+        public ActionResult LoginPage(string ReturnUrl = null)
         {
-            ViewBag.targetPath = targetPath;
+            ViewBag.ReturnUrl = ReturnUrl;
             return View("Login");
         }
 
@@ -55,11 +55,11 @@ namespace PostaFlya.Controllers
         }
 
 
-        protected string GetUrlCallBack(string providerIdentifier, string controller, string action, string targetPath)
+        protected string GetUrlCallBack(string providerIdentifier, string controller, string action, string ReturnUrl)
         {
             var callback = "http://localhost/";
             if (Url != null)
-                callback = Url.Action(action, controller, new {providerIdentifier, targetPath }, "http");
+                callback = Url.Action(action, controller, new {providerIdentifier, ReturnUrl }, "http");
 
                 //callback = callback.Replace("82", "81");
                 callback = callback.Replace("83", "81");
@@ -67,31 +67,31 @@ namespace PostaFlya.Controllers
             return callback;
         }
 
-        public ActionResult AuthRequest(string providerIdentifier, string targetPath = null)
+        public ActionResult AuthRequest(string providerIdentifier, string ReturnUrl = null)
         {
-            var identityProvider = SetUpIdentityProvider(providerIdentifier, "Account", "AuthResponse", targetPath);
+            var identityProvider = SetUpIdentityProvider(providerIdentifier, "Account", "AuthResponse", ReturnUrl);
             identityProvider.RequestAuthorisation();
             return new EmptyResult();
 
         }
 
         [ValidateInput(false)]
-        public ActionResult AuthResponse(string providerIdentifier, string targetPath = null)
+        public ActionResult AuthResponse(string providerIdentifier, string ReturnUrl = null)
         {
             var identityProvider = _identityProviderService.GetProviderByIdentifier(providerIdentifier);
-            var callback = GetUrlCallBack(providerIdentifier, "Account", "AuthResponse", targetPath);
+            var callback = GetUrlCallBack(providerIdentifier, "Account", "AuthResponse", ReturnUrl);
             identityProvider.CallbackUrl = callback;
             var identityProviderCredentials = identityProvider.GetCredentials();
             if (identityProviderCredentials == null)
             {
-                return RedirectToAction("LoginPage", "Account", new {targetPath});
+                return RedirectToAction("LoginPage", "Account", new {ReturnUrl});
             }
 
             SetBrowserFromIdentityProviderCredentials(identityProviderCredentials);
             CreateFormsCookieFromIdenityProviderCredentials(identityProviderCredentials);
 
-            if (!string.IsNullOrWhiteSpace(targetPath) && targetPath.StartsWith("/"))
-                return Redirect(targetPath);
+            if (!string.IsNullOrWhiteSpace(ReturnUrl) && ReturnUrl.StartsWith("/"))
+                return Redirect(ReturnUrl);
 
             return RedirectToAction("Get", "Bulletin");
         }
@@ -168,7 +168,7 @@ namespace PostaFlya.Controllers
             if (!browserAsParticipant.Equals(_browserInformation.Browser))
                 _browserInformation.Browser = browserAsParticipant;
 
-            var target = formCollection.Get("targetPath");
+            var target = formCollection.Get("ReturnUrl");
             if (!string.IsNullOrWhiteSpace(target) && target.StartsWith("/"))
                 return Redirect(target);
 
@@ -210,13 +210,13 @@ namespace PostaFlya.Controllers
         }
 
         [Authorize]
-        public ActionResult RequestToken(string providerIdentifier, string callbackAction, string callbackController, string targetPath = null)
+        public ActionResult RequestToken(string providerIdentifier, string callbackAction, string callbackController, string ReturnUrl = null)
         {
-            var identityProvider = SetUpIdentityProvider(providerIdentifier, "Account", "TokenResponse", targetPath);
+            var identityProvider = SetUpIdentityProvider(providerIdentifier, "Account", "TokenResponse", ReturnUrl);
             identityProvider.CallbackUrl += "&callbackController=" + callbackController + "&callbackAction=" +
                                             callbackAction;
-            if(string.IsNullOrWhiteSpace(targetPath))
-                identityProvider.CallbackUrl += "&targetPath=" + targetPath;
+            if(string.IsNullOrWhiteSpace(ReturnUrl))
+                identityProvider.CallbackUrl += "&ReturnUrl=" + ReturnUrl;
 
             if(Url != null)
                 identityProvider.CallbackUrl = Url.Encode(identityProvider.CallbackUrl);
@@ -224,9 +224,9 @@ namespace PostaFlya.Controllers
             return new EmptyResult();
         }
 
-        protected IdentityProviderInterface SetUpIdentityProvider(string providerIdentifier, string callbackController, string callbackAction, string targetPath)
+        protected IdentityProviderInterface SetUpIdentityProvider(string providerIdentifier, string callbackController, string callbackAction, string ReturnUrl)
         {
-            var callback = GetUrlCallBack(providerIdentifier, callbackController, callbackAction, targetPath);
+            var callback = GetUrlCallBack(providerIdentifier, callbackController, callbackAction, ReturnUrl);
 
             var realmUri = new Uri(callback);
 
@@ -236,13 +236,13 @@ namespace PostaFlya.Controllers
             return identityProvider;
         }
 
-        public object TokenResponse(string providerIdentifier, string callbackController, string callbackAction, string targetPath = null)
+        public object TokenResponse(string providerIdentifier, string callbackController, string callbackAction, string ReturnUrl = null)
         {
-            var identityProvider = SetUpIdentityProvider(providerIdentifier, "Account", "TokenResponse", targetPath);
+            var identityProvider = SetUpIdentityProvider(providerIdentifier, "Account", "TokenResponse", ReturnUrl);
             identityProvider.CallbackUrl += "&callbackController=" + callbackController + "&callbackAction=" +
                                             callbackAction;
-            if(string.IsNullOrWhiteSpace(targetPath))
-                identityProvider.CallbackUrl += "&targetPath=" + targetPath;
+            if(string.IsNullOrWhiteSpace(ReturnUrl))
+                identityProvider.CallbackUrl += "&ReturnUrl=" + ReturnUrl;
 
             if (Url != null)
                 identityProvider.CallbackUrl = Url.Encode(identityProvider.CallbackUrl);
@@ -259,7 +259,7 @@ namespace PostaFlya.Controllers
 
             _commandBus.Send(command);
 
-            return RedirectToAction(callbackAction, callbackController, new { providerName = providerIdentifier, targetPath });
+            return RedirectToAction(callbackAction, callbackController, new { providerName = providerIdentifier, ReturnUrl });
         }
     }
 }

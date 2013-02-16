@@ -101,7 +101,7 @@
                     ViewBag.MapId = "fliermap";
                     ViewBag.DistanceVariable = "PostRadius";
                     ViewBag.LocationVariable = "Location";
-                    ViewBag.AutoCompleteLocationBannerText = "'Please select a suburb or location'";
+                    ViewBag.AutoCompleteLocationBannerText = "'Post to a Suburb or Location'";
                     ViewBag.AutoCompleteLocationId = "locationSearch";
                     ViewBag.VisibleTrigger = null;
                 }
@@ -160,6 +160,9 @@
             </ol>        
         </fieldset>
         <fieldset>
+            @{ 
+                ViewBag.AutoCompleteLocationBannerText = "Address of Event or Business'";
+            }
             <legend>Contact Details</legend>
             <h2>Contact Details</h2>
             <ol>

@@ -20,7 +20,7 @@ using Website.Infrastructure.Util.Extension;
 
 namespace PostaFlya.Controllers
 {
-    [BrowserAuthorize(Roles = "Participant")]
+    [BrowserAuthorizeHttp(Roles = "Participant")]
     public class MyFliersController : ApiController
     {
         private readonly CommandBusInterface _commandBus;

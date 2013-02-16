@@ -16,7 +16,7 @@ using Website.Infrastructure.Util.Extension;
 
 namespace PostaFlya.Controllers
 {
-    [BrowserAuthorize]
+    [BrowserAuthorizeHttp]
     public class MyDetailsController : ApiController
     {
         private readonly CommandBusInterface _commandBus;

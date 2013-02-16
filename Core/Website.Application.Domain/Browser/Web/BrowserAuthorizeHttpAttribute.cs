@@ -9,10 +9,11 @@ using Ninject;
 using Ninject.Syntax;
 using Website.Domain.Browser;
 using Website.Infrastructure.Command;
+using Website.Infrastructure.Util;
 
 namespace Website.Application.Domain.Browser.Web
 {
-    public class BrowserAuthorizeAttribute : ActionFilterAttribute
+    public class BrowserAuthorizeHttpAttribute : ActionFilterAttribute
     {
         private string _roles;
         private string[] _rolesSplit = new string[0];
@@ -26,7 +27,7 @@ namespace Website.Application.Domain.Browser.Web
             set
             {
                 _roles = value;
-                _rolesSplit = SplitString(value);
+                _rolesSplit = value.SplitStringTrimRemoveEmpty();
             }
         }
 
@@ -76,22 +77,9 @@ namespace Website.Application.Domain.Browser.Web
 //#endif
            
             var faultMessage  = new MsgResponse {Message = "Invalid Access", IsError = true};
-            var responseMessage = actionContext.Request.CreateResponse(HttpStatusCode.BadRequest, faultMessage);
+            var responseMessage = actionContext.Request.CreateResponse(HttpStatusCode.Unauthorized, faultMessage);
             actionContext.Response = responseMessage;
         }
 
-        internal static string[] SplitString(string original)
-        {
-            if (String.IsNullOrEmpty(original))
-            {
-                return new string[0];
-            }
-
-            var split = from piece in original.Split(',')
-                        let trimmed = piece.Trim()
-                        where !String.IsNullOrEmpty(trimmed)
-                        select trimmed;
-            return split.ToArray();
-        }
     }
 }

@@ -13,7 +13,7 @@ using Website.Infrastructure.Query;
 
 namespace PostaFlya.Controllers
 {
-    [BrowserAuthorize(Roles = "Participant")]
+    [BrowserAuthorizeHttp(Roles = "Participant")]
     public class SavedTagsController : ApiController
     {
         private readonly CommandBusInterface _commandBus;

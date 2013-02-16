@@ -69,19 +69,20 @@ namespace PostaFlya.Binding
                 .InSingletonScope();
 
             var paymentServiveProvider = Kernel.Get<PaymentServiceProviderInterface>();
+            var config = Kernel.Get<ConfigurationServiceInterface>();
             var paypal = new PaypalExpressCheckout();
             if (Config.Instance != null)
             {
                 paypal = new PaypalExpressCheckout()
                     {
-                        ApiEndpoint = Config.Instance.GetSetting("PaypalAPIEndpoint"),
-                        Url = Config.Instance.GetSetting("PaypalUrl"),
-                        Name = Config.Instance.GetSetting("PaypalName"),
-                        Password = Config.Instance.GetSetting("PaypalPassword"),
-                        Signiture = Config.Instance.GetSetting("PaypalSigniture"),
-                        Version = Config.Instance.GetSetting("PaypalVersion"),
-                        CallbackUrl = Config.Instance.GetSetting("PaypalCallbackUrl"),
-                        CancelUrl = Config.Instance.GetSetting("PaypalCancelUrl")
+                        ApiEndpoint = config.GetSetting("PaypalAPIEndpoint"),
+                        Url = config.GetSetting("PaypalUrl"),
+                        Name = config.GetSetting("PaypalName"),
+                        Password = config.GetSetting("PaypalPassword"),
+                        Signiture = config.GetSetting("PaypalSigniture"),
+                        Version = config.GetSetting("PaypalVersion"),
+                        CallbackUrl = config.GetSetting("SiteUrl") + config.GetSetting("PaypalCallbackUrl"),
+                        CancelUrl = config.GetSetting("SiteUrl") + config.GetSetting("PaypalCancelUrl")
                     };
             }
             paymentServiveProvider.Add(new PaypalPaymentService(){ PaypalExpressCheckout = paypal});

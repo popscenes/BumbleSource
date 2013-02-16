@@ -8,10 +8,20 @@
         var $tooltip = $element.data('helptips');
         if ($tooltip)
             return;
-
+        
         $tooltip = $('<div>')
             .addClass("helptips-container")
             .hide();
+        
+        var id = $element.attr('id');
+        if (!id)
+            id = $element.attr('name');
+        if (id)
+            $tooltip.attr('id', id + '-helptip');
+        
+        var $arrowCont = $("<div>")
+            .addClass("helptips-arrow")
+            .appendTo($tooltip);
 
         $("<div>")
             .addClass("helptips-content")
@@ -19,19 +29,20 @@
             .appendTo($tooltip);
 
         $tooltip.insertAfter($element);
-        $element.data('helptips', $tooltip)
-        $tooltip.appendTo($element.document[0].body);
+        $element.data('helptips', $tooltip);
     }
 
     function init($eles) {
-        $eles = $eles.filter('[data-helptip-text]');
+        if (!$eles.is('[data-helptip-text]'))
+            $eles = $eles.find('[data-helptip-text], [data-helptip-group]');
 
-        $eles.not('[helptips-group]').each(function () {
+        $eles.not('[data-helptip-group]').each(function () {
             initElement($(this));
         });
 
-        $eles.filter('[helptips-group]').each(function () {
-            initGroup($(this));
+        var $groupEles = $eles.filter('[data-helptip-group]');
+        $groupEles.each(function () {
+            initGroup($(this), $groupEles);
         });
 
         return $eles;
@@ -40,15 +51,22 @@
     function getContent($group) {
         var $ret = $([]);
         $group.each(function () {
-            $this = $(this);
+            var $this = $(this);
             var $row = $('<div>')
-                .append($this.clone().removeAttr('data-helptip-text').removeAttr('id').addClass('helptips-icon'))
-                .append($this.attr("data-helptip-text"));
+                .append($this.clone()
+                    .removeAttr('data-helptip-text')
+                    .removeAttr('data-helptip-group')
+                    .removeAttr('id')
+                    .addClass('helptips-group-element'))
+                .append(
+                    $('<div>')
+                    .addClass('helptips-group-text')
+                    .text($this.attr("data-helptip-text")));
 
-            $ret.add($row);
+            $ret = $ret.add($row);
                 
         });
-        return ret;
+        return $ret;
     }
 
     function initGroup($groupEle, $allGroup){
@@ -57,71 +75,76 @@
         if ($tooltip)
             return;
 
+        var groupId = $groupEle.attr('data-helptip-group');
+        
         $tooltip = $('<div>')
             .addClass("helptips-container")
+            .attr("id", groupId + '-helptip')
             .hide();
+        
+        var $arrowCont = $("<div>")
+            .addClass("helptips-arrow")
+            .appendTo($tooltip);
 
         var $contentCont = $("<div>")
             .addClass("helptips-content")
             .appendTo($tooltip);
 
-        var groupId = $groupEle.attr('helptips-group');
-        var $group = $allGroup.filter('[helptips-group=' + groupId + ']');
-        var $content = methods.getContent($group);
+        
+        var $group = $allGroup.filter('[data-helptip-group=' + groupId + ']');
+        var $content = getContent($group.filter('[data-helptip-text]'));
         $content.appendTo($contentCont);
         $group.each(function () {
             $(this).data('helptips', $tooltip);
         });
 
-        $tooltip.appendTo($element.document[0].body);
+        var $tipcontainer = $group.not('[data-helptip-text]');
+        if (!$tipcontainer.length)
+            $tipcontainer = $(document.body);
+        
+        $tooltip.appendTo($tipcontainer);
     }
 
     function showHelpForEles($ele, showOrHide) {
         var $tooltip = $ele.first().data('helptips');
-        $tooltip.remove();
         if (showOrHide) {
-            var pos = getPositionFor($ele);
-            $tooltip.css("top", pos.top);
-            $tooltip.css("right", pos.right);
-            $tooltip.insertAfter($ele.last());
             $tooltip.show();
         }
         else {
-            $tooltip.appendTo($ele.document[0].body);
             $tooltip.hide();
         }
     }
 
     function showHelpFor($eles, showOrHide) {
 
-        $eles.not('[helptips-group]').each(function () {
+        $eles.not('[data-helptip-group]').each(function () {
             showHelpForEles($(this), showOrHide);
         });
 
         var done = {};
-        $eles.filter('[helptips-group]').each(function () {
+        $eles.filter('[data-helptip-group]').each(function () {
             var $this = $(this);
-            var groupid = $this.attr('helptips-group');
+            var groupid = $this.attr('data-helptip-group');
             if (!done[groupid]) {
-                showHelpForEles($eles.filter('[helptips-group=' + groupid + ']'));
+                showHelpForEles($eles.filter('[data-helptip-group=' + groupid + ']'), showOrHide);
                 done[groupid] = true;
             }
 
         });
     };
 
-    function getPositionFor($eles) {
-        var pos = {top: 0, right:0};
-        $eles.each(function () {
-            var $this = $(this);
-            var posEle = $this.position();
-            if (posEle.left + $this.width() > pos.right)
-                pos.right = posEle.left + $this.width();
-            if (posEle.top + $this.height() > pos.top)
-                pos.top = posEle.top + $this.height();
-        });
-        return pos;
-    }
+//    function getPositionFor($eles) {
+//        var pos = {top: 0, right:0};
+//        $eles.each(function () {
+//            var $this = $(this);
+//            var posEle = $this.position();
+//            if (posEle.left + $this.width() > pos.right)
+//                pos.right = posEle.left + $this.width();
+//            if (posEle.top + $this.height() > pos.top)
+//                pos.top = posEle.top + $this.height();
+//        });
+//        return pos;
+//    }
     
     var publicmethods = {
 

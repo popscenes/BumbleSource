@@ -290,19 +290,17 @@ ul.flier-images li
 
 /************toolbar items**************************/
 
-
-a.toolbar-item img{
-    width: 50px;
-    height: 50px;   
-}
-
 a.toolbar-item div{
-    width: 50px;
-    height: 50px;
+
     display: inline-block;  
 }
 
-a.toolbar-item div.profile-edit-tool-bar-item, a.toolbar-item div.add-flier-tool-bar-item,a.toolbar-item div.login-tool-bar-item, a.toolbar-item div.facebook-tool-bar-item
+div.toolbar-button, img.toolbar-button {
+    width: 50px;
+    height: 50px;
+}
+
+div.profile-edit-tool-bar-item, div.add-flier-tool-bar-item,div.login-tool-bar-item, div.facebook-tool-bar-item
 {
     background-size:50px 50px;
     background-repeat:no-repeat;

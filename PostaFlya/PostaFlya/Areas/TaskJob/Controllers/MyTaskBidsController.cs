@@ -8,7 +8,7 @@ using Website.Infrastructure.Command;
 
 namespace PostaFlya.Areas.TaskJob.Controllers
 {
-    [BrowserAuthorize(Roles = "IdentityVerified")]
+    [BrowserAuthorizeHttp(Roles = "IdentityVerified")]
     public class MyTaskBidsController : ApiController
     {
         private readonly CommandBusInterface _commandBus;

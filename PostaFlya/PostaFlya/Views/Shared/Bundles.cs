@@ -56,6 +56,7 @@ namespace PostaFlya.Views.Shared
             "Base/ErrorHandling.js",
             "Base/CreateEditFlier.js",
             "Base/CreateFlierInstance.js",
+            "Base/jquery.helptips.js",
         };
 
         private static readonly string[] DeskJsFiles =

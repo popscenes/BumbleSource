@@ -17,9 +17,9 @@
             return ($.inArray(role, self.Roles) >= 0);
         };
 
-        self.CheckLoginNeeded = function(url) {
+        self.LoginNeeded = function(url) {
             if (!self.IsParticipant()) {
-                window.location = "/Account/Login?url=" + window.location.pathname;
+                bf.ErrorUtil.NeedsLogin();
                 return true;
             }
             return false;

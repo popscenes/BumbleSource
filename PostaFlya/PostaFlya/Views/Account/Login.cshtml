@@ -29,9 +29,9 @@
         </h2>
         @using (Html.BeginForm("AuthRequest", "Account", FormMethod.Post, new { id = "openid_form" }))
         {
-             if (!string.IsNullOrWhiteSpace(ViewBag.targetPath))
+             if (!string.IsNullOrWhiteSpace(ViewBag.ReturnUrl))
              {
-                <input type="hidden" name="targetPath" value="@ViewBag.targetPath" /> 
+                <input type="hidden" name="ReturnUrl" value="@ViewBag.ReturnUrl" /> 
              }
             
             <input type="hidden" name="action" value="verify" />

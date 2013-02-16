@@ -20,7 +20,7 @@ using Website.Domain.Content;
 
 namespace PostaFlya.Controllers
 {
-    [BrowserAuthorize]
+    [BrowserAuthorizeHttp]
     public class ClaimController : ApiController
     {
         private readonly CommandBusInterface _commandBus;

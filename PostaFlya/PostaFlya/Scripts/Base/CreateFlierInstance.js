@@ -28,6 +28,10 @@
 
 
         self.CreateFlierLaunch = function () {
+
+            if (bf.currentBrowserInstance.LoginNeeded())
+                return;
+
             var data = { ContactDetails: bf.currentBrowserInstance.ContactDetails };
             var emptyFlier = new bf.CreateEditFlier(data, self.ImageSelector, self.TagsSelector, self.FlierFormClose);
 

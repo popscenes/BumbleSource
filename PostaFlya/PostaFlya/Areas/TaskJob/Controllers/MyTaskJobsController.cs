@@ -17,7 +17,7 @@ using Website.Infrastructure.Query;
 
 namespace PostaFlya.Areas.TaskJob.Controllers
 {
-    [BrowserAuthorize(Roles = "IdentityVerified")]
+    [BrowserAuthorizeHttp(Roles = "IdentityVerified")]
     public class MyTaskJobsController : ApiController
     {
         private readonly CommandBusInterface _commandBus;

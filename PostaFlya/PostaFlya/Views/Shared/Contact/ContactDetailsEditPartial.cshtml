@@ -55,7 +55,10 @@
             @{
                    
                 ViewBag.LocationVariable = "Address";
-                ViewBag.AutoCompleteLocationBannerText = "'Please enter an address'";
+                if (string.IsNullOrWhiteSpace(ViewBag.AutoCompleteLocationBannerText))
+                {
+                    ViewBag.AutoCompleteLocationBannerText = "'Please enter an address'"; 
+                }                    
                 ViewBag.AutoCompleteLocationId = "addressSearch";
             }
             @Html.Partial("Location/LocationAutocomplete")

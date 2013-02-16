@@ -32,8 +32,8 @@
       <Setting name="PaypalPassword" value="1354614484"/>
       <Setting name="PaypalSigniture" value="AKL0BHttgt4y7V9TMc6a-MVrjQrzAI7DEOtgV8YofbavU1TCcr-Nyslc"/>
       <Setting name="PaypalVersion" value="92.0"/>
-      <Setting name="PaypalCallbackUrl" value="http://127.0.0.1:81/Payment/PayPalSuccess"/>
-      <Setting name="PaypalCancelUrl" value="http://127.0.0.1:81/Payment/Cancel"/>
+      <Setting name="PaypalCallbackUrl" value="/Payment/PayPalSuccess"/>
+      <Setting name="PaypalCancelUrl" value="/Payment/Cancel"/>
 
       <Setting name="TinyUrlBase" value="http://tfly.in:81/"/> <!-- set hosts file to point to localhost -->
       <Setting name="SiteUrl" value="http://127.0.0.1:81"/>

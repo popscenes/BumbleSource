@@ -9,10 +9,12 @@ using Website.Application.Binding;
 using PostaFlya.Models.Factory;
 using Website.Application.Content;
 using Website.Application.Domain.Browser;
+using Website.Application.Domain.Browser.Web;
 using Website.Domain.Browser.Query;
 
 namespace PostaFlya.Controllers
 {
+    [BrowserAuthorizeMvc]
     public class ProfileController : Controller
     {
         private readonly BrowserInformationInterface _browserInformation;

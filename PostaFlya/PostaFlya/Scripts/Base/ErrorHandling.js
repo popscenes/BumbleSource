@@ -5,7 +5,7 @@
     bf.ErrorUtils = function () {
         var self = this;
 
-        self.HandleSubmitError = function (formselector, jqXhr, errorhandler) {
+        self.HandleRequestError = function (formselector, jqXhr, errorhandler) {
 
             var errormsg = $.parseJSON(jqXhr.responseText);
 
@@ -43,13 +43,17 @@
                     return;
                 }
                 if (errormsg.Message == "Invalid Access") {
-                    window.location = "/Account/LoginPage?targetPath=" + window.location.pathname;
+                    self.NeedsLogin();
                     return;
                 }
             }
 
             if (errorhandler && $.isFunction(errorhandler))
                 errorhandler(ret);
+        };
+
+        self.NeedsLogin = function() {
+            window.location = "/Account/LoginPage?ReturnUrl=" + encodeURIComponent(window.location.pathname);
         };
 
         self.FindElementName = function ($formvalidator, property) {

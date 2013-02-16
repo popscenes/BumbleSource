@@ -99,21 +99,21 @@ a.toolbar-item img{
 a.toolbar-item div{
 }
 
-a.toolbar-item div.profile-edit-tool-bar-item {
+div.profile-edit-tool-bar-item {
 	background-image:url(images/edit-profile-btn.png);
 }
 
-a.toolbar-item div.add-flier-tool-bar-item
+div.add-flier-tool-bar-item
 {
     background-image:url(images/post-flya-btn.png);
 }
 
-a.toolbar-item div.facebook-tool-bar-item
+div.facebook-tool-bar-item
 {
     background-image:url(images/icon_0006_Group-1.png);
 }
 
-a.toolbar-item div.login-tool-bar-item
+div.login-tool-bar-item
 {
     background-image:url(images/icon_0001_Group-5.png);
 }

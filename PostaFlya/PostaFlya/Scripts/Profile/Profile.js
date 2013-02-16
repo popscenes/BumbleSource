@@ -45,6 +45,9 @@
                     self.ClaimedFliers([]);
                     self.MyFliers(allData.Fliers);
                     self.ClaimedFliers(allData.ClaimedFliers);
+                })
+                .error(function(jqXhr, textStatus, errorThrown) {
+                    bf.ErrorUtil.HandleRequestError(null, jqXhr, self.ErrorHandler);
                 });
             }
 

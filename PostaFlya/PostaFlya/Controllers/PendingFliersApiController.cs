@@ -20,7 +20,7 @@ using Website.Infrastructure.Query;
 
 namespace PostaFlya.Controllers
 {
-     [BrowserAuthorize(Roles = "Participant")]
+     [BrowserAuthorizeHttp(Roles = "Participant")]
     public class PendingFliersApiController : ApiController
     {
         private readonly BrowserInformationInterface _browserInformation;

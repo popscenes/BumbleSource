@@ -35,7 +35,7 @@
                         });
                 },
                 error: function (jqXhr, textStatus, errorThrown) {
-                    bf.ErrorUtil.HandleSubmitError(null, jqXhr, self.ErrorHandler);
+                    bf.ErrorUtil.HandleRequestError(null, jqXhr, self.ErrorHandler);
                 }
             });
             return true;

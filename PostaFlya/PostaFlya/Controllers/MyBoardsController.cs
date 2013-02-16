@@ -9,7 +9,7 @@ using Website.Infrastructure.Command;
 
 namespace PostaFlya.Controllers
 {
-    [BrowserAuthorize(Roles = "Participant")]
+    [BrowserAuthorizeHttp(Roles = "Participant")]
     public class MyBoardsController : ApiController
     {
         private readonly CommandBusInterface _commandBus;

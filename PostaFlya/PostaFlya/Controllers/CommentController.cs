@@ -33,7 +33,7 @@ namespace PostaFlya.Controllers
             _blobStorage = blobStorage;
         }
 
-        [BrowserAuthorize(Roles = "Participant")]
+        [BrowserAuthorizeHttp(Roles = "Participant")]
         public HttpResponseMessage Post(CreateCommentModel commentCreateModel)
         {
             var entity = _queryService.FindById(ClaimController.GetTypeForClaimEntity(commentCreateModel.CommentEntity),

@@ -224,7 +224,7 @@
                 },
                 error: function (jqXhr, textStatus, errorThrown) {
 
-                    bf.ErrorUtil.HandleSubmitError('#flierForm', jqXhr, self.ErrorHandler);
+                    bf.ErrorUtil.HandleRequestError('#flierForm', jqXhr, self.ErrorHandler);
                 }
             });
 

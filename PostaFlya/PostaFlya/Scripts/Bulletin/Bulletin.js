@@ -49,6 +49,7 @@
         self.ShowAbout = function() {
             self.hideShowAbout(!self.hideShowAbout());
             self.tagsSelector.ShowTags(false);
+            $(window.document.body).helptips('showHelp', self.hideShowAbout());
         };
 
         self.Request = function () {

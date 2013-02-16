@@ -10,7 +10,7 @@ using Website.Domain.Content;
 
 namespace PostaFlya.Controllers
 {
-    [BrowserAuthorize]
+    [BrowserAuthorizeHttp]
     public class MyImagesController : ApiController
     {
         private readonly QueryServiceForBrowserAggregateInterface _queryService;
