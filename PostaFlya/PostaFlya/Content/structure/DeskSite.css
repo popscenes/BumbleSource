@@ -294,7 +294,8 @@ ul.flier-images li
 
 /************toolbar items**************************/
 
-a.toolbar-item div{
+
+a.toolbar-item div, span.toolbar-item div{
 
     display: inline-block;  
 }
@@ -308,6 +309,12 @@ div.profile-edit-tool-bar-item, div.add-flier-tool-bar-item,div.login-tool-bar-i
 {
     background-size:50px 50px;
     background-repeat:no-repeat;
+}
+
+div.question-tool-bar-item {
+    background-size:30px 30px;
+    background-repeat:no-repeat;
+    background-position: center;
 }
 
 
@@ -608,6 +615,46 @@ a.toolbar-item
 }
 
 
+/*Help Tips Core**********************************/
 
+div.helptips-container {
+    padding: 10px;
+    position: absolute;
+}
+
+div.helptips-content
+{
+    padding: 10px;
+}
+
+div.helptips-arrow
+{
+    position: absolute;
+    width: 15px;
+    height: 11px;
+    top: 0;
+    left: 25px;
+    z-index: 1000;
+}
+
+div.helptips-group-element
+{
+    float: left;
+}
+
+div.helptips-group-text {
+    padding: 10px;
+}
+
+div.helptips-footer {
+
+}
+/*End Help Tips Core**********************************/
+
+/*Help tips global toolbar*/
+
+#global-toolbar-helptip div.helptips-arrow{
+    left: 60px;
+}
 
 

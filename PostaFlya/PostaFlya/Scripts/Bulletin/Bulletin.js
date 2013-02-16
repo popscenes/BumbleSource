@@ -44,12 +44,12 @@
             return params;
         };
 
-        self.hideShowAbout = ko.observable(false);
+        self.showHelp = ko.observable(false);
 
-        self.ShowAbout = function() {
-            self.hideShowAbout(!self.hideShowAbout());
+        self.ShowHelp = function() {
+            self.showHelp(!self.showHelp());
             self.tagsSelector.ShowTags(false);
-            $(window.document.body).helptips('showHelp', self.hideShowAbout());
+            $(window.document.body).helptips('showHelp', self.showHelp());
         };
 
         self.Request = function () {
@@ -96,13 +96,13 @@
             self.ShowMap(!self.ShowMap());
            
             self.tagsSelector.ShowTags(false);
-            self.hideShowAbout(false);
+            self.showHelp(false);
         };
 
         self.ShowTags = function () {
             self.ShowMap(false);
             self.tagsSelector.ShowTags(!self.tagsSelector.ShowTags());
-            self.hideShowAbout(false);
+            self.showHelp(false);
         };
 
         self.TryRequest = function() {

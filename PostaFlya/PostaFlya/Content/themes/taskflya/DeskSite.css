@@ -55,11 +55,11 @@ background-color: white;
 
 }
 
-#btn-location{
+div.btn-location{
     background-position:5px 0px;    
 }
 
-#btn-tags{
+div.btn-tags{
     background-position:-40px 0px;  
     margin-left:10px;  
 }
@@ -76,10 +76,10 @@ background-color: white;
     margin-left:10px; 
 }
 
-#controls #lsMain
+#lsMain
 {
    
-	background-image:url(image/white-90.png);
+	background-image:none;
 
 }
 
@@ -117,6 +117,11 @@ div.login-tool-bar-item
 {
     background-image:url(images/icon_0001_Group-5.png);
 }
+
+div.question-tool-bar-item {
+    background-image: url(images/question-mark-icon.png);
+}
+
 
 /************end toolbar items**************************/
 
@@ -732,13 +737,6 @@ form li label {
     background-repeat: no-repeat;
 }
 
-#controls .btn-question {
-    background-image: url(images/question-mark-icon.png);
-    background-size: 30px 30px;
-    background-position: center;
-    background-repeat: no-repeat;
-}
-
 #openid_btns {
     clear: both;
 width: 250px;
@@ -808,6 +806,27 @@ margin: 0 auto;
     width: 160px;
 }
 
+/*Help Tips Core**********************************/
+
+div.helptips-on
+{
+    border: 1px solid #FFCC00;
+    background-color: #FFFF66;
+}
+
+div.helptips-content
+{
+    border: 1px solid #FFCC00;
+    background-color: #FFFF66;
+}
+
+div.helptips-arrow
+{
+    background-image: url("images/helptips-arrow.png");
+    background-repeat: no-repeat;
+}
+
+/*End Help Tips Core**********************************/
 
 
 @media only screen and (max-width: 800px)

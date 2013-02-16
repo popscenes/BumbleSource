@@ -3,6 +3,18 @@
     var defaults = {
         position: "bottomright",
     };
+    
+    function getHelpIdForElement($element) {
+        var id = $element.attr('data-helptip-id');
+        if (!id) {
+            id = $element.attr('id');
+            if (!id)
+                id = $element.attr('name');
+            if (id)
+                id = id + '-helptip';
+        }
+        return id;
+    }
 
     function initElement($element) {
         var $tooltip = $element.data('helptips');
@@ -12,12 +24,10 @@
         $tooltip = $('<div>')
             .addClass("helptips-container")
             .hide();
-        
-        var id = $element.attr('id');
-        if (!id)
-            id = $element.attr('name');
+
+        var id = getHelpIdForElement($element);   
         if (id)
-            $tooltip.attr('id', id + '-helptip');
+            $tooltip.attr('id', id);
         
         var $arrowCont = $("<div>")
             .addClass("helptips-arrow")
@@ -26,6 +36,10 @@
         $("<div>")
             .addClass("helptips-content")
             .text($element.attr("data-helptip-text"))
+            .appendTo($tooltip);
+        
+        var $footer = $("<div>")
+            .addClass("helptips-footer")
             .appendTo($tooltip);
 
         $tooltip.insertAfter($element);
@@ -52,20 +66,29 @@
         var $ret = $([]);
         $group.each(function () {
             var $this = $(this);
+            
+            var id = getHelpIdForElement($this);
+            
             var $row = $('<div>')
-                .append($this.clone()
-                    .removeAttr('data-helptip-text')
-                    .removeAttr('data-helptip-group')
-                    .removeAttr('id')
-                    .addClass('helptips-group-element'))
+                .append($('<div>')
+                    .addClass($this.attr("class"))
+                    .addClass('helptips-group-element'))//override anything you want removed using this class
                 .append(
                     $('<div>')
                     .addClass('helptips-group-text')
-                    .text($this.attr("data-helptip-text")));
+                    .text($this.attr("data-helptip-text")))
+                .addClass('helptips-group-row');
 
+            if (id)
+                $row.attr("id", id);
+            
             $ret = $ret.add($row);
                 
         });
+
+        $ret.append(
+            $('<div>').css("clear", "both"));
+
         return $ret;
     }
 
@@ -88,6 +111,10 @@
 
         var $contentCont = $("<div>")
             .addClass("helptips-content")
+            .appendTo($tooltip);
+        
+        var $footer = $("<div>")
+            .addClass("helptips-footer")
             .appendTo($tooltip);
 
         

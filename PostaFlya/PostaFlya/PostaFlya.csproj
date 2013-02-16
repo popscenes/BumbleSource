@@ -469,6 +469,7 @@
     <Content Include="Content\structure\CommonSite.css" />
     <Content Include="Content\structure\jcarousel-skin-tango.css" />
     <Content Include="Content\themes\taskflya\images\header-bg-shim.png" />
+    <Content Include="Content\themes\taskflya\images\helptips-arrow.png" />
     <Content Include="Content\themes\taskflya\images\hide-btn.png" />
     <Content Include="Content\themes\taskflya\images\icon-cross.gif" />
     <Content Include="Content\themes\taskflya\images\icon-crossed.gif" />

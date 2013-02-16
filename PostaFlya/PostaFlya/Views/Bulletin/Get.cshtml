@@ -29,31 +29,37 @@
 
 <div id="controls">
     <div class="page-toolbar">
-        <div class="locSel">
-            
-                     
+        <div class="locSel"
+            data-helptip-group="bulletin-toolbar" 
+            data-helptip-text="Search your Suburb or Area for Fliers">
+                                 
             <div class="ls-holder">
                 @Html.Partial("Location/LocationAutocomplete")
             </div>
         </div>
             
         <div class="page-toolbar-buttons">
-            <div data-bind="click: ToggleMap" class="Button" id="btn-location">Location</div>
-
-            <div class="tagsSel">
-                <div class="Button" id="btn-tags" data-bind="click:ShowTags">Select Tags</div>
+            <div data-bind="click: ToggleMap" class="Button btn-location" id="btn-location"
+                 data-helptip-group="bulletin-toolbar" 
+                 data-helptip-text="Show your Search Area on a Map">
+                Location
             </div>
 
-            <div id="show-about">
-                <div class="Button btn-question" data-bind="click: ShowAbout">hide</div>
+            <div class="tagsSel">
+                <div class="Button btn-tags" id="btn-tags" data-bind="click:ShowTags"
+                    data-helptip-group="bulletin-toolbar" 
+                    data-helptip-text="Filter the Fliers by Tags">
+                    Select Tags
+                </div>
             </div>
         </div>
     </div>
     
+    <div data-helptip-group="bulletin-toolbar"></div>
     
 </div>
 
-<div id="about-posta" data-bind="visible:hideShowAbout" style="display: none;">
+<div id="about-posta" data-bind="visible:showHelp()" style="display: none;">
 
 
 </div>

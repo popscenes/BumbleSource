@@ -4,7 +4,10 @@
     @*<a href="@Url.Action("Import", "FlierImport", new {providerName="facebook" })" class="toolbar-item" title="Facebook Import">
         <div class="facebook-tool-bar-item"></div>
     </a>*@
-    
+    <a id="show-about" class="toolbar-item" >
+        <div class="toolbar-button question-tool-bar-item" data-bind="click: ShowHelp, css: { 'helptips-on': showHelp() }" id="btn-question"></div>
+    </a>
+
     <a href="javascript:void(0);" data-bind="click: CreateFlierInstance.CreateFlierLaunch" class="toolbar-item" title="Create Flier">
         <div class="toolbar-button add-flier-tool-bar-item"
             data-helptip-group="global-toolbar" 

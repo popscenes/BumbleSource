@@ -84,4 +84,16 @@
     margin: 0 auto 0;
 }
 
+/*Help Tips Bulletin*/
+.helptips-container#bulletin-toolbar-helptip {
+    top: 100px;
+    max-width: 30%;
+    min-width: 100px;
+}
+
+#bulletin-toolbar-helptip .helptips-group-element.btn-tags {
+    margin: 0;
+}
+/*Help Tips Bulletin*/
+
 
