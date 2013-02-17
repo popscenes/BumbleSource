@@ -29,15 +29,15 @@
 
 
 <div id="flierCreateStep"  data-bind="template: { name: stepTemplate}">
-    </div>
+</div>
 
-    <div id="form-buttons">
-        <a id="flya-create-back" data-bind="click: prevTemplate, visible:isPrevStep()" class="Button">&nbsp;</a>
-        <a id="flya-create-continue" data-bind="click: nextTemplate, visible:isNextStep()" class="Button"></a>
+<div id="form-buttons">
+    <a id="flya-create-back" data-bind="click: prevTemplate, visible:isPrevStep()" class="Button">&nbsp;</a>
+    <a id="flya-create-continue" data-bind="click: nextTemplate, visible:isNextStep()" class="Button"></a>
 
-        <a id="flya-create-save" data-bind="click: save, visible:!isUpdate() && !isNextStep()" class="Button">&nbsp;</a>
-        <a id="flya-create-update" data-bind="click: update, visible:isUpdate() && !isNextStep()" class="Button">&nbsp;</a>
-    </div>
+    <a id="flya-create-save" data-bind="click: save, visible:!isUpdate() && !isNextStep()" class="Button">&nbsp;</a>
+    <a id="flya-create-update" data-bind="click: update, visible:isUpdate() && !isNextStep()" class="Button">&nbsp;</a>
+</div>
 
 <script type="text/html" id="Flyer-template">
     <form id="flierForm" class="" data-bind="validate: true">

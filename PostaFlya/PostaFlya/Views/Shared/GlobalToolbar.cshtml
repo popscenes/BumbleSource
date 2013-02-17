@@ -5,7 +5,7 @@
         <div class="facebook-tool-bar-item"></div>
     </a>*@
     <a id="show-about" class="toolbar-item" >
-        <div class="toolbar-button question-tool-bar-item" data-bind="click: ShowHelp, css: { 'helptips-on': showHelp() }" id="btn-question"></div>
+        <div class="toolbar-button question-tool-bar-item" data-bind="click: bf.HelpTipsInstance.ToggleHelp, css: { 'helptips-on': bf.HelpTipsInstance.showHelp() }"></div>
     </a>
 
     <a href="javascript:void(0);" data-bind="click: CreateFlierInstance.CreateFlierLaunch" class="toolbar-item" title="Create Flier">

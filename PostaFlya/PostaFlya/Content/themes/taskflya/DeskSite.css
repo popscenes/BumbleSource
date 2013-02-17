@@ -661,16 +661,27 @@ form li label {
     display: inline-block;
 }
 
-#pickfiles {
+.pickfiles {
     width: 146px;
     height: 40px;
     background: url(images/browse-btn.png);
 }
-#uploadfiles {
+.uploadfiles {
     width: 98px;
     height: 40px;
     background: url(images/add-btn.png);
 }
+
+#image-upload-helptip .helptips-group-icon.pickfiles,
+#image-upload-helptip .helptips-group-icon.uploadfiles {
+    width: 80px;
+    height: 30px;
+    background-size: 80px 30px;
+    background-repeat: no-repeat;
+    background-position: center center;
+    padding: 10px;
+}
+
 
 .select-mini-btn {
     width: 49px;
@@ -724,17 +735,21 @@ form li label {
     width: 297px;
 }
 
-#about-posta { 
+.about-bg {
+    position: fixed;
+    top: 100px;
+    right: 0;
+    left: 0;
+    bottom: 0;
     background-image: url(images/about-posta2.png);
-    width: 900px;
-    height: 550px;
-    margin: 0 auto;
-    color: #98D5E4;
-    font-size: 1em;
-    font-weight: bold;
-    line-height: 150%;
-    text-align: center;
     background-repeat: no-repeat;
+    background-position: center center;
+    background-size: 90% 90%;
+    z-index: -1;
+}
+
+.about-bg-trans {
+  opacity:0.2;
 }
 
 #openid_btns {
@@ -818,10 +833,12 @@ div.helptips-content
 {
     border: 1px solid #FFCC00;
     background-color: #FFFF66;
+    font-size: 12px;
 }
 
 div.helptips-arrow
 {
+    background-position: center -5px;
     background-image: url("images/helptips-arrow.png");
     background-repeat: no-repeat;
 }
@@ -835,20 +852,10 @@ div.helptips-arrow
         background-image: none;
     }
 
-    #about-posta { 
-        background-size:600px 400px;
-        width: 600px;
-        height: 400px;
-    }
 }
 
 @media only screen and (max-width: 600px)
 {
-    #about-posta { 
-        background-size:400px 250px;
-        width: 400px;
-        height: 250px;
-    }
 
     .flier-view .flier-details .flier-img img {
         width: 250px !important;
@@ -913,8 +920,7 @@ div.helptips-arrow
     }
 
     div#selected-item-div, div#create-flier-item-div {
-        position: absolute;
-        z-index: 751;
+
         left: 0;
         padding: 5%;
         width: 90%;
@@ -960,6 +966,21 @@ div.helptips-arrow
     input#locationSearch {
         width: 90%;
         margin: 10px auto;
+    }
+
+    .helptips-container#global-toolbar-helptip {
+        padding-top: 75px;
+    }
+
+    .helptips-container#global-toolbar-helptip div.helptips-arrow
+    {
+        width: 20px;
+        height: 76px;
+    }
+
+    div.helptips-content
+    {
+        font-size: 10px;
     }
 
 }

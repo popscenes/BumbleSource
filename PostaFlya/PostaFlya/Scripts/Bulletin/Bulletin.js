@@ -44,14 +44,6 @@
             return params;
         };
 
-        self.showHelp = ko.observable(false);
-
-        self.ShowHelp = function() {
-            self.showHelp(!self.showHelp());
-            self.tagsSelector.ShowTags(false);
-            $(window.document.body).helptips('showHelp', self.showHelp());
-        };
-
         self.Request = function () {
             self.noMoreFliers(false);
 
@@ -83,6 +75,10 @@
                 if (allData.length == 0)
                     self.noMoreFliers(true);
                 self.moreFliersPending(false);
+            })
+            .error(function (jqXhr, textStatus, errorThrown) {
+                self.moreFliersPending(false);
+                bf.ErrorUtil.HandleRequestError(null, jqXhr, self.ErrorHandler);
             });
         };
 
@@ -93,16 +89,13 @@
         };
 
         self.ToggleMap = function () {
-            self.ShowMap(!self.ShowMap());
-           
+            self.ShowMap(!self.ShowMap());       
             self.tagsSelector.ShowTags(false);
-            self.showHelp(false);
         };
 
         self.ShowTags = function () {
             self.ShowMap(false);
             self.tagsSelector.ShowTags(!self.tagsSelector.ShowTags());
-            self.showHelp(false);
         };
 
         self.TryRequest = function() {
@@ -110,6 +103,8 @@
                 self.Request();
             } else if (!self.Location() || !self.Location().ValidLocation()){
                 self.fliers([]);
+                self.moreFliersPending(false);
+                self.noMoreFliers(true);
             }
         };
 

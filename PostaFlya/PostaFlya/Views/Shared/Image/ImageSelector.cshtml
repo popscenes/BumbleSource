@@ -6,13 +6,20 @@
         <h3>UPLOAD NEW IMAGE</h3>
         <div id="upload-container">
             <div id="filelist">
-                <p>Browse to select images then select Add to upload to Posta Flya</p>
+                <p>Browse to select images then select Add to upload to Postaflya</p>
             </div>
             
             <div id="upload-controls">
-                <a id="pickfiles" href="javascript:void(0);"></a>
-                <a id="uploadfiles" href="javascript:void(0);"></a>
+                <a class="pickfiles" id="pickfiles" href="javascript:void(0);"
+                   data-helptip-group="image-upload" 
+                   data-helptip-text="Browse your disk for the image to use as a Flier"
+                    ></a>
+                <a class="uploadfiles" id="uploadfiles" href="javascript:void(0);"
+                   data-helptip-group="image-upload" 
+                   data-helptip-text="Once you have selected an image click to upload to Postaflya"
+                    ></a>
             </div>
+            <div data-helptip-group="image-upload"></div>
         </div>
     </div>
     

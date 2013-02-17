@@ -1,16 +1,19 @@
 ﻿
 @model dynamic
 
-<div class="ui-bulletin-board">                                                                                 
+<div class="ui-bulletin-board">
+    <div class="about-bg" data-bind="css: { 'about-bg-trans': fliers().length > 0 }">
+        
+    </div>                                                                                 
     <div id="bulletinboard"  data-bind="template: { name: Layout.FlierTemplate, foreach: fliers }, visible: fliers().length > 0, updateLayout: Layout">
-    @Html.Partial("State/PageStateAdd", "Fliers")    
-    @Html.Partial("Bulletin/BulletinItems")
+        @Html.Partial("State/PageStateAdd", "Fliers")    
+        @Html.Partial("Bulletin/BulletinItems")
     </div>
     <div class="ui-loading-div" data-bind="visible: moreFliersPending" id="moreFliersPending">
         <span>Loading more Fliers... </span><img  src="~/Content/images/loading.gif"/>
     </div>
     <div class="ui-loading-div" data-bind="visible: noMoreFliers" id="noMoreFliers">
-         <span>That's all folks!</span>
+        <span>That's all folks!</span>
     </div>
 </div>
                                                                                         
