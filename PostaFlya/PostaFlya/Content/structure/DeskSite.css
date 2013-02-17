@@ -31,7 +31,7 @@ header{
 
 #controls
 {
-    width:500px;
+    width:440px;
     margin-left:auto;
     margin-right:auto;
 	height:70px;
@@ -659,7 +659,7 @@ div.helptips-group-text {
 }
 
 div.helptips-footer {
-
+    text-align: right;
 }
 
 /*End Help Tips Core**********************************/

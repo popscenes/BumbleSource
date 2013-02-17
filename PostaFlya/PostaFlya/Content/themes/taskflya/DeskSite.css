@@ -775,13 +775,14 @@ margin: 0 auto;
     margin: 22px 0 0 200px;
 }
 
-.red-mini-button {
+.red-mini-button, .helptips-close {
     background-color: #D28282;
     padding: 5px 10px;
     border: #ACC8CD solid 1px;
     font-size: 10px;
     color: white;
     cursor: pointer;
+    text-decoration: none;
 }
 
 .flier-cost-summary {
@@ -825,15 +826,16 @@ margin: 0 auto;
 
 div.helptips-on
 {
-    border: 1px solid #FFCC00;
-    background-color: #FFFF66;
+    border: 1px solid #cccccc;
+    background-color: rgb(255, 255, 218);
 }
 
 div.helptips-content
 {
-    border: 1px solid #FFCC00;
-    background-color: #FFFF66;
+    border: 1px solid #cccccc;
+    background-color: rgb(255, 255, 218);
     font-size: 12px;
+    opacity: 0.95;
 }
 
 div.helptips-arrow
