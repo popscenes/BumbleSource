@@ -43,7 +43,6 @@ background-color: white;
 	background-size:2000px 150px;
 	outline:none;
 	color:#fff;
-	float:left;
     cursor: pointer;
 }
 
@@ -736,15 +735,16 @@ form li label {
 }
 
 .about-bg {
-    position: fixed;
+    position: absolute;
     top: 100px;
     right: 0;
     left: 0;
-    bottom: 0;
+    min-height: 700px;
+    height: 100%;
     background-image: url(images/about-posta2.png);
     background-repeat: no-repeat;
     background-position: center center;
-    background-size: 90% 90%;
+    background-size: 100% 100%;
     z-index: -1;
 }
 
@@ -846,7 +846,16 @@ div.helptips-arrow
 /*End Help Tips Core**********************************/
 
 
-@media only screen and (max-width: 800px)
+
+@media only screen and (min-width: 800px)
+{
+    .large#controls .Button {
+        background-image: url(images/icons.png);
+        background-size:4000px 300px;
+    }
+}
+
+@media only screen and (max-width: 900px)
 {
     header{
         background-image: none;

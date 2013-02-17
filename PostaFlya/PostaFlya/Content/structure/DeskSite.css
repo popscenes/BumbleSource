@@ -236,15 +236,12 @@ ul.flier-images li
 
 /**************tags selector********************/
 
-
-
-
-
 #controls .Button{
 	width:30px;
 	height:30px;
 	padding:10px;
 	text-indent:-30000px;
+    float:left;
 }
 
 #controls .Button:hover{
@@ -676,6 +673,67 @@ div.helptips-footer {
     max-width: 25%;
     min-width: 100px;
     right: 0px;
+}
+
+#scrolltotop
+{
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+@media only screen and (min-width: 800px)
+{
+        /**large*/
+    .large .locSel #locationSearch{
+        width: 500px;
+        height: 60px;
+        font-size: 25px;
+        font-weight: bold;
+    }
+
+    .large#controls {
+        width: 100%;
+    }
+
+    .large .page-toolbar {
+        width: 725px;
+        height: 100px;
+        margin: auto;  
+    }
+
+    .large .helptips-container#bulletin-toolbar-helptip {
+        top: 150px;    
+    }
+
+    .large#controls .Button {
+
+        width:60px;
+	    height:60px;
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+
+    .large#controls div.btn-location {
+        background-position: 10px top;
+    }
+
+    .large#controls div.btn-tags {
+        background-position: -80px top;
+        margin-left: 0;
+    }
+
+    .large .page-toolbar-buttons {
+        width: 200px;
+    }
+
+    .large #bulletin-toolbar-helptip div.helptips-group-text {
+        padding-top: 30px;
+        font-size: 16px;
+    }
+/**large*/
+
 }
 
 

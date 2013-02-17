@@ -85,7 +85,7 @@ ko.bindingHandlers.locationAutoComplete = {
     update: function (element, valueAccessor, allBindingsAccessor, viewModel) {
 
         var location = ko.utils.unwrapObservable(valueAccessor());
-        var banner = (location == null || location.Description() === "") ? allBindingsAccessor().bannerText : location.Description();
+        var banner = (location == null || location.Description() === "") ? ko.utils.unwrapObservable(allBindingsAccessor().bannerText) : location.Description();
         if (location != null && location.ValidLocation() && location.Description() === "")
             bf.reverseGeocode(location);
 
