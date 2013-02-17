@@ -818,7 +818,7 @@ margin: 0 auto;
 
 .page-toolbar-buttons {
     float: left;
-    width: 160px;
+    width: 110px;
 }
 
 /*Help Tips Core**********************************/
@@ -886,7 +886,7 @@ div.helptips-arrow
 
    
     #logo {
-        width: 100px;
+        width: 90px;
     }
 
     #flya-create-back {
