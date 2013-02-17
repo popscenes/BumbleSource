@@ -127,9 +127,17 @@
                     break;
                 }
             }
+            
+            if (!$('#thumbs').is(":visible")) {
+                return;
+            }
 
             while ($("#" + self.selectedImageId()).is(":visible") == false) {
                 $('a.next').click();
+                if ($("thumbs li").last().is(":visible")) {
+                    break;
+                }
+
             }
             
         };
