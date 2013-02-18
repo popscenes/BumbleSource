@@ -684,8 +684,7 @@ div.helptips-footer {
     bottom: 0;
 }
 
-/*@media only screen and (min-width: 800px)
-{*/
+
 .file-upload-row {
     margin: 5px 0px;
     padding: 5px 0;
@@ -750,6 +749,6 @@ div.helptips-footer {
     }
 /**large*/
 
-/*}*/
+}
 
 
