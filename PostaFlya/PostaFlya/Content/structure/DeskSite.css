@@ -683,8 +683,8 @@ div.helptips-footer {
     bottom: 0;
 }
 
-@media only screen and (min-width: 800px)
-{
+/*@media only screen and (min-width: 800px)
+{*/
         /**large*/
     .large .locSel #locationSearch{
         width: 500px;
@@ -734,6 +734,6 @@ div.helptips-footer {
     }
 /**large*/
 
-}
+/*}*/
 
 

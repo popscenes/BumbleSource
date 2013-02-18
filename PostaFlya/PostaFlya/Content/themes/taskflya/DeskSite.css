@@ -849,13 +849,13 @@ div.helptips-arrow
 
 
 
-@media only screen and (min-width: 800px)
-{
+/*@media only screen and (min-width: 800px)
+{*/
     .large#controls .Button {
         background-image: url(images/icons.png);
         background-size:4000px 300px;
     }
-}
+/*}*/
 
 @media only screen and (max-width: 900px)
 {

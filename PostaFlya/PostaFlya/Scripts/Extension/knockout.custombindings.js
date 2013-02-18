@@ -23,9 +23,17 @@ ko.bindingHandlers.locationAutoComplete = {
 
         var $input = $(element);
         
-        $input.click(function () {
-            $(this).select();
-        });
+ 
+        $input.focus(function () {
+            $(this).val('');
+        }).blur(function () {
+            var location = ko.utils.unwrapObservable(valueAccessor());
+            var banner = (location == null || location.Description() === "") ? ko.utils.unwrapObservable(allBindingsAccessor().bannerText) : location.Description();
+            if (location != null && location.ValidLocation() && location.Description() === "")
+                bf.reverseGeocode(location);
+
+            $(element).val(banner);
+        });;
 
         var eventFromSelector = false;
         $input.autocomplete({
