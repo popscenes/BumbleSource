@@ -538,7 +538,7 @@ a.toolbar-item
 .imageSelector ul li {
     padding: 0px;
     margin: 0px;
-    margin-right: 2px; 
+    margin-right: 5px; 
     height: 100px;
     width: 130px;
     display: block;
@@ -567,10 +567,11 @@ a.toolbar-item
 
 #filelist {
     font-size: 12px;
-    width: 270px;
-    max-height: 150px;
+    width: 265px;
+    max-height: 300px;
     overflow-y: auto;
     margin-bottom: 10px;
+    padding-right: 5px;
 }
 
 #filelist div {
@@ -682,6 +683,19 @@ div.helptips-footer {
     right: 0;
     bottom: 0;
 }
+
+.file-upload-row {
+    margin: 5px 0px;
+    padding: 5px 0;
+    border-bottom: 1px solid #84827D;
+}
+
+    .file-upload-row span {
+        display: inline-block;
+        text-align: right;
+        float: right;
+        font-weight: bold;
+    }
 
 @media only screen and (min-width: 800px)
 {

@@ -160,6 +160,7 @@
            
 
             $('#uploadfiles').click(function (e) {
+                $('#filelist p').html('');
                 uploader.start();
                 e.preventDefault();
             });
@@ -167,6 +168,7 @@
             uploader.init();
 
             uploader.bind('FilesAdded', function (up, files) {
+                $(".upload-complete").remove();
                 $.each(files, function (i, file) {
                     $('#filelist').append(
                         '<div class="file-upload-row" id="' + file.id + '">' +
@@ -193,6 +195,7 @@
 
             uploader.bind('FileUploaded', function (up, file) {
                 $('#' + file.id + " span").html("100%");
+                $('#' + file.id).addClass('upload-complete');
             });
 
 
@@ -202,7 +205,7 @@
                 //if (self.imageList().length > 0)
                 //    self.slider.destroyShow();
                 self._LoadImageList();
-                //$('#filelist').html('Upload complete feed me more images');
+                $('#filelist p').html('Upload complete feed me more images!!');
             });
         };
     };
