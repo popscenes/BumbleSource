@@ -2,9 +2,7 @@
 @model dynamic
 
 <div class="ui-bulletin-board">
-    <div class="about-bg" data-bind="css: { 'about-bg-trans': fliers().length > 0 }">
-        
-    </div>                                                                                 
+                                                                                
     <div id="bulletinboard"  data-bind="template: { name: Layout.FlierTemplate, foreach: fliers }, visible: fliers().length > 0, updateLayout: Layout">
         @Html.Partial("State/PageStateAdd", "Fliers")    
         @Html.Partial("Bulletin/BulletinItems")

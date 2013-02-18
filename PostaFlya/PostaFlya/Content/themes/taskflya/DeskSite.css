@@ -7,44 +7,11 @@
 }
 
 header{
-	background-image: url(images/toolbar-heading.png);
 background-repeat: no-repeat;
 background-position: center center;
 background-color: white;
 }
 
-/*
-.Button
-{
-    background-image:url(images/icons.png);
-    background-size:2000px 150px;
-	border:1px solid #ccc;
-	border-radius: 5px;
-	outline:none;
-	color:#000;
-}
-
-.Button:hover{   
-	background-image:url(images/icons.png);
-	outline:none;
-	color:#fff;
-}*/
-
-
-/*#controls .Button:hover{
-	background-image:url(images/icons.png);
-
-	outline:none;
-	color:#fff;
-}*/
-
-#controls .Button{
-	background-image:url(images/icons.png);
-	background-size:2000px 150px;
-	outline:none;
-	color:#fff;
-    cursor: pointer;
-}
 
 .paymnet-flier {
     display: inline-block;
@@ -52,20 +19,6 @@ background-color: white;
 
 .close-button {
 
-}
-
-div.btn-location{
-    background-position:5px 0px;    
-}
-
-div.btn-tags{
-    background-position:-40px 0px;  
-    margin-left:10px;  
-}
-
-#btn-sort{
-    background-position:-90px 0px;  
-    margin-left:10px;  
 }
 
 #main-menu
@@ -76,17 +29,13 @@ div.btn-tags{
 }
 
 #lsMain
-{
-   
+{   
 	background-image:none;
-
 }
 
 #controls #lsMain
 {
-   
 	background-image:url(images/white-90.png);
-
 }
 
 
@@ -185,15 +134,16 @@ div#selected-item-popup-overlay, div#create-flier-popup-overlay {
 .ui-slider .ui-slider-handle {
 	position: absolute;
 	z-index: 2;
-	width: 20px;
-	height: 20px;
+	width: 25px;
+	height: 25px;
 	background-image:url(images/slider-handle.png);
 	background-repeat:no-repeat;
 	background-position:0 0;
 	cursor: default;
-	margin-top:-4px;
+	margin-top:-5px;
 	border:none!important;
 	outline:none;
+    background-size: 25px 50px;
 }
 .ui-slider .ui-slider-range {
 	position: absolute;
@@ -204,7 +154,7 @@ div#selected-item-popup-overlay, div#create-flier-popup-overlay {
 	background-position: 0 0;
 }
 .ui-slider-horizontal {
-	height: 10px;
+	height: 12px;
 	background:#8EC7D5!important;
 }
 .ui-slider-horizontal .ui-slider-handle {
@@ -810,7 +760,7 @@ margin: 0 auto;
     opacity: 0.8;
 }
 
-#logo a {
+#logo a#left-logo {
     background-image: url("images/postaflya-logo-blue.png");
     display: inline-block;
     width: 198px;
@@ -819,7 +769,7 @@ margin: 0 auto;
 
 .page-toolbar-buttons {
     float: left;
-    width: 110px;
+    width: 200px;    
 }
 
 /*Help Tips Core**********************************/
@@ -847,23 +797,53 @@ div.helptips-arrow
 
 /*End Help Tips Core**********************************/
 
-
-
-/*@media only screen and (min-width: 800px)
-{*/
-    .large#controls .Button {
-        background-image: url(images/icons.png);
-        background-size:4000px 300px;
-    }
-/*}*/
-
-@media only screen and (max-width: 900px)
-{
-    header{
-        background-image: none;
-    }
-
+.helptips-container#about-posta-helptip {
+    width: 30%;
+    min-width: 135px;
 }
+
+.helptips-container#about-posta-helptip {
+    padding-top: 60px;
+}
+
+.helptips-container#about-posta-helptip div.helptips-arrow
+{
+    width: 20px;
+    height: 61px;
+}
+
+
+.ImgButton {
+    background-image: url(images/icons.png);
+    background-size:4000px 300px;
+    outline:none;
+	color:#fff;
+    cursor: pointer;
+}
+
+@media only screen and (max-width: 800px)
+{
+    .page-toolbar {
+        width: 100%;
+        padding-left: 5%;
+    }
+
+    .page-toolbar-buttons {
+        margin: 0 auto;
+        float: none;
+    }
+
+    input#locationSearch {
+        width: 90%;
+        margin: auto;
+    }
+
+    .locSel {
+        width: 100%;
+        margin: 0 auto;
+    }
+}
+
 
 @media only screen and (max-width: 600px)
 {
@@ -904,7 +884,7 @@ div.helptips-arrow
         width: 125px;
     }
 
-    #logo a {
+    #logo a#left-logo {
         background-image: url("images/postaflya-logo-blue-small.png");
         width: 100px;
         height: 50px;
@@ -954,31 +934,11 @@ div.helptips-arrow
         width: 90%;
         margin-top: 10px;
     }
-
-    .page-toolbar-buttons {
-        margin: 0 auto;
-        float: none;
-    }
-
-
-    #controls {
-        width: 90%;
-    }
    
-    .locSel {
-        width: 100%;
-        margin: 0 auto;
-    }
-
     #global-toolbar {
         margin-right: 0px;
     }
  
-    input#locationSearch {
-        width: 90%;
-        margin: 10px auto;
-    }
-
     .helptips-container#global-toolbar-helptip {
         padding-top: 75px;
     }
@@ -989,9 +949,18 @@ div.helptips-arrow
         height: 76px;
     }
 
-    div.helptips-content
+   div.helptips-container {
+       padding-left: 0;
+       padding-right: 0;
+   }
+
+    .helptips-container#global-toolbar-helptip div.helptips-content
     {
-        font-size: 10px;
+        font-size: 11px;
+    }
+
+    .helptips-container#about-posta-helptip {
+        left: 0;
     }
 
 }

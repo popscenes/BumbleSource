@@ -59,13 +59,13 @@
         var data = $.extend({}, defaults, dataDefaults);
         
         if (!$eles.is('[data-helptip-text]'))
-            $eles = $eles.find('[data-helptip-text], [data-helptip-group]');
+            $eles = $eles.find('[data-helptip-text], [data-helptip-group], [data-helptip-group-content]');
 
-        $eles.not('[data-helptip-group]').each(function () {
+        $eles.not('[data-helptip-group], [data-helptip-group-content]').each(function () {
             initElement($(this), data);
         });
 
-        var $groupEles = $eles.filter('[data-helptip-group]');
+        var $groupEles = $eles.filter('[data-helptip-group], [data-helptip-group-content]');
         $groupEles.each(function () {
             initGroup($(this), $groupEles, data);
         });
@@ -116,7 +116,7 @@
 
         return $ret;
     }
-
+    
     function initGroup($groupEle, $allGroup, data) {
 
         var $tooltip = $groupEle.data('helptips');
@@ -124,7 +124,13 @@
             return;
 
         var groupId = $groupEle.attr('data-helptip-group');
+        if (!groupId)
+            return;
         
+        var $contentSrc = $allGroup.find('[data-helptip-group-content=' + groupId + ']');
+        $contentSrc.show();
+
+
         $tooltip = $('<div>')
             .addClass("helptips-container")
             .attr("id", groupId + '-helptip')
@@ -134,8 +140,9 @@
             .addClass("helptips-arrow")
             .appendTo($tooltip);
 
-        var $contentCont = $("<div>")
+        var $contentCont = ($contentSrc.length ? $contentSrc.clone() : $("<div>"))
             .addClass("helptips-content")
+            .removeAttr("data-helptip-group-content")
             .appendTo($tooltip);
 
         var $footer = $("<div>")
@@ -150,8 +157,10 @@
         
         
         var $group = $allGroup.filter('[data-helptip-group=' + groupId + ']');
-        var $content = getContent($group.filter('[data-helptip-text]'));
-        $content.appendTo($contentCont);
+        if (!$contentSrc.length) {
+            var $content = getContent($group.filter('[data-helptip-text]'));
+            $content.appendTo($contentCont);
+        }
         
         $footer.appendTo($contentCont);
         
@@ -160,14 +169,23 @@
         });
 
         var $tipcontainer = $group.not('[data-helptip-text]');
-        if (!$tipcontainer.length)
-            $tipcontainer = $(document.body);
-        
-        $tooltip.appendTo($tipcontainer);
+        if ($tipcontainer.length) {
+            $tooltip.appendTo($tipcontainer);
+        }
+        else if ($contentSrc.length) {
+            $tooltip.insertAfter($contentSrc);
+            $contentSrc.remove();
+        }
+        else{
+            $tooltip.appendTo($(document.body));          
+        }    
     }
 
     function showHelpForEles($ele, showOrHide) {
         var $tooltip = $ele.first().data('helptips');
+        if (!$tooltip)
+            return;
+        
         if (showOrHide) {
             $tooltip.show();
         }

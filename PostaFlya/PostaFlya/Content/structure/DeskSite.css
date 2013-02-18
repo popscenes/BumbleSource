@@ -23,7 +23,7 @@ header{
 	height:50px;
     display: inline-block;
 }
-#logo a img
+#logo a#left-logo img
 {
    border:none;
    border:0px;
@@ -31,7 +31,7 @@ header{
 
 #controls
 {
-    width:440px;
+    width:100%;
     margin-left:auto;
     margin-right:auto;
 	height:70px;
@@ -73,20 +73,26 @@ header{
 
 input#locationSearch
 {
-display:block;
+    display:block;
     margin-top:10px;
     padding:5px;
     margin-left:10px;
     float:left;
-    border:1px solid #ccc;
     white-space: nowrap;
     text-overflow: ellipsis;
-    width: 300px;
-    height:20px;
-    line-height:20px;
+    line-height:50px;
     overflow: hidden;
     outline:none;
+    width: 500px;
+    height: 60px;
+    font-size: 25px;
+    font-weight: bold;
+    color: #84827D;
+    border-width: 2px;
+    border-style: solid;
+    border-color: #84827D;
 }
+
 
 #controls #lsMain
 {
@@ -141,7 +147,7 @@ display:block;
 
 .distSel{
     width: 315px;
-    margin: 0px auto 15px auto;
+    margin: 40px auto 15px auto;
 }
 
 .distance-slider{
@@ -214,7 +220,7 @@ ul.flier-images li
 
 
 .tags-selector .tags-box{
-	padding:10px 0px 5px 0px;
+	padding:30px 0px 5px 0px;
 	margin-top:0px;
 	width:100%;
 	background-color:transparent;
@@ -236,18 +242,6 @@ ul.flier-images li
 
 /**************tags selector********************/
 
-#controls .Button{
-	width:30px;
-	height:30px;
-	padding:10px;
-	text-indent:-30000px;
-    float:left;
-}
-
-#controls .Button:hover{
-	width:30px;
-	height:30px;
-}
 
 /**************************** main menu *************************/
 #main-menu{
@@ -669,10 +663,18 @@ div.helptips-footer {
     left: auto;
 }
 
-.helptips-container#global-toolbar-helptip {
+/*help tips bulletin*/
 
+#bulletin-toolbar-helptip div.helptips-group-text {
+    padding-top: 30px;
+    font-size: 16px;
+}
+
+
+.helptips-container#global-toolbar-helptip {
+    
     max-width: 25%;
-    min-width: 100px;
+    min-width: 98px;
     right: 0px;
 }
 
@@ -691,64 +693,46 @@ div.helptips-footer {
     border-bottom: 1px solid #84827D;
 }
 
-    .file-upload-row span {
-        display: inline-block;
-        text-align: right;
-        float: right;
-        font-weight: bold;
-    }
+.file-upload-row span {
+    display: inline-block;
+    text-align: right;
+    float: right;
+    font-weight: bold;
+}
 
-@media only screen and (min-width: 800px)
-{
-        /**large*/
-    .large .locSel #locationSearch{
-        width: 500px;
-        height: 60px;
-        font-size: 25px;
-        font-weight: bold;
-    }
 
-    .large#controls {
-        width: 100%;
-    }
 
-    .large .page-toolbar {
-        width: 725px;
-        height: 100px;
-        margin: auto;  
-    }
 
-    .large .helptips-container#bulletin-toolbar-helptip {
-        top: 150px;    
-    }
 
-    .large#controls .Button {
+.page-toolbar {
+    width: 725px;
+    height: 100px;
+    margin: auto;  
+}
 
-        width:60px;
-	    height:60px;
-        padding-left: 20px;
-        padding-right: 20px;
-    }
+.ImgButton {
+    width:60px;
+	height:80px;
+    padding-left: 20px;
+    padding-right: 20px;
+    float:left;
+    text-indent: -5000px;
+}
 
-    .large#controls div.btn-location {
-        background-position: 10px top;
-    }
+div.btn-location {
+    background-position: 10px top;
+}
 
-    .large#controls div.btn-tags {
-        background-position: -80px top;
-        margin-left: 0;
-    }
+div.btn-tags {
+    background-position: -80px top;
+    margin-left: 0;
+}
 
-    .large .page-toolbar-buttons {
-        width: 200px;
-    }
+    
 
-    .large #bulletin-toolbar-helptip div.helptips-group-text {
-        padding-top: 30px;
-        font-size: 16px;
-    }
+
 /**large*/
 
-}
+
 
 

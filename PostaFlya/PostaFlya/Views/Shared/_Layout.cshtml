@@ -24,16 +24,25 @@
         @RenderSection("scripts", required: false)
     </head>
     <body>
-        <div id="printholder">
-            
-        </div>
-        <div id="media"> 
             <header>   
-                <div id="logo">
-                    <a href="@Url.Action("Get", "Bulletin")">
+                <div id="logo" data-helptip-group="about-posta" data-helptip-text="">
+                    <a id="left-logo" href="@Url.Action("Get", "Bulletin")">
                         
                     </a> 
+                    <div data-helptip-group-content="about-posta" style="display: none">                               
+                        <h3>Postaflya is your Local Community Noticeboard.</h3>
+                        <p> 
+                            Give your Flyas the online presence they need, simply upload your Flya post it to your Local Area.
+                            You can pysically print it off with Qr codes and Urls to enable people to find your flya online. 
+                        </p>
+                        <p>
+                            People can bookmark and retrieve your event or contact details directly off the electrontic flya                                
+                        </p>
+                    </div>
+                     
                 </div>
+                
+
                 @RenderSection("header", required: false)
             
             
@@ -86,6 +95,6 @@
 
                 </div>
             </footer>
-        </div>
+=
     </body>
 </html>

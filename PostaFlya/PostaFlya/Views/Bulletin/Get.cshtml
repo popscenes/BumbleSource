@@ -27,12 +27,12 @@
         ViewBag.AutoCompleteLocationId = "locationSearch";
     }
 
-<div id="controls" data-bind="css: { 'large': !Location() || !Location().ValidLocation() }">
+<div id="controls">
         
         <div class="page-toolbar">
             <div class="locSel"
                  data-helptip-group="bulletin-toolbar" 
-                 data-helptip-text="Search your Suburb or Area for Fliers">
+                 data-helptip-text="Search your Suburb or Area for Community Notices (Flyas)">
                                  
                 <div class="ls-holder">
                     @Html.Partial("Location/LocationAutocomplete")
@@ -40,14 +40,14 @@
             </div>
             
             <div class="page-toolbar-buttons">
-                <div data-bind="click: ToggleMap" class="Button btn-location" id="btn-location"
+                <div data-bind="click: ToggleMap" class="ImgButton btn-location" id="btn-location"
                      data-helptip-group="bulletin-toolbar" 
                      data-helptip-text="Show your Search Area on a Map">
                     Location
                 </div>
 
                 <div class="tagsSel">
-                    <div class="Button btn-tags" id="btn-tags" data-bind="click:ShowTags"
+                    <div class="ImgButton btn-tags" id="btn-tags" data-bind="click:ShowTags"
                          data-helptip-group="bulletin-toolbar" 
                          data-helptip-text="Filter the Fliers by Tags">
                         Select Tags

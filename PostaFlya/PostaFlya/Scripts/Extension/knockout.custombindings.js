@@ -25,15 +25,16 @@ ko.bindingHandlers.locationAutoComplete = {
         
  
         $input.focus(function () {
-            $(this).val('');
+            $(this).val(ko.utils.unwrapObservable(allBindingsAccessor().bannerText));
+            $(this).select();
         }).blur(function () {
             var location = ko.utils.unwrapObservable(valueAccessor());
             var banner = (location == null || location.Description() === "") ? ko.utils.unwrapObservable(allBindingsAccessor().bannerText) : location.Description();
-            if (location != null && location.ValidLocation() && location.Description() === "")
-                bf.reverseGeocode(location);
-
             $(element).val(banner);
-        });;
+        })
+        .on("mouseup", function (e) {
+            return false;
+        });
 
         var eventFromSelector = false;
         $input.autocomplete({
