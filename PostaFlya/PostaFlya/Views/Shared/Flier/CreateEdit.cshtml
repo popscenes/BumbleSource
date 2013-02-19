@@ -89,7 +89,7 @@
         @Html.HiddenFor(model => model.Id, new { data_bind = "value:Id" })
         <fieldset>
             <legend>Add a location</legend>
-            <div class="form-component">
+            <div class="">
                 <h2>Add a location to your flier</h2>
                           
                 <h3>ENTER THE ADDRESS BELOW</h3>
@@ -102,7 +102,7 @@
                     ViewBag.DistanceVariable = "PostRadius";
                     ViewBag.LocationVariable = "Location";
                     ViewBag.AutoCompleteLocationBannerText = "'Post to a Suburb or Location'";
-                    ViewBag.AutoCompleteLocationId = "locationSearch";
+                    ViewBag.AutoCompleteLocationId = "locationSearchCreate";
                     ViewBag.VisibleTrigger = null;
                 }
                 @Html.Partial("Location/LocationAndDistanceSelector")
@@ -131,7 +131,7 @@
                 @Html.TextAreaFor(model => model.Description, new { data_bind = "value:Description" })
                 
             </div>
-            <div class="form-componentt">
+            <div class="form-component">
                 <h3>Date</h3>
                 @Html.ValidationMessageFor(model => model.EffectiveDate)
                 @Html.HiddenFor(model => model.EffectiveDate, new { data_bind = "value:EffectiveDate" })
@@ -161,7 +161,7 @@
         </fieldset>
         <fieldset>
             @{ 
-                ViewBag.AutoCompleteLocationBannerText = "Address of Event or Business'";
+                ViewBag.AutoCompleteLocationBannerText = "'Address of Event or Business'";
             }
             <legend>Contact Details</legend>
             <h2>Contact Details</h2>
