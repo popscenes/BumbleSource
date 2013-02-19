@@ -6,7 +6,7 @@
 @{var Flier = ViewBag.Template != null && ViewBag.Template ? BulletinFlierModel<BulletinBehaviourModel>.DefaultForTemplate(FlierBehaviour.Default) : Model;}
 
 <div class="flier-print">
-    <a class="show-hide-print-options"></a>
+    <a class="show-hide-print-options" data-bind="touchHover: '.flier-print'"></a>
     <div class="print-options">
         <a href="@Url.Action("GetPrintFlier","Img", new {id = Flier.Id, printStyle="tearoff"})" class="print-opt-tearoff"
            data-bind="click: function(){return true;}, clickBubble: false, attr:{href: '@Url.Action("GetPrintFlier","Img")/' + Id + '?printStyle=tearoff'}">Download Print Tearoff</a>

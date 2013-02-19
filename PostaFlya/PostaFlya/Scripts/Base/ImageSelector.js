@@ -134,7 +134,7 @@
 
             while ($("#" + self.selectedImageId()).is(":visible") == false) {
                 $('a.next').click();
-                if ($("thumbs li").last().is(":visible")) {
+                if ($("#thumbs li").last().is(":visible")) {
                     break;
                 }
 

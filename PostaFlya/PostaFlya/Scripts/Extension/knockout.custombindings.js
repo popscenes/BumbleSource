@@ -18,6 +18,17 @@ ko.bindingHandlers.datePicker = {
 //    }
 //};
 
+
+ko.bindingHandlers.touchHover = {
+    init: function(element, valueAccessor, allBindingsAccessor, viewModel) {
+        $(element).bind('touchstart', function(e) {
+            e.preventDefault();
+            //alert("toggle class");
+            $(valueAccessor()).toggleClass("touch-hover");
+        });
+    }
+};
+
 ko.bindingHandlers.locationAutoComplete = {
     init: function (element, valueAccessor, allBindingsAccessor, viewModel) {
 

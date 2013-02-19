@@ -483,7 +483,7 @@ div#selected-item-popup-overlay, div#create-flier-popup-overlay {
     left:50px;
 }
 
-.flier-print:hover .print-options {
+.flier-print:hover .print-options, .flier-print.touch-hover .print-options{
     display: block;
 }
 
