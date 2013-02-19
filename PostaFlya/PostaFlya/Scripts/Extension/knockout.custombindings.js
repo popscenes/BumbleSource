@@ -18,6 +18,44 @@ ko.bindingHandlers.datePicker = {
 //    }
 //};
 
+$.fn.selectRange = function (start, end) {
+    return this.each(function () {
+        if (this.setSelectionRange) {
+            this.focus();
+            this.setSelectionRange(start, end);
+        } else if (this.createTextRange) {
+            var range = this.createTextRange();
+            range.collapse(true);
+            range.moveEnd('character', end);
+            range.moveStart('character', start);
+            range.select();
+        }
+    });
+};
+
+ko.bindingHandlers.bannerText = {
+    init: function (element, valueAccessor, allBindingsAccessor, viewModel) {
+
+        var $input = $(element);
+        
+ 
+        $input.focus(function () {
+            $(this).val(ko.utils.unwrapObservable(allBindingsAccessor().bannerText));
+            $(this).select();
+        }).blur(function () {
+            var location = ko.utils.unwrapObservable(valueAccessor());
+            var banner = (location == null || location.Description() === "") ? ko.utils.unwrapObservable(allBindingsAccessor().bannerText) : location.Description();
+            $(element).val(banner);
+        })
+        .on("mouseup", function (e) {
+            return false;
+        });
+    },
+    update: function (element, valueAccessor, allBindingsAccessor, viewModel) {
+
+    }
+};
+
 ko.bindingHandlers.locationAutoComplete = {
     init: function (element, valueAccessor, allBindingsAccessor, viewModel) {
 

@@ -821,6 +821,16 @@ div.helptips-arrow
     cursor: pointer;
 }
 
+.banner-text {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    color: #cccccc;
+}
+
 @media only screen and (max-width: 800px)
 {
     .page-toolbar {
@@ -847,6 +857,14 @@ div.helptips-arrow
 
 @media only screen and (max-width: 600px)
 {
+
+    .ui-flier-tile img {
+        width: 140px!important;
+    }
+
+    .ui-flier-tile {
+        width: 144px!important;
+    }
 
     .flier-view .flier-details .flier-img img {
         width: 250px !important;
