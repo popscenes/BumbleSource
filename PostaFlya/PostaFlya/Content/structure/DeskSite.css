@@ -335,6 +335,11 @@ div#create-flier-item-div {
     max-width: 600px;
 }
 
+div#selected-item-div
+{
+    max-width: 700px;
+}
+
 div#selected-item-popup-overlay, div#create-flier-popup-overlay {
     position: fixed;
     top: 0;
@@ -615,16 +620,32 @@ a.toolbar-item
     text-decoration: none;
     text-transform: uppercase;
 }
+.breakdown {
+    height: 250px;
+    overflow-y: scroll;
+}
 
 ul.flier-analytics, ul.analytic-summary-detail {
     list-style: none;
     margin: 0;
     padding: 0;
 }
+ul.analytic-summary-detail {
+    margin-top: 15px;
+    border-bottom: 1px solid #cccccc;
+    padding-bottom: 15px;
+}
 
     ul.flier-analytics li, ul.analytic-summary-detail li {
         margin: 0;
         padding: 0;
+    }
+
+    ul.analytic-summary-detail li {
+        display: inline-block;
+        width: 45%;
+        vertical-align: top;
+        margin-top: 10px;
     }
 
 
