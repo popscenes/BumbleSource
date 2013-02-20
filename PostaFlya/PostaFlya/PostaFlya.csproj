@@ -451,7 +451,7 @@
     <Content Include="Content\themes\taskflya\images\defaultavatar.jpg" />
     <Content Include="Content\themes\taskflya\images\edit-btn.png" />
     <Content Include="Content\themes\taskflya\images\edit-icon.png" />
-    <Content Include="Content\themes\taskflya\images\edit-profile-btn.png" />
+    <Content Include="Content\themes\taskflya\images\edit-profile-btn-2.png" />
     <Content Include="Content\themes\taskflya\images\facebook.png" />
     <Content Include="Content\themes\taskflya\images\finish-btn.png" />
     <Content Include="Content\themes\taskflya\images\flya-message.png" />
@@ -490,7 +490,7 @@
     <Content Include="Content\themes\taskflya\images\next-icon.png" />
     <Content Include="Content\themes\taskflya\images\openid-providers-en.png" />
     <Content Include="Content\themes\taskflya\images\pay-btn.png" />
-    <Content Include="Content\themes\taskflya\images\post-flya-btn.png" />
+    <Content Include="Content\themes\taskflya\images\post-flya-btn-2.png" />
     <Content Include="Content\themes\taskflya\images\about-posta2.png" />
     <Content Include="Content\themes\taskflya\images\postaflya-logo-blue-small.png" />
     <Content Include="Content\themes\taskflya\images\postaflya-logo-blue.png" />
