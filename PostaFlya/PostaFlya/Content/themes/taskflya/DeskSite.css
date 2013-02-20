@@ -601,11 +601,11 @@ form li label {
     height: 40px;
 }
 
-.nav-controls a.next {
+.next {
     background: url(images/next-btn.png);
 }
 
-.nav-controls a.prev {
+.prev {
     background: url(images/prev-btn.png);
     margin-right: 14px;
 }
@@ -626,7 +626,9 @@ form li label {
 }
 
 #image-upload-helptip .helptips-group-icon.pickfiles,
-#image-upload-helptip .helptips-group-icon.uploadfiles {
+#image-upload-helptip .helptips-group-icon.uploadfiles,
+#image-browse-helptip .helptips-group-icon.prev,
+#image-browse-helptip .helptips-group-icon.next {
     width: 80px;
     height: 30px;
     background-size: 80px 30px;
