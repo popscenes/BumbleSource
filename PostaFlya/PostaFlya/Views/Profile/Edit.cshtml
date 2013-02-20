@@ -40,7 +40,7 @@
                     <li>
                         @Html.LabelFor(model => model.Credits)
                         <span data-bind="text: Credits"></span>
-                        @Html.ActionLink("Manage Credits", "PaymentPending", "Profile")
+                        @Html.ActionLink("Manage Credits", "PaymentPending", "Profile", null, new{@class="red-mini-button"})
                     </li>
                 </ol>
             </fieldset>
@@ -58,7 +58,7 @@
                         <a id="select-images" data-bind="click: $root.showImageSelect" class="select-mini-btn" style="">&nbsp;</a>
                     </li>
 
-                    <li data-bind="with:imageSelector, visible:$root.ImageSelectorVisible">
+                    <li data-bind="with:imageSelector, visible:$root.ImageSelectorVisible" class="form-image-selector">
                         
                         @Html.HiddenFor(model => model.AvatarImageId, new { data_bind = "value:selectedImageId()" })
                         @Html.ValidationMessageFor(model => model.AvatarImageId)

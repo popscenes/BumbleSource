@@ -424,6 +424,11 @@ form textarea {
     vertical-align: top;
 }
 
+.form-image-selector {
+    width: 300px;
+    margin: 0 auto;
+}
+
 /****claims*****/
 
 .claim-icon {

@@ -665,7 +665,7 @@ form li label {
 }
 
 .preview-avatar {
-    margin: 0 0 0 10%;
+    margin: 0 0 15px 10%;
 }
 
 .validation-summary-valid {
@@ -900,7 +900,7 @@ div.helptips-arrow
     }
 
     .preview-avatar {
-        margin: 0 10% 0 0;
+        margin: 0 10% 10px 0;
     }
 
     .page-content {
