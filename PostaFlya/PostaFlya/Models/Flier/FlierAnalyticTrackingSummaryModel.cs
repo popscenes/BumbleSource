@@ -16,7 +16,7 @@ namespace PostaFlya.Models.Flier
                 Location = info.Location.ToViewModel(),
                 LocationSource = GetLocationSourceDesc(info),
                 InitialSource = GetSourceDescription(info.InitialSource),
-                InitialVisitTime = info.InitialVisitTime,
+                InitialVisitTime = info.InitialVisitTime.ToString("yyyy MM dd hh:mm:ss"),
                 UserAgent = info.UserAgent
             };
         }
@@ -81,7 +81,11 @@ namespace PostaFlya.Models.Flier
         public string InitialSource { get; set; }
 
         [Display(Name = "FlierAnalyticTrackingSummaryModel_InitialVisitTime", ResourceType = typeof(Properties.Resources))]        
-        public DateTimeOffset InitialVisitTime { get; set; }
+        public String InitialVisitTime { get; set; }
+
+        [Display(Name = "FlierAnalyticTrackingSummaryModel_InitialVisitTime", ResourceType = typeof(Properties.Resources))]
+        public String visit { get; set; }
+
         public static FlierAnalyticTrackingSummaryModel DefaultForTemplate()
         {
             return new FlierAnalyticTrackingSummaryModel()
