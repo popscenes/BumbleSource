@@ -53,7 +53,6 @@ namespace Website.Application.Schedule
             {
                 if ((TimeOut != default(TimeSpan)) && (timeService.GetCurrentTime() - LastRun) > TimeOut)
                 {
-                    InProgress = false;
                     Trace.TraceWarning("Job timed out and being reset assumed dead {0}", Id);
                 }
                 else

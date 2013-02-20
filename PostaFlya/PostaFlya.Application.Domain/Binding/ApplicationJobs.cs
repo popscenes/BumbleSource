@@ -25,7 +25,8 @@ namespace PostaFlya.Application.Domain.Binding
                 HourOfDay = "1",                
                 Minute = "0",
                 JobStorage = new Dictionary<string, string>(),
-                JobActionClass = typeof(SiteMapXmlGenJobAction)
+                JobActionClass = typeof(SiteMapXmlGenJobAction),
+                TimeOut = TimeSpan.FromDays(1)
             });
         }
     }

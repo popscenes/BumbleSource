@@ -29,7 +29,7 @@ namespace Website.Application.Schedule.Command
         public object Handle(JobCommand command)
         {
             var job = _genericQueryService.FindById(command.JobType, command.JobId) as JobBase;
-            if (job.InProgress)
+            if (job.InProgress && !job.IsRunDue(_timeService))
                 return true;
             job.LastRun = _timeService.GetCurrentTime();
             job.InProgress = true;

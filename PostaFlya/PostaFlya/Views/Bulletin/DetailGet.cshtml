@@ -7,6 +7,20 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+@section title
+{
+    @if (Model != null)
+    {
+        @:PostaFlya - @Model.Flier.Title
+
+    }
+    else
+    {
+        @:Postaflya - Your Local Community Noticeboard
+    } 
+
+}
+
 @section scripts {
     @Styles.Render("~/Content/structure/Bulletin/DeskCss.css")   
     @Styles.Render("~/Content/themes/taskflya/Bulletin/DeskCss.css")   

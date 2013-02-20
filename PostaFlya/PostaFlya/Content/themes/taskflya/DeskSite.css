@@ -789,7 +789,9 @@ div.helptips-content
     border: 1px solid #cccccc;
     background-color: rgb(255, 255, 218);
     font-size: 12px;
+    line-height:20px;
     opacity: 0.95;
+   /* padding: 4px;*/
 }
 
 div.helptips-arrow
@@ -833,6 +835,15 @@ div.helptips-arrow
     -ms-user-select: none;
     user-select: none;
     color: #cccccc !important;
+}
+
+ul.about-list {
+    padding-left: 23px;
+}
+
+ul.about-list li {
+    list-style: none;
+    line-height:20px;
 }
 
 @media only screen and (max-width: 800px)
