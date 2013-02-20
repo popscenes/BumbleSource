@@ -137,6 +137,7 @@
                 self.TryRequest();
             });
 
+            bf.HelpTipsInstance.CheckFirstShowFor("bulletin");
         };
 
         self._Init();

@@ -239,6 +239,7 @@
             if (self.FlierImageId())
                 self.imageSelector.selectedImageId(self.FlierImageId());
             
+            bf.HelpTipsInstance.CheckFirstShowFor("createflier");
             
         };
     };

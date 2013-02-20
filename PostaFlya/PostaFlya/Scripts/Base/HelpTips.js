@@ -13,6 +13,18 @@
 
         self.CheckFirstShowFor = function(context) {
 
+            $.cookie.json = true;
+            var helptipsshown = $.cookie('helptipsshown');
+            if (!helptipsshown)
+                helptipsshown = {};
+            
+            if (!helptipsshown[context]) {
+                self.showHelp(true);
+            }
+
+            helptipsshown[context] = true;
+            $.cookie('helptipsshown', helptipsshown, { expires: 1000});
+
         };
 
         self._Init = function() {
