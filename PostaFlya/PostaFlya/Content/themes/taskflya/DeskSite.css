@@ -95,7 +95,7 @@ div#selected-item-div, div#create-flier-item-div {
 
 div#selected-item-popup-overlay, div#create-flier-popup-overlay {
     background-color: white;
-    opacity: 0.9;
+    opacity: 0.95;
 }
 /************end selected item popup/overlay div ********************/
 
