@@ -21,7 +21,7 @@ ko.bindingHandlers.datePicker = {
 $.fn.selectRange = function (start, end) {
     return this.each(function () {
         if (this.setSelectionRange) {
-            this.focus();
+
             this.setSelectionRange(start, end);
         } else if (this.createTextRange) {
             var range = this.createTextRange();
@@ -37,18 +37,18 @@ ko.bindingHandlers.bannerText = {
     init: function (element, valueAccessor, allBindingsAccessor, viewModel) {
 
         var $input = $(element);
+        var banner = ko.utils.unwrapObservable(allBindingsAccessor().bannerText);
+
+        $input.attr('placeholder', banner);
         
- 
         $input.focus(function () {
-            $(this).val(ko.utils.unwrapObservable(allBindingsAccessor().bannerText));
-            $(this).select();
+            if ($input.val() == banner)
+                $input.val('')
+                    .removeClass('banner-text');
         }).blur(function () {
-            var location = ko.utils.unwrapObservable(valueAccessor());
-            var banner = (location == null || location.Description() === "") ? ko.utils.unwrapObservable(allBindingsAccessor().bannerText) : location.Description();
-            $(element).val(banner);
-        })
-        .on("mouseup", function (e) {
-            return false;
+            if ($input.val() == '')
+                $input.val(banner)
+                    .addClass('banner-text');
         });
     },
     update: function (element, valueAccessor, allBindingsAccessor, viewModel) {
@@ -56,22 +56,29 @@ ko.bindingHandlers.bannerText = {
     }
 };
 
+ko.bindingHandlers.touchHover = {
+    init: function(element, valueAccessor, allBindingsAccessor, viewModel) {
+        $(element).bind('touchstart', function(e) {
+            e.preventDefault();
+            //alert("toggle class");
+            $(valueAccessor()).toggleClass("touch-hover");
+        });
+    }
+};
+
 ko.bindingHandlers.locationAutoComplete = {
     init: function (element, valueAccessor, allBindingsAccessor, viewModel) {
 
         var $input = $(element);
-        
- 
         $input.focus(function () {
-            $(this).val(ko.utils.unwrapObservable(allBindingsAccessor().bannerText));
-            $(this).select();
+            var location = ko.utils.unwrapObservable(valueAccessor());
+            if (location != null && location.Description() == $input.val())
+                $input.val('');
+
         }).blur(function () {
             var location = ko.utils.unwrapObservable(valueAccessor());
-            var banner = (location == null || location.Description() === "") ? ko.utils.unwrapObservable(allBindingsAccessor().bannerText) : location.Description();
-            $(element).val(banner);
-        })
-        .on("mouseup", function (e) {
-            return false;
+            if(location != null && location.Description())
+                $input.val(location.Description());
         });
 
         var eventFromSelector = false;
@@ -132,11 +139,11 @@ ko.bindingHandlers.locationAutoComplete = {
     update: function (element, valueAccessor, allBindingsAccessor, viewModel) {
 
         var location = ko.utils.unwrapObservable(valueAccessor());
-        var banner = (location == null || location.Description() === "") ? ko.utils.unwrapObservable(allBindingsAccessor().bannerText) : location.Description();
+        if (location != null && location.Description())
+            $(element).val(location.Description());
         if (location != null && location.ValidLocation() && location.Description() === "")
             bf.reverseGeocode(location);
 
-        $(element).val(banner);
     }
 };
 

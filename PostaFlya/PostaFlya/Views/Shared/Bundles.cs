@@ -34,6 +34,7 @@ namespace PostaFlya.Views.Shared
             "jquery.galleriffic.js",
             "sammy.js",
             "URI.js",
+            "jquery.cookie.js",
  
             //ours
             "Extension/sprintf-0.7-beta1.js",

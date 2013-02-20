@@ -82,6 +82,13 @@
 .get-flier-detail-div {
     width: 800px;
     margin: 0 auto 0;
+    background-color: white;
+    padding: 15px;
+    margin-top: 15px;
+    border-top: 1px solid #ccc;
+    border-right: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+    border-left: 1px solid #ccc;
 }
 
 /*Help Tips Bulletin*/

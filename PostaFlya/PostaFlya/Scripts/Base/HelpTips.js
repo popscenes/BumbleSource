@@ -11,6 +11,10 @@
             self.showHelp(!self.showHelp());            
         };
 
+        self.CheckFirstShowFor = function(context) {
+
+        };
+
         self._Init = function() {
             self.showHelp.subscribe(function (newValue) {
                 $(window.document.body).helptips('showHelp'

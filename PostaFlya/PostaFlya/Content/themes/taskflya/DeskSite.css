@@ -483,7 +483,7 @@ div#selected-item-popup-overlay, div#create-flier-popup-overlay {
     left:50px;
 }
 
-.flier-print:hover .print-options {
+.flier-print:hover .print-options, .flier-print.touch-hover .print-options{
     display: block;
 }
 
@@ -576,6 +576,10 @@ h3 {
     border-radius: 0px;
     width: 594px;
     margin-bottom: 10px;
+}
+
+#flierForm #addressSearch.location-search {
+    width: 300px;
 }
 
 #flierForm input[type="text"]#Title, #flierForm textarea {
@@ -828,7 +832,7 @@ div.helptips-arrow
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
-    color: #cccccc;
+    color: #cccccc !important;
 }
 
 @media only screen and (max-width: 800px)
