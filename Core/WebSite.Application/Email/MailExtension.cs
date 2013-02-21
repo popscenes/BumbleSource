@@ -44,6 +44,9 @@ namespace Website.Application.Email
             var attach = Attachment.CreateAttachmentFromString(calendar.ToString(), attachmentName, Encoding.UTF8,
                             "text/calendar");
 
+            var disposition = attach.ContentDisposition;
+            disposition.FileName = attachmentName;
+
             message.Attachments.Add(attach);
         }
 
@@ -85,8 +88,12 @@ namespace Website.Application.Email
 
         public static void AddVCardAsAttachment(this MailMessage mailMessage, VCard.VCard vCard, string attachmentName = null)
         {
-            var attach = Attachment.CreateAttachmentFromString(vCard.ToString(), GetValidFileName(vCard.GetFileName(attachmentName)), Encoding.UTF8,
+            var name = GetValidFileName(vCard.GetFileName(attachmentName));
+            var attach = Attachment.CreateAttachmentFromString(vCard.ToString(), name, Encoding.UTF8,
                                         "text/x-vcard");
+            var disposition = attach.ContentDisposition;
+            disposition.FileName = name;
+            disposition.Inline = false;
             mailMessage.Attachments.Add(attach);
         }
 
