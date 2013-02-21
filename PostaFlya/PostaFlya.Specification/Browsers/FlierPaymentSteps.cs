@@ -233,6 +233,17 @@ namespace PostaFlya.Specification.Fliers
             profileController.Put(browserInformation.Browser.Id, paymentPendingModel.First().Id);
         }
 
+        [Then(@"I will still have fliers that are PaymentPending Status and have the cost of")]
+        public void ThenIWillStillHaveFliersThatArePaymentPendingStatusAndHaveTheCostOf()
+        {
+            var profileController = SpecUtil.GetApiController<PendingFliersApiController>();
+            var paymentPendingModel = profileController.Get();
+            Assert.AreEqual(paymentPendingModel.First().Title, "This is a Title");
+            Assert.AreEqual(280, paymentPendingModel.First().PendingCredits);
+        }
+
+
+
         [Then(@"I will no longer have fliers that are PaymentPending Status")]
         public void ThenIWillNoLongerHaveFliersThatArePaymentPendingStatus()
         {

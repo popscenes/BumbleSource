@@ -65,6 +65,7 @@ namespace PostaFlya.Specification.Fliers
             
         }
 
+        [Given(@"I SUBMIT the data for that FLIER")]
         [When(@"I SUBMIT the data for that FLIER")]
         public void WhenISubmitTheRequiredDataForAFlier()
         {
