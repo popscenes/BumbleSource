@@ -46,3 +46,13 @@ Scenario: Pay For Pending Fliers
 	And I navigate to the Pendng Fliers Page
 	And I Choose to pay for a flier
 	Then I will no longer have fliers that are PaymentPending Status
+
+Scenario: Pay For Pending Fliers with analytics and No Credit
+	Given I am a BROWSER in PARTICIPANT ROLE
+	And i have navigated to the CREATE PAGE for a FLIER TYPE Default
+	And I choose to enable Analytics
+	And I have 0 Account Credits
+	And I SUBMIT the data for that FLIER 
+	When I navigate to the Pendng Fliers Page
+	And I Choose to pay for a flier
+	Then I will still have fliers that are PaymentPending Status and have the cost of

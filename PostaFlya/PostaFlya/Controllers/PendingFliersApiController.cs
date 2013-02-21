@@ -70,7 +70,8 @@ namespace PostaFlya.Controllers
                 EffectiveDate = flier.EffectiveDate,
                 ImageList = flier.ImageList,
                 BoardSet = flier.Boards,
-                AllowUserContact = flier.HasLeadGeneration
+                AllowUserContact = flier.HasLeadGeneration,
+                EnableAnalytics = flier.EnableAnalytics
             };
 
             var res = _commandBus.Send(editFlier);
