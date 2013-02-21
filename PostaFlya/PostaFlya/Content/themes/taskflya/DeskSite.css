@@ -596,18 +596,18 @@ form li label {
 }
 
 .nav-controls a {
-    display: inline-block;
-    width: 125px;
-    height: 40px;
+    display: block;
+    width: 40px;
+    height: 42px;
+    margin: 10px auto;
 }
 
 .next {
-    background: url(images/next-btn.png);
+    background: url(images/down-icon.png);
 }
 
 .prev {
-    background: url(images/prev-btn.png);
-    margin-right: 14px;
+    background: url(images/up-icon.png);
 }
 
 #upload-controls a, #form-buttons a {
