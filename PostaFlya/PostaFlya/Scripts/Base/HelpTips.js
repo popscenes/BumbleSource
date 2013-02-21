@@ -31,7 +31,11 @@
             self.showHelp.subscribe(function (newValue) {
                 $(window.document.body).helptips('showHelp'
                     , newValue
-                    , { closeHref: "javascript:bf.HelpTipsInstance.ToggleHelp();" });
+                    , {
+                        closeHref: "javascript:bf.HelpTipsInstance.ToggleHelp();",
+                        closeBtnClassAdd: 'mini-button red-button',
+                        nextBtnClassAdd: 'mini-button blue-button',
+                    });
             });
         };
         self._Init();

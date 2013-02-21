@@ -731,7 +731,7 @@ margin: 0 auto;
     margin: 22px 0 0 200px;
 }
 
-.red-mini-button, .helptips-close {
+.mini-button {
     background-color: #D28282;
     padding: 5px 10px;
     border: #ACC8CD solid 1px;
@@ -739,6 +739,14 @@ margin: 0 auto;
     color: white;
     cursor: pointer;
     text-decoration: none;
+}
+
+.red-button {
+    background-color: #D28282;
+}
+
+.blue-button {
+    background-color: #99D4E4;
 }
 
 .flier-cost-summary {
@@ -803,10 +811,13 @@ div.helptips-arrow
     background-repeat: no-repeat;
 }
 
+a.helptips-next {
+    display: none;
+}
 /*End Help Tips Core**********************************/
 
 .helptips-container#about-posta-helptip {
-    width: 30%;
+    width: 40%;
     min-width: 135px;
 }
 
@@ -818,6 +829,13 @@ div.helptips-arrow
 {
     width: 20px;
     height: 61px;
+}
+
+.helptips-container#bulletin-toolbar-helptip {
+    top: 150px;
+    left: 41%;
+    max-width: 30%;
+    min-width: 94px;
 }
 
 
@@ -868,6 +886,17 @@ ul.about-list li {
     .locSel {
         width: 100%;
         margin: 0 auto;
+    }
+
+    .helptips-container#bulletin-toolbar-helptip {
+        padding-top: 75px;
+        right: 0;
+    }
+
+    .helptips-container#bulletin-toolbar-helptip div.helptips-arrow
+    {
+        width: 20px;
+        height: 76px;
     }
 }
 
@@ -974,6 +1003,13 @@ ul.about-list li {
         margin-right: 0px;
     }
  
+    div.helptips-container {
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    
+
     .helptips-container#global-toolbar-helptip {
         padding-top: 75px;
     }
@@ -984,18 +1020,37 @@ ul.about-list li {
         height: 76px;
     }
 
-   div.helptips-container {
-       padding-left: 0;
-       padding-right: 0;
-   }
-
     .helptips-container#global-toolbar-helptip div.helptips-content
     {
         font-size: 11px;
     }
 
-    .helptips-container#about-posta-helptip {
-        left: 0;
+    div.helptips-container.helptips-visible {
+        display: none;
+    }
+
+    div.helptips-footer{
+        display: none;    
+    }
+
+    div.helptips-header {
+        display: block;
+    }
+
+    a.helptips-next {
+        display: inline;
+    }
+
+    div.helptips-container.focused {
+        display: block;
+        z-index: 10001;
+        left: 2%!important;
+        width: 96%!important;
+        max-width: none!important;
+    }
+
+    #bulletin-toolbar-helptip div.helptips-group-text {
+        font-size: 11px;
     }
 
 }

@@ -657,6 +657,7 @@ ul.analytic-summary-detail {
 /*Help Tips Core**********************************/
 
 div.helptips-container {
+    display: none;
     padding: 10px;
     padding-top: 25px;
     position: absolute;
@@ -687,8 +688,20 @@ div.helptips-group-text {
     padding: 10px;
 }
 
-div.helptips-footer {
+div.helptips-footer, div.helptips-header {
     text-align: right;
+}
+
+div.helptips-header {
+    display: none;
+}
+
+div.helptips-container.helptips-visible {
+    display: block;
+}
+
+div.helptips-container.focused {
+
 }
 
 /*End Help Tips Core**********************************/

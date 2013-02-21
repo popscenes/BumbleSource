@@ -1,7 +1,9 @@
 ﻿(function ($) {
 
     var defaults = {
-        closeHref: "javascript:$(window.document.body).helptips('showHelp', false);"
+        closeHref: "javascript:$(window.document.body).helptips('showHelp', false);",
+        closeBtnClassAdd: '',
+        nextBtnClassAdd: '',
     };
     
     function getHelpIdForElement($element) {
@@ -16,50 +18,12 @@
         return id;
     }
 
-    function initElement($element, data) {
-        var $tooltip = $element.data('helptips');
-        if ($tooltip)
-            return;
-        
-        $tooltip = $('<div>')
-            .addClass("helptips-container")
-            .hide();
-
-        var id = getHelpIdForElement($element);   
-        if (id)
-            $tooltip.attr('id', id);
-        
-        var $arrowCont = $("<div>")
-            .addClass("helptips-arrow")
-            .appendTo($tooltip);
-        
-
-        var $content = $("<div>")
-            .addClass("helptips-content")
-            .text($element.attr("data-helptip-text"))
-            .appendTo($tooltip);
-        
-        var $footer = $("<div>")
-            .addClass("helptips-footer");
-
-        var $close = $("<a>")
-            .addClass('helptips-close')
-            .attr('href', data.closeHref)
-            .text('Close');
-
-        $footer.append($close);
-        $footer.appendTo($content);
-
-        $tooltip.insertAfter($element);
-        $element.data('helptips', $tooltip);
-    }
-
     function init($eles, dataDefaults) {
 
         var data = $.extend({}, defaults, dataDefaults);
         
         if (!$eles.is('[data-helptip-text]'))
-            $eles = $eles.find('[data-helptip-text], [data-helptip-group], [data-helptip-group-content]');
+            $eles = $eles.find('[data-helptip-group], [data-helptip-group-content]');
 
         $eles.not('[data-helptip-group], [data-helptip-group-content]').each(function () {
             initElement($(this), data);
@@ -133,8 +97,7 @@
 
         $tooltip = $('<div>')
             .addClass("helptips-container")
-            .attr("id", groupId + '-helptip')
-            .hide();
+            .attr("id", groupId + '-helptip');
         
         var $arrowCont = $("<div>")
             .addClass("helptips-arrow")
@@ -148,20 +111,38 @@
         var $footer = $("<div>")
             .addClass("helptips-footer");
         
+        var $header = $("<div>")
+            .addClass("helptips-header");
+        
         var $close = $("<a>")
             .addClass('helptips-close')
+            .addClass(data.closeBtnClassAdd)
             .attr('href', data.closeHref)
             .text('Close');
         
+        var $next = $("<a>")
+            .addClass('helptips-next')
+            .addClass(data.nextBtnClassAdd)
+            .text('Next Tip >')
+            .bind('click', function () {
+                $(document.body).helptips('focusNext');
+                return false;
+            });
+        
+        $footer.append($next);
         $footer.append($close);
         
-        
+        $header.append($next.clone(true));
+        $header.append($close.clone(true));
+
+            
         var $group = $allGroup.filter('[data-helptip-group=' + groupId + ']');
         if (!$contentSrc.length) {
             var $content = getContent($group.filter('[data-helptip-text]'));
             $content.appendTo($contentCont);
         }
-        
+
+        $header.prependTo($contentCont);
         $footer.appendTo($contentCont);
         
         $group.each(function () {
@@ -187,18 +168,15 @@
             return;
         
         if (showOrHide) {
-            $tooltip.show();
+            $tooltip.addClass('helptips-visible');
         }
         else {
-            $tooltip.hide();
+            $tooltip.removeClass('helptips-visible');
+            $tooltip.removeClass('focused');
         }
     }
 
     function showHelpFor($eles, showOrHide) {
-
-        $eles.not('[data-helptip-group]').each(function () {
-            showHelpForEles($(this), showOrHide);
-        });
 
         var done = {};
         $eles.filter('[data-helptip-group]').each(function () {
@@ -213,20 +191,42 @@
         
 
     };
-
-//    function getPositionFor($eles) {
-//        var pos = {top: 0, right:0};
-//        $eles.each(function () {
-//            var $this = $(this);
-//            var posEle = $this.position();
-//            if (posEle.left + $this.width() > pos.right)
-//                pos.right = posEle.left + $this.width();
-//            if (posEle.top + $this.height() > pos.top)
-//                pos.top = posEle.top + $this.height();
-//        });
-//        return pos;
-//    }
     
+    function focusNextImplementation() {
+        var skip = true;
+      
+        var $current = null;
+        var $next = null;
+        var $tips = $(document.body).find('.helptips-container');
+        for (var i = 0; i < 2; i++) {
+            if ($next != null)
+                break;
+            $tips.each(function () {
+                var $this = $(this);
+                if ($this.hasClass('focused')) {
+                    skip = false;
+                    $current = $this;
+                    return;
+                }                
+                if (skip) return;
+                if ($next == null)
+                    $next = $this;
+            });
+        }
+        
+        if ($next == null)
+            $next = $tips.first();
+        
+        if ($current) {
+            $current.removeClass('focused');
+        }
+        
+        if ($next) {
+            $next.addClass('focused');
+        }
+        
+    }
+
     var publicmethods = {
 
         init: function (dataDefaults) {
@@ -237,12 +237,18 @@
             var $eles = init(this, dataDefaults);
 
             showHelpFor($eles, showOrHide);
-
+            if(showOrHide)
+                focusNextImplementation();
             return this;         
         },
         
         anyShowing: function() {
             return this.find('.helptips-container').filter(':visible').length > 0;
+        },
+        
+        focusNext: function() {
+            focusNextImplementation();
+            return this;
         }
 
     };

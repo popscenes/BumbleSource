@@ -92,31 +92,7 @@
 }
 
 /*Help Tips Bulletin*/
-.helptips-container#bulletin-toolbar-helptip {
-    top: 150px;
-    left: 41%;
-    max-width: 30%;
-    min-width: 94px;
-}
+
 
 /*Help Tips Bulletin*/
-
-@media only screen and (max-width: 600px)
-{
-    .helptips-container#bulletin-toolbar-helptip {
-        padding-top: 75px;
-        right: 0;
-    }
-
-    .helptips-container#bulletin-toolbar-helptip div.helptips-arrow
-    {
-        width: 20px;
-        height: 76px;
-    }
-
-    #bulletin-toolbar-helptip div.helptips-group-text {
-        font-size: 11px;
-    }
-
-}
 
