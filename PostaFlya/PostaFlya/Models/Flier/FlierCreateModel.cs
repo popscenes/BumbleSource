@@ -33,6 +33,9 @@ namespace PostaFlya.Models.Flier
                            ExternalSource = flier.ExternalSource,
                            ExternalId = flier.ExternalId,
                            BoardList =  flier.Boards != null ? flier.Boards.ToList() : new List<string>(),
+                           EnableAnalytics =  flier.EnableAnalytics,
+                           PostRadius = flier.LocationRadius+5,
+                           ContactDetails = flier.ContactDetails.ToViewModel()
                        };
         }
 

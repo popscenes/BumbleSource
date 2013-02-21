@@ -21,7 +21,7 @@ namespace PostaFlya.Domain.Flier.Payment
         {
             return new EntityFeatureCharge()
             {
-                Cost = 200,
+                Cost = 500,
                 Description = Description,
                 CurrentStateMessage = "",
                 Paid = 0,

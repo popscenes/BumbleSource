@@ -239,7 +239,7 @@ namespace PostaFlya.Specification.Fliers
             var profileController = SpecUtil.GetApiController<PendingFliersApiController>();
             var paymentPendingModel = profileController.Get();
             Assert.AreEqual(paymentPendingModel.First().Title, "This is a Title");
-            Assert.AreEqual(280, paymentPendingModel.First().PendingCredits);
+            Assert.AreEqual(580, paymentPendingModel.First().PendingCredits);
         }
 
 

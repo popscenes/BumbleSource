@@ -71,7 +71,8 @@ namespace PostaFlya.Controllers
                 ImageList = flier.ImageList,
                 BoardSet = flier.Boards,
                 AllowUserContact = flier.HasLeadGeneration,
-                EnableAnalytics = flier.EnableAnalytics
+                EnableAnalytics = flier.EnableAnalytics,
+                ExtendPostRadius = flier.LocationRadius
             };
 
             var res = _commandBus.Send(editFlier);
