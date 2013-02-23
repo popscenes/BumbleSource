@@ -12,12 +12,14 @@ namespace Website.Azure.Common.TableStorage
 
         public void UpdateEntry(object source)
         {
+            _sourceObject = source;
             _jsonText = JsonConvert.SerializeObject(source);
         }
 
         public object GetEntity(Type entityTyp)
         {
-            return JsonConvert.DeserializeObject(_jsonText, entityTyp);
+            _sourceObject = JsonConvert.DeserializeObject(_jsonText, entityTyp);
+            return _sourceObject;
         }
 
         //these aren't properties to stop them being serialized into table storage
@@ -32,5 +34,6 @@ namespace Website.Azure.Common.TableStorage
         }
 
         private string _jsonText;
+        private object _sourceObject;
     }
 }

@@ -131,6 +131,12 @@ namespace Website.Azure.Common.TableStorage
             return GetEdmConstuctors(type).Count > 0;
         }
 
+        public static string GetEdmTyp(object source)
+        {
+            //default to string for null
+            return (source != null) ? Edm.GetEdmTyp(source.GetType()) : Edm.String;
+        }
+
         public static string GetEdmTyp(Type type)
         {
             string ret;
