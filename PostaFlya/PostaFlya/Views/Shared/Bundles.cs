@@ -63,7 +63,7 @@ namespace PostaFlya.Views.Shared
 
         private static readonly string[] DeskJsFiles =
         {
-            "jquery-ui-1.9-RC1.js",
+            "jquery-ui-1.10.0.js",
             "jquery.ui.touch-punch.min.js"
         };
 
