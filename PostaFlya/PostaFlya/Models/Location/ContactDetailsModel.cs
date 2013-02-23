@@ -8,6 +8,8 @@ namespace PostaFlya.Models.Location
     {
         public static ContactDetailsModel ToViewModel(this ContactDetailsInterface source)
         {
+            if (source == null)
+                return null;
             var ret = new ContactDetailsModel();
             ret.CopyFieldsFrom(source);
             ret.Address = source.Address.ToViewModel();

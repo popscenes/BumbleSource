@@ -10,7 +10,7 @@ And I have 1000 Account Credits
 When I SUBMIT the data for that FLIER 
 Then the new FLIER will be created for behviour Default
 And the FLIER STATUS will be Active
-And the FLIER will contain a FEATURE described as Gather Flier Analytics Feature with a cost of 200 credits
+And the FLIER will contain a FEATURE described as Gather Flier Analytics Feature with a cost of 500 credits
 And A CREDIT TRANSACTION for 500 with description Gather Flier Analytics Feature will be created
 
 Scenario: View Flier Details Records Visit

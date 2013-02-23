@@ -59,15 +59,22 @@ namespace Website.Domain.Tests.Browser.Publish
             var repo = Kernel.Get<GenericRepositoryInterface>();
             var browser = BrowserTestData.GetOne(Kernel);
             BrowserTestData.StoreOne(browser, repo, Kernel);
+            var qs = Kernel.Get<GenericQueryServiceInterface>();
 
             var testSub = Kernel.Get<BrowserSubscriptionInterface>();
             Assert.That(testSub, Is.InstanceOf<TestPublishClass>());
+
+            Assert.IsTrue(testSub.IsBrowserSubscribed(browser));
+
+            testSub.BrowserUnsubscribe(browser);
+
+            browser = qs.FindById<Website.Domain.Browser.Browser>(browser.Id);
 
             Assert.IsFalse(testSub.IsBrowserSubscribed(browser));
 
             testSub.BrowserSubscribe(browser);
 
-            browser = BrowserTestData.AssertGetById(browser, Kernel.Get<GenericQueryServiceInterface>());
+            browser = BrowserTestData.AssertGetById(browser, qs);
 
             Assert.IsTrue(testSub.IsBrowserSubscribed(browser));
 
@@ -91,7 +98,6 @@ namespace Website.Domain.Tests.Browser.Publish
             var testSub = Kernel.Get<BrowserSubscriptionInterface>();
             Assert.That(testSub, Is.InstanceOf<TestPublishClass>());
 
-            Assert.IsFalse(testSub.IsBrowserSubscribed(browser));
 
             testSub.BrowserSubscribe(browser);
             testSub.BrowserSubscribe(browserTwo);

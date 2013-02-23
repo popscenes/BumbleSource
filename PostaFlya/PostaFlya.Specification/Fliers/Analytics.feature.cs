@@ -75,7 +75,7 @@ namespace PostaFlya.Specification.Fliers
             testRunner.Then("the new FLIER will be created for behviour Default", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
             testRunner.And("the FLIER STATUS will be Active", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
             testRunner.And("the FLIER will contain a FEATURE described as Gather Flier Analytics Feature with" +
-                    " a cost of 200 credits", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+                    " a cost of 500 credits", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
             testRunner.And("A CREDIT TRANSACTION for 500 with description Gather Flier Analytics Feature will" +
                     " be created", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
             this.ScenarioCleanup();
