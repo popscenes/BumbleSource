@@ -34,6 +34,9 @@
         self.Steps = ['Flyer', 'Location', 'Info', 'Tags'];
         self.imageSelector = imageSelector;
         self.tagsSelector = tagsSelector;
+        
+        self.HelpTipPage = 'createflier';
+        self.HelpTipGroups = 'image-upload,image-browse';
 
         var mapping = {
             'Location': {
@@ -239,7 +242,7 @@
             if (self.FlierImageId())
                 self.imageSelector.selectedImageId(self.FlierImageId());
             
-            bf.HelpTipsInstance.CheckFirstShowFor("createflier");
+            //bf.HelpTipsInstance.CheckFirstShowFor("createflier");
             
         };
     };

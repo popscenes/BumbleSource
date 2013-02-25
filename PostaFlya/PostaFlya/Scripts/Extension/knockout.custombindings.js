@@ -18,19 +18,77 @@ ko.bindingHandlers.datePicker = {
 //    }
 //};
 
-$.fn.selectRange = function (start, end) {
-    return this.each(function () {
-        if (this.setSelectionRange) {
+//$.fn.selectRange = function (start, end) {
+//    return this.each(function () {
+//        if (this.setSelectionRange) {
+//
+//            this.setSelectionRange(start, end);
+//        } else if (this.createTextRange) {
+//            var range = this.createTextRange();
+//            range.collapse(true);
+//            range.moveEnd('character', end);
+//            range.moveStart('character', start);
+//            range.select();
+//        }
+//    });
+//};
 
-            this.setSelectionRange(start, end);
-        } else if (this.createTextRange) {
-            var range = this.createTextRange();
-            range.collapse(true);
-            range.moveEnd('character', end);
-            range.moveStart('character', start);
-            range.select();
-        }
-    });
+ko.bindingHandlers.helpTipTrigger = {
+    init: function (element, valueAccessor, allBindingsAccessor, viewModel) {
+
+        var $ele = $(element);        
+        var data = {
+            closeBtnClassAdd: 'mini-button red-button',
+            nextBtnClassAdd: 'mini-button blue-button',
+        };
+        var pageId = ko.utils.unwrapObservable(valueAccessor());
+        var groups = ko.utils.unwrapObservable(allBindingsAccessor().helpGroups);
+        data.pageMap = {};
+        data.pageMap[pageId] = groups.split(',');
+        
+        var toggle = function (show) {
+            if (show) {
+                $ele.addClass('helptips-on');
+            }
+            else {
+                $ele.removeClass('helptips-on');
+            }
+
+            $(window.document.body).helptips('showHelp', show, pageId, data);
+            return false;
+        };
+        
+        data.close = function() {
+            return toggle(false);
+        };
+
+        $ele.bind('click', function () {
+            var isOn = $ele.hasClass('helptips-on');
+            return toggle(!isOn);
+        });
+        
+        var checkFirstShowFor = function (context) {
+
+            $.cookie.json = true;
+            var helptipsshown = $.cookie('helptipsshown');
+            if (!helptipsshown)
+                helptipsshown = {};
+
+            if (!helptipsshown[context]) {
+                toggle(true);
+            }
+
+            helptipsshown[context] = true;
+            $.cookie('helptipsshown', helptipsshown, { expires: 1000 });
+        };
+
+        setTimeout(function () {
+            checkFirstShowFor(pageId);
+        });
+    },
+    update: function (element, valueAccessor, allBindingsAccessor, viewModel) {
+
+    }
 };
 
 ko.bindingHandlers.bannerText = {

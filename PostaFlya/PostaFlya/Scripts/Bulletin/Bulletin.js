@@ -20,6 +20,9 @@
         self.CreateFlier = ko.observable();
 
         self.Layout = tileLayout;
+        
+        self.HelpTipPage = 'bulletin';
+        self.HelpTipGroups = 'about-posta,bulletin-toolbar,global-toolbar';
 
         
         self.GetReqUrl = function () {
@@ -137,7 +140,7 @@
                 self.TryRequest();
             });
 
-            bf.HelpTipsInstance.CheckFirstShowFor("bulletin");
+            //bf.HelpTipsInstance.CheckFirstShowFor("bulletin");
         };
 
         self._Init();

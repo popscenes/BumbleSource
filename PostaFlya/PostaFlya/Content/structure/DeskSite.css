@@ -14,7 +14,7 @@ header{
 	font-family:Verdana, Geneva, sans-serif;
 	font-size:11px;
 	/*min-width:1200px;*/
-    border: 1px #D0CBC4 solid;
+    border-bottom: 1px #D0CBC4 solid;
 	
 }
 
@@ -34,7 +34,6 @@ header{
     width:100%;
     margin-left:auto;
     margin-right:auto;
-	height:70px;
 	padding-top:8px;
 	z-index:500; 
 }
@@ -47,7 +46,10 @@ header{
 }
 
 .locSel{
-	width:375px;
+    
+    display: inline-block;
+	/*width:510px;*/
+    height: 80px;
 	overflow:visible;
 }
 
@@ -71,27 +73,6 @@ header{
     width: 100%;   
 }
 
-input#locationSearch
-{
-    display:block;
-    margin-top:10px;
-    padding:5px;
-    margin-left:10px;
-    float:left;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    line-height:50px;
-    overflow: hidden;
-    outline:none;
-    width: 500px;
-    height: 60px;
-    font-size: 25px;
-    font-weight: bold;
-    color: #84827D;
-    border-width: 2px;
-    border-style: solid;
-    border-color: #84827D;
-}
 
 
 #controls #lsMain
@@ -755,9 +736,10 @@ div.helptips-container.focused {
 
 
 .page-toolbar {
-    width: 725px;
-    height: 100px;
-    margin: auto;  
+    width: 850px;
+    margin: auto;
+    margin-top: 20px;
+    text-align: center;
 }
 
 .ImgButton {
@@ -770,12 +752,11 @@ div.helptips-container.focused {
 }
 
 div.btn-location {
-    background-position: 10px top;
+    background-position: 10px -10px;
 }
 
 div.btn-tags {
-    background-position: -80px top;
-    margin-left: 0;
+    background-position: -80px -10px;
 }
 
     

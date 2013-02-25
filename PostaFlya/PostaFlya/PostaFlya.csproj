@@ -457,6 +457,7 @@
     <Content Include="Content\themes\taskflya\images\browse-btn.png" />
     <Content Include="Content\themes\taskflya\images\continue-btn.png" />
     <Content Include="Content\themes\taskflya\images\create-flier.png" />
+    <Content Include="Content\themes\taskflya\images\CurrentLoc.png" />
     <Content Include="Content\themes\taskflya\images\defaultavatar.jpg" />
     <Content Include="Content\themes\taskflya\images\down-icon.png" />
     <Content Include="Content\themes\taskflya\images\edit-btn.png" />
@@ -602,7 +603,6 @@
     <Content Include="Scripts\Base\CreateFlierInstance.js" />
     <Content Include="Scripts\Base\ErrorHandling.js" />
     <Content Include="Scripts\Base\FlierCost.js" />
-    <Content Include="Scripts\Base\HelpTips.js" />
     <Content Include="Scripts\Base\LocationModel.js" />
     <Content Include="Scripts\Base\TileLayoutViewModel.js" />
     <Content Include="Scripts\Base\ClaimsViewModel.js" />

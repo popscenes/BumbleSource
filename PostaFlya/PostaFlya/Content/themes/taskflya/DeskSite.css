@@ -782,8 +782,8 @@ margin: 0 auto;
 }
 
 .page-toolbar-buttons {
-    float: left;
-    width: 200px;    
+    display: inline-block;
+    width: 200px;
 }
 
 /*Help Tips Core**********************************/
@@ -866,26 +866,85 @@ ul.about-list li {
     line-height:20px;
 }
 
+div.ls-holder-text {
+    margin: 0 auto;
+    display: table;
+    text-align: left;
+    width: 90%;
+   /* position: relative;*/
+}
+
+div.ls-holder-text input.location-search {
+    display: table-cell;
+}
+
+div.current-loc {
+    background-image: url(images/CurrentLoc.png);
+    background-size:50px 50px;
+    background-position: center;
+    background-repeat: no-repeat;
+    min-width: 60px;
+    width: 60px;
+    height: 60px;
+    border-width: 2px;
+    border-style: solid;
+    border-color: #84827D;
+    border-right-style: none;
+    border-right: 0;
+    display: table-cell;
+    background-color: white;
+/*    position: absolute;  
+    top: 20px;
+    left: 12px;
+    z-index: 20;*/
+}
+
+input#locationSearch
+{
+/*    margin-top:10px;*/
+    padding:5px;
+    /*padding-left: 50px;*/
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    line-height:50px;
+    overflow: hidden;
+    outline:none;
+    width: 450px;
+    height: 60px;
+    font-size: 25px;
+    font-weight: bold;
+    color: #84827D;
+    border-width: 2px;
+    border-style: solid;
+    border-color: #84827D;
+    border-left-style: none;
+    border-left: 0;
+}
+
+
+
+
+
 @media only screen and (max-width: 800px)
 {
     .page-toolbar {
         width: 100%;
-        padding-left: 5%;
     }
 
     .page-toolbar-buttons {
         margin: 0 auto;
-        float: none;
     }
 
     input#locationSearch {
-        width: 90%;
-        margin: auto;
+        width: 100%
     }
-
     .locSel {
         width: 100%;
-        margin: 0 auto;
+    }
+
+    .ls-relative-back {
+        margin-left: 5%;
+        margin-right: 5%;
     }
 
     .helptips-container#bulletin-toolbar-helptip {

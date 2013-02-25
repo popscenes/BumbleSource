@@ -1,9 +1,10 @@
 ﻿(function ($) {
 
     var defaults = {
-        closeHref: "javascript:$(window.document.body).helptips('showHelp', false);",
+        close: "javascript:$(window.document.body).helptips('showHelp', false);",
         closeBtnClassAdd: '',
         nextBtnClassAdd: '',
+        pageMap:{} //map of page to arrays of groups
     };
     
     function getHelpIdForElement($element) {
@@ -22,12 +23,12 @@
 
         var data = $.extend({}, defaults, dataDefaults);
         
+        var pageMap = $(document.body).data('helptipsPages');
+        pageMap = $.extend({}, pageMap, data.pageMap);
+        $(document.body).data('helptipsPages', pageMap);
+        
         if (!$eles.is('[data-helptip-text]'))
             $eles = $eles.find('[data-helptip-group], [data-helptip-group-content]');
-
-        $eles.not('[data-helptip-group], [data-helptip-group-content]').each(function () {
-            initElement($(this), data);
-        });
 
         var $groupEles = $eles.filter('[data-helptip-group], [data-helptip-group-content]');
         $groupEles.each(function () {
@@ -81,6 +82,20 @@
         return $ret;
     }
     
+    function getGroupFromConatiner($tooltip) {
+        var id = $tooltip.attr("id");
+        if (!id)
+            return null;
+        var indx = id.lastIndexOf('-helptip');
+        if (indx >= 0)
+            id = id.substring(0, indx);
+        return id;
+    }
+    
+    function getConatinerIdForGroup(groupId) {
+        return groupId + '-helptip';
+    }
+    
     function initGroup($groupEle, $allGroup, data) {
 
         var $tooltip = $groupEle.data('helptips');
@@ -90,14 +105,12 @@
         var groupId = $groupEle.attr('data-helptip-group');
         if (!groupId)
             return;
-        
+            
         var $contentSrc = $allGroup.find('[data-helptip-group-content=' + groupId + ']');
-        $contentSrc.show();
-
 
         $tooltip = $('<div>')
             .addClass("helptips-container")
-            .attr("id", groupId + '-helptip');
+            .attr("id", getConatinerIdForGroup(groupId));
         
         var $arrowCont = $("<div>")
             .addClass("helptips-arrow")
@@ -106,6 +119,7 @@
         var $contentCont = ($contentSrc.length ? $contentSrc.clone() : $("<div>"))
             .addClass("helptips-content")
             .removeAttr("data-helptip-group-content")
+            .show()
             .appendTo($tooltip);
 
         var $footer = $("<div>")
@@ -117,17 +131,13 @@
         var $close = $("<a>")
             .addClass('helptips-close')
             .addClass(data.closeBtnClassAdd)
-            .attr('href', data.closeHref)
             .text('Close');
-        
+               
         var $next = $("<a>")
             .addClass('helptips-next')
             .addClass(data.nextBtnClassAdd)
-            .text('Next Tip >')
-            .bind('click', function () {
-                $(document.body).helptips('focusNext');
-                return false;
-            });
+            .text('Next Tip >>');
+
         
         $footer.append($next);
         $footer.append($close);
@@ -162,92 +172,101 @@
         }    
     }
 
-    function showHelpForEles($ele, showOrHide) {
+    function showHelpForEles($ele, pageId, showOrHide, data) {
         var $tooltip = $ele.first().data('helptips');
         if (!$tooltip)
             return;
         
-        if (showOrHide) {
+        var pageMap = $(document.body).data('helptipsPages');
+        var groupsForPage = pageMap[pageId];
+        
+        var grp = getGroupFromConatiner($tooltip);
+        if (showOrHide && $.inArray(grp, groupsForPage) >= 0) {
             $tooltip.addClass('helptips-visible');
+            $tooltip.find('a.helptips-next').bind('click', function () {
+                $(document.body).helptips('focusNext', pageId);
+                return false;
+            });
+
+            if ($.isFunction(data.close)) {
+                $tooltip.find('a.helptips-close').bind('click', data.close);
+            } else {
+                $tooltip.find('a.helptips-close').attr('href', data.close);
+            }
         }
         else {
+            $tooltip.find('a.helptips-close').removeAttr('href');
+            $tooltip.find('a.helptips-close').unbind('click');
+            $tooltip.find('a.helptips-next').unbind('click');
             $tooltip.removeClass('helptips-visible');
             $tooltip.removeClass('focused');
         }
     }
 
-    function showHelpFor($eles, showOrHide) {
+    function showHelpFor($eles, pageId, showOrHide, data) {
 
+        data = $.extend({}, defaults, data);
         var done = {};
         $eles.filter('[data-helptip-group]').each(function () {
             var $this = $(this);
             var groupid = $this.attr('data-helptip-group');
             if (!done[groupid]) {
-                showHelpForEles($eles.filter('[data-helptip-group=' + groupid + ']'), showOrHide);
+                showHelpForEles($eles.filter('[data-helptip-group=' + groupid + ']'), pageId, showOrHide, data);
                 done[groupid] = true;
             }
 
         });
-        
-
     };
     
-    function focusNextImplementation() {
-        var skip = true;
-      
-        var $current = null;
-        var $next = null;
-        var $tips = $(document.body).find('.helptips-container');
-        for (var i = 0; i < 2; i++) {
-            if ($next != null)
-                break;
-            $tips.each(function () {
-                var $this = $(this);
-                if ($this.hasClass('focused')) {
-                    skip = false;
-                    $current = $this;
-                    return;
-                }                
-                if (skip) return;
-                if ($next == null)
-                    $next = $this;
-            });
-        }
+    function focusNextImplementation(pageId) {
+
+        var $body = $(document.body);
+        var pageMap = $body.data('helptipsPages');
+        var groupsForPage = pageMap[pageId];
         
-        if ($next == null)
-            $next = $tips.first();
-        
-        if ($current) {
+        var $current = $body.find('.helptips-container.focused');
+        if ($current.length) {
             $current.removeClass('focused');
         }
-        
-        if ($next) {
+
+        var grp = getGroupFromConatiner($current);
+        var startIndx = $.inArray(grp, groupsForPage);
+        var $next = null;
+        var cnt = 0;
+        do { //may not be part of the dom at some stage so just find next one that is
+            startIndx = (startIndx + 1) % groupsForPage.length;
+            $next = $body.find('#' + getConatinerIdForGroup(groupsForPage[startIndx]));
             $next.addClass('focused');
-        }
+        } while (!$next.length && (++cnt < groupsForPage.length));
         
+        if ($next && $next.length)
+            $next[0].scrollIntoView(false);
+
     }
 
     var publicmethods = {
 
-        init: function (dataDefaults) {
-            init(this, dataDefaults);
-        },
+//        init: function (dataDefaults) {
+//            init(this, dataDefaults);
+//        },
 
-        showHelp: function (showOrHide, dataDefaults) {
+        showHelp: function (showOrHide, pageId, dataDefaults) {
             var $eles = init(this, dataDefaults);
 
-            showHelpFor($eles, showOrHide);
+            showHelpFor($eles, pageId, showOrHide, dataDefaults);
             if(showOrHide)
-                focusNextImplementation();
+                focusNextImplementation(pageId);
             return this;         
         },
         
-        anyShowing: function() {
-            return this.find('.helptips-container').filter(':visible').length > 0;
+        anyShowing: function (pageId) {
+            return this.find('.helptips-container')
+                .filter('[data-helptip-page="' + pageId + '"]')
+                .filter(':visible').length > 0;
         },
         
-        focusNext: function() {
-            focusNextImplementation();
+        focusNext: function (pageId) {
+            focusNextImplementation(pageId);
             return this;
         }
 
@@ -258,9 +277,12 @@
         // Method calling logic
         if (publicmethods[method]) {
             return publicmethods[method].apply(this, Array.prototype.slice.call(arguments, 1));
-        } else if (typeof method === 'object' || !method) {
-            return publicmethods.init.apply(this, arguments);
-        } else {
+        }
+        //not using init
+//        else if (typeof method === 'object' || !method) {
+//            return publicmethods.init.apply(this, arguments);
+//        }
+        else {
             $.error('Method ' + method + ' does not exist on jQuery.helptips');
         }
         return this;
