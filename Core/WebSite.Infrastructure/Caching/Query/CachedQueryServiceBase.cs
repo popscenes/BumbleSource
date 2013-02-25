@@ -103,7 +103,7 @@ namespace Website.Infrastructure.Caching.Query
             if (_genericQueryService == null)
                 return null;
             return RetrieveCachedData(
-                id.GetCacheKeyFor<EntityRetType>("Id"),
+                id.GetCacheKeyFor<EntityRetType>("FriendlyId"),
                 () => _genericQueryService.FindByFriendlyId<EntityRetType>(id));
         }
 
