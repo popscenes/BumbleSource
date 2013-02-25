@@ -171,6 +171,22 @@ namespace PostaFlya.Specification.Browsers
             testRunner.Then("I will still have fliers that are PaymentPending Status and have the cost of", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
             this.ScenarioCleanup();
         }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Pay for flier feature after create")]
+        public virtual void PayForFlierFeatureAfterCreate()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Pay for flier feature after create", ((string[])(null)));
+            this.ScenarioSetup(scenarioInfo);
+            testRunner.Given("I have created a FLIER with a FEATURE described as Gather Flier Analytics Feature" +
+                    " with no credit", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+            testRunner.And("I have 1000 Account Credits", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+            testRunner.When("I navigate to the Pendng Fliers Page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+            testRunner.And("I Choose to pay for a flier", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+            testRunner.Then("the FLIER will contain a FEATURE described as Gather Flier Analytics Feature with" +
+                    " a cost of 500 credits", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+            this.ScenarioCleanup();
+        }
     }
 }
 #pragma warning restore

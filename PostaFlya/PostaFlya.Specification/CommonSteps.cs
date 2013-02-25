@@ -139,6 +139,7 @@ namespace PostaFlya.Specification
         }
 
         [Given(@"I have (.*) Account Credits")]
+        [When(@"I have (.*) Account Credits")]
         public void GivenIHaveAccountCredit(int credit)
         {
             var browserInformation = SpecUtil.GetCurrBrowser();
