@@ -56,3 +56,10 @@ Scenario: Pay For Pending Fliers with analytics and No Credit
 	When I navigate to the Pendng Fliers Page
 	And I Choose to pay for a flier
 	Then I will still have fliers that are PaymentPending Status and have the cost of
+
+Scenario: Pay for flier feature after create
+	Given I have created a FLIER with a FEATURE described as Gather Flier Analytics Feature with no credit
+	And I have 1000 Account Credits
+	When I navigate to the Pendng Fliers Page
+	And I Choose to pay for a flier
+	Then the FLIER will contain a FEATURE described as Gather Flier Analytics Feature with a cost of 500 credits

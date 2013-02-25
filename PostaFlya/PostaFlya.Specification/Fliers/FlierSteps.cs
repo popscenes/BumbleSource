@@ -666,6 +666,24 @@ namespace PostaFlya.Specification.Fliers
             ThenTheFlierStatusWillBe(FlierStatus.Active.ToString());
         }
 
+        [Given(@"I have created a FLIER with a FEATURE described as Gather Flier Analytics Feature with no credit")]
+        public void GivenIHaveCreatedAFLIERWithAFEATUREDescribedAsGatherFlierAnalyticsFeatureWithNoCredit()
+        {
+            GivenIOrAnotherBrowserHasNavigatedToTheCreateFlierPage(FlierBehaviour.Default.ToString());
+            GivenIChooseToEnableAnalytics();
+            _common.GivenIHaveAccountCredit(0);
+            WhenISubmitTheRequiredDataForAFlier();
+            ThenTheNewFlierWillBeCreated(FlierBehaviour.Default.ToString());
+            ThenTheFlierStatusWillBe(FlierStatus.PaymentPending.ToString());
+        }
+
+        [Then(@"the flier will have a Gather Flier Analytics Feature that is paid")]
+        public void ThenTheFlierWillHaveAGatherFlierAnalyticsFeatureThatIsPaid()
+        {
+            ScenarioContext.Current.Pending();
+        }
+
+
         [Then(@"I should see the Analytic Info with the FLIER details")]
         public void ThenIShouldSeeTheAnalyticInfoWithTheFLIERDetails()
         {
