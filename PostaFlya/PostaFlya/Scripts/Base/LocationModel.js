@@ -6,12 +6,14 @@
     bf.LocationModel = function (initData) {
         var defaults = {
             Longitude:-300,
-            Latitude:-300,
-            StreetAddress:'',
+            Latitude: -300,
+            StreetNumber: '',
+            Street:'',
             Locality:'',
             Region:'',
             PostCode:'',
-            CountryName:'' 
+            CountryName: '',
+            PlaceName:''
         };
         initData = $.extend(defaults, initData);
         
@@ -42,16 +44,15 @@
         };
         
         self.SetFromGeo = function (results) {
-            var streetNo = '';
-            var streetName = '';
+
             var data = results.address_components;
             for (var i = 0; i < data.length; i++) {
                 var addressPart = data[i];
                 if ($.inArray('street_number', addressPart.types) >= 0) {
-                    streetNo = addressPart.long_name;
+                    self.StreetNumber(addressPart.long_name);
                 }
                 else if ($.inArray('route', addressPart.types) >= 0) {
-                    streetName = addressPart.long_name;
+                    self.Street(addressPart.long_name);
                 }
                 else if ($.inArray('locality', addressPart.types) >= 0) {
                     self.Locality(addressPart.long_name);
@@ -66,11 +67,6 @@
                     self.PostCode(addressPart.long_name);
                 }
             }
-
-            var street = streetName;
-            if (streetNo.length > 0)
-                street = streetNo + ' ' + streetName;
-            self.StreetAddress(street);
         };
         
         self.AddAddressPart = function (addressPart, current, separator) {
@@ -81,7 +77,9 @@
 
         self.Description = ko.computed(function () {
             var addDesc = '';
-            addDesc = self.AddAddressPart(self.StreetAddress(), addDesc, '');
+            addDesc = self.AddAddressPart(self.PlaceName(), addDesc, '');
+            addDesc = self.AddAddressPart(self.StreetNumber(), addDesc, ', ');
+            addDesc = self.AddAddressPart(self.Street(), addDesc, ' ');
             addDesc = self.AddAddressPart(self.Locality(), addDesc, ', ');
             addDesc = self.AddAddressPart(self.Region(), addDesc, ' ');
             addDesc = self.AddAddressPart(self.PostCode(), addDesc, ' ');

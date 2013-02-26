@@ -6,6 +6,22 @@
     <legend>@Html.LabelForModel()</legend>
     
     <ol>
+        
+        <li>
+            @Html.LabelFor(model => model.Address)
+            @{
+                   
+                ViewBag.LocationVariable = "Address";
+                if (string.IsNullOrWhiteSpace(ViewBag.AutoCompleteLocationBannerText))
+                {
+                    ViewBag.AutoCompleteLocationBannerText = "'Optional Place or Address'"; 
+                }                    
+                ViewBag.AutoCompleteLocationId = "addressSearch";
+                ViewBag.AutoCompleteBinding = "placeAutoComplete";
+            }
+            @Html.Partial("Location/LocationAutocomplete")
+            
+        </li>
                     
         <li>
             @Html.ValidationMessageFor(model => model.PhoneNumber)
@@ -50,20 +66,7 @@
             
         </li>
         
-        <li>
-            @Html.LabelFor(model => model.Address)
-            @{
-                   
-                ViewBag.LocationVariable = "Address";
-                if (string.IsNullOrWhiteSpace(ViewBag.AutoCompleteLocationBannerText))
-                {
-                    ViewBag.AutoCompleteLocationBannerText = "'Please enter an address'"; 
-                }                    
-                ViewBag.AutoCompleteLocationId = "addressSearch";
-            }
-            @Html.Partial("Location/LocationAutocomplete")
-            
-        </li>
+
     </ol>
 
 </fieldset>

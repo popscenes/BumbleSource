@@ -1,3 +1,5 @@
 ﻿
+
 <input class="location-search" type="text" id="@ViewBag.AutoCompleteLocationId"
-    data-bind="locationAutoComplete: @ViewBag.LocationVariable, bannerText: @ViewBag.AutoCompleteLocationBannerText"/>
+           data-bind="@ViewBag.AutoCompleteBinding: @ViewBag.LocationVariable, bannerText: @ViewBag.AutoCompleteLocationBannerText"/>
+

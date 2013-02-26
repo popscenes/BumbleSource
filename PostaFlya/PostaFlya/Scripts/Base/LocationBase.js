@@ -127,34 +127,56 @@
             });
     };
     
+    
+    bf.LocationSearch = function (searchText, response, geoservice) {
 
-    bf.LocationSearchAutoComplete = function (autoComplete, map, updateLocation) {
-
-        var $input = $("#" + autoComplete);
-        
-        $input.autocomplete({
-            source: function (request, response) {
-                var geocoder = new google.maps.Geocoder();
-                geocoder.geocode({ 'address': request.term },
-                    function (results, status) {
-                        if (status == google.maps.GeocoderStatus.OK) {
-                            response($.map(results, function (item) {
-                            var loc = new bf.LocationModel({Longitude: item.geometry.location.lng(), Latitude: item.geometry.location.lat() });
+        if (!geoservice || geoservice == 'googlegeocode') {
+            var geocoder = new google.maps.Geocoder();
+            geocoder.geocode({ 'address': searchText },
+                function (results, status) {
+                    if (status == google.maps.GeocoderStatus.OK) {
+                        response($.map(results, function(item) {
+                            var loc = new bf.LocationModel({ Longitude: item.geometry.location.lng(), Latitude: item.geometry.location.lat() });
                             loc.SetFromGeo(item);
-                            return { label: item.formatted_address, value: item.formatted_address, position: loc };
+                            return loc;
                         }));
+                    } else {
+                        response([]);
                     }
                 });
-            },
-            minLength: 3,
-            select: function(event, ui) {
-                updateLocation(
-                    ui.item.position
-                );
-            },
-            open: function() { $(this).removeClass("ui-corner-all").addClass("ui-corner-top"); },
-            close: function() { $(this).removeClass("ui-corner-top").addClass("ui-corner-all"); }
-        });
+        }
+        else if (geoservice == 'googleplaces') {
+            
+            var request = {
+//                location: pyrmont,
+//                radius: '500',
+                query: searchText
+            };
+
+            var service = new google.maps.places.PlacesService();
+            service.textSearch(request, function (results, status) {
+                if (status == google.maps.places.PlacesServiceStatus.OK) {
+                    response($.map(results, function (item) {
+                        //var loc = new bf.LocationModel({ Longitude: item.geometry.location.lng(), Latitude: item.geometry.location.lat() });
+                        //loc.SetFromGeo(item);
+                        return null;
+                    }));
+                } else {
+                    response([]);
+                }
+            });
+            
+
+        }
+        else if (geoservice == 'geonames') {
+            response([]);
+        } else {
+            response([]);
+        }
+        
+
     };
+
+
 })(window);
 /**/

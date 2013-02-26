@@ -19,7 +19,7 @@ namespace Website.Application.Domain.Email.VCard
             if (dets.Address != null && dets.Address.HasAddressParts())
             {
                 AddressInterface add = dets.Address;
-                vcard.StreetAddress = add.StreetAddress;
+                vcard.StreetAddress = !string.IsNullOrWhiteSpace(add.StreetNumber) ? add.StreetNumber + " " + add.Street : add.Street;
                 vcard.Locality = add.Locality;
                 vcard.Region = add.Region;
                 vcard.PostalCode = add.PostCode;

@@ -72,7 +72,8 @@ namespace PostaFlya.Domain.Flier.Command
             UnitOfWorkInterface unitOfWork;
             using (unitOfWork = _unitOfWorkFactory.GetUnitOfWork(new[] { _repository }))
             {
-                newFlier.ChargeForState(_repository, _flierQueryService, _creditChargeService);
+                var enabled = newFlier.ChargeForState(_repository, _flierQueryService, _creditChargeService);
+                newFlier.Status = enabled ? FlierStatus.Active : FlierStatus.PaymentPending;
                 _repository.Store(newFlier);
                 boardFliers = AddFlierToBoardCommandHandler.UpdateAddFlierToBoards(command.BoardSet, newFlier, _flierQueryService,
                                                                      _repository);

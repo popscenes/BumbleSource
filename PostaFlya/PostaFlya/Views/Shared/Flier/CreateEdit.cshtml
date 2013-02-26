@@ -90,9 +90,9 @@
         <fieldset>
             <legend>Add a location</legend>
             <div class="">
-                <h2>Add a location to your flier</h2>
+                <h2>Post your Flya to an Area</h2>
                           
-                <h3>ENTER THE ADDRESS BELOW</h3>
+                <h3>ENTER THE LOCATION BELOW</h3>
                 
                 @Html.HiddenFor(model => model.Location, new { data_bind = "value: Location().ValidLocationForValidation()" })
                 @Html.ValidationMessageFor(model => model.Location)
@@ -161,7 +161,7 @@
         </fieldset>
         <fieldset>
             @{ 
-                ViewBag.AutoCompleteLocationBannerText = "'Address of Event or Business'";
+                ViewBag.AutoCompleteLocationBannerText = "'Optional Place or Address for Event/Business'";
             }
             <legend>Contact Details</legend>
             <h2>Contact Details</h2>

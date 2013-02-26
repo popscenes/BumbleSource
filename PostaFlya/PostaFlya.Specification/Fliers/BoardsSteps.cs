@@ -205,7 +205,7 @@ namespace PostaFlya.Specification.Fliers
         public void GivenThereIsAFLIERThatIsApprovedOnABoard()
         {
             GivenIHaveCreatedAPublicBoardThatRequiresApprovalNamed("testBoard");
-            new FlierSteps().GivenABrowserHasCreatedAFlierofBehaviour();
+            new FlierSteps().GivenABrowserHasCreatedAFlier();
             GivenABrowserAddsTheFLIERToTheBoard();
             WhenIApproveTheFLIER();
             ThenItWillBeAMemberOfTheBoardWithAStatusOf(BoardFlierStatus.Approved);

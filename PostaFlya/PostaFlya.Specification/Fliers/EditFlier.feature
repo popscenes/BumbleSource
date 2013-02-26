@@ -8,18 +8,6 @@ Given I have created a FLIER
 When I navigate to the edit page for that FLIER and update any of the required data for a FLIER 
 Then the FLIER will be updated to reflect those changes
 
-Scenario: Edit Flier Add TEAR OFF
-Given I have created a FLIER 
-And I have 1000 Account Credits
-When I navigate to the edit page for that FLIER and add TEAR OFF to a FLIER 
-Then the FLIER will be updated to reflect those changes
-And the FLIER STATUS will be ACTIVE
-
-Scenario: Edit Flier RemoveTearOff
-Given I have created a FLIER with TEAR OFF
-When I navigate to the edit page for that FLIER and remove TEAR OFF to a FLIER 
-Then the FLIER will be updated to reflect those changes
-And the FLIER STATUS will be ACTIVE
 
 ### removed for now
 #Scenario: Edit Flier Add USER CONTACT

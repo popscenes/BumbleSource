@@ -67,7 +67,9 @@ namespace Website.Domain.Location
             } 
         }
 
-        public string StreetAddress { get; set; }
+        public string PlaceName { get; set; }
+        public string StreetNumber { get; set; }
+        public string Street { get; set; }
         public string Locality { get; set; }
         public string Region { get; set; }
         public string PostCode { get; set; }

@@ -145,7 +145,7 @@ namespace PostaFlya.Specification.Fliers
         }
 
         [Given(@"A BROWSER has created a FLIER")]
-        public void GivenABrowserHasCreatedAFlierofBehaviour()
+        public void GivenABrowserHasCreatedAFlier()
         {
             var browserId = _common.GivenThereIsAnExistingBrowserWithParticipantRole();
             GivenIOrAnotherBrowserHasNavigatedToTheCreateFlierPage(FlierBehaviour.Default.ToString());
@@ -439,11 +439,11 @@ namespace PostaFlya.Specification.Fliers
             }
         }
 
-        [Given(@"I choose to attach Tear Offs")]
-        public void GivenIOrAnotherBrowserChooseToAttachTearOffs()
-        {
-            var createFlierModel = ScenarioContext.Current["createflya"] as FlierCreateModel;
-        }
+//        [Given(@"I choose to attach Tear Offs")]
+//        public void GivenIOrAnotherBrowserChooseToAttachTearOffs()
+//        {
+//            var createFlierModel = ScenarioContext.Current["createflya"] as FlierCreateModel;
+//        }
 
         [Then(@"the FLIER will contain a FEATURE described as (.*) with a cost of (.*) credits")]
         public void ThenTheFLIERWillContainAFEATUREForTearOffInAEnabledState(string featureDescription, string cost)
@@ -467,53 +467,6 @@ namespace PostaFlya.Specification.Fliers
         {
             var createFlierModel = ScenarioContext.Current["createflya"] as FlierCreateModel;
             createFlierModel.AllowUserContact = true;
-        }
-
-        [When(@"I navigate to the edit page for that FLIER and add TEAR OFF to a FLIER")]
-        public void WhenINavigateToTheEditPageForThatFLIERAndAddTEAROFFToAFLIER()
-        {
-            EditFlierWithFeatures(true, false);
-        }
-
-        [Given(@"I have created a FLIER with TEAR OFF")]
-        public void GivenIHaveCreatedAFLIERWithTEAROFF()
-        {
-            GivenIOrAnotherBrowserHasNavigatedToTheCreateFlierPage("Default");
-            GivenIOrAnotherBrowserChooseToAttachTearOffs();
-            _common.GivenIHaveAccountCredit(1000);
-            WhenISubmitTheRequiredDataForAFlier();
-            ThenTheNewFlierWillBeCreated("Default");
-        }
-
-        public void GivenAnotherBrowserHasCreatedAFLIERWithTEAROFF()
-        {
-            var browserId = _common.GivenThereIsAnExistingBrowserWithParticipantRole();
-            GivenIOrAnotherBrowserHasNavigatedToTheCreateFlierPage("Default");
-            GivenIOrAnotherBrowserChooseToAttachTearOffs();
-            _common.GivenABrowserHasAccountCredit(browserId, 1000);
-            WhenTheBrowserSubmitsTheRequiredDataForAFlier(browserId);
-            ThenTheNewFlierWillBeCreated("Default");
-        }
-
-        public void GivenIHaveCreatedAFLIERWithTEAROFFAndUserContact()
-        {
-            GivenIOrAnotherBrowserHasNavigatedToTheCreateFlierPage("Default");
-            GivenIOrAnotherBrowserChooseToAttachTearOffs();
-            GivenIOrAnotherBrowserChooseToAllowUserContact();
-            _common.GivenIHaveAccountCredit(1000);
-            WhenISubmitTheRequiredDataForAFlier();
-            ThenTheNewFlierWillBeCreated("Default");
-        }
-
-        public void GivenAnotherBrowserHasCreatedAFLIERWithTEAROFFAndUserContact()
-        {
-            var browserId = _common.GivenThereIsAnExistingBrowserWithParticipantRole();
-            GivenIOrAnotherBrowserHasNavigatedToTheCreateFlierPage("Default");
-            GivenIOrAnotherBrowserChooseToAttachTearOffs();
-            GivenIOrAnotherBrowserChooseToAllowUserContact();
-            _common.GivenABrowserHasAccountCredit(browserId, 1000);
-            WhenTheBrowserSubmitsTheRequiredDataForAFlier(browserId);
-            ThenTheNewFlierWillBeCreated("Default");
         }
 
         [Given(@"I have created a FLIER with USER CONTACT")]
@@ -540,17 +493,9 @@ namespace PostaFlya.Specification.Fliers
             ScenarioContext.Current["flierEditModel"] = flierEditModel;
         }
 
-        [When(@"I navigate to the edit page for that FLIER and remove TEAR OFF to a FLIER")]
-        public void WhenINavigateToTheEditPageForThatFLIERAndRemoveTEAROFFToAFLIER()
-        {
-            EditFlierWithFeatures(false, false);
-        }
-
         [Then(@"the FLIER will not contain a FEATURE described as (.*)")]
         public void ThenTheFLIERWillNotContainAFEATUREForTearOff(string featureDesc)
         {
- 
-
             var flierid = ScenarioContext.Current["createdflyaid"] as string;
 
             var flierQueryService = SpecUtil.CurrIocKernel.Get<GenericQueryServiceInterface>();

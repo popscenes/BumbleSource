@@ -8,7 +8,7 @@ namespace PostaFlya.Domain.Flier.Payment
 {
     public abstract class FlierChargeBehaviourBase : EntityFeatureChargeBehaviourInterface
     {
-        public abstract bool EnableOrDisableFeaturesBasedOnState<EntityType>(EntityFeatureCharge entityFeatureCharge, EntityType entity) where EntityType : EntityInterface;
+        public abstract bool IsFeatureEnabledBasedOnState<EntityType>(EntityFeatureCharge entityFeatureCharge, EntityType entity) where EntityType : EntityInterface;
 
         public virtual EntityFeatureCharge GetChargeForAggregateMemberEntity<MemberEntityType>(EntityFeatureCharge entityFeatureCharge,
                                                                                        MemberEntityType entity) where MemberEntityType : EntityInterface

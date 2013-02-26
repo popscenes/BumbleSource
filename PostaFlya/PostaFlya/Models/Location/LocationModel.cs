@@ -53,8 +53,12 @@ namespace PostaFlya.Models.Location
         [Display(Name = "Description", ResourceType = typeof(Properties.Resources))] 
         public string Description { get; set; }
 
-        [Display(Name = "StreetAddress", ResourceType = typeof(Properties.Resources))] 
-        public string StreetAddress { get; set; }
+        [Display(Name = "PlaceName", ResourceType = typeof (Properties.Resources))]
+        public string PlaceName { get; set; }
+        [Display(Name = "StreetNumber", ResourceType = typeof(Properties.Resources))]
+        public string StreetNumber { get; set; }
+        [Display(Name = "Street", ResourceType = typeof(Properties.Resources))] 
+        public string Street { get; set; }
         [Display(Name = "Locality", ResourceType = typeof(Properties.Resources))] 
         public string Locality { get; set; }
         [Display(Name = "Region", ResourceType = typeof(Properties.Resources))] 

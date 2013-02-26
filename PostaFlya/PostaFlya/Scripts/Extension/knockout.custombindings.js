@@ -124,6 +124,57 @@ ko.bindingHandlers.touchHover = {
     }
 };
 
+ko.bindingHandlers.placeAutoComplete = {
+    init: function (element, valueAccessor, allBindingsAccessor, viewModel) {
+
+        var options = {
+
+        };
+
+        var autocomplete = new google.maps.places.Autocomplete(element, options);
+        google.maps.event.addListener(autocomplete, 'place_changed', function () {
+
+            var locval = null;           
+            var item = autocomplete.getPlace();
+            if (item.geometry) {
+                locval = new bf.LocationModel({ Longitude: item.geometry.location.lng(), Latitude: item.geometry.location.lat() });
+                locval.SetFromGeo(item);
+                locval.PlaceName(item.name);
+            }
+            
+            setTimeout(function () {
+                var location = valueAccessor();
+                location(locval);
+            });
+
+        });
+        
+        var $input = $(element);
+        $input.focus(function () {
+            var location = ko.utils.unwrapObservable(valueAccessor());
+            if (location != null && location.Description() == $input.val())
+                $input.val('');
+
+        }).blur(function () {
+            var location = ko.utils.unwrapObservable(valueAccessor());
+            if (location != null && location.Description())
+                $input.val(location.Description());
+        });
+
+    },
+    update: function (element, valueAccessor, allBindingsAccessor, viewModel) {
+
+
+        var location = ko.utils.unwrapObservable(valueAccessor());
+        if (location != null && location.Description())
+            $(element).val(location.Description());
+        if (location != null && location.ValidLocation() && location.Description() === "")
+            bf.reverseGeocode(location);
+
+    }
+};
+
+
 ko.bindingHandlers.locationAutoComplete = {
     init: function (element, valueAccessor, allBindingsAccessor, viewModel) {
 

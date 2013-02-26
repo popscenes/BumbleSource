@@ -29,7 +29,7 @@ namespace PostaFlya.Domain.Flier.Payment
             };
         }
 
-        public override bool EnableOrDisableFeaturesBasedOnState<EntityType>(EntityFeatureCharge entityFeatureCharge, EntityType entity)
+        public override bool IsFeatureEnabledBasedOnState<EntityType>(EntityFeatureCharge entityFeatureCharge, EntityType entity)
         {
             var flier = entity as FlierInterface;
             if (flier == null)
@@ -39,9 +39,7 @@ namespace PostaFlya.Domain.Flier.Payment
                 Resources.AnalyticsFeatureChargeBehaviour_EnableOrDisableFeaturesBasedOnState_Not_Paid :
                 "";
 
-            var orig = flier.Status;
-            flier.Status = !entityFeatureCharge.IsPaid ? FlierStatus.PaymentPending : FlierStatus.Active;
-            return orig != flier.Status;
+            return entityFeatureCharge.IsPaid;
         }
 
     }

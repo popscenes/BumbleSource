@@ -293,7 +293,7 @@
     <value>Status</value>
     <comment>BoardFlierModel</comment>
   </data>
-  <data name="StreetAddress" xml:space="preserve">
+  <data name="Street" xml:space="preserve">
     <value>StreetAddress</value>
     <comment>LocationModel</comment>
   </data>
@@ -431,5 +431,11 @@
   </data>
   <data name="FlierCreateModel_AttachTearOffs" xml:space="preserve">
     <value>Attach Contact Details to Flier</value>
+  </data>
+  <data name="StreetNumber" xml:space="preserve">
+    <value>StreetNumber</value>
+  </data>
+  <data name="PlaceName" xml:space="preserve">
+    <value>PlaceName</value>
   </data>
 </root>

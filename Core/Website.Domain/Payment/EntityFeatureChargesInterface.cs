@@ -36,20 +36,20 @@ namespace Website.Domain.Payment
             }
         }
 
-        public static bool EnableOrDisablePaidFeaturesBasedOnState<EntityType>(this EntityType entity)
+        public static bool  AreAllFeaturesEnabledBasedOnState<EntityType>(this EntityType entity)
             where EntityType : EntityInterface, EntityFeatureChargesInterface
         {
-            if (entity.Features == null) return false;
-            return entity.Features.Aggregate(false, 
-                (current, chargeFeature) => chargeFeature.EnableOrDisableFeaturesBasedOnState(entity) || current);
+            if (entity.Features == null) return true;
+            return entity.Features.Aggregate(true, 
+                (current, chargeFeature) => chargeFeature.IsFeatureEnabledBasedOnState(entity) && current);
         }
 
         public static bool ChargeForState<EntityType>(this EntityType entity, GenericRepositoryInterface repository, GenericQueryServiceInterface queryService, CreditChargeServiceInterface creditChargeService)
             where EntityType : class, EntityInterface, EntityFeatureChargesInterface
         {
-            if (entity.Features == null) return false;
-            return entity.Features.Aggregate(false,
-                (current, chargeFeature) => chargeFeature.ChargeForState(entity, repository, queryService, creditChargeService) || current);
+            if (entity.Features == null) return true;
+            return entity.Features.Aggregate(true,
+                (current, chargeFeature) => chargeFeature.ChargeForState(entity, repository, queryService, creditChargeService) && current);
         }
 
         public static void MergeUpdateFeatureCharges<EntityType>(this EntityType target, HashSet<EntityFeatureCharge> source)
@@ -63,8 +63,6 @@ namespace Website.Domain.Payment
                 if(src != null)
                     chargeFeature.UpdateCost(src);
             }
-
-            target.EnableOrDisablePaidFeaturesBasedOnState();
         }
     }
 
@@ -95,15 +93,15 @@ namespace Website.Domain.Payment
             Cost = source.Cost;
         }
 
-        public bool EnableOrDisableFeaturesBasedOnState<EntityType>(EntityType entity) where EntityType : EntityInterface
+        public bool IsFeatureEnabledBasedOnState<EntityType>(EntityType entity) where EntityType : EntityInterface
         {
-            return Behvaiour.EnableOrDisableFeaturesBasedOnState(this, entity);
+            return Behvaiour.IsFeatureEnabledBasedOnState(this, entity);
         }
 
         public bool ChargeForState<EntityType>(EntityType entity, GenericRepositoryInterface repository, GenericQueryServiceInterface queryService, CreditChargeServiceInterface creditPaymentService) where EntityType : EntityInterface
         {
             Behvaiour.ChargeForState<EntityType>(this, entity, repository, queryService, creditPaymentService);
-            return EnableOrDisableFeaturesBasedOnState(entity);
+            return IsFeatureEnabledBasedOnState(entity);
         }
 
         public EntityFeatureCharge GetChargeForAggregateMemberEntity<MemberEntityType>(MemberEntityType entity) where MemberEntityType : EntityInterface
@@ -148,7 +146,7 @@ namespace Website.Domain.Payment
 
     public interface EntityFeatureChargeBehaviourInterface
     {
-        bool EnableOrDisableFeaturesBasedOnState<EntityType>(EntityFeatureCharge entityFeatureCharge, EntityType entity) where EntityType : EntityInterface;
+        bool IsFeatureEnabledBasedOnState<EntityType>(EntityFeatureCharge entityFeatureCharge, EntityType entity) where EntityType : EntityInterface;
         EntityFeatureCharge GetChargeForAggregateMemberEntity<MemberEntityType>(EntityFeatureCharge entityFeatureCharge, MemberEntityType entity) where MemberEntityType : EntityInterface;
         bool ChargeForState<EntityType>(EntityFeatureCharge entityFeatureCharge, EntityType entity, GenericRepositoryInterface repository, GenericQueryServiceInterface queryService, CreditChargeServiceInterface creditPaymentService) where EntityType : EntityInterface;
     }

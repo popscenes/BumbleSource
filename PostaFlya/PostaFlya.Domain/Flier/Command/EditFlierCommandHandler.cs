@@ -81,8 +81,12 @@ namespace PostaFlya.Domain.Flier.Command
             using (unitOfWork = _unitOfWorkFactory.GetUnitOfWork(new[] {_repository}))
             {
                 var flierCurrent = _queryService.FindById<Flier>(command.Id);
-                if (flierCurrent.ChargeForState(_repository, _queryService, _creditChargeServiceInterface))
-                    _repository.UpdateEntity<Flier>(flierCurrent.Id, f => f.CopyFieldsFrom(flierCurrent));
+                var enabled = flierCurrent.ChargeForState(_repository, _queryService, _creditChargeServiceInterface);
+                _repository.UpdateEntity<Flier>(flierCurrent.Id, f =>
+                {
+                    f.Status = enabled ? FlierStatus.Active : FlierStatus.PaymentPending;
+                });
+
             }
 
             if(!unitOfWork.Successful)

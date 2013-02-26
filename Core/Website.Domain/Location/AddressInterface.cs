@@ -9,7 +9,9 @@ namespace Website.Domain.Location
     {
         public static void CopyFieldsFrom(this AddressInterface addressTarget, AddressInterface addressSource)
         {
-            addressTarget.StreetAddress = addressSource.StreetAddress;
+            addressTarget.PlaceName = addressSource.PlaceName;
+            addressTarget.StreetNumber = addressSource.StreetNumber;
+            addressTarget.Street = addressSource.Street;            
             addressTarget.Locality = addressSource.Locality;
             addressTarget.Region = addressSource.Region;
             addressTarget.PostCode = addressSource.PostCode;
@@ -19,20 +21,25 @@ namespace Website.Domain.Location
         public static bool HasAddressParts(this AddressInterface address)
         {
 
-            return !string.IsNullOrWhiteSpace(address.StreetAddress) ||
+            return
+                    !string.IsNullOrWhiteSpace(address.PlaceName) ||
+                    !string.IsNullOrWhiteSpace(address.StreetNumber) ||
+                    !string.IsNullOrWhiteSpace(address.Street) ||
                     !string.IsNullOrWhiteSpace(address.Locality) ||
                     !string.IsNullOrWhiteSpace(address.Region) ||
                     !string.IsNullOrWhiteSpace(address.PostCode) ||
                     !string.IsNullOrWhiteSpace(address.CountryName);
         }
 
-        //1 Waihi Avenue, Brunswick East VIC 3057, Australia
+        //My House, 1 Waihi Avenue, Brunswick East VIC 3057, Australia
         public static string GetAddressDescription(this AddressInterface address)
         {
             if (address == null)
                 return null;
             var addDesc = new StringBuilder();
-            AddAddressPart(address.StreetAddress, addDesc, "");
+            AddAddressPart(address.PlaceName, addDesc, "");
+            AddAddressPart(address.StreetNumber, addDesc, ", ");
+            AddAddressPart(address.Street, addDesc, " ");
             AddAddressPart(address.Locality, addDesc, ", ");
             AddAddressPart(address.Region, addDesc, " ");
             AddAddressPart(address.PostCode, addDesc, " ");
@@ -40,11 +47,13 @@ namespace Website.Domain.Location
             return addDesc.ToString();
         }
 
-        //[1 Waihi Avenue][Brunswick East][VIC][3057][Australia]
+        //[MyPlace][1][Waihi Avenue][Brunswick East][VIC][3057][Australia]
         public static string GetAddressStringFormat(this AddressInterface address)
         {
-            return string.Format("[{0}],[{1}],[{2}],[{3}],[{4}]"
-                          , address.StreetAddress.EmptyIfNull()
+            return string.Format("[{0}],[{1}],[{2}],[{3}],[{4}],[{5}],[{6}]"
+                          , address.PlaceName.EmptyIfNull()
+                          , address.StreetNumber.EmptyIfNull()
+                          , address.Street.EmptyIfNull()
                           , address.Locality.EmptyIfNull()
                           , address.Region.EmptyIfNull()
                           , address.PostCode.EmptyIfNull()
@@ -69,7 +78,13 @@ namespace Website.Domain.Location
                 address.Locality = parts[3].Trim('[', ']');
 
             if (parts.Count > 4)
-                address.StreetAddress = parts[4].Trim('[', ']');     
+                address.Street = parts[4].Trim('[', ']');
+            
+            if (parts.Count > 5)
+                address.StreetNumber = parts[5].Trim('[', ']');
+            
+            if (parts.Count > 6)
+                address.PlaceName = parts[6].Trim('[', ']');    
         }
 
         private static void AddAddressPart(string addressPart, StringBuilder builder, string separator)
@@ -83,7 +98,11 @@ namespace Website.Domain.Location
 
         public static bool IsSimilarTo(this AddressInterface target, AddressInterface source)
         {
-            if (!StringUtil.AreBothEqualOrNullOrWhiteSpace(target.StreetAddress, source.StreetAddress))
+            if (!StringUtil.AreBothEqualOrNullOrWhiteSpace(target.PlaceName, source.PlaceName))
+                return false;
+            if (!StringUtil.AreBothEqualOrNullOrWhiteSpace(target.StreetNumber, source.StreetNumber))
+                return false;
+            if (!StringUtil.AreBothEqualOrNullOrWhiteSpace(target.Street, source.Street))
                 return false;
             if (!StringUtil.AreBothEqualOrNullOrWhiteSpace(target.Locality, source.Locality))
                 return false;
@@ -99,7 +118,9 @@ namespace Website.Domain.Location
 
     public interface AddressInterface
     {
-        string StreetAddress { get; set; }
+        string PlaceName { get; set; }
+        string StreetNumber { get; set; }
+        string Street { get; set; }
         string Locality { get; set; }
         string Region { get; set; }
         string PostCode { get; set; }
