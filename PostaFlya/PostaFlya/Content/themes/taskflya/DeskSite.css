@@ -891,7 +891,7 @@ div.current-loc {
     background-repeat: no-repeat;
     min-width: 60px;
     width: 60px;
-    height: 60px;
+    /*height: 60px;*/
     border-width: 2px;
     border-style: solid;
     border-color: #84827D;
