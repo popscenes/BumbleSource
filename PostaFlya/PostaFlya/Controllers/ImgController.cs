@@ -77,7 +77,7 @@ namespace PostaFlya.Controllers
         public HttpStatusCodeResult Post(ImageCreateModel createModel)
         {
             //plupload html4 runtime requires this
-            Response.Write("{\"jsonrpc\" : \"2.0\", \"result\" : null, \"id\" : \"id\"}");
+            
             
             var retriever = _contentRetrieverFactory.GetRetriever(Website.Domain.Content.Content.ContentType.Image);
             var content = retriever.GetContent();
@@ -96,6 +96,7 @@ namespace PostaFlya.Controllers
 
             var uri = _blobStorage.GetBlobUri(imgId + ImageUtil.GetIdFileExtension(), false);
             Response.Headers["Location"] = uri != null ? uri.ToString() : imgId.ToString();
+            Response.Write("{\"jsonrpc\" : \"2.0\", \"result\" : null, \"id\" : \"" + imgId + "\", \"url\": \"" + uri + "\"}");
             return new HttpStatusCodeResult(HttpStatusCode.Created);
         }
 

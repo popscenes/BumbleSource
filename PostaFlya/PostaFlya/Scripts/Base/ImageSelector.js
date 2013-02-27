@@ -18,7 +18,9 @@
 
         self.imageList = ko.observableArray([]);
         self.selectedImageId = ko.observable();
-        self.selectedImageUrl = ko.observable();
+
+        self.selectedImage = ko.observable();
+        //self.selectedImageUrl = ko.observable();
 
         self.SetCallback = function (callback) {
             options.callback = callback;
@@ -32,10 +34,9 @@
 
         self.clickImage = function (image) {
             self.selectedImageId(image.ImageId);
-            self.selectedImageUrl(image.ImageUrl);
 
             if (options.callback != null) {
-                options.callback(image);
+                options.callback(self.selectedImage());
             }
         };
 
@@ -119,14 +120,15 @@
 
         self._loadSelectedImageFromId = function () {
             if (self.selectedImageId() == undefined)
-                return;
+                return null;
 
             for (var i = 0; i < self.imageList().length; i++) {
                 if (self.selectedImageId() == self.imageList()[i].ImageId) {
-                    self.selectedImageUrl(self.imageList()[i].ImageUrl);
+                    self.selectedImage(self.imageList()[i]);
                     break;
                 }
             }
+
             
             if (!$('#thumbs').is(":visible")) {
                 return;
@@ -193,9 +195,11 @@
                 up.refresh(); // Reposition Flash/Silverlight
             });
 
-            uploader.bind('FileUploaded', function (up, file) {
+            uploader.bind('FileUploaded', function (up, file, info) {
                 $('#' + file.id + " span").html("100%");
                 $('#' + file.id).addClass('upload-complete');
+                var result = jQuery.parseJSON(info.response);
+                self.selectedImageId(result.id);
             });
 
 

@@ -116,14 +116,23 @@
             }
         });
 
-        self.SetFlierImage = function (image) {
+        /*self.SetFlierImage = function (image) {
             if (self.Steps[self.currentStep()] == 'Flyer') {
                 self.FlierImageId(image.ImageId);
                 self.FlierImageUrl(image.ImageUrl);
             }
 
             self.ImageList.push(image);
-        };
+        };*/
+        
+        self.imageSelector.selectedImage.subscribe(function(image) {
+            if (self.Steps[self.currentStep()] == 'Flyer') {
+                self.FlierImageId(image.ImageId);
+                self.FlierImageUrl(image.ImageUrl);
+            }
+
+            self.ImageList.push(image);
+        });
 
         self.imageSelector.SetCallback(self.SetFlierImage);
 
