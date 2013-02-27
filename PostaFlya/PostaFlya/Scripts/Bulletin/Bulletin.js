@@ -31,7 +31,7 @@
 
         self.GetReqArgs = function (nextpage) {
             var params = {
-                loc: self.Location().LatLong()
+                loc: ko.mapping.toJS(self.Location())
                 , distance: self.Distance()
                 , count: self.initialPagesize
             };
@@ -102,13 +102,13 @@
         };
 
         self.TryRequest = function() {
-            if (self.Location() && self.Location().ValidLocation() && self.Distance() > 0) {
+//            if (self.Location() && self.Location().ValidLocation() && self.Distance() > 0) {
                 self.Request();
-            } else if (!self.Location() || !self.Location().ValidLocation()){
-                self.fliers([]);
-                self.moreFliersPending(false);
-                self.noMoreFliers(true);
-            }
+//            } else if (!self.Location() || !self.Location().ValidLocation()){
+//                self.fliers([]);
+//                self.moreFliersPending(false);
+//                self.noMoreFliers(true);
+//            }
         };
 
         self.Sam = Sammy('#bulletinboard');
@@ -131,7 +131,7 @@
                 self.fliers(bf.pageState.Fliers);
             }
 
-            self.TryFindLocation();
+            self.TryRequest();
 
             self.Location.subscribe(function (newValue) {
                 self.TryRequest();

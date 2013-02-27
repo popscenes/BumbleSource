@@ -21,8 +21,10 @@ using Website.Application.Content;
 using Website.Application.Domain.Content;
 using Website.Domain.Browser;
 using Website.Domain.Claims;
+using Website.Domain.Location;
 using Website.Domain.Tag;
 using Website.Domain.TinyUrl;
+using Website.Infrastructure.Configuration;
 using Website.Infrastructure.Query;
 
 namespace PostaFlya.Controllers
@@ -37,6 +39,7 @@ namespace PostaFlya.Controllers
         private readonly FlierWebAnalyticServiceInterface _webAnalyticService;
         private readonly TinyUrlServiceInterface _tinyUrlService;
         private readonly PostaFlyaBrowserInformationInterface _browserInformation;
+        private readonly ConfigurationServiceInterface _configurationService;
 
 
         public BulletinApiController(GenericQueryServiceInterface queryService,
@@ -44,7 +47,7 @@ namespace PostaFlya.Controllers
             , FlierBehaviourQueryServiceInterface behaviourQueryService
             , FlierBehaviourViewModelFactoryInterface viewModelFactory, FlierSearchServiceInterface flierSearchService
             , FlierWebAnalyticServiceInterface webAnalyticService, TinyUrlServiceInterface tinyUrlService
-            , PostaFlyaBrowserInformationInterface browserInformation)
+            , PostaFlyaBrowserInformationInterface browserInformation, ConfigurationServiceInterface configurationService)
         {
             _queryService = queryService;
             _blobStorage = blobStorage;
@@ -54,6 +57,7 @@ namespace PostaFlya.Controllers
             _webAnalyticService = webAnalyticService;
             _tinyUrlService = tinyUrlService;
             _browserInformation = browserInformation;
+            _configurationService = configurationService;
         }
 
         public DefaultDetailsViewModel Get([FromUri] LocationModel currloc, string tinyUrl)
@@ -91,9 +95,19 @@ namespace PostaFlya.Controllers
         public IList<BulletinFlierModel> Get([FromUri]LocationModel loc
             ,int count, string board = "", int skip = 0, int distance = 0, string tags = "")
         {
+            if (!loc.IsValid())
+                return GetDefaultFliers();
+
             _webAnalyticService.SetLastSearchLocation(loc.ToDomainModel());
             return GetFliers(_flierSearchService, _queryService, _blobStorage, _viewModelFactory
                              , loc, count, board, skip, distance, tags);
+        }
+
+        private IList<BulletinFlierModel> GetDefaultFliers()
+        {
+            var defaultIds = _configurationService.GetSetting("DefaultFliers");
+            return string.IsNullOrWhiteSpace(defaultIds) ? new List<BulletinFlierModel>() : 
+                IdsToModel(defaultIds.Split(','), _queryService, _blobStorage, _viewModelFactory);
         }
 
         [NonAction]
@@ -144,6 +158,17 @@ namespace PostaFlya.Controllers
             model.AnalyticInfo = list.ToInfo().ToModel();//if this is inefficient in long run move to qs
         }
 
+        private static IList<BulletinFlierModel> IdsToModel(IEnumerable<string> flierIds, GenericQueryServiceInterface flierQueryService
+            , BlobStorageInterface blobStorage, FlierBehaviourViewModelFactoryInterface viewModelFactory)
+        {
+            var ret = flierIds
+                .Select(flierQueryService.FindById<Flier>)
+                .Where(f => f != null)
+                .Select(f => viewModelFactory.GetBulletinViewModel(f, false)
+                    .GetImageUrl(blobStorage).GetContactDetails(flierQueryService))
+                .ToList();
+            return ret;
+        }
 
         [NonAction]
         public static IList<BulletinFlierModel> GetFliers(FlierSearchServiceInterface flierSearchService
@@ -165,10 +190,7 @@ namespace PostaFlya.Controllers
 
             var watch = new Stopwatch();
             watch.Start();
-            var ret = fliersIds
-                .Select(f => viewModelFactory.GetBulletinViewModel(flierQueryService.FindById<Flier>(f), false)
-                    .GetImageUrl(blobStorage).GetContactDetails(flierQueryService))
-                .ToList();
+            var ret = IdsToModel(fliersIds, flierQueryService, blobStorage, viewModelFactory);
             Trace.TraceInformation("Bulletin Get FindById time: {0}, numfliers {1}", watch.ElapsedMilliseconds, ret.Count());
             return ret;
         }

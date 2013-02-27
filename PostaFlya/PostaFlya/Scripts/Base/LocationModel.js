@@ -23,10 +23,6 @@
             'ignore': ["Description"]
         };
         ko.mapping.fromJS(initData, mapping, self);
-
-        self.LatLong = function() {
-            return {Latitude: self.Latitude(), Longitude: self.Longitude()};
-        };
         
         self.ValidLocation = function () {
             return !(self.Longitude() < -180

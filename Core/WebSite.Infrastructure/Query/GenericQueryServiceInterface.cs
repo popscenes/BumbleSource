@@ -19,6 +19,9 @@ namespace Website.Infrastructure.Query
         IQueryable<string> FindAggregateEntityIds<EntityRetType>(string aggregateRootId)
             where EntityRetType : class, AggregateInterface, new();
 
+        //TODO
+        //IQueryable<string> IterateIds(string skipId, int takeNumber);
+
         //common sense only use these for small data sets
         IQueryable<string> GetAllIds<EntityRetType>() where EntityRetType : class, new();
         IQueryable<string> GetAllIds(Type type);

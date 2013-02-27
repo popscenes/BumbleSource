@@ -92,8 +92,8 @@ header{
 
 #lsMain .map
 {
-    width:70%;
-    height: 450px;
+    width:450px;
+    height: 300px;
     margin-left:auto;
     margin-right:auto;
 }
@@ -128,7 +128,7 @@ header{
 
 .distSel{
     width: 315px;
-    margin: 40px auto 15px auto;
+    margin: 30px auto 25px auto;
 }
 
 .distance-slider{
