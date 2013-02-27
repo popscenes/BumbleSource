@@ -53,6 +53,10 @@ header{
 	overflow:visible;
 }
 
+.helptips-group-icon.locSel {
+    height: auto;
+}
+
 #controls .ls-current
 {
     display:block;
