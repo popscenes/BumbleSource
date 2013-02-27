@@ -34,7 +34,7 @@
 
         self.clickImage = function (image) {
             self.selectedImageId(image.ImageId);
-
+            self._loadSelectedImageFromId();
             if (options.callback != null) {
                 options.callback(self.selectedImage());
             }

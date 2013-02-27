@@ -26,33 +26,30 @@
     
     <div id="current-images" class="form-component">
         
-            <div id="thumbs">
+        <span  data-helptip-group="image-browse" data-helptip-text="Click on an image to select it"></span>
+        <div id="thumbs">
                 
                 <h3>SELECT EXISTING IMAGE</h3>
                 <div class="nav-controls">
             <a class="prev" title="‹ Previous Photo" href="javascript:void(0);" 
                data-helptip-group="image-browse" 
-               data-helptip-text="Browse back through your PostaFlya images">
+               data-helptip-text="Browse up through your PostaFlya images">
             </a>
             </div>
+                
                 <ul class="thumbs noscript" data-bind="template: { name: 'image-template2', foreach: imageList}, attr:{id:imageListId}">
         
                 </ul>
                 <div class="nav-controls">
             <a class="next" title="Next Photo ›" href="javascript:void(0);"
                data-helptip-group="image-browse" 
-               data-helptip-text="Browse forward through your PostaFlya images">
+               data-helptip-text="Browse down through your PostaFlya images">
                 
             </a>
         </div>
             </div>
         
-        <div data-helptip-group="image-browse" data-helptip-text="">
-            <div data-helptip-group-content="image-browse" style="display: none">                               
-                        
-                        <p>Click on an image to select it</p>
-                    </div>
-        </div>
+        <div data-helptip-group="image-browse"></div>
         
 
     </div>
