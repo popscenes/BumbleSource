@@ -2,7 +2,7 @@
 	margin:0;
 	padding:0;
 	background-color:#f6f0e7;
-    font-family:Tahoma, Verdana, Geneva, sans-serif;
+    font-family:'Open Sans',Tahoma, Verdana, Geneva, sans-serif;
 	
 }
 
@@ -11,22 +11,26 @@ header{
 	width:100%;
 	height:50px;
 	min-height:50px;
-	font-family:Verdana, Geneva, sans-serif;
 	font-size:11px;
-	/*min-width:1200px;*/
     border-bottom: 1px #D0CBC4 solid;
-	
+}
+
+#left-header {
+    display: inline-block;
+    width: 33%;
 }
 
 #logo{
-	width:200px;
-	height:50px;
     display: inline-block;
+    width: 33%;
+    background-repeat: no-repeat;
+    background-position: center;
 }
-#logo a#left-logo img
-{
-   border:none;
-   border:0px;
+
+#right-header {
+    display: inline-block;
+    width: 33%;
+    text-align: right;
 }
 
 #controls
@@ -38,19 +42,59 @@ header{
 	z-index:500; 
 }
 
-#global-toolbar
-{
-    margin-right:30px;
-	z-index:500; 
-    float:right;
-}
-
 .locSel{
     
-    display: inline-block;
+    display: block;
 	/*width:510px;*/
     height: 80px;
 	overflow:visible;
+    float: left;
+}
+
+.dist-selector-container {
+    display: block;
+    float: left;
+    height: 45px;
+    width: 70px;
+    text-align: center;
+    display: inline-block;
+    position: relative;
+    background-color: white;
+    color: #84827D;
+    border-width: 2px;
+    border-style: solid;
+    border-color: #84827D;
+    padding-top: 25px
+}
+
+.dist-selector {
+    position: absolute;
+    display: none;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    width: 70px;
+    background-color: white;
+    color: #84827D;
+    border-width: 2px;
+    border-style: solid;
+    border-color: #84827D;
+    top: 72px;
+    left: -2px;
+    border-top: 0;
+}
+
+.dist-selector li {
+    display: block;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    padding: 5px 0;
+}
+
+.dist-selector-container:hover .dist-selector, .touch-hover.dist-selector, .dist-selector:hover{
+    display: block;
+    
 }
 
 .helptips-group-icon.locSel {

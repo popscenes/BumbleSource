@@ -3,7 +3,7 @@
 	background-image:url(images/bg-texture-01.png);
 	background-repeat:no-repeat;
 	background-position:0 0;
-    font-family:Tahoma, Helvetica, Geneva, sans-serif;
+    font-family:'Open Sans',Tahoma, Helvetica, Geneva, sans-serif;
 }
 
 header{
@@ -780,11 +780,9 @@ margin: 0 auto;
     opacity: 0.8;
 }
 
-#logo a#left-logo {
-    background-image: url("images/postaflya-logo-blue.png");
-    display: inline-block;
-    width: 198px;
-    height: 90px;    
+#logo {
+    background-image: url("images/navbar-logo.png");
+    height: 44px;
 }
 
 .page-toolbar-buttons {

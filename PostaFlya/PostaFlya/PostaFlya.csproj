@@ -496,6 +496,7 @@
     <Content Include="Content\themes\taskflya\images\icon_arrow_right.png" />
     <Content Include="Content\themes\taskflya\images\logo.png" />
     <Content Include="Content\themes\taskflya\images\mag-glass.png" />
+    <Content Include="Content\themes\taskflya\images\navbar-logo.png" />
     <Content Include="Content\themes\taskflya\images\next-btn-disabled.png" />
     <Content Include="Content\themes\taskflya\images\next-btn.png" />
     <Content Include="Content\themes\taskflya\images\next-icon.png" />
@@ -768,7 +769,7 @@
     <Content Include="Views\Profile\Get.cshtml" />
     <Content Include="Views\Shared\Bulletin\SelectedBulletinViewPartial.cshtml" />
     <Content Include="Views\Profile\Edit.cshtml" />
-    <Content Include="Views\Shared\GlobalToolbar.cshtml" />
+    <Content Include="Views\Shared\Header\GlobalLeftToolbar.cshtml" />
     <Content Include="Views\Shared\Bulletin\BulletinItems.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\BrowserAvatar.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\BrowserNameLink.cshtml" />
@@ -790,6 +791,7 @@
     <Content Include="Views\Shared\Location\LocationAutocomplete.cshtml" />
     <Content Include="Views\Shared\Location\MapAndDistance.cshtml" />
     <Content Include="Views\Shared\Contact\ContactDetailsViewPartial.cshtml" />
+    <Content Include="Views\Shared\Header\BulletinRightToolbar.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

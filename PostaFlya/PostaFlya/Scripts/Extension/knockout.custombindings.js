@@ -306,6 +306,27 @@ ko.bindingHandlers.distanceSlider = {
     }
 };
 
+ko.bindingHandlers.distanceDropDown = {
+    init: function(element, valueAccessor, allBindingsAccessor, viewModel) {
+        var value = ko.utils.unwrapObservable(valueAccessor());
+        
+        for (var distVal = 5; distVal <= 30; distVal = distVal + 5) {
+            var distElem = $('<li></li>');
+            distElem.addClass("distance-choice");
+            distElem.attr("data-distance", distVal);
+            distElem.text(distVal + "km");
+            distElem.click(function() {
+                var obs = valueAccessor();
+                obs($(this).attr("data-distance"));
+            });
+
+            
+
+            $(element).append(distElem);
+        }
+    }
+};
+
 //basically takes the class input and appends 'a', 'b', 'c' depending on the position of
 //the model in the parent c
 ko.bindingHandlers.cssAbcCollection = {

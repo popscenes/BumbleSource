@@ -1,34 +1,25 @@
 ﻿
-<div id="global-toolbar">
-
-    @*<a href="@Url.Action("Import", "FlierImport", new {providerName="facebook" })" class="toolbar-item" title="Facebook Import">
-        <div class="facebook-tool-bar-item"></div>
-    </a>*@
-    <a id="show-about" class="toolbar-item" >
+<div id="global-left-toolbar">
+    <!--<a id="show-about" class="toolbar-item" >
         <div class="toolbar-button question-tool-bar-item" data-bind="helpTipTrigger: HelpTipPage, helpGroups: HelpTipGroups"
-            data-helptip-group="global-toolbar" 
+            data-helptip-group="global-left-toolbar" 
             data-helptip-text="Show these Help Tips"></div>
     </a>
 
-    <a href="javascript:void(0);" data-bind="click: CreateFlierInstance.CreateFlierLaunch" class="toolbar-item" title="Create Flier">
-        <div class="toolbar-button add-flier-tool-bar-item"
-            data-helptip-group="global-toolbar" 
-            data-helptip-text="Post a Flier in your Local Community">        
-        </div>
-    </a>
+    
     
     <a href="@Url.Action("Edit", "Profile")" class="toolbar-item" title="Edit Profile">
         <div class="toolbar-button profile-edit-tool-bar-item" 
-             data-helptip-group="global-toolbar" 
+             data-helptip-group="global-left-toolbar" 
              data-helptip-text="Edit your Profile or Add Credits">         
         </div>
-    </a>
+    </a>-->
 
 @if (Request.IsAuthenticated)
 {    
     <a data-bind="attr: { href: '/' + bf.currentBrowserInstance.Handle }" class="toolbar-item profile-view-tool-bar-item" title="View Profile">
         <img class="toolbar-button avatarsmall" data-bind="imgRetry: bf.currentBrowserInstance.AvatarUrl, attr: { alt: bf.currentBrowserInstance.DisplayName }"
-                    data-helptip-group="global-toolbar" 
+                    data-helptip-group="global-left-toolbar" 
                     data-helptip-text="View your Fliers and Tearoffs"/>
     </a>   
 }
@@ -36,11 +27,11 @@ else
 {
     <a href="@Url.Action("LoginPage", "Account")" class="toolbar-item" title="Login">
         <div class="toolbar-button login-tool-bar-item"
-             data-helptip-group="global-toolbar" 
+             data-helptip-group="global-left-toolbar" 
              data-helptip-text="Login or Create an Account">           
         </div>
     </a>
 }
-    <div data-helptip-group="global-toolbar"></div>
+<div data-helptip-group="global-left-toolbar"></div>
 
 </div>
