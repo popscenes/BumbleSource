@@ -2,7 +2,9 @@
     
     bf.page = new bf.BulletinBoard(
         new bf.SelectedFlierViewModel(new bf.BehaviourViewModelFactory())
-        , new bf.TagsSelector()
+        , new bf.TagsSelector({
+            displayInline: true
+        })
         , new bf.TileLayoutViewModel('#bulletinboard', new bf.BulletinLayoutProperties()));
 
     var endscroll = new EndlessScroll(window, {

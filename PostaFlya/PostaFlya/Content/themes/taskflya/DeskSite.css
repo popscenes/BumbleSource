@@ -196,6 +196,32 @@ div#selected-item-popup-overlay, div#create-flier-popup-overlay {
 
 /************tag selector ********************/
 
+.bulletin-tags-selector .tags-selector ul li div {
+    display: none;
+}
+
+.bulletin-tags-selector .tags-selector .tags-box {
+    padding-top: 22px
+}
+
+.bulletin-tags-selector .tags-selector ul li {
+    font-size: 14px;
+    color: #FF7D00;
+    font-weight: bold;
+    width: auto;
+    padding: 4px 14px;
+}
+
+.bulletin-tags-selector .displayInline {
+    display: inline-block;
+}
+
+.bulletin-tags-selector .tags-selector ul li.tag-selected {
+    color: white;
+    background-color: #FF7D00;
+    border-radius: 10px;
+}
+
 .tags-selector ul li
 {
     text-align:center;

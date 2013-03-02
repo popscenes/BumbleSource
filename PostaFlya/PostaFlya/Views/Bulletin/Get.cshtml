@@ -28,7 +28,6 @@
     }
 
 <div id="controls">
-        
     <div class="location-title">
         Your Local Community Board at
     </div>
@@ -48,13 +47,15 @@
     </div>
     
     <div style="clear: both;"></div>
+    <div data-bind="with:$root.tagsSelector" class="bulletin-tags-selector">
+        <label>I'm only interested in</label>
+        @Html.Partial("Tags/TagsSelector")
+    </div>
 </div>
 
-<div id="main-controls">
-    <span data-bind="with:$root.tagsSelector">
-        @Html.Partial("Tags/TagsSelector")
-    </span>
-</div>
+
+    
+
     
 @Html.Partial("Bulletin/SelectedBulletinViewPartial")
 @Html.Partial("Bulletin/BulletinList")
