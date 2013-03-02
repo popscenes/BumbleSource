@@ -851,16 +851,6 @@ a.helptips-next {
     cursor: pointer;
 }
 
-.banner-text {
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    -khtml-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-    color: #cccccc !important;
-}
-
 ul.about-list {
     padding-left: 23px;
 }
@@ -882,56 +872,7 @@ div.ls-holder-text input.location-search {
     display: table-cell;
 }
 
-div.current-loc {
-    background-image: url(images/CurrentLoc.png);
-    background-size:50px 50px;
-    background-position: center;
-    background-repeat: no-repeat;
-    min-width: 60px;
-    width: 60px;
-    /*height: 60px;*/
-    border-width: 2px;
-    border-style: solid;
-    border-color: #84827D;
-    border-right-style: none;
-    border-right: 0;
-    display: table-cell;
-    background-color: white;
-    cursor: pointer;
-/*    position: absolute;  
-    top: 20px;
-    left: 12px;
-    z-index: 20;*/
-}
 
-.helptips-group-icon.current-loc {
-    background-color: inherit;
-    border: none;
-    width: 100px;
-    height: 80px;
-}
-
-input#locationSearch
-{
-/*    margin-top:10px;*/
-    padding:5px;
-    /*padding-left: 50px;*/
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    line-height:50px;
-    overflow: hidden;
-    outline:none;
-    width: 450px;
-    height: 60px;
-    font-size: 25px;
-    font-weight: bold;
-    color: #84827D;
-    border-width: 2px;
-    border-style: solid;
-    border-color: #84827D;
-    border-left-style: none;
-    border-left: 0;
-}
 
 
 

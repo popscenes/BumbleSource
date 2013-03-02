@@ -29,23 +29,25 @@
 
 <div id="controls">
         
-    <div class="page-toolbar">
+    <div class="location-title">
+        Your Local Community Board at
+    </div>
+    <div>
         <div class="locSel"
              data-helptip-group="bulletin-toolbar" 
              data-helptip-text="Search your Suburb or Area for Community Notices (Flyas)">                                               
-            <div class="ls-holder-text">
-                <div class="current-loc" data-bind="click: TryFindLocation"
-                     data-helptip-group="bulletin-toolbar" 
-                     data-helptip-text="Search your Current Location for Flyas"></div>                
-                @Html.Partial("Location/LocationAutocomplete") 
-            </div>
+            
+            <div class="current-loc" data-bind="click: TryFindLocation"data-helptip-group="bulletin-toolbar" data-helptip-text="Search your Current Location for Flyas"></div>                
+            @Html.Partial("Location/LocationAutocomplete") 
         </div>
-         <div class="dist-selector-container">
-                <span class="distance-selected" data-bind="text: @ViewBag.DistanceVariable, touchHover: '.dist-selector-container'"></span>km
-                    <ul class="dist-selector" data-bind="distanceDropDown: @ViewBag.DistanceVariable">
-                    </ul>
-            </div>
+        </div>
+    <div class="dist-selector-container">        
+        Within <span class="distance-selected" data-bind="text: @ViewBag.DistanceVariable, touchHover: '.dist-selector-container'"></span>km
+        <ul class="dist-selector" data-bind="distanceDropDown: @ViewBag.DistanceVariable">
+        </ul>
     </div>
+    
+    <div style="clear: both;"></div>
 </div>
 
 <div id="main-controls">
