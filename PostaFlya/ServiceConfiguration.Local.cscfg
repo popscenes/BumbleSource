@@ -38,7 +38,7 @@
       <Setting name="TinyUrlBase" value="http://tfly.in:81/"/> <!-- set hosts file to point to localhost -->
       <Setting name="SiteUrl" value="http://127.0.0.1:81"/>
       <!-- set hosts file to point to localhost -->
-      <Setting name="Tags" value="event,services,for sale,property,community"/>
+      <Setting name="Tags" value="events,services,for sale,property,community"/>
 
     </ConfigurationSettings>
    

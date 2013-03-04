@@ -18,9 +18,10 @@
 @if (Request.IsAuthenticated)
 {    
     <a data-bind="attr: { href: '/' + bf.currentBrowserInstance.Handle }" class="toolbar-item profile-view-tool-bar-item" title="View Profile">
-        <img class="toolbar-button avatarsmall" data-bind="imgRetry: bf.currentBrowserInstance.AvatarUrl, attr: { alt: bf.currentBrowserInstance.DisplayName }"
-                    data-helptip-group="global-left-toolbar" 
-                    data-helptip-text="View your Fliers and Tearoffs"/>
+        <img class="toolbar-button avatarsmall" data-bind="visible:bf.currentBrowserInstance.AvatarUrl, imgRetry: bf.currentBrowserInstance.AvatarUrl, attr: { alt: bf.currentBrowserInstance.DisplayName }"
+             data-helptip-group="global-left-toolbar" 
+             data-helptip-text="View your Fliers and Tearoffs"/>
+        <div class="default-avatar-bg" data-bind="visible:!bf.currentBrowserInstance.AvatarUrl"></div>
     </a>   
 }
 else

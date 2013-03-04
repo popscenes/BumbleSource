@@ -1,9 +1,11 @@
 ﻿body{
 	
-	background-image:url(images/bg-texture-01.png);
-	background-repeat:no-repeat;
-	background-position:0 0;
-    font-family:'Open Sans',Tahoma, Helvetica, Geneva, sans-serif;
+	background-image: url(images/bg-low-quality.jpg);
+    background-repeat: no-repeat;
+    background-position: 0 0;
+    font-family: 'Open Sans',Tahoma, Helvetica, Geneva, sans-serif;
+    background-repeat-x: initial;
+    background-repeat: repeat;
 }
 
 header{
@@ -51,10 +53,7 @@ div.profile-edit-tool-bar-item {
 	background-image:url(images/edit-profile-btn-2.png);
 }
 
-div.add-flier-tool-bar-item
-{
-    background-image:url(images/post-flya-btn-2.png);
-}
+
 
 div.facebook-tool-bar-item
 {
@@ -73,7 +72,39 @@ div.question-tool-bar-item {
 .helptips-group-icon.question-tool-bar-item {
     border: none;
 }
+
+
+
+.add-flier-tool-bar-item
+{
+    width: 104px;
+    color: white;
+    background-color: #FF7D00;
+    font-size: 12px;
+    font-weight: bold;
+    background-image: url(images/icons-44h.png);
+    background-position: 0px 0px;
+    background-size: 34px 34px;
+    background-position: top right;
+    background-repeat: no-repeat;
+}
+
+.default-avatar-bg {
+    width: 44px;
+    height: 44px;
+    background-image: url(images/icons-44h.png);
+    background-position: 44px 44px;
+
+}
 /************end toolbar items**************************/
+
+div.current-loc {
+    display: table-cell;
+    width: 34px;
+    height: 34px;
+    background-image: url(images/icons-34h.png);
+    background-position: -34px 34px;
+}
 
 div#create-flier-item-div, div#selected-item-div
 {
@@ -157,7 +188,7 @@ div#selected-item-popup-overlay, div#create-flier-popup-overlay {
 }
 .ui-slider-horizontal {
 	height: 12px;
-	background:#8EC7D5!important;
+	background:#FF7D00!important;
 }
 .ui-slider-horizontal .ui-slider-handle {
 	top: -1px;
@@ -195,6 +226,17 @@ div#selected-item-popup-overlay, div#create-flier-popup-overlay {
 }
 
 /************tag selector ********************/
+#controls .bulletin-tags-selector {
+    width: 552px;
+    margin: 0 auto;
+    float: none;
+    clear: both;
+}
+
+.bulletin-tags-selector label{
+    font-size: 12px;
+    font-weight: bold;
+}
 
 .bulletin-tags-selector .tags-selector ul li div {
     display: none;
@@ -208,8 +250,9 @@ div#selected-item-popup-overlay, div#create-flier-popup-overlay {
     font-size: 14px;
     color: #FF7D00;
     font-weight: bold;
+    font-size: 12px;
     width: auto;
-    padding: 4px 14px;
+    padding: 0px 10px;
 }
 
 .bulletin-tags-selector .displayInline {
@@ -562,7 +605,7 @@ display: inline-block;
 h2 {
     font-weight: normal;
     font-size: 30px;
-    color: #98D5E4;
+    color: #FF7D00;
     text-transform: uppercase;
 
 }
@@ -570,9 +613,9 @@ h2 {
 h3 {
     font-weight: normal;
     font-size: 20px;
-    color: #98D5E4;
+    color: #FF7D00;
     text-transform: uppercase;
-    border-bottom: #98d5e4 solid 2px;
+    border-bottom: #FF7D00 solid 2px;
 }
 
 .page-content {
@@ -766,7 +809,7 @@ margin: 0 auto;
 .mini-button {
     background-color: #D28282;
     padding: 5px 10px;
-    border: #ACC8CD solid 1px;
+    border: #FF7D00 solid 1px;
     font-size: 10px;
     color: white;
     cursor: pointer;
@@ -778,15 +821,15 @@ margin: 0 auto;
 }
 
 .blue-button {
-    background-color: #99D4E4;
+    background-color: #FF7D00;
 }
 
 .flier-cost-summary {
     background-color: white;
     padding: 5px 10px;
-    border: #99D4E4 solid 1px;
+    border: #FF7D00 solid 1px;
     font-size: 12px;
-    color: #99D4E4;
+    color: #FF7D00;
     font-weight: bold;
     cursor: pointer;   
 }

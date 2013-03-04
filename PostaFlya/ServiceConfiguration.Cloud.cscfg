@@ -32,7 +32,7 @@
 
       <Setting name="TinyUrlBase" value="http://pfly.in/"/>
       <Setting name="SiteUrl" value="http://postaflyaprod.cloudapp.net"/>
-      <Setting name="Tags" value="event,services,for sale,property,community"/>
+      <Setting name="Tags" value="events,services,for sale,property,community"/>
       
     </ConfigurationSettings>
     <Certificates>

@@ -9,7 +9,7 @@ namespace PostaFlya.Models.Browser
     public static class BrowserModelBrowserInterfaceExtension
     {
         //TODO use siteService to get default avatar url
-        private const string DefaultAvatar = "/Content/themes/taskflya/images/icon_0001_Group-5.png";
+        //private const string DefaultAvatar = "/Content/themes/taskflya/images/icon_0001_Group-5.png";
 
         public static BrowserModel GetBrowserViewModel(string browserId, GenericQueryServiceInterface browserQuery, BlobStorageInterface blobStorage)
         {
@@ -42,12 +42,8 @@ namespace PostaFlya.Models.Browser
             view.DisplayName = domain.FriendlyId;
 
             Uri uri;
-            if (string.IsNullOrWhiteSpace(domain.AvatarImageId)
-                || (uri = blobStorage.GetBlobUri(domain.AvatarImageId + ImageUtil.GetIdFileExtension())) == null)
-            {
-                view.AvatarUrl = DefaultAvatar;
-            }
-            else
+            if (!string.IsNullOrWhiteSpace(domain.AvatarImageId)
+                && (uri = blobStorage.GetBlobUri(domain.AvatarImageId + ImageUtil.GetIdFileExtension())) != null)
             {
                 view.AvatarUrl = uri.GetThumbUrlForImage(ThumbOrientation.Square, ThumbSize.S50);
 

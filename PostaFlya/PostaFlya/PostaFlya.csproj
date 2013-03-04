@@ -442,6 +442,14 @@
   <ItemGroup>
     <Content Include="App_Loading.html" />
     <Content Include="Content\images\bumbl8.png" />
+    <Content Include="Content\themes\taskflya\images\bg-high-quality.jpg" />
+    <Content Include="Content\themes\taskflya\images\bg-low-quality.jpg" />
+    <Content Include="Content\themes\taskflya\images\bg-med-quality.jpg" />
+    <Content Include="Content\themes\taskflya\images\bg-veryhigh-quality.jpg" />
+    <Content Include="Content\themes\taskflya\images\bg.png" />
+    <Content Include="Content\themes\taskflya\images\icons-34h.png" />
+    <Content Include="Content\themes\taskflya\images\icons-44h.png" />
+    <Content Include="Content\themes\taskflya\images\icons-88h.png" />
     <Content Include="Content\structure\Behaviour\TaskJob.css" />
     <Content Include="Content\structure\Behaviour\Default.css" />
     <Content Include="Content\structure\CommonSiteOld.css" />
