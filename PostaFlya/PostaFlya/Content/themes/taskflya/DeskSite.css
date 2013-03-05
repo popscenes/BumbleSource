@@ -82,11 +82,27 @@ div.question-tool-bar-item {
     background-color: #FF7D00;
     font-size: 12px;
     font-weight: bold;
+    float: right;
+}
+
+.button-text-post {
+    display: block;
+    width: 26px;
+    margin-left: 16px;
+    float: left;
+    height: 28px;
+    padding-top: 16px;
+}
+
+
+
+.button-image-post {
+    display: block;
+    width: 34px;
+    height: 34px;
     background-image: url(images/icons-44h.png);
     background-position: 0px 0px;
-    background-size: 34px 34px;
-    background-position: top right;
-    background-repeat: no-repeat;
+    float: left;
 }
 
 .default-avatar-bg {

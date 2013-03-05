@@ -15,21 +15,23 @@ header{
 }
 
 #left-header {
-    display: inline-block;
+    display: block;
     width: 33%;
+    float: left;
 }
 
 #logo{
-    display: inline-block;
+    display: block;
     width: 33%;
     background-repeat: no-repeat;
     background-position: center;
+    float: left;
 }
 
 #right-header {
-    display: inline-block;
+    display: block;
     width: 33%;
-    text-align: right;
+    float: right;
 }
 
 #controls
