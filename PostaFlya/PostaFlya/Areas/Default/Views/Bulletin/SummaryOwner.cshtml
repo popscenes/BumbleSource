@@ -11,13 +11,15 @@
          data-bind="bulletinimg: FlierImageUrl, root: $root, alt: Title, imgRetry: FlierImageUrl"
          src="@flier.FlierImageUrl"/>
     <div class="tile-summary">
-        <a class="bold-link" data-bind="clickBubble: false, click: $root.TearOff">Peel</a>
+       
         <div class="flier-title" data-bind="text:Title">
             @flier.Title
         </div>
+        <a class="bold-link" data-bind="clickBubble: false, click: $root.TearOff">Peel</a>
         <div class="flier-locality" data-bind="text: Location.Locality">
             @flier.Location.Locality
         </div>
+        
     </div>
         
 </div>

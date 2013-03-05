@@ -96,7 +96,7 @@ div.tile-summary {
 }
 div.tile-summary a.bold-link {
     float: right;
-    padding: 5px;
+    padding: 2px 5px 2px 5px;
 }
 
 div.tile-summary div.flier-title {
