@@ -2,6 +2,7 @@ using System;
 using Website.Domain.Payment;
 using Website.Infrastructure.Domain;
 using Website.Domain.Browser;
+using Website.Infrastructure.Query;
 
 namespace Website.Domain.Claims
 {

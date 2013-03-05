@@ -24,44 +24,11 @@ namespace PostaFlya.Models.Flier
 {
     public static class BulletinFlierModelFlierInterfaceExtension
     {
-//        public static BulletinFlierModel ToViewModel(this FlierInterface flier, bool detailMode)
-//        {
-//            //dynamic behav = flier.Behaviour;
-//            return new BulletinFlierModel()
-//                       {
-//                           Id = flier.Id,
-//                           Title = flier.Title,
-//                           Description = (!detailMode && !string.IsNullOrWhiteSpace(flier.Description)) ?  (flier.Description.Length > 200 ? flier.Description.Substring(0, 200) : flier.Description) : flier.Description,
-//                           Location = flier.Location.ToViewModel(),
-//                           EffectiveDate = flier.EffectiveDate,
-//                           CreateDate = flier.CreateDate,
-//                           TagsString = flier.Tags.ToString(),
-//                           FlierImageId = flier.Image.HasValue ? flier.Image.Value.ToString() : null,
-//                           FlierBehaviour = flier.FlierBehaviour.ToString(),   
-//                           //Behaviour = flier.ToBehaviourSummaryViewModel(),
-//                           NumberOfClaims = flier.NumberOfClaims,
-//                           NumberOfComments = flier.NumberOfComments,
-//                           BrowserId = flier.BrowserId,
-//                           ImageList = flier.ImageList.Select(_ => new ImageViewModel() { ImageId = _.ImageID }).ToList()
-//
-//                       };
-//        }
-
-
         public static BulletinFlierModel GetImageUrl(this BulletinFlierModel model, BlobStorageInterface blobStorage)
         {
             var uri = blobStorage.GetBlobUri(model.FlierImageId + ImageUtil.GetIdFileExtension());
             if(uri != null)
                 model.FlierImageUrl = uri.ToString();
-            return model;
-        }
-
-        public static BulletinFlierModel GetContactDetails(this BulletinFlierModel model, GenericQueryServiceInterface queryService)
-        {
-            var owner = queryService.FindById<Website.Domain.Browser.Browser>(model.BrowserId);
-            if (owner == null)
-                return model;
-            model.OwnerName = owner.FirstName + " " + owner.Surname;
             return model;
         }
 
@@ -122,7 +89,6 @@ namespace PostaFlya.Models.Flier
         [Display(Name = "FlierImages", ResourceType = typeof(Properties.Resources))] 
         public List<ImageViewModel> ImageList { get; set; }
 
-        public string OwnerName { get; set; }
 
         public Int32 PendingCredits { get; set; }
     }

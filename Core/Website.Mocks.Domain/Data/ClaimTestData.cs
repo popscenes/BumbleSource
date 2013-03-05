@@ -52,7 +52,7 @@ namespace Website.Mocks.Domain.Data
             , ClaimInterface claim
             , GenericRepositoryInterface repository
             , StandardKernel kernel) 
-            where EntityInterfaceType : EntityInterface, ClaimableInterface
+            where EntityInterfaceType : EntityInterface, ClaimableEntityInterface
         {
             using (kernel.Get<UnitOfWorkFactoryInterface>()
                 .GetUnitOfWork(new List<object>() { repository }))
@@ -63,7 +63,7 @@ namespace Website.Mocks.Domain.Data
                     , entity.Id
                     , o =>
                           {
-                              var targ = o as ClaimableInterface;
+                              var targ = o as ClaimableEntityInterface;
                               targ.NumberOfClaims++;
                           } );
 

@@ -50,5 +50,16 @@ namespace Website.Infrastructure.Query
             return queryService.GetAllIds(type)
                 .Select(id => queryService.FindById(type, id));
         }
+
+        public static IEnumerable<EntityRetType> FindByIds<EntityRetType>(this GenericQueryServiceInterface queryService, IEnumerable<string> ids) 
+            where EntityRetType : class, new()
+        {
+            return ids.Select(queryService.FindById<EntityRetType>);
+        }
+
+        public static IEnumerable<object> FindByIds(this GenericQueryServiceInterface queryService, Type type, IEnumerable<string> ids)
+        {
+            return ids.Select(id => queryService.FindById(type, id));
+        }
     }
 }

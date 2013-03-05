@@ -31,7 +31,7 @@ namespace PostaFlya.Domain.Flier
             EntityInterfaceExtensions.CopyFieldsFrom(target, source);
             BrowserIdInterfaceExtensions.CopyFieldsFrom(target, source);
             CommentableInterfaceExtensions.CopyFieldsFrom(target, source);
-            ClaimableInterfaceExtensions.CopyFieldsFrom(target, source);
+            ClaimableEntityInterfaceExtensions.CopyFieldsFrom(target, source);
             EntityFeatureChargesInterfaceExtension.CopyFieldsFrom(target, source);
             TinyUrlInterfaceExtensions.CopyFieldsFrom(target, source);
             target.ContactDetails = source.ContactDetails != null ? new ContactDetails(source.ContactDetails) : null;
@@ -79,7 +79,7 @@ namespace PostaFlya.Domain.Flier
     public interface FlierInterface : 
         EntityInterface, 
         BrowserIdInterface, 
-        ClaimableInterface,
+        ClaimableEntityInterface,
         CommentableInterface,
         EntityFeatureChargesInterface, TinyUrlInterface
     {

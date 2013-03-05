@@ -1,57 +1,24 @@
 ﻿
-@using PostaFlya.Areas.TaskJob.Models.Bulletin
+@using PostaFlya.Areas.Default.Models.Bulletin
 @using PostaFlya.Domain.Behaviour
 @using PostaFlya.Models.Flier
-@model dynamic
-@{var Flier = ViewBag.Template != null && ViewBag.Template ? BulletinFlierModel<BulletinTaskJobBehaviourModel>.DefaultForTemplate(FlierBehaviour.TaskJob) : Model;}
 
-<div class="ui-flier-tile addedtile" data-bind="bulletintile: $root.Layout">     
+@model dynamic
+@{var flier = ViewBag.Template != null && ViewBag.Template ? BulletinFlierModel<BulletinBehaviourModel>.DefaultForTemplate(FlierBehaviour.Default) : Model;}
+
+<div class="ui-flier-tile addedtile" data-bind="bulletintile: $root.Layout, click: $root.SelectedViewModel.showDetails">     
     <img class="tile-img bulletin-img" 
          data-bind="bulletinimg: FlierImageUrl, root: $root, alt: Title, imgRetry: FlierImageUrl"
-         src="@Flier.FlierImageUrl" 
-         alt="@Flier.Title"/>
+         src="@flier.FlierImageUrl"/>
+    <div class="tile-summary">
+        <a class="bold-link" data-bind="clickBubble: false, click: $root.TearOff">Peel</a>
+        <div class="flier-title" data-bind="text:Title">
+            @flier.Title
+        </div>
+        <div class="flier-locality" data-bind="text: Location.Locality">
+            @flier.Location.Locality
+        </div>
+    </div>
         
-    <div class="detail-overlay" data-bind="click: $root.SelectedViewModel.showDetails">
-        <div data-bind="text:Title">
-            @Flier.Title
-        </div>
-        <div data-bind="text:Description">
-            @Flier.Description
-        </div>
-        <div>
-            @Html.Label("Behaviour.CostOverhead");
-            <span data-bind="text: Behaviour.CostOverhead">
-                @Flier.Behaviour.CostOverhead
-            </span>  
-        </div>              
-        <div class="toolbar">
-            <a data-bind="visible: false, attr: { href: $root.getDetailUrl($data)}" 
-               href="@Url.Action("Detail", "Bulletin", new {id = Flier.FriendlyId})"
-            >View Details</a>
-
-            <div class="flier-claims-comments">
-                <div class="claim-stats">
-                    @*replace with image*@
-                    <div class="claim-icon">Claims:</div>
-                    <span data-bind="text:NumberOfClaims">
-                        @Flier.NumberOfClaims  
-                    </span>
-                </div>
-                <div class="comment-stats">
-                    @*replace with image*@
-                    <div class="comment-icon">Comments:</div>
-                    <span data-bind="text:NumberOfComments">
-                        @Flier.NumberOfComments                                     
-                    </span>
-                </div>               
-            </div>
-
-            <button data-bind="click:$root.CreateFlierInstance.EditFlierLaunch, visible:BrowserId==bf.currentBrowserInstance.BrowserId">Edit</button>
-            @Html.Partial("Bulletin/DownloadPrintImagePartial")
-        </div>
-    </div>      
 </div>
-
-
-
 

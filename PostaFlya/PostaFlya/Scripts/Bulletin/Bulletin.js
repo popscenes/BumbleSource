@@ -111,6 +111,27 @@
 //            }
         };
 
+        self.TearOff = function (flier) {
+            debugger;
+            var reqdata = ko.toJSON({
+                ClaimEntity: 'Flier',
+                EntityId: flier.Id,
+                BrowserId: bf.currentBrowserInstance.BrowserId
+            });
+
+            $.ajax('/api/claim/', {
+                data: reqdata,
+                type: "post", contentType: "application/json",
+                success: function (result) {
+                    
+                },
+                error: function (jqXhr, textStatus, errorThrown) {
+                    bf.ErrorUtil.HandleRequestError(null, jqXhr);
+                }
+            });
+            return true;
+        };
+
         self.Sam = Sammy('#bulletinboard');
         self.SelectedViewModel.addDetailRoutes(self.Sam);
 
@@ -140,7 +161,6 @@
                 self.TryRequest();
             });
 
-            //bf.HelpTipsInstance.CheckFirstShowFor("bulletin");
         };
 
         self._Init();

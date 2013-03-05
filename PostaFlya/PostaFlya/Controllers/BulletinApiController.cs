@@ -140,9 +140,7 @@ namespace PostaFlya.Controllers
         private static void AddContactDetailsIfTornOff(BrowserInterface current, FlierInterface flier, DefaultDetailsViewModel model
             , GenericQueryServiceInterface queryService)
         {
-            var claim = queryService.FindAggregateEntities<Claim>(flier.Id)
-                .FirstOrDefault(c => c.BrowserId == current.Id);
-            if (claim == null)
+            if (!flier.BrowserHasClaimed(current, queryService))
                 return;
             var dets = flier.GetContactDetailsForFlier(queryService.FindById<Browser>(flier.BrowserId));
             if (dets == null)
@@ -161,11 +159,11 @@ namespace PostaFlya.Controllers
         private static IList<BulletinFlierModel> IdsToModel(IEnumerable<string> flierIds, GenericQueryServiceInterface flierQueryService
             , BlobStorageInterface blobStorage, FlierBehaviourViewModelFactoryInterface viewModelFactory)
         {
-            var ret = flierIds
-                .Select(flierQueryService.FindById<Flier>)
+            var ret = flierQueryService.FindByIds<Flier>(flierIds)
                 .Where(f => f != null)
-                .Select(f => viewModelFactory.GetBulletinViewModel(f, false)
-                    .GetImageUrl(blobStorage).GetContactDetails(flierQueryService))
+                .Select(f => viewModelFactory
+                    .GetBulletinViewModel(f, false)
+                    .GetImageUrl(blobStorage))
                 .ToList();
             return ret;
         }

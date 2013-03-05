@@ -1,11 +1,10 @@
 ﻿.ui-flier-tile {
-	padding: 5px 5px 5px 5px;
+	padding-top: 5px;
     box-shadow: 0 1px 3px rgba(0,0,0,0.4);
     -moz-box-shadow: 0 1px 2px rgba(0,0,0,0.4);
     -webkit-box-shadow: 0 1px 3px rgba(0,0,0,0.4);
     display: inline-block;
     margin: 3px;
-    font-size: 16px;
     width: 260px;
 }
 
@@ -90,9 +89,26 @@
     border-bottom: 1px solid #ccc;
     border-left: 1px solid #ccc;
 }
+div.tile-summary {
+    font-size: 14px;
+    text-align: left;
+    padding-left: 10px;    
+}
+div.tile-summary a.bold-link {
+    float: right;
+    padding: 5px;
+}
 
-/*Help Tips Bulletin*/
+div.tile-summary div.flier-title {
+    font-weight: bold;
+}
+
+div.tile-summary div.flier-locality {
+    color: #CACACA;
+    font-size: 12px;
+}
 
 
-/*Help Tips Bulletin*/
+
+
 

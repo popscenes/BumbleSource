@@ -371,12 +371,14 @@ ko.bindingHandlers.imgRetry = {
         var jele = $(element);
         jele.data("reload-times", 0);
         var src = jele.attr("src");
-        if (src == undefined || src == null || src == "") {
+        if (!src) {
             jele.removeAttr('src');
             var val = valueAccessor();
             src = ko.utils.unwrapObservable(val);
         }
 
+        if (!src)
+            return;
 
         jele.data("imgsrc", src);
         var imageReplacer = $('<img/>');

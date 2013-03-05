@@ -942,7 +942,11 @@ div.ls-holder-text input.location-search {
 }
 
 
-
+a.bold-link {
+    color: #FF7D00;
+    font-weight: bold;
+    cursor: pointer;
+}
 
 
 

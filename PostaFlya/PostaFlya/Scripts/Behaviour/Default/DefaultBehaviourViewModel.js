@@ -18,7 +18,7 @@
         ko.mapping.fromJS(data, mapping, self);
 
         self.TearOff = function() {
-            debugger;
+
             var reqdata = ko.toJSON({
                 ClaimEntity: 'Flier',
                 EntityId: self.Flier.Id,
@@ -35,7 +35,7 @@
                         });
                 },
                 error: function (jqXhr, textStatus, errorThrown) {
-                    bf.ErrorUtil.HandleRequestError(null, jqXhr, self.ErrorHandler);
+                    bf.ErrorUtil.HandleRequestError(null, jqXhr);
                 }
             });
             return true;
