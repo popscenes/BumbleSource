@@ -626,14 +626,6 @@ a.toolbar-item
     position: relative;
     width: 133px;
 }
-.imageSelector ul li a.thumb .tick {
-    position: absolute;
-    top: 0;
-    right: 0;
-    left: 0;
-    
-
-}
 
 .imageSelector ul li img { border: 0; }
 
@@ -681,22 +673,8 @@ a.toolbar-item
     top: 25px;
 }
 
-.std-btn {
-    display: inline-block;
-    font-family: Tahoma;
-    font-size: 12pt;
-    color: white;
-    background-color: #FF7D00;
-    height: 18px;
-    padding: 10px;
-    vertical-align: middle;
-    text-align: center;
-    padding-top: 10px;
-    border: #ACC8CD solid 1px;
-    cursor: pointer;
-    text-decoration: none;
-    text-transform: uppercase;
-}
+
+
 .breakdown {
     height: 250px;
     overflow-y: scroll;

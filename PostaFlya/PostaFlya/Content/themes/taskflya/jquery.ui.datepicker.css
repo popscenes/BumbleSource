@@ -45,16 +45,21 @@ table {
 	line-height: 600%;
 	overflow: hidden;
     vertical-align: middle;
-    margin-top: 5px;
 }
 .ui-datepicker-prev {
 	float: left;
-	background-image: url('./images/prev-icon.png');
+	background-image: url(images/icons-34h.png);
+    width: 34px;
+    height: 34px;
+    background-position: -102px -0px;
     margin-left: 5px;
 }
 .ui-datepicker-next {
 	float: right;
-    background-image: url('./images/next-icon.png');
+    background-image: url(images/icons-34h.png);
+    width: 34px;
+    height: 34px;
+    background-position: -136px -0px;
     margin-right: 5px;
 }
 .ui-datepicker thead {
