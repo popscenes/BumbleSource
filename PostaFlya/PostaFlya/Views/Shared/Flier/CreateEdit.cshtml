@@ -32,11 +32,23 @@
 </div>
 
 <div id="form-buttons">
-    <a id="flya-create-back" data-bind="click: prevTemplate, visible:isPrevStep()" class="Button">&nbsp;</a>
-    <a id="flya-create-continue" data-bind="click: nextTemplate, visible:isNextStep()" class="Button"></a>
+    <a id="flya-create-back" data-bind="click: prevTemplate, visible:isPrevStep()" class="std-btn std-image-btn">
+        <span class="std-image-btn-icon"></span>
+        <span>BACK</span>
+    </a>
+    <a id="flya-create-continue" data-bind="click: nextTemplate, visible:isNextStep()" class="std-btn std-image-btn">
+        <span class="std-image-btn-icon"></span>
+        <span>CONTINUE</span>
+    </a>
 
-    <a id="flya-create-save" data-bind="click: save, visible:!isUpdate() && !isNextStep()" class="Button">&nbsp;</a>
-    <a id="flya-create-update" data-bind="click: update, visible:isUpdate() && !isNextStep()" class="Button">&nbsp;</a>
+    <a id="flya-create-save" data-bind="click: save, visible:!isUpdate() && !isNextStep()" class="std-btn std-image-btn">
+        <span class="std-image-btn-icon"></span>
+        <span>SAVE</span>
+    </a>
+    <a id="flya-create-update" data-bind="click: update, visible:isUpdate() && !isNextStep()" class="std-btn std-image-btn">
+        <span class="std-image-btn-icon"></span>
+        <span>UPDATE</span>
+    </a>
 </div>
 
 <script type="text/html" id="Flyer-template">
@@ -155,7 +167,9 @@
                     @Html.ValidationMessageFor(model => model.TagsString)
                     @Html.HiddenFor(model => model.TagsString, new { data_bind = "value:SelectedTags()" })
                 
-                    @Html.Partial("Tags/TagsSelector")
+                    <span class="bulletin-tags-selector">
+                        @Html.Partial("Tags/TagsSelector")
+                    </span>
                 </li>
             </ol>        
         </fieldset>

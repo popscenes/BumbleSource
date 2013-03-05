@@ -4,7 +4,6 @@
     background-repeat: no-repeat;
     background-position: 0 0;
     font-family: 'Open Sans',Tahoma, Helvetica, Geneva, sans-serif;
-    background-repeat-x: initial;
     background-repeat: repeat;
 }
 
@@ -22,6 +21,63 @@ background-color: white;
 .close-button {
 
 }
+
+
+.std-btn {
+    display: inline-block;
+    font-size: 12px;
+    font-weight: bold;
+    color: white;
+    background-color: #FF7D00;
+    height: 14px;
+    padding: 10px;
+    vertical-align: middle;
+    text-align: center;
+    cursor: pointer;
+    text-decoration: none;
+    text-transform: uppercase;
+    
+}
+.std-image-btn
+{
+    position: relative;
+    padding-left: 34px
+}
+
+.std-image-btn-icon {
+    background-image: url(images/icons-34h.png);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 34px;
+    height: 34px;
+}
+
+#flya-create-back .std-image-btn-icon {
+    background-position: -102px 0px;
+}
+
+#flya-create-continue {
+    padding-left: 0;
+    padding-right: 34px;
+    padding-left: 10px;
+    float: right;
+}
+
+#flya-create-continue .std-image-btn-icon {
+    background-position: -136px 0px;
+    top: 0;
+    right: 0;
+    left: auto;
+}
+
+.pickfiles  .std-image-btn-icon {
+    background-position: -272px 0px;
+}
+.uploadfiles  .std-image-btn-icon {
+    background-position: -238px 0px;
+}
+
 
 #main-menu
 {
@@ -82,18 +138,34 @@ div.question-tool-bar-item {
     background-color: #FF7D00;
     font-size: 12px;
     font-weight: bold;
+    float: right;
+}
+
+.button-text-post {
+    display: block;
+    width: 26px;
+    margin-left: 16px;
+    float: left;
+    height: 28px;
+    padding-top: 16px;
+}
+
+
+
+.button-image-post {
+    display: block;
+    width: 34px;
+    height: 34px;
     background-image: url(images/icons-44h.png);
     background-position: 0px 0px;
-    background-size: 34px 34px;
-    background-position: top right;
-    background-repeat: no-repeat;
+    float: left;
 }
 
 .default-avatar-bg {
     width: 44px;
     height: 44px;
     background-image: url(images/icons-44h.png);
-    background-position: 44px 44px;
+    background-position: -88px 44px;
 
 }
 /************end toolbar items**************************/
@@ -668,33 +740,29 @@ form li label {
 
 .nav-controls a {
     display: block;
-    width: 40px;
-    height: 42px;
+    width: 44px;
+    height: 44px;
     margin: 10px auto;
 }
 
 .next {
-    background: url(images/down-icon.png);
+    background-image: url(images/icons-44h.png);
+    width: 44px;
+    height: 44px;
+    background-position: -264px -44px;
 }
 
 .prev {
-    background: url(images/up-icon.png);
+    background-image: url(images/icons-44h.png);
+    width: 44px;
+    height: 44px;
+    background-position: -220px -44px;
 }
 
 #upload-controls a, #form-buttons a {
     display: inline-block;
 }
 
-.pickfiles {
-    width: 146px;
-    height: 40px;
-    background: url(images/browse-btn.png);
-}
-.uploadfiles {
-    width: 98px;
-    height: 40px;
-    background: url(images/add-btn.png);
-}
 
 #image-upload-helptip .helptips-group-icon.pickfiles,
 #image-upload-helptip .helptips-group-icon.uploadfiles,
@@ -721,26 +789,6 @@ form li label {
     cursor: pointer;
     margin-right: 15%;
 }
-
-#flya-create-continue, #flya-create-update, #flya-create-save, #profile-save {
-    width: 146px;
-    height: 40px;
-    background: url(images/continue-btn.png);
-    float: right;
-    cursor: pointer;
-}
-
-#flya-create-save, #flya-create-update, #profile-save {
-    background: url(images/finish-btn.png);
-}
-
-#flya-create-back {
-    width: 146px;
-    height: 40px;
-    background: url(images/back-btn.png);
-    float: left;
-}
-
 .preview-avatar {
     margin: 0 0 15px 10%;
 }
@@ -843,10 +891,15 @@ margin: 0 auto;
 }
 
 .imageSelector ul li a.thumb .tick {
-    background-image: url(images/big-tick.png);
-    width: 40px;
-    height: 40px;
-    opacity: 0.8;
+    position: absolute;
+    top: -0px;
+    right: 0;
+    left: 0;
+    background-image: url(images/icons-44h.png);
+    width: 44px;
+    height: 44px;
+    background-position: -396px -0px;
+    background-color: #ff7d00;
 }
 
 #logo {
