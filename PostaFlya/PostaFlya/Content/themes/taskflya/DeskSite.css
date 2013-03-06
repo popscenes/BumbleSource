@@ -1045,7 +1045,7 @@ a.bold-link {
 {
 
     .ui-flier-tile img {
-        width: 140px!important;
+        width: 114px!important;
     }
 
     .bulletin-tags-selector .tags-selector .tags-box {
@@ -1055,7 +1055,8 @@ a.bold-link {
     
 
     .ui-flier-tile {
-        width: 140px!important;
+        margin: 4px!important;
+        width: 114px!important;
     }
 
     #controls .bulletin-tags-selector {

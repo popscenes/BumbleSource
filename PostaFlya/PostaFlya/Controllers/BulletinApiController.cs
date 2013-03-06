@@ -125,7 +125,7 @@ namespace PostaFlya.Controllers
             var ret = viewModelFactory
                 .GetBehaviourViewModel(behaviour);
             ret.Flier.GetImageUrl(blobStorage);
-            ret.Flier.ImageList.ForEach(_ => _.GetImageUrl(blobStorage, ThumbOrientation.Horizontal, ThumbSize.S50));
+            ret.Flier.ImageList.ForEach(_ => _.GetImageUrl(blobStorage, ThumbOrientation.Horizontal, ThumbSize.S57));
 
             if (browserInformation.Browser.Id == flier.BrowserId)
                 AddOwnerInfo(flier, ret, queryService);

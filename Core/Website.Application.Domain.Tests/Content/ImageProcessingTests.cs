@@ -280,22 +280,22 @@ namespace Website.Application.Domain.Tests.Content
             var data = storage[id.ToString() +
             ImageUtil.GetIdFileExtension(
                 ThumbOrientation.Original,
-                ThumbSize.S50
+                ThumbSize.S57
             )];
             Assert.IsNotNull(data);
             using (var ms = new MemoryStream(data))
             {
                 var conv = Image.FromStream(ms);
                 Assert.IsTrue(
-                        conv.Height == (int)ThumbSize.S50
-                    ||  conv.Width == (int)ThumbSize.S50
+                        conv.Height == (int)ThumbSize.S57
+                    ||  conv.Width == (int)ThumbSize.S57
                 );
             }
 
             data = storage[id.ToString() +
             ImageUtil.GetIdFileExtension(
                 ThumbOrientation.Original,
-                ThumbSize.S100
+                ThumbSize.S114
             )];
 
             Assert.IsNotNull(data);
@@ -304,8 +304,8 @@ namespace Website.Application.Domain.Tests.Content
                 using(var conv = Image.FromStream(ms))
                 {
                     Assert.IsTrue(
-                               conv.Height == (int)ThumbSize.S100
-                            || conv.Width == (int)ThumbSize.S100
+                               conv.Height == (int)ThumbSize.S114
+                            || conv.Width == (int)ThumbSize.S114
                     );
                 }
             }

@@ -477,16 +477,15 @@ ko.bindingHandlers.bulletinimg = {
 
 function getFlierImageSizeFromWidth(width) {
     
-    if (width <= 50)
-        return 'h50';
-    if (width <= 100)
-        return 'h100';
-    if (width <= 200)
-        return 'h200';
-    if (width <= 250)
-        return 'h250';
-
-    return 'h450';    
+    if (width <= 57)
+        return 'h57';
+    if (width <= 114)
+        return 'h114';
+    if (width <= 228)
+        return 'h228'; 
+    if (width <= 456)
+        return 'h456';
+    return '';    
 };
 
 ko.bindingHandlers.absolutePosFromScroll = {
