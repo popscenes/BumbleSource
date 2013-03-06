@@ -12,12 +12,13 @@
          src="@flier.FlierImageUrl"/>
     <div class="tile-summary">
        
-        <div class="flier-title" data-bind="text:Title">
-            @flier.Title
+        <div class="flier-title" >
+            <span data-bind="text:Title">@flier.Title</span>
         </div>
-        <a class="bold-link" data-bind="clickBubble: false, click: $root.TearOff">Peel</a>
-        <div class="flier-locality" data-bind="text: Location.Locality">
-            @flier.Location.Locality
+        
+        <div class="flier-locality">
+            <span data-bind="text: Location.Locality">@flier.Location.Locality</span>
+            <a class="bold-link" data-bind="clickBubble: false, click: $root.TearOff">Peel</a>
         </div>
         
     </div>
