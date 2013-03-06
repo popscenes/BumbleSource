@@ -36,7 +36,7 @@ header{
 
 #controls
 {
-    width:724px;
+    width:740px;
     margin-left:auto;
     margin-right:auto;
 	padding-top:25px;
@@ -70,11 +70,11 @@ header{
 
 input#locationSearch {
     display: table-cell;
-    width: 100%;
-    padding: 0;
+    width: 96%;
+    padding: 8px 2%;
     margin: 0;
     border: 0;
-    height: 34px;
+    height: 18px;
 }
 
 input#locationSearch:focus {
@@ -98,7 +98,7 @@ input#locationSearch:focus {
     text-align: center;
     display: inline-block;
     position: relative;
-    background-color: white;
+    background-color: #F0F0F0;
     color: black;
     border-width: 1px;
     border-style: solid;

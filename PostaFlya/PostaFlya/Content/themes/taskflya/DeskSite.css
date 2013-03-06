@@ -299,7 +299,7 @@ div#selected-item-popup-overlay, div#create-flier-popup-overlay {
 
 /************tag selector ********************/
 #controls .bulletin-tags-selector {
-    width: 552px;
+    width: 566px;
     margin: 0 auto;
     float: none;
     clear: both;
@@ -730,8 +730,8 @@ h3 {
 }
 
 input, textarea {
-    font-family: Tahoma, Helvetica, Geneva, sans-serif;
-    font-size: 1em
+    font-size: 1em;
+    vertical-align: middle;
 }
 
 form li label {
