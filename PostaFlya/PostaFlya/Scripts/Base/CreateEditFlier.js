@@ -107,9 +107,9 @@
                     return '';
                 else {
                     if (self.FlierImageUrl().indexOf("v100") == -1) {
-                        newUrl = self.FlierImageUrl().replace('.jpg', 'h250.jpg');
+                        newUrl = self.FlierImageUrl().replace('.jpg', 'h228.jpg');
                     } else {
-                        newUrl = self.FlierImageUrl().replace('v100', 'h250');
+                        newUrl = self.FlierImageUrl().replace('v100', 'h228');
                     }
                     return newUrl;
                 }
