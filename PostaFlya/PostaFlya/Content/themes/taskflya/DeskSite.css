@@ -1010,15 +1010,17 @@ a.bold-link {
         width: 100%;
     }
 
-    .page-toolbar-buttons {
-        margin: 0 auto;
+    #controls {
+        width: 90%;
     }
 
-    input#locationSearch {
-        width: 100%
+    #controls .location-title {
+        float: none;
+        font-size: 16px;
     }
-    .locSel {
-        width: 100%;
+
+    .page-toolbar-buttons {
+        margin: 0 auto;
     }
 
     .ls-relative-back {
@@ -1046,12 +1048,42 @@ a.bold-link {
         width: 140px!important;
     }
 
+    .bulletin-tags-selector .tags-selector .tags-box {
+        padding-top: 0px;
+    }
+
+    
+
     .ui-flier-tile {
         width: 144px!important;
     }
 
+    #controls .bulletin-tags-selector {
+        text-align: center;
+        width: 150px;
+    }
+
+    .bulletin-tags-selector label {
+        display: block;
+    }
+
+    .bulletin-tags-selector .tags-selector ul li {
+        display: inline;
+    }
+
     .flier-view .flier-details .flier-img img {
         width: 250px !important;
+    }
+
+    .locSel {
+        width: 100%;
+    }
+
+    #controls > * {
+        float: none;
+    }
+    #controls .dist-selector-container {
+        margin: 10px auto;
     }
 
 
@@ -1083,9 +1115,6 @@ a.bold-link {
         width: 90px;
     }
 
-    #flya-create-back {
-        width: 125px;
-    }
 
     #logo a#left-logo {
         background-image: url("images/postaflya-logo-blue-small.png");
@@ -1133,7 +1162,7 @@ a.bold-link {
     #flierForm input[type="text"].location-search {
         width: 90%
     }
-    form input[type="text"], .form textarea, form input[type="email"], form input[type="url"] {
+    form input[type="text"], .form textarea, form input[type="email"], form input[type="url"], #flierForm #addressSearch.location-search {
         width: 90%;
         margin-top: 10px;
     }
