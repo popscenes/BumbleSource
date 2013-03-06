@@ -210,7 +210,10 @@ ko.bindingHandlers.locationAutoComplete = {
                 var location = valueAccessor();
                 location(ui.item.position);
             },
-            open: function () { $(this).removeClass("ui-corner-all").addClass("ui-corner-top"); },
+            open: function (event, ui) {
+                $('ul.ui-autocomplete').css('left', function (index, value) { return -35 + parseInt(value); });
+                $('ul.ui-autocomplete').css('top', function (index, value) { return 1 + parseInt(value); });
+            },
             close: function () { $(this).removeClass("ui-corner-top").addClass("ui-corner-all"); }
         });
 
