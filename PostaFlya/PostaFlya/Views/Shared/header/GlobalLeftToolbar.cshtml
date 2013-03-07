@@ -17,20 +17,32 @@
 
 @if (Request.IsAuthenticated)
 {    
-    <a data-bind="attr: { href: '/' + bf.currentBrowserInstance.Handle }" class="toolbar-item profile-view-tool-bar-item" title="View Profile">
-        <img class="toolbar-button avatarsmall" data-bind="visible:bf.currentBrowserInstance.AvatarUrl, imgRetry: bf.currentBrowserInstance.AvatarUrl, attr: { alt: bf.currentBrowserInstance.DisplayName }"
+    <a id="profile-avatar" data-bind="attr: { href: '/' + bf.currentBrowserInstance.Handle }" class="std-btn std-image-btn btn-44 btn-white" title="View Profile">
+        <img class="toolbar-button avatarsmall std-image-btn-icon" data-bind="visible:bf.currentBrowserInstance.AvatarUrl, imgRetry: bf.currentBrowserInstance.AvatarUrl, attr: { alt: bf.currentBrowserInstance.DisplayName }"
              data-helptip-group="global-left-toolbar" 
              data-helptip-text="View your Fliers and Tearoffs"/>
-        <div class="default-avatar-bg" data-bind="visible:!bf.currentBrowserInstance.AvatarUrl"></div>
+
+        <span data-bind="visible:!bf.currentBrowserInstance.AvatarUrl" class="std-image-btn-icon"></span>
+        <span>Profile</span>
+
+        <!--<a id="default-avatar" data-bind="visible:!bf.currentBrowserInstance.AvatarUrl" class="std-btn std-image-btn btn-44">
+            <span class="std-image-btn-icon"></span>
+            <span>Profile</span>
+        </a>-->
     </a>   
 }
 else
 {
-    <a href="@Url.Action("LoginPage", "Account")" class="toolbar-item profile-view-tool-bar-item" title="Login">
+    <!--<a href="@Url.Action("LoginPage", "Account")" class="toolbar-item profile-view-tool-bar-item" title="Login">
         <div class="default-avatar-bg"
              data-helptip-group="global-left-toolbar" 
              data-helptip-text="Login or Create an Account">           
         </div>
+    </a>-->
+    
+    <a id="log-in-profile" href="@Url.Action("LoginPage", "Account")"  class="std-btn std-image-btn btn-44 btn-white" data-helptip-group="global-left-toolbar" data-helptip-text="Login or Create an Account">
+        <span class="std-image-btn-icon"></span>
+        <span>Profile</span>
     </a>
 }
 <div data-helptip-group="global-left-toolbar"></div>
