@@ -1001,7 +1001,9 @@ a.bold-link {
     cursor: pointer;
 }
 
-
+.pac-container {
+    z-index: 5000 !important;
+}
 
 
 @media only screen and (max-width: 800px)

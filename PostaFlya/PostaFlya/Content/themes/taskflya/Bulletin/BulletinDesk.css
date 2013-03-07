@@ -25,40 +25,63 @@
 
 /***default detail view layout***/
 
-.flier-view {
-
-}
-
-.flier-view .flier-details {
-    
-}
-
-.flier-view .flier-details .flier-title {
-}
-
-.flier-view .flier-details .flier-img {
-}
-
-.flier-view .flier-details .flier-claims-comments{
-    
-}
-
-.flier-view .flier-details .flier-claims-comments .claim-stats{
-    
-}
-
-.flier-view .flier-details .flier-claims-comments .comment-stats{
-}
-
 .flier-view .flier-details .flier-desc {
     margin-top: 15px;
 }
 
-.flier-view .comments {
-    
+
+/***end default detail view layout***/
+
+.ui-flier-tile {
+    box-shadow: 1px 1px 4px rgba(0,0,0,0.4);
+    -moz-box-shadow: 1px 1px 4px rgba(0,0,0,0.4);
+    -webkit-box-shadow: 1px 1px 4px rgba(0,0,0,0.4);
+    /*display: inline-block;*/
+    margin: 8px;
+    width: 228px;
+    display: inline-block;
 }
 
-.flier-view .claims {
-    
+div.tile-image {
+    box-shadow: 0 0 4px rgba(0,0,0,0.4);
 }
-/***end default detail view layout***/
+
+.ui-flier-tile img 
+{
+    width: 228px;
+    cursor: pointer;
+}
+
+div.tile-summary {
+    display: table;
+    font-size: 12px;
+    text-align: left;
+    padding: 10px;    
+}
+div.tile-summary div.tile-peel {
+    display: table-cell;
+    vertical-align: bottom;  
+}
+
+div.tile-summary div.tile-peel a {
+    display: block;
+    padding: 10px 0px;
+}
+
+
+
+div.tile-summary div.flier-title {
+    font-weight: bold;
+    font-size: 13PX;
+    line-height: 14px;
+}
+
+div.tile-summary div.flier-locality {
+    color: #CACACA;
+    font-size: 12px;
+}
+
+div.tile-summary div.tile-description {
+    display: table-cell;
+    width: 200px;
+}

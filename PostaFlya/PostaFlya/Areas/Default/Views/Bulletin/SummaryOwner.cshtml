@@ -7,20 +7,27 @@
 @{var flier = ViewBag.Template != null && ViewBag.Template ? BulletinFlierModel<BulletinBehaviourModel>.DefaultForTemplate(FlierBehaviour.Default) : Model;}
 
 <div class="ui-flier-tile addedtile" data-bind="bulletintile: $root.Layout, click: $root.SelectedViewModel.showDetails">     
-    <img class="tile-img bulletin-img" 
-         data-bind="bulletinimg: FlierImageUrl, root: $root, alt: Title, imgRetry: FlierImageUrl"
-         src="@flier.FlierImageUrl"/>
+    
+    <div class="tile-image">
+        <img class="tile-img bulletin-img" 
+             data-bind="bulletinimg: FlierImageUrl, root: $root, alt: Title, imgRetry: FlierImageUrl"
+             src="@flier.FlierImageUrl"/>    
+    </div>
+    
     <div class="tile-summary">
        
-        <div class="flier-title" >
-            <span data-bind="text:Title">@flier.Title</span>
+        <div class="tile-description">
+            <div class="flier-title" >
+                <span data-bind="text:Title">@flier.Title</span>
+            </div>      
+            <div class="flier-locality">
+                <span data-bind="text: Location.Locality">@flier.Location.Locality</span>              
+            </div>
         </div>
-        
-        <div class="flier-locality">
-            <span data-bind="text: Location.Locality">@flier.Location.Locality</span>
+        <div class="tile-peel">
             <a class="bold-link" data-bind="clickBubble: false, click: $root.TearOff">Peel</a>
         </div>
-        
+
     </div>
         
 </div>

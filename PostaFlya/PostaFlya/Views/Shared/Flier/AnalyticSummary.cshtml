@@ -4,7 +4,7 @@
 @model dynamic
 @{FlierAnalyticInfoModel analyticInfo = ViewBag.Template != null && ViewBag.Template ? DefaultDetailsViewModel.DefaultForTemplate().AnalyticInfo : Model.AnalyticInfo;}
 
-<div class="flier-analytic-summary" data-bind="visible:AnalyticInfo.Entries().length > 0">
+<div class="flier-analytic-summary" data-bind="visible:(AnalyticInfo && AnalyticInfo.Entries().length > 0)">
     
     <h3>Flya Analytics</h3>
     <section class="summary" title="Summary">
