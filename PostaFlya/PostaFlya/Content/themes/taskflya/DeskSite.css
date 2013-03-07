@@ -35,14 +35,26 @@ background-color: white;
     text-align: center;
     cursor: pointer;
     text-decoration: none;
-    text-transform: uppercase;
+    text-transform: none;
     
+}
+
+.btn-white {
+    background-color: white;
+    color: black;
 }
 .std-image-btn
 {
     position: relative;
     padding-left: 34px
 }
+
+.btn-44 {
+    padding: 15px;
+    padding-left: 44px;
+    
+}
+
 
 .std-image-btn-icon {
     background-image: url(images/icons-34h.png);
@@ -53,6 +65,13 @@ background-color: white;
     height: 34px;
 }
 
+.btn-44 .std-image-btn-icon{
+    background-image: url(images/icons-44h.png);
+    width: 44px;
+    height: 44px;
+}
+
+
 #flya-create-back .std-image-btn-icon {
     background-position: -102px 0px;
 }
@@ -61,6 +80,10 @@ background-color: white;
     padding-left: 0;
     padding-right: 34px;
     padding-left: 10px;
+    float: right;
+}
+
+#post-flya {
     float: right;
 }
 
@@ -76,6 +99,17 @@ background-color: white;
 }
 .uploadfiles  .std-image-btn-icon {
     background-position: -238px 0px;
+}
+
+#profile-avatar, #log-in-profile {
+    border-right: solid 1px #CFCFCF;
+}
+#profile-avatar .std-image-btn-icon,  #log-in-profile  .std-image-btn-icon{
+    background-position: -88px -44px;
+}
+
+#profile-avatar {
+    padding-left: 50px;
 }
 
 
@@ -163,9 +197,9 @@ div.question-tool-bar-item {
 
 .default-avatar-bg {
     width: 44px;
-    height: 44px;
+    height:44px;
     background-image: url(images/icons-44h.png);
-    background-position: -88px 44px;
+    background-position: -88px -44px;
 
 }
 /************end toolbar items**************************/
@@ -175,7 +209,7 @@ div.current-loc {
     width: 34px;
     height: 34px;
     background-image: url(images/icons-34h.png);
-    background-position: -34px 34px;
+    background-position: -34px -34px;
 }
 
 div#create-flier-item-div, div#selected-item-div
@@ -1054,6 +1088,15 @@ a.bold-link {
         padding-top: 0px;
     }
 
+    #logo {
+        width: 38%;
+
+    }
+
+    #right-header {
+        width: 28%;
+    }
+
     
 
     .ui-flier-tile {
@@ -1111,19 +1154,6 @@ a.bold-link {
     #lsMain .map {
         width: 80%;
         height: 250px;
-    }
-
-   
-    #logo {
-        width: 90px;
-    }
-
-
-    #logo a#left-logo {
-        background-image: url("images/postaflya-logo-blue-small.png");
-        width: 100px;
-        height: 50px;
-        background-repeat: no-repeat;
     }
 
     .form {

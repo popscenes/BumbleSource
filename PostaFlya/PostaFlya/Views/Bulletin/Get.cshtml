@@ -40,8 +40,8 @@
             @Html.Partial("Location/LocationAutocomplete") 
         </div>
         </div>
-    <div class="dist-selector-container">        
-        Within <span class="distance-selected" data-bind="text: @ViewBag.DistanceVariable, touchHover: '.dist-selector-container'"></span>km
+    <div class="dist-selector-container" data-bind="touchHover: '.dist-selector-container'">        
+        Within <span class="distance-selected" data-bind="text: @ViewBag.DistanceVariable"></span>km
         <ul class="dist-selector" data-bind="distanceDropDown: @ViewBag.DistanceVariable">
         </ul>
     </div>
