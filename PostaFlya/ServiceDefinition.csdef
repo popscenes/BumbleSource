@@ -41,6 +41,10 @@
       <Setting name="PaypalCallbackUrl"/>
       <Setting name="PaypalCancelUrl"/>
 
+      <Setting name="GoogleWalletSellerId"/>
+      <Setting name="GoogleWalletSecret"/>
+      <Setting name="GooglePaymentUrl"/>
+
       <Setting name="TinyUrlBase"/>
       <Setting name="SiteUrl"/>
       <Setting name="Tags"/>

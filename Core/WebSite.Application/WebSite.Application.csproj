@@ -141,6 +141,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\Libraries\DotNetOpenAuth.OpenIdOAuth.4.2.1.13026\lib\net45-full\DotNetOpenAuth.OpenIdOAuth.dll</HintPath>
     </Reference>
+    <Reference Include="GCheckout">
+      <HintPath>..\..\..\Libraries\Google.Checkout.2.5.0.12\lib\GCheckout.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
       <HintPath>..\..\..\Libraries\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
@@ -156,6 +159,9 @@
     <Reference Include="Ninject.Extensions.Conventions, Version=3.0.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\Libraries\ninject.extensions.conventions.3.0.2-unstable-2\lib\net45-full\Ninject.Extensions.Conventions.dll</HintPath>
+    </Reference>
+    <Reference Include="paycircuit.com.google.iap.lib">
+      <HintPath>Libs\paycircuit.com.google.iap.lib.dll</HintPath>
     </Reference>
     <Reference Include="RestSharp">
       <HintPath>..\..\..\Libraries\RestSharp.104.1\lib\net4\RestSharp.dll</HintPath>
@@ -263,10 +269,12 @@
     <Compile Include="Command\QueuedCommandProcessor.cs" />
     <Compile Include="Extension\TypeConverter\FromStringTypeConverter.cs" />
     <Compile Include="Extension\Web\HtmlHelperExtensions.cs" />
+    <Compile Include="Intergrations\Payment\DigitalGoodsOrder.cs" />
     <Compile Include="Intergrations\FaceBookEvent.cs" />
     <Compile Include="Intergrations\FacebookGraph.cs" />
     <Compile Include="Intergrations\FacebookPermissionSet.cs" />
     <Compile Include="Intergrations\FaceBookUser.cs" />
+    <Compile Include="Intergrations\Payment\GoogleWalletDigitalGoods.cs" />
     <Compile Include="Intergrations\Payment\PaypalExpressCheckout.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">

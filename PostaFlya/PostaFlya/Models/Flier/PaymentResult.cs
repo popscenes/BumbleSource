@@ -9,5 +9,9 @@ namespace PostaFlya.Models.Flier
 
         public PaymentTransaction Transaction { get; set; }
         public CreditPaymentPackage CreditPaymentPackage { get; set; }
+
+        public String TransactionStatus { get; set; }
+
+        public String SubHeading { get; set; }
     }
 }

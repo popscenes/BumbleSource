@@ -128,6 +128,7 @@
     <Compile Include="Content\WebImageRequestContentRetriever.cs" />
     <Compile Include="Email\VCard\ContactDetailsInterfaceExtensions.cs" />
     <Compile Include="Location\ValidationAttributes.cs" />
+    <Compile Include="Payment\GoogleWalletPaymentService.cs" />
     <Compile Include="Payment\PaymentServiceInterface.cs" />
     <Compile Include="Payment\PaymentServiceProviderInterface.cs" />
     <Compile Include="Payment\PaymentServiceProvider.cs" />

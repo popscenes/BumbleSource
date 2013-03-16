@@ -1,0 +1,446 @@
+﻿<?xml version="1.0"?>
+<doc>
+<assembly>
+<name>
+paycircuit.com.google.iap.lib
+</name>
+</assembly>
+<members>
+<member name="P:paycircuit.com.My.Resources.Resources.ResourceManager">
+	<summary>
+  Returns the cached ResourceManager instance used by this class.
+</summary>
+</member><member name="P:paycircuit.com.My.Resources.Resources.Culture">
+	<summary>
+  Overrides the current thread's CurrentUICulture property for all
+  resource lookups using this strongly typed resource class.
+</summary>
+</member><member name="T:paycircuit.com.My.Resources.Resources">
+	<summary>
+  A strongly-typed resource class, for looking up localized strings, etc.
+</summary>
+</member><member name="M:paycircuit.com.google.iap.JSONHelpers.dataContractToJSON(System.Object)">
+	<summary>
+ Serialize to JSON string
+ </summary>
+	<param name="o">Object to serialize</param>
+	<returns>JSON string</returns>
+	<remarks></remarks>
+</member><member name="M:paycircuit.com.google.iap.JSONHelpers.dataContractJSONToObj(System.String,System.Object)">
+	<summary>
+ Deserialize to JWTHeaderObject or InAppItemObject
+ </summary>
+	<param name="jwtString">Base64url encoded string representing a JWTHeaderObject or InAppItemObject</param>
+	<param name="o">Object to deserialize to (e.g. JWTHeaderObject or InAppItemObject)</param>
+	<returns>JWTHeaderObject or InAppItemObject</returns>
+	<remarks>Escape processing is performed at deserialization</remarks>
+</member><member name="F:paycircuit.com.google.iap.InAppItemObject._iat">
+	<summary>
+ Note the adjustment of -1 minute to compensate for differences between system times when generating iat, adjust as necessary. 
+ If your system clock is faster than Google's, your JWT will be rejected (jwt spec: the current date/time MUST be after the issued date/time listed in the iat claim)
+ Also note leap seconds in Windows vs nix.
+ </summary>
+	<remarks>Sorry #rapture fans: If the world still exists on 01/19/2038, this is an issue (Integer)</remarks>
+</member><member name="P:paycircuit.com.google.iap.InAppItemObject.iss">
+	<summary>
+ Required. Issuer Claim. Your Merchant/Seller ID. 
+ On Postback from Google: This will be set by Google to "Google", and will be verified (case-sensitive). Adjust callback handler as needed.
+ </summary>
+	<value></value>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="P:paycircuit.com.google.iap.InAppItemObject.aud">
+	<summary>
+ Required. Audience Claim. Default is "Google". Provide value for future api version changes.
+ On Postback from Google: This will be set by Google to your  Merchant/Seller ID and will be verified. Adjust callback handler as needed
+ </summary>
+	<value></value>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="P:paycircuit.com.google.iap.InAppItemObject.typ">
+	<summary>
+ Required. Type Claim. Default is "google/payments/inapp/item/v1". Provide value for future api version changes.
+ On  Postback from Google: This will be set by Google and will be verified. Currently "google/payments/inapp/item/v1/postback/buy". Adjust callback handler as needed.
+ </summary>
+	<value></value>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="P:paycircuit.com.google.iap.InAppItemObject.iat">
+	<summary>
+ Required. Issued At Claim. The time when the JWT was issued.
+ Specified in number of seconds from 1970-01-01T0:0:0Z as measured in UTC until the desired date/time.
+ Default value is current server time with a clock adjustment of -1 minute.
+ On Postback from Google: Google will set this value and will be verified.
+ </summary>
+	<value></value>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="P:paycircuit.com.google.iap.InAppItemObject.exp">
+	<summary>
+ Optional. Expiration claim. Must be greater than issued at (iat) and maximum of 1 hour after issued at (iat).
+ Specified in number of seconds from 1970-01-01T0:0:0Z as measured in UTC until the desired date/time.
+ On Postback from Google: Google will set this value and will be verified.
+ </summary>
+	<value></value>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="P:paycircuit.com.google.iap.InAppItemObject.request">
+	<summary>
+ Required. Instance of InAppItemRequestObject.
+ </summary>
+	<value></value>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="P:paycircuit.com.google.iap.InAppItemObject.response">
+	<summary>
+ Used only on Google Postback
+ Contains orderID
+ </summary>
+	<value></value>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:paycircuit.com.google.iap.InAppItemObject.#ctor">
+	<summary>
+ When using this constructor, refer to property Intellisense documentation/information/hints for requirements.
+ Refer to Google documentation.
+ </summary>
+	<remarks></remarks>
+</member><member name="M:paycircuit.com.google.iap.InAppItemObject.#ctor(System.String,System.String,System.String,System.String,System.String,System.String,System.Nullable{System.Int32},System.String,System.String,System.Int32)">
+	<summary>
+ This constructor initializes a new InAppItemRequestObject.
+ Text values exceeding maximum length requirements will be truncated. 
+ Use named arguments for optional parameters if you don't provide all.
+ </summary>
+	<param name="name50">Required (name). Maximium of 50 characters (excess truncated).</param>
+	<param name="description100">Optional (description). Pass null, Nothing or String.Empty to prevent serialization of this property. Maximum of 100 characters (excess truncated).</param>
+	<param name="price">Required (price). Up to 2 decimal places only. Google will reject value exceeding 2 decimal places.</param>
+	<param name="isoCurrency3">Required (isoCurrencyCode). 3 letter ISO Currency. e.g. USD (excess truncated).</param>
+	<param name="sellerData200">Optional (sellerData). Pass null, Nothing or String.Empty to prevent serialization of this property. Maximum of 200 characters (excess truncated). </param>
+	<param name="sellerId">Required (iss). Your Seller ID when building your JWT (you are issuer). On postback, Google is issuer and will set this value ("Google").</param>
+	<param name="expMin60">Optional (exp). Maximium value is 60 (minutes from iat). Pass null or Nothing to prevent serialization of this property.</param>
+	<param name="optionalAud">This is an optional parameter. Use only to override default aud value ("Google").</param>
+	<param name="optionalTyp">This is an optional parameter. Use only to override default typ value ("google/payments/inapp/item/v1").</param>
+	<param name="optionalIat">This is an optional parameter. Use only to override default iat value (current UTC time in number of seconds from Unix epoch with skew of -60 secs).</param>
+	<remarks>Google Sites reference: http://sites.google.com/site/inapppaymentsapi/reference </remarks>
+</member><member name="T:paycircuit.com.google.iap.InAppItemObject">
+	<summary>
+ Google In-App Payments specific JWT implementation
+ </summary>
+	<remarks>https://sites.google.com/site/inapppaymentsapi/home</remarks>
+</member><member name="P:paycircuit.com.google.iap.InAppItemRequestObject.currencyCode">
+	<summary>
+ Required. A 3-character currency code that defines the billing currency. Currently the only supported currency code is USD.
+ </summary>
+	<value></value>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="P:paycircuit.com.google.iap.InAppItemRequestObject.price">
+	<summary>
+ Required. The purchase price of the item, with up to 2 decimal places.
+ Google will reject value exceeding 2 decimal places.
+ </summary>
+	<value></value>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="P:paycircuit.com.google.iap.InAppItemRequestObject.sellerData">
+	<summary>
+ Optional: Data to be passed to your success and failure callbacks. The string can have no more than 200 characters.
+ </summary>
+	<value></value>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="P:paycircuit.com.google.iap.InAppItemRequestObject.name">
+	<summary>
+ Required. The name of the item. This name is displayed prominently in the purchase flow UI and can have no more than 50 characters.
+ </summary>
+	<value></value>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="P:paycircuit.com.google.iap.InAppItemRequestObject.description">
+	<summary>
+ Optional: Text that describes the item. This description is displayed in the purchase flow UI and can have no more than 100 characters.
+ </summary>
+	<value></value>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:paycircuit.com.google.iap.InAppItemRequestObject.#ctor">
+	<summary>
+ Refer to property Intellisense documentation/information/hints for requirements (will throw exception).
+ </summary>
+	<remarks></remarks>
+</member><member name="P:paycircuit.com.google.iap.InAppItemResponseObject.orderId">
+	<summary>
+ A unique identifier for this transaction (this is set by Google on postback)
+ </summary>
+	<value></value>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="P:paycircuit.com.google.iap.JWTHeader.alg">
+	<summary>
+ The alg (algorithm) header parameter identifies the cryptographic algorithm used to secure the JWS.
+ The processing of the alg (algorithm) header parameter, if present, requires that the value of the alg header parameter MUST be one that is both supported and for which there exists a key for use with that algorithm associated with the signer of the content. 
+ The alg parameter value is case sensitive. 
+ This header parameter is REQUIRED.
+ </summary>
+	<value></value>
+	<returns></returns>
+	<remarks>Note possible conflicting spec verbiage: Required vs. "if present"</remarks>
+</member><member name="P:paycircuit.com.google.iap.JWTHeader.kid">
+	<summary>
+ The kid (key ID) header parameter is a hint indicating which specific key owned by the signer should be used to validate the signature. 
+ This allows signers to explicitly signal a change of key to recipients. 
+ Omitting this parameter is equivalent to setting it to an empty string. 
+ The interpretation of the contents of the kid parameter is unspecified. 
+ This header parameter is OPTIONAL.
+ </summary>
+	<value></value>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="P:paycircuit.com.google.iap.JWTHeader.typ">
+	<summary>
+ The typ (type) header parameter is used to declare the type of the signed content. 
+ The typ value is case sensitive. 
+ This header parameter is OPTIONAL.
+ Possible values: "JWT" or "http://openid.net/specs/jwt/1.0".
+ </summary>
+	<value></value>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="P:paycircuit.com.google.iap.JWTHeader.jku">
+	<summary>
+ The jku (JSON Key URL) header parameter is a URL that points to JSON-encoded public keys that can be used to validate the signature. 
+ The keys MUST be encoded as per the JSON Web Key (JWK) [JWK] specification. 
+ This header parameter is OPTIONAL.
+ </summary>
+	<value></value>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="P:paycircuit.com.google.iap.JWTHeader.x5u">
+	<summary>
+ The x5u (X.509 URL) header parameter is a URL utilizing TLS RFC 5785 [RFC5785] that points to an X.509 public key certificate or certificate chain that can be used to validate the signature. 
+ This certificate or certificate chain MUST use the PEM encoding RFC 1421 [RFC1421] and MUST conform to RFC 5280 [RFC5280]. 
+ This header parameter is OPTIONAL.
+ </summary>
+	<value></value>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="P:paycircuit.com.google.iap.JWTHeader.x5t">
+	<summary>
+ The x5t (x.509 certificate thumbprint) header parameter provides a base64url encoded SHA-1 thumbprint (a.k.a. digest) of the DER encoding of an X.509 certificate that can be used to match the certificate. 
+ This header parameter is OPTIONAL.
+ </summary>
+	<value></value>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:paycircuit.com.google.iap.JWTHeaderObject.#ctor">
+	<summary>
+ When using this constructor, refer to property Intellisense documentation/information/hints for requirements.
+ </summary>
+	<remarks></remarks>
+</member><member name="M:paycircuit.com.google.iap.JWTHeaderObject.#ctor(System.String)">
+	<summary>
+ Alg only constructor.
+ </summary>
+	<param name="alg">Google In-App Payments only supports "HS256".</param>
+	<remarks></remarks>
+</member><member name="M:paycircuit.com.google.iap.JWTHeaderObject.#ctor(paycircuit.com.google.iap.JWTHeaderObject.JWTHash)">
+	<summary>
+ Alg only constructor.
+ </summary>
+	<param name="alg">Google In-App Payments only supports JWTHash.HS256 (HS256)</param>
+	<remarks></remarks>
+</member><member name="M:paycircuit.com.google.iap.JWTHeaderObject.#ctor(System.String,System.String)">
+	<summary>
+ Alg and Kid constructor.
+ </summary>
+	<param name="alg">Google In-App Payments only supports "HS256"</param>
+	<param name="kid">At this time your Google account only has one key so if you will use this consturctor: "1"</param>
+	<remarks></remarks>
+</member><member name="M:paycircuit.com.google.iap.JWTHeaderObject.#ctor(paycircuit.com.google.iap.JWTHeaderObject.JWTHash,System.String)">
+	<summary>
+ Alg and Kid constructor.
+ </summary>
+	<param name="alg">Google In-App Payments only supports JWTHash.HS256 (HS256)</param>
+	<param name="kid">At this time your Google account only has one key so if you will use this consturctor: "1"</param>
+	<remarks></remarks>
+</member><member name="M:paycircuit.com.google.iap.JWTHeaderObject.#ctor(System.String,System.String,System.String)">
+	<summary>
+ Alg, Kid and Typ constructor.
+ </summary>
+	<param name="alg">Google In-App Payments only supports "HS256"</param>
+	<param name="kid">At this time your Google account only has one key so if you will use this consturctor: "1"</param>
+	<param name="typ">Set to "JWT"</param>
+	<remarks></remarks>
+</member><member name="M:paycircuit.com.google.iap.JWTHeaderObject.#ctor(paycircuit.com.google.iap.JWTHeaderObject.JWTHash,System.String,System.String)">
+	<summary>
+ Alg, Kid and Typ constructor.
+ </summary>
+	<param name="alg">Google In-App Payments only supports JWTHash.HS256 (HS256)</param>
+	<param name="kid">At this time your Google account only has one key so if you will use this consturctor: "1"</param>
+	<param name="typ">Set to "JWT"</param>
+	<remarks></remarks>
+</member><member name="T:paycircuit.com.google.iap.JWTHeaderObject.JWTHash">
+	<summary>
+ 06/21/2011: In-App Payments API currently uses JWT v1 and HMAC SHA-256 encryption
+ </summary>
+	<remarks>http://sites.google.com/site/inapppaymentsapi/reference#jwt</remarks>
+</member><member name="P:paycircuit.com.google.iap.JWTClaim.iss">
+	<summary>
+ The iss (issuer) claim identifies the principal that issued the JWT. 
+ The processing of this claim is generally application specific. 
+ The iss value is case sensitive. 
+ This claim is OPTIONAL.
+ </summary>
+	<value></value>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="P:paycircuit.com.google.iap.JWTClaim.aud">
+	<summary>
+ The aud (audience) claim identifies the audience that the JWT is intended for. 
+ The principal intended to process the JWT MUST be identified by the value of the audience claim. 
+ If the principal processing the claim does not identify itself with the identifier in the aud claim value then the JWT MUST be rejected. 
+ The interpretation of the contents of the audience value is generally application specific. 
+ The aud value is case sensitive. This claim is OPTIONAL.
+ </summary>
+	<value></value>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="P:paycircuit.com.google.iap.JWTClaim.typ">
+	<summary>
+ The typ (type) claim is used to declare a type for the contents of this JWT. 
+ The typ value is case sensitive. 
+ This claim is OPTIONAL.
+ </summary>
+	<value></value>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="P:paycircuit.com.google.iap.JWTClaim.iat">
+	<summary>
+ The iat (issued at) claim identifies the UTC time at which the JWT was issued. 
+ The processing of the iat claim requires that the current date/time MUST be after the issued date/time listed in the iat claim. 
+ Implementers MAY provide for some small leeway, usually no more than a few minutes, to account for clock skew. 
+ This claim is OPTIONAL.
+ </summary>
+	<value></value>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="P:paycircuit.com.google.iap.JWTClaim.exp">
+	<summary>
+ The exp (expiration time) claim identifies the expiration time on or after which the token MUST NOT be accepted for processing. 
+ The processing of the exp claim requires that the current date/time MUST be before the expiration date/time listed in the exp claim. 
+ Implementers MAY provide for some small leeway, usually no more than a few minutes, to account for clock skew. 
+ This claim is OPTIONAL.
+ </summary>
+	<value></value>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="F:paycircuit.com.google.iap.JWTHelpers.UNIX_EPOCH_TICKS">
+	<summary>
+ DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc).Ticks = 621355968000000000
+ </summary>
+	<remarks></remarks>
+</member><member name="M:paycircuit.com.google.iap.JWTHelpers.jwtEncodeB64Url(System.String)">
+	<summary>
+ Base64url encoder
+ </summary>
+	<param name="jsonString">String to Base64url encode</param>
+	<returns>Base64url string</returns>
+	<remarks></remarks>
+</member><member name="M:paycircuit.com.google.iap.JWTHelpers.jwtDecodeB64Url(System.String)">
+	<summary>
+ Base64url decoder
+ </summary>
+	<param name="base64UrlString">Base64url string to decode</param>
+	<returns>Decoded string</returns>
+	<remarks></remarks>
+</member><member name="M:paycircuit.com.google.iap.JWTHelpers.jwtHMAC256(System.String,System.String)">
+	<summary>
+ Generate HMAC SHA-256 signature
+ </summary>
+	<param name="jwtHeaderAndClaim">Concatenated Base64url Header Input and Payload Input, delimited by period (.)</param>
+	<param name="sellerSecret">Your Seller Secret</param>
+	<returns>JWT signature</returns>
+	<remarks></remarks>
+</member><member name="M:paycircuit.com.google.iap.JWTHelpers.buildJWT(paycircuit.com.google.iap.JWTHeaderObject,paycircuit.com.google.iap.InAppItemObject,System.String)">
+	<summary>
+ Build JWT
+ </summary>
+	<param name="HeaderObj">JWTHeaderObject</param>
+	<param name="ClaimObj">InAppItemObject</param>
+	<param name="sellerSecret">Your Seller Secret</param>
+	<returns>JWT string</returns>
+	<remarks></remarks>
+</member><member name="M:paycircuit.com.google.iap.JWTHelpers.verifyJWT(System.String,System.String,System.String@,System.String@)">
+	<summary>
+ Verify JWT (header test and signature matching only)
+ </summary>
+	<param name="jwtString">The raw JWT string to parse</param>
+	<param name="sellerSecret">Your Seller Secret</param>
+	<param name="jwtHeader">out: string for deserializing to JWTHeaderObject if TRUE</param>
+	<param name="jwtClaim">out: string for deserializing to InAppItemObject if TRUE</param>
+	<returns>Boolean</returns>
+	<remarks></remarks>
+</member><member name="M:paycircuit.com.google.iap.JWTHelpers.verifyJWT(System.String,System.String,System.String,System.Int32,System.String,System.String,paycircuit.com.google.iap.JWTHeaderObject@,paycircuit.com.google.iap.InAppItemObject@)">
+	<summary>
+  A stricter JWT verification routine. Verifies values in header and payload (not just signuature matching).
+ </summary>
+	<param name="iss">Issuer claim: will be compared with JWT iss. Currently "Google" (case-sensitive).</param>
+	<param name="aud">Audience claim: will be compared with JWT aud. Must match your Merchant/Seller ID (case-sensitive).</param>
+	<param name="typ">Type Claim: will by compared with JWT typ. Currently "goog.payments.inapp.buyItem.v1.postback"</param>
+	<param name="clockSkewMinutes">Minute(s) to adjust your clock. 0 for no adjustment. Behavior: add when verifying iat, subtract when verifying exp. Restrict to a few mintues only.</param>
+	<param name="jwtString">The raw JWT string to parse</param>
+	<param name="sellerSecret">Your Seller Secret</param>
+	<param name="HeaderObj">out: JWTHeaderObject</param>
+	<param name="ClaimObj">out: InAppItemObject</param>
+	<returns>Boolean</returns>
+	<remarks></remarks>
+</member><member name="M:paycircuit.com.google.iap.JWTHelpers.parseJWTHashEnum(System.String)">
+	<summary>
+ Parses string to enum
+ </summary>
+	<param name="algString">String to parse</param>
+	<returns>JWTHeaderObject.JWTHash enum (returns JWTHeaderObject.JWTHash.none if match is not found). Google In-App Payments currently only uses HS256 (06/2011)</returns>
+	<remarks></remarks>
+</member><member name="M:paycircuit.com.google.iap.JWTHelpers.myServerClock">
+	<summary>
+ The number of seconds from 1970-01-01T0:0:0Z as measured in UTC until the desired date/time. 
+ </summary>
+	<returns>Integer</returns>
+	<remarks>If by any chance this is still in use in 2038, revisit this before 1/19/2038 (Int32 to Int64)</remarks>
+</member><member name="M:paycircuit.com.google.iap.JWTHelpers.convertToBase64url(System.String)">
+	<summary>
+ Converts base64 string to base64url
+ </summary>
+	<param name="s">base64 string</param>
+	<returns>base64url string</returns>
+	<remarks></remarks>
+</member><member name="M:paycircuit.com.google.iap.JWTHelpers.verifySignature(System.String,System.String,System.String,System.String,System.String)">
+	<summary>
+ Signature verification
+ </summary>
+	<param name="alg">JWT Header alg string</param>
+	<param name="jwtHeader">Raw JWT header claim</param>
+	<param name="jwtClaim">Raw JWT payload claim</param>
+	<param name="jwtSignature">Raw JWT signature</param>
+	<param name="sellerSecret">YOUR SELLER KEY</param>
+	<returns>Boolean</returns>
+	<remarks></remarks>
+</member><member name="M:paycircuit.com.google.iap.JWTHelpers.jwtHMAC384(System.String,System.String)">
+	<summary>
+ Generate HMAC SHA-384 signature. Not used for Google In-App Payments (06/2011).
+ </summary>
+	<param name="jwtHeaderAndClaim">Concatenated Base64url Header Input and Payload Input, delimited by period (.)</param>
+	<param name="sellerSecret">Your Seller Secret</param>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:paycircuit.com.google.iap.JWTHelpers.jwtHMAC512(System.String,System.String)">
+	<summary>
+ Generate HMAC SHA-512 signature. Not used for Google In-App Payments (06/2011).
+ </summary>
+	<param name="jwtHeaderAndClaim">Concatenated Base64url Header Input and Payload Input, delimited by period (.)</param>
+	<param name="sellerSecret">Your Seller Secret</param>
+	<returns></returns>
+	<remarks></remarks>
+</member>
+</members>
+</doc>

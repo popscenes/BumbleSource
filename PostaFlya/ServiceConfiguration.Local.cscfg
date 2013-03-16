@@ -35,6 +35,10 @@
       <Setting name="PaypalCallbackUrl" value="/Payment/PayPalSuccess"/>
       <Setting name="PaypalCancelUrl" value="/Payment/Cancel"/>
 
+      <Setting name="GoogleWalletSellerId" value="08584053315349997151"/>
+      <Setting name="GoogleWalletSecret" value="FSTqPHezgu_-8Hbjpf5OGw"/>
+      <Setting name="GooglePaymentUrl" value="http://127.0.0.1:81/Payment/GoogleWallet"/>
+
       <Setting name="TinyUrlBase" value="http://tfly.in:81/"/> <!-- set hosts file to point to localhost -->
       <Setting name="SiteUrl" value="http://127.0.0.1:81"/>
       <!-- set hosts file to point to localhost -->

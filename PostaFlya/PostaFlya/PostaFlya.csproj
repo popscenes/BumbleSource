@@ -800,6 +800,7 @@
     <Content Include="Views\Shared\Location\MapAndDistance.cshtml" />
     <Content Include="Views\Shared\Contact\ContactDetailsViewPartial.cshtml" />
     <Content Include="Views\Shared\Header\BulletinRightToolbar.cshtml" />
+    <Content Include="Views\Payment\GoogleWallet.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -1,0 +1,21 @@
+﻿@using System.Web.Optimization
+
+
+@section scripts{
+    @Styles.Render("~/Content/structure/Payment/DeskCss.css")   
+    @Styles.Render("~/Content/themes/taskflya/Payment/DeskCss.css")   
+    @Scripts.Render("~/Script/PaymentDeskJs.js") 
+    <script src="https://sandbox.google.com/checkout/inapp/lib/buy.js"></script>
+    <script type="text/javascript">
+
+        $(document).ready(function() {
+                google.payments.inapp.buy({
+                    parameters: {},
+                    jwt: "@ViewBag.Jwt",
+                    success: function () { window.location = '@Html.Raw(Url.Action("PaymentDone", "Payment", new { message = "Payment Successful", success=true }))'; },
+                    failure: function () { window.location = '@Html.Raw(Url.Action("PaymentDone", "Payment", new { message = "Payment Failed", success=false }))'; }
+            });
+        });
+    </script>
+}
+

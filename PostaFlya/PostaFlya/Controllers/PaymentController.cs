@@ -48,6 +48,38 @@ namespace PostaFlya.Controllers
             return new RedirectResult(paymentService.LaunchPaymentProcess(PaymentType.AccountCredit.ToString(), _browserInfo.Browser.Id, amount).ToString());
         }
 
+        public ViewResult GoogleWallet(String jwt)
+        {
+            ViewBag.Jwt = jwt;
+            return View();
+        }
+
+        public ActionResult  GoogleWalletCallback()
+        {
+            var paymentService = _paymentServiceProvider.GetPaymentServiceByName("googleWallet");
+            var transaction = paymentService.Processpayment(_httpContext.Request);
+            transaction.Time = DateTimeOffset.UtcNow;
+            var browser = _queryService.FindById<Browser>(transaction.PaymentEntityId);
+            var paymentPackage = _paymentPackageService.Get(transaction.Amount);
+
+            var transactionCommand = new PaymentTransactionCommand()
+            {
+                Entity = browser,
+                Transaction = transaction,
+                Package = paymentPackage
+            };
+
+
+            //what if this fails?
+            var res = _commandBus.Send(transactionCommand) as MsgResponse;
+            if ((res == null || res.IsError) && transaction.Status == PaymentTransactionStatus.Success)
+            {
+                return new HttpStatusCodeResult(500);
+            }
+            Response.Write(transaction.TransactionId);
+            return new HttpStatusCodeResult(200);
+        }
+
         public ViewResult PayPalSuccess(String token, String PayerID)
         {
             var paymentService = _paymentServiceProvider.GetPaymentServiceByName("paypal");
@@ -70,12 +102,6 @@ namespace PostaFlya.Controllers
 
         public ViewResult PaymentCallback(PaymentTransaction transaction)
         {
-            
-
-            //if (transaction.Status == PaymentTransactionStatus.Fail)
-            //{
-            //    return View(viewModel);
-            //}
 
             var browser = _queryService.FindById<Browser>(transaction.PaymentEntityId);
             var paymentPackage = _paymentPackageService.Get(transaction.Amount);
@@ -108,14 +134,31 @@ namespace PostaFlya.Controllers
                 paymentMessage = transaction.Message;
             }
 
+            return PaymentDone(paymentMessage, true);
+        }
+
+        public ViewResult PaymentDone(String message, Boolean success)
+        {
             var viewModel = new PaymentResult()
             {
-                PaymentMessage = paymentMessage,
-                Transaction = transaction
+                PaymentMessage = message,
             };
+
+            if (success)
+            {
+                viewModel.TransactionStatus = "Complete";
+                viewModel.SubHeading = "THANK YOU FOR ADDING FLYA CREDITS";
+            }
+            else
+            {
+                viewModel.TransactionStatus = "Failed";
+                viewModel.SubHeading = "Unfortunetly No Credits were added";
+            }
 
             return View("PaymentCallback", viewModel);
         }
+
+
 
         public ViewResult PaymentTransactions()
         {
