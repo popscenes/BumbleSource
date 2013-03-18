@@ -113,6 +113,8 @@
     <Compile Include="Command\DataBusCommandSerializerTests.cs" />
     <Compile Include="Command\QueueCommandBusTests.cs" />
     <Compile Include="Extension\Email\MailMessageExtensionsTests.cs" />
+    <Compile Include="Intergrations\FatZebraIntergrationTests.cs" />
+    <Compile Include="Intergrations\GoogleWalletDigitalGoodsTests.cs" />
     <Compile Include="Mocks\TestCommandQueueFactory.cs" />
     <Compile Include="ApplicationCommunication\BroadcastCommunicatorTests.cs" />
     <Compile Include="Content\ExifImageTests.cs" />

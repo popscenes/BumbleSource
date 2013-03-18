@@ -70,7 +70,7 @@ namespace PostaFlya.Binding
 
             var paymentServiveProvider = Kernel.Get<PaymentServiceProviderInterface>();
             var config = Kernel.Get<ConfigurationServiceInterface>();
-            var paypal = new PaypalExpressCheckout();
+            /*var paypal = new PaypalExpressCheckout();
             if (Config.Instance != null)
             {
                 paypal = new PaypalExpressCheckout()
@@ -85,7 +85,19 @@ namespace PostaFlya.Binding
                         CancelUrl = config.GetSetting("SiteUrl") + config.GetSetting("PaypalCancelUrl")
                     };
             }
-            paymentServiveProvider.Add(new PaypalPaymentService(){ PaypalExpressCheckout = paypal});
+            paymentServiveProvider.Add(new PaypalPaymentService(){ PaypalExpressCheckout = paypal});*/
+
+            if (Config.Instance != null)
+            {
+                var googleWallet = new GoogleWalletDigitalGoods()
+                    {
+                        Secret = config.GetSetting("GoogleWalletSecret"),
+                        SellerId = config.GetSetting("GoogleWalletSellerId"),
+                        PaymentUrl = config.GetSetting("GooglePaymentUrl"),
+                    };
+                paymentServiveProvider.Add(new GoogleWalletPaymentService() {GoogleWalletDigitalGoods = googleWallet});
+            }
+
 
 
 //in memory caching

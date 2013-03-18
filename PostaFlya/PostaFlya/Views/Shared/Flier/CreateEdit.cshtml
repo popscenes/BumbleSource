@@ -167,7 +167,7 @@
                     @Html.ValidationMessageFor(model => model.TagsString)
                     @Html.HiddenFor(model => model.TagsString, new { data_bind = "value:SelectedTags()" })
                 
-                    <span class="bulletin-tags-selector">
+                    <span class="">
                         @Html.Partial("Tags/TagsSelector")
                     </span>
                 </li>

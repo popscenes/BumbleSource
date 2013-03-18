@@ -98,6 +98,12 @@ namespace PostaFlya.Controllers
             if (!loc.IsValid())
                 return GetDefaultFliers();
 
+            if (_browserInformation.LastSearchLocation == null)
+            {
+                _browserInformation.LastSearchLocation = new Location();
+            }
+            _browserInformation.LastSearchLocation.CopyFieldsFrom(loc);
+            
             _webAnalyticService.SetLastSearchLocation(loc.ToDomainModel());
             return GetFliers(_flierSearchService, _queryService, _blobStorage, _viewModelFactory
                              , loc, count, board: board, skipPast: skipPast, distance: distance, tags: tags);

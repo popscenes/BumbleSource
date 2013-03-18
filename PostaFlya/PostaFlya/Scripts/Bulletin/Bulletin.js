@@ -15,11 +15,18 @@
 
         self.ShowMap = ko.observable(false);
         self.Distance = ko.observable(5);
-        self.Location = ko.observable(new bf.LocationModel());
+        var currentBrowser = bf.currentBrowserInstance;
+
+        var currentLocation = ko.mapping.fromJS(currentBrowser.LastSearchedLocation, {}, this);
+        currentLocation = $.extend(new bf.LocationModel(), currentLocation);
+
+        self.Location = ko.observable(currentLocation);
 
         self.CreateFlier = ko.observable();
 
         self.Layout = tileLayout;
+
+        
         
         self.HelpTipPage = 'bulletin';
         self.HelpTipGroups = 'about-posta,bulletin-toolbar,global-toolbar';
