@@ -1,6 +1,7 @@
 using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
+using PostaFlya.Application.Domain.Browser;
 using Website.Application.Binding;
 using PostaFlya.Models.Browser;
 using Website.Application.Content;
@@ -10,10 +11,10 @@ namespace PostaFlya.Controllers
 {
     public class BrowserInformationController : Controller
     {
-        private readonly BrowserInformationInterface _browserInformation;
+        private readonly PostaFlyaBrowserInformationInterface _browserInformation;
         private readonly BlobStorageInterface _blobStorage;
 
-        public BrowserInformationController(BrowserInformationInterface browserInformation
+        public BrowserInformationController(PostaFlyaBrowserInformationInterface browserInformation
             , [ImageStorage]BlobStorageInterface blobStorage)
         {
             _browserInformation = browserInformation;

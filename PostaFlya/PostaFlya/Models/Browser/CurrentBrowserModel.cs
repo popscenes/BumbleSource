@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using PostaFlya.Application.Domain.Browser;
 using PostaFlya.Domain.Flier;
 using PostaFlya.Models.Flier;
 using PostaFlya.Models.Location;
@@ -19,11 +20,12 @@ namespace PostaFlya.Models.Browser
         public List<string> Roles { get; set; }
         public double Credits { get; set; }  
         public ContactDetailsModel ContactDetails { get; set; }
+        public LocationModel LastSearchedLocation { get; set; }
     }
 
     public static class BulletinFlierModelFlierInterfaceExtension
     {
-        public static CurrentBrowserModel ToCurrentBrowserModel(this BrowserInformationInterface browserInfo, BlobStorageInterface blobStorage)
+        public static CurrentBrowserModel ToCurrentBrowserModel(this PostaFlyaBrowserInformationInterface browserInfo, BlobStorageInterface blobStorage)
         {
             var ret =  new CurrentBrowserModel()
             {
@@ -33,7 +35,8 @@ namespace PostaFlya.Models.Browser
                 SavedTags = browserInfo.Browser.SavedTags.Select(_ => _.ToString()).ToList(),
                 Roles = browserInfo.Browser.Roles.Select(r => r).ToList(),
                 Credits = browserInfo.Browser.AccountCredit,
-                ContactDetails = browserInfo.Browser.ToViewModel()
+                ContactDetails = browserInfo.Browser.ToViewModel(),
+                LastSearchedLocation = browserInfo.LastSearchLocation.ToViewModel()
             };
 
             ret.SetBrowserViewModel(browserInfo.Browser, blobStorage);

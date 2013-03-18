@@ -53,9 +53,9 @@ namespace PostaFlya.Domain.Binding
                 .InSingletonScope();
 
             var paymentServiveProvider = Kernel.Get<PaymentPackageServiceInterface>();
-            paymentServiveProvider.Add(new CreditPaymentPackage(){Credits = 1000, Payment = 10.00});
-            paymentServiveProvider.Add(new CreditPaymentPackage() { Credits = 2000, Payment = 18.00 });
-            paymentServiveProvider.Add(new CreditPaymentPackage() { Credits = 3000, Payment = 25.00 });
+            paymentServiveProvider.Add(new CreditPaymentPackage(){Credits = 200, Payment = 2.00});
+            paymentServiveProvider.Add(new CreditPaymentPackage() { Credits = 500, Payment = 5.00 });
+            paymentServiveProvider.Add(new CreditPaymentPackage() { Credits = 1000, Payment = 10.00 });
             
 
             var kernel = Kernel as StandardKernel;
