@@ -11,6 +11,7 @@ using Website.Application.Content;
 using Website.Application.Schedule;
 using Website.Application.Tests.Mocks;
 using Website.Application.Util;
+using Website.Domain.Tag;
 using Website.Infrastructure.Configuration;
 
 namespace PostaFlya.Application.Domain.Tests.SiteMap
@@ -53,8 +54,8 @@ namespace PostaFlya.Application.Domain.Tests.SiteMap
             var flierCount = 1;
             Kernel.Unbind<FlierSearchServiceInterface>();
             var searchService = Kernel.GetMock<FlierSearchServiceInterface>();
-            searchService.Setup(src => src.IterateAllIndexedFliers(It.IsAny<int>(), It.IsAny<FlierInterface>(), It.IsAny<bool>()))
-                         .Returns<int, FlierInterface, bool>((mintake, skip, friendly) =>
+            searchService.Setup(src => src.IterateAllIndexedFliers(It.IsAny<int>(), It.IsAny<FlierInterface>(), It.IsAny<bool>(), It.IsAny<Tags>()))
+                         .Returns<int, FlierInterface, bool, Tags>((mintake, skip, friendly, tags) =>
                              {
                                  IList<string> ret = new List<string>();
                                  for (var i = 0; i < mintake && flierCount <= 60; i++)

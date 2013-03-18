@@ -117,6 +117,7 @@ namespace PostaFlya.DataRepository.Tests
             var uow = Kernel.Get<UnitOfWorkFactoryInterface>()
                 .GetUnitOfWork(new List<RepositoryInterface>() {_repository});
 
+            var rand = new Random();
             var indexer = Kernel.Get<SqlFlierIndexService>();
             using (uow)
             {
@@ -135,6 +136,7 @@ namespace PostaFlya.DataRepository.Tests
                 var outOfRangeFlier = new Domain.Flier.Flier();
                 outOfRangeFlier.CopyFieldsFrom(flier);
                 outOfRangeFlier.Id = Guid.NewGuid().ToString();
+                outOfRangeFlier.CreateDate = outOfRangeFlier.CreateDate.AddSeconds(rand.Next(-1000, 1000));
                 outOfRangeFlier.Location = new Location(flier.Location.Longitude + 10, flier.Location.Latitude);
                 _repository.Store(outOfRangeFlier);
                 indexer.Publish(new FlierModifiedEvent() { NewState = outOfRangeFlier });
@@ -142,6 +144,7 @@ namespace PostaFlya.DataRepository.Tests
                 outOfRangeFlier = new Domain.Flier.Flier();
                 outOfRangeFlier.CopyFieldsFrom(flier);
                 outOfRangeFlier.Id = Guid.NewGuid().ToString();
+                outOfRangeFlier.CreateDate = outOfRangeFlier.CreateDate.AddSeconds(rand.Next(-1000, 1000));
                 outOfRangeFlier.Location = new Location(flier.Location.Longitude, flier.Location.Latitude + 10);
                 _repository.Store(outOfRangeFlier);
                 indexer.Publish(new FlierModifiedEvent() { NewState = outOfRangeFlier });
@@ -150,6 +153,7 @@ namespace PostaFlya.DataRepository.Tests
                 outOfRangeFlier = new Domain.Flier.Flier();
                 outOfRangeFlier.CopyFieldsFrom(flier);
                 outOfRangeFlier.Id = Guid.NewGuid().ToString();
+                outOfRangeFlier.CreateDate = outOfRangeFlier.CreateDate.AddSeconds(rand.Next(-1000, 1000));
                 outOfRangeFlier.Location = new Location(flier.Location.Longitude + 10, flier.Location.Latitude + 10);
                 _repository.Store(outOfRangeFlier);
                 indexer.Publish(new FlierModifiedEvent() { NewState = outOfRangeFlier });
@@ -177,6 +181,26 @@ namespace PostaFlya.DataRepository.Tests
         public void FindFliersByLocationAndTagsRepositoryTest()
         {
             FindFliersByLocationAndTagsRepository();
+        }
+
+        [Test]
+        public void TestIterateAllFliers()
+        {
+            var storedFlier = StoreFlierRepository();
+
+            int count = 0;
+            FlierInterface skip = null;
+            do
+            {
+                var ret = _searchService.IterateAllIndexedFliers(1, skip);
+                skip = ret.LastOrDefault() == null ? null : _queryService.FindById<Domain.Flier.Flier>(ret.LastOrDefault());
+                count += ret.Count;
+
+            } while (skip != null);
+
+
+            Assert.That(count, Is.EqualTo(5));
+
         }
 
         [Test]

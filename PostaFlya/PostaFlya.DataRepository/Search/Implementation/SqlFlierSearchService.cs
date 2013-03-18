@@ -124,7 +124,7 @@ namespace PostaFlya.DataRepository.Search.Implementation
 
         }
 
-        public IList<string> IterateAllIndexedFliers(int take, FlierInterface skipPast, bool returnFriendlyId = false)
+        public IList<string> IterateAllIndexedFliers(int take, FlierInterface skipPast, bool returnFriendlyId = false, Tags tags = null)
         {
             var sqlCmd = _searhStringAll;
             var watch = new Stopwatch();
@@ -146,6 +146,7 @@ namespace PostaFlya.DataRepository.Search.Implementation
                         distance = 0,
                         top = take,
                         skipPastDate = skipPast == null ? (DateTimeOffset?)null : new DateTimeOffset(skipPast.CreateDate),
+                        xpath = GetTagFilter(tags)
 
                     }, true).ToList();
 

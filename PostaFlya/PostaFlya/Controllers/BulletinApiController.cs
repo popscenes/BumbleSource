@@ -96,7 +96,7 @@ namespace PostaFlya.Controllers
             , string skipPast = "", int distance = 0, string tags = "")
         {
             if (!loc.IsValid())
-                return GetDefaultFliers();
+                return GetDefaultFliers(count, skipPast, tags);
 
             if (_browserInformation.LastSearchLocation == null)
             {
@@ -109,8 +109,15 @@ namespace PostaFlya.Controllers
                              , loc, count, board: board, skipPast: skipPast, distance: distance, tags: tags);
         }
 
-        private IList<BulletinFlierModel> GetDefaultFliers()
+        private IList<BulletinFlierModel> GetDefaultFliers(int count, string skipPast, string tags)
         {
+            var skipFlier = string.IsNullOrWhiteSpace(skipPast) ? null : _queryService.FindById<Flier>(skipPast);
+            var ids = _flierSearchService.IterateAllIndexedFliers(count, skipFlier, false, new Tags(tags));
+            if (ids.Count > 0)
+                return IdsToModel(ids, _queryService, _blobStorage, _viewModelFactory);
+            if(skipFlier != null)
+                return new List<BulletinFlierModel>();
+
             var defaultIds = _configurationService.GetSetting("DefaultFliers");
             return string.IsNullOrWhiteSpace(defaultIds) ? new List<BulletinFlierModel>() : 
                 IdsToModel(defaultIds.Split(','), _queryService, _blobStorage, _viewModelFactory);
