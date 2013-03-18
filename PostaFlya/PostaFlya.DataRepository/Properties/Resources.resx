@@ -118,59 +118,16 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="SqlAllOrderedBy" xml:space="preserve">
-    <value>;WITH sorted AS 
-( 
-    SELECT  Id, FriendlyId, CreateDate, ROW_NUMBER() OVER
-                        (ORDER BY {0}) AS RN 
-    FROM    FlierSearchRecord 
-) 
-SELECT top (@take) * 
-FROM sorted 
-WHERE RN &gt; (@skip)</value>
+    <value>FindFliersByLocationAndTags</value>
   </data>
   <data name="SqlSeachFliersByBoard" xml:space="preserve">
-    <value>;WITH sorted AS 
-( 
-	SELECT  bfr.*, 
-			ROW_NUMBER() OVER
-					 (ORDER BY {0}) AS RN 
-	FROM    BoardFlierSearchRecord bfr			
-	WHERE bfr.BoardId = @board AND bfr.BoardStatus = 2
-	{1}  
-) 
-SELECT  {2} *
-FROM sorted 
-WHERE RN &gt; (@skip)</value>
-  </data>
-  <data name="SqlSearchFliersByBoardLocationTags" xml:space="preserve">
-    <value>;WITH sorted AS 
-( 
-	SELECT  Location.STDistance(@loc) as Metres, fr.*, 
-			ROW_NUMBER() OVER
-					 (ORDER BY {0}) AS RN 
-	FROM    FlierSearchRecord fr
-	INNER JOIN BoardFlierLocationSearchRecord bfr
-	ON fr.Id = bfr.FlierId				
-	WHERE bfr.BoardId = @board AND bfr.BoardStatus = 2 AND
-	Location.STDistance(@loc) &lt;= @distance*1000 
-	{1}  
-) 
-SELECT  {2} * 
-FROM sorted 
-WHERE RN &gt; (@skip)</value>
+    <value>FindFliersByBoard</value>
   </data>
   <data name="SqlSearchFliersByLocationTags" xml:space="preserve">
-    <value>;WITH sorted AS 
-            ( 
-                SELECT  Location.STDistance(@loc) as Metres, *, 
-                        ROW_NUMBER() OVER
-                                 (ORDER BY {0}) AS RN 
-                FROM    FlierSearchRecord 
-                WHERE Location.STDistance(@loc) &lt;= @distance*1000 
-            	        {1}  
-            ) 
-            SELECT  {2} * 
-            FROM sorted 
-            WHERE RN &gt; (@skip)</value>
+    <value>FindFliersByLocationAndTags</value>
+  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="StoredProcs" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\StoredProcs.sql;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
 </root>

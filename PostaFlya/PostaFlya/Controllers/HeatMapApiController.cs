@@ -28,7 +28,7 @@ namespace PostaFlya.Controllers
         {
             var location = loc.ToDomainModel();
             var tags = new Tags(tagstring);
-            var flierIds = _flierSearchService.FindFliersByLocationTagsAndDistance(location, tags, null, distance);
+            var flierIds = _flierSearchService.FindFliersByLocationAndDistance(location, distance: distance, take: 1000, tags: tags);
 
             var fliers = flierIds.Select(id => _flierQueryService.FindById<Flier>(id)).Where(f => f != null).AsQueryable();
             return GetHeatMapPointsFromFliers(fliers);

@@ -496,7 +496,7 @@ ko.bindingHandlers.absolutePosFromScroll = {
         var value = ko.utils.unwrapObservable(valueAccessor());
         if (value) {
             $(element).fadeIn();
-            var top = $(window).scrollTop() + 100;
+            var top = $(window).scrollTop();
             $(element).css({
                 'top': top
             });

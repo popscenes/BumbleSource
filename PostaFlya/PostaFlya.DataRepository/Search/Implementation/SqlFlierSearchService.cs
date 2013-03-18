@@ -5,6 +5,7 @@ using System.Data.SqlClient;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using Microsoft.SqlServer.Types;
 using PostaFlya.DataRepository.Search.SearchRecord;
 using PostaFlya.Domain.Flier.Event;
 using PostaFlya.Domain.Flier.Query;
@@ -26,49 +27,22 @@ namespace PostaFlya.DataRepository.Search.Implementation
             _connection = new SqlConnection(searchDbConnectionString);
         }
 
-        public IList<string> FindFliersByLocationTagsAndDistance(Location location, Tags tags, string board = null, int distance = 0, int minTake = 0, FlierSortOrder sortOrder = FlierSortOrder.CreatedDate, int skip = 0)
+        public IList<string> FindFliersByBoard(string board, int take, FlierInterface skipPast = null, Tags tags = null,
+                                       FlierSortOrder sortOrder = FlierSortOrder.CreatedDate, Location location = null, int distance = 5)
         {
-            if (distance <= 0)
-                distance = 10;
-            if (!location.IsValid && !string.IsNullOrWhiteSpace(board))
-                return FindFliersByTagsAndBoard(tags, board, minTake, sortOrder, skip);
-            
-            if(!location.IsValid)
+            if(string.IsNullOrWhiteSpace(board))
                 return new List<string>();
 
-            if(string.IsNullOrWhiteSpace(board))
-                return FindFliersByLocationTagsAndDistanceWithoutBoard(location
-                    , tags, distance, minTake, sortOrder, skip);
 
-            return FindFliersByLocationTagsAndDistanceWithBoard(location
-                , tags, board, distance, minTake, sortOrder, skip);
-        }
+            var sqlCmd = _searhStringByBoard;
 
-        public IList<string> IterateAllIndexedFliers(int minTake, int nextSkip, bool returnFriendlyId = false)
-        {
-            const string orderbyexpress = "CreateDate"; //if fliers are being added while running iteration then they won't affect skip/take
-            var sqlCmd = string.Format(_searhStringAll, orderbyexpress);
-            var watch = new Stopwatch();
-            watch.Start();
-
-            var ret = SqlExecute.Query<FlierSearchRecord>(sqlCmd,
-                _connection
-                , new object[] {}//all shards/partitions
-                , new { skip = nextSkip, take = minTake}).ToList();
-
-            Trace.TraceInformation("IterateAllIndexedFliers time: {0}, numfliers {1}", watch.ElapsedMilliseconds, ret.Count());
-            return ret.Select(sr => returnFriendlyId ? sr.FriendlyId : sr.Id)
-                .Distinct()
-                .ToList();
-        }
-
-        private IList<string> FindFliersByTagsAndBoard(Tags tags, string board, int take, FlierSortOrder sortOrder, int skip)
-        {
-            var orderbyexpress = GetBoardOrderByForSortOrder(sortOrder);
-            var xpathtags = GetTagFilter(tags);
-            var gettagfilter = string.IsNullOrWhiteSpace(xpathtags) ? "" : string.Format(TagFilterTemplate, GetTagFilter(tags));
-            var takeexpress = take > 0 ? "top (@take)" : "";
-            var sqlCmd = string.Format(_searhStringByBoardOnly, orderbyexpress, gettagfilter, takeexpress);
+            //      @board uniqueidentifier,
+            //		@loc geography,
+            //		@top int,
+            //		@distance int,
+            //		@sort int = 1,
+            //		@skipFlier nvarchar(255) = null,
+            //		@xpath nvarchar(1000) = null
 
             var watch = new Stopwatch();
             watch.Start();
@@ -76,77 +50,120 @@ namespace PostaFlya.DataRepository.Search.Implementation
             var ret = SqlExecute.Query<BoardFlierSearchRecord>(sqlCmd,
                 _connection
                 , new object[] { new Guid(board) }
-                , new { skip, take, board }).ToList();
-
-            Trace.TraceInformation("FindFliers time: {0}, numfliers {1}", watch.ElapsedMilliseconds, ret.Count());
-            //query will not fan out as partition is on board
-            return ret.Select(sr => sr.FlierId)
-                .Distinct()
-                .ToList();
-        }
-
-        private IList<string> FindFliersByLocationTagsAndDistanceWithBoard(Location location, Tags tags, string board, int distance, int take, FlierSortOrder sortOrder, int skip)
-        {
-            var orderbyexpress = GetOrderByForSortOrder(sortOrder);
-            var xpathtags = GetTagFilter(tags);
-            var gettagfilter = string.IsNullOrWhiteSpace(xpathtags) ? "" : string.Format(TagFilterTemplate, GetTagFilter(tags));
-            var takeexpress = take > 0 ? "top (@take)" : "";
-            var sqlCmd = string.Format(_searchStringByBoard, orderbyexpress, gettagfilter, takeexpress);
-
-            var watch = new Stopwatch();
-            watch.Start();
-
-            var loc = location.ToGeography();
-            if (loc == null)
-                return new List<string>();
-
-            var ret = SqlExecute.Query<FlierSearchRecordWithDistance>(sqlCmd,
-                _connection
-                , location.GetShardIdsFor(distance).Cast<object>().ToArray()
-                , new { loc, skip, take, distance, board }).ToList();
+                , new
+                {
+                    board = new Guid(board),
+                    loc = location != null && location.IsValid ? location.ToGeography() : null,
+                    distance,
+                    top = take,
+                    sort = GetOrderByForSortOrder(sortOrder),
+                    skipFlier = skipPast != null ? skipPast.Id : null,
+                    xpath = GetTagFilter(tags)
+                }
+                    , true
+                ).ToList();
 
             Trace.TraceInformation("FindFliers time: {0}, numfliers {1}", watch.ElapsedMilliseconds, ret.Count());
             //because of possible federation fan out above make sure we re-order
             //may return more than take but can't avoid that nicely
             var list = ret
-                .OrderBy(sr => sr, SorterForOrder(sortOrder))
-                .Select(sr => sr.Id.ToString()).Distinct().ToList();
-            return list;
+                .Select(sr => sr.FlierId.ToString())
+                .Distinct();
+
+            if (take > 0)
+                list = list.Take(take);
+
+            return list.ToList();
         }
 
-        public IList<string> FindFliersByLocationTagsAndDistanceWithoutBoard(Location location, Tags tags, int distance = 0, int take = 0, FlierSortOrder sortOrder = FlierSortOrder.CreatedDate, int skip = 0)
-        {
-            var orderbyexpress = GetOrderByForSortOrder(sortOrder);
-            var xpathtags = GetTagFilter(tags);
-            var gettagfilter = string.IsNullOrWhiteSpace(xpathtags) ? "" : string.Format(TagFilterTemplate, GetTagFilter(tags));
-            var takeexpress = take > 0 ? "top (@take)" : "";
-            var sqlCmd = string.Format(_searchString, orderbyexpress, gettagfilter, takeexpress);
+        public IList<string> FindFliersByLocationAndDistance(Location location, int distance, int take, FlierInterface skipPast = null, Tags tags = null, FlierSortOrder sortOrder = FlierSortOrder.CreatedDate)
+        {                
+            if(location == null || !location.IsValid)
+                return new List<string>();
+
+            var sqlCmd = _searchString;
+
+            if (location == null || !location.IsValid)
+                return new List<string>();
 
             var watch = new Stopwatch();
             watch.Start();
 
-            var loc = location.ToGeography();
-            if (loc == null)
-                return new List<string>();
+            //	@loc geography,
+            //	@top int,
+            //	@distance int,
+            //	@sort int,
+            //	@skipPastDate datetimeoffset = null,
+            //	@xpath nvarchar(1000) = null
 
+            var shards = location.GetShardIdsFor(distance).Cast<object>().ToArray();
             var ret = SqlExecute.Query<FlierSearchRecordWithDistance>(sqlCmd,
                 _connection
-                , location.GetShardIdsFor(distance).Cast<object>().ToArray()
-                , new { loc, skip, take, distance }).ToList();
+                , shards
+                , new
+                {
+                    loc = location.ToGeography(),
+                    distance,
+                    top = take,
+                    sort = GetOrderByForSortOrder(sortOrder),
+                    skipPastDate = skipPast == null ? (DateTimeOffset?)null : new DateTimeOffset(skipPast.CreateDate),
+                    xpath = GetTagFilter(tags)
+                }, true).ToList();
 
             Trace.TraceInformation("FindFliers time: {0}, numfliers {1}", watch.ElapsedMilliseconds, ret.Count());
-            //because of possible federation fan out above make sure we re-order
-            //may return more than take but can't avoid that nicely            
+            //because of possible federation fan out above make sure we re-order         
             var list = ret
                 .OrderBy(sr => sr, SorterForOrder(sortOrder))
-                .Select(sr => sr.Id.ToString()).Distinct().ToList();
-            return list;
+                .Select(sr => sr.Id.ToString())
+                .Distinct();
+
+            if (take > 0)
+                list = list.Take(take);
+
+            return list.ToList();
+
+        }
+
+        public IList<string> IterateAllIndexedFliers(int take, FlierInterface skipPast, bool returnFriendlyId = false)
+        {
+            var sqlCmd = _searhStringAll;
+            var watch = new Stopwatch();
+            watch.Start();
+
+            //	@loc geography,
+            //	@top int,
+            //	@distance int,
+            //	@sort int,
+            //	@skipPastDate datetimeoffset = null,
+            //	@xpath nvarchar(1000) = null
+
+            var ret = SqlExecute.Query<FlierSearchRecord>(sqlCmd,
+                _connection
+                , new object[] {}//all shards/partitions
+                , new
+                    {
+                        loc = (SqlGeography)null,
+                        distance = 0,
+                        top = take,
+                        skipPastDate = skipPast == null ? (DateTimeOffset?)null : new DateTimeOffset(skipPast.CreateDate),
+
+                    }, true).ToList();
+
+            Trace.TraceInformation("IterateAllIndexedFliers time: {0}, numfliers {1}", watch.ElapsedMilliseconds, ret.Count());
+            var list = ret
+                .Select(sr => sr.Id.ToString())
+                .Distinct();
+
+            if (take > 0)
+                list = list.Take(take);
+
+            return list.ToList();
         }
 
         private static string GetTagFilter(IEnumerable<string> tags)
         {
             if (tags == null || !tags.Any())
-                return "";
+                return null;
             var builder = new StringBuilder();
 
             foreach (var tag in tags)
@@ -160,41 +177,22 @@ namespace PostaFlya.DataRepository.Search.Implementation
             return builder.ToString();
         }
 
-        private static string GetOrderByForSortOrder(FlierSortOrder sortOrder)
+        private static int GetOrderByForSortOrder(FlierSortOrder sortOrder)
         {
             switch (sortOrder)
             {
                 case FlierSortOrder.CreatedDate:
-                    return "CreateDate desc, PopularityRank desc, Location.STDistance(@loc)";
+                    return 1;
                 case FlierSortOrder.EffectiveDate:
-                    return "EffectiveDate desc, PopularityRank desc, Location.STDistance(@loc)";               
+                    return 2;               
                 case FlierSortOrder.Popularity:
                 default:
-                    return "PopularityRank desc, Location.STDistance(@loc), CreateDate desc";
+                    return 4;
             }
         }
 
-        private static string GetBoardOrderByForSortOrder(FlierSortOrder sortOrder)
-        {
-            switch (sortOrder)
-            {
-                case FlierSortOrder.CreatedDate:
-                case FlierSortOrder.EffectiveDate:
-                    return "DateAdded desc, BoardRank";
-                case FlierSortOrder.Popularity:
-                default:
-                    return "BoardRank, DateAdded desc";
-            }
-        }
-
-        private const string TagFilterTemplate = "and Tags.exist('{0}') > 0";
-
-        //{0} orderby
-        //{1} tag filter
-        //{2} take/top expression
         private readonly string _searchString = Properties.Resources.SqlSearchFliersByLocationTags;
-        private readonly string _searchStringByBoard = Properties.Resources.SqlSearchFliersByBoardLocationTags;
-        private readonly string _searhStringByBoardOnly = Properties.Resources.SqlSeachFliersByBoard;
+        private readonly string _searhStringByBoard = Properties.Resources.SqlSeachFliersByBoard;
         private readonly string _searhStringAll = Properties.Resources.SqlAllOrderedBy;
 
         private static IComparer<FlierSearchRecordWithDistance> SorterForOrder(FlierSortOrder sortOrder)

@@ -57,6 +57,9 @@ namespace Website.Azure.Common.Sql
             if (dbTypeFor == null)
                 return false;
 
+            if (dbTypeFor == SqlExecute.DbString)
+                dbTypeFor = dbTypeFor.Replace("MAX", "255");//not supported
+
             string cmdText = String.Format(
                 Properties.Resources.DbCreateFederation
                 , fedAtt.FederationName, fedAtt.DistributionName, dbTypeFor);
@@ -125,7 +128,7 @@ namespace Website.Azure.Common.Sql
                 return false;
 
             if (metaTyp.GetProperties()
-                .Where(prop => SqlExecute.TypeToDbTypeDictionary.ContainsKey(prop.PropertyType))
+                .Where(prop => SqlExecute.TypeToDbColTypeDictionary.ContainsKey(prop.PropertyType))
                 .Where(prop => prop.GetIndexParameters().Length <= 0)
                 .Any(prop => !(CreateColumnFrom(prop, connection, tableName) && AddConstraintsFrom(prop, connection, tableName))))
             {
@@ -147,7 +150,8 @@ namespace Website.Azure.Common.Sql
                         let clustered = indexInfo.Clustered ? "" : "NON"
                         let table = tableName ?? metaTyp.Name
                         let column = propertyInfo.Name
-                        select string.Format(Properties.Resources.DbCreateSingleColIndex, unique, clustered, table, column))
+                        let asc = indexInfo.Ascending ? "ASC" : "DESC"
+                        select string.Format(Properties.Resources.DbCreateSingleColIndex, unique, clustered, table, column, asc))
                             .Aggregate(true, 
                                 (current, sqlCmd) => 
                                     current &&
@@ -163,14 +167,16 @@ namespace Website.Azure.Common.Sql
 
         private static string ColumnTextFor(PropertyInfo prop)
         {
-            if(!SqlExecute.TypeToDbTypeDictionary.ContainsKey(prop.PropertyType))
+            if(!SqlExecute.TypeToDbColTypeDictionary.ContainsKey(prop.PropertyType))
                 throw new ArgumentException("no mapping for property type");
 
-            var type = SqlExecute.TypeToDbTypeDictionary[prop.PropertyType];
+            var type = SqlExecute.TypeToDbColTypeDictionary[prop.PropertyType];
 
             if (type == SqlExecute.DbString 
                 && (SerializeUtil.HasAttribute(prop, typeof(PrimaryKey))
-                    || SerializeUtil.HasAttribute(prop, typeof(SqlIndex))))
+                    || SerializeUtil.HasAttribute(prop, typeof(SqlIndex))
+                    || SerializeUtil.HasAttribute(prop, typeof(FederationCol)))
+                )
                 type = type.Replace("MAX", "255");
 
             var name = prop.Name;
@@ -263,10 +269,44 @@ namespace Website.Azure.Common.Sql
             return SqlExecute.ExecuteCommand(sqlCmd, connection);
         }
 
+        public bool DeleteTableInContext(Type context, string tableName, SqlConnection connection)
+        {
+            var sqlCmd = string.Format(
+                Properties.Resources.DbDeleteTable
+                , tableName);
+
+            return SqlExecute.ExecuteCommandInRecordTypeContext(context, sqlCmd, connection);
+        }
+
         public void Dispose()
         {
             _connection.Close();
             _connection.Dispose();
+        }
+
+        public static void RunScriptsFrom(string sqlStatements, SqlConnection connection)
+        {
+            foreach (var sqlStatement in sqlStatements.Split(new[] { "GO" }, StringSplitOptions.RemoveEmptyEntries))
+            {
+                var typ = GetContext(sqlStatement);
+                if (typ == null)
+                    SqlExecute.ExecuteCommand(sqlStatement, connection);
+                else
+                    SqlExecute.ExecuteCommandInRecordTypeContext(typ, sqlStatement, connection);
+            }       
+        }
+
+        private const string ContextComment = "--CONTEXT=";
+        private static Type GetContext(string sqlStatement)
+        {
+            var indx = sqlStatement.IndexOf(ContextComment, System.StringComparison.Ordinal);
+            if(indx == -1)
+                return null;
+            indx += ContextComment.Length;
+            var indexEnd = sqlStatement.IndexOf("\r\n", indx, System.StringComparison.Ordinal);
+            var context = sqlStatement.Substring(indx, indexEnd - indx).Trim();
+            return TypeUtil.TryFindType(context);
+
         }
     }
 }

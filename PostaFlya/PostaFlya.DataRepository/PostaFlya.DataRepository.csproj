@@ -144,6 +144,7 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\StoredProcs.sql" />
     <None Include="app.config" />
     <Content Include="Dep\SqlServerTypesInstall.bat">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

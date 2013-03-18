@@ -8,6 +8,7 @@ using System.Web;
 using Website.Application.Queue;
 using Website.Domain.TinyUrl;
 using Website.Infrastructure.Command;
+using Website.Infrastructure.Configuration;
 using Website.Infrastructure.Domain;
 using Website.Infrastructure.Query;
 
@@ -20,29 +21,52 @@ namespace Website.Application.Domain.TinyUrl
         private readonly UnitOfWorkFactoryInterface _unitOfWorkFactory;
         private readonly GenericRepositoryInterface _repository;
         private readonly GenericQueryServiceInterface _queryService;
+        private readonly ConfigurationServiceInterface _configurationService;
 
         public DefaultTinyUrlService(
             UnitOfWorkFactoryInterface unitOfWorkFactory, GenericRepositoryInterface repository,
-            GenericQueryServiceInterface queryService)
+            GenericQueryServiceInterface queryService, ConfigurationServiceInterface configurationService)
         {
             _unitOfWorkFactory = unitOfWorkFactory;
             _repository = repository;
             _queryService = queryService;
+            _configurationService = configurationService;
         }
 
         private Random _picker;
-        private TinyUrlRecord NewUrl()
+        private TinyUrlRecord BaseUrl()
         {
-            var unassigned = _queryService.FindAggregateEntityIds<TinyUrlRecord>(TinyUrlRecord.UnassignedToAggregateId).ToList();
-            if (!unassigned.Any())
+            var baseUrls = _queryService.FindAggregateEntityIds<TinyUrlRecord>(TinyUrlRecord.UnassignedToAggregateId).ToList();
+            if (!baseUrls.Any())
             {
-                Trace.TraceError("DefaultTinyUrlService: TinyUrl table does not contain any free urls");
-                return null;
+                return Init();
             }
             
-            var idxToTry = _picker.Next(0, unassigned.Count() - 1);
+            var idxToTry = _picker.Next(0, baseUrls.Count() - 1);
 
-            return _queryService.FindById<TinyUrlRecord>(unassigned[idxToTry]);
+            return _queryService.FindById<TinyUrlRecord>(baseUrls[idxToTry]);
+        }
+
+        private TinyUrlRecord Init()
+        {
+            var url = _configurationService.GetSetting("TinyUrlBase");
+            if (string.IsNullOrEmpty(url))
+                url = "http://pfly.in/";
+            var rec = new TinyUrlRecord()
+                {
+                    AggregateId = TinyUrlRecord.UnassignedToAggregateId,
+                    AggregateTypeTag = "",
+                    FriendlyId = "",
+                    Id = TinyUrlRecord.GenerateIdFromUrl(url),
+                    TinyUrl = url
+                };
+
+            var uow = _unitOfWorkFactory.GetUnitOfWork(new object[] {_repository});
+            using (uow)
+            {
+                _repository.Store(rec);    
+            }
+            return rec;
         }
 
         public string UrlFor<UrlEntityType>(UrlEntityType entity) where UrlEntityType : TinyUrlInterface, EntityInterface
@@ -53,37 +77,44 @@ namespace Website.Application.Domain.TinyUrl
                 return record.TinyUrl;
 
             _picker = new Random(entity.Id.GetHashCode());
-            var gotone = true;
-            do
+
+            var newUrl = "";
+            var uow = _unitOfWorkFactory.GetUnitOfWork(new object[] {_repository});
+            using (uow)
             {
-                gotone = true;
-                var uow = _unitOfWorkFactory.GetUnitOfWork(new[] {_repository});
-                using (uow)
-                {
-                    record = NewUrl();
-                    _repository.UpdateEntity<TinyUrlRecord>(record.Id,
-                        urlRecord =>
-                            {
-                                if (!urlRecord.AggregateId.Equals(TinyUrlRecord.UnassignedToAggregateId))
-                                {
-                                    gotone = false;
-                                    return;
-                                }
-                                urlRecord.AggregateId = entity.Id;
-                                urlRecord.AggregateTypeTag =
-                                    entity.PrimaryInterface.AssemblyQualifiedName;
-                                urlRecord.FriendlyId = entity.FriendlyId;
-                            }
-                        );
-                }
+                record = BaseUrl();
+                
+                //this will retry until it has successfully incremented the url
+                _repository.UpdateEntity<TinyUrlRecord>(record.Id,
+                    urlRecord =>
+                        {
+                            TinyUrlUtil.Increment(urlRecord);
+                            newUrl = urlRecord.TinyUrl;
+                        }
+                    );
+            }
 
-                if (uow.Successful) continue;
+            if (!uow.Successful)
+            {
                 Trace.TraceError("Failed to save TinyUrl");
-                gotone = false;
-            } while (!gotone);
+                return null;
+            }
 
+            var newRec = new TinyUrlRecord()
+                {
+                    AggregateId = entity.Id,
+                    AggregateTypeTag = entity.PrimaryInterface.AssemblyQualifiedName,
+                    FriendlyId = entity.FriendlyId,
+                    Id = TinyUrlRecord.GenerateIdFromUrl(newUrl),
+                    TinyUrl = newUrl
+                };
+            uow = _unitOfWorkFactory.GetUnitOfWork(new object[] {_repository});
+            using (uow)
+            {
+                _repository.Store(newRec);
+            }
 
-            return record.TinyUrl;
+            return newRec.TinyUrl;
 
         }
 

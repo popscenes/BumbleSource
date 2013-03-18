@@ -4,6 +4,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Configuration;
+using System.Data;
 using System.Data.SqlClient;
 using System.Data.SqlTypes;
 using System.Diagnostics;
@@ -139,7 +140,7 @@ namespace Website.Azure.Common.Sql
         public const string DbGeography = "geography";
         public const string DbLong = "bigint";
 
-        public static readonly Dictionary<Type, string> TypeToDbTypeDictionary
+        public static readonly Dictionary<Type, string> TypeToDbColTypeDictionary
             = new Dictionary<Type, string>()
                   {
                       {typeof(string), DbString},
@@ -151,6 +152,21 @@ namespace Website.Azure.Common.Sql
                       {typeof(SqlGeography), DbGeography},  
                       {typeof(long), DbLong},                                            
                   };
+
+        public static readonly Dictionary<Type, SqlDbType> TypeToDbTypeDictionary
+    = new Dictionary<Type, SqlDbType>()
+                  {
+                      {typeof(string), SqlDbType.NVarChar},
+                      {typeof(Guid), SqlDbType.UniqueIdentifier},
+                      {typeof(int), SqlDbType.Int},
+                      {typeof(double), SqlDbType.Float},
+                      {typeof(DateTimeOffset), SqlDbType.DateTimeOffset},
+                      {typeof(DateTime), SqlDbType.DateTime2},
+                      {typeof(SqlXml), SqlDbType.Xml},
+                      {typeof(SqlGeography), SqlDbType.Udt},  
+                      {typeof(long), SqlDbType.BigInt},                                            
+                  };
+
 
         public static readonly Dictionary<Type, string> TypeToUdtTypeDictionary
             = new Dictionary<Type, string>()
@@ -331,7 +347,7 @@ namespace Website.Azure.Common.Sql
             ExecuteCommand(command);
         }
 
-        public static bool ExecuteCommand(string sqlCmd, SqlConnection connection, object parameters = null)
+        public static bool ExecuteCommand(string sqlCmd, SqlConnection connection, object parameters = null, bool isStoredProc = false)
         {
             Action tryact =
                 () =>
@@ -340,6 +356,10 @@ namespace Website.Azure.Common.Sql
                         {
                             var command = conn.Cmd;
                             command.CommandText = sqlCmd;
+                            
+                            if(isStoredProc)
+                                command.CommandType = CommandType.StoredProcedure;
+                            
                             if (parameters != null)
                                 AddParameters(command.Parameters, parameters);
 
@@ -350,7 +370,7 @@ namespace Website.Azure.Common.Sql
             return ExecuteSqlActionWithRetries(tryact);
         }
 
-        public static bool ExecuteCommandInRecordContext(object recordContext, string sqlCmd, SqlConnection connection, object parameters = null)
+        public static bool ExecuteCommandInRecordContext(object recordContext, string sqlCmd, SqlConnection connection, object parameters = null, bool isStoredProc = false)
         {
             
             Action tryact =
@@ -362,6 +382,10 @@ namespace Website.Azure.Common.Sql
 
                             var command = conn.Cmd;
                             command.CommandText = sqlCmd;
+                            
+                            if (isStoredProc)
+                                command.CommandType = CommandType.StoredProcedure;
+                            
                             if (parameters != null)
                                 AddParameters(command.Parameters, parameters);
 
@@ -372,7 +396,7 @@ namespace Website.Azure.Common.Sql
             return ExecuteSqlActionWithRetries(tryact);
         }
 
-        public static IEnumerable<RecordType> Query<RecordType>(string command, SqlConnection connection, FederationInstance federationInstance, object parameters) where RecordType : new()
+        public static IEnumerable<RecordType> Query<RecordType>(string command, SqlConnection connection, FederationInstance federationInstance, object parameters, bool isStoredProc = false) where RecordType : new()
         {
             IEnumerable<RecordType> ret = new List<RecordType>();
             Action tryact =
@@ -384,6 +408,10 @@ namespace Website.Azure.Common.Sql
                                 UseFederationFor(connection, federationInstance);
 
                             conn.Cmd.CommandText = command;
+                            
+                            if (isStoredProc)
+                                conn.Cmd.CommandType = CommandType.StoredProcedure;
+                            
                             if (parameters != null)
                                 AddParameters(conn.Cmd.Parameters, parameters);
 
@@ -412,15 +440,19 @@ namespace Website.Azure.Common.Sql
         }
 
         //performs operation in all federations if a federated type
-        public static bool ExecuteCommandInRecordTypeContext(Type contextRecordTyp, string sqlCmd, 
-            SqlConnection connection, object parameters = null)
+        public static bool ExecuteCommandInRecordTypeContext(Type contextRecordTyp, string sqlCmd,
+            SqlConnection connection, object parameters = null, bool isStoredProc = false)
         {
             var fedInfo = contextRecordTyp.GetFedInfo();
             if (fedInfo == null)
                 return ExecuteCommand(sqlCmd, connection, parameters);
 
             var federations = GetFederationInstances(connection)
-                    .Where(fi => fi.FederationName.Equals(fedInfo.FederationName));
+                    .Where(fi => fi.FederationName.Equals(fedInfo.FederationName))
+                    .ToList();
+            if (!federations.Any())
+                return ExecuteCommand(sqlCmd, connection, parameters);
+
 
             var connectionFact = new SqlConnectionFactory(connection);
             var parallelOptions = new ParallelOptions { MaxDegreeOfParallelism = Math.Min(8, federations.Count()) };
@@ -433,7 +465,7 @@ namespace Website.Azure.Common.Sql
                           {
                             var fedOb = Activator.CreateInstance(contextRecordTyp, true);                            
                             fedOb.SetFedVal(fedShard.FedVal);
-                            if (!ExecuteCommandInRecordContext(fedOb, sqlCmd, shardconn, parameters))
+                            if (!ExecuteCommandInRecordContext(fedOb, sqlCmd, shardconn, parameters, isStoredProc))
                                 loopstate.Stop();
                               
                           }
@@ -465,14 +497,14 @@ namespace Website.Azure.Common.Sql
         }
 
         public static IEnumerable<RecordType> Query<RecordType>
-            (string command, SqlConnection connection, object[] federationValues = null, object parameters = null) 
+            (string command, SqlConnection connection, object[] federationValues = null, object parameters = null, bool isStoredProc = false) 
             where RecordType : new()
         {
             //if it isn't a federated type just perform normal queryParams
             var contextRecordTyp = typeof (RecordType);
                 var fedInfo = contextRecordTyp.GetFedInfo();
                 if (fedInfo == null)
-                    return Query<RecordType>(command, connection, (FederationInstance) null, parameters);
+                    return Query<RecordType>(command, connection, (FederationInstance) null, parameters, isStoredProc);
 
             var federations = GetFederationRangesFor(fedInfo, connection, federationValues);
             var connectionFact = new SqlConnectionFactory(connection);
@@ -485,7 +517,7 @@ namespace Website.Azure.Common.Sql
                 {
                     using (var taskconnection = connectionFact.GetConnection())
                     {
-                        foreach (var record in Query<RecordType>(command, taskconnection, fedShard, parameters))
+                        foreach (var record in Query<RecordType>(command, taskconnection, fedShard, parameters, isStoredProc))
                             ret.Enqueue(record);                         
                     }                
                 });
@@ -518,10 +550,10 @@ namespace Website.Azure.Common.Sql
         {
             if (properties == null)
                 properties = source.GetType().GetProperties();
-            foreach (var keyCol in properties)
+            foreach (var prop in properties)
             {
-                var keyval = source.GetPropertyVal(keyCol.Name);
-                AddParameter(queryParams, keyCol.Name, keyval);
+                var keyval = source.GetPropertyVal(prop.Name);
+                AddParameter(queryParams, prop.Name, keyval);
             }
         }
 
@@ -536,17 +568,27 @@ namespace Website.Azure.Common.Sql
         public static string GetDbTypeFor(Type type)
         {
              string dbtype;
-             return !TypeToDbTypeDictionary.TryGetValue(type, out dbtype) ? null : dbtype;
+             return !TypeToDbColTypeDictionary.TryGetValue(type, out dbtype) ? null : dbtype;
         }
 
         private static void AddParameter(SqlParameterCollection parameters, string name, object value)
         {
-            string dbtype;
-            if (!TypeToDbTypeDictionary.TryGetValue(value.GetType(), out dbtype))
+            if (value == null)
+            {
+                parameters.AddWithValue(name, DBNull.Value);
+                return;
+            }
+                
+            string dbtype = null;
+            if (value != null && !TypeToDbColTypeDictionary.TryGetValue(value.GetType(), out dbtype) && !(value is Type))
                 throw new ArgumentException(String.Format("No mapping to dbtype for {0}", value.GetType()));
-            var param = new SqlParameter("@" + name, value);
+        
+            var param = (value is Type)
+                ? new SqlParameter("@" + name, TypeToDbTypeDictionary[Nullable.GetUnderlyingType(value as Type) ?? value as Type])
+                : new SqlParameter("@" + name, value);
 
-            if (TypeToUdtTypeDictionary.TryGetValue(value.GetType(), out dbtype))
+
+            if (value != null && TypeToUdtTypeDictionary.TryGetValue(value.GetType(), out dbtype))
                 param.UdtTypeName = dbtype;
 
             parameters.Add(param);

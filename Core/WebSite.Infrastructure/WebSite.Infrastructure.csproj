@@ -209,6 +209,7 @@
     <Compile Include="Util\SerializeUtil.cs" />
     <Compile Include="Util\InitServiceInterface.cs" />
     <Compile Include="Util\StringUtil.cs" />
+    <Compile Include="Util\TypeUtil.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

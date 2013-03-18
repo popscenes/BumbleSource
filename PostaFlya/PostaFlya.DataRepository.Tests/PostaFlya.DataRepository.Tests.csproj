@@ -114,7 +114,7 @@
   <ItemGroup>
     <Compile Include="Behaviour\TaskJob\TaskJobRepositoryTests.cs" />
     <Compile Include="AzureBrowserRepositoryTests.cs" />
-    <Compile Include="AzureFlierRepositoryTests.cs" />
+    <Compile Include="FlierRepositoryAndSearchServiceTests.cs" />
     <Compile Include="ImageRepositoryTests.cs" />
     <Compile Include="Internal\AzureCommentRepositoryTests.cs" />
     <Compile Include="Internal\AzureClaimRepositoryTests.cs" />
@@ -181,6 +181,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="common\" />
+    <Folder Include="Search\Implementation\" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0">

@@ -123,7 +123,7 @@
                 data: reqdata,
                 type: "post", contentType: "application/json",
                 success: function (result) {
-                    
+                    self.SelectedViewModel.showDetails(flier);
                 },
                 error: function (jqXhr, textStatus, errorThrown) {
                     bf.ErrorUtil.HandleRequestError(null, jqXhr);

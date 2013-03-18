@@ -5,6 +5,7 @@ using NUnit.Framework;
 using Ninject;
 using Ninject.MockingKernel.Moq;
 using PostaFlya.Application.Domain.SiteMap;
+using PostaFlya.Domain.Flier;
 using PostaFlya.Domain.Flier.Query;
 using Website.Application.Content;
 using Website.Application.Schedule;
@@ -52,8 +53,8 @@ namespace PostaFlya.Application.Domain.Tests.SiteMap
             var flierCount = 1;
             Kernel.Unbind<FlierSearchServiceInterface>();
             var searchService = Kernel.GetMock<FlierSearchServiceInterface>();
-            searchService.Setup(src => src.IterateAllIndexedFliers(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<bool>()))
-                         .Returns<int, int, bool>((mintake, skip, friendly) =>
+            searchService.Setup(src => src.IterateAllIndexedFliers(It.IsAny<int>(), It.IsAny<FlierInterface>(), It.IsAny<bool>()))
+                         .Returns<int, FlierInterface, bool>((mintake, skip, friendly) =>
                              {
                                  IList<string> ret = new List<string>();
                                  for (var i = 0; i < mintake && flierCount <= 60; i++)

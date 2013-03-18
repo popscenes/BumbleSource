@@ -219,7 +219,7 @@ commit tran</value>
   <data name="DbCreateSingleColIndex" xml:space="preserve">
     <value>IF NOT EXISTS (SELECT name FROM sys.indexes
             WHERE name = N'IDX_{2}_{3}')
-CREATE {0} {1}CLUSTERED INDEX IDX_{2}_{3} ON {2}({3});</value>
+CREATE {0} {1}CLUSTERED INDEX IDX_{2}_{3} ON {2}( {3} {4});</value>
   </data>
   <data name="DbColEqProp" xml:space="preserve">
     <value>{0} = @{0}</value>

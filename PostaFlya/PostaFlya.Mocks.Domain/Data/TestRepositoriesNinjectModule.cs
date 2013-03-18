@@ -168,11 +168,11 @@ namespace PostaFlya.Mocks.Domain.Data
             var locationService = kernel.Get<LocationServiceInterface>();
 
             var flierSearchService = kernel.GetMock<FlierSearchServiceInterface>();
-            flierSearchService.Setup(o => o.FindFliersByLocationTagsAndDistance(
-                It.IsAny<Location>(), It.IsAny<Tags>(), It.IsAny<string>(),
-                It.IsAny<int>(), It.IsAny<int>(), It.IsAny<FlierSortOrder>(), It.IsAny<int>()))
-                .Returns<Location, Tags, string, int, int, FlierSortOrder, int>(
-                    (l, t, b, d, c, s, skip) =>
+            flierSearchService.Setup(o => o.FindFliersByLocationAndDistance(
+                It.IsAny<Location>(),
+                    It.IsAny<int>(), It.IsAny<int>(), It.IsAny<FlierInterface>(), It.IsAny<Tags>(), It.IsAny<FlierSortOrder>()))
+                .Returns<Location, int, int, FlierInterface, Tags, FlierSortOrder>(
+                    (l, d, c, skip, t, s) =>
                     {
                         var boundingBox = d <= 0 ? locationService.GetDefaultBox(l) : 
                             locationService.GetBoundingBox(l, d);
@@ -181,22 +181,57 @@ namespace PostaFlya.Mocks.Domain.Data
                             .Where(
                                 f =>
                                 locationService.IsWithinBoundingBox(boundingBox, f.Location) &&
-                                (t.Count == 0 || f.Tags.Intersect(t).Any()) &&
-                                (string.IsNullOrWhiteSpace(b) 
-                                || boardFlierStore.Any(
-                                bf => bf.AggregateId == b && 
-                                    bf.FlierId == f.Id && 
-                                    bf.Status == BoardFlierStatus.Approved))
+                                (t.Count == 0 || f.Tags.Intersect(t).Any())
                              )
                              .Select(f => f.Id);
 
-                        if(skip > 0)
-                            ret = ret.Skip(skip);
+                        if (skip != null)
+                        {
+                            var skippast = 0;
+                            ret = ret.SkipWhile(s1 => s1 != skip.Id || skippast++ == 0);
+                                                        
+                        }
 
                         return c > 0 ? ret.Take(c).ToList() : ret.ToList();
                     }
                 );
 
+            flierSearchService.Setup(o => o.FindFliersByBoard(It.IsAny<string>(),
+                                                              It.IsAny<int>(), It.IsAny<FlierInterface>(),
+                                                              It.IsAny<Tags>(), It.IsAny<FlierSortOrder>()
+                                                              , It.IsAny<Location>(), It.IsAny<int>()))
+                              .Returns<string, int, FlierInterface, Tags, FlierSortOrder, Location, int>(
+                                  (b, c, skip, t, s, l, d) =>
+                                      {
+                                          var boundingBox = l == null
+                                                                ? null
+                                                                : (d <= 0
+                                                                       ? locationService.GetDefaultBox(l)
+                                                                       : locationService.GetBoundingBox(l, d));
+
+                                          var ret = store
+                                              .Where(
+                                                  f =>
+                                                  (boundingBox == null ||
+                                                   locationService.IsWithinBoundingBox(boundingBox, f.Location)) &&
+                                                  (t.Count == 0 || f.Tags.Intersect(t).Any()) &&
+                                                  (boardFlierStore.Any(
+                                                      bf => bf.AggregateId == b &&
+                                                            bf.FlierId == f.Id &&
+                                                            bf.Status == BoardFlierStatus.Approved))
+                                              )
+                                              .Select(f => f.Id);
+
+                                          if (skip != null)
+                                          {
+                                              var skippast = 0;
+                                              ret = ret.SkipWhile(s1 => s1 != skip.Id || skippast++ == 0);
+
+                                          }
+
+                                          return c > 0 ? ret.Take(c).ToList() : ret.ToList();
+                                      }
+                );
 
             //test data
             FlierTestData.AddSomeDataToMockFlierStore(flierRepository.Object, kernel);

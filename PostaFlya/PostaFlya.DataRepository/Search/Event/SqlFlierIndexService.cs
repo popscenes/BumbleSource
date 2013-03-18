@@ -84,40 +84,12 @@ namespace PostaFlya.DataRepository.Search.Event
             {
                 var searchRecords = publish.OrigState.ToSearchRecords().ToList();
                 SqlExecute.DeleteAll(searchRecords, _connection);
-                if (publish.OrigState.Boards != null)
-                {
-                    foreach (var boardsForShard in 
-                        searchRecords.Select(flierSearchRecord => publish.OrigState.Boards
-                            .Select(id => new BoardFlier() { FlierId = publish.OrigState.Id, AggregateId = id })
-                            .Select(boardFlier => _queryService.FindById<BoardFlier>(boardFlier.GetIdFor()))
-                            .Select(
-                                retrieved =>
-                                retrieved.ToSearchRecord(flierSearchRecord.LocationShard)).ToList()))
-                    {
-                        SqlExecute.DeleteAll(boardsForShard, _connection);
-                    }
-                        
-                }
             }
 
             if (publish.NewState != null && publish.NewState.Status == FlierStatus.Active)
             {
                 var searchRecords = publish.NewState.ToSearchRecords().ToList();
                 SqlExecute.InsertOrUpdateAll(searchRecords, _connection);
-                if (publish.NewState.Boards != null)
-                {
-                    foreach (var boardsForShard in
-                        searchRecords.Select(flierSearchRecord => publish.NewState.Boards
-                            .Select(id => new BoardFlier() { FlierId = publish.NewState.Id, AggregateId = id })
-                            .Select(boardFlier => _queryService.FindById<BoardFlier>(boardFlier.GetIdFor()))
-                            .Select(
-                                retrieved =>
-                                retrieved.ToSearchRecord(flierSearchRecord.LocationShard)).ToList()))
-                    {
-                        SqlExecute.InsertOrUpdateAll(boardsForShard, _connection);
-                    }
-
-                }
             }
 
             return (publish.OrigState != null) || (publish.NewState != null);

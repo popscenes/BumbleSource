@@ -68,6 +68,7 @@ namespace Website.Azure.Common.Tests.Sql
 
         [Test]
         [TestCase(typeof(SqlInitializerTestFederatedTable))]
+        //[TestCase(typeof(SqlInitializerTestAnotherFederatedTableOnString))] strings not supported
         public void SqlInitializerCreateTableFromTypeCreatesTableWithFederation(Type tableTyp)
         {
             const string databasename = "SqlInitializerTests";
@@ -77,7 +78,7 @@ namespace Website.Azure.Common.Tests.Sql
 
                 using (var connection = new SqlConnection(SqlExecute.GetConnectionStringFromConfig("DbConnectionString", databasename)))
                 {
-                    initializer.DeleteTable(tableTyp.Name, connection);
+                    initializer.DeleteTableInContext(tableTyp, tableTyp.Name, connection);
 
                     Assert.IsTrue(SqlInitializer.CreateTableFrom(tableTyp, connection));
 
@@ -146,7 +147,7 @@ namespace Website.Azure.Common.Tests.Sql
         {
             using (var connection = new SqlConnection(SqlExecute.GetConnectionStringFromConfig("DbConnectionString",databasename)))
             {
-                Assert.IsTrue(initializer.DeleteTable(typeof(TableType).Name, connection));
+                Assert.IsTrue(initializer.DeleteTableInContext(typeof(TableType), typeof(TableType).Name, connection));
                 SqlInitializer.DeleteFederationFor(typeof(TableType), connection);
             }
         }
@@ -284,6 +285,30 @@ namespace Website.Azure.Common.Tests.Sql
         public SqlXml XmlCol { get; set; }
 
         [FederationCol(FederationName = "TestFederationAnother", DistributionName = "fed_col")]
+        public Guid FedCol { get; set; }
+
+        [NotNullable]
+        [SpatialIndex]
+        public SqlGeography Geography { get; set; }
+    }
+
+    internal class SqlInitializerTestAnotherFederatedTableOnString
+    {
+        public Guid Id { get; set; }
+
+        [FederationCol(FederationName = "TestFederationAnotherString", DistributionName = "fed_col")]
+        public string Stringcol { get; set; }
+
+        [PrimaryKey]
+        public int Intcol { get; set; }
+
+        public double Doublecol { get; set; }
+
+        public DateTimeOffset Datecol { get; set; }
+
+        public SqlXml XmlCol { get; set; }
+
+        
         public Guid FedCol { get; set; }
 
         [NotNullable]

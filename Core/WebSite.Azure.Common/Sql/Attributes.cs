@@ -17,14 +17,18 @@ namespace Website.Azure.Common.Sql
         {
             Clustered = false;
             Unique = false;
-            Columns = null;
+            Ascending = true;
         }
         [DefaultValue(false)]
         public bool Clustered { get; set; }
         [DefaultValue(false)]
         public bool Unique { get; set; }
-        [DefaultValue(null)]
-        public string[] Columns { get; set; }
+        [DefaultValue(true)]
+        public bool Ascending { get; set; }
+
+        //not used on classes yet
+//        [DefaultValue(null)]
+//        public string[] Columns { get; set; }
     }
 
     public class FederationCol : Attribute {

@@ -18,7 +18,7 @@ namespace PostaFlya.DataRepository.Search.SearchRecord
         {
             var geog = flier.Location.ToGeography();
             var shards = new HashSet<long>();
-            geog = geog.BufferWithTolerance(flier.LocationRadius, 0.2, false);
+            geog = geog.BufferWithTolerance(flier.LocationRadius * 1000, 0.2, false);
 
             for (var i = 0; i < geog.STNumPoints(); i++)
             {
@@ -127,7 +127,9 @@ namespace PostaFlya.DataRepository.Search.SearchRecord
         public long LocationShard { get; set; }
 
         public DateTimeOffset EffectiveDate { get; set; }
+        [SqlIndex]
         public DateTimeOffset CreateDate { get; set; }
+        
         public DateTimeOffset LastActivity { get; set; }
 
         public SqlXml Tags { get; set; }

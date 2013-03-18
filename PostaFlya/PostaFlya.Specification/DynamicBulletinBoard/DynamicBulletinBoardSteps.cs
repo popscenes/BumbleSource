@@ -29,9 +29,9 @@ namespace PostaFlya.Specification.DynamicBulletinBoard
             var browserInfoService = SpecUtil.GetCurrBrowser();
             
             SpecUtil.ControllerResult = bulletinController
-                .Get(location.ToViewModel(), 30, "", 0
-                , browserInfoService.Browser.Distance ?? 0
-                , browserInfoService.Browser.Tags.ToString());
+                .Get(location.ToViewModel(), 30, board: "", skipPast: null
+                , distance: browserInfoService.Browser.Distance ?? 0
+                , tags: browserInfoService.Browser.Tags.ToString());
         }
 
         [Given(@"I have navigated to the public view page for a FLIER from the BULLETIN BOARD")]
@@ -112,8 +112,8 @@ namespace PostaFlya.Specification.DynamicBulletinBoard
             var bulletinApiController = SpecUtil.GetController<BulletinApiController>();
             var location = SpecUtil.CurrIocKernel.Get<Location>(ib => ib.Get<bool>("default"));
             var browserInfoService = SpecUtil.GetCurrBrowser();
-            var result = bulletinApiController.Get(location.ToViewModel(), 30, "", 0
-                , browserInfoService.Browser.Distance.GetValueOrDefault(), browserInfoService.Browser.Tags.ToString());
+            var result = bulletinApiController.Get(location.ToViewModel(), 30, board: "", skipPast: null
+                , distance: browserInfoService.Browser.Distance.GetValueOrDefault(), tags: browserInfoService.Browser.Tags.ToString());
 
             var locationService = SpecUtil.CurrIocKernel.Get<LocationServiceInterface>();
             var box = locationService.GetBoundingBox(location, browserInfoService.Browser.Distance.GetValueOrDefault());

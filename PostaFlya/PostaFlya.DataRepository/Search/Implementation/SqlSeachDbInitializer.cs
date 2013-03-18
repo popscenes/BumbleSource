@@ -39,9 +39,10 @@ namespace PostaFlya.DataRepository.Search.Implementation
                 //todo use reflection and interface to dynamically create all tables from 
                 //an assembly cbfd right now
                 SqlInitializer.CreateTableFrom(typeof (FlierSearchRecord), newConn);
-                SqlInitializer.CreateTableFrom(typeof(BoardFlierLocationSearchRecord), newConn);
                 SqlInitializer.CreateTableFrom(typeof(BoardSearchRecord), newConn); 
                 SqlInitializer.CreateTableFrom(typeof(BoardFlierSearchRecord), newConn);
+
+                SqlInitializer.RunScriptsFrom(Properties.Resources.StoredProcs, newConn);
 
 
 //not needed
@@ -68,7 +69,6 @@ namespace PostaFlya.DataRepository.Search.Implementation
             {
                 SqlExecute.ExecuteCommand("delete from FlierSearchRecord", newConn);
                 SqlExecute.ExecuteCommand("delete from BoardFlierSearchRecord", newConn);
-                SqlExecute.ExecuteCommand("delete from BoardFlierLocationSearchRecord", newConn);
                 SqlExecute.ExecuteCommand("delete from BoardSearchRecord", newConn);
             }
         }

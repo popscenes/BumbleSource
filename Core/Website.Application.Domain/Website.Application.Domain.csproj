@@ -138,6 +138,7 @@
     <Compile Include="TinyUrl\DefaultTinyUrlService.cs" />
     <Compile Include="TinyUrl\TinyUrlGenerationJobAction.cs" />
     <Compile Include="TinyUrl\TinyUrlRecord.cs" />
+    <Compile Include="TinyUrl\TinyUrlUtil.cs" />
     <Compile Include="TinyUrl\Web\TinyUrlRouteConstraint.cs" />
   </ItemGroup>
   <ItemGroup>
