@@ -423,14 +423,15 @@ namespace Website.Azure.Common.Sql
             return ret;
         }
 
+        private static readonly ConcurrentDictionary<string, List<FederationInfo>> FedInfoCache = new ConcurrentDictionary<string, List<FederationInfo>>();
         public static IEnumerable<FederationInfo> GetFederationInfo(SqlConnection connection)
         {
-            return Query<FederationInfo>(Resources.DbGetFederationInfo, connection);
+            return FedInfoCache.GetOrAdd(connection.ConnectionString, s => Query<FederationInfo>(Resources.DbGetFederationInfo, connection).ToList());
         }
 
         public static IEnumerable<FederationInstance> GetFederationInstances(SqlConnection connection)
         {
-            return Query<FederationInfo>(Resources.DbGetFederationInfo, connection)
+            return GetFederationInfo(connection)
                 .Select(fi => new FederationInstance()
                                   {
                                       FederationName = fi.Name,
