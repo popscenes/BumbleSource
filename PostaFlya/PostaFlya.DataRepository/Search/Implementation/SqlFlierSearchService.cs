@@ -16,6 +16,7 @@ using Website.Infrastructure.Domain;
 using Website.Domain.Location;
 using Website.Domain.Tag;
 using Website.Infrastructure.Publish;
+using Website.Infrastructure.Util.Extension;
 
 namespace PostaFlya.DataRepository.Search.Implementation
 {
@@ -82,9 +83,6 @@ namespace PostaFlya.DataRepository.Search.Implementation
                 return new List<string>();
 
             var sqlCmd = _searchString;
-
-            if (location == null || !location.IsValid)
-                return new List<string>();
 
             var watch = new Stopwatch();
             watch.Start();
@@ -167,7 +165,7 @@ namespace PostaFlya.DataRepository.Search.Implementation
                 return null;
             var builder = new StringBuilder();
 
-            foreach (var tag in tags)
+            foreach (var tag in tags.Select(s => s.ToLowerHiphen()))
             {
                 builder.Append(builder.Length == 0 ? "//tags[" : " and ");
                 builder.Append("tag=\"");

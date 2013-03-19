@@ -35,9 +35,12 @@ namespace PostaFlya.Controllers
         //
         // GET: /Profile/
 
-        public ActionResult Get(string name)
+        public ActionResult Get(string handle)
         {
-            var model = ProfileApiController.GetForHandle(name, _queryService,
+            if(!_browserInformation.IsOrCanAccessBrowser(null, handle))
+                return new HttpUnauthorizedResult();
+
+            var model = ProfileApiController.GetForHandle(handle, _queryService,
                                                                      _blobStorage, _viewModelFactory);
             if (model == null)
                 return new HttpNotFoundResult();

@@ -39,38 +39,14 @@ namespace Website.Application.Domain.Browser.Web
 
         public override void OnActionExecuting(HttpActionContext actionContext)
         {
-            //return; if you want to generate fliers without worrying bout authorization
-
-            var browserid = actionContext.ControllerContext.RouteData.Values["BrowserId"] as string;
-            if (string.IsNullOrWhiteSpace(browserid))
-            {
-                foreach (var browserInt in actionContext.ActionArguments.Select(arg => arg.Value as BrowserIdInterface))
-                {
-                    object browOut;
-                    if(browserInt != null)
-                    {
-                        browserid = browserInt.BrowserId;
-                        break;
-                    }
-                    else if (actionContext.ActionArguments.TryGetValue("BrowserId", out browOut))
-                    {
-                        browserid = browOut as string;
-                        if (!string.IsNullOrWhiteSpace(browserid))
-                            break;                    
-                    }
-                }
-                
-            }
+            var browserid = TryGetIdFromRequest(actionContext);
+            var handle = TryGetHandleFromRequest(actionContext);
 
             if (BrowserInformation.Browser.HasRole(Role.Admin))
                 return;
-
-            if (BrowserInformation.Browser.Id == browserid
-                && (
-                    (Roles.Length == 0 && !BrowserInformation.Browser.IsTemporary()) || 
-                    BrowserInformation.Browser.HasAnyRole(_rolesSplit))
-                )
+            if (IsValidBrowserIdOrHandle(browserid, handle))
                 return;
+              
 //
 //#if DEBUG
 //            return;
@@ -81,5 +57,65 @@ namespace Website.Application.Domain.Browser.Web
             actionContext.Response = responseMessage;
         }
 
+        private bool IsValidBrowserIdOrHandle(string browserid, string handle)
+        {
+            return (
+                       BrowserInformation.IsOrCanAccessBrowser(browserid, handle)
+                        &&
+                        (
+                            (Roles.Length == 0 && !BrowserInformation.Browser.IsTemporary()) ||
+                            BrowserInformation.Browser.HasAnyRole(_rolesSplit)
+                        )
+                   );
+        }
+
+        private static string TryGetHandleFromRequest(HttpActionContext actionContext)
+        {
+            var handle = actionContext.ControllerContext.RouteData.Values["handle"] as string;
+            if (string.IsNullOrWhiteSpace(handle))
+            {
+                foreach (var browserInt in actionContext.ActionArguments.Select(arg => arg.Value as BrowserInterface))
+                {
+                    object browOut;
+                    if (browserInt != null)
+                    {
+                        handle = browserInt.FriendlyId;
+                        break;
+                    }
+                    else if (actionContext.ActionArguments.TryGetValue("handle", out browOut))
+                    {
+                        handle = browOut as string;
+                        if (!string.IsNullOrWhiteSpace(handle))
+                            break;
+                    }
+                }
+            }
+            return handle;
+        }
+
+        private static string TryGetIdFromRequest(HttpActionContext actionContext)
+        {
+            var browserid = actionContext.ControllerContext.RouteData.Values["BrowserId"] as string;
+            if (string.IsNullOrWhiteSpace(browserid))
+            {
+                foreach (var browserInt in actionContext.ActionArguments.Select(arg => arg.Value as BrowserIdInterface))
+                {
+                    object browOut;
+                    if (browserInt != null)
+                    {
+                        browserid = browserInt.BrowserId;
+                        break;
+                    }
+                    else if (actionContext.ActionArguments.TryGetValue("BrowserId", out browOut))
+                    {
+                        browserid = browOut as string;
+                        if (!string.IsNullOrWhiteSpace(browserid))
+                            break;
+                    }
+                }
+
+            }
+            return browserid;
+        }
     }
 }

@@ -45,7 +45,7 @@
 
             var len = self.fliers().length;
             if (nextpage && len > 0) 
-                params.skip = len;
+                params.skipPast = self.fliers()[len - 1].Id;
             
             var tags = self.tagsSelector.SelectedTags().join();
             if (tags.length > 0)

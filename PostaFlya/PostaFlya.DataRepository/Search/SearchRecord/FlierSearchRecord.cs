@@ -9,6 +9,7 @@ using Website.Azure.Common.Sql;
 using PostaFlya.Domain.Flier;
 using Website.Domain.Location;
 using Website.Domain.Tag;
+using Website.Infrastructure.Util.Extension;
 
 namespace PostaFlya.DataRepository.Search.SearchRecord
 {
@@ -72,7 +73,7 @@ namespace PostaFlya.DataRepository.Search.SearchRecord
             var element = new XElement("tags");
             foreach (var tag in tags)
             {
-                element.Add(new XElement("tag", tag));
+                element.Add(new XElement("tag", tag.ToLowerHiphen()));
             }
             return element;
         }

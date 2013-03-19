@@ -96,9 +96,9 @@ namespace PostaFlya
             //profile view routes
             routes.MapRoute(
                 name: "ProfileView",
-                url: "{name}",
+                url: "{handle}",
                 defaults: new { controller = "Profile", action = "Get" },
-                constraints: new { name = @"[-0-9a-zA-Z]+" }
+                constraints: new { handle = @"[-0-9a-zA-Z]+" }
             );
 
 

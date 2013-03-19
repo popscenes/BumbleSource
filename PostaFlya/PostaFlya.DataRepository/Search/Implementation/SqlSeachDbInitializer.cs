@@ -67,9 +67,9 @@ namespace PostaFlya.DataRepository.Search.Implementation
         {
             using (var newConn = new SqlConnection(_searchDbConnectionString))
             {
-                SqlExecute.ExecuteCommand("delete from FlierSearchRecord", newConn);
-                SqlExecute.ExecuteCommand("delete from BoardFlierSearchRecord", newConn);
-                SqlExecute.ExecuteCommand("delete from BoardSearchRecord", newConn);
+                SqlExecute.ExecuteCommandInRecordTypeContext(typeof(FlierSearchRecord), "delete from FlierSearchRecord", newConn);
+                SqlExecute.ExecuteCommandInRecordTypeContext(typeof(BoardFlierSearchRecord), "delete from BoardFlierSearchRecord", newConn);
+                SqlExecute.ExecuteCommandInRecordTypeContext(typeof(BoardSearchRecord), "delete from BoardSearchRecord", newConn);
             }
         }
     }

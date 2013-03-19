@@ -110,7 +110,7 @@ namespace Website.Azure.Common.TableStorage
             , Expression<Func<TableEntryType, SelectType>> selectExpression
             , int idPartition = 0, int take = -1)
         {
-            var tableName = NameAndPartitionProviderService.GetTableName<EntityRetType>(IdPartition);
+            var tableName = NameAndPartitionProviderService.GetTableName<EntityRetType>(idPartition);
             return TableContext.PerformSelectQuery(
                 tableName, query, selectExpression, idPartition, take);
         }
@@ -119,7 +119,7 @@ namespace Website.Azure.Common.TableStorage
             , Expression<Func<TableEntryType, SelectType>> selectExpression
             , int idPartition = 0, int take = -1)
         {
-            var tableName = NameAndPartitionProviderService.GetTableName(entity, IdPartition);
+            var tableName = NameAndPartitionProviderService.GetTableName(entity, idPartition);
             return TableContext.PerformSelectQuery(
                 tableName, query, selectExpression, idPartition, take);
         }
@@ -136,13 +136,13 @@ namespace Website.Azure.Common.TableStorage
 
         protected IQueryable<TableEntryType> GetTableEntries<EntityRetType>(string id, int idPartition = 0, int take = -1)
         {
-            var tableName = NameAndPartitionProviderService.GetTableName<EntityRetType>(IdPartition);
+            var tableName = NameAndPartitionProviderService.GetTableName<EntityRetType>(idPartition);
             return TableContext.PerformQuery<TableEntryType>(tableName, te => te.PartitionKey == id, idPartition, take);
         }
 
         protected IQueryable<TableEntryType> GetTableEntries(Type entity, string id, int idPartition = 0, int take = -1)
         {
-            var tableName = NameAndPartitionProviderService.GetTableName(entity, IdPartition);
+            var tableName = NameAndPartitionProviderService.GetTableName(entity, idPartition);
             return TableContext.PerformQuery<TableEntryType>(tableName, te => te.PartitionKey == id, idPartition, take);
         }
     }

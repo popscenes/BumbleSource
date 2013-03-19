@@ -12,6 +12,7 @@ using PostaFlya.Models.Browser;
 using PostaFlya.Models.Factory;
 using PostaFlya.Models.Flier;
 using Website.Application.Content;
+using Website.Application.Domain.Browser.Web;
 using Website.Domain.Browser;
 using Website.Domain.Browser.Query;
 using Website.Domain.Claims;
@@ -19,6 +20,7 @@ using Website.Infrastructure.Query;
 
 namespace PostaFlya.Controllers
 {
+    [BrowserAuthorizeHttp]
     public class ProfileApiController : ApiController
     {
         private readonly QueryServiceForBrowserAggregateInterface _queryService;
