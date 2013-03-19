@@ -391,11 +391,11 @@ div#selected-item-popup-overlay, div#create-flier-popup-overlay {
 	
 }
 
-.tags-selector ul li .event
+.tags-selector ul li .events
 {
     background-position:-560px top;
 }
-.tags-selector ul li.tag-selected .event
+.tags-selector ul li.tag-selected .events
 {
     background-position:-560px bottom;
 }
