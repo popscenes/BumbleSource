@@ -1,18 +1,11 @@
-﻿@using System.Web.Optimization
+﻿
+@using System.Web.Optimization
 @{
     ViewBag.Title = "Edit Profile";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "_Layout.cshtml";
 }
 
-@section scripts { 
-    @Styles.Render("~/Content/structure/PaymentPending/DeskCss.css")   
-    @Styles.Render("~/Content/themes/taskflya/PaymentPending/DeskCss.css")   
-    @Scripts.Render("~/Script/PaymentPendingDeskJs.js") 
-}
-
-<div class="page-content">
-<div class="page-inner">
-    <h2>Pending Fliers</h2>
+<h2>Pending Fliers</h2>
     <h3>What’s this I have to pay?</h3>
     <p>
         PostaFlya is aimed at helping local communities by providing an online noticeboard. By charging a nominal fee we hope to turn away potential spammers and keep PostaFlya for those who need and can benefit from the service. The cost for the average Flya is about $1 so it really is a small fee to get your message out and online.
@@ -48,7 +41,6 @@
         @Html.ActionLink("Add Credits", "AddAccountCredit", "Payment", null, new {@class = "std-btn"})
         @Html.ActionLink("Transactions", "PaymentTransactions", "Payment", null, new {@class = "std-btn"})
     </div>
-</div>
-    </div>
+
 
 

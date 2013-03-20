@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using PostaFlya.Domain.Flier;
+using PostaFlya.Models.Browser;
 using Website.Application.Binding;
 using PostaFlya.Models.Factory;
 using Website.Application.Content;
@@ -32,32 +33,24 @@ namespace PostaFlya.Controllers
             _viewModelFactory = viewModelFactory;
         }
 
-        //
-        // GET: /Profile/
-
-        public ActionResult Get(string handle)
+        public ActionResult Posted()
         {
-            if(!_browserInformation.IsOrCanAccessBrowser(null, handle))
-                return new HttpUnauthorizedResult();
-
-            var model = ProfileApiController.GetForHandle(handle, _queryService,
-                                                                     _blobStorage, _viewModelFactory);
-            if (model == null)
-                return new HttpNotFoundResult();
-
-            ViewBag.ProfileModel = model;
-            return View(model);
+            return View(new ProfileEditModel { PageId = "profileposted" });            
         }
 
-        [ActionName("View")]
-        public ActionResult OwnView()
+        public ActionResult PaymentPending()
         {
-            return View("Get");
+            return View(new ProfileEditModel { PageId = "paymentpending" });            
+        }
+
+        public ActionResult Peeled()
+        {
+            return View(new ProfileEditModel { PageId = "profilepeel" });
         }
 
         public ActionResult Edit()
         {
-            return View();
+            return View(new ProfileEditModel{ PageId = "profileedit" });
         }
 
         public ActionResult CheckHandle(string handle)
@@ -72,10 +65,6 @@ namespace PostaFlya.Controllers
             return Json(freeSuggestion, JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult PaymentPending()
-        {
-           
-            return View();
-        }
+
     }
 }

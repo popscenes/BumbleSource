@@ -26,7 +26,7 @@
     <div class="page-inner">
         <h2 data-bind="visible: MyFliers().length > 0">My Fliers</h2>
         <h3>Review and edit your existing fliers</h3>
-        <div id="created-fliers"  data-bind="template: { name: MyFliersLayout.FlierTemplate, foreach: MyFliers }, visible: MyFliers().length > 0, updateLayout: MyFliersLayout">
+        <div id="created-fliers"  data-bind="template: { name: FliersLayout.FlierTemplate, foreach: MyFliers }, visible: MyFliers().length > 0, updateLayout: FliersLayout">
             @Html.Partial("Bulletin/BulletinItems", (object)Model.Fliers)
         </div>
         <h2 data-bind="visible: ClaimedFliers().length > 0">Claimed Fliers</h2>

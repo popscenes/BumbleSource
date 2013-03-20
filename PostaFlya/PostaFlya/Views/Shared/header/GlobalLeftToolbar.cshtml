@@ -1,50 +1,30 @@
 ﻿
 <div id="global-left-toolbar">
-    <!--<a id="show-about" class="toolbar-item" >
-        <div class="toolbar-button question-tool-bar-item" data-bind="helpTipTrigger: HelpTipPage, helpGroups: HelpTipGroups"
-            data-helptip-group="global-left-toolbar" 
-            data-helptip-text="Show these Help Tips"></div>
-    </a>
 
-    
-    
-    <a href="@Url.Action("Edit", "Profile")" class="toolbar-item" title="Edit Profile">
-        <div class="toolbar-button profile-edit-tool-bar-item" 
-             data-helptip-group="global-left-toolbar" 
-             data-helptip-text="Edit your Profile or Add Credits">         
-        </div>
-    </a>-->
 
 @if (Request.IsAuthenticated)
 {    
-    <a id="profile-avatar" data-bind="attr: { href: '/' + bf.currentBrowserInstance.Handle }" class="std-btn std-image-btn btn-44 btn-white" title="View Profile">
+    <a id="profile-avatar" class="std-btn std-image-btn btn-44 btn-white" title="View Profile"
+        href="@Url.Action("Peeled", "Profile")">
         <img class="toolbar-button avatarsmall std-image-btn-icon" data-bind="visible:bf.currentBrowserInstance.AvatarUrl, imgRetry: bf.currentBrowserInstance.AvatarUrl, attr: { alt: bf.currentBrowserInstance.DisplayName }"
              data-helptip-group="global-left-toolbar" 
              data-helptip-text="View your Fliers and Tearoffs"/>
 
         <span data-bind="visible:!bf.currentBrowserInstance.AvatarUrl" class="std-image-btn-icon"></span>
         <span>Profile</span>
-
-        <!--<a id="default-avatar" data-bind="visible:!bf.currentBrowserInstance.AvatarUrl" class="std-btn std-image-btn btn-44">
-            <span class="std-image-btn-icon"></span>
-            <span>Profile</span>
-        </a>-->
     </a>   
 }
 else
 {
-    <!--<a href="@Url.Action("LoginPage", "Account")" class="toolbar-item profile-view-tool-bar-item" title="Login">
-        <div class="default-avatar-bg"
-             data-helptip-group="global-left-toolbar" 
-             data-helptip-text="Login or Create an Account">           
-        </div>
-    </a>-->
     
     <a id="log-in-profile" href="@Url.Action("LoginPage", "Account")"  class="std-btn std-image-btn btn-44 btn-white" data-helptip-group="global-left-toolbar" data-helptip-text="Login or Create an Account">
         <span class="std-image-btn-icon"></span>
         <span>Profile</span>
     </a>
 }
+
+
+
 <div data-helptip-group="global-left-toolbar"></div>
 
 </div>

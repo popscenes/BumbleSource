@@ -2,8 +2,12 @@
 
     var bf = window.bf = window.bf || {};
 
-    bf.ProfileEditViewModel = function (imageSelector) {
+    bf.pageinit = bf.pageinit || {};
+    bf.pageinit['profileedit'] = function() {
+        bf.page = new bf.ProfileEditViewModel(new bf.ImageSelector());
+    };
 
+    bf.ProfileEditViewModel = function (imageSelector) {
 
         var self = this;
         self.imageSelector = imageSelector;

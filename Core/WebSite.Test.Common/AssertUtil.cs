@@ -12,6 +12,15 @@ namespace Website.Test.Common
         {
             Assert.That(enumerable.OfType<object>().Count(), Is.EqualTo(expected));
         }
+
+        public static void AreAll<ItemType>(IEnumerable<ItemType> items, Func<ItemType, bool> func)
+        {
+            foreach (var item in items)
+            {
+                Assert.That(func(item), Is.True);
+            }
+        }
+
         public static void AreEquivalent<ItemType>(IEnumerable<ItemType> actual, IEnumerable<ItemType> expected, Func<ItemType, ItemType, bool> customComp )
 
         {

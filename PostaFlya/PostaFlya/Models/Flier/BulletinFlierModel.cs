@@ -7,6 +7,7 @@ using System.Runtime.Serialization;
 using System.Web;
 using Newtonsoft.Json;
 using PostaFlya.Areas.TaskJob.Models.Bulletin;
+using PostaFlya.Models.Factory;
 using Website.Application.Content;
 using Website.Application.Extension.Validation;
 using PostaFlya.Areas.Default.Models;
@@ -22,6 +23,30 @@ using Website.Infrastructure.Query;
 
 namespace PostaFlya.Models.Flier
 {
+    public static class BulletinFlierModelUtil
+    {
+
+        public static IList<BulletinFlierModel> IdsToModel(IEnumerable<string> flierIds, GenericQueryServiceInterface flierQueryService
+            , BlobStorageInterface blobStorage, FlierBehaviourViewModelFactoryInterface viewModelFactory)
+        {
+            var ret = flierQueryService.FindByIds<Domain.Flier.Flier>(flierIds)
+                .ToViewModel(flierQueryService, blobStorage, viewModelFactory);
+            return ret;
+        }
+
+        public static IList<BulletinFlierModel> ToViewModel<FlierType>(this IEnumerable<FlierType> fliers, GenericQueryServiceInterface flierQueryService
+            , BlobStorageInterface blobStorage, FlierBehaviourViewModelFactoryInterface viewModelFactory)
+            where FlierType : FlierInterface
+        {
+            var ret = fliers
+                .Where(f => f != null)
+                .Select(f => viewModelFactory
+                    .GetBulletinViewModel(f, false)
+                    .GetImageUrl(blobStorage))
+                .ToList();
+            return ret;
+        }
+    }
     public static class BulletinFlierModelFlierInterfaceExtension
     {
         public static BulletinFlierModel GetImageUrl(this BulletinFlierModel model, BlobStorageInterface blobStorage)

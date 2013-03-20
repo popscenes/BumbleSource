@@ -1,0 +1,23 @@
+﻿
+@model PostaFlya.Models.Browser.PageIdInterface
+
+
+@using System.Web.Optimization
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section scripts { 
+    @Scripts.Render("~/Script/Profile.js") 
+}
+
+@section leftheaderadditional
+{
+    @Html.Partial("ProfileToolbar");
+}
+
+<div class="page-content" data-pageid="@Model.PageId" id="profile-content">
+    <div class="page-inner">
+        @RenderBody()
+    </div>
+</div>

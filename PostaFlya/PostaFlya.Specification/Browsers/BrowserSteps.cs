@@ -182,29 +182,54 @@ namespace PostaFlya.Specification.Browsers
         }
 
 
-        [Then(@"i will see the existing BROWSERS fliers and tear off claims")]
-        public void ThenIWillSeeTheExistingBrowsersFliersAndTearOffClaims()
+        [Then(@"i will see my posted fliers")]
+        public void ThenIWillSeeMyFliers()
         {
             new ClaimSteps().GivenThereIsAflierABrowserHasClaimATearOffFor();
             new FlierSteps().GivenABrowserHasCreatedAFlierofBehaviour(FlierBehaviour.Default.ToString());
 
             var browserId = ScenarioContext.Current["existingbrowserid"] as string;
-            var profileController = SpecUtil.GetApiController<ProfileApiController>();
+            var myFliersController = SpecUtil.GetApiController<MyFliersController>();
             var browser = SpecUtil.AssertGetParticipantBrowser(browserId);
-            var ret = profileController.Get(browser.FriendlyId);
-            Assert.IsNotNull(ret);
-            Assert.IsNotEmpty(ret.ClaimedFliers);
-            Assert.IsNotEmpty(ret.Fliers);
-            Assert.AreEqual(browser.Id, ret.Browser.Id);
+            var ret = myFliersController.Get(browser.Id);
+            
+            Assert.IsNotNull(ret);         
+            Assert.IsNotEmpty(ret);
+            AssertUtil.AreAll(ret, model => model.BrowserId == browser.Id);
         }
 
-        [When(@"i navigate to the public profile view the existing BROWSER")]
-        public void WhenINavigateToThePublicProfileViewTheExistingBrowser()
+        [Then(@"i will see my tear off claims")]
+        public void ThenIWillSeeMyTearOffClaims()
+        {
+            new ClaimSteps().GivenThereIsAflierABrowserHasClaimATearOffFor();
+            new FlierSteps().GivenABrowserHasCreatedAFlierofBehaviour(FlierBehaviour.Default.ToString());
+
+            var browserId = ScenarioContext.Current["existingbrowserid"] as string;
+            var profileController = SpecUtil.GetApiController<ClaimController>();
+            var browser = SpecUtil.AssertGetParticipantBrowser(browserId);
+            var ret = profileController.Get(browser.Id);
+
+            Assert.IsNotNull(ret);
+            Assert.IsNotEmpty(ret);
+            AssertUtil.AreAll(ret, model => model.BrowserId != browser.Id);
+        }
+
+        [When(@"i navigate to my flyas")]
+        public void WhenINavigateToMyFliers()
         {
             var browserId = ScenarioContext.Current["existingbrowserid"] as string;
             var profileController = SpecUtil.GetController<ProfileController>();
             var browser = SpecUtil.AssertGetParticipantBrowser(browserId);
-            profileController.Get(browser.FriendlyId);
+            profileController.Posted();
+        }
+
+        [When(@"i navigate to my peeled flyas")]
+        public void WhenINavigateToMyPeeledFliers()
+        {
+            var browserId = ScenarioContext.Current["existingbrowserid"] as string;
+            var profileController = SpecUtil.GetController<ProfileController>();
+            var browser = SpecUtil.AssertGetParticipantBrowser(browserId);
+            profileController.Peeled();
         }
 
         

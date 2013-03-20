@@ -37,8 +37,7 @@ namespace PostaFlya.Specification
             ControllerContextMock.FakeControllerContext(SpecUtil.CurrIocKernel, accountController);
             var res = accountController.CreateBrowserFromIdentityProviderCredentials(new IdentityProviderCredential() { IdentityProvider = IdentityProviders.GOOGLE, UserIdentifier = "AItOawnldHWXFZoFpHDwBAMy34d1aO7qHSPz1ho" })
                 as MsgResponse;
-
-            
+    
             _browserSteps.AssertBrowserInParticipantRole(true);
             Assert.IsNotNull(res);
             Assert.IsFalse(res.IsError);

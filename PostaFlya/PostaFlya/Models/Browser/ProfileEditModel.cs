@@ -8,7 +8,7 @@ using Resources = PostaFlya.Properties.Resources;
 
 namespace PostaFlya.Models.Browser
 {
-    public class ProfileEditModel : ContactDetailsModel
+    public class ProfileEditModel : ContactDetailsModel, PageIdInterface
     {  
         [Required(ErrorMessageResourceName = "Required", ErrorMessageResourceType = typeof(Properties.Resources), ErrorMessage = null)]
         public string Id { get; set; }   
@@ -23,6 +23,13 @@ namespace PostaFlya.Models.Browser
         public double Credits { get; set; }      
         
         [Display(ResourceType = typeof (Website.Application.Properties.Resources), Name = "ProfileEditModel_AvatarImageId_Profile_Picture")]
-        public string AvatarImageId { get; set; } 
+        public string AvatarImageId { get; set; }
+
+        public string PageId { get; set; }
+    }
+
+    public interface PageIdInterface
+    {
+        string PageId { get; set; }
     }
 }

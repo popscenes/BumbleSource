@@ -1,78 +1,69 @@
-﻿
-@using System.Web.Optimization
+﻿@using System.Web.Optimization
+@using PostaFlya.Models.Location
+
 @model PostaFlya.Models.Browser.ProfileEditModel
 
 @{
-    ViewBag.Title = "Edit Profile";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Posted Flyas";
+    Layout = "_Layout.cshtml";    
 }
+<h2>Edit Profile</h2>
+<h3>Edit your postaflya details</h3>
 
-@section scripts { 
-    @Styles.Render("~/Content/structure/ProfileEdit/DeskCss.css")   
-    @Styles.Render("~/Content/themes/taskflya/ProfileEdit/DeskCss.css")   
-    @Scripts.Render("~/Script/ProfileEditDeskJs.js") 
-}
-<div class="page-content">
-    <div class="page-inner">
-        <h2>Edit Profile</h2>
-        <h3>Edit your postaflya details</h3>
-
-        @Html.Partial("Image/ImageListTemplate")
-        <form id="profileeditform" class="form">
+@Html.Partial("Image/ImageListTemplate")
+<form id="profileeditform" class="form">
     
-            @Html.ValidationSummary(true)
+    @Html.ValidationSummary(true)
     
-            @Html.HiddenFor(model => model.Id, new { data_bind = "value:Id" })
+    @Html.HiddenFor(model => model.Id, new { data_bind = "value:Id" })
             
-            <fieldset>
-                <legend> @Html.LabelFor(model => model.Handle) </legend>
-                <ol>
-                    <li>
-                        @Html.LabelFor(model => model.Handle)
-                        @Html.TextBoxFor(model => model.Handle, new { data_bind = "value:Handle" })
-                        @Html.ValidationMessageFor(model => model.Handle)
-                    </li>
-                </ol>
-            </fieldset>
-            <fieldset>
-                <legend> @Html.LabelFor(model => model.Credits)</legend>
-                <ol>
-                    <li>
-                        @Html.LabelFor(model => model.Credits)
-                        <span data-bind="text: Credits"></span>
-                        @Html.ActionLink("Manage Credits", "PaymentPending", "Profile", null, new{@class="mini-button red-button"})
-                    </li>
-                </ol>
-            </fieldset>
+    <fieldset>
+        <legend> @Html.LabelFor(model => model.Handle) </legend>
+        <ol>
+            <li>
+                @Html.LabelFor(model => model.Handle)
+                @Html.TextBoxFor(model => model.Handle, new { data_bind = "value:Handle" })
+                @Html.ValidationMessageFor(model => model.Handle)
+            </li>
+        </ol>
+    </fieldset>
+    <fieldset>
+        <legend> @Html.LabelFor(model => model.Credits)</legend>
+        <ol>
+            <li>
+                @Html.LabelFor(model => model.Credits)
+                <span data-bind="text: Credits"></span>
+                @Html.ActionLink("Manage Credits", "PaymentPending", "Profile", null, new{@class="mini-button red-button"})
+            </li>
+        </ol>
+    </fieldset>
 
-            @Html.Partial("Contact/ContactDetailsEditPartial", Model)
+    @Html.Partial("Contact/ContactDetailsEditPartial", Model)
 
-            <fieldset>           
-                <legend>@Html.LabelFor(model => model.AvatarImageId)</legend>
-                <ol>
+    <fieldset>           
+        <legend>@Html.LabelFor(model => model.AvatarImageId)</legend>
+        <ol>
                                 
-                    <li data-bind="with:imageSelector">
-                        @Html.LabelFor(model => model.AvatarImageId)
-                        <a id="select-images" data-bind="click: $root.showImageSelect" class="select-mini-btn" style="">&nbsp;</a>
-                    </li>
+            <li data-bind="with:imageSelector">
+                @Html.LabelFor(model => model.AvatarImageId)
+                <a id="select-images" data-bind="click: $root.showImageSelect" class="select-mini-btn" style="">&nbsp;</a>
+            </li>
 
-                    <li data-bind="with:imageSelector, visible:$root.ImageSelectorVisible" class="form-image-selector">
+            <li data-bind="with:imageSelector, visible:$root.ImageSelectorVisible" class="form-image-selector">
                         
-                        @Html.HiddenFor(model => model.AvatarImageId, new { data_bind = "value:selectedImageId()" })
-                        @Html.ValidationMessageFor(model => model.AvatarImageId)
-                        @Html.Partial("Image/ImageSelector")
-                    </li>          
-                </ol>
+                @Html.HiddenFor(model => model.AvatarImageId, new { data_bind = "value:selectedImageId()" })
+                @Html.ValidationMessageFor(model => model.AvatarImageId)
+                @Html.Partial("Image/ImageSelector")
+            </li>          
+        </ol>
  
-            </fieldset>
-            <div class="btm-buttons">
-                <a id="" class="std-btn" data-bind="click: update">FINISH</a>
-                <div class="big-tick">
+    </fieldset>
+    <div class="btm-buttons">
+        <a id="" class="std-btn" data-bind="click: update">FINISH</a>
+        <div class="big-tick">
                     
-                </div>
-            </div>
-            @*todo add error handling binding for our own messages*@
-            <span data-bind="text: ErrorHandler() != null ? ErrorHandler().Message : ''"></span>
-        </form>
+        </div>
     </div>
-    </div>
+    @*todo add error handling binding for our own messages*@
+    <span data-bind="text: ErrorHandler() != null ? ErrorHandler().Message : ''"></span>
+</form>

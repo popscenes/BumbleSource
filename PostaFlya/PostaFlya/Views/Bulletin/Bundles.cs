@@ -29,28 +29,6 @@ namespace PostaFlya.Views.Bulletin
                        "Bulletin/Desk/Detail.js"
                     };
 
-        //Structure Css
-        private static readonly string[]
-            CoreStructureCss = {
-                        "Bulletin/Bulletin.css"
-                   };
-
-
-        private static readonly string[]
-            DeskStructureCss =  {
-                       "Bulletin/BulletinDesk.css"
-                    };
-
-        //theme Css
-        private static readonly string[]
-            CoreThemeCss = {
-                        "Bulletin/Bulletin.css"
-                   };
-
-        private static readonly string[]
-            DeskThemeCss =  {
-                       "Bulletin/BulletinDesk.css"
-                    };
 
         public static void AddBundles(BundleCollection table)
         {
@@ -60,12 +38,7 @@ namespace PostaFlya.Views.Bulletin
 
         private static void AddCssBundles(BundleCollection table)
         {
-            //structure
-            table.AddStructureCssCollection("Bulletin/DeskCss.css", CoreStructureCss, DeskStructureCss);
 
-            //themes
-            table.AddThemedCssCollection("Bulletin/DeskCss.css", PostaFlya.Views.Shared.Bundles.Themes,
-                CoreThemeCss, DeskThemeCss);
         }
 
         private static void AddJsBundles(BundleCollection table)

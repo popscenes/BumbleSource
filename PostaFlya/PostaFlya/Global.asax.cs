@@ -92,17 +92,7 @@ namespace PostaFlya
                 defaults: new { controller = "TinyUrl", action = "Get" },
                 constraints: new { path = DependencyResolver.Current.GetService<TinyUrlRouteConstraint>()}
             );
-
-            //profile view routes
-            routes.MapRoute(
-                name: "ProfileView",
-                url: "{handle}",
-                defaults: new { controller = "Profile", action = "Get" },
-                constraints: new { handle = @"[-0-9a-zA-Z]+" }
-            );
-
-
-
+            
             //default routes
             routes.MapRoute(
                 name: "Default",
@@ -318,8 +308,6 @@ namespace PostaFlya
             Views.HeatMap.Bundles.AddBundles(BundleTable.Bundles);
             Views.Account.Bundles.AddBundles(BundleTable.Bundles);
             Views.Profile.Bundles.AddBundles(BundleTable.Bundles);
-            Views.Profile.BundlesEdit.AddBundles(BundleTable.Bundles);
-            Views.Profile.PaymentPendingBundles.AddBundles(BundleTable.Bundles);
             Views.Payment.Bundles.AddBundles(BundleTable.Bundles);
            
         }

@@ -37,7 +37,12 @@ Scenario: Browser Verifies Identity
 	When I verify my physical identity 
 	Then I will have IdentityVerified ROLE
 
-Scenario: Profile View
-	Given There is an existing BROWSER with PARTICIPANT ROLE  
-	When i navigate to the public profile view the existing BROWSER 
-	Then i will see the existing BROWSERS fliers and tear off claims
+Scenario: Profile Peel View
+	Given i am an existing BROWSER with PARTICIPANT ROLE  
+	When i navigate to my peeled flyas 
+	Then i will see my tear off claims
+
+Scenario: Profile Post View
+	Given i am an existing BROWSER with PARTICIPANT ROLE
+	When i navigate to my flyas 
+	Then i will see my posted fliers

@@ -1,0 +1,14 @@
+﻿
+@using System.Web.Optimization
+@model dynamic
+
+@{
+    ViewBag.Title = "Peeled Flyas";
+    Layout = "_Layout.cshtml";
+    
+}
+
+<h2>Peeled Fliers</h2>
+<div id="profile-fliers"  data-bind="template: { name: FliersLayout.FlierTemplate, foreach: Fliers }, visible: Fliers().length > 0, updateLayout: FliersLayout">
+
+</div>

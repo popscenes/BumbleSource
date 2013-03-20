@@ -8,9 +8,14 @@ using PostaFlya.Domain.Flier;
 using PostaFlya.Models.Browser;
 using PostaFlya.Models.Claims;
 using PostaFlya.Binding;
+using PostaFlya.Models.Factory;
+using PostaFlya.Models.Flier;
+using Website.Application.Binding;
+using Website.Application.Content;
 using Website.Application.Domain.Browser.Web;
 using Website.Common.Extension;
 using Website.Domain.Browser;
+using Website.Domain.Browser.Query;
 using Website.Infrastructure.Command;
 using Website.Infrastructure.Domain;
 using Website.Infrastructure.Query;
@@ -24,13 +29,21 @@ namespace PostaFlya.Controllers
     public class ClaimController : ApiController
     {
         private readonly CommandBusInterface _commandBus;
-        private readonly GenericQueryServiceInterface _queryService;
+        private readonly QueryServiceForBrowserAggregateInterface _queryService;
+        private readonly BlobStorageInterface _blobStorage;
+        private readonly FlierBehaviourViewModelFactoryInterface _viewModelFactory;
+
+
 
         public ClaimController(CommandBusInterface commandBus
-            , GenericQueryServiceInterface queryService)
+            , QueryServiceForBrowserAggregateInterface queryService
+            , [ImageStorage]BlobStorageInterface blobStorage
+            , FlierBehaviourViewModelFactoryInterface viewModelFactory)
         {
             _commandBus = commandBus;
             _queryService = queryService;
+            _blobStorage = blobStorage;
+            _viewModelFactory = viewModelFactory;
         }
 
         public HttpResponseMessage Post(CreateClaimModel claim)
@@ -61,17 +74,14 @@ namespace PostaFlya.Controllers
             return this.GetResponseForRes(res);
         }
 
-//        public IQueryable<ClaimModel> Get(EntityTypeEnum entityTypeEnum, string id)
-//        {
-//            return GetClaims(_queryService, id);
-//        }
-//
-//        public static IQueryable<ClaimModel> GetClaims(GenericQueryServiceInterface queryClaims, string id)
-//        {
-//            if (queryClaims == null) return (new List<ClaimModel>()).AsQueryable();
-//            return queryClaims.FindAggregateEntities<Claim>(id)
-//                .Select(claim => claim.ToViewModel());
-//        }
+        // GET /api/Browser/browserId/claim/
+        public IList<BulletinFlierModel> Get(string browserId)
+        {
+            var ret = _queryService.GetByBrowserId<Claim>(browserId)
+                      .Select(l => _queryService.FindById<Flier>(l.AggregateId))
+                      .ToViewModel(_queryService, _blobStorage, _viewModelFactory);
+            return ret;
+        }
 
         public static Type GetTypeForClaimEntity(EntityTypeEnum entityTypeEnum)
         {
@@ -83,39 +93,6 @@ namespace PostaFlya.Controllers
 //                    return typeof (Image);
             }
             return typeof(Flier);
-        }
-
-        private IList<ClaimModel> GetDummtDaya(string id)
-        {
-            var browserId = "c49c12fa-1024-4bd6-aad4-1fd5967de296";
-            IList<ClaimInterface> list = new List<ClaimInterface>()
-                                               {
-                                                   new Claim()
-                                                       {
-                                                           BrowserId = browserId,
-                                                           AggregateId = id,
-                                                           ClaimTime = DateTime.UtcNow,
-                                                       },
-                                                    new Claim()
-                                                    {
-                                                            BrowserId = browserId,
-                                                           AggregateId = id,
-                                                           ClaimTime = DateTime.UtcNow,
-                                                    },
-                                                    new Claim()
-                                                       {
-                                                           BrowserId = browserId,
-                                                           AggregateId = id,
-                                                           ClaimTime = DateTime.UtcNow,
-                                                       },
-                                                    new Claim()
-                                                    {
-                                                           BrowserId = browserId,
-                                                           AggregateId = id,
-                                                           ClaimTime = DateTime.UtcNow,
-                                                    }
-                                               };
-            return list.Select(c => c.ToViewModel()).ToList();
-        }
+        } 
     }
 }

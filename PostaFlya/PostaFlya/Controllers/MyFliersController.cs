@@ -40,12 +40,10 @@ namespace PostaFlya.Controllers
         }
 
         // GET /api/myfliersapi
-        public IQueryable<FlierCreateModel> Get(string browserId)
+        public IList<BulletinFlierModel> Get(string browserId)
         {
-            var fliers = _queryService.GetByBrowserId<Flier>(browserId);
-            return
-                fliers.Select(
-                    _ => _.ToCreateModel().GetImageUrl(_blobStorage));
+            var fliers = _queryService.GetByBrowserId<Flier>(browserId).ToViewModel(_queryService, _blobStorage, _viewModelFactory);
+            return fliers;
         }
 
         // GET /api/Browser/browserId/myfliers/5

@@ -1039,6 +1039,173 @@ a.bold-link {
     z-index: 5000 !important;
 }
 
+.ui-flier-tile {
+    background-color: #ffffff
+}
+
+.locSel #lsMain {
+    background-color: #ffffff;
+}
+
+.ui-flier-tile-v-250h 
+{
+}
+
+.detail-overlay {
+    background-color: black;
+    color: white;
+    opacity: 0.0;
+
+    -webkit-transition: all 0.5s ease-out 0s;
+   -moz-transition: all 0.5s ease-out 0s;
+   -ms-transition: all 0.5s ease-out 0s;
+   -o-transition: all 0.5s ease-out 0s;
+   transition: all 0.5s ease-out 0s; 
+}
+
+
+/***default detail view layout***/
+
+.flier-view .flier-details .flier-desc {
+    margin-top: 15px;
+}
+
+
+/***end default detail view layout***/
+
+/*flier tiles */
+
+.ui-flier-tile {
+    box-shadow: 1px 1px 4px rgba(0,0,0,0.4);
+    -moz-box-shadow: 1px 1px 4px rgba(0,0,0,0.4);
+    -webkit-box-shadow: 1px 1px 4px rgba(0,0,0,0.4);
+    /*display: inline-block;*/
+    margin: 8px;
+    width: 228px;
+    display: inline-block;
+}
+
+div.tile-image {
+    display: block;
+}
+
+.ui-flier-tile img 
+{
+    box-shadow: 0 0 4px rgba(0,0,0,0.4);
+    width: 228px;
+    cursor: pointer;
+}
+
+div.tile-summary {
+    display: table;
+    font-size: 12px;
+    text-align: left;
+    padding: 5px 10px;    
+}
+div.tile-summary div.tile-peel {
+    display: table-cell;
+    vertical-align: bottom;  
+}
+
+div.tile-summary div.tile-peel a {
+    display: block;
+    padding: 10px 0px;
+}
+
+div.tile-summary div.flier-title {
+    font-weight: bold;
+    font-size: 13PX;
+    line-height: 14px;
+}
+
+div.tile-summary div.flier-locality {
+    color: #CACACA;
+    font-size: 12px;
+}
+
+div.tile-summary div.tile-description {
+    display: table-cell;
+    width: 200px;
+}
+
+div.addedtile 
+{
+    display: none;	
+}
+
+/*end flier tiles */
+
+/*bulletin board */
+div.ui-bulletin-board 
+{
+    text-align: center;
+    text-align: -webkit-center;
+    text-align: -moz-center;
+    text-align: -khtml-center;   
+}
+
+div.ui-bulletin-board 
+{
+    margin-top:30px;
+}
+/*end bulletin board*/
+
+
+/***default detail view layout***/
+
+.flier-view {
+
+}
+
+.flier-view .flier-details {
+    
+}
+
+
+.flier-view .flier-details .flier-img img {
+    width: 450px;
+}
+
+.flier-view .flier-details .flier-claims-comments{
+    
+}
+
+.flier-view .flier-details .flier-claims-comments .claim-stats{
+    display: inline;
+}
+
+.flier-view .flier-details .flier-claims-comments .comment-stats{
+    display: inline;
+}
+
+.flier-view .flier-details .flier-desc {
+    
+}
+
+.flier-view .comments {
+    
+}
+
+.flier-view .claims {
+    float: left;
+    margin-right: 15px;
+}
+
+
+
+.get-flier-detail-div {
+    width: 800px;
+    margin: 0 auto 0;
+    background-color: white;
+    padding: 15px;
+    margin-top: 15px;
+    border-top: 1px solid #ccc;
+    border-right: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+    border-left: 1px solid #ccc;
+}
+
+/***end default detail view layout***/
 
 @media only screen and (max-width: 800px)
 {

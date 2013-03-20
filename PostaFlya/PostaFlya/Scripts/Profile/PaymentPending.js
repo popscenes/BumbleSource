@@ -1,6 +1,11 @@
 ﻿(function (window, undefined) {
 
     var bf = window.bf = window.bf || {};
+    
+    bf.pageinit = bf.pageinit || {};
+    bf.pageinit['paymentpending'] = function () {
+        bf.page = new bf.PaymentPending();
+    };
 
     bf.PaymentPending = function () {
         var self = this;
@@ -38,7 +43,3 @@
 
 })(window);
 
-$(function () {
-
-    bf.page = new bf.PaymentPending();
-});
