@@ -5,7 +5,7 @@
     @Styles.Render("~/Content/structure/Payment/DeskCss.css")   
     @Styles.Render("~/Content/themes/taskflya/Payment/DeskCss.css")   
     @Scripts.Render("~/Script/PaymentDeskJs.js") 
-    <script src="https://sandbox.google.com/checkout/inapp/lib/buy.js"></script>
+    <script src="@ViewBag.GoogleJsLink"></script>
     <script type="text/javascript">
 
         $(document).ready(function() {

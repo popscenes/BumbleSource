@@ -12,6 +12,7 @@ using Website.Domain.Browser;
 using Website.Domain.Payment;
 using Website.Domain.Payment.Command;
 using Website.Infrastructure.Command;
+using Website.Infrastructure.Configuration;
 using Website.Infrastructure.Query;
 
 namespace PostaFlya.Controllers
@@ -22,6 +23,7 @@ namespace PostaFlya.Controllers
         private readonly GenericQueryServiceInterface _queryService;
         private readonly BrowserInformationInterface _browserInfo;
         private readonly PaymentPackageServiceInterface _paymentPackageService;
+        private readonly ConfigurationServiceInterface _configurationServiceInterface;
         private readonly HttpContextBase _httpContext;
         private readonly CommandBusInterface _commandBus;
 
@@ -31,6 +33,7 @@ namespace PostaFlya.Controllers
             GenericQueryServiceInterface queryService,
             BrowserInformationInterface browserInfo,
             PaymentPackageServiceInterface paymentPackageService,
+            ConfigurationServiceInterface configurationServiceInterface,
             HttpContextBase httpContext)
         {
             _paymentServiceProvider = paymentServiceProvider;
@@ -38,6 +41,7 @@ namespace PostaFlya.Controllers
             _queryService = queryService;
             _browserInfo = browserInfo;
             _paymentPackageService = paymentPackageService;
+            _configurationServiceInterface = configurationServiceInterface;
             _httpContext = httpContext;
         }
 
@@ -51,6 +55,10 @@ namespace PostaFlya.Controllers
         public ViewResult GoogleWallet(String jwt)
         {
             ViewBag.Jwt = jwt;
+            if (_configurationServiceInterface != null)
+            {
+                ViewBag.GoogleJsLink = _configurationServiceInterface.GetSetting("GooglePaymentJs");
+            }
             return View();
         }
 
