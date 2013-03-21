@@ -207,7 +207,6 @@ div.question-tool-bar-item {
 div.current-loc {
     display: table-cell;
     width: 34px;
-    height: 34px;
     background-image: url(images/icons-34h.png);
     background-position: -34px -34px;
 }
