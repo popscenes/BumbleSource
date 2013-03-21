@@ -39,10 +39,7 @@ background-color: white;
     
 }
 
-.btn-white {
-    background-color: white;
-    color: black;
-}
+
 .std-image-btn
 {
     position: relative;
@@ -54,7 +51,6 @@ background-color: white;
     padding-left: 44px;
     
 }
-
 
 .std-image-btn-icon {
     background-image: url(images/icons-34h.png);
@@ -69,6 +65,40 @@ background-color: white;
     background-image: url(images/icons-44h.png);
     width: 44px;
     height: 44px;
+}
+
+.btn-44.active .std-image-btn-icon{
+    background-position-y: -44px;
+}
+
+.btn-44.active{
+    background-color: white;
+    color: black;
+} 
+
+.btn-44.btn-white .std-image-btn-icon{
+    background-position-y: -44px;
+}
+
+.btn-44.btn-white{
+    background-color: white;
+    color: black;
+}
+
+#profile-peeled.btn-44 .std-image-btn-icon{
+    background-position-x: -352px;
+}
+
+#profile-posted.btn-44 .std-image-btn-icon{
+    background-position-x: 0;
+}
+
+#profile-payment.btn-44 .std-image-btn-icon{
+    background-position-x: -440px;
+}
+
+#profile-edit.btn-44 .std-image-btn-icon{
+    background-position-x: -88px;
 }
 
 
@@ -105,7 +135,7 @@ background-color: white;
     border-right: solid 1px #CFCFCF;
 }
 #profile-avatar .std-image-btn-icon,  #log-in-profile  .std-image-btn-icon{
-    background-position: -88px -44px;
+    background-position-x: -88px;
 }
 
 #profile-avatar {

@@ -3,7 +3,7 @@
     var bf = window.bf = window.bf || {};
     
     bf.pageinit = bf.pageinit || {};
-    bf.pageinit['paymentpending'] = function () {
+    bf.pageinit['profile-payment'] = function () {
         bf.page = new bf.PaymentPending();
     };
 

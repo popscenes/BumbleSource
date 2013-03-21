@@ -35,22 +35,22 @@ namespace PostaFlya.Controllers
 
         public ActionResult Posted()
         {
-            return View(new ProfileEditModel { PageId = "profileposted" });            
+            return View(new ProfileEditModel { PageId = "profile-posted" });            
         }
 
         public ActionResult PaymentPending()
         {
-            return View(new ProfileEditModel { PageId = "paymentpending" });            
+            return View(new ProfileEditModel { PageId = "profile-payment" });            
         }
 
         public ActionResult Peeled()
         {
-            return View(new ProfileEditModel { PageId = "profilepeel" });
+            return View(new ProfileEditModel { PageId = "profile-peeled" });
         }
 
         public ActionResult Edit()
         {
-            return View(new ProfileEditModel{ PageId = "profileedit" });
+            return View(new ProfileEditModel{ PageId = "profile-edit" });
         }
 
         public ActionResult CheckHandle(string handle)

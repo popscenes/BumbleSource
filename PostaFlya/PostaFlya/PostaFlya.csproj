@@ -408,6 +408,7 @@
     <Compile Include="Binding\EntityTypeEnum.cs" />
     <Compile Include="Models\Location\ContactDetailsModel.cs" />
     <Compile Include="Models\Location\LocationModel.cs" />
+    <Compile Include="Models\PageModelInterface.cs" />
     <Compile Include="Models\Tags\TagSetListViewModel.cs" />
     <Compile Include="Models\ViewModelBase.cs" />
     <Compile Include="Models\Tags\AddTagsModel.cs" />
@@ -595,7 +596,6 @@
     <None Include="Microsoft.WindowsAzure.Caching\PerformanceCounters.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <Content Include="humans.txt" />
     <Content Include="robots.txt" />
     <Content Include="Scripts\Account\Account.js" />
     <Content Include="Scripts\Account\Desk\Account.js" />

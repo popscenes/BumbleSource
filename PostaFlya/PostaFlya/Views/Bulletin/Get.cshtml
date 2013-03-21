@@ -12,6 +12,11 @@
     @Scripts.Render("~/Script/BulletinDeskJs.js")
 }
 
+@section leftheader
+{
+    @Html.Partial("Header/GlobalLeftToolbar")
+}
+
 @section rightheader
 {
     @Html.Partial("Header/BulletinRightToolbar")

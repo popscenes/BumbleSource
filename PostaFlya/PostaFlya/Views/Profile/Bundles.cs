@@ -14,7 +14,8 @@ namespace PostaFlya.Views.Profile
                         "Profile/PeeledPosted.js",
                         "Profile/ProfileEdit.js",
                         "Profile/PaymentPending.js",
-                        "Profile/Desk/Profile.js"
+                        "Profile/Desk/Profile.js",
+
                    };
 
 

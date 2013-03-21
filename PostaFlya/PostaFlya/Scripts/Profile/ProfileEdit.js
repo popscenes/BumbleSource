@@ -3,7 +3,7 @@
     var bf = window.bf = window.bf || {};
 
     bf.pageinit = bf.pageinit || {};
-    bf.pageinit['profileedit'] = function() {
+    bf.pageinit['profile-edit'] = function() {
         bf.page = new bf.ProfileEditViewModel(new bf.ImageSelector());
     };
 

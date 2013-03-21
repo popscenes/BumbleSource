@@ -2,12 +2,12 @@
 
     var bf = window.bf = window.bf || {};
     bf.pageinit = bf.pageinit || {};
-    bf.pageinit['profileposted'] = function () {
+    bf.pageinit['profile-posted'] = function () {
         bf.page = new bf.ProfileFlyasViewModel(new bf.SelectedFlierViewModel(new bf.BehaviourViewModelFactory(), location.pathname)
         , new bf.TileLayoutViewModel('#profile-fliers', new bf.BulletinLayoutProperties())
         , 'myfliers');
     };
-    bf.pageinit['profilepeel'] = function () {
+    bf.pageinit['profile-peeled'] = function () {
         bf.page = new bf.ProfileFlyasViewModel(new bf.SelectedFlierViewModel(new bf.BehaviourViewModelFactory(), location.pathname)
         , new bf.TileLayoutViewModel('#profile-fliers', new bf.BulletinLayoutProperties())
         , 'claim');

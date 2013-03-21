@@ -8,7 +8,7 @@ using Resources = PostaFlya.Properties.Resources;
 
 namespace PostaFlya.Models.Browser
 {
-    public class ProfileEditModel : ContactDetailsModel, PageIdInterface
+    public class ProfileEditModel : ContactDetailsModel, PageModelInterface
     {  
         [Required(ErrorMessageResourceName = "Required", ErrorMessageResourceType = typeof(Properties.Resources), ErrorMessage = null)]
         public string Id { get; set; }   
@@ -26,10 +26,5 @@ namespace PostaFlya.Models.Browser
         public string AvatarImageId { get; set; }
 
         public string PageId { get; set; }
-    }
-
-    public interface PageIdInterface
-    {
-        string PageId { get; set; }
     }
 }

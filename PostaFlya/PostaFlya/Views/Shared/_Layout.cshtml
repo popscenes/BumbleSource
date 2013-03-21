@@ -27,8 +27,8 @@
     <body>
         <header>
             <div id="left-header">
-                @Html.Partial("Header/GlobalLeftToolbar")
-                @RenderSection("leftheaderadditional", required: false)
+                
+                @RenderSection("leftheader", required: false)
             </div>
 
             <a id="logo" data-helptip-group="about-posta" data-helptip-text="" href="@Url.Action("Get", "Bulletin")">

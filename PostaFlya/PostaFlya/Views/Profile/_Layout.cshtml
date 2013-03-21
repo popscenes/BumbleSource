@@ -1,5 +1,5 @@
 ﻿
-@model PostaFlya.Models.Browser.PageIdInterface
+@model PostaFlya.Models.PageModelInterface
 
 
 @using System.Web.Optimization
@@ -11,9 +11,14 @@
     @Scripts.Render("~/Script/Profile.js") 
 }
 
-@section leftheaderadditional
+@section leftheader
 {
-    @Html.Partial("ProfileToolbar");
+    @Html.Partial("ProfileToolbar")
+}
+
+@section rightheader
+{
+    @Html.Partial("Header/BulletinRightToolbar")
 }
 
 <div class="page-content" data-pageid="@Model.PageId" id="profile-content">
