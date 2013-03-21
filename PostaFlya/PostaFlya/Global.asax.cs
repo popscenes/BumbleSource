@@ -11,6 +11,7 @@ using System.Web.WebPages;
 using Ninject;
 using Ninject.Syntax;
 using PostaFlya.App_Start;
+using PostaFlya.Controllers;
 using Website.Application.Authentication;
 using Website.Application.Command;
 using Website.Application.Domain.TinyUrl.Web;
@@ -39,9 +40,13 @@ namespace PostaFlya
             filters.Add(new RemoveWwwRedirectFilter());
         }
 
+
         public static void RegisterRoutes(RouteCollection routes)
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
+
+            routes.MapRoute(name: "FourOhFour", url: "FourOhFour/{id}",
+                            defaults: new {controller = "Error", action = "FourOhFour", id = UrlParameter.Optional});
 
             routes.MapHttpRoute(
                 name: "BrowserApi",
@@ -99,6 +104,10 @@ namespace PostaFlya
                 url: "{controller}/{action}/{id}",
                 defaults: new { id = UrlParameter.Optional }
                 );
+
+            //routes.MapRoute(name: "FourOhFour", url: "{*allMissed}",
+            //                defaults: new { controller = "Error", action = "FourOhFour", id = UrlParameter.Optional });
+
 
         }
 

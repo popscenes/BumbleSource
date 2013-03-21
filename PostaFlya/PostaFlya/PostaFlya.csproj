@@ -356,6 +356,7 @@
     <Compile Include="Controllers\BrowserInformationController.cs" />
     <Compile Include="Controllers\ClaimController.cs" />
     <Compile Include="Controllers\BoardFlierController.cs" />
+    <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\FlierImportController.cs" />
     <Compile Include="Controllers\MyBoardFlierController.cs" />
     <Compile Include="Controllers\MyBoardsController.cs" />
@@ -795,6 +796,7 @@
     <Content Include="Views\Profile\Posted.cshtml" />
     <Content Include="Views\Profile\ProfileToolbar.cshtml" />
     <Content Include="Views\Profile\_Layout.cshtml" />
+    <Content Include="Views\Error\FourOhFour.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
