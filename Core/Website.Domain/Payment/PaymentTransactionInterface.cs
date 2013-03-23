@@ -8,9 +8,19 @@ namespace Website.Domain.Payment
     {
         public static void CopyFieldsFrom(this PaymentTransactionInterface target, PaymentTransactionInterface source)
         {
+            PaymentTransactionFieldsInterfaceExtensions.CopyFieldsFrom(target, source);
+            EntityInterfaceExtensions.CopyFieldsFrom(target, source);
+            BrowserIdInterfaceExtensions.CopyFieldsFrom(target, source);
+            EntityIdInterfaceExtensions.CopyFieldsFrom(target, source);
+            AggregateInterfaceExtensions.CopyFieldsFrom(target, source);
+        }
+    }
+
+    public static class PaymentTransactionFieldsInterfaceExtensions
+    {
+        public static void CopyFieldsFrom(this PaymentTransactionFieldsInterface target, PaymentTransactionFieldsInterface source)
+        {
             target.Amount = source.Amount;
-            target.FriendlyId = source.FriendlyId;
-            target.Id = source.Id;
             target.Message = source.Message;
             target.PayerId = source.PayerId;
             target.PaymentEntityId = source.PaymentEntityId;
@@ -18,13 +28,10 @@ namespace Website.Domain.Payment
             target.TransactionId = source.TransactionId;
             target.Type = source.Type;
             target.Time = source.Time;
-            BrowserIdInterfaceExtensions.CopyFieldsFrom(target, source);
-            EntityIdInterfaceExtensions.CopyFieldsFrom(target, source);
-            AggregateInterfaceExtensions.CopyFieldsFrom(target, source);
         }
     }
 
-    public interface PaymentTransactionInterface : EntityInterface, BrowserIdInterface, AggregateInterface
+    public interface PaymentTransactionFieldsInterface
     {
         String PayerId { get; set; }
 
@@ -34,13 +41,21 @@ namespace Website.Domain.Payment
 
         String PaymentEntityId { get; set; }
 
-        double Amount{ get; set; }
+        double Amount { get; set; }
 
         PaymentTransactionStatus Status { get; set; }
 
-        string Message{ get; set; }
+        string Message { get; set; }
 
         DateTimeOffset Time { get; set; }
+    }
+
+    public interface PaymentTransactionInterface : 
+        PaymentTransactionFieldsInterface, 
+        EntityInterface, 
+        BrowserIdInterface, 
+        AggregateInterface
+    {
 
     }
 

@@ -1,6 +1,31 @@
 ﻿(function (window, undefined) {
 
     var bf = window.bf = window.bf || {};
+    bf.pageinit = bf.pageinit || {};
+    bf.pageinit['bulletin-board'] = function () {
+        
+        bf.page = new bf.BulletinBoard(
+        new bf.SelectedFlierViewModel(new bf.BehaviourViewModelFactory())
+        , new bf.TagsSelector({
+            displayInline: true
+        })
+        , new bf.TileLayoutViewModel('#bulletinboard', new bf.BulletinLayoutProperties()));
+
+        var endscroll = new EndlessScroll(window, {
+            fireOnce: false,
+            fireDelay: false,
+            content: false,
+            loader: "",
+            bottomPixels: 300,
+            insertAfter: "#bulletinboard",
+            resetCounter: function (num) {
+                bf.page.GetMoreFliers();
+                return false;
+            }
+
+        });
+        endscroll.run();
+    };
 
     bf.BulletinBoard = function (selectedDetailViewModel
         , tagsSelector

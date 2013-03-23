@@ -9,6 +9,7 @@ using PostaFlya.Controllers;
 using PostaFlya.Domain.Behaviour;
 using PostaFlya.Domain.Flier;
 using PostaFlya.Models;
+using PostaFlya.Models.Browser;
 using PostaFlya.Models.Flier;
 using PostaFlya.Specification.Util;
 using TechTalk.SpecFlow;

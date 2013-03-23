@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using Newtonsoft.Json;
 using PostaFlya.Models;
+using PostaFlya.Models.Browser;
 using PostaFlya.Models.Flier;
 using Website.Application.Domain.Browser;
 using Website.Application.Domain.Payment;
@@ -150,6 +151,8 @@ namespace PostaFlya.Controllers
             var viewModel = new PaymentResult()
             {
                 PaymentMessage = message,
+                PageId = WebConstants.ProfileCreditPage,
+                ActiveNav = WebConstants.ProfileNavPayment
             };
 
             if (success)
@@ -170,8 +173,14 @@ namespace PostaFlya.Controllers
 
         public ViewResult PaymentTransactions()
         {
+
             var transactions = _queryService.FindAggregateEntities<PaymentTransaction>(_browserInfo.Browser.Id);
-            return View(transactions.ToList());
+            return View(new PaymentTrasactionPageModel()
+                {
+                    PageId = WebConstants.ProfileTransactionPage,
+                    ActiveNav = WebConstants.ProfileNavPayment,
+                    Transactions = transactions.Select(_ => _.ToViewModel()).ToList()
+                });
         }
 
         public ActionResult AddAccountCredit()
@@ -179,7 +188,9 @@ namespace PostaFlya.Controllers
             var flierPaymentsModel = new FlierPaymentModel
                 {
                     PaymentServiceList = _paymentServiceProvider.GetAllPaymentServices(),
-                    PaymentOptions = _paymentPackageService.GetAll().Select(_ => _ as CreditPaymentPackage).ToList()
+                    PaymentOptions = _paymentPackageService.GetAll().Select(_ => _ as CreditPaymentPackage).ToList(),
+                    PageId = WebConstants.ProfileCreditPage,
+                    ActiveNav = WebConstants.ProfileNavPayment
                 };
 
             return View(flierPaymentsModel);

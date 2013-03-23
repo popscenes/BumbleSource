@@ -26,5 +26,6 @@ namespace PostaFlya.Models.Browser
         public string AvatarImageId { get; set; }
 
         public string PageId { get; set; }
+        public string ActiveNav { get; set; }
     }
 }

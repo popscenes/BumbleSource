@@ -1,34 +1,22 @@
 ﻿
 @using System.Web.Optimization
-@model dynamic
+@using PostaFlya.Models
+@model PostaFlya.Models.Flier.BulletinBoardPageModel
 
-@section title
-{
-    Postaflya - Your Local Community Noticeboard
+
+@{
+    ViewBag.Title = "Postaflya - Your Local Community Noticeboard";
+    Layout = "~/Views/Shared/_DefaultLayout.cshtml";
 }
 
-@section scripts {
-
+@section scripts
+{
     @Scripts.Render("~/Script/BulletinDeskJs.js")
 }
 
-@section leftheader
-{
-    @Html.Partial("Header/GlobalLeftToolbar")
+@{
+    WebConstants.SetViewBagForLocationPicker(ViewBag);
 }
-
-@section rightheader
-{
-    @Html.Partial("Header/BulletinRightToolbar")
-}
-
-@{ ViewBag.VisibleTrigger = "ShowMap";
-        ViewBag.DistanceVariable = "Distance";
-        ViewBag.LocationVariable = "Location";
-        ViewBag.AutoCompleteLocationBannerText = "'Search Your Local Area for Flyas...'";
-        ViewBag.AutoCompleteLocationId = "locationSearch";
-        ViewBag.AutoCompleteBinding = "locationAutoComplete";
-    }
 
 <div id="controls">
     <div class="location-title">
@@ -55,18 +43,10 @@
         @Html.Partial("Tags/TagsSelector")
     </div>
 </div>
-
-
-    
-
-    
+   
 @Html.Partial("Bulletin/SelectedBulletinViewPartial")
-@Html.Partial("Bulletin/BulletinList")
+@Html.Partial("Bulletin/BulletinList", Model.Fliers)
 
-@*<a data-bind="visible: false" *@
-@*   href="@ViewBag.NextPageUrl">Next Page</a>*@
-@*<a data-bind="visible: false" *@
-@*    href="@ViewBag.PrevPageUrl">Previous Page</a>*@
 
 
 

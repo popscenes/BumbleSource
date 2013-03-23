@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Optimization;
+﻿using System.Web.Optimization;
 using Website.Common.Extension;
 
 namespace PostaFlya.Views.Bulletin
@@ -16,18 +12,10 @@ namespace PostaFlya.Views.Bulletin
                         "Behaviour/BehaviourViewModelFactory.js",
                         "Behaviour/BehaviourViewModel.js",
                         "Bulletin/SelectedFlierViewModel.js",
-                        "Bulletin/BulletinLayoutProperties.js"
+                        "Bulletin/BulletinLayoutProperties.js",
+                        "Bulletin/Detail.js"
                    };
 
-        private static readonly string[] 
-            DeskJs =  {
-                       "Bulletin/Desk/Bulletin.js"
-                    };
-
-        private static readonly string[]
-            DetailDeskJs =  {
-                       "Bulletin/Desk/Detail.js"
-                    };
 
 
         public static void AddBundles(BundleCollection table)
@@ -46,14 +34,7 @@ namespace PostaFlya.Views.Bulletin
             //Bulletin
             var scriptBundleDesk = new ScriptBundle("~/Script/BulletinDeskJs.js");
             scriptBundleDesk.AddScriptFiles(CoreJs);
-            scriptBundleDesk.AddScriptFiles(DeskJs);
             table.Add(scriptBundleDesk);
-
-            //Detail
-            var scriptDetBundleDesk = new ScriptBundle("~/Script/BulletinDetDeskJs.js");
-            scriptDetBundleDesk.AddScriptFiles(CoreJs);
-            scriptDetBundleDesk.AddScriptFiles(DetailDeskJs);
-            table.Add(scriptDetBundleDesk); 
         }
     }
 }

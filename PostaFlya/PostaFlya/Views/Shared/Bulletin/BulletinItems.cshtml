@@ -1,8 +1,8 @@
 ﻿
 @using PostaFlya.Models.Flier
-@model dynamic
+@model IList<BulletinFlierModel>
 
-@foreach (BulletinFlierModel fb in Model)
+@foreach (var fb in Model)
 {
     @Html.Partial("~/Areas/" + fb.FlierBehaviour + "/Views/Bulletin/SummaryTile.cshtml", fb)
 }

@@ -6,6 +6,7 @@ using Ninject;
 using PostaFlya.Application.Domain.Browser;
 using PostaFlya.Application.Domain.Flier;
 using PostaFlya.Domain.Flier.Analytic;
+using PostaFlya.Models;
 using Website.Application.Binding;
 using PostaFlya.Domain.Behaviour.Query;
 using PostaFlya.Domain.Flier.Query;
@@ -51,29 +52,27 @@ namespace PostaFlya.Controllers
         public ActionResult Get(LocationModel loc
             ,int count = 40, string skipPast = "", int distance = 0, string tags = "", string board="")
         {
-            if(!loc.IsValid())
-                return View(new List<BulletinFlierModel>());
 
-            var model = BulletinApiController.GetFliers(_flierSearchService, _queryService, _blobStorage, _viewModelFactory
+            var model = new BulletinBoardPageModel(){PageId = WebConstants.BulletinBoardPage};
+
+            if (loc.IsValid())
+                model.Fliers = BulletinApiController.GetFliers(_flierSearchService, _queryService, _blobStorage, _viewModelFactory
                              , loc, count, board: board, skipPast: skipPast, distance: distance, tags: tags);
-
-            ViewBag.Location = loc;
-            ViewBag.Distance = distance;
-            ViewBag.Fliers = model;
-            ViewBag.Tags = new Tags(tags);
       
             return View("Get", model);
         }
 
         public ActionResult Detail(string id)
         {
-            var model = BulletinApiController.GetDetail(id, _queryService, _behaviourQueryService, _blobStorage,
-                                            _viewModelFactory, _browserInformation);
+            var model = new BulletinDetailPageModel
+                {
+                    PageId = WebConstants.BulletinDetailPage,
+                    Detail = BulletinApiController.GetDetail(id, _queryService, _behaviourQueryService, _blobStorage,
+                                                              _viewModelFactory, _browserInformation)
+                };
 
-            ViewBag.FlierDetail = model;
-
-            if(model != null)
-                _webAnalyticService.RecordVisit(model.Flier.Id, FlierAnalyticSourceAction.IdByBulletin);
+            if(model.Detail != null)
+                _webAnalyticService.RecordVisit(model.Detail.Flier.Id, FlierAnalyticSourceAction.IdByBulletin);
          
             return View("DetailGet", model);
         }

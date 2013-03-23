@@ -1,38 +1,33 @@
 ﻿
 @using System.Globalization
-@using System.Web.Optimization
 @model PostaFlya.Models.FlierPaymentModel
 
-@section scripts {
-    @Styles.Render("~/Content/structure/Payment/DeskCss.css")   
-    @Styles.Render("~/Content/themes/taskflya/Payment/DeskCss.css")   
-    @Scripts.Render("~/Script/PaymentDeskJs.js") 
+@{
+    ViewBag.Title = "Transaction Status";
+    Layout = "~/Views/Profile/_Layout.cshtml";
 }
 
-<div class="page-content">
-<div class="page-inner">
-    <h2>Add Credits To Your Flya Account</h2>
-    @{
-        using (Html.BeginForm("PaymentProcess", "Payment", FormMethod.Post))
-        {
+<h2>Add Credits To Your Flya Account</h2>
+@{
+    using (Html.BeginForm("PaymentProcess", "Payment", FormMethod.Post))
+    {
 
-        <input type="hidden" name="paymentServiceName" id="paymentServiceName" value="googleWallet"/>
+    <input type="hidden" name="paymentServiceName" id="paymentServiceName" value="googleWallet"/>
         
-        <h3>Choose amount to add</h3>    
-        <ul>
-                @foreach (var package in Model.PaymentOptions)
-                {
-                    <li>
-                        @Html.Label(package.Credits.ToString(CultureInfo.InvariantCulture) + " for $" + package.Payment.ToString(CultureInfo.InvariantCulture))
-                        @Html.RadioButton("amount", package.Payment.ToString(CultureInfo.InvariantCulture), true)
-                    </li>
-                }
-            </ul>
+    <h3>Choose amount to add</h3>    
+    <ul>
+            @foreach (var package in Model.PaymentOptions)
+            {
+                <li>
+                    @Html.Label(package.Credits.ToString(CultureInfo.InvariantCulture) + " for $" + package.Payment.ToString(CultureInfo.InvariantCulture))
+                    @Html.RadioButton("amount", package.Payment.ToString(CultureInfo.InvariantCulture), true)
+                </li>
+            }
+        </ul>
     
-        <div class="btm-buttons">
-            <a type="submit" title="submit" value="Pay" class="std-btn" data-bind="click: submit" >Add Credit</a>
-        </div>    
-        }
+    <div class="btm-buttons">
+        <a type="submit" title="submit" value="Pay" class="std-btn" data-bind="click: submit" >Add Credit</a>
+    </div>    
     }
-</div>
-</div>
+}
+

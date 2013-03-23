@@ -1,25 +1,22 @@
 ﻿
-@using System.Web.Optimization
-@model System.Collections.Generic.List<Website.Domain.Payment.PaymentTransaction>
-@section scripts {
-    @Styles.Render("~/Content/structure/Payment/DeskCss.css")   
-    @Styles.Render("~/Content/themes/taskflya/Payment/DeskCss.css")   
-    @Scripts.Render("~/Script/PaymentDeskJs.js") 
+@model PostaFlya.Models.Browser.PaymentTrasactionPageModel
+
+@{
+    ViewBag.Title = "Transaction History";
+    Layout = "~/Views/Profile/_Layout.cshtml";
 }
 
-<div class="page-content">
-<div class="page-inner">
-    <h2>Previous Transactions</h2>
-    <h3>Previous Flya Credit Purchases</h3>
-    <ul>
-        @foreach (var transaction in Model)
-        {
-            <li class="transaction-item">$@transaction.Amount @transaction.Type @transaction.Message on @transaction.Time.ToString("dd/MM/yyyy hh:mm:ss")</li>    
-        }
-    </ul>
+
+<h2>Previous Transactions</h2>
+<h3>Previous Flya Credit Purchases</h3>
+<ul>
+    @foreach (var transaction in Model.Transactions)
+    {
+        <li class="transaction-item">$@transaction.Amount @transaction.Type @transaction.Message on @transaction.Time.ToString("dd/MM/yyyy hh:mm:ss")</li>    
+    }
+</ul>
     
-    <div class="btm-buttons">
-    @Html.ActionLink("Back to Flier Payment", "PaymentPending", "Profile",null, new{@class="std-btn"})
-    </div>
+<div class="btm-buttons">
+@Html.ActionLink("Back to Flier Payment", "PaymentPending", "Profile",null, new{@class="std-btn"})
 </div>
-</div>
+

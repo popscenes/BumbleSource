@@ -1,9 +1,9 @@
 using System;
 using Website.Domain.Payment;
 
-namespace PostaFlya.Models.Flier
+namespace PostaFlya.Models.Browser
 {
-    public class PaymentResult
+    public class PaymentResult : PageModelInterface
     {
         public String PaymentMessage { get; set; }
 
@@ -13,5 +13,7 @@ namespace PostaFlya.Models.Flier
         public String TransactionStatus { get; set; }
 
         public String SubHeading { get; set; }
+        public string PageId { get; set; }
+        public string ActiveNav { get; set; }
     }
 }

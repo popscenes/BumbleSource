@@ -1,24 +1,19 @@
 ﻿
 @using System.Web.Optimization
-@model PostaFlya.Models.Flier.PaymentResult
+@model PostaFlya.Models.Browser.PaymentResult
 
-@section scripts {
-    @Styles.Render("~/Content/structure/Payment/DeskCss.css")   
-    @Styles.Render("~/Content/themes/taskflya/Payment/DeskCss.css")   
-    @Scripts.Render("~/Script/PaymentDeskJs.js") 
+@{
+    ViewBag.Title = "Transaction Status";
+    Layout = "~/Views/Profile/_Layout.cshtml";
 }
 
-<div class="page-content">
-<div class="page-inner">
-    <h2>Transaction @Model.TransactionStatus</h2>
-    <h3> @Model.SubHeading</h3>
-    @Model.PaymentMessage
+<h2>Transaction @Model.TransactionStatus</h2>
+<h3> @Model.SubHeading</h3>
+@Model.PaymentMessage
     
-    <div class="btm-buttons">
-    @Html.ActionLink("Back to Flier Payment", "PaymentPending", "Profile",null, new{@class="std-btn"})
-    </div>
+<div class="btm-buttons">
+@Html.ActionLink("Back to Flier Payment", "PaymentPending", "Profile",null, new{@class="std-btn"})
+</div>
     
-</div>
-</div>
 
 

@@ -2,22 +2,12 @@
 @using System.Diagnostics
 @model System.Web.Mvc.HandleErrorInfo
 
-@section scripts
-{
-    <script type="text/javascript">
-    $(function () {
-
-        var self = this;
-        self.CreateFlierInstance = bf.globalCreateFlierInstance;
-        ko.applyBindings(self);
-    });
-    </script>
-
-}
-
 @{
     ViewBag.Title = "Error";
+    Layout = "~/Views/Shared/_DefaultLayout.cshtml";
 }
+
+
 
 @{
     Trace.TraceError("Unhandled Error: %s, Stack %s", Model.Exception.Message, Model.Exception.StackTrace);

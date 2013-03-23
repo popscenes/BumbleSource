@@ -373,6 +373,9 @@
     <Compile Include="Models\Board\BoardFlierModel.cs" />
     <Compile Include="Models\Board\EditBoardFlierModel.cs" />
     <Compile Include="Models\Browser\BrowserModel.cs" />
+    <Compile Include="Models\Browser\PaymentPendingFlierModel.cs" />
+    <Compile Include="Models\Browser\PaymentResult.cs" />
+    <Compile Include="Models\Browser\PaymentTransactionModel.cs" />
     <Compile Include="Models\Browser\ProfileEditModel.cs" />
     <Compile Include="Models\Claims\ClaimModel.cs" />
     <Compile Include="Models\Claims\CreateClaimModel.cs" />
@@ -394,10 +397,10 @@
     <Compile Include="Models\Factory\FlierBehaviourViewModelFactoryInterface.cs" />
     <Compile Include="Models\Factory\FlierBehaviourViewModelFactoryRegistryInterface.cs" />
     <Compile Include="Models\FlierPaymentModel.cs" />
+    <Compile Include="Models\Flier\BulletinBoardPageModel.cs" />
+    <Compile Include="Models\Flier\BulletinDetailPageModel.cs" />
     <Compile Include="Models\Flier\FlierAnalyticTrackingSummaryModel.cs" />
     <Compile Include="Models\Flier\FlierAnalyticInfoModel.cs" />
-    <Compile Include="Models\Flier\PaymentPendingFlierModel.cs" />
-    <Compile Include="Models\Flier\PaymentResult.cs" />
     <Compile Include="Models\Flier\HeatMapPoint.cs" />
     <Compile Include="Controllers\ImgController.cs" />
     <Compile Include="Controllers\MyFliersController.cs" />
@@ -421,6 +424,7 @@
     </Compile>
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\Flier\FlierCreateModel.cs" />
+    <Compile Include="Models\WebConstants.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -433,7 +437,6 @@
     <Compile Include="Views\FlierImport\Bundles.cs" />
     <Compile Include="Views\Flier\Bundles.cs" />
     <Compile Include="Views\HeatMap\Bundle.cs" />
-    <Compile Include="Views\Payment\Bundles.cs" />
     <Compile Include="Views\Profile\Bundles.cs" />
     <Compile Include="Views\Shared\Bundles.cs" />
     <Compile Include="Models\Tags\TagGroupViewModel.cs" />
@@ -602,6 +605,7 @@
     <Content Include="Scripts\Account\Desk\Account.js" />
     <Content Include="Scripts\Base\ContactDetailsModel.js" />
     <Content Include="Scripts\Base\CreateFlierInstance.js" />
+    <Content Include="Scripts\Base\PageInit.js" />
     <Content Include="Scripts\Base\ErrorHandling.js" />
     <Content Include="Scripts\Base\FlierCost.js" />
     <Content Include="Scripts\Base\LocationModel.js" />
@@ -614,7 +618,7 @@
     <Content Include="Scripts\Behaviour\BehaviourViewModelFactory.js" />
     <Content Include="Scripts\Behaviour\Default\DefaultBehaviourViewModel.js" />
     <Content Include="Scripts\Bulletin\BulletinLayoutProperties.js" />
-    <Content Include="Scripts\Bulletin\Desk\Detail.js" />
+    <Content Include="Scripts\Bulletin\Detail.js" />
     <Content Include="Scripts\Bulletin\SelectedFlierViewModel.js" />
     <Content Include="Scripts\Base\CreateEditFlier.js" />
     <Content Include="Scripts\FlierImport\Desk\FlierImport.js" />
@@ -640,7 +644,6 @@
     <Content Include="Scripts\Base\ScrollToTop.js" />
     <Content Include="Scripts\Base\LocationService.js" />
     <Content Include="Scripts\Bulletin\Bulletin.js" />
-    <Content Include="Scripts\Bulletin\Desk\Bulletin.js" />
     <Content Include="Scripts\Extension\knockout.custombindings.js" />
     <Content Include="Scripts\Extension\showdown.js" />
     <Content Include="Scripts\Extension\sprintf-0.7-beta1.js" />
@@ -718,7 +721,6 @@
     <Content Include="Scripts\plupload\plupload.js" />
     <Content Include="Scripts\Profile\PaymentPending.js" />
     <Content Include="Scripts\Profile\ProfileEdit.js" />
-    <Content Include="Scripts\Profile\Desk\Profile.js" />
     <Content Include="Scripts\Profile\PeeledPosted.js" />
     <Content Include="Scripts\sammy.js" />
     <Content Include="Scripts\sammy.min.js" />
@@ -765,7 +767,6 @@
     </Content>
     <Content Include="Views\Shared\Bulletin\DetailTileTemplates.cshtml" />
     <Content Include="WaIISHost.exe.config" />
-    <Content Include="Views\Profile\Get.cshtml" />
     <Content Include="Views\Shared\Bulletin\SelectedBulletinViewPartial.cshtml" />
     <Content Include="Views\Profile\Edit.cshtml" />
     <Content Include="Views\Shared\Header\GlobalLeftToolbar.cshtml" />
@@ -797,6 +798,8 @@
     <Content Include="Views\Profile\ProfileToolbar.cshtml" />
     <Content Include="Views\Profile\_Layout.cshtml" />
     <Content Include="Views\Error\FourOhFour.cshtml" />
+    <Content Include="Views\Shared\Header\GlobalMiddleToolbar.cshtml" />
+    <Content Include="Views\Shared\_DefaultLayout.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

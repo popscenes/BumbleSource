@@ -1,17 +1,17 @@
 ﻿
 @using System.Web.Optimization
-@model dynamic
+@model PostaFlya.Models.Flier.BulletinDetailPageModel
 
 @{
     ViewBag.Title = "DetailGet";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/_DefaultLayout.cshtml";
 }
 
 @section title
 {
-    @if (Model != null)
+    @if (Model.Detail != null)
     {
-        @:PostaFlya - @Model.Flier.Title
+        @:PostaFlya - @Model.Detail.Flier.Title
 
     }
     else
@@ -21,9 +21,9 @@
 
 }
 
-@section scripts {
-
-    @Scripts.Render("~/Script/BulletinDetDeskJs.js") 
+@section scripts
+{
+    @Scripts.Render("~/Script/BulletinDeskJs.js")
 }
 
 @Html.Partial("Bulletin/DetailTileTemplates")

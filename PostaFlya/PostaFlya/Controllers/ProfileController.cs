@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using PostaFlya.Domain.Flier;
+using PostaFlya.Models;
 using PostaFlya.Models.Browser;
 using Website.Application.Binding;
 using PostaFlya.Models.Factory;
@@ -35,22 +36,22 @@ namespace PostaFlya.Controllers
 
         public ActionResult Posted()
         {
-            return View(new ProfileEditModel { PageId = "profile-posted" });            
+            return View(new ProfileEditModel { PageId = WebConstants.ProfilePostedPage });            
         }
 
         public ActionResult PaymentPending()
         {
-            return View(new ProfileEditModel { PageId = "profile-payment" });            
+            return View(new ProfileEditModel { PageId = WebConstants.ProfilePaymentPage });            
         }
 
         public ActionResult Peeled()
         {
-            return View(new ProfileEditModel { PageId = "profile-peeled" });
+            return View(new ProfileEditModel { PageId = WebConstants.ProfilePeeledPage });
         }
 
         public ActionResult Edit()
         {
-            return View(new ProfileEditModel{ PageId = "profile-edit" });
+            return View(new ProfileEditModel{ PageId = WebConstants.ProfileEditPage});
         }
 
         public ActionResult CheckHandle(string handle)
