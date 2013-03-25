@@ -61,8 +61,7 @@ namespace Website.Application.Email.ICalendar
         public static string ReplaceForCal(this string originalString)
         {
             string value = originalString.Replace(@"\", @"\\");
-            value = value.Replace(@"\\n", @"\n");
-            value = value.Replace(@"\\N", @"\n");
+            value = value.Replace("\n", @"\n");
             value = value.Replace(";", @"\;");
             value = value.Replace(",", @"\,");
             return value;
