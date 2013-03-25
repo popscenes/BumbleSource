@@ -26,6 +26,6 @@
     @Scripts.Render("~/Script/BulletinDeskJs.js")
 }
 
-@Html.Partial("Bulletin/DetailTileTemplates")
+@Html.Partial("Bulletin/DetailTileTemplates", Model.Detail)
 
 @Html.Partial("DetailViewPartial", Model.Detail)

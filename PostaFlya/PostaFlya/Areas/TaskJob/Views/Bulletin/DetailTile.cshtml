@@ -2,7 +2,8 @@
 @using Website.Application.Domain.Content
 @using PostaFlya.Areas.Default.Models
 @using PostaFlya.Models.Content
-@model dynamic
+@model PostaFlya.Areas.TaskJob.Models.TaskJobDetailsViewModel
+
 @{var Flier = ViewBag.Template != null && ViewBag.Template ? DefaultDetailsViewModel.DefaultForTemplate().Flier : Model.Flier;}
 
 <div class="flier-view flier-view-default">
