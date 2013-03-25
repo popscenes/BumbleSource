@@ -1280,6 +1280,14 @@ div.ui-bulletin-board
         width: 114px!important;
     }
 
+    .long-toolbar .image-btn-text {
+        display: none;
+    }
+
+    .long-toolbar .btn-44 {
+        padding-left: 34px;
+    }
+
     .bulletin-tags-selector .tags-selector .tags-box {
         padding-top: 0px;
     }
@@ -1291,6 +1299,10 @@ div.ui-bulletin-board
 
     #right-header {
         width: 28%;
+    }
+
+    #left-header {
+        width: auto;
     }
 
     

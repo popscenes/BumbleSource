@@ -2,6 +2,7 @@
 @using PostaFlya.Models
 @model PostaFlya.Models.PageModelInterface
 
+<span class="long-toolbar">
 <a id="profile-peeled" href="@Url.Action("Peeled", "Profile")"  
    class="std-btn std-image-btn btn-44 @Model.GetNavigationItemClass(WebConstants.ProfileNavPeeled)" 
    data-helptip-group="global-left-toolbar" data-helptip-text="View your Posted Flyas ">
@@ -17,9 +18,10 @@
    data-helptip-group="global-left-toolbar" data-helptip-text="View your Posted Flyas ">
     <span class="std-image-btn-icon"></span>
     <span class="image-btn-text">Credits</span>
-</a><a id="profile-edit" href="@Url.Action("Edit", "Profile")"  
-    class="std-btn std-image-btn btn-44 @Model.GetNavigationItemClass(WebConstants.ProfileNavEdit)" 
-    data-helptip-group="global-left-toolbar" data-helptip-text="Login or Create an Account">
-    <span class="std-image-btn-icon"></span>
-    <span class="image-btn-text">Profile</span>
-</a>
+    </a><a id="profile-edit" href="@Url.Action("Edit", "Profile")"  
+           class="std-btn std-image-btn btn-44 @Model.GetNavigationItemClass(WebConstants.ProfileNavEdit)" 
+           data-helptip-group="global-left-toolbar" data-helptip-text="Login or Create an Account">
+            <span class="std-image-btn-icon"></span>
+            <span class="image-btn-text">Profile</span>
+        </a>
+    </span>
