@@ -69,7 +69,6 @@ header{
 
 
 input#locationSearch {
-    display: table-cell;
     width: 96%;
     padding: 8px 2%;
     margin: 0;
