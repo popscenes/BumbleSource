@@ -174,7 +174,11 @@ namespace PostaFlya.Controllers
             if(img == null)
                 return new HttpNotFoundResult();
 
-            return File(img.GetBytes(ImageFormat.Jpeg), "image/jpeg", flier.FriendlyId + ".jpg");
+            var ret =  File(img.GetBytes(ImageFormat.Jpeg), "image/jpeg", flier.FriendlyId + ".jpg");
+            
+            img.Dispose();
+            
+            return ret;
         }
     }
 }

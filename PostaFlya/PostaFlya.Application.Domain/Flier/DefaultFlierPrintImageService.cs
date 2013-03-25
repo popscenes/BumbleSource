@@ -9,6 +9,7 @@ using PostaFlya.Domain.Flier.Analytic;
 using Website.Application.Binding;
 using Website.Application.Content;
 using Website.Application.Domain.Content;
+using Website.Application.Extension.Content;
 using Website.Infrastructure.Configuration;
 using Website.Infrastructure.Query;
 
@@ -19,17 +20,17 @@ namespace PostaFlya.Application.Domain.Flier
         private readonly BlobStorageInterface _blobStorage;
         private readonly GenericQueryServiceInterface _queryService;
         private readonly QrCodeServiceInterface _qrCodeService;
+        private readonly BlobStorageInterface _appStorage;
 
         public DefaultFlierPrintImageService([ImageStorage]BlobStorageInterface blobStorage
-            , GenericQueryServiceInterface queryService, QrCodeServiceInterface qrCodeService)
+            , GenericQueryServiceInterface queryService, QrCodeServiceInterface qrCodeService,
+            [ApplicationStorage]BlobStorageInterface appStorage)
         {
             _blobStorage = blobStorage;
             _queryService = queryService;
             _qrCodeService = qrCodeService;
+            _appStorage = appStorage;
         }
-
-
-        
 
 
         public Image GetPrintImageForFlierWithTearOffs(string flierId)
@@ -38,6 +39,10 @@ namespace PostaFlya.Application.Domain.Flier
             if (flier == null || !flier.Image.HasValue)
                 return null;
 
+            var ret = GetBlobCache("imagewithtabs", flier.Image.ToString(), flier.Id, _appStorage);
+            if (ret != null)
+                return ret;
+
             var imgData = _blobStorage.GetBlob(flier.Image.Value + ImageUtil.GetIdFileExtension());
             if(imgData == null || imgData.Length == 0)
                 return null;
@@ -45,10 +50,15 @@ namespace PostaFlya.Application.Domain.Flier
             using (var ms = new MemoryStream(imgData))
             {
                 var srcimage = Image.FromStream(ms);
-                return CreateFlierImageWithTearOffs(srcimage,
+                ret = CreateFlierImageWithTearOffs(srcimage,
                                                     GetSourceUrl(flier),
                                                     Properties.Resources.PostaLogo, _qrCodeService);
-            }        
+
+                SetBlobCache("imagewithtabs", flier.Image.ToString(), flier.Id, _appStorage, ret);
+
+                return ret;
+            }    
+            
         }
 
         public Image GetQrCodeImageForFlier(string flierId)
@@ -57,10 +67,19 @@ namespace PostaFlya.Application.Domain.Flier
             if (flier == null || !flier.Image.HasValue)
                 return null;
 
-            return CreateQrCodeImageForFlier(
+            var ret = GetBlobCache("qrcode", flier.Image.ToString(), flier.Id, _appStorage);
+            if (ret != null)
+                return ret;
+
+            ret = CreateQrCodeImageForFlier(
                                     GetSourceUrl(flier).AddAnalyticString(FlierAnalyticSourceAction.QrCodeSrcCodeOnly),
                                     Properties.Resources.PostaLogo,
                                     _qrCodeService, Qrcodewidthheight, Logoheight);
+
+            SetBlobCache("qrcode", flier.Image.ToString(), flier.Id, _appStorage, ret);
+
+
+            return ret;
         }
 
         public Image GetPrintImageForFlier(string flierId, FlierPrintImageServiceQrLocation qrLocation)
@@ -69,6 +88,10 @@ namespace PostaFlya.Application.Domain.Flier
             if (flier == null || !flier.Image.HasValue)
                 return null;
 
+            var ret = GetBlobCache(qrLocation.ToString(), flier.Image.ToString(), flier.Id, _appStorage);
+            if (ret != null)
+                return ret;
+
             var imgData = _blobStorage.GetBlob(flier.Image.Value + ImageUtil.GetIdFileExtension());
             if (imgData == null || imgData.Length == 0)
                 return null;
@@ -76,15 +99,19 @@ namespace PostaFlya.Application.Domain.Flier
             using (var ms = new MemoryStream(imgData))
             {
                 var srcimage = Image.FromStream(ms);
-                return CreateFlierImage(srcimage, GetSourceUrl(flier),
+                ret = CreateFlierImage(srcimage, GetSourceUrl(flier),
                                             Properties.Resources.PostaLogo, _qrCodeService, qrLocation);
+                SetBlobCache(qrLocation.ToString(), flier.Image.ToString(), flier.Id, _appStorage, ret);
+                
+                return ret;
+
             }  
         }
 
         const int Qrcodewidthheight = 480;
         const int Logoheight = 200;
 
-        public static Image CreateFlierImage(Image srcimage, string url, Bitmap logo, QrCodeServiceInterface qrCodeService, FlierPrintImageServiceQrLocation qrLocation)
+        private static Image CreateFlierImage(Image srcimage, string url, Bitmap logo, QrCodeServiceInterface qrCodeService, FlierPrintImageServiceQrLocation qrLocation)
         {
             
             var width = ImageUtil.A4300DpiSize.Width;
@@ -188,6 +215,7 @@ namespace PostaFlya.Application.Domain.Flier
 
             var target = new Bitmap(width, height);
 
+
             var resized = new Bitmap(srcimage, width, height - tearoffheight);
             imgToDisp.Add(resized);
 
@@ -253,6 +281,24 @@ namespace PostaFlya.Application.Domain.Flier
                 ret = "http://www.postaflya.com/";
 
             return ret + flier.FriendlyId;
+        }
+
+        private static Image GetBlobCache(string context, string imageId, string flyaId, BlobStorageInterface appStorage)
+        {
+            var key = flyaId + "/" + imageId + "/" + context;
+            var bytes = appStorage.GetBlob(key);
+            if (bytes == null)
+                return null;
+
+            var ms = new MemoryStream(bytes);
+            return Image.FromStream(ms);
+        }
+
+        private static void SetBlobCache(string context, string imageId, string flyaId, BlobStorageInterface appStorage, Image image)
+        {
+            var key = flyaId + "/" + imageId + "/" + context;
+            var convdata = image.GetBytes();
+            appStorage.SetBlob(key, convdata, BlobProperties.JpegContentTypeDefault);
         }
     }
 }
