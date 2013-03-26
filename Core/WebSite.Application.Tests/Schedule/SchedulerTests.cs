@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.Globalization;
 using System.Threading;
+using System.Threading.Tasks;
 using Moq;
 using NUnit.Framework;
 using Ninject;
@@ -72,6 +73,73 @@ namespace Website.Application.Tests.Schedule
             jobret = qs.FindById<RepeatJob>(job.Id);
             Assert.IsNotNull(jobret);
             Assert.That(jobret.InProgress, Is.False);
+        }
+
+        [Test]
+        public void JobCommandHandlerAllowsOneOneInstanceOfTheJobToRunAtAnyOneTime()
+        {
+            var cancellationTokenSource = new CancellationTokenSource();
+
+            var currentTime = DateTimeOffset.Now;
+
+            Kernel.Unbind<TimeServiceInterface>();
+            var timeService = Kernel.GetMock<TimeServiceInterface>();
+            timeService.Setup(service => service.GetCurrentTime()).Returns(
+                () => currentTime);
+
+            var commandCount = 0;
+            Kernel.Rebind<TestJobAction>()
+              .ToMethod(context =>
+                  new TestJobAction(commandCount++, null, () =>
+                      {
+                          if(commandCount == 0)
+                            Thread.Sleep(10);
+                      }, 2)).InTransientScope();
+
+            var repo = Kernel.Get<GenericRepositoryInterface>();
+            var job = new RepeatJob()
+            {
+                Id = "Every 2 Seconds",
+                FriendlyId = "Every 2 Seconds",
+                JobActionClass = typeof(TestJobAction),
+                RepeatSeconds = 1,
+                InProgress = false
+            };
+            repo.Store(job);
+            var qs = Kernel.Get<GenericQueryServiceInterface>();
+
+
+            var jobret = qs.FindById<RepeatJob>(job.Id);
+            Assert.IsNotNull(jobret);
+
+            var twoJobs = new[]
+                {
+                    new JobCommand() {JobId = job.Id, JobType = typeof (RepeatJob)},
+                    new JobCommand() {JobId = job.Id, JobType = typeof (RepeatJob)}
+                };
+
+            var commmandHandler = Kernel.Get<JobCommandHandler>();
+            Parallel.ForEach(twoJobs, command => 
+                commmandHandler.Handle(new JobCommand() { JobId = job.Id, JobType = typeof(RepeatJob) })); 
+            
+
+            jobret = qs.FindById<RepeatJob>(job.Id);
+            Assert.IsNotNull(jobret);
+            Assert.That(jobret.InProgress, Is.False);
+            Assert.That(commandCount, Is.EqualTo(1));
+
+
+            currentTime = currentTime.AddSeconds(3);
+            Parallel.ForEach(twoJobs, command =>
+                commmandHandler.Handle(new JobCommand() { JobId = job.Id, JobType = typeof(RepeatJob) }));
+
+
+            jobret = qs.FindById<RepeatJob>(job.Id);
+            Assert.IsNotNull(jobret);
+            Assert.That(jobret.InProgress, Is.False);
+            Assert.That(commandCount, Is.EqualTo(2));
+
+            Kernel.Rebind<TimeServiceInterface>().To<DefaultTimeService>();
         }
 
         [Test]

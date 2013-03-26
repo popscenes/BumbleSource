@@ -15,6 +15,7 @@ namespace Website.Application.Schedule
             target.NextRun = source.NextRun;
             target.InProgress = source.InProgress;
             target.JobActionClass = source.JobActionClass;
+            target.CurrentProcessor = source.CurrentProcessor;
             if(source.JobStorage != null)
                 target.JobStorage = new Dictionary<string, string>(source.JobStorage);
         }
@@ -29,6 +30,7 @@ namespace Website.Application.Schedule
         void CalculateNextRunFromNow(TimeServiceInterface timeService);
         bool IsRunDue(TimeServiceInterface timeService);
         Dictionary<string, string> JobStorage { get; set; }
+        Guid CurrentProcessor { get; set; }
     }
 
     [Serializable]
@@ -46,22 +48,22 @@ namespace Website.Application.Schedule
         public DateTimeOffset NextRun { get; set; }
         public bool InProgress { get; set; }
         public Type JobActionClass { get; set; }
+        public Guid CurrentProcessor { get; set; }
         public virtual void CalculateNextRunFromNow(TimeServiceInterface timeService){}
+
+        public bool IsTimedOut(TimeServiceInterface timeService)
+        {
+            if (InProgress && (TimeOut != default(TimeSpan)) && (timeService.GetCurrentTime() - LastRun) > TimeOut)
+            {
+                Trace.TraceWarning("Job timed out and being reset assumed dead {0}", Id);
+                return true;
+            }
+            return false;
+        }
+
         public bool IsRunDue(TimeServiceInterface timeService)
         {
-            if (InProgress)
-            {
-                if ((TimeOut != default(TimeSpan)) && (timeService.GetCurrentTime() - LastRun) > TimeOut)
-                {
-                    Trace.TraceWarning("Job timed out and being reset assumed dead {0}", Id);
-                }
-                else
-                {
-                    return false;
-                }
-            }
-
-            return timeService.GetCurrentTime() > NextRun;
+            return IsTimedOut(timeService) || timeService.GetCurrentTime() > NextRun;
         }
         public virtual void CopyState<JobBaseType>(JobBaseType source) where JobBaseType : JobInterface
         {

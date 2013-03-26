@@ -29,24 +29,36 @@ namespace Website.Application.Schedule.Command
         public object Handle(JobCommand command)
         {
             var job = _genericQueryService.FindById(command.JobType, command.JobId) as JobBase;
-            if (job.InProgress && !job.IsRunDue(_timeService))
+            if (job.InProgress && !job.IsTimedOut(_timeService))
                 return true;
+            if (!job.IsRunDue(_timeService))
+                return true;
+
+            job.CurrentProcessor = Guid.NewGuid();
             job.LastRun = _timeService.GetCurrentTime();
             job.InProgress = true;
             job.CalculateNextRunFromNow(_timeService);
+            JobBase currentState = null;
             var uow = _unitOfWorkFactory.GetUnitOfWork(new[] { _genericRepository });
             using (uow)
             {
                 _genericRepository.UpdateEntity(command.JobType, command.JobId, o =>
                 {
-                    var update = o as JobBase;
-                    update.CopyState(job);
+                    currentState = o as JobBase;
+                    if (currentState.CurrentProcessor == Guid.Empty)
+                        currentState.CopyState(job);
                 });
             }
 
             if (!uow.Successful)
             {
                 Trace.TraceError("Failed to update Schedule Job {0} state", command.JobId);
+                return false;
+            }
+
+            if (currentState.CurrentProcessor != job.CurrentProcessor)
+            {
+                Trace.TraceWarning("another job command already in progress {0}", command.JobId);
                 return false;
             }
 
@@ -78,6 +90,7 @@ namespace Website.Application.Schedule.Command
                     {
                         var update = o as JobBase;
                         update.CopyState(job);
+                        update.CurrentProcessor = Guid.Empty;
                     });
             }
 

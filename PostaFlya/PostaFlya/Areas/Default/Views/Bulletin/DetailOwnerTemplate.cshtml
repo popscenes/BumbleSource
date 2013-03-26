@@ -1,9 +1,6 @@
 ﻿
-@{ViewBag.Template = true;}
-
-@model PostaFlya.Areas.Default.Models.DefaultDetailsViewModel
+@using PostaFlya.Areas.Default.Models
 
 <script type="text/html" id="BehaviourDefault-template-detail-owner">
-    @Html.Partial("~/Areas/Default/Views/Bulletin/DetailOwner.cshtml")
+    @Html.Partial("~/Areas/Default/Views/Bulletin/DetailOwner.cshtml", DefaultDetailsViewModel.DefaultForTemplate())
 </script>
-@{ViewBag.Template = false;}

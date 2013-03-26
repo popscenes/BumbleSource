@@ -5,16 +5,16 @@
 
 @model DefaultDetailsViewModel
 
-@{var Flier = ViewBag.Template != null && ViewBag.Template ? DefaultDetailsViewModel.DefaultForTemplate().Flier : Model.Flier;}
+@{var flier = Model.Flier;}
 
 <div class="flier-view flier-view-default">
     <div class="flier-details clear-fix" data-bind="with:Flier">
         
-        @Html.Partial("Bulletin/DownloadPrintImagePartial", Flier)
+        @Html.Partial("Bulletin/DownloadPrintImagePartial", flier)
         
 
         <h3 class="flier-title" data-bind="text:Title">
-            @Flier.Title
+            @flier.Title
         </h3>
             
         <div class="flier-img">
@@ -22,7 +22,7 @@
         </div>
             
         <div class="flier-desc" data-bind="text:Description">
-            @Flier.Description
+            @flier.Description
         </div>                 
     </div>
 
@@ -34,7 +34,7 @@
         @*replace with image*@
         <div class="claim-icon">Tear Offs:</div>
         <span data-bind="text:Flier.NumberOfClaims">
-            @Flier.NumberOfClaims  
+            @flier.NumberOfClaims  
         </span>
     </div>
     

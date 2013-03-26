@@ -3,8 +3,9 @@
 @using PostaFlya.Domain.Behaviour
 @using PostaFlya.Models.Flier
 
-@model dynamic
-@{var flier = ViewBag.Template != null && ViewBag.Template ? BulletinFlierModel<BulletinBehaviourModel>.DefaultForTemplate(FlierBehaviour.Default) : Model;}
+@model BulletinFlierModel<BulletinBehaviourModel>
+
+@{var flier = Model;}
 
 <div class="ui-flier-tile addedtile" data-bind="bulletintile: $root.Layout, click: $root.SelectedViewModel.showDetails">     
     

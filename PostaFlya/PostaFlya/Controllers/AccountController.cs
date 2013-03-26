@@ -14,6 +14,7 @@ using Website.Application.Domain.Browser;
 using Website.Domain.Browser;
 using Website.Domain.Browser.Command;
 using Website.Domain.Location;
+using Website.Infrastructure.Configuration;
 using Website.Infrastructure.Query;
 
 namespace PostaFlya.Controllers
@@ -26,14 +27,16 @@ namespace PostaFlya.Controllers
         private readonly GenericQueryServiceInterface _queryService;
         private readonly CommandBusInterface _commandBus;
         private readonly BrowserInformationInterface _browserInformation;
+        private ConfigurationServiceInterface _configurationService;
 
         public AccountController(IdentityProviderServiceInterface identityProviderService, GenericQueryServiceInterface queryService,
-            CommandBusInterface commandBus, BrowserInformationInterface browserInformation)
+            CommandBusInterface commandBus, BrowserInformationInterface browserInformation, ConfigurationServiceInterface configurationService)
         {
             _identityProviderService = identityProviderService;
             _queryService = queryService;
             _commandBus = commandBus;
             _browserInformation = browserInformation;
+            _configurationService = configurationService;
         }
 
         public ActionResult LoginPage(string ReturnUrl = null)
@@ -141,6 +144,7 @@ namespace PostaFlya.Controllers
                     EmailAddress = identityProviderCredentials.Email,
                     Roles = new Website.Domain.Browser.Roles { Role.Participant.ToString() },
                     SavedLocations = new Locations(),
+                    AccountCredit = _configurationService.GetSetting<double>("NewAccountCredit")
                 }
             };
 

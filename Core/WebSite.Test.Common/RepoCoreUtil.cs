@@ -26,10 +26,13 @@ namespace Website.Test.Common
             where EntityInterfaceType : EntityIdInterface, StoreInterfaceType
             where StoreInterfaceType : EntityIdInterface
         {
-            store.RemoveWhere(e => e.Id == source.Id);
-            var newb = source.CreateCopy<EntityType, EntityInterfaceType>(copyFields);
-            store.Add(newb);
-            return true;
+            lock (store)
+            {
+                store.RemoveWhere(e => e.Id == source.Id);
+                var newb = source.CreateCopy<EntityType, EntityInterfaceType>(copyFields);
+                store.Add(newb);
+                return true; 
+            }
         }
 
         public static Mock<RepoType> SetupRepo<RepoType, EntityType, EntityInterfaceType, StoreInterfaceType>(

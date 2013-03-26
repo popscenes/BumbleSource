@@ -1,6 +1,6 @@
 ﻿
-@{ViewBag.Template = true;}
+@using PostaFlya.Areas.Default.Models
+
 <script type="text/html" id="BehaviourDefault-template-detail">
-    @Html.Partial("~/Areas/Default/Views/Bulletin/DetailTile.cshtml")
+    @Html.Partial("~/Areas/Default/Views/Bulletin/DetailTile.cshtml", DefaultDetailsViewModel.DefaultForTemplate())
 </script>
-@{ViewBag.Template = false;}

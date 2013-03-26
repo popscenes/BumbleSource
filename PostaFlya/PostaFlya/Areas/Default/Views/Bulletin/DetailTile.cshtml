@@ -5,11 +5,10 @@
 @using Website.Application.Domain.Content
 @using PostaFlya.Areas.Default.Models
 
-@model dynamic
+@model DefaultDetailsViewModel
 @{
-    var defForTemp = ViewBag.Template != null && ViewBag.Template ? DefaultDetailsViewModel.DefaultForTemplate() : Model;
-    BulletinFlierModel flier = defForTemp.Flier;
-    ContactDetailsModel contactDets = defForTemp.ContactDetails ?? new ContactDetailsModel();
+    BulletinFlierModel flier = Model.Flier;
+    ContactDetailsModel contactDets = Model.ContactDetails ?? new ContactDetailsModel();
 }
 
 <div class="flier-view flier-view-default">
