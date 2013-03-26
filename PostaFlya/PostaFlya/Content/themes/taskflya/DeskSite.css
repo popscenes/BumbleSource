@@ -128,6 +128,17 @@ background-color: white;
     float: right;
 }
 
+#post-post-flya {
+    width: 100%;
+    display: block;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+#post-post-flya #post-flya {
+    float: none;
+}
+
 #flya-create-continue .std-image-btn-icon {
     background-position: -136px 0px;
     top: 0;
@@ -143,7 +154,7 @@ background-color: white;
 }
 
 #profile-avatar, #log-in-profile {
-    
+    border-right: solid 1px #CFCFCF;
 }
 #log-in-profile  .std-image-btn-icon{
     background-position: -88px 0px;
@@ -935,7 +946,6 @@ margin: 0 auto;
 .mini-button {
     background-color: #D28282;
     padding: 5px 10px;
-    border: #FF7D00 solid 1px;
     font-size: 10px;
     color: white;
     cursor: pointer;
@@ -1297,6 +1307,10 @@ div.ui-bulletin-board
         width: 114px!important;
     }
 
+    #profile-avatar, #log-in-profile {
+        border-right: none;
+    }
+
     .long-toolbar .image-btn-text {
         display: none;
     }
@@ -1320,6 +1334,7 @@ div.ui-bulletin-board
 
     #left-header {
         width: auto;
+        border-right: solid 1px #CFCFCF;
     }
 
     

@@ -12,6 +12,14 @@
 
 <h2>Posted Flyas</h2>
 <h3>Review and edit your existing fliers</h3>
+
+<span id="post-post-flya">
+<a id="post-flya" data-bind="click: CreateFlierInstance.CreateFlierLaunch" class="std-btn std-image-btn btn-44">
+    <span class="std-image-btn-icon"></span>
+    <span>Post New Flya</span>
+</a>
+</span>
+
 <div id="profile-fliers"  data-bind="template: { name: FliersLayout.FlierTemplate, foreach: Fliers }, visible: Fliers().length > 0, updateLayout: FliersLayout">
 
 </div>
