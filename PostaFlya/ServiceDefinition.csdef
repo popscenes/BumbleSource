@@ -46,6 +46,7 @@
       <Setting name="TinyUrlBase" />
       <Setting name="SiteUrl" />
       <Setting name="Tags" />
+      <Setting name="NewAccountCredit"/>
     </ConfigurationSettings>
     <LocalResources>
       <LocalStorage name="Microsoft.WindowsAzure.Plugins.Caching.FileStore" sizeInMB="8192" cleanOnRoleRecycle="false" />

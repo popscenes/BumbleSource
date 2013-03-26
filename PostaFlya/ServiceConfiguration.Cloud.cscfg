@@ -36,9 +36,12 @@
       <Setting name="GooglePaymentJs" value="https://wallet.google.com/inapp/lib/buy.js"/>
 
       <Setting name="TinyUrlBase" value="http://pfly.in/"/>
-      <Setting name="SiteUrl" value="http://postaflyaprod.cloudapp.net"/>
+      <Setting name="SiteUrl" value="http://postaflya.com"/>
       <Setting name="Tags" value="events,services,for sale,property,community"/>
-      
+
+      <Setting name="NewAccountCredit" value="100"/>
+
+
     </ConfigurationSettings>
     <Certificates>
       <!--<Certificate name="Microsoft.WindowsAzure.Plugins.RemoteAccess.PasswordEncryption" thumbprint="B5EB70801A6D0B9319FDE06E891D90737F129018" thumbprintAlgorithm="sha1" />-->

@@ -101,7 +101,7 @@ namespace PostaFlya.Controllers
 
         public void CreateFormsCookieFromIdenityProviderCredentials(IdentityProviderCredential identityProviderCredentials)
         {
-            FormsAuthenticationTicket authTicket = new
+            var authTicket = new
                             FormsAuthenticationTicket(1, //version
                             identityProviderCredentials.Name, // user name
                             DateTime.Now,             //creation

@@ -45,6 +45,8 @@
       <!-- set hosts file to point to localhost -->
       <Setting name="Tags" value="events,services,for sale,property,community"/>
 
+      <Setting name="NewAccountCredit" value="1024"/>
+
     </ConfigurationSettings>
    
     <Certificates>
