@@ -1,4 +1,7 @@
-﻿namespace PostaFlya.Models
+﻿using System;
+using System.Diagnostics;
+
+namespace PostaFlya.Models
 {
     public static class WebConstants
     {
@@ -55,5 +58,7 @@
                 viewBag.AutoCompleteBinding = "locationAutoComplete";
 
         }
+
+
     }
 }

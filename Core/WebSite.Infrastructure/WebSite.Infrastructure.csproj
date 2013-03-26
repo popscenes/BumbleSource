@@ -203,6 +203,7 @@
     <Compile Include="Publish\SubscriptionInterface.cs" />
     <Compile Include="Query\GenericQueryServiceInterface.cs" />
     <Compile Include="Query\QueryServiceInterface.cs" />
+    <Compile Include="Tracing\TraceUtil.cs" />
     <Compile Include="Util\CryptoUtil.cs" />
     <Compile Include="Util\Extension\DictionaryExtensions.cs" />
     <Compile Include="Util\Extension\StringExtensions.cs" />
@@ -240,9 +241,7 @@
   <ItemGroup>
     <Content Include="App_Readme\Elmah.txt" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Tracing\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

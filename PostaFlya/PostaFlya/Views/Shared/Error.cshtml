@@ -1,5 +1,7 @@
 ﻿
 @using System.Diagnostics
+@using PostaFlya.Models
+@using Website.Infrastructure.Tracing
 @model System.Web.Mvc.HandleErrorInfo
 
 @{
@@ -8,10 +10,8 @@
 }
 
 
+<input type="hidden" value="@TraceUtil.TraceError(Model.Exception)"/>
 
-@{
-    Trace.TraceError("Unhandled Error: %s, Stack %s", Model.Exception.Message, Model.Exception.StackTrace);
-}
 
 <div class="page-content">
 <div class="page-inner">
