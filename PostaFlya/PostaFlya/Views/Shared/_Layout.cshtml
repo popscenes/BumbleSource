@@ -74,8 +74,6 @@
                         <div id="create-flier-item-div" data-bind="with:CreateFlierInstance.CreateFlier, visible:CreateFlierInstance.CreateFlier, absolutePosFromScroll: CreateFlierInstance.CreateFlier">
                             <a class="close-button mini-button red-button" data-bind="click:$root.CreateFlierInstance.FlierFormClose">close</a>
                           
-                            <div class="toolbar-button question-tool-bar-item" data-bind="helpTipTrigger: HelpTipPage, helpGroups: HelpTipGroups"></div>
-                            
                             @Html.Partial("Flier/CreateEdit", FlierCreateModel.DefaultForTemplate())
 
                         </div>
