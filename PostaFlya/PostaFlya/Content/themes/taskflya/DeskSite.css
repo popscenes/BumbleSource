@@ -143,10 +143,14 @@ background-color: white;
 }
 
 #profile-avatar, #log-in-profile {
-    border-right: solid 1px #CFCFCF;
+    
 }
-#profile-avatar .std-image-btn-icon,  #log-in-profile  .std-image-btn-icon{
+#log-in-profile  .std-image-btn-icon{
     background-position: -88px 0px;
+}
+
+#profile-avatar .std-image-btn-icon {
+    background-position: -88px -44px;
 }
 
 #profile-avatar {
@@ -957,11 +961,13 @@ margin: 0 auto;
 }
 
 .big-tick {
-    background-image: url(images/big-tick.png);
-    width: 40px;
-    height: 40px;
+   background-image: url(images/icons-34h.png);
+    width: 34px;
+    height: 34px;
+    background-position: -306px -0px;
+    background-color: #ff7d00;
     display: none;
-    vertical-align: bottom;
+    vertical-align: middle;
 }
 
 .imageSelector ul li a.thumb .tick {
