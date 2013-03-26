@@ -157,7 +157,7 @@ background-color: white;
     border-right: solid 1px #CFCFCF;
 }
 #log-in-profile  .std-image-btn-icon{
-    background-position: -88px 0px;
+    background-position: -88px -44px;
 }
 
 #profile-avatar .std-image-btn-icon {
@@ -1263,8 +1263,17 @@ div.ui-bulletin-board
 
 /***end default detail view layout***/
 
-@media only screen and (max-width: 800px)
-{
+@media only screen and (max-width: 880px) {
+    .long-toolbar .image-btn-text {
+        display: none;
+    }
+
+    .long-toolbar .btn-44 {
+        padding-left: 30px;
+    }
+}
+
+@media only screen and (max-width: 800px) {
     .page-toolbar {
         width: 100%;
     }
@@ -1273,10 +1282,10 @@ div.ui-bulletin-board
         width: 90%;
     }
 
-    #controls .location-title {
-        float: none;
-        font-size: 16px;
-    }
+        #controls .location-title {
+            float: none;
+            font-size: 16px;
+        }
 
     .page-toolbar-buttons {
         margin: 0 auto;
@@ -1292,11 +1301,10 @@ div.ui-bulletin-board
         right: 0;
     }
 
-    .helptips-container#bulletin-toolbar-helptip div.helptips-arrow
-    {
-        width: 20px;
-        height: 76px;
-    }
+        .helptips-container#bulletin-toolbar-helptip div.helptips-arrow {
+            width: 20px;
+            height: 76px;
+        }
 }
 
 
@@ -1311,13 +1319,7 @@ div.ui-bulletin-board
         border-right: none;
     }
 
-    .long-toolbar .image-btn-text {
-        display: none;
-    }
 
-    .long-toolbar .btn-44 {
-        padding-left: 30px;
-    }
 
     .bulletin-tags-selector .tags-selector .tags-box {
         padding-top: 0px;
@@ -1325,6 +1327,7 @@ div.ui-bulletin-board
 
     #logo {
         width: 38%;
+        float: left;
 
     }
 
