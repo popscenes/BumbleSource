@@ -16,22 +16,23 @@ header{
 
 #left-header {
     display: block;
-    width: 33%;
     float: left;
+    width: 48%;
     
 }
 
 #logo{
     display: block;
-    width: 33%;
+    width: 5%;
+    min-width: 94px;
     background-repeat: no-repeat;
     background-position: center;
     float: left;
+    
 }
 
 #right-header {
     display: block;
-    width: 33%;
     float: right;
 }
 
