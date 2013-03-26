@@ -28,16 +28,6 @@
             </li>
         </ol>
     </fieldset>
-    <fieldset>
-        <legend> @Html.LabelFor(model => model.Credits)</legend>
-        <ol>
-            <li>
-                @Html.LabelFor(model => model.Credits)
-                <span data-bind="text: Credits"></span>
-                @Html.ActionLink("Manage Credits", "PaymentPending", "Profile", null, new{@class="mini-button red-button"})
-            </li>
-        </ol>
-    </fieldset>
 
     @Html.Partial("Contact/ContactDetailsEditPartial", Model)
 
