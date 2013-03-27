@@ -1263,6 +1263,10 @@ div.ui-bulletin-board
 
 /***end default detail view layout***/
 
+.terms-of-service-signin {
+    font-size: 11px;
+}
+
 @media only screen and (max-width: 880px) {
     .long-toolbar .image-btn-text {
         display: none;
