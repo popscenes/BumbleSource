@@ -212,6 +212,15 @@ namespace PostaFlya
                 FacebookAppSecret = "f765d675dd653fa81e1ee25cfaa27494"
             };
              websiteInfoService.RegisterWebsite("postaflyaprod.cloudapp.net", websiteInfo);
+
+             websiteInfo = new WebsiteInfo()
+             {
+                 Tags = tags.ToString(),
+                 WebsiteName = "postaFlya",
+                 BehaivoirTags = "postaFlya",
+                 FacebookAppID = "171501919670169",
+                 FacebookAppSecret = "86a86b4edc1bfafbd22e9100532e5e55"
+             };
              websiteInfoService.RegisterWebsite(UriUtil.GetCoreDomain(config.GetSetting("SiteUrl")), websiteInfo);
         }
 

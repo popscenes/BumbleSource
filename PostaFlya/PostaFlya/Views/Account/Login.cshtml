@@ -26,8 +26,8 @@
 
 <div class="page-content">
     <div id="identity-provider-content" class="page-inner">
-        <h2>Sign in using one of the following options
-        </h2>
+        <h2>Sign in using one of the following options</h2>
+        
         @using (Html.BeginForm("AuthRequest", "Account", FormMethod.Post, new { id = "openid_form" }))
         {
              if (!string.IsNullOrWhiteSpace(ViewBag.ReturnUrl))
@@ -47,6 +47,11 @@
                     <input id="openid_submit" type="submit" value="Sign-In" />
                 </div>
             </fieldset>
+        }
+        
+        @if (ViewBag.FreeCredits != null)
+        {
+            <h4 style="text-align: center">Get @ViewBag.FreeCredits Free Credits when You Sign Up During Our POSTAFLYA Launch!</h4>
         }
 
     </div>

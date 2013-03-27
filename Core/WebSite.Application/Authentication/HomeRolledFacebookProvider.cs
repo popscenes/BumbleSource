@@ -106,7 +106,7 @@ namespace Website.Application.Authentication
         public void RequestAuthorisation()
         {
             string url = String.Format("https://www.facebook.com/dialog/oauth?client_id={0}&redirect_uri={1}&scope={2}"
-                , Uri.EscapeDataString(_facebookAppId), Uri.EscapeDataString(CallbackUrl), Uri.EscapeDataString("user_events,friends_events,publish_stream"));
+                , Uri.EscapeDataString(_facebookAppId), Uri.EscapeDataString(CallbackUrl), Uri.EscapeDataString("email,user_events,friends_events,publish_stream"));
             _httpContext.Response.Redirect(url);
         }
 

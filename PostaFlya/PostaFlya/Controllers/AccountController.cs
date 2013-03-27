@@ -42,6 +42,7 @@ namespace PostaFlya.Controllers
         public ActionResult LoginPage(string ReturnUrl = null)
         {
             ViewBag.ReturnUrl = ReturnUrl;
+            ViewBag.FreeCredits = Config.Instance.GetSetting("NewAccountCredit");
             return View("Login");
         }
 
