@@ -97,6 +97,18 @@ namespace PostaFlya
                 defaults: new { controller = "TinyUrl", action = "Get" },
                 constraints: new { path = DependencyResolver.Current.GetService<TinyUrlRouteConstraint>()}
             );
+
+            //static routes
+            routes.MapRoute(
+                name: "TermsOfService",
+                url: "termsofservice",
+                defaults: new { controller = "Static", action = "TermsOfService" }
+                );
+            routes.MapRoute(
+                name: "PrivacyPolicy",
+                url: "privacypolicy",
+                defaults: new { controller = "Static", action = "PrivacyPolicy" }
+                );
             
             //default routes
             routes.MapRoute(

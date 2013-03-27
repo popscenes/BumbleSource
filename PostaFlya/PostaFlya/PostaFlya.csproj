@@ -369,6 +369,7 @@
     <Compile Include="Controllers\ProfileController.cs" />
     <Compile Include="Controllers\SiteMapController.cs" />
     <Compile Include="Controllers\SneakyController.cs" />
+    <Compile Include="Controllers\StaticController.cs" />
     <Compile Include="Controllers\TinyUrlController.cs" />
     <Compile Include="Controllers\TrackViewController.cs" />
     <Compile Include="Models\Board\AddBoardFlierModel.cs" />
@@ -809,6 +810,8 @@
     <Content Include="Views\Error\FourOhFour.cshtml" />
     <Content Include="Views\Shared\Header\GlobalMiddleToolbar.cshtml" />
     <Content Include="Views\Shared\_DefaultLayout.cshtml" />
+    <Content Include="Views\Static\TermsOfService.cshtml" />
+    <Content Include="Views\Static\PrivacyPolicy.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
