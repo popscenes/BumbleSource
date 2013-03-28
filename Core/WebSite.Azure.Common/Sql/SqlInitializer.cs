@@ -49,7 +49,7 @@ namespace Website.Azure.Common.Sql
                 return false;
             var fedAtt = prop.GetCustomAttributes(true).First(a => a.GetType() == typeof (FederationCol)) as FederationCol;
 
-            var ret = SqlExecute.GetFederationInfo(connection);
+            var ret = SqlExecute.GetFederationInfo(connection, false);
             if (ret.Any(fi => fi.Name.Equals(fedAtt.FederationName, StringComparison.CurrentCultureIgnoreCase)))
                 return true;
 

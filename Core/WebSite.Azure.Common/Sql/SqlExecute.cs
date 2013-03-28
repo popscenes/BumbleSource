@@ -424,9 +424,10 @@ namespace Website.Azure.Common.Sql
         }
 
         private static readonly ConcurrentDictionary<string, List<FederationInfo>> FedInfoCache = new ConcurrentDictionary<string, List<FederationInfo>>();
-        public static IEnumerable<FederationInfo> GetFederationInfo(SqlConnection connection)
+        public static IEnumerable<FederationInfo> GetFederationInfo(SqlConnection connection, bool useCache = true)
         {
-            return FedInfoCache.GetOrAdd(connection.ConnectionString, s => Query<FederationInfo>(Resources.DbGetFederationInfo, connection).ToList());
+            Func<string, List<FederationInfo>> func = s => Query<FederationInfo>(Resources.DbGetFederationInfo, connection).ToList();
+            return useCache ? FedInfoCache.GetOrAdd(connection.ConnectionString, func) : func(connection.ConnectionString);
         }
 
         public static IEnumerable<FederationInstance> GetFederationInstances(SqlConnection connection)

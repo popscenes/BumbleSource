@@ -12,6 +12,20 @@ ko.bindingHandlers.datePicker = {
     }
 };
 
+ko.bindingHandlers.simpletext = {
+    update: function (element, valueAccessor) {
+        var $ele = $(element);
+        var val = valueAccessor();
+
+        $ele.empty();
+        $.each(val.split("\n"), function (intIndex, objValue) {
+            $("<span>").text(objValue, objValue).appendTo($ele);
+            $("<br />").appendTo($ele);
+        });
+    }
+};
+
+
 //ko.bindingHandlers.imageSelectorBinding = {
 //    init: function (element, valueAccessor, allBindingsAccessor, viewModel) {
 //        viewModel.Init();

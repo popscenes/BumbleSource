@@ -1217,6 +1217,9 @@ div.ui-bulletin-board
     
 }
 
+.flier-view .flier-details .flier-img {
+    text-align: center;
+}
 
 .flier-view .flier-details .flier-img img {
     width: 450px;
