@@ -134,6 +134,7 @@ input#locationSearch:focus {
     padding: 0;
     list-style: none;
     padding: 5px 0;
+    z-index: 10000;
 }
 
 .dist-selector-container:hover .dist-selector, .touch-hover.dist-selector, .dist-selector:hover{
