@@ -322,13 +322,18 @@ ko.bindingHandlers.distanceDropDown = {
             distElem.addClass("distance-choice");
             distElem.attr("data-distance", distVal);
             distElem.text(distVal + "km");
+            
             distElem.click(function() {
+                var obs = valueAccessor();
+                alert("");
+                obs($(this).attr("data-distance"));
+            });
+            
+            distElem.bind("touchend", function () {
                 var obs = valueAccessor();
                 obs($(this).attr("data-distance"));
             });
-
             
-
             $(element).append(distElem);
         }
     }
