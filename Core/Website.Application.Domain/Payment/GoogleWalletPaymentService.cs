@@ -55,7 +55,8 @@ namespace Website.Application.Domain.Payment
                     PayerId = digitalOrder.UserData["browserId"],
                     PaymentEntityId = digitalOrder.UserData["browserId"],
                     TransactionId = digitalOrder.OrderId,
-                    Id = Guid.NewGuid().ToString()
+                    Id = digitalOrder.OrderId + "goog",
+                    BrowserId = digitalOrder.UserData["browserId"]
                 };
 
             return transaction;
