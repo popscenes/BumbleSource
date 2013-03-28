@@ -339,7 +339,6 @@ ko.bindingHandlers.distanceDropDown = {
             
             distElem.click(function() {
                 var obs = valueAccessor();
-                alert("");
                 obs($(this).attr("data-distance"));
             });
             

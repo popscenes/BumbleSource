@@ -95,11 +95,7 @@ namespace PostaFlya.Specification.Fliers
             var flierPaymentResult = controllerResult.Model as PaymentResult;
             Assert.AreEqual(flierPaymentResult.PaymentMessage, "Test Error Message");
 
-            Assert.AreEqual(flierPaymentResult.Transaction.PayerId, "40D8AC2A-F95C-40A8-9A75-EE87146838A2");
-
-            Assert.AreEqual(flierPaymentResult.Transaction.Type, PaymentType.AccountCredit);
-            Assert.AreEqual(flierPaymentResult.Transaction.PaymentEntityId, "40D8AC2A-F95C-40A8-9A75-EE87146838A2");
-            Assert.AreEqual(flierPaymentResult.Transaction.Status, PaymentTransactionStatus.Fail);
+            Assert.AreEqual(flierPaymentResult.TransactionStatus, "Complete");
         }
 
         [When(@"The Payment OPTION is Completed Successfully")]
@@ -130,11 +126,8 @@ namespace PostaFlya.Specification.Fliers
             var controllerResult = SpecUtil.ControllerResult as ViewResult;
             var flierPaymentResult = controllerResult.Model as PaymentResult;
             Assert.IsTrue(!string.IsNullOrEmpty(flierPaymentResult.PaymentMessage));
-            Assert.AreEqual(flierPaymentResult.Transaction.PayerId, "40D8AC2A-F95C-40A8-9A75-EE87146838A2");
             
-            Assert.AreEqual(flierPaymentResult.Transaction.Type, PaymentType.AccountCredit);
-            Assert.AreEqual(flierPaymentResult.Transaction.PaymentEntityId, "40D8AC2A-F95C-40A8-9A75-EE87146838A2");
-            Assert.AreEqual(flierPaymentResult.Transaction.Status, PaymentTransactionStatus.Success);
+            Assert.AreEqual(flierPaymentResult.TransactionStatus, "Complete");
         }
 
         [Given(@"I have a Successful PAYMENT TRANSACTION")]
@@ -162,7 +155,9 @@ namespace PostaFlya.Specification.Fliers
         public void ThenIWillBePresentedWithMyTransactions()
         {
             var controllerResult = SpecUtil.ControllerResult as ViewResult;
-            var transactionList = controllerResult.Model as List<PaymentTransaction>;
+            var model = controllerResult.Model as PaymentTrasactionPageModel;
+
+            var transactionList = model.Transactions;
             Assert.AreEqual(transactionList.Count, 2);
             Assert.AreEqual(transactionList.Count(_ => _.Status == PaymentTransactionStatus.Success), 1);
             Assert.AreEqual(transactionList.Count(_ => _.Status == PaymentTransactionStatus.Fail), 1);
