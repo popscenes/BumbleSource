@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using PostaFlya.Domain.Flier;
 using PostaFlya.Domain.Flier.Query;
@@ -7,6 +8,7 @@ using Website.Application.Schedule;
 using Website.Application.SiteMap;
 using Website.Application.Util;
 using Website.Infrastructure.Configuration;
+using Website.Infrastructure.Domain;
 using Website.Infrastructure.Query;
 
 namespace PostaFlya.Application.Domain.SiteMap
@@ -40,18 +42,17 @@ namespace PostaFlya.Application.Domain.SiteMap
             var site = _configurationService.GetSetting("SiteUrl");
             using (var siteMapIndex = new SiteMapIndexBuilder(site, SiteMapFileFormat, _tempFileStorage, _applicationStorage))
             {
-                var flierIds = _flierSearchService.IterateAllIndexedFliers(skiptake, null, returnFriendlyId: true);
-                while (flierIds.Any())
+                IList<EntityIdInterface> flierIds = new List<EntityIdInterface>();
+                do
                 {
+                    var skip = flierIds.Any() ? _queryService.FindById<PostaFlya.Domain.Flier.Flier>(flierIds.Last().Id) : null;
+                    flierIds = _flierSearchService.IterateAllIndexedFliers(skiptake, skip);
                     foreach (var flierId in flierIds)
                     {
-                        siteMapIndex.AddPath("/" + flierId);
+                        siteMapIndex.AddPath("/" + flierId.FriendlyId);
                     }
-                    var skip = _queryService.FindByFriendlyId<PostaFlya.Domain.Flier.Flier>(flierIds.Last()); 
-                    flierIds = _flierSearchService.IterateAllIndexedFliers(skiptake, skip, returnFriendlyId: true);
-                }    
+                } while (flierIds.Any());
             }
-            
         }
     }
 }

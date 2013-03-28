@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using Website.Application.Binding;
@@ -71,6 +72,8 @@ namespace Website.Application.Schedule
                         JobType = job.GetType(),
                         SchedulerInfo = "Scheduled By" + SchedulerIdentifier
                     };
+
+                Trace.TraceInformation("Scheduling job {0} by scheduler {1}. Date ", job.Id, SchedulerIdentifier, DateTime.UtcNow);
                 _commandBus.Send(commandJobCommand);
             }
         }
@@ -82,11 +85,25 @@ namespace Website.Application.Schedule
             {
                 for (var i = 0; i < Jobs.Count; i++)
                 {
-                    dynamic job = Jobs.ElementAt(i);
+                    var job = Jobs.ElementAt(i);
                     var exist = _genericQueryService.FindById(job.GetType(), job.Id) as JobBase;
-                    if (exist != null) continue;
-                    job.CalculateNextRunFromNow(_timeService);
-                    _repository.Store(job);
+                    if (exist == null)
+                    {
+                        job.CalculateNextRunFromNow(_timeService);
+                        _repository.Store(job);
+                    }
+                    else
+                    {
+                        _repository.UpdateEntity(job.GetType(), job.Id, o =>
+                        {
+                            var update = o as JobBase;
+                            update.CurrentProcessor = Guid.Empty;
+                            update.InProgress = false;
+                        });
+                    }
+                        
+
+                    
                 }
             }
 

@@ -112,9 +112,9 @@ namespace PostaFlya.Controllers
         private IList<BulletinFlierModel> GetDefaultFliers(int count, string skipPast, string tags)
         {
             var skipFlier = string.IsNullOrWhiteSpace(skipPast) ? null : _queryService.FindById<Flier>(skipPast);
-            var ids = _flierSearchService.IterateAllIndexedFliers(count, skipFlier, false, new Tags(tags));
+            var ids = _flierSearchService.IterateAllIndexedFliers(count, skipFlier, new Tags(tags));
             if (ids.Count > 0)
-                return BulletinFlierModelUtil.IdsToModel(ids, _queryService, _blobStorage, _viewModelFactory);
+                return BulletinFlierModelUtil.IdsToModel(ids.Select(_ => _.Id), _queryService, _blobStorage, _viewModelFactory);
             if(skipFlier != null)
                 return new List<BulletinFlierModel>();
 

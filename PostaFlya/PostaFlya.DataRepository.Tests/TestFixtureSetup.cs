@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Data.Services.Client;
 using NUnit.Framework;
 using Ninject;
 using Ninject.MockingKernel.Moq;
@@ -58,6 +59,7 @@ namespace PostaFlya.DataRepository.Tests
                 tctx.InitTable<JsonTableEntry>(tableName);
                 tctx.Delete<JsonTableEntry>(tableName, null);
             }
+            tctx.SaveChanges(SaveChangesOptions.ReplaceOnUpdate);
         }
 
         private static readonly List<INinjectModule> NinjectModules = new List<INinjectModule>()

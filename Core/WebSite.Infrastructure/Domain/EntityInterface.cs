@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace Website.Infrastructure.Domain
 {
@@ -34,6 +35,18 @@ namespace Website.Infrastructure.Domain
         Type PrimaryInterface { get; }
     }
 
+    public class EntityIdEquals : IEqualityComparer<EntityIdInterface>
+    {
+        public bool Equals(EntityIdInterface x, EntityIdInterface y)
+        {
+            return x.Id == y.Id;
+        }
+
+        public int GetHashCode(EntityIdInterface obj)
+        {
+            return obj.Id.GetHashCode();
+        }
+    }
     public interface EntityIdInterface
     {
         string Id { get; set; }

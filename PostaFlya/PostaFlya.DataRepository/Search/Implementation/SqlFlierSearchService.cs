@@ -122,7 +122,7 @@ namespace PostaFlya.DataRepository.Search.Implementation
 
         }
 
-        public IList<string> IterateAllIndexedFliers(int take, FlierInterface skipPast, bool returnFriendlyId = false, Tags tags = null)
+        public IList<EntityIdInterface> IterateAllIndexedFliers(int take, FlierInterface skipPast, Tags tags = null)
         {
             var sqlCmd = _searhStringAll;
             var watch = new Stopwatch();
@@ -150,8 +150,7 @@ namespace PostaFlya.DataRepository.Search.Implementation
 
             Trace.TraceInformation("IterateAllIndexedFliers time: {0}, numfliers {1}", watch.ElapsedMilliseconds, ret.Count());
             var list = ret
-                .Select(sr => sr.Id.ToString())
-                .Distinct();
+                .Distinct(new EntityIdEquals());
 
             if (take > 0)
                 list = list.Take(take);

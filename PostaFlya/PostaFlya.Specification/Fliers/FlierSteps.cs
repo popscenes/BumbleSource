@@ -217,7 +217,7 @@ namespace PostaFlya.Specification.Fliers
         public void WhenIClickOnViewForAFlier()
         {
             var browserInformation = SpecUtil.GetCurrBrowser();
-            var fliers = SpecUtil.ControllerResult as IQueryable<FlierCreateModel>;
+            var fliers = SpecUtil.ControllerResult as List<BulletinFlierModel>;
 
             var myFliersApiController = SpecUtil.GetController<MyFliersController>();
             SpecUtil.ControllerResult = myFliersApiController.Get(browserInformation.Browser.Id, fliers.First().Id);
@@ -234,7 +234,7 @@ namespace PostaFlya.Specification.Fliers
         [Then(@"I should see a list of fliers I have created")]
         public void ThenIShouldSeeAListOfFliersIHaveCreated()
         {
-            var fliers = SpecUtil.ControllerResult as IQueryable<FlierCreateModel>;
+            var fliers = SpecUtil.ControllerResult as IList<BulletinFlierModel>;
 
             Assert.IsTrue(fliers.Count() == 3);
         }

@@ -9,6 +9,7 @@ using Website.Azure.Common.Sql;
 using PostaFlya.Domain.Flier;
 using Website.Domain.Location;
 using Website.Domain.Tag;
+using Website.Infrastructure.Domain;
 using Website.Infrastructure.Util.Extension;
 
 namespace PostaFlya.DataRepository.Search.SearchRecord
@@ -113,7 +114,7 @@ namespace PostaFlya.DataRepository.Search.SearchRecord
      }
 
     [Serializable]
-    public class FlierSearchRecord
+    public class FlierSearchRecord : EntityIdInterface
     {
         [PrimaryKey]
         public String Id { get; set; }

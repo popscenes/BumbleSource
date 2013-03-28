@@ -117,20 +117,25 @@ namespace PostaFlya.DataRepository.Tests
             var uow = Kernel.Get<UnitOfWorkFactoryInterface>()
                 .GetUnitOfWork(new List<RepositoryInterface>() {_repository});
 
+            var qs = Kernel.Get<GenericQueryServiceInterface>();
             var rand = new Random();
             var indexer = Kernel.Get<SqlFlierIndexService>();
             using (uow)
             {
                 var beh = FlierTestData.GetBehaviour(Kernel, flier);
                 _repository.Store(flier);
+                _repository.SaveChanges();
                 indexer.Publish(new FlierModifiedEvent(){NewState = flier});
 
                 var earlierFlier = new Domain.Flier.Flier();
                 earlierFlier.CopyFieldsFrom(flier);
                 earlierFlier.CreateDate = earlierFlier.CreateDate.AddDays(-1);
                 earlierFlier.Id = Guid.NewGuid().ToString();
+                earlierFlier.FriendlyId = qs.FindFreeFriendlyIdForFlier(earlierFlier);
                 _repository.Store(earlierFlier);
+                _repository.SaveChanges();
                 indexer.Publish(new FlierModifiedEvent() { NewState = earlierFlier });
+                
 
                 //add fliers with variations on longitude and latitude
                 var outOfRangeFlier = new Domain.Flier.Flier();
@@ -138,7 +143,9 @@ namespace PostaFlya.DataRepository.Tests
                 outOfRangeFlier.Id = Guid.NewGuid().ToString();
                 outOfRangeFlier.CreateDate = outOfRangeFlier.CreateDate.AddSeconds(rand.Next(-1000, 1000));
                 outOfRangeFlier.Location = new Location(flier.Location.Longitude + 10, flier.Location.Latitude);
+                outOfRangeFlier.FriendlyId = qs.FindFreeFriendlyIdForFlier(outOfRangeFlier);
                 _repository.Store(outOfRangeFlier);
+                _repository.SaveChanges();
                 indexer.Publish(new FlierModifiedEvent() { NewState = outOfRangeFlier });
 
                 outOfRangeFlier = new Domain.Flier.Flier();
@@ -146,7 +153,9 @@ namespace PostaFlya.DataRepository.Tests
                 outOfRangeFlier.Id = Guid.NewGuid().ToString();
                 outOfRangeFlier.CreateDate = outOfRangeFlier.CreateDate.AddSeconds(rand.Next(-1000, 1000));
                 outOfRangeFlier.Location = new Location(flier.Location.Longitude, flier.Location.Latitude + 10);
+                outOfRangeFlier.FriendlyId = qs.FindFreeFriendlyIdForFlier(outOfRangeFlier);
                 _repository.Store(outOfRangeFlier);
+                _repository.SaveChanges();
                 indexer.Publish(new FlierModifiedEvent() { NewState = outOfRangeFlier });
 
 
@@ -155,7 +164,9 @@ namespace PostaFlya.DataRepository.Tests
                 outOfRangeFlier.Id = Guid.NewGuid().ToString();
                 outOfRangeFlier.CreateDate = outOfRangeFlier.CreateDate.AddSeconds(rand.Next(-1000, 1000));
                 outOfRangeFlier.Location = new Location(flier.Location.Longitude + 10, flier.Location.Latitude + 10);
+                outOfRangeFlier.FriendlyId = qs.FindFreeFriendlyIdForFlier(outOfRangeFlier);
                 _repository.Store(outOfRangeFlier);
+                _repository.SaveChanges();
                 indexer.Publish(new FlierModifiedEvent() { NewState = outOfRangeFlier });
 
             }
@@ -193,7 +204,7 @@ namespace PostaFlya.DataRepository.Tests
             do
             {
                 var ret = _searchService.IterateAllIndexedFliers(1, skip);
-                skip = ret.LastOrDefault() == null ? null : _queryService.FindById<Domain.Flier.Flier>(ret.LastOrDefault());
+                skip = ret.LastOrDefault() == null ? null : _queryService.FindById<Domain.Flier.Flier>(ret.LastOrDefault().Id);
                 count += ret.Count;
 
             } while (skip != null);
@@ -202,6 +213,28 @@ namespace PostaFlya.DataRepository.Tests
             Assert.That(count, Is.EqualTo(5));
 
         }
+
+        [Test]
+        public void TestIterateAllFliersByFriendlyId()
+        {
+            var storedFlier = StoreFlierRepository();
+
+            int count = 0;
+            FlierInterface skip = null;
+            do
+            {
+                var ret = _searchService.IterateAllIndexedFliers(1, skip);
+                skip = ret.LastOrDefault() == null ? null : _queryService.FindByFriendlyId<Flier>(ret.LastOrDefault().FriendlyId);
+                count += ret.Count;
+                if (count <= 5) continue;
+                Assert.Fail("iteration failed went over expected count");
+            } while (skip != null);
+
+
+            Assert.That(count, Is.EqualTo(5));
+
+        }
+
 
         [Test]
         public void FindFliersByLocationAndDistanceTest()
