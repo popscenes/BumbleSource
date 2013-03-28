@@ -5,16 +5,22 @@ using System.Runtime.Caching;
 using System.Web;
 using System.Web.Mvc;
 using Website.Application.Azure.Caching;
+using Website.Application.Domain.Browser.Web;
+using Website.Domain.Browser.Command;
+using Website.Infrastructure.Command;
 
 namespace PostaFlya.Controllers
 {
+    [BrowserAuthorizeMvc(Roles = "Admin")]
     public class SneakyController : Controller
     {
         private readonly ObjectCache _cache;
+        private readonly CommandBusInterface _commandBus;
 
-        public SneakyController(ObjectCache cache)
+        public SneakyController(ObjectCache cache, CommandBusInterface commandBus)
         {
             _cache = cache;
+            _commandBus = commandBus;
         }
 
         //
@@ -25,6 +31,16 @@ namespace PostaFlya.Controllers
             var cache = _cache as AzureCacheProvider;
             if(cache != null)
                 cache.Clear();
+            return RedirectToAction("Get", "Bulletin");
+        }
+
+        public ActionResult SetBrowserCredit(string browserId, double credit)
+        {
+            _commandBus.Send(new SetBrowserCreditCommand()
+                {
+                    BrowserId = browserId,
+                    Credit = credit
+                });
             return RedirectToAction("Get", "Bulletin");
         }
 

@@ -62,6 +62,7 @@
     <Compile Include="Browser\BrowserInterface.cs" />
     <Compile Include="Browser\Command\AddBrowserCommand.cs" />
     <Compile Include="Browser\Command\AddBrowserCommandHandler.cs" />
+    <Compile Include="Browser\Command\SetBrowserCreditCommand.cs" />
     <Compile Include="Browser\Command\AddTagCommand.cs" />
     <Compile Include="Browser\Command\AddTagCommandHandler.cs" />
     <Compile Include="Browser\Command\ProfileEditCommand.cs" />

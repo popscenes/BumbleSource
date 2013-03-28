@@ -27,7 +27,7 @@ namespace PostaFlya.Controllers
         private readonly GenericQueryServiceInterface _queryService;
         private readonly CommandBusInterface _commandBus;
         private readonly BrowserInformationInterface _browserInformation;
-        private ConfigurationServiceInterface _configurationService;
+        private readonly ConfigurationServiceInterface _configurationService;
 
         public AccountController(IdentityProviderServiceInterface identityProviderService, GenericQueryServiceInterface queryService,
             CommandBusInterface commandBus, BrowserInformationInterface browserInformation, ConfigurationServiceInterface configurationService)
@@ -42,7 +42,7 @@ namespace PostaFlya.Controllers
         public ActionResult LoginPage(string ReturnUrl = null)
         {
             ViewBag.ReturnUrl = ReturnUrl;
-            ViewBag.FreeCredits = Config.Instance.GetSetting("NewAccountCredit");
+            ViewBag.FreeCredits = _configurationService.GetSetting("NewAccountCredit");
             return View("Login");
         }
 

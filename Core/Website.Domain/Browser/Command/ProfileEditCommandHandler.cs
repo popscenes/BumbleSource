@@ -57,9 +57,6 @@ namespace Website.Domain.Browser.Command
                                 browserUpdate.AvatarImageId = command.AvatarImageId;
                             if (!string.IsNullOrWhiteSpace(command.WebSite))
                                 browserUpdate.WebSite = command.WebSite;
-#if DEBUG
-                            browserUpdate.AccountCredit = 1000000;
-#endif
                         });    
             }
             var response = (!unitOfWork.Successful)

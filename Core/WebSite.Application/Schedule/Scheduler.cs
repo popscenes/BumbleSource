@@ -86,7 +86,7 @@ namespace Website.Application.Schedule
                 for (var i = 0; i < Jobs.Count; i++)
                 {
                     var job = Jobs.ElementAt(i);
-                    var exist = _genericQueryService.FindById(job.GetType(), job.Id) as JobBase;
+                    dynamic exist = _genericQueryService.FindById(job.GetType(), job.Id);
                     if (exist == null)
                     {
                         job.CalculateNextRunFromNow(_timeService);

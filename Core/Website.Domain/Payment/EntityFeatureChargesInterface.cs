@@ -61,7 +61,7 @@ namespace Website.Domain.Payment
             {
                 var src = source.FirstOrDefault(f => f.Equals(chargeFeature));          
                 if(src != null)
-                    chargeFeature.UpdateCost(src);
+                    chargeFeature.UpdateAlreadyPaid(src);
             }
         }
     }
@@ -88,9 +88,9 @@ namespace Website.Domain.Payment
         }
         //not sure if we need extra storage here like a hash table to pass to the behaviour
 
-        public void UpdateCost(EntityFeatureCharge source)
+        public void UpdateAlreadyPaid(EntityFeatureCharge source)
         {
-            Cost = source.Cost;
+            Paid = source.Paid;
         }
 
         public bool IsFeatureEnabledBasedOnState<EntityType>(EntityType entity) where EntityType : EntityInterface

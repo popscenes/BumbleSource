@@ -2,8 +2,6 @@ using System;
 using System.Collections.Generic;
 using Website.Infrastructure.Command;
 using Website.Infrastructure.Domain;
-using Website.Infrastructure.Query;
-using Website.Domain.Service;
 
 //using Website.Infrastructure.Service;
 
@@ -13,18 +11,12 @@ namespace Website.Domain.Payment.Command
     {
         private readonly UnitOfWorkFactoryInterface _unitOfWorkFactory;
         private readonly GenericRepositoryInterface _genericRepository;
-        private readonly GenericQueryServiceInterface _genericQueryService;
-        private readonly DomainEventPublishServiceInterface _domainEventPublishService;
 
         public PaymentTransactionCommandHandler(UnitOfWorkFactoryInterface unitOfWorkFactory
-            , GenericRepositoryInterface genericRepository
-            , GenericQueryServiceInterface genericQueryService
-            , DomainEventPublishServiceInterface domainEventPublishService)
+            , GenericRepositoryInterface genericRepository)
         {
             _unitOfWorkFactory = unitOfWorkFactory;
             _genericRepository = genericRepository;
-            _genericQueryService = genericQueryService;
-            _domainEventPublishService = domainEventPublishService;
         }
 
         public object Handle(PaymentTransactionCommand command)

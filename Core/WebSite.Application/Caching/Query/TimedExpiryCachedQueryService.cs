@@ -15,7 +15,7 @@ namespace Website.Application.Caching.Query
 
         public TimedExpiryCachedQueryService(ObjectCache cacheProvider
             , [SourceDataSource] GenericQueryServiceInterface genericQueryService
-            , int defaultSecondsToCache = -1)
+            , int defaultSecondsToCache = 1800)
             : base(cacheProvider, genericQueryService)
         {
             _defaultSecondsToCache = defaultSecondsToCache;
@@ -25,8 +25,9 @@ namespace Website.Application.Caching.Query
         {
             return new CacheItemPolicy
                        {                
-                           AbsoluteExpiration = _defaultSecondsToCache < 0 ?                                                                            DateTimeOffset.MaxValue
-                           :DateTime.UtcNow.AddSeconds(_defaultSecondsToCache)
+                           AbsoluteExpiration = _defaultSecondsToCache < 0 ? 
+                           DateTimeOffset.MaxValue :
+                           DateTimeOffset.UtcNow.AddSeconds(_defaultSecondsToCache)
                        };
         }
 

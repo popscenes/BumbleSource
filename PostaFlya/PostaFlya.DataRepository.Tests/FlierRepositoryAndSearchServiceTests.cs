@@ -214,27 +214,6 @@ namespace PostaFlya.DataRepository.Tests
 
         }
 
-        [Test]
-        public void TestIterateAllFliersByFriendlyId()
-        {
-            var storedFlier = StoreFlierRepository();
-
-            int count = 0;
-            FlierInterface skip = null;
-            do
-            {
-                var ret = _searchService.IterateAllIndexedFliers(1, skip);
-                skip = ret.LastOrDefault() == null ? null : _queryService.FindByFriendlyId<Flier>(ret.LastOrDefault().FriendlyId);
-                count += ret.Count;
-                if (count <= 5) continue;
-                Assert.Fail("iteration failed went over expected count");
-            } while (skip != null);
-
-
-            Assert.That(count, Is.EqualTo(5));
-
-        }
-
 
         [Test]
         public void FindFliersByLocationAndDistanceTest()
