@@ -85,8 +85,8 @@ namespace Website.Application.Schedule
             {
                 for (var i = 0; i < Jobs.Count; i++)
                 {
-                    var job = Jobs.ElementAt(i);
-                    dynamic exist = _genericQueryService.FindById(job.GetType(), job.Id);
+                    dynamic job = Jobs.ElementAt(i);
+                    var exist = _genericQueryService.FindById(job.GetType(), job.Id);
                     if (exist == null)
                     {
                         job.CalculateNextRunFromNow(_timeService);
@@ -94,12 +94,13 @@ namespace Website.Application.Schedule
                     }
                     else
                     {
-                        _repository.UpdateEntity(job.GetType(), job.Id, o =>
-                        {
-                            var update = o as JobBase;
-                            update.CurrentProcessor = Guid.Empty;
-                            update.InProgress = false;
-                        });
+                        Action<object> updateAction = o =>
+                            {
+                                var update = o as JobBase;
+                                update.CurrentProcessor = Guid.Empty;
+                                update.InProgress = false;
+                            };
+                        _repository.UpdateEntity(exist.GetType(), exist.Id, updateAction);
                     }
                         
 
