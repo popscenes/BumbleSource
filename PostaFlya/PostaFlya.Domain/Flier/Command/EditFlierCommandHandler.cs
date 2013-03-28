@@ -62,7 +62,7 @@ namespace PostaFlya.Domain.Flier.Command
                             flier.EnableAnalytics = command.EnableAnalytics;
                             flier.Status = FlierStatus.Pending;
                             flier.Features = CreateFlierCommandHandler.GetPaymentFeatures(flier);
-                            flier.MergeUpdateFeatureCharges(flierQuery.Features); 
+                            flier.MergeUpdateFeatureCharges(flier.Features); 
                         });
                 
                 //add all existing board to the operation, as if a flier is modified it needs to be re-approved
