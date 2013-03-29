@@ -29,7 +29,7 @@
                 data: reqdata,
                 type: "post", contentType: "application/json",
                 success: function (result) {
-                    $.getJSON('/api/BulletinApi/' + self.Flier.Id
+                    $.getJSON('/api/BulletinApi/' + self.Flier.FriendlyId
                         , function (newdata) {
                             ko.mapping.fromJS(newdata, self);
                         });

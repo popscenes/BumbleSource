@@ -129,7 +129,12 @@ namespace PostaFlya.Controllers
             
             var flier = queryService.FindByFriendlyId<Flier>(id);
             if (flier == null)
-                return null;
+            {
+                flier = queryService.FindById<Flier>(id);
+                if (flier == null)
+                    return null;
+            }
+                
 
             var behaviour = behaviourQueryService.GetBehaviourFor(flier);
             if (behaviour == null)
