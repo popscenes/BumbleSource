@@ -3,6 +3,7 @@ using System.Web.Script.Serialization;
 using NUnit.Framework;
 using Ninject;
 using Ninject.MockingKernel.Moq;
+using PostaFlya.Application.Domain.Browser;
 using PostaFlya.Controllers;
 using Website.Application.Domain.Browser;
 using Website.Domain.Browser;
@@ -23,7 +24,7 @@ namespace PostaFlya.Website.Tests.Controllers
         [TestFixtureSetUp]
         public void FixtureSetUp()
         {
-            var browserInfo = Kernel.GetMock<BrowserInformationInterface>();
+            var browserInfo = Kernel.GetMock<PostaFlyaBrowserInformationInterface>();
 
             var browser =  Kernel.Get<BrowserInterface>(ctx => ctx.Has("ststestbrowser"));
 
@@ -31,15 +32,19 @@ namespace PostaFlya.Website.Tests.Controllers
             browser.SavedTags.Add(Kernel.Get<Tags>(ctx => ctx.Has("someothertags")));
             browser.SavedLocations.Add(new Location(0, 0));
             browser.SavedLocations.Add(new Location(10, 20));
-            browserInfo.Setup(ctx => ctx.Browser).Returns(browser);
-
             
+            browserInfo.Setup(ctx => ctx.Browser)
+                .Returns(browser);
+
+            Kernel.Bind<BrowserInformationInterface, PostaFlyaBrowserInformationInterface>()
+                .ToConstant(browserInfo.Object);
+
         }
 
         [TestFixtureTearDown]
         public void FixtureTearDown()
         {
-            
+            Kernel.Unbind<BrowserInformationInterface>();
         }
 
         [Test]

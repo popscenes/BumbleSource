@@ -10,10 +10,12 @@ namespace PostaFlya.Domain.Flier.Payment
 {
     public class PostRadiusFeatureChargeBehaviour : FlierChargeBehaviourBase
     {
-        public static readonly int RatePerSqKm = 1; 
+        public static readonly int RatePerSqKm = 1;
+        public const int DefaultRadius = 5;
         public static EntityFeatureCharge GetPostRadiusFeatureCharge(int extendPostRadius)
         {
-            var init = (int)((5 + extendPostRadius)*(5 + extendPostRadius)*3.14*RatePerSqKm);
+            var effectiveRadius = DefaultRadius + extendPostRadius;
+            var init = (int)(effectiveRadius * effectiveRadius * 3.14 * RatePerSqKm * (DefaultRadius / (double)effectiveRadius));
             var cost = init + 5 - (init%5);
             
             return new EntityFeatureCharge()

@@ -140,6 +140,7 @@ namespace PostaFlya.Specification.Fliers
         public void GivenIHaveCreatedAflierofBehaviour(string flierbehaviour)
         {           
             GivenIOrAnotherBrowserHasNavigatedToTheCreateFlierPage(flierbehaviour);
+            _common.GivenIHaveAccountCredit(80);
             WhenISubmitTheRequiredDataForAFlier();
             ThenTheNewFlierWillBeCreated(flierbehaviour);
         }
@@ -148,6 +149,7 @@ namespace PostaFlya.Specification.Fliers
         public void GivenABrowserHasCreatedAFlier()
         {
             var browserId = _common.GivenThereIsAnExistingBrowserWithParticipantRole();
+            _common.GivenABrowserHasAccountCredit(browserId, 80);
             GivenIOrAnotherBrowserHasNavigatedToTheCreateFlierPage(FlierBehaviour.Default.ToString());
             WhenTheBrowserSubmitsTheRequiredDataForAFlier(browserId);
             ThenTheNewFlierWillBeCreated(FlierBehaviour.Default.ToString());
@@ -157,6 +159,7 @@ namespace PostaFlya.Specification.Fliers
         public void GivenABrowserHasCreatedAFlierofBehaviour(string flierbehaviour)
         {
             var browserId = _common.GivenThereIsAnExistingBrowserWithParticipantRole();
+            _common.GivenABrowserHasAccountCredit(browserId, 80);
             GivenIOrAnotherBrowserHasNavigatedToTheCreateFlierPage(flierbehaviour);
             WhenTheBrowserSubmitsTheRequiredDataForAFlier(browserId);
             ThenTheNewFlierWillBeCreated(flierbehaviour);

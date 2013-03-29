@@ -7,6 +7,8 @@
     Layout = "_Layout.cshtml";
 }
 
+@Html.Partial("Bulletin/SelectedBulletinViewPartial")
+
 <h2>Peeled Fliers</h2>
 <div id="profile-fliers"  data-bind="template: { name: FliersLayout.FlierTemplate, foreach: Fliers }, visible: Fliers().length > 0, updateLayout: FliersLayout">
 

@@ -137,6 +137,13 @@ namespace PostaFlya.Specification
             ScenarioContext.Current["initialcredit"] = credit;
         }
 
+        [Given("@the existing browser has (.*) Account Credits")]
+        public void GivenTheExistingBrowserAccountCredit(int credit)
+        {
+            var id = ScenarioContext.Current["existingbrowserid"] as string;
+            GivenABrowserHasAccountCredit(id, credit);
+        }
+
         [Given(@"I have (.*) Account Credits")]
         [When(@"I have (.*) Account Credits")]
         public void GivenIHaveAccountCredit(int credit)

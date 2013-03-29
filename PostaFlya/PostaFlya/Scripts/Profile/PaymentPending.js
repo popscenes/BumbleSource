@@ -28,7 +28,8 @@
                 //data: { flierId: flier.Id },
                 type: "put", contentType: "application/json",
                 success: function (result) {
-                    self.GetMyPendingFliers();
+                    //self.GetMyPendingFliers();
+                    window.location.reload();
                 }
             });
         };

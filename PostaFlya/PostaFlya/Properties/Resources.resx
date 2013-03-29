@@ -438,4 +438,8 @@
   <data name="PlaceName" xml:space="preserve">
     <value>PlaceName</value>
   </data>
+  <data name="FlierStatus" xml:space="preserve">
+    <value>Status</value>
+    <comment>BulletinFlierModel</comment>
+  </data>
 </root>

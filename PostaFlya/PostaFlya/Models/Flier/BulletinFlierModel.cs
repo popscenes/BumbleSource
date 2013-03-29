@@ -68,7 +68,7 @@ namespace PostaFlya.Models.Flier
 
     [KnownType(typeof(BulletinFlierModel<BulletinBehaviourModel>))]
     [KnownType(typeof(BulletinFlierModel<BulletinTaskJobBehaviourModel>))]
-    public class BulletinFlierModel
+    public class BulletinFlierModel : BrowserIdInterface
     {
         
         [Display(Name = "FlierId", ResourceType = typeof(Properties.Resources))] 
@@ -114,8 +114,10 @@ namespace PostaFlya.Models.Flier
         [Display(Name = "FlierImages", ResourceType = typeof(Properties.Resources))] 
         public List<ImageViewModel> ImageList { get; set; }
 
-
         public Int32 PendingCredits { get; set; }
+
+        [Display(Name = "FlierStatus", ResourceType = typeof(Properties.Resources))] 
+        public string Status { get; set; }
     }
 
     public class BulletinFlierModel<BehaviourType> : BulletinFlierModel where BehaviourType : new()

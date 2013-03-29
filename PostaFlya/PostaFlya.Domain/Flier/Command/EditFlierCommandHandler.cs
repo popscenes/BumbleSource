@@ -84,6 +84,7 @@ namespace PostaFlya.Domain.Flier.Command
                 var enabled = flierCurrent.ChargeForState(_repository, _queryService, _creditChargeServiceInterface);
                 _repository.UpdateEntity<Flier>(flierCurrent.Id, f =>
                 {
+                    f.MergeUpdateFeatureCharges(flierCurrent.Features); 
                     f.Status = enabled ? FlierStatus.Active : FlierStatus.PaymentPending;
                 });
 

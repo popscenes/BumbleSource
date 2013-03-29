@@ -13,8 +13,9 @@
         @Html.Partial("Bulletin/DownloadPrintImagePartial", flier)
         
 
-        <h3 class="flier-title" data-bind="text:Title">
-            @flier.Title
+        <h3 class="flier-title" >
+            <span data-bind="text:Title">@flier.Title</span>
+            (Status <span data-bind="text:Status">@flier.Status</span>)
         </h3>
             
         <div class="flier-img">
@@ -32,7 +33,7 @@
         
     <div class="claim-stats">
         @*replace with image*@
-        <div class="claim-icon">Tear Offs:</div>
+        <div class="claim-icon">Number of Peels:</div>
         <span data-bind="text:Flier.NumberOfClaims">
             @flier.NumberOfClaims  
         </span>

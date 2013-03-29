@@ -612,6 +612,15 @@ namespace PostaFlya.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Status.
+        /// </summary>
+        public static string FlierStatus {
+            get {
+                return ResourceManager.GetString("FlierStatus", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to FlierTags.
         /// </summary>
         public static string FlierTags {

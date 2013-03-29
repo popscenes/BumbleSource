@@ -1253,10 +1253,10 @@ div.ui-bulletin-board
 
 
 .get-flier-detail-div {
-    width: 800px;
+    padding: 4%;
+    width: 90%;
     margin: 0 auto 0;
     background-color: white;
-    padding: 15px;
     margin-top: 15px;
     border-top: 1px solid #ccc;
     border-right: 1px solid #ccc;
@@ -1428,7 +1428,7 @@ div.ui-bulletin-board
     div#selected-item-div, div#create-flier-item-div {
 
         left: 0;
-        padding: 5%;
+        padding: 4%;
         width: 90%;
         margin-left: 0;
         

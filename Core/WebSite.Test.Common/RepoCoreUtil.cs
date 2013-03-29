@@ -94,8 +94,8 @@ namespace Website.Test.Common
             repositoryGeneric.Setup(m => m.UpdateEntity(typeof(EntityType), It.IsAny<string>(), It.IsAny<Action<object>>()))
                 .Callback<Type, string, Action<EntityType>>((type, id, act) => updateAction(id, act));
 
-            repository.Setup(r => r.SaveChanges()).Returns(true);
-            repositoryGeneric.Setup(r => r.SaveChanges()).Returns(true);
+            repository.Setup(r => r.SaveChanges()).Returns(() => true);
+            repositoryGeneric.Setup(r => r.SaveChanges()).Returns(() => true);
 
             return repository;
         }

@@ -73,7 +73,9 @@
 
         self.Description = ko.computed(function () {
             var addDesc = '';
-            addDesc = self.AddAddressPart(self.PlaceName(), addDesc, '');
+            if (self.PlaceName() != self.StreetNumber() + ' ' + self.Street())
+                addDesc = self.AddAddressPart(self.PlaceName(), addDesc, '');
+
             addDesc = self.AddAddressPart(self.StreetNumber(), addDesc, ', ');
             addDesc = self.AddAddressPart(self.Street(), addDesc, ' ');
             addDesc = self.AddAddressPart(self.Locality(), addDesc, ', ');

@@ -24,5 +24,11 @@ namespace Website.Infrastructure.Util.Extension
             }
             return stringBuilder.ToString(); 
         }
+
+        public static EnumType AsEnum<EnumType>(this string source, EnumType @default = default(EnumType)) where EnumType : struct
+        {
+            EnumType ret;
+            return Enum.TryParse(source, true, out ret) ? ret : @default;
+        }
     }
 }

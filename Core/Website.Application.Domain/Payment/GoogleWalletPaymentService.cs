@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Website.Application.Intergrations.Payment;
 using Website.Domain.Payment;
+using Website.Infrastructure.Domain;
 
 namespace Website.Application.Domain.Payment
 {
@@ -58,6 +59,8 @@ namespace Website.Application.Domain.Payment
                     Id = digitalOrder.OrderId + "goog",
                     BrowserId = digitalOrder.UserData["browserId"]
                 };
+
+            transaction.SanitizeEntityId();
 
             return transaction;
         }

@@ -5,6 +5,7 @@ using System.Web.Mvc;
 using Ninject;
 using PostaFlya.Application.Domain.Browser;
 using PostaFlya.Application.Domain.Flier;
+using PostaFlya.Domain.Flier;
 using PostaFlya.Domain.Flier.Analytic;
 using PostaFlya.Models;
 using Website.Application.Binding;
@@ -19,6 +20,7 @@ using Website.Application.Domain.Browser;
 using Website.Domain.Location;
 using Website.Domain.Tag;
 using Website.Infrastructure.Query;
+using Website.Infrastructure.Util.Extension;
 
 namespace PostaFlya.Controllers
 {
@@ -71,9 +73,17 @@ namespace PostaFlya.Controllers
                                                               _viewModelFactory, _browserInformation)
                 };
 
-            if(model.Detail != null)
-                _webAnalyticService.RecordVisit(model.Detail.Flier.Id, FlierAnalyticSourceAction.IdByBulletin);
+
+            if (model.Detail == null || 
+                (model.Detail.Flier.Status.AsEnum<FlierStatus>() != FlierStatus.Active
+                && !_browserInformation.Browser.IsOwner(model.Detail.Flier)))
+            {
+                return new HttpNotFoundResult();
+            }
+
+
          
+            _webAnalyticService.RecordVisit(model.Detail.Flier.Id, FlierAnalyticSourceAction.IdByBulletin);
             return View("DetailGet", model);
         }
     }

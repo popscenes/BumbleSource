@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Website.Infrastructure.Domain
 {
@@ -26,6 +27,15 @@ namespace Website.Infrastructure.Domain
         {
             target.Id = source.Id;
             target.FriendlyId = source.FriendlyId;
+        }
+
+
+        private static readonly char[] InvalidChars = new char[] {'/','\\','#','?'};
+        public static void SanitizeEntityId(this EntityIdInterface target)
+        {
+            if (target == null || string.IsNullOrWhiteSpace(target.Id))
+                return;
+            target.Id = new string(target.Id.Where(c => !InvalidChars.Contains(c)).ToArray());
         }
     }
 
