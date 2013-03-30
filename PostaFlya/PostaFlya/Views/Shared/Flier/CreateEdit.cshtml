@@ -41,13 +41,13 @@
         <span>CONTINUE</span>
     </a>
 
-    <a id="flya-create-save" data-bind="click: save, visible:!isUpdate() && !isNextStep()" class="std-btn std-image-btn">
+    <a id="flya-create-save" data-bind="click: save, visible:!isUpdate() && !isNextStep(), css: { 'btn-std-inuse': posting() == true }" class="std-btn std-image-btn">
         <span class="std-image-btn-icon"></span>
-        <span>SAVE</span>
+        <span data-bind="text: saveText"></span>
     </a>
-    <a id="flya-create-update" data-bind="click: update, visible:isUpdate() && !isNextStep()" class="std-btn std-image-btn">
+    <a id="flya-create-update" data-bind="click: update, visible:isUpdate() && !isNextStep(), css: { 'btn-std-inuse': posting() == true }" class="std-btn std-image-btn">
         <span class="std-image-btn-icon"></span>
-        <span>UPDATE</span>
+        <span data-bind="text: updateText"></span>
     </a>
 </div>
 
