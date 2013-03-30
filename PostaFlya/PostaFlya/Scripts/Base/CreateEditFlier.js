@@ -71,6 +71,16 @@
         self.currentStep = ko.observable(0);
         self.costBreakdown = ko.observable(false);
 
+        self.posting = ko.observable(false);
+        
+        self.saveText = ko.computed(function () {
+            return self.posting() == true ? "Saving" : "Save";
+        }, self);
+        
+        self.updateText = ko.computed(function () {
+            return self.posting() == true ? "Updating" : "Update";
+        }, self);
+
         self.showCostBreakdown = function() {
             self.costBreakdown(!self.costBreakdown());
         };
@@ -199,6 +209,10 @@
         };
 
         self.update = function () {
+            if (self.posting() == true) {
+                return false;
+            }
+
             if (!$('#flierForm').valid()) {
                 return false;
             }
@@ -209,10 +223,12 @@
             if (!self.ContactDetails().Address().ValidLocation())
                 reqData.ContactDetails.Address = null;
 
+            self.posting(true);
             $.ajax(self.apiUrl, {
                 data: ko.utils.stringifyJson(reqData),
                 type: "put", contentType: "application/json",
                 success: function (result) {
+                    self.posting(false);
                     if (self.afterUpdateCallback != undefined)
                         self.afterUpdateCallback();
                 }
@@ -222,6 +238,9 @@
         };
 
         self.save = function () {
+            if (self.posting() == true) {
+                return false;
+            }
 
             var validate = $('#flierForm').validate();
             if (!validate.form()) {
@@ -236,10 +255,12 @@
             if (!self.ContactDetails().Address().ValidLocation())
                 reqData.ContactDetails.Address = null;
 
+            self.posting(true);
             $.ajax(self.apiUrl, {
                 data: ko.utils.stringifyJson(reqData),
                 type: "post", contentType: "application/json",
                 success: function (result) {
+                    self.posting(false);
                     if (result.Details[2].Message == "PaymentPending") {
                         window.location = "/profile/paymentpending";
                         return;
@@ -249,7 +270,7 @@
                     
                 },
                 error: function (jqXhr, textStatus, errorThrown) {
-
+                    self.posting(false);
                     bf.ErrorUtil.HandleRequestError('#flierForm', jqXhr, self.ErrorHandler);
                 }
             });
