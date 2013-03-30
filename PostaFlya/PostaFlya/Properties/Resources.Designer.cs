@@ -621,7 +621,7 @@ namespace PostaFlya.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to FlierTags.
+        ///   Looks up a localized string similar to Flier Tags.
         /// </summary>
         public static string FlierTags {
             get {
@@ -630,7 +630,7 @@ namespace PostaFlya.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to FlierTitle.
+        ///   Looks up a localized string similar to Flier Title.
         /// </summary>
         public static string FlierTitle {
             get {
@@ -813,7 +813,7 @@ namespace PostaFlya.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {0} is required..
+        ///   Looks up a localized string similar to {0} required..
         /// </summary>
         public static string Required {
             get {

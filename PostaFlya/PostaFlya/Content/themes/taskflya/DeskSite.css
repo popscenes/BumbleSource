@@ -269,6 +269,7 @@ div.current-loc {
     width: 34px;
     background-image: url(images/icons-34h.png);
     background-position: -34px -34px;
+    cursor: pointer;
 }
 
 div#create-flier-item-div, div#selected-item-div
@@ -435,6 +436,7 @@ div#selected-item-popup-overlay, div#create-flier-popup-overlay {
     text-align:center;
     width:100px;
     line-height:20px;
+    cursor: pointer;
 }
 .tags-selector ul li div{
 	background-image:url(images/icons.png);
@@ -732,7 +734,8 @@ div#selected-item-popup-overlay, div#create-flier-popup-overlay {
     background-image: url(images/print-icon.png);
     width: 50px;
     height: 50px;
-    display: inline-block;   
+    display: inline-block;
+    cursor: pointer;
 }
 
 .print-options a {

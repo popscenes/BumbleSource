@@ -107,6 +107,7 @@ input#locationSearch:focus {
     line-height: 36px;
     font-size: 12px;
     font-weight: bold;
+    cursor: pointer;
 }
 
 .dist-selector {
