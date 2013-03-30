@@ -71,6 +71,8 @@
         self.currentStep = ko.observable(0);
         self.costBreakdown = ko.observable(false);
 
+        self.posting = ko.observable(false);
+
         self.showCostBreakdown = function() {
             self.costBreakdown(!self.costBreakdown());
         };
