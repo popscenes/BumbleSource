@@ -1,11 +1,13 @@
 ﻿
+@using PostaFlya.Models.Location
 @using Website.Application.Domain.Content
 @using PostaFlya.Areas.Default.Models
 @using PostaFlya.Models.Content
 
 @model DefaultDetailsViewModel
 
-@{var flier = Model.Flier;}
+@{var flier = Model.Flier;
+  ContactDetailsModel contactDets = Model.ContactDetails ?? new ContactDetailsModel();}
 
 <div class="flier-view flier-view-default">
     <div class="flier-details clear-fix" data-bind="with:Flier">
@@ -26,6 +28,12 @@
             @flier.Description
         </div>                 
     </div>
+    
+    <div class="flier-contact-dets" data-bind="visible: ContactDetails() != null, with:ContactDetails">
+        @Html.Partial("Contact/ContactDetailsViewPartial", contactDets)
+
+        <a class="std-btn" data-bind="click: $parent.TearOff, css{ btn-std-inuse: $parent.IsPeeling() ">Test Peel</a>
+    </div> 
 
     
     @Html.Partial("Flier/AnalyticSummary")

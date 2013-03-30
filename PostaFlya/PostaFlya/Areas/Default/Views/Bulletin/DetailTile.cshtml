@@ -41,13 +41,13 @@
                       
     </div>
     <div class="tear-off" data-bind="visible: ContactDetails() == null">
-        <a class="std-btn" data-bind="click: TearOff">Peel Details</a>
+        <a class="std-btn" data-bind="click: TearOff, css{btn-std-inuse: IsPeeling()}">Peel Details</a>
     </div> 
 
     <div class="flier-contact-dets" data-bind="visible: ContactDetails() != null, with:ContactDetails">
         @Html.Partial("Contact/ContactDetailsViewPartial", contactDets)
 
-        <a class="std-btn" data-bind="click: $parent.TearOff">Resend Details</a>
+        <a class="std-btn" data-bind="click: $parent.TearOff, css{btn-std-inuse: IsPeeling()">Resend Details</a>
     </div> 
 
 </div>

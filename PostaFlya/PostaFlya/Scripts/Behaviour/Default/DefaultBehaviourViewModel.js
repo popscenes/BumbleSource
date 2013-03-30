@@ -4,6 +4,8 @@
 
     bf.DefaultBehaviourViewModel = function (data) {
         var self = this;
+        
+        
 
         var mapping = {
             'copy': ["Flier"],
@@ -16,6 +18,8 @@
         };
         
         ko.mapping.fromJS(data, mapping, self);
+        
+        self.IsPeeling = ko.observable(false);
 
         self.TearOff = function() {
 
@@ -25,19 +29,21 @@
                 BrowserId: bf.currentBrowserInstance.BrowserId
             });
 
+            self.IsPeeling(true);
             $.ajax('/api/claim/', {
                 data: reqdata,
                 type: "post", contentType: "application/json",
                 success: function (result) {
                     $.getJSON('/api/BulletinApi/' + self.Flier.FriendlyId
                         , function (newdata) {
-                            ko.mapping.fromJS(newdata, self);
-                        });
+                            ko.mapping.fromJS(newdata, self);                       
+                        }).always(function () { self.IsPeeling(false);});
+                    
                 },
                 error: function (jqXhr, textStatus, errorThrown) {
                     bf.ErrorUtil.HandleRequestError(null, jqXhr);
                 }
-            });
+            }).fail(function () { self.IsPeeling(false); });
             return true;
         };
 
