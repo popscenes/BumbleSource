@@ -394,6 +394,10 @@ div#selected-item-div, div#create-flier-item-div {
     left: 50%;
 }
 
+div#create-flier-item-div {
+    z-index: 1851;
+}
+
 div#selected-item-div div.helptips-container, div#create-flier-item-div div.helptips-container{
     z-index: 2000;
 }
@@ -415,6 +419,10 @@ div#selected-item-popup-overlay, div#create-flier-popup-overlay {
     right: 0;
     bottom: 0;
     z-index: 1750;
+}
+
+div#create-flier-popup-overlay {
+    z-index: 1850;
 }
 
 div#selected-item-div .close-button, div#create-flier-item-div .close-button {
