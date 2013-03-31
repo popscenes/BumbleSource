@@ -158,7 +158,7 @@ namespace PostaFlya.Controllers
         private static void AddContactDetailsIfTornOff(BrowserInterface current, FlierInterface flier, DefaultDetailsViewModel model
             , GenericQueryServiceInterface queryService)
         {
-            if (!flier.BrowserHasClaimed(current, queryService))
+            if (!flier.BrowserHasClaimed(current, queryService) && !current.IsOwner(flier))
                 return;
             var dets = flier.GetContactDetailsForFlier(queryService.FindById<Browser>(flier.BrowserId));
             if (dets == null)

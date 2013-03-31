@@ -17,6 +17,7 @@ using PostaFlya.Models.Flier;
 using PostaFlya.Models.Location;
 using Website.Application.Content;
 using Website.Application.Domain.Browser;
+using Website.Domain.Browser;
 using Website.Domain.Location;
 using Website.Domain.Tag;
 using Website.Infrastructure.Query;

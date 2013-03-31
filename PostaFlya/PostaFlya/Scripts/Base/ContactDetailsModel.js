@@ -26,7 +26,7 @@
             }
         };  
         
-        ko.mapping.fromJS(data, mapping, this);
+        ko.mapping.fromJS(data, mapping, self);
 
     };
 

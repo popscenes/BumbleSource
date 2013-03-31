@@ -34,7 +34,8 @@ namespace PostaFlya.Views.Shared
             "jquery.galleriffic.js",
             "sammy.js",
             "URI.js",
-            "jquery.cookie.js",
+            "jquery.cookie.js", 
+            "Extension/knockout-jquery-ui-widget.js",
  
             //ours
             "Extension/sprintf-0.7-beta1.js",
@@ -65,7 +66,8 @@ namespace PostaFlya.Views.Shared
         private static readonly string[] DeskJsFiles =
         {
             "jquery-ui-1.10.0.js",
-            "jquery.ui.touch-punch.min.js"
+            "jquery.ui.touch-punch.min.js",
+            "jquery-ui-timepicker-addon.js"
         };
 
  

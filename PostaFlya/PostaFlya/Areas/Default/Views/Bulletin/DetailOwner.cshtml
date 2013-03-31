@@ -1,21 +1,26 @@
 ﻿
+@using PostaFlya.Models.Location
 @using Website.Application.Domain.Content
 @using PostaFlya.Areas.Default.Models
 @using PostaFlya.Models.Content
 
 @model DefaultDetailsViewModel
 
-@{var flier = Model.Flier;}
+@{var flier = Model.Flier;
+  ContactDetailsModel contactDets = Model.ContactDetails ?? new ContactDetailsModel();}
 
 <div class="flier-view flier-view-default">
     <div class="flier-details clear-fix" data-bind="with:Flier">
         
 
         @Html.Partial("Bulletin/DownloadPrintImagePartial", flier)
-       
+        
         <h3 class="flier-title" >
+            <span class="edit-from-flya">
+            <a class="std-btn" data-bind="click:$root.CreateFlierInstance.EditFlierLaunch">EDIT</a>
+            </span>
             <span data-bind="text:Title">@flier.Title</span>
-            (Status <span data-bind="text:Status">@flier.Status</span>)
+            (Status <span data-bind="text:Status">@flier.Status</span>)    
         </h3>
             
         <div class="flier-img">
@@ -25,6 +30,17 @@
         <div class="flier-desc" data-bind="simpletext:Description">
             @flier.Description
         </div>                 
+    </div>
+    
+    <div data-bind="if:ContactDetails != null">
+        <div class="flier-contact-dets" data-bind="with:ContactDetails">
+            <h4>
+                Contact Details
+            </h4>
+            @Html.Partial("Contact/ContactDetailsViewPartial", contactDets)
+
+            <a class="std-btn" data-bind="click: $parent.TearOff, css: { 'btn-std-inuse': $parent.IsPeeling()}, text: $parent.PeelText">Test Peel</a>
+        </div> 
     </div>
 
     
@@ -40,9 +56,7 @@
     </div>
     
     
-    <span data-bind="with:Flier">
-        <a class="std-btn" data-bind="click:$root.CreateFlierInstance.EditFlierLaunch">EDIT</a>
-    </span>
+
 </div>
 
 

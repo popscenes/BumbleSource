@@ -79,6 +79,7 @@ namespace PostaFlya.Controllers
         {
             var ret = _queryService.GetByBrowserId<Claim>(browserId)
                       .Select(l => _queryService.FindById<Flier>(l.AggregateId))
+                      .Where(f => f.BrowserId != browserId)//exclude your own
                       .ToViewModel(_queryService, _blobStorage, _viewModelFactory);
             return ret;
         }

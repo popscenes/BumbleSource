@@ -14,7 +14,8 @@ namespace PostaFlya.Application.Domain.Email.ICalendar
                     Title = flier.Title, 
                     StartTime = flier.EffectiveDate, 
                     EndTime = flier.EffectiveDate.AddDays(1),
-                    Description = flier.Description
+                    Description = flier.Description,
+                    IsUtcTime = true
                 };
 
             var contact = flier.GetContactDetailsForFlier(browser);

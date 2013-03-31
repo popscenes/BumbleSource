@@ -53,10 +53,9 @@ header{
 .locSel{
 
     width: 370px;
-    height: 34px;
+    height: 35px;
     border: #A6A5A5 solid 1px;
     background-color: white;
-    display: table;
 }
 
 .location-title {
@@ -94,7 +93,7 @@ input#locationSearch:focus {
 
 .dist-selector-container {
     display: block;
-    height: 34px;
+    height: 35px;
     width: 84px;
     text-align: center;
     display: inline-block;

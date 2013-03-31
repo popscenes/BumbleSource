@@ -10,11 +10,6 @@ namespace Website.Application.Domain.Browser
                     browserInformation.Browser.Id == browserid ||
                    (string.IsNullOrWhiteSpace(browserid) && browserInformation.Browser.FriendlyId == handle);
         }
-
-        public static bool IsOwner(this BrowserInterface browser, BrowserIdInterface entity)
-        {
-            return browser.Id.Equals(entity.BrowserId);
-        }
     }
     public interface BrowserInformationInterface
     {
