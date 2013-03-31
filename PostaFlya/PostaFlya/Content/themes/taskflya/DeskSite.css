@@ -264,9 +264,18 @@ div.question-tool-bar-item {
 }
 /************end toolbar items**************************/
 
+div.locSel {
+    display: table;
+}
+
+div.locSel .location-search {
+    display: table-cell;
+}
+
 div.current-loc {
     display: table-cell;
     width: 34px;
+    height: 34px;
     background-image: url(images/icons-34h.png);
     background-position: -34px -34px;
     cursor: pointer;

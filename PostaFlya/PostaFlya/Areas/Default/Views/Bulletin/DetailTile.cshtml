@@ -49,6 +49,12 @@
             <h4>
                 Contact Details
             </h4>
+            
+@*            <div data-bind="if: IsInFuture()">*@
+@*                Date: <span data-bind="text: GetEffectiveDateFmt()">@flier.EffectiveDate.ToLongDateString()</span>*@
+@*            </div>*@
+            
+
             @Html.Partial("Contact/ContactDetailsViewPartial", contactDets)
 
             <a class="std-btn" data-bind="click: $parent.TearOff, css{btn-std-inuse: $parent.IsPeeling(), text: $parent.PeelText">Resend Details</a>

@@ -25,11 +25,10 @@
     <div>
         <div class="locSel"
              data-helptip-group="bulletin-toolbar" 
-             data-helptip-text="Search your Suburb or Area for Community Notices (Flyas)">                                               
-            
+             data-helptip-text="Search your Suburb or Area for Community Notices (Flyas)">                                                           
             <div class="current-loc" data-bind="click: TryFindLocation"data-helptip-group="bulletin-toolbar" data-helptip-text="Search your Current Location for Flyas"></div>                
-            @Html.Partial("Location/LocationAutocomplete") 
-        </div>
+                @Html.Partial("Location/LocationAutocomplete") 
+            </div>
         </div>
     <div class="dist-selector-container" data-bind="touchHover: '.dist-selector-container'">        
         Within <span class="distance-selected" data-bind="text: @ViewBag.DistanceVariable"></span>km

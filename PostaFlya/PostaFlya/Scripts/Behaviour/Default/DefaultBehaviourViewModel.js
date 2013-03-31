@@ -35,6 +35,10 @@
 
         }, self);
 
+//        self.IsInFuture = ko.computed(function () {
+//            
+//        }, self);
+
         self.TearOff = function() {
 
             if (self.IsPeeling())
