@@ -146,9 +146,17 @@
             <div class="form-component">
                 <h3>Date</h3>
                 @Html.ValidationMessageFor(model => model.EffectiveDate)
-                @Html.HiddenFor(model => model.EffectiveDate, new { data_bind = "value:EffectiveDate" })
-                
+
+                @Html.HiddenFor(model => model.EffectiveDate, new { data_bind = "value:EffectiveDate" })            
                 <div id="flyaDate" data-bind="datePicker:{altField: '#EffectiveDate'}, value:EffectiveDate"></div>
+                
+@*                @Html.HiddenFor(model => model.EffectiveDate, new { data_bind = "value:EffectiveDate" })*@
+@*                <div id="flyaDate" data-bind="jqueryui: { widget: 'datetimepicker', *@
+@*                            options: { altField: '#EffectiveDate', altFieldTimeOnly: false,*@
+@*                                       useLocalTimezone: true, showButtonPanel: false } }, *@
+@*                                            dateTimePickerUpdate:EffectiveDate"></div>*@
+                
+                
             </div>
     </fieldset>
     </form>

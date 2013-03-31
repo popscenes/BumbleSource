@@ -40,14 +40,19 @@
         
                       
     </div>
-    <div class="tear-off" data-bind="visible: ContactDetails() == null">
-        <a class="std-btn" data-bind="click: TearOff, css{btn-std-inuse: IsPeeling()}">Peel Details</a>
+    <div class="tear-off" data-bind="if: ContactDetails() == null">
+        <a class="std-btn" data-bind="click: TearOff, css: {'btn-std-inuse': IsPeeling()}, text: PeelText">Peel Details</a>
     </div> 
+    
+    <div data-bind="if:ContactDetails() != null">
+        <div class="flier-contact-dets" data-bind="with:ContactDetails">
+            <h4>
+                Contact Details
+            </h4>
+            @Html.Partial("Contact/ContactDetailsViewPartial", contactDets)
 
-    <div class="flier-contact-dets" data-bind="visible: ContactDetails() != null, with:ContactDetails">
-        @Html.Partial("Contact/ContactDetailsViewPartial", contactDets)
-
-        <a class="std-btn" data-bind="click: $parent.TearOff, css{btn-std-inuse: IsPeeling()">Resend Details</a>
+            <a class="std-btn" data-bind="click: $parent.TearOff, css{btn-std-inuse: $parent.IsPeeling(), text: $parent.PeelText">Resend Details</a>
+        </div>
     </div> 
 
 </div>

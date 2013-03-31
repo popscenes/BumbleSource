@@ -75,6 +75,7 @@ namespace Website.Application.Azure.Caching
 
         public override object Get(string key, string regionName = null)
         {
+            var tryclearOnException = false;
             try
             {
                 return _cacheFactory.GetDefaultCache().Get(GetKey(key, regionName));
@@ -86,16 +87,37 @@ namespace Website.Application.Azure.Caching
                     // temporal failure, ignore and continue
                     Trace.TraceWarning("Azure Cache unavailable may have performance implications");
                     return null;
-                    
+
                 }
-                Trace.TraceError("Azure Cache error: {0} \n stack: {1} \n TrackingId: {2}", ex.Message, ex.StackTrace, ex.TrackingId );
-                
+                Trace.TraceError("Azure Cache error: {0} \n stack: {1} \n TrackingId: {2}", ex.Message, ex.StackTrace,
+                                 ex.TrackingId);
+
             }
-            catch(SerializationException exception)
+            catch (SerializationException exception)
             {
-                Trace.TraceError("Azure Cache serialization error clearing cache: {0} \n stack: {1} \n ", exception.Message, exception.StackTrace);
-                _cacheFactory.GetDefaultCache().Clear();
+                Trace.TraceError("Azure Cache serialization error clearing cache: {0} \n stack: {1} \n ",
+                                 exception.Message, exception.StackTrace);
+                tryclearOnException = true;
             }
+            catch (Exception exception)
+            {
+                Trace.TraceError("Azure Cache unexpected error : {0} \n stack: {1} \n Except {2}", 
+                 exception.Message, exception.StackTrace, exception.ToString());
+                tryclearOnException = true;
+            }
+
+            if (tryclearOnException)
+            {
+                try
+                {
+                    _cacheFactory.GetDefaultCache().Clear();
+                }
+                catch (Exception exception)
+                {
+                    Trace.TraceError("Failed to clear cache : {0} \n stack: {1} \n Excep {2}", exception.Message, exception.StackTrace, exception.ToString());
+                }
+            }
+
 
             return null;
         }
@@ -156,15 +178,22 @@ namespace Website.Application.Azure.Caching
 
                 this._cacheFactory.GetDefaultCache().Put(GetKey(item.Key, item.RegionName), item.Value, timeout);
             }
-            catch (DataCacheException ex)
+            catch (DataCacheException exception)
             {
-                if (ex.ErrorCode == DataCacheErrorCode.RetryLater)
+                if (exception.ErrorCode == DataCacheErrorCode.RetryLater)
                 {
                     // temporal failure, ignore and continue
                     return;
                 }
 
-                throw;
+                Trace.TraceError("Azure Cache unexpected error in store : {0} \n stack: {1} \n Except {2}",
+                    exception.Message, exception.StackTrace, exception.ToString());
+                
+            }
+            catch (Exception exception)
+            {
+                Trace.TraceError("Azure Cache unexpected error in store : {0} \n stack: {1} \n Except {2}",
+                 exception.Message, exception.StackTrace, exception.ToString());
             }
         }
 

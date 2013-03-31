@@ -16,6 +16,10 @@
         self.IsInRole = function (role) {
             return ($.inArray(role, self.Roles) >= 0);
         };
+        
+        self.IsOwner = function (browserId) {
+            return self.BrowserId == browserId;
+        };
 
         self.LoginNeeded = function(url) {
             if (!self.IsParticipant()) {

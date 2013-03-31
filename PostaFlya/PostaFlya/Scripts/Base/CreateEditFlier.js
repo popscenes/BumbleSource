@@ -154,8 +154,9 @@
                 self.FlierImageId(image.ImageId);
                 self.FlierImageUrl(image.ImageUrl);
             }
-
-            self.ImageList.push(image);
+//todo readd however only add additional images to image list
+//            if (!$.inArray(image, self.ImageList))
+//                self.ImageList.push(image);
         });
 
         self.imageSelector.SetCallback(self.SetFlierImage);
@@ -218,6 +219,7 @@
             }
 
             var reqData = ko.mapping.toJS(self);
+            reqData.EffectiveDate = new Date(reqData.EffectiveDate).toISOString();
             var tagString = self.tagsSelector.SelectedTags().join();
             reqData.TagsString = tagString;
             if (!self.ContactDetails().Address().ValidLocation())
@@ -250,6 +252,7 @@
             $('#flierForm').trigger('reset.unobtrusiveValidation');
             
             var reqData = ko.mapping.toJS(self);
+            reqData.EffectiveDate = new Date(reqData.EffectiveDate).toISOString();
             var tagString = self.tagsSelector.SelectedTags().join();
             reqData.TagsString = tagString;
             if (!self.ContactDetails().Address().ValidLocation())

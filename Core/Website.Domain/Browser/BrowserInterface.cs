@@ -52,6 +52,11 @@ namespace Website.Domain.Browser
         {
             return browser.HasRole(Role.Temporary);
         }
+
+        public static bool IsOwner(this BrowserInterface browser, BrowserIdInterface entity)
+        {
+            return browser.Id.Equals(entity.BrowserId);
+        }
     }
 
     public interface BrowserInterface : EntityInterface, ContactDetailsInterface, ChargableEntityInterface

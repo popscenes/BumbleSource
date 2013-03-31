@@ -2,21 +2,10 @@
 @using System.Diagnostics
 @model System.Web.Mvc.HandleErrorInfo
 
-@section scripts
-{
-    <script type="text/javascript">
-    $(function () {
-
-        var self = this;
-        self.CreateFlierInstance = bf.globalCreateFlierInstance;
-        ko.applyBindings(self);
-    });
-    </script>
-
-}
 
 @{
-    ViewBag.Title = "Error";
+    ViewBag.Title = "Not Found";
+    Layout = "~/Views/Shared/_DefaultLayout.cshtml";
 }
 
 <div class="page-content">
