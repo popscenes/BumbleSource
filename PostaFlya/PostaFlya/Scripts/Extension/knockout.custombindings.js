@@ -235,7 +235,7 @@ ko.bindingHandlers.locationAutoComplete = {
             },
             open: function (event, ui) {
                 if ($input.siblings(".current-loc").length > 0) {
-                    $('ul.ui-autocomplete').css('left', function (index, value) { return ($input.siblings(".current-loc").outerWidth(true) * -1) + parseInt(value); });
+                    $('ul.ui-autocomplete').css('left', function (index, value) { return ($input.siblings(".current-loc").outerWidth(true) * -1) + parseInt(value) -1; });
                 }
                 $('ul.ui-autocomplete').css('top', function (index, value) { return 1 + parseInt(value); });
             },
