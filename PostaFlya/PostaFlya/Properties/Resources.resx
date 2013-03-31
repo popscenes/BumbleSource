@@ -217,11 +217,11 @@
     <comment>BulletinFlierModel FlierCreateModel</comment>
   </data>
   <data name="FlierTags" xml:space="preserve">
-    <value>FlierTags</value>
+    <value>Flier Tags</value>
     <comment>BulletinFlierModel FlierCreateModel</comment>
   </data>
   <data name="FlierTitle" xml:space="preserve">
-    <value>FlierTitle</value>
+    <value>Flier Title</value>
     <comment>BulletinFlierModel FlierCreateModel</comment>
   </data>
   <data name="FriendlyId" xml:space="preserve">
@@ -326,7 +326,7 @@
     <comment>Validation Attributes</comment>
   </data>
   <data name="Required" xml:space="preserve">
-    <value>{0} is required.</value>
+    <value>{0} required.</value>
     <comment>Validation Attributes</comment>
   </data>
   <data name="ValidUrl" xml:space="preserve">
