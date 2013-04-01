@@ -269,7 +269,7 @@ div.locSel {
 }
 
 div.locSel .location-search {
-    display: table-cell;
+   /* display: table-cell; */
 }
 
 div.current-loc {
