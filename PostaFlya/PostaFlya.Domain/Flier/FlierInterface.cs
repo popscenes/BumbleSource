@@ -74,6 +74,11 @@ namespace PostaFlya.Domain.Flier
                 return false;
             return flier.Status == FlierStatus.Active;
         }
+
+        public static bool HasEventDates(this FlierInterface flier)
+        {
+            return flier.CreateDate != flier.EffectiveDate && flier.EffectiveDate != DateTime.MinValue;
+        }
     }
 
     public interface FlierInterface : 

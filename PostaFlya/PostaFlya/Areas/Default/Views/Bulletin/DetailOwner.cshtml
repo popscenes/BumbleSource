@@ -29,7 +29,13 @@
             
         <div class="flier-desc" data-bind="simpletext:Description">
             @flier.Description
-        </div>                 
+        </div>   
+        
+        <div data-bind="if:HasEventDates">
+            <h4> Event Date </h4>
+            <span data-bind="text: $parent.EventDatesString()">@flier.EffectiveDate.ToLongDateString()</span> 
+        </div>
+                      
     </div>
     
     <div data-bind="if:ContactDetails != null">

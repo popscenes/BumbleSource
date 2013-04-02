@@ -77,7 +77,17 @@ namespace Website.Infrastructure.Util
             }
         }
 
-        public static void PropertiesToDictionary(object source
+        public static IDictionary<string, object> PropertiesToDictionary(this object source
+            , ISet<Type> allowedTypes = null
+            , ISet<string> exclude = null
+            , bool includenull = true)
+        {
+            var dictionary = new Dictionary<string, object>();
+            source.PropertiesToDictionary(dictionary, allowedTypes, exclude, includenull);
+            return dictionary;
+        }
+
+        public static void PropertiesToDictionary(this object source
             , IDictionary<string, object> dictionary
             , ISet<Type> allowedTypes = null
             , ISet<string> exclude = null

@@ -62,7 +62,10 @@
             return false;
         };
         
-        self.FlierFormClose = function() {
+        self.FlierFormClose = function (isCancel) {
+            if (self.CreateFlier() != null && isCancel)
+                self.CreateFlier().OnCancel();
+            
             self.CreateFlier(null);
         };
     };

@@ -20,6 +20,11 @@
         ko.mapping.fromJS(data, mapping, self);
         
         self.IsPeeling = ko.observable(false);
+
+        self.EventDatesString = ko.computed(function () {
+            var date = new Date(self.Flier.EffectiveDate).toDateString();
+            return date;
+        });
         
         
         self.PeelText = ko.computed(function () {

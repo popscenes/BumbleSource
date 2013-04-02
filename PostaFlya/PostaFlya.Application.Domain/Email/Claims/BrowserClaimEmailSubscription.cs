@@ -127,16 +127,16 @@ namespace PostaFlya.Application.Domain.Email.Claims
                 return false;
             email.To.Add(new MailAddress(browser.EmailAddress));
 
-            if (flier.EffectiveDate > DateTime.UtcNow)
-            {
-                var calEvent = GetEventForFlier(flier);
-                if (calEvent != null)
-                {
-                    email.AddEvent(calEvent);
-                    email.AddEventAsAttachment(calEvent);
-                }
-                    
-            }
+//            if (flier.HasEventDates())
+//            {
+//                var calEvent = GetEventForFlier(flier);
+//                if (calEvent != null)
+//                {
+//                    email.AddEvent(calEvent);
+//                    email.AddEventAsAttachment(calEvent);
+//                }
+//                    
+//            }
 
             if (flier.GetContactDetailsForFlier(browser).HasEnoughForContact())
             {
@@ -178,7 +178,7 @@ namespace PostaFlya.Application.Domain.Email.Claims
                 builder.Append("\n");
             }
 
-            if (flier.EffectiveDate > DateTime.UtcNow)
+            if (flier.HasEventDates())
             {
                 builder.Append("Event Date: ");
                 builder.Append(flier.EffectiveDate.ToLongDateString());
