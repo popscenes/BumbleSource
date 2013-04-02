@@ -14,8 +14,6 @@
 @*    $.validator.unobtrusive.adapters.addBool('requiredwithmsg', 'required');  *@
 @*</script>*@
 
-
-
 <div class="cost-container">
     <a data-bind="click:showCostBreakdown" class="flier-cost-summary">Flier Cost <span data-bind="text:totalCost"></span> </a>
     <ul class="cost-breakdown" data-bind="visible:costBreakdown, foreach:flierCosts">
@@ -107,14 +105,24 @@
                     <div>
                         <span data-bind="text:credits"></span> PostaFlya Credits
                     </div>
-                <span class="flier-cost-desc" data-bind="text:description"></span>
-            </li>
-        </ul>
+                    <span class="flier-cost-desc" data-bind="text:description"></span>
+                </li>
+            </ul>
         </fieldset>
     </form>
 </script>
 
-    <script type="text/html" id="Location-template">
+<script type="text/html" id="complete-template">
+    <form id="flierForm" class="" data-bind="validate: true">
+        <fieldset>
+        
+            <legend>Flya Done</legend>
+            <h2>Flya Created</h2>
+        </fieldset>
+    </form>
+</script>
+
+<script type="text/html" id="Location-template">
     <form id="flierForm" class="" data-bind="validate: true">
         
         @Html.ValidationSummary(true)
