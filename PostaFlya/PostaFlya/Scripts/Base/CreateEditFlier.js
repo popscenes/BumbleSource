@@ -176,6 +176,8 @@
                 if ($(".imageSelector").length > 0) {
                     self.imageSelector.Init();
                 }
+
+                self.trackEvent(self.Steps[self.currentStep()]);
             }
         };
 
@@ -232,7 +234,9 @@
                 success: function (result) {
                     self.posting(false);
                     if (self.afterUpdateCallback != undefined)
-                        self.afterUpdateCallback();
+                        self.afterUpdateCallback(false);
+
+                    self.trackEvent('finished');
                 }
             });
 
@@ -264,12 +268,15 @@
                 type: "post", contentType: "application/json",
                 success: function (result) {
                     self.posting(false);
+
+                    self.trackEvent('finished');
+                    
                     if (result.Details[2].Message == "PaymentPending") {
                         window.location = "/profile/paymentpending";
                         return;
                     }
                     if (self.afterUpdateCallback != undefined)
-                        self.afterUpdateCallback();
+                        self.afterUpdateCallback(false);
                     
                 },
                 error: function (jqXhr, textStatus, errorThrown) {
@@ -281,6 +288,15 @@
             return false;
         };
 
+        self.trackEvent = function(event) {
+            _gaq.push(['_trackEvent', 'createFlya', event, self.isUpdate() ? 'update' : 'new']);
+
+        };
+
+        self.OnCancel = function() {
+            self.trackEvent('cancel');
+        };
+
         self.InitControls = function() {
 
             self.imageSelector.Init();
@@ -288,6 +304,8 @@
             
             if (self.FlierImageId())
                 self.imageSelector.selectedImageId(self.FlierImageId());
+
+            self.trackEvent('launch');
             
             //bf.HelpTipsInstance.CheckFirstShowFor("createflier");
             
