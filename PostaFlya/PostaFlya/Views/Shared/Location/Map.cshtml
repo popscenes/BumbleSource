@@ -1,7 +1,7 @@
 ﻿
 
 <div id="@ViewBag.MapId" 
-     data-bind="mapBinding: @ViewBag.LocationVariable, distance: @ViewBag.DistanceVariable, visibleTrigger: @( ViewBag.VisibleTrigger ?? "null" )" 
+     data-bind="mapBinding: @ViewBag.LocationVariable, distance: @ViewBag.DistanceVariable, visibleTrigger: @( ViewBag.VisibleTrigger ?? "function(){ return true;}" )" 
      class="map">
      
 </div>
