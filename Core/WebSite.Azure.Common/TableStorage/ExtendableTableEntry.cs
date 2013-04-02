@@ -57,6 +57,13 @@ namespace Website.Azure.Common.TableStorage
             return GetAllProperties().ToDictionary(kv => kv.Key.Name, kv => kv.Value);    
         }
 
+        public static ExtendableTableEntry CreateFromDict(Dictionary<string, object> dictionary)
+        {
+            var ret = new ExtendableTableEntry();
+            ret.AddDict(dictionary);
+            return ret;
+        }
+
         public void AddDict(Dictionary<string, object> dictionary)
         {
             foreach (var kv in dictionary.Where(kv => kv.Value != null))
@@ -191,7 +198,7 @@ namespace Website.Azure.Common.TableStorage
             {
                 var dictionary = new Dictionary<string, object>();
 
-                SerializeUtil.PropertiesToDictionary(source, dictionary);
+                source.PropertiesToDictionary(dictionary);
 
                 AddDict(dictionary);
             }

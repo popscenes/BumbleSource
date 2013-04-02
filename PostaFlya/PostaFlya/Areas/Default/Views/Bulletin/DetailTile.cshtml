@@ -13,16 +13,6 @@
 
 <div class="flier-view flier-view-default">
     <div class="flier-details clear-fix" data-bind="with:Flier">  
-        <!--<div class="flier-claims-comments">
-                <input type="button" data-bind="click: print, defaultprint: $root" title="print"/>
-                <div class="claim-stats">
-                    @*replace with image*@
-                    <div class="claim-icon">Claims:</div>
-                    <span data-bind="text:NumberOfClaims">
-                        @flier.NumberOfClaims  
-                    </span>
-                </div>             
-            </div>-->
         
         @Html.Partial("Bulletin/DownloadPrintImagePartial", flier)
 
@@ -38,8 +28,14 @@
             @flier.Description
         </div> 
         
+        <div data-bind="if:HasEventDates">
+            <h4> Event Date </h4>
+            <span data-bind="text: $parent.EventDatesString()">@flier.EffectiveDate.ToLongDateString()</span> 
+        </div>
                       
     </div>
+
+
     <div class="tear-off" data-bind="if: ContactDetails() == null">
         <a class="std-btn" data-bind="click: TearOff, css: {'btn-std-inuse': IsPeeling()}, text: PeelText">Peel Details</a>
     </div> 

@@ -23,16 +23,14 @@
 
         self.addSammyRoutes = function (rootPath, sam, obsViewMod, initpath) {
             self.addSammyRoute(rootPath, sam, obsViewMod);
-            sam.get(initpath, function () {
+            sam.get(initpath, function () {           
                 obsViewMod(null);
+                _gaq.push(['_trackPageview', this.path]);
             });
         };
 
         self.getSammyRoot = function (rootPath) {
             var ret = '/';
-
-//            if (!self.hasHistory)//if doesn't have history always go back
-//                ret = rootPath;
 
             if (ret.substr(ret.length - 1) != "/")
                 ret = ret + "/";
@@ -55,7 +53,9 @@
             var route = rootUrl + '(.+@[0-9]{2}-[a-zA-Z]{3}-[0-9]{2})';
             sam.get(route, function () {
                 var flierId = this.params['splat'];
+                
                 self.getSelectedDetail(this.path, obsViewMod, flierId);
+                _gaq.push(['_trackPageview', this.path]);
             });
         };
 

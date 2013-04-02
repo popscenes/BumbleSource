@@ -18,7 +18,11 @@ namespace Website.Azure.Common.TableStorage
 
         public object GetEntity(Type entityTyp)
         {
-            _sourceObject = JsonConvert.DeserializeObject(_jsonText, entityTyp);
+            return _sourceObject ?? (_sourceObject = JsonConvert.DeserializeObject(_jsonText, entityTyp));
+        }
+
+        public object GetSourceObject()
+        {
             return _sourceObject;
         }
 

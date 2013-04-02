@@ -118,6 +118,8 @@ namespace PostaFlya.Models.Flier
 
         [Display(Name = "FlierStatus", ResourceType = typeof(Properties.Resources))] 
         public string Status { get; set; }
+
+        public bool HasEventDates { get; set; }
     }
 
     public class BulletinFlierModel<BehaviourType> : BulletinFlierModel where BehaviourType : new()

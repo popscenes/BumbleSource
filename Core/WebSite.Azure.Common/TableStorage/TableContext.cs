@@ -12,6 +12,8 @@ using Microsoft.WindowsAzure.Storage.Table;
 using Microsoft.WindowsAzure.Storage.Table.DataServices;
 using Website.Azure.Common.DataServices;
 using Website.Azure.Common.Environment;
+using Website.Infrastructure.Util;
+using Website.Infrastructure.Util.Extension;
 
 namespace Website.Azure.Common.TableStorage
 {
@@ -328,6 +330,16 @@ namespace Website.Azure.Common.TableStorage
             }
         }
 
+        private const string JsonPrefix = "Json";
+        private const string JsonPart = "JsonPart";
+        private const string JsonCount = "JsonCount";
+        private const string JsonGzip = "JsonGzip";
+        private const string JsonBinary = "JsonBinary";
+
+        private static readonly ISet<string>
+            ExcludeProps = typeof (JsonTableEntry).GetProperties().Select(p => p.Name)
+                                                  .ToHashSet();
+
         private void OnWritingEntityJsonTableEntry(JsonTableEntry jsonEntry, ReadingWritingEntityEventArgs args)
         {
             var propertiesEle = args.Data.Descendants(m + "properties").FirstOrDefault();
@@ -336,16 +348,24 @@ namespace Website.Azure.Common.TableStorage
 
             var listPart = SplitIntoChunks(jsonEntry.GetJson(), MaxStringSize);
 
-            var edmTyp = Edm.String;
-            for (int i = 0; i < listPart.Count; i++)
+            for (var i = 0; i < listPart.Count; i++)
             {
-                string col = "JsonPart" + i;
-                AddEdmVal(propertiesEle, col, edmTyp, listPart[i]);
+                var col = JsonPart + i;
+                AddEdmVal(propertiesEle, col, Edm.String, listPart[i]);
             }
 
-            AddEdmVal(propertiesEle, "JsonCount", Edm.Int32, listPart.Count);
-            AddEdmVal(propertiesEle, "JsonGzip", Edm.Boolean, false);
-            AddEdmVal(propertiesEle, "JsonBinary", Edm.Boolean, false);
+            AddEdmVal(propertiesEle, JsonCount, Edm.Int32, listPart.Count);
+            AddEdmVal(propertiesEle, JsonGzip, Edm.Boolean, false);
+            AddEdmVal(propertiesEle, JsonBinary, Edm.Boolean, false);
+
+            //just adds plain edm types to the saved colums, might be handy for queries
+            var dict = jsonEntry.GetSourceObject().PropertiesToDictionary(null, ExcludeProps, false)
+                .Where(pair => !pair.Key.StartsWith(JsonPrefix)).ToDictionary(pair => pair.Key, pair => pair.Value);
+            var extendableEntity = ExtendableTableEntry.CreateFromDict(dict);
+            foreach (var val in extendableEntity.GetAllProperties())
+            {
+                AddEdmVal(propertiesEle, val.Key.Name, val.Key.EdmTyp, val.Value);
+            }
             
         }
 
@@ -358,15 +378,15 @@ namespace Website.Azure.Common.TableStorage
             var q = (from p in propertiesEle.Elements()
                      select new EdmRet(p)).ToDictionary(p => p.Name);
             
-            if (!q.ContainsKey("JsonCount"))
+            if (!q.ContainsKey(JsonCount))
                 return;
-            
-            var jsonCount = q["JsonCount"].Get<int>();
-            var jsonGzip = q["JsonGzip"].Get<bool>();
-            var jsonBinary = q["JsonBinary"].Get<bool>();
+
+            var jsonCount = q[JsonCount].Get<int>();
+            var jsonGzip = q[JsonGzip].Get<bool>();
+            var jsonBinary = q[JsonBinary].Get<bool>();
 
             var res = Enumerable.Range(0, jsonCount)
-                .Aggregate(new StringBuilder(), (s, i) => s.Append(q["JsonPart" + i].Value));
+                .Aggregate(new StringBuilder(), (s, i) => s.Append(q[JsonPart + i].Value));
 
             jsonEntry.SetJson(res.ToString());
 

@@ -2,6 +2,7 @@
  var _gaq = _gaq || [];
 _gaq.push(['_setAccount', 'UA-37562574-1']);
 _gaq.push(['_trackPageview']);
+_gaq.push(['_setDomainName', 'postaflya.com']);
 
 (function() {
     var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
