@@ -45,7 +45,7 @@
 
         var self = this;
         self.apiUrl = sprintf("/api/Browser/%s/MyFliers", bf.currentBrowserInstance.BrowserId);
-        self.Steps = ['Flyer', 'Tags', 'Info', 'Location'];
+        self.Steps = ['Flyer', 'Tags', 'Info', 'Location', 'Summary'];
         self.imageSelector = imageSelector;
         self.tagsSelector = tagsSelector;
         
