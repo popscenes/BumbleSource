@@ -94,7 +94,27 @@
 
 </script>
 
-<script type="text/html" id="Location-template">
+<script type="text/html" id="Summary-template">
+    <form id="flierForm" class="" data-bind="validate: true">
+        <fieldset>
+        
+            <legend>Add a location</legend>
+            <h2>Flya Cost Summary</h2>
+            <p>If you do not have enough credits for this flya you will be taken to the payment screen where you can add credits to your account.</p>
+            <ul class="flier-cost-summary-full" data-bind="foreach:flierCosts">
+                <li data-bind="visible:credits() > 0">
+                    <h3 data-bind="text:title"></h3>
+                    <div>
+                        <span data-bind="text:credits"></span> PostaFlya Credits
+                    </div>
+                <span class="flier-cost-desc" data-bind="text:description"></span>
+            </li>
+        </ul>
+        </fieldset>
+    </form>
+</script>
+
+    <script type="text/html" id="Location-template">
     <form id="flierForm" class="" data-bind="validate: true">
         
         @Html.ValidationSummary(true)
@@ -119,8 +139,9 @@
                 }
                 @Html.Partial("Location/LocationAndDistanceSelector")
             </div>
-    </fieldset>
+        </fieldset>
     </form>
+
 </script>
 
 <script type="text/html" id="Info-template">
@@ -167,6 +188,21 @@
     <form id="flierForm" class="" data-bind="validate: true">
     
         @Html.HiddenFor(model => model.Id, new { data_bind = "value:Id" })
+        
+        <fieldset>
+            @{ 
+                ViewBag.AutoCompleteLocationBannerText = "'Optional Place or Address for Event/Business'";
+            }
+            <legend>Contact Details</legend>
+            <h2>Contact Details</h2>
+            <p>These Details WIll Be Sent To Users Who Peel Off Your Flya</p>
+            <ol>
+                <li data-bind="with:ContactDetails">
+                    @Html.Partial("Contact/ContactDetailsEditPartial",(Model != null && Model.ContactDetails !=  null) ? Model.ContactDetails : new ContactDetailsModel())
+                </li>
+            </ol> 
+
+        </fieldset>
         <fieldset>
             <legend>Now add some flyer tags</legend>
             <ol>
@@ -180,19 +216,6 @@
                     </span>
                 </li>
             </ol>        
-        </fieldset>
-        <fieldset>
-            @{ 
-                ViewBag.AutoCompleteLocationBannerText = "'Optional Place or Address for Event/Business'";
-            }
-            <legend>Contact Details</legend>
-            <h2>Contact Details</h2>
-            <ol>
-                <li data-bind="with:ContactDetails">
-                    @Html.Partial("Contact/ContactDetailsEditPartial",(Model != null && Model.ContactDetails !=  null) ? Model.ContactDetails : new ContactDetailsModel())
-                </li>
-            </ol> 
-
         </fieldset>
         <fieldset class="analytics-edit">
             <legend>Flier Features</legend>

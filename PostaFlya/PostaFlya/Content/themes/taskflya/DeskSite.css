@@ -22,6 +22,19 @@ background-color: white;
 
 }
 
+.flier-cost-summary-full {
+    margin: 0px;
+    padding: 0px;
+}
+
+.flier-cost-summary-full li > * {
+    display: block;    
+}
+
+.flier-cost-desc {
+    margin-top: 10px;
+}
+
 
 .std-btn {
     display: inline-block;
