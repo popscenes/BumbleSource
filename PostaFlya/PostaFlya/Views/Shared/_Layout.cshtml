@@ -70,8 +70,8 @@
             
                     @if (Request.IsAuthenticated)
                     {
-                        <div id="create-flier-popup-overlay" data-bind="visible:CreateFlierInstance.CreateFlier"></div>
-                        <div id="create-flier-item-div" data-bind="with:CreateFlierInstance.CreateFlier, visible:CreateFlierInstance.CreateFlier, absolutePosFromScroll: CreateFlierInstance.CreateFlier">
+                        <div id="create-flier-popup-overlay" data-bind="visible:CreateFlierInstance.CreateFlier" style="display: none;"></div>
+                        <div id="create-flier-item-div" data-bind="with:CreateFlierInstance.CreateFlier, visible:CreateFlierInstance.CreateFlier, absolutePosFromScroll: CreateFlierInstance.CreateFlier" style="display: none;">
                             <a class="close-button mini-button red-button" 
                                 data-bind="click: function(){$root.CreateFlierInstance.FlierFormClose(true);}">close</a>
                           
@@ -86,7 +86,7 @@
             <footer>
                 <div class="content-wrapper">
                     <div class="float-left">
-                        <p>&copy; @DateTime.Now.Year - Postaflya pty ltd</p>
+                        <p id="copyright">&copy; @DateTime.Now.Year - Postaflya pty ltd</p>
                     </div>
 
                 </div>

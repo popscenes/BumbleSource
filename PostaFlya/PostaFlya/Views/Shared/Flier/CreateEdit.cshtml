@@ -97,7 +97,7 @@
 <script type="text/html" id="Summary-template">
     <form id="flierForm" class="" data-bind="validate: true">
         <fieldset>
-        
+
             <legend>Add a location</legend>
             <h2>Flya Cost Summary</h2>
             <p>If you do not have enough credits for this flya you will be taken to the payment screen where you can add credits to your account.</p>
@@ -105,11 +105,17 @@
                 <li data-bind="visible:credits() > 0">
                     <h3 data-bind="text:title"></h3>
                     <div>
-                        <span data-bind="text:credits"></span> PostaFlya Credits
+                        <span data-bind="text:credits"></span>PostaFlya Credits
                     </div>
-                <span class="flier-cost-desc" data-bind="text:description"></span>
-            </li>
-        </ul>
+                    <span class="flier-cost-desc" data-bind="text:description"></span>
+                </li>
+            </ul>
+            <p>
+                Total = <span data-bind="text: totalCost"></span> 
+                <span data-bind="visible: TotalPaid()">
+                    ( Cost <span data-bind="text:featureCostFmt"></span> -  Paid <span data-bind="text:TotalPaid"></span>)
+                </span>
+            </p>
         </fieldset>
     </form>
 </script>

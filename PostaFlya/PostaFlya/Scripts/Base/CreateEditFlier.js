@@ -2,13 +2,16 @@
 
     var bf = window.bf = window.bf || {};
     
-    function formatCurrency(num, incdollarsign) {
+    function formatCurrency(num, incdollarsign, showcents) {
         num = num.toString().replace(/\$|\,/g, '');
         if (isNaN(num)) num = "0";
         sign = (num == (num = Math.abs(num)));
         num = Math.floor(num * 100 + 0.50000000001);
         cents = num % 100;
         num = Math.floor(num / 100).toString();
+        if (!showcents)
+            return (((sign) ? '' : '-') + (incdollarsign ? '$' : '') + num);
+        
         if (cents < 10) cents = "0" + cents;
         for (var i = 0; i < Math.floor((num.length - (1 + i)) / 3) ; i++)
             num = num.substring(0, num.length - (4 * i + 3)) + ',' + num.substring(num.length - (4 * i + 3));
@@ -112,12 +115,25 @@
         }, self);
         
         self.flierCosts.push(self.analyticsCost);
-
-        self.totalCost = ko.computed(function() {
+        
+        self.featureCost = ko.computed(function () {
             var cost = 0;
             for (var i = 0; i < self.flierCosts().length; i++) {
-                    cost += self.flierCosts()[i]().credits();
+                cost += self.flierCosts()[i]().credits();
             }
+            
+            return cost;
+        }, self);
+        
+        self.featureCostFmt = ko.computed(function () {
+            return formatCurrency(self.featureCost());
+        }, self);
+        
+        self.totalCost = ko.computed(function () {
+            var cost = 0;
+            cost = self.featureCost() - self.TotalPaid();
+            if (cost < 0)
+                cost = 0;
             return formatCurrency(cost);
         }, self);
 

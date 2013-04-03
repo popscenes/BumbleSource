@@ -80,11 +80,21 @@
         };
 
         self.Request = function () {
-            self.noMoreFliers(false);
+
+            if (self.moreFliersPending())
+                return;
+
+            self.fliers([]);
+            self.moreFliersPending(true);
+            self.noMoreFliersText('');
 
             $.getJSON(self.GetReqUrl(), self.GetReqArgs(false), function (allData) {
-                self.fliers([]);
+               
                 self.fliers(allData);
+                if (allData.length == 0)
+                    self.setNoMoreFlyas();
+            }).always(function() {
+                self.moreFliersPending(false);
             });
         };
 
@@ -99,22 +109,23 @@
         };
 
         self.moreFliersPending = ko.observable(false);
-        self.noMoreFliers = ko.observable(false);
+        self.noMoreFliersText = ko.observable('');
 
         self.GetMoreFliers = function () {
-            if (self.moreFliersPending() || self.noMoreFliers())
+            if (self.moreFliersPending() || self.noMoreFliersText())
                 return;
             self.moreFliersPending(true);
             $.getJSON(self.GetReqUrl(), self.GetReqArgs(true), function (allData) {
                 self.fliers.pushAll(allData);
                 if (allData.length == 0)
-                    self.noMoreFliers(true);
-                self.moreFliersPending(false);
+                    self.setNoMoreFlyas();
             })
             .error(function (jqXhr, textStatus, errorThrown) {
-                self.moreFliersPending(false);
                 bf.ErrorUtil.HandleRequestError(null, jqXhr, self.ErrorHandler);
-            });
+            })
+            .always(function () {
+                self.moreFliersPending(false);
+            });;
         };
 
         self.SelectedViewModel = selectedDetailViewModel;
@@ -134,14 +145,44 @@
         };
 
         self.TryRequest = function() {
-//            if (self.Location() && self.Location().ValidLocation() && self.Distance() > 0) {
                 self.Request();
-//            } else if (!self.Location() || !self.Location().ValidLocation()){
-//                self.fliers([]);
-//                self.moreFliersPending(false);
-//                self.noMoreFliers(true);
-//            }
         };
+
+        self.setNoMoreFlyas = function() {
+            var nomore = 'No';
+            if (self.fliers().length) {
+                nomore += ' More';
+            }
+            nomore += ' Flyas';
+            var locality = self.Location().Locality();
+            if (locality) {
+                nomore += ' around ' + locality;
+            }
+            nomore += '! Why not ';
+            
+            self.noMoreFliersText(nomore);
+
+        };
+
+        self.StatusText = ko.computed(function () {           
+            
+            if (self.moreFliersPending() || (self.noMoreFliersText() && self.fliers().length == 0))
+                return '';
+            
+            var showingmostrecent = 'Showing most recent Flyas';
+            var validLoc = self.Location().ValidLocation();
+            var locality = self.Location().Locality();
+            if (!validLoc)
+                return showingmostrecent;
+
+            showingmostrecent +=' within ' + self.Distance() + 'km of';
+
+            if(locality)
+                return showingmostrecent + ' ' + locality;
+
+            return showingmostrecent + ' you';
+            
+        }, self);
 
         self.TearOff = function (flier) {
             debugger;
