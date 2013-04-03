@@ -30,22 +30,27 @@
 </div>
 
 <div id="form-buttons">
-    <a id="flya-create-back" data-bind="click: prevTemplate, visible:isPrevStep()" class="std-btn std-image-btn">
+    <a id="flya-create-back" data-bind="click: prevTemplate, visible:isPrevStep() && stepTemplate() != 'complete-template'" class="std-btn std-image-btn">
         <span class="std-image-btn-icon"></span>
         <span>BACK</span>
     </a>
-    <a id="flya-create-continue" data-bind="click: nextTemplate, visible:isNextStep()" class="std-btn std-image-btn">
+    <a id="flya-create-continue" data-bind="click: nextTemplate, visible:isNextStep() && stepTemplate() != 'Summary-template'" class="std-btn std-image-btn">
         <span class="std-image-btn-icon"></span>
         <span>CONTINUE</span>
     </a>
 
-    <a id="flya-create-save" data-bind="click: save, visible:!isUpdate() && !isNextStep(), css: { 'btn-std-inuse': posting() == true }" class="std-btn std-image-btn">
+    <a id="flya-create-save" data-bind="click: save, visible:!isUpdate() && stepTemplate() == 'Summary-template', css: { 'btn-std-inuse': posting() == true }" class="std-btn std-image-btn">
         <span class="std-image-btn-icon"></span>
         <span data-bind="text: saveText"></span>
     </a>
-    <a id="flya-create-update" data-bind="click: update, visible:isUpdate() && !isNextStep(), css: { 'btn-std-inuse': posting() == true }" class="std-btn std-image-btn">
+    <a id="flya-create-update" data-bind="click: update, visible:isUpdate() && stepTemplate() == 'Summary-template', css: { 'btn-std-inuse': posting() == true }" class="std-btn std-image-btn">
         <span class="std-image-btn-icon"></span>
         <span data-bind="text: updateText"></span>
+    </a>
+    
+    <a id="flya-create-complete" data-bind="click: finish, visible:!isUpdate() && stepTemplate() == 'complete-template', css: { 'btn-std-inuse': posting() == true }" class="std-btn std-image-btn">
+        <span class="std-image-btn-icon"></span>
+        <span>Finish</span>
     </a>
 </div>
 
@@ -98,7 +103,6 @@
         
             <legend>Add a location</legend>
             <h2>Flya Cost Summary</h2>
-            <p>If you do not have enough credits for this flya you will be taken to the payment screen where you can add credits to your account.</p>
             <ul class="flier-cost-summary-full" data-bind="foreach:flierCosts">
                 <li data-bind="visible:credits() > 0">
                     <h3 data-bind="text:title"></h3>
@@ -115,9 +119,21 @@
 <script type="text/html" id="complete-template">
     <form id="flierForm" class="" data-bind="validate: true">
         <fieldset>
-        
             <legend>Flya Done</legend>
-            <h2>Flya Created</h2>
+            <h2>Awesome! Flya Created!</h2>
+            <h3>Status: <span data-bind="text:flierStatus"></span></h3>
+            
+            <span data-bind="visible: flierStatus() == 'PaymentPending'">
+                <p>Congratulations on creating your Flya</p>
+                <p>Unfortunetly you do not have enough postaflya credits to activate this Flya.</p>
+                <p>You will now be taken to the pending flya's screen where you will be able to add credits to your account and activate this Flya</p>
+            </span>
+            
+            <span data-bind="visible: flierStatus() != 'PaymentPending'">
+                <p>Congratulations on creating your Flya</p>
+                <p>Don’t forget to check out the print options available on your flya. This will add tear offs and a handy QR code that will link right back to your online Flya!</p>
+                <p>Happy Posting!</p>
+            </span>
         </fieldset>
     </form>
 </script>
