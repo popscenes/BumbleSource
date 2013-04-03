@@ -2,16 +2,23 @@
 @model IList<PostaFlya.Models.Flier.BulletinFlierModel>
 
 <div class="ui-bulletin-board">
-                                                                                
+      
+    <div class="bulletin-showing-div" data-bind="visible: StatusText()">
+        <span data-bind="text: StatusText"></span>
+    </div>                                                                          
     <div id="bulletinboard"  data-bind="template: { name: Layout.FlierTemplate, foreach: fliers }, visible: fliers().length > 0, updateLayout: Layout">
         @Html.Partial("State/PageStateAdd", "Fliers")    
         @Html.Partial("Bulletin/BulletinItems")
     </div>
-    <div class="ui-loading-div" data-bind="visible: moreFliersPending" id="moreFliersPending">
-        <span>Loading more Fliers... </span><img  src="~/Content/images/loading.gif"/>
+    <div class="bulletin-loading-div" data-bind="visible: moreFliersPending" id="moreFliersPending">
+        <span>Loading Flyas.....Please wait </span><img  src="~/Content/images/loading.gif"/>
     </div>
-    <div class="ui-loading-div" data-bind="visible: noMoreFliers" id="noMoreFliers">
-        <span>That's all folks!</span>
+    <div class="bulletin-loading-div" data-bind="visible: noMoreFliersText()" id="noMoreFliers" style="display: none;"> 
+        <span data-bind="text:noMoreFliersText"></span>
+        <a data-bind="click: CreateFlierInstance.CreateFlierLaunch" class="std-btn std-image-btn btn-44">
+            <span class="std-image-btn-icon"></span>
+            <span>Post</span>
+        </a>    
     </div>
 </div>
                                                                                         

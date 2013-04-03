@@ -1244,6 +1244,27 @@ div.ui-bulletin-board
 {
     margin-top:30px;
 }
+
+div.bulletin-showing-div {
+    color: black;
+    font-style: italic;
+    padding-bottom: 5px;
+}
+
+div.bulletin-loading-div {
+    color: black;
+    font-style: italic;
+}
+
+div#scrolltotop {
+    background-color: white;
+    font-style: italic;
+    z-index: 5000;
+}
+
+p#copyright {
+    height: 30px;
+}
 /*end bulletin board*/
 
 
@@ -1258,6 +1279,10 @@ div.ui-bulletin-board
 }
 
 .flier-view .flier-details .flier-img {
+    text-align: center;
+}
+
+div.tear-off {
     text-align: center;
 }
 

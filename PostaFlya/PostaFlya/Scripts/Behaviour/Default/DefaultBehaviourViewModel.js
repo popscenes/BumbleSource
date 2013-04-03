@@ -35,7 +35,7 @@
             } else {
                 return self.IsPeeling() ?
                     (self.ContactDetails() ? "Sending" : "Peeling" ):
-                    (self.ContactDetails() ? "Resend Peel" : "Peel");
+                    (self.ContactDetails() ? "Resend Peel" : "Peel Details");
             }
 
         }, self);
@@ -54,6 +54,8 @@
                 EntityId: self.Flier.Id,
                 BrowserId: bf.currentBrowserInstance.BrowserId
             });
+            
+            _gaq.push(['_trackEvent', 'detail', 'peel', 'start']);
 
             self.IsPeeling(true);
             $.ajax('/api/claim/', {
@@ -62,9 +64,11 @@
                 success: function (result) {
                     $.getJSON('/api/BulletinApi/' + self.Flier.FriendlyId
                         , function (newdata) {
-                            ko.mapping.fromJS(newdata, self);                       
+                            ko.mapping.fromJS(newdata, self); 
+                            _gaq.push(['_trackEvent', 'detail', 'peel', 'end']);
                         }).always(function() {
                             self.IsPeeling(false);
+                            
                         });
                     
                 },

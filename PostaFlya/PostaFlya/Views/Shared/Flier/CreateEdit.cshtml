@@ -100,22 +100,28 @@
 <script type="text/html" id="Summary-template">
     <form id="flierForm" class="" data-bind="validate: true">
         <fieldset>
-        
+
             <legend>Add a location</legend>
             <h2>Flya Cost Summary</h2>
             <ul class="flier-cost-summary-full" data-bind="foreach:flierCosts">
                 <li data-bind="visible:credits() > 0">
                     <h3 data-bind="text:title"></h3>
                     <div>
-                        <span data-bind="text:credits"></span> PostaFlya Credits
+                        <span data-bind="text:credits"></span>PostaFlya Credits
                     </div>
                     <span class="flier-cost-desc" data-bind="text:description"></span>
                 </li>
             </ul>
+
+            <p>
+                Total = <span data-bind="text: totalCost"></span> 
+                <span data-bind="visible: TotalPaid()">
+                    ( Cost <span data-bind="text:featureCostFmt"></span> -  Paid <span data-bind="text:TotalPaid"></span>)
+                </span>
+            </p>
         </fieldset>
     </form>
 </script>
-
 <script type="text/html" id="complete-template">
     <form id="flierForm" class="" data-bind="validate: true">
         <fieldset>
@@ -134,10 +140,9 @@
                 <p>Don’t forget to check out the print options available on your flya. This will add tear offs and a handy QR code that will link right back to your online Flya!</p>
                 <p>Happy Posting!</p>
             </span>
-        </fieldset>
+	</fieldset>
     </form>
 </script>
-
 <script type="text/html" id="Location-template">
     <form id="flierForm" class="" data-bind="validate: true">
         

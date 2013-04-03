@@ -79,6 +79,13 @@ namespace PostaFlya.Domain.Flier
         {
             return flier.CreateDate != flier.EffectiveDate && flier.EffectiveDate != DateTime.MinValue;
         }
+
+        public static int GetTotalPaid(this FlierInterface flier)
+        {
+            if (flier.Features == null)
+                return 0;
+            return flier.Features.Aggregate(0, (d, charge) => d + charge.Paid);
+        }
     }
 
     public interface FlierInterface : 

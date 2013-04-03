@@ -8,16 +8,16 @@
 <div class="flier-print">
     <a class="show-hide-print-options" data-bind="touchHover: '.flier-print'"></a>
     <div class="print-options">
-        <a href="@Url.Action("GetPrintFlier","Img", new {id = Flier.Id, printStyle="tearoff"})" class="print-opt-tearoff"
-           data-bind="click: function(){return true;}, clickBubble: false, attr:{href: '@Url.Action("GetPrintFlier","Img")/' + Id + '?printStyle=tearoff'}">Download Print Tearoff</a>
-        <a href="@Url.Action("GetPrintFlier","Img", new {id = Flier.Id, printStyle="codeonly"})" class="print-opt-code"
-           data-bind="click: function(){return true;}, clickBubble: false, attr:{href: '@Url.Action("GetPrintFlier","Img")/' + Id + '?printStyle=codeonly'}">Download Print codeonly</a>
-        <a href="@Url.Action("GetPrintFlier","Img", new {id = Flier.Id, printStyle="topleft"})" class="print-opt-topleft"
-           data-bind="click: function(){return true;}, clickBubble: false, attr:{href: '@Url.Action("GetPrintFlier","Img")/' + Id + '?printStyle=topleft'}">Download Print topleft</a>
-        <a href="@Url.Action("GetPrintFlier","Img", new {id = Flier.Id, printStyle="topright"})" class="print-opt-topright"
-           data-bind="click: function(){return true;}, clickBubble: false, attr:{href: '@Url.Action("GetPrintFlier","Img")/' + Id + '?printStyle=topright'}">Download Print topright</a>
-        <a href="@Url.Action("GetPrintFlier","Img", new {id = Flier.Id, printStyle="bottomleft"})" class="print-opt-bottomleft"
-           data-bind="click: function(){return true;}, clickBubble: false, attr:{href: '@Url.Action("GetPrintFlier","Img")/' + Id + '?printStyle=bottomleft'}">Download Print bottomleft</a>
-        <a href="@Url.Action("GetPrintFlier","Img", new {id = Flier.Id, printStyle="bottomright"})" class="print-opt-bottomright"
-           data-bind="click: function(){return true;}, clickBubble: false, attr:{href: '@Url.Action("GetPrintFlier","Img")/' + Id + '?printStyle=bottomright'}">Download Print bottomright</a></div>
+        <a href="@Url.Action("GetPrintFlier","Img", new {id = Flier.Id, printStyle="tearoff"})" class="print-opt-tearoff" target=”_blank”
+           data-bind="click: function(){_gaq.push(['_trackEvent', 'DownloadFlya', 'tearoff']); return true;}, clickBubble: false, attr:{href: '@Url.Action("GetPrintFlier","Img")/' + Id + '?printStyle=tearoff'}">Download Print Tearoff</a>
+        <a href="@Url.Action("GetPrintFlier","Img", new {id = Flier.Id, printStyle="codeonly"})" class="print-opt-code" target=”_blank”
+           data-bind="click: function(){_gaq.push(['_trackEvent', 'DownloadFlya', 'codeonly']);return true;}, clickBubble: false, attr:{href: '@Url.Action("GetPrintFlier","Img")/' + Id + '?printStyle=codeonly'}">Download Print codeonly</a>
+        <a href="@Url.Action("GetPrintFlier","Img", new {id = Flier.Id, printStyle="topleft"})" class="print-opt-topleft" target=”_blank”
+           data-bind="click: function(){_gaq.push(['_trackEvent', 'DownloadFlya', 'topleft']);return true;}, clickBubble: false, attr:{href: '@Url.Action("GetPrintFlier","Img")/' + Id + '?printStyle=topleft'}">Download Print topleft</a>
+        <a href="@Url.Action("GetPrintFlier","Img", new {id = Flier.Id, printStyle="topright"})" class="print-opt-topright" target=”_blank”
+           data-bind="click: function(){_gaq.push(['_trackEvent', 'DownloadFlya', 'topright']);return true;}, clickBubble: false, attr:{href: '@Url.Action("GetPrintFlier","Img")/' + Id + '?printStyle=topright'}">Download Print topright</a>
+        <a href="@Url.Action("GetPrintFlier","Img", new {id = Flier.Id, printStyle="bottomleft"})" class="print-opt-bottomleft" target=”_blank”
+           data-bind="click: function(){_gaq.push(['_trackEvent', 'DownloadFlya', 'bottomleft']);return true;}, clickBubble: false, attr:{href: '@Url.Action("GetPrintFlier","Img")/' + Id + '?printStyle=bottomleft'}">Download Print bottomleft</a>
+        <a href="@Url.Action("GetPrintFlier","Img", new {id = Flier.Id, printStyle="bottomright"})" class="print-opt-bottomright" target=”_blank”
+           data-bind="click: function(){_gaq.push(['_trackEvent', 'DownloadFlya', 'bottomright']);return true;}, clickBubble: false, attr:{href: '@Url.Action("GetPrintFlier","Img")/' + Id + '?printStyle=bottomright'}">Download Print bottomright</a></div>
 </div>
