@@ -27,11 +27,10 @@ Your Current Credit Account Balance <span data-bind="text:$root.currentBrowser.C
 <h3>Fliers that require payemnt</h3>
     <div data-bind="foreach:MyPendingFliersList">
         <div class="paymnet-flier">
-            <img style="width: 250px" data-bind="bulletinimg: FlierImageUrl, root: $root, alt: Title, imgRetry: FlierImageUrl"/>
+            <img style="width: 250px; margin: 10px auto" data-bind="bulletinimg: FlierImageUrl, root: $root, alt: Title, imgRetry: FlierImageUrl"/>
             <div><span data-bind="text:PendingCredits"></span> Flya Credits</div>
             <div class="btm-buttons">
-                <a data-bind="click:$root.payFlier" class="std-btn">PAY FOR FLYA</a>
-                <a data-bind="click: $root.CreateFlierInstance.EditFlierLaunch" class="Button std-btn">EDIT</a>
+                <a data-bind="click: $root.CreateFlierInstance.EditFlierLaunch" class="Button std-btn">Review And Activate</a>
             </div>
         </div>
     

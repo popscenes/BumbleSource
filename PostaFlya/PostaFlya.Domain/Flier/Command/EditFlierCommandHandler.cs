@@ -79,10 +79,11 @@ namespace PostaFlya.Domain.Flier.Command
                     .AddCommandId(command);
 
             //charge for any new state
+            bool enabled = false;
             using (unitOfWork = _unitOfWorkFactory.GetUnitOfWork(new[] {_repository}))
             {
                 var flierCurrent = _queryService.FindById<Flier>(command.Id);
-                var enabled = flierCurrent.ChargeForState(_repository, _queryService, _creditChargeServiceInterface);
+                enabled = flierCurrent.ChargeForState(_repository, _queryService, _creditChargeServiceInterface);
                 _repository.UpdateEntity<Flier>(flierCurrent.Id, f =>
                 {
                     f.MergeUpdateFeatureCharges(flierCurrent.Features); 
@@ -110,7 +111,8 @@ namespace PostaFlya.Domain.Flier.Command
 
             return new MsgResponse("Flier Edit", false)
                 .AddEntityId(command.Id)
-                .AddCommandId(command);
+                .AddCommandId(command)
+                .AddMessageProperty("status", enabled ? FlierStatus.Active.ToString() : FlierStatus.PaymentPending.ToString());
         }
     }
 }
