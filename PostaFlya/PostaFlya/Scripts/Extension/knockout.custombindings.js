@@ -137,7 +137,7 @@ ko.bindingHandlers.bannerText = {
 
 ko.bindingHandlers.touchHover = {
     init: function(element, valueAccessor, allBindingsAccessor, viewModel) {
-        $(element).bind('touchstart', function(e) {
+        $(element).bind('touchend', function(e) {
             e.preventDefault();
             //alert("toggle class");
             $(valueAccessor()).toggleClass("touch-hover");

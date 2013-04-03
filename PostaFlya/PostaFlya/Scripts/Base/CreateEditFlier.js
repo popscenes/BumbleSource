@@ -48,7 +48,7 @@
 
         var self = this;
         self.apiUrl = sprintf("/api/Browser/%s/MyFliers", bf.currentBrowserInstance.BrowserId);
-        self.Steps = ['Flyer', 'Tags', 'Info', 'Location', 'Summary'];
+        self.Steps = ['Flyer', 'Tags', 'Info', 'Location', 'Summary', 'complete'];
         self.imageSelector = imageSelector;
         self.tagsSelector = tagsSelector;
         
@@ -75,6 +75,7 @@
         self.costBreakdown = ko.observable(false);
 
         self.posting = ko.observable(false);
+        self.flierStatus = ko.observable('');
         
         self.saveText = ko.computed(function () {
             return self.posting() == true ? "Saving" : "Save";
@@ -248,11 +249,10 @@
                 data: ko.utils.stringifyJson(reqData),
                 type: "put", contentType: "application/json",
                 success: function (result) {
+                    self.flierStatus(result.Details[2].Message);
                     self.posting(false);
-                    if (self.afterUpdateCallback != undefined)
-                        self.afterUpdateCallback(false);
-
-                    self.trackEvent('finished');
+                    self.trackEvent('updated');
+                    self.nextTemplate();
                 }
             });
 
@@ -284,16 +284,9 @@
                 type: "post", contentType: "application/json",
                 success: function (result) {
                     self.posting(false);
-
-                    self.trackEvent('finished');
-                    
-                    if (result.Details[2].Message == "PaymentPending") {
-                        window.location = "/profile/paymentpending";
-                        return;
-                    }
-                    if (self.afterUpdateCallback != undefined)
-                        self.afterUpdateCallback(false);
-                    
+                    self.trackEvent('saved');
+                    self.flierStatus(result.Details[2].Message);
+                    self.nextTemplate();
                 },
                 error: function (jqXhr, textStatus, errorThrown) {
                     self.posting(false);
@@ -302,6 +295,18 @@
             });
 
             return false;
+        };
+
+        self.finish = function() {
+            self.trackEvent('finish');
+            if (self.flierStatus() == "PaymentPending") {
+                window.location = "/profile/paymentpending";
+                return;
+            }
+            if (self.afterUpdateCallback != undefined) {
+                self.afterUpdateCallback(false);
+            }
+            
         };
 
         self.trackEvent = function(event) {
