@@ -112,9 +112,8 @@
                     <span class="flier-cost-desc" data-bind="text:description"></span>
                 </li>
             </ul>
-        </fieldset>
-    </form>
 
+            <p>
                 Total = <span data-bind="text: totalCost"></span> 
                 <span data-bind="visible: TotalPaid()">
                     ( Cost <span data-bind="text:featureCostFmt"></span> -  Paid <span data-bind="text:TotalPaid"></span>)
@@ -141,6 +140,9 @@
                 <p>Don’t forget to check out the print options available on your flya. This will add tear offs and a handy QR code that will link right back to your online Flya!</p>
                 <p>Happy Posting!</p>
             </span>
+	</fieldset>
+    </form>
+</script>
 <script type="text/html" id="Location-template">
     <form id="flierForm" class="" data-bind="validate: true">
         
