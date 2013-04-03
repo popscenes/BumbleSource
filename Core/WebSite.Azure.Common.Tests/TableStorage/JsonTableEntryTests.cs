@@ -138,6 +138,68 @@ namespace Website.Azure.Common.Tests.TableStorage
         }
 
         [Test]
+        public void JsonTableEntryTestStoreRetrieveUpdate()
+        {
+            var testob = new JsonTestEntity()
+            {
+                Prop = "Hello123",
+                PropTwo = "There123",
+                PropThree = "Yo",
+                HashTest = new HashSet<string>() { "one", "two" },
+                SubEntity = new List<TwoEntity>() { new TwoEntity() { Prop = "TwoProp", PropTwo = null } }
+            };
+
+            var nameAndPartitionProviderService = Kernel.Get<TableNameAndPartitionProviderServiceInterface>();
+            var partKeyFunc = nameAndPartitionProviderService.GetPartitionKeyFunc<JsonTestEntity>(0);
+            var rowKeyFunc = nameAndPartitionProviderService.GetRowKeyFunc<JsonTestEntity>(0);
+
+
+            var tableEntry = new JsonTableEntry()
+            {
+                KeyChanged = false,
+                PartitionKey = partKeyFunc(testob),
+                RowKey = rowKeyFunc(testob)
+            };
+            tableEntry.UpdateEntry(testob);
+
+            var tableName = nameAndPartitionProviderService.GetTableName<JsonTestEntity>(0);
+            var tabCtx = Kernel.Get<TableContextInterface>();
+            tabCtx.Store(tableName, tableEntry);
+            tabCtx.SaveChanges();
+
+            var tabCtxRet = Kernel.Get<TableContextInterface>();
+            var ret = tabCtxRet.PerformQuery<JsonTableEntry>(tableName, e => e.PartitionKey == tableEntry.PartitionKey
+                                                                   && e.RowKey == tableEntry.RowKey)
+                                                                   .SingleOrDefault();
+
+            Assert.IsNotNull(ret);
+            var deserialized = ret.GetEntity<JsonTestEntity>();
+            AssertAreEqual(testob, deserialized);
+
+            //get a new context and find the same entity
+            var tabCtxTwo = Kernel.Get<TableContextInterface>();
+            ret = tabCtxTwo.PerformQuery<JsonTableEntry>(tableName, e => e.PartitionKey == tableEntry.PartitionKey
+                                                       && e.RowKey == tableEntry.RowKey)
+                                                       .SingleOrDefault();
+            deserialized = ret.GetEntity<JsonTestEntity>();
+            AssertAreEqual(testob, deserialized);
+            deserialized.PropThree = "MODIFIED";
+            ret.UpdateEntry(deserialized);
+            //update in next context
+            tabCtxTwo.Store(tableName, ret);
+            tabCtxTwo.SaveChanges();
+
+            //use initial context to retrieve entity
+            var reAgain = tabCtxRet.PerformQuery<JsonTableEntry>(tableName, e => e.PartitionKey == tableEntry.PartitionKey
+                                                                   && e.RowKey == tableEntry.RowKey)
+                                                                   .SingleOrDefault();
+            Assert.IsNotNull(reAgain);
+            var deserializedAgain = reAgain.GetEntity<JsonTestEntity>();
+            AssertAreEqual(deserialized, deserializedAgain);
+
+        }
+
+        [Test]
         public void JsonTableEntryTestStoreLargeEntity()
         {
 //            if (AzureEnv.UseRealStorage)//will take too long to run

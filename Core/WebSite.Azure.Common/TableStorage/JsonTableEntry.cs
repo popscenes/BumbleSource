@@ -34,6 +34,7 @@ namespace Website.Azure.Common.TableStorage
 
         public void SetJson(string jsonText)
         {
+            _sourceObject = null;
             _jsonText = jsonText;
         }
 

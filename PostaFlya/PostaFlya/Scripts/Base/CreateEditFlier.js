@@ -41,7 +41,8 @@
             EnableAnalytics: false,
             ContactDetails: {},
             PostRadius: 5,
-            FlierBehaviour: 'Default'
+            FlierBehaviour: 'Default',
+            TotalPaid: 0
         };
         
         data = $.extend(defdata, data);
