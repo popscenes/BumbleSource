@@ -1256,6 +1256,11 @@ div.bulletin-loading-div {
     font-style: italic;
 }
 
+.bulletin-loading-div a{
+    margin-left: 12px;
+    vertical-align: bottom;
+}
+
 div#scrolltotop {
     background-color: white;
     font-style: italic;

@@ -204,11 +204,25 @@
 @*                <div id="flyaDate" data-bind="jqueryui: { widget: 'datetimepicker', *@
 @*                            options: { altField: '#EffectiveDate', altFieldTimeOnly: false,*@
 @*                                       useLocalTimezone: true, showButtonPanel: false } }, *@
-@*                                            dateTimePickerUpdate:EffectiveDate"></div>*@
+                @*                                            dateTimePickerUpdate:EffectiveDate"></div>*@
                 
                 
             </div>
-    </fieldset>
+        </fieldset>
+          <fieldset>
+            <legend>Now add some flyer tags</legend>
+            <ol>
+                <li data-bind="with:tagsSelector">
+                    <h2>Add some tags to your fliers</h2>
+                    @Html.ValidationMessageFor(model => model.TagsString)
+                    @Html.HiddenFor(model => model.TagsString, new { data_bind = "value:SelectedTags()" })
+                
+                    <span class="">
+                        @Html.Partial("Tags/TagsSelector")
+                    </span>
+                </li>
+            </ol>        
+        </fieldset>
     </form>
 </script>
 
@@ -231,20 +245,6 @@
                 </li>
             </ol> 
 
-        </fieldset>
-        <fieldset>
-            <legend>Now add some flyer tags</legend>
-            <ol>
-                <li data-bind="with:tagsSelector">
-                    <h2>Add some tags to your fliers</h2>
-                    @Html.ValidationMessageFor(model => model.TagsString)
-                    @Html.HiddenFor(model => model.TagsString, new { data_bind = "value:SelectedTags()" })
-                
-                    <span class="">
-                        @Html.Partial("Tags/TagsSelector")
-                    </span>
-                </li>
-            </ol>        
         </fieldset>
         <fieldset class="analytics-edit">
             <legend>Flier Features</legend>
