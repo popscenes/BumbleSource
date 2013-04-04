@@ -66,7 +66,7 @@ background-color: white;
 }
 
 .std-image-btn-icon {
-    background-image: url(images/icons-34h.png);
+    background-image: url(images/icons-34h1.png);
     position: absolute;
     top: 0;
     left: 0;
@@ -75,7 +75,7 @@ background-color: white;
 }
 
 .btn-44 .std-image-btn-icon{
-    background-image: url(images/icons-44h.png);
+    background-image: url(images/icons-44h1.png);
     width: 44px;
     height: 44px;
 }
@@ -263,7 +263,7 @@ div.question-tool-bar-item {
     display: block;
     width: 34px;
     height: 34px;
-    background-image: url(images/icons-44h.png);
+    background-image: url(images/icons-44h1.png);
     background-position: 0px 0px;
     float: left;
 }
@@ -271,7 +271,7 @@ div.question-tool-bar-item {
 .default-avatar-bg {
     width: 44px;
     height:44px;
-    background-image: url(images/icons-44h.png);
+    background-image: url(images/icons-44h1.png);
     background-position: -88px -44px;
 
 }
@@ -288,7 +288,7 @@ div.locSel .location-search {
 div.current-loc {
     display: table-cell;
     width: 34px;
-    background-image: url(images/icons-34h.png);
+    background-image: url(images/icons-34h1.png);
     background-position: -34px -34px;
     cursor: pointer;
 }
@@ -875,14 +875,14 @@ form li label {
 }
 
 .next {
-    background-image: url(images/icons-44h.png);
+    background-image: url(images/icons-44h1.png);
     width: 44px;
     height: 44px;
     background-position: -264px -44px;
 }
 
 .prev {
-    background-image: url(images/icons-44h.png);
+    background-image: url(images/icons-44h1.png);
     width: 44px;
     height: 44px;
     background-position: -220px -44px;
@@ -1011,7 +1011,7 @@ margin: 0 auto;
 }
 
 .big-tick {
-   background-image: url(images/icons-34h.png);
+   background-image: url(images/icons-34h1.png);
     width: 34px;
     height: 34px;
     background-position: -306px -0px;
@@ -1025,7 +1025,7 @@ margin: 0 auto;
     top: -0px;
     right: 0;
     left: 0;
-    background-image: url(images/icons-44h.png);
+    background-image: url(images/icons-44h1.png);
     width: 44px;
     height: 44px;
     background-position: -396px -0px;
