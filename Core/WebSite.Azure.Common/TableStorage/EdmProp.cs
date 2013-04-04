@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Xml;
+using Website.Infrastructure.Util;
 
 namespace Website.Azure.Common.TableStorage
 {
@@ -28,6 +29,8 @@ namespace Website.Azure.Common.TableStorage
 
     public static class Edm
     {
+        public const int MaxEdmStringSize = (1024 * 32);
+
         public const string String = "Edm.String";
         public const string Int32 = "Edm.Int32";
         public const string Int64 = "Edm.Int64";
@@ -45,7 +48,7 @@ namespace Website.Azure.Common.TableStorage
         public static object ConvertFromEdmValue(string type, string value, bool isnull)
         {
             if (isnull) return null;
-            if (string.IsNullOrEmpty(type)) return value;
+            if (String.IsNullOrEmpty(type)) return value;
 
             switch (type)
             {
@@ -61,27 +64,36 @@ namespace Website.Azure.Common.TableStorage
             }
         }
 
-        public static object ConvertToEdmValue(string type, object value)
+        public static object ConvertToEdmValue(string type, object value)  
         {
             if (value == null) return null;
-            if (string.IsNullOrEmpty(type)) return value;
+            if (String.IsNullOrEmpty(type)) return value;
+
+            object ret;
 
             switch (type)
             {
                 case Binary:
                     var byteval = value as byte[] ?? new byte[0];
-                    return Convert.ToBase64String(byteval);
+                    ret = Convert.ToBase64String(byteval);
+                    break;
                 default:
                     Type typeOf;
                     if (!EdmDesToTyp.TryGetValue(type, out typeOf))
                         throw new NotSupportedException("Not supported type " + type);
-                    return Convert.ChangeType(value, typeOf);
+                    ret = SerializeUtil.ConvertVal(value, typeOf);
+                    break;
             }
+
+            if(ret is string && (ret as string).Length > MaxEdmStringSize)
+                throw new NotSupportedException("String size too large, not supported");
+
+            return ret;
         }
 
         public static bool IsEdmTyp(string edmTyp)
         {
-            if (string.IsNullOrWhiteSpace(edmTyp))
+            if (String.IsNullOrWhiteSpace(edmTyp))
                 return false;
             return EdmDesToTyp.ContainsKey(edmTyp);
         }
@@ -120,7 +132,7 @@ namespace Website.Azure.Common.TableStorage
         }
 
         private static readonly Func<ConstructorInfo, bool> HasEdmConstuctor =
-            info => info.GetParameters().Length == 1 && Edm.IsEdmTyp(info.GetParameters()[0].ParameterType);
+            info => info.GetParameters().Length == 1 && IsEdmTyp(info.GetParameters()[0].ParameterType);
         public static IList<ConstructorInfo> GetEdmConstuctors(Type type)
         {
             return type.GetConstructors().Where(HasEdmConstuctor).ToList();
@@ -134,7 +146,7 @@ namespace Website.Azure.Common.TableStorage
         public static string GetEdmTyp(object source)
         {
             //default to string for null
-            return (source != null) ? Edm.GetEdmTyp(source.GetType()) : Edm.String;
+            return (source != null) ? GetEdmTyp(source.GetType()) : String;
         }
 
         public static string GetEdmTyp(Type type)

@@ -346,7 +346,7 @@ namespace Website.Azure.Common.TableStorage
             if (propertiesEle == null)
                 return;
 
-            var listPart = SplitIntoChunks(jsonEntry.GetJson(), MaxStringSize);
+            var listPart = SplitIntoChunks(jsonEntry.GetJson(), Edm.MaxEdmStringSize);
 
             for (var i = 0; i < listPart.Count; i++)
             {
@@ -359,13 +359,13 @@ namespace Website.Azure.Common.TableStorage
             AddEdmVal(propertiesEle, JsonBinary, Edm.Boolean, false);
 
             //just adds plain edm types from the aggregate root to the saved colums, handy for queries from linqpad or other sources
-            var dict = jsonEntry.GetSourceObject().PropertiesToDictionary(null, ExcludeProps, false)
-                .Where(pair => !pair.Key.StartsWith(JsonPrefix)).ToDictionary(pair => pair.Key, pair => pair.Value);
-            var extendableEntity = ExtendableTableEntry.CreateFromDict(dict);
-            foreach (var val in extendableEntity.GetAllProperties())
-            {
-                AddEdmVal(propertiesEle, val.Key.Name, val.Key.EdmTyp, val.Value);
-            }
+//            var dict = jsonEntry.GetSourceObject().PropertiesToDictionary(null, ExcludeProps, false)
+//                .Where(pair => !pair.Key.StartsWith(JsonPrefix)).ToDictionary(pair => pair.Key, pair => pair.Value);
+//            var extendableEntity = ExtendableTableEntry.CreateFromDict(dict);
+//            foreach (var val in extendableEntity.GetAllProperties())
+//            {
+//                AddEdmVal(propertiesEle, val.Key.Name, val.Key.EdmTyp, val.Value);
+//            }
             
         }
 
@@ -394,7 +394,7 @@ namespace Website.Azure.Common.TableStorage
 
         //        private const int MaxEntrySize = (int)((1024 * 1024) * 0.74);
         //        private const int MaxPropertySize = (int)((1024 * 64) * 0.74);
-        private const int MaxStringSize = (1024 * 32);
+        
         static List<string> SplitIntoChunks(string str, int chunkSize)
         {
             if(string.IsNullOrWhiteSpace(str))
@@ -409,12 +409,20 @@ namespace Website.Azure.Common.TableStorage
 
         private static void AddEdmVal(XElement propertiesEle, string name, string edmTyp, object value)
         {
-            var xElement = new XElement(d + name, Edm.ConvertToEdmValue(edmTyp, value));
-            if (!Edm.IsString(edmTyp)) // don't add the string edm type. it's default
-                xElement.SetAttributeValue(m + "type", edmTyp);
-            if (value == null)
-                xElement.SetAttributeValue(m + "null", true);
-            propertiesEle.Add(xElement);
+            try
+            {
+                var xElement = new XElement(d + name, Edm.ConvertToEdmValue(edmTyp, value));
+                if (!Edm.IsString(edmTyp)) // don't add the string edm type. it's default
+                    xElement.SetAttributeValue(m + "type", edmTyp);
+                if (value == null)
+                    xElement.SetAttributeValue(m + "null", true);
+                propertiesEle.Add(xElement);
+            }
+            catch (NotSupportedException)
+            {
+                //skipping adding if edmType isn't supported or string to long etc
+            }
+
         }
 
         struct EdmRet
