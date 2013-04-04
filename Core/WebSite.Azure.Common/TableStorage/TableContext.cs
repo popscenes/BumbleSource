@@ -358,14 +358,14 @@ namespace Website.Azure.Common.TableStorage
             AddEdmVal(propertiesEle, JsonGzip, Edm.Boolean, false);
             AddEdmVal(propertiesEle, JsonBinary, Edm.Boolean, false);
 
-            //just adds plain edm types to the saved colums, might be handy for queries
-//            var dict = jsonEntry.GetSourceObject().PropertiesToDictionary(null, ExcludeProps, false)
-//                .Where(pair => !pair.Key.StartsWith(JsonPrefix)).ToDictionary(pair => pair.Key, pair => pair.Value);
-//            var extendableEntity = ExtendableTableEntry.CreateFromDict(dict);
-//            foreach (var val in extendableEntity.GetAllProperties())
-//            {
-//                AddEdmVal(propertiesEle, val.Key.Name, val.Key.EdmTyp, val.Value);
-//            }
+            //just adds plain edm types from the aggregate root to the saved colums, handy for queries from linqpad or other sources
+            var dict = jsonEntry.GetSourceObject().PropertiesToDictionary(null, ExcludeProps, false)
+                .Where(pair => !pair.Key.StartsWith(JsonPrefix)).ToDictionary(pair => pair.Key, pair => pair.Value);
+            var extendableEntity = ExtendableTableEntry.CreateFromDict(dict);
+            foreach (var val in extendableEntity.GetAllProperties())
+            {
+                AddEdmVal(propertiesEle, val.Key.Name, val.Key.EdmTyp, val.Value);
+            }
             
         }
 
