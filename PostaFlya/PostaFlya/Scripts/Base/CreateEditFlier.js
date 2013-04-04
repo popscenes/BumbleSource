@@ -196,6 +196,7 @@
                 }
 
                 self.trackEvent(self.Steps[self.currentStep()]);
+                window.scrollTo(0, 0);
             }
         };
 
@@ -206,6 +207,7 @@
  
                 if ($(".imageSelector").length > 0) {
                     self.imageSelector.Init();
+                    window.scrollTo(0, 0);
                 }
             }
         };
@@ -328,6 +330,7 @@
                 self.imageSelector.selectedImageId(self.FlierImageId());
 
             self.trackEvent('launch');
+            window.scrollTo(0, 0);
             
             //bf.HelpTipsInstance.CheckFirstShowFor("createflier");
             

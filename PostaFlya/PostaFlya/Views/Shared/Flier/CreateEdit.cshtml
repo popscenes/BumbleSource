@@ -107,14 +107,15 @@
                 <li data-bind="visible:credits() > 0">
                     <h3 data-bind="text:title"></h3>
                     <div>
-                        <span data-bind="text:credits"></span>PostaFlya Credits
+                        <span data-bind="text:credits"></span> PostaFlya Credits
                     </div>
                     <span class="flier-cost-desc" data-bind="text:description"></span>
                 </li>
             </ul>
 
+            <h3>Total Cost</h3>
             <p>
-                Total = <span data-bind="text: totalCost"></span> 
+                Total = <span data-bind="text: totalCost"></span> PostaFlya Credits
                 <span data-bind="visible: TotalPaid()">
                     ( Cost <span data-bind="text:featureCostFmt"></span> -  Paid <span data-bind="text:TotalPaid"></span>)
                 </span>
