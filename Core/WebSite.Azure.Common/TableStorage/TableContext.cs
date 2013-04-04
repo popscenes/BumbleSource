@@ -364,7 +364,7 @@ namespace Website.Azure.Common.TableStorage
             var extendableEntity = ExtendableTableEntry.CreateFromDict(dict);
             foreach (var val in extendableEntity.GetAllProperties())
             {
-                AddEdmVal(propertiesEle, val.Key.Name, val.Key.EdmTyp, val.Value, true);
+                AddEdmVal(propertiesEle, val.Key.Name, val.Key.EdmTyp, val.Value);
             }
             
         }
@@ -407,18 +407,24 @@ namespace Website.Azure.Common.TableStorage
                 .ToList();
         }
 
-        private static void AddEdmVal(XElement propertiesEle, string name, string edmTyp, object value, bool trimstring = false)
+        private static void AddEdmVal(XElement propertiesEle, string name, string edmTyp, object value)
         {
             try
             {
+
                 var val = Edm.ConvertToEdmValue(edmTyp, value);
-                //hack as dev storage doesn't like xml val ending in spaces :/
-                if (val is string && trimstring)
-                    val = (val as String).Trim();
+
+                if (!AzureEnv.UseRealStorage && Edm.IsString(edmTyp) && val is string)
+                {
+                    val = (val as String).Trim();//hack cause dev storage can't handle trailing spaces
+                }
 
                 var xElement = new XElement(d + name, val);
                 if (!Edm.IsString(edmTyp)) // don't add the string edm type. it's default
                     xElement.SetAttributeValue(m + "type", edmTyp);
+                else
+                    xElement.SetAttributeValue(XNamespace.Xmlns + "space", "preserve");
+
                 if (value == null)
                     xElement.SetAttributeValue(m + "null", true);
                 propertiesEle.Add(xElement);
