@@ -1389,7 +1389,7 @@ div.tear-off {
 {
 
     .ui-flier-tile img {
-        width: 114px!important;
+        width: 200px!important;
     }
 
     #profile-avatar, #log-in-profile {
@@ -1421,7 +1421,7 @@ div.tear-off {
 
     .ui-flier-tile {
         margin: 4px!important;
-        width: 114px!important;
+        width: 200px!important;
     }
 
     #controls .bulletin-tags-selector {
