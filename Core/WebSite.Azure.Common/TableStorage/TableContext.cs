@@ -359,13 +359,13 @@ namespace Website.Azure.Common.TableStorage
             AddEdmVal(propertiesEle, JsonBinary, Edm.Boolean, false);
 
             //just adds plain edm types from the aggregate root to the saved colums, handy for queries from linqpad or other sources
-//            var dict = jsonEntry.GetSourceObject().PropertiesToDictionary(null, ExcludeProps, false)
-//                .Where(pair => !pair.Key.StartsWith(JsonPrefix)).ToDictionary(pair => pair.Key, pair => pair.Value);
-//            var extendableEntity = ExtendableTableEntry.CreateFromDict(dict);
-//            foreach (var val in extendableEntity.GetAllProperties())
-//            {
-//                AddEdmVal(propertiesEle, val.Key.Name, val.Key.EdmTyp, val.Value);
-//            }
+            var dict = jsonEntry.GetSourceObject().PropertiesToDictionary(null, ExcludeProps, false)
+                .Where(pair => !pair.Key.StartsWith(JsonPrefix)).ToDictionary(pair => pair.Key, pair => pair.Value);
+            var extendableEntity = ExtendableTableEntry.CreateFromDict(dict);
+            foreach (var val in extendableEntity.GetAllProperties())
+            {
+                AddEdmVal(propertiesEle, val.Key.Name, val.Key.EdmTyp, val.Value, true);
+            }
             
         }
 
@@ -407,11 +407,16 @@ namespace Website.Azure.Common.TableStorage
                 .ToList();
         }
 
-        private static void AddEdmVal(XElement propertiesEle, string name, string edmTyp, object value)
+        private static void AddEdmVal(XElement propertiesEle, string name, string edmTyp, object value, bool trimstring = false)
         {
             try
             {
-                var xElement = new XElement(d + name, Edm.ConvertToEdmValue(edmTyp, value));
+                var val = Edm.ConvertToEdmValue(edmTyp, value);
+                //hack as dev storage doesn't like xml val ending in spaces :/
+                if (val is string && trimstring)
+                    val = (val as String).Trim();
+
+                var xElement = new XElement(d + name, val);
                 if (!Edm.IsString(edmTyp)) // don't add the string edm type. it's default
                     xElement.SetAttributeValue(m + "type", edmTyp);
                 if (value == null)
