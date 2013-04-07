@@ -3,6 +3,7 @@ using System.Linq;
 using System.Web.Mvc;
 using System.Web.Routing;
 using PostaFlya.Application.Domain.ExternalSource;
+using PostaFlya.Models;
 using Website.Application.Content;
 using PostaFlya.Domain.Behaviour;
 using PostaFlya.Domain.Flier.Command;
@@ -77,7 +78,17 @@ namespace PostaFlya.Controllers
 
             var createFliers = importedFliers.Select(_ => _.ToCreateModel().GetImageUrl(_blobStorage, ThumbOrientation.Vertical, ThumbSize.S228));
             ViewBag.Fliers = createFliers;
-            return View(createFliers);
+            var model = new flierImportModel() { CreatedFliers = createFliers, PageId = WebConstants.FlierImportPage };
+
+            return View(model);
         }
+    }
+
+    public class flierImportModel : PageModelInterface
+    {
+        public string PageId { get; set; }
+        public string ActiveNav { get; set; }
+
+        public IQueryable<FlierCreateModel> CreatedFliers { get; set; }
     }
 }

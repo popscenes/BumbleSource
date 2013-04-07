@@ -15,6 +15,11 @@ namespace PostaFlya.Models
         public const string ActiveNavigationItem = "active";
         public const string InActiveNavigationItem = "";
 
+        #region flierPages
+
+        public const string FlierImportPage = "flier-import";
+        #endregion
+
         #region ProfilePages
 
         public const string ProfileEditPage = "profile-edit";

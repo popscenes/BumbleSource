@@ -15,6 +15,9 @@
 
 
 <ul class="flier-imports" data-bind="foreach:fliers">
+    <div data-bind="text: Title" >
+            
+    </div>
     <li data-bind="click: $parent.CreateFlierInstance.InitialiseFlier">
         <img data-bind="attr: { src: FlierImageUrl }" />
         <div data-bind="text: Title" >

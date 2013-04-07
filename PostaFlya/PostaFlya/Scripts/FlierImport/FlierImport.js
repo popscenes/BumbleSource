@@ -1,5 +1,10 @@
 ﻿(function (window, undefined) {
     var bf = window.bf = window.bf || {};
+    bf.pageinit = bf.pageinit || {};
+    
+    bf.pageinit['flier-import'] = function () {
+        bf.page = new bf.FlierImport();
+    };
 
     bf.FlierImport = function () {
         var self = this;
@@ -9,12 +14,13 @@
         
 
         self._Init = function () {
-            ko.applyBindings(self);
+            
             if (bf.pageState !== undefined && bf.pageState.Fliers !== undefined) {
                     
                 self.fliers([]);
                 self.fliers(bf.pageState.Fliers);
             }
+            ko.applyBindings(self);
         };
 
         self._Init();

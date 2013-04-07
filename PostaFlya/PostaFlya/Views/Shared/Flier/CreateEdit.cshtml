@@ -30,7 +30,7 @@
 </div>
 
 <div id="form-buttons">
-    <a id="flya-create-back" data-bind="click: prevTemplate, visible:isPrevStep() && stepTemplate() != 'complete-template'" class="std-btn std-image-btn">
+    <a id="flya-create-back" data-bind="click: prevTemplate, visible:isPrevStep() && stepTemplate() != 'Complete-template'" class="std-btn std-image-btn">
         <span class="std-image-btn-icon"></span>
         <span>BACK</span>
     </a>
@@ -48,7 +48,7 @@
         <span data-bind="text: updateText"></span>
     </a>
     
-    <a id="flya-create-complete" data-bind="click: finish, visible:!isUpdate() && stepTemplate() == 'complete-template', css: { 'btn-std-inuse': posting() == true }" class="std-btn std-image-btn">
+    <a id="flya-create-complete" data-bind="click: finish, visible:!isUpdate() && stepTemplate() == 'Complete-template', css: { 'btn-std-inuse': posting() == true }" class="std-btn std-image-btn">
         <span class="std-image-btn-icon"></span>
         <span>Finish</span>
     </a>

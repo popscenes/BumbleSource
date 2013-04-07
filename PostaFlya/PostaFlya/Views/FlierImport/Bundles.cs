@@ -18,10 +18,7 @@ namespace PostaFlya.Views.FlierImport
                         //"Base/CreateFlierInstance.js"
                    };
 
-        private static readonly string[]
-            DeskJs =  {
-                       "FlierImport/Desk/FlierImport.js"
-                    };
+        
 
         //structure
         private static readonly string[]
@@ -68,7 +65,6 @@ namespace PostaFlya.Views.FlierImport
         {
             var scriptBundleDesk = new ScriptBundle("~/Script/FlierImportDeskJs.js");
             scriptBundleDesk.AddScriptFiles(CoreJs);
-            scriptBundleDesk.AddScriptFiles(DeskJs);
             table.Add(scriptBundleDesk);
         }
     }
