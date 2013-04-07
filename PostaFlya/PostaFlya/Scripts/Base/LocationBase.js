@@ -116,13 +116,15 @@
     };
     
     /**/
-    bf.reverseGeocode = function(locationModel) {
+    bf.reverseGeocode = function(locationModel, callback) {
         var latlng = new google.maps.LatLng(locationModel.Latitude(), locationModel.Longitude());
         var geocoder = new google.maps.Geocoder();
         geocoder.geocode({ 'location': latlng },
             function (results, status) {
                 if (status === 'OK') {
                     locationModel.SetFromGeo(results[0]);
+                    if (callback)
+                        callback(locationModel);
                 }
             });
     };

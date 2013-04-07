@@ -1287,7 +1287,15 @@ p#copyright {
     text-align: center;
 }
 
-div.tear-off {
+.flier-view div.tear-off {
+    text-align: center;
+}
+
+.flier-view div.flier-contact-dets{
+    text-align: center;
+}
+
+.flier-view div.flier-event-dates {
     text-align: center;
 }
 
@@ -1307,8 +1315,8 @@ div.tear-off {
     display: inline;
 }
 
-.flier-view .flier-details .flier-desc {
-    
+.flier-view div.flier-desc {
+    text-align: center;
 }
 
 .flier-view .comments {

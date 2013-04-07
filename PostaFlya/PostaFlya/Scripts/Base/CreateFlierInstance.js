@@ -6,18 +6,6 @@
         var self = this;
         self.CreateFlier = ko.observable();
 
-//        self.LocationSelector = new bf.LocationSelector({
-//            displayInline: true,
-//            mapElementId: 'creatre-flier-map',
-//            locSearchId: 'creatre-flier-loc'
-//        });
-//        
-//        self.AddressSelector = new bf.LocationSelector({
-//            displayInline: false,
-//            mapElementId: 'contact-address-map',
-//            locSearchId: 'contact-address-loc'
-//        });
-
         self.ImageSelector = new bf.ImageSelector({
             uploaderElementId: "create-flier-uploader",
             imageListId: "create-flier-imageList"
@@ -29,6 +17,8 @@
 
         self.CreateFlierLaunch = function () {
 
+            if (!bf.currentBrowserInstance.IsParticipant())
+                bf.pagedefaultaction.set('createflyainstance', 'create');
             if (bf.currentBrowserInstance.LoginNeeded())
                 return;
 
@@ -51,6 +41,9 @@
 
 
         self.EditFlierLaunch = function (flier, evnt) {
+            
+
+
             self.apiUrl = sprintf("/api/Browser/%s/MyFliers", bf.currentBrowserInstance.BrowserId);
             $.ajax(self.apiUrl + "/" + flier.Id, {
                 type: "get", contentType: "application/json",
@@ -72,6 +65,15 @@
 
     $(function () {
         bf.globalCreateFlierInstance = new bf.CreateFlierInstance();
+        var act = bf.pagedefaultaction.get('createflyainstance');
+        if (act == 'create') {
+            if (bf.currentBrowserInstance.IsParticipant()) {
+                setTimeout(bf.globalCreateFlierInstance.CreateFlierLaunch, 1);
+            }
+            else {
+                bf.pagedefaultaction.set('createflyainstance', 'create');
+            }
+        }
     });
 
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using Ninject;
 using Website.Infrastructure.Domain;
 using Website.Application.WebsiteInformation;
@@ -88,8 +89,7 @@ namespace Website.Application.Azure.WebsiteInformation
                 .Where(_ => _.RowKey == url)
                 .Select(_ => _.Get<string>(FIELD_TAGS)).FirstOrDefault();
 
-            return tags;
-
+            return tags ?? websites.Select(_ => _.Get<string>(FIELD_TAGS)).FirstOrDefault();
         }
 
         public string GetWebsiteName(string url)
@@ -99,7 +99,7 @@ namespace Website.Application.Azure.WebsiteInformation
                 .Where(_ => _.RowKey == url)
                 .Select(_ => _.Get<string>(FIELD_WEBSITENAME)).FirstOrDefault();
 
-            return websitename;
+            return websitename ?? websites.Select(_ => _.Get<string>(FIELD_WEBSITENAME)).FirstOrDefault();
         }
 
 
@@ -107,8 +107,7 @@ namespace Website.Application.Azure.WebsiteInformation
         {
             var websites = TableContext.PerformQuery<WebsiteInfoEntity>(_tableName);
 
-            var websiteInfo = websites
-                .Where(_ => _.RowKey == url).Select(_ => new WebsiteInfo()
+            Expression<Func<WebsiteInfoEntity, WebsiteInfo>> select = _ => new WebsiteInfo()
                 {
                     Tags = _.Get<string>(FIELD_TAGS),
                     BehaivoirTags = _.Get<string>(FIELD_BEHAIVORTAGS),
@@ -119,10 +118,11 @@ namespace Website.Application.Azure.WebsiteInformation
                     PaypalUserId = _.Get<string>(FIELD_PAYPALID),
                     WebsiteName = _.Get<string>(FIELD_WEBSITENAME)
 
-                }
-            ).FirstOrDefault();
+                };
+            var websiteInfo = websites
+                .Where(_ => _.RowKey == url).Select(select).FirstOrDefault();
 
-            return websiteInfo;
+            return websiteInfo ?? websites.Select(select).FirstOrDefault();
         }
 
 

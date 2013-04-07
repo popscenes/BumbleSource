@@ -16,22 +16,6 @@ namespace PostaFlya.Views.Account
                          "Account/Account.js"
                    };
 
-        private static readonly string[]
-            DeskJs =  {
-                       "Account/Desk/Account.js"
-                    };
-
-        //Structure Css
-        private static readonly string[]
-            CoreStructureCss = {
-                        
-                   };
-
-
-        private static readonly string[]
-            DeskStructureCss =  {
-                       
-                    };
 
         //theme Css
         private static readonly string[]
@@ -41,11 +25,6 @@ namespace PostaFlya.Views.Account
                    };
 
 
-        private static readonly string[]
-            DeskThemeCss =  {
-                       
-                    };
-
         public static void AddBundles(BundleCollection table)
         {
             AddJsBundles(table);
@@ -54,12 +33,9 @@ namespace PostaFlya.Views.Account
 
         private static void AddCssBundles(BundleCollection table)
         {
-            //structure
-            table.AddStructureCssCollection("Account/DeskCss.css", CoreStructureCss, DeskStructureCss);
-
             //themes
             table.AddThemedCssCollection("Account/DeskCss.css", PostaFlya.Views.Shared.Bundles.Themes,
-                CoreThemeCss, DeskThemeCss);
+                CoreThemeCss);
         }
 
         private static void AddJsBundles(BundleCollection table)
@@ -67,7 +43,6 @@ namespace PostaFlya.Views.Account
 
             var scriptBundleDesk = new ScriptBundle("~/Script/AccountDeskJs.js");
             scriptBundleDesk.AddScriptFiles(CoreJs);
-            scriptBundleDesk.AddScriptFiles(DeskJs);
             table.Add(scriptBundleDesk);
         }
     }

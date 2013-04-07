@@ -73,11 +73,25 @@
                     
                 },
                 error: function (jqXhr, textStatus, errorThrown) {
-                    bf.ErrorUtil.HandleRequestError(null, jqXhr);
+                    bf.ErrorUtil.HandleRequestError(null, jqXhr, function(err) {
+                        if (err.Message == "Invalid Access") {
+                            bf.pagedefaultaction.set('bulletin-detail', 'peel');
+                        }
+                    });
                 }
             }).fail(function () { self.IsPeeling(false); });
             return true;
         };
+
+        self.Init = function() {
+
+            var act = bf.pagedefaultaction.get('bulletin-detail');
+            if (act == 'peel') {
+                self.TearOff();
+            }
+        };
+
+        self.Init();
 
     };
 

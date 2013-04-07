@@ -284,6 +284,27 @@ ko.bindingHandlers.locationAutoComplete = {
     }
 };
 
+ko.bindingHandlers.showOnce = {
+    init: function (element, valueAccessor, allBindingsAccessor, viewModel) {
+        var context = ko.utils.unwrapObservable(valueAccessor());
+        
+        $.cookie.json = true;
+        var showonce = $.cookie('showOnce');
+        if (!showonce)
+            showonce = {};
+
+        if (!showonce[context]) {
+            $(element).show();
+        }
+        else {
+            $(element).hide();
+        }
+        
+        showonce[context] = true;
+        $.cookie('showOnce', showonce, { expires: 1000 });
+    }
+};
+
 ko.bindingHandlers.mapBinding = {
     init: function (element, valueAccessor, allBindingsAccessor, viewModel) {
 //        var map = bf.createMap(element);    
@@ -521,14 +542,24 @@ function getFlierImageSizeFromWidth(width) {
 };
 
 ko.bindingHandlers.absolutePosFromScroll = {
-    update: function(element, valueAccessor) {
-        var value = ko.utils.unwrapObservable(valueAccessor());
+    update: function (element, valueAccessor, allBindingsAccessor) {
+        
+        var args = ko.utils.unwrapObservable(valueAccessor());
+        var value = ko.utils.unwrapObservable(args.target); 
         if (value) {
-            $(element).fadeIn();
+            var $ele = $(element);
+            $ele.fadeIn();
             var top = $(window).scrollTop();
-            $(element).css({
+            $ele.css({
                 'top': top
             });
+            
+            if (args.refreshtrig && value[args.refreshtrig] && ko.isObservable(value[args.refreshtrig])) {
+                value[args.refreshtrig].subscribe(function() {
+                    window.scrollTo(0, top);
+                });
+            }  
+            
         } else {
             $(element).fadeOut();
         }

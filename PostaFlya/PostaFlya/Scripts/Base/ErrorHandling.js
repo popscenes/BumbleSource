@@ -40,16 +40,19 @@
                     for (var i = 0; i < customerr.length; i++)
                         $formvalidator.errorList.push(customerr[i]);
                     $form.triggerHandler("invalid-form", [$formvalidator]);
-                    return;
+                    return ret;
                 }
                 if (errormsg.Message == "Invalid Access") {
+                    if (errorhandler && $.isFunction(errorhandler))
+                        errorhandler(ret);
                     self.NeedsLogin();
-                    return;
+                    return ret;
                 }
             }
 
             if (errorhandler && $.isFunction(errorhandler))
                 errorhandler(ret);
+            return ret;
         };
 
         self.NeedsLogin = function() {

@@ -37,7 +37,7 @@
             <a data-bind="text:WebSite, attr:{href: WebSite}">@Model.Surname</a>            
         </li>
         
-        <li data-bind="visible:Address()">
+        <li data-bind="visible:Address().Description()">
             @Html.LabelFor(model => model.Address)
             <span data-bind="text:Address().Description()">@(Model.Address != null ? Model.Address.Description : "")</span>
                         

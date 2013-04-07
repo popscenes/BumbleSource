@@ -40,6 +40,10 @@ namespace PostaFlya.Models
 
         #endregion
 
+        #region AccountPages
+        public const string AccountLoginPage = "login-page";
+        #endregion
+
         //TODO get rid of this
 
         public static void SetViewBagForLocationPicker(dynamic viewBag)

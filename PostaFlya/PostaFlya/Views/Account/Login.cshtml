@@ -2,7 +2,6 @@
 @using System.Web.Optimization
 @using Website.Common.Extension
 @section scripts {
-    @Styles.Render("~/Content/structure/Account/DeskCss.css")
     @Styles.Render("~/Content/themes/taskflya/Account/DeskCss.css")
     @Scripts.Render("~/Script/AccountDeskJs.js")
 }
@@ -27,6 +26,15 @@
 <div class="page-content">
     <div id="identity-provider-content" class="page-inner">
         <h2>Sign in using one of the following options</h2>
+        
+        <div class="terms-of-service-signin" data-bind="showOnce: 'emailprivacy'">
+            <p>
+                Note we will not share your email address with ANYONE without consent or send you any unsolicited email, as per our <a href="/privacypolicy">privacy policy</a>.
+                We only send you emails with information regarding flyas you have peeled.</p>
+            <p>
+                If you post a flya you can choose to attach your contact details, they will only be shared with other postaflya users who peel the flya details.
+            </p>
+        </div>
         
         @using (Html.BeginForm("AuthRequest", "Account", FormMethod.Post, new { id = "openid_form" }))
         {

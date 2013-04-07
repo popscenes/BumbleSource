@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 using System.Web.Security;
+using PostaFlya.Models.Account;
 using Website.Application.Authentication;
 using Website.Domain.Browser.Query;
 using Website.Infrastructure.Authentication;
@@ -43,7 +44,7 @@ namespace PostaFlya.Controllers
         {
             ViewBag.ReturnUrl = ReturnUrl;
             ViewBag.FreeCredits = _configurationService.GetSetting("NewAccountCredit");
-            return View("Login");
+            return View("Login", new LoginPageModel(){PageId = WebConstants.AccountLoginPage});
         }
 
         [Authorize]

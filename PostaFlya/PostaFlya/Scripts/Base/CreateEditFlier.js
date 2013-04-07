@@ -49,7 +49,7 @@
 
         var self = this;
         self.apiUrl = sprintf("/api/Browser/%s/MyFliers", bf.currentBrowserInstance.BrowserId);
-        self.Steps = ['Flyer', 'Tags', 'Info', 'Location', 'Summary', 'complete'];
+        self.Steps = ['AddImages', 'AttachContactDetails', 'DetailsAndTags', 'PostLocation', 'Summary', 'Complete'];
         self.imageSelector = imageSelector;
         self.tagsSelector = tagsSelector;
         
@@ -139,8 +139,6 @@
             return formatCurrency(cost);
         }, self);
 
-        //self.FlierImageUrl = ko.observable();
-
         self.FlierImageUrlH250 = ko.computed(
         {
             read: function () {
@@ -158,17 +156,8 @@
             }
         });
 
-        /*self.SetFlierImage = function (image) {
-            if (self.Steps[self.currentStep()] == 'Flyer') {
-                self.FlierImageId(image.ImageId);
-                self.FlierImageUrl(image.ImageUrl);
-            }
-
-            self.ImageList.push(image);
-        };*/
-        
         self.imageSelector.selectedImage.subscribe(function(image) {
-            if (self.Steps[self.currentStep()] == 'Flyer') {
+            if (self.Steps[self.currentStep()] == 'AddImages') {
                 self.FlierImageId(image.ImageId);
                 self.FlierImageUrl(image.ImageUrl);
             }
@@ -176,8 +165,6 @@
 //            if (!$.inArray(image, self.ImageList))
 //                self.ImageList.push(image);
         });
-
-        self.imageSelector.SetCallback(self.SetFlierImage);
 
         if (self.TagsString() != null && self.TagsString() != '') {
             self.tagsSelector.SelectedTags(self.TagsString().split(","));
@@ -195,8 +182,6 @@
                     self.imageSelector.Init();
                 }
 
-                self.trackEvent(self.Steps[self.currentStep()]);
-                window.scrollTo(0, 0);
             }
         };
 
@@ -207,13 +192,14 @@
  
                 if ($(".imageSelector").length > 0) {
                     self.imageSelector.Init();
-                    window.scrollTo(0, 0);
                 }
             }
         };
 
         self.stepTemplate = function () {
-            return self.Steps[self.currentStep()] + '-template';
+            var ret = self.Steps[self.currentStep()] + '-template';
+            self.trackEvent(self.Steps[self.currentStep()]);
+            return ret;
         };
 
         self.isNextStep = function () {
@@ -254,7 +240,6 @@
                 success: function (result) {
                     self.flierStatus(result.Details[2].Message);
                     self.posting(false);
-                    self.trackEvent('updated');
                     self.nextTemplate();
                 }
             });
@@ -287,7 +272,6 @@
                 type: "post", contentType: "application/json",
                 success: function (result) {
                     self.posting(false);
-                    self.trackEvent('saved');
                     self.flierStatus(result.Details[2].Message);
                     self.nextTemplate();
                 },
@@ -301,7 +285,7 @@
         };
 
         self.finish = function() {
-            self.trackEvent('finish');
+
             if (self.flierStatus() == "PaymentPending") {
                 window.location = "/profile/paymentpending";
                 return;
@@ -312,13 +296,17 @@
             
         };
 
-        self.trackEvent = function(event) {
-            _gaq.push(['_trackEvent', 'createFlya', event, self.isUpdate() ? 'update' : 'new']);
+        self.events = {};
+        self.trackEvent = function (event) {
 
+            event = event + "-new";
+            if (!self.isUpdate() && !self.events[event]) 
+                _gaq.push(['_trackEvent', 'createFlya', event, self.flierStatus()]);
+            self.events[event] = true;
         };
 
         self.OnCancel = function() {
-            self.trackEvent('cancel');
+            self.trackEvent('Cancel');
         };
 
         self.InitControls = function() {
@@ -328,11 +316,6 @@
             
             if (self.FlierImageId())
                 self.imageSelector.selectedImageId(self.FlierImageId());
-
-            self.trackEvent('launch');
-            window.scrollTo(0, 0);
-            
-            //bf.HelpTipsInstance.CheckFirstShowFor("createflier");
             
         };
     };

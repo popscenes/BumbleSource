@@ -1,6 +1,10 @@
 ﻿(function (window, undefined) {
 
     var bf = window.bf = window.bf || {};
+    bf.pageinit = bf.pageinit || {};
+    bf.pageinit['login-page'] = function () {
+        bf.page = new bf.Account();
+    };
 
     bf.Account = function () {
         var self = this;

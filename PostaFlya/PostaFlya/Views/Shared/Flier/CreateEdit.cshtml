@@ -54,7 +54,7 @@
     </a>
 </div>
 
-<script type="text/html" id="Flyer-template">
+<script type="text/html" id="AddImages-template">
     <form id="flierForm" class="" data-bind="validate: true">
         @Html.ValidationSummary(true)
         @Html.HiddenFor(model => model.Id, new { data_bind = "value:Id" })
@@ -101,7 +101,7 @@
     <form id="flierForm" class="" data-bind="validate: true">
         <fieldset>
 
-            <legend>Add a location</legend>
+            <legend>Summary</legend>
             <h2>Flya Cost Summary</h2>
             <ul class="flier-cost-summary-full" data-bind="foreach:flierCosts">
                 <li data-bind="visible:credits() > 0">
@@ -123,7 +123,7 @@
         </fieldset>
     </form>
 </script>
-<script type="text/html" id="complete-template">
+<script type="text/html" id="Complete-template">
     <form id="flierForm" class="" data-bind="validate: true">
         <fieldset>
             <legend>Flya Done</legend>
@@ -144,7 +144,7 @@
 	</fieldset>
     </form>
 </script>
-<script type="text/html" id="Location-template">
+<script type="text/html" id="PostLocation-template">
     <form id="flierForm" class="" data-bind="validate: true">
         
         @Html.ValidationSummary(true)
@@ -174,7 +174,7 @@
 
 </script>
 
-<script type="text/html" id="Info-template">
+<script type="text/html" id="DetailsAndTags-template">
     <form id="flierForm" class="" data-bind="validate: true">
     
         @Html.ValidationSummary(true)
@@ -228,7 +228,7 @@
 </script>
 
 
-<script type="text/html" id="Tags-template">
+<script type="text/html" id="AttachContactDetails-template">
     <form id="flierForm" class="" data-bind="validate: true">
     
         @Html.HiddenFor(model => model.Id, new { data_bind = "value:Id" })

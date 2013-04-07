@@ -8,6 +8,17 @@
         self.CreateFlierInstance = bf.globalCreateFlierInstance;
         ko.applyBindings(self);
     };
+    
+    bf.pagedefaultaction = bf.pagedefaultaction || {};
+    bf.pagedefaultaction.set = function(page, action) {
+        $.cookie(page + "action", action);
+    };
+    bf.pagedefaultaction.get = function (page) {
+        var act = $.cookie(page + "action");
+        $.removeCookie(page + "action");
+        return act;
+    };
+
 
 })(window);
 

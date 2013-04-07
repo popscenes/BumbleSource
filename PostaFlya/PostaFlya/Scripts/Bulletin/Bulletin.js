@@ -101,9 +101,8 @@
         self.TryFindLocation = function() {
             bf.getCurrentPosition(function (position, status) {
                 if (status === 'OK') {
-                    self.Location(
-                        new bf.LocationModel({ Longitude: position.coords.longitude, Latitude: position.coords.latitude })
-                    );                    
+                    var loc = new bf.LocationModel({ Longitude: position.coords.longitude, Latitude: position.coords.latitude })
+                    bf.reverseGeocode(loc, self.Location);                   
                 }
             });
         };
@@ -185,23 +184,9 @@
         }, self);
 
         self.TearOff = function (flier) {
-            debugger;
-            var reqdata = ko.toJSON({
-                ClaimEntity: 'Flier',
-                EntityId: flier.Id,
-                BrowserId: bf.currentBrowserInstance.BrowserId
-            });
 
-            $.ajax('/api/claim/', {
-                data: reqdata,
-                type: "post", contentType: "application/json",
-                success: function (result) {
-                    self.SelectedViewModel.showDetails(flier);
-                },
-                error: function (jqXhr, textStatus, errorThrown) {
-                    bf.ErrorUtil.HandleRequestError(null, jqXhr);
-                }
-            });
+            bf.pagedefaultaction.set('bulletin-detail', 'peel');
+            self.SelectedViewModel.showDetails(flier);
             return true;
         };
 
