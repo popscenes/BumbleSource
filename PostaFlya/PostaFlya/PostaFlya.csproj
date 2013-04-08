@@ -620,6 +620,7 @@
     <Content Include="Scripts\Account\Account.js" />
     <Content Include="Scripts\Base\ContactDetailsModel.js" />
     <Content Include="Scripts\Base\CreateFlierInstance.js" />
+    <Content Include="Scripts\Base\facebook.js" />
     <Content Include="Scripts\Base\PageInit.js" />
     <Content Include="Scripts\Base\ErrorHandling.js" />
     <Content Include="Scripts\Base\FlierCost.js" />

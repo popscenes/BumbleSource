@@ -17,6 +17,7 @@ using PostaFlya.Models.Flier;
 using PostaFlya.Models.Location;
 using Website.Application.Content;
 using Website.Application.Domain.Browser;
+using Website.Application.WebsiteInformation;
 using Website.Domain.Browser;
 using Website.Domain.Location;
 using Website.Domain.Tag;
@@ -34,6 +35,7 @@ namespace PostaFlya.Controllers
         private readonly FlierSearchServiceInterface _flierSearchService;
         private readonly PostaFlyaBrowserInformationInterface _browserInformation;
         private readonly FlierWebAnalyticServiceInterface _webAnalyticService;
+        private readonly WebsiteInfoServiceInterface _websiteInfoService;
 
         public BulletinController(GenericQueryServiceInterface queryService
             , [ImageStorage]BlobStorageInterface blobStorage
@@ -41,7 +43,8 @@ namespace PostaFlya.Controllers
             , FlierBehaviourViewModelFactoryInterface viewModelFactory
             , FlierSearchServiceInterface flierSearchService
             , PostaFlyaBrowserInformationInterface browserInformation
-            , FlierWebAnalyticServiceInterface webAnalyticService)
+            , FlierWebAnalyticServiceInterface webAnalyticService
+            ,WebsiteInfoServiceInterface websiteInfoService)
         {
             _queryService = queryService;
             _blobStorage = blobStorage;
@@ -50,6 +53,7 @@ namespace PostaFlya.Controllers
             _flierSearchService = flierSearchService;
             _browserInformation = browserInformation;
             _webAnalyticService = webAnalyticService;
+            _websiteInfoService = websiteInfoService;
         }
 
         public ActionResult Get(LocationModel loc
@@ -57,6 +61,8 @@ namespace PostaFlya.Controllers
         {
 
             var model = new BulletinBoardPageModel(){PageId = WebConstants.BulletinBoardPage};
+            if (HttpContext.Request.Url != null)
+                ViewBag.FBAppId = _websiteInfoService.GetWebsiteInfo(HttpContext.Request.Url.Host);
 
             if (loc.IsValid())
                 model.Fliers = BulletinApiController.GetFliers(_flierSearchService, _queryService, _blobStorage, _viewModelFactory
@@ -83,7 +89,8 @@ namespace PostaFlya.Controllers
             }
 
 
-         
+            if (HttpContext.Request.Url != null)
+                ViewBag.FBAppId = _websiteInfoService.GetWebsiteInfo(HttpContext.Request.Url.Host);
             _webAnalyticService.RecordVisit(model.Detail.Flier.Id, FlierAnalyticSourceAction.IdByBulletin);
             return View("DetailGet", model);
         }

@@ -7,7 +7,8 @@ namespace PostaFlya.Views.Bulletin
     {
         private static readonly string[]
             CoreJs = {
-                        "Bulletin/Bulletin.js",
+                        "Base/facebook.js",
+                         "Bulletin/Bulletin.js",
                         "Behaviour/Default/DefaultBehaviourViewModel.js",
                         "Behaviour/BehaviourViewModelFactory.js",
                         "Behaviour/BehaviourViewModel.js",

@@ -15,6 +15,9 @@
     <div class="flier-details clear-fix" data-bind="with:Flier">  
         
         @Html.Partial("Bulletin/DownloadPrintImagePartial", flier)
+        
+        <div class="fb-share" data-bind="click:$parent.facebook"></div>
+        <a class="twitter-share" data-bind="attr:{href: $parent.twitter()}"></a>
 
         <h3 class="flier-title" data-bind="text:Title">
             @flier.Title

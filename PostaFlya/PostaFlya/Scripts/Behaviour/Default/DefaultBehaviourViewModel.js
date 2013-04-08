@@ -42,7 +42,15 @@
 
 //        self.IsInFuture = ko.computed(function () {
 //            
-//        }, self);
+        //        }, self);
+
+        self.facebook = function() {
+            bf.postToFacebook(window.location.href, self.Flier.FlierImageUrl, self.Flier.Title, self.Flier.Description, self.Flier.Title, window.location.href);
+        };
+
+        self.twitter = function() {
+            return "https://twitter.com/intent/tweet?original_referer=&amp;text=" + self.Flier.Title + "&amp;tw_p=tweetbutton&amp;url=" + window.location.href;
+        };
 
         self.TearOff = function() {
 

@@ -1,4 +1,5 @@
 using System.Web.Mvc;
+using Website.Application.WebsiteInformation;
 using Website.Infrastructure.Command;
 using PostaFlya.Models.Tags;
 using Website.Application.Domain.Browser;
@@ -15,7 +16,7 @@ namespace PostaFlya.Controllers
         private readonly BrowserInformationInterface _browserInformation;
         private readonly GenericQueryServiceInterface _browserQueryService;
 
-        public BrowserController(CommandBusInterface commandBus, 
+        public BrowserController(CommandBusInterface commandBus,
             BrowserInformationInterface browserInformation, GenericQueryServiceInterface browserQueryService)
         {
             _commandBus = commandBus;
