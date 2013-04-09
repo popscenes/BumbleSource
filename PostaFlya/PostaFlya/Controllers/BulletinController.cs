@@ -61,8 +61,6 @@ namespace PostaFlya.Controllers
         {
 
             var model = new BulletinBoardPageModel(){PageId = WebConstants.BulletinBoardPage};
-            if (HttpContext.Request.Url != null)
-                ViewBag.FBAppId = _websiteInfoService.GetWebsiteInfo(HttpContext.Request.Url.Host);
 
             if (loc.IsValid())
                 model.Fliers = BulletinApiController.GetFliers(_flierSearchService, _queryService, _blobStorage, _viewModelFactory
@@ -88,9 +86,6 @@ namespace PostaFlya.Controllers
                 return new HttpNotFoundResult();
             }
 
-
-            if (HttpContext.Request.Url != null)
-                ViewBag.FBAppId = _websiteInfoService.GetWebsiteInfo(HttpContext.Request.Url.Host);
             _webAnalyticService.RecordVisit(model.Detail.Flier.Id, FlierAnalyticSourceAction.IdByBulletin);
             return View("DetailGet", model);
         }
