@@ -22,9 +22,9 @@ namespace Website.Application.WebsiteInformation
         }
 
 
-        public void RegisterWebsite(string url, WebsiteInfo GetWebsiteInfo)
+        public void RegisterWebsite(string url, WebsiteInfo getWebsiteInfo, bool isDefault = false)
         {
-            _queryService.RegisterWebsite(url, GetWebsiteInfo);
+            _queryService.RegisterWebsite(url, getWebsiteInfo, isDefault);
         }
 
         public string GetBehaivourTags(string url)

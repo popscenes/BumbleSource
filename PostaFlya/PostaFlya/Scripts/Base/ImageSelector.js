@@ -112,6 +112,8 @@
                     self._loadSelectedImageFromId();
                     
                 }
+            }).error(function (jqXhr, textStatus, errorThrown) {
+                bf.ErrorUtil.HandleRequestError(null, jqXhr, self.ErrorHandler);
             });
 
             
