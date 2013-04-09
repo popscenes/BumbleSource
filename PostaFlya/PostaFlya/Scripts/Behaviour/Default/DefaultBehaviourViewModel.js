@@ -49,7 +49,9 @@
         };
 
         self.twitter = function() {
-            return "https://twitter.com/intent/tweet?original_referer=&amp;text=" + self.Flier.Title + "&amp;tw_p=tweetbutton&amp;url=" + window.location.href;
+            var url = "https://twitter.com/intent/tweet?original_referer=&text=" + encodeURIComponent(self.Flier.Title) + "&tw_p=tweetbutton&url=" + encodeURIComponent(window.location.href);
+            
+            return url;
         };
 
         self.TearOff = function() {
