@@ -120,6 +120,8 @@ namespace PostaFlya.Models.Flier
         public string Status { get; set; }
 
         public bool HasEventDates { get; set; }
+
+        public string TinyUrl { get; set; }  
     }
 
     public class BulletinFlierModel<BehaviourType> : BulletinFlierModel where BehaviourType : new()

@@ -38,7 +38,8 @@ namespace PostaFlya.Areas.Default.Models.Bulletin
                 ImageList = flier.ImageList.Select(_ => new ImageViewModel() { ImageId = _.ImageID }).ToList(),
                 PendingCredits = flier.Features.Sum(_ => _.OutstandingBalance),
                 Status = flier.Status.ToString(),
-                HasEventDates = flier.HasEventDates()
+                HasEventDates = flier.HasEventDates(),
+                TinyUrl = flier.TinyUrl
 
             };
         }
