@@ -405,7 +405,8 @@ namespace PostaFlya.Specification.Fliers
         public void ThenThenPotentialFliersThatHaveNotAlreadyBeenImportedWithBeDisplayed()
         {
             var result = SpecUtil.ControllerResult as ViewResult;
-            var importedFliers = result.Model as IQueryable<FlierCreateModel>;
+            var model = result.Model as flierImportModel;
+            var importedFliers = model.CreatedFliers;
             Assert.That(importedFliers.Count(), Is.EqualTo(5));
             //AssertUtil.Count(5, importedFliers.Where(_ => _. == FlierStatus.Pending));
         }
