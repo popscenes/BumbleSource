@@ -45,7 +45,7 @@
         //        }, self);
 
         self.facebook = function() {
-            bf.postToFacebook(window.location.href, self.Flier.FlierImageUrl, self.Flier.Title, self.Flier.Description, self.Flier.Title, window.location.href);
+            bf.postToFacebook(window.location.href, self.Flier.FlierImageUrl, self.Flier.Title, self.Flier.Description, self.Flier.Title);
         };
 
         self.twitter = function() {
