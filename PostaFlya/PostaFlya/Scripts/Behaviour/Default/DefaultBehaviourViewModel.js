@@ -49,7 +49,7 @@
         };
 
         self.twitter = function() {
-            var url = "https://twitter.com/intent/tweet?original_referer=&text=" + encodeURIComponent(self.Flier.Title) + "&tw_p=tweetbutton&url=" + encodeURIComponent(window.location.href);
+            var url = "https://twitter.com/intent/tweet?original_referer=&text=" + encodeURIComponent(self.Flier.Title) + "&tw_p=tweetbutton&url=" + encodeURIComponent(self.Flier.TinyUrl);
             
             return url;
         };
