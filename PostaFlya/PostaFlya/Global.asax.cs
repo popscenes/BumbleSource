@@ -221,7 +221,7 @@ namespace PostaFlya
                  FacebookAppID = "171501919670169",
                  FacebookAppSecret = "86a86b4edc1bfafbd22e9100532e5e55"
              };
-             websiteInfoService.RegisterWebsite(UriUtil.GetCoreDomain(config.GetSetting("SiteUrl")), websiteInfo);
+             websiteInfoService.RegisterWebsite(UriUtil.GetCoreDomain(config.GetSetting("SiteUrl")), websiteInfo, true);
         }
 
 

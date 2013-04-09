@@ -11,7 +11,7 @@ namespace Website.Application.Azure.WebsiteInformation
 {
     public class WebsiteInfoEntity : SimpleExtendableEntity
     {
-        
+        public bool IsDefault { get; set; }
     }
     public class WebsiteInfoServiceAzure : RepositoryBase<WebsiteInfoEntity>, WebsiteInfoServiceInterface
     {
@@ -40,23 +40,24 @@ namespace Website.Application.Azure.WebsiteInformation
             _tableName = nameAndPartitionProviderService.GetTableName<WebsiteInfoEntity>(IdPartition);
         }
 
-        public void RegisterWebsite(string url, WebsiteInfo GetWebsiteInfo)
+        public void RegisterWebsite(string url, WebsiteInfo getWebsiteInfo, bool isDefault = false)
         {
             Action<WebsiteInfoEntity> update
                 = registrationEntry =>
                 {
-                    registrationEntry[FIELD_BEHAIVORTAGS] = GetWebsiteInfo.BehaivoirTags.ToString();
+                    registrationEntry[FIELD_BEHAIVORTAGS] = getWebsiteInfo.BehaivoirTags.ToString();
                     registrationEntry[FIELD_URL] = url;
-                    registrationEntry[FIELD_TAGS] = GetWebsiteInfo.Tags.ToString();
-                    registrationEntry[FIELD_WEBSITENAME] = GetWebsiteInfo.WebsiteName;
-                    registrationEntry[FIELD_FACEBOOKAPPID] = GetWebsiteInfo.FacebookAppID;
-                    registrationEntry[FIELD_FACEBOOKSECRET] = GetWebsiteInfo.FacebookAppSecret;
-                    registrationEntry[FIELD_PAYPALID] = GetWebsiteInfo.PaypalUserId;
-                    registrationEntry[FIELD_PAYPALPW] = GetWebsiteInfo.PaypalPassword;
-                    registrationEntry[FIELD_PAYPALSIG] = GetWebsiteInfo.PaypalSignitures;
+                    registrationEntry[FIELD_TAGS] = getWebsiteInfo.Tags.ToString();
+                    registrationEntry[FIELD_WEBSITENAME] = getWebsiteInfo.WebsiteName;
+                    registrationEntry[FIELD_FACEBOOKAPPID] = getWebsiteInfo.FacebookAppID;
+                    registrationEntry[FIELD_FACEBOOKSECRET] = getWebsiteInfo.FacebookAppSecret;
+                    registrationEntry[FIELD_PAYPALID] = getWebsiteInfo.PaypalUserId;
+                    registrationEntry[FIELD_PAYPALPW] = getWebsiteInfo.PaypalPassword;
+                    registrationEntry[FIELD_PAYPALSIG] = getWebsiteInfo.PaypalSignitures;
 
                     registrationEntry.RowKey = url;
                     registrationEntry.PartitionKey = "";
+                    registrationEntry.IsDefault = isDefault;
                 };
 
             var existing = FindById<WebsiteInfoEntity>(url);
@@ -79,7 +80,7 @@ namespace Website.Application.Azure.WebsiteInformation
                 .Where(_ => _.RowKey == url)
                 .Select(_ => _.Get<string>(FIELD_BEHAIVORTAGS)).FirstOrDefault();
 
-            return websiteTags;
+            return websiteTags ?? websites.Where(entity => entity.IsDefault).Select(_ => _.Get<string>(FIELD_BEHAIVORTAGS)).FirstOrDefault();
         }
 
         public String GetTags(string url)
@@ -89,7 +90,7 @@ namespace Website.Application.Azure.WebsiteInformation
                 .Where(_ => _.RowKey == url)
                 .Select(_ => _.Get<string>(FIELD_TAGS)).FirstOrDefault();
 
-            return tags ?? websites.Select(_ => _.Get<string>(FIELD_TAGS)).FirstOrDefault();
+            return tags ?? websites.Where(entity => entity.IsDefault).Select(_ => _.Get<string>(FIELD_TAGS)).FirstOrDefault();
         }
 
         public string GetWebsiteName(string url)
@@ -99,7 +100,7 @@ namespace Website.Application.Azure.WebsiteInformation
                 .Where(_ => _.RowKey == url)
                 .Select(_ => _.Get<string>(FIELD_WEBSITENAME)).FirstOrDefault();
 
-            return websitename ?? websites.Select(_ => _.Get<string>(FIELD_WEBSITENAME)).FirstOrDefault();
+            return websitename ?? websites.Where(entity => entity.IsDefault).Select(_ => _.Get<string>(FIELD_WEBSITENAME)).FirstOrDefault();
         }
 
 
@@ -122,7 +123,7 @@ namespace Website.Application.Azure.WebsiteInformation
             var websiteInfo = websites
                 .Where(_ => _.RowKey == url).Select(select).FirstOrDefault();
 
-            return websiteInfo ?? websites.Select(select).FirstOrDefault();
+            return websiteInfo ?? websites.Where(entity => entity.IsDefault).Select(select).FirstOrDefault();
         }
 
 
