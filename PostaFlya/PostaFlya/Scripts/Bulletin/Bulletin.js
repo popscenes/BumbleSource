@@ -119,7 +119,7 @@
                 if (allData.length == 0)
                     self.setNoMoreFlyas();
             })
-            .error(function (jqXhr, textStatus, errorThrown) {
+            .fail(function (jqXhr, textStatus, errorThrown) {
                 bf.ErrorUtil.HandleRequestError(null, jqXhr, self.ErrorHandler);
             })
             .always(function () {

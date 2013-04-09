@@ -77,19 +77,17 @@
                             ko.mapping.fromJS(newdata, self); 
                             _gaq.push(['_trackEvent', 'detail', 'peel', 'end']);
                         }).always(function() {
-                            self.IsPeeling(false);
-                            
-                        });
-                    
-                },
-                error: function (jqXhr, textStatus, errorThrown) {
-                    bf.ErrorUtil.HandleRequestError(null, jqXhr, function(err) {
-                        if (err.Message == "Invalid Access") {
-                            bf.pagedefaultaction.set('bulletin-detail', 'peel');
-                        }
-                    });
+                            self.IsPeeling(false);                     
+                        });                    
                 }
-            }).fail(function () { self.IsPeeling(false); });
+            }).fail(function(jqXhr, textStatus, errorThrown) {
+                self.IsPeeling(false);
+                bf.ErrorUtil.HandleRequestError(null, jqXhr, function (err) {
+                    if (err.Message == "Invalid Access") {
+                        bf.pagedefaultaction.set('bulletin-detail', 'peel');
+                    }
+                });
+            });
             return true;
         };
 
