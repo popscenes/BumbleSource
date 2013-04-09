@@ -5,6 +5,7 @@ using PostaFlya.Domain.Flier;
 using PostaFlya.Domain.Flier.Query;
 using Website.Application.Intergrations;
 using Website.Domain.Browser.Query;
+using Website.Domain.Contact;
 using Website.Domain.Content;
 using Website.Infrastructure.Authentication;
 using Website.Infrastructure.Command;
@@ -66,6 +67,11 @@ namespace PostaFlya.Application.Domain.ExternalSource
         {
             Guid? imageId = SaveImageFromfacebookEvent(fbEvent, browser);
 
+            var contactDetails = new ContactDetails()
+                {
+                    
+                };
+
             return new PostaFlya.Domain.Flier.Flier()
             {
                 ExternalId = fbEvent.id,
@@ -81,9 +87,7 @@ namespace PostaFlya.Application.Domain.ExternalSource
                 Title = fbEvent.name,
                 Description = fbEvent.description,
                 Image = imageId,
-                Id = ""
-
-                
+                Id = "", 
             };
         }
 
