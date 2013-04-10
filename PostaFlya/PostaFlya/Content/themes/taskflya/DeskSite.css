@@ -489,10 +489,16 @@ div#selected-item-popup-overlay, div#create-flier-popup-overlay {
 	
 }
 
+
+
 .tags-selector {
     display: block;
     max-width: 340px;
     margin: 0 auto
+}
+
+.bulletin-tags-selector .tags-selector {
+    max-width: none;
 }
 
 .tags-selector ul li .events
