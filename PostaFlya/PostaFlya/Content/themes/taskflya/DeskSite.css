@@ -430,7 +430,7 @@ div#selected-item-popup-overlay, div#create-flier-popup-overlay {
 
 /************tag selector ********************/
 #controls .bulletin-tags-selector {
-    width: 566px;
+    width: 640px;
     margin: 0 auto;
     float: none;
     clear: both;
@@ -489,6 +489,12 @@ div#selected-item-popup-overlay, div#create-flier-popup-overlay {
 	
 }
 
+.tags-selector {
+    display: block;
+    max-width: 340px;
+    margin: 0 auto
+}
+
 .tags-selector ul li .events
 {
     background-position:-560px top;
@@ -515,6 +521,16 @@ div#selected-item-popup-overlay, div#create-flier-popup-overlay {
 {
     background-position:-760px bottom;
 }
+
+.tags-selector ul li .fine-arts {
+    background-position:-2260px top;
+}
+
+.tags-selector ul li.tag-selected .fine-arts
+{
+    background-position:-2260px bottom;
+}
+
 
 .tags-selector ul li .theatre
 {
@@ -825,6 +841,11 @@ h3 {
     color: #FF7D00;
     text-transform: uppercase;
     border-bottom: #FF7D00 solid 2px;
+    
+}
+
+form li h3 {
+    display: block;
 }
 
 h4 {

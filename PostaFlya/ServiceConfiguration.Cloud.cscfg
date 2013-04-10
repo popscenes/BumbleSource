@@ -34,7 +34,7 @@
       <Setting name="GooglePaymentJs" value="https://wallet.google.com/inapp/lib/buy.js" />
       <Setting name="TinyUrlBase" value="http://pfly.in/" />
       <Setting name="SiteUrl" value="http://postaflya.com" />
-      <Setting name="Tags" value="events,services,for sale,property,community" />
+      <Setting name="Tags" value="fine arts,theatre,music,film,photography,community" />
       <Setting name="NewAccountCredit" value="100" />
     </ConfigurationSettings>
     <Certificates>
