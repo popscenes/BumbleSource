@@ -188,7 +188,7 @@ namespace PostaFlya.Controllers
             count = Math.Min(count, 50);
 
             var fliersIds =
-                flierSearchService.FindFliersByLocationAndDistance(locDomainModel, distance: distance, take: count, skipPast: string.IsNullOrWhiteSpace(skipPast) ? null : flierQueryService.FindById<Flier>(skipPast), tags: tagsModel, sortOrder: FlierSortOrder.CreatedDate);
+                flierSearchService.FindFliersByLocationAndDistance(locDomainModel, distance: distance, take: count, skipPast: string.IsNullOrWhiteSpace(skipPast) ? null : flierQueryService.FindById<Flier>(skipPast), tags: tagsModel, sortOrder: FlierSortOrder.SortOrder);
 
             var watch = new Stopwatch();
             watch.Start();

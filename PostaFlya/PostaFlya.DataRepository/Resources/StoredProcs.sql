@@ -10,7 +10,7 @@ alter procedure FindFliersByLocationAndTags
 	@top int,
 	@distance int,
 	@sort int = 1,
-	@skipPastDate datetimeoffset = null,
+	@skipPast bigint = null,
 	@xpath nvarchar(1000) = null
 as
 begin
@@ -19,7 +19,7 @@ begin
 --@top int = 5,
 --@distance int = 10,
 --@sort int = 1,
---@skipPastDate datetimeoffset = null,
+--@skipPast bigint = null,
 --@xpath nvarchar(500) = null;
 
 --set @loc = geography::STPointFromText('POINT (144.96327999999994 -37.814107)', 4326);
@@ -33,8 +33,7 @@ select	@ParameterDefinition = '
 	@locParam geography,
 	@topParam int,
 	@distanceParam int,
-	@sortParam nvarchar(200),
-	@skipPastDateParam datetimeoffset = null,
+	@skipPastParam bigint = null,
 	@xpathParam nvarchar(400) = null
 ';
 
@@ -53,9 +52,9 @@ select @SQL = @SQL + N'
 		and Location.STDistance(@locParam) <= @distanceParam*1000
 		';
 
-if @skipPastDate IS NOT NULL
+if @skipPast IS NOT NULL
 select @SQL = @SQL + N'
-		and CreateDate < @skipPastDateParam
+		and SortOrder < @skipPastParam
 		';
 
 if @xpath IS NOT NULL
@@ -69,12 +68,10 @@ select @SQL = @SQL + N'
 	top(@topParam) * 
 	from records
 	where RowNum = 1
-	order by 
+	
 ' + case @Sort
-			when 1 then 'CreateDate desc, PopularityRank desc, Location.STDistance(@locParam)'
-			when 2 then 'EffectiveDate desc, PopularityRank desc, Location.STDistance(@locParam)'
-			when 3 then 'Location.STDistance(@locParam), CreateDate desc, PopularityRank desc'
-			else 'PopularityRank desc, Location.STDistance(@locParam), CreateDate desc'
+			when 1 then 'order by SortOrder desc'
+			else ''
 		end 
 
 		
@@ -84,8 +81,7 @@ exec sp_executeSQL
 	@locParam = @loc,
 	@topParam = @top,
 	@distanceParam = @distance,
-	@sortParam = @sort,
-	@skipPastDateParam = @skipPastDate,
+	@skipPastParam = @skipPast,
 	@xpathParam = @xpath;
 end
 
@@ -122,9 +118,9 @@ begin
 --set @skipFlier = '467f90a8-2c16-42da-bb6e-e4acc4444208';
 
 
-declare @filterDate datetimeoffset;
+declare @filterSort bigint;
 if @skipFlier is not null
-	select @filterDate = DateAdded from BoardFlierSearchRecord where FlierId = @skipFlier;
+	select @filterSort = SortOrder from BoardFlierSearchRecord where FlierId = @skipFlier;
 
 
 declare @SQL nvarchar(4000);
@@ -136,7 +132,7 @@ select	@ParameterDefinition = '
 	@topParam int,
 	@distanceParam int,
 	@sortParam nvarchar(200),
-	@filterDateParam datetimeoffset = null,
+	@filterSortParam bigint = null,
 	@xpathParam nvarchar(400) = null
 ';
 
@@ -152,9 +148,9 @@ if @loc is not null
 select @SQL = @SQL + N'
 		and Location.STDistance(@locParam) <= @distanceParam*1000
 		'
-if @filterDate is not null
+if @filterSort is not null
 select @SQL = @SQL + N'
-		and bfr.DateAdded < @filterDateParam
+		and bfr.SortOrder < @filterSortParam
 		';
 
 if @xpath is not null
@@ -167,12 +163,10 @@ select @SQL = @SQL + N'
 	select 
 	top(@topParam) * 
 	from records
-	order by 
+	
 ' + case @Sort
-			when 1 then 'DateAdded desc, PopularityRank desc, Location.STDistance(@locParam)'
-			when 2 then 'EffectiveDate desc, PopularityRank desc, Location.STDistance(@locParam)'
-			when 3 then 'Location.STDistance(@locParam), DateAdded desc, PopularityRank desc'
-			else 'PopularityRank desc, Location.STDistance(@locParam), CreateDate desc'
+			when 1 then 'order by SortOrder desc'
+			else ''
 		end 
 
 		
@@ -184,7 +178,7 @@ exec sp_executeSQL
 	@topParam = @top,
 	@distanceParam = @distance,
 	@sortParam = @sort,
-	@filterDateParam = @filterDate,
+	@filterSortParam = @filterSort,
 	@xpathParam = @xpath;
 
 end

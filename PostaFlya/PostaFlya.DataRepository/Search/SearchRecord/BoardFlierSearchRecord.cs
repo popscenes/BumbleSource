@@ -18,7 +18,6 @@ namespace PostaFlya.DataRepository.Search.SearchRecord
                 BoardId = new Guid(boardFlier.AggregateId),
                 Id = boardFlier.Id,
                 BoardStatus = (int)boardFlier.Status,
-                BoardRank = boardFlier.BoardRank,
             };
 
             if (flier == null)
@@ -31,8 +30,8 @@ namespace PostaFlya.DataRepository.Search.SearchRecord
             ret.DateAdded = new DateTimeOffset(boardFlier.DateAdded);
             ret.Tags = flier.Tags.ToXml().ToSql();
             ret.Location = geog;
-            ret.PopularityRank = flier.NumberOfComments + flier.NumberOfClaims;
-            ret.NumberOfClaims = flier.NumberOfClaims;       
+            ret.NumberOfClaims = flier.NumberOfClaims;
+            ret.SortOrder = flier.CreateDate.Ticks;
             return ret;
         }
     }
@@ -51,7 +50,6 @@ namespace PostaFlya.DataRepository.Search.SearchRecord
         [SqlIndex]
         public DateTimeOffset DateAdded { get; set; }
         public int BoardStatus { get; set; }
-        public int BoardRank { get; set; }
 
         //flier properties, for filtering
 
@@ -63,12 +61,13 @@ namespace PostaFlya.DataRepository.Search.SearchRecord
         [SpatialIndex]
         public SqlGeography Location { get; set; }
 
-        public int PopularityRank { get; set; }
         public int NumberOfClaims { get; set; }
         public DateTimeOffset EffectiveDate { get; set; }
         [SqlIndex]
         public DateTimeOffset CreateDate { get; set; }
         
         public SqlXml Tags { get; set; }
+
+        public long SortOrder { get; set; }
     }
 }

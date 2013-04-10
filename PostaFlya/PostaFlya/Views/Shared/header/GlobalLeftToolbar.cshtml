@@ -6,9 +6,7 @@
 {    
     <a id="profile-avatar" class="std-btn std-image-btn btn-44 btn-white" title="View Profile"
         href="@Url.Action("Peeled", "Profile")">
-        <img class="toolbar-button avatarsmall std-image-btn-icon" data-bind="visible:bf.currentBrowserInstance.AvatarUrl, imgRetry: bf.currentBrowserInstance.AvatarUrl, attr: { alt: bf.currentBrowserInstance.DisplayName }"
-             data-helptip-group="global-left-toolbar" 
-             data-helptip-text="View your Fliers and Tearoffs"/>
+        <img class="toolbar-button avatarsmall std-image-btn-icon" data-bind="visible:bf.currentBrowserInstance.AvatarUrl, imgRetry: bf.currentBrowserInstance.AvatarUrl, attr: { alt: bf.currentBrowserInstance.DisplayName }"/>
 
         <span data-bind="visible:!bf.currentBrowserInstance.AvatarUrl" class="std-image-btn-icon"></span>
         <span>Profile</span>
@@ -22,9 +20,5 @@ else
         <span>Login</span>
     </a>
 }
-
-
-
-<div data-helptip-group="global-left-toolbar"></div>
 
 </div>

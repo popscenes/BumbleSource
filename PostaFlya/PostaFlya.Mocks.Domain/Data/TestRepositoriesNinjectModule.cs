@@ -181,7 +181,7 @@ namespace PostaFlya.Mocks.Domain.Data
                             .Where(
                                 f =>
                                 locationService.IsWithinBoundingBox(boundingBox, f.Location) &&
-                                (t.Count == 0 || f.Tags.Intersect(t).Any())
+                                (t.Count == 0 || f.Tags.Union(t).Any())
                              )
                              .Select(f => f.Id);
 

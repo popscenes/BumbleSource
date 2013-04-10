@@ -527,12 +527,8 @@ namespace PostaFlya.DataRepository.Tests
         {
             switch (sortOrder)
             {
-                case FlierSortOrder.CreatedDate:
-                    return entry => entry.CreateDate.Ticks.ToString("D20") + '[' + (entry.NumberOfClaims + entry.NumberOfComments).ToString("D10") + ']';
-                case FlierSortOrder.EffectiveDate:
-                    return entry => entry.EffectiveDate.Ticks.ToString("D20") + '[' + (entry.NumberOfClaims + entry.NumberOfComments).ToString("D10") + ']';
-                case FlierSortOrder.Popularity:
-                    return entry => (entry.NumberOfClaims + entry.NumberOfComments).ToString("D10") + '[' + entry.CreateDate.Ticks.ToString("D20") + ']';
+                case FlierSortOrder.SortOrder:
+                    return entry => entry.CreateDate.Ticks.ToString("D20");
             }
             return entry => entry.CreateDate;
         }

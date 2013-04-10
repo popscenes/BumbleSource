@@ -33,7 +33,6 @@ namespace PostaFlya.DataRepository.Search.SearchRecord
                     Id = flier.Id,
                     FriendlyId = flier.FriendlyId,
                     BrowserId = flier.BrowserId,
-                    PopularityRank = flier.NumberOfComments + flier.NumberOfClaims,
                     NumberOfClaims = flier.NumberOfClaims,
                     NumberOfComments = flier.NumberOfComments,
                     EffectiveDate = flier.EffectiveDate,
@@ -41,7 +40,8 @@ namespace PostaFlya.DataRepository.Search.SearchRecord
                     LastActivity = DateTime.UtcNow,
                     Tags = flier.Tags.ToXml().ToSql(),
                     Location = geog,
-                    LocationShard = shard
+                    LocationShard = shard,
+                    SortOrder = flier.CreateDate.Ticks
                 });
         }
 
@@ -120,7 +120,6 @@ namespace PostaFlya.DataRepository.Search.SearchRecord
         public String Id { get; set; }
         public String FriendlyId { get; set; }
         public String BrowserId { get; set; }
-        public int PopularityRank { get; set; }
         public int NumberOfClaims { get; set; }
         public int NumberOfComments { get; set; }
 
@@ -139,5 +138,7 @@ namespace PostaFlya.DataRepository.Search.SearchRecord
         [NotNullable]
         [SpatialIndex]
         public SqlGeography Location { get; set; }
+
+        public long SortOrder { get; set; }
     }
 }

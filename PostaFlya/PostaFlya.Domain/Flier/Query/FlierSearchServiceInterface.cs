@@ -9,8 +9,8 @@ namespace PostaFlya.Domain.Flier.Query
 
     public interface FlierSearchServiceInterface
     {
-        IList<string> FindFliersByBoard(string board, int take, FlierInterface skipPast = null, Tags tags = null, FlierSortOrder sortOrder = FlierSortOrder.CreatedDate, Location location = null, int distance = 5); 
-        IList<string> FindFliersByLocationAndDistance(Location location, int distance, int take, FlierInterface skipPast = null, Tags tags = null, FlierSortOrder sortOrder = FlierSortOrder.CreatedDate);
+        IList<string> FindFliersByBoard(string board, int take, FlierInterface skipPast = null, Tags tags = null, FlierSortOrder sortOrder = FlierSortOrder.SortOrder, Location location = null, int distance = 5); 
+        IList<string> FindFliersByLocationAndDistance(Location location, int distance, int take, FlierInterface skipPast = null, Tags tags = null, FlierSortOrder sortOrder = FlierSortOrder.SortOrder);
         IList<EntityIdInterface> IterateAllIndexedFliers(int take, FlierInterface skipPast, Tags tags = null);
     }
 }

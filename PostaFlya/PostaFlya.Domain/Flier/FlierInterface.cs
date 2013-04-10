@@ -16,9 +16,7 @@ namespace PostaFlya.Domain.Flier
 {
     public enum FlierSortOrder
     {
-        CreatedDate,
-        EffectiveDate,
-        Popularity
+        SortOrder
     }
     public static class FlierInterfaceExtensions
     {

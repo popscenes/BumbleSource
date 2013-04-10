@@ -29,7 +29,7 @@ namespace PostaFlya.DataRepository.Search.Implementation
         }
 
         public IList<string> FindFliersByBoard(string board, int take, FlierInterface skipPast = null, Tags tags = null,
-                                       FlierSortOrder sortOrder = FlierSortOrder.CreatedDate, Location location = null, int distance = 5)
+                                       FlierSortOrder sortOrder = FlierSortOrder.SortOrder, Location location = null, int distance = 5)
         {
             if(string.IsNullOrWhiteSpace(board))
                 return new List<string>();
@@ -77,7 +77,7 @@ namespace PostaFlya.DataRepository.Search.Implementation
             return list.ToList();
         }
 
-        public IList<string> FindFliersByLocationAndDistance(Location location, int distance, int take, FlierInterface skipPast = null, Tags tags = null, FlierSortOrder sortOrder = FlierSortOrder.CreatedDate)
+        public IList<string> FindFliersByLocationAndDistance(Location location, int distance, int take, FlierInterface skipPast = null, Tags tags = null, FlierSortOrder sortOrder = FlierSortOrder.SortOrder)
         {                
             if(location == null || !location.IsValid)
                 return new List<string>();
@@ -91,8 +91,10 @@ namespace PostaFlya.DataRepository.Search.Implementation
             //	@top int,
             //	@distance int,
             //	@sort int,
-            //	@skipPastDate datetimeoffset = null,
+            //	@skipPast bigint = null,
             //	@xpath nvarchar(1000) = null
+
+            var sortSkip = skipPast == null ? (long?) null : skipPast.ToSearchRecords().First().SortOrder;
 
             var shards = location.GetShardIdsFor(distance).Cast<object>().ToArray();
             var ret = SqlExecute.Query<FlierSearchRecordWithDistance>(sqlCmd,
@@ -104,7 +106,7 @@ namespace PostaFlya.DataRepository.Search.Implementation
                     distance,
                     top = take,
                     sort = GetOrderByForSortOrder(sortOrder),
-                    skipPastDate = skipPast == null ? (DateTimeOffset?)null : new DateTimeOffset(skipPast.CreateDate),
+                    skipPast = sortSkip,
                     xpath = GetTagFilter(tags)
                 }, true).ToList();
 
@@ -132,8 +134,10 @@ namespace PostaFlya.DataRepository.Search.Implementation
             //	@top int,
             //	@distance int,
             //	@sort int,
-            //	@skipPastDate datetimeoffset = null,
+            //	@skipPast bigint = null,
             //	@xpath nvarchar(1000) = null
+
+            var sortSkip = skipPast == null ? (long?)null : skipPast.ToSearchRecords().First().SortOrder;
 
             var ret = SqlExecute.Query<FlierSearchRecord>(sqlCmd,
                 _connection
@@ -143,7 +147,7 @@ namespace PostaFlya.DataRepository.Search.Implementation
                         loc = (SqlGeography)null,
                         distance = 0,
                         top = take,
-                        skipPastDate = skipPast == null ? (DateTimeOffset?)null : new DateTimeOffset(skipPast.CreateDate),
+                        skipPast = sortSkip,
                         xpath = GetTagFilter(tags)
 
                     }, true).ToList();
@@ -166,7 +170,7 @@ namespace PostaFlya.DataRepository.Search.Implementation
 
             foreach (var tag in tags.Select(s => s.ToLowerHiphen()))
             {
-                builder.Append(builder.Length == 0 ? "//tags[" : " and ");
+                builder.Append(builder.Length == 0 ? "//tags[" : " or ");
                 builder.Append("tag=\"");
                 builder.Append(System.Security.SecurityElement.Escape(tag));
                 builder.Append("\"");
@@ -177,16 +181,8 @@ namespace PostaFlya.DataRepository.Search.Implementation
 
         private static int GetOrderByForSortOrder(FlierSortOrder sortOrder)
         {
-            switch (sortOrder)
-            {
-                case FlierSortOrder.CreatedDate:
-                    return 1;
-                case FlierSortOrder.EffectiveDate:
-                    return 2;               
-                case FlierSortOrder.Popularity:
-                default:
-                    return 4;
-            }
+            return 1;
+
         }
 
         private readonly string _searchString = Properties.Resources.SqlSearchFliersByLocationTags;
@@ -197,47 +193,13 @@ namespace PostaFlya.DataRepository.Search.Implementation
         {
             switch (sortOrder)
             {
-                case FlierSortOrder.CreatedDate:
-                    return new FlierSearchRecordWithDistanceComparer((x, y) =>
-                    {
-                        if (x.CreateDate > y.CreateDate)
-                            return -1;
-                        if (x.CreateDate < y.CreateDate)
-                            return 1;
-                        if (x.PopularityRank > y.PopularityRank)
-                            return -1;
-                        if (x.PopularityRank < y.PopularityRank)
-                            return 1;
-                        if (x.Metres < y.Metres)
-                            return -1;
-                        if (x.Metres > y.Metres)
-                            return 1;
-                        return 0;
-                    });
-                case FlierSortOrder.EffectiveDate:
-                    return new FlierSearchRecordWithDistanceComparer((x, y) =>
-                    {
-                        if (x.EffectiveDate > y.EffectiveDate)
-                            return -1;
-                        if (x.EffectiveDate < y.EffectiveDate)
-                            return 1;
-                        if (x.PopularityRank > y.PopularityRank)
-                            return -1;
-                        if (x.PopularityRank < y.PopularityRank)
-                            return 1;
-                        if (x.Metres < y.Metres)
-                            return -1;
-                        if (x.Metres > y.Metres)
-                            return 1;
-                        return 0;
-                    });
-                case FlierSortOrder.Popularity:
+                case FlierSortOrder.SortOrder:
                 default:
                     return new FlierSearchRecordWithDistanceComparer((x, y) =>
                     {
-                        if (x.PopularityRank > y.PopularityRank)
+                        if (x.SortOrder > y.SortOrder)
                             return -1;
-                        if (x.PopularityRank < y.PopularityRank)
+                        if (x.SortOrder < y.SortOrder)
                             return 1;
                         if (x.Metres < y.Metres)
                             return -1;
