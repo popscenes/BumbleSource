@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Website.Application.Intergrations
 {
-    public class FaceBookEventVenue
+    public class FaceBookEventLocation
     {
         public String street { get; set; }
 
@@ -16,6 +16,16 @@ namespace Website.Application.Intergrations
         public float latitude { get; set; }
 
         public float longitude { get; set; }
+
+        public String zip { get; set; }
+    }
+    public class FaceBookEventVenue
+    {
+        public String id { get; set; }
+
+        public String name { get; set; }
+
+        public FaceBookEventLocation location;
     }
 
     public class FaceBookImage

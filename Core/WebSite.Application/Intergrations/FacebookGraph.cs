@@ -51,7 +51,15 @@ namespace Website.Application.Intergrations
             var requestUrl = String.Format("https://graph.facebook.com/me/events?access_token={0}&fields=description,name,end_time,venue,privacy,location,id", Uri.EscapeDataString(_userAccessToken));
             var events = GetAndSerialize<DataHolder<FaceBookEvent>>(requestUrl);
             events.data.ForEach(_ => _.picture = GetEventPictureUrl(_.id));
+            events.data.ForEach(_ => _.venue = String.IsNullOrWhiteSpace(_.venue.id) ? _.venue : VenueGet(_.venue.id) );
             return events.data;
+        }
+
+        public FaceBookEventVenue VenueGet(string venueId)
+        {
+            var requestUrl = String.Format("https://graph.facebook.com/{0}?access_token={1}", venueId, Uri.EscapeDataString(_userAccessToken));
+            var venue = GetAndSerialize<FaceBookEventVenue>(requestUrl);
+            return venue;
         }
 
         protected String GetEventPictureUrl(string eventId)

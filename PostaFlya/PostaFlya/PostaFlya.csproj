@@ -511,6 +511,7 @@
     <Content Include="Content\themes\taskflya\images\icon_arrow_right.png" />
     <Content Include="Content\themes\taskflya\images\logo.png" />
     <Content Include="Content\themes\taskflya\images\mag-glass.png" />
+    <Content Include="Content\themes\taskflya\images\navbar-logo-44h.png" />
     <Content Include="Content\themes\taskflya\images\navbar-logo.png" />
     <Content Include="Content\themes\taskflya\images\next-btn-disabled.png" />
     <Content Include="Content\themes\taskflya\images\next-btn.png" />

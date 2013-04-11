@@ -489,8 +489,6 @@ div#selected-item-popup-overlay, div#create-flier-popup-overlay {
 	
 }
 
-
-
 .tags-selector {
     display: block;
     max-width: 340px;
@@ -1076,7 +1074,7 @@ margin: 0 auto;
 }
 
 #logo {
-    background-image: url("images/navbar-logo.png");
+    background-image: url("images/navbar-logo-44h.png");
     height: 44px;
 }
 

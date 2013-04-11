@@ -7,6 +7,7 @@ using Website.Application.Intergrations;
 using Website.Domain.Browser.Query;
 using Website.Domain.Contact;
 using Website.Domain.Content;
+using Website.Domain.Location;
 using Website.Infrastructure.Authentication;
 using Website.Infrastructure.Command;
 using Website.Application.Domain.Content;
@@ -67,9 +68,21 @@ namespace PostaFlya.Application.Domain.ExternalSource
         {
             Guid? imageId = SaveImageFromfacebookEvent(fbEvent, browser);
 
+
             var contactDetails = new ContactDetails()
                 {
-                    
+                    Address = new Location()
+                        {
+                            PlaceName = fbEvent.venue.name,
+                            Latitude = fbEvent.venue.location == null ? 0.0: fbEvent.venue.location.latitude, 
+                            Longitude =fbEvent.venue.location == null ?0.0: fbEvent.venue.location.longitude,
+                            PostCode = fbEvent.venue.location == null ? "":fbEvent.venue.location.zip,
+                            Street = fbEvent.venue.location == null ?"":fbEvent.venue.location.street
+
+                        },
+                    EmailAddress = browser.EmailAddress,
+                    FirstName = browser.FirstName
+
                 };
 
             return new PostaFlya.Domain.Flier.Flier()
@@ -79,15 +92,11 @@ namespace PostaFlya.Application.Domain.ExternalSource
                 Status = FlierStatus.Pending,
                 EffectiveDate = fbEvent.start_time,
                 BrowserId = browser.Id,
-                Location = new Website.Domain.Location.Location()
-                {
-                    Latitude = fbEvent.venue.latitude == 0 ? -300 : fbEvent.venue.latitude,
-                    Longitude = fbEvent.venue.longitude == 0 ? -300 : fbEvent.venue.longitude,
-                },
                 Title = fbEvent.name,
                 Description = fbEvent.description,
                 Image = imageId,
                 Id = "", 
+                ContactDetails =  contactDetails
             };
         }
 
