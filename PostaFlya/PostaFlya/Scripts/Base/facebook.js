@@ -30,7 +30,7 @@
             redirect_uri: redirect,
             link: link,
             picture: image,
-            name: 'Postaflya',
+            name: 'Popscenes',
             caption: caption,
             description: desc
         };

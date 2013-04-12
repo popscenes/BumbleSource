@@ -59,8 +59,8 @@
         @Html.ValidationSummary(true)
         @Html.HiddenFor(model => model.Id, new { data_bind = "value:Id" })
         <fieldset>
-            <legend>ADD IMAGE TO YOUR FLYA</legend>
-            <h2>ADD IMAGE TO YOUR FLYA</h2>
+            <legend>ADD IMAGE TO YOUR FLYER</legend>
+            <h2>ADD IMAGE TO YOUR FLYER</h2>
             
             @Html.HiddenFor(model => model.FlierImageId, new { data_bind = "value:FlierImageId" })
             @Html.ValidationMessageFor(model => model.FlierImageId)
@@ -102,12 +102,12 @@
         <fieldset>
 
             <legend>Summary</legend>
-            <h2>Flya Cost Summary</h2>
+            <h2>Flyer Cost Summary</h2>
             <ul class="flier-cost-summary-full" data-bind="foreach:flierCosts">
                 <li data-bind="visible:credits() > 0">
                     <h3 data-bind="text:title"></h3>
                     <div>
-                        <span data-bind="text:credits"></span> PostaFlya Credits
+                        <span data-bind="text:credits"></span> Popscenes Credits
                     </div>
                     <span class="flier-cost-desc" data-bind="text:description"></span>
                 </li>
@@ -115,7 +115,7 @@
 
             <h3>Total Cost</h3>
             <p>
-                Total = <span data-bind="text: totalCost"></span> PostaFlya Credits
+                Total = <span data-bind="text: totalCost"></span> Popscenes Credits
                 <span data-bind="visible: TotalPaid()">
                     ( Cost <span data-bind="text:featureCostFmt"></span> -  Paid <span data-bind="text:TotalPaid"></span>)
                 </span>
@@ -126,19 +126,19 @@
 <script type="text/html" id="Complete-template">
     <form id="flierForm" class="" data-bind="validate: true">
         <fieldset>
-            <legend>Flya Done</legend>
-            <h2>Awesome! Flya Created!</h2>
+            <legend>Flyer Done</legend>
+            <h2>Awesome! Flyer Created!</h2>
             <h3>Status: <span data-bind="text:flierStatus"></span></h3>
             
             <span data-bind="visible: flierStatus() == 'PaymentPending'">
-                <p>Congratulations on creating your Flya</p>
-                <p>Unfortunetly you do not have enough postaflya credits to activate this Flya.</p>
-                <p>You will now be taken to the pending flya's screen where you will be able to add credits to your account and activate this Flya</p>
+                <p>Congratulations on creating your Flyer</p>
+                <p>Unfortunetly you do not have enough credits to activate this Flyer.</p>
+                <p>You will now be taken to the pending fliers's screen where you will be able to add credits to your account and activate this Flyer</p>
             </span>
             
             <span data-bind="visible: flierStatus() != 'PaymentPending'">
-                <p>Congratulations on creating your Flya</p>
-                <p>Don’t forget to check out the print options available on your flya. This will add tear offs and a handy QR code that will link right back to your online Flya!</p>
+                <p>Congratulations on creating your Flyer</p>
+                <p>Don’t forget to check out the print options available on your flyer. This will add tear offs and a handy QR code that will link right back to your online Flyer!</p>
                 <p>Happy Posting!</p>
             </span>
 	</fieldset>
@@ -152,7 +152,7 @@
         <fieldset>
             <legend>Add a location</legend>
             <div class="">
-                <h2>Post your Flya to an Area</h2>
+                <h2>Post your Flyer to an Area</h2>
                           
                 <h3>ENTER THE LOCATION BELOW</h3>
                 
@@ -180,8 +180,8 @@
         @Html.ValidationSummary(true)
         @Html.HiddenFor(model => model.Id, new { data_bind = "value:Id" })
         <fieldset>
-            <legend>ADD DETAILS TO YOUR FLYA</legend>
-            <h2>ADD DETAILS TO YOUR FLYA</h2>
+            <legend>ADD DETAILS TO YOUR FLYER</legend>
+            <h2>ADD DETAILS TO YOUR FLYER</h2>
 
             <div class="form-component">
                 <h3>Title</h3>
@@ -214,7 +214,7 @@
             <legend>Now add some flyer tags</legend>
             <ol>
                 <li data-bind="with:tagsSelector">
-                    <h3>Choose Scene For Your Flya</h3>
+                    <h3>Choose Scene For Your Flyer</h3>
                     @Html.ValidationMessageFor(model => model.TagsString)
                     @Html.HiddenFor(model => model.TagsString, new { data_bind = "value:SelectedTags()" })
                 
@@ -237,7 +237,7 @@
             }
             <legend>Contact Details</legend>
             <h2>Contact Details</h2>
-            <p>These Details WIll Be Sent To Users Who Peel Off Your Flya</p>
+            <p>These Details Will Be Sent To Users Who Peel Off Your Flyer</p>
             <ol>
                 <li data-bind="with:ContactDetails">
                     @Html.Partial("Contact/ContactDetailsEditPartial",(Model != null && Model.ContactDetails !=  null) ? Model.ContactDetails : new ContactDetailsModel())
