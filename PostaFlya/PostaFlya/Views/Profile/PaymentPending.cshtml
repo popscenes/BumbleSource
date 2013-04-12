@@ -24,7 +24,7 @@ Your Current Credit Account Balance <span data-bind="text:$root.currentBrowser.C
         @Html.ActionLink("Add Credits", "AddAccountCredit", "Payment", null, new {@class = "std-btn"})
     </div>
 
-<h3>Fliers that require payemnt</h3>
+<h3>Flyers that require payement</h3>
     <div data-bind="foreach:MyPendingFliersList">
         <div class="paymnet-flier">
             <img style="width: 250px; margin: 10px auto" data-bind="bulletinimg: FlierImageUrl, root: $root, alt: Title, imgRetry: FlierImageUrl"/>
