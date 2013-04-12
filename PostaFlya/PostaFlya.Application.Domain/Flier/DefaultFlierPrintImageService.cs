@@ -278,7 +278,7 @@ namespace PostaFlya.Application.Domain.Flier
 
             var ret = Config.Instance.GetSetting("WebsiteUrl");
             if (string.IsNullOrEmpty(ret))
-                ret = "http://www.postaflya.com/";
+                ret = "http://www.popscenes.com/";
 
             return ret + flier.FriendlyId;
         }

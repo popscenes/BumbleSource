@@ -12,7 +12,7 @@ namespace Website.Mocks.Domain.Defaults
     {
         public static Location DefaultLocation = new Location(144.979, -37.769);
         public static Tags DefaultTags = new Tags { "music", "food & drink" };
-        public static Tags DefaultWebsiteTags = new Tags { "postaFlya"};
+        public static Tags DefaultWebsiteTags = new Tags { "Popscenes"};
         public static Tags DefaultNonExistentTags = new Tags { "what", "tag" };
         public static string DefaultBrowserId = "40D8AC2A-F95C-40A8-9A75-EE87146838A2";
         public static string DefaultImageId = "8F68AE77-0F61-4BFD-92AC-BFCA1CC5B9E2";

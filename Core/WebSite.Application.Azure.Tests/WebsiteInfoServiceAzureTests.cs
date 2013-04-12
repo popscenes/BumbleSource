@@ -59,8 +59,8 @@ namespace Website.Application.Azure.Tests
             var websiteInfo = new WebsiteInfo()
             {
                 Tags = "event,social,comedy,theatre,books,pets,lost,found,services,music,fashion,food & drink,job,task,wanted,for sale,for free,sport,automotive,education,sale,garage,film,art & craft,photography,accommodation,technology,property,kids,community",
-                WebsiteName = "postaFlya",
-                BehaivoirTags = "postaFlya",
+                WebsiteName = "Popscenes",
+                BehaivoirTags = "Popscenes",
                 FacebookAppID = "facebookappid",
                 FacebookAppSecret = "itsasecret",
                 PaypalUserId = "paypalId",
@@ -68,7 +68,7 @@ namespace Website.Application.Azure.Tests
                 PaypalSignitures = "paypalSigniture",
             };
 
-            websiteInfoService.RegisterWebsite("www.postaFlya.com", websiteInfo);
+            websiteInfoService.RegisterWebsite("www.popscenes.com", websiteInfo);
             
         }
 
@@ -77,9 +77,9 @@ namespace Website.Application.Azure.Tests
         {
             RegisterPostaFlya();
             var websiteInfoService = Kernel.Get<WebsiteInfoServiceInterface>();
-            var websiteName = websiteInfoService.GetWebsiteName("www.postaFlya.com");
+            var websiteName = websiteInfoService.GetWebsiteName("www.popscenes.com");
 
-            Assert.AreEqual(websiteName, "postaFlya"); 
+            Assert.AreEqual(websiteName, "Popscenes"); 
 
         }
 
@@ -104,9 +104,9 @@ namespace Website.Application.Azure.Tests
         {
             RegisterPostaFlya();
             var websiteInfoService = Kernel.Get<WebsiteInfoServiceInterface>();
-            var websiteTags = websiteInfoService.GetBehaivourTags("www.postaFlya.com");
+            var websiteTags = websiteInfoService.GetBehaivourTags("www.popscenes.com");
 
-            Assert.AreEqual(websiteTags.ToString(), "postaFlya"); 
+            Assert.AreEqual(websiteTags.ToString(), "Popscenes"); 
 
         }
 
@@ -115,10 +115,10 @@ namespace Website.Application.Azure.Tests
         {
             RegisterPostaFlya();
             var websiteInfoService = Kernel.Get<WebsiteInfoServiceInterface>();
-            var websiteInfo = websiteInfoService.GetWebsiteInfo("www.postaFlya.com");
+            var websiteInfo = websiteInfoService.GetWebsiteInfo("www.popscenes.com");
 
-            Assert.AreEqual(websiteInfo.BehaivoirTags.ToString(), "postaFlya");
-            Assert.AreEqual(websiteInfo.WebsiteName, "postaFlya");
+            Assert.AreEqual(websiteInfo.BehaivoirTags.ToString(), "Popscenes");
+            Assert.AreEqual(websiteInfo.WebsiteName, "Popscenes");
             Assert.AreEqual(websiteInfo.FacebookAppID, "facebookappid");
             Assert.AreEqual(websiteInfo.FacebookAppSecret, "itsasecret");
             Assert.AreEqual(websiteInfo.Tags.ToString(), "event,social,comedy,theatre,books,pets,lost,found,services,music,fashion,food & drink,job,task,wanted,for sale,for free,sport,automotive,education,sale,garage,film,art & craft,photography,accommodation,technology,property,kids,community");
@@ -134,7 +134,7 @@ namespace Website.Application.Azure.Tests
         {
             RegisterPostaFlya();
             var websiteInfoService = Kernel.Get<WebsiteInfoServiceInterface>();
-            var tagsList = websiteInfoService.GetTags("www.postaFlya.com");
+            var tagsList = websiteInfoService.GetTags("www.popscenes.com");
 
             Assert.That(tagsList.Split(new[] { ',' }).Count(), Is.EqualTo(30));
 

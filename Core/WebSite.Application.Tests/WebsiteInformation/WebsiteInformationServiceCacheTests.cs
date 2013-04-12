@@ -33,8 +33,8 @@ namespace Website.Application.Tests.WebsiteInformation
 
 
 
-            websiteInfo.Setup(_ => _.GetBehaivourTags(It.IsAny<String>())).Returns("postaFlya");
-            websiteInfo.Setup(_ => _.GetWebsiteName(It.IsAny<String>())).Returns("postaFlya");
+            websiteInfo.Setup(_ => _.GetBehaivourTags(It.IsAny<String>())).Returns("Popscenes");
+            websiteInfo.Setup(_ => _.GetWebsiteName(It.IsAny<String>())).Returns("Popscenes");
             var tags = "event,social,comedy,theatre,books,pets,lost,found,services,music,fashion,food & drink,job,task,wanted,for sale,for free,sport,automotive,education,sale,garage,film,art & craft,photography,accommodation,technology,property,kids,community";
             websiteInfo.Setup(_ => _.GetTags(It.IsAny<String>())).Returns(tags);
             //Kernel.Rebind<WebsiteInfoServiceInterface>().To<WebsiteInfoServiceInterface>(websiteInfo);
@@ -61,38 +61,38 @@ namespace Website.Application.Tests.WebsiteInformation
             //var websiteInfo = new WebsiteInfo()
             //{
             //    Tags = "event,social,comedy,theatre,books,pets,lost,found,services,music,fashion,food & drink,job,task,wanted,for sale,for free,sport,automotive,education,sale,garage,film,art & craft,photography,accommodation,technology,property,kids,politics",
-            //    WebsiteName = "postaFlya",
-            //    BehaivoirTags = "postaFlya",
+            //    WebsiteName = "Popscenes",
+            //    BehaivoirTags = "Popscenes",
             //    FacebookAppID = "facebookappid",
             //    FacebookAppSecret = "itsasecret"
             //};
 
-            //websiteInfoService.RegisterWebsite("www.postaFlya.com", websiteInfo);
+            //websiteInfoService.RegisterWebsite("www.popscenes.com", websiteInfo);
 
 
             WebsiteInfoServiceInterface cachedInfoService = new CachedWebsiteInfoService(websiteInfoService.Object, memoryCache);
 
             Assert.That(memoryCache.Count(), Is.EqualTo(0));
-            var websiteName = cachedInfoService.GetWebsiteName("www.postaFlya.com");
+            var websiteName = cachedInfoService.GetWebsiteName("www.popscenes.com");
 
-            Assert.AreEqual(websiteName, "postaFlya");
+            Assert.AreEqual(websiteName, "Popscenes");
 
-            websiteName = cachedInfoService.GetWebsiteName("www.postaFlya.com");
+            websiteName = cachedInfoService.GetWebsiteName("www.popscenes.com");
             Assert.That(memoryCache.Count(), Is.EqualTo(1));
 
-            var tagsList = cachedInfoService.GetTags("www.postaFlya.com");
+            var tagsList = cachedInfoService.GetTags("www.popscenes.com");
 
 
-            tagsList = cachedInfoService.GetTags("www.postaFlya.com");
+            tagsList = cachedInfoService.GetTags("www.popscenes.com");
 
             Assert.That(memoryCache.Count(), Is.EqualTo(2));
 
             Assert.That(tagsList.Split(new[] { ',' }).Count(), Is.EqualTo(30));
 
-            var websiteTags = cachedInfoService.GetBehaivourTags ("www.postaFlya.com");
-            websiteTags = cachedInfoService.GetBehaivourTags("www.postaFlya.com");
+            var websiteTags = cachedInfoService.GetBehaivourTags ("www.popscenes.com");
+            websiteTags = cachedInfoService.GetBehaivourTags("www.popscenes.com");
 
-            Assert.AreEqual(websiteTags.ToString(), "postaFlya");
+            Assert.AreEqual(websiteTags.ToString(), "Popscenes");
             Assert.That(memoryCache.Count(), Is.EqualTo(3));
         }
     }

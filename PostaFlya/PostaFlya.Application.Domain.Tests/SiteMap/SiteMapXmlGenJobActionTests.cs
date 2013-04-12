@@ -49,7 +49,7 @@ namespace PostaFlya.Application.Domain.Tests.SiteMap
 
             Kernel.Unbind<ConfigurationServiceInterface>();
             var config = Kernel.GetMock<ConfigurationServiceInterface>();
-            config.Setup(serv => serv.GetSetting("SiteUrl")).Returns("http://postaflya.com");
+            config.Setup(serv => serv.GetSetting("SiteUrl")).Returns("http://popscenes.com");
             Kernel.Bind<ConfigurationServiceInterface>().ToConstant(config.Object);
 
             var flierCount = 1;

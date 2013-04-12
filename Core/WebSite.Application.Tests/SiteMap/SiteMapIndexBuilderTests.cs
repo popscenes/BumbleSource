@@ -50,7 +50,7 @@ namespace Website.Application.Tests.SiteMap
           
             const string siteMapFileFormat = "sitemap{0}.xml";
 
-            const string site = "http://postaflya.com";
+            const string site = "http://popscenes.com";
             using (var siteMapIndex = new SiteMapIndexBuilder(site, siteMapFileFormat
                 , Kernel.Get<TempFileStorageInterface>(), Kernel.Get<BlobStorageInterface>()))
             {

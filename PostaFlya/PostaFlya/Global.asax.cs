@@ -190,8 +190,8 @@ namespace PostaFlya
             var websiteInfo = new WebsiteInfo()
             {
                 Tags = tags.ToString(),
-                WebsiteName = "postaFlya",
-                BehaivoirTags = "postaFlya",
+                WebsiteName = "Popscenes",
+                BehaivoirTags = "Popscenes",
                 FacebookAppID = "180085418789276",
                 FacebookAppSecret = "a0996e44b6ccb8439e73968dc29fec5c"
             };
@@ -206,8 +206,8 @@ namespace PostaFlya
              websiteInfo = new WebsiteInfo()
             {
                 Tags = tags.ToString(),
-                WebsiteName = "postaFlya",
-                BehaivoirTags = "postaFlya",
+                WebsiteName = "Popscenes",
+                BehaivoirTags = "Popscenes",
                 FacebookAppID = "306027489468762",
                 FacebookAppSecret = "f765d675dd653fa81e1ee25cfaa27494"
             };
@@ -216,8 +216,8 @@ namespace PostaFlya
              websiteInfo = new WebsiteInfo()
              {
                  Tags = tags.ToString(),
-                 WebsiteName = "postaFlya",
-                 BehaivoirTags = "postaFlya",
+                 WebsiteName = "Popscenes",
+                 BehaivoirTags = "Popscenes",
                  FacebookAppID = "171501919670169",
                  FacebookAppSecret = "86a86b4edc1bfafbd22e9100532e5e55"
              };
