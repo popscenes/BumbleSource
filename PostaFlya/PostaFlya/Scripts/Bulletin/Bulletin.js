@@ -150,9 +150,9 @@
         self.setNoMoreFlyas = function() {
             var nomore = 'No';
             if (self.fliers().length) {
-                nomore += ' More';
+                nomore += ' more';
             }
-            nomore += ' Flyas';
+            nomore += ' happenings';
             var locality = self.Location().Locality();
             if (locality) {
                 nomore += ' around ' + locality;
@@ -168,7 +168,7 @@
             if (self.moreFliersPending() || (self.noMoreFliersText() && self.fliers().length == 0))
                 return '';
             
-            var showingmostrecent = 'Showing most recent Flyas';
+            var showingmostrecent = 'Showing most recent posts';
             var validLoc = self.Location().ValidLocation();
             var locality = self.Location().Locality();
             if (!validLoc)

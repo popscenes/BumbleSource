@@ -60,7 +60,7 @@ namespace PostaFlya.Models
             if (string.IsNullOrWhiteSpace(viewBag.LocationVariable))
                 viewBag.LocationVariable = "Location";
             if (string.IsNullOrWhiteSpace(viewBag.AutoCompleteLocationBannerText))
-                viewBag.AutoCompleteLocationBannerText = "'Search Your Local Area for Flyas...'";
+                viewBag.AutoCompleteLocationBannerText = "'Your Local Area'";
             if (string.IsNullOrWhiteSpace(viewBag.AutoCompleteLocationId))
                 viewBag.AutoCompleteLocationId = "locationSearch";
             if (string.IsNullOrWhiteSpace(viewBag.AutoCompleteBinding))

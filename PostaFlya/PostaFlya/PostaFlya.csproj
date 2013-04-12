@@ -577,7 +577,6 @@
     <Content Include="Content\themes\taskflya\images\icons-36-white.png" />
     <Content Include="Content\themes\taskflya\images\loading.gif" />
     <Content Include="favicon.ico" />
-    <Content Include="faviconnew.ico" />
     <Content Include="Global.asax" />
     <Content Include="Areas\TaskJob\Views\Web.config" />
     <Content Include="Areas\Default\Views\Web.config" />
