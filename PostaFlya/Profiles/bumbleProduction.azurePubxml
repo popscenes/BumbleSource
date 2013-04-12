@@ -9,14 +9,14 @@
     <AzureEnableRemoteDesktop>True</AzureEnableRemoteDesktop>
     <AzureEnableWebDeploy>False</AzureEnableWebDeploy>
     <AzureFallbackToDeleteAndRecreateIfUpgradeFails>True</AzureFallbackToDeleteAndRecreateIfUpgradeFails>
-    <AzureHostedServiceLabel>postaflyaprod</AzureHostedServiceLabel>
-    <AzureHostedServiceName>postaflyaprod</AzureHostedServiceName>
+    <AzureHostedServiceLabel>popscenes</AzureHostedServiceLabel>
+    <AzureHostedServiceName>popscenes</AzureHostedServiceName>
     <AzureEnableIntelliTrace>False</AzureEnableIntelliTrace>
     <AzureEnableProfiling>False</AzureEnableProfiling>
     <AzureServiceConfiguration>Cloud</AzureServiceConfiguration>
     <AzureSolutionConfiguration>Release</AzureSolutionConfiguration>
-    <AzureStorageAccountLabel>flyaStorage</AzureStorageAccountLabel>
-    <AzureStorageAccountName>flyastorage</AzureStorageAccountName>
+    <AzureStorageAccountLabel>popscenes</AzureStorageAccountLabel>
+    <AzureStorageAccountName>popscenes</AzureStorageAccountName>
     <AzureAppendTimestampToDeploymentLabel>True</AzureAppendTimestampToDeploymentLabel>
   </PropertyGroup>
 </Project>
