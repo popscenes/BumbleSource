@@ -10,7 +10,7 @@ using Website.Test.Common;
 namespace Website.Application.Azure.Tests
 {
     [TestFixture("dev")]
-    [TestFixture("real")]
+//    [TestFixture("real")]
     public class WebsiteInfoServiceAzureTests
     {
         StandardKernel Kernel
@@ -49,10 +49,12 @@ namespace Website.Application.Azure.Tests
         private void Reinit()
         {
             //Kernel.Get<AzureTableContext>("websiteinfo").InitFirstTimeUse();
-            Kernel.Get<TableContextInterface>().Delete<WebsiteInfoEntity>(_tableName, null, 0);
+            var context = Kernel.Get<TableContextInterface>();
+            context.Delete<WebsiteInfoEntity>(_tableName, null, 0);
+            context.SaveChanges();
         }
 
-        private void RegisterPostaFlya()
+        private void RegisterPopscenes()
         {
             
             var websiteInfoService = Kernel.Get<WebsiteInfoServiceInterface>();
@@ -68,14 +70,14 @@ namespace Website.Application.Azure.Tests
                 PaypalSignitures = "paypalSigniture",
             };
 
-            websiteInfoService.RegisterWebsite("www.popscenes.com", websiteInfo);
+            websiteInfoService.RegisterWebsite("www.popscenes.com", websiteInfo, true);
             
         }
 
         [Test]        
         public void WebsiteInfoServiceAzureGetWebsiteNameTest()
         {
-            RegisterPostaFlya();
+            RegisterPopscenes();
             var websiteInfoService = Kernel.Get<WebsiteInfoServiceInterface>();
             var websiteName = websiteInfoService.GetWebsiteName("www.popscenes.com");
 
@@ -84,9 +86,23 @@ namespace Website.Application.Azure.Tests
         }
 
         [Test]
+        public void WebsiteInfoServiceAzureGetsDefaultSiteIfNoneExist()
+        {
+            RegisterPopscenes();
+            var websiteInfoService = Kernel.Get<WebsiteInfoServiceInterface>();
+            var websiteName = websiteInfoService.GetWebsiteName("www.blah.com");
+            var info = websiteInfoService.GetWebsiteInfo("www.blah.com");
+
+            Assert.That(info, Is.Not.Null);
+            Assert.AreEqual(websiteName, "Popscenes");
+            Assert.AreEqual(websiteName, "Popscenes");
+
+        }
+
+        [Test]
         public void WebsiteInfoServiceAzureRegisterWebsiteTest()
         {
-            RegisterPostaFlya();
+            RegisterPopscenes();
 
             var ctx = Kernel.Get<TableContextInterface>();
 
@@ -102,7 +118,7 @@ namespace Website.Application.Azure.Tests
         [Test]
         public void WebsiteInfoServiceAzureGetWebsiteTagsTest()
         {
-            RegisterPostaFlya();
+            RegisterPopscenes();
             var websiteInfoService = Kernel.Get<WebsiteInfoServiceInterface>();
             var websiteTags = websiteInfoService.GetBehaivourTags("www.popscenes.com");
 
@@ -113,7 +129,7 @@ namespace Website.Application.Azure.Tests
         [Test]
         public void WebsiteInfoServiceAzureGetWebsiteInfoTest()
         {
-            RegisterPostaFlya();
+            RegisterPopscenes();
             var websiteInfoService = Kernel.Get<WebsiteInfoServiceInterface>();
             var websiteInfo = websiteInfoService.GetWebsiteInfo("www.popscenes.com");
 
@@ -132,7 +148,7 @@ namespace Website.Application.Azure.Tests
         [Test]
         public void WebsiteInfoServiceAzureGetTagsAndTagGroupsTest()
         {
-            RegisterPostaFlya();
+            RegisterPopscenes();
             var websiteInfoService = Kernel.Get<WebsiteInfoServiceInterface>();
             var tagsList = websiteInfoService.GetTags("www.popscenes.com");
 
