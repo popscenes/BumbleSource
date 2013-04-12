@@ -5,6 +5,7 @@ using NUnit.Framework;
 using Ninject.MockingKernel.Moq;
 using PostaFlya.Application.Domain.ExternalSource;
 using Website.Domain.Browser.Query;
+using Website.Domain.Location;
 using Website.Infrastructure.Command;
 using Website.Infrastructure.Authentication;
 using Website.Test.Common;
@@ -126,9 +127,10 @@ namespace PostaFlya.Application.Domain.Tests.ExternalSource
             var fliersList = fliers.ToList();
             var repo = Kernel.GetMock<GenericRepositoryInterface>();
             fliersList[0].Id = "extflier1";
+            fliersList[0].Location = new Location();
             repo.Object.Store(fliersList[0]);
             fliersList[1].Id = "extflier2";
-
+            fliersList[1].Location = new Location();
             repo.Object.Store(fliersList[1]);
 
             fliers = facebookFlierImporter.ImportFliers(browser);
@@ -139,8 +141,6 @@ namespace PostaFlya.Application.Domain.Tests.ExternalSource
             Assert.AreEqual(fliersList[0].Title, "Test Event 1");
             Assert.AreEqual(fliersList[0].Description, "this is a test event yo");
             Assert.AreEqual(fliersList[0].EffectiveDate.ToString("yyyy-MM-dd"), DateTime.Today.AddDays(2).ToString("yyyy-MM-dd"));
-            Assert.IsTrue(Math.Abs(fliersList[0].Location.Latitude - -37.8839340209961) < 0.0001);
-            Assert.IsTrue(Math.Abs(fliersList[0].Location.Longitude - 145.0004344094) < 0.0001);
             Assert.AreEqual(fliersList[0].Status, FlierStatus.Pending);
             Assert.IsTrue(fliersList[0].Image.HasValue);
         }
