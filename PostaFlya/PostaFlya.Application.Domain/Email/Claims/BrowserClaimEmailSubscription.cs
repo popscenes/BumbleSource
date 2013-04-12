@@ -113,7 +113,7 @@ namespace PostaFlya.Application.Domain.Email.Claims
         {
             var email = new MailMessage();
 
-            email.From = new MailAddress("details@postaflya.com"); 
+            email.From = new MailAddress("details@popscenes.com"); 
             email.Subject = "PostaFlya details for: " + flier.Title;
 
             var poster = _entityQueryService.FindById<Website.Domain.Browser.Browser>(flier.BrowserId);

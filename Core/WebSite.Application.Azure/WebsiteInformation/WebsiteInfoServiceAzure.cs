@@ -11,23 +11,26 @@ namespace Website.Application.Azure.WebsiteInformation
 {
     public class WebsiteInfoEntity : SimpleExtendableEntity
     {
-        public bool IsDefault { get; set; }
+        internal const string FIELD_BEHAIVORTAGS = "behaivourtags";
+        internal const string FIELD_URL = "url";
+        internal const string FIELD_TAGS = "tags";
+        internal const string FIELD_WEBSITENAME = "websitename";
+        internal const string FIELD_FACEBOOKAPPID = "facebookappid";
+        internal const string FIELD_FACEBOOKSECRET = "facebooksecret";
+
+        internal const string FIELD_PAYPALID = "paypalId";
+        internal const string FIELD_PAYPALPW = "paypalPw";
+        internal const string FIELD_PAYPALSIG = "paypalSig";
+        internal const string FIELD_ISDEFAULT = "IsDefault";
+
+        public bool IsDefault()
+        {
+            return (bool) (this[FIELD_ISDEFAULT] ?? false);
+        }
     }
+
     public class WebsiteInfoServiceAzure : RepositoryBase<WebsiteInfoEntity>, WebsiteInfoServiceInterface
     {
-
-        private const string FIELD_BEHAIVORTAGS = "behaivourtags";
-        private const string FIELD_URL = "url";
-        private const string FIELD_TAGS = "tags";
-        private const string FIELD_WEBSITENAME = "websitename";
-        private const string FIELD_FACEBOOKAPPID = "facebookappid";
-        private const string FIELD_FACEBOOKSECRET = "facebooksecret";
-
-        private const string FIELD_PAYPALID = "paypalId";
-        private const string FIELD_PAYPALPW = "paypalPw";
-        private const string FIELD_PAYPALSIG = "paypalSig";
-
-
 //        public static TableNameAndPartitionProvider<SimpleExtendableEntity> TableNameBinding
 //            = new TableNameAndPartitionProvider<SimpleExtendableEntity>()
 //                  {{typeof (SimpleExtendableEntity), 0, "websiteinfo", e => "", e => e.Get<string>("url")}};
@@ -45,19 +48,20 @@ namespace Website.Application.Azure.WebsiteInformation
             Action<WebsiteInfoEntity> update
                 = registrationEntry =>
                 {
-                    registrationEntry[FIELD_BEHAIVORTAGS] = getWebsiteInfo.BehaivoirTags.ToString();
-                    registrationEntry[FIELD_URL] = url;
-                    registrationEntry[FIELD_TAGS] = getWebsiteInfo.Tags.ToString();
-                    registrationEntry[FIELD_WEBSITENAME] = getWebsiteInfo.WebsiteName;
-                    registrationEntry[FIELD_FACEBOOKAPPID] = getWebsiteInfo.FacebookAppID;
-                    registrationEntry[FIELD_FACEBOOKSECRET] = getWebsiteInfo.FacebookAppSecret;
-                    registrationEntry[FIELD_PAYPALID] = getWebsiteInfo.PaypalUserId;
-                    registrationEntry[FIELD_PAYPALPW] = getWebsiteInfo.PaypalPassword;
-                    registrationEntry[FIELD_PAYPALSIG] = getWebsiteInfo.PaypalSignitures;
+                    registrationEntry[WebsiteInfoEntity.FIELD_BEHAIVORTAGS] = getWebsiteInfo.BehaivoirTags.ToString();
+                    registrationEntry[WebsiteInfoEntity.FIELD_URL] = url;
+                    registrationEntry[WebsiteInfoEntity.FIELD_TAGS] = getWebsiteInfo.Tags.ToString();
+                    registrationEntry[WebsiteInfoEntity.FIELD_WEBSITENAME] = getWebsiteInfo.WebsiteName;
+                    registrationEntry[WebsiteInfoEntity.FIELD_FACEBOOKAPPID] = getWebsiteInfo.FacebookAppID;
+                    registrationEntry[WebsiteInfoEntity.FIELD_FACEBOOKSECRET] = getWebsiteInfo.FacebookAppSecret;
+                    registrationEntry[WebsiteInfoEntity.FIELD_PAYPALID] = getWebsiteInfo.PaypalUserId;
+                    registrationEntry[WebsiteInfoEntity.FIELD_PAYPALPW] = getWebsiteInfo.PaypalPassword;
+                    registrationEntry[WebsiteInfoEntity.FIELD_PAYPALSIG] = getWebsiteInfo.PaypalSignitures;
+                    registrationEntry[WebsiteInfoEntity.FIELD_ISDEFAULT] = isDefault;
 
                     registrationEntry.RowKey = url;
                     registrationEntry.PartitionKey = "";
-                    registrationEntry.IsDefault = isDefault;
+                    
                 };
 
             var existing = FindById<WebsiteInfoEntity>(url);
@@ -78,9 +82,9 @@ namespace Website.Application.Azure.WebsiteInformation
             var websites = TableContext.PerformQuery<WebsiteInfoEntity>(_tableName);
             var websiteTags = websites
                 .Where(_ => _.RowKey == url)
-                .Select(_ => _.Get<string>(FIELD_BEHAIVORTAGS)).FirstOrDefault();
+                .Select(_ => _.Get<string>(WebsiteInfoEntity.FIELD_BEHAIVORTAGS)).FirstOrDefault();
 
-            return websiteTags ?? websites.Where(entity => entity.IsDefault).Select(_ => _.Get<string>(FIELD_BEHAIVORTAGS)).FirstOrDefault();
+            return websiteTags ?? websites.Where(entity => entity.IsDefault()).Select(_ => _.Get<string>(WebsiteInfoEntity.FIELD_BEHAIVORTAGS)).FirstOrDefault();
         }
 
         public String GetTags(string url)
@@ -88,9 +92,9 @@ namespace Website.Application.Azure.WebsiteInformation
             var websites = TableContext.PerformQuery<WebsiteInfoEntity>(_tableName);
             var tags = websites
                 .Where(_ => _.RowKey == url)
-                .Select(_ => _.Get<string>(FIELD_TAGS)).FirstOrDefault();
+                .Select(_ => _.Get<string>(WebsiteInfoEntity.FIELD_TAGS)).FirstOrDefault();
 
-            return tags ?? websites.Where(entity => entity.IsDefault).Select(_ => _.Get<string>(FIELD_TAGS)).FirstOrDefault();
+            return tags ?? websites.Where(entity => entity.IsDefault()).Select(_ => _.Get<string>(WebsiteInfoEntity.FIELD_TAGS)).FirstOrDefault();
         }
 
         public string GetWebsiteName(string url)
@@ -98,9 +102,9 @@ namespace Website.Application.Azure.WebsiteInformation
             var websites = TableContext.PerformQuery<WebsiteInfoEntity>(_tableName);
             var websitename = websites
                 .Where(_ => _.RowKey == url)
-                .Select(_ => _.Get<string>(FIELD_WEBSITENAME)).FirstOrDefault();
+                .Select(_ => _.Get<string>(WebsiteInfoEntity.FIELD_WEBSITENAME)).FirstOrDefault();
 
-            return websitename ?? websites.Where(entity => entity.IsDefault).Select(_ => _.Get<string>(FIELD_WEBSITENAME)).FirstOrDefault();
+            return websitename ?? websites.Where(entity => entity.IsDefault()).Select(_ => _.Get<string>(WebsiteInfoEntity.FIELD_WEBSITENAME)).FirstOrDefault();
         }
 
 
@@ -110,20 +114,20 @@ namespace Website.Application.Azure.WebsiteInformation
 
             Expression<Func<WebsiteInfoEntity, WebsiteInfo>> select = _ => new WebsiteInfo()
                 {
-                    Tags = _.Get<string>(FIELD_TAGS),
-                    BehaivoirTags = _.Get<string>(FIELD_BEHAIVORTAGS),
-                    FacebookAppID = _.Get<string>(FIELD_FACEBOOKAPPID),
-                    FacebookAppSecret = _.Get<string>(FIELD_FACEBOOKSECRET),
-                    PaypalPassword = _.Get<string>(FIELD_PAYPALPW),
-                    PaypalSignitures = _.Get<string>(FIELD_PAYPALSIG),
-                    PaypalUserId = _.Get<string>(FIELD_PAYPALID),
-                    WebsiteName = _.Get<string>(FIELD_WEBSITENAME)
+                    Tags = _.Get<string>(WebsiteInfoEntity.FIELD_TAGS),
+                    BehaivoirTags = _.Get<string>(WebsiteInfoEntity.FIELD_BEHAIVORTAGS),
+                    FacebookAppID = _.Get<string>(WebsiteInfoEntity.FIELD_FACEBOOKAPPID),
+                    FacebookAppSecret = _.Get<string>(WebsiteInfoEntity.FIELD_FACEBOOKSECRET),
+                    PaypalPassword = _.Get<string>(WebsiteInfoEntity.FIELD_PAYPALPW),
+                    PaypalSignitures = _.Get<string>(WebsiteInfoEntity.FIELD_PAYPALSIG),
+                    PaypalUserId = _.Get<string>(WebsiteInfoEntity.FIELD_PAYPALID),
+                    WebsiteName = _.Get<string>(WebsiteInfoEntity.FIELD_WEBSITENAME)
 
                 };
             var websiteInfo = websites
                 .Where(_ => _.RowKey == url).Select(select).FirstOrDefault();
 
-            return websiteInfo ?? websites.Where(entity => entity.IsDefault).Select(select).FirstOrDefault();
+            return websiteInfo ?? websites.Where(entity => entity.IsDefault()).Select(select).FirstOrDefault();
         }
 
 
