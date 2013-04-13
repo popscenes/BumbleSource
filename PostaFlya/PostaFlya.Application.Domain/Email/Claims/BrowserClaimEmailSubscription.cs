@@ -114,7 +114,7 @@ namespace PostaFlya.Application.Domain.Email.Claims
             var email = new MailMessage();
 
             email.From = new MailAddress("details@popscenes.com"); 
-            email.Subject = "PostaFlya details for: " + flier.Title;
+            email.Subject = "Popscenes details for: " + flier.Title;
 
             var poster = _entityQueryService.FindById<Website.Domain.Browser.Browser>(flier.BrowserId);
             var dets = flier.GetContactDetailsForFlier(poster);
@@ -157,7 +157,7 @@ namespace PostaFlya.Application.Domain.Email.Claims
         {
            
             var builder = new StringBuilder();
-            builder.Append("Please find below the details for the flier ");
+            builder.Append("Please find below the details for the flyer ");
             builder.Append(flier.Title);
             builder.Append("\n\n");
 
@@ -169,7 +169,7 @@ namespace PostaFlya.Application.Domain.Email.Claims
 
            
             builder.Append("\n\n");
-            builder.Append("Postaflya Url: " + _config.GetSetting("SiteUrl") + "/" + flier.FriendlyId + "\n\n");
+            builder.Append("Popscenes Url: " + _config.GetSetting("SiteUrl") + "/" + flier.FriendlyId + "\n\n");
 
             var contactDets = GetContactDetails(posterDetails);
             if (!string.IsNullOrWhiteSpace(contactDets))
