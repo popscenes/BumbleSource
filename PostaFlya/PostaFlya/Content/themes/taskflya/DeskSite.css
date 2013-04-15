@@ -1475,7 +1475,7 @@ p#copyright {
 
     #controls .bulletin-tags-selector {
         text-align: center;
-        width: 150px;
+        width: 275px;
     }
 
     .bulletin-tags-selector label {
@@ -1483,7 +1483,16 @@ p#copyright {
     }
 
     .bulletin-tags-selector .tags-selector ul li {
-        display: inline;
+        display: inline-block;
+        min-width: 50px;
+        text-align: left;
+    }
+    .bulletin-tags-selector .tags-selector ul li.photography, .bulletin-tags-selector .tags-selector ul li.community {
+        width: 75px;
+    }
+
+    .bulletin-tags-selector .tags-selector ul li.tag-selected {
+        text-align: center;
     }
 
     .flier-view .flier-details .flier-img img {
