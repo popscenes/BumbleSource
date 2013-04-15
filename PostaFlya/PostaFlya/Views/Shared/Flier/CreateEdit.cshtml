@@ -133,7 +133,7 @@
             <span data-bind="visible: flierStatus() == 'PaymentPending'">
                 <p>Congratulations on creating your Flyer</p>
                 <p>Unfortunetly you do not have enough credits to activate this Flyer.</p>
-                <p>You will now be taken to the pending fliers's screen where you will be able to add credits to your account and activate this Flyer</p>
+                <p>You will now be taken to the pending flyers screen where you will be able to add credits to your account and activate this Flyer</p>
             </span>
             
             <span data-bind="visible: flierStatus() != 'PaymentPending'">
@@ -233,7 +233,7 @@
         
         <fieldset>
             @{ 
-                ViewBag.AutoCompleteLocationBannerText = "'Optional Place or Address for Event/Business'";
+                ViewBag.AutoCompleteLocationBannerText = "'Venue or Address of event'";
             }
             <legend>Contact Details</legend>
             <h2>Contact Details</h2>
@@ -246,8 +246,8 @@
 
         </fieldset>
         <fieldset class="analytics-edit">
-            <legend>Flier Features</legend>
-            <h2>Advanced Flier Features</h2>
+            <legend>Flyer Features</legend>
+            <h2>Advanced Flyer Features</h2>
            
             <ol>
                 <li>

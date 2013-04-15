@@ -3,19 +3,19 @@
   <Role name="PostaFlya">
     <Instances count="2" />
     <ConfigurationSettings>
-      <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" value="DefaultEndpointsProtocol=https;AccountName=postaflya;AccountKey=7ng0VK5SiSrysxeOJBgdNz7CVT/09k0xQuYVciJcY9wHnKfBNiaZRIkIz+82waiOt0itxWXgh6KdegUFRgiHCw==" />
-      <Setting name="StorageConnectionString" value="BlobEndpoint=http://storage.popscenes.com/;QueueEndpoint=http://postaflya.queue.core.windows.net/;TableEndpoint=http://postaflya.table.core.windows.net/;AccountName=postaflya;AccountKey=mjpcImHWvu3zRzWlQGVANBiyPbOmpMSGiGbrC10HJc4gqK6Rov5/c9uuAhWlF/9UEbOzwtfKsFitSv3UajzgHw==" />
+      <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" value="DefaultEndpointsProtocol=https;AccountName=popscenes;AccountKey=7ng0VK5SiSrysxeOJBgdNz7CVT/09k0xQuYVciJcY9wHnKfBNiaZRIkIz+82waiOt0itxWXgh6KdegUFRgiHCw==" />
+      <Setting name="StorageConnectionString" value="BlobEndpoint=http://storage.popscenes.com/;QueueEndpoint=http://popscenes.queue.core.windows.net/;TableEndpoint=http://popscenes.table.core.windows.net/;AccountName=popscenes;AccountKey=7ng0VK5SiSrysxeOJBgdNz7CVT/09k0xQuYVciJcY9wHnKfBNiaZRIkIz+82waiOt0itxWXgh6KdegUFRgiHCw==" />
       <Setting name="Microsoft.WindowsAzure.Plugins.Caching.NamedCaches" value="{&quot;caches&quot;:[{&quot;name&quot;:&quot;default&quot;,&quot;policy&quot;:{&quot;eviction&quot;:{&quot;type&quot;:0},&quot;expiration&quot;:{&quot;defaultTTL&quot;:10,&quot;isExpirable&quot;:true,&quot;type&quot;:1},&quot;serverNotification&quot;:{&quot;isEnabled&quot;:true}},&quot;secondaries&quot;:0}]}" />
       <Setting name="Microsoft.WindowsAzure.Plugins.Caching.DiagnosticLevel" value="0" />
       <Setting name="Microsoft.WindowsAzure.Plugins.Caching.ClientDiagnosticLevel" value="0" />
       <Setting name="Microsoft.WindowsAzure.Plugins.Caching.CacheSizePercentage" value="50" />
-      <Setting name="Microsoft.WindowsAzure.Plugins.Caching.ConfigStoreConnectionString" value="DefaultEndpointsProtocol=https;AccountName=postaflya;AccountKey=7ng0VK5SiSrysxeOJBgdNz7CVT/09k0xQuYVciJcY9wHnKfBNiaZRIkIz+82waiOt0itxWXgh6KdegUFRgiHCw==" />
+      <Setting name="Microsoft.WindowsAzure.Plugins.Caching.ConfigStoreConnectionString" value="DefaultEndpointsProtocol=https;AccountName=popscenes;AccountKey=7ng0VK5SiSrysxeOJBgdNz7CVT/09k0xQuYVciJcY9wHnKfBNiaZRIkIz+82waiOt0itxWXgh6KdegUFRgiHCw==" />
       <Setting name="SearchDbConnectionString" value="Data Source=tg7sj27xd5.database.windows.net,1433;User ID=jimmy;Password=Weezer1313" />
       <Setting name="DisableFederation" value="False" />
       <Setting name="Microsoft.WindowsAzure.Plugins.RemoteAccess.Enabled" value="true" />
       <Setting name="Microsoft.WindowsAzure.Plugins.RemoteAccess.AccountUsername" value="flya" />
-      <Setting name="Microsoft.WindowsAzure.Plugins.RemoteAccess.AccountEncryptedPassword" value="MIIBnQYJKoZIhvcNAQcDoIIBjjCCAYoCAQAxggFOMIIBSgIBADAyMB4xHDAaBgNVBAMME1dpbmRvd3MgQXp1cmUgVG9vbHMCECX3rMPVezutQD0zzfM4kzkwDQYJKoZIhvcNAQEBBQAEggEAiCuZyW5VRglkF2v3mz2/Q6Iuw065tTfUP80bX/FNiucmVJbnx8VDqQ0Ssct5jEIsYuqQUq465imBz1LY3moL+SZqY/1SgJQGWsK8Xz+xPxyqWW2kpEe2zzm2cof5ivnLPUqDt38e9zgZVNjOX0eJIyQW2rhoJ1SrjpCe70trp1g+C5ZevBhq69JRlUIeLvpxHuXQwXEbHned9Xtt5R1r9tJ78Lb7mNQDEdR1nMu33KUeV0/nBjM3VpncfX5C9PjfCAKbwmueW5HEDrHwSoeWMD6EgmVccFZ+l/2Y0NBqZBQTlJVIX+WFYyxJWvx3WHdWaMdaI+vMXijWe2v/SoBmSjAzBgkqhkiG9w0BBwEwFAYIKoZIhvcNAwcECKdJAhexSZKsgBBhSMnrDLBnyY0KUlyDl9uc" />
-      <Setting name="Microsoft.WindowsAzure.Plugins.RemoteAccess.AccountExpiration" value="2013-11-01T23:59:59.0000000+11:00" />
+      <Setting name="Microsoft.WindowsAzure.Plugins.RemoteAccess.AccountEncryptedPassword" value="MIIBnQYJKoZIhvcNAQcDoIIBjjCCAYoCAQAxggFOMIIBSgIBADAyMB4xHDAaBgNVBAMME1dpbmRvd3MgQXp1cmUgVG9vbHMCEDOTrhHRbUqHQwq/LYkR5gowDQYJKoZIhvcNAQEBBQAEggEAKO+TcLYC2s3u/1V07LcytLoCeHtRQwihnR6dDUB5JYHwTYI82edY3MRdudhXo4IxImAQw0HcTw5qrceeD5CqUuqEjy0PZGeveKCFJ54GqRKBhoUip+kuZMWt00KT5gGBCdUqTICZvkwbeDQfGlt3/SkMu2NL/A7xMPKOUi5xuqjKpNDJScN7IxJap/Q50NYGwAp8wt1QxQo6vuRg4kN7nhmg55EkT4zxd1vrVpTEYiVZ6TdNry/PXgZltOI+l/UjApIMib0ynQOQPOD5txegea7ixsF0lf6UYNV5HfJ+IkShO9/qUW0U0bqcc4qNkR7JYudST+JbgoJHEuRjb+fhVjAzBgkqhkiG9w0BBwEwFAYIKoZIhvcNAwcECNcWUD27qHNcgBCBbrmZFSZIYSvrUi0ZDz7r" />
+      <Setting name="Microsoft.WindowsAzure.Plugins.RemoteAccess.AccountExpiration" value="2013-12-31T23:59:59.0000000+11:00" />
       <Setting name="Microsoft.WindowsAzure.Plugins.RemoteForwarder.Enabled" value="true" />
       <Setting name="BlobCdnUrl" value="http://static.popscenes.com" />
       <Setting name="SiteCdnUrl" value="" />
@@ -35,11 +35,11 @@
       <Setting name="TinyUrlBase" value="http://sce.nu/" />
       <Setting name="SiteUrl" value="http://popscenes.com" />
       <Setting name="Tags" value="music,theatre,photography,film,fine arts,community" />
-      <Setting name="NewAccountCredit" value="100" />
+      <Setting name="NewAccountCredit" value="500" />
     </ConfigurationSettings>
     <Certificates>
       <!--<Certificate name="Microsoft.WindowsAzure.Plugins.RemoteAccess.PasswordEncryption" thumbprint="B5EB70801A6D0B9319FDE06E891D90737F129018" thumbprintAlgorithm="sha1" />-->
-      <Certificate name="Microsoft.WindowsAzure.Plugins.RemoteAccess.PasswordEncryption" thumbprint="7593F3A6D11139FB0C94EBFDD541874BAAC9C4BA" thumbprintAlgorithm="sha1" />
+      <Certificate name="Microsoft.WindowsAzure.Plugins.RemoteAccess.PasswordEncryption" thumbprint="2592C67E774BB5327A70A4F3278A1FA91DCA61D0" thumbprintAlgorithm="sha1" />
     </Certificates>
   </Role>
   <!--<Role name="Website.CommandWorker">
