@@ -34,7 +34,7 @@
       <Setting name="GooglePaymentJs" value="https://wallet.google.com/inapp/lib/buy.js" />
       <Setting name="TinyUrlBase" value="http://sce.nu/" />
       <Setting name="SiteUrl" value="http://popscenes.com" />
-      <Setting name="Tags" value="fine arts,theatre,music,film,photography,community" />
+      <Setting name="Tags" value="music,theatre,photography,film,fine arts,community" />
       <Setting name="NewAccountCredit" value="500" />
     </ConfigurationSettings>
     <Certificates>
