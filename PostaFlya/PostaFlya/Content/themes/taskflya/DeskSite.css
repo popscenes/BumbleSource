@@ -145,6 +145,10 @@ background-color: white;
     background-position: -88px -0px;
 }
 
+.profile-logout {
+    float: right;
+}
+
 
 #flya-create-back .std-image-btn-icon {
     background-position: -102px 0px;

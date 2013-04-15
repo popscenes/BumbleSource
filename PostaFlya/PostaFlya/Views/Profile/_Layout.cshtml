@@ -29,6 +29,9 @@
 }
 
 <div class="page-content" id="profile-content">
+    <div class="profile-logout">
+        <a href="@Url.Action("LogOut", "Account")" class="bold-link">Log off</a>
+    </div>
     <div class="page-inner">
         @RenderBody()
     </div>
