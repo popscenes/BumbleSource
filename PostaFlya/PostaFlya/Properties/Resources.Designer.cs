@@ -648,6 +648,76 @@ namespace PostaFlya.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Venue or Address.
+        /// </summary>
+        public static string FlyerContactDetailsModel_Address_FlyerContactDetailsModel_Address_FlyerContactDetailsModel_Address {
+            get {
+                return ResourceManager.GetString("FlyerContactDetailsModel_Address_FlyerContactDetailsModel_Address_FlyerContactDet" +
+                        "ailsModel_Address", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Email.
+        /// </summary>
+        public static string FlyerContactDetailsModel_EmailAddress_FlyerContactDetailsModel_EmailAddress_FlyerContactDetailsModel_EmailAddress {
+            get {
+                return ResourceManager.GetString("FlyerContactDetailsModel_EmailAddress_FlyerContactDetailsModel_EmailAddress_Flyer" +
+                        "ContactDetailsModel_EmailAddress", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to First Name.
+        /// </summary>
+        public static string FlyerContactDetailsModel_FirstName_FlyerContactDetailsModel_FirstName_FlyerContactDetailsModel_FirstName {
+            get {
+                return ResourceManager.GetString("FlyerContactDetailsModel_FirstName_FlyerContactDetailsModel_FirstName_FlyerContac" +
+                        "tDetailsModel_FirstName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Middle Names.
+        /// </summary>
+        public static string FlyerContactDetailsModel_MiddleNames_FlyerContactDetailsModel_MiddleNames_FlyerContactDetailsModel_MiddleNames {
+            get {
+                return ResourceManager.GetString("FlyerContactDetailsModel_MiddleNames_FlyerContactDetailsModel_MiddleNames_FlyerCo" +
+                        "ntactDetailsModel_MiddleNames", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to FlyerContactDetailsModel_PhoneNumber_FlyerContactDetailsModel_PhoneNumber.
+        /// </summary>
+        public static string FlyerContactDetailsModel_PhoneNumber_FlyerContactDetailsModel_PhoneNumber_FlyerContactDetailsModel_PhoneNumber {
+            get {
+                return ResourceManager.GetString("FlyerContactDetailsModel_PhoneNumber_FlyerContactDetailsModel_PhoneNumber_FlyerCo" +
+                        "ntactDetailsModel_PhoneNumber", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Surname.
+        /// </summary>
+        public static string FlyerContactDetailsModel_Surname_FlyerContactDetailsModel_Surname_FlyerContactDetailsModel_Surname {
+            get {
+                return ResourceManager.GetString("FlyerContactDetailsModel_Surname_FlyerContactDetailsModel_Surname_FlyerContactDet" +
+                        "ailsModel_Surname", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Event Link.
+        /// </summary>
+        public static string FlyerContactDetailsModel_WebSite_FlyerContactDetailsModel_WebSite_FlyerContactDetailsModel_WebSite {
+            get {
+                return ResourceManager.GetString("FlyerContactDetailsModel_WebSite_FlyerContactDetailsModel_WebSite_FlyerContactDet" +
+                        "ailsModel_WebSite", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to FriendlyId.
         /// </summary>
         public static string FriendlyId {

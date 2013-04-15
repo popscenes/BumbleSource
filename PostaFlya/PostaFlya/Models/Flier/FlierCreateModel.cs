@@ -35,7 +35,7 @@ namespace PostaFlya.Models.Flier
                            BoardList =  flier.Boards != null ? flier.Boards.ToList() : new List<string>(),
                            EnableAnalytics =  flier.EnableAnalytics,
                            PostRadius = flier.LocationRadius+5,
-                           ContactDetails = flier.ContactDetails.ToViewModel(),
+                           ContactDetails = flier.ContactDetails.ToFlyerContactDetailsViewModel(),
                            TotalPaid = flier.GetTotalPaid()
                        };
         }
@@ -144,7 +144,7 @@ namespace PostaFlya.Models.Flier
         public bool EnableAnalytics { get; set; }
 
         [DataMember]
-        public ContactDetailsModel ContactDetails { get; set; }
+        public FlyerContactDetailsModel ContactDetails { get; set; }
 
         [DataMember]
         public int TotalPaid { get; set; }

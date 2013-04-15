@@ -1,0 +1,42 @@
+﻿
+@model PostaFlya.Models.Location.FlyerContactDetailsModel
+
+
+<fieldset>
+    <legend>@Html.LabelForModel()</legend>
+    
+    <ol>
+        <li>
+            
+            @Html.LabelFor(model => model.EmailAddress)  
+            @Html.TextBoxFor(model => model.EmailAddress, new { type="email", data_bind = "value:EmailAddress" })
+            
+        </li>
+
+        <li>
+            
+            @Html.LabelFor(model => model.FirstName)
+            @Html.TextBoxFor(model => model.FirstName, new { data_bind = "value:FirstName" })
+            
+        </li>
+
+
+        <li>
+            
+            @Html.LabelFor(model => model.Surname)
+            @Html.TextBoxFor(model => model.Surname, new { data_bind = "value:Surname" })
+            
+        </li>
+
+        <li>
+            
+            @Html.LabelFor(model => model.WebSite)
+            @Html.TextBoxFor(model => model.WebSite, new {  type="url", data_bind = "value:WebSite" })
+            
+        </li>
+        
+
+    </ol>
+
+</fieldset>
+

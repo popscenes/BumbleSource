@@ -120,4 +120,26 @@
   <data name="ProfileEditModel_AvatarImageId_Profile_Picture" xml:space="preserve">
     <value>Profile Picture</value>
   </data>
+  <data name="FlyerContactDetailsModel_PhoneNumber_FlyerContactDetailsModel_PhoneNumber" xml:space="preserve">
+    <value>Phone Number</value>
+  </data>
+  <data name="FlyerContactDetailsModel_EmailAddress_FlyerContactDetailsModel_EmailAddress" xml:space="preserve">
+    <value>Email</value>
+  </data>
+  <data name="FlyerContactDetailsModel_FirstName_FlyerContactDetailsModel_FirstName" xml:space="preserve">
+    <value>First Name</value>
+  </data>
+  <data name="FlyerContactDetailsModel_MiddleNames_FlyerContactDetailsModel_MiddleNames" xml:space="preserve">
+    <value>MIddle Names</value>
+  </data>
+  <data name="FlyerContactDetailsModel_Surname_FlyerContactDetailsModel_Surname" xml:space="preserve">
+    <value>FlyerContactDetailsModel_Surname</value>
+    <comment>Surname</comment>
+  </data>
+  <data name="FlyerContactDetailsModel_Address_FlyerContactDetailsModel_Address" xml:space="preserve">
+    <value>Venue or Address</value>
+  </data>
+  <data name="FlyerContactDetailsModel_WebSite_FlyerContactDetailsModel_WebSite" xml:space="preserve">
+    <value>Event Link</value>
+  </data>
 </root>

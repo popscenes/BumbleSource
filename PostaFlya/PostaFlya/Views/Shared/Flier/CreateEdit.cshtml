@@ -193,6 +193,10 @@
                 @Html.ValidationMessageFor(model => model.Description)
                 @Html.TextAreaFor(model => model.Description, new { data_bind = "value:Description" })
                 
+                        
+               
+            
+
             </div>
             <div class="form-component">
                 <h3>Date</h3>
@@ -201,15 +205,38 @@
                 @Html.HiddenFor(model => model.EffectiveDate, new { data_bind = "value:EffectiveDate" })            
                 <div id="flyaDate" data-bind="datePicker:{altField: '#EffectiveDate'}, value:EffectiveDate"></div>
                 
-@*                @Html.HiddenFor(model => model.EffectiveDate, new { data_bind = "value:EffectiveDate" })*@
-@*                <div id="flyaDate" data-bind="jqueryui: { widget: 'datetimepicker', *@
-@*                            options: { altField: '#EffectiveDate', altFieldTimeOnly: false,*@
-@*                                       useLocalTimezone: true, showButtonPanel: false } }, *@
+                @*                @Html.HiddenFor(model => model.EffectiveDate, new { data_bind = "value:EffectiveDate" })*@
+                @*                <div id="flyaDate" data-bind="jqueryui: { widget: 'datetimepicker', *@
+                @*                            options: { altField: '#EffectiveDate', altFieldTimeOnly: false,*@
+                @*                                       useLocalTimezone: true, showButtonPanel: false } }, *@
                 @*                                            dateTimePickerUpdate:EffectiveDate"></div>*@
                 
                 
             </div>
         </fieldset>
+        <fieldset>
+            <h3>Venue</h3>
+            <ol>
+                <li data-bind="with:ContactDetails">
+                    @Html.ValidationMessageFor(model => model.ContactDetails.Address)
+                    @Html.HiddenFor(model => model.ContactDetails.Address, new { data_bind = "value: Address().PlaceName()" })
+                    @{ 
+                        ViewBag.AutoCompleteLocationBannerText = "'Venue or Address of event'";
+                    }
+                    @{
+                   
+                        ViewBag.LocationVariable = "Address";
+                        if (string.IsNullOrWhiteSpace(ViewBag.AutoCompleteLocationBannerText))
+                        {
+                            ViewBag.AutoCompleteLocationBannerText = "'Venue Address'"; 
+                        }                    
+                        ViewBag.AutoCompleteLocationId = "addressSearch";
+                        ViewBag.AutoCompleteBinding = "placeAutoComplete";
+                    }
+                    @Html.Partial("Location/LocationAutocomplete")
+                </li>
+                </ol>
+            </fieldset>
           <fieldset>
             <legend>Now add some flyer tags</legend>
             <ol>
@@ -232,15 +259,13 @@
         @Html.HiddenFor(model => model.Id, new { data_bind = "value:Id" })
         
         <fieldset>
-            @{ 
-                ViewBag.AutoCompleteLocationBannerText = "'Venue or Address of event'";
-            }
+            
             <legend>Contact Details</legend>
-            <h2>Contact Details</h2>
+            <h2>Event Contact Details</h2>
             <p>These Details Will Be Sent To Users Who Peel Off Your Flyer</p>
             <ol>
                 <li data-bind="with:ContactDetails">
-                    @Html.Partial("Contact/ContactDetailsEditPartial",(Model != null && Model.ContactDetails !=  null) ? Model.ContactDetails : new ContactDetailsModel())
+                    @Html.Partial("Contact/EventContactDetailsPartial",(Model != null && Model.ContactDetails !=  null) ? Model.ContactDetails : new FlyerContactDetailsModel())
                 </li>
             </ol> 
 
