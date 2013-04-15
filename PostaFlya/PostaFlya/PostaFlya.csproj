@@ -823,6 +823,7 @@
     <Content Include="Views\Static\PrivacyPolicy.cshtml" />
     <Content Include="Views\Shared\_SocialInfoPartial.cshtml" />
     <Content Include="Views\Social\PostRedirect.cshtml" />
+    <Content Include="Views\Shared\Contact\EventContactDetailsPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

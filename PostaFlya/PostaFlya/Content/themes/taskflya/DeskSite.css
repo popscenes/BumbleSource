@@ -891,10 +891,6 @@ h4 {
     margin-bottom: 10px;
 }
 
-#flierForm #addressSearch.location-search {
-    width: 300px;
-}
-
 #flierForm input[type="text"]#Title, #flierForm textarea {
     width: 259px;
 }
