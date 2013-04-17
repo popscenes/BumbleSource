@@ -129,6 +129,7 @@
     <Compile Include="Location\Locations.cs" />
     <Compile Include="Location\LocationService.cs" />
     <Compile Include="Location\LocationServiceInterface.cs" />
+    <Compile Include="Location\PlaceInterface.cs" />
     <Compile Include="Payment\ChargableEntityInterface.cs" />
     <Compile Include="Payment\Command\PaymentTransactionCommand.cs" />
     <Compile Include="Payment\Command\PaymentTransactionCommandHandler.cs" />

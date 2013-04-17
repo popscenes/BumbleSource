@@ -126,6 +126,7 @@
     <Compile Include="Flier\FlierInterface.cs" />
     <Compile Include="Flier\FlierStatus.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Venue\VenueInformation.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">

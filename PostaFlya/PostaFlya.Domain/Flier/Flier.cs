@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using PostaFlya.Domain.Behaviour;
+using PostaFlya.Domain.Venue;
 using Website.Domain.Claims;
 using Website.Domain.Contact;
 using Website.Domain.Payment;
@@ -62,7 +63,7 @@ namespace PostaFlya.Domain.Flier
         public Dictionary<string, object> ExtendedProperties { get; set; }
         public int NumberOfClaims { get; set; }
         public int NumberOfComments { get; set; }
-        public ContactDetails ContactDetails { get; set; }
+        public VenueInformation ContactDetails { get; set; }
         public HashSet<string> Boards { get; set; }
         public HashSet<EntityFeatureCharge> Features { get; set; }
         public bool HasLeadGeneration { get; set; }

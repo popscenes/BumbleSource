@@ -1,5 +1,6 @@
 using System;
 using PostaFlya.Domain.Behaviour;
+using PostaFlya.Domain.Venue;
 using Website.Domain.Contact;
 using Website.Infrastructure.Command;
 using System.Collections.Generic;
@@ -27,6 +28,6 @@ namespace PostaFlya.Domain.Flier.Command
         public bool AttachTearOffs { get; set; }
         public int ExtendPostRadius { get; set; }
         public bool EnableAnalytics { get; set; }
-        public ContactDetails ContactDetails { get; set; }
+        public VenueInformation ContactDetails { get; set; }
     }
 }

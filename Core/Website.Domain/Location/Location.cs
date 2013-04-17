@@ -57,17 +57,7 @@ namespace Website.Domain.Location
         
         public double Latitude { get; set; }
 
-        private string _description;
-        public string Description
-        {
-            get {
-                if (string.IsNullOrEmpty(_description) && this.HasAddressParts())
-                    _description = this.GetAddressDescription();
-                return _description;
-            } 
-        }
 
-        public string PlaceName { get; set; }
         public string StreetNumber { get; set; }
         public string Street { get; set; }
         public string Locality { get; set; }

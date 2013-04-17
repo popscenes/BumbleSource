@@ -26,7 +26,7 @@
             }
 
             @sect
-            @if (sect == null)
+            @if (sect == null || string.IsNullOrWhiteSpace(sect.ToString()))
             {
                 @ViewBag.Title
             }
