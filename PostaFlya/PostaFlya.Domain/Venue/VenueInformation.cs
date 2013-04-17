@@ -49,6 +49,7 @@ namespace PostaFlya.Domain.Venue
 
     }
 
+    [Serializable]
     public class VenueInformation : VenueInformationInterface
     {
 
