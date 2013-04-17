@@ -17,14 +17,14 @@ namespace PostaFlya.Areas.Default.Models
     {
         public BulletinFlierModel Flier { get; set; }
         public FlierAnalyticInfoModel AnalyticInfo { get; set; }
-        public ContactDetailsModel ContactDetails { get; set; }
+        public VenueInformationModel ContactDetails { get; set; }
         public static DefaultDetailsViewModel DefaultForTemplate()
         {
             var ret = new DefaultDetailsViewModel()
                        {
                            Flier = BulletinFlierModel<BulletinBehaviourModel>.DefaultForTemplate(FlierBehaviour.Default),
                            AnalyticInfo = FlierAnalyticInfoModel.DefaultForTemplate(),
-                           ContactDetails = new ContactDetailsModel(){Address = new LocationModel()}
+                           ContactDetails = new VenueInformationModel() { Address = new LocationModel() }
                        };
             return ret;
         }

@@ -80,6 +80,14 @@
             addDesc = self.AddAddressPart(self.PostCode(), addDesc, ' ');
             return self.AddAddressPart(self.CountryName(), addDesc, ', ');
         });
+        
+        self.LocalDescription = ko.computed(function () {
+            var addDesc = '';
+
+            addDesc = self.AddAddressPart(self.StreetNumber(), addDesc, ', ');
+            addDesc = self.AddAddressPart(self.Street(), addDesc, ' ');
+            return self.AddAddressPart(self.Locality(), addDesc, ', ');
+        });
 
 
     };

@@ -39,7 +39,7 @@
             ImageList: [],
             Location: {},
             EnableAnalytics: false,
-            VenueDetails: {},
+            VenueInformation: {},
             PostRadius: 5,
             FlierBehaviour: 'Default',
             TotalPaid: 0
@@ -49,7 +49,7 @@
 
         var self = this;
         self.apiUrl = sprintf("/api/Browser/%s/MyFliers", bf.currentBrowserInstance.BrowserId);
-        self.Steps = ['AddImages', 'DetailsAndTags', 'AttachContactDetails', 'PostLocation', 'Summary', 'Complete'];
+        self.Steps = ['AddImages', 'DetailsAndTags', 'PostLocation', 'Summary', 'Complete'];
         self.imageSelector = imageSelector;
         self.tagsSelector = tagsSelector;
         
@@ -62,7 +62,7 @@
                     return ko.observable(new bf.LocationModel(options.data));
                 }
             },   
-            'VenueDetails': {
+            'VenueInformation': {
                 create: function(options) {
                     return ko.observable(new bf.VenuInformationModel(options.data));
                 }
@@ -230,19 +230,24 @@
             reqData.EffectiveDate = new Date(reqData.EffectiveDate).toISOString();
             var tagString = self.tagsSelector.SelectedTags().join();
             reqData.TagsString = tagString;
-            if (!self.ContactDetails().Address().ValidLocation())
-                reqData.ContactDetails.Address = null;
+            if (!self.VenueInformation().Address().ValidLocation())
+                reqData.VenueInformation.Address = null;
 
             self.posting(true);
             $.ajax(self.apiUrl, {
                 data: ko.utils.stringifyJson(reqData),
-                type: "put", contentType: "application/json",
-                success: function (result) {
+                type: "put",
+                contentType: "application/json",
+                success: function(result) {
                     self.flierStatus(result.Details[2].Message);
                     self.posting(false);
                     self.nextTemplate();
                 }
+            }).fail(function (jqXhr, textStatus, errorThrown) {
+                self.posting(false);
+                    bf.ErrorUtil.HandleRequestError('#flierForm', jqXhr, self.ErrorHandler);
             });
+            
 
             return false;
         };

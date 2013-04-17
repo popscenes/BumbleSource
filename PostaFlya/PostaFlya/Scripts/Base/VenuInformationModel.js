@@ -31,6 +31,17 @@
         };
 
         ko.mapping.fromJS(data, mapping, self);
+        
+        self.Description = ko.computed(function () {
+            var addDesc = '';
+            
+            if (self.PlaceName()) {
+                return self.PlaceName() + ' (' + self.Address().Street() + ' ' + self.Address().Locality() + ')'
+            } else {
+                return self.Address().LocalDescription();
+            }
+
+        });
 
     };
 

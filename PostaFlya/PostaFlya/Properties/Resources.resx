@@ -459,7 +459,7 @@
     <value>Surname</value>
   </data>
   <data name="FlyerContactDetailsModel_Address_FlyerContactDetailsModel_Address_FlyerContactDetailsModel_Address" xml:space="preserve">
-    <value>Venue or Address</value>
+    <value>Address</value>
   </data>
   <data name="FlyerContactDetailsModel_WebSite_FlyerContactDetailsModel_WebSite_FlyerContactDetailsModel_WebSite" xml:space="preserve">
     <value>Event Link</value>

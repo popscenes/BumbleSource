@@ -648,7 +648,7 @@ namespace PostaFlya.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Venue or Address.
+        ///   Looks up a localized string similar to Address.
         /// </summary>
         public static string FlyerContactDetailsModel_Address_FlyerContactDetailsModel_Address_FlyerContactDetailsModel_Address {
             get {

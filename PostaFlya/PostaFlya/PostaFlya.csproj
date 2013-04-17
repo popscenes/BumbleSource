@@ -826,6 +826,7 @@
     <Content Include="Views\Shared\_SocialInfoPartial.cshtml" />
     <Content Include="Views\Social\PostRedirect.cshtml" />
     <Content Include="Views\Shared\Contact\EventContactDetailsPartial.cshtml" />
+    <Content Include="Views\Shared\Contact\EventContactDetailsViewPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

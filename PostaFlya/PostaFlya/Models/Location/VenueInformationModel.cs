@@ -5,6 +5,19 @@ using Website.Domain.Contact;
 
 namespace PostaFlya.Models.Location
 {
+    public static class VenuInformationInterfaceExtensions
+    {
+        public static VenueInformationModel ToViewModel(this VenueInformationInterface source)
+        {
+            if (source == null)
+                return null;
+            var ret = new VenueInformationModel();
+            ret.CopyFieldsFrom((ContactDetailFieldsInterface)source);
+            ret.CopyFieldsFrom((VenueInformationFieldsInterface)source);
+            ret.Address = source.Address.ToViewModel();
+            return ret;
+        }
+    }
     public class VenueInformationModel : ContactDetailFieldsInterface, VenueInformationFieldsInterface
     {
         [Display(ResourceType = typeof (Properties.Resources), Name = "FlyerContactDetailsModel_PhoneNumber_FlyerContactDetailsModel_PhoneNumber_FlyerContactDetailsModel_PhoneNumber")]

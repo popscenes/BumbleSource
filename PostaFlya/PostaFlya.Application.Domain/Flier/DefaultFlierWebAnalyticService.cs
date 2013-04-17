@@ -25,17 +25,17 @@ namespace PostaFlya.Application.Domain.Flier
             if (string.IsNullOrWhiteSpace(_browserInformation.TrackingId))
                 _browserInformation.TrackingId = Guid.NewGuid().ToString();
 
-            _workerCommandBus.Send(new FlierAnalyticCommand()
-            {
-                FlierId = flierId,
-                Browser = _browserInformation.Browser as Website.Domain.Browser.Browser,
-                TrackingId = _browserInformation.TrackingId,
-                IpAddress = _browserInformation.IpAddress,
-                UserAgent = _browserInformation.UserAgent,
-                Location = location ?? _browserInformation.LastSearchLocation,
-                LocationFromSearch = location == null,
-                SourceAction = context
-            });
+//            _workerCommandBus.Send(new FlierAnalyticCommand()
+//            {
+//                FlierId = flierId,
+//                Browser = _browserInformation.Browser as Website.Domain.Browser.Browser,
+//                TrackingId = _browserInformation.TrackingId,
+//                IpAddress = _browserInformation.IpAddress,
+//                UserAgent = _browserInformation.UserAgent,
+//                Location = location ?? _browserInformation.LastSearchLocation,
+//                LocationFromSearch = location == null,
+//                SourceAction = context
+//            });
         }
 
         public void SetLastSearchLocation(Location loc)

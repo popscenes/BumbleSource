@@ -121,6 +121,14 @@
                 </span>
             </p>
         </fieldset>
+        <fieldset>
+            <legend>Validation</legend>       
+            <ol>
+                <li>
+                    @Html.ValidationSummary()
+                </li>
+            </ol>  
+        </fieldset>        
     </form>
 </script>
 <script type="text/html" id="Complete-template">
@@ -217,18 +225,18 @@
         <fieldset>
             <h3>Venue</h3>
             <ol>
-                <li data-bind="with:ContactDetails">
+                <li>
                     @Html.ValidationMessageFor(model => model.VenueInformation.Address)
-                    @Html.HiddenFor(model => model.VenueInformation.Address, new { data_bind = "value: Address().PlaceName()" })
+                    @Html.HiddenFor(model => model.VenueInformation.Address, new { data_bind = "value: VenueInformation().PlaceName()" })
                     @{ 
                         ViewBag.AutoCompleteLocationBannerText = "'Venue or Address of event'";
                     }
                     @{
                    
-                        ViewBag.LocationVariable = "Address";
+                        ViewBag.LocationVariable = "VenueInformation";
                         if (string.IsNullOrWhiteSpace(ViewBag.AutoCompleteLocationBannerText))
                         {
-                            ViewBag.AutoCompleteLocationBannerText = "'Venue Address'"; 
+                            ViewBag.AutoCompleteLocationBannerText = "'Venue'"; 
                         }                    
                         ViewBag.AutoCompleteLocationId = "addressSearch";
                         ViewBag.AutoCompleteBinding = "placeAutoComplete";
@@ -253,43 +261,43 @@
 </script>
 
 
-<script type="text/html" id="AttachContactDetails-template">
-    <form id="flierForm" class="" data-bind="validate: true">
-    
-        @Html.HiddenFor(model => model.Id, new { data_bind = "value:Id" })
-        
-        <fieldset>
-            
-            <legend>Contact Details</legend>
-            <h2>Event Contact Details</h2>
-            <p>These Details Will Be Sent To Users Who Peel Off Your Flyer</p>
-            <ol>
-                <li data-bind="with:ContactDetails">
-                    @Html.Partial("Contact/EventContactDetailsPartial",(Model != null && Model.VenueInformation !=  null) ? Model.VenueInformation : new VenueInformationModel())
-                </li>
-            </ol> 
-
-        </fieldset>
-        <fieldset class="analytics-edit">
-            <legend>Flyer Features</legend>
-            <h2>Advanced Flyer Features</h2>
-           
-            <ol>
-                <li>
-                    @Html.ValidationMessageFor(model => model.EnableAnalytics)
-                    @Html.CheckBoxFor(model => model.EnableAnalytics, new { data_bind = "checked: EnableAnalytics" }) 
-                    @Html.LabelFor(model => model.EnableAnalytics)
-                </li>
-            </ol>  
-
-        </fieldset>
-        <fieldset>
-            <legend>Validation</legend>       
-            <ol>
-                <li>
-                    @Html.ValidationSummary()
-                </li>
-            </ol>  
-        </fieldset>        
-    </form>
-</script>
+@*<script type="text/html" id="AttachContactDetails-template">*@
+@*    <form id="flierForm" class="" data-bind="validate: true">*@
+@*    *@
+@*        @Html.HiddenFor(model => model.Id, new { data_bind = "value:Id" })*@
+@*        *@
+@*        <fieldset>*@
+@*            *@
+@*            <legend>Contact Details</legend>*@
+@*            <h2>Event Contact Details</h2>*@
+@*            <p>These Details Will Be Sent To Users Who Peel Off Your Flyer</p>*@
+@*            <ol>*@
+@*                <li data-bind="with:ContactDetails">*@
+@*                    @Html.Partial("Contact/EventContactDetailsPartial",(Model != null && Model.VenueInformation !=  null) ? Model.VenueInformation : new VenueInformationModel())*@
+@*                </li>*@
+@*            </ol> *@
+@**@
+@*        </fieldset>*@
+@*        <fieldset class="analytics-edit">*@
+@*            <legend>Flyer Features</legend>*@
+@*            <h2>Advanced Flyer Features</h2>*@
+@*           *@
+@*            <ol>*@
+@*                <li>*@
+@*                    @Html.ValidationMessageFor(model => model.EnableAnalytics)*@
+@*                    @Html.CheckBoxFor(model => model.EnableAnalytics, new { data_bind = "checked: EnableAnalytics" }) *@
+@*                    @Html.LabelFor(model => model.EnableAnalytics)*@
+@*                </li>*@
+@*            </ol>  *@
+@**@
+@*        </fieldset>*@
+@*        <fieldset>*@
+@*            <legend>Validation</legend>       *@
+@*            <ol>*@
+@*                <li>*@
+@*                    @Html.ValidationSummary()*@
+@*                </li>*@
+@*            </ol>  *@
+@*        </fieldset>        *@
+@*    </form>*@
+@*</script>*@
