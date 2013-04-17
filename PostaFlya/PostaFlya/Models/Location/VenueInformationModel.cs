@@ -5,7 +5,7 @@ using Website.Domain.Contact;
 
 namespace PostaFlya.Models.Location
 {
-    public class FlyerVenueDetailsModel : ContactDetailFieldsInterface, VenueInformationFieldsInterface
+    public class VenueInformationModel : ContactDetailFieldsInterface, VenueInformationFieldsInterface
     {
         [Display(ResourceType = typeof (Properties.Resources), Name = "FlyerContactDetailsModel_PhoneNumber_FlyerContactDetailsModel_PhoneNumber_FlyerContactDetailsModel_PhoneNumber")]
         public string PhoneNumber { get; set; }
@@ -48,6 +48,8 @@ namespace PostaFlya.Models.Location
         public string Source { get; set; }
         public string SourceId { get; set; }
         public string SourceUrl { get; set; }
+
+        [Display(Name = "PlaceName", ResourceType = typeof(Properties.Resources))]
         public string PlaceName { get; set; }
     }
 }

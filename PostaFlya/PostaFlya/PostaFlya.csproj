@@ -417,7 +417,7 @@
     <Compile Include="Models\Flier\FlierEditModel.cs" />
     <Compile Include="Binding\EntityTypeEnum.cs" />
     <Compile Include="Models\Location\ContactDetailsModel.cs" />
-    <Compile Include="Models\Location\FlyerVenueDetailsModel.cs" />
+    <Compile Include="Models\Location\VenueInformationModel.cs" />
     <Compile Include="Models\Location\LocationModel.cs" />
     <Compile Include="Models\PageModelInterface.cs" />
     <Compile Include="Models\Tags\TagSetListViewModel.cs" />
@@ -632,6 +632,7 @@
     <Content Include="Scripts\Base\BrowserViewModel.js" />
     <Content Include="Scripts\Base\CommentsViewModel.js" />
     <Content Include="Scripts\Base\TagsSelector.js" />
+    <Content Include="Scripts\Base\VenuInformationModel.js" />
     <Content Include="Scripts\Behaviour\BehaviourViewModel.js" />
     <Content Include="Scripts\Behaviour\BehaviourViewModelFactory.js" />
     <Content Include="Scripts\Behaviour\Default\DefaultBehaviourViewModel.js" />

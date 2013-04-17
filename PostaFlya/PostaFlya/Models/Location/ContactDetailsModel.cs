@@ -17,11 +17,11 @@ namespace PostaFlya.Models.Location
             return ret;
         }
 
-        public static FlyerVenueDetailsModel ToFlyerContactDetailsViewModel(this ContactDetailsInterface source)
+        public static VenueInformationModel ToFlyerContactDetailsViewModel(this ContactDetailsInterface source)
         {
             if (source == null)
                 return null;
-            var ret = new FlyerVenueDetailsModel();
+            var ret = new VenueInformationModel();
             ret.CopyFieldsFrom(source);
             ret.Address = source.Address.ToViewModel();
             return ret;

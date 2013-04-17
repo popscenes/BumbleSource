@@ -77,7 +77,7 @@ namespace PostaFlya.Controllers
                 //AllowUserContact = createModel.AllowUserContact,
                 ExtendPostRadius = Math.Max(0, createModel.PostRadius - 5),
                 EnableAnalytics = createModel.EnableAnalytics,
-                ContactDetails = createModel.VenueDetails != null ? createModel.VenueDetails.ToDomainModel() : null
+                ContactDetails = createModel.VenueInformation != null ? createModel.VenueInformation.ToDomainModel() : null
             };
 
             var res = _commandBus.Send(createFlier);
@@ -101,7 +101,7 @@ namespace PostaFlya.Controllers
                 //AllowUserContact = editModel.AllowUserContact,
                 ExtendPostRadius = Math.Max(0, editModel.PostRadius - 5),
                 EnableAnalytics = editModel.EnableAnalytics,
-                ContactDetails = editModel.VenueDetails != null ? editModel.VenueDetails.ToDomainModel() : null
+                ContactDetails = editModel.VenueInformation != null ? editModel.VenueInformation.ToDomainModel() : null
             };
 
             var res = _commandBus.Send(editFlier);

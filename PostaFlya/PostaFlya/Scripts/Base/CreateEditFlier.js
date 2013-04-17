@@ -39,7 +39,7 @@
             ImageList: [],
             Location: {},
             EnableAnalytics: false,
-            ContactDetails: {},
+            VenueDetails: {},
             PostRadius: 5,
             FlierBehaviour: 'Default',
             TotalPaid: 0
@@ -62,9 +62,9 @@
                     return ko.observable(new bf.LocationModel(options.data));
                 }
             },   
-            'ContactDetails': {
+            'VenueDetails': {
                 create: function(options) {
-                    return ko.observable(new bf.ContactDetailsModel(options.data));
+                    return ko.observable(new bf.VenuInformationModel(options.data));
                 }
             }
         };
