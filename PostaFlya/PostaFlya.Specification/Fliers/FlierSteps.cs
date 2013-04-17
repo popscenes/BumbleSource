@@ -647,6 +647,23 @@ namespace PostaFlya.Specification.Fliers
             createFlierModel.ContactDetails = new FlyerContactDetailsModel();
         }
 
+        [Given(@"i choose to attach USER LINKS")]
+        public void GivenIChooseToAttachUSERLINKS()
+        {
+            /*var createFlierModel = ScenarioContext.Current["createflya"] as FlierCreateModel;
+            createFlierModel.UserLinks.Add(new UserLink() { Type = LinkType.FACEBOOK, Text = "facebook link", Link = "https://www.facebook.com/TeddyMcCuddles" });
+            createFlierModel.UserLinks.Add(new UserLink() { Type = LinkType.TWITTER, Text = "twitter link", Link = "https://twitter.com/TeddyMcCuddless" });
+            createFlierModel.UserLinks.Add(new UserLink() { Type = LinkType.TICKETS, Text = "tickets link", Link = "https://ticketek.com.au" });
+            createFlierModel.UserLinks.Add(new UserLink() { Type = LinkType.WEBSITE, Text = "website link", Link = "https://popscenes.com" });*/
+        }
+
+        [Then(@"It will Have The USER LINKS")]
+        public void ThenItWillHaveTheUSERLINKS()
+        {
+            ScenarioContext.Current.Pending();
+        }
+
+
 
     }
 }
