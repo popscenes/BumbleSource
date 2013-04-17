@@ -417,6 +417,7 @@
     <Compile Include="Models\Flier\FlierEditModel.cs" />
     <Compile Include="Binding\EntityTypeEnum.cs" />
     <Compile Include="Models\Location\ContactDetailsModel.cs" />
+    <Compile Include="Models\Location\FlyerVenueDetailsModel.cs" />
     <Compile Include="Models\Location\LocationModel.cs" />
     <Compile Include="Models\PageModelInterface.cs" />
     <Compile Include="Models\Tags\TagSetListViewModel.cs" />

@@ -218,8 +218,8 @@
             <h3>Venue</h3>
             <ol>
                 <li data-bind="with:ContactDetails">
-                    @Html.ValidationMessageFor(model => model.ContactDetails.Address)
-                    @Html.HiddenFor(model => model.ContactDetails.Address, new { data_bind = "value: Address().PlaceName()" })
+                    @Html.ValidationMessageFor(model => model.VenueDetails.Address)
+                    @Html.HiddenFor(model => model.VenueDetails.Address, new { data_bind = "value: Address().PlaceName()" })
                     @{ 
                         ViewBag.AutoCompleteLocationBannerText = "'Venue or Address of event'";
                     }
@@ -265,7 +265,7 @@
             <p>These Details Will Be Sent To Users Who Peel Off Your Flyer</p>
             <ol>
                 <li data-bind="with:ContactDetails">
-                    @Html.Partial("Contact/EventContactDetailsPartial",(Model != null && Model.ContactDetails !=  null) ? Model.ContactDetails : new FlyerContactDetailsModel())
+                    @Html.Partial("Contact/EventContactDetailsPartial",(Model != null && Model.VenueDetails !=  null) ? Model.VenueDetails : new FlyerVenueDetailsModel())
                 </li>
             </ol> 
 

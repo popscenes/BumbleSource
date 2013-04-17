@@ -145,6 +145,10 @@ background-color: white;
     background-position: -88px -0px;
 }
 
+.profile-logout {
+    float: right;
+}
+
 
 #flya-create-back .std-image-btn-icon {
     background-position: -102px 0px;
@@ -1368,6 +1372,7 @@ p#copyright {
 
 
 .get-flier-detail-div {
+    max-width: 700px;
     padding: 4%;
     width: 90%;
     margin: 0 auto 0;

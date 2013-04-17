@@ -73,9 +73,9 @@ namespace PostaFlya.Controllers
             {
                 var source = FlierAnalyticUrlUtil.GetSourceAction(tinyUrl, FlierAnalyticSourceAction.Unknown);
                 if(source != FlierAnalyticSourceAction.Unknown)
-                    _webAnalyticService.RecordVisit(ent.Id, source,currloc.ToDomainModel());
+                    _webAnalyticService.RecordVisit(ret.Flier.Id, source, currloc.ToDomainModel());
 
-                _webAnalyticService.RecordVisit(ent.Id, FlierAnalyticSourceAction.TinyUrlByApi, currloc.ToDomainModel());
+                _webAnalyticService.RecordVisit(ret.Flier.Id, FlierAnalyticSourceAction.TinyUrlByApi, currloc.ToDomainModel());
 
             }
 

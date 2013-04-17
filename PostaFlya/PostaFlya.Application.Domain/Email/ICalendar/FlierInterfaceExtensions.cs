@@ -1,6 +1,7 @@
 using PostaFlya.Domain.Flier;
 using Website.Application.Email.ICalendar;
 using Website.Domain.Browser;
+using Website.Domain.Location;
 using Role = Website.Application.Email.ICalendar.Role;
 
 namespace PostaFlya.Application.Domain.Email.ICalendar
@@ -33,7 +34,7 @@ namespace PostaFlya.Application.Domain.Email.ICalendar
             evnt.Status = EventStatus.CONFIRMED;
             evnt.PriorityLevel = PriorityLevel.Normal;
             evnt.SequenceNbr = 1;
-            evnt.Location = flier.Location.Description;
+            evnt.Location = flier.Location.GetAddressDescription();
             evnt.UID = flier.Id;
             return evnt;
         }

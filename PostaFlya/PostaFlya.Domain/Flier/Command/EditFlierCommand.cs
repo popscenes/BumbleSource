@@ -1,4 +1,5 @@
 using System;
+using PostaFlya.Domain.Venue;
 using Website.Domain.Contact;
 using Website.Domain.Payment;
 using Website.Infrastructure.Command;
@@ -23,6 +24,6 @@ namespace PostaFlya.Domain.Flier.Command
         public bool AllowUserContact { get; set; }
         public int ExtendPostRadius { get; set; }
         public bool EnableAnalytics { get; set; }
-        public ContactDetails ContactDetails { get; set; }
+        public VenueInformation ContactDetails { get; set; }
     }
 }

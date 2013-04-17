@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using PostaFlya.Domain.Flier;
 using PostaFlya.Domain.Flier.Query;
+using PostaFlya.Domain.Venue;
 using Website.Application.Intergrations;
 using Website.Domain.Browser.Query;
 using Website.Domain.Contact;
@@ -69,19 +70,17 @@ namespace PostaFlya.Application.Domain.ExternalSource
             Guid? imageId = SaveImageFromfacebookEvent(fbEvent, browser);
 
 
-            var contactDetails = new ContactDetails()
+            var contactDetails = new VenueInformation()
                 {
                     Address = new Location()
                         {
-                            PlaceName = fbEvent.venue.name,
                             Latitude = fbEvent.venue.location == null ? 0.0: fbEvent.venue.location.latitude, 
                             Longitude =fbEvent.venue.location == null ?0.0: fbEvent.venue.location.longitude,
                             PostCode = fbEvent.venue.location == null ? "":fbEvent.venue.location.zip,
                             Street = fbEvent.venue.location == null ?"":fbEvent.venue.location.street
 
                         },
-                    EmailAddress = browser.EmailAddress,
-                    FirstName = browser.FirstName
+                    PlaceName = fbEvent.venue.name,
 
                 };
 

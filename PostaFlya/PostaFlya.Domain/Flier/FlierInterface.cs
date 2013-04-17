@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using PostaFlya.Domain.Behaviour;
+using PostaFlya.Domain.Venue;
 using Website.Domain.Contact;
 using Website.Domain.Payment;
 using Website.Domain.TinyUrl;
@@ -32,7 +33,7 @@ namespace PostaFlya.Domain.Flier
             ClaimableEntityInterfaceExtensions.CopyFieldsFrom(target, source);
             EntityFeatureChargesInterfaceExtension.CopyFieldsFrom(target, source);
             TinyUrlInterfaceExtensions.CopyFieldsFrom(target, source);
-            target.ContactDetails = source.ContactDetails != null ? new ContactDetails(source.ContactDetails) : null;
+            target.ContactDetails = source.ContactDetails != null ? new VenueInformation(source.ContactDetails) : null;
 
 
             target.Title = source.Title;
@@ -86,9 +87,7 @@ namespace PostaFlya.Domain.Flier
         }
     }
 
-    public interface FlierInterface : 
-        EntityInterface, 
-        BrowserIdInterface, 
+    public interface FlierInterface : BrowserIdInterface, 
         ClaimableEntityInterface,
         CommentableInterface,
         EntityFeatureChargesInterface, TinyUrlInterface
@@ -106,7 +105,7 @@ namespace PostaFlya.Domain.Flier
         string ExternalSource { get; set; }
         string ExternalId { get; set; }
         Dictionary<string, object> ExtendedProperties { get;set; }
-        ContactDetails ContactDetails { get; set; }
+        VenueInformation ContactDetails { get; set; }
         HashSet<string> Boards { get; set; }
         bool HasLeadGeneration { get; set; }
         int LocationRadius { get; set; }

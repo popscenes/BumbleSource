@@ -18,7 +18,6 @@ namespace PostaFlya.Models.Location
 
             var ret = new LocationModel();
             ret.CopyFieldsFrom(location);
-            ret.Description = location.Description;
             return ret;
         }
     }
@@ -49,9 +48,6 @@ namespace PostaFlya.Models.Location
         public double Longitude { get; set; }
         [Display(Name = "Latitude", ResourceType = typeof(Properties.Resources))] 
         public double Latitude { get; set; }
-
-        [Display(Name = "Description", ResourceType = typeof(Properties.Resources))] 
-        public string Description { get; set; }
 
         [Display(Name = "PlaceName", ResourceType = typeof (Properties.Resources))]
         public string PlaceName { get; set; }

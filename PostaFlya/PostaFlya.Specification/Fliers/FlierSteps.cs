@@ -644,7 +644,7 @@ namespace PostaFlya.Specification.Fliers
         public void GivenIChooseToAttachContactDetailsOtherThanMySavedDetails()
         {
             var createFlierModel = ScenarioContext.Current["createflya"] as FlierCreateModel;
-            createFlierModel.ContactDetails = new FlyerContactDetailsModel();
+            createFlierModel.VenueDetails = new FlyerVenueDetailsModel();
         }
 
         [Given(@"i choose to attach USER LINKS")]

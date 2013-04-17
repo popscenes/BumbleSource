@@ -9,7 +9,6 @@ namespace Website.Domain.Location
     {
         public static void CopyFieldsFrom(this AddressInterface addressTarget, AddressInterface addressSource)
         {
-            addressTarget.PlaceName = addressSource.PlaceName;
             addressTarget.StreetNumber = addressSource.StreetNumber;
             addressTarget.Street = addressSource.Street;            
             addressTarget.Locality = addressSource.Locality;
@@ -22,7 +21,6 @@ namespace Website.Domain.Location
         {
 
             return
-                    !string.IsNullOrWhiteSpace(address.PlaceName) ||
                     !string.IsNullOrWhiteSpace(address.StreetNumber) ||
                     !string.IsNullOrWhiteSpace(address.Street) ||
                     !string.IsNullOrWhiteSpace(address.Locality) ||
@@ -37,7 +35,6 @@ namespace Website.Domain.Location
             if (address == null)
                 return null;
             var addDesc = new StringBuilder();
-            AddAddressPart(address.PlaceName, addDesc, "");
             AddAddressPart(address.StreetNumber, addDesc, ", ");
             AddAddressPart(address.Street, addDesc, " ");
             AddAddressPart(address.Locality, addDesc, ", ");
@@ -47,11 +44,10 @@ namespace Website.Domain.Location
             return addDesc.ToString();
         }
 
-        //[MyPlace][1][Waihi Avenue][Brunswick East][VIC][3057][Australia]
+        //[1][Waihi Avenue][Brunswick East][VIC][3057][Australia]
         public static string GetAddressStringFormat(this AddressInterface address)
         {
-            return string.Format("[{0}],[{1}],[{2}],[{3}],[{4}],[{5}],[{6}]"
-                          , address.PlaceName.EmptyIfNull()
+            return string.Format("[{0}],[{1}],[{2}],[{3}],[{4}],[{5}]"
                           , address.StreetNumber.EmptyIfNull()
                           , address.Street.EmptyIfNull()
                           , address.Locality.EmptyIfNull()
@@ -82,9 +78,7 @@ namespace Website.Domain.Location
             
             if (parts.Count > 5)
                 address.StreetNumber = parts[5].Trim('[', ']');
-            
-            if (parts.Count > 6)
-                address.PlaceName = parts[6].Trim('[', ']');    
+             
         }
 
         private static void AddAddressPart(string addressPart, StringBuilder builder, string separator)
@@ -98,8 +92,7 @@ namespace Website.Domain.Location
 
         public static bool IsSimilarTo(this AddressInterface target, AddressInterface source)
         {
-            if (!StringUtil.AreBothEqualOrNullOrWhiteSpace(target.PlaceName, source.PlaceName))
-                return false;
+
             if (!StringUtil.AreBothEqualOrNullOrWhiteSpace(target.StreetNumber, source.StreetNumber))
                 return false;
             if (!StringUtil.AreBothEqualOrNullOrWhiteSpace(target.Street, source.Street))
@@ -118,7 +111,6 @@ namespace Website.Domain.Location
 
     public interface AddressInterface
     {
-        string PlaceName { get; set; }
         string StreetNumber { get; set; }
         string Street { get; set; }
         string Locality { get; set; }

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using System.Web.Routing;
 using System.Web.Security;
 using PostaFlya.Models.Account;
 using Website.Application.Authentication;
@@ -101,7 +100,14 @@ namespace PostaFlya.Controllers
             return RedirectToAction("Get", "Bulletin");
         }
 
-        public void CreateFormsCookieFromIdenityProviderCredentials(IdentityProviderCredential identityProviderCredentials)
+        public ActionResult LogOut()
+        {
+            FormsAuthentication.SignOut();
+            return RedirectToAction("Get", "Bulletin");
+        }
+
+        [NonAction]
+        protected void CreateFormsCookieFromIdenityProviderCredentials(IdentityProviderCredential identityProviderCredentials)
         {
             var authTicket = new
                             FormsAuthenticationTicket(1, //version
