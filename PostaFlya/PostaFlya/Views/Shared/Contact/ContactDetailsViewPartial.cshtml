@@ -1,4 +1,5 @@
 ﻿
+@using Website.Domain.Location
 @model PostaFlya.Models.Location.ContactDetailsModel
 
 <fieldset>
@@ -39,7 +40,7 @@
         
         <li data-bind="visible:Address().Description()">
             @Html.LabelFor(model => model.Address)
-            <span data-bind="text:Address().Description()">@(Model.Address != null ? Model.Address.Description : "")</span>
+            <span data-bind="text:Address().Description()">@(Model.Address != null ? Model.Address.GetAddressDescription() : "")</span>
                         
         </li>
     </ol>

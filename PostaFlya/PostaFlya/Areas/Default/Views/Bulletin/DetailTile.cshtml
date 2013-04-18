@@ -8,7 +8,7 @@
 @model DefaultDetailsViewModel
 @{
     BulletinFlierModel flier = Model.Flier;
-    ContactDetailsModel contactDets = Model.ContactDetails ?? new ContactDetailsModel();
+    VenueInformationModel contactDets = Model.ContactDetails ?? new VenueInformationModel();
 }
 
 <div class="flier-view flier-view-default">
@@ -34,11 +34,11 @@
         
     <div data-bind="if:ContactDetails() != null">
         <h4>
-                Contact Details
+                Venue Details
         </h4>
         <div class="flier-contact-dets" data-bind="with:ContactDetails">
             
-            @Html.Partial("Contact/ContactDetailsViewPartial", contactDets)
+            @Html.Partial("Contact/EventContactDetailsViewPartial", contactDets)
 
 
             <a class="std-btn" data-bind="click: $parent.TearOff, css{btn-std-inuse: $parent.IsPeeling(), text: $parent.PeelText">Resend Details</a>

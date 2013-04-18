@@ -148,23 +148,14 @@ namespace PostaFlya.Controllers
             if (browserInformation.Browser.Id == flier.BrowserId)
                 AddOwnerInfo(flier, ret, queryService);
 
-            if (!browserInformation.Browser.IsTemporary())
-                AddContactDetailsIfTornOff(browserInformation.Browser, flier, ret, queryService);
+            var dets = flier.ContactDetails;
+            if (dets != null)
+                ret.ContactDetails = dets.ToViewModel();
 
             return ret;
         }
 
-        [NonAction]
-        private static void AddContactDetailsIfTornOff(BrowserInterface current, FlierInterface flier, DefaultDetailsViewModel model
-            , GenericQueryServiceInterface queryService)
-        {
-            if (!flier.BrowserHasClaimed(current, queryService) && !current.IsOwner(flier))
-                return;
-            var dets = flier.GetContactDetailsForFlier(queryService.FindById<Browser>(flier.BrowserId));
-            if (dets == null)
-                return;
-            model.ContactDetails = dets.ToViewModel();
-        }
+
 
         public static void AddOwnerInfo(FlierInterface flier, DefaultDetailsViewModel model
             , GenericQueryServiceInterface queryService)

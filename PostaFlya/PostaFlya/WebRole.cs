@@ -42,7 +42,8 @@ namespace PostaFlya
                 Action<ServerManager> updatePreload = (serverManager) =>
                     {
                         try
-                        {
+                        {           
+
                             //turn app pool to always on and pre-load enabled
                             var mainSite = serverManager.Sites[RoleEnvironment.CurrentRoleInstance.Id + "_Web"];
                             var mainApplication = mainSite.Applications["/"];
@@ -52,6 +53,8 @@ namespace PostaFlya
                                 serverManager.ApplicationPools[mainApplication.ApplicationPoolName];
                             mainApplicationPool["startMode"] = "AlwaysRunning";
                             mainApplicationPool.AutoStart = true;
+                            mainApplicationPool.ProcessModel.IdleTimeout = new TimeSpan(0, 0, 00);
+                            mainApplicationPool.Recycling.PeriodicRestart.Time = new TimeSpan(0,new Random().Next(1440, 1600), 0);
 
                             //force serve of gzip first time
                             var config = serverManager.GetApplicationHostConfiguration();

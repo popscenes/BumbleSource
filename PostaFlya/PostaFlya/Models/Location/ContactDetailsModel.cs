@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using PostaFlya.Domain.Venue;
 using Website.Application.Domain.Location;
 using Website.Domain.Contact;
 using Resources = Website.Application.Properties.Resources;
@@ -15,19 +16,7 @@ namespace PostaFlya.Models.Location
             ret.CopyFieldsFrom(source);
             ret.Address = source.Address.ToViewModel();
             return ret;
-        }
-
-        public static FlyerVenueDetailsModel ToFlyerContactDetailsViewModel(this ContactDetailsInterface source)
-        {
-            if (source == null)
-                return null;
-            var ret = new FlyerVenueDetailsModel();
-            ret.CopyFieldsFrom(source);
-            ret.Address = source.Address.ToViewModel();
-            return ret;
-        }
-  
-  
+        }  
     }
 
     public class ContactDetailsModel : ContactDetailFieldsInterface 

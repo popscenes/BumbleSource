@@ -44,6 +44,7 @@ namespace PostaFlya.Views.Shared
             "Base/CurrentBrowser.js",
             "Base/LocationModel.js",
             "Base/ContactDetailsModel.js",
+            "Base/VenuInformationModel.js",
             "Base/LocationBase.js",           
             "Base/LocationService.js",
             "Base/LocationSelector.js",

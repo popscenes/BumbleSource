@@ -49,8 +49,7 @@ namespace PostaFlya.Models.Location
         [Display(Name = "Latitude", ResourceType = typeof(Properties.Resources))] 
         public double Latitude { get; set; }
 
-        [Display(Name = "PlaceName", ResourceType = typeof (Properties.Resources))]
-        public string PlaceName { get; set; }
+
         [Display(Name = "StreetNumber", ResourceType = typeof(Properties.Resources))]
         public string StreetNumber { get; set; }
         [Display(Name = "Street", ResourceType = typeof(Properties.Resources))] 

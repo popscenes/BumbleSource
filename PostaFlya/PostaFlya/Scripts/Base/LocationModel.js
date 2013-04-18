@@ -13,7 +13,6 @@
             Region:'',
             PostCode:'',
             CountryName: '',
-            PlaceName:''
         };
         initData = $.extend(defaults, initData);
         
@@ -73,8 +72,6 @@
 
         self.Description = ko.computed(function () {
             var addDesc = '';
-            if (self.PlaceName() != self.StreetNumber() + ' ' + self.Street())
-                addDesc = self.AddAddressPart(self.PlaceName(), addDesc, '');
 
             addDesc = self.AddAddressPart(self.StreetNumber(), addDesc, ', ');
             addDesc = self.AddAddressPart(self.Street(), addDesc, ' ');
@@ -82,6 +79,14 @@
             addDesc = self.AddAddressPart(self.Region(), addDesc, ' ');
             addDesc = self.AddAddressPart(self.PostCode(), addDesc, ' ');
             return self.AddAddressPart(self.CountryName(), addDesc, ', ');
+        });
+        
+        self.LocalDescription = ko.computed(function () {
+            var addDesc = '';
+
+            addDesc = self.AddAddressPart(self.StreetNumber(), addDesc, ', ');
+            addDesc = self.AddAddressPart(self.Street(), addDesc, ' ');
+            return self.AddAddressPart(self.Locality(), addDesc, ', ');
         });
 
 

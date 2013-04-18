@@ -22,13 +22,18 @@
         <meta charset="utf-8" />
         <title>
             @{
-                var sect = RenderSection("title", required: false);              
+                var sect = RenderSection("title", required: false);
+                var sectString = sect == null  ? null : sect.ToHtmlString();            
             }
 
-            @sect
-            @if (sect == null || string.IsNullOrWhiteSpace(sect.ToString()))
+            
+            @if (string.IsNullOrWhiteSpace(sectString))
             {
                 @ViewBag.Title
+            }
+            else
+            {
+                Html.Raw(sectString);
             }
             
         </title>

@@ -155,42 +155,44 @@ ko.bindingHandlers.placeAutoComplete = {
         var autocomplete = new google.maps.places.Autocomplete(element, options);
         google.maps.event.addListener(autocomplete, 'place_changed', function () {
 
-            var locval = null;           
+            var venue = null;           
             var item = autocomplete.getPlace();
             if (item.geometry) {
-                locval = new bf.LocationModel({ Longitude: item.geometry.location.lng(), Latitude: item.geometry.location.lat() });
-                locval.SetFromGeo(item);
-                locval.PlaceName(item.name);
+
+                var data = {};
+                data.Address = { Longitude: item.geometry.location.lng(), Latitude: item.geometry.location.lat() };
+                
+                venue = new bf.VenuInformationModel(data);
+                venue.Address().SetFromGeo(item);
+                venue.PlaceName(item.name);
             }
             
             setTimeout(function () {
-                var location = valueAccessor();
-                location(locval);
+                var venueObservable = valueAccessor();
+                venueObservable(venue);
             });
 
         });
         
         var $input = $(element);
         $input.focus(function () {
-            var location = ko.utils.unwrapObservable(valueAccessor());
-            if (location != null && location.Description() == $input.val())
-                $input.val('');
+            $input.val('');
 
         }).blur(function () {
-            var location = ko.utils.unwrapObservable(valueAccessor());
-            if (location != null && location.Description())
-                $input.val(location.Description());
+            var venue = ko.utils.unwrapObservable(valueAccessor());
+            if (venue != null && venue.Description())
+                $input.val(venue.Description());
         });
 
     },
     update: function (element, valueAccessor, allBindingsAccessor, viewModel) {
 
 
-        var location = ko.utils.unwrapObservable(valueAccessor());
-        if (location != null && location.Description())
-            $(element).val(location.Description());
-        if (location != null && location.ValidLocation() && location.Description() === "")
-            bf.reverseGeocode(location);
+        var venue = ko.utils.unwrapObservable(valueAccessor());
+        if (venue != null && venue.Description())
+            $(element).val(venue.Description());
+        if (venue != null && venue.Address().ValidLocation() && venue.Description() === "")
+            bf.reverseGeocode(venue);
 
     }
 };
