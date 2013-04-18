@@ -55,6 +55,7 @@ namespace PostaFlya.Domain.Flier
             target.HasLeadGeneration = source.HasLeadGeneration;
             target.LocationRadius = source.LocationRadius;
             target.EnableAnalytics = source.EnableAnalytics;
+            target.UserLinks = source.UserLinks != null ? new List<UserLink>(source.UserLinks) : null;
         }        
 
         public static ContactDetailsInterface GetContactDetailsForFlier(this FlierInterface flier, BrowserInterface browser)
@@ -110,6 +111,7 @@ namespace PostaFlya.Domain.Flier
         bool HasLeadGeneration { get; set; }
         int LocationRadius { get; set; }
         bool EnableAnalytics { get; set; }
+         List<UserLink> UserLinks { get; set; }
         
     }
 }

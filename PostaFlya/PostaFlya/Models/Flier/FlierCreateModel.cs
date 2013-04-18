@@ -149,6 +149,8 @@ namespace PostaFlya.Models.Flier
         [DataMember]
         public int TotalPaid { get; set; }
 
+        public List<UserLinkViewModel> UserLinks {get; set; }
+
         public static FlierCreateModel DefaultForTemplate()
         {
             return new FlierCreateModel();
