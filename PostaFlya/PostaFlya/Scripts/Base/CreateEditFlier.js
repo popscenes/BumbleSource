@@ -64,7 +64,7 @@
             },   
             'VenueInformation': {
                 create: function(options) {
-                    return ko.observable(new bf.VenuInformationModel(options.data));
+                    return ko.observable(new bf.VenueInformationModel(options.data));
                 }
             }
         };

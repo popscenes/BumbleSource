@@ -8,12 +8,10 @@
     <ol>
         
         <li data-bind="visible:PlaceName()">
-            @Html.LabelFor(model => model.PlaceName)
             <span data-bind="text:PlaceName()">@Model.PlaceName</span>                  
         </li>
 
         <li data-bind="visible:Address().Description()">
-            @Html.LabelFor(model => model.Address)
             <span data-bind="text:Address().Description()">@(Model.Address != null ? Model.Address.GetAddressDescription() : "")</span>                      
         </li>
                     
@@ -28,16 +26,12 @@
             <a data-bind="text:EmailAddress, attr:{href: 'mailto:' + EmailAddress()}">@Model.EmailAddress</a>              
         </li>
 
-        <li data-bind="visible:FirstName()">
-            @Html.LabelFor(model => model.FirstName)
-            <span data-bind="text:FirstName">@Model.FirstName</span>   
-            <span data-bind="text:Surname">@Model.Surname</span>               
+
+        <li data-bind="if:WebSite() || SourceUrl()">     
+            <a  class="bold-link" data-bind="visible:WebSite(), attr:{href: WebSite}" href="@Model.WebSite" target="_blank">Website</a>      
+            <a  class="bold-link" data-bind="visible:SourceUrl(), text:Source, attr:{href: SourceUrl}" href="@Model.SourceUrl" target="_blank">@Model.Source</a>         
         </li>
 
-        <li data-bind="visible:WebSite()">
-            @Html.LabelFor(model => model.WebSite)
-            <a data-bind="text:WebSite, attr:{href: WebSite}">@Model.WebSite</a>            
-        </li>
         
 
     </ol>
