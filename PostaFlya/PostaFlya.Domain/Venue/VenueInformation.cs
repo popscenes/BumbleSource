@@ -77,6 +77,7 @@ namespace PostaFlya.Domain.Venue
         public string SourceId { get; set; }
         public string SourceUrl { get; set; }
         public string SourceImageUrl { get; set; }
+        public string BoardFriendlyId { get; set; }
         public string PlaceName { get; set; }
     }
 }
