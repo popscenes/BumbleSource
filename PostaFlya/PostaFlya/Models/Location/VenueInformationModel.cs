@@ -62,6 +62,7 @@ namespace PostaFlya.Models.Location
         public string SourceId { get; set; }
         public string SourceUrl { get; set; }
         public string SourceImageUrl { get; set; }
+        public string BoardFriendlyId { get; set; }
 
         [Display(Name = "PlaceName", ResourceType = typeof(Properties.Resources))]
         public string PlaceName { get; set; }
