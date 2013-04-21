@@ -61,7 +61,8 @@ namespace PostaFlya.Domain.Flier.Command
                                    HasLeadGeneration = command.AllowUserContact,
                                    EnableAnalytics = command.EnableAnalytics,
                                    Status = FlierStatus.Pending,
-                                   ContactDetails = command.ContactDetails
+                                   ContactDetails = command.ContactDetails,
+                                   UserLinks = command.UserLinks
                                };
 
             newFlier.FriendlyId = _flierQueryService.FindFreeFriendlyIdForFlier(newFlier);

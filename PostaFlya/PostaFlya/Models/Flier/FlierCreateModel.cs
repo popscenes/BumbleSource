@@ -65,6 +65,7 @@ namespace PostaFlya.Models.Flier
         {
             ImageList = new List<ImageViewModel>();
             BoardList = new List<string>();
+            UserLinks = new List<UserLinkViewModel>();
         }
         [Display(Name = "FlierId", ResourceType = typeof(Properties.Resources))] 
         [DataMember]

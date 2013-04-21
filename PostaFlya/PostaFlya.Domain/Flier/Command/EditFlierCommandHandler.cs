@@ -64,6 +64,7 @@ namespace PostaFlya.Domain.Flier.Command
                             flier.Features = CreateFlierCommandHandler.GetPaymentFeatures(flier);
                             flier.MergeUpdateFeatureCharges(flierQuery.Features);
                             flier.ContactDetails = command.ContactDetails;
+                            flier.UserLinks = command.UserLinks;
                         });
                 
                 //add all existing board to the operation, as if a flier is modified it needs to be re-approved

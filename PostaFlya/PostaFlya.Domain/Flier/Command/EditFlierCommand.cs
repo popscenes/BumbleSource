@@ -25,5 +25,6 @@ namespace PostaFlya.Domain.Flier.Command
         public int ExtendPostRadius { get; set; }
         public bool EnableAnalytics { get; set; }
         public VenueInformation ContactDetails { get; set; }
+        public List<UserLink> UserLinks{ get; set; }
     }
 }

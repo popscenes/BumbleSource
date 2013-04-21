@@ -15,6 +15,7 @@ namespace PostaFlya.Models.Flier
                     Type = userLink.Type
                 };
         }
+
     }
 
     public class UserLinkViewModel
@@ -22,5 +23,7 @@ namespace PostaFlya.Models.Flier
         public LinkType Type { get; set; }
         public string Text { get; set; }
         public string Link { get; set; }
+
+        
     }
 }
