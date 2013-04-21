@@ -21,6 +21,7 @@ namespace PostaFlya.Domain.Venue
             target.SourceId = source.SourceId;
             target.SourceUrl = source.SourceUrl;
             target.SourceImageUrl = source.SourceImageUrl;
+            target.BoardFriendlyId = source.BoardFriendlyId;
         }
     }
     public interface VenueInformationFieldsInterface : PlaceInterface
@@ -29,6 +30,7 @@ namespace PostaFlya.Domain.Venue
         string SourceId { get; set; }
         string SourceUrl { get; set; }
         string SourceImageUrl { get; set; }
+        string BoardFriendlyId { get; set; }
     }
 
 
@@ -75,6 +77,7 @@ namespace PostaFlya.Domain.Venue
         public string SourceId { get; set; }
         public string SourceUrl { get; set; }
         public string SourceImageUrl { get; set; }
+        public string BoardFriendlyId { get; set; }
         public string PlaceName { get; set; }
     }
 }

@@ -9,9 +9,9 @@
         data.ContactDetails = data.ContactDetails || {};
         var mapping = {
             'copy': ["Flier"],
-            'ContactDetails': {
+            'VenueInformation': {
                 update: function (options) {                               
-                    return ko.observable(options.data == null || $.isEmptyObject(options.data) ? null : new bf.ContactDetailsModel(options.data));
+                    return ko.observable(options.data == null || $.isEmptyObject(options.data) ? null : new bf.VenueInformationModel(options.data));
                 }
             }
             

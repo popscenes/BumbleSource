@@ -688,7 +688,7 @@ namespace PostaFlya.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to FlyerContactDetailsModel_PhoneNumber_FlyerContactDetailsModel_PhoneNumber.
+        ///   Looks up a localized string similar to Phone.
         /// </summary>
         public static string FlyerContactDetailsModel_PhoneNumber_FlyerContactDetailsModel_PhoneNumber_FlyerContactDetailsModel_PhoneNumber {
             get {

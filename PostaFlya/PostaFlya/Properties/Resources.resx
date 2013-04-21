@@ -443,7 +443,7 @@
     <comment>BulletinFlierModel</comment>
   </data>
   <data name="FlyerContactDetailsModel_PhoneNumber_FlyerContactDetailsModel_PhoneNumber_FlyerContactDetailsModel_PhoneNumber" xml:space="preserve">
-    <value>FlyerContactDetailsModel_PhoneNumber_FlyerContactDetailsModel_PhoneNumber</value>
+    <value>Phone</value>
     <comment>Phone Number</comment>
   </data>
   <data name="FlyerContactDetailsModel_EmailAddress_FlyerContactDetailsModel_EmailAddress_FlyerContactDetailsModel_EmailAddress" xml:space="preserve">

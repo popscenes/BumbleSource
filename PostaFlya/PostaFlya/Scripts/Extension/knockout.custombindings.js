@@ -159,12 +159,17 @@ ko.bindingHandlers.placeAutoComplete = {
             var item = autocomplete.getPlace();
             if (item.geometry) {
 
-                var data = {};
-                data.Address = { Longitude: item.geometry.location.lng(), Latitude: item.geometry.location.lat() };
+                var data = {
+                    PhoneNumber: item.formatted_phone_number,
+                    WebSite: item.website,
+                    Source: 'Google Place',
+                    SourceId: item.reference,
+                    SourceUrl: item.url,
+                    PlaceName: item.name,
+                };
                 
-                venue = new bf.VenuInformationModel(data);
+                venue = new bf.VenueInformationModel(data);
                 venue.Address().SetFromGeo(item);
-                venue.PlaceName(item.name);
             }
             
             setTimeout(function () {

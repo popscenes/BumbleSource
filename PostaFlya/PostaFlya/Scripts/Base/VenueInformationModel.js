@@ -3,7 +3,7 @@
 
     var bf = window.bf = window.bf || {};
 
-    bf.VenuInformationModel = function (data) {
+    bf.VenueInformationModel = function (data) {
 
         var defaults = {
             PhoneNumber: null,
@@ -17,6 +17,7 @@
             SourceId: null,
             SourceUrl: null,
             PlaceName: null,
+            BoardFriendlyId: null,
         };
 
         data = $.extend(defaults, data);

@@ -40,6 +40,9 @@
         
         self.SetFromGeo = function (results) {
 
+            self.Longitude(results.geometry.location.lng());
+            self.Latitude(results.geometry.location.lat());
+            
             var data = results.address_components;
             for (var i = 0; i < data.length; i++) {
                 var addressPart = data[i];

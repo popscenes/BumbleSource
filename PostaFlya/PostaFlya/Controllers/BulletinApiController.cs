@@ -150,7 +150,7 @@ namespace PostaFlya.Controllers
 
             var dets = flier.ContactDetails;
             if (dets != null)
-                ret.ContactDetails = dets.ToViewModel();
+                ret.VenueInformation = dets.ToViewModel();
 
             return ret;
         }

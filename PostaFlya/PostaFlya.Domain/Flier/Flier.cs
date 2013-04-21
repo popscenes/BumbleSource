@@ -18,6 +18,7 @@ namespace PostaFlya.Domain.Flier
     [Serializable]
     public class Flier : EntityBase<FlierInterface>, FlierInterface
     {
+        private List<DateTime> _eventDates = new List<DateTime>();
 
         public Flier()
         {
@@ -51,9 +52,23 @@ namespace PostaFlya.Domain.Flier
         public Tags Tags { get; set; }
         public Location Location { get; set; }
         public Guid? Image { get; set; }
+        public List<DateTime> EventDates
+        {
+            get
+            {
+                if(_eventDates.Count == 0 && EffectiveDate != default(DateTime))
+                    _eventDates.Add(EffectiveDate);
+                return _eventDates;
+            }
+            set { _eventDates = value; }
+        }
+
         public string BrowserId { get; set; }
         public DateTime CreateDate { get; set; }
+
+        [Obsolete("Use EventDates, will be removed", false)]
         public DateTime EffectiveDate { get; set; }
+        
         public FlierStatus Status { get; set; }
         public FlierBehaviour FlierBehaviour { get; set; }
         public List<FlierImage> ImageList { get; set; }
@@ -72,5 +87,7 @@ namespace PostaFlya.Domain.Flier
         public string TinyUrl { get; set; }
 
         public List<UserLink> UserLinks { get; set; }
+
+
     }
 }

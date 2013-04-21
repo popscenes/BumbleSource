@@ -98,7 +98,11 @@ namespace PostaFlya.Domain.Flier
         Tags Tags { get; set; }
         Location Location { get; set; }
         Guid? Image { get; set; }
+        List<DateTime> EventDates { get; set; }
+        
+        [Obsolete("Use EventDates, will be removed", false)]
         DateTime EffectiveDate { get; set; }
+
         DateTime CreateDate { get; set; }
         FlierStatus Status { get; set; }
         FlierBehaviour FlierBehaviour { get; set; }
