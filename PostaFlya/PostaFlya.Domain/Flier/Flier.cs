@@ -18,7 +18,7 @@ namespace PostaFlya.Domain.Flier
     [Serializable]
     public class Flier : EntityBase<FlierInterface>, FlierInterface
     {
-        private List<DateTime> _eventDates = new List<DateTime>();
+        private List<DateTime> _eventDates;
 
         public Flier()
         {
@@ -56,6 +56,9 @@ namespace PostaFlya.Domain.Flier
         {
             get
             {
+                if (_eventDates == null)
+                    _eventDates = new List<DateTime>();
+
                 if (_eventDates.Count == 0 && EffectiveDate != default(DateTime) && EffectiveDate != CreateDate)
                     _eventDates.Add(EffectiveDate);
                 return _eventDates;

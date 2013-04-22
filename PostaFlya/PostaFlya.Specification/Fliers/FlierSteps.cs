@@ -293,6 +293,7 @@ namespace PostaFlya.Specification.Fliers
             flierEditModel.TagsString = flier.Tags.ToString();
             flierEditModel.Location = flier.Location.ToViewModel();
             flierEditModel.FlierImageId = flier.Image.Value.ToString();
+            flierEditModel.EventDates = flier.EventDates;
             return flierEditModel;
             
         }
@@ -574,6 +575,7 @@ namespace PostaFlya.Specification.Fliers
         [Then(@"My Visit will be recorded against the FLIER")]
         public void ThenMyVisitWillBeRecordedAgainstTheFlier()
         {
+            //return one day maybe
 
             var mod = ScenarioContext.Current["fliermodel"] as DefaultDetailsViewModel;
 

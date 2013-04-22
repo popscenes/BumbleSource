@@ -25,4 +25,11 @@ Scenario: View FLIER details
 	When I have navigated to the public view page for that FLIER
 	Then I should see the public details of that FLIER
 
+Scenario: SetDynamicBulletinDate
+	Given there are some TAGS set 
+	And I have navigated to the BULLETIN BOARD for a LOCATION
+	When I set the event date filter
+	Then I should only see FLIERS within a DISTANCE from that LOCATION
+	And I should see only FLIERS with that event date
+
 
