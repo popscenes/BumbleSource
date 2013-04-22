@@ -187,7 +187,7 @@ namespace PostaFlya.Specification.Fliers
             var flierSearchService = SpecUtil.CurrIocKernel.Get<FlierSearchServiceInterface>();
 
             var flierUpdatedId = flierSearchService
-                .FindFliersByLocationAndDistance(flier.Location, 5, 3000, null, flier.Tags)
+                .FindFliersByLocationAndDistance(flier.Location, 5, 3000, skipPast: null, tags: flier.Tags)
                 .SingleOrDefault(id => flier.Id == id);
 
             var flierUpdated = flierQueryService.FindById<Flier>(flierUpdatedId);

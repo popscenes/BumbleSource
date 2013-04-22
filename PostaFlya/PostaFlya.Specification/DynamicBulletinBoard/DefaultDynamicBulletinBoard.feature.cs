@@ -118,8 +118,8 @@ namespace PostaFlya.Specification.DynamicBulletinBoard
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("SetDynamicBulletinDate", ((string[])(null)));
             this.ScenarioSetup(scenarioInfo);
             testRunner.Given("there are some TAGS set", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-            testRunner.And("I have navigated to the BULLETIN BOARD for a LOCATION", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-            testRunner.When("I set the event date filter", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+            testRunner.And("I set the event date filter", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+            testRunner.When("I have navigated to the BULLETIN BOARD for a LOCATION", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
             testRunner.Then("I should only see FLIERS within a DISTANCE from that LOCATION", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
             testRunner.And("I should see only FLIERS with that event date", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
             this.ScenarioCleanup();

@@ -77,7 +77,7 @@ namespace PostaFlya.DataRepository.Search.Implementation
             return list.ToList();
         }
 
-        public IList<string> FindFliersByLocationAndDistance(Location location, int distance, int take, FlierInterface skipPast = null, Tags tags = null, FlierSortOrder sortOrder = FlierSortOrder.SortOrder)
+        public IList<string> FindFliersByLocationAndDistance(Location location, int distance, int take, FlierInterface skipPast = null, Tags tags = null, DateTime? date = null, FlierSortOrder sortOrder = FlierSortOrder.SortOrder)
         {                
             if(location == null || !location.IsValid)
                 return new List<string>();
