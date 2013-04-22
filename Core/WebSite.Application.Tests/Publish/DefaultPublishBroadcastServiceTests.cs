@@ -33,31 +33,29 @@ namespace Website.Application.Tests.Publish
         public void DefaultPublishBroadcastServicePublishesToAllRegisteredPublishServiceInterfaceImplementations()
         {
             bool mock1Called = false;
-            var mock1 = new Moq.Mock<SubscriptionInterface<TestPublishClass>>();
-            mock1.Setup(service => service.Publish(It.IsAny<TestPublishClass>()))
+            var mock1 = new Moq.Mock<HandleEventInterface<TestPublishClass>>();
+            mock1.Setup(service => service.Handle(It.IsAny<TestPublishClass>()))
                 .Returns<TestPublishClass>(pub =>
                                                {
                                                    mock1Called = true;
                                                    return true;
                                                });
-            mock1.SetupGet(service => service.IsEnabled)
-                .Returns(true);
 
-            Kernel.Bind<SubscriptionInterface<TestPublishClass>>()
+
+            Kernel.Bind<HandleEventInterface<TestPublishClass>>()
                 .ToConstant(mock1.Object);
              
             bool mock2Called = false;
-            var mock2 = new Moq.Mock<SubscriptionInterface<TestPublishClass>>();
-            mock2.Setup(service => service.Publish(It.IsAny<TestPublishClass>()))
+            var mock2 = new Moq.Mock<HandleEventInterface<TestPublishClass>>();
+            mock2.Setup(service => service.Handle(It.IsAny<TestPublishClass>()))
                 .Returns<TestPublishClass>(pub =>
                                                {
                                                    mock2Called = true;
                                                    return true;
                                                });
-            mock2.SetupGet(service => service.IsEnabled)
-                .Returns(true);
+ 
 
-            Kernel.Bind<SubscriptionInterface<TestPublishClass>>()
+            Kernel.Bind<HandleEventInterface<TestPublishClass>>()
                 .ToConstant(mock2.Object);
 
 

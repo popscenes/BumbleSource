@@ -26,7 +26,7 @@ namespace Website.Domain.Tests.Browser.Publish
 
             kernel.Bind<CommandBusInterface>().To<DefaultCommandBus>();
             kernel.Bind<BrowserSubscriptionInterface>().To<TestPublishClass>();
-            kernel.Bind<SubscriptionInterface<TestPublishObject>>().To<TestPublishClass>();
+            kernel.Bind<HandleEventInterface<TestPublishObject>>().To<TestPublishClass>();
             kernel.Bind<BroadcastServiceInterface>().To<DefaultBroadcastService>();
             // kernel.Bind<CommandHandlerInterface<SetBrowserPropertyCommand>>().To<SetBrowserPropertyCommandHandler>();
 
@@ -43,7 +43,7 @@ namespace Website.Domain.Tests.Browser.Publish
         {
             kernel.Unbind<CommandBusInterface>();
             kernel.Unbind<BrowserSubscriptionInterface>();
-            kernel.Unbind<SubscriptionInterface<TestPublishObject>>();
+            kernel.Unbind<HandleEventInterface<TestPublishObject>>();
             kernel.Unbind<BroadcastServiceInterface>();
         }
 
@@ -135,16 +135,10 @@ namespace Website.Domain.Tests.Browser.Publish
                 _browserQueryService = browserQueryService;
             }
 
-            public override string Name
+            public override string SubscriptionName
             {
                 get { return "TestPublish"; }
             }
-
-            public override string Description
-            {
-                get { return "Test Publish Service"; }
-            }
-
             public override BrowserInterface[] GetBrowsersForPublish(TestPublishObject publish)
             {
                 return publish.BrowserIds.Aggregate(new List<BrowserInterface>(), 

@@ -32,7 +32,7 @@ namespace PostaFlya.Application.Domain.Binding
             var kernel = Kernel as StandardKernel;
             kernel.BindCommandHandlersFromCallingAssembly(c => c.InTransientScope());
 
-            kernel.BindSubscribersFromCallingAssembly(c => c.InTransientScope());
+            kernel.BindEventHandlersFromCallingAssembly(c => c.InTransientScope());
 
             Kernel.Bind<PostaFlyaBrowserInformationInterface>()
                 .To<PostaFlyaBrowserInformation>()

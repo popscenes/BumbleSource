@@ -37,14 +37,9 @@ namespace PostaFlya.Application.Domain.Email.Claims
             _config = config;
         }
 
-        public override string Name
+        public override string SubscriptionName
         {
             get { return "Tear Off Claim Email"; }
-        }
-
-        public override string Description
-        {
-            get { return "Send me an Email when I claim a tear off on a flier"; }
         }
 
         //just returning browser who claims atm, future use may be charging for contact details the other way.

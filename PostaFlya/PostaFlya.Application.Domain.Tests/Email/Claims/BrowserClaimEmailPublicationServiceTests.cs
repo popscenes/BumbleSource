@@ -85,7 +85,7 @@ namespace PostaFlya.Application.Domain.Tests.Email.Claims
 
             service.BrowserSubscribe(claimBrowser);
 
-            var ret = service.Publish(evnt);
+            var ret = service.Handle(evnt);
 
             Assert.IsTrue(ret); 
             Assert.IsTrue(emailSent);
@@ -138,7 +138,7 @@ namespace PostaFlya.Application.Domain.Tests.Email.Claims
                     NewState = test
                 };
 
-            var ret = service.Publish(evnt);
+            var ret = service.Handle(evnt);
 
             Assert.IsTrue(ret);
             Assert.IsTrue(emailSent);

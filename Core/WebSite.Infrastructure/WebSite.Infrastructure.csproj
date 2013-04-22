@@ -200,7 +200,7 @@
     <Compile Include="Domain\MsgResponseEntityExtension.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Publish\BroadcastServiceInterface.cs" />
-    <Compile Include="Publish\SubscriptionInterface.cs" />
+    <Compile Include="Publish\HandleEventInterface.cs" />
     <Compile Include="Query\GenericQueryServiceInterface.cs" />
     <Compile Include="Query\QueryServiceInterface.cs" />
     <Compile Include="Tracing\TraceUtil.cs" />

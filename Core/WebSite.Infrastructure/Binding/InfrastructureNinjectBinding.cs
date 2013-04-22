@@ -41,7 +41,7 @@ namespace Website.Infrastructure.Binding
     public static class InfrastructureNinjectExtensions
     {
 
-        public static void BindSubscribersFromCallingAssembly(this StandardKernel kernel
+        public static void BindEventHandlersFromCallingAssembly(this StandardKernel kernel
                                                           , ConfigurationAction ninjectConfiguration)
         {
             var asm = Assembly.GetCallingAssembly();
@@ -50,7 +50,7 @@ namespace Website.Infrastructure.Binding
                 x => x.From(asm)
                          .IncludingNonePublicTypes()
                          .SelectAllClasses()
-                         .Where(t => t.GetInterfaces().Any(i => i == typeof(SubscriptionInterface))
+                         .Where(t => t.GetInterfaces().Any(i => i == typeof(HandleEventInterface))
                          )
                          .BindAllInterfaces()
                          .Configure(ninjectConfiguration));
