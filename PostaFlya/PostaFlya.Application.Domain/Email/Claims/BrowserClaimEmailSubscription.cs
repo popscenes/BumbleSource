@@ -178,12 +178,15 @@ namespace PostaFlya.Application.Domain.Email.Claims
                 builder.Append("\n");
             }
 
-            if (flier.HasEventDates())
+
+            builder.Append("Event Dates: \n");
+            foreach (var @event in flier.EventDates )
             {
-                builder.Append("Event Date: ");
-                builder.Append(flier.EffectiveDate.ToLongDateString());
-                builder.Append("\n\n");
+                builder.Append(@event.ToLongDateString());
             }
+                
+            builder.Append("\n\n");
+            
 
             builder.Append("Description from flier:\n");
             builder.Append(flier.Description);

@@ -27,7 +27,7 @@ namespace PostaFlya.Areas.Default.Models.Bulletin
                 Title = flier.Title,
                 Description = (!detailMode && !string.IsNullOrWhiteSpace(flier.Description)) ? (flier.Description.Length > 200 ? flier.Description.Substring(0, 200) : flier.Description) : flier.Description,
                 Location = flier.LocationModelForFlier(),
-                EffectiveDate = flier.EffectiveDate,
+                EventDates = flier.EventDates,
                 CreateDate = flier.CreateDate,
                 TagsString = flier.Tags.ToString(),
                 FlierImageId = flier.Image.HasValue ? flier.Image.Value.ToString() : null,
@@ -38,7 +38,6 @@ namespace PostaFlya.Areas.Default.Models.Bulletin
                 ImageList = flier.ImageList.Select(_ => new ImageViewModel() { ImageId = _.ImageID }).ToList(),
                 PendingCredits = flier.Features.Sum(_ => _.OutstandingBalance),
                 Status = flier.Status.ToString(),
-                HasEventDates = flier.HasEventDates(),
                 TinyUrl = flier.TinyUrl
 
             };

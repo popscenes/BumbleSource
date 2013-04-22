@@ -25,7 +25,7 @@ namespace PostaFlya.Models.Flier
                            Title = flier.Title,
                            Description = flier.Description,
                            Location = flier.Location.ToViewModel(),
-                           EffectiveDate = flier.EffectiveDate,
+                           EventDates = flier.EventDates,
                            TagsString = flier.Tags.ToString(),
                            FlierImageId = flier.Image.HasValue? flier.Image.Value.ToString(): "",
                            FlierBehaviour = flier.FlierBehaviour,
@@ -112,7 +112,7 @@ namespace PostaFlya.Models.Flier
         [Required(ErrorMessageResourceName = "Required", ErrorMessageResourceType = typeof(Properties.Resources))]
         [Display(Name = "EffectiveDate", ResourceType = typeof(Properties.Resources))] 
         [DataMember(IsRequired = true)]
-        public DateTime EffectiveDate { get; set; }
+        public List<DateTime> EventDates { get; set; }
 
         [Display(Name = "FlierImages", ResourceType = typeof(Properties.Resources))] 
         [DataMember]

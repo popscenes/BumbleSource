@@ -173,7 +173,7 @@ namespace PostaFlya.Specification.DynamicBulletinBoard
             Assert.AreEqual(currMod.Id, retMod.Id);
             Assert.AreEqual(currMod.Title, retMod.Title);
             Assert.AreEqual(currMod.Description, retMod.Description);
-            Assert.AreEqual(currMod.EffectiveDate, retMod.EffectiveDate);
+            Assert.AreEqual(currMod.EventDates, retMod.EventDates);
             Assert.AreEqual(currMod.FlierBehaviour, retMod.FlierBehaviour);
         }
 

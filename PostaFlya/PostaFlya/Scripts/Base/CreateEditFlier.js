@@ -33,7 +33,7 @@
             Title: '',
             Description: '',
             TagsString: '',
-            EffectiveDate: new Date(),
+            EventDates: [],
             FlierImageId: '',
             FlierImageUrl: '',
             ImageList: [],
@@ -227,7 +227,10 @@
             }
 
             var reqData = ko.mapping.toJS(self);
-            reqData.EffectiveDate = new Date(reqData.EffectiveDate).toISOString();
+            for (var i = 0; i < reqData.EventDates.length; i++) {
+                reqData.EventDates[i] = new Date(reqData.EventDates[i]).toISOString();
+            }
+           
             var tagString = self.tagsSelector.SelectedTags().join();
             reqData.TagsString = tagString;
             if (!self.VenueInformation().Address().ValidLocation())
@@ -252,6 +255,11 @@
             return false;
         };
 
+        self.setDate = function(date) {
+                self.EventDates.removeAll();
+                self.EventDates.push(date);
+        };
+
         self.save = function () {
             if (self.posting() == true) {
                 return false;
@@ -265,7 +273,10 @@
             $('#flierForm').trigger('reset.unobtrusiveValidation');
             
             var reqData = ko.mapping.toJS(self);
-            reqData.EffectiveDate = new Date(reqData.EffectiveDate).toISOString();
+            for (var i = 0; i < reqData.EventDates.length; i++) {
+                reqData.EventDates[i] = new Date(reqData.EventDates[i]).toISOString();
+            }
+           
             var tagString = self.tagsSelector.SelectedTags().join();
             reqData.TagsString = tagString;
             if (!self.ContactDetails().Address().ValidLocation())

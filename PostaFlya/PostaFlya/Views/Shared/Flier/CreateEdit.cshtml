@@ -208,16 +208,20 @@
             </div>
             <div class="form-component">
                 <h3>Date</h3>
-                @Html.ValidationMessageFor(model => model.EffectiveDate)
+                @Html.ValidationMessageFor(model => model.EventDates)
 
-                @Html.HiddenFor(model => model.EffectiveDate, new { data_bind = "value:EffectiveDate" })            
-                <div id="flyaDate" data-bind="datePicker:{altField: '#EffectiveDate'}, value:EffectiveDate"></div>
+                @*                @Html.HiddenFor(model => model.EventDates, new { data_bind = "value:EffectiveDate" })            *@
+                <div id="flyaDate" data-bind="datePicker:{onSelect: $data.setDate}"></div>
                 
                 @*                @Html.HiddenFor(model => model.EffectiveDate, new { data_bind = "value:EffectiveDate" })*@
                 @*                <div id="flyaDate" data-bind="jqueryui: { widget: 'datetimepicker', *@
                 @*                            options: { altField: '#EffectiveDate', altFieldTimeOnly: false,*@
                 @*                                       useLocalTimezone: true, showButtonPanel: false } }, *@
                 @*                                            dateTimePickerUpdate:EffectiveDate"></div>*@
+                
+                <ul data-bind="foreach: EventDates">
+                    <li> <span data-bind="text: new Date($data).toDateString()"></span> </li>
+                </ul>
                 
                 
             </div>

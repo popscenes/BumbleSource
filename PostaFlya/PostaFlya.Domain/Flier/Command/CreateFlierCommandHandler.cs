@@ -44,6 +44,7 @@ namespace PostaFlya.Domain.Flier.Command
 
         public object Handle(CreateFlierCommand command)
         {
+            var date = DateTime.UtcNow;
             var newFlier = new Flier(command.Location)
                                {
                                    BrowserId = command.BrowserId,
@@ -51,9 +52,10 @@ namespace PostaFlya.Domain.Flier.Command
                                    Description = command.Description,
                                    Tags = command.Tags,
                                    Image = command.Image,
-                                   CreateDate = DateTime.UtcNow,
+                                   CreateDate = date,
+                                   EffectiveDate = date,
                                    FlierBehaviour = command.FlierBehaviour,
-                                   EffectiveDate = command.EffectiveDate == default(System.DateTime) ? DateTime.UtcNow : command.EffectiveDate,
+                                   EventDates = command.EventDates,                            
                                    ImageList = command.ImageList,
                                    ExternalSource = command.ExternalSource,
                                    ExternalId = command.ExternalId,

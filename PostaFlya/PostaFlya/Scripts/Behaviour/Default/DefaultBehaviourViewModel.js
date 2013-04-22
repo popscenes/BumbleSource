@@ -6,7 +6,7 @@
         var self = this;
 
         //mapping is buggy when source object is null
-        data.ContactDetails = data.ContactDetails || {};
+        data.VenueInformation = data.VenueInformation || {};
         var mapping = {
             'copy': ["Flier"],
             'VenueInformation': {
@@ -20,12 +20,6 @@
         ko.mapping.fromJS(data, mapping, self);
         
         self.IsPeeling = ko.observable(false);
-
-        self.EventDatesString = ko.computed(function () {
-            var date = new Date(self.Flier.EffectiveDate).toDateString();
-            return date;
-        });
-        
         
         self.PeelText = ko.computed(function () {
             if (bf.currentBrowserInstance.IsOwner(self.Flier.BrowserId)) {
@@ -33,9 +27,7 @@
                     "Peeling" :
                     "Test Peel";
             } else {
-                return self.IsPeeling() ?
-                    (self.ContactDetails() ? "Sending" : "Peeling" ):
-                    (self.ContactDetails() ? "Resend Peel" : "Peel Details");
+                return self.IsPeeling() ? "Peeling" : "Peel Details";
             }
 
         }, self);

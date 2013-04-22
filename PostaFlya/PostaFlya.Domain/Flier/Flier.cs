@@ -56,7 +56,7 @@ namespace PostaFlya.Domain.Flier
         {
             get
             {
-                if(_eventDates.Count == 0 && EffectiveDate != default(DateTime))
+                if (_eventDates.Count == 0 && EffectiveDate != default(DateTime) && EffectiveDate != CreateDate)
                     _eventDates.Add(EffectiveDate);
                 return _eventDates;
             }
@@ -66,7 +66,7 @@ namespace PostaFlya.Domain.Flier
         public string BrowserId { get; set; }
         public DateTime CreateDate { get; set; }
 
-        [Obsolete("Use EventDates, will be removed", false)]
+        //will be used for repost
         public DateTime EffectiveDate { get; set; }
         
         public FlierStatus Status { get; set; }

@@ -42,6 +42,7 @@ namespace PostaFlya.Domain.Flier
             target.Location = new Location(source.Location);
             target.Image = source.Image;
             target.EffectiveDate = source.EffectiveDate;
+            target.EventDates = new List<DateTime>(source.EventDates);
             target.CreateDate = source.CreateDate;
             target.FlierBehaviour = source.FlierBehaviour;
             target.Status = source.Status;
@@ -72,11 +73,6 @@ namespace PostaFlya.Domain.Flier
             if (ret == null)
                 return false;
             return flier.Status == FlierStatus.Active;
-        }
-
-        public static bool HasEventDates(this FlierInterface flier)
-        {
-            return flier.CreateDate != flier.EffectiveDate && flier.EffectiveDate != DateTime.MinValue;
         }
 
         public static int GetTotalPaid(this FlierInterface flier)

@@ -67,7 +67,7 @@ namespace PostaFlya.Controllers
                 Description = flier.Description,
                 Location = flier.Location,
                 Image = flier.Image,
-                EffectiveDate = flier.EffectiveDate,
+                EventDates = flier.EventDates,
                 ImageList = flier.ImageList,
                 BoardSet = flier.Boards,
                 AllowUserContact = flier.HasLeadGeneration,
