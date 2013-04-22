@@ -10,7 +10,7 @@ namespace Website.Application.Publish
     public class DefaultBroadcastService : BroadcastServiceInterface
     {
         private readonly IResolutionRoot _resolutionRoot;
-        private readonly Type _genericEventHandlerType = typeof(HandleEventInterface<>);
+        private readonly Type _genericEventHandlerTyp = typeof(HandleEventInterface<>);
 
         public DefaultBroadcastService(IResolutionRoot resolutionRoot)
         {
@@ -19,7 +19,7 @@ namespace Website.Application.Publish
         readonly ParallelOptions _parallelOptions = new ParallelOptions { MaxDegreeOfParallelism = 5 };
         public bool Broadcast(object broadcastObject)
         {
-            var eventHandlerGen = _genericEventHandlerType.MakeGenericType(broadcastObject.GetType());
+            var eventHandlerGen = _genericEventHandlerTyp.MakeGenericType(broadcastObject.GetType());
             var pubservices = _resolutionRoot.GetAll(eventHandlerGen).Cast<dynamic>();
 
             dynamic ob = broadcastObject;
