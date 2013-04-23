@@ -223,6 +223,49 @@ namespace PostaFlya.DataRepository.Tests
         [Test]
         public void FindFliersByLocationAndDistanceTest()
         {
+            var storedFlier = StoredFlier();
+
+            var location = _loc;
+            var tag = Kernel.Get<Tags>(bm => bm.Has("default"));
+
+            var retrievedFliers = _searchService.FindFliersByLocationAndDistance(location, 5, 30, skipPast: null, tags: tag)
+                .Select(id => _queryService.FindById<Domain.Flier.Flier>(id)).ToList();
+
+            Assert.That(retrievedFliers.Count(), Is.EqualTo(2));
+
+            FlierTestData.AssertStoreRetrieve(storedFlier, retrievedFliers.FirstOrDefault());
+        }
+
+        [Test]
+        public void FindFliersByLocationAndDistanceAndDateTest()
+        {
+            var storedFlier = StoredFlier();
+
+            var location = _loc;
+            var tag = Kernel.Get<Tags>(bm => bm.Has("default"));
+            var eventDateOne = new DateTime(2076, 8, 11);
+            var eventDateTwo = new DateTime(2077, 12, 19);
+            var eventDateThree = new DateTime(2087, 12, 19);
+
+            var retrievedFliers = _searchService.FindFliersByLocationAndDistance(location, 5, 30, null, tag, eventDateOne)
+                .Select(id => _queryService.FindById<Domain.Flier.Flier>(id)).ToList();
+
+            Assert.That(retrievedFliers.Count(), Is.EqualTo(1));
+            Assert.That(retrievedFliers.Single().EventDates.Any(time => time == eventDateOne), Is.True);
+
+            retrievedFliers = _searchService.FindFliersByLocationAndDistance(location, 5, 30, null, tag, eventDateTwo)
+                .Select(id => _queryService.FindById<Domain.Flier.Flier>(id)).ToList();
+
+            Assert.That(retrievedFliers.Count(), Is.EqualTo(2));
+            AssertUtil.AreAll(retrievedFliers, flier => flier.EventDates.Any(time => time == eventDateTwo));
+
+            retrievedFliers = _searchService.FindFliersByLocationAndDistance(location, 5, 30, null, tag, eventDateThree)
+                .Select(id => _queryService.FindById<Domain.Flier.Flier>(id)).ToList();
+            Assert.That(retrievedFliers.Count(), Is.EqualTo(0));
+        }
+
+        private Flier StoredFlier()
+        {
             var storedFlier = StoreFlierRepository();
             var board = BoardTestData.GetOne(Kernel, "TestBoardName", _loc);
             board = BoardTestData.StoreOne(board, _repository, Kernel);
@@ -237,29 +280,24 @@ namespace PostaFlya.DataRepository.Tests
                 };
 
             var uow = Kernel.Get<UnitOfWorkFactoryInterface>()
-                .GetUnitOfWork(new List<RepositoryInterface>() {_repository});
+                            .GetUnitOfWork(new List<RepositoryInterface>() {_repository});
 
             var indexer = Kernel.Get<SqlFlierIndexService>();
             using (uow)
             {
                 _repository.Store(boardFlier);
-                _repository.UpdateEntity<Domain.Flier.Flier>(storedFlier.Id, 
-                    flier => flier.Boards.Add(board.Id));  
+                _repository.UpdateEntity<Domain.Flier.Flier>(storedFlier.Id,
+                                                             flier => flier.Boards.Add(board.Id));
             }
             Assert.IsTrue(uow.Successful);
 
-            indexer.Handle(new FlierModifiedEvent() { NewState = _queryService.FindById<Domain.Flier.Flier>(storedFlier.Id), OrigState = storedFlier});
-            indexer.Handle(new BoardFlierModifiedEvent() { NewState = boardFlier });
-
-            var location = _loc;
-            var tag = Kernel.Get<Tags>(bm => bm.Has("default"));
-
-            var retrievedFliers = _searchService.FindFliersByLocationAndDistance(location, 5, 30, skipPast: null, tags: tag)
-                .Select(id => _queryService.FindById<Domain.Flier.Flier>(id)).ToList();
-
-            Assert.That(retrievedFliers.Count(), Is.EqualTo(2));
-
-            FlierTestData.AssertStoreRetrieve(storedFlier, retrievedFliers.FirstOrDefault());
+            indexer.Handle(new FlierModifiedEvent()
+                {
+                    NewState = _queryService.FindById<Domain.Flier.Flier>(storedFlier.Id),
+                    OrigState = storedFlier
+                });
+            indexer.Handle(new BoardFlierModifiedEvent() {NewState = boardFlier});
+            return storedFlier;
         }
 
         [Test]

@@ -16,6 +16,19 @@ namespace PostaFlya.DataRepository.Search.SearchRecord
 {
     public static class FlierInterfaceSearchExtensions
     {
+        public static IEnumerable<FlierEventDateSearchRecord> ToDateSearchRecords(this FlierInterface flier, IEnumerable<FlierSearchRecord> searchRecords)
+        {
+            var recs = from sr in searchRecords
+                       from ed in flier.EventDates
+                       select new FlierEventDateSearchRecord()
+                           {
+                               LocationShard = sr.LocationShard,
+                               Id = sr.Id,
+                               EventDate = ed
+                           };
+            return recs;
+
+        }
         public static IEnumerable<FlierSearchRecord> ToSearchRecords(this FlierInterface flier)
         {
             var geog = flier.Location.ToGeography();
@@ -108,10 +121,22 @@ namespace PostaFlya.DataRepository.Search.SearchRecord
         }
     }
 
-     public class FlierSearchRecordWithDistance : FlierSearchRecord
-     {
-         public double Metres { get; set; }
-     }
+    [Serializable]
+    public class FlierEventDateSearchRecord
+    {
+        [PrimaryKey]
+        public String Id { get; set; }
+        [PrimaryKey]
+        public DateTime EventDate { get; set; }
+        //for scaling possibilities
+        [FederationCol(FederationName = "Location", DistributionName = "location_shard")]
+        public long LocationShard { get; set; }
+    }
+
+    public class FlierSearchRecordWithDistance : FlierSearchRecord
+    {
+        public double Metres { get; set; }
+    }
 
     [Serializable]
     public class FlierSearchRecord : EntityIdInterface
@@ -127,6 +152,7 @@ namespace PostaFlya.DataRepository.Search.SearchRecord
         [FederationCol(FederationName = "Location", DistributionName = "location_shard")]
         public long LocationShard { get; set; }
 
+        [SqlIndex]
         public DateTimeOffset EffectiveDate { get; set; }
         [SqlIndex]
         public DateTimeOffset CreateDate { get; set; }

@@ -50,12 +50,19 @@ namespace PostaFlya.DataRepository.Search.Event
             {
                 var searchRecords = @event.OrigState.ToSearchRecords().ToList();
                 SqlExecute.DeleteAll(searchRecords, _connection);
+                SqlExecute.DeleteBy(searchRecords.Select(record => new FlierEventDateSearchRecord() { LocationShard = record.LocationShard, Id = record.Id })
+                    , _connection, e => e.Id, e => e.LocationShard);
             }
 
             if (@event.NewState != null && @event.NewState.Status == FlierStatus.Active)
             {
                 var searchRecords = @event.NewState.ToSearchRecords().ToList();
                 SqlExecute.InsertOrUpdateAll(searchRecords, _connection);
+
+                var eventDatesRecs = @event.NewState.ToDateSearchRecords(searchRecords);
+                SqlExecute.DeleteBy(searchRecords.Select(record => new FlierEventDateSearchRecord() { LocationShard = record.LocationShard, Id = record.Id })
+                    , _connection, e => e.Id, e => e.LocationShard);
+                SqlExecute.InsertOrUpdateAll(eventDatesRecs, _connection);
             }
 
             return (@event.OrigState != null) || (@event.NewState != null);

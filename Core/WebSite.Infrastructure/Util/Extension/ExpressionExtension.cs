@@ -1,7 +1,8 @@
 using System;
 using System.Linq.Expressions;
+using System.Reflection;
 
-namespace Website.Application.Extension.Expression
+namespace Website.Infrastructure.Util.Extension
 {
     public static class ExpressionExtension
     {
@@ -37,6 +38,26 @@ namespace Website.Application.Extension.Expression
             ParameterExpression param = expr1.Parameters[0];
             return System.Linq.Expressions.Expression.Lambda<Func<T, bool>>(
                 System.Linq.Expressions.Expression.AndAlso(expr1.Body, expr2.Body), param);
+        }
+
+        public static PropertyInfo ToPropertyInfo<RecordType, PropType>(
+            this Expression<Func<RecordType, PropType>> propertyExpression)
+        {
+            switch (propertyExpression.Body.NodeType)
+            {
+                case ExpressionType.Convert:
+                    var unaryExpression = (UnaryExpression)propertyExpression.Body;
+                    var operand = unaryExpression.Operand as MemberExpression;
+                    if (operand != null)
+                        return operand.Member as PropertyInfo;
+                    break;
+                case ExpressionType.MemberAccess:
+                    var memberExpression = (MemberExpression)propertyExpression.Body;
+                    if (memberExpression.Member is PropertyInfo)
+                        return memberExpression.Member as PropertyInfo;
+                    break;
+            }
+            throw new InvalidOperationException("Invalid Property Expression");    
         }
     }
 }

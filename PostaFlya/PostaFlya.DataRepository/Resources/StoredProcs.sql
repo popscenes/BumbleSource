@@ -11,18 +11,20 @@ alter procedure FindFliersByLocationAndTags
 	@distance int,
 	@sort int = 1,
 	@skipPast bigint = null,
-	@xpath nvarchar(1000) = null
+	@xpath nvarchar(1000) = null,
+	@eventDate datetime2 = null
 as
 begin
 
 --declare @loc geography,
 --@top int = 5,
---@distance int = 10,
+--@distance int = 1000,
 --@sort int = 1,
 --@skipPast bigint = null,
+--@eventDate datetime2 = '2076-08-11',
 --@xpath nvarchar(500) = null;
 
---set @loc = geography::STPointFromText('POINT (144.96327999999994 -37.814107)', 4326);
+--set @loc = geography::STPointFromText('POINT (144.979 -37.769)', 4326);
 --set @xpath = '//tags[tag="for sale"]';
 --set @createDate = '2013-03-06 11:26:09.9682780 +00:00';
 
@@ -34,32 +36,46 @@ select	@ParameterDefinition = '
 	@topParam int,
 	@distanceParam int,
 	@skipPastParam bigint = null,
-	@xpathParam nvarchar(400) = null
+	@xpathParam nvarchar(400) = null,
+	@eventDateParam datetime2 = null
 ';
 
 select	@SQL = N'
 	;With records as (	
 		select 
-		Location.STDistance(@locParam) as Metres, 
-		*,
-		row_number() over(partition by Id order by Id ) as RowNum
-		from FlierSearchRecord 
-		where Id = Id
+		fr.Location.STDistance(@locParam) as Metres, 
+		fr.*,
+		row_number() over(partition by fr.Id order by fr.Id ) as RowNum
+		from FlierSearchRecord fr
+		';
+
+if @eventDate IS NOT NULL
+select @SQL = @SQL + N'
+		left outer join FlierEventDateSearchRecord ed on ed.Id = fr.Id
+		';
+
+select @SQL = @SQL + N'
+		where fr.Id = fr.Id
 		'
 
 if @loc is not null
 select @SQL = @SQL + N'
-		and Location.STDistance(@locParam) <= @distanceParam*1000
+		and fr.Location.STDistance(@locParam) <= @distanceParam*1000
 		';
 
 if @skipPast IS NOT NULL
 select @SQL = @SQL + N'
-		and SortOrder < @skipPastParam
+		and fr.SortOrder < @skipPastParam
 		';
 
 if @xpath IS NOT NULL
 		select @SQL = @SQL + N'
-		and Tags.exist(''' + @xpath + ''') > 0
+		and fr.Tags.exist(''' + @xpath + ''') > 0
+		';
+
+if @eventDate IS NOT NULL
+		select @SQL = @SQL + N'
+		and ed.EventDate = @eventDateParam
 		';
 		
 select @SQL = @SQL + N'
@@ -72,7 +88,7 @@ select @SQL = @SQL + N'
 ' + case @Sort
 			when 1 then 'order by SortOrder desc'
 			else ''
-		end 
+		end
 
 		
 exec sp_executeSQL 
@@ -82,7 +98,10 @@ exec sp_executeSQL
 	@topParam = @top,
 	@distanceParam = @distance,
 	@skipPastParam = @skipPast,
-	@xpathParam = @xpath;
+	@xpathParam = @xpath,
+	@eventDateParam = @eventDate;
+
+
 end
 
 GO
