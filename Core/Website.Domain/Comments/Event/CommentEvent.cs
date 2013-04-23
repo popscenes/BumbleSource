@@ -7,6 +7,7 @@ using Website.Infrastructure.Domain;
 
 namespace Website.Domain.Comments.Event
 {
+    [Serializable]
     public class CommentEvent : EntityModifiedDomainEvent<Comment>
     {
     }

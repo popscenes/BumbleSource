@@ -29,16 +29,7 @@ namespace PostaFlya.DataRepository.Search.Event
         , HandleEventInterface<CommentEvent>
     {
         private readonly GenericQueryServiceInterface _queryService;
-        //if we wanna push this to a worker....not really needed atm.
-//        private readonly CommandBusInterface _commandBus;
 
-//        public SqlFlierIndexService([WorkerCommandBus]CommandBusInterface commandBus)
-//        {
-//            _commandBus = commandBus;
-//            IsEnabled = true;
-//            Name = "SqlFlierIndexService";
-//            Description = "Indexes Fliers in SQL to allow for efficient searching";
-//        }
 
         private readonly SqlConnection _connection;
         public SqlFlierIndexService([SqlSearchConnectionString]string searchDbConnectionString
@@ -47,28 +38,6 @@ namespace PostaFlya.DataRepository.Search.Event
             _queryService = queryService;
             _connection = new SqlConnection(searchDbConnectionString);
         }
-
-        //if we wanna push this to a worker....not really needed atm.
-//        public bool Publish(FlierModifiedEvent publish)
-//        {
-//            var command = new ReindexFlierCommand();
-//            if (publish.NewState != null)
-//            {
-//                command.SearchRecord = publish.NewState.ToSearchRecords();
-//                command.UpdateOrDelete = true;
-//                return (bool) _commandBus.Send(command);
-//            }
-//                
-//            if(publish.OrigState != null)
-//            {
-//                command.SearchRecord = publish.OrigState.ToSearchRecords();
-//                command.UpdateOrDelete = false;
-//                return (bool) _commandBus.Send(command);
-//            }
-//
-//            return false;
-//        }
-
         
         public bool Handle(FlierModifiedEvent @event)
         {

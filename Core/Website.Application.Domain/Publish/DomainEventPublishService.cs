@@ -1,21 +1,26 @@
+using Website.Application.Binding;
+using Website.Application.Domain.Publish.Command;
 using Website.Domain.Service;
+using Website.Infrastructure.Command;
 using Website.Infrastructure.Domain;
-using Website.Infrastructure.Publish;
 
 namespace Website.Application.Domain.Publish
 {
     public class DomainEventPublishService : DomainEventPublishServiceInterface
     {
-        private readonly BroadcastServiceInterface _broadcastService;
+        private readonly CommandBusInterface _commandBus;
 
-        public DomainEventPublishService(BroadcastServiceInterface broadcastService)
+        public DomainEventPublishService([WorkerCommandBus]CommandBusInterface commandBus)
         {
-            _broadcastService = broadcastService;
+            _commandBus = commandBus;
         }
 
         public void Publish<PublishType>(PublishType subject) where PublishType : DomainEventInterface
         {
-            _broadcastService.Broadcast(subject);
+            _commandBus.Send(new DomainEventPublishCommand()
+                {
+                    Event = subject
+                });
         }
     }
 }
