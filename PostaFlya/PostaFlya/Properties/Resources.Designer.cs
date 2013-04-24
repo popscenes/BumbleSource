@@ -946,6 +946,33 @@ namespace PostaFlya.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Link Url.
+        /// </summary>
+        public static string UserLinkViewModel_Link_Link_Url {
+            get {
+                return ResourceManager.GetString("UserLinkViewModel_Link_Link_Url", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Link Text.
+        /// </summary>
+        public static string UserLinkViewModel_Text_Link_Text {
+            get {
+                return ResourceManager.GetString("UserLinkViewModel_Text_Link_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Link Type.
+        /// </summary>
+        public static string UserLinkViewModel_Type_Link_Type {
+            get {
+                return ResourceManager.GetString("UserLinkViewModel_Type_Link_Type", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to {0} must be a valid location.
         /// </summary>
         public static string ValidLocation {

@@ -42,14 +42,18 @@
             VenueInformation: {},
             PostRadius: 5,
             FlierBehaviour: 'Default',
-            TotalPaid: 0
+            TotalPaid: 0,
+            UserLinks:[]
         };
         
         data = $.extend(defdata, data);
 
         var self = this;
         self.apiUrl = sprintf("/api/Browser/%s/MyFliers", bf.currentBrowserInstance.BrowserId);
-        self.Steps = ['AddImages', 'DetailsAndTags', 'PostLocation', 'Summary', 'Complete'];
+        self.Steps = ['AddImages', 'DetailsAndTags', 'UserLinks', 'PostLocation', 'Summary', 'Complete'];
+        self.UserLinkTypes = ko.observableArray(["FACEBOOK", "TWITTER", "TICKETS", "WEBSITE"]);
+        self.selectedLinkType = ko.observable(null);
+
         self.imageSelector = imageSelector;
         self.tagsSelector = tagsSelector;
         
@@ -88,6 +92,31 @@
 
         self.showCostBreakdown = function() {
             self.costBreakdown(!self.costBreakdown());
+        };
+
+        self.addUserLink = function() {
+            self.UserLinks.push({ Type: self.selectedLinkType(), Text: '', Link: '' });
+            self.reparseValidation();
+        };
+
+        self.removeUserLink = function() {
+            self.UserLinks.remove(this);
+        };
+
+        self.reparseValidation = function() {
+            var $form = $("#flierForm");
+
+            // Unbind existing validation 
+            $form.unbind();
+            $form.data("validator", null);
+
+            // Check document for changes 
+            $.validator.unobtrusive.parse($form);
+
+            // Re add validation with changes 
+            $form.validate($form.data("unobtrusiveValidation").options);
+            var validatorSettings = $.data($form[0], 'validator').settings;
+            validatorSettings.ignore = ".ignore *";
         };
 
 
@@ -268,8 +297,8 @@
             reqData.EffectiveDate = new Date(reqData.EffectiveDate).toISOString();
             var tagString = self.tagsSelector.SelectedTags().join();
             reqData.TagsString = tagString;
-            if (!self.ContactDetails().Address().ValidLocation())
-                reqData.ContactDetails.Address = null;
+            //if (!self.ContactDetails().Address().ValidLocation())
+            //    reqData.ContactDetails.Address = null;
 
             self.posting(true);
             $.ajax(self.apiUrl, {

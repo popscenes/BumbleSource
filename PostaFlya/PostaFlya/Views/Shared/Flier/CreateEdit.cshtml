@@ -71,6 +71,33 @@
     </form>
 </script>
 
+<script type="text/html" id="UserLinks-template">
+    <form id="flierForm" class="" data-bind="validate: true">
+        <fieldset>
+            <h2>ADD SOME LINKS YOUR FLYER</h2>
+            
+            <div>
+                Add Link
+                <select id="select-links" name="select-links" data-bind="options: UserLinkTypes, value: selectedLinkType"></select>
+                <a href="javascript:void(0);" data-bind="click:addUserLink">add</a>
+            </div>
+            
+            <ul data-bind="foreach:UserLinks">
+                <li>
+                    <span data-bind="text:Type"></span>
+                    <span class="field-validation-valid" data-bind="attr:{'data-valmsg-for':'linktext' + $index()}" data-valmsg-replace="true"></span>
+                    <input type="text" data-bind="value:Text, attr:{id:'linktext' + $index(), name:'linktext' + $index()}" data-val="true" data-val-required="Text required."/>
+                    
+                    <span class="field-validation-valid" data-bind="attr:{'data-valmsg-for':'linkurl' + $index()}" data-valmsg-replace="true"></span>
+                    <input type="text" data-bind="value:Link, attr:{id:'linkurl' + $index(), name:'linkurl' + $index()}" data-val="true" data-val-required="Url required." data-val-url="Invalid url."/>
+                    
+                    <a href="javascript:void(0);" data-bind="click:$parent.removeUserLink">remove</a>
+                </li>
+            </ul>
+        </fieldset>
+    </form>
+</script>
+
 @Html.Partial("Image/ImageListTemplate")
 
 <script type="text/html" id="Images-template">
