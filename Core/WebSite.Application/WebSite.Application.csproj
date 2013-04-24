@@ -262,7 +262,6 @@
     <Compile Include="Extension\Content\ImageExtensions.cs" />
     <Compile Include="Extension\Dynamic\DynamicExtensions.cs" />
     <Compile Include="Extension\Email\MailMessageExtensions.cs" />
-    <Compile Include="Extension\Expression\ExpressionExtension.cs" />
     <Compile Include="Extension\Validation\ValidationAdapters.cs" />
     <Compile Include="Extension\Validation\ValidationAttributes.cs" />
     <Compile Include="Command\CommandSerializerInterface.cs" />
@@ -330,6 +329,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Extension\Expression\" />
     <Folder Include="Extension\Framework\" />
     <Folder Include="Extension\Library\" />
     <Folder Include="Tracing\" />

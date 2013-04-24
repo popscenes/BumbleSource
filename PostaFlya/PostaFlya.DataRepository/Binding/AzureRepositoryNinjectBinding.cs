@@ -75,7 +75,7 @@ namespace PostaFlya.DataRepository.Binding
 //                ).InSingletonScope();
 
             kernel.BindCommandHandlersFromCallingAssembly(syntax => syntax.InTransientScope());
-            kernel.BindSubscribersFromCallingAssembly(syntax => syntax.InTransientScope());
+            kernel.BindEventHandlersFromCallingAssembly(syntax => syntax.InTransientScope());
             Bind<FlierSearchServiceInterface>()
                 .To<SqlFlierSearchService>();
 

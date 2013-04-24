@@ -6,6 +6,7 @@ using Website.Infrastructure.Domain;
 
 namespace PostaFlya.Domain.Boards.Event
 {
+    [Serializable]
     public class BoardFlierModifiedEvent : 
         EntityModifiedDomainEvent<BoardFlier> 
     {

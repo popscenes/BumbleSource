@@ -37,14 +37,9 @@ namespace PostaFlya.Application.Domain.Email.Claims
             _config = config;
         }
 
-        public override string Name
+        public override string SubscriptionName
         {
             get { return "Tear Off Claim Email"; }
-        }
-
-        public override string Description
-        {
-            get { return "Send me an Email when I claim a tear off on a flier"; }
         }
 
         //just returning browser who claims atm, future use may be charging for contact details the other way.
@@ -178,12 +173,15 @@ namespace PostaFlya.Application.Domain.Email.Claims
                 builder.Append("\n");
             }
 
-            if (flier.HasEventDates())
+
+            builder.Append("Event Dates: \n");
+            foreach (var @event in flier.EventDates )
             {
-                builder.Append("Event Date: ");
-                builder.Append(flier.EffectiveDate.ToLongDateString());
-                builder.Append("\n\n");
+                builder.Append(@event.ToLongDateString());
             }
+                
+            builder.Append("\n\n");
+            
 
             builder.Append("Description from flier:\n");
             builder.Append(flier.Description);

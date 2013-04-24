@@ -27,10 +27,6 @@
             <img data-bind="imgRetry: FlierImageUrl, bulletinimg:FlierImageUrl"/>
         </div>
     </div>
-
-    <div class="tear-off" data-bind="if: ContactDetails() == null">
-        <a class="std-btn" data-bind="click: TearOff, css: {'btn-std-inuse': IsPeeling()}, text: PeelText">Peel Details</a>
-    </div> 
         
     <div data-bind="if:VenueInformation() != null">
         <h4>
@@ -41,17 +37,28 @@
             @Html.Partial("Contact/EventContactDetailsViewPartial", contactDets)
 
 
-            <a class="std-btn" data-bind="click: $parent.TearOff, css{btn-std-inuse: $parent.IsPeeling(), text: $parent.PeelText">Resend Details</a>
+            <a class="std-btn" data-bind="click: $parent.TearOff, css{btn-std-inuse: $parent.IsPeeling(), text: $parent.PeelText">Peel Details</a>
         </div>
     </div> 
         
-    <div data-bind="if:Flier.HasEventDates">
-        <h4> Event Date </h4>
-        <div class="flier-event-dates">    
-            <span data-bind="text: EventDatesString()">@flier.EffectiveDate.ToLongDateString()</span> 
-
+    <div>
+        <h4> Event Dates </h4>
+        <div class="flier-event-dates" >
+            
+            <ul data-bind="if: false" class="event-dates-list">
+                @foreach (var eventDate in flier.EventDates.Select(d => d.ToLongDateString()))
+                {
+                    <li> @eventDate </li>
+                }
+            </ul>
+            <ul data-bind="foreach: Flier.EventDates" class="event-dates-list">
+                <li data-bind="text: new Date($data).toDateString()"></li> 
+            </ul>
+                
+            
         </div>
     </div>
+
     <div>
         <h4> Description </h4>    
         <div class="flier-desc" data-bind="simpletext:Flier.Description">

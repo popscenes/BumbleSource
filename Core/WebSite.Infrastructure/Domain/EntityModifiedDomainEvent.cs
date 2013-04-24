@@ -1,3 +1,5 @@
+using System;
+
 namespace Website.Infrastructure.Domain
 {
     /// <summary>
@@ -5,6 +7,8 @@ namespace Website.Infrastructure.Domain
     /// Null NewState means a deleted entity
     /// </summary>
     /// <typeparam name="EntityType">EnityType that has been modified</typeparam>
+    
+    [Serializable]
     public class EntityModifiedDomainEvent<EntityType> : DomainEventBase, EntityModifiedDomainEventInterface<EntityType>
         where EntityType : EntityInterface
     {

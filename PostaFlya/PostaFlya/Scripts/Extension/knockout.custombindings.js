@@ -8,16 +8,16 @@
 
 ko.bindingHandlers.datePicker = {
     update: function (element, valueAccessor, allBindingsAccessor, viewModel) {
-        $(element).datepicker(valueAccessor()).datepicker("setDate", new Date(viewModel.EffectiveDate()));    
+        $(element).datepicker(valueAccessor());//.datepicker("setDate", new Date(viewModel.EventDates()));    
     }
 };
 
-ko.bindingHandlers.dateTimePickerUpdate = {
-    update: function (element, valueAccessor, allBindingsAccessor, viewModel) {
-        var date = ko.utils.unwrapObservable(valueAccessor());
-        $(element).datetimepicker("setDate", new Date(date));
-    }
-};
+//ko.bindingHandlers.dateTimePickerUpdate = {
+//    update: function (element, valueAccessor, allBindingsAccessor, viewModel) {
+//        var date = ko.utils.unwrapObservable(valueAccessor());
+//        $(element).datetimepicker("setDate", new Date(date));
+//    }
+//};
 
 ko.bindingHandlers.simpletext = {
     update: function (element, valueAccessor) {

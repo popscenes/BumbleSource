@@ -2,7 +2,7 @@ using Website.Infrastructure.Publish;
 
 namespace Website.Domain.Browser.Publish
 {
-    public interface BrowserSubscriptionInterface : SubscriptionInterface
+    public interface BrowserSubscriptionInterface : HandleEventInterface
     {
         bool IsBrowserSubscribed(BrowserInterface browser);
         bool BrowserSubscribe(BrowserInterface browser);
@@ -10,8 +10,8 @@ namespace Website.Domain.Browser.Publish
     }
 
     public interface BrowserSubscriptionInterface<in PublishType> 
-        : SubscriptionInterface<PublishType>, BrowserSubscriptionInterface
+        : HandleEventInterface<PublishType>, BrowserSubscriptionInterface
     {
-
+        string SubscriptionName { get; }
     }
 }

@@ -10,6 +10,7 @@ using System.Data.SqlTypes;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,6 +21,7 @@ using Microsoft.WindowsAzure.ServiceRuntime;
 using Website.Azure.Common.Properties;
 using Website.Infrastructure.Configuration;
 using Website.Infrastructure.Util;
+using Website.Infrastructure.Util.Extension;
 
 namespace Website.Azure.Common.Sql
 {
@@ -139,6 +141,7 @@ namespace Website.Azure.Common.Sql
         public const string DbXml = "xml";
         public const string DbGeography = "geography";
         public const string DbLong = "bigint";
+        public const string DbDateTime = "datetime2";
 
         public static readonly Dictionary<Type, string> TypeToDbColTypeDictionary
             = new Dictionary<Type, string>()
@@ -150,7 +153,8 @@ namespace Website.Azure.Common.Sql
                       {typeof(DateTimeOffset), DbDateTimeOffset},
                       {typeof(SqlXml), DbXml},
                       {typeof(SqlGeography), DbGeography},  
-                      {typeof(long), DbLong},                                            
+                      {typeof(long), DbLong},  
+                      {typeof(DateTime), DbDateTime},                    
                   };
 
         public static readonly Dictionary<Type, SqlDbType> TypeToDbTypeDictionary
@@ -222,7 +226,7 @@ namespace Website.Azure.Common.Sql
             var vals = new Dictionary<string, object>();
             SerializeUtil.PropertiesToDictionary(insert, vals, null, null, false);
             var propertyList = vals.ToList();
-            var setExpression = GetSetExpression(propertyList.Where(p => !keyCol.Any(kp => kp.Name.Equals(p.Key))));
+            var setExpression = GetSetExpression(propertyList);
             var insertList = GetInsertList(propertyList);
             var valuesList = GetValuesList(propertyList);
             var keyPropList = AddParametersEqText("", keyCol, true);
@@ -262,6 +266,16 @@ namespace Website.Azure.Common.Sql
         {
             var recordTyp = typeof(RecordType);
             return DeleteBy(new List<PropertyInfo>(){recordTyp.GetProperty(propertyName)}, deleterec, connection, tableName);
+        }
+
+        public static bool DeleteBy<RecordType>(IEnumerable<RecordType> deleterec, SqlConnection connection, params Expression<Func<RecordType, object>>[] propertyExpressions)
+        {
+            return deleterec.Aggregate(false, (b, record) => DeleteBy(record, connection, propertyExpressions) || b);  
+        }
+
+        public static bool DeleteBy<RecordType>(RecordType deleterec, SqlConnection connection, params Expression<Func<RecordType, object>>[] propertyExpressions )
+        {
+            return DeleteBy(propertyExpressions.Select(expression => expression.ToPropertyInfo()).ToList(), deleterec, connection);
         }
 
         private static bool DeleteBy<RecordType>(IList<PropertyInfo> properties, RecordType deleterec, SqlConnection connection, string tableName = null)

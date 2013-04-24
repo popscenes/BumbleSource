@@ -213,6 +213,8 @@ namespace Website.Azure.Common.Tests.Sql
 
         public DateTimeOffset Datecol { get; set; }
 
+        public DateTime Datetimecol { get; set; }
+
         public SqlXml XmlCol { get; set; }
 
         public long LongCol { get; set; }

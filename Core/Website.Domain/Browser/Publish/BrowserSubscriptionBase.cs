@@ -9,29 +9,26 @@ namespace Website.Domain.Browser.Publish
     {
         private readonly CommandBusInterface _commandBus;
 
+        
         protected BrowserSubscriptionBase(CommandBusInterface commandBus)
         {
             _commandBus = commandBus;
         }
 
-        public abstract string Name { get; }
-        public abstract string Description { get; }           
-        public bool Publish(PublishType publish)
+        public bool Handle(PublishType @event)
         {
-            var browsers = GetBrowsersForPublish(publish);
+            var browsers = GetBrowsersForPublish(@event);
             if (browsers == null || browsers.Length == 0)
                 return false;
             return browsers.Where(IsBrowserSubscribed).Aggregate(false, 
                                 (current, brows) => 
-                                    PublishToBrowser(brows, publish) || current);
+                                    PublishToBrowser(brows, @event) || current);
         }
-
-        public bool IsEnabled { get { return true; } }
 
         public bool IsBrowserSubscribed(BrowserInterface browser)
         {
             const bool ret = true;
-            return browser.Properties.GetOrDefault(Name, ret);
+            return browser.Properties.GetOrDefault(SubscriptionName, ret);
         }
 
         public bool BrowserSubscribe(BrowserInterface browser)
@@ -39,7 +36,7 @@ namespace Website.Domain.Browser.Publish
             _commandBus.Send(new SetBrowserPropertyCommand()
                                  {
                                      Browser = browser,
-                                     PropertyName = Name,
+                                     PropertyName = SubscriptionName,
                                      PropertyValue = true
                                  });
             return true;
@@ -50,7 +47,7 @@ namespace Website.Domain.Browser.Publish
             _commandBus.Send(new SetBrowserPropertyCommand()
                                  {
                                      Browser = browser,
-                                     PropertyName = Name,
+                                     PropertyName = SubscriptionName,
                                      PropertyValue = false
                                  });
             return IsBrowserSubscribed(browser);
@@ -58,5 +55,6 @@ namespace Website.Domain.Browser.Publish
 
         public abstract BrowserInterface[] GetBrowsersForPublish(PublishType publish);
         public abstract bool PublishToBrowser(BrowserInterface browser, PublishType publish);
+        public abstract string SubscriptionName { get; }
     }
 }

@@ -22,23 +22,14 @@ using Website.Infrastructure.Query;
 namespace PostaFlya.DataRepository.Search.Event
 {
     public class SqlFlierIndexService : 
-        SubscriptionInterface<FlierModifiedEvent>
-        , SubscriptionInterface<BoardFlierModifiedEvent>
-        , SubscriptionInterface<BoardModifiedEvent>
-        , SubscriptionInterface<ClaimEvent>
-        , SubscriptionInterface<CommentEvent>
+        HandleEventInterface<FlierModifiedEvent>
+        , HandleEventInterface<BoardFlierModifiedEvent>
+        , HandleEventInterface<BoardModifiedEvent>
+        , HandleEventInterface<ClaimEvent>
+        , HandleEventInterface<CommentEvent>
     {
         private readonly GenericQueryServiceInterface _queryService;
-        //if we wanna push this to a worker....not really needed atm.
-//        private readonly CommandBusInterface _commandBus;
 
-//        public SqlFlierIndexService([WorkerCommandBus]CommandBusInterface commandBus)
-//        {
-//            _commandBus = commandBus;
-//            IsEnabled = true;
-//            Name = "SqlFlierIndexService";
-//            Description = "Indexes Fliers in SQL to allow for efficient searching";
-//        }
 
         private readonly SqlConnection _connection;
         public SqlFlierIndexService([SqlSearchConnectionString]string searchDbConnectionString
@@ -46,92 +37,74 @@ namespace PostaFlya.DataRepository.Search.Event
         {
             _queryService = queryService;
             _connection = new SqlConnection(searchDbConnectionString);
-            IsEnabled = true;
-            Name = "SqlFlierIndexService";
-            Description = "Indexes Fliers in SQL to allow for efficient searching";
         }
-
-        //if we wanna push this to a worker....not really needed atm.
-//        public bool Publish(FlierModifiedEvent publish)
-//        {
-//            var command = new ReindexFlierCommand();
-//            if (publish.NewState != null)
-//            {
-//                command.SearchRecord = publish.NewState.ToSearchRecords();
-//                command.UpdateOrDelete = true;
-//                return (bool) _commandBus.Send(command);
-//            }
-//                
-//            if(publish.OrigState != null)
-//            {
-//                command.SearchRecord = publish.OrigState.ToSearchRecords();
-//                command.UpdateOrDelete = false;
-//                return (bool) _commandBus.Send(command);
-//            }
-//
-//            return false;
-//        }
-
         
-        public bool Publish(FlierModifiedEvent publish)
+        public bool Handle(FlierModifiedEvent @event)
         {
-            if (publish.OrigState != null &&
-                (publish.NewState == null || 
-                !publish.NewState.Location.Equals(publish.OrigState.Location) ||
-                publish.NewState.LocationRadius != publish.OrigState.LocationRadius ||
-                (publish.OrigState.Status == FlierStatus.Active && publish.NewState.Status != FlierStatus.Active))
+            if (@event.OrigState != null &&
+                (@event.NewState == null || 
+                !@event.NewState.Location.Equals(@event.OrigState.Location) ||
+                @event.NewState.LocationRadius != @event.OrigState.LocationRadius ||
+                (@event.OrigState.Status == FlierStatus.Active && @event.NewState.Status != FlierStatus.Active))
              )
             {
-                var searchRecords = publish.OrigState.ToSearchRecords().ToList();
+                var searchRecords = @event.OrigState.ToSearchRecords().ToList();
                 SqlExecute.DeleteAll(searchRecords, _connection);
+                SqlExecute.DeleteBy(searchRecords.Select(record => new FlierEventDateSearchRecord() { LocationShard = record.LocationShard, Id = record.Id })
+                    , _connection, e => e.Id, e => e.LocationShard);
             }
 
-            if (publish.NewState != null && publish.NewState.Status == FlierStatus.Active)
+            if (@event.NewState != null && @event.NewState.Status == FlierStatus.Active)
             {
-                var searchRecords = publish.NewState.ToSearchRecords().ToList();
+                var searchRecords = @event.NewState.ToSearchRecords().ToList();
                 SqlExecute.InsertOrUpdateAll(searchRecords, _connection);
+
+                var eventDatesRecs = @event.NewState.ToDateSearchRecords(searchRecords);
+                SqlExecute.DeleteBy(searchRecords.Select(record => new FlierEventDateSearchRecord() { LocationShard = record.LocationShard, Id = record.Id })
+                    , _connection, e => e.Id, e => e.LocationShard);
+                SqlExecute.InsertOrUpdateAll(eventDatesRecs, _connection);
             }
 
-            return (publish.OrigState != null) || (publish.NewState != null);
+            return (@event.OrigState != null) || (@event.NewState != null);
         }
 
-        public bool Publish(BoardFlierModifiedEvent publish)
+        public bool Handle(BoardFlierModifiedEvent @event)
         {
-            if (publish.OrigState != null && publish.NewState == null)
+            if (@event.OrigState != null && @event.NewState == null)
             {
-                var flier = _queryService.FindById<Domain.Flier.Flier>(publish.OrigState.FlierId);
-                var searchRecord = publish.OrigState.ToSearchRecord(flier);
+                var flier = _queryService.FindById<Domain.Flier.Flier>(@event.OrigState.FlierId);
+                var searchRecord = @event.OrigState.ToSearchRecord(flier);
                 SqlExecute.Delete(searchRecord, _connection);
             }
 
-            if (publish.NewState != null)
+            if (@event.NewState != null)
             {
-                var flier = _queryService.FindById<Domain.Flier.Flier>(publish.NewState.FlierId);
+                var flier = _queryService.FindById<Domain.Flier.Flier>(@event.NewState.FlierId);
                 if (flier == null)
                     return false;
-                var searchRecord = publish.NewState.ToSearchRecord(flier);
+                var searchRecord = @event.NewState.ToSearchRecord(flier);
                 SqlExecute.InsertOrUpdate(searchRecord, _connection);
             }
 
-            return (publish.OrigState != null) || (publish.NewState != null);
+            return (@event.OrigState != null) || (@event.NewState != null);
 
         }
 
-        public bool Publish(BoardModifiedEvent publish)
+        public bool Handle(BoardModifiedEvent @event)
         {
-            if (publish.OrigState != null &&
-                (publish.NewState == null || !publish.NewState.Location.Equals(publish.OrigState.Location)))
+            if (@event.OrigState != null &&
+                (@event.NewState == null || !@event.NewState.Location.Equals(@event.OrigState.Location)))
             {
-                var searchRecord = publish.OrigState.ToSearchRecord();
+                var searchRecord = @event.OrigState.ToSearchRecord();
                 SqlExecute.Delete(searchRecord, _connection);
             }
 
-            if (publish.NewState != null)
+            if (@event.NewState != null)
             {
-                var searchRecord = publish.NewState.ToSearchRecord();
+                var searchRecord = @event.NewState.ToSearchRecord();
                 SqlExecute.InsertOrUpdate(searchRecord, _connection);
             }
-            return (publish.OrigState != null) || (publish.NewState != null);
+            return (@event.OrigState != null) || (@event.NewState != null);
 
         }
 
@@ -148,18 +121,14 @@ namespace PostaFlya.DataRepository.Search.Event
             SqlExecute.InsertOrUpdateAll(searchRecord, _connection);
             return true;
         }
-        public bool Publish(ClaimEvent publish)
+        public bool Handle(ClaimEvent @event)
         {
-            return ProcessAggregateMemberChanged(publish.NewState);
+            return ProcessAggregateMemberChanged(@event.NewState);
         }
 
-        public bool Publish(CommentEvent publish)
+        public bool Handle(CommentEvent @event)
         {
-            return ProcessAggregateMemberChanged(publish.NewState);
+            return ProcessAggregateMemberChanged(@event.NewState);
         }
-
-        public bool IsEnabled { get; private set; }
-        public string Description { get; private set; }
-        public string Name { get; private set; }
     }
 }

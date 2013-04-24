@@ -77,7 +77,7 @@ namespace PostaFlya.DataRepository.Search.Implementation
             return list.ToList();
         }
 
-        public IList<string> FindFliersByLocationAndDistance(Location location, int distance, int take, FlierInterface skipPast = null, Tags tags = null, FlierSortOrder sortOrder = FlierSortOrder.SortOrder)
+        public IList<string> FindFliersByLocationAndDistance(Location location, int distance, int take, FlierInterface skipPast = null, Tags tags = null, DateTime? date = null, FlierSortOrder sortOrder = FlierSortOrder.SortOrder)
         {                
             if(location == null || !location.IsValid)
                 return new List<string>();
@@ -93,6 +93,7 @@ namespace PostaFlya.DataRepository.Search.Implementation
             //	@sort int,
             //	@skipPast bigint = null,
             //	@xpath nvarchar(1000) = null
+            //	@eventDate datetime2 = null
 
             var sortSkip = skipPast == null ? (long?) null : skipPast.ToSearchRecords().First().SortOrder;
 
@@ -107,7 +108,8 @@ namespace PostaFlya.DataRepository.Search.Implementation
                     top = take,
                     sort = GetOrderByForSortOrder(sortOrder),
                     skipPast = sortSkip,
-                    xpath = GetTagFilter(tags)
+                    xpath = GetTagFilter(tags),
+                    eventDate = date
                 }, true).ToList();
 
             Trace.TraceInformation("FindFliers time: {0}, numfliers {1}", watch.ElapsedMilliseconds, ret.Count());

@@ -63,61 +63,11 @@ namespace PostaFlya.Specification.Fliers
         }
         
         [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("Add Analytics")]
-        public virtual void AddAnalytics()
+        [NUnit.Framework.DescriptionAttribute("No Analytics")]
+        public virtual void NoAnalytics()
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Add Analytics", ((string[])(null)));
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("No Analytics", ((string[])(null)));
             this.ScenarioSetup(scenarioInfo);
-            testRunner.Given("i have navigated to the CREATE PAGE for a FLIER TYPE Default", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-            testRunner.And("I choose to enable Analytics", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-            testRunner.And("I have 1000 Account Credits", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-            testRunner.When("I SUBMIT the data for that FLIER", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-            testRunner.Then("the new FLIER will be created for behviour Default", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-            testRunner.And("the FLIER STATUS will be Active", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-            testRunner.And("the FLIER will contain a FEATURE described as Gather Flier Analytics Feature with" +
-                    " a cost of 500 credits", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-            testRunner.And("A CREDIT TRANSACTION for 500 with description Gather Flier Analytics Feature will" +
-                    " be created", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-            this.ScenarioCleanup();
-        }
-        
-        [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("View Flier Details Records Visit")]
-        public virtual void ViewFlierDetailsRecordsVisit()
-        {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("View Flier Details Records Visit", ((string[])(null)));
-            this.ScenarioSetup(scenarioInfo);
-            testRunner.Given("I have navigated to the public view page for a FLIER", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-            testRunner.Then("My Visit will be recorded against the FLIER", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-            this.ScenarioCleanup();
-        }
-        
-        [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("View Flier Details from Dynamic Bulletin Board Records Search Location In Analyti" +
-            "c")]
-        public virtual void ViewFlierDetailsFromDynamicBulletinBoardRecordsSearchLocationInAnalytic()
-        {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("View Flier Details from Dynamic Bulletin Board Records Search Location In Analyti" +
-                    "c", ((string[])(null)));
-            this.ScenarioSetup(scenarioInfo);
-            testRunner.Given("I have navigated to the BULLETIN BOARD for a LOCATION", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-            testRunner.When("I navigate to the public view page for a FLIER from the BULLETIN BOARD", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-            testRunner.Then("My Visit will be recorded against the FLIER", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-            testRunner.And("The Anayltic For The Visit will contain the search LOCATION", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-            this.ScenarioCleanup();
-        }
-        
-        [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("View Flier Analytics")]
-        public virtual void ViewFlierAnalytics()
-        {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("View Flier Analytics", ((string[])(null)));
-            this.ScenarioSetup(scenarioInfo);
-            testRunner.Given("I have created a FLIER with a FEATURE described as Gather Flier Analytics Feature" +
-                    "", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-            testRunner.When("I have navigated to the public view page for that FLIER", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-            testRunner.Then("I should see the public details of that FLIER", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-            testRunner.And("I should see the Analytic Info with the FLIER details", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
             this.ScenarioCleanup();
         }
     }

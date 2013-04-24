@@ -44,7 +44,7 @@ namespace Website.Application.Domain.Binding
             kernel.BindCommandHandlersFromCallingAssembly(c => c.InTransientScope());
 
             //publish services
-            kernel.BindSubscribersFromCallingAssembly(syntax => syntax.InTransientScope());
+            kernel.BindEventHandlersFromCallingAssembly(syntax => syntax.InTransientScope());
 
             Bind<TinyUrlServiceInterface>()
                 .To<DefaultTinyUrlService>();

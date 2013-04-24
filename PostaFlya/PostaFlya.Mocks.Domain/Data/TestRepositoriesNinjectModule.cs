@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Moq;
 using Ninject;
@@ -170,9 +171,9 @@ namespace PostaFlya.Mocks.Domain.Data
             var flierSearchService = kernel.GetMock<FlierSearchServiceInterface>();
             flierSearchService.Setup(o => o.FindFliersByLocationAndDistance(
                 It.IsAny<Location>(),
-                    It.IsAny<int>(), It.IsAny<int>(), It.IsAny<FlierInterface>(), It.IsAny<Tags>(), It.IsAny<FlierSortOrder>()))
-                .Returns<Location, int, int, FlierInterface, Tags, FlierSortOrder>(
-                    (l, d, c, skip, t, s) =>
+                    It.IsAny<int>(), It.IsAny<int>(), It.IsAny<FlierInterface>(), It.IsAny<Tags>(),  It.IsAny<DateTime?>(), It.IsAny<FlierSortOrder>()))
+                .Returns<Location, int, int, FlierInterface, Tags, DateTime?, FlierSortOrder>(
+                    (l, d, c, skip, t, dt, s) =>
                     {
                         var boundingBox = d <= 0 ? locationService.GetDefaultBox(l) : 
                             locationService.GetBoundingBox(l, d);
@@ -181,7 +182,8 @@ namespace PostaFlya.Mocks.Domain.Data
                             .Where(
                                 f =>
                                 locationService.IsWithinBoundingBox(boundingBox, f.Location) &&
-                                (t.Count == 0 || f.Tags.Union(t).Any())
+                                (t.Count == 0 || f.Tags.Union(t).Any()) &&
+                                (dt == null || f.EventDates.Any(ed => ed == dt.Value))
                              )
                              .Select(f => f.Id);
 

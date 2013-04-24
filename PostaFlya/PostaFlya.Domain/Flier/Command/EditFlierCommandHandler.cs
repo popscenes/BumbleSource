@@ -55,7 +55,7 @@ namespace PostaFlya.Domain.Flier.Command
                             flier.Tags = command.Tags;
                             flier.Location = command.Location;
                             flier.Image = command.Image;
-                            flier.EffectiveDate = command.EffectiveDate;
+                            flier.EventDates = command.EventDates;
                             flier.ImageList = command.ImageList;
                             flier.LocationRadius = command.ExtendPostRadius;
                             flier.HasLeadGeneration = command.AllowUserContact;

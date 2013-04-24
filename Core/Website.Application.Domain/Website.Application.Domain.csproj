@@ -134,6 +134,8 @@
     <Compile Include="Payment\PaymentServiceProvider.cs" />
     <Compile Include="Payment\PaypalPaymentService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Publish\Command\DomainEventPublishCommand.cs" />
+    <Compile Include="Publish\Command\DomainEventPublishCommandHandler.cs" />
     <Compile Include="Publish\DomainEventPublishService.cs" />
     <Compile Include="Query\CachedQueryServiceWithBrowser.cs" />
     <Compile Include="TinyUrl\DefaultTinyUrlService.cs" />

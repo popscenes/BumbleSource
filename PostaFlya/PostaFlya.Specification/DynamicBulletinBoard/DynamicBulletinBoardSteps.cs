@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using NUnit.Framework;
@@ -14,6 +15,7 @@ using PostaFlya.Specification.Fliers;
 using PostaFlya.Specification.Util;
 using Website.Domain.Location;
 using Website.Domain.Tag;
+using Website.Test.Common;
 
 namespace PostaFlya.Specification.DynamicBulletinBoard
 {
@@ -27,11 +29,14 @@ namespace PostaFlya.Specification.DynamicBulletinBoard
             var bulletinController = SpecUtil.GetApiController<BulletinApiController>();
             var location = SpecUtil.CurrIocKernel.Get<Location>(ib => ib.Get<bool>("default"));
             var browserInfoService = SpecUtil.GetCurrBrowser();
+
+            var dateFilter = ScenarioContext.Current.ContainsKey("eventfilterdate") ? ScenarioContext.Current["eventfilterdate"] as DateTime? : null;
+
             
             SpecUtil.ControllerResult = bulletinController
                 .Get(location.ToViewModel(), 30, board: "", skipPast: null
                 , distance: browserInfoService.Browser.Distance ?? 0
-                , tags: browserInfoService.Browser.Tags.ToString());
+                , tags: browserInfoService.Browser.Tags.ToString(), date: dateFilter);
         }
 
         [Given(@"I have navigated to the public view page for a FLIER from the BULLETIN BOARD")]
@@ -75,7 +80,7 @@ namespace PostaFlya.Specification.DynamicBulletinBoard
                               "Flier returned that isn't within default distance");
             }
 
-            Assert.That(fliers.Count(), Is.EqualTo(30));
+            Assert.That(fliers.Count(), Is.GreaterThanOrEqualTo(1));
         }
 
         [Then(@"I should only see FLIERS with matching TAGS")]
@@ -149,6 +154,25 @@ namespace PostaFlya.Specification.DynamicBulletinBoard
 
         }
 
+        [Given(@"I set the event date filter")]
+        public void WhenISetTheEventDateFilter()
+        {
+            ScenarioContext.Current["eventfilterdate"] = new DateTime(2076, 8, 11);
+        }
+
+        [Then(@"I should see only FLIERS with that event date")]
+        public void ThenIShouldSeeOnlyFLIERSWithThatEventDate()
+        {
+            var flierList = SpecUtil.ControllerResult as IList<BulletinFlierModel>;
+            Assert.IsNotNull(flierList);
+            var flierListArray = flierList.ToArray();
+
+            Assert.That(flierListArray.Count(), Is.GreaterThanOrEqualTo(1));
+            AssertUtil.AreAll(flierListArray, model => 
+                model.EventDates.Any(d => d == new DateTime(2076, 8, 11)));
+        }
+
+
         #region Flier details
 
         [Then(@"I should see the public details of that FLIER")]
@@ -173,7 +197,7 @@ namespace PostaFlya.Specification.DynamicBulletinBoard
             Assert.AreEqual(currMod.Id, retMod.Id);
             Assert.AreEqual(currMod.Title, retMod.Title);
             Assert.AreEqual(currMod.Description, retMod.Description);
-            Assert.AreEqual(currMod.EffectiveDate, retMod.EffectiveDate);
+            Assert.AreEqual(currMod.EventDates, retMod.EventDates);
             Assert.AreEqual(currMod.FlierBehaviour, retMod.FlierBehaviour);
         }
 

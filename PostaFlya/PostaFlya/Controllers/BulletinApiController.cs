@@ -93,7 +93,7 @@ namespace PostaFlya.Controllers
         }
 
         public IList<BulletinFlierModel> Get([FromUri] LocationModel loc, int count, string board = ""
-            , string skipPast = "", int distance = 0, string tags = "")
+            , string skipPast = "", int distance = 0, string tags = "", DateTime? date = null)
         {
             if (!loc.IsValid())
                 return GetDefaultFliers(count, skipPast, tags);
@@ -106,7 +106,7 @@ namespace PostaFlya.Controllers
             
             _webAnalyticService.SetLastSearchLocation(loc.ToDomainModel());
             return GetFliers(_flierSearchService, _queryService, _blobStorage, _viewModelFactory
-                             , loc, count, board: board, skipPast: skipPast, distance: distance, tags: tags);
+                , loc, count, board: board, skipPast: skipPast, distance: distance, tags: tags, date: date);
         }
 
         private IList<BulletinFlierModel> GetDefaultFliers(int count, string skipPast, string tags)
@@ -168,7 +168,8 @@ namespace PostaFlya.Controllers
 
 
         [NonAction]
-        public static IList<BulletinFlierModel> GetFliers(FlierSearchServiceInterface flierSearchService, GenericQueryServiceInterface flierQueryService, BlobStorageInterface blobStorage, FlierBehaviourViewModelFactoryInterface viewModelFactory, LocationModel loc, int count, string board = "", string skipPast = null, int distance = 0, string tags = "")
+        public static IList<BulletinFlierModel> GetFliers(FlierSearchServiceInterface flierSearchService, GenericQueryServiceInterface flierQueryService, BlobStorageInterface blobStorage, FlierBehaviourViewModelFactoryInterface viewModelFactory, LocationModel loc, 
+            int count, string board = "", string skipPast = null, int distance = 0, string tags = "", DateTime? date = null)
         {
             var locDomainModel = loc.ToDomainModel();
             var tagsModel = new Tags(tags);
@@ -179,7 +180,8 @@ namespace PostaFlya.Controllers
             count = Math.Min(count, 50);
 
             var fliersIds =
-                flierSearchService.FindFliersByLocationAndDistance(locDomainModel, distance: distance, take: count, skipPast: string.IsNullOrWhiteSpace(skipPast) ? null : flierQueryService.FindById<Flier>(skipPast), tags: tagsModel, sortOrder: FlierSortOrder.SortOrder);
+                flierSearchService.FindFliersByLocationAndDistance(locDomainModel, distance: distance, take: count, skipPast: string.IsNullOrWhiteSpace(skipPast) ? null : flierQueryService.FindById<Flier>(skipPast), 
+                tags: tagsModel, date: date, sortOrder: FlierSortOrder.SortOrder);
 
             var watch = new Stopwatch();
             watch.Start();
