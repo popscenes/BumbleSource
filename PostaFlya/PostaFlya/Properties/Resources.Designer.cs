@@ -279,6 +279,15 @@ namespace PostaFlya.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Board Type.
+        /// </summary>
+        public static string BoardCreateEditModel_TypeOfBoard {
+            get {
+                return ResourceManager.GetString("BoardCreateEditModel_TypeOfBoard", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to BoardFlier.
         /// </summary>
         public static string BoardFlier {

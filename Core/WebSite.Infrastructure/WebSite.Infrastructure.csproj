@@ -202,6 +202,9 @@
     <Compile Include="Publish\BroadcastServiceInterface.cs" />
     <Compile Include="Publish\HandleEventInterface.cs" />
     <Compile Include="Query\GenericQueryServiceInterface.cs" />
+    <Compile Include="Query\QueryChannelInterface.cs" />
+    <Compile Include="Query\QueryHandlerInterface.cs" />
+    <Compile Include="Query\QueryInterface.cs" />
     <Compile Include="Query\QueryServiceInterface.cs" />
     <Compile Include="Tracing\TraceUtil.cs" />
     <Compile Include="Util\CryptoUtil.cs" />

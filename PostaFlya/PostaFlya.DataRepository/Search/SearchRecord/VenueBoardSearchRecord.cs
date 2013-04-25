@@ -7,9 +7,9 @@ namespace PostaFlya.DataRepository.Search.SearchRecord
 {
     public static class BoardIntefaceSearchExtension
     {
-        public static BoardSearchRecord ToSearchRecord(this BoardInterface board)
+        public static VenueBoardSearchRecord ToSearchRecord(this VenueBoardInterface board)
         {
-            return new BoardSearchRecord()
+            return new VenueBoardSearchRecord()
                 {
                     Location = board.Location.ToGeography(),
                     LocationShard = board.Location.GetShardId(),
@@ -19,7 +19,7 @@ namespace PostaFlya.DataRepository.Search.SearchRecord
                 };
         }
     }
-    public class BoardSearchRecord
+    public class VenueBoardSearchRecord
     {
         [PrimaryKey]
         public String Id { get; set; }

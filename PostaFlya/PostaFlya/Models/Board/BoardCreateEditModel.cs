@@ -4,7 +4,6 @@ using System.Runtime.Serialization;
 using PostaFlya.Domain.Boards;
 using PostaFlya.Models.Location;
 using Website.Application.Extension.Validation;
-using Resources = PostaFlya.Properties.Resources;
 
 namespace PostaFlya.Models.Board
 {
@@ -28,15 +27,17 @@ namespace PostaFlya.Models.Board
         [Required(ErrorMessageResourceName = "Required", ErrorMessageResourceType = typeof(Properties.Resources))]
         public bool RequireApprovalOfPostedFliers { get; set; }
 
-        [Display(Name = "BoardCreateEditModel_Location", ResourceType = typeof(Properties.Resources))] 
-        public LocationModel Location { get; set; }
+//        [Display(Name = "BoardCreateEditModel_Location", ResourceType = typeof(Properties.Resources))] 
+//        public LocationModel Location { get; set; }
 
         [Display(Name = "BoardCreateEditModel_Description", ResourceType = typeof(Properties.Resources))] 
         [Required(ErrorMessageResourceName = "Required", ErrorMessageResourceType = typeof(Properties.Resources))]
         public string Description { get; set; }
 
-        [Display(Name = "BoardCreateEditModel_PercentageOfPublicFliersToShow", ResourceType = typeof(Properties.Resources))] 
-        public int PercentageOfPublicFliersToShow { get; set; }
+        [Display(Name = "BoardCreateEditModel_TypeOfBoard", ResourceType = typeof(Properties.Resources))]
+        [DataMember(IsRequired = true)]
+        [Required(ErrorMessageResourceName = "Required", ErrorMessageResourceType = typeof(Properties.Resources))]
+        public BoardTypeEnum TypeOfBoard { get; set; }
 
         [Display(Name = "BoardCreateEditModel_Status", ResourceType = typeof (Properties.Resources))] 
         public BoardStatus? Status { get; set; }

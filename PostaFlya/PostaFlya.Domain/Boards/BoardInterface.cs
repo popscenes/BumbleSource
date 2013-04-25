@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using PostaFlya.Domain.Venue;
 using Website.Domain.Browser;
 using Website.Domain.Location;
 using Website.Infrastructure.Domain;
@@ -12,9 +14,8 @@ namespace PostaFlya.Domain.Boards
             BrowserIdInterfaceExtensions.CopyFieldsFrom(target, source);
             target.AllowOthersToPostFliers = source.AllowOthersToPostFliers;
             target.RequireApprovalOfPostedFliers = source.RequireApprovalOfPostedFliers;
-            target.Location = source.Location != null ? new Location(source.Location) : null;
-            target.PercentageOfPublicFliersToShow = source.PercentageOfPublicFliersToShow;
             target.Status = source.Status;
+            target.BoardTypeEnum = source.BoardTypeEnum;
         }
     }
 
@@ -22,9 +23,8 @@ namespace PostaFlya.Domain.Boards
     {
         bool AllowOthersToPostFliers { get; set; }
         bool RequireApprovalOfPostedFliers { get; set; }
-        Location Location { get; set; }
         string Description { get; set; }
         BoardStatus Status { get; set; }
-        int PercentageOfPublicFliersToShow { get; set; }
+        BoardTypeEnum BoardTypeEnum { get; set; }
     }
 }

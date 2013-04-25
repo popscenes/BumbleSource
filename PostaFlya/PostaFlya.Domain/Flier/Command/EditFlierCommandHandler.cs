@@ -49,7 +49,6 @@ namespace PostaFlya.Domain.Flier.Command
                 _repository.UpdateEntity<Flier>(command.Id, 
                     flier =>
                         {
-                            flier.FriendlyId = _queryService.FindFreeFriendlyIdForFlier(flierQuery);
                             flier.Title = command.Title;
                             flier.Description = command.Description;
                             flier.Tags = command.Tags;

@@ -29,7 +29,7 @@ namespace PostaFlya.Domain.TaskJob.Binding
                 .To<TaskJobFlierBehaviour>();
 
             var kernel = Kernel as StandardKernel;
-            kernel.BindCommandHandlersFromCallingAssembly(c => c.InTransientScope());
+            kernel.BindCommandAndQueryHandlersFromCallingAssembly(c => c.InTransientScope());
 
             Trace.TraceInformation("Finished Binding TaskJobNinjectBinding");
 

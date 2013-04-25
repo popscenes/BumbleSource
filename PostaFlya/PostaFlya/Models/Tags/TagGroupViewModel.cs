@@ -1,21 +1,24 @@
 ﻿using System;
 using Website.Domain.Tag;
 
-public static class TagGroupExtension
+namespace PostaFlya.Models.Tags
 {
-    public static TagGroupViewModel ToViewModel(this TagGroup tagGroup)
+    public static class TagGroupExtension
     {
-        //dynamic behav = flier.Behaviour;
-        return new TagGroupViewModel(){
-            ParentTag = tagGroup.ParentTag,
-            TagsList = tagGroup.TagsList
-        };
+        public static TagGroupViewModel ToViewModel(this TagGroup tagGroup)
+        {
+            //dynamic behav = flier.Behaviour;
+            return new TagGroupViewModel(){
+                ParentTag = tagGroup.ParentTag,
+                TagsList = tagGroup.TagsList
+            };
+        }
     }
-}
 
-public class TagGroupViewModel
-{
-    public String ParentTag { get; set; }
-    public Tags TagsList { get; set; }
+    public class TagGroupViewModel
+    {
+        public String ParentTag { get; set; }
+        public Website.Domain.Tag.Tags TagsList { get; set; }
 
+    }
 }

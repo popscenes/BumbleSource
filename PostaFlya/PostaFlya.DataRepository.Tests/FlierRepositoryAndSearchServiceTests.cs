@@ -267,7 +267,7 @@ namespace PostaFlya.DataRepository.Tests
         private Flier StoredFlier()
         {
             var storedFlier = StoreFlierRepository();
-            var board = BoardTestData.GetOne(Kernel, "TestBoardName", _loc);
+            var board = BoardTestData.GetOne(Kernel, "TestBoardName", BoardTypeEnum.VenueBoard, _loc);
             board = BoardTestData.StoreOne(board, _repository, Kernel);
 
             var boardFlier = new BoardFlier()
@@ -304,7 +304,7 @@ namespace PostaFlya.DataRepository.Tests
         public void FindFliersByBoard()
         {
             var storedFlier = StoreFlierRepository();
-            var board = BoardTestData.GetOne(Kernel, "TestBoardNameNoLoc", _loc);
+            var board = BoardTestData.GetOne(Kernel, "TestBoardNameNoLoc",BoardTypeEnum.VenueBoard, _loc);
             board = BoardTestData.StoreOne(board, _repository, Kernel);
 
             var boardFlier = new BoardFlier()

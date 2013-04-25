@@ -55,13 +55,6 @@ namespace PostaFlya.Domain.Boards.Command
                         {
                             board.Description = command.Description;
                         }
-
-                        if (command.Location != null && command.Location.IsValid && !command.Location.Equals(board.Location))
-                        {
-                            if (!brows.HasRole(Role.Admin))
-                                board.Status =   BoardStatus.PendingApproval;
-                            board.Location = command.Location;
-                        }
                         
                     } );
             }

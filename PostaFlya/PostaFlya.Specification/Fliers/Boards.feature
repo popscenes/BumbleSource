@@ -7,12 +7,12 @@
 Scenario: Participant Creates Board
 Given i am an existing BROWSER with PARTICIPANT ROLE
 When I submit the following data for the BOARD:
-	| BoardName | AcceptOthersFliers | RequireApprovalForFliers | AddressInformation                                        |
-	| MyBoard  | True               | True                     | -37.7760:144.979:[][Brunswick East][VIC][3057][Australia] |
+	| BoardName | AcceptOthersFliers | RequireApprovalForFliers | TypeOfBoard  |                                      
+	| MyBoard	| True               | True                     | InterestBoard |
 Then a BOARD named MyBoard will be created
 And the BOARD will allow Others to post FLIERS
 And the BOARD will require approval for posted FLIERS
-And the BOARD will have the status PendingApproval
+And the BOARD will have the status Approved
 
 Scenario: Participant Adds Flier To Board They Dont Own
 Given there is an approved public board named publicBoard

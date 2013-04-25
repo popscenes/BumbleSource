@@ -4,6 +4,7 @@ using NUnit.Framework;
 using Ninject;
 using PostaFlya.Controllers;
 using PostaFlya.Domain.Boards;
+using PostaFlya.Domain.Boards.Command;
 using PostaFlya.Domain.Flier;
 using PostaFlya.Mocks.Domain.Data;
 using PostaFlya.Models.Board;
@@ -12,6 +13,7 @@ using PostaFlya.Specification.Util;
 using TechTalk.SpecFlow;
 using Website.Domain.Browser;
 using Website.Infrastructure.Command;
+using Website.Infrastructure.Domain;
 using Website.Infrastructure.Query;
 
 namespace PostaFlya.Specification.Fliers
@@ -29,6 +31,7 @@ namespace PostaFlya.Specification.Fliers
                     BoardName = table.Rows[0]["BoardName"],
                     AllowOthersToPostFliers = Boolean.Parse(table.Rows[0]["AcceptOthersFliers"]),
                     RequireApprovalOfPostedFliers = Boolean.Parse(table.Rows[0]["RequireApprovalForFliers"]),
+                    TypeOfBoard = (BoardTypeEnum)Enum.Parse(typeof(BoardTypeEnum), table.Rows[0]["TypeOfBoard"])
                 };
 
             WhenABrowserSubmitsTheFollowingDataForTheBOARD(boardCreate, SpecUtil.GetCurrBrowser().Browser.Id);
@@ -87,7 +90,28 @@ namespace PostaFlya.Specification.Fliers
             ThenABOARDNamedBoardWillBeCreated(targetBoard);
             ThenTheBOARDWillAllowOthersToPost();
             ThenTheBOARDWillRequireApprovalForPostedFliers();
-            ThenTheBOARDHasStatus(BoardStatus.PendingApproval);
+            ThenTheBOARDHasStatus(BoardStatus.Approved);
+        }
+
+        [Given(@"There is a venue board named (.*)")]
+        public void GivenThereIsAVenueBoardNamed(string boardName)
+        {
+            var bus = SpecUtil.CurrIocKernel.Get<CommandBusInterface>();
+            var createBoardCommand = new CreateBoardCommand()
+            {
+
+                BrowserId = Guid.Empty.ToString(),
+                BoardName = boardName,
+                AllowOthersToPostFliers = true,
+                RequireApprovalOfPostedFliers = false,
+                BoardTypeEnum = BoardTypeEnum.VenueBoard
+
+            };
+            var ret = bus.Send(createBoardCommand) as MsgResponse;
+            ScenarioContext.Current["createdboardid"] = ret.GetEntityId();
+            ThenABOARDNamedBoardWillBeCreated(boardName);
+            ThenTheBOARDWillAllowOthersToPost();
+            ThenTheBOARDHasStatus(BoardStatus.Approved);
         }
 
         [Given(@"there is a public board named (.*) that requires approval")]

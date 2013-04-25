@@ -199,5 +199,15 @@ namespace Website.Infrastructure.Util
         {
             return value.CompareTo(other) <= 0;
         }
+
+        public static string GetAssemblyQualifiedNameWithoutVer(Type type)
+        {
+            var name = type.AssemblyQualifiedName;
+            var verIndex = name.IndexOf(", Version=", System.StringComparison.Ordinal);
+            if (verIndex <= 0)
+                return name;
+
+            return name.Substring(0, verIndex);
+        }
     }
 }

@@ -23,6 +23,7 @@ using Website.Application.Domain.Binding;
 using Website.Application.Domain.Payment;
 using Website.Application.Intergrations.Payment;
 using Website.Azure.Common.Environment;
+using Website.Common.Binding;
 using Website.Common.Filters;
 using Website.Infrastructure.Authentication;
 using Website.Infrastructure.Binding;
@@ -169,7 +170,8 @@ namespace PostaFlya.Binding
                 .ToConstant(Kernel.Get<FlierBehaviourViewModelFactory>())
                 .InSingletonScope();
 
-            
+            var kernel = Kernel as StandardKernel;
+            kernel.BindViewModelMappersFromCallingAssembly();
 
             Trace.TraceInformation("Finished Binding WebNinjectBindings");
 
@@ -213,7 +215,8 @@ namespace PostaFlya.Binding
                       new PostaFlya.Areas.TaskJob.Binding.TaskJobBehaviourWebNinjectBinding(),
                       new PostaFlya.DataRepository.Binding.TableNameNinjectBinding(),
                       new Website.Application.Domain.Binding.ApplicationJobs(),
-                      new PostaFlya.Application.Domain.Binding.ApplicationJobs()
+                      new PostaFlya.Application.Domain.Binding.ApplicationJobs(),
+                      new Website.Common.Binding.WebsiteCommonNinjectBinding()
                   };
     }
 }

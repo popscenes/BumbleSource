@@ -23,11 +23,12 @@ namespace PostaFlya.Controllers
         {
             var createBoardCommand = new CreateBoardCommand()
                 {
+
                     BrowserId = browserId,
                     BoardName = boardCreate.BoardName,
-                    Location = boardCreate.Location != null ? boardCreate.Location.ToDomainModel() : null,
                     AllowOthersToPostFliers = boardCreate.AllowOthersToPostFliers,
                     RequireApprovalOfPostedFliers = boardCreate.RequireApprovalOfPostedFliers,
+                    BoardTypeEnum = boardCreate.TypeOfBoard != BoardTypeEnum.VenueBoard ? boardCreate.TypeOfBoard : BoardTypeEnum.InterestBoard 
                     
                 };
 
@@ -42,7 +43,6 @@ namespace PostaFlya.Controllers
                 Id = boardEdit.Id,
                 BrowserId = browserId,
                 BoardName = boardEdit.BoardName,
-                Location = boardEdit.Location != null ? boardEdit.Location.ToDomainModel() : null,
                 AllowOthersToPostFliers = boardEdit.AllowOthersToPostFliers,
                 RequireApprovalOfPostedFliers = boardEdit.RequireApprovalOfPostedFliers,
                 Status = BoardStatus.Approved

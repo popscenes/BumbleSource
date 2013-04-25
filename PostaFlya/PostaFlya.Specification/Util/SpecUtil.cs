@@ -136,6 +136,7 @@ namespace PostaFlya.Specification.Util
                       new Website.Mocks.Domain.Data.TestIdentityProvidersNinjectModult(),
                       new MockApplicationServicesNinjectModule(),
                       new PaymentTestData(),
+                      new Website.Common.Binding.WebsiteCommonNinjectBinding()
                   };
     }
 }

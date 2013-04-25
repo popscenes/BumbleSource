@@ -32,4 +32,8 @@ Scenario: SetDynamicBulletinDate
 	Then I should only see FLIERS within a DISTANCE from that LOCATION
 	And I should see only FLIERS with that event date
 
+#Scenario: BoardViewDefault
+#	Given There is a venue board named Retreat
+#	When I add the FLIER to the board
+
 

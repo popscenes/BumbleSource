@@ -1,10 +1,25 @@
 using System.ComponentModel.DataAnnotations;
 using PostaFlya.Domain.Venue;
 using Website.Application.Domain.Location;
+using Website.Common.Model;
 using Website.Domain.Contact;
 
 namespace PostaFlya.Models.Location
 {
+    public class ToVenueInformationModel : ViewModelMapperInterface<VenueInformationModel, VenueInformation>
+    {
+        public VenueInformationModel ToViewModel(VenueInformationModel target, VenueInformation source)
+        {
+            if (source == null)
+                return null;
+            var ret = target ?? new VenueInformationModel();
+            ret.CopyFieldsFrom((ContactDetailFieldsInterface)source);
+            ret.CopyFieldsFrom((VenueInformationFieldsInterface)source);
+            ret.Address = source.Address.ToViewModel();
+            return ret;
+        }
+    }
+
     public static class VenuInformationInterfaceExtensions
     {
         public static VenueInformationModel ToViewModel(this VenueInformationInterface source)
@@ -18,6 +33,8 @@ namespace PostaFlya.Models.Location
             return ret;
         }
     }
+
+
     public class VenueInformationModel : ContactDetailFieldsInterface, VenueInformationFieldsInterface
     {
         [Display(ResourceType = typeof (Properties.Resources), Name = "FlyerContactDetailsModel_PhoneNumber_FlyerContactDetailsModel_PhoneNumber_FlyerContactDetailsModel_PhoneNumber")]

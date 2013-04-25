@@ -82,6 +82,7 @@
     <Compile Include="Boards\BoardFlierStatus.cs" />
     <Compile Include="Boards\BoardInterface.cs" />
     <Compile Include="Boards\BoardStatus.cs" />
+    <Compile Include="Boards\BoardTypeEnum.cs" />
     <Compile Include="Boards\Command\AddFlierToBoardCommand.cs" />
     <Compile Include="Boards\Command\AddFlierToBoardCommandHandler.cs" />
     <Compile Include="Boards\Command\CreateBoardCommand.cs" />
@@ -92,7 +93,10 @@
     <Compile Include="Boards\Command\EditBoardFlierCommandHandler.cs" />
     <Compile Include="Boards\Event\BoardFlierModifiedEvent.cs" />
     <Compile Include="Boards\Event\BoardModifiedEvent.cs" />
+    <Compile Include="Boards\Event\VenueBoardModifiedEvent.cs" />
     <Compile Include="Boards\Query\BoardQueryServiceUtil.cs" />
+    <Compile Include="Boards\VenueBoard.cs" />
+    <Compile Include="Boards\VenueBoardInterface.cs" />
     <Compile Include="Flier\Analytic\AnalyticTrackingSummary.cs" />
     <Compile Include="Flier\Analytic\FlierAnalyticSourceAction.cs" />
     <Compile Include="Flier\Analytic\FlierAnalytic.cs" />
@@ -127,6 +131,7 @@
     <Compile Include="Flier\FlierStatus.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Venue\VenueInformation.cs" />
+    <Compile Include="Venue\VenueInterface.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">

@@ -335,6 +335,7 @@ namespace Website.Azure.Common.TableStorage
         private const string JsonCount = "JsonCount";
         private const string JsonGzip = "JsonGzip";
         private const string JsonBinary = "JsonBinary";
+        private const string JsonClrType = "JsonClrType";
 
         private static readonly ISet<string>
             ExcludeProps = typeof (JsonTableEntry).GetProperties().Select(p => p.Name)
@@ -357,6 +358,7 @@ namespace Website.Azure.Common.TableStorage
             AddEdmVal(propertiesEle, JsonCount, Edm.Int32, listPart.Count);
             AddEdmVal(propertiesEle, JsonGzip, Edm.Boolean, false);
             AddEdmVal(propertiesEle, JsonBinary, Edm.Boolean, false);
+            AddEdmVal(propertiesEle, JsonClrType, Edm.String, jsonEntry.GetClrTyp());
 
             //just adds plain edm types from the aggregate root to the saved colums, handy for queries from linqpad or other sources
             var dict = jsonEntry.GetSourceObject().PropertiesToDictionary(null, ExcludeProps, false)
@@ -388,7 +390,10 @@ namespace Website.Azure.Common.TableStorage
             var res = Enumerable.Range(0, jsonCount)
                 .Aggregate(new StringBuilder(), (s, i) => s.Append(q[JsonPart + i].Value));
 
-            jsonEntry.SetJson(res.ToString());
+            EdmRet clrTyp;
+            var clrString = q.TryGetValue(JsonClrType, out clrTyp) ? clrTyp.Get<string>() : null;
+
+            jsonEntry.SetJson(res.ToString(), clrString);
 
         }
 

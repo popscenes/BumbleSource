@@ -14,23 +14,21 @@ namespace PostaFlya.Mocks.Domain.Data
     public static class BoardTestData
     {
 
-        public static Board GetOne(IKernel kernel, String boardName, Location loc = null)
+        public static Board GetOne(IKernel kernel, String boardName, BoardTypeEnum boardType = BoardTypeEnum.InterestBoard, Location loc = null)
         {
 
-            var ret = new Board()
-            {
-                Id = Guid.NewGuid().ToString(),
-                FriendlyId = boardName,
-                Location = loc,
-                BrowserId = kernel.Get<string>(bm => bm.Has("defaultbrowserid")),
-                RequireApprovalOfPostedFliers = true,
-                AllowOthersToPostFliers = true,
-            };
+            var ret = boardType == BoardTypeEnum.VenueBoard ? new VenueBoard() {Location = loc} : new Board();
+            ret.Id = Guid.NewGuid().ToString();
+            ret.FriendlyId = boardName;
+            ret.BrowserId = kernel.Get<string>(bm => bm.Has("defaultbrowserid"));
+            ret.RequireApprovalOfPostedFliers = true;
+            ret.AllowOthersToPostFliers = true;
+
             ret.FriendlyId = BoardQueryServiceUtil.FindFreeFriendlyId(null, ret);
             return ret;
         }
 
-        internal static Board StoreOne(Board board, GenericRepositoryInterface repository, StandardKernel kernel)
+        internal static BoardTyp StoreOne<BoardTyp>(BoardTyp board, GenericRepositoryInterface repository, StandardKernel kernel)
         {
             var uow = kernel.Get<UnitOfWorkFactoryInterface>()
                 .GetUnitOfWork(new List<RepositoryInterface>() { repository });
@@ -43,6 +41,7 @@ namespace PostaFlya.Mocks.Domain.Data
             Assert.IsTrue(uow.Successful);
             return board;
         }
+
 
         internal static BoardFlier StoreOne(BoardFlier boardFlier, GenericRepositoryInterface repository, StandardKernel kernel)
         {
@@ -64,9 +63,15 @@ namespace PostaFlya.Mocks.Domain.Data
             Assert.AreEqual(storedBoard.Id, retrievedBoard.Id);
             Assert.AreEqual(storedBoard.FriendlyId, retrievedBoard.FriendlyId);
             Assert.AreEqual(storedBoard.BrowserId, retrievedBoard.BrowserId);
-            Assert.AreEqual(storedBoard.Location, retrievedBoard.Location);
             Assert.AreEqual(storedBoard.RequireApprovalOfPostedFliers, retrievedBoard.RequireApprovalOfPostedFliers);
             Assert.AreEqual(storedBoard.AllowOthersToPostFliers, retrievedBoard.AllowOthersToPostFliers);
+        }
+
+        public static void AssertStoreRetrieve(VenueBoardInterface storedBoard, VenueBoardInterface retrievedBoard)
+        {
+            AssertStoreRetrieve((BoardInterface) storedBoard, retrievedBoard);
+            Assert.AreEqual(storedBoard.Location, retrievedBoard.Location);
+
         }
     }
 }

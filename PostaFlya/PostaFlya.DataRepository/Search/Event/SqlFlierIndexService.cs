@@ -24,7 +24,7 @@ namespace PostaFlya.DataRepository.Search.Event
     public class SqlFlierIndexService : 
         HandleEventInterface<FlierModifiedEvent>
         , HandleEventInterface<BoardFlierModifiedEvent>
-        , HandleEventInterface<BoardModifiedEvent>
+        , HandleEventInterface<VenueBoardModifiedEvent>
         , HandleEventInterface<ClaimEvent>
         , HandleEventInterface<CommentEvent>
     {
@@ -90,7 +90,7 @@ namespace PostaFlya.DataRepository.Search.Event
 
         }
 
-        public bool Handle(BoardModifiedEvent @event)
+        public bool Handle(VenueBoardModifiedEvent @event)
         {
             if (@event.OrigState != null &&
                 (@event.NewState == null || !@event.NewState.Location.Equals(@event.OrigState.Location)))

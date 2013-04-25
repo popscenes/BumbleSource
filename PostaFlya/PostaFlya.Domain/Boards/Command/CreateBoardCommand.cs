@@ -5,6 +5,7 @@ namespace PostaFlya.Domain.Boards.Command
 {
     public class CreateBoardCommand : DefaultCommandBase
     {
+        public BoardTypeEnum BoardTypeEnum { get; set; }
         public string BrowserId { get; set; }
         public string BoardName { get; set; }
         public bool AllowOthersToPostFliers { get; set; }

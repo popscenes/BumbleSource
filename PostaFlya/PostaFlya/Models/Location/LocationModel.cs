@@ -5,10 +5,25 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 using System.Web.Http.ModelBinding;
+using PostaFlya.Models.Board;
+using Website.Common.Model;
 using Website.Domain.Location;
 
 namespace PostaFlya.Models.Location
 {
+    public class ToLocationModel : ViewModelMapperInterface<LocationModel, Website.Domain.Location.Location>
+    {
+        public LocationModel ToViewModel(LocationModel target, Website.Domain.Location.Location source)
+        {
+            if (source == null)
+                return new LocationModel();
+
+            var ret = target ?? new LocationModel();
+            ret.CopyFieldsFrom(source);
+            return ret;
+        }
+    }
+
     public static class BulletinFlierModelFlierInterfaceExtension
     {
         public static LocationModel ToViewModel(this Website.Domain.Location.Location location)

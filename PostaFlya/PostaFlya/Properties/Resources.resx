@@ -464,4 +464,7 @@
   <data name="FlyerContactDetailsModel_WebSite_FlyerContactDetailsModel_WebSite_FlyerContactDetailsModel_WebSite" xml:space="preserve">
     <value>Event Link</value>
   </data>
+  <data name="BoardCreateEditModel_TypeOfBoard" xml:space="preserve">
+    <value>Board Type</value>
+  </data>
 </root>

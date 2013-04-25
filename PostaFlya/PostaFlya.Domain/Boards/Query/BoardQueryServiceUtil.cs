@@ -19,11 +19,10 @@ namespace PostaFlya.Domain.Boards.Query
             if (queryService != null && (boardFind = queryService.FindByFriendlyId<Board>(tryName)) != null
                 && boardFind.Id != targetBoard.Id)
             {
-                if (targetBoard.Location.HasAddressParts())
+                var venueBoard = targetBoard as VenueBoardInterface;
+                if (venueBoard != null && venueBoard.Location.HasAddressParts())
                 {
-                    var locInfo = targetBoard.Location.Locality;
-                    if (string.IsNullOrWhiteSpace(locInfo))
-                        locInfo = targetBoard.Location.PostCode;
+                    var locInfo = venueBoard.Location.Locality;
                     if (!string.IsNullOrWhiteSpace(locInfo))
                     {
                         tryNameBase = locInfo + "-" + tryNameBase;

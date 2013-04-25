@@ -8,9 +8,8 @@ namespace PostaFlya.Domain.Boards
         public string BrowserId { get; set; }
         public bool AllowOthersToPostFliers { get; set; }
         public bool RequireApprovalOfPostedFliers { get; set; }
-        public Location Location { get; set; }
         public string Description { get; set; }
         public BoardStatus Status { get; set; }
-        public int PercentageOfPublicFliersToShow { get; set; }
+        public BoardTypeEnum BoardTypeEnum { get; set; }
     }
 }
