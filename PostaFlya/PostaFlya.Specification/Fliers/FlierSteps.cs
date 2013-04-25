@@ -671,7 +671,7 @@ namespace PostaFlya.Specification.Fliers
             var flier = flierQueryService.FindById<Flier>(flierid);
             Assert.AreEqual(4, flier.UserLinks.Count());
 
-            Assert.AreEqual(flier.UserLinks[0].Type, LinkType.Facebook);
+            Assert.AreEqual(flier.UserLinks[0].Type, LinkType.Facebook.ToString());
             Assert.AreEqual(flier.UserLinks[0].Text, "facebook link");
             Assert.AreEqual(flier.UserLinks[0].Link, "https://www.facebook.com/TeddyMcCuddles");
             
