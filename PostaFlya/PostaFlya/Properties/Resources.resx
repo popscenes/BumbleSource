@@ -473,7 +473,6 @@
   <data name="UserLinkViewModel_Text_Link_Text" xml:space="preserve">
     <value>Link Text</value>
   </data>
-  </data>
   <data name="BoardCreateEditModel_TypeOfBoard" xml:space="preserve">
     <value>Board Type</value>
   </data>
