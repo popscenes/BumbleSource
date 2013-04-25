@@ -25,6 +25,13 @@
         self.title = ko.observable(null);
         self.description = ko.observable(null);
     };
+    
+    bf.UserLinkModel = function () {
+        var self = this;
+        self.Type = ko.observable(null);
+        self.Text = ko.observable(null);
+        self.Link = ko.observable(null);
+    };
 
     bf.CreateEditFlier = function (data, imageSelector, tagsSelector, afterUpdateCallback) {
 
@@ -94,8 +101,14 @@
             self.costBreakdown(!self.costBreakdown());
         };
 
+        self.editableUserLink = ko.observable(new bf.UserLinkModel());
+            
         self.addUserLink = function() {
-            self.UserLinks.push({ Type: self.selectedLinkType(), Text: '', Link: '' });
+            if (!$('#flierForm').valid()) {
+                return;
+            }
+            self.UserLinks.push(self.editableUserLink());
+            self.editableUserLink(new bf.UserLinkModel());
             self.reparseValidation();
         };
 
@@ -200,7 +213,7 @@
         }
 
         self.nextTemplate = function () {
-            if (!$('#flierForm').valid()) {
+            if (!$('#flierForm').valid() && $('#flierForm').attr("data-validate-on-next") != "false") {
                 return;
             }
 
