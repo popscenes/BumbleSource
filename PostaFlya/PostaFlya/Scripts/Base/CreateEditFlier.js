@@ -58,7 +58,7 @@
         var self = this;
         self.apiUrl = sprintf("/api/Browser/%s/MyFliers", bf.currentBrowserInstance.BrowserId);
         self.Steps = ['AddImages', 'DetailsAndTags', 'UserLinks', 'PostLocation', 'Summary', 'Complete'];
-        self.UserLinkTypes = ko.observableArray(["FACEBOOK", "TWITTER", "TICKETS", "WEBSITE"]);
+        self.UserLinkTypes = ko.observableArray(["Facebook", "Twitter", "Tickets", "Website"]);
         self.selectedLinkType = ko.observable(null);
 
         self.imageSelector = imageSelector;
@@ -102,6 +102,7 @@
         };
 
         self.editableUserLink = ko.observable(new bf.UserLinkModel());
+        self.editUserLinkMode = ko.observable(null);
             
         self.addUserLink = function() {
             if (!$('#flierForm').valid()) {
@@ -109,11 +110,23 @@
             }
             self.UserLinks.push(self.editableUserLink());
             self.editableUserLink(new bf.UserLinkModel());
-            self.reparseValidation();
+        };
+        
+        self.editUserLinkSave = function () {
+            if (!$('#flierForm').valid()) {
+                return;
+            }
+            self.editUserLinkMode(null);
+            self.editableUserLink(new bf.UserLinkModel());
         };
 
         self.removeUserLink = function() {
             self.UserLinks.remove(this);
+        };
+        
+        self.editUserLink = function () {
+            self.editableUserLink(this);
+            self.editUserLinkMode(true);
         };
 
         self.reparseValidation = function() {

@@ -12,6 +12,7 @@ using Website.Infrastructure.Query;
 
 namespace PostaFlya.Domain.Flier.Payment
 {
+    [Serializable]
     public class AnalyticsFeatureChargeBehaviour : FlierChargeBehaviourBase
     {
         public static readonly string Description =

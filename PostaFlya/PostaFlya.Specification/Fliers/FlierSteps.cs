@@ -653,10 +653,10 @@ namespace PostaFlya.Specification.Fliers
         public void GivenIChooseToAttachUSERLINKS()
         {
             var createFlierModel = ScenarioContext.Current["createflya"] as FlierCreateModel;
-            createFlierModel.UserLinks.Add(new UserLinkViewModel() { Type = LinkType.Facebook, Text = "facebook link", Link = "https://www.facebook.com/TeddyMcCuddles" });
-            createFlierModel.UserLinks.Add(new UserLinkViewModel() { Type = LinkType.Twitter, Text = "twitter link", Link = "https://twitter.com/TeddyMcCuddless" });
-            createFlierModel.UserLinks.Add(new UserLinkViewModel() { Type = LinkType.Tickets, Text = "tickets link", Link = "https://ticketek.com.au" });
-            createFlierModel.UserLinks.Add(new UserLinkViewModel() { Type = LinkType.Website, Text = "website link", Link = "https://popscenes.com" });
+            createFlierModel.UserLinks.Add(new UserLinkViewModel() { Type = LinkType.Facebook.ToString(), Text = "facebook link", Link = "https://www.facebook.com/TeddyMcCuddles" });
+            createFlierModel.UserLinks.Add(new UserLinkViewModel() { Type = LinkType.Twitter.ToString(), Text = "twitter link", Link = "https://twitter.com/TeddyMcCuddless" });
+            createFlierModel.UserLinks.Add(new UserLinkViewModel() { Type = LinkType.Tickets.ToString(), Text = "tickets link", Link = "https://ticketek.com.au" });
+            createFlierModel.UserLinks.Add(new UserLinkViewModel() { Type = LinkType.Website.ToString(), Text = "website link", Link = "https://popscenes.com" });
         }
 
         [Then(@"It will Have The USER LINKS")]

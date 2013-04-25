@@ -1,4 +1,5 @@
-﻿using Website.Domain.Browser;
+﻿using System;
+using Website.Domain.Browser;
 using Website.Domain.Payment;
 using Website.Infrastructure.Command;
 using Website.Infrastructure.Domain;
@@ -6,6 +7,7 @@ using Website.Infrastructure.Query;
 
 namespace PostaFlya.Domain.Flier.Payment
 {
+    [Serializable]
     public abstract class FlierChargeBehaviourBase : EntityFeatureChargeBehaviourInterface
     {
         public abstract bool IsFeatureEnabledBasedOnState<EntityType>(EntityFeatureCharge entityFeatureCharge, EntityType entity) where EntityType : EntityInterface;

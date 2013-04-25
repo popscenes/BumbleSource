@@ -84,7 +84,8 @@
                     
                 <span class="field-validation-valid" data-valmsg-for="linkurl" data-valmsg-replace="true"></span>
                 <input type="text" data-bind="value:Link" id="linkurl" name="linkurl" data-val="true" data-val-required="Url required." data-val-url="Invalid url."/>
-                <a href="javascript:void(0);" data-bind="click:$parent.addUserLink">add</a>
+                <a href="javascript:void(0);" data-bind="click:$parent.addUserLink, visible:$parent.editUserLinkMode() != true">add</a>
+                <a href="javascript:void(0);" data-bind="click:$parent.editUserLinkSave, visible:$parent.editUserLinkMode() == true">save</a>
             </div>
             
             <ul data-bind="foreach:UserLinks">
@@ -92,6 +93,7 @@
                     <span data-bind="text:Type"></span>
                     <span type="text" data-bind="value:Text" data-val="true" data-val-required="Text required."></span>
                     <span type="text" data-bind="value:Link" data-val="true" data-val-required="Url required." data-val-url="Invalid url."></span>
+                    <a href="javascript:void(0);" data-bind="click:$parent.editUserLink">edit</a>
                     <a href="javascript:void(0);" data-bind="click:$parent.removeUserLink">remove</a>
                 </li>
             </ul>

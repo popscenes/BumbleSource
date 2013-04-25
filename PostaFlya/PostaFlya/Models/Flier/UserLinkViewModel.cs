@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using PostaFlya.Domain.Flier;
@@ -14,7 +15,7 @@ namespace PostaFlya.Models.Flier
                 {
                     Link = userLink.Link,
                     Text = userLink.Text,
-                    Type = userLink.Type
+                    Type = userLink.ToString()
                 };
         }
 
@@ -24,7 +25,7 @@ namespace PostaFlya.Models.Flier
     {
         [Required(ErrorMessageResourceName = "Required", ErrorMessageResourceType = typeof(Properties.Resources), ErrorMessage = null)]
         [Display(ResourceType = typeof(Properties.Resources), Name = "UserLinkViewModel_Type_Link_Type")] 
-        public LinkType Type { get; set; }
+        public string Type { get; set; }
 
         [Required(ErrorMessageResourceName = "Required", ErrorMessageResourceType = typeof(Properties.Resources), ErrorMessage = null)]
         [Display(ResourceType = typeof(Properties.Resources), Name = "UserLinkViewModel_Text_Link_Text")] 
