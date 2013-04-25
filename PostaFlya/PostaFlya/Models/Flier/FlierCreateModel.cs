@@ -36,7 +36,8 @@ namespace PostaFlya.Models.Flier
                            EnableAnalytics =  flier.EnableAnalytics,
                            PostRadius = flier.LocationRadius+5,
                            VenueInformation = flier.ContactDetails.ToViewModel(),
-                           TotalPaid = flier.GetTotalPaid()
+                           TotalPaid = flier.GetTotalPaid(),
+                           UserLinks = flier.UserLinks == null ? new List<UserLinkViewModel>() : flier.UserLinks.Select(_ => _.ToCreateModel()).ToList()
                        };
         }
 
@@ -65,6 +66,7 @@ namespace PostaFlya.Models.Flier
         {
             ImageList = new List<ImageViewModel>();
             BoardList = new List<string>();
+            UserLinks = new List<UserLinkViewModel>();
         }
         [Display(Name = "FlierId", ResourceType = typeof(Properties.Resources))] 
         [DataMember]
@@ -148,6 +150,9 @@ namespace PostaFlya.Models.Flier
 
         [DataMember]
         public int TotalPaid { get; set; }
+
+        [DataMember]
+        public List<UserLinkViewModel> UserLinks {get; set; }
 
         public static FlierCreateModel DefaultForTemplate()
         {

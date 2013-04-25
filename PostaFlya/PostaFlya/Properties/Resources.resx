@@ -464,6 +464,16 @@
   <data name="FlyerContactDetailsModel_WebSite_FlyerContactDetailsModel_WebSite_FlyerContactDetailsModel_WebSite" xml:space="preserve">
     <value>Event Link</value>
   </data>
+  <data name="UserLinkViewModel_Link_Link_Url" xml:space="preserve">
+    <value>Link Url</value>
+  </data>
+  <data name="UserLinkViewModel_Type_Link_Type" xml:space="preserve">
+    <value>Link Type</value>
+  </data>
+  <data name="UserLinkViewModel_Text_Link_Text" xml:space="preserve">
+    <value>Link Text</value>
+  </data>
+  </data>
   <data name="BoardCreateEditModel_TypeOfBoard" xml:space="preserve">
     <value>Board Type</value>
   </data>

@@ -77,7 +77,8 @@ namespace PostaFlya.Controllers
                 //AllowUserContact = createModel.AllowUserContact,
                 ExtendPostRadius = Math.Max(0, createModel.PostRadius - 5),
                 EnableAnalytics = createModel.EnableAnalytics,
-                ContactDetails = createModel.VenueInformation != null ? createModel.VenueInformation.ToDomainModel() : null
+                ContactDetails = createModel.VenueInformation != null ? createModel.VenueInformation.ToDomainModel() : null,
+                UserLinks = createModel.UserLinks == null? new List<UserLink>() : createModel.UserLinks.Select(_ => new UserLink(){Link = _.Link, Text = _.Text, Type = _.Type}).ToList()
             };
 
             var res = _commandBus.Send(createFlier);
@@ -101,7 +102,8 @@ namespace PostaFlya.Controllers
                 //AllowUserContact = editModel.AllowUserContact,
                 ExtendPostRadius = Math.Max(0, editModel.PostRadius - 5),
                 EnableAnalytics = editModel.EnableAnalytics,
-                ContactDetails = editModel.VenueInformation != null ? editModel.VenueInformation.ToDomainModel() : null
+                ContactDetails = editModel.VenueInformation != null ? editModel.VenueInformation.ToDomainModel() : null,
+                UserLinks = editModel.UserLinks == null ? new List<UserLink>() : editModel.UserLinks.Select(_ => new UserLink() { Link = _.Link, Text = _.Text, Type = _.Type }).ToList()
             };
 
             var res = _commandBus.Send(editFlier);

@@ -41,6 +41,14 @@ Given i have navigated to the CREATE PAGE for a FLIER TYPE Default
 And i choose to attach contact details other than my saved details
 And I have 1000 Account Credits
 
+Scenario: Create Flier and attach USER Links
+Given i have navigated to the CREATE PAGE for a FLIER TYPE Default
+And i choose to attach USER LINKS
+And I have 1000 Account Credits
+When I SUBMIT the data for that FLIER 
+Then the new FLIER will be created for behviour Default
+And It will Have The USER LINKS
+
 
 
 

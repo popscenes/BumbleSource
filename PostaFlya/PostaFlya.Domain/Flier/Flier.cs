@@ -89,7 +89,7 @@ namespace PostaFlya.Domain.Flier
         public bool EnableAnalytics { get; set; }
         public string TinyUrl { get; set; }
 
-
+        public List<UserLink> UserLinks { get; set; }
 
 
     }

@@ -71,6 +71,36 @@
     </form>
 </script>
 
+<script type="text/html" id="UserLinks-template">
+    <form id="flierForm" class="" data-bind="validate: true" data-validate-on-next="false">
+        <fieldset>
+            <h2>ADD SOME LINKS YOUR FLYER</h2>
+            
+            <div data-bind="with:editableUserLink">
+                <select id="select-links" name="select-links" data-bind="options: $parent.UserLinkTypes, value: Type"></select>
+                
+                <span class="field-validation-valid" data-valmsg-for="linktext" data-valmsg-replace="true"></span>
+                <input type="text" data-bind="value:Text" id="linktext" name="linktext" data-val="true" data-val-required="Text required."/>
+                    
+                <span class="field-validation-valid" data-valmsg-for="linkurl" data-valmsg-replace="true"></span>
+                <input type="text" data-bind="value:Link" id="linkurl" name="linkurl" data-val="true" data-val-required="Url required." data-val-url="Invalid url."/>
+                <a href="javascript:void(0);" data-bind="click:$parent.addUserLink, visible:$parent.editUserLinkMode() != true">add</a>
+                <a href="javascript:void(0);" data-bind="click:$parent.editUserLinkSave, visible:$parent.editUserLinkMode() == true">save</a>
+            </div>
+            
+            <ul data-bind="foreach:UserLinks">
+                <li>
+                    <span data-bind="text:Type"></span>
+                    <span type="text" data-bind="value:Text" data-val="true" data-val-required="Text required."></span>
+                    <span type="text" data-bind="value:Link" data-val="true" data-val-required="Url required." data-val-url="Invalid url."></span>
+                    <a href="javascript:void(0);" data-bind="click:$parent.editUserLink">edit</a>
+                    <a href="javascript:void(0);" data-bind="click:$parent.removeUserLink">remove</a>
+                </li>
+            </ul>
+        </fieldset>
+    </form>
+</script>
+
 @Html.Partial("Image/ImageListTemplate")
 
 <script type="text/html" id="Images-template">

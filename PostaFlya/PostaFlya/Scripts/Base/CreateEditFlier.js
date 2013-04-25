@@ -25,6 +25,13 @@
         self.title = ko.observable(null);
         self.description = ko.observable(null);
     };
+    
+    bf.UserLinkModel = function () {
+        var self = this;
+        self.Type = ko.observable(null);
+        self.Text = ko.observable(null);
+        self.Link = ko.observable(null);
+    };
 
     bf.CreateEditFlier = function (data, imageSelector, tagsSelector, afterUpdateCallback) {
 
@@ -42,14 +49,18 @@
             VenueInformation: {},
             PostRadius: 5,
             FlierBehaviour: 'Default',
-            TotalPaid: 0
+            TotalPaid: 0,
+            UserLinks:[]
         };
         
         data = $.extend(defdata, data);
 
         var self = this;
         self.apiUrl = sprintf("/api/Browser/%s/MyFliers", bf.currentBrowserInstance.BrowserId);
-        self.Steps = ['AddImages', 'DetailsAndTags', 'PostLocation', 'Summary', 'Complete'];
+        self.Steps = ['AddImages', 'DetailsAndTags', 'UserLinks', 'PostLocation', 'Summary', 'Complete'];
+        self.UserLinkTypes = ko.observableArray(["Facebook", "Twitter", "Tickets", "Website"]);
+        self.selectedLinkType = ko.observable(null);
+
         self.imageSelector = imageSelector;
         self.tagsSelector = tagsSelector;
         
@@ -88,6 +99,50 @@
 
         self.showCostBreakdown = function() {
             self.costBreakdown(!self.costBreakdown());
+        };
+
+        self.editableUserLink = ko.observable(new bf.UserLinkModel());
+        self.editUserLinkMode = ko.observable(null);
+            
+        self.addUserLink = function() {
+            if (!$('#flierForm').valid()) {
+                return;
+            }
+            self.UserLinks.push(self.editableUserLink());
+            self.editableUserLink(new bf.UserLinkModel());
+        };
+        
+        self.editUserLinkSave = function () {
+            if (!$('#flierForm').valid()) {
+                return;
+            }
+            self.editUserLinkMode(null);
+            self.editableUserLink(new bf.UserLinkModel());
+        };
+
+        self.removeUserLink = function() {
+            self.UserLinks.remove(this);
+        };
+        
+        self.editUserLink = function () {
+            self.editableUserLink(this);
+            self.editUserLinkMode(true);
+        };
+
+        self.reparseValidation = function() {
+            var $form = $("#flierForm");
+
+            // Unbind existing validation 
+            $form.unbind();
+            $form.data("validator", null);
+
+            // Check document for changes 
+            $.validator.unobtrusive.parse($form);
+
+            // Re add validation with changes 
+            $form.validate($form.data("unobtrusiveValidation").options);
+            var validatorSettings = $.data($form[0], 'validator').settings;
+            validatorSettings.ignore = ".ignore *";
         };
 
 
@@ -171,7 +226,7 @@
         }
 
         self.nextTemplate = function () {
-            if (!$('#flierForm').valid()) {
+            if (!$('#flierForm').valid() && $('#flierForm').attr("data-validate-on-next") != "false") {
                 return;
             }
 
@@ -279,8 +334,8 @@
            
             var tagString = self.tagsSelector.SelectedTags().join();
             reqData.TagsString = tagString;
-            if (!self.ContactDetails().Address().ValidLocation())
-                reqData.ContactDetails.Address = null;
+            //if (!self.ContactDetails().Address().ValidLocation())
+            //    reqData.ContactDetails.Address = null;
 
             self.posting(true);
             $.ajax(self.apiUrl, {

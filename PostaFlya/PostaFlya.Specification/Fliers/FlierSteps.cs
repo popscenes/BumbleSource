@@ -649,6 +649,38 @@ namespace PostaFlya.Specification.Fliers
             createFlierModel.VenueInformation = new VenueInformationModel();
         }
 
+        [Given(@"i choose to attach USER LINKS")]
+        public void GivenIChooseToAttachUSERLINKS()
+        {
+            var createFlierModel = ScenarioContext.Current["createflya"] as FlierCreateModel;
+            createFlierModel.UserLinks.Add(new UserLinkViewModel() { Type = LinkType.Facebook.ToString(), Text = "facebook link", Link = "https://www.facebook.com/TeddyMcCuddles" });
+            createFlierModel.UserLinks.Add(new UserLinkViewModel() { Type = LinkType.Twitter.ToString(), Text = "twitter link", Link = "https://twitter.com/TeddyMcCuddless" });
+            createFlierModel.UserLinks.Add(new UserLinkViewModel() { Type = LinkType.Tickets.ToString(), Text = "tickets link", Link = "https://ticketek.com.au" });
+            createFlierModel.UserLinks.Add(new UserLinkViewModel() { Type = LinkType.Website.ToString(), Text = "website link", Link = "https://popscenes.com" });
+        }
+
+        [Then(@"It will Have The USER LINKS")]
+        public void ThenItWillHaveTheUSERLINKS()
+        {
+            var flierid = ScenarioContext.Current["createdflyaid"] as string;
+            Assert.IsNotNull(flierid);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(flierid));
+
+            //var createModel = ScenarioContext.Current["createflya"] as FlierCreateModel;
+            var flierQueryService = SpecUtil.CurrIocKernel.Get<GenericQueryServiceInterface>();
+            var flier = flierQueryService.FindById<Flier>(flierid);
+            Assert.AreEqual(4, flier.UserLinks.Count());
+
+            Assert.AreEqual(flier.UserLinks[0].Type, LinkType.Facebook);
+            Assert.AreEqual(flier.UserLinks[0].Text, "facebook link");
+            Assert.AreEqual(flier.UserLinks[0].Link, "https://www.facebook.com/TeddyMcCuddles");
+            
+        }
+
+
 
     }
+
+ 
+    
 }

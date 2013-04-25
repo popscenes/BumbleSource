@@ -8,6 +8,7 @@ using Website.Infrastructure.Query;
 
 namespace PostaFlya.Domain.Flier.Payment
 {
+    [Serializable]
     public class PostRadiusFeatureChargeBehaviour : FlierChargeBehaviourBase
     {
         public static readonly int RatePerSqKm = 1;
