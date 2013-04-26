@@ -10,6 +10,7 @@ using Website.Application.Binding;
 using Website.Application.Command;
 using Website.Application.Content;
 using Website.Azure.Common.Environment;
+using Website.Infrastructure.Binding;
 using Website.Infrastructure.Command;
 
 namespace Website.Application.Azure.Tests

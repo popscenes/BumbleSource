@@ -1,5 +1,6 @@
 using System;
 using Website.Application.Binding;
+using Website.Infrastructure.Binding;
 using Website.Infrastructure.Command;
 using Website.Application.Domain.Content.Command;
 using Website.Domain.Content.Command;

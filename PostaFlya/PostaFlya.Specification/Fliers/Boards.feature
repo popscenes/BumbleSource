@@ -46,6 +46,17 @@ And the BOARD has the status PendingApproval
 When I approve the BOARD
 Then the BOARD will have the status PendingApproval
 
+Scenario: Create Flyer at Place Creates Venue Board if not exists
+Given There is no Board for a Venue
+When I create a FLIER at a Venue
+Then a Venue BOARD will be created
+And The FLIER will be a member of the board with a status of Approved
+
+Scenario: Create Flyer at Place Adds To Existing Venue Board
+Given There is a Board for a Venue with a Flier
+When I create a FLIER at a Venue
+Then The FLIER will be a member of the board with a status of Approved
+And The Board will have 2 Fliers
 
 
 

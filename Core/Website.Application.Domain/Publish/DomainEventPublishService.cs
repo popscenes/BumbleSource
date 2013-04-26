@@ -1,6 +1,7 @@
 using Website.Application.Binding;
 using Website.Application.Domain.Publish.Command;
 using Website.Domain.Service;
+using Website.Infrastructure.Binding;
 using Website.Infrastructure.Command;
 using Website.Infrastructure.Domain;
 

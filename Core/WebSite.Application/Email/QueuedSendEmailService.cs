@@ -3,6 +3,7 @@ using System.Net.Mail;
 using Website.Application.Binding;
 using Website.Application.Email.Command;
 using Website.Application.Extension.Email;
+using Website.Infrastructure.Binding;
 using Website.Infrastructure.Command;
 
 namespace Website.Application.Email

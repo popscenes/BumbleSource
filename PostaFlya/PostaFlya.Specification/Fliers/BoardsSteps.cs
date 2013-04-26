@@ -5,13 +5,16 @@ using Ninject;
 using PostaFlya.Controllers;
 using PostaFlya.Domain.Boards;
 using PostaFlya.Domain.Boards.Command;
+using PostaFlya.Domain.Boards.Query;
 using PostaFlya.Domain.Flier;
+using PostaFlya.Domain.Venue;
 using PostaFlya.Mocks.Domain.Data;
 using PostaFlya.Models.Board;
 using PostaFlya.Models.Flier;
 using PostaFlya.Specification.Util;
 using TechTalk.SpecFlow;
 using Website.Domain.Browser;
+using Website.Domain.Location;
 using Website.Infrastructure.Command;
 using Website.Infrastructure.Domain;
 using Website.Infrastructure.Query;
@@ -77,13 +80,13 @@ namespace PostaFlya.Specification.Fliers
             Assert.That(board.AllowOthersToPostFliers, Is.True);
         }
 
-        private void GivenThereIsAPublicBoardForBrowserThatRequiresApprovalNamed(string browserId, string targetBoard)
+        private void GivenThereIsAPublicBoardForBrowserNamed(string browserId, string targetBoard, bool requiresApproval = true)
         {
             var boardCreate = new BoardCreateEditModel()
             {
                 BoardName = targetBoard,
                 AllowOthersToPostFliers = true,
-                RequireApprovalOfPostedFliers = true,
+                RequireApprovalOfPostedFliers = requiresApproval,
             };
 
             WhenABrowserSubmitsTheFollowingDataForTheBOARD(boardCreate, browserId);
@@ -91,6 +94,13 @@ namespace PostaFlya.Specification.Fliers
             ThenTheBOARDWillAllowOthersToPost();
             ThenTheBOARDWillRequireApprovalForPostedFliers();
             ThenTheBOARDHasStatus(BoardStatus.Approved);
+        }
+
+        [Given(@"There is a public board named (.*) that doesn't require approval")]
+        public void GivenThereIsAPublicBoardThatDoesntRequireApprovalNamed(string targetBoard)
+        {
+            var browserId = _common.GivenThereIsAnExistingBrowserWithParticipantRole();
+            GivenThereIsAPublicBoardForBrowserNamed(browserId, targetBoard, false);
         }
 
         [Given(@"There is a venue board named (.*)")]
@@ -104,9 +114,11 @@ namespace PostaFlya.Specification.Fliers
                 BoardName = boardName,
                 AllowOthersToPostFliers = true,
                 RequireApprovalOfPostedFliers = false,
-                BoardTypeEnum = BoardTypeEnum.VenueBoard
-
+                BoardTypeEnum = BoardTypeEnum.VenueBoard,
+                SourceInformation = SpecUtil.CurrIocKernel.Get<VenueInformation>()
             };
+
+
             var ret = bus.Send(createBoardCommand) as MsgResponse;
             ScenarioContext.Current["createdboardid"] = ret.GetEntityId();
             ThenABOARDNamedBoardWillBeCreated(boardName);
@@ -118,14 +130,14 @@ namespace PostaFlya.Specification.Fliers
         public void GivenThereIsAPublicBoardThatRequiresApprovalNamed(string targetBoard)
         {   
             var browserId = _common.GivenThereIsAnExistingBrowserWithParticipantRole();
-            GivenThereIsAPublicBoardForBrowserThatRequiresApprovalNamed(browserId, targetBoard);
+            GivenThereIsAPublicBoardForBrowserNamed(browserId, targetBoard);
         }
 
         [Given(@"there is an approved public board named (.*)")]
         public void GivenThereIsAnApprovedPublicBoardNamed(string targetBoard)
         {
             var browserId = _common.GivenThereIsAnExistingBrowserWithParticipantRole();
-            GivenThereIsAPublicBoardForBrowserThatRequiresApprovalNamed(browserId, targetBoard);
+            GivenThereIsAPublicBoardForBrowserNamed(browserId, targetBoard);
             _common.GivenIHaveRole(Role.Admin.ToString());
             WhenIApproveTheBOARD();
             ThenTheBOARDHasStatus(BoardStatus.Approved);
@@ -135,14 +147,14 @@ namespace PostaFlya.Specification.Fliers
         public void GivenIHaveCreatedAPublicBoardThatRequiresApprovalNamed(string targetBoard)
         {
             var browserId = SpecUtil.GetCurrBrowser().Browser.Id;
-            GivenThereIsAPublicBoardForBrowserThatRequiresApprovalNamed(browserId, targetBoard);
+            GivenThereIsAPublicBoardForBrowserNamed(browserId, targetBoard);
         }
 
         [Given(@"I have created an approved public board named (.*)")]
         public void GivenIHaveCreatedAnApprovedPublicBoardNamed(string targetBoard)
         {
             var browserId = SpecUtil.GetCurrBrowser().Browser.Id;
-            GivenThereIsAPublicBoardForBrowserThatRequiresApprovalNamed(browserId, targetBoard);
+            GivenThereIsAPublicBoardForBrowserNamed(browserId, targetBoard);
             _common.GivenIHaveRole(Role.Admin.ToString());
             WhenIApproveTheBOARD();
             ThenTheBOARDHasStatus(BoardStatus.Approved);
@@ -193,7 +205,11 @@ namespace PostaFlya.Specification.Fliers
         {
             var queryService = SpecUtil.CurrIocKernel.Get<GenericQueryServiceInterface>();
             var flier = ScenarioContext.Current["flier"] as FlierInterface;
-            var board = ScenarioContext.Current["board"] as BoardInterface;
+            flier = queryService.FindById<Flier>(flier.Id);
+            ScenarioContext.Current["flier"] = flier;
+
+            BoardInterface board = null;
+            board = ScenarioContext.Current["board"] as BoardInterface;
 
             var boardFlier = queryService.FindAggregateEntities<BoardFlier>(board.Id);
             Assert.That(boardFlier.Count(), Is.GreaterThan(0));
@@ -284,6 +300,45 @@ namespace PostaFlya.Specification.Fliers
 
             var query = SpecUtil.CurrIocKernel.Get<GenericQueryServiceInterface>();
             ScenarioContext.Current["board"] = query.FindById<Board>(board.Id);
+        }
+
+
+        [Given(@"There is no Board for a Venue")]
+        public void GivenThereIsNoBoardForAVenue()
+        {
+           var venueInfo = SpecUtil.CurrIocKernel.Get<VenueInformation>(ib => ib.Get<bool>("default"));
+           var qc = SpecUtil.CurrIocKernel.Get<QueryChannelInterface>();
+           var ret = qc.Query(new FindBoardForVenueQuery() {VenueInformation = venueInfo}, (Board)null);
+           Assert.That(ret, Is.Null);
+        }
+
+        [Then(@"a Venue BOARD will be created")]
+        public void ThenAVenueBOARDWillBeCreated()
+        {
+            var venueInfo = SpecUtil.CurrIocKernel.Get<VenueInformation>(ib => ib.Get<bool>("default"));
+            var qc = SpecUtil.CurrIocKernel.Get<QueryChannelInterface>();
+            var ret = qc.Query(new FindBoardForVenueQuery() { VenueInformation = venueInfo }, (Board)null);
+            Assert.That(ret, Is.Not.Null);
+            ScenarioContext.Current["board"] = ret;
+        }
+
+        [Given("There is a Board for a Venue with a Flier")]
+        public void GivenThereIsABoardForAVenueWithAFlier()
+        {
+            GivenThereIsNoBoardForAVenue();
+            new FlierSteps().GivenIHaveCreatedAflier();
+            ThenAVenueBOARDWillBeCreated();
+            ThenItWillBeAMemberOfTheBoardWithAStatusOf(BoardFlierStatus.Approved);
+        }
+
+        [Then(@"The Board will have (.*) Fliers")]
+        public void ThenTheBoardWillHaveFliers(int numoffliers)
+        {
+            var queryService = SpecUtil.CurrIocKernel.Get<GenericQueryServiceInterface>();
+
+            var board = ScenarioContext.Current["board"] as BoardInterface;
+            var boardFlier = queryService.FindAggregateEntities<BoardFlier>(board.Id);
+            Assert.That(boardFlier.Count(), Is.EqualTo(numoffliers));
         }
 
 

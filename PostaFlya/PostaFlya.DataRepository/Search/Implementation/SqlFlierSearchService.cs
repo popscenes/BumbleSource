@@ -97,7 +97,7 @@ namespace PostaFlya.DataRepository.Search.Implementation
 
             var sortSkip = skipPast == null ? (long?) null : skipPast.ToSearchRecords().First().SortOrder;
 
-            var shards = location.GetShardIdsFor(distance).Cast<object>().ToArray();
+            var shards = location.GetShardIdsFor(distance * 1000).Cast<object>().ToArray();
             var ret = SqlExecute.Query<FlierSearchRecordWithDistance>(sqlCmd,
                 _connection
                 , shards

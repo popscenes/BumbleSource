@@ -32,14 +32,14 @@ namespace PostaFlya.Domain.Boards.Command
 
         public object Handle(AddFlierToBoardCommand command)
         {
-            if (command.BoardFliers
-                .Select(boardFlier => _queryService
-                    .FindById<Flier.Flier>(boardFlier.FlierId))
-                    .Any(flier => flier == null || flier.BrowserId != command.BrowserId))
-            {
-                return new MsgResponse("Invalid Flier for board", true)
-                    .AddCommandId(command);
-            }
+//            if (command.BoardFliers
+//                .Select(boardFlier => _queryService
+//                    .FindById<Flier.Flier>(boardFlier.FlierId))
+//                    .Any(flier => flier == null || flier.BrowserId != command.BrowserId))
+//            {
+//                return new MsgResponse("Invalid Flier for board", true)
+//                    .AddCommandId(command);
+//            }
 
             var boardFliers = new List<BoardFlierModifiedEvent>();
             var unitOfWork = _unitOfWorkFactory.GetUnitOfWork(new[] { _repository });

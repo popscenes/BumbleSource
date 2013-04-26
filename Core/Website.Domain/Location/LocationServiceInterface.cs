@@ -6,6 +6,6 @@ namespace Website.Domain.Location
         bool IsWithinBoundingBox(BoundingBox boundingBox, Location location);
         BoundingBox GetDefaultBox(Location location);
         bool IsWithinDistance(Location location, int distance);
-        BoundingBox GetBoundingBox(Location location, int distance);
+        BoundingBox GetBoundingBox(Location location, double distance);
     }
 }

@@ -115,6 +115,8 @@ namespace PostaFlya.Specification.Fliers
         //REUSE
         [Given(@"There is a FLIER")]
         [Given(@"I have created a FLIER")]
+        [Given(@"I have created a FLIER at a Venue")]
+        [When(@"I create a FLIER at a Venue")]
         public void GivenIHaveCreatedAflier()
         {
             GivenIHaveCreatedAflierofBehaviour(FlierBehaviour.Default.ToString());

@@ -6,6 +6,7 @@ using Ninject;
 using Ninject.MockingKernel.Moq;
 using Ninject.Modules;
 using PostaFlya.Domain.Boards;
+using PostaFlya.Domain.Boards.Query;
 using PostaFlya.Domain.Flier;
 using PostaFlya.Domain.Flier.Analytic;
 using PostaFlya.Domain.Flier.Query;
@@ -83,6 +84,27 @@ namespace PostaFlya.Mocks.Domain.Data
 
             /////////////query service
             RepoUtil.SetupQueryService<GenericQueryServiceInterface, Board, BoardInterface>(store, kernel, BoardInterfaceExtensions.CopyFieldsFrom);
+
+
+            //query by location
+            var locationService = kernel.Get<LocationServiceInterface>();
+
+            var findBoardsNearQueryHandler = kernel.GetMock<QueryHandlerInterface<FindBoardsNearQuery, List<string>>>();
+            findBoardsNearQueryHandler
+                .Setup(handler => handler.Query(It.IsAny<FindBoardsNearQuery>()))
+                .Returns<FindBoardsNearQuery>(query =>
+                    {
+                        var boundingBox = locationService.GetBoundingBox(query.Location, query.WithinMetres / 1000.0);
+                        var ret = store
+                        .Where(
+                            f => f.Location != null && f.Location.IsValid && f.BoardTypeEnum != BoardTypeEnum.InterestBoard && 
+                            locationService.IsWithinBoundingBox(boundingBox, f.Location)
+                         )
+                         .Select(f => f.Id);
+
+                        return ret.ToList();
+
+                    });
 
         }
 

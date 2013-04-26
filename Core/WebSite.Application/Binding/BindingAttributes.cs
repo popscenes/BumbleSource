@@ -9,9 +9,7 @@ namespace Website.Application.Binding
 
     //public class FlierImageStorageAttribute : Attribute { }
 
-    //command bus contexts
-    //worker command bus means that commands sent on the bus will go to workers 
-    public class WorkerCommandBusAttribute : Attribute { }
+
 
     //for broadcast communication
     public class BroadcastCommunicatorAttribute : Attribute { }

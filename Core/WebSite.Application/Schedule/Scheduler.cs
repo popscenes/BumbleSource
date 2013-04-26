@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading;
 using Website.Application.Binding;
 using Website.Application.Schedule.Command;
+using Website.Infrastructure.Binding;
 using Website.Infrastructure.Command;
 using Website.Infrastructure.Query;
 

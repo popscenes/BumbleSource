@@ -4,6 +4,7 @@ using PostaFlya.Domain.Flier.Analytic;
 using PostaFlya.Domain.Flier.Command;
 using Website.Application.Binding;
 using Website.Domain.Location;
+using Website.Infrastructure.Binding;
 using Website.Infrastructure.Command;
 
 namespace PostaFlya.Application.Domain.Flier

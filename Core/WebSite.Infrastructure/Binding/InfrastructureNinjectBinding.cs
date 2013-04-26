@@ -48,14 +48,7 @@ namespace Website.Infrastructure.Binding
         {
             var asm = Assembly.GetCallingAssembly();
             Trace.TraceInformation("Binding Subscribers from {0}", asm.FullName);
-            kernel.Bind(
-                x => x.From(asm)
-                         .IncludingNonePublicTypes()
-                         .SelectAllClasses()
-                         .Where(t => t.GetInterfaces().Any(i => i == typeof(HandleEventInterface))
-                         )
-                         .BindAllInterfaces()
-                         .Configure(ninjectConfiguration));
+            kernel.BindAllInterfacesFromAssemblyFor(asm, typeof(HandleEventInterface), ninjectConfiguration);
         }
 
         public static void BindAllInterfacesFromAssemblyFor(this StandardKernel kernel, Assembly asm, Type type, ConfigurationAction ninjectConfiguration)
