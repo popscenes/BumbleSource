@@ -3,6 +3,7 @@ using Website.Infrastructure.Domain;
 
 namespace PostaFlya.Domain.Boards
 {
+    [Serializable]
     public class BoardFlier : EntityBase<BoardFlierInterface>,
         BoardFlierInterface
     {

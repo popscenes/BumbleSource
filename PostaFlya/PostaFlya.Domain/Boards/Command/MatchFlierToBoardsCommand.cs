@@ -8,6 +8,7 @@ using Website.Infrastructure.Query;
 
 namespace PostaFlya.Domain.Boards.Command
 {
+    [Serializable]
     public class MatchFlierToBoardsCommand : DefaultCommandBase
     {
         public string FlierId { get; set; }

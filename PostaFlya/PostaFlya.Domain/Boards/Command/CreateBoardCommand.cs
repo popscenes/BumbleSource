@@ -1,9 +1,11 @@
+using System;
 using PostaFlya.Domain.Venue;
 using Website.Domain.Location;
 using Website.Infrastructure.Command;
 
 namespace PostaFlya.Domain.Boards.Command
 {
+    [Serializable]
     public class CreateBoardCommand : DefaultCommandBase
     {
         public BoardTypeEnum BoardTypeEnum { get; set; }
