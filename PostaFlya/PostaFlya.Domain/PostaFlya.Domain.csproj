@@ -93,10 +93,7 @@
     <Compile Include="Boards\Command\EditBoardFlierCommandHandler.cs" />
     <Compile Include="Boards\Event\BoardFlierModifiedEvent.cs" />
     <Compile Include="Boards\Event\BoardModifiedEvent.cs" />
-    <Compile Include="Boards\Event\VenueBoardModifiedEvent.cs" />
     <Compile Include="Boards\Query\BoardQueryServiceUtil.cs" />
-    <Compile Include="Boards\VenueBoard.cs" />
-    <Compile Include="Boards\VenueBoardInterface.cs" />
     <Compile Include="Flier\Analytic\AnalyticTrackingSummary.cs" />
     <Compile Include="Flier\Analytic\FlierAnalyticSourceAction.cs" />
     <Compile Include="Flier\Analytic\FlierAnalytic.cs" />

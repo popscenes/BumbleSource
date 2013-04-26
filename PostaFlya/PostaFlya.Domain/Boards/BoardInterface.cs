@@ -16,6 +16,10 @@ namespace PostaFlya.Domain.Boards
             target.RequireApprovalOfPostedFliers = source.RequireApprovalOfPostedFliers;
             target.Status = source.Status;
             target.BoardTypeEnum = source.BoardTypeEnum;
+            target.InformationSources = source.InformationSources != null
+                                            ? new List<VenueInformation>(source.InformationSources)
+                                            : null;
+            target.Location = source.Location != null ? new Location(source.Location) : null;
         }
     }
 
@@ -26,5 +30,7 @@ namespace PostaFlya.Domain.Boards
         string Description { get; set; }
         BoardStatus Status { get; set; }
         BoardTypeEnum BoardTypeEnum { get; set; }
+        Location Location { get; set; }
+        List<VenueInformation> InformationSources { get; set; }
     }
 }

@@ -380,7 +380,6 @@
     <Compile Include="Models\Board\BoardFlierModel.cs" />
     <Compile Include="Models\Board\BoardViewModel.cs" />
     <Compile Include="Models\Board\EditBoardFlierModel.cs" />
-    <Compile Include="Models\Board\VenueBoardViewModel.cs" />
     <Compile Include="Models\Browser\BrowserModel.cs" />
     <Compile Include="Models\Browser\PaymentPendingFlierModel.cs" />
     <Compile Include="Models\Browser\PaymentResult.cs" />

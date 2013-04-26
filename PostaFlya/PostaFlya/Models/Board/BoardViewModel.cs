@@ -1,16 +1,34 @@
-﻿using System.Runtime.Serialization;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.Serialization;
+using PostaFlya.Domain.Venue;
+using PostaFlya.Models.Location;
 using Website.Common.Model;
 using Website.Common.Model.Query;
+using Website.Infrastructure.Query;
 
 namespace PostaFlya.Models.Board
 {
     public class ToBoardViewModel : ViewModelMapperInterface<BoardViewModel, PostaFlya.Domain.Boards.Board>
     {
+        private readonly QueryChannelInterface _queryChannel;
+
+        public ToBoardViewModel(QueryChannelInterface queryChannel)
+        {
+            _queryChannel = queryChannel;
+        }
+
         public BoardViewModel ToViewModel(BoardViewModel target, Domain.Boards.Board source)
         {
             if(target == null)
                 target = new BoardViewModel();
             target.Description = source.Description;
+            target.Description = source.Description;
+            target.VenueInformation = source
+                .InformationSources
+                .Select(information => _queryChannel.ToViewModel<VenueInformationModel>(information))
+                .ToList();
+            target.Location = _queryChannel.ToViewModel<LocationModel>(source.Location);
             return target;
         }
     }
@@ -20,5 +38,14 @@ namespace PostaFlya.Models.Board
     {
         [DataMember]
         public string Description { get; set; }
+
+        [DataMember]
+        public string FriendlyId { get; set; }
+
+        [DataMember]
+        public List<VenueInformationModel> VenueInformation { get; set; }
+
+        [DataMember]
+        public LocationModel Location { get; set; }
     }
 }

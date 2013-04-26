@@ -47,7 +47,7 @@ namespace PostaFlya.Domain.Boards.Command
 
         private static Board GetNewBoard(CreateBoardCommand command)
         {
-            var newBoard = command.BoardTypeEnum == BoardTypeEnum.VenueBoard ? new VenueBoard() : new Board();
+            var newBoard = new Board();
             newBoard.BrowserId = command.BrowserId;
             newBoard.Id = Guid.NewGuid().ToString();
             newBoard.FriendlyId = command.BoardName;

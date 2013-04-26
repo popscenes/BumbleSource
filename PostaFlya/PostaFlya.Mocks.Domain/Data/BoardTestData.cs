@@ -17,7 +17,7 @@ namespace PostaFlya.Mocks.Domain.Data
         public static Board GetOne(IKernel kernel, String boardName, BoardTypeEnum boardType = BoardTypeEnum.InterestBoard, Location loc = null)
         {
 
-            var ret = boardType == BoardTypeEnum.VenueBoard ? new VenueBoard() {Location = loc} : new Board();
+            var ret = boardType != BoardTypeEnum.InterestBoard ? new Board() { Location = loc } : new Board();
             ret.Id = Guid.NewGuid().ToString();
             ret.FriendlyId = boardName;
             ret.BrowserId = kernel.Get<string>(bm => bm.Has("defaultbrowserid"));
@@ -65,13 +65,7 @@ namespace PostaFlya.Mocks.Domain.Data
             Assert.AreEqual(storedBoard.BrowserId, retrievedBoard.BrowserId);
             Assert.AreEqual(storedBoard.RequireApprovalOfPostedFliers, retrievedBoard.RequireApprovalOfPostedFliers);
             Assert.AreEqual(storedBoard.AllowOthersToPostFliers, retrievedBoard.AllowOthersToPostFliers);
-        }
-
-        public static void AssertStoreRetrieve(VenueBoardInterface storedBoard, VenueBoardInterface retrievedBoard)
-        {
-            AssertStoreRetrieve((BoardInterface) storedBoard, retrievedBoard);
             Assert.AreEqual(storedBoard.Location, retrievedBoard.Location);
-
         }
     }
 }

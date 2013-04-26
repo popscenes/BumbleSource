@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using PostaFlya.Domain.Venue;
 using Website.Domain.Location;
 using Website.Infrastructure.Domain;
 
@@ -11,5 +13,7 @@ namespace PostaFlya.Domain.Boards
         public string Description { get; set; }
         public BoardStatus Status { get; set; }
         public BoardTypeEnum BoardTypeEnum { get; set; }
+        public Location Location { get; set; }
+        public List<VenueInformation> InformationSources { get; set; }
     }
 }
