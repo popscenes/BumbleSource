@@ -76,25 +76,48 @@
         <fieldset>
             <h2>ADD SOME LINKS YOUR FLYER</h2>
             
-            <div data-bind="with:editableUserLink">
-                <select id="select-links" name="select-links" data-bind="options: $parent.UserLinkTypes, value: Type"></select>
-                
-                <span class="field-validation-valid" data-valmsg-for="linktext" data-valmsg-replace="true"></span>
-                <input type="text" data-bind="value:Text" id="linktext" name="linktext" data-val="true" data-val-required="Text required."/>
+            <div>
+                <h3>Select Type of Link</h3>
+                <select id="select-links" name="select-links" data-bind="options:UserLinkTypes,  optionsText: 'Type',  value: selectedLinkType, event:{change:userLinkTypeChange}"></select>
+            
+
+                <span data-bind="with:editableUserLink">
+                    <h3>Now Customise the text and URL</h3>
                     
-                <span class="field-validation-valid" data-valmsg-for="linkurl" data-valmsg-replace="true"></span>
-                <input type="text" data-bind="value:Link" id="linkurl" name="linkurl" data-val="true" data-val-required="Url required." data-val-url="Invalid url."/>
-                <a href="javascript:void(0);" data-bind="click:$parent.addUserLink, visible:$parent.editUserLinkMode() != true">add</a>
-                <a href="javascript:void(0);" data-bind="click:$parent.editUserLinkSave, visible:$parent.editUserLinkMode() == true">save</a>
+                    
+                    <ol>
+                        <li>
+                            <span class="field-validation-valid" data-valmsg-for="linktext" data-valmsg-replace="true"></span>
+                            <label>Link Text</label>
+                            <input type="text" data-bind="value:Text" id="linktext" name="linktext" data-val="true" data-val-required="Text required."/>    
+                        </li>
+                        <li>
+                            <span class="field-validation-valid" data-valmsg-for="linkurl" data-valmsg-replace="true"></span>
+                            <label>Link Url</label>
+                            <input type="text" data-bind="value:Link" id="linkurl" name="linkurl" data-val="true" data-val-required="Url required." data-val-url="Invalid url."/>
+                        </li>
+                    </ol>
+
+                    <a href="javascript:void(0);" data-bind="click:$parent.addUserLink, visible:$parent.editUserLinkMode() != true">add</a>
+                    <a href="javascript:void(0);" data-bind="click:$parent.editUserLinkSave, visible:$parent.editUserLinkMode() == true">save</a>
+                </span>
             </div>
             
-            <ul data-bind="foreach:UserLinks">
+            <h3>Current Custom Links</h3>
+            <ul data-bind="foreach:UserLinks" class="create-edit-userlink">
                 <li>
-                    <span data-bind="text:Type"></span>
-                    <span type="text" data-bind="value:Text" data-val="true" data-val-required="Text required."></span>
-                    <span type="text" data-bind="value:Link" data-val="true" data-val-required="Url required." data-val-url="Invalid url."></span>
-                    <a href="javascript:void(0);" data-bind="click:$parent.editUserLink">edit</a>
-                    <a href="javascript:void(0);" data-bind="click:$parent.removeUserLink">remove</a>
+                    <div data-bind="css:Type() + '-userlink userlink'">
+                        
+                        <a data-bind="attr:{href:Link}">
+                            <span class="lnk-img"></span>
+                            <span type="text" data-bind="text:Text" data-val="true" data-val-required="Text required."></span>    
+                        </a>
+                    </div>
+                    
+                    <div>
+                        <a href="javascript:void(0);" data-bind="click:$parent.editUserLink">edit</a>
+                        <a href="javascript:void(0);" data-bind="click:$parent.removeUserLink">remove</a>
+                    </div>
                 </li>
             </ul>
         </fieldset>
