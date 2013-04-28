@@ -68,6 +68,16 @@ background-color: white;
     display: inline-block;
 }
 
+ul.userlinks {
+    margin: 0px;
+    padding: 0px;
+}
+.userlinks li{
+    list-style: none;
+    padding: 0px;
+    margin: 0px;
+}
+
 .userlink .lnk-img {
     background-image: url(images/icons-44h1.png);
     display: inline-block;

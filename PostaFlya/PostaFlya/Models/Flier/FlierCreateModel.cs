@@ -37,7 +37,7 @@ namespace PostaFlya.Models.Flier
                            PostRadius = flier.LocationRadius+5,
                            VenueInformation = flier.ContactDetails.ToViewModel(),
                            TotalPaid = flier.GetTotalPaid(),
-                           UserLinks = flier.UserLinks == null ? new List<UserLinkViewModel>() : flier.UserLinks.Select(_ => _.ToCreateModel()).ToList()
+                           UserLinks = flier.UserLinks == null ? new List<UserLinkViewModel>() : flier.UserLinks.Select(_ => _.ToViewModel()).ToList()
                        };
         }
 

@@ -315,6 +315,15 @@ namespace PostaFlya.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to User Links.
+        /// </summary>
+        public static string BulletinFlierModel_UserLinks_UserLinks {
+            get {
+                return ResourceManager.GetString("BulletinFlierModel_UserLinks_UserLinks", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to ClaimTime.
         /// </summary>
         public static string ClaimTime {

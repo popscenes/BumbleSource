@@ -20,6 +20,7 @@ using PostaFlya.Models.Content;
 using Website.Application.Domain.Content;
 using Website.Domain.Browser;
 using Website.Infrastructure.Query;
+using Resources = PostaFlya.Properties.Resources;
 
 namespace PostaFlya.Models.Flier
 {
@@ -118,6 +119,9 @@ namespace PostaFlya.Models.Flier
 
         [Display(Name = "FlierStatus", ResourceType = typeof(Properties.Resources))] 
         public string Status { get; set; }
+
+        [Display(ResourceType = typeof(Properties.Resources), Name = "BulletinFlierModel_UserLinks_UserLinks")] 
+        public List<UserLinkViewModel> UserLinks { get; set; }
 
         public string TinyUrl { get; set; }  
     }
