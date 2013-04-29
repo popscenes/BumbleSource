@@ -227,11 +227,29 @@ ul.userlinks {
     left: auto;
 }
 
+.user-link-edit {
+    display: block;
+    margin: 5px 0;
+}
+
 .pickfiles  .std-image-btn-icon {
     background-position: -272px 0px;
 }
 .uploadfiles  .std-image-btn-icon {
     background-position: -238px 0px;
+}
+
+.addButton  .std-image-btn-icon {
+    background-position: -238px 0px;
+}
+
+.create-edit-userlink {
+    padding: 0;
+    margin: 0;
+    width: 90%;
+}
+.create-edit-userlink li {
+    float: left;
 }
 
 #profile-avatar, #log-in-profile {
