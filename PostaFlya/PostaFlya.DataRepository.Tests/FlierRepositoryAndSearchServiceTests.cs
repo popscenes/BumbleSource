@@ -6,8 +6,10 @@ using Ninject;
 using PostaFlya.DataRepository.Internal;
 using PostaFlya.DataRepository.Search.Command;
 using PostaFlya.DataRepository.Search.Event;
+using PostaFlya.DataRepository.Search.Query;
 using PostaFlya.Domain.Boards;
 using PostaFlya.Domain.Boards.Event;
+using PostaFlya.Domain.Boards.Query;
 using PostaFlya.Domain.Flier.Event;
 using PostaFlya.Domain.Flier.Query;
 using Website.Azure.Common.Environment;
@@ -298,6 +300,30 @@ namespace PostaFlya.DataRepository.Tests
                 });
             indexer.Handle(new BoardFlierModifiedEvent() {NewState = boardFlier});
             return storedFlier;
+        }
+
+        [Test]
+        public void FindNearByBoardsFindsBoardsWithinXMeters()
+        {
+            var board = BoardTestData.GetOne(Kernel, "TestBoardNameNoLoc", BoardTypeEnum.VenueBoard, _loc);
+            board = BoardTestData.StoreOne(board, _repository, Kernel);
+            var indexer = Kernel.Get<SqlFlierIndexService>();
+            indexer.Handle(new BoardModifiedEvent() { NewState = board });
+
+            var loc2 = new Location(_loc);
+            loc2.Latitude += 1;
+            loc2.Longitude += 1;
+            var board2 = BoardTestData.GetOne(Kernel, "TestBoardNameNoLoc", BoardTypeEnum.VenueBoard, loc2);
+            board2 = BoardTestData.StoreOne(board2, _repository, Kernel);
+            indexer.Handle(new BoardModifiedEvent() { NewState = board2 });
+
+            var nearbyQuery = Kernel.Get<FindBoardsNearQueryHandler>();
+            var nearby = nearbyQuery.Query(new FindBoardsNearQuery() {Location = _loc, WithinMetres = 1});
+
+            Assert.That(nearby, Is.Not.Null);
+            Assert.That(nearby.Count, Is.EqualTo(1));
+
+            Assert.That(nearby[0], Is.EqualTo(board.Id));
         }
 
         [Test]

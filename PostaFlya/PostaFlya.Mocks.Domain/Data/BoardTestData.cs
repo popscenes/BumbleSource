@@ -14,15 +14,16 @@ namespace PostaFlya.Mocks.Domain.Data
     public static class BoardTestData
     {
 
-        public static Board GetOne(IKernel kernel, String boardName, BoardTypeEnum boardType = BoardTypeEnum.InterestBoard, Location loc = null)
+        public static Board GetOne(IKernel kernel, String boardName, BoardTypeEnum typeOfBoard = BoardTypeEnum.InterestBoard, Location loc = null)
         {
 
-            var ret = boardType != BoardTypeEnum.InterestBoard ? new Board() { Location = loc } : new Board();
+            var ret = typeOfBoard != BoardTypeEnum.InterestBoard ? new Board() { Location = loc } : new Board();
             ret.Id = Guid.NewGuid().ToString();
             ret.FriendlyId = boardName;
             ret.BrowserId = kernel.Get<string>(bm => bm.Has("defaultbrowserid"));
             ret.RequireApprovalOfPostedFliers = true;
             ret.AllowOthersToPostFliers = true;
+            ret.BoardTypeEnum = typeOfBoard;
 
             ret.FriendlyId = BoardQueryServiceUtil.FindFreeFriendlyId(null, ret);
             return ret;

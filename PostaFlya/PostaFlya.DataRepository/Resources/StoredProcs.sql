@@ -203,3 +203,21 @@ exec sp_executeSQL
 end
 
 GO
+
+--CONTEXT=PostaFlya.DataRepository.Search.SearchRecord.BoardSearchRecord
+if not exists (select * from sys.objects where type = 'P' AND name = 'FindNearbyBoards')
+   exec('create procedure FindNearbyBoards as begin SET NOCOUNT ON; end')
+GO
+
+--CONTEXT=PostaFlya.DataRepository.Search.SearchRecord.BoardSearchRecord
+alter procedure FindNearbyBoards
+		@loc geography,
+		@withinmetres int
+as
+begin
+	select *, Location.STDistance(@loc) as Metres 
+	from BoardSearchRecord br
+	where Location.STDistance(@loc) < @withinmetres
+end
+
+GO
