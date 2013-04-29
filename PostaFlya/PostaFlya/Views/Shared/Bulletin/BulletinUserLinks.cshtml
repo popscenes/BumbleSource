@@ -1,0 +1,15 @@
+﻿
+<div data-bind="with:Flier, visible:Flier.UserLinks.length > 0">
+        <h4>Links</h4>
+        <ul data-bind="foreach:UserLinks" class="userlinks">
+                <li>
+                    <div data-bind="css:Type + '-userlink userlink'">
+                        
+                        <a data-bind="attr:{href:Link}" target="_window">
+                            <span class="lnk-img"></span>
+                            <span type="text" data-bind="text:Text" data-val="true" data-val-required="Text required."></span>    
+                        </a>
+                    </div>
+                </li>
+            </ul>
+    </div>

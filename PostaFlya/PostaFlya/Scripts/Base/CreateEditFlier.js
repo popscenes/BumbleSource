@@ -26,11 +26,11 @@
         self.description = ko.observable(null);
     };
     
-    bf.UserLinkModel = function () {
+    bf.UserLinkModel = function (type, text, link) {
         var self = this;
-        self.Type = ko.observable(null);
-        self.Text = ko.observable(null);
-        self.Link = ko.observable(null);
+        self.Type = ko.observable(type);
+        self.Text = ko.observable(text);
+        self.Link = ko.observable(link);
     };
 
     bf.CreateEditFlier = function (data, imageSelector, tagsSelector, afterUpdateCallback) {
@@ -58,7 +58,22 @@
         var self = this;
         self.apiUrl = sprintf("/api/Browser/%s/MyFliers", bf.currentBrowserInstance.BrowserId);
         self.Steps = ['AddImages', 'DetailsAndTags', 'UserLinks', 'PostLocation', 'Summary', 'Complete'];
-        self.UserLinkTypes = ko.observableArray(["Facebook", "Twitter", "Tickets", "Website"]);
+
+
+        self.UserLinkTypes = ko.observableArray([]);
+        var facebookLinkType = new bf.UserLinkModel("Facebook", "Facebook", "Your Facebook link");
+        self.UserLinkTypes.push(facebookLinkType);
+        
+        var twitterLinkType = new bf.UserLinkModel("Twitter", "Twitter", "Your Twitter link");
+        self.UserLinkTypes.push(twitterLinkType);
+        
+        var ticketsLinkType = new bf.UserLinkModel("Tickets", "Get Tickets", "Your Tickets link");
+        self.UserLinkTypes.push(ticketsLinkType);
+        
+        var wevbsiteLinkType = new bf.UserLinkModel("Website", "Your Website", "Your Website link");
+        self.UserLinkTypes.push(wevbsiteLinkType);
+        
+
         self.selectedLinkType = ko.observable(null);
 
         self.imageSelector = imageSelector;
@@ -88,7 +103,12 @@
 
         self.posting = ko.observable(false);
         self.flierStatus = ko.observable('');
-        
+
+        self.userLinkTypeChange = function() {
+            var newUserLink = new bf.UserLinkModel(self.selectedLinkType().Type(), self.selectedLinkType().Text(), self.selectedLinkType().Link());
+            self.editableUserLink(newUserLink);
+        };
+
         self.saveText = ko.computed(function () {
             return self.posting() == true ? "Saving" : "Save";
         }, self);
@@ -109,7 +129,7 @@
                 return;
             }
             self.UserLinks.push(self.editableUserLink());
-            self.editableUserLink(new bf.UserLinkModel());
+            self.editableUserLink(new bf.UserLinkModel(self.selectedLinkType().Type(), self.selectedLinkType().Text(), self.selectedLinkType().Link()));
         };
         
         self.editUserLinkSave = function () {
@@ -117,7 +137,7 @@
                 return;
             }
             self.editUserLinkMode(null);
-            self.editableUserLink(new bf.UserLinkModel());
+            self.editableUserLink(new bf.UserLinkModel(self.selectedLinkType().Type(), self.selectedLinkType().Text(), self.selectedLinkType().Link()));
         };
 
         self.removeUserLink = function() {
@@ -216,9 +236,6 @@
                 self.FlierImageId(image.ImageId);
                 self.FlierImageUrl(image.ImageUrl);
             }
-//todo readd however only add additional images to image list
-//            if (!$.inArray(image, self.ImageList))
-//                self.ImageList.push(image);
         });
 
         if (self.TagsString() != null && self.TagsString() != '') {

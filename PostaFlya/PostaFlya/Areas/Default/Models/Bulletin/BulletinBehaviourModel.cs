@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.Serialization;
 using PostaFlya.Areas.TaskJob.Models.Bulletin;
 using PostaFlya.Domain.Behaviour;
@@ -38,7 +39,8 @@ namespace PostaFlya.Areas.Default.Models.Bulletin
                 ImageList = flier.ImageList.Select(_ => new ImageViewModel() { ImageId = _.ImageID }).ToList(),
                 PendingCredits = flier.Features.Sum(_ => _.OutstandingBalance),
                 Status = flier.Status.ToString(),
-                TinyUrl = flier.TinyUrl
+                TinyUrl = flier.TinyUrl,
+                UserLinks = flier.UserLinks == null ? new List<UserLinkViewModel>()  : flier.UserLinks.Select(_ => _.ToViewModel()).ToList()
 
             };
         }

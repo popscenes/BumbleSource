@@ -64,6 +64,50 @@ background-color: white;
     padding-left: 44px;
     
 }
+.create-edit-userlink {
+    display: inline-block;
+}
+
+ul.userlinks {
+    margin: 0px;
+    padding: 0px;
+}
+.userlinks li{
+    list-style: none;
+    padding: 0px;
+    margin: 0px;
+}
+
+.userlink .lnk-img {
+    background-image: url(images/icons-44h1.png);
+    display: inline-block;
+    width: 44px;
+    height: 44px;
+    vertical-align: middle;
+}
+
+.userlink a {
+    display: block;
+    text-align: center;
+    text-decoration: none;
+    color: #555555;
+}
+
+.Facebook-userlink .lnk-img {
+    background-position: -616px -44px;
+}
+
+.Twitter-userlink .lnk-img {
+    background-position: -660px -44px;
+}
+
+.Tickets-userlink .lnk-img {
+    background-position: -660px -44px;
+}
+
+.Website-userlink .lnk-img {
+    background-position: -660px -44px;
+}
 
 .std-image-btn-icon {
     background-image: url(images/icons-34h1.png);
@@ -183,11 +227,29 @@ background-color: white;
     left: auto;
 }
 
+.user-link-edit {
+    display: block;
+    margin: 5px 0;
+}
+
 .pickfiles  .std-image-btn-icon {
     background-position: -272px 0px;
 }
 .uploadfiles  .std-image-btn-icon {
     background-position: -238px 0px;
+}
+
+.addButton  .std-image-btn-icon {
+    background-position: -238px 0px;
+}
+
+.create-edit-userlink {
+    padding: 0;
+    margin: 0;
+    width: 90%;
+}
+.create-edit-userlink li {
+    float: left;
 }
 
 #profile-avatar, #log-in-profile {

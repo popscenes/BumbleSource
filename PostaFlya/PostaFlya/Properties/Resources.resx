@@ -476,4 +476,7 @@
   <data name="BoardCreateEditModel_TypeOfBoard" xml:space="preserve">
     <value>Board Type</value>
   </data>
+  <data name="BulletinFlierModel_UserLinks_UserLinks" xml:space="preserve">
+    <value>User Links</value>
+  </data>
 </root>

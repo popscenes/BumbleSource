@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Globalization;
 using PostaFlya.Domain.Flier;
 using Resources = PostaFlya.Properties.Resources;
 
@@ -8,14 +9,14 @@ namespace PostaFlya.Models.Flier
 {
     public static class UserLinkViewModelExtensions
     {
-        public static UserLinkViewModel ToCreateModel(this UserLink userLink)
+        public static UserLinkViewModel ToViewModel(this UserLink userLink)
         {
             //dynamic behav = flier.Behaviour;
             return new UserLinkViewModel()
                 {
                     Link = userLink.Link,
                     Text = userLink.Text,
-                    Type = userLink.ToString()
+                    Type = userLink.Type.ToString(CultureInfo.InvariantCulture)
                 };
         }
 
