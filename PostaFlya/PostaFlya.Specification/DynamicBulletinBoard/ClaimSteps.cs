@@ -17,6 +17,7 @@ using Website.Domain.Claims;
 using Website.Domain.Claims.Event;
 using Website.Domain.Service;
 using Website.Infrastructure.Command;
+using Website.Infrastructure.Publish;
 using Website.Infrastructure.Query;
 using Website.Mocks.Domain.Data;
 
@@ -202,18 +203,23 @@ namespace PostaFlya.Specification.DynamicBulletinBoard
         [BeforeScenario("TearOffNotification")]
         public void SetupNotificationBinding()
         {
-            var claimBind = SpecUtil.CurrIocKernel.GetMock<DomainEventPublishServiceInterface>();
-            claimBind.Setup(service => service.Publish(It.IsAny<ClaimEvent>()))
+
+            var claimBind = SpecUtil.CurrIocKernel.GetMock<HandleEventInterface<ClaimEvent>>();
+
+
+            claimBind.Setup(service => service.Handle(It.IsAny<ClaimEvent>()))
                 .Callback<ClaimEvent>(claim => 
                     ScenarioContext.Current["tearoffnotification"] = true);
-            SpecUtil.CurrIocKernel.Bind<DomainEventPublishServiceInterface>()
+
+
+            SpecUtil.CurrIocKernel.Bind<HandleEventInterface<ClaimEvent>>()
                 .ToConstant(claimBind.Object);
         }
 
         [AfterScenario("TearOffNotification")]
         public void TearDownNotificationBinding()
         {
-            SpecUtil.CurrIocKernel.Unbind<DomainEventPublishServiceInterface>();
+            SpecUtil.CurrIocKernel.Unbind<HandleEventInterface<ClaimEvent>>();
         }
 
         [Then(@"I should see the Contact Details associated with that FLIER")]

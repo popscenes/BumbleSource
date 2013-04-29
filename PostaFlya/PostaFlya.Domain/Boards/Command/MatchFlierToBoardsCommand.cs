@@ -30,7 +30,7 @@ namespace PostaFlya.Domain.Boards.Command
         public object Handle(MatchFlierToBoardsCommand command)
         {
             var flier = _queryService.FindById<Flier.Flier>(command.FlierId);
-            if (flier == null || string.IsNullOrWhiteSpace(flier.ContactDetails.PlaceName))
+            if (flier == null || flier.ContactDetails == null || string.IsNullOrWhiteSpace(flier.ContactDetails.PlaceName))
                 return null;
 
             var board = _queryChannel.Query(new FindBoardForVenueQuery() { VenueInformation = flier.ContactDetails }, (Board)null);
