@@ -23,6 +23,8 @@ namespace PostaFlya.Domain.Binding
             var kernel = Kernel as StandardKernel;
             kernel.BindCommandAndQueryHandlersFromCallingAssembly(c => c.InTransientScope());
 
+            kernel.BindEventHandlersFromCallingAssembly(c => c.InTransientScope());
+
             Trace.TraceInformation("Finished Binding CommandNinjectBinding");
 
         }

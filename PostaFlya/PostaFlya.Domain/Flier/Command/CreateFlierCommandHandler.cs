@@ -28,13 +28,12 @@ namespace PostaFlya.Domain.Flier.Command
         private readonly DomainEventPublishServiceInterface _domainEventPublishService;
         private readonly CreditChargeServiceInterface _creditChargeService;
         private readonly TinyUrlServiceInterface _tinyUrlService;
-        private readonly CommandBusInterface _commandBus;
 
         public CreateFlierCommandHandler(GenericRepositoryInterface repository
             , UnitOfWorkFactoryInterface unitOfWorkFactory, GenericQueryServiceInterface flierQueryService
             , DomainEventPublishServiceInterface domainEventPublishService
             , CreditChargeServiceInterface creditChargeService
-            , TinyUrlServiceInterface tinyUrlService, [WorkerCommandBus]CommandBusInterface commandBus)
+            , TinyUrlServiceInterface tinyUrlService)
         {
             _repository = repository;
             _unitOfWorkFactory = unitOfWorkFactory;
@@ -42,7 +41,6 @@ namespace PostaFlya.Domain.Flier.Command
             _domainEventPublishService = domainEventPublishService;
             _creditChargeService = creditChargeService;
             _tinyUrlService = tinyUrlService;
-            _commandBus = commandBus;
         }
 
         public object Handle(CreateFlierCommand command)
@@ -96,8 +94,6 @@ namespace PostaFlya.Domain.Flier.Command
             {
                 _domainEventPublishService.Publish(boardFlierModifiedEvent);
             }
-
-            _commandBus.Send(new MatchFlierToBoardsCommand() {FlierId = newFlier.Id});
 
             return new MsgResponse("Flier Create", false)
                 .AddEntityId(newFlier.Id)

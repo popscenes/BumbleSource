@@ -10,11 +10,16 @@ using Ninject.Modules;
 using PostaFlya.Application.Domain.ExternalSource;
 using PostaFlya.Application.Domain.Flier;
 using PostaFlya.Domain.Flier;
+using Website.Application.Domain.Binding;
 using Website.Application.Domain.Content;
+using Website.Application.Domain.Publish;
+using Website.Application.Publish;
+using Website.Domain.Service;
 using Website.Domain.TinyUrl;
 using Website.Infrastructure.Authentication;
 using Website.Domain.Browser;
 using Website.Infrastructure.Domain;
+using Website.Infrastructure.Publish;
 using Website.Infrastructure.Query;
 
 namespace PostaFlya.Mocks.Domain.Data
@@ -32,6 +37,11 @@ namespace PostaFlya.Mocks.Domain.Data
             Kernel.Bind<FlierWebAnalyticServiceInterface>()
                   .To<DefaultFlierWebAnalyticService>()
                   .InTransientScope();
+
+            Bind<DomainEventPublishServiceInterface>().To<DomainEventPublishService>().InTransientScope();
+            Bind<BroadcastServiceInterface>().To<DefaultBroadcastService>().InTransientScope();
+
+            ApplicationDomainNinjectBinding.BindCommandAndQueryHandlers(kernel);
         }
 
         public static void SetUpTinyUrlService<EnityType>(MoqMockingKernel kernel)

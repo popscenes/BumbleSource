@@ -41,7 +41,7 @@ namespace Website.Application.Domain.Binding
 
             //command handlers
             var kernel = Kernel as StandardKernel;
-            kernel.BindCommandAndQueryHandlersFromCallingAssembly(c => c.InTransientScope());
+            BindCommandAndQueryHandlers(kernel);
 
             //publish services
             kernel.BindEventHandlersFromCallingAssembly(syntax => syntax.InTransientScope());
@@ -50,6 +50,11 @@ namespace Website.Application.Domain.Binding
                 .To<DefaultTinyUrlService>();
 
             Trace.TraceInformation("Finished Binding ApplicationDomainNinjectBinding");
+        }
+
+        public static void BindCommandAndQueryHandlers(StandardKernel kernel)
+        {
+            kernel.BindCommandAndQueryHandlersFromCallingAssembly(c => c.InTransientScope());
         }
 
         #endregion

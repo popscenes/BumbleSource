@@ -94,6 +94,7 @@
     <Compile Include="Boards\Command\MatchFlierToBoardsCommand.cs" />
     <Compile Include="Boards\Event\BoardFlierModifiedEvent.cs" />
     <Compile Include="Boards\Event\BoardModifiedEvent.cs" />
+    <Compile Include="Boards\Event\MatchFlierToBoardEventHandler.cs" />
     <Compile Include="Boards\Query\BoardQueryServiceUtil.cs" />
     <Compile Include="Boards\Query\FindBoardForVenueQuery.cs" />
     <Compile Include="Boards\Query\FindBoardsNearQuery.cs" />
