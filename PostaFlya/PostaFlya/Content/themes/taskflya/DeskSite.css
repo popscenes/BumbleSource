@@ -102,11 +102,11 @@ ul.userlinks {
 }
 
 .Tickets-userlink .lnk-img {
-    background-position: -660px -44px;
+    background-position: -440px -44px;
 }
 
 .Website-userlink .lnk-img {
-    background-position: -660px -44px;
+    background-position: -88px -44px;
 }
 
 .std-image-btn-icon {
@@ -250,6 +250,7 @@ ul.userlinks {
 }
 .create-edit-userlink li {
     float: left;
+    margin-right: 10px;
 }
 
 #profile-avatar, #log-in-profile {
