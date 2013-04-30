@@ -179,6 +179,19 @@ namespace PostaFlya.Specification.Fliers
             testRunner.And("The Board will have 2 Fliers", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
             this.ScenarioCleanup();
         }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("View Board")]
+        public virtual void ViewBoard()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("View Board", ((string[])(null)));
+            this.ScenarioSetup(scenarioInfo);
+            testRunner.Given("There is a Board for a Venue with a Flier", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+            testRunner.When("I navigate to the public view page for that Board", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+            testRunner.Then("I will see the Information for that Board", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+            testRunner.And("I will see the Fliers on that Board", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+            this.ScenarioCleanup();
+        }
     }
 }
 #pragma warning restore

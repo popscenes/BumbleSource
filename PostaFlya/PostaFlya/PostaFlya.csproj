@@ -353,7 +353,6 @@
     <Compile Include="Areas\TaskJob\Models\TaskJobBidModel.cs" />
     <Compile Include="Areas\TaskJob\Models\TaskJobDetailsViewModel.cs" />
     <Compile Include="Areas\TaskJob\TaskJobAreaRegistration.cs" />
-    <Compile Include="Binding\EntityQueryServiceFactoryInterface.cs" />
     <Compile Include="Binding\WebNinjectBindings.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BoardController.cs" />

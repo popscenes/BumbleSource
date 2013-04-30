@@ -227,7 +227,7 @@ namespace PostaFlya.Mocks.Domain.Data
                               .Returns<string, int, FlierInterface, Tags, FlierSortOrder, Location, int>(
                                   (b, c, skip, t, s, l, d) =>
                                       {
-                                          var boundingBox = l == null
+                                          var boundingBox = (l == null || !l.IsValid)
                                                                 ? null
                                                                 : (d <= 0
                                                                        ? locationService.GetDefaultBox(l)

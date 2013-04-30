@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Web.Mvc;
 using NUnit.Framework;
 using Ninject;
 using PostaFlya.Controllers;
@@ -11,6 +13,7 @@ using PostaFlya.Domain.Venue;
 using PostaFlya.Mocks.Domain.Data;
 using PostaFlya.Models.Board;
 using PostaFlya.Models.Flier;
+using PostaFlya.Models.Location;
 using PostaFlya.Specification.Util;
 using TechTalk.SpecFlow;
 using Website.Domain.Browser;
@@ -339,6 +342,44 @@ namespace PostaFlya.Specification.Fliers
             var board = ScenarioContext.Current["board"] as BoardInterface;
             var boardFlier = queryService.FindAggregateEntities<BoardFlier>(board.Id);
             Assert.That(boardFlier.Count(), Is.EqualTo(numoffliers));
+        }
+
+        [When(@"I navigate to the public view page for that Board")]
+        public void WhenINavigateToThePublicViewPageForThatBoard()
+        {
+            var board = ScenarioContext.Current["board"] as BoardInterface;
+            var controller = SpecUtil.GetController<BoardController>();
+            SpecUtil.ControllerResult = controller.Get(board.FriendlyId);
+        }
+
+        [Then(@"I will see the Information for that Board")]
+        public void ThenIWillSeeTheInformationForThatBoard()
+        {
+            var board = ScenarioContext.Current["board"] as BoardInterface;
+            var res = SpecUtil.ControllerResult as ViewResult;
+            var bres = res.Model as BoardViewModel;
+            Assert.That(bres, Is.Not.Null);
+            Assert.That(bres.FriendlyId, Is.EqualTo(board.FriendlyId));
+            Assert.That(bres.Description, Is.EqualTo(board.Description));
+            Assert.That(bres.BoardTypeEnum, Is.EqualTo(board.BoardTypeEnum));
+        }
+
+        [Then(@"I will see the Fliers on that Board")]
+        public void ThenIWillSeeTheFliersOnThatBoard()
+        {
+            var bulletinController = SpecUtil.GetApiController<BulletinApiController>();
+            var board = ScenarioContext.Current["board"] as BoardInterface;
+            var dateFilter = ScenarioContext.Current.ContainsKey("eventfilterdate") ? ScenarioContext.Current["eventfilterdate"] as DateTime? : null;
+
+
+            SpecUtil.ControllerResult = bulletinController
+                .Get(loc: new LocationModel(), count: 30, board: board.Id, skipPast: null
+                , distance: 0
+                , tags: "", date: dateFilter);
+
+            var fliers = SpecUtil.ControllerResult as IList<BulletinFlierModel>;
+            var flier = fliers.FirstOrDefault();
+            Assert.IsNotNull(flier, "no fliers in context");
         }
 
 

@@ -58,5 +58,11 @@ When I create a FLIER at a Venue
 Then The FLIER will be a member of the board with a status of Approved
 And The Board will have 2 Fliers
 
+Scenario: View Board
+Given There is a Board for a Venue with a Flier
+When I navigate to the public view page for that Board
+Then I will see the Information for that Board
+And I will see the Fliers on that Board
+
 
 
