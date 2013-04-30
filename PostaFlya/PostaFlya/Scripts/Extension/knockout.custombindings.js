@@ -145,6 +145,16 @@ ko.bindingHandlers.touchHover = {
     }
 };
 
+ko.bindingHandlers.linkInput = {
+    init: function (element, valueAccessor, allBindingsAccessor, viewModel) {
+        $(element).bind('focus', function (e) {
+            e.preventDefault();
+            //alert("toggle class");
+            valueAccessor()("http://");
+        });
+    }
+};
+
 ko.bindingHandlers.placeAutoComplete = {
     init: function (element, valueAccessor, allBindingsAccessor, viewModel) {
 
