@@ -2,7 +2,7 @@ namespace PostaFlya.Domain.Flier
 {
     public enum FlierStatus
     {
-        Pending,
+        Pending = 0,
         Active,
         PaymentPending
     }

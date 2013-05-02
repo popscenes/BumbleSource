@@ -47,7 +47,8 @@ namespace PostaFlya.DataRepository.Search.SearchRecord
                     Tags = flier.Tags.ToXml().ToSql(),
                     Location = geog,
                     LocationShard = shard,
-                    SortOrder = flier.CreateDate.Ticks
+                    SortOrder = flier.CreateDate.Ticks,
+                    Status = (int)flier.Status
                 });
         }
 
@@ -146,6 +147,7 @@ namespace PostaFlya.DataRepository.Search.SearchRecord
         public String BrowserId { get; set; }
         public int NumberOfClaims { get; set; }
         public int NumberOfComments { get; set; }
+        public int Status { get; set; }
 
         //for scaling possibilities
         [FederationCol(FederationName = "Location", DistributionName = "location_shard")]

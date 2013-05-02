@@ -180,6 +180,11 @@ namespace Website.Infrastructure.Util
             }
         }
 
+        public static Type GetNullTypeOrDefault(this Type source)
+        {
+            return Nullable.GetUnderlyingType(source) ?? source;
+        }
+
         public static bool IsGreaterThan<SourceType>(this SourceType value, SourceType other) where SourceType : IComparable
         {
             return value.CompareTo(other) > 0;

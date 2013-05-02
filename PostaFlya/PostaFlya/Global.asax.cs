@@ -98,6 +98,13 @@ namespace PostaFlya
                 constraints: new { path = DependencyResolver.Current.GetService<TinyUrlRouteConstraint>()}
             );
 
+            routes.MapRoute(
+                name: "BoardDetail",
+                url: "{id}",
+                defaults: new { controller = "Board", action = "Get" },
+                constraints: new { id = "[-0-9a-zA-Z]+" }
+            );  
+
             //static routes
             routes.MapRoute(
                 name: "TermsOfService",

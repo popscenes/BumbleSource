@@ -172,7 +172,7 @@ namespace Website.Application.Command
             catch (Exception e)
             {
                 Trace.TraceError("QueuedCommandScheduler TaskProc Error: {0}, Stack {1}", e.Message, e.StackTrace);
-                work.Result = QueuedCommandResult.Error;
+                work.Result = QueuedCommandResult.Retry;
 
             }
     

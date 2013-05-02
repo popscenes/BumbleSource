@@ -55,7 +55,7 @@ select @SQL = @SQL + N'
 		';
 
 select @SQL = @SQL + N'
-		where fr.Id = fr.Id
+		where fr.Id = fr.Id and (fr.Status is null or fr.Status = 1)
 		'
 
 if @loc is not null
@@ -160,7 +160,7 @@ select	@SQL = N'
 		select 
 		Location.STDistance(@locParam) as Metres, *
 		from BoardFlierSearchRecord fr			
-		where BoardId = @boardParam AND BoardStatus = 2 
+		where BoardId = @boardParam AND BoardStatus = 2 and (fr.Status is null or fr.Status = 1)
 ';
 
 if @loc is not null

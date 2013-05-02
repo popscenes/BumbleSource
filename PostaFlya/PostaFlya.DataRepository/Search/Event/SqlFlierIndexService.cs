@@ -45,7 +45,7 @@ namespace PostaFlya.DataRepository.Search.Event
                 (@event.NewState == null || 
                 !@event.NewState.Location.Equals(@event.OrigState.Location) ||
                 @event.NewState.LocationRadius != @event.OrigState.LocationRadius ||
-                (@event.OrigState.Status == FlierStatus.Active && @event.NewState.Status != FlierStatus.Active))
+                @event.NewState.Status != FlierStatus.Active)
              )
             {
                 var searchRecords = @event.OrigState.ToSearchRecords().ToList();

@@ -11,7 +11,7 @@ using Website.Infrastructure.Query;
 
 namespace PostaFlya.Domain.Boards.Command
 {
-    internal class AddFlierToBoardCommandHandler : CommandHandlerInterface<AddFlierToBoardCommand>
+    public class AddFlierToBoardCommandHandler : CommandHandlerInterface<AddFlierToBoardCommand>
     {
 
         private readonly GenericRepositoryInterface _repository;
@@ -75,6 +75,8 @@ namespace PostaFlya.Domain.Boards.Command
             var ret = new List<BoardFlierModifiedEvent>();
             if (boardIds == null)
                 return ret;
+
+            var friendlyIdForVenueBoard = "";
             foreach (var boardid in boardIds)
             {
                 var board = queryService.FindById<Board>(boardid);
@@ -97,11 +99,9 @@ namespace PostaFlya.Domain.Boards.Command
                                             ? BoardFlierStatus.PendingApproval
                                             : BoardFlierStatus.Approved;
                 }
-                else
-                {
-                    continue;
-                }
 
+                if (board.BoardTypeEnum != BoardTypeEnum.InterestBoard && board.MatchVenueBoard(flier.ContactDetails))
+                    friendlyIdForVenueBoard = board.FriendlyId;
                 
                 boardFlier.FlierId = flier.Id;
                 boardFlier.AggregateId = board.Id;
@@ -124,6 +124,9 @@ namespace PostaFlya.Domain.Boards.Command
             {
                 if (update.Boards == null)
                     update.Boards = new HashSet<string>();
+
+                if (!string.IsNullOrWhiteSpace(friendlyIdForVenueBoard))
+                    update.ContactDetails.BoardFriendlyId = friendlyIdForVenueBoard;
 
                 update.Boards.UnionWith(ret.Select(r => r.NewState.AggregateId));
                 flier.Boards.UnionWith(update.Boards);

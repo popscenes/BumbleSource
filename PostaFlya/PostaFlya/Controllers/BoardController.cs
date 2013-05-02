@@ -22,9 +22,9 @@ namespace PostaFlya.Controllers
             _queryChannel = queryChannel;
         }
 
-        public ActionResult Get(string boardId)
+        public ActionResult Get(string id)
         {
-            var board = _queryService.FindByFriendlyId<Board>(boardId);
+            var board = _queryService.FindByFriendlyId<Board>(id);
             if (board == null)
                 return HttpNotFound();
 

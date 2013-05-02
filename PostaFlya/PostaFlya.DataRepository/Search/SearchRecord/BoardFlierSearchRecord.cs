@@ -32,6 +32,7 @@ namespace PostaFlya.DataRepository.Search.SearchRecord
             ret.Location = geog;
             ret.NumberOfClaims = flier.NumberOfClaims;
             ret.SortOrder = flier.CreateDate.Ticks;
+            ret.Status = (int) flier.Status;
             return ret;
         }
     }
@@ -69,5 +70,7 @@ namespace PostaFlya.DataRepository.Search.SearchRecord
         public SqlXml Tags { get; set; }
 
         public long SortOrder { get; set; }
+
+        public int Status { get; set; }
     }
 }

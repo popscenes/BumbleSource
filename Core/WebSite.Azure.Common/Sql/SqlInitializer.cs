@@ -128,7 +128,7 @@ namespace Website.Azure.Common.Sql
                 return false;
 
             if (metaTyp.GetProperties()
-                .Where(prop => SqlExecute.TypeToDbColTypeDictionary.ContainsKey(prop.PropertyType))
+                .Where(prop => SqlExecute.TypeToDbColTypeDictionary.ContainsKey(prop.PropertyType.GetNullTypeOrDefault()))
                 .Where(prop => prop.GetIndexParameters().Length <= 0)
                 .Any(prop => !(CreateColumnFrom(prop, connection, tableName) && AddConstraintsFrom(prop, connection, tableName))))
             {
@@ -167,10 +167,10 @@ namespace Website.Azure.Common.Sql
 
         private static string ColumnTextFor(PropertyInfo prop)
         {
-            if(!SqlExecute.TypeToDbColTypeDictionary.ContainsKey(prop.PropertyType))
+            if (!SqlExecute.TypeToDbColTypeDictionary.ContainsKey(prop.PropertyType.GetNullTypeOrDefault()))
                 throw new ArgumentException("no mapping for property type");
 
-            var type = SqlExecute.TypeToDbColTypeDictionary[prop.PropertyType];
+            var type = SqlExecute.TypeToDbColTypeDictionary[prop.PropertyType.GetNullTypeOrDefault()];
 
             if (type == SqlExecute.DbString 
                 && (SerializeUtil.HasAttribute(prop, typeof(PrimaryKey))
