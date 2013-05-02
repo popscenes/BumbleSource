@@ -49,6 +49,7 @@ namespace PostaFlya.Domain.Flier.Analytic
         bool LocationFromSearch { get; set; }
     }
 
+    [Serializable]
     public class FlierAnalytic : EntityBase<FlierAnalyticInterface>, FlierAnalyticInterface
     {
         public string AggregateId { get; set; }

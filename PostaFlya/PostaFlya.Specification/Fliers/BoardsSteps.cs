@@ -322,6 +322,7 @@ namespace PostaFlya.Specification.Fliers
             var qc = SpecUtil.CurrIocKernel.Get<QueryChannelInterface>();
             var ret = qc.Query(new FindBoardForVenueQuery() { VenueInformation = venueInfo }, (Board)null);
             Assert.That(ret, Is.Not.Null);
+            Assert.That(ret.Name, Is.EqualTo(venueInfo.PlaceName));
             ScenarioContext.Current["board"] = ret;
         }
 

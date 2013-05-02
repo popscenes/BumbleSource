@@ -14,7 +14,7 @@ namespace PostaFlya.Domain.Boards.Command
         public string FlierId { get; set; }
     }
 
-    internal class MatchFlierToBoardsCommandHandler: CommandHandlerInterface<MatchFlierToBoardsCommand>
+    public class MatchFlierToBoardsCommandHandler: CommandHandlerInterface<MatchFlierToBoardsCommand>
     {
         private readonly GenericQueryServiceInterface _queryService;
         private readonly QueryChannelInterface _queryChannel;

@@ -3,7 +3,7 @@ using Website.Infrastructure.Publish;
 
 namespace Website.Application.Domain.Publish.Command
 {
-    internal class DomainEventPublishCommandHandler : CommandHandlerInterface<DomainEventPublishCommand>
+    public class DomainEventPublishCommandHandler : CommandHandlerInterface<DomainEventPublishCommand>
     {
         private readonly BroadcastServiceInterface _broadcastService;
 

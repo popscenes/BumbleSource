@@ -39,8 +39,13 @@ namespace Website.Infrastructure.Util
 
         public static decimal LevenshteinDistanceAsPercentage(this string source, string to)
         {
+            if (string.IsNullOrWhiteSpace(source) && string.IsNullOrWhiteSpace(to))
+                return 0;
+            if (string.IsNullOrWhiteSpace(source))
+                return 100;
+
             var dist = source.LevenshteinDistanceTo(to);
-            return ((source.Length - dist)/source.Length)*100;
+            return Math.Abs(((source.Length - dist)/source.Length)*100);
         }
 
         public static int LevenshteinDistanceTo(this string source, string to)

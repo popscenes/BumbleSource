@@ -224,7 +224,7 @@ namespace Website.Azure.Common.Sql
 
 
             var vals = new Dictionary<string, object>();
-            SerializeUtil.PropertiesToDictionary(insert, vals, null, null, false);
+            insert.PropertiesToDictionary(vals, null, null, false);
             var propertyList = vals.ToList();
             var setExpression = GetSetExpression(propertyList);
             var insertList = GetInsertList(propertyList);
@@ -677,10 +677,10 @@ namespace Website.Azure.Common.Sql
         private static object ConvertResult(SqlDataReader reader, int ordinal, Type needed)
         {
             var result = reader[ordinal];
-            if (result == null)
+            if (result == null || result is System.DBNull)
                 return null;
 
-            if (needed == typeof(SqlXml))
+            if (needed.GetNullTypeOrDefault() == typeof(SqlXml))
                 return reader.GetSqlXml(ordinal);
 
             //fixed with assembly binding

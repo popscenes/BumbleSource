@@ -11,7 +11,7 @@ using Website.Infrastructure.Query;
 
 namespace PostaFlya.Domain.Boards.Command
 {
-    internal class CreateBoardCommandHandler : CommandHandlerInterface<CreateBoardCommand>
+    public class CreateBoardCommandHandler : CommandHandlerInterface<CreateBoardCommand>
     {
         private readonly GenericRepositoryInterface _boardRepository;
         private readonly GenericQueryServiceInterface _boardQueryService;
@@ -76,6 +76,7 @@ namespace PostaFlya.Domain.Boards.Command
                     BrowserId = command.BrowserId,
                     Id = Guid.NewGuid().ToString(),
                     FriendlyId = command.BoardName,
+                    Name = command.BoardName,
                     RequireApprovalOfPostedFliers = command.RequireApprovalOfPostedFliers,
                     AllowOthersToPostFliers = command.AllowOthersToPostFliers,
                     Status = BoardStatus.Approved,
