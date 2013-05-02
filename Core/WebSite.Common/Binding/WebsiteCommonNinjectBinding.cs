@@ -7,7 +7,9 @@ using System.Threading.Tasks;
 using Ninject;
 using Ninject.Modules;
 using Website.Common.Model;
+using Website.Common.Model.Query;
 using Website.Infrastructure.Binding;
+using Website.Infrastructure.Query;
 
 namespace Website.Common.Binding
 {

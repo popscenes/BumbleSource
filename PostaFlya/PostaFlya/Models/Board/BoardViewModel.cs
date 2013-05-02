@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
+using PostaFlya.Domain.Boards;
 using PostaFlya.Domain.Venue;
 using PostaFlya.Models.Location;
 using Website.Common.Model;
@@ -9,7 +10,8 @@ using Website.Infrastructure.Query;
 
 namespace PostaFlya.Models.Board
 {
-    public class ToBoardViewModel : ViewModelMapperInterface<BoardViewModel, PostaFlya.Domain.Boards.Board>
+    public class ToBoardViewModel 
+        : ViewModelMapperInterface<BoardViewModel, PostaFlya.Domain.Boards.Board>
     {
         private readonly QueryChannelInterface _queryChannel;
 
@@ -22,13 +24,15 @@ namespace PostaFlya.Models.Board
         {
             if(target == null)
                 target = new BoardViewModel();
-            target.Description = source.Description;
+            target.FriendlyId = source.FriendlyId;
             target.Description = source.Description;
             target.VenueInformation = source
                 .InformationSources
                 .Select(information => _queryChannel.ToViewModel<VenueInformationModel>(information))
                 .ToList();
             target.Location = _queryChannel.ToViewModel<LocationModel>(source.Location);
+            target.BoardTypeEnum = source.BoardTypeEnum;
+            target.Id = source.Id;
             return target;
         }
     }
@@ -40,6 +44,9 @@ namespace PostaFlya.Models.Board
         public string Description { get; set; }
 
         [DataMember]
+        public string Id { get; set; }
+
+        [DataMember]
         public string FriendlyId { get; set; }
 
         [DataMember]
@@ -47,5 +54,8 @@ namespace PostaFlya.Models.Board
 
         [DataMember]
         public LocationModel Location { get; set; }
+
+        [DataMember]
+        public BoardTypeEnum BoardTypeEnum { get; set; }
     }
 }

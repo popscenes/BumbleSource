@@ -4,6 +4,9 @@ namespace Website.Domain.Location
     {
         public static bool IsValid(this LocationInterface loc)
         {
+            if (loc == null)
+                return false;
+
             return !(loc.Longitude < -180
                          || loc.Longitude > 180
                          || loc.Latitude < -90

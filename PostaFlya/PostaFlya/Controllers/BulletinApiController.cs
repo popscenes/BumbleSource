@@ -95,7 +95,7 @@ namespace PostaFlya.Controllers
         public IList<BulletinFlierModel> Get([FromUri] LocationModel loc, int count, string board = ""
             , string skipPast = "", int distance = 0, string tags = "", DateTime? date = null)
         {
-            if (!loc.IsValid())
+            if (!loc.IsValid() && string.IsNullOrWhiteSpace(board))
                 return GetDefaultFliers(count, skipPast, tags);
 
             if (_browserInformation.LastSearchLocation == null)
@@ -173,15 +173,16 @@ namespace PostaFlya.Controllers
         {
             var locDomainModel = loc.ToDomainModel();
             var tagsModel = new Tags(tags);
+            var skip = string.IsNullOrWhiteSpace(skipPast) ? null : flierQueryService.FindById<Flier>(skipPast);
 
             //            location.Latitude = -37.7654897;
             //            location.Longitude = 144.9770748;
             distance = Math.Min(distance, 30);
             count = Math.Min(count, 50);
 
-            var fliersIds =
-                flierSearchService.FindFliersByLocationAndDistance(locDomainModel, distance: distance, take: count, skipPast: string.IsNullOrWhiteSpace(skipPast) ? null : flierQueryService.FindById<Flier>(skipPast), 
-                tags: tagsModel, date: date, sortOrder: FlierSortOrder.SortOrder);
+            var fliersIds = string.IsNullOrWhiteSpace(board) ?
+                flierSearchService.FindFliersByLocationAndDistance(locDomainModel, distance, count, skip , tagsModel, date) :
+                flierSearchService.FindFliersByBoard(board, count, skip, tagsModel, FlierSortOrder.SortOrder, locDomainModel, distance);
 
             var watch = new Stopwatch();
             watch.Start();
