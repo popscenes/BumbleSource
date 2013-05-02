@@ -34,6 +34,11 @@
         </ul>
     </div>
     
+    <div id="bulletin-date" class="dist-selector-container" data-bind="dateToggle:'bulletin'">
+        Get Latest
+    </div>
+    <input id="bulletin" data-bind="datePicker:{onSelect: $data.setDate}" type="hidden"/>
+    
     <div style="clear: both;"></div>
     <div data-bind="with:$root.tagsSelector" class="bulletin-tags-selector">
         <label>I'm only interested in</label>

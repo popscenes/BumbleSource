@@ -6,6 +6,16 @@
     }
 };
 
+
+
+ko.bindingHandlers.dateToggle = {
+    init: function (element, valueAccessor, allBindingsAccessor, viewModel) {
+        $(element).bind('click', function(){
+            $("#" + valueAccessor()).datepicker("show");
+        });
+    }
+};
+
 ko.bindingHandlers.datePicker = {
     update: function (element, valueAccessor, allBindingsAccessor, viewModel) {
         $(element).datepicker(valueAccessor());//.datepicker("setDate", new Date(viewModel.EventDates()));    
