@@ -48,7 +48,17 @@
         self.Location = ko.observable(currentLocation);
 
         self.CreateFlier = ko.observable();
+        
+        self.fliterDate = ko.observable(null);
 
+        self.displayDate = ko.computed(function () {
+            if (self.fliterDate() == null) {
+                return "Latest Fliers";
+            }
+            
+            return $.datepicker.formatDate('dd M yy', new Date(self.fliterDate()));
+        }, this);
+        
         self.Layout = tileLayout;
 
         
@@ -75,6 +85,10 @@
             var tags = self.tagsSelector.SelectedTags().join();
             if (tags.length > 0)
                 params.tags = tags;
+            
+            if (self.fliterDate() != null) {
+                params.date = self.fliterDate();
+            }
 
             return params;
         };
@@ -96,6 +110,10 @@
             }).always(function() {
                 self.moreFliersPending(false);
             });
+        };
+        
+        self.setDate = function (date) {
+            self.fliterDate(date);
         };
 
         self.TryFindLocation = function() {
@@ -216,6 +234,10 @@
                 self.TryRequest();
             });
             self.Distance.subscribe(function (newValue) {
+                self.TryRequest();
+            });
+            
+            self.fliterDate.subscribe(function (newValue) {
                 self.TryRequest();
             });
 
