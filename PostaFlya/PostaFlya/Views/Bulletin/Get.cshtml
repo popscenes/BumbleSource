@@ -33,6 +33,11 @@
         <ul class="dist-selector" data-bind="distanceDropDown: @ViewBag.DistanceVariable">
         </ul>
     </div>
+    <input id="bulletin" data-bind="datePicker:{onSelect: $data.setDate}" type="hidden"/>
+    <div id="bulletin-date" class="dist-selector-container" data-bind="dateToggle:'bulletin'">
+        <span data-bind="text:displayDate"></span>
+    </div>
+    
     
     <div style="clear: both;"></div>
     <div data-bind="with:$root.tagsSelector" class="bulletin-tags-selector">
