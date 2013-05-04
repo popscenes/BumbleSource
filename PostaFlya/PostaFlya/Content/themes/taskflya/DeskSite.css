@@ -1547,6 +1547,10 @@ section.board-information-calendar {
         width: 200px!important;
     }
 
+    .date-filter, #controls .bulletin-tags-selector {
+        padding-top: 12px;
+    }
+
     #profile-avatar, #log-in-profile {
         border-right: none;
     }
