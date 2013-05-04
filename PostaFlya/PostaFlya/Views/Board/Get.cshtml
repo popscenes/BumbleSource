@@ -1,0 +1,87 @@
+﻿@using System.Web.Optimization
+@using PostaFlya.Models
+@using PostaFlya.Models.Flier
+@using Website.Application.Domain.Location.Web
+@using Website.Domain.Location
+@model PostaFlya.Models.Board.BoardPageViewModel
+
+
+@{
+    ViewBag.Title = "Popscenes - " + Model.Name;
+    Layout = "~/Views/Shared/_DefaultLayout.cshtml";
+}
+
+@section scripts
+{
+    @Scripts.Render("~/Script/BulletinDeskJs.js")
+}
+
+
+<div class="board-header">
+    <div class="board-header-content">
+        <section class="board-information-calendar">
+            <div>
+                <span>Show happenings by date:</span>
+            </div>
+            <div id="flyaDate" data-bind="datePicker:{onSelect: $data.setDate}"></div>
+        </section>
+
+        <input type="hidden" value="@Model.Id" id="boardid"/>
+
+        @if (Model.Location != null && Model.Location.IsValid())
+        {
+        
+            <section class="board-information-addr">
+
+                <div>
+                    <a href="@Html.LocationMapSearchUrl(Model.Location.ToDomainModel())"
+                       target="_blank">@Html.LocationImage(Model.Location.ToDomainModel(), 250, 230, 15)</a>
+                </div>
+                <div>
+                    <span>@Model.Location.GetAddressDescription()</span>
+                </div>
+            </section>
+
+        }
+
+        <section class="board-information-desc">
+            <h2>
+                <span>@Model.Name</span>
+            </h2>
+            <div>
+                <span>@Model.Description</span>
+            </div>
+            <div>
+                @foreach (var veninfo in Model.VenueInformation)
+                {
+        
+                    <fieldset>
+                        <legend>@veninfo.Source</legend>
+
+                        @if (!string.IsNullOrWhiteSpace(veninfo.WebSite))
+                        {
+                            <a  class="bold-link" href="@veninfo.WebSite" target="_blank">Website</a> 
+                        }
+
+                        @if (!string.IsNullOrWhiteSpace(veninfo.SourceUrl))
+                        {
+                            <a  class="bold-link" href="@veninfo.SourceUrl" target="_blank">@veninfo.Source</a> 
+                        }
+
+                    </fieldset>
+                }
+            </div>
+
+        </section>
+
+        <div class="clear-fix"></div>
+    </div>
+</div>
+
+
+@Html.Partial("Bulletin/SelectedBulletinViewPartial")
+@Html.Partial("Bulletin/BulletinList", new List<BulletinFlierModel>())
+
+
+
+

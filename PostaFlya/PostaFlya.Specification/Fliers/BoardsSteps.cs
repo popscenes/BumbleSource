@@ -358,7 +358,7 @@ namespace PostaFlya.Specification.Fliers
         {
             var board = ScenarioContext.Current["board"] as BoardInterface;
             var res = SpecUtil.ControllerResult as ViewResult;
-            var bres = res.Model as BoardViewModel;
+            var bres = res.Model as BoardPageViewModel;
             Assert.That(bres, Is.Not.Null);
             Assert.That(bres.FriendlyId, Is.EqualTo(board.FriendlyId));
             Assert.That(bres.Description, Is.EqualTo(board.Description));

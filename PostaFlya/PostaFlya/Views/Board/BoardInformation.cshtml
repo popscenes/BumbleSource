@@ -1,0 +1,56 @@
+﻿
+@using PostaFlya.Models.Location
+@using Website.Application.Domain.Location.Web
+@using Website.Domain.Location
+@model PostaFlya.Models.Board.BoardPageViewModel
+
+
+<input type="hidden" value="@Model.Id" id="boardid"/>
+
+@if (Model.Location != null && Model.Location.IsValid())
+{
+        
+<section class="board-information-addr">
+    <div>
+        <span>@Model.Location.GetAddressDescription()</span>                      
+    </div>
+    <div>
+        <a href="@Html.LocationMapSearchUrl(Model.Location.ToDomainModel())"
+        target="_blank">@Html.LocationImage(Model.Location.ToDomainModel(),250,250, 15)</a>          
+    </div>
+</section>
+
+}
+
+<section class="board-information-desc">
+    <h2>
+    <span>@Model.Name</span>                  
+    </h2>
+    <div>
+        <span>@Model.Description</span>
+    </div>
+    <div>
+        @foreach (var veninfo in Model.VenueInformation){
+        
+            <fieldset>
+                <legend>@veninfo.Source</legend>
+            
+                @if (!string.IsNullOrWhiteSpace(veninfo.WebSite)){
+                    <a  class="bold-link" href="@veninfo.WebSite" target="_blank">Website</a> 
+                }
+
+                @if (!string.IsNullOrWhiteSpace(veninfo.SourceUrl))
+                {
+                    <a  class="bold-link" href="@veninfo.SourceUrl" target="_blank">@veninfo.Source</a> 
+                }
+                 
+            </fieldset>
+        }
+    </div>
+    
+</section>
+                    
+        
+
+
+

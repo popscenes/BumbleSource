@@ -1459,6 +1459,27 @@ p#copyright {
     font-size: 11px;
 }
 
+.board-header {
+    background-color: white;
+    width: 70%;
+    margin: 30px auto;
+    border: 1px #D0CBC4 solid;
+    padding: 15px;
+}
+
+.board-header-content {
+    width: 70%;
+    margin: 0 auto;
+}
+
+section.board-information-addr {
+    float: left;
+}
+
+section.board-information-calendar {
+    float: right;
+}
+
 @media only screen and (max-width: 880px) {
     .long-toolbar .image-btn-text {
         display: none;

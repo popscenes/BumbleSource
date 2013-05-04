@@ -28,7 +28,7 @@ namespace PostaFlya.DataRepository.Search.Implementation
             _connection = new SqlConnection(searchDbConnectionString);
         }
 
-        public IList<string> FindFliersByBoard(string board, int take, FlierInterface skipPast = null, Tags tags = null,
+        public IList<string> FindFliersByBoard(string board, int take, FlierInterface skipPast = null, DateTime? date = null, Tags tags = null,
                                        FlierSortOrder sortOrder = FlierSortOrder.SortOrder, Location location = null, int distance = 5)
         {
             if(string.IsNullOrWhiteSpace(board))
@@ -43,7 +43,8 @@ namespace PostaFlya.DataRepository.Search.Implementation
             //		@distance int,
             //		@sort int = 1,
             //		@skipFlier nvarchar(255) = null,
-            //		@xpath nvarchar(1000) = null
+            //		@xpath nvarchar(1000) = null,
+            //	    @eventDate datetime2 = null
 
             var watch = new Stopwatch();
             watch.Start();
@@ -59,7 +60,8 @@ namespace PostaFlya.DataRepository.Search.Implementation
                     top = take,
                     sort = GetOrderByForSortOrder(sortOrder),
                     skipFlier = skipPast != null ? skipPast.Id : null,
-                    xpath = GetTagFilter(tags)
+                    xpath = GetTagFilter(tags),
+                    eventDate = date != null ? date.Value.ToUniversalTime() as DateTime? : null
                 }
                     , true
                 ).ToList();
@@ -109,7 +111,7 @@ namespace PostaFlya.DataRepository.Search.Implementation
                     sort = GetOrderByForSortOrder(sortOrder),
                     skipPast = sortSkip,
                     xpath = GetTagFilter(tags),
-                    eventDate = date
+                    eventDate = date != null ? date.Value.ToUniversalTime() as DateTime? : null
                 }, true).ToList();
 
             Trace.TraceInformation("FindFliers time: {0}, numfliers {1}", watch.ElapsedMilliseconds, ret.Count());

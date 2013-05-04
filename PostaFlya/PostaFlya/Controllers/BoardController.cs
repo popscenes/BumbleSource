@@ -28,7 +28,7 @@ namespace PostaFlya.Controllers
             if (board == null)
                 return HttpNotFound();
 
-            var ret = _queryChannel.ToViewModel<BoardViewModel>(board);
+            var ret = _queryChannel.ToViewModel<BoardPageViewModel>(board);
             return View(ret);
         }
 

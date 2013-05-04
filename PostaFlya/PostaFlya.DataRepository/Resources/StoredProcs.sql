@@ -75,7 +75,7 @@ if @xpath IS NOT NULL
 
 if @eventDate IS NOT NULL
 		select @SQL = @SQL + N'
-		and ed.EventDate = @eventDateParam
+		and ed.EventDate >= @eventDateParam and ed.EventDate < DATEADD(day, 1, @eventDateParam)
 		';
 		
 select @SQL = @SQL + N'
@@ -119,7 +119,8 @@ alter procedure FindFliersByBoard
 		@distance int,
 		@sort int = 1,
 		@skipFlier nvarchar(255) = null,
-		@xpath nvarchar(1000) = null
+		@xpath nvarchar(1000) = null,
+		@eventDate datetime2 = null
 as
 begin
 
@@ -129,6 +130,7 @@ begin
 --@distance int = 10,
 --@sort int = 1,
 --@skipFlier nvarchar(255) = null,
+--@eventDate datetime2 = '2076-08-11',
 --@xpath nvarchar(500) = null;
 
 --set @loc = geography::STPointFromText('POINT (144.96327999999994 -37.814107)', 4326);
@@ -150,31 +152,44 @@ select	@ParameterDefinition = '
 	@locParam geography,
 	@topParam int,
 	@distanceParam int,
-	@sortParam nvarchar(200),
 	@filterSortParam bigint = null,
-	@xpathParam nvarchar(400) = null
+	@xpathParam nvarchar(400) = null,
+	@eventDateParam datetime2 = null
 ';
 
 select	@SQL = N'
 	;With records as (	
 		select 
-		Location.STDistance(@locParam) as Metres, *
-		from BoardFlierSearchRecord fr			
-		where BoardId = @boardParam AND BoardStatus = 2 and (fr.Status is null or fr.Status = 1)
+		fr.Location.STDistance(@locParam) as Metres, fr.*
+		from BoardFlierSearchRecord fr
+		';
+
+if @eventDate IS NOT NULL
+select @SQL = @SQL + N'
+		left outer join BoardFlierEventDateSearchRecord ed on ed.Id = fr.Id
+		';
+
+select @SQL = @SQL + N'							
+		where fr.BoardId = @boardParam AND fr.BoardStatus = 2 and (fr.Status is null or fr.Status = 1)
 ';
 
 if @loc is not null
 select @SQL = @SQL + N'
-		and Location.STDistance(@locParam) <= @distanceParam*1000
+		and fr.Location.STDistance(@locParam) <= @distanceParam*1000
 		'
 if @filterSort is not null
 select @SQL = @SQL + N'
-		and bfr.SortOrder < @filterSortParam
+		and fr.SortOrder < @filterSortParam
 		';
 
 if @xpath is not null
 		select @SQL = @SQL + N'
-		and Tags.exist(''' + @xpath + ''') > 0
+		and fr.Tags.exist(''' + @xpath + ''') > 0
+		';
+
+if @eventDate IS NOT NULL
+		select @SQL = @SQL + N'
+		and ed.EventDate >= @eventDateParam and ed.EventDate < DATEADD(day, 1, @eventDateParam)
 		';
 		
 select @SQL = @SQL + N'
@@ -196,10 +211,9 @@ exec sp_executeSQL
 	@locParam = @loc,
 	@topParam = @top,
 	@distanceParam = @distance,
-	@sortParam = @sort,
 	@filterSortParam = @filterSort,
-	@xpathParam = @xpath;
-
+	@xpathParam = @xpath,
+	@eventDateParam = @eventDate;
 end
 
 GO

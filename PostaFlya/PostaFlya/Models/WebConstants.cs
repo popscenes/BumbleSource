@@ -42,6 +42,7 @@ namespace PostaFlya.Models
 
         public const string BulletinBoardPage = "bulletin-board";
         public const string BulletinDetailPage = "bulletin-detail";
+        public const string BoardPage = "board-page";
 
         #endregion
 

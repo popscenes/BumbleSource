@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.Threading.Tasks;
 using Website.Application.Queue;
 using Website.Infrastructure.Command;
+using Website.Infrastructure.Util;
 
 namespace Website.Application.Command
 {
@@ -158,7 +159,7 @@ namespace Website.Application.Command
 
             try
             {
-                dynamic handler = _handlerRespository.FindHandler(command);
+                var handler = _handlerRespository.FindHandler(command);
                 if(handler != null)
                 {
                     var ret = handler.Handle(command);
@@ -166,6 +167,10 @@ namespace Website.Application.Command
                         work.Result = ret;
                     else
                         work.Result = QueuedCommandResult.Successful;
+                }
+                else
+                {
+                    work.Result = QueuedCommandResult.Retry;
                 }
                     
             }

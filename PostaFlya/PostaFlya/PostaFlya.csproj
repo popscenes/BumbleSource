@@ -377,7 +377,7 @@
     <Compile Include="Models\Board\AddBoardFlierModel.cs" />
     <Compile Include="Models\Board\BoardCreateEditModel.cs" />
     <Compile Include="Models\Board\BoardFlierModel.cs" />
-    <Compile Include="Models\Board\BoardViewModel.cs" />
+    <Compile Include="Models\Board\BoardPageViewModel.cs" />
     <Compile Include="Models\Board\EditBoardFlierModel.cs" />
     <Compile Include="Models\Browser\BrowserModel.cs" />
     <Compile Include="Models\Browser\PaymentPendingFlierModel.cs" />
@@ -638,6 +638,7 @@
     <Content Include="Scripts\Behaviour\BehaviourViewModel.js" />
     <Content Include="Scripts\Behaviour\BehaviourViewModelFactory.js" />
     <Content Include="Scripts\Behaviour\Default\DefaultBehaviourViewModel.js" />
+    <Content Include="Scripts\Bulletin\BoardPage.js" />
     <Content Include="Scripts\Bulletin\BulletinLayoutProperties.js" />
     <Content Include="Scripts\Bulletin\Detail.js" />
     <Content Include="Scripts\Bulletin\SelectedFlierViewModel.js" />
@@ -830,6 +831,8 @@
     <Content Include="Views\Shared\Contact\EventContactDetailsPartial.cshtml" />
     <Content Include="Views\Shared\Contact\EventContactDetailsViewPartial.cshtml" />
     <Content Include="Views\Shared\Bulletin\BulletinUserLinks.cshtml" />
+    <Content Include="Views\Board\Get.cshtml" />
+    <Content Include="Views\Board\BoardInformation.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

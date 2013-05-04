@@ -42,6 +42,7 @@ namespace PostaFlya.DataRepository.Search.Implementation
                 SqlInitializer.CreateTableFrom(typeof(BoardSearchRecord), newConn); 
                 SqlInitializer.CreateTableFrom(typeof(BoardFlierSearchRecord), newConn);
                 SqlInitializer.CreateTableFrom(typeof(FlierEventDateSearchRecord), newConn);
+                SqlInitializer.CreateTableFrom(typeof(BoardFlierEventDateSearchRecord), newConn);
 
                 SqlInitializer.RunScriptsFrom(Properties.Resources.StoredProcs, newConn);
 

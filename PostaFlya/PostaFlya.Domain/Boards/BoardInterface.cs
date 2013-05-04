@@ -23,6 +23,8 @@ namespace PostaFlya.Domain.Boards
                                             : null;
             target.Location = source.Location != null ? new Location(source.Location) : null;
             target.Name = source.Name;
+            target.ImageId = source.ImageId;
+            target.DefaultInformationSource = source.DefaultInformationSource;
         }
 
         //board and information need to already be close by location wise for this
@@ -37,6 +39,7 @@ namespace PostaFlya.Domain.Boards
 
             return false;
         }
+
     }
 
     public interface BoardInterface : EntityInterface, BrowserIdInterface
@@ -48,6 +51,8 @@ namespace PostaFlya.Domain.Boards
         BoardStatus Status { get; set; }
         BoardTypeEnum BoardTypeEnum { get; set; }
         Location Location { get; set; }
+        string ImageId { get; set; }
         List<VenueInformation> InformationSources { get; set; }
+        string DefaultInformationSource { get; set; }
     }
 }

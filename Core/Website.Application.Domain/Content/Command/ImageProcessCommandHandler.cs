@@ -11,7 +11,7 @@ using Image = System.Drawing.Image;
 
 namespace Website.Application.Domain.Content.Command
 {
-    internal class ImageProcessCommandHandler : CommandHandlerInterface<ImageProcessCommand>
+    public class ImageProcessCommandHandler : CommandHandlerInterface<ImageProcessCommand>
     {
         public static readonly int MaxWidth = ImageUtil.A4300DpiSize.Width;
         public static readonly int MaxHeight = ImageUtil.A4300DpiSize.Width;
