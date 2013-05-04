@@ -193,6 +193,21 @@ ul.userlinks {
     float: right;
 }
 
+ .date-filter span {
+        color: #FF7D00;
+        font-weight: bold;
+        font-size: 12px;
+        margin: 0 5px;
+    }
+
+ .date-filter {
+     clear: both;
+     float: none !important;
+     margin: 0 auto;
+     padding-top: 22px;
+     width: 300px;
+ }
+
 
 #flya-create-back .std-image-btn-icon {
     background-position: -102px 0px;
@@ -503,7 +518,7 @@ div#selected-item-popup-overlay, div#create-flier-popup-overlay {
     clear: both;
 }
 
-.bulletin-tags-selector label{
+.bulletin-tags-selector label, .date-filter label{
     font-size: 12px;
     font-weight: bold;
 }
@@ -1594,6 +1609,7 @@ section.board-information-calendar {
         width: 100%;
     }
 
+   
 
     #controls > * {
         float: none;

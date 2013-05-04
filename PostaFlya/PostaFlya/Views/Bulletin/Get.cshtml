@@ -34,8 +34,11 @@
         </ul>
     </div>
     <input id="bulletin" data-bind="datePicker:{onSelect: $data.setDate}" type="hidden"/>
-    <div id="bulletin-date" class="dist-selector-container" data-bind="dateToggle:'bulletin'">
-        <span data-bind="text:displayDate"></span>
+    
+    <div id="bulletin-date" class="date-filter">
+        <label>Get Flyers for Date</label>
+        <span data-bind="text:displayDate, dateToggle:'bulletin'"></span>
+        <span data-bind="click:resetDate">Get Latest</span>
     </div>
     
     

@@ -51,7 +51,7 @@
 
         self.displayDate = ko.computed(function () {
             if (self.fliterDate() == null) {
-                return "Latest Fliers";
+                return "Select Date";
             }
             
             return $.datepicker.formatDate('dd M yy', new Date(self.fliterDate()));
@@ -113,6 +113,10 @@
         
         self.setDate = function (date) {
             self.fliterDate(date);
+        };
+
+        self.resetDate = function() {
+            self.fliterDate(null);
         };
 
         self.TryFindLocation = function() {
@@ -186,6 +190,11 @@
                 return '';
             
             var showingmostrecent = 'Showing most recent posts';
+
+            if (self.fliterDate() != null) {
+                showingmostrecent = "Showing posts for " + self.displayDate();
+            }
+
             var validLoc = self.Location().ValidLocation();
             var locality = self.Location().Locality();
             if (!validLoc)
