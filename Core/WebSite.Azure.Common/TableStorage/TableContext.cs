@@ -62,18 +62,19 @@ namespace Website.Azure.Common.TableStorage
 
         public void InitTable<TableEntryType>(string tableName)
         {
+            if (AzureEnv.IsRunningInProdFabric())//no need in prod
+                return;
+
             var cli = _account.CreateCloudTableClient();
+            var cloudTable = cli.GetTableReference(tableName);
 
-
-            var peopleTable = cli.GetTableReference(tableName);
-
-            if (peopleTable.Exists())
+            if (cloudTable.Exists())
                 return;
 
             Func<bool> create =
                 () =>
                     {
-                        peopleTable.CreateIfNotExists();
+                        cloudTable.CreateIfNotExists();
                         SaveChanges();
                         return true;
                     };
@@ -361,6 +362,9 @@ namespace Website.Azure.Common.TableStorage
             AddEdmVal(propertiesEle, JsonClrType, Edm.String, jsonEntry.GetClrTyp());
 
             //just adds plain edm types from the aggregate root to the saved colums, handy for queries from linqpad or other sources
+            if (jsonEntry.GetSourceObject() == null)
+                return;
+
             var dict = jsonEntry.GetSourceObject().PropertiesToDictionary(null, ExcludeProps, false)
                 .Where(pair => !pair.Key.StartsWith(JsonPrefix)).ToDictionary(pair => pair.Key, pair => pair.Value);
             var extendableEntity = ExtendableTableEntry.CreateFromDict(dict);

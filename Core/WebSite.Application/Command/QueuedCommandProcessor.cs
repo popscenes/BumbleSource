@@ -158,7 +158,7 @@ namespace Website.Application.Command
 
             try
             {
-                var handler = _handlerRespository.FindHandler(command);
+                dynamic handler = _handlerRespository.FindHandler(command);
                 if(handler != null)
                 {
                     var ret = handler.Handle(command);
