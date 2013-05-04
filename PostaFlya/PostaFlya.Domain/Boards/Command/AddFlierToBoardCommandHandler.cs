@@ -125,7 +125,7 @@ namespace PostaFlya.Domain.Boards.Command
                 if (update.Boards == null)
                     update.Boards = new HashSet<string>();
 
-                if (!string.IsNullOrWhiteSpace(friendlyIdForVenueBoard))
+                if (!string.IsNullOrWhiteSpace(friendlyIdForVenueBoard) && update.ContactDetails != null)
                     update.ContactDetails.BoardFriendlyId = friendlyIdForVenueBoard;
 
                 update.Boards.UnionWith(ret.Select(r => r.NewState.AggregateId));
