@@ -13,7 +13,7 @@ namespace Website.Azure.Common.TableStorage
 
         public string GetClrTyp()
         {
-            return SerializeUtil.GetAssemblyQualifiedNameWithoutVer(_clrTyp);    
+            return _clrTyp == null ? null : SerializeUtil.GetAssemblyQualifiedNameWithoutVer(_clrTyp);    
         }
 
         public void UpdateEntry(object source)

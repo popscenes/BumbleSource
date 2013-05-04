@@ -231,6 +231,7 @@
     <Compile Include="Command\QueuedCommandResult.cs" />
     <Compile Include="Content\BlobStorageInterface.cs" />
     <Compile Include="Content\ExifImage.cs" />
+    <Compile Include="Content\GoogleMaps.cs" />
     <Compile Include="Content\GoogleQrCode.cs" />
     <Compile Include="Content\QrCodeServiceInterface.cs" />
     <Compile Include="Content\ZXingQrCode.cs" />

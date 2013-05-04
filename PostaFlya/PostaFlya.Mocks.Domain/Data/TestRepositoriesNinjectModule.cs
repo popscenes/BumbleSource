@@ -221,11 +221,11 @@ namespace PostaFlya.Mocks.Domain.Data
                 );
 
             flierSearchService.Setup(o => o.FindFliersByBoard(It.IsAny<string>(),
-                                                              It.IsAny<int>(), It.IsAny<FlierInterface>(),
+                                                              It.IsAny<int>(), It.IsAny<FlierInterface>(), It.IsAny<DateTime?>(),
                                                               It.IsAny<Tags>(), It.IsAny<FlierSortOrder>()
                                                               , It.IsAny<Location>(), It.IsAny<int>()))
-                              .Returns<string, int, FlierInterface, Tags, FlierSortOrder, Location, int>(
-                                  (b, c, skip, t, s, l, d) =>
+                              .Returns<string, int, FlierInterface, DateTime?, Tags, FlierSortOrder, Location, int>(
+                                  (b, c, skip, dt, t, s, l, d) =>
                                       {
                                           var boundingBox = (l == null || !l.IsValid)
                                                                 ? null
@@ -239,10 +239,12 @@ namespace PostaFlya.Mocks.Domain.Data
                                                   (boundingBox == null ||
                                                    locationService.IsWithinBoundingBox(boundingBox, f.Location)) &&
                                                   (t.Count == 0 || f.Tags.Intersect(t).Any()) &&
+                                                  (dt == null || f.EventDates.Any(ed => ed == dt.Value)) &&
                                                   (boardFlierStore.Any(
                                                       bf => bf.AggregateId == b &&
                                                             bf.FlierId == f.Id &&
                                                             bf.Status == BoardFlierStatus.Approved))
+                                                            
                                               )
                                               .Select(f => f.Id);
 

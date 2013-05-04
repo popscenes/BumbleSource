@@ -80,7 +80,8 @@ namespace PostaFlya.Domain.Boards.Command
                     RequireApprovalOfPostedFliers = command.RequireApprovalOfPostedFliers,
                     AllowOthersToPostFliers = command.AllowOthersToPostFliers,
                     Status = BoardStatus.Approved,
-                    BoardTypeEnum = command.BoardTypeEnum
+                    BoardTypeEnum = command.BoardTypeEnum,
+
                 };
 
             if (newBoard.BoardTypeEnum != BoardTypeEnum.InterestBoard)
@@ -93,6 +94,7 @@ namespace PostaFlya.Domain.Boards.Command
                     newBoard.InformationSources = new List<VenueInformation>() { command.SourceInformation };
                     if (command.SourceInformation.Address.IsValid)
                         newBoard.Location = command.SourceInformation.Address;
+                    newBoard.DefaultInformationSource = command.SourceInformation.Source;
                 }
                     
             }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlTypes;
+using System.Linq;
 using Microsoft.SqlServer.Types;
 using PostaFlya.Domain.Boards;
 using PostaFlya.Domain.Flier;
@@ -10,6 +11,19 @@ namespace PostaFlya.DataRepository.Search.SearchRecord
 {
     public static partial class BoardInterfaceSearchExtensions
     {
+        public static IEnumerable<BoardFlierEventDateSearchRecord> ToBoardDateSearchRecords(this BoardFlierSearchRecord searchRecord, FlierInterface flier) 
+        {
+            var recs = from ed in flier.EventDates
+                       select new BoardFlierEventDateSearchRecord()
+                       {
+                           BoardId = searchRecord.BoardId,
+                           Id = searchRecord.Id,
+                           EventDate = ed
+                       };
+            return recs;
+
+        }
+
         public static BoardFlierSearchRecord ToSearchRecord(this BoardFlierInterface boardFlier, FlierInterface flier)
         {
             var ret =  new BoardFlierSearchRecord()
@@ -35,6 +49,19 @@ namespace PostaFlya.DataRepository.Search.SearchRecord
             ret.Status = (int) flier.Status;
             return ret;
         }
+    }
+
+    [Serializable]
+    public class BoardFlierEventDateSearchRecord
+    {
+        [PrimaryKey]
+        public String Id { get; set; }
+        [PrimaryKey]
+        public DateTime EventDate { get; set; }
+        //for scaling possibilities
+        [NotNullable]
+        [FederationCol(FederationName = "Board", DistributionName = "board_shard")]
+        public Guid BoardId { get; set; }
     }
 
     [Serializable]

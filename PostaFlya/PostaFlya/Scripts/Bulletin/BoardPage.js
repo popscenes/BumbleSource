@@ -2,14 +2,16 @@
 
     var bf = window.bf = window.bf || {};
     bf.pageinit = bf.pageinit || {};
-    bf.pageinit['bulletin-board'] = function () {
-        
-        bf.page = new bf.BulletinBoard(
-        new bf.SelectedFlierViewModel(new bf.BehaviourViewModelFactory())
-        , new bf.TagsSelector({
-            displayInline: true
-        })
-        , new bf.TileLayoutViewModel('#bulletinboard', new bf.BulletinLayoutProperties()));
+    bf.pageinit['board-page'] = function () {
+
+        bf.page = new bf.BoardPage(
+            new bf.SelectedFlierViewModel(new bf.BehaviourViewModelFactory())
+            , new bf.TagsSelector({
+                displayInline: true
+            })
+            , new bf.TileLayoutViewModel('#bulletinboard', new bf.BulletinLayoutProperties())
+            , $('#boardid').val()  
+        );
 
         var endscroll = new EndlessScroll(window, {
             fireOnce: false,
@@ -27,9 +29,10 @@
         endscroll.run();
     };
 
-    bf.BulletinBoard = function (selectedDetailViewModel
+    bf.BoardPage = function (selectedDetailViewModel
         , tagsSelector
-        , tileLayout) {
+        , tileLayout
+        , boardId) {
         var self = this;
 
         self.tagsSelector = tagsSelector;
@@ -42,29 +45,25 @@
         self.Distance = ko.observable(5);
         var currentBrowser = bf.currentBrowserInstance;
 
-        var currentLocation = new bf.LocationModel(currentBrowser.LastSearchedLocation);
-        self.Location = ko.observable(currentLocation);
+        self.Location = ko.observable(new bf.LocationModel());
 
         self.CreateFlier = ko.observable();
-        
+
         self.fliterDate = ko.observable(null);
+
+        self.boardId = boardId;
+        self.BoardInfo = ko.observable();
 
         self.displayDate = ko.computed(function () {
             if (self.fliterDate() == null) {
-                return "Select Date";
+                return "Latest Fliers";
             }
-            
+
             return $.datepicker.formatDate('dd M yy', new Date(self.fliterDate()));
         }, this);
-        
+
         self.Layout = tileLayout;
 
-        
-        
-        self.HelpTipPage = 'bulletin';
-        self.HelpTipGroups = 'about-posta,bulletin-toolbar,global-toolbar';
-
-        
         self.GetReqUrl = function () {
             return '/api/BulletinApi';
         };
@@ -74,18 +73,18 @@
                 loc: ko.mapping.toJS(self.Location())
                 , distance: self.Distance()
                 , count: self.initialPagesize
+                , board: self.boardId
             };
 
             var len = self.fliers().length;
-            if (nextpage && len > 0) 
+            if (nextpage && len > 0)
                 params.skipPast = self.fliers()[len - 1].Id;
-            
+
             var tags = self.tagsSelector.SelectedTags().join();
             if (tags.length > 0)
                 params.tags = tags;
-            
+
             if (self.fliterDate() != null) {
-                
                 params.date = new Date(self.fliterDate()).toISOString();
             }
 
@@ -102,28 +101,24 @@
             self.noMoreFliersText('');
 
             $.getJSON(self.GetReqUrl(), self.GetReqArgs(false), function (allData) {
-               
+
                 self.fliers(allData);
                 if (allData.length == 0)
                     self.setNoMoreFlyas();
-            }).always(function() {
+            }).always(function () {
                 self.moreFliersPending(false);
             });
         };
-        
+
         self.setDate = function (date) {
             self.fliterDate(date);
         };
 
-        self.resetDate = function() {
-            self.fliterDate(null);
-        };
-
-        self.TryFindLocation = function() {
+        self.TryFindLocation = function () {
             bf.getCurrentPosition(function (position, status) {
                 if (status === 'OK') {
                     var loc = new bf.LocationModel({ Longitude: position.coords.longitude, Latitude: position.coords.latitude })
-                    bf.reverseGeocode(loc, self.Location);                   
+                    bf.reverseGeocode(loc, self.Location);
                 }
             });
         };
@@ -155,7 +150,7 @@
         };
 
         self.ToggleMap = function () {
-            self.ShowMap(!self.ShowMap());       
+            self.ShowMap(!self.ShowMap());
             self.tagsSelector.ShowTags(false);
         };
 
@@ -164,11 +159,11 @@
             self.tagsSelector.ShowTags(!self.tagsSelector.ShowTags());
         };
 
-        self.TryRequest = function() {
-                self.Request();
+        self.TryRequest = function () {
+            self.Request();
         };
 
-        self.setNoMoreFlyas = function() {
+        self.setNoMoreFlyas = function () {
             var nomore = 'No';
             if (self.fliers().length) {
                 nomore += ' more';
@@ -179,34 +174,29 @@
                 nomore += ' around ' + locality;
             }
             nomore += '! Why not ';
-            
+
             self.noMoreFliersText(nomore);
 
         };
 
-        self.StatusText = ko.computed(function () {           
-            
+        self.StatusText = ko.computed(function () {
+
             if (self.moreFliersPending() || (self.noMoreFliersText() && self.fliers().length == 0))
                 return '';
-            
+
             var showingmostrecent = 'Showing most recent posts';
-
-            if (self.fliterDate() != null) {
-                showingmostrecent = "Showing posts for " + self.displayDate();
-            }
-
             var validLoc = self.Location().ValidLocation();
             var locality = self.Location().Locality();
             if (!validLoc)
                 return showingmostrecent;
 
-            showingmostrecent +=' within ' + self.Distance() + 'km of';
+            showingmostrecent += ' within ' + self.Distance() + 'km of';
 
-            if(locality)
+            if (locality)
                 return showingmostrecent + ' ' + locality;
 
             return showingmostrecent + ' you';
-            
+
         }, self);
 
         self.TearOff = function (flier) {
@@ -222,6 +212,16 @@
         self._Init = function () {
 
             self.SelectedViewModel.runSammy(self.Sam);
+            
+            if (bf.pageState !== undefined && bf.pageState.Fliers !== undefined) {
+
+                self.fliers([]);
+                self.fliers(bf.pageState.Fliers);
+            }
+
+//            if (bf.pageState !== undefined && bf.pageState.BoardInfo !== undefined) {
+//                self.BoardInfo([]);
+//            }
 
             ko.applyBindings(self);
 
@@ -229,12 +229,6 @@
 
             self.tagsSelector.LoadTags();
 
-
-            if (bf.pageState !== undefined && bf.pageState.Fliers !== undefined) {
-                
-                self.fliers([]);
-                self.fliers(bf.pageState.Fliers);
-            }
 
             self.TryRequest();
 
@@ -244,7 +238,7 @@
             self.Distance.subscribe(function (newValue) {
                 self.TryRequest();
             });
-            
+
             self.fliterDate.subscribe(function (newValue) {
                 self.TryRequest();
             });

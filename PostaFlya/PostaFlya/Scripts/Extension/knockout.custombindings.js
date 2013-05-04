@@ -187,8 +187,8 @@ ko.bindingHandlers.placeAutoComplete = {
                     SourceUrl: item.url,
                     PlaceName: item.name,
                 };
-                
-                venue = new bf.VenueInformationModel(data);
+                var isEstablishment = $.inArray("establishment", item.types) > -1;
+                venue = new bf.VenueInformationModel(isEstablishment ? data : {});
                 venue.Address().SetFromGeo(item);
             }
             

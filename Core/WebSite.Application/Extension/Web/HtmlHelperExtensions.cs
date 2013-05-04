@@ -36,5 +36,23 @@ namespace Website.Application.Extension.Web
 
             return new MvcHtmlString(tag.ToString(TagRenderMode.SelfClosing));
         }
+
+        public static MvcHtmlString MapImage(this HtmlHelper htmlHelper,
+            int centreLat, int centreLong, IEnumerable<GoogleMaps.Marker> markers,
+            int width = 400, int height = 400, int zoom = 16, object htmlAttributes = null)
+        {
+            var url = GoogleMaps.MapUrl(centreLat, centreLong, markers, width, height, zoom);
+
+            var tag = new TagBuilder("img");
+            if (htmlAttributes != null)
+                tag.MergeAttributes(new RouteValueDictionary(htmlAttributes));
+            tag.Attributes.Add("src", url);
+            tag.Attributes.Add("width", width.ToString(CultureInfo.InvariantCulture));
+            tag.Attributes.Add("height", height.ToString(CultureInfo.InvariantCulture));
+
+            return new MvcHtmlString(tag.ToString(TagRenderMode.SelfClosing));
+        }
+
+        
     }
 }

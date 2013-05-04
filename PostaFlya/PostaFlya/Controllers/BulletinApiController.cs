@@ -60,27 +60,27 @@ namespace PostaFlya.Controllers
             _configurationService = configurationService;
         }
 
-        public DefaultDetailsViewModel Get([FromUri] LocationModel currloc, string tinyUrl)
-        {
-            
-            var ent = _tinyUrlService.EntityInfoFor(tinyUrl);
-            if (ent == null)
-                return null;
-
-            var ret = GetDetail(ent.Id, _queryService, _behaviourQueryService, _blobStorage, _viewModelFactory, _browserInformation);
-            
-            if (ret != null)
-            {
-                var source = FlierAnalyticUrlUtil.GetSourceAction(tinyUrl, FlierAnalyticSourceAction.Unknown);
-                if(source != FlierAnalyticSourceAction.Unknown)
-                    _webAnalyticService.RecordVisit(ret.Flier.Id, source, currloc.ToDomainModel());
-
-                _webAnalyticService.RecordVisit(ret.Flier.Id, FlierAnalyticSourceAction.TinyUrlByApi, currloc.ToDomainModel());
-
-            }
-
-            return ret;
-        }
+//        public DefaultDetailsViewModel Get([FromUri] LocationModel currloc, string tinyUrl)
+//        {
+//            
+//            var ent = _tinyUrlService.EntityInfoFor(tinyUrl);
+//            if (ent == null)
+//                return null;
+//
+//            var ret = GetDetail(ent.Id, _queryService, _behaviourQueryService, _blobStorage, _viewModelFactory, _browserInformation);
+//            
+//            if (ret != null)
+//            {
+//                var source = FlierAnalyticUrlUtil.GetSourceAction(tinyUrl, FlierAnalyticSourceAction.Unknown);
+//                if(source != FlierAnalyticSourceAction.Unknown)
+//                    _webAnalyticService.RecordVisit(ret.Flier.Id, source, currloc.ToDomainModel());
+//
+//                _webAnalyticService.RecordVisit(ret.Flier.Id, FlierAnalyticSourceAction.TinyUrlByApi, currloc.ToDomainModel());
+//
+//            }
+//
+//            return ret;
+//        }
 
         public DefaultDetailsViewModel Get(string id)
         {
@@ -182,7 +182,7 @@ namespace PostaFlya.Controllers
 
             var fliersIds = string.IsNullOrWhiteSpace(board) ?
                 flierSearchService.FindFliersByLocationAndDistance(locDomainModel, distance, count, skip , tagsModel, date) :
-                flierSearchService.FindFliersByBoard(board, count, skip, tagsModel, FlierSortOrder.SortOrder, locDomainModel, distance);
+                flierSearchService.FindFliersByBoard(board, count, skip, date, tagsModel, FlierSortOrder.SortOrder, locDomainModel, distance);
 
             var watch = new Stopwatch();
             watch.Start();
