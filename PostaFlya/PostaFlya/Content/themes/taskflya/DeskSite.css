@@ -873,44 +873,53 @@ div#selected-item-popup-overlay, div#create-flier-popup-overlay {
     position: relative;
 }
 
-.show-hide-print-options {
+/*.show-hide-print-options {
     background-image: url(images/print-icon.png);
     width: 50px;
     height: 50px;
     display: inline-block;
     cursor: pointer;
+}*/
+
+.show-hide-print-options {
+    background-image: url(images/icons-88h1.png);
+    width: 54px;
+    height: 54px;
+    background-position: -1160px -105px;
+    display: inline-block;
+    cursor: pointer;
 }
 
 .print-options a {
-background-image: url(images/print-options.png);
+background-image: url(images/print-options1.png);
 outline: none;
 color: #fff;
-width: 110px;
-height: 115px;
+width: 106px;
+height: 150px;
 background-color: white;
 text-indent: -3000px;
 display: inline-block;
 }
 
 .print-opt-tearoff {
-    background-position: 0 -11px
+    background-position: 0 0
 }
 .print-opt-code {
-    background-position: 238px -11px
+    background-position: -106px -0px
 }
 .print-opt-topleft {
     
-    background-position: 233px 139px
+    background-position: -106px -150px
 }
 .print-opt-topright {
     
-    background-position: 120px -11px
+    background-position: -212px 0px
 }
 .print-opt-bottomleft {
-    background-position: 0 139px
+    background-position: 0 -150px
 }
 .print-opt-bottomright {
-    background-position: 118px 139px
+    background-position: -212px -150px
 }
 
 h2 {

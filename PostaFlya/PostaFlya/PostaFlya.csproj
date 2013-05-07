@@ -531,6 +531,7 @@
     <Content Include="Content\themes\taskflya\images\prev-icon.png" />
     <Content Include="Content\themes\taskflya\images\print-icon.png" />
     <Content Include="Content\themes\taskflya\images\print-options.png" />
+    <Content Include="Content\themes\taskflya\images\print-options1.png" />
     <Content Include="Content\themes\taskflya\images\question-mark-icon.png" />
     <Content Include="Content\themes\taskflya\images\select-btn.png" />
     <Content Include="Content\themes\taskflya\images\slider-handle.png" />
