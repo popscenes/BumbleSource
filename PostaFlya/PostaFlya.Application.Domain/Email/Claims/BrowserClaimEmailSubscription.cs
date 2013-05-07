@@ -133,15 +133,15 @@ namespace PostaFlya.Application.Domain.Email.Claims
 //                    
 //            }
 
-            if (flier.GetContactDetailsForFlier(browser).HasEnoughForContact())
-            {
-                var vcard = GetVCardForFlier(flier);
-                if (vcard != null)
-                {
-                    email.AddVCardAsAttachment(vcard);
-                }
-                                
-            }
+//            if (flier.GetContactDetailsForFlier(browser).HasEnoughForContact())
+//            {
+//                var vcard = GetVCardForFlier(flier);
+//                if (vcard != null)
+//                {
+//                    email.AddVCardAsAttachment(vcard);
+//                }
+//                                
+//            }
 
             _emailService.Send(email);
 

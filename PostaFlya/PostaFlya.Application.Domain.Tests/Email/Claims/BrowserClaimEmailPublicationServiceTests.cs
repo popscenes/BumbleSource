@@ -90,7 +90,7 @@ namespace PostaFlya.Application.Domain.Tests.Email.Claims
             Assert.IsTrue(ret); 
             Assert.IsTrue(emailSent);
             Assert.IsTrue(emailSentToClaimAddress);
-            Assert.IsTrue(hasVCard);
+            Assert.IsFalse(hasVCard);
 
             Kernel.Unbind<SendEmailServiceInterface>();
         }
