@@ -66,18 +66,23 @@ namespace PostaFlya.Domain.Flier.Command
                             flier.ContactDetails = command.ContactDetails;
                             flier.UserLinks = command.UserLinks;
                         });
-                
-                //add all existing board to the operation, as if a flier is modified it needs to be re-approved
-                if (flierQuery.Boards != null)
-                    command.BoardSet.UnionWith(flierQuery.Boards);
-                
-                boardFliers = AddFlierToBoardCommandHandler.UpdateAddFlierToBoards(command.BoardSet, flierQuery, _queryService,
-                                                     _repository);           
+                      
             }
 
             if (!unitOfWork.Successful)
                 return new MsgResponse("Flier Edit Failed", true)
                     .AddCommandId(command);
+
+            using (unitOfWork = _unitOfWorkFactory.GetUnitOfWork(new[] {_repository}))
+            {
+                //add all existing board to the operation, as if a flier is modified it needs to be re-approved
+                if (flierQuery.Boards != null)
+                    command.BoardSet.UnionWith(flierQuery.Boards);
+
+                boardFliers = AddFlierToBoardCommandHandler.UpdateAddFlierToBoards(command.BoardSet, flierQuery, _queryService,
+                                                     _repository);     
+            }
+
 
             //charge for any new state
             bool enabled = false;
