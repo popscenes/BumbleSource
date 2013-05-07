@@ -8,8 +8,10 @@ using Website.Application.Binding;
 using Website.Application.Content;
 using PostaFlya.Domain.Flier;
 using PostaFlya.Domain.Flier.Command;
+using Website.Application.Domain.Browser;
 using Website.Application.Domain.Browser.Web;
 using Website.Common.Extension;
+using Website.Domain.Browser;
 using Website.Domain.Browser.Query;
 using Website.Infrastructure.Command;
 using PostaFlya.Models.Factory;
@@ -27,16 +29,18 @@ namespace PostaFlya.Controllers
         private readonly QueryServiceForBrowserAggregateInterface _queryService;
         private readonly BlobStorageInterface _blobStorage;
         private readonly FlierBehaviourViewModelFactoryInterface _viewModelFactory;
+        private readonly BrowserInformationInterface _browserInformation;
 
         public MyFliersController(CommandBusInterface commandBus,
             QueryServiceForBrowserAggregateInterface queryService,
             [ImageStorage]BlobStorageInterface blobStorage
-            , FlierBehaviourViewModelFactoryInterface viewModelFactory)
+            , FlierBehaviourViewModelFactoryInterface viewModelFactory, BrowserInformationInterface browserInformation)
         {
             _commandBus = commandBus;
             _queryService = queryService;
             _blobStorage = blobStorage;
             _viewModelFactory = viewModelFactory;
+            _browserInformation = browserInformation;
         }
 
         // GET /api/myfliersapi
@@ -78,7 +82,8 @@ namespace PostaFlya.Controllers
                 ExtendPostRadius = Math.Max(0, createModel.PostRadius - 5),
                 EnableAnalytics = createModel.EnableAnalytics,
                 ContactDetails = createModel.VenueInformation != null ? createModel.VenueInformation.ToDomainModel() : null,
-                UserLinks = createModel.UserLinks == null? new List<UserLink>() : createModel.UserLinks.Select(_ => new UserLink(){Link = _.Link, Text = _.Text, Type = _.Type}).ToList()
+                UserLinks = createModel.UserLinks == null? new List<UserLink>() : createModel.UserLinks.Select(_ => new UserLink(){Link = _.Link, Text = _.Text, Type = _.Type}).ToList(),
+                Anonymous = createModel.Anonymous && _browserInformation.Browser.HasRole(Role.Admin)
             };
 
             var res = _commandBus.Send(createFlier);

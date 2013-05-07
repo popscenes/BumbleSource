@@ -15,5 +15,7 @@ namespace PostaFlya.Models.Content
 
         [Display(Name = "ImageTitle", ResourceType = typeof(Properties.Resources))] 
         public string Title { get; set; }
+
+        public bool Anonymous { get; set; }
     }
 }

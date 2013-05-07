@@ -12,6 +12,7 @@ using Website.Application.Binding;
 using Website.Application.Content;
 using Website.Application.Extension.Content;
 using Website.Common.ActionResult;
+using Website.Domain.Browser;
 using Website.Infrastructure.Command;
 using PostaFlya.Models.Content;
 using Website.Application.Domain.Browser;
@@ -91,7 +92,8 @@ namespace PostaFlya.Controllers
                                      Content = content,
                                      BrowserId = _browserInformation.Browser.Id,
                                      Title = createModel.Title,
-                                     Location = createModel.Location != null ? createModel.Location.ToDomainModel() : null
+                                     Location = createModel.Location != null ? createModel.Location.ToDomainModel() : null,
+                                     Anonymous = createModel.Anonymous && _browserInformation.Browser.HasRole(Role.Admin)
                                  });
 
             var uri = _blobStorage.GetBlobUri(imgId + ImageUtil.GetIdFileExtension(), false);

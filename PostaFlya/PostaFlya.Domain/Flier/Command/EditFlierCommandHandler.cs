@@ -36,7 +36,8 @@ namespace PostaFlya.Domain.Flier.Command
         public object Handle(EditFlierCommand command)
         {
             var flierQuery = _queryService.FindById<Flier>(command.Id);
-            if (flierQuery == null || flierQuery.BrowserId == null || !flierQuery.BrowserId.Equals(command.BrowserId))
+            if (flierQuery == null || flierQuery.BrowserId == null || 
+                !flierQuery.BrowserId.Equals(command.BrowserId))
                 return false;
 
             List<BoardFlierModifiedEvent> boardFliers = null;

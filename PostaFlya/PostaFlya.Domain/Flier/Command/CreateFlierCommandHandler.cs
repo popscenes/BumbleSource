@@ -48,7 +48,7 @@ namespace PostaFlya.Domain.Flier.Command
             var date = DateTime.UtcNow;
             var newFlier = new Flier(command.Location)
                                {
-                                   BrowserId = command.BrowserId,
+                                   BrowserId = command.Anonymous ? Guid.Empty.ToString() : command.BrowserId,
                                    Title = command.Title,
                                    Description = command.Description,
                                    Tags = command.Tags,
@@ -76,7 +76,7 @@ namespace PostaFlya.Domain.Flier.Command
             UnitOfWorkInterface unitOfWork;
             using (unitOfWork = _unitOfWorkFactory.GetUnitOfWork(new[] { _repository }))
             {
-                var enabled = newFlier.ChargeForState(_repository, _flierQueryService, _creditChargeService);
+                var enabled = command.Anonymous || newFlier.ChargeForState(_repository, _flierQueryService, _creditChargeService);
                 newFlier.Status = enabled ? FlierStatus.Active : FlierStatus.PaymentPending;
                 _repository.Store(newFlier);
                 boardFliers = AddFlierToBoardCommandHandler.UpdateAddFlierToBoards(command.BoardSet, newFlier, _flierQueryService,

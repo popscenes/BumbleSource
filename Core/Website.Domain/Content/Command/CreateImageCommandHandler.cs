@@ -28,7 +28,7 @@ namespace Website.Domain.Content.Command
                              {
                                  Id = command.CommandId,
                                  Title = command.Title,
-                                 BrowserId = command.BrowserId,
+                                 BrowserId = command.Anonymous ? Guid.Empty.ToString() : command.BrowserId,
                                  Status = ImageStatus.Processing,
                                  Location = command.Location,
                                  ExternalId = command.ExternalId

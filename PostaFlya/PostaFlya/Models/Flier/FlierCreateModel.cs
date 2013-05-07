@@ -151,6 +151,9 @@ namespace PostaFlya.Models.Flier
         [DataMember]
         public int TotalPaid { get; set; }
 
+        [DataMember(IsRequired = false)]
+        public bool Anonymous { get; set; }
+
         [DataMember]
         public List<UserLinkViewModel> UserLinks {get; set; }
 

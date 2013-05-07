@@ -8,6 +8,7 @@ namespace Website.Domain.Content.Command
         public Content Content { get; set; }
         public string Title { get; set; }
         public Location.Location Location { get; set; }
+        public bool Anonymous { get; set; }
 
         public string ExternalId { get; set; }
     }
