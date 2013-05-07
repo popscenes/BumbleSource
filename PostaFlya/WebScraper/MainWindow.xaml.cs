@@ -16,7 +16,10 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Ninject;
+using WebScraper.Library.Infrastructure;
 using WebScraper.Library.Model;
+using WebScraper.Library.Sites;
 using WebScraper.ViewModel;
 using Image = System.Drawing.Image;
 
@@ -27,30 +30,23 @@ namespace WebScraper
     /// </summary>
     public partial class MainWindow : Window
     {
+        public StandardKernel _kernel;
         public MainWindow()
         {
             InitializeComponent();
+            _kernel = new StandardKernel();
+            _kernel.Load<RegisterSites>();
         }
 
         private void Load_Click(object sender, RoutedEventArgs ev)
         {
-//            Image img = null;
-//            var cli = new HttpClient();
-//
-//            var clientResponse = cli.GetByteArrayAsync(new Uri("http://www.google.com.au/images/srpr/logo4w.png"));
-//            //clientResponse.RunSynchronously();
-//            using (var ms = new MemoryStream(clientResponse.Result, false))
-//            {
-//                try
-//                {
-//                    img = Image.FromStream(ms);
-//                }
-//                catch (Exception e)
-//                {
-//                    Trace.TraceInformation("ImageProcessCommandHandler Error: {0}, Stack {1}", e.Message, e.StackTrace);
-//                }
-//
-//            }
+
+            var all = _kernel.GetAll<SiteScraperInterface>();
+            foreach (var siteScraper in all)
+            {
+                var state = State.Site[siteScraper.SiteName] ?? new SiteState(){LastGigDateUpdated = DateTime.Today.AddDays(-1)};
+                siteScraper.GetFlyersFrom(state.LastGigDateUpdated);
+            }
 
             ImportListView.ItemsSource = new List<ImportedFlyerScraperViewModel>()
                 {
