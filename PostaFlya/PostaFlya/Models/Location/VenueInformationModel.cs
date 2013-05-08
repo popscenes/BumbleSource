@@ -81,6 +81,9 @@ namespace PostaFlya.Models.Location
         public string SourceImageUrl { get; set; }
         public string BoardFriendlyId { get; set; }
 
+        [Required(ErrorMessageResourceName = "Required", ErrorMessageResourceType = typeof(Properties.Resources), ErrorMessage = null)]
+        public int UtcOffset { get; set; }
+
         [Display(Name = "PlaceName", ResourceType = typeof(Properties.Resources))]
         public string PlaceName { get; set; }
     }

@@ -79,5 +79,6 @@ namespace PostaFlya.Domain.Venue
         public string SourceImageUrl { get; set; }
         public string BoardFriendlyId { get; set; }
         public string PlaceName { get; set; }
+        public int UtcOffset { get; set; }
     }
 }
