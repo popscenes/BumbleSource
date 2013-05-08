@@ -15,6 +15,7 @@ namespace WebScraper.Library.Model
         public List<UserLinkScraperModel> Links { get; set; }
         public string Tags { get; set; }
         public string Source { get; set; }
+        public Uri SourceDetailPage { get; set; }
 
         public VenueInfoScraperModel VenueInfo { get; set; }
 

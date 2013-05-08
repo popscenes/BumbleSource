@@ -10,6 +10,6 @@ namespace WebScraper.Library.Infrastructure
     public interface SiteScraperInterface
     {
         string SiteName { get; }
-        List<ImportedFlyerScraperModel> GetFlyersFrom(DateTime eventDateStart);
+        List<ImportedFlyerScraperModel> GetFlyersFrom(DateTime eventDateStart, DateTime eventDateEnd);
     }
 }

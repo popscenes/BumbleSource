@@ -15,9 +15,9 @@
                 <Grid Background="White" HorizontalAlignment="Stretch">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="20" />
-                        <ColumnDefinition Width="200" />
                         <ColumnDefinition Width="150" />
-                        <ColumnDefinition Width="200" />
+                        <ColumnDefinition Width="150" />
+                        <ColumnDefinition Width="350" />
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
@@ -26,7 +26,7 @@
                     <CheckBox Grid.Column="0" Grid.RowSpan="2" VerticalAlignment="Center" HorizontalAlignment="Center" IsChecked="{Binding Import, Mode=TwoWay}" />
                     <Image Grid.Column="1" Grid.Row="0" Source="{Binding Image}"/>
                     <TextBox Grid.Column="2" Grid.Row="0" Margin="3"  Text="{Binding Title}" />
-                    <TextBox Grid.Column="3" Grid.Row="0" Margin="3"  Text="{Binding Description}"/>
+                    <TextBox Grid.Column="3" Grid.Row="0" Margin="3"  Text="{Binding Description}" TextWrapping="Wrap"/>
                     <ItemsControl ItemsSource="{Binding EventDates}" Grid.Column="1" Grid.Row="1">
                         <ItemsControl.ItemsPanel>
                             <ItemsPanelTemplate>
@@ -35,7 +35,7 @@
                         </ItemsControl.ItemsPanel>
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
-                                <DatePicker Text="{Binding}"/>
+                                <DatePicker SelectedDate="{Binding Mode=OneWay}"/>
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
@@ -52,25 +52,37 @@
         </DataTemplate>
 
     </Window.Resources>
-
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
-        <StackPanel Grid.Column="0" Grid.Row="0" Orientation="Horizontal">
-            <ComboBox HorizontalAlignment="Left"  VerticalAlignment="Top" Width="120" Margin="30,0,30,0"/>
-            <Button Content="Load" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="56" Click="Load_Click" Margin="30,0,30,0"/>
+        <TabControl>
+            <TabItem Header="Flyers">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="0" Grid.Row="0" Orientation="Horizontal">
+                        <Label Content="Start Date"></Label>
+                        <DatePicker Name="StartDate"/>
+                        <Label Content="End Date"></Label>
+                        <DatePicker Name="EndDate"/>
+                        <Button Content="Load" Name="Load" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="56" Click="Load_Click" Margin="30,0,30,0"/>
 
-        </StackPanel>
+                    </StackPanel>
 
-        <ListBox VerticalAlignment="Top" Margin="10,10,0,0" 
+                    <ListBox VerticalAlignment="Top" Margin="10,10,0,0" 
 			ScrollViewer.VerticalScrollBarVisibility="Visible"
 			ItemsSource="{Binding}" x:Name="ImportListView" 
 			Grid.Column="0" Grid.Row="1" ItemTemplate="{DynamicResource ImportFlyerTemplate}"/>
 
+                </Grid>
+            </TabItem>
+            <TabItem Header="Messages">
+                <TextBlock Name="TraceText" Text="{Binding Trace}"/>
+            </TabItem>
+        </TabControl>
     </Grid>
+
 </Window>

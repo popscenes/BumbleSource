@@ -17,9 +17,9 @@ namespace WebScraper.ViewModel
             target.Description = source.Description;
             target.Location = source.Location;
             target.VenueInfo = source.VenueInfo;
-            target.EventDates = new List<DateTime>(source.EventDates);
+            target.EventDates = new List<DateTime>(source.EventDates ?? new List<DateTime>());
             target.Tags = source.Tags;
-            target.Links = new List<UserLinkScraperModel>(source.Links);
+            target.Links = new List<UserLinkScraperModel>(source.Links ?? new List<UserLinkScraperModel>());
             return target;
         }
 

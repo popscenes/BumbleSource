@@ -41,6 +41,7 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -53,6 +54,7 @@
   <ItemGroup>
     <Compile Include="Infrastructure\SiteScraperInterface.cs" />
     <Compile Include="Infrastructure\State.cs" />
+    <Compile Include="Infrastructure\Util.cs" />
     <Compile Include="Model\ImportedFlyerScraperModel.cs" />
     <Compile Include="Model\LocationScraperModel.cs" />
     <Compile Include="Model\UserLinkScraperModel.cs" />
