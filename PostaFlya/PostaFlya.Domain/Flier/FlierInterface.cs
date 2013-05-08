@@ -82,6 +82,11 @@ namespace PostaFlya.Domain.Flier
                 return 0;
             return flier.Features.Aggregate(0, (d, charge) => d + charge.Paid);
         }
+
+        public static DateTime GetFirstEventDate(this FlierInterface flier)
+        {
+            return flier.EventDates.OrderBy(time => time).First();
+        }
     }
 
     public interface FlierInterface : BrowserIdInterface, 

@@ -192,7 +192,7 @@
             var showingmostrecent = 'Showing most recent posts';
 
             if (self.fliterDate() != null) {
-                showingmostrecent = "Showing posts for " + self.displayDate();
+                showingmostrecent = "Showing events on " + new Date(self.fliterDate()).toDateString();
             }
 
             var validLoc = self.Location().ValidLocation();

@@ -18,6 +18,7 @@
             SourceUrl: null,
             PlaceName: null,
             BoardFriendlyId: null,
+            UtcOffset: null,
         };
 
         data = $.extend(defaults, data);

@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.Runtime.Serialization;
 using PostaFlya.Domain.Venue;
 using Website.Application.Domain.Location;
 using Website.Common.Model;
@@ -34,34 +35,41 @@ namespace PostaFlya.Models.Location
         }
     }
 
-
+    [DataContract]
     public class VenueInformationModel : ContactDetailFieldsInterface, VenueInformationFieldsInterface
     {
+        [DataMember]
         [Display(ResourceType = typeof (Properties.Resources), Name = "FlyerContactDetailsModel_PhoneNumber_FlyerContactDetailsModel_PhoneNumber_FlyerContactDetailsModel_PhoneNumber")]
         public string PhoneNumber { get; set; }
 
+        [DataMember]
         [Display(ResourceType = typeof (Properties.Resources), Name = "FlyerContactDetailsModel_EmailAddress_FlyerContactDetailsModel_EmailAddress_FlyerContactDetailsModel_EmailAddress")]
         [StringLength(100, ErrorMessageResourceName = "StringTooLarge", ErrorMessageResourceType = typeof(Properties.Resources), ErrorMessage = null)]
         public string EmailAddress { get; set; }
 
+        [DataMember]
         [Display(ResourceType = typeof (Properties.Resources), Name = "FlyerContactDetailsModel_FirstName_FlyerContactDetailsModel_FirstName_FlyerContactDetailsModel_FirstName")]
         [StringLength(100, ErrorMessageResourceName = "StringTooLarge", ErrorMessageResourceType = typeof(Properties.Resources), ErrorMessage = null)]
         public string FirstName { get; set; }
 
+        [DataMember]
         [Display(ResourceType = typeof (Properties.Resources), Name = "FlyerContactDetailsModel_MiddleNames_FlyerContactDetailsModel_MiddleNames_FlyerContactDetailsModel_MiddleNames")]
         [StringLength(100, ErrorMessageResourceName = "StringTooLarge", ErrorMessageResourceType = typeof(Properties.Resources), ErrorMessage = null)]
         public string MiddleNames { get; set; }
 
-        [Display(ResourceType = typeof (Properties.Resources), Name = "FlyerContactDetailsModel_Surname_FlyerContactDetailsModel_Surname_FlyerContactDetailsModel_Surname")]
+        [DataMember]
+        [Display(ResourceType = typeof(Properties.Resources), Name = "FlyerContactDetailsModel_Surname_FlyerContactDetailsModel_Surname_FlyerContactDetailsModel_Surname")]
         [StringLength(100, ErrorMessageResourceName = "StringTooLarge", ErrorMessageResourceType = typeof(Properties.Resources), ErrorMessage = null)]
         public string Surname { get; set; }
 
+        [DataMember]
         [ValidLocation(ErrorMessageResourceName = "ValidLocation", ErrorMessageResourceType = typeof(Properties.Resources), ErrorMessage = null)]
         [Display(ResourceType = typeof (Properties.Resources), Name = "FlyerContactDetailsModel_Address_FlyerContactDetailsModel_Address_FlyerContactDetailsModel_Address")]
         [Required(ErrorMessageResourceName = "Required", ErrorMessageResourceType = typeof(Properties.Resources), ErrorMessage = null)]
         public LocationModel Address { get; set; }
 
-        [Display(ResourceType = typeof (Properties.Resources), Name = "FlyerContactDetailsModel_WebSite_FlyerContactDetailsModel_WebSite_FlyerContactDetailsModel_WebSite")]
+        [DataMember]
+        [Display(ResourceType = typeof(Properties.Resources), Name = "FlyerContactDetailsModel_WebSite_FlyerContactDetailsModel_WebSite_FlyerContactDetailsModel_WebSite")]
         [Url(ErrorMessageResourceName = "ValidUrl", ErrorMessageResourceType = typeof(Properties.Resources), ErrorMessage = null)]
         public string WebSite { get; set; }
 
@@ -75,15 +83,22 @@ namespace PostaFlya.Models.Location
             return ret;
         }
 
+        [DataMember]
         public string Source { get; set; }
+        [DataMember]
         public string SourceId { get; set; }
+        [DataMember]
         public string SourceUrl { get; set; }
+        [DataMember]
         public string SourceImageUrl { get; set; }
+        [DataMember]
         public string BoardFriendlyId { get; set; }
 
+        [DataMember(IsRequired = true)]
         [Required(ErrorMessageResourceName = "Required", ErrorMessageResourceType = typeof(Properties.Resources), ErrorMessage = null)]
         public int UtcOffset { get; set; }
 
+        [DataMember]
         [Display(Name = "PlaceName", ResourceType = typeof(Properties.Resources))]
         public string PlaceName { get; set; }
     }

@@ -186,6 +186,7 @@ ko.bindingHandlers.placeAutoComplete = {
                     SourceId: item.reference,
                     SourceUrl: item.url,
                     PlaceName: item.name,
+                    UtcOffset: item.utc_offset
                 };
                 var isEstablishment = $.inArray("establishment", item.types) > -1;
                 venue = new bf.VenueInformationModel(isEstablishment ? data : {});

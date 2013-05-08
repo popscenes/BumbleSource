@@ -16,7 +16,10 @@ namespace PostaFlya.Domain.Flier.Query
             const string pattern = "@dd-MMM-yy";
 
             var title = targetFlier.Title;
-            var tryTitleBase = title.ToLowerHiphen() + targetFlier.EffectiveDate.ToString(pattern);
+            var tryTitleBase = title.ToLowerHiphen() + targetFlier
+                .GetFirstEventDate()
+                .AddMinutes(targetFlier.ContactDetails.UtcOffset)
+                .ToString(pattern);
             var tryTitle = tryTitleBase;
 
             Flier flierFind = null;
