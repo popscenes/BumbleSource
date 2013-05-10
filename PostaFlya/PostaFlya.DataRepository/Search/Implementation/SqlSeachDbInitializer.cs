@@ -41,8 +41,8 @@ namespace PostaFlya.DataRepository.Search.Implementation
                 SqlInitializer.CreateTableFrom(typeof (FlierSearchRecord), newConn);
                 SqlInitializer.CreateTableFrom(typeof(BoardSearchRecord), newConn); 
                 SqlInitializer.CreateTableFrom(typeof(BoardFlierSearchRecord), newConn);
-                SqlInitializer.CreateTableFrom(typeof(FlierEventDateSearchRecord), newConn);
-                SqlInitializer.CreateTableFrom(typeof(BoardFlierEventDateSearchRecord), newConn);
+                SqlInitializer.CreateTableFrom(typeof(FlierDateSearchRecord), newConn);
+                SqlInitializer.CreateTableFrom(typeof(BoardFlierDateSearchRecord), newConn);
 
                 SqlInitializer.RunScriptsFrom(Properties.Resources.StoredProcs, newConn);
 
@@ -72,7 +72,7 @@ namespace PostaFlya.DataRepository.Search.Implementation
                 SqlExecute.ExecuteCommandInRecordTypeContext(typeof(FlierSearchRecord), "delete from FlierSearchRecord", newConn);
                 SqlExecute.ExecuteCommandInRecordTypeContext(typeof(BoardFlierSearchRecord), "delete from BoardFlierSearchRecord", newConn);
                 SqlExecute.ExecuteCommandInRecordTypeContext(typeof(BoardSearchRecord), "delete from BoardSearchRecord", newConn);
-                SqlExecute.ExecuteCommandInRecordTypeContext(typeof(FlierEventDateSearchRecord), "delete from FlierEventDateSearchRecord", newConn);
+                SqlExecute.ExecuteCommandInRecordTypeContext(typeof(FlierDateSearchRecord), "delete from FlierEventDateSearchRecord", newConn);
             }
         }
     }

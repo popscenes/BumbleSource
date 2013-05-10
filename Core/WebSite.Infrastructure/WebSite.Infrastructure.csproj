@@ -208,6 +208,7 @@
     <Compile Include="Query\QueryServiceInterface.cs" />
     <Compile Include="Tracing\TraceUtil.cs" />
     <Compile Include="Util\CryptoUtil.cs" />
+    <Compile Include="Util\Extension\DateTimeExtensions.cs" />
     <Compile Include="Util\Extension\DictionaryExtensions.cs" />
     <Compile Include="Util\Extension\EnumerableExtensions.cs" />
     <Compile Include="Util\Extension\ExpressionExtension.cs" />

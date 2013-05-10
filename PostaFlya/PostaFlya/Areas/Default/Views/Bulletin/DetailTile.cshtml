@@ -46,13 +46,13 @@
         <div class="flier-event-dates" >
             
             <ul data-bind="if: false" class="event-dates-list">
-                @foreach (var eventDate in flier.EventDates.Select(d => d.ToLongDateString()))
+                @foreach (var eventDate in flier.EventDates.Select(d => d.DateTime.ToLongDateString()))
                 {
                     <li> @eventDate </li>
                 }
             </ul>
             <ul data-bind="foreach: Flier.EventDates" class="event-dates-list">
-                <li data-bind="text: new Date($data).toDateString()"></li> 
+                <li data-bind="text: new Date($data).toDateString() + ' ' + new Date($data).toTimeString() "></li> 
             </ul>
                 
             

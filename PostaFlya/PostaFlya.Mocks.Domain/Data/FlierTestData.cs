@@ -177,7 +177,7 @@ namespace PostaFlya.Mocks.Domain.Data
                                              };
 
 
-            var eventDates = new List<DateTime>() {new DateTime(2076, 8, 11), DateTime.UtcNow.AddDays(3)};
+            var eventDates = new List<DateTimeOffset>() {new DateTime(2076, 8, 11), DateTime.UtcNow.AddDays(3)};
             //add inside the bounds with some matching tags
             var count = 0;
             var flier = new Flier(getRandLoc(true)) { EffectiveDate = DateTime.UtcNow, CreateDate = DateTime.UtcNow };
@@ -194,7 +194,7 @@ namespace PostaFlya.Mocks.Domain.Data
             flier.EventDates = eventDates;             
             flierRepository.Store(flier);
 
-            eventDates = new List<DateTime>() { new DateTime(2077, 12, 19), DateTime.UtcNow.AddDays(3) };
+            eventDates = new List<DateTimeOffset>() { new DateTime(2077, 12, 19), DateTime.UtcNow.AddDays(3) };
             flier = new Flier(getRandLoc(true)) { EffectiveDate = DateTime.UtcNow, CreateDate = DateTime.UtcNow };
             getTags(true, flier.Tags);
             flier.BrowserId = GlobalDefaultsNinjectModule.DefaultBrowserId;
@@ -203,7 +203,7 @@ namespace PostaFlya.Mocks.Domain.Data
             flierRepository.Store(flier);
 
             //add inside the bounds without matching tags
-            eventDates = new List<DateTime>() { new DateTime(2076, 8, 11), DateTime.UtcNow.AddDays(3) };
+            eventDates = new List<DateTimeOffset>() { new DateTime(2076, 8, 11), DateTime.UtcNow.AddDays(3) };
             flier = new Flier(getRandLoc(true)) { EffectiveDate = DateTime.UtcNow, CreateDate = DateTime.UtcNow };
             getTags(false, flier.Tags);
             flier.FriendlyId = "Bulletin" + count++;

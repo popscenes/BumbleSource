@@ -26,7 +26,6 @@ namespace WebScraper.Library.Sites
         public string SiteName { get { return RegisterSites.SpottedMallard; } }
         public List<ImportedFlyerScraperModel> GetFlyersFrom(DateTime eventDateStart, DateTime eventDateEnd)
         {
-            _driver.Navigate().GoToUrl(Url);
 
             var list = new List<ImportedFlyerScraperModel>();
             do
@@ -58,7 +57,7 @@ namespace WebScraper.Library.Sites
                 var entry = _driver.FindElement(By.ClassName("blogEntry"));
                 flyer.Title = entry.FindElement(By.ClassName("postTitle")).Text;
 
-                flyer.Description = entry.ToTextWithLineBreaks().Sanitize().
+                flyer.Description = entry.ToTextWithLineBreaks().
                     RemoveLinesContaining("Posted by", "Tags:");
 
                 flyer.ImageUrl = entry.FindElement(By.CssSelector("a.image")).GetAttribute("href");

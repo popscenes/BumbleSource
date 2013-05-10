@@ -128,7 +128,7 @@ namespace PostaFlya.DataRepository.Tests
             using (uow)
             {
                 var beh = FlierTestData.GetBehaviour(Kernel, flier);
-                flier.EventDates = new List<DateTime>(){eventDateOne, eventDateTwo};
+                flier.EventDates = new List<DateTimeOffset>(){eventDateOne, eventDateTwo};
                 _repository.Store(flier);
                 _repository.SaveChanges();
                 indexer.Handle(new FlierModifiedEvent(){NewState = flier});
@@ -138,7 +138,7 @@ namespace PostaFlya.DataRepository.Tests
                 earlierFlier.CreateDate = earlierFlier.CreateDate.AddDays(-1);
                 earlierFlier.Id = Guid.NewGuid().ToString();
                 earlierFlier.FriendlyId = qs.FindFreeFriendlyIdForFlier(earlierFlier);
-                earlierFlier.EventDates = new List<DateTime>() { eventDateTwo };
+                earlierFlier.EventDates = new List<DateTimeOffset>() { eventDateTwo };
                 _repository.Store(earlierFlier);
                 _repository.SaveChanges();
                 indexer.Handle(new FlierModifiedEvent() { NewState = earlierFlier });

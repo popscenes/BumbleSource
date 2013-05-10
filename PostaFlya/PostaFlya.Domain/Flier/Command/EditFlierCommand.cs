@@ -17,7 +17,7 @@ namespace PostaFlya.Domain.Flier.Command
         public string Title { get; set; }
         public string Id { get; set; }
         public string BrowserId { get; set; }
-        public List<DateTime> EventDates { get; set; }
+        public List<DateTimeOffset> EventDates { get; set; }
         public Tags Tags { get; set; }
         public List<FlierImage> ImageList { get; set; }
         public HashSet<string> BoardSet { get; set; }

@@ -19,7 +19,7 @@ namespace PostaFlya.Domain.Flier.Command
         public Location Location { get; set; }
         public FlierBehaviour FlierBehaviour { get; set; }
         public Tags WebSiteTags { get;set;}
-        public List<DateTime> EventDates { get; set; }
+        public List<DateTimeOffset> EventDates { get; set; }
         public List<FlierImage> ImageList { get; set; }
         public string ExternalSource { get; set; }
         public string ExternalId { get; set; }

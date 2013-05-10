@@ -25,7 +25,7 @@ namespace PostaFlya.Models.Flier
                            Title = flier.Title,
                            Description = flier.Description,
                            Location = flier.Location.ToViewModel(),
-                           EventDates = flier.EventDates,
+                           EventDates = flier.EventDates.Select(d => d.DateTime).ToList(),
                            TagsString = flier.Tags.ToString(),
                            FlierImageId = flier.Image.HasValue? flier.Image.Value.ToString(): "",
                            FlierBehaviour = flier.FlierBehaviour,

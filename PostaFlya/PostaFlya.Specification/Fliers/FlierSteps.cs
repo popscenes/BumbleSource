@@ -295,7 +295,7 @@ namespace PostaFlya.Specification.Fliers
             flierEditModel.TagsString = flier.Tags.ToString();
             flierEditModel.Location = flier.Location.ToViewModel();
             flierEditModel.FlierImageId = flier.Image.Value.ToString();
-            flierEditModel.EventDates = flier.EventDates;
+            flierEditModel.EventDates = flier.EventDates.Select(d => d.DateTime).ToList();
             return flierEditModel;
             
         }

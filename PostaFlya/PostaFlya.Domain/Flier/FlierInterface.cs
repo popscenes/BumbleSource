@@ -42,7 +42,7 @@ namespace PostaFlya.Domain.Flier
             target.Location = new Location(source.Location);
             target.Image = source.Image;
             target.EffectiveDate = source.EffectiveDate;
-            target.EventDates = new List<DateTime>(source.EventDates);
+            target.EventDates = new List<DateTimeOffset>(source.EventDates);
             target.CreateDate = source.CreateDate;
             target.FlierBehaviour = source.FlierBehaviour;
             target.Status = source.Status;
@@ -83,7 +83,7 @@ namespace PostaFlya.Domain.Flier
             return flier.Features.Aggregate(0, (d, charge) => d + charge.Paid);
         }
 
-        public static DateTime GetFirstEventDate(this FlierInterface flier)
+        public static DateTimeOffset GetFirstEventDate(this FlierInterface flier)
         {
             return flier.EventDates.OrderBy(time => time).First();
         }
@@ -99,7 +99,8 @@ namespace PostaFlya.Domain.Flier
         Tags Tags { get; set; }
         Location Location { get; set; }
         Guid? Image { get; set; }
-        List<DateTime> EventDates { get; set; }
+        List<DateTimeOffset> EventDates { get; set; }
+
         
         [Obsolete("Use EventDates, will be removed", false)]
         DateTime EffectiveDate { get; set; }

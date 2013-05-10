@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using PostaFlya.Domain.Boards.Command;
 using PostaFlya.Domain.Boards.Event;
 using PostaFlya.Domain.Flier.Event;
@@ -9,6 +10,7 @@ using Website.Domain.Service;
 using Website.Infrastructure.Command;
 using Website.Infrastructure.Domain;
 using Website.Infrastructure.Query;
+using Website.Infrastructure.Util.Extension;
 
 namespace PostaFlya.Domain.Flier.Command
 {
@@ -43,6 +45,8 @@ namespace PostaFlya.Domain.Flier.Command
             List<BoardFlierModifiedEvent> boardFliers = null;
             UnitOfWorkInterface unitOfWork;
 
+            var eventDates =
+                command.EventDates.Select(d => d.SetOffsetMinutes(command.ContactDetails.UtcOffset)).ToList();
             using (unitOfWork = _unitOfWorkFactory.GetUnitOfWork(new[] { _repository }))
             {
                 //
@@ -55,7 +59,7 @@ namespace PostaFlya.Domain.Flier.Command
                             flier.Tags = command.Tags;
                             flier.Location = command.Location;
                             flier.Image = command.Image;
-                            flier.EventDates = command.EventDates;
+                            flier.EventDates = eventDates;
                             flier.ImageList = command.ImageList;
                             flier.LocationRadius = command.ExtendPostRadius;
                             flier.HasLeadGeneration = command.AllowUserContact;

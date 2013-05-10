@@ -17,6 +17,7 @@ using Website.Infrastructure.Command;
 using Website.Infrastructure.Domain;
 using System.Linq;
 using Website.Infrastructure.Query;
+using Website.Infrastructure.Util.Extension;
 
 namespace PostaFlya.Domain.Flier.Command
 {
@@ -46,6 +47,8 @@ namespace PostaFlya.Domain.Flier.Command
         public object Handle(CreateFlierCommand command)
         {
             var date = DateTime.UtcNow;
+            var eventDates =
+                command.EventDates.Select(d => d.SetOffsetMinutes(command.ContactDetails.UtcOffset)).ToList();
             var newFlier = new Flier(command.Location)
                                {
                                    BrowserId = command.Anonymous ? Guid.Empty.ToString() : command.BrowserId,
@@ -56,7 +59,7 @@ namespace PostaFlya.Domain.Flier.Command
                                    CreateDate = date,
                                    EffectiveDate = date,
                                    FlierBehaviour = command.FlierBehaviour,
-                                   EventDates = command.EventDates,                            
+                                   EventDates = eventDates,                            
                                    ImageList = command.ImageList,
                                    ExternalSource = command.ExternalSource,
                                    ExternalId = command.ExternalId,

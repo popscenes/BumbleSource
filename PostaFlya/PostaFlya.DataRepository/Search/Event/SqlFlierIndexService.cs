@@ -50,7 +50,7 @@ namespace PostaFlya.DataRepository.Search.Event
             {
                 var searchRecords = @event.OrigState.ToSearchRecords().ToList();
                 SqlExecute.DeleteAll(searchRecords, _connection);
-                SqlExecute.DeleteBy(searchRecords.Select(record => new FlierEventDateSearchRecord() { LocationShard = record.LocationShard, Id = record.Id })
+                SqlExecute.DeleteBy(searchRecords.Select(record => new FlierDateSearchRecord() { LocationShard = record.LocationShard, Id = record.Id })
                     , _connection, e => e.Id, e => e.LocationShard);
             }
 
@@ -60,7 +60,7 @@ namespace PostaFlya.DataRepository.Search.Event
                 SqlExecute.InsertOrUpdateAll(searchRecords, _connection);
 
                 var eventDatesRecs = @event.NewState.ToDateSearchRecords(searchRecords);
-                SqlExecute.DeleteBy(searchRecords.Select(record => new FlierEventDateSearchRecord() { LocationShard = record.LocationShard, Id = record.Id })
+                SqlExecute.DeleteBy(searchRecords.Select(record => new FlierDateSearchRecord() { LocationShard = record.LocationShard, Id = record.Id })
                     , _connection, e => e.Id, e => e.LocationShard);
                 SqlExecute.InsertOrUpdateAll(eventDatesRecs, _connection);
             }
@@ -75,7 +75,7 @@ namespace PostaFlya.DataRepository.Search.Event
                 var flier = _queryService.FindById<Domain.Flier.Flier>(@event.OrigState.FlierId);
                 var searchRecord = @event.OrigState.ToSearchRecord(flier);
                 SqlExecute.Delete(searchRecord, _connection);
-                SqlExecute.DeleteBy(new BoardFlierEventDateSearchRecord()
+                SqlExecute.DeleteBy(new BoardFlierDateSearchRecord()
                     {
                         BoardId = searchRecord.BoardId,
                         Id = searchRecord.Id
@@ -89,7 +89,7 @@ namespace PostaFlya.DataRepository.Search.Event
                     return false;
                 var searchRecord = @event.NewState.ToSearchRecord(flier);
                 SqlExecute.InsertOrUpdate(searchRecord, _connection);
-                SqlExecute.DeleteBy(new BoardFlierEventDateSearchRecord()
+                SqlExecute.DeleteBy(new BoardFlierDateSearchRecord()
                 {
                     BoardId = searchRecord.BoardId,
                     Id = searchRecord.Id

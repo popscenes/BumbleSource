@@ -91,7 +91,7 @@ namespace PostaFlya.Models.Flier
         public string TagsString { get; set; }
 
         [Display(Name = "EffectiveDate", ResourceType = typeof(Properties.Resources))] 
-        public List<DateTime> EventDates { get; set; }
+        public List<DateTimeOffset> EventDates { get; set; }
 
         [Display(Name = "FlierImage", ResourceType = typeof(Properties.Resources))] 
         public string FlierImageUrl { get; set; }

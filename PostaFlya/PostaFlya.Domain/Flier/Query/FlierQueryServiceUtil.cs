@@ -17,8 +17,7 @@ namespace PostaFlya.Domain.Flier.Query
 
             var title = targetFlier.Title;
             var tryTitleBase = title.ToLowerHiphen() + targetFlier
-                .GetFirstEventDate()
-                .AddMinutes(targetFlier.ContactDetails.UtcOffset)
+                .GetFirstEventDate().DateTime
                 .ToString(pattern);
             var tryTitle = tryTitleBase;
 

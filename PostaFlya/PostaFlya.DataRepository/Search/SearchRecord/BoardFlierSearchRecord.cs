@@ -11,10 +11,10 @@ namespace PostaFlya.DataRepository.Search.SearchRecord
 {
     public static partial class BoardInterfaceSearchExtensions
     {
-        public static IEnumerable<BoardFlierEventDateSearchRecord> ToBoardDateSearchRecords(this BoardFlierSearchRecord searchRecord, FlierInterface flier) 
+        public static IEnumerable<BoardFlierDateSearchRecord> ToBoardDateSearchRecords(this BoardFlierSearchRecord searchRecord, FlierInterface flier) 
         {
             var recs = from ed in flier.EventDates
-                       select new BoardFlierEventDateSearchRecord()
+                       select new BoardFlierDateSearchRecord()
                        {
                            BoardId = searchRecord.BoardId,
                            Id = searchRecord.Id,
@@ -52,12 +52,12 @@ namespace PostaFlya.DataRepository.Search.SearchRecord
     }
 
     [Serializable]
-    public class BoardFlierEventDateSearchRecord
+    public class BoardFlierDateSearchRecord
     {
         [PrimaryKey]
         public String Id { get; set; }
         [PrimaryKey]
-        public DateTime EventDate { get; set; }
+        public DateTimeOffset EventDate { get; set; }
         //for scaling possibilities
         [NotNullable]
         [FederationCol(FederationName = "Board", DistributionName = "board_shard")]

@@ -299,9 +299,9 @@
             }
 
             var reqData = ko.mapping.toJS(self);
-            for (var i = 0; i < reqData.EventDates.length; i++) {
-                reqData.EventDates[i] = new Date(reqData.EventDates[i]).toISOString();
-            }
+//            for (var i = 0; i < reqData.EventDates.length; i++) {
+//                reqData.EventDates[i] = new Date(reqData.EventDates[i]).toISOString();
+//            }
            
             var tagString = self.tagsSelector.SelectedTags().join();
             reqData.TagsString = tagString;
@@ -345,9 +345,9 @@
             $('#flierForm').trigger('reset.unobtrusiveValidation');
             
             var reqData = ko.mapping.toJS(self);
-            for (var i = 0; i < reqData.EventDates.length; i++) {
-                reqData.EventDates[i] = new Date(reqData.EventDates[i]).toISOString();
-            }
+//            for (var i = 0; i < reqData.EventDates.length; i++) {
+//                reqData.EventDates[i] = new Date(reqData.EventDates[i]).toISOString();
+//            }
            
             var tagString = self.tagsSelector.SelectedTags().join();
             reqData.TagsString = tagString;
