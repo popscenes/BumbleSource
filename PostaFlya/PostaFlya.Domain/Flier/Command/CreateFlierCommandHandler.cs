@@ -48,7 +48,8 @@ namespace PostaFlya.Domain.Flier.Command
         {
             var date = DateTime.UtcNow;
             var eventDates =
-                command.EventDates.Select(d => d.SetOffsetMinutes(command.ContactDetails.UtcOffset)).ToList();
+                    command.EventDates.Select(d => d.SetOffsetMinutes(command.ContactDetails != null ? command.ContactDetails.UtcOffset : 0)).ToList();
+
             var newFlier = new Flier(command.Location)
                                {
                                    BrowserId = command.Anonymous ? Guid.Empty.ToString() : command.BrowserId,
