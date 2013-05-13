@@ -109,7 +109,7 @@ namespace PostaFlya.Domain.Flier.Command
         {
             var  features = new HashSet<EntityFeatureCharge>
                 {
-                    PostRadiusFeatureChargeBehaviour.GetPostRadiusFeatureCharge(newFlier.LocationRadius)
+                    PostFlierFlatFeeChargeBehaivour.GetPostRadiusFeatureCharge()
                 };
 
             if (newFlier.HasLeadGeneration)

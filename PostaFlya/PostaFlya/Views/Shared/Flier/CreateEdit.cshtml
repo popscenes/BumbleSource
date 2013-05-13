@@ -209,35 +209,6 @@
 	</fieldset>
     </form>
 </script>
-<script type="text/html" id="PostLocation-template">
-    <form id="flierForm" class="" data-bind="validate: true">
-        
-        @Html.ValidationSummary(true)
-        @Html.HiddenFor(model => model.Id, new { data_bind = "value:Id" })
-        <fieldset>
-            <legend>Add a location</legend>
-            <div class="">
-                <h2>Post your Flyer to an Area</h2>
-                          
-                <h3>ENTER THE LOCATION BELOW</h3>
-                
-                @Html.HiddenFor(model => model.Location, new { data_bind = "value: Location().ValidLocationForValidation()" })
-                @Html.ValidationMessageFor(model => model.Location)
-                                
-                @{
-                    ViewBag.MapId = "fliermap";
-                    ViewBag.DistanceVariable = "PostRadius";
-                    ViewBag.LocationVariable = "Location";
-                    ViewBag.AutoCompleteLocationBannerText = "'Post to a Suburb or Location'";
-                    ViewBag.AutoCompleteLocationId = "locationSearchCreateFlier";
-                    ViewBag.VisibleTrigger = null;
-                }
-                @Html.Partial("Location/LocationAndDistanceSelector")
-            </div>
-        </fieldset>
-    </form>
-
-</script>
 
 <script type="text/html" id="DetailsAndTags-template">
     <form id="flierForm" class="" data-bind="validate: true">

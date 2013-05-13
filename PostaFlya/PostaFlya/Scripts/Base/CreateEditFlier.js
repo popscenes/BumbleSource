@@ -57,7 +57,7 @@
 
         var self = this;
         self.apiUrl = sprintf("/api/Browser/%s/MyFliers", bf.currentBrowserInstance.BrowserId);
-        self.Steps = ['AddImages', 'DetailsAndTags', 'UserLinks', 'PostLocation', 'Summary', 'Complete'];
+        self.Steps = ['AddImages', 'DetailsAndTags', 'UserLinks', 'Summary', 'Complete'];
 
 
         self.UserLinkTypes = ko.observableArray([]);
@@ -168,18 +168,15 @@
 
         self.flierCosts = ko.observableArray([]);
         
-        self.radiusFlierCost = ko.computed(function() {
-            var ratePerSqKm = 1;
-            var distance = ko.utils.unwrapObservable(self.PostRadius());
-            var init = ((distance) * (distance) * 3.14 * ratePerSqKm) * (5 / distance);
+        self.FlierPostFee = ko.computed(function() {
 
             var model = new bf.FlierCostModel();
-            model.credits(init + 5 - (init % 5));
-            model.title("Flier Post Radius");
-            model.description("This charge relates to the effective radius of your flier. The default distance is 5km, as you increase that disance the cost of your flier will increase.");
+            model.credits(100);
+            model.title("Flier Post Fee");
+            model.description("This is the charge for posting your flyer to Popscnes.");
             return model;
         }, self);
-        self.flierCosts.push(self.radiusFlierCost);
+        self.flierCosts.push(self.FlierPostFee);
 
         self.analyticsCost = ko.computed(function () {
             
@@ -298,6 +295,7 @@
                 return false;
             }
 
+            self.Location(self.VenueInformation().Address());
             var reqData = ko.mapping.toJS(self);
 //            for (var i = 0; i < reqData.EventDates.length; i++) {
 //                reqData.EventDates[i] = new Date(reqData.EventDates[i]).toISOString();
@@ -307,6 +305,8 @@
             reqData.TagsString = tagString;
             if (!self.VenueInformation().Address().ValidLocation())
                 reqData.VenueInformation.Address = null;
+            
+            
 
             self.posting(true);
             $.ajax(self.apiUrl, {
@@ -344,6 +344,7 @@
 
             $('#flierForm').trigger('reset.unobtrusiveValidation');
             
+            self.Location(self.VenueInformation().Address());
             var reqData = ko.mapping.toJS(self);
 //            for (var i = 0; i < reqData.EventDates.length; i++) {
 //                reqData.EventDates[i] = new Date(reqData.EventDates[i]).toISOString();
@@ -353,6 +354,8 @@
             reqData.TagsString = tagString;
             //if (!self.ContactDetails().Address().ValidLocation())
             //    reqData.ContactDetails.Address = null;
+
+            
 
             self.posting(true);
             $.ajax(self.apiUrl, {

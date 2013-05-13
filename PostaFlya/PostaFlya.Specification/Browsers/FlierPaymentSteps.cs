@@ -211,7 +211,7 @@ namespace PostaFlya.Specification.Fliers
             var paymentPendingModel = SpecUtil.ControllerResult as List<BulletinFlierModel>;
             Assert.IsTrue(paymentPendingModel.Count() == 1);
             Assert.AreEqual(paymentPendingModel.First().Title, "This is a Title");
-            Assert.AreEqual(80, paymentPendingModel.First().PendingCredits);
+            Assert.AreEqual(100, paymentPendingModel.First().PendingCredits);
         }
 
         [When(@"I Add Credit To My Account")]
@@ -235,7 +235,7 @@ namespace PostaFlya.Specification.Fliers
             var profileController = SpecUtil.GetApiController<PendingFliersApiController>();
             var paymentPendingModel = profileController.Get();
             Assert.AreEqual(paymentPendingModel.First().Title, "This is a Title");
-            Assert.AreEqual(580, paymentPendingModel.First().PendingCredits);
+            Assert.AreEqual(600, paymentPendingModel.First().PendingCredits);
         }
 
 

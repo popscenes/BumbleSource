@@ -138,4 +138,10 @@
   <data name="AnalyticsFeatureChargeBehaviour_EnableOrDisableFeaturesBasedOnState_Not_Paid" xml:space="preserve">
     <value>Analytics selected but not paid for</value>
   </data>
+  <data name="PostFlierFlatFeeChargeBehaivour_CurrentStateMessage_Unpaid" xml:space="preserve">
+    <value>Post Flier Charge Unpaid</value>
+  </data>
+  <data name="PostFlierFlatFeeChargeBehaivour_GetCharge_Description" xml:space="preserve">
+    <value>Post Flier Charge</value>
+  </data>
 </root>
