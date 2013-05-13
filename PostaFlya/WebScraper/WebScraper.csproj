@@ -37,6 +37,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Accessibility" />
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\..\..\Libraries\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
     <Reference Include="Ninject">
       <HintPath>..\..\..\Libraries\Ninject.3.0.2-unstable-8\lib\net45-full\Ninject.dll</HintPath>
     </Reference>
@@ -58,6 +62,9 @@
     </Reference>
     <Reference Include="UIAutomationProvider" />
     <Reference Include="UIAutomationTypes" />
+    <Reference Include="WebActivator">
+      <HintPath>..\..\..\Libraries\WebActivator.1.5.3\lib\net40\WebActivator.dll</HintPath>
+    </Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
@@ -110,6 +117,18 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Core\Website.Domain\Website.Domain.csproj">
+      <Project>{C479A98A-EC5A-45EF-968A-2D81B406485F}</Project>
+      <Name>Website.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PostaFlya.Domain\PostaFlya.Domain.csproj">
+      <Project>{77BD3622-4D65-4776-AC5A-4F779CC526ED}</Project>
+      <Name>PostaFlya.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PostaFlya\PostaFlya.csproj">
+      <Project>{85753e12-6d9b-4b33-9ebd-bf31dbe10088}</Project>
+      <Name>PostaFlya</Name>
+    </ProjectReference>
     <ProjectReference Include="..\WebScraper.Library\WebScraper.Library.csproj">
       <Project>{dee6bab1-09a0-4054-9ddf-1ffb8a397098}</Project>
       <Name>WebScraper.Library</Name>

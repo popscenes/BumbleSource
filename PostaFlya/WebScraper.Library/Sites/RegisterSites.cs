@@ -4,10 +4,12 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using Ninject;
 using Ninject.Modules;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using WebScraper.Library.Infrastructure;
+using Website.Infrastructure.Configuration;
 
 namespace WebScraper.Library.Sites
 {
@@ -18,6 +20,11 @@ namespace WebScraper.Library.Sites
 
         public override void Load()
         {
+            Bind<ConfigurationServiceInterface>()
+                .To<DefaultConfigurationService>()
+                .InSingletonScope();
+            Config.Instance = Kernel.Get<ConfigurationServiceInterface>();
+
             Kernel.Bind<IWebDriver>().To<ChromeDriver>().InTransientScope();
 
             var types = Assembly.GetExecutingAssembly()

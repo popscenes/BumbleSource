@@ -4,13 +4,14 @@ using System.Threading.Tasks;
 
 namespace Website.Application.Google.Places
 {
-
+   
 
     namespace Details
     {
         public class PlaceDetailsRequest
         {
-            private const string Url = @"http://maps.googleapis.com/maps/api/place/details/json?sensor=false&reference=";
+            private const string Fail = "REQUEST_DENIED";
+            private const string Url = @"https://maps.googleapis.com/maps/api/place/details/json?sensor=false&reference=";
             private readonly string _reference;
 
             public PlaceDetailsRequest(string reference)
@@ -32,6 +33,11 @@ namespace Website.Application.Google.Places
                         }
                     }
                 }
+            }
+
+            public static bool IsFailure(Rootobject ret)
+            {
+                return ret.status == Fail || ret.result == null;
             }
 
             private Uri GetUri()
@@ -137,7 +143,8 @@ namespace Website.Application.Google.Places
 
         public class PlaceSearchRequest
         {
-            private const string Url = @"http://maps.googleapis.com/maps/api/place/textsearch/json?sensor=false&query=";
+            private const string Fail = "REQUEST_DENIED";
+            private const string Url = @"https://maps.googleapis.com/maps/api/place/textsearch/json?sensor=false&query=";
             private readonly string _searchTerm;
 
             public PlaceSearchRequest(string searchTerm)
@@ -159,6 +166,11 @@ namespace Website.Application.Google.Places
                         }
                     }
                 }
+            }
+
+            public static bool IsFailure(Rootobject ret)
+            {
+                return ret.status == Fail || ret.results == null;
             }
 
             private Uri GetUri()

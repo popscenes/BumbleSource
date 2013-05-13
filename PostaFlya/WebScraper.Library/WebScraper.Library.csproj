@@ -99,6 +99,10 @@
       <Project>{C479A98A-EC5A-45EF-968A-2D81B406485F}</Project>
       <Name>Website.Domain</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Core\Website.Infrastructure\Website.Infrastructure.csproj">
+      <Project>{b5c3a966-f286-4cb8-913b-c8625625451d}</Project>
+      <Name>Website.Infrastructure</Name>
+    </ProjectReference>
     <ProjectReference Include="..\PostaFlya.Application.Domain\PostaFlya.Application.Domain.csproj">
       <Project>{1510EA95-D2A1-47B5-8652-49895B97FC9F}</Project>
       <Name>PostaFlya.Application.Domain</Name>

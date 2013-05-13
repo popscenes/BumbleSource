@@ -14,7 +14,6 @@ namespace WebScraper.Library.Model
         public string Title { get; set; }
         public string Description { get; set; }
         public List<DateTime> EventDates { get; set; }
-        public LocationModel Location { get; set; }
         public List<UserLinkViewModel> Links { get; set; }
         public string Tags { get; set; }
         public string Source { get; set; }
@@ -34,9 +33,8 @@ namespace WebScraper.Library.Model
                 ret = ret && !string.IsNullOrWhiteSpace(ImageUrl);
                 ret = ret && !string.IsNullOrWhiteSpace(Tags);
                 ret = ret && !string.IsNullOrWhiteSpace(VenueInfo.PlaceName);
-                ret = ret && EventDates.Count > 0;
-                ret = ret && Location.IsValid();
                 ret = ret && VenueInfo.Address.IsValid();
+                ret = ret && EventDates.Count > 0;
             }
             catch (Exception)
             {

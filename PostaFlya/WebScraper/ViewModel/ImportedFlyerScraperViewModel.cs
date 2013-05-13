@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Windows.Media.Imaging;
+using PostaFlya.Models.Flier;
+using PostaFlya.Models.Location;
 using WebScraper.Library.Model;
 
 namespace WebScraper.ViewModel
@@ -15,11 +17,10 @@ namespace WebScraper.ViewModel
             target.Import = source.IsValid();
             target.Title = source.Title;
             target.Description = source.Description;
-            target.Location = source.Location;
             target.VenueInfo = source.VenueInfo;
             target.EventDates = new List<DateTime>(source.EventDates ?? new List<DateTime>());
             target.Tags = source.Tags;
-            target.Links = new List<UserLinkScraperModel>(source.Links ?? new List<UserLinkScraperModel>());
+            target.Links = new List<UserLinkViewModel>(source.Links ?? new List<UserLinkViewModel>());
             return target;
         }
 
@@ -29,11 +30,10 @@ namespace WebScraper.ViewModel
 
             target.Title = source.Title;
             target.Description = source.Description;
-            target.Location = source.Location;
             target.VenueInfo = source.VenueInfo;
             target.EventDates = new List<DateTime>(source.EventDates);
             target.Tags = source.Tags;
-            target.Links = new List<UserLinkScraperModel>(source.Links);
+            target.Links = new List<UserLinkViewModel>(source.Links);
             target.Source = source.Source;
             return target;
         }
@@ -46,9 +46,8 @@ namespace WebScraper.ViewModel
         public string Title { get; set; }
         public string Description { get; set; }
         public List<DateTime> EventDates { get; set; }
-        public List<UserLinkScraperModel> Links { get; set; }        
-        public LocationScraperModel Location { get; set; }
-        public VenueInfoScraperModel VenueInfo { get; set; }
+        public List<UserLinkViewModel> Links { get; set; }        
+        public VenueInformationModel VenueInfo { get; set; }
         public string Tags { get; set; }
         public string Source { get; set; }
 

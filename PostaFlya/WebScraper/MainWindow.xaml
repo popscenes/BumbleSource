@@ -21,12 +21,12 @@
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
-                        <RowDefinition Height="50" />
+                        <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
                     <CheckBox Grid.Column="0" Grid.RowSpan="2" VerticalAlignment="Center" HorizontalAlignment="Center" IsChecked="{Binding Import, Mode=TwoWay}" />
                     <Image Grid.Column="1" Grid.Row="0" Source="{Binding Image}"/>
-                    <TextBox Grid.Column="2" Grid.Row="0" Margin="3"  Text="{Binding Title}" />
-                    <TextBox Grid.Column="3" Grid.Row="0" Margin="3"  Text="{Binding Description}" TextWrapping="Wrap"/>
+                    <TextBox Grid.Column="2" Grid.Row="0" Margin="3"  Text="{Binding Title, Mode=TwoWay}" />
+                    <TextBox Grid.Column="3" Grid.Row="0" Margin="3"  Text="{Binding Description, Mode=TwoWay}" TextWrapping="Wrap"/>
                     <ItemsControl ItemsSource="{Binding EventDates}" Grid.Column="1" Grid.Row="1">
                         <ItemsControl.ItemsPanel>
                             <ItemsPanelTemplate>
@@ -40,12 +40,13 @@
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
                     <StackPanel Orientation="Vertical" Grid.Row="1" Grid.Column="2">
-                        <TextBox Text="{Binding Location.Longitude}"></TextBox>
-                        <TextBox Text="{Binding Location.Latitude}"></TextBox>
+                        <TextBox Text="{Binding Tags}"></TextBox>
                     </StackPanel>
                     <StackPanel Orientation="Vertical" Grid.Row="1" Grid.Column="3">
                         <TextBox Text="{Binding VenueInfo.PlaceName}"></TextBox>
                         <TextBox Text="{Binding VenueInfo.SourceId}"></TextBox>
+                        <TextBox Text="{Binding VenueInfo.Address.Longitude}"></TextBox>
+                        <TextBox Text="{Binding VenueInfo.Address.Latitude}"></TextBox>
                     </StackPanel>
                 </Grid>
             </Border>

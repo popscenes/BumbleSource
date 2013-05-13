@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Text;
 using Website.Infrastructure.Util;
@@ -26,6 +27,21 @@ namespace Website.Infrastructure.Configuration
     public interface ConfigurationServiceInterface
     {
         string GetSetting(string setting);
+    }
+
+    public class DefaultConfigurationService : ConfigurationServiceInterface
+    {
+        public string GetSetting(string setting)
+        {
+            try
+            {
+                return ConfigurationManager.AppSettings[setting];
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
     }
 
     public static class Config

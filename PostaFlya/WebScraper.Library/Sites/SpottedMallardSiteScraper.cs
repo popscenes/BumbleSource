@@ -21,6 +21,7 @@ namespace WebScraper.Library.Sites
         private const string BaseUrl = "http://spottedmallard.com";
         private const string Url = BaseUrl + "/events";
         private const string Page = Url + "/?start=";
+        private const string Tags = "music";
 
         private readonly VenueInformationModel _venueInformationModel;
 
@@ -32,8 +33,12 @@ namespace WebScraper.Library.Sites
             _driver = driver;
 
             var res = new PlaceDetailsRequest(GooglePlacesId).Request().Result;
-            var venuInfo = new VenueInformation().MapFrom(res.result);
-            _venueInformationModel = venuInfo.ToViewModel();
+            if (!PlaceDetailsRequest.IsFailure(res))
+            {
+                var venuInfo = new VenueInformation().MapFrom(res.result);
+                _venueInformationModel = venuInfo.ToViewModel();    
+            }
+            
         }
 
         public string SiteName { get { return RegisterSites.SpottedMallard; } }
@@ -63,6 +68,7 @@ namespace WebScraper.Library.Sites
             ret.ForEach(model =>
                 {
                     model.VenueInfo = _venueInformationModel;
+                    model.Tags = Tags;
                 });
 
 
