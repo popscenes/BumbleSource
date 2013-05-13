@@ -1,16 +1,11 @@
-﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Web.Mvc;
 using System.Web.Routing;
-using Website.Application.Content;
-using Website.Application.Google;
+using Website.Application.Google.Content;
 using Website.Domain.Location;
 
-namespace Website.Application.Domain.Location.Web
+namespace Website.Application.Domain.Google.Content
 {
     public static class HtmlHelperExtensions
     {

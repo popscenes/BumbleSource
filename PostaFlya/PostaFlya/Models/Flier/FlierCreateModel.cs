@@ -24,7 +24,7 @@ namespace PostaFlya.Models.Flier
                            Id = flier.Id,
                            Title = flier.Title,
                            Description = flier.Description,
-                           Location = flier.Location.ToViewModel(),
+                           //Location = flier.Location.ToViewModel(),
                            EventDates = flier.EventDates.Select(d => d.DateTime).ToList(),
                            TagsString = flier.Tags.ToString(),
                            FlierImageId = flier.Image.HasValue? flier.Image.Value.ToString(): "",
@@ -34,7 +34,7 @@ namespace PostaFlya.Models.Flier
                            ExternalId = flier.ExternalId,
                            BoardList =  flier.Boards != null ? flier.Boards.ToList() : new List<string>(),
                            EnableAnalytics =  flier.EnableAnalytics,
-                           PostRadius = flier.LocationRadius+5,
+                           //PostRadius = flier.LocationRadius+5,
                            VenueInformation = flier.ContactDetails.ToViewModel(),
                            TotalPaid = flier.GetTotalPaid(),
                            UserLinks = flier.UserLinks == null ? new List<UserLinkViewModel>() : flier.UserLinks.Select(_ => _.ToViewModel()).ToList()
@@ -84,15 +84,15 @@ namespace PostaFlya.Models.Flier
         [DataMember]
         public string Description { get; set; }
 
-        [Required(ErrorMessageResourceName = "Required", ErrorMessageResourceType = typeof(Properties.Resources), ErrorMessage = null)]
-        [ValidLocation]
-        [Display(Name = "FlierLocation", ResourceType = typeof(Properties.Resources))] 
-        [DataMember]
-        public LocationModel Location { get; set; }
-
-        [Display(Name = "FlierCreateModel_PostRadius", ResourceType = typeof(Properties.Resources))]
-        [DataMember(IsRequired = false)]
-        public int PostRadius { get; set; }
+//        [Required(ErrorMessageResourceName = "Required", ErrorMessageResourceType = typeof(Properties.Resources), ErrorMessage = null)]
+//        [ValidLocation]
+//        [Display(Name = "FlierLocation", ResourceType = typeof(Properties.Resources))] 
+//        [DataMember]
+//        public LocationModel Location { get; set; }
+//
+//        [Display(Name = "FlierCreateModel_PostRadius", ResourceType = typeof(Properties.Resources))]
+//        [DataMember(IsRequired = false)]
+//        public int PostRadius { get; set; }
 
         [Required(ErrorMessageResourceName = "Required", ErrorMessageResourceType = typeof(Properties.Resources))]
         [StringLength(100, ErrorMessageResourceName = "StringTooLarge", ErrorMessageResourceType = typeof(Properties.Resources), ErrorMessage = null)]

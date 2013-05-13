@@ -2,6 +2,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
 using PostaFlya.Domain.Venue;
 using Website.Application.Domain.Location;
+using Website.Application.Google.Places.Details;
 using Website.Common.Model;
 using Website.Domain.Contact;
 
@@ -33,6 +34,8 @@ namespace PostaFlya.Models.Location
             ret.Address = source.Address.ToViewModel();
             return ret;
         }
+
+
     }
 
     [DataContract]

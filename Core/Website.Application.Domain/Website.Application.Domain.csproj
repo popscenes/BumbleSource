@@ -126,9 +126,10 @@
     <Compile Include="Content\UrlContentRetrieverInterface.cs" />
     <Compile Include="Content\WebImageRequestContentRetriever.cs" />
     <Compile Include="Email\VCard\ContactDetailsInterfaceExtensions.cs" />
+    <Compile Include="Google\Content\HtmlHelperExtensions.cs" />
+    <Compile Include="Google\Payment\GoogleWalletPaymentService.cs" />
+    <Compile Include="Google\Places\LocationExtensions.cs" />
     <Compile Include="Location\ValidationAttributes.cs" />
-    <Compile Include="Location\Web\HtmlHelperExtensions.cs" />
-    <Compile Include="Payment\GoogleWalletPaymentService.cs" />
     <Compile Include="Payment\PaymentServiceInterface.cs" />
     <Compile Include="Payment\PaymentServiceProviderInterface.cs" />
     <Compile Include="Payment\PaymentServiceProvider.cs" />

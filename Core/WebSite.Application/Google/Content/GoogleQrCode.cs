@@ -6,7 +6,7 @@ using System.Net;
 using System.Web;
 using Website.Application.Content;
 
-namespace Website.Application.Google
+namespace Website.Application.Google.Content
 {
     internal static class GoogleQrCode
     {

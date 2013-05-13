@@ -142,7 +142,7 @@ namespace PostaFlya.Specification.Fliers
         public void GivenIHaveCreatedAflierofBehaviour(string flierbehaviour)
         {           
             GivenIOrAnotherBrowserHasNavigatedToTheCreateFlierPage(flierbehaviour);
-            _common.GivenIHaveAccountCredit(80);
+            _common.GivenIHaveAccountCredit(100);
             WhenISubmitTheRequiredDataForAFlier();
             ThenTheNewFlierWillBeCreated(flierbehaviour);
         }
@@ -151,7 +151,7 @@ namespace PostaFlya.Specification.Fliers
         public void GivenABrowserHasCreatedAFlier()
         {
             var browserId = _common.GivenThereIsAnExistingBrowserWithParticipantRole();
-            _common.GivenABrowserHasAccountCredit(browserId, 80);
+            _common.GivenABrowserHasAccountCredit(browserId, 100);
             GivenIOrAnotherBrowserHasNavigatedToTheCreateFlierPage(FlierBehaviour.Default.ToString());
             WhenTheBrowserSubmitsTheRequiredDataForAFlier(browserId);
             ThenTheNewFlierWillBeCreated(FlierBehaviour.Default.ToString());
@@ -161,7 +161,7 @@ namespace PostaFlya.Specification.Fliers
         public void GivenABrowserHasCreatedAFlierofBehaviour(string flierbehaviour)
         {
             var browserId = _common.GivenThereIsAnExistingBrowserWithParticipantRole();
-            _common.GivenABrowserHasAccountCredit(browserId, 80);
+            _common.GivenABrowserHasAccountCredit(browserId, 100);
             GivenIOrAnotherBrowserHasNavigatedToTheCreateFlierPage(flierbehaviour);
             WhenTheBrowserSubmitsTheRequiredDataForAFlier(browserId);
             ThenTheNewFlierWillBeCreated(flierbehaviour);
@@ -293,7 +293,7 @@ namespace PostaFlya.Specification.Fliers
             flierEditModel.Description = flier.Description;
             flierEditModel.Title = flier.Title;
             flierEditModel.TagsString = flier.Tags.ToString();
-            flierEditModel.Location = flier.Location.ToViewModel();
+            flierEditModel.VenueInformation = flier.ContactDetails.ToViewModel();
             flierEditModel.FlierImageId = flier.Image.Value.ToString();
             flierEditModel.EventDates = flier.EventDates.Select(d => d.DateTime).ToList();
             return flierEditModel;

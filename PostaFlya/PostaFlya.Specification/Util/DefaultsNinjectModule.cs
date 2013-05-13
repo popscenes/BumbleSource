@@ -39,7 +39,6 @@ namespace PostaFlya.Specification.Util
                                 Title = "This is a Title",
                                 Description = "This is a Description",
                                 TagsString = Kernel.Get<Tags>(ib => ib.Get<bool>("default")).ToString(),
-                                Location = Kernel.Get<Location>(ib => ib.Get<bool>("default")).ToViewModel(),
                                 VenueInformation = new VenueInformationModel()
                                     {
                                         PlaceName = "Test Pub",

@@ -6,6 +6,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Http.ModelBinding;
 using PostaFlya.Models.Board;
+using Website.Application.Google.Places.Details;
 using Website.Common.Model;
 using Website.Domain.Location;
 
@@ -35,6 +36,8 @@ namespace PostaFlya.Models.Location
             ret.CopyFieldsFrom(location);
             return ret;
         }
+
+        
     }
 
     public class LocationModel : LocationAndAddressInterface

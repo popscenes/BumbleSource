@@ -1,7 +1,7 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
-namespace Website.Application.Intergrations.Payment
+namespace Website.Application.Google.Payment
 {
     public class DigitalGoodsOrder
     {

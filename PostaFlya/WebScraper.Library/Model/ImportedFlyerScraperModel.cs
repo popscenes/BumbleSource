@@ -1,6 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using PostaFlya.Models.Flier;
+using PostaFlya.Models.Location;
+using Website.Domain.Location;
 
 namespace WebScraper.Library.Model
 {
@@ -11,13 +14,13 @@ namespace WebScraper.Library.Model
         public string Title { get; set; }
         public string Description { get; set; }
         public List<DateTime> EventDates { get; set; }
-        public LocationScraperModel Location { get; set; }
-        public List<UserLinkScraperModel> Links { get; set; }
+        public LocationModel Location { get; set; }
+        public List<UserLinkViewModel> Links { get; set; }
         public string Tags { get; set; }
         public string Source { get; set; }
         public Uri SourceDetailPage { get; set; }
 
-        public VenueInfoScraperModel VenueInfo { get; set; }
+        public VenueInformationModel VenueInfo { get; set; }
 
         public bool IsValid()
         {

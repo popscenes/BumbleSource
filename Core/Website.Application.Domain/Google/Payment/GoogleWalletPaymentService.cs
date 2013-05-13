@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Website.Application.Intergrations.Payment;
+using System;
+using Website.Application.Domain.Payment;
+using Website.Application.Google.Payment;
 using Website.Domain.Payment;
 using Website.Infrastructure.Domain;
 
-namespace Website.Application.Domain.Payment
+namespace Website.Application.Domain.Google.Payment
 {
     public class GoogleWalletPaymentService : PaymentServiceInterface
     {

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using Website.Infrastructure.Configuration;
 
-namespace Website.Application.Google
+namespace Website.Application.Google.Content
 {
     public static class GoogleMaps
     {
@@ -21,16 +21,8 @@ namespace Website.Application.Google
             public double Latitude { get; set; }
             public string Colour { get; set; }
         }
-        public static string AddApiKey(this string urlSource, string keySource = "GoogleApiKey")
-        {
-            var key = "";
-            if (Config.Instance != null && (key = Config.Instance.GetSetting(keySource)) != null)
-            {
-                return urlSource + "&key=" + key;
-            }
-            return urlSource;
 
-        }
+
 
         public static String MapUrl(double centreLat, double centreLong, IEnumerable<Marker> markers,
             int width = 400, int height = 400, int zoom = 16)

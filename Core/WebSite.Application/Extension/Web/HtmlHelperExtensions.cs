@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using System.Web.Mvc;
 using System.Web.Routing;
 using Website.Application.Content;
-using Website.Application.Google;
+using Website.Application.Google.Content;
 
 namespace Website.Application.Extension.Web
 {

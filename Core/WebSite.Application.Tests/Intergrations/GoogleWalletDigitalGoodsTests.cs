@@ -4,6 +4,7 @@ using System.Text;
 using System.Threading.Tasks;
 using NUnit.Framework;
 using Ninject.MockingKernel.Moq;
+using Website.Application.Google.Payment;
 using Website.Application.Intergrations;
 using Website.Application.Intergrations.Payment;
 using Website.Test.Common.Facebook;

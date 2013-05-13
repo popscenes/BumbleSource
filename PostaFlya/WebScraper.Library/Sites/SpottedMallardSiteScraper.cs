@@ -5,8 +5,12 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using OpenQA.Selenium;
+using PostaFlya.Application.Domain.Google.Places;
+using PostaFlya.Domain.Venue;
+using PostaFlya.Models.Location;
 using WebScraper.Library.Infrastructure;
 using WebScraper.Library.Model;
+using Website.Application.Google.Places.Details;
 
 namespace WebScraper.Library.Sites
 {
@@ -18,9 +22,18 @@ namespace WebScraper.Library.Sites
         private const string Url = BaseUrl + "/events";
         private const string Page = Url + "/?start=";
 
+        private readonly VenueInformationModel _venueInformationModel;
+
+        private const string GooglePlacesId =
+            "CnRtAAAAnjrqLsima54-Umm9c4bIpMAe-UiqaRGndaYikzqHVUD0bSKPH55ZvwCGwESTHOIzH09v6frffK5zZcC7VFV-hGYXbEQoT15__xb4BANjJSAjWjuo_E2mH5grVwpn_uaQWFsbEhp-ON_13cApJSEcyxIQUsZD2mGLqtEaNxbei-pM1BoUlUX4_OaXzqj0wjtZoM4RkmmC09k";
+
         public SpottedMallardSiteScraper(IWebDriver driver)
         {
             _driver = driver;
+
+            var res = new PlaceDetailsRequest(GooglePlacesId).Request().Result;
+            var venuInfo = new VenueInformation().MapFrom(res.result);
+            _venueInformationModel = venuInfo.ToViewModel();
         }
 
         public string SiteName { get { return RegisterSites.SpottedMallard; } }
@@ -45,8 +58,15 @@ namespace WebScraper.Library.Sites
 
             _driver.Navigate().GoToUrl("about:blank");
             _driver.Dispose();
-            return list.Where(model => model != null).ToList();
+            var ret = list.Where(model => model != null).ToList();
 
+            ret.ForEach(model =>
+                {
+                    model.VenueInfo = _venueInformationModel;
+                });
+
+
+            return ret;
         }
 
         private void SecondPassGetDetails(ImportedFlyerScraperModel flyer)

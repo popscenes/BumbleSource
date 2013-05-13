@@ -55,11 +55,7 @@
     <Compile Include="Infrastructure\SiteScraperInterface.cs" />
     <Compile Include="Infrastructure\State.cs" />
     <Compile Include="Infrastructure\Util.cs" />
-    <Compile Include="Model\GooglePlaces.cs" />
     <Compile Include="Model\ImportedFlyerScraperModel.cs" />
-    <Compile Include="Model\LocationScraperModel.cs" />
-    <Compile Include="Model\UserLinkScraperModel.cs" />
-    <Compile Include="Model\VenueInfoScraperModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -93,6 +89,28 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Core\Website.Application\Website.Application.csproj">
+      <Project>{46db8930-71d8-4de4-baa6-39944f07d6f5}</Project>
+      <Name>Website.Application</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Core\Website.Domain\Website.Domain.csproj">
+      <Project>{C479A98A-EC5A-45EF-968A-2D81B406485F}</Project>
+      <Name>Website.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PostaFlya.Application.Domain\PostaFlya.Application.Domain.csproj">
+      <Project>{1510EA95-D2A1-47B5-8652-49895B97FC9F}</Project>
+      <Name>PostaFlya.Application.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PostaFlya.Domain\PostaFlya.Domain.csproj">
+      <Project>{77BD3622-4D65-4776-AC5A-4F779CC526ED}</Project>
+      <Name>PostaFlya.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PostaFlya\PostaFlya.csproj">
+      <Project>{85753e12-6d9b-4b33-9ebd-bf31dbe10088}</Project>
+      <Name>PostaFlya</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />

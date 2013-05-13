@@ -1,10 +1,10 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using Newtonsoft.Json;
 using paycircuit.com.google.iap;
 
-namespace Website.Application.Intergrations.Payment
+namespace Website.Application.Google.Payment
 {
     public class GoogleWalletDigitalGoods 
     {
@@ -32,7 +32,7 @@ namespace Website.Application.Intergrations.Payment
             InAppItemObject claimObj = ParseStrictJwt(jwtString);
             var digitilGoodsOrder = new DigitalGoodsOrder()
                 {
-                    UserData = JsonConvert.DeserializeObject<Dictionary<String, String>>(claimObj.request.sellerData),
+                    UserData = JsonConvert.DeserializeObject<Dictionary<string, string>>(claimObj.request.sellerData),
                     Currency =
                         (CurrencyCode)
                         Enum.Parse(typeof (CurrencyCode), claimObj.request.currencyCode, true),

@@ -1,13 +1,47 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System;
+using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace WebScraper.Library.Model
+namespace Website.Application.Google.Places
 {
+
+
     namespace Details
     {
+        public class PlaceDetailsRequest
+        {
+            private const string Url = @"http://maps.googleapis.com/maps/api/place/details/json?sensor=false&reference=";
+            private readonly string _reference;
+
+            public PlaceDetailsRequest(string reference)
+            {
+                _reference = reference;
+            }
+
+            public async Task<Rootobject> Request()
+            {
+                using (var client = new HttpClient())
+                {
+                    using (var req = new HttpRequestMessage())
+                    {
+                        req.Method = HttpMethod.Get;
+                        req.RequestUri = GetUri();
+                        using (var res = await client.SendAsync(req))
+                        {
+                            return await res.Content.ReadAsAsync<Rootobject>();
+                        }
+                    }
+                }
+            }
+
+            private Uri GetUri()
+            {
+                var uri = Url + _reference;
+                uri = uri.AddApiKey(GoogleApiUtil.PlacesKey);
+                return new Uri(uri);
+            }
+        }
+
         #region PlaceDetails
 
         public class Rootobject
@@ -100,6 +134,40 @@ namespace WebScraper.Library.Model
 
     namespace PlaceSearch
     {
+
+        public class PlaceSearchRequest
+        {
+            private const string Url = @"http://maps.googleapis.com/maps/api/place/textsearch/json?sensor=false&query=";
+            private readonly string _searchTerm;
+
+            public PlaceSearchRequest(string searchTerm)
+            {
+                _searchTerm = searchTerm;
+            }
+
+            public async Task<Rootobject> Request()
+            {
+                using (var client = new HttpClient())
+                {
+                    using (var req = new HttpRequestMessage())
+                    {
+                        req.Method = HttpMethod.Get;
+                        req.RequestUri = GetUri();
+                        using (var res = await client.SendAsync(req))
+                        {
+                            return await res.Content.ReadAsAsync<Rootobject>();
+                        }
+                    }
+                }
+            }
+
+            private Uri GetUri()
+            {
+                var uri = Url + _searchTerm;
+                uri = uri.AddApiKey(GoogleApiUtil.PlacesKey);
+                return new Uri(uri);
+            }
+        }
         #region PlaceSearch
         public class Rootobject
         {
