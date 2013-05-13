@@ -260,7 +260,7 @@ namespace PostaFlya.DataRepository.Tests
                 .Select(id => _queryService.FindById<Domain.Flier.Flier>(id)).ToList();
 
             Assert.That(retrievedFliers.Count(), Is.EqualTo(2));
-            AssertUtil.AreAll(retrievedFliers, flier => flier.EventDates.Any(time => time == eventDateTwo));
+            AssertUtil.AreAll(retrievedFliers, flier => flier.EventDates.Any(time => time.DateTime == eventDateTwo));
 
             retrievedFliers = _searchService.FindFliersByLocationAndDistance(location, 5, 30, null, tag, eventDateThree)
                 .Select(id => _queryService.FindById<Domain.Flier.Flier>(id)).ToList();
