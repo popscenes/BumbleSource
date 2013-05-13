@@ -1,13 +1,10 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Web;
 using Website.Infrastructure.Configuration;
 
-namespace Website.Application.Content
+namespace Website.Application.Google
 {
     public static class GoogleMaps
     {

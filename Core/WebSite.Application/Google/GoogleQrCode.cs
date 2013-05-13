@@ -1,15 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+using System;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
-using System.Linq;
 using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 using System.Web;
+using Website.Application.Content;
 
-namespace Website.Application.Content
+namespace Website.Application.Google
 {
     internal static class GoogleQrCode
     {
