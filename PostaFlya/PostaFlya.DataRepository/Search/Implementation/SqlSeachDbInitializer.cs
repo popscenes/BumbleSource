@@ -72,7 +72,8 @@ namespace PostaFlya.DataRepository.Search.Implementation
                 SqlExecute.ExecuteCommandInRecordTypeContext(typeof(FlierSearchRecord), "delete from FlierSearchRecord", newConn);
                 SqlExecute.ExecuteCommandInRecordTypeContext(typeof(BoardFlierSearchRecord), "delete from BoardFlierSearchRecord", newConn);
                 SqlExecute.ExecuteCommandInRecordTypeContext(typeof(BoardSearchRecord), "delete from BoardSearchRecord", newConn);
-                SqlExecute.ExecuteCommandInRecordTypeContext(typeof(FlierDateSearchRecord), "delete from FlierEventDateSearchRecord", newConn);
+                SqlExecute.ExecuteCommandInRecordTypeContext(typeof(FlierDateSearchRecord), "delete from FlierDateSearchRecord", newConn);
+                SqlExecute.ExecuteCommandInRecordTypeContext(typeof(BoardFlierDateSearchRecord), "delete from BoardFlierDateSearchRecord", newConn);
             }
         }
     }

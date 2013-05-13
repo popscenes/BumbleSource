@@ -55,6 +55,7 @@
     <Compile Include="Infrastructure\SiteScraperInterface.cs" />
     <Compile Include="Infrastructure\State.cs" />
     <Compile Include="Infrastructure\Util.cs" />
+    <Compile Include="Model\GooglePlaces.cs" />
     <Compile Include="Model\ImportedFlyerScraperModel.cs" />
     <Compile Include="Model\LocationScraperModel.cs" />
     <Compile Include="Model\UserLinkScraperModel.cs" />
