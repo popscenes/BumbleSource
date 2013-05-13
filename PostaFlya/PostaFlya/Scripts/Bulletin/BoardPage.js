@@ -85,7 +85,7 @@
                 params.tags = tags;
 
             if (self.fliterDate() != null) {
-                params.date = new Date(self.fliterDate()).toISOString();
+                params.date = self.fliterDate();
             }
 
             return params;
