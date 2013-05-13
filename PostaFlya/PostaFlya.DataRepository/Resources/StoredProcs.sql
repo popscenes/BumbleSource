@@ -51,7 +51,7 @@ select	@SQL = N'
 
 if @eventDate IS NOT NULL
 select @SQL = @SQL + N'
-		left outer join FlierEventDateSearchRecord ed on ed.Id = fr.Id
+		left outer join FlierDateSearchRecord ed on ed.Id = fr.Id
 		';
 
 select @SQL = @SQL + N'
@@ -75,7 +75,7 @@ if @xpath IS NOT NULL
 
 if @eventDate IS NOT NULL
 		select @SQL = @SQL + N'
-		and ed.EventDate >= @eventDateParam and ed.EventDate < DATEADD(day, 1, @eventDateParam)
+		and CAST(ed.EventDate as datetime2) >= @eventDateParam and CAST(ed.EventDate as dateTime2) < DATEADD(day, 1, @eventDateParam)
 		';
 		
 select @SQL = @SQL + N'
@@ -166,7 +166,7 @@ select	@SQL = N'
 
 if @eventDate IS NOT NULL
 select @SQL = @SQL + N'
-		left outer join BoardFlierEventDateSearchRecord ed on ed.Id = fr.Id
+		left outer join BoardFlierDateSearchRecord ed on ed.Id = fr.Id
 		';
 
 select @SQL = @SQL + N'							
@@ -189,7 +189,7 @@ if @xpath is not null
 
 if @eventDate IS NOT NULL
 		select @SQL = @SQL + N'
-		and ed.EventDate >= @eventDateParam and ed.EventDate < DATEADD(day, 1, @eventDateParam)
+		and CAST(ed.EventDate as datetime2) >= @eventDateParam and CAST(ed.EventDate as dateTime2) < DATEADD(day, 1, @eventDateParam)
 		';
 		
 select @SQL = @SQL + N'

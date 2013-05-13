@@ -115,8 +115,9 @@ namespace PostaFlya.DataRepository.Tests
         {
             DeleteAll();
 
-            var eventDateOne = new DateTime(2076, 8, 11);
-            var eventDateTwo = new DateTime(2077, 12, 19);
+            var eventDateOne = new DateTimeOffset(new DateTime(2076, 8, 11), TimeSpan.FromHours(10));
+            var eventDateTwo = new DateTimeOffset(new DateTime(2077, 12, 19), TimeSpan.FromHours(10));
+
 
             var flier = FlierTestData.GetOne(Kernel, _loc);
             var uow = Kernel.Get<UnitOfWorkFactoryInterface>()
@@ -278,7 +279,7 @@ namespace PostaFlya.DataRepository.Tests
                     AggregateId = board.Id,
                     FlierId = storedFlier.Id,
                     Status = BoardFlierStatus.Approved,
-                    DateAdded = DateTime.UtcNow
+                    DateAdded = DateTime.Now
                 };
 
             var uow = Kernel.Get<UnitOfWorkFactoryInterface>()
