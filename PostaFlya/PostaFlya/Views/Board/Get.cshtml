@@ -16,42 +16,22 @@
     @Scripts.Render("~/Script/BulletinDeskJs.js")
 }
 
-
 <div class="board-header">
     <div class="board-header-content">
-        <section class="board-information-calendar">
-            <div>
-                <span>Show happenings by date:</span>
-            </div>
-            <div id="flyaDate" data-bind="datePicker:{onSelect: $data.setDate}"></div>
-        </section>
-
         <input type="hidden" value="@Model.Id" id="boardid"/>
 
-        @if (Model.Location != null && Model.Location.IsValid())
-        {
-        
-            <section class="board-information-addr">
-
-                <div>
-                    <a href="@Html.LocationMapSearchUrl(Model.Location.ToDomainModel())"
-                       target="_blank">@Html.LocationImage(Model.Location.ToDomainModel(), 250, 230, 15)</a>
-                </div>
-                <div>
-                    <span>@Model.Location.GetAddressDescription()</span>
-                </div>
-            </section>
-
-        }
-
         <section class="board-information-desc">
-            <h2>
+            <h3>
                 <span>@Model.Name</span>
-            </h2>
+            </h3>
             <div>
                 <span>@Model.Description</span>
             </div>
-            <div>
+            
+                    <div class="venue-desc-text">
+                    <span>@Model.Location.GetAddressDescription()</span>
+                </div>
+            <div class="board-links">
                 @foreach (var veninfo in Model.VenueInformation)
                 {
         
@@ -73,6 +53,25 @@
             </div>
 
         </section>
+        
+         @if (Model.Location != null && Model.Location.IsValid())
+        {
+        
+            <section class="board-information-addr">
+                <div>
+                    <a href="@Html.LocationMapSearchUrl(Model.Location.ToDomainModel())"
+                       target="_blank">@Html.LocationImage(Model.Location.ToDomainModel(), 258, 128, 15)</a>
+                </div>
+            </section>
+
+        }
+        
+        <!--<section class="board-information-calendar">
+            <div>
+                <span>Show happenings by date:</span>
+            </div>
+            <div id="flyaDate" data-bind="datePicker:{onSelect: $data.setDate}"></div>
+        </section>-->
 
         <div class="clear-fix"></div>
     </div>

@@ -1484,24 +1484,52 @@ p#copyright {
 }
 
 .board-header {
-    background-color: white;
-    width: 70%;
-    margin: 30px auto;
-    border: 1px #D0CBC4 solid;
-    padding: 15px;
+    
+    
+    
 }
 
-.board-header-content {
-    width: 70%;
-    margin: 0 auto;
+.board-links {
+    margin-top: 30px;
+    font-size: 12px;
 }
+
+.board-links a{
+    margin-right: 20px;
+}
+
+.venue-desc-text {
+    font-size: 14px;
+}
+.board-header-content {
+    width: 748px;
+    height: 128px;
+    margin: 0 auto;
+    padding-left: 20px;
+    border: 1px #D0CBC4 solid;
+    background-color: white;
+}
+
+.board-information-desc h3 {
+    border: none;
+    text-transform: none;
+    color: black;
+    font-weight: bold;
+    margin-top: 12px;
+    margin-bottom: 2px;
+}
+
+    .board-information-desc h3 span {
+        color: black;
+        text-transform: none;
+    }
 
 section.board-information-addr {
-    float: left;
+    float: right;
 }
 
-section.board-information-calendar {
-    float: right;
+section.board-information-desc {
+    float: left;
 }
 
 @media only screen and (max-width: 880px) {
