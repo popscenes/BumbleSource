@@ -33,7 +33,12 @@ namespace PostaFlya.Domain.Boards.Query
             if (ids == null || ids.Count == 0)
                 return null;
             
-            var boards = _queryService.FindByIds<Board>(ids);
+            var boards = _queryService.FindByIds<Board>(ids).ToList();
+
+            if (!boards.Any())
+            {
+                return null;
+            }
 
             var ret = boards.FirstOrDefault(board => board.MatchVenueBoard(argument.VenueInformation));
 
