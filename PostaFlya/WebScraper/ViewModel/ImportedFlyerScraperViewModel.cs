@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Windows.Media.Imaging;
 using PostaFlya.Models.Flier;
 using PostaFlya.Models.Location;
@@ -21,11 +22,12 @@ namespace WebScraper.ViewModel
             target.EventDates = new List<DateTime>(source.EventDates ?? new List<DateTime>());
             target.Tags = source.Tags;
             target.Links = new List<UserLinkViewModel>(source.Links ?? new List<UserLinkViewModel>());
+            target.SourceDetailPage = source.SourceDetailPage;
+
             return target;
         }
 
-        public static ImportedFlyerScraperModel MapTo(this ImportedFlyerScraperViewModel source,
-                                             ImportedFlyerScraperModel target)
+        public static ImportedFlyerScraperModel MapFrom(this ImportedFlyerScraperModel target, ImportedFlyerScraperViewModel source)
         {
 
             target.Title = source.Title;
@@ -35,6 +37,10 @@ namespace WebScraper.ViewModel
             target.Tags = source.Tags;
             target.Links = new List<UserLinkViewModel>(source.Links);
             target.Source = source.Source;
+            target.SourceDetailPage = source.SourceDetailPage;
+            target.ImageUrl = source.Image.UriSource.ToString();
+            if (source.Image.StreamSource != null)
+            target.Image = Image.FromStream(source.Image.StreamSource);
             return target;
         }
     }
@@ -50,6 +56,7 @@ namespace WebScraper.ViewModel
         public VenueInformationModel VenueInfo { get; set; }
         public string Tags { get; set; }
         public string Source { get; set; }
+        public Uri SourceDetailPage { get; set; }
 
     }
 }

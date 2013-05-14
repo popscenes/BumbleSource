@@ -65,6 +65,10 @@
     <Reference Include="WebActivator">
       <HintPath>..\..\..\Libraries\WebActivator.1.5.3\lib\net40\WebActivator.dll</HintPath>
     </Reference>
+    <Reference Include="WebDriver, Version=2.32.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Libraries\Selenium.WebDriver.2.32.1\lib\net40\WebDriver.dll</HintPath>
+    </Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
@@ -120,6 +124,10 @@
     <ProjectReference Include="..\..\Core\Website.Domain\Website.Domain.csproj">
       <Project>{C479A98A-EC5A-45EF-968A-2D81B406485F}</Project>
       <Name>Website.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Core\Website.Infrastructure\Website.Infrastructure.csproj">
+      <Project>{B5C3A966-F286-4CB8-913B-C8625625451D}</Project>
+      <Name>Website.Infrastructure</Name>
     </ProjectReference>
     <ProjectReference Include="..\PostaFlya.Domain\PostaFlya.Domain.csproj">
       <Project>{77BD3622-4D65-4776-AC5A-4F779CC526ED}</Project>

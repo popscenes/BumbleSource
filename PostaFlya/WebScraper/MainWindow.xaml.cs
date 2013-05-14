@@ -19,10 +19,12 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Ninject;
+using OpenQA.Selenium;
 using WebScraper.Library.Infrastructure;
 using WebScraper.Library.Model;
 using WebScraper.Library.Sites;
 using WebScraper.ViewModel;
+using Website.Infrastructure.Configuration;
 using Image = System.Drawing.Image;
 
 namespace WebScraper
@@ -49,14 +51,32 @@ namespace WebScraper
         private void Worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             var list = e.Result as List<ImportedFlyerScraperModel>;
+            if (list == null)
+            {
+                UploadEnd(e);
+            }
+
             var viewList = list.Select(model => new ImportedFlyerScraperViewModel().MapFrom(model)).ToList();
             ImportListView.ItemsSource = viewList;
             Load.IsEnabled = true;
+            Publish.IsEnabled = true;
+        }
+
+        private void UploadEnd(RunWorkerCompletedEventArgs e)
+        {
+            Load.IsEnabled = true;
+            Publish.IsEnabled = true;
+            MessageBox.Show("Upload finished");
         }
 
         private void Worker_DoWork(object sender, DoWorkEventArgs e)
         {
             var startEnd = e.Argument as StartEnd;
+            if (startEnd == null)
+            {
+                UploadStart(e);
+            }
+
             var items = new ConcurrentQueue<ImportedFlyerScraperModel>();
             var all = _kernel.GetAll<SiteScraperInterface>();
             foreach (var siteScraper in all)
@@ -71,6 +91,16 @@ namespace WebScraper
             }
 
             e.Result = items.ToList();
+        }
+
+        private void UploadStart(DoWorkEventArgs e)
+        {
+            var data = e.Argument as PublishData;
+            data.import.ForEach(model =>
+            {
+                var up = new FlyerUpload(data.authcookie, Guid.Empty.ToString(), model, data.server);
+                var ret = up.Request().Result;
+            });
         }
 
         private readonly BackgroundWorker worker = new BackgroundWorker();
@@ -90,6 +120,7 @@ namespace WebScraper
                 return;
             }
             Load.IsEnabled = false;
+            Publish.IsEnabled = false;
 
             Trace.TraceInformation("Starting...");
 
@@ -99,59 +130,63 @@ namespace WebScraper
                     End = EndDate.SelectedDate.Value
                 });
 
+        }
 
-
-
+        IWebDriver _driver;
+        private void Login_Click(object sender, RoutedEventArgs e)
+        {
+            if (_driver == null)
+            {
+                _driver = _kernel.Get<IWebDriver>();
+            }
             
+            var config = _kernel.Get<ConfigurationServiceInterface>();
+            var server = config.GetSetting("Server");
+            _driver.Navigate().GoToUrl(server + "/Account/LoginPage");
+        }
 
-           
-//                = new List<ImportedFlyerScraperViewModel>()
-//                {
-//                    new ImportedFlyerScraperViewModel()
-//                        {
-//                            Import = true,
-//                            Title = "Test",
-//                            Description = "Test Desc",
-//                            Image =  new BitmapImage(new Uri("http://www.google.com.au/images/srpr/logo4w.png")),
-//                            EventDates = new List<DateTime>()
-//                                {
-//                                    DateTime.Now.AddDays(-1),
-//                                    DateTime.Now.AddDays(1)
-//                                },
-//                                Location = new LocationScraperModel()
-//                                    {
-//                                       Longitude = 143,
-//                                       Latitude = 93
-//                                    },
-//                                    VenueInfo = new VenueInfoScraperModel()
-//                                        {
-//                                            PlaceName = "Test Place",
-//                                            SourceId = "12354"
-//                                        }
-//                        },
-//                                            new ImportedFlyerScraperViewModel()
-//                        {
-//                            Import = true,
-//                            Title = "Test",
-//                            Description = "Test Desc",
-//                            Image =  new BitmapImage(new Uri("http://www.google.com.au/images/srpr/logo4w.png")),
-//                            EventDates = new List<DateTime>()
-//                                {
-//                                    DateTime.Now.AddDays(-1),
-//                                    DateTime.Now.AddDays(1)
-//                                },
-//                                Location = new LocationScraperModel()
-//                                    {
-//                                       Longitude = 143,
-//                                       Latitude = 93
-//                                    },
-//                                    VenueInfo = new VenueInfoScraperModel()
-//                                        {
-//                                            PlaceName = "Test Place",
-//                                            SourceId = "12354"
-//                                        }
-//                        }
-//                };
+        class PublishData
+        {
+            public string authcookie { get; set; }
+            public List<ImportedFlyerScraperModel> import { get; set; }
+            public string server { get; set; }
+        }
+        private void Publish_Click(object sender, RoutedEventArgs e)
+        {
+
+            var config = _kernel.Get<ConfigurationServiceInterface>();
+            var server = config.GetSetting("Server");
+
+            string authcookie = null;
+            if (_driver == null || (authcookie = GetAuthCookie()) == null)
+            {
+                MessageBox.Show("Login First");
+                Login_Click(this, new RoutedEventArgs());
+            }
+
+            var items = ImportListView.ItemsSource as IList<ImportedFlyerScraperViewModel>;
+            if (items == null || items.Count == 0 || items.Count(i => i.Import) == 0)
+            {
+                MessageBox.Show("No Flyers to import");
+            }
+
+            var import = items.Where(i => i.Import).Select(i => new ImportedFlyerScraperModel().MapFrom(i)).ToList();
+
+            worker.RunWorkerAsync(new PublishData()
+                {
+                    authcookie = authcookie,
+                    import = import,
+                    server = server                    
+                });
+
+        }
+
+        private string GetAuthCookie()
+        {
+            var cookie = _driver.Manage().Cookies.GetCookieNamed(".ASPXAUTH");
+            if (cookie == null)
+                return null;
+            return cookie.Value;
         }
     }
 

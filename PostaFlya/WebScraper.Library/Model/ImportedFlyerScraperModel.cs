@@ -7,6 +7,21 @@ using Website.Domain.Location;
 
 namespace WebScraper.Library.Model
 {
+    public static class ImportedFlyerScraperModelExtensions
+    {
+        public static FlierCreateModel MapFrom(this FlierCreateModel target, ImportedFlyerScraperModel source)
+        {
+            target.FlierImageId = source.ImageUrl;
+            target.TagsString = source.Tags;
+            target.Title = source.Title;
+            target.Description = source.Description;
+            target.EventDates = source.EventDates;
+            target.Anonymous = true;
+            target.VenueInformation = source.VenueInfo;
+            target.UserLinks = source.Links;
+            return target;
+        }
+    }
     public class ImportedFlyerScraperModel
     {
         public Guid Id { get; set; }   
@@ -20,6 +35,8 @@ namespace WebScraper.Library.Model
         public Uri SourceDetailPage { get; set; }
 
         public VenueInformationModel VenueInfo { get; set; }
+
+        public Image Image { get; set; }
 
         public bool IsValid()
         {

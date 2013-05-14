@@ -93,5 +93,13 @@ namespace Website.Application.Extension.Content
         {
             return GetBytes(img, ImageFormat.Jpeg);
         }
+
+        public static Image GetImage(this byte[] imgData)
+        {
+            using (var ms = new MemoryStream(imgData))
+            {
+                return Image.FromStream(ms);
+            } 
+        }
     }
 }
