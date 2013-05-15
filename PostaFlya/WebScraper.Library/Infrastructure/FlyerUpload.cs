@@ -6,8 +6,10 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Formatting;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 using PostaFlya.Models.Flier;
 using WebScraper.Library.Model;
 using Website.Application.Extension.Content;
@@ -60,6 +62,9 @@ namespace WebScraper.Library.Infrastructure
                             req.Method = HttpMethod.Post;
                             req.RequestUri = new Uri(_server + _flyerPost);
                             var cont = new FlierCreateModel().MapFrom(_model);
+
+                            Trace.TraceInformation(JsonConvert.SerializeObject(cont));
+
                             req.Content = new ObjectContent<FlierCreateModel>(cont, new JsonMediaTypeFormatter());
                             using (var res = await client.SendAsync(req))
                             {
@@ -108,23 +113,25 @@ namespace WebScraper.Library.Infrastructure
                             req.RequestUri = new Uri(_server + _imagePost + "?Anonymous=true");
 
 
-                            using (var content = new MultipartContent())
+                            using (var content = new MultipartFormDataContent())
                             {
-                                content.Add(new ByteArrayContent(_model.Image.GetBytes()));
+                                var fileContent = new ByteArrayContent(_model.Image.GetBytes());
+                                content.Add(fileContent, @"""file""", @"""flyer.jpg""");
+                                req.Content = content;
                                 using (var res = await client.SendAsync(req))
                                 {
                                     if (!res.IsSuccessStatusCode)
                                     {
-                                        Trace.TraceError("Error " + res.StatusCode + " " + await res.Content.ReadAsStringAsync());
+                                        Trace.TraceError("Image upload failed Error " + res.StatusCode + " " + await res.Content.ReadAsStringAsync());
                                         return false;
                                     }
                                     else
                                     {
 
                                         var loc = res.Headers.Location.ToString();
-                                        var imageId = loc.Substring(loc.LastIndexOf('/') + 1);
+                                        var imageId = loc.Substring(loc.LastIndexOf('/') + 1).Replace(".jpg","");
                                         _model.ImageUrl = imageId;
-                                        Trace.TraceInformation("Created " + res.Headers.Location);
+                                        Trace.TraceInformation("Image Uploaded " + res.Headers.Location);
                                         return true;
                                     }
 
@@ -138,7 +145,7 @@ namespace WebScraper.Library.Infrastructure
             }
             catch (Exception e)
             {
-                Trace.TraceError("Error " + e);
+                Trace.TraceError("Image upload failed Error " + e);
                 return false;
             }
 

@@ -42,10 +42,24 @@ namespace WebScraper
             _kernel.Load<RegisterSites>();
             var listener = new MyTraceListener();
             Trace.Listeners.Add(listener);
+
             TraceText.DataContext = listener;
+            Bind(listener, "Trace", TraceText, BindingMode.OneWay, TextBox.TextProperty);
+
+            StartDate.SelectedDate = DateTime.Now.Date;
+            EndDate.SelectedDate = DateTime.Now.Date;
 
             worker.DoWork += Worker_DoWork;
             worker.RunWorkerCompleted += Worker_RunWorkerCompleted;
+        }
+
+        void Bind(object source, string sourceProp, DependencyObject target, BindingMode mode, DependencyProperty dp)
+        {
+            var binding = new Binding();
+            binding.Source = source;
+            binding.Path = new PropertyPath(sourceProp);
+            binding.Mode = mode;
+            BindingOperations.SetBinding(target, dp, binding);
         }
 
         private void Worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
@@ -54,6 +68,7 @@ namespace WebScraper
             if (list == null)
             {
                 UploadEnd(e);
+                return;
             }
 
             var viewList = list.Select(model => new ImportedFlyerScraperViewModel().MapFrom(model)).ToList();
@@ -75,10 +90,11 @@ namespace WebScraper
             if (startEnd == null)
             {
                 UploadStart(e);
+                return;
             }
 
             var items = new ConcurrentQueue<ImportedFlyerScraperModel>();
-            var all = _kernel.GetAll<SiteScraperInterface>();
+            var all = _kernel.GetAll<SiteScraperInterface>().ToList();
             foreach (var siteScraper in all)
             {
                 Trace.TraceInformation("Running " + siteScraper.SiteName);

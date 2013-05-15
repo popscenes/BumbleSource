@@ -45,7 +45,8 @@ namespace Website.Infrastructure.Util
                 return 100;
 
             var dist = source.LevenshteinDistanceTo(to);
-            return Math.Abs(((source.Length - dist)/source.Length)*100);
+
+            return Math.Abs((((decimal)dist)/source.Length)*100);
         }
 
         public static int LevenshteinDistanceTo(this string source, string to)
