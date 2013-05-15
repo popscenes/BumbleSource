@@ -1259,6 +1259,12 @@ a.bold-link {
     cursor: pointer;
 }
 
+a.plainlink {
+    text-decoration: none;
+    text-align: center;
+    color: #555555;
+}
+
 .pac-container {
     z-index: 5000 !important;
 }

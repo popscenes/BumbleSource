@@ -37,7 +37,8 @@
                 return "";
             }
         };
-        
+
+
         self.SetFromGeo = function (results) {
 
             self.Longitude(results.geometry.location.lng());
@@ -91,6 +92,11 @@
             addDesc = self.AddAddressPart(self.Street(), addDesc, ' ');
             return self.AddAddressPart(self.Locality(), addDesc, ', ');
         });
+        
+        self.SearchLink = ko.computed(function () {
+            return "http://maps.google.com/?q=" + self.Description();
+        });
+
 
 
     };

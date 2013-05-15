@@ -107,11 +107,9 @@ namespace WebScraper.Library.Infrastructure
                             req.Method = HttpMethod.Post;
                             req.RequestUri = new Uri(_server + _imagePost + "?Anonymous=true");
 
-                            var cont = new FlierCreateModel().MapFrom(_model);
 
                             using (var content = new MultipartContent())
                             {
-
                                 content.Add(new ByteArrayContent(_model.Image.GetBytes()));
                                 using (var res = await client.SendAsync(req))
                                 {
