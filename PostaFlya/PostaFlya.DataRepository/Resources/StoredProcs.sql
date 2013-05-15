@@ -11,8 +11,10 @@ alter procedure FindFliersByLocationAndTags
 	@distance int,
 	@sort int = 1,
 	@skipPast bigint = null,
+	@skipPastEventAndCreateDate bigint = null,
 	@xpath nvarchar(1000) = null,
 	@eventDate datetime2 = null
+	
 as
 begin
 
@@ -36,6 +38,7 @@ select	@ParameterDefinition = '
 	@topParam int,
 	@distanceParam int,
 	@skipPastParam bigint = null,
+	@skipPastEventAndCreateDateParam bigint = null,
 	@xpathParam nvarchar(400) = null,
 	@eventDateParam datetime2 = null
 ';
@@ -63,7 +66,7 @@ select @SQL = @SQL + N'
 		and fr.Location.STDistance(@locParam) <= @distanceParam*1000
 		';
 
-if @skipPast IS NOT NULL
+if @skipPast IS NOT NULL and @eventDate IS NULL
 select @SQL = @SQL + N'
 		and fr.SortOrder < @skipPastParam
 		';
@@ -73,9 +76,14 @@ if @xpath IS NOT NULL
 		and fr.Tags.exist(''' + @xpath + ''') > 0
 		';
 
-if @eventDate IS NOT NULL
+if @eventDate IS NOT NULL and @skipPastEventAndCreateDate IS NULL
 		select @SQL = @SQL + N'
-		and CAST(ed.EventDate as datetime2) >= @eventDateParam and CAST(ed.EventDate as dateTime2) < DATEADD(day, 1, @eventDateParam)
+		and CAST(ed.EventDate as datetime2) >= @eventDateParam
+		';
+
+if @eventDate IS NOT NULL and @skipPastEventAndCreateDate IS NOT NULL
+		select @SQL = @SQL + N'
+		and ed.SortOrder >= @skipPastEventAndCreateDateParam
 		';
 		
 select @SQL = @SQL + N'
@@ -98,6 +106,7 @@ exec sp_executeSQL
 	@topParam = @top,
 	@distanceParam = @distance,
 	@skipPastParam = @skipPast,
+	@skipPastEventAndCreateDateParam = @skipPastEventAndCreateDate,
 	@xpathParam = @xpath,
 	@eventDateParam = @eventDate;
 

@@ -22,7 +22,7 @@ namespace Website.Azure.Common.TableStorage
         //var dattimeasc = (DateTime.UtcNow.Ticks).ToString("D20");
         public static string GetTimestampAscending(this DateTime dateTime)
         {
-            return dateTime.ToString("D20");
+            return dateTime.Ticks.ToString("D20");
         }
 
         public static string GetTimestampDescending(this DateTime dateTime)
@@ -42,7 +42,7 @@ namespace Website.Azure.Common.TableStorage
 
         public static string GetTimestampAscending(this DateTimeOffset dateTime)
         {
-            return dateTime.ToString("D20");
+            return dateTime.Ticks.ToString("D20");
         }
 
         public static string GetTimestampDescending(this DateTimeOffset dateTime)

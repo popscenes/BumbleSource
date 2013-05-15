@@ -12,6 +12,7 @@ using PostaFlya.Domain.Flier.Query;
 using Website.Azure.Common.Sql;
 using PostaFlya.DataRepository.Binding;
 using PostaFlya.Domain.Flier;
+using Website.Azure.Common.TableStorage;
 using Website.Infrastructure.Domain;
 using Website.Domain.Location;
 using Website.Domain.Tag;
@@ -98,6 +99,11 @@ namespace PostaFlya.DataRepository.Search.Implementation
             //	@eventDate datetime2 = null
 
             var sortSkip = skipPast == null ? (long?) null : skipPast.ToSearchRecords().First().SortOrder;
+            var sortSkipByEventDate = (skipPast == null || date == null)
+                                          ? null
+                                          : skipPast.EventDates.First(_ => _.Ticks >= date.Value.Ticks)
+                                                    .GetTimestampAscending() +
+                                            skipPast.CreateDate.GetTimestampAscending();
 
             var shards = location.GetShardIdsFor(distance * 1000).Cast<object>().ToArray();
             var ret = SqlExecute.Query<FlierSearchRecordWithDistance>(sqlCmd,
@@ -110,6 +116,7 @@ namespace PostaFlya.DataRepository.Search.Implementation
                     top = take,
                     sort = GetOrderByForSortOrder(sortOrder),
                     skipPast = sortSkip,
+                    skipPastEventAndCreateDate = sortSkipByEventDate,
                     xpath = GetTagFilter(tags),
                     eventDate = date != null ? date.Value.ToUniversalTime() as DateTime? : null
                 }, true).ToList();

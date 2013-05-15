@@ -7,6 +7,7 @@ using System.Xml.Linq;
 using Microsoft.SqlServer.Types;
 using Website.Azure.Common.Sql;
 using PostaFlya.Domain.Flier;
+using Website.Azure.Common.TableStorage;
 using Website.Domain.Location;
 using Website.Domain.Tag;
 using Website.Infrastructure.Domain;
@@ -24,7 +25,8 @@ namespace PostaFlya.DataRepository.Search.SearchRecord
                            {
                                LocationShard = sr.LocationShard,
                                Id = sr.Id,
-                               EventDate = ed
+                               EventDate = ed,
+                               SortOrder = ed.GetTimestampAscending() + flier.CreateDate.GetTimestampAscending(),
                            };
             return recs;
 
@@ -131,6 +133,8 @@ namespace PostaFlya.DataRepository.Search.SearchRecord
         //for scaling possibilities
         [FederationCol(FederationName = "Location", DistributionName = "location_shard")]
         public long LocationShard { get; set; }
+
+        public string SortOrder { get; set; }
     }
 
     public class FlierSearchRecordWithDistance : FlierSearchRecord

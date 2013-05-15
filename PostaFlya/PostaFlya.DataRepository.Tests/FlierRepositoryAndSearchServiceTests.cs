@@ -253,8 +253,8 @@ namespace PostaFlya.DataRepository.Tests
             var retrievedFliers = _searchService.FindFliersByLocationAndDistance(location, 5, 30, null, tag, eventDateOne)
                 .Select(id => _queryService.FindById<Domain.Flier.Flier>(id)).ToList();
 
-            Assert.That(retrievedFliers.Count(), Is.EqualTo(1));
-            Assert.That(retrievedFliers.Single().EventDates.Any(time => time == eventDateOne), Is.True);
+            Assert.That(retrievedFliers.Count(), Is.EqualTo(2));
+            Assert.That(retrievedFliers.First().EventDates.Any(time => time == eventDateOne), Is.True);
 
             retrievedFliers = _searchService.FindFliersByLocationAndDistance(location, 5, 30, null, tag, eventDateTwo)
                 .Select(id => _queryService.FindById<Domain.Flier.Flier>(id)).ToList();
