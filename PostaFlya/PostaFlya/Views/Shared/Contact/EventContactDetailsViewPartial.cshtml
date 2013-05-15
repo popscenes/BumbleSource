@@ -1,4 +1,5 @@
 ﻿
+@using Website.Application.Domain.Google.Content
 @using Website.Domain.Location
 @model PostaFlya.Models.Location.VenueInformationModel
 
@@ -12,7 +13,10 @@
         </li>
 
         <li data-bind="visible:Address().Description()">
-            <span data-bind="text:Address().Description()">@(Model.Address != null ? Model.Address.GetAddressDescription() : "")</span>                      
+            <a class="plainlink"
+                href="@Html.LocationMapSearchUrl(Model.Address.ToDomainModel())" data-bind="attr: { href: Address().SearchLink() }" target="_blank">
+            <span data-bind="text: Address().Description()">@(Model.Address != null ? Model.Address.GetAddressDescription() : "")</span>                                      
+            </a>
         </li>
                     
         <li data-bind="visible: PhoneNumber()" >
@@ -27,10 +31,8 @@
         </li>
 
 
-        <li data-bind="if:WebSite() || SourceUrl() || BoardFriendlyId()">
-            <a  class="bold-link" data-bind="visible:BoardFriendlyId(), attr:{href: BoardFriendlyId}" href="@Model.BoardFriendlyId">Venue Poster Board</a>        
-            <a  class="bold-link" data-bind="visible:WebSite(), attr:{href: WebSite}" href="@Model.WebSite" target="_blank">Website</a>      
-            <a  class="bold-link" data-bind="visible:SourceUrl(), text:Source, attr:{href: SourceUrl}" href="@Model.SourceUrl" target="_blank">@Model.Source</a>         
+        <li data-bind="if:BoardFriendlyId()">
+            <a  class="bold-link" data-bind="visible:BoardFriendlyId(), attr:{href: BoardFriendlyId}" href="@Model.BoardFriendlyId">Venue Poster Board</a>                 
         </li>
 
         

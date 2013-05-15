@@ -84,7 +84,11 @@ namespace Website.Application.Extension.Content
         {   
             using (var savems = new MemoryStream())
             {
-                img.Save(savems, fmt);
+                using (var tempImage = new Bitmap(img))
+                {
+                    tempImage.Save(savems, fmt);
+                }
+
                 return savems.ToArray();
             }
         }

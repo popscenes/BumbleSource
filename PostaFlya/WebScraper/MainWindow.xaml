@@ -82,7 +82,7 @@
                 </Grid>
             </TabItem>
             <TabItem Header="Messages">
-                <TextBlock Name="TraceText" Text="{Binding Trace}"/>
+                <TextBox Name="TraceText" Text="{Binding Trace}" IsReadOnly="True" IsReadOnlyCaretVisible="False"/>
             </TabItem>
         </TabControl>
     </Grid>
