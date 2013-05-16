@@ -7,9 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using OpenQA.Selenium;
 using PostaFlya.Application.Domain.Google.Places;
-using PostaFlya.Domain.Flier;
 using PostaFlya.Domain.Venue;
-using PostaFlya.Models.Flier;
 using PostaFlya.Models.Location;
 using WebScraper.Library.Infrastructure;
 using WebScraper.Library.Model;
@@ -17,21 +15,19 @@ using Website.Application.Google.Places.Details;
 
 namespace WebScraper.Library.Sites
 {
-
-    public class RetreatSiteScraper : SiteScraperInterface
+    public class DrunkenPoetSiteScraper : SiteScraperInterface
     {
         private readonly IWebDriver _driver;
 
-        public const string BaseUrl = "http://retreathotelbrunswick.com.au";
-        private const string Url = BaseUrl + "/gigs/";
+        public const string BaseUrl = "http://thedrunkenpoet.com.au";
+        private const string Url = BaseUrl + "/whats_on";
         private const string Tags = "music";
 
         private readonly VenueInformationModel _venueInformationModel;
 
         private const string GooglePlacesId =
-            "CnRrAAAAE_4ok69hgAvu10KbAKQjd7ZZ-_aliGHbj63BJLZ1aSx8pv8d98iSRHaDeevLxDH4KVmx6Eigru0wMJeRpiyUKihxO0_aVhaEEG8-lbQJgzg7rclCxZ32el6zupm2ylbgneQKQsK5yzD5h5aoHcA4rhIQr-EKUkzaedmRdfQmHhZ-eBoUBjcQXtav0KfIJ4fo1foLoGbv1cw";
-
-        public RetreatSiteScraper(IWebDriver driver)
+            "CnRuAAAAUPO86WNFIbcJ7UWvitq3AAsyZYZt5RsaVWtlXUgflkbslYP1bkRH8UIieKxAdAIfpFwvGvoCqE3FCxdUipNK7R1aJ01HE8QlRjxGweu8sSv-vTleMeZ1eVBTGqvijVpaMgnZPnXoDD5zT3S4jsnyBBIQ1v3KMz6sXnI6fVScnJ7OkBoUGwftj9CHIeOLq_LWjKqBVz10bTI";
+        public DrunkenPoetSiteScraper(IWebDriver driver)
         {
             _driver = driver;
 
@@ -48,7 +44,7 @@ namespace WebScraper.Library.Sites
         public List<ImportedFlyerScraperModel> GetFlyersFrom(DateTime eventDateStart, DateTime eventDateEnd)
         {
             _driver.Navigate().GoToUrl(Url);
-            var eles = _driver.FindElements(By.CssSelector("ul.posts li"));
+            var eles = _driver.FindElements(By.CssSelector("#whats_on_widget .event"));
 
 
             var list = eles.Select(e => SecondPassGetDetails(e, eventDateStart, eventDateEnd)).ToList();
@@ -76,22 +72,28 @@ namespace WebScraper.Library.Sites
                 var flyer = new ImportedFlyerScraperModel();
                 flyer.EventDates = new List<DateTime>();
                 var date = entry.FindElement(By.ClassName("date"));
+                var dateText = date.Text.Trim() + DateTime.Now.Year;
+                dateText = dateText.Substring(3);
+
                 CultureInfo provider = CultureInfo.InvariantCulture;
-                flyer.EventDates.Add(DateTime.ParseExact(date.Text.Trim(), "dd-MM-yyyy", provider));
+                flyer.EventDates.Add(DateTime.ParseExact(dateText, "ddMMMyyyy", provider));
                 if (flyer.EventDates.First() < eventDateStart || flyer.EventDates.First() > eventDateEnd)
                     return null;
 
-                flyer.Title = entry.FindElement(By.CssSelector("div.description h3")).Text;
+                flyer.Title = entry.FindElement(By.CssSelector("div.title")).Text;
 
                 //flyer.Description = entry.FindElement(By.CssSelector("span.gig-timestamp")).Text + "\n";
-                flyer.Description += entry.FindElement(By.CssSelector("p.entry-content")).Text;
+                flyer.Description = entry.FindElement(By.CssSelector("div.text")).ToTextWithLineBreaks();
                     
 
                 //flyer.ImageUrl 
-                flyer.Source = new Uri(entry.FindElement(By.CssSelector(".image-wrapper a")).GetAttribute("href")).ToString();
-                var img = new Uri(entry.FindElement(By.CssSelector(".image-wrapper a img")).GetAttribute("src"));
-                var src = System.Web.HttpUtility.ParseQueryString(img.Query)["src"];
-                flyer.ImageUrl = System.Web.HttpUtility.UrlDecode(src);
+                flyer.Source = Url;
+                var imgEle = entry.FindElement(By.CssSelector("div.text img"));
+                if (imgEle != null)
+                {
+                    flyer.ImageUrl = imgEle.GetAttribute("src");
+                }
+
                 
                 return flyer;
 
@@ -103,6 +105,5 @@ namespace WebScraper.Library.Sites
             }
 
         }
-
     }
 }

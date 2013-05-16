@@ -6,7 +6,9 @@ using System.Linq;
 using System.Text;
 using OpenQA.Selenium;
 using PostaFlya.Application.Domain.Google.Places;
+using PostaFlya.Domain.Flier;
 using PostaFlya.Domain.Venue;
+using PostaFlya.Models.Flier;
 using PostaFlya.Models.Location;
 using WebScraper.Library.Infrastructure;
 using WebScraper.Library.Model;
@@ -18,7 +20,7 @@ namespace WebScraper.Library.Sites
     {
         private readonly IWebDriver _driver;
 
-        private const string BaseUrl = "http://spottedmallard.com";
+        public const string BaseUrl = "http://spottedmallard.com";
         private const string Url = BaseUrl + "/events";
         private const string Page = Url + "/?start=";
         private const string Tags = "music";
@@ -62,6 +64,7 @@ namespace WebScraper.Library.Sites
             }
 
             _driver.Navigate().GoToUrl("about:blank");
+            _driver.Quit();
             _driver.Dispose();
             var ret = list.Where(model => model != null).ToList();
 
@@ -87,6 +90,22 @@ namespace WebScraper.Library.Sites
                     RemoveLinesContaining("Posted by", "Tags:");
 
                 flyer.ImageUrl = entry.FindElement(By.CssSelector("a.image")).GetAttribute("href");
+
+                var ticketLink =
+                    entry.FindElements(By.CssSelector("a")).SingleOrDefault(element => element.Text.ToLower().Contains("ticket"));
+                if (ticketLink != null)
+                {
+                    flyer.Links = new List<UserLinkViewModel>(){new UserLinkViewModel()
+                        {
+                            Link = ticketLink.GetAttribute("href"),
+                            Text = "Get Tickets",
+                            Type = LinkType.Tickets.ToString()
+                            
+                        }};
+
+                    flyer.Description.Replace(ticketLink.Text, "");
+                }
+
             }
             catch (Exception e)
             {

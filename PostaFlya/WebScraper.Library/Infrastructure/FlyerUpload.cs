@@ -153,6 +153,9 @@ namespace WebScraper.Library.Infrastructure
 
         private async Task<bool> RetrieveImage()
         {
+            if (_model.Image != null)
+                return true;
+
             try
             {
                 using (var client = new HttpClient())

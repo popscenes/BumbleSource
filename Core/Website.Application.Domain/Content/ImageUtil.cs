@@ -1,5 +1,7 @@
 using System;
 using System.Drawing;
+using System.IO;
+using System.Text.RegularExpressions;
 
 namespace Website.Application.Domain.Content
 {
@@ -40,6 +42,7 @@ namespace Website.Application.Domain.Content
             return imageUri + GetIdFileExtension(orientation, thumbSize);
         }
     }
+
     public enum ThumbSize
     {
         S57 = 57,

@@ -8,6 +8,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -73,6 +74,7 @@ namespace WebScraper
 
             var viewList = list.Select(model => new ImportedFlyerScraperViewModel().MapFrom(model)).ToList();
             ImportListView.ItemsSource = viewList;
+            NumberValid.DataContext = viewList.Count;
             Load.IsEnabled = true;
             Publish.IsEnabled = true;
         }
@@ -94,7 +96,7 @@ namespace WebScraper
             }
 
             var items = new ConcurrentQueue<ImportedFlyerScraperModel>();
-            var all = _kernel.GetAll<SiteScraperInterface>().ToList();
+            var all = _kernel.GetAll<SiteScraperInterface>(metadata => metadata.Name == DrunkenPoetSiteScraper.BaseUrl).ToList();
             foreach (var siteScraper in all)
             {
                 Trace.TraceInformation("Running " + siteScraper.SiteName);
@@ -159,7 +161,19 @@ namespace WebScraper
             var config = _kernel.Get<ConfigurationServiceInterface>();
             var server = config.GetSetting("Server");
             _driver.Navigate().GoToUrl(server + "/Account/LoginPage");
+            
+            while ((Auth = GetAuthCookie()) == null)
+            {
+                Thread.Sleep(1000);    
+            }
+
+            _driver.Navigate().GoToUrl("about:blank");
+            _driver.Quit();
+            _driver.Dispose();
+            _driver = null;
         }
+
+        protected string Auth { get; set; }
 
         class PublishData
         {
@@ -173,8 +187,7 @@ namespace WebScraper
             var config = _kernel.Get<ConfigurationServiceInterface>();
             var server = config.GetSetting("Server");
 
-            string authcookie = null;
-            if (_driver == null || (authcookie = GetAuthCookie()) == null)
+            if (string.IsNullOrWhiteSpace(Auth))
             {
                 MessageBox.Show("Login First");
                 Login_Click(this, new RoutedEventArgs());
@@ -190,7 +203,7 @@ namespace WebScraper
 
             worker.RunWorkerAsync(new PublishData()
                 {
-                    authcookie = authcookie,
+                    authcookie = Auth,
                     import = import,
                     server = server                    
                 });

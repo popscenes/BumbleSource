@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.IO;
+using System.Text.RegularExpressions;
 
 namespace Website.Application.Extension.Content
 {
@@ -104,6 +105,27 @@ namespace Website.Application.Extension.Content
             {
                 return Image.FromStream(ms);
             } 
+        }
+
+        public static Image ImageFromDataUri(this string data)
+        {
+            var base64Data = Regex.Match(data, @"data:image/(?<type>.+?),(?<data>.+)").Groups["data"].Value;
+            if (string.IsNullOrWhiteSpace(base64Data))
+                return null;
+
+            var binData = Convert.FromBase64String(base64Data);
+            return binData.GetImage();
+
+        }
+
+        public static Stream ImageStreamFromDataUri(this string data)
+        {
+            var base64Data = Regex.Match(data, @"data:image/(?<type>.+?),(?<data>.+)").Groups["data"].Value;
+            if (string.IsNullOrWhiteSpace(base64Data))
+                return null;
+
+            var binData = Convert.FromBase64String(base64Data);
+            return new MemoryStream(binData);
         }
     }
 }

@@ -1,10 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using System.Windows.Media.Imaging;
 using PostaFlya.Models.Flier;
 using PostaFlya.Models.Location;
 using WebScraper.Library.Model;
+using Website.Application.Extension.Content;
 
 namespace WebScraper.ViewModel
 {
@@ -14,7 +16,23 @@ namespace WebScraper.ViewModel
                                                      ImportedFlyerScraperModel source)
         {
             target.Id = source.Id;
-            target.Image = new BitmapImage(new Uri(source.ImageUrl));
+
+            var stream = source.ImageUrl.ImageStreamFromDataUri();
+            if (stream != null)
+            {
+                var bi = new BitmapImage();
+                bi.BeginInit();
+                bi.StreamSource = stream;
+                bi.EndInit();
+                target.Image = bi;
+            }
+            else
+            {
+                target.Image = new BitmapImage(new Uri(source.ImageUrl));
+            }
+
+
+
             target.Import = source.IsValid();
             target.Title = source.Title;
             target.Description = source.Description;
@@ -38,9 +56,10 @@ namespace WebScraper.ViewModel
             target.Links = new List<UserLinkViewModel>(source.Links);
             target.Source = source.Source;
             target.SourceDetailPage = source.SourceDetailPage;
-            target.ImageUrl = source.Image.UriSource.ToString();
+            if (source.Image.UriSource != null)
+                target.ImageUrl = source.Image.UriSource.ToString();
             if (source.Image.StreamSource != null)
-            target.Image = Image.FromStream(source.Image.StreamSource);
+                target.Image = Image.FromStream(source.Image.StreamSource);
             return target;
         }
     }
@@ -57,6 +76,14 @@ namespace WebScraper.ViewModel
         public string Tags { get; set; }
         public string Source { get; set; }
         public Uri SourceDetailPage { get; set; }
+        public string UserLinksText{get
+        {
+            if (Links != null && Links.Count > 0)
+            {
+                return Links.Aggregate("", (s, model) => s + "[" + model.Type + "]");
+            }
+            return "no links";
+        }}
 
     }
 }
