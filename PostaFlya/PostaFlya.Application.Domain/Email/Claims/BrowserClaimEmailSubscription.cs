@@ -18,6 +18,7 @@ using Website.Domain.Location;
 using Website.Infrastructure.Command;
 using Website.Infrastructure.Configuration;
 using Website.Infrastructure.Query;
+using Website.Infrastructure.Util.Extension;
 
 namespace PostaFlya.Application.Domain.Email.Claims
 {
@@ -108,8 +109,8 @@ namespace PostaFlya.Application.Domain.Email.Claims
         {
             var email = new MailMessage();
 
-            email.From = new MailAddress("details@popscenes.com"); 
-            email.Subject = "Popscenes details for: " + flier.Title;
+            email.From = new MailAddress("details@popscenes.com");
+            email.Subject = "Popscenes details for: " + flier.Title.ToLetterOrDigitAndSpaceOnly();
 
             var poster = _entityQueryService.FindById<Website.Domain.Browser.Browser>(flier.BrowserId);
             var dets = flier.GetContactDetailsForFlier(poster);
@@ -156,11 +157,11 @@ namespace PostaFlya.Application.Domain.Email.Claims
             builder.Append(flier.Title);
             builder.Append("\n\n");
 
-            if (posterDetails.HasEnoughForContact())
-                builder.Append("The contact details are also attached as a vcard for import into phone or web contacts \n");
-            
-            if(flier.EffectiveDate > DateTime.UtcNow)
-                builder.Append("The event date and details are also attached as a ical for import into your calendar \n");
+//            if (posterDetails.HasEnoughForContact())
+//                builder.Append("The contact details are also attached as a vcard for import into phone or web contacts \n");
+//            
+//            if(flier.EffectiveDate > DateTime.UtcNow)
+//                builder.Append("The event date and details are also attached as a ical for import into your calendar \n");
 
            
             builder.Append("\n\n");

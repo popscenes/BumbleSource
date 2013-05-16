@@ -30,5 +30,20 @@ namespace Website.Infrastructure.Util.Extension
             EnumType ret;
             return Enum.TryParse(source, true, out ret) ? ret : @default;
         }
+
+        public static String ToLetterOrDigitAndSpaceOnly(this string source)
+        {
+            if (source == null)
+                return null;
+            var stringBuilder = new StringBuilder();
+            foreach (var c in source)
+            {
+                if (Char.IsLetterOrDigit(c) || c == '-')
+                    stringBuilder.Append(c);
+                else 
+                    stringBuilder.Append(' ');
+            }
+            return stringBuilder.ToString(); 
+        }
     }
 }
