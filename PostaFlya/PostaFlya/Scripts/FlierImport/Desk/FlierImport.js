@@ -1,6 +1,8 @@
-﻿$(function () {
+﻿(function(window, $, undefined) {
+    $(function() {
 
-    bf.page = new bf.FlierImport();
+        bf.page = new bf.FlierImport();
 
-});
+    });
+})(window, JQuery);
 //

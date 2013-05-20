@@ -1,4 +1,4 @@
-﻿(function (window, undefined) {
+﻿(function (window, $, undefined) {
 
     var bf = window.bf = window.bf || {};
 
@@ -25,4 +25,4 @@
     };
 
 
-})(window);
+})(window, JQuery);

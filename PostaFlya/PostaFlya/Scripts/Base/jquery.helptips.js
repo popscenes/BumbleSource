@@ -1,4 +1,4 @@
-﻿(function ($) {
+﻿(function ($, undefined) {
 
     var defaults = {
         close: "javascript:$(window.document.body).helptips('showHelp', false);",

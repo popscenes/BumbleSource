@@ -1,5 +1,5 @@
 ﻿/**/
-(function (window, undefined) {
+(function (window, $, undefined) {
     var bf = window.bf = window.bf || {};
 
     bf.CreateFlierInstance = function () {
@@ -77,5 +77,5 @@
     });
 
 
-})(window);
+})(window, JQuery);
 /**/

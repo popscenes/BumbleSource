@@ -6,7 +6,7 @@
  * and the Beerware (http://en.wikipedia.org/wiki/Beerware) license.
  */
 
-(function(w){
+(function(w, $, undefined){
     // the heatmapFactory creates heatmap instances
     var heatmapFactory = (function(){
 
@@ -429,4 +429,4 @@
         };
     })();
     w.h337 = w.heatmapFactory = heatmapFactory;
-})(window);
+})(window, JQuery);

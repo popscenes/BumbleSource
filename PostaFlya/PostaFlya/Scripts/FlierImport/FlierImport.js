@@ -1,4 +1,4 @@
-﻿(function (window, undefined) {
+﻿(function (window, $, undefined) {
     var bf = window.bf = window.bf || {};
     bf.pageinit = bf.pageinit || {};
     
@@ -27,4 +27,4 @@
     };
 
 
-})(window);
+})(window, JQuery);

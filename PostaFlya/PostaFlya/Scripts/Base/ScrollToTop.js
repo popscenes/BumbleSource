@@ -1,5 +1,5 @@
 ﻿/**/
-(function (window, undefined) {
+(function (window, $, undefined) {
 
     var bf = window.bf = window.bf || {};
 
@@ -29,5 +29,5 @@
         self._Init();
     };
 
-})(window);
+})(window, JQuery);
 /**/
