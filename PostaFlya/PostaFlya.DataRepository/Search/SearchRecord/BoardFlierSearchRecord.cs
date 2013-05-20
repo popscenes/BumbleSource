@@ -6,6 +6,7 @@ using Microsoft.SqlServer.Types;
 using PostaFlya.Domain.Boards;
 using PostaFlya.Domain.Flier;
 using Website.Azure.Common.Sql;
+using Website.Azure.Common.TableStorage;
 
 namespace PostaFlya.DataRepository.Search.SearchRecord
 {
@@ -18,7 +19,8 @@ namespace PostaFlya.DataRepository.Search.SearchRecord
                        {
                            BoardId = searchRecord.BoardId,
                            Id = searchRecord.Id,
-                           EventDate = ed
+                           EventDate = ed,
+                           SortOrder = ed.GetTimestampAscending() + flier.CreateDate.GetTimestampAscending(),
                        };
             return recs;
 
@@ -62,6 +64,8 @@ namespace PostaFlya.DataRepository.Search.SearchRecord
         [NotNullable]
         [FederationCol(FederationName = "Board", DistributionName = "board_shard")]
         public Guid BoardId { get; set; }
+
+        public string SortOrder { get; set; }
     }
 
     [Serializable]

@@ -11,7 +11,7 @@ alter procedure FindFliersByLocationAndTags
 	@distance int,
 	@sort int = 1,
 	@skipPast bigint = null,
-	@skipPastEventAndCreateDate bigint = null,
+	@skipPastEventAndCreateDate nvarchar(1000) = null,
 	@xpath nvarchar(1000) = null,
 	@eventDate datetime2 = null
 	
@@ -38,7 +38,7 @@ select	@ParameterDefinition = '
 	@topParam int,
 	@distanceParam int,
 	@skipPastParam bigint = null,
-	@skipPastEventAndCreateDateParam bigint = null,
+	@skipPastEventAndCreateDateParam nvarchar(1000) = null,
 	@xpathParam nvarchar(400) = null,
 	@eventDateParam datetime2 = null
 ';
@@ -128,6 +128,7 @@ alter procedure FindFliersByBoard
 		@distance int,
 		@sort int = 1,
 		@skipFlier nvarchar(255) = null,
+		@skipPastEventAndCreateDate nvarchar(1000) = null,
 		@xpath nvarchar(1000) = null,
 		@eventDate datetime2 = null
 as
@@ -162,6 +163,7 @@ select	@ParameterDefinition = '
 	@topParam int,
 	@distanceParam int,
 	@filterSortParam bigint = null,
+	@skipPastEventAndCreateDateParam nvarchar(1000) = null,
 	@xpathParam nvarchar(400) = null,
 	@eventDateParam datetime2 = null
 ';
@@ -186,7 +188,7 @@ if @loc is not null
 select @SQL = @SQL + N'
 		and fr.Location.STDistance(@locParam) <= @distanceParam*1000
 		'
-if @filterSort is not null
+if @filterSort is not null  and @eventDate IS NULL
 select @SQL = @SQL + N'
 		and fr.SortOrder < @filterSortParam
 		';
@@ -196,9 +198,14 @@ if @xpath is not null
 		and fr.Tags.exist(''' + @xpath + ''') > 0
 		';
 
-if @eventDate IS NOT NULL
+if @eventDate IS NOT NULL and @skipPastEventAndCreateDate IS NULL
 		select @SQL = @SQL + N'
-		and CAST(ed.EventDate as datetime2) >= @eventDateParam and CAST(ed.EventDate as dateTime2) < DATEADD(day, 1, @eventDateParam)
+		and CAST(ed.EventDate as datetime2) >= @eventDateParam
+		';
+
+if @eventDate IS NOT NULL and @skipPastEventAndCreateDate IS NOT NULL
+		select @SQL = @SQL + N'
+		and ed.SortOrder >= @skipPastEventAndCreateDateParam
 		';
 		
 select @SQL = @SQL + N'
@@ -221,6 +228,7 @@ exec sp_executeSQL
 	@topParam = @top,
 	@distanceParam = @distance,
 	@filterSortParam = @filterSort,
+	@skipPastEventAndCreateDateParam = @skipPastEventAndCreateDate,
 	@xpathParam = @xpath,
 	@eventDateParam = @eventDate;
 end

@@ -143,6 +143,15 @@ namespace PostaFlya.DataRepository.Tests
                 _repository.Store(earlierFlier);
                 _repository.SaveChanges();
                 indexer.Handle(new FlierModifiedEvent() { NewState = earlierFlier });
+
+                var flierCreatedSameDay = new Domain.Flier.Flier();
+                flierCreatedSameDay.CopyFieldsFrom(flier);
+                flierCreatedSameDay.CreateDate = earlierFlier.CreateDate.AddSeconds(-1);
+                flierCreatedSameDay.Id = Guid.NewGuid().ToString();
+                flierCreatedSameDay.FriendlyId = qs.FindFreeFriendlyIdForFlier(flierCreatedSameDay);
+                _repository.Store(flierCreatedSameDay);
+                _repository.SaveChanges();
+                indexer.Handle(new FlierModifiedEvent() { NewState = earlierFlier });
                 
 
                 //add fliers with variations on longitude and latitude
@@ -266,6 +275,31 @@ namespace PostaFlya.DataRepository.Tests
                 .Select(id => _queryService.FindById<Domain.Flier.Flier>(id)).ToList();
             Assert.That(retrievedFliers.Count(), Is.EqualTo(0));
         }
+
+        [Test]
+        public void FindFliersByLocationAndDistanceAndDateSKipOrderTest()
+        {
+            var storedFlier = StoredFlier();
+
+            var location = _loc;
+            var tag = Kernel.Get<Tags>(bm => bm.Has("default"));
+            var eventDateOne = new DateTime(2076, 8, 11);
+
+            var retrievedFliers = _searchService.FindFliersByLocationAndDistance(location, 5, 1, null, tag, eventDateOne)
+                .Select(id => _queryService.FindById<Domain.Flier.Flier>(id)).ToList();
+
+            Assert.That(retrievedFliers.Count(), Is.EqualTo(1));
+            Assert.That(retrievedFliers.First().EventDates.Any(time => time == eventDateOne), Is.True);
+
+            var moreFliers = _searchService.FindFliersByLocationAndDistance(location, 5, 1, retrievedFliers.FirstOrDefault(), tag, eventDateOne)
+                .Select(id => _queryService.FindById<Domain.Flier.Flier>(id)).ToList();
+
+            Assert.That(moreFliers.Count(), Is.EqualTo(1));
+            Assert.That(moreFliers.First().EventDates.Any(time => time == eventDateOne), Is.True);
+
+
+        }
+
 
         private Flier StoredFlier()
         {

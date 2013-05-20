@@ -50,6 +50,12 @@ namespace PostaFlya.DataRepository.Search.Implementation
             var watch = new Stopwatch();
             watch.Start();
 
+            var sortSkipByEventDate = (skipPast == null || date == null)
+                                          ? null
+                                          : skipPast.EventDates.First(_ => _.Ticks >= date.Value.Ticks)
+                                                    .GetTimestampAscending() +
+                                            skipPast.CreateDate.GetTimestampAscending();
+
             var ret = SqlExecute.Query<BoardFlierSearchRecord>(sqlCmd,
                 _connection
                 , new object[] { new Guid(board) }
