@@ -1,0 +1,31 @@
+﻿@using System.Web.Optimization
+@using Website.Common.Content
+
+
+
+@{
+    Layout = null;
+}
+
+
+(function (window, undefined) {
+
+    var bf = window.bf = window.bf || {};
+
+    bf.widgetsrc = '@Scripts.Render("~/BoardWidget.js").GetScriptSrc()';
+    bf.widgetload = function(window, $, undefined){
+        
+        $(function () {
+            var init = bf.pageinit['board-page'];
+            if (init === undefined)
+                init = bf.pageinit['default'];
+            init();
+
+            bf.ScrollToTop();
+        });
+    };
+        
+})(window);       
+
+
+@Widgets.WriteScript(Scripts.Render("~/WidgetLoad.js").ToHtmlString(), Html)

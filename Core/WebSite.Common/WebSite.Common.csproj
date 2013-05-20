@@ -130,6 +130,7 @@
     <Compile Include="ActionResult\WriteToStreamFileResult.cs" />
     <Compile Include="Binding\NinjectHttpDependencyResolver.cs" />
     <Compile Include="Binding\WebsiteCommonNinjectBinding.cs" />
+    <Compile Include="Content\ScriptsExtensions.cs" />
     <Compile Include="Extension\ApiControllerExtensions.cs" />
     <Compile Include="Extension\BundleExtensions.cs" />
     <Compile Include="Extension\HtmlHelperExtensions.cs" />

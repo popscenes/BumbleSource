@@ -596,6 +596,7 @@
     <Content Include="Areas\Default\Views\Bulletin\DetailOwner.cshtml" />
     <Content Include="Areas\Default\Views\Bulletin\SummaryOwner.cshtml" />
     <Content Include="Areas\Default\Views\Bulletin\SummaryOwnerTemplate.cshtml" />
+    <Content Include="App_Code\Widgets.cshtml" />
     <None Include="Diagnostics.wadcfg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>
@@ -833,6 +834,7 @@
     <Content Include="Views\Shared\Bulletin\BulletinUserLinks.cshtml" />
     <Content Include="Views\Board\Get.cshtml" />
     <Content Include="Views\Board\BoardInformation.cshtml" />
+    <Content Include="Views\Board\Widget.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -32,5 +32,11 @@ namespace PostaFlya.Controllers
             return View(ret);
         }
 
+        public ActionResult Widget(string id)
+        {
+            Response.ContentType = "text/javascript";
+            return View();
+        }
+
     }
 }
