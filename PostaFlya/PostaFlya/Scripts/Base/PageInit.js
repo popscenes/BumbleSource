@@ -29,5 +29,5 @@
         bf.ScrollToTop();
     });
     
-})(window, JQuery);
+})(window, jQuery);
 

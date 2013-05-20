@@ -41,5 +41,5 @@
 
     };
 
-})(window, JQuery);
+})(window, jQuery);
 /**/

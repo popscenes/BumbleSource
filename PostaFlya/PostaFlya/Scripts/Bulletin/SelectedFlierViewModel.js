@@ -45,4 +45,4 @@
 
     };
 
-})(window, JQuery); 
+})(window, jQuery); 

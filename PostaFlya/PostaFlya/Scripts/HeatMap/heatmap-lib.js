@@ -429,4 +429,4 @@
         };
     })();
     w.h337 = w.heatmapFactory = heatmapFactory;
-})(window, JQuery);
+})(window, jQuery);

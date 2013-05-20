@@ -137,6 +137,8 @@
     <Compile Include="Extension\WebViewPageExtensions.cs" />
     <Compile Include="Filters\ApiValidationActionFilter.cs" />
     <Compile Include="Filters\DefaultNinjectHttpFilterProvider.cs" />
+    <Compile Include="MediaFormatters\JsonpMediaTypeFormatter.cs" />
+    <Compile Include="MediaFormatters\RegisterMediaFormatters.cs" />
     <Compile Include="Model\Query\ToViewModelQuery.cs" />
     <Compile Include="Model\ViewModelMapperInterface.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

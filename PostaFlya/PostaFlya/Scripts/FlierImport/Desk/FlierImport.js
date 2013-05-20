@@ -4,5 +4,5 @@
         bf.page = new bf.FlierImport();
 
     });
-})(window, JQuery);
+})(window, jQuery);
 //

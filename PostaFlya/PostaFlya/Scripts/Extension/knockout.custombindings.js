@@ -626,4 +626,4 @@
         return this; //optional
     };
     
-})(window, JQuery);
+})(window, jQuery);

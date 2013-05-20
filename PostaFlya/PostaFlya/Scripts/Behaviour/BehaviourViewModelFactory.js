@@ -131,5 +131,5 @@
     };
 
 
-})(window, JQuery);
+})(window, jQuery);
 /**/

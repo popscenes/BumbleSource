@@ -118,4 +118,4 @@
     };
 
 
-})(window, JQuery); 
+})(window, jQuery); 

@@ -32,5 +32,5 @@
 
 
 
-})(window, JQuery);
+})(window, jQuery);
 /**/

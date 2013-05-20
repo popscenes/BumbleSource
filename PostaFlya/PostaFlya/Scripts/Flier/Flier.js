@@ -54,4 +54,4 @@
 
     };
 
-})(window, JQuery);
+})(window, jQuery);

@@ -42,5 +42,5 @@
         self._Init();
     };
 
-})(window, JQuery);
+})(window, jQuery);
 

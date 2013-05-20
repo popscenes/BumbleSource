@@ -72,4 +72,4 @@
     };
 
 
-})(window, JQuery);
+})(window, jQuery);

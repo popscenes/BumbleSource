@@ -49,4 +49,4 @@
 
 
 
-})(window, JQuery);
+})(window, jQuery);

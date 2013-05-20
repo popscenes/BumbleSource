@@ -2,4 +2,4 @@
 
     $.noConflict(true);
 
-})(window, JQuery);
+})(window, jQuery);

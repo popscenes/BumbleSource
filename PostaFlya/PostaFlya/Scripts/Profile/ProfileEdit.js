@@ -91,4 +91,4 @@
     };
 
 
-})(window, JQuery);
+})(window, jQuery);

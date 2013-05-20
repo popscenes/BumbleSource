@@ -180,5 +180,5 @@
     };
 
 
-})(window, JQuery);
+})(window, jQuery);
 /**/

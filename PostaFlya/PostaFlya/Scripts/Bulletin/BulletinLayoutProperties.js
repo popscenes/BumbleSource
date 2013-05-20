@@ -22,4 +22,4 @@
     };
 
 
-})(window, JQuery);
+})(window, jQuery);

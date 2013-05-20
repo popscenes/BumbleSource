@@ -42,4 +42,4 @@
         FB.ui(obj, callback);
     };
     
-})(window, JQuery);
+})(window, jQuery);

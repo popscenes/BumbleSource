@@ -5,5 +5,5 @@
 
     
 
-})(window, JQuery);
+})(window, jQuery);
 /**/

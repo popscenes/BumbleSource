@@ -411,4 +411,4 @@
         };
     };
 
-})(window, JQuery);
+})(window, jQuery);

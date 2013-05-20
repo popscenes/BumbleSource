@@ -21,6 +21,7 @@ using Website.Application.Extension.Validation;
 using Website.Azure.Common.Environment;
 using Website.Common.Environment;
 using Website.Common.Filters;
+using Website.Common.MediaFormatters;
 using Website.Common.Util;
 using Website.Infrastructure.Configuration;
 using Website.Infrastructure.Util;
@@ -47,25 +48,6 @@ namespace PostaFlya
 
             routes.MapRoute(name: "FourOhFour", url: "FourOhFour/{id}",
                             defaults: new {controller = "Error", action = "FourOhFour", id = UrlParameter.Optional});
-
-            routes.MapHttpRoute(
-                name: "BrowserApi",
-                routeTemplate: "api/Browser/{browserid}/{controller}/{id}",
-                defaults: new { id = RouteParameter.Optional }
-            );
-
-            routes.MapHttpRoute(
-                name: "ProfileApiRoute",
-                routeTemplate: "api/Profile/{handle}/{controller}/{id}",
-                defaults: new { controller = "ProfileApi", id = RouteParameter.Optional }
-            );
-
-            routes.MapHttpRoute(
-                name: "DefaultApi",
-                routeTemplate: "api/{controller}/{id}",
-                defaults: new { id = RouteParameter.Optional }
-            );
-
             
             //sitemap
             routes.MapRoute(
@@ -74,7 +56,6 @@ namespace PostaFlya
                 defaults: new { controller = "SiteMap", action = "Index"},
                 constraints: new { sitemap = @"sitemap[0-9]*\.xml" }
                 );
-
 
             //bulletin route
             routes.MapRoute(
@@ -140,18 +121,13 @@ namespace PostaFlya
             Styles.DefaultTagFormat = Styles.DefaultTagFormat.Replace("href=\"", "href=\"" + cdn);
 
         }
-        public static void Configure(HttpConfiguration config)
-        {
-            //Web Api doesn't use model validators atm, if this changes in the future no need for this
-            config.Filters.Add(new ApiValidationActionFilter());
-        }
 
         protected void Application_Start()
         {
             AreaRegistration.RegisterAllAreas();
+            WebApiConfig.Register(GlobalConfiguration.Configuration);
 
             RegisterGlobalFilters(GlobalFilters.Filters);
-            Configure(GlobalConfiguration.Configuration); 
             RegisterRoutes(RouteTable.Routes);
 
             //BundleTable.Bundles.RegisterTemplateBundles();

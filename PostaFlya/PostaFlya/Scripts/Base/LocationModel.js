@@ -103,5 +103,5 @@
 
 
 
-})(window, JQuery);
+})(window, jQuery);
 /**/

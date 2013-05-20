@@ -35,5 +35,5 @@
     });
     
 
-})(window, JQuery);
+})(window, jQuery);
 /**/
