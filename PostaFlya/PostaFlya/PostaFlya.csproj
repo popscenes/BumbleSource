@@ -750,6 +750,7 @@
     <Content Include="Scripts\sammy.min.js" />
     <Content Include="Scripts\Testing\qunit.js" />
     <Content Include="Scripts\Widget\JQueryNoConflict.js" />
+    <Content Include="Scripts\Widget\WidgetLoad.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
