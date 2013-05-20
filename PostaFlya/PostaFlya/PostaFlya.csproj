@@ -605,6 +605,7 @@
     <None Include="Microsoft.WindowsAzure.Caching\ClientPerfCountersInstaller.exe.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <Content Include="humans.txt" />
     <Content Include="NewRelicAgent_x64_2.1.2.472.msi">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
