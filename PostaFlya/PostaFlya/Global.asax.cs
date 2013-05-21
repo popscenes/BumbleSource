@@ -320,7 +320,8 @@ namespace PostaFlya
             Views.FlierImport.Bundles.AddBundles(BundleTable.Bundles);
             Views.HeatMap.Bundles.AddBundles(BundleTable.Bundles);
             Views.Account.Bundles.AddBundles(BundleTable.Bundles);
-            Views.Profile.Bundles.AddBundles(BundleTable.Bundles);           
+            Views.Profile.Bundles.AddBundles(BundleTable.Bundles);  
+            Views.Board.WidgetBundles.AddBundles(BundleTable.Bundles);
         }
 
 

@@ -8,11 +8,17 @@
 }
 
 
+
+@Widgets.Write(Html.Partial("Bulletin/SelectedBulletinViewPartial"), Html)
+@Widgets.Write(Html.Partial("Bulletin/BulletinList", new List<PostaFlya.Models.Flier.BulletinFlierModel>()), Html)
+
+
 (function (window, undefined) {
 
     var bf = window.bf = window.bf || {};
 
-    bf.widgetsrc = '@Scripts.Render("~/BoardWidget.js").GetScriptSrc()';
+    bf.widgetcss = @Html.Raw(Styles.Render("~/Content/BoardWidget.css").GetHref().ToJsArray());
+    bf.widgetsrc = @Html.Raw(Scripts.Render("~/Script/BoardWidget.js").GetScriptSrc().ToJsArray());
     bf.widgetload = function(window, $, undefined){
         
         $(function () {
@@ -25,7 +31,10 @@
         });
     };
         
-})(window);       
+})(window); 
 
 
-@Widgets.WriteScript(Scripts.Render("~/WidgetLoad.js").ToHtmlString(), Html)
+@Html.Partial("Widget/WidgetLoadPartial")
+      
+
+
