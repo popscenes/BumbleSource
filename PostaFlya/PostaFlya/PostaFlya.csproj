@@ -625,6 +625,7 @@
     <Content Include="Scripts\Account\Account.js" />
     <Content Include="Scripts\Base\ContactDetailsModel.js" />
     <Content Include="Scripts\Base\CreateFlierInstance.js" />
+    <Content Include="Scripts\Base\dateFilter.js" />
     <Content Include="Scripts\Base\facebook.js" />
     <Content Include="Scripts\Base\PageInit.js" />
     <Content Include="Scripts\Base\ErrorHandling.js" />
@@ -837,6 +838,7 @@
     <Content Include="Views\Board\BoardInformation.cshtml" />
     <Content Include="Views\Board\Widget.cshtml" />
     <Content Include="Views\Shared\Widget\WidgetLoadPartial.cshtml" />
+    <Content Include="Views\Shared\_DateFilterPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

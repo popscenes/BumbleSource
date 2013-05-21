@@ -111,14 +111,12 @@
             });
         };
 
-        self.setDate = function (date) {
-            self.fliterDate(date);
-        };
+        bf.dateFilter(self, self.fliterDate);
 
         self.TryFindLocation = function () {
             bf.getCurrentPosition(function (position, status) {
                 if (status === 'OK') {
-                    var loc = new bf.LocationModel({ Longitude: position.coords.longitude, Latitude: position.coords.latitude })
+                    var loc = new bf.LocationModel({ Longitude: position.coords.longitude, Latitude: position.coords.latitude });
                     bf.reverseGeocode(loc, self.Location);
                 }
             });

@@ -183,6 +183,8 @@
             self.noMoreFliersText(nomore);
 
         };
+        
+        bf.dateFilter(self, self.fliterDate);
 
         self.StatusText = ko.computed(function () {           
             
