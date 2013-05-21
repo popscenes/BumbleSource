@@ -1515,7 +1515,7 @@ p#copyright {
 }
 
 
-.board-information-calendar {
+.board-information-calendar, .bulletin-calendar {
     clear: both;
     background-color: #3D3D3D;
     margin: 0;
@@ -1523,11 +1523,23 @@ p#copyright {
     width: 708px;
 }
 
-.board-information-calendar span {
+.bulletin-calendar {
+    margin: 0 auto;
+    padding-left: 0px;
+    padding-right: 0px;
+    background-color: transparent;
+    float: none;
+}
+
+.board-information-calendar span, .bulletin-calendar span {
     color: white;
     margin-right: 20px;
     font-weight: bold;
     font-size: 12px;
+}
+
+.bulletin-calendar span {
+    color: black;
 }
 
 #dateFilterList {

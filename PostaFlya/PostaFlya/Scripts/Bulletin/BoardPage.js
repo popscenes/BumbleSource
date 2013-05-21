@@ -111,48 +111,12 @@
             });
         };
 
-        self.setDate = function (date) {
-            self.fliterDate(date);
-        };
-
-        self.setDateToday = function() {
-            var currentdate = new Date();
-            currentdate.setHours(0, 0, 0, 0);
-            setDate(currentdate);
-        };
-        
-        self.setDateTomorrow = function () {
-            var currentdate = new Date();
-            currentdate.setHours(0, 0, 0, 0);
-            setDate(currentdate.setDate(currentdate.getDate() + 1));
-        };
-        
-        self.setDateThisWeek = function () {
-            var currentdate = new Date();
-            var day = currentdate.getDay();
-            var diff = currentdate.getDate() - day + (day == 0 ? -6 : 1);
-            setDate(currentdate.setDate(diff));
-            
-        };
-        
-        self.setDateNextWeek = function () {
-
-            var currentdate = new Date();
-            currentdate.setHours(0, 0, 0, 0);
-            setDate(currentdate.setDate(currentdate.getDate()+7));
-            
-        };
-        
-        self.setDateThisMOnth = function () {
-            var currentdate = new Date();
-            currentdate.setHours(0, 0, 0, 0);
-            setDate(currentdate.setDate(1));
-        };
+        bf.dateFilter(self, self.fliterDate);
 
         self.TryFindLocation = function () {
             bf.getCurrentPosition(function (position, status) {
                 if (status === 'OK') {
-                    var loc = new bf.LocationModel({ Longitude: position.coords.longitude, Latitude: position.coords.latitude })
+                    var loc = new bf.LocationModel({ Longitude: position.coords.longitude, Latitude: position.coords.latitude });
                     bf.reverseGeocode(loc, self.Location);
                 }
             });
