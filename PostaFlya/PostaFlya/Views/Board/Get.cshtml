@@ -66,12 +66,21 @@
 
         }
         
-        <!--<section class="board-information-calendar">
+        <section class="board-information-calendar">
             <div>
-                <span>Show happenings by date:</span>
+                <span>Show Happenings</span>
+                <ul id="dateFilterList">
+                    <li><a>Latest</a></li>
+                    <li><a>Today</a></li>
+                    <li><a>Tomorrow</a></li>
+                    <li><a>This Week</a></li>
+                    <li><a>Next Week</a></li>
+                    <li><a>This Month</a></li>
+                    <li><a>Select Date</a></li>
+                </ul>
             </div>
-            <div id="flyaDate" data-bind="datePicker:{onSelect: $data.setDate}"></div>
-        </section>-->
+            <input type="hidden" id="flyaDate" data-bind="datePicker:{onSelect: $data.setDate}"></input>
+        </section>
 
         <div class="clear-fix"></div>
     </div>

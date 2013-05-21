@@ -114,6 +114,40 @@
             self.fliterDate(date);
         };
 
+        self.setDateToday = function() {
+            var currentdate = new Date();
+            currentdate.setHours(0, 0, 0, 0);
+            setDate(currentdate);
+        };
+        
+        self.setDateTomorrow = function () {
+            var currentdate = new Date();
+            currentdate.setHours(0, 0, 0, 0);
+            setDate(currentdate.setDate(currentdate.getDate() + 1));
+        };
+        
+        self.setDateThisWeek = function () {
+            var currentdate = new Date();
+            var day = currentdate.getDay();
+            var diff = currentdate.getDate() - day + (day == 0 ? -6 : 1);
+            setDate(currentdate.setDate(diff));
+            
+        };
+        
+        self.setDateNextWeek = function () {
+
+            var currentdate = new Date();
+            currentdate.setHours(0, 0, 0, 0);
+            setDate(currentdate.setDate(currentdate.getDate()+7));
+            
+        };
+        
+        self.setDateThisMOnth = function () {
+            var currentdate = new Date();
+            currentdate.setHours(0, 0, 0, 0);
+            setDate(currentdate.setDate(1));
+        };
+
         self.TryFindLocation = function () {
             bf.getCurrentPosition(function (position, status) {
                 if (status === 'OK') {
