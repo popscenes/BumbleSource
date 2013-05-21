@@ -1,4 +1,4 @@
-﻿(function(window, undefined) {
+﻿(function(window, $, undefined) {
 
     var bf = window.bf = window.bf || {};
 
@@ -42,4 +42,4 @@
         FB.ui(obj, callback);
     };
     
-})(window);
+})(window, jQuery);

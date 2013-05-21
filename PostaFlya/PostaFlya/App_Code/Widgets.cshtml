@@ -1,0 +1,26 @@
+﻿
+@using System.Web.Mvc
+@using Website.Infrastructure.Configuration
+
+
+@helper Write(string val, System.Web.Mvc.HtmlHelper html){
+
+    val = val.Replace("'", "''").Replace("'", "\\'").Replace("\n", "").Replace("\r", "");
+    @:document.write('@html.Raw(val)');
+}
+
+@helper Write(IHtmlString val, System.Web.Mvc.HtmlHelper html){
+    
+    var str = val.ToHtmlString().Replace("'", "\\'").Replace("\n", "").Replace("\r", "");
+    @:document.write('@html.Raw(str)');
+}
+
+
+@helper WriteScript(string val, System.Web.Mvc.HtmlHelper html){
+
+    
+    val = val.Replace("'", "''").Replace("'", "\\'").Replace("\n", "").Replace("\r", "")
+        .Replace("src=\"/", "src=\"" + Config.Instance.GetSetting("SiteUrl") +"/");
+    @:document.write('@html.Raw(val)');
+}
+

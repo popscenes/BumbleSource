@@ -334,6 +334,7 @@
   <ItemGroup>
     <Compile Include="App_Start\NinjectWebCommon.cs" />
     <Compile Include="App_Start\RegisterClientValidationExtensions.cs" />
+    <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Areas\Default\Binding\DefaultBehaviourWebNinjectBinding.cs" />
     <Compile Include="Areas\Default\DefaultAreaRegistration.cs" />
     <Compile Include="Areas\Default\Models\DefaultDetailsViewModel.cs" />
@@ -595,6 +596,7 @@
     <Content Include="Areas\Default\Views\Bulletin\DetailOwner.cshtml" />
     <Content Include="Areas\Default\Views\Bulletin\SummaryOwner.cshtml" />
     <Content Include="Areas\Default\Views\Bulletin\SummaryOwnerTemplate.cshtml" />
+    <Content Include="App_Code\Widgets.cshtml" />
     <None Include="Diagnostics.wadcfg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>
@@ -605,6 +607,7 @@
     <None Include="Microsoft.WindowsAzure.Caching\ClientPerfCountersInstaller.exe.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <Content Include="humans.txt" />
     <Content Include="NewRelicAgent_x64_2.1.2.472.msi">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -746,6 +749,8 @@
     <Content Include="Scripts\sammy.js" />
     <Content Include="Scripts\sammy.min.js" />
     <Content Include="Scripts\Testing\qunit.js" />
+    <Content Include="Scripts\Widget\JQueryNoConflict.js" />
+    <Content Include="Scripts\Widget\WidgetLoad.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -830,6 +835,7 @@
     <Content Include="Views\Shared\Bulletin\BulletinUserLinks.cshtml" />
     <Content Include="Views\Board\Get.cshtml" />
     <Content Include="Views\Board\BoardInformation.cshtml" />
+    <Content Include="Views\Board\Widget.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

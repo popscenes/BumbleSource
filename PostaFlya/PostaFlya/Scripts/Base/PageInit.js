@@ -1,5 +1,5 @@
 ﻿
-(function (window) {
+(function (window, $, undefined) {
 
     var bf = window.bf = window.bf || {};
     bf.pageinit = bf.pageinit || {};
@@ -20,13 +20,14 @@
     };
 
 
-})(window);
+    $(function () {
+        var init = bf.pageinit[$('body[data-pageid]').attr('data-pageid')];
+        if (init === undefined)
+            init = bf.pageinit['default'];
+        init();
 
-$(function () {
-    var init = bf.pageinit[$('body[data-pageid]').attr('data-pageid')];
-    if (init === undefined)
-        init = bf.pageinit['default'];
-    init();
+        bf.ScrollToTop();
+    });
     
-    bf.ScrollToTop();
-});
+})(window, jQuery);
+

@@ -1,9 +1,10 @@
 ﻿/* TEAM */
 	Founder Developer:Ricky Audsley
+	Contact: rickyaudsley [at] popscenes.com
 	From:Melbourne, Victoria, Australia
 
 	Founder Developer: Anthony Borg
-	Contact: teddymccuddles [at] gmail.com
+	Contact: teddy [at] popscenes.com
 	Twitter: @teddymccuddles
 	From:Melbourne, Victoria, Australia
 

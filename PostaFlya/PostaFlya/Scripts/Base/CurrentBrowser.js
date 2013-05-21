@@ -1,5 +1,5 @@
 ﻿/**/
-(function (window, undefined) {
+(function (window, $, undefined) {
     var bf = window.bf = window.bf || {};
 
     bf.CurrentBrowser = function () {
@@ -35,5 +35,5 @@
     });
     
 
-})(window);
+})(window, jQuery);
 /**/
