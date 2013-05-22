@@ -23,6 +23,7 @@ namespace PostaFlya.Views.Board
             "jquery.isotope.centered.js",
             "jquery.imagesloaded.js", //this overrides the implementation in isotope
             "Extension/knockout-jquery-ui-widget.js",
+            "jquery.endless-scroll.js",
  
             //ours
             "Extension/knockout.custombindings.js",
@@ -39,7 +40,18 @@ namespace PostaFlya.Views.Board
             "Base/TagsSelector.js",
             "Base/ClaimsViewModel.js",
             "Base/TileLayoutViewModel.js",
+            "Base/dateFilter.js"
         };
+
+        private static readonly string[]
+            BulletinJs = {
+                        "Base/facebook.js",
+                        "Bulletin/BoardWidgetPage.js",
+                        "Behaviour/Default/DefaultBehaviourViewModel.js",
+                        "Behaviour/BehaviourViewModelFactory.js",
+                        "Bulletin/SelectedFlierViewModel.js",
+                        "Bulletin/BulletinLayoutProperties.js",
+                   };
 
         private static readonly string[] Css =
         {
@@ -75,6 +87,7 @@ namespace PostaFlya.Views.Board
         {
             var deskJsBundle = new ScriptBundle("~/Script/BoardWidget.js");
             deskJsBundle.AddScriptFiles(JsFiles);
+            deskJsBundle.AddScriptFiles(BulletinJs);
             BundleTable.Bundles.Add(deskJsBundle);
 
         }

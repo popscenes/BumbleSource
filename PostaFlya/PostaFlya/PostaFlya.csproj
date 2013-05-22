@@ -375,6 +375,7 @@
     <Compile Include="Models\Board\BoardCreateEditModel.cs" />
     <Compile Include="Models\Board\BoardFlierModel.cs" />
     <Compile Include="Models\Board\BoardPageViewModel.cs" />
+    <Compile Include="Models\Board\BoardWidgetViewModel.cs" />
     <Compile Include="Models\Board\EditBoardFlierModel.cs" />
     <Compile Include="Models\Browser\BrowserModel.cs" />
     <Compile Include="Models\Browser\PaymentPendingFlierModel.cs" />
@@ -641,6 +642,7 @@
     <Content Include="Scripts\Behaviour\BehaviourViewModelFactory.js" />
     <Content Include="Scripts\Behaviour\Default\DefaultBehaviourViewModel.js" />
     <Content Include="Scripts\Bulletin\BoardPage.js" />
+    <Content Include="Scripts\Bulletin\BoardWidgetPage.js" />
     <Content Include="Scripts\Bulletin\BulletinLayoutProperties.js" />
     <Content Include="Scripts\Bulletin\Detail.js" />
     <Content Include="Scripts\Bulletin\SelectedFlierViewModel.js" />
@@ -839,6 +841,7 @@
     <Content Include="Views\Board\Widget.cshtml" />
     <Content Include="Views\Shared\Widget\WidgetLoadPartial.cshtml" />
     <Content Include="Views\Shared\_DateFilterPartial.cshtml" />
+    <Content Include="Views\Board\WidgetBoard.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

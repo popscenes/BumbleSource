@@ -19,10 +19,23 @@
         self.ShowTags = ko.observable(options.displayInline);
         self.updateCallback = null;
 
+        var done = function(allData) {
+            ko.mapping.fromJS(allData, {}, self.Tags);
+        };
         self.LoadTags = function () {
-            $.getJSON("/api/TagsApi/", function (allData) {
-                ko.mapping.fromJS(allData, {}, self.Tags);
-            });
+            $.ajax(
+                {
+                    dataType: (bf.widgetbase ? "jsonp" : "json"),
+                    url: self.GetReqUrl(),
+                    crossDomain: (bf.widgetbase ? true : false),
+                    success: done
+                }
+            );
+
+        };
+
+        self.GetReqUrl = function () {
+            return (bf.widgetbase ? bf.widgetbase : '') + '/api/TagsApi/';
         };
 
         makeSafeForCSS = function (name) {

@@ -7,6 +7,7 @@
 
         self.Behaviours = ['Default', 'TaskJob'];
         self.hasHistory = !!(window.history && history.pushState);
+        self.disablePushState = false;
 
         self.createViewModel = function (behaviourData) {
 
@@ -24,7 +25,7 @@
         self.addSammyRoutes = function (rootPath, sam, obsViewMod, initpath) {
             self.addSammyRoute(rootPath, sam, obsViewMod);
             sam.get(initpath, function () {           
-                obsViewMod(null);
+                self.hideSelectedDetail(obsViewMod);
                 _gaq.push(['_trackPageview', this.path]);
             });
         };
@@ -63,10 +64,23 @@
             obsViewMod(null);
             if (flierId == undefined)
                 flierId = self.getIdFromPath(path);
-            $.getJSON('/api/BulletinApi/' + flierId
-                    , function (behaviourData) {
-                        obsViewMod(self.createViewModel(behaviourData));
-                    });
+            
+            $.ajax({
+                        dataType: (bf.widgetbase ? "jsonp" : "json"),
+                        url: self.getDetailUrl() + flierId,
+                        crossDomain: (bf.widgetbase ? true : false),
+                    }
+                ).done(function (behaviourData) {
+                    obsViewMod(self.createViewModel(behaviourData));
+                });
+        };
+
+        self.getDetailUrl = function() {
+            return (bf.widgetbase ? bf.widgetbase : '') + '/api/BulletinApi/';
+        };
+
+        self.hideSelectedDetail = function (obsViewMod) {
+            obsViewMod(null);
         };
 
         self.getDetailPath = function (rootPath, flier) {
@@ -74,17 +88,14 @@
             return url  + flier.FriendlyId;
         };
 
-        self.addHashBang = function (path, prefix) {
-//            if (!self.hasHistory && path.indexOf('#!/') < 0) {
-//                if (prefix != undefined && prefix) {
-//                    path = (path[0] != '/') ? '/#!/' + path : '/#!' + path;
-//                } else {
-//                    if (path.substr(path.length - 1) != "/")
-//                        path = path + "/";
-//                    path = path + '#!/';
-//                }
-//
-//            }
+        self.addHashBang = function (path) {
+            
+            if (self.disablePushState && path.indexOf('#!/') < 0) {
+
+                if (path.substr(path.length - 1) != "/")
+                    path = path + "/";
+                path = path + '#!/';
+            }
             return path;
         };
 
@@ -117,7 +128,7 @@
         self.getDetailTemplate = function (behaviourViewModel) {
             if (!behaviourViewModel || behaviourViewModel == 'undefined') return 'empty-detail';
 
-            var isOwner = (behaviourViewModel.Flier.BrowserId == bf.currentBrowserInstance.BrowserId);
+            var isOwner = (bf.currentBrowserInstance && behaviourViewModel.Flier.BrowserId == bf.currentBrowserInstance.BrowserId);
             var ret = 'Behaviour' + behaviourViewModel.Flier.FlierBehaviour + '-template-detail';
             return isOwner ? ret + '-owner' : ret;
         };

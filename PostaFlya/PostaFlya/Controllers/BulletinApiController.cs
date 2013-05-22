@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web.Http;
 using PostaFlya.Application.Domain.Browser;
 using PostaFlya.Application.Domain.Flier;
+using PostaFlya.Domain.Boards;
 using PostaFlya.Domain.Flier.Analytic;
 using PostaFlya.Domain.Flier.Command;
 using PostaFlya.Domain.Flier.Payment;
@@ -174,6 +175,11 @@ namespace PostaFlya.Controllers
             var locDomainModel = loc.ToDomainModel();
             var tagsModel = new Tags(tags);
             var skip = string.IsNullOrWhiteSpace(skipPast) ? null : flierQueryService.FindById<Flier>(skipPast);
+            if (!string.IsNullOrWhiteSpace(board))
+            {
+                var found = flierQueryService.FindByFriendlyId<Board>(board);
+                board = found != null ? found.Id : board;
+            }
 
             //            location.Latitude = -37.7654897;
             //            location.Longitude = 144.9770748;

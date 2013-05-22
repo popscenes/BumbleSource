@@ -54,7 +54,7 @@
 
 var EndlessScroll;
 
-EndlessScroll = (function() {
+EndlessScroll = (function($) {
   var defaults;
 
   EndlessScroll.name = 'EndlessScroll';
@@ -212,7 +212,7 @@ EndlessScroll = (function() {
 
   return EndlessScroll;
 
-})();
+})(jQuery);
 
 (function($) {
   return $.fn.endlessScroll = function(options) {

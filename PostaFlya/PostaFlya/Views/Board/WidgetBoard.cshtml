@@ -1,0 +1,19 @@
+﻿@model IList<PostaFlya.Models.Flier.BulletinFlierModel>
+
+<div class="ui-bulletin-board">
+      
+    <div class="bulletin-showing-div" data-bind="visible: StatusText()">
+        <span data-bind="text: StatusText"></span>
+    </div>                                                                          
+    <div id="bulletinboard"  data-bind="template: { name: Layout.FlierTemplate, foreach: fliers }, visible: fliers().length > 0, updateLayout: Layout">
+        @Html.Partial("State/PageStateAdd", "Fliers")    
+        @Html.Partial("Bulletin/BulletinItems")
+    </div>
+    <div class="bulletin-loading-div" data-bind="visible: moreFliersPending" id="moreFliersPending">
+        <span>Loading Flyers.....Please wait </span><img  src="~/Content/images/loading.gif"/>
+    </div>
+    <div class="bulletin-loading-div" data-bind="visible: noMoreFliersText()" id="noMoreFliers" style="display: none;"> 
+        <span data-bind="text:noMoreFliersText"></span>    
+    </div>
+</div>
+               

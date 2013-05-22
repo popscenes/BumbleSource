@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using PostaFlya.Domain.Boards;
 using PostaFlya.Models.Board;
 using Website.Common.Model.Query;
+using Website.Infrastructure.Configuration;
 using Website.Infrastructure.Query;
 
 namespace PostaFlya.Controllers
@@ -15,11 +16,13 @@ namespace PostaFlya.Controllers
         private readonly GenericQueryServiceInterface _queryService;
 
         private readonly QueryChannelInterface _queryChannel;
+        private readonly ConfigurationServiceInterface _configurationService;
 
-        public BoardController(GenericQueryServiceInterface queryService, QueryChannelInterface queryChannel)
+        public BoardController(GenericQueryServiceInterface queryService, QueryChannelInterface queryChannel, ConfigurationServiceInterface configurationService)
         {
             _queryService = queryService;
             _queryChannel = queryChannel;
+            _configurationService = configurationService;
         }
 
         public ActionResult Get(string id)
@@ -35,7 +38,11 @@ namespace PostaFlya.Controllers
         public ActionResult Widget(string id)
         {
             Response.ContentType = "text/javascript";
-            return View();
+            return View(new BoardWidgetViewModel()
+                {
+                    BoardFriendlyId = id,
+                    SiteBase = _configurationService.GetSetting("SiteUrl")
+                });
         }
 
     }

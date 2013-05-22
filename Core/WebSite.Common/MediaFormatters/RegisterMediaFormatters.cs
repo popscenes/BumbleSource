@@ -11,7 +11,7 @@ namespace Website.Common.MediaFormatters
     {
         public static void For(HttpConfiguration config)
         {
-            config.Formatters.Add(new JsonpMediaTypeFormatter());
+            config.Formatters.Insert(0, new JsonpMediaTypeFormatter());
         }
     }
 }
