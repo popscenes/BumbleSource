@@ -1528,7 +1528,7 @@ p#copyright {
     padding-left: 0px;
     padding-right: 0px;
     background-color: transparent;
-    float: none;
+    float: none !important;
 }
 
 .board-information-calendar span, .bulletin-calendar span {
@@ -1560,7 +1560,6 @@ p#copyright {
     font-weight: bold;
     cursor: pointer;
     font-size: 12px;
-    text-decoration: underline;
 }
 
 
@@ -1580,6 +1579,7 @@ p#copyright {
 
 section.board-information-addr {
     float: right;
+    height: 128px;
 }
 
 section.board-information-desc {
@@ -1675,12 +1675,12 @@ section.board-information-desc {
         width: 200px!important;
     }
 
-    #controls .bulletin-tags-selector {
+    #controls .bulletin-tags-selector, .bulletin-calendar {
         text-align: center;
         width: 275px;
     }
 
-    .bulletin-tags-selector label {
+    .bulletin-tags-selector label, .bulletin-calendar span {
         display: block;
     }
 
@@ -1705,7 +1705,25 @@ section.board-information-desc {
         width: 100%;
     }
 
-   
+   .desk-only {
+       display: none !important;
+   }
+
+   .board-header, .board-header-content {
+       width: 100%;
+   }
+
+    .board-information-calendar {
+        width: 80%;
+        padding: 8px 10%;
+        text-align: center;
+    }
+
+    .board-links {
+        margin-top: 0px;
+        margin-bottom: 30px;
+        font-size: 12px;
+    }
 
     #controls > * {
         float: none;
