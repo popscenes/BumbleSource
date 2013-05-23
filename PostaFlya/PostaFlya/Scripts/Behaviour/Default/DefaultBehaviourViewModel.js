@@ -46,9 +46,19 @@
             return url;
         };
 
+        self.isWidgetRedirect = function() {
+            if (!bf.widgetbase)
+                return false;
+            window.location = bf.widgetbase + '/' + self.Flier.FriendlyId;
+            return true;
+        };
+
         self.TearOff = function() {
 
             if (self.IsPeeling())
+                return false;
+
+            if (self.isWidgetRedirect())
                 return false;
             
             var reqdata = ko.toJSON({

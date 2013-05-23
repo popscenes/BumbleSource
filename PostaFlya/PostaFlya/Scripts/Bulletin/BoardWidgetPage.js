@@ -237,8 +237,18 @@
 
         }, self);
 
+        self.isWidgetRedirect = function (flier) {
+            if (!bf.widgetbase)
+                return false;
+            window.location = bf.widgetbase + '/' + flier.FriendlyId;
+            return true;
+        };
+        
         self.TearOff = function (flier) {
 
+            if (self.isWidgetRedirect(flier))
+                return true;
+            
             bf.pagedefaultaction.set('bulletin-detail', 'peel');
             self.SelectedViewModel.showDetails(flier);
             return true;

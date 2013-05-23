@@ -11,18 +11,33 @@
         var scriptTag = document.createElement('script');
         scriptTag.setAttribute("type", "text/javascript");
         scriptTag.setAttribute("src", src);
+
+       //if (scriptTag.readyState) {
+        //  scriptTag.onreadystatechange = getLoadCallback(index, scriptTag);
+       // } else { // Other browsers
+          scriptTag.onload = getLoadCallback(index, scriptTag);
+      // }       
         scriptTag.onload = getLoadCallback(index);
         loaded[bf.widgetsrc] = false;
         (document.getElementsByTagName("head")[0] || document.documentElement).appendChild(scriptTag);
     }
     
-    function getLoadCallback(index){
+    var done = false;
+    function getLoadCallback(index, scriptTag){
+
         return function () { 
+            if ((this.readyState && this.readyState != 'complete' && this.readyState != 'loaded') || done)
+                return;
+            
+            if(scriptTag && scriptTag.onreadystatechange)
+                scriptTag.onreadystatechange = null;
+
             scriptLoadHandler(bf.widgetsrc[index]); 
             loadNextScript(index)
         };
     }
 
+    
     function scriptLoadHandler(src) {
 
         loaded[src] = true;
@@ -31,8 +46,9 @@
                 return;
         }
 
+        done = true;
         // Restore $ and window.jQuery to their previous values 
-        var jQueryInt = window.jQuery.noConflict(true);
+        var jQueryInt = window['jQuery'].noConflict(true);
 
         bf.widgetload(window, jQueryInt);
 

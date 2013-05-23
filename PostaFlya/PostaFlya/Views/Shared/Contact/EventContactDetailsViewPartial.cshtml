@@ -32,7 +32,7 @@
 
 
         <li data-bind="if:BoardFriendlyId()">
-            <a  class="bold-link" data-bind="visible:BoardFriendlyId(), attr:{href: BoardFriendlyId}" href="@Model.BoardFriendlyId">Venue Poster Board</a>                 
+            <a  class="bold-link" data-bind="visible:BoardFriendlyId(), attr:{href: (bf.widgetbase ? bf.widgetbase : '' ) + '/' + BoardFriendlyId()}" href="@Model.BoardFriendlyId">Venue Poster Board</a>                 
         </li>
 
         

@@ -628,6 +628,7 @@
     <Content Include="Scripts\Base\CreateFlierInstance.js" />
     <Content Include="Scripts\Base\dateFilter.js" />
     <Content Include="Scripts\Base\facebook.js" />
+    <Content Include="Scripts\Base\PageDefaultAction.js" />
     <Content Include="Scripts\Base\PageInit.js" />
     <Content Include="Scripts\Base\ErrorHandling.js" />
     <Content Include="Scripts\Base\FlierCost.js" />
@@ -753,7 +754,6 @@
     <Content Include="Scripts\sammy.js" />
     <Content Include="Scripts\sammy.min.js" />
     <Content Include="Scripts\Testing\qunit.js" />
-    <Content Include="Scripts\Widget\WidgetLoad.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -852,6 +852,7 @@
     <Folder Include="Properties\PublishProfiles\" />
     <Folder Include="Scripts\plupload\jquery.plupload.queue\css\" />
     <Folder Include="Scripts\plupload\jquery.plupload.queue\img\" />
+    <Folder Include="Scripts\Widget\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
