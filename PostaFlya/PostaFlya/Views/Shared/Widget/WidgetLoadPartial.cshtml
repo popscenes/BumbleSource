@@ -1,6 +1,22 @@
 ﻿
 (function () {
 
+    var ie = (function(){
+
+        var undef,
+            v = 3,
+            div = document.createElement('div'),
+            all = div.getElementsByTagName('i');
+
+        while (
+            div.innerHTML = '<!--[if gt IE ' + (++v) + ']><i></i><![endif]-->',
+            all[0]
+        );
+
+        return v > 4 ? v : undef;
+
+    }());
+
     var loaded = {};
 
     function loadNextScript(index){
@@ -12,11 +28,11 @@
         scriptTag.setAttribute("type", "text/javascript");
         scriptTag.setAttribute("src", src);
 
-       //if (scriptTag.readyState) {
-        //  scriptTag.onreadystatechange = getLoadCallback(index, scriptTag);
-       // } else { // Other browsers
+        if (ie < 9) {
+          scriptTag.onreadystatechange = getLoadCallback(index, scriptTag);
+        } else { 
           scriptTag.onload = getLoadCallback(index, scriptTag);
-      // }       
+        }       
         scriptTag.onload = getLoadCallback(index);
         loaded[bf.widgetsrc] = false;
         (document.getElementsByTagName("head")[0] || document.documentElement).appendChild(scriptTag);
