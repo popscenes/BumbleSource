@@ -1,18 +1,29 @@
 ﻿@using System.Web.Optimization
 @using Website.Common.Content
+@using Website.Infrastructure.Configuration
 
 
+
+@model PostaFlya.Models.Board.BoardWidgetViewModel
 
 @{
     Layout = null;
 }
 
 
+
+@Widgets.Write(Html.Partial("Bulletin/SelectedBulletinViewPartial"), Html)
+@Widgets.Write(Html.Partial("WidgetBoard", new List<PostaFlya.Models.Flier.BulletinFlierModel>()), Html)
+
+
 (function (window, undefined) {
 
     var bf = window.bf = window.bf || {};
 
-    bf.widgetsrc = '@Scripts.Render("~/BoardWidget.js").GetScriptSrc()';
+    bf.widgetbase = '@Model.SiteBase';
+    bf.boardid = '@Model.BoardFriendlyId';
+    bf.widgetcss = @Html.Raw(Styles.Render("~/Content/BoardWidget.css").GetHref().ToJsArray());
+    bf.widgetsrc = @Html.Raw(Scripts.Render("~/Script/BoardWidget.js").GetScriptSrc().ToJsArray());
     bf.widgetload = function(window, $, undefined){
         
         $(function () {
@@ -25,7 +36,10 @@
         });
     };
         
-})(window);       
+})(window); 
 
 
-@Widgets.WriteScript(Scripts.Render("~/WidgetLoad.js").ToHtmlString(), Html)
+@Html.Partial("Widget/WidgetLoadPartial")
+      
+
+

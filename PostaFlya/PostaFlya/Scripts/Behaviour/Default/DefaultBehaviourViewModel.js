@@ -22,7 +22,7 @@
         self.IsPeeling = ko.observable(false);
         
         self.PeelText = ko.computed(function () {
-            if (bf.currentBrowserInstance.IsOwner(self.Flier.BrowserId)) {
+            if (bf.currentBrowserInstance && bf.currentBrowserInstance.IsOwner(self.Flier.BrowserId)) {
                 return self.IsPeeling() ?
                     "Peeling" :
                     "Test Peel";
@@ -37,7 +37,7 @@
         //        }, self);
 
         self.facebook = function() {
-            bf.postToFacebook(window.location.href, self.Flier.FlierImageUrl, self.Flier.Title, self.Flier.Description, self.Flier.Title);
+            bf.postToFacebook(self.Flier.TinyUrl, self.Flier.FlierImageUrl, self.Flier.Title, self.Flier.Description, self.Flier.Title);
         };
 
         self.twitter = function() {
@@ -85,6 +85,7 @@
 
         self.Init = function() {
 
+            if (!bf.pagedefaultaction) return;
             var act = bf.pagedefaultaction.get('bulletin-detail');
             if (act == 'peel') {
                 self.TearOff();

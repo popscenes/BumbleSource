@@ -10,7 +10,7 @@
         self.orientation = 'v';
 
         self.FlierTemplate = function (flier) {
-            var isOwner = (flier.BrowserId == bf.currentBrowserInstance.BrowserId);
+            var isOwner = (bf.currentBrowserInstance && flier.BrowserId == bf.currentBrowserInstance.BrowserId);
             var ret = 'Behaviour' + flier.FlierBehaviour + '-template';
             return isOwner ? ret + '-owner' : ret;
         };

@@ -1,16 +1,28 @@
-﻿(function () {
+﻿
+(function () {
 
     var loaded = {};
-    for (var i = 0; i < bf.widgetsrc.length; i++) {
+
+    function loadNextScript(index){
+        if(++index == bf.widgetsrc.length)
+            return;
         
+        var src = bf.widgetsrc[index];
         var scriptTag = document.createElement('script');
         scriptTag.setAttribute("type", "text/javascript");
-        scriptTag.setAttribute("src", bf.widgetsrc);
-        scriptTag.onload = function () { scriptLoadHandler(bf.widgetsrc[i]); };
+        scriptTag.setAttribute("src", src);
+        scriptTag.onload = getLoadCallback(index);
         loaded[bf.widgetsrc] = false;
         (document.getElementsByTagName("head")[0] || document.documentElement).appendChild(scriptTag);
     }
     
+    function getLoadCallback(index){
+        return function () { 
+            scriptLoadHandler(bf.widgetsrc[index]); 
+            loadNextScript(index)
+        };
+    }
+
     function scriptLoadHandler(src) {
 
         loaded[src] = true;
@@ -23,15 +35,20 @@
         var jQueryInt = window.jQuery.noConflict(true);
 
         bf.widgetload(window, jQueryInt);
+
     }
 
+    loadNextScript(-1);
+
     for (var i = 0; i < bf.widgetcss.length; i++) {
+        var src = bf.widgetcss[i];
         var cssTag = document.createElement('link');
         cssTag.setAttribute('rel', 'stylesheet');
         cssTag.setAttribute('type', 'text/css');
-        cssTag.setAttribute('href', bf.widgetcss[i]);
+        cssTag.setAttribute('href', src);
         (document.getElementsByTagName("head")[0] || document.documentElement).appendChild(cssTag);
     }
     
 
 })(); 
+

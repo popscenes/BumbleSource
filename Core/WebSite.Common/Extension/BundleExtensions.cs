@@ -24,7 +24,7 @@ namespace Website.Common.Extension
         #region Structure CSS bendles
 
 
-        public static void AddStructureCssFiles(this StyleBundle bundle, string[][] filenameGroups)
+        public static void AddStructureCssFiles(this StyleBundle bundle, params string[][] filenameGroups)
         {
             foreach (var filenames in filenameGroups)
             {
@@ -51,7 +51,7 @@ namespace Website.Common.Extension
         #region Theme CSS bundles
 
 
-        public static void AddThemedCssFiles(this StyleBundle bundle, string theme, string[][] filenameGroups)
+        public static void AddThemedCssFiles(this StyleBundle bundle, string theme, params string[][] filenameGroups)
         {
             foreach (var filenames in filenameGroups)
             {

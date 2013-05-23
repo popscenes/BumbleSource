@@ -375,6 +375,7 @@
     <Compile Include="Models\Board\BoardCreateEditModel.cs" />
     <Compile Include="Models\Board\BoardFlierModel.cs" />
     <Compile Include="Models\Board\BoardPageViewModel.cs" />
+    <Compile Include="Models\Board\BoardWidgetViewModel.cs" />
     <Compile Include="Models\Board\EditBoardFlierModel.cs" />
     <Compile Include="Models\Browser\BrowserModel.cs" />
     <Compile Include="Models\Browser\PaymentPendingFlierModel.cs" />
@@ -439,6 +440,7 @@
     </Compile>
     <Compile Include="RemoveWwwRedirectFilter.cs" />
     <Compile Include="Views\Account\Bundles.cs" />
+    <Compile Include="Views\Board\WidgetBundles.cs" />
     <Compile Include="Views\Bulletin\Bundles.cs" />
     <Compile Include="Views\FlierImport\Bundles.cs" />
     <Compile Include="Views\Flier\Bundles.cs" />
@@ -640,6 +642,7 @@
     <Content Include="Scripts\Behaviour\BehaviourViewModelFactory.js" />
     <Content Include="Scripts\Behaviour\Default\DefaultBehaviourViewModel.js" />
     <Content Include="Scripts\Bulletin\BoardPage.js" />
+    <Content Include="Scripts\Bulletin\BoardWidgetPage.js" />
     <Content Include="Scripts\Bulletin\BulletinLayoutProperties.js" />
     <Content Include="Scripts\Bulletin\Detail.js" />
     <Content Include="Scripts\Bulletin\SelectedFlierViewModel.js" />
@@ -750,7 +753,6 @@
     <Content Include="Scripts\sammy.js" />
     <Content Include="Scripts\sammy.min.js" />
     <Content Include="Scripts\Testing\qunit.js" />
-    <Content Include="Scripts\Widget\JQueryNoConflict.js" />
     <Content Include="Scripts\Widget\WidgetLoad.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -837,7 +839,9 @@
     <Content Include="Views\Board\Get.cshtml" />
     <Content Include="Views\Board\BoardInformation.cshtml" />
     <Content Include="Views\Board\Widget.cshtml" />
+    <Content Include="Views\Shared\Widget\WidgetLoadPartial.cshtml" />
     <Content Include="Views\Shared\_DateFilterPartial.cshtml" />
+    <Content Include="Views\Board\WidgetBoard.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
