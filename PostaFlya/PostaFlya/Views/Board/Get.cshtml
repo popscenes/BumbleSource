@@ -57,7 +57,7 @@
          @if (Model.Location != null && Model.Location.IsValid())
         {
         
-            <section class="board-information-addr">
+            <section class="board-information-addr desk-only">
                 <div>
                     <a href="@Html.LocationMapSearchUrl(Model.Location.ToDomainModel())"
                        target="_blank">@Html.LocationImage(Model.Location.ToDomainModel(), 258, 128, 15)</a>

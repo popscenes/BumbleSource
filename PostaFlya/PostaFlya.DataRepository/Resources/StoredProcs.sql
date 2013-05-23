@@ -48,8 +48,13 @@ select	@SQL = N'
 		select 
 		fr.Location.STDistance(@locParam) as Metres, 
 		fr.*,
-		row_number() over(partition by fr.Id order by fr.Id ) as RowNum
-		from FlierSearchRecord fr
+		row_number() over(partition by fr.Id order by fr.Id ) as RowNum';
+
+if @eventDate IS NOT NULL
+	select @SQL = @SQL + N', ed.EventDate as EventDate';
+
+select	@SQL = @SQL + N' 
+			from FlierSearchRecord fr
 		';
 
 if @eventDate IS NOT NULL
@@ -91,12 +96,14 @@ select @SQL = @SQL + N'
 	select 
 	top(@topParam) * 
 	from records
-	where RowNum = 1
+	where RowNum = 1'
 	
-' + case @Sort
-			when 1 then 'order by SortOrder desc'
-			else ''
-		end
+if @eventDate IS NOT NULL
+			select @SQL = @SQL + N' order by EventDate asc'
+
+if @eventDate IS NULL
+			select @SQL = @SQL + N' order by SortOrder desc'
+			
 
 		
 exec sp_executeSQL 
@@ -171,8 +178,14 @@ select	@ParameterDefinition = '
 select	@SQL = N'
 	;With records as (	
 		select 
-		fr.Location.STDistance(@locParam) as Metres, fr.*
-		from BoardFlierSearchRecord fr
+		fr.Location.STDistance(@locParam) as Metres, fr.*';
+
+
+if @eventDate IS NOT NULL
+	select @SQL = @SQL + N', ed.EventDate as EventDate';
+
+select	@SQL = @SQL + N' 
+			from BoardFlierSearchRecord fr
 		';
 
 if @eventDate IS NOT NULL
@@ -214,11 +227,13 @@ select @SQL = @SQL + N'
 	top(@topParam) * 
 	from records
 	
-' + case @Sort
-			when 1 then 'order by SortOrder desc'
-			else ''
-		end 
+'
 
+if @eventDate IS NOT NULL
+			select @SQL = @SQL + N' order by EventDate asc'
+
+if @eventDate IS NULL
+			select @SQL = @SQL + N' order by SortOrder desc' 
 		
 exec sp_executeSQL 
 	@SQL,
