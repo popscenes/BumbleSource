@@ -49,13 +49,16 @@ namespace PostaFlya.DataRepository.Search.SearchRecord
                     Tags = flier.Tags.ToXml().ToSql(),
                     Location = geog,
                     LocationShard = shard,
-                    SortOrder = flier.CreateDate.Ticks,
+                    SortOrder = DateTime.MaxValue.Ticks - flier.CreateDate.Ticks,
                     Status = (int)flier.Status
                 });
         }
 
         public static long[] GetShardIdsFor(this Location location, int distance)
         {
+            if(location == null || !location.IsValid)
+                return new long[]{};
+
             SqlGeography geog = null;
             return location.GetShardIdsFor(distance, out geog);
         }
@@ -140,6 +143,7 @@ namespace PostaFlya.DataRepository.Search.SearchRecord
     public class FlierSearchRecordWithDistance : FlierSearchRecord
     {
         public double Metres { get; set; }
+        public string SortOrderString { get; set; }
     }
 
     [Serializable]

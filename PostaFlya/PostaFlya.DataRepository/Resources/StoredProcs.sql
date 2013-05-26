@@ -46,12 +46,26 @@ select	@ParameterDefinition = '
 select	@SQL = N'
 	;With records as (	
 		select 
-		fr.Location.STDistance(@locParam) as Metres, 
-		fr.*,
+		fr.Location.STDistance(@locParam) as Metres
+		,fr.[Id]
+		,fr.[LocationShard]
+		,fr.[FriendlyId]
+		,fr.[BrowserId]
+		,fr.[NumberOfClaims]
+		,fr.[NumberOfComments]
+		,fr.[Status]
+		,fr.[EffectiveDate]
+		,fr.[CreateDate]
+		,fr.[LastActivity]
+		,fr.[Tags]
+		,fr.[Location],
 		row_number() over(partition by fr.Id order by fr.Id ) as RowNum';
 
 if @eventDate IS NOT NULL
-	select @SQL = @SQL + N', ed.EventDate as EventDate';
+	select @SQL = @SQL + N', ed.EventDate as EventDate, ed.SortOrder as SortOrderString';
+
+if @eventDate IS NULL
+	select @SQL = @SQL + N', fr.SortOrder as SortOrder' 
 
 select	@SQL = @SQL + N' 
 			from FlierSearchRecord fr
@@ -96,16 +110,16 @@ select @SQL = @SQL + N'
 	select 
 	top(@topParam) * 
 	from records
-	where RowNum = 1'
-	
+	where RowNum = 1
+	';
+
 if @eventDate IS NOT NULL
-			select @SQL = @SQL + N' order by EventDate asc'
+			select @SQL = @SQL + N' order by SortOrderString asc'
 
 if @eventDate IS NULL
-			select @SQL = @SQL + N' order by SortOrder desc'
-			
-
-		
+			select @SQL = @SQL + N' order by SortOrder asc' 
+	
+				
 exec sp_executeSQL 
 	@SQL,
 	@ParameterDefinition,
@@ -178,11 +192,26 @@ select	@ParameterDefinition = '
 select	@SQL = N'
 	;With records as (	
 		select 
-		fr.Location.STDistance(@locParam) as Metres, fr.*';
+		fr.Location.STDistance(@locParam) as Metres 
+		,fr.[Id]
+		,fr.[BoardId]
+		,fr.[DateAdded]
+		,fr.[BoardStatus]
+		,fr.[FlierId]
+		,fr.[Location]
+		,fr.[NumberOfClaims]
+		,fr.[EffectiveDate]
+		,fr.[CreateDate]
+		,fr.[Tags]
+		,fr.[Status]
+		';
 
 
 if @eventDate IS NOT NULL
-	select @SQL = @SQL + N', ed.EventDate as EventDate';
+	select @SQL = @SQL + N', ed.EventDate as EventDate, ed.SortOrder as SortOrderString';
+
+if @eventDate IS NULL
+			select @SQL = @SQL + N', fr.SortOrder as SortOrder' 
 
 select	@SQL = @SQL + N' 
 			from BoardFlierSearchRecord fr
@@ -226,14 +255,14 @@ select @SQL = @SQL + N'
 	select 
 	top(@topParam) * 
 	from records
-	
-'
+';
 
 if @eventDate IS NOT NULL
-			select @SQL = @SQL + N' order by EventDate asc'
+			select @SQL = @SQL + N' order by SortOrderString asc'
 
 if @eventDate IS NULL
-			select @SQL = @SQL + N' order by SortOrder desc' 
+			select @SQL = @SQL + N' order by SortOrder asc' 
+
 		
 exec sp_executeSQL 
 	@SQL,
