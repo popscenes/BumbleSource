@@ -117,7 +117,7 @@ if @eventDate IS NOT NULL
 			select @SQL = @SQL + N' order by SortOrderString asc'
 
 if @eventDate IS NULL
-			select @SQL = @SQL + N' order by SortOrder asc' 
+			select @SQL = @SQL + N' order by SortOrder desc' 
 	
 				
 exec sp_executeSQL 
@@ -235,11 +235,6 @@ select @SQL = @SQL + N'
 		and fr.SortOrder < @filterSortParam
 		';
 
-if @xpath is not null
-		select @SQL = @SQL + N'
-		and fr.Tags.exist(''' + @xpath + ''') > 0
-		';
-
 if @eventDate IS NOT NULL and @skipPastEventAndCreateDate IS NULL
 		select @SQL = @SQL + N'
 		and CAST(ed.EventDate as datetime2) >= @eventDateParam
@@ -249,6 +244,14 @@ if @eventDate IS NOT NULL and @skipPastEventAndCreateDate IS NOT NULL
 		select @SQL = @SQL + N'
 		and ed.SortOrder >= @skipPastEventAndCreateDateParam
 		';
+
+
+if @xpath is not null
+		select @SQL = @SQL + N'
+		and fr.Tags.exist(''' + @xpath + ''') > 0
+		';
+
+
 		
 select @SQL = @SQL + N'
 	)
@@ -261,7 +264,7 @@ if @eventDate IS NOT NULL
 			select @SQL = @SQL + N' order by SortOrderString asc'
 
 if @eventDate IS NULL
-			select @SQL = @SQL + N' order by SortOrder asc' 
+			select @SQL = @SQL + N' order by SortOrder desc' 
 
 		
 exec sp_executeSQL 

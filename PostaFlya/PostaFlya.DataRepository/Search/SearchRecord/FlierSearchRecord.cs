@@ -49,7 +49,7 @@ namespace PostaFlya.DataRepository.Search.SearchRecord
                     Tags = flier.Tags.ToXml().ToSql(),
                     Location = geog,
                     LocationShard = shard,
-                    SortOrder = DateTime.MaxValue.Ticks - flier.CreateDate.Ticks,
+                    SortOrder = flier.CreateDate.Ticks,
                     Status = (int)flier.Status
                 });
         }

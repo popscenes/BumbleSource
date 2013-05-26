@@ -218,12 +218,10 @@ namespace PostaFlya.DataRepository.Search.Implementation
                             if (val != 0)
                                 return val < 0 ? -1 : 1;    
                         }
-                        
+
                         if (x.SortOrder > y.SortOrder)
-                            return 1;
-                        if (x.SortOrder < y.SortOrder)
                             return -1;
-                        if (x.SortOrder > y.SortOrder)
+                        if (x.SortOrder < y.SortOrder)
                             return 1;
                         if (x.Metres < y.Metres)
                             return -1;
