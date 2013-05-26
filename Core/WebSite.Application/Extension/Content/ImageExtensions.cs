@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.IO;
+using System.Linq;
 using System.Text.RegularExpressions;
 
 namespace Website.Application.Extension.Content
@@ -81,12 +82,39 @@ namespace Website.Application.Extension.Content
 //            return null;
         }
 
+        public static void CopyProperties(this Image target, Image src)
+        {
+            foreach (var id in src.PropertyIdList)
+            {
+                var propsrc = src.GetPropertyItem(id);
+
+                target.UpdatePropertyItem(id, propsrc.Type, propsrc.Value.ToArray());
+            }
+
+        }
+
+        public static void UpdatePropertyItem(this Image image, int id, short type, byte[] data)
+        {
+            PropertyItem prop = null;
+            if (image.PropertyIdList.Contains(id))
+                prop = image.GetPropertyItem(id);
+            if (prop == null)
+                prop = (PropertyItem)Activator.CreateInstance(typeof(PropertyItem), true);
+
+            prop.Id = id;
+            prop.Type = type;
+            prop.Len = data.Length;
+            prop.Value = data;
+            image.SetPropertyItem(prop);
+        }
+
         public static byte[] GetBytes(this Image img, ImageFormat fmt)
         {   
             using (var savems = new MemoryStream())
             {
                 using (var tempImage = new Bitmap(img))
                 {
+                    tempImage.CopyProperties(img);
                     tempImage.Save(savems, fmt);
                 }
 

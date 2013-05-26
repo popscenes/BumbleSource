@@ -430,11 +430,6 @@ namespace PostaFlya.DataRepository.Tests
             Assert.IsTrue(retrievedFliers.Any());
             AssertRetrievedFliersAreSameLocation(retrievedFliers);
 
-
-            retrievedFliers = _searchService.FindFliersByLocationAndDistance(new Location(130, 130), 5, 30,  skipPast: null, tags: tag)
-                .Select(id => _queryService.FindById<Domain.Flier.Flier>(id)).AsQueryable();
-            Assert.IsTrue(!retrievedFliers.Any());
-
             var theBadTags = new Tags(){"crapolla","shitolla"};
             retrievedFliers = _searchService.FindFliersByLocationAndDistance(location, 5, 30, skipPast: null, tags: theBadTags)
                 .Select(id => _queryService.FindById<Domain.Flier.Flier>(id)).AsQueryable();
