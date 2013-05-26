@@ -291,7 +291,8 @@ namespace PostaFlya.DataRepository.Tests
                 .Select(id => _queryService.FindById<Domain.Flier.Flier>(id)).ToList();
 
             Assert.That(moreFliers.Count(), Is.EqualTo(1));
-            Assert.That(moreFliers.First().EventDates.Any(time => time == eventDateOne), Is.True);
+            Assert.That(moreFliers.First().Id, Is.Not.EqualTo(retrievedFliers.First().Id));
+            Assert.That(moreFliers.First().EventDates.Any(time => time >= eventDateOne), Is.True);
 
 
         }

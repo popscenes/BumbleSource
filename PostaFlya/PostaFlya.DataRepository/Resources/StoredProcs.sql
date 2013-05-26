@@ -102,7 +102,7 @@ if @eventDate IS NOT NULL and @skipPastEventAndCreateDate IS NULL
 
 if @eventDate IS NOT NULL and @skipPastEventAndCreateDate IS NOT NULL
 		select @SQL = @SQL + N'
-		and ed.SortOrder >= @skipPastEventAndCreateDateParam
+		and ed.SortOrder > @skipPastEventAndCreateDateParam
 		';
 		
 select @SQL = @SQL + N'
@@ -242,7 +242,7 @@ if @eventDate IS NOT NULL and @skipPastEventAndCreateDate IS NULL
 
 if @eventDate IS NOT NULL and @skipPastEventAndCreateDate IS NOT NULL
 		select @SQL = @SQL + N'
-		and ed.SortOrder >= @skipPastEventAndCreateDateParam
+		and ed.SortOrder > @skipPastEventAndCreateDateParam
 		';
 
 
