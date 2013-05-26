@@ -63,10 +63,8 @@ namespace PostaFlya.Controllers
         {
             var callback = "http://localhost/";
             if (Url != null)
-                callback = Url.Action(action, controller, new {providerIdentifier, ReturnUrl }, "http");
+                callback = _configurationService.GetSetting("SiteUrl") + Url.Action(action, controller, new {providerIdentifier, ReturnUrl });
 
-                //callback = callback.Replace("82", "81");
-                callback = callback.Replace("83", "81");
 
             return callback;
         }

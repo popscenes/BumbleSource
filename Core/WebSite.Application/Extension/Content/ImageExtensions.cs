@@ -120,6 +120,8 @@ namespace Website.Application.Extension.Content
 
         public static Stream ImageStreamFromDataUri(this string data)
         {
+            if (data == null) return null;
+
             var base64Data = Regex.Match(data, @"data:image/(?<type>.+?),(?<data>.+)").Groups["data"].Value;
             if (string.IsNullOrWhiteSpace(base64Data))
                 return null;
