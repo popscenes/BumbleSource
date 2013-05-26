@@ -9,7 +9,6 @@ using PostaFlya.Domain.Boards;
 using PostaFlya.Domain.Flier.Analytic;
 using TechTalk.SpecFlow;
 using PostaFlya.Domain.Flier;
-using PostaFlya.Domain.TaskJob;
 using Website.Application.Domain.Browser;
 using Website.Domain.Browser;
 using Website.Domain.Claims;
@@ -64,10 +63,6 @@ namespace PostaFlya.Specification.Util
 
             PrincipalData.SetPrincipal(kernel);
 
-            //behaviours
-            TestRepositoriesNinjectModule.SetUpTaskJobRepositoryAndQueryService(kernel 
-                ,SpecUtil.GetMockStore<HashSet<TaskJobFlierBehaviourInterface>>("taskjobstore")
-                ,SpecUtil.GetMockStore<HashSet<TaskJobBidInterface>>("taskjobbidstore"));
         }
 
         

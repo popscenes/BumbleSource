@@ -53,7 +53,6 @@ namespace PostaFlya.Application.Domain.Tests
                       new PostaFlya.Domain.Binding.CommandNinjectBinding(),
                       new TestRepositoriesNinjectModule(),
                       new Website.Mocks.Domain.Data.TestRepositoriesNinjectModule(),
-                      new PostaFlya.Domain.TaskJob.Binding.TaskJobNinjectBinding(),
                   };
     }
 }

@@ -1,40 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.Specialized;
+﻿using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Runtime.Caching;
 using System.Security.Principal;
-using System.Web;
 using System.Web.Http;
 using System.Web.Mvc;
 using Ninject;
 using Ninject.Modules;
 using Ninject.Web.Common;
-using PostaFlya.Models.Board;
 using Website.Application.Authentication;
 using Website.Application.Azure.Caching;
-using Website.Application.Binding;
 using Website.Application.Caching.Command;
-using Website.Application.Command;
-using Website.Application.Content;
-using PostaFlya.Areas.Default.Binding;
-using PostaFlya.Areas.TaskJob.Binding;
-using Website.Application.Domain.Binding;
 using Website.Application.Domain.Google.Payment;
 using Website.Application.Domain.Payment;
 using Website.Application.Google.Payment;
-using Website.Application.Intergrations.Payment;
-using Website.Azure.Common.Environment;
 using Website.Common.Binding;
-using Website.Common.Filters;
-using Website.Common.Model.Query;
 using Website.Infrastructure.Authentication;
 using Website.Infrastructure.Binding;
 using Website.Infrastructure.Command;
 using Website.Infrastructure.Configuration;
-using Website.Infrastructure.Query;
-using Website.Infrastructure.Util;
 using PostaFlya.Models.Factory;
 using Website.Application.Domain.Content;
 using Website.Domain.Content;
@@ -196,7 +179,6 @@ namespace PostaFlya.Binding
                       new Website.Domain.Binding.DefaultServicesNinjectBinding(),      
                       new Website.Domain.Binding.CommandNinjectBinding(),
 
-                      new PostaFlya.Domain.TaskJob.Binding.TaskJobNinjectBinding(),
                       new Website.Azure.Common.Binding.AzureCommonNinjectBinding(),
                       //this binds the caching repositories
                       new PostaFlya.Application.Domain.Binding.ApplicationDomainRepositoriesNinjectBinding(
@@ -217,7 +199,6 @@ namespace PostaFlya.Binding
                       new Website.Application.Azure.Binding.AzureApplicationNinjectBinding(),
                       new PostaFlya.Binding.WebNinjectBindings(),
                       new PostaFlya.Areas.Default.Binding.DefaultBehaviourWebNinjectBinding(),
-                      new PostaFlya.Areas.TaskJob.Binding.TaskJobBehaviourWebNinjectBinding(),
                       new PostaFlya.DataRepository.Binding.TableNameNinjectBinding(),
                       new Website.Application.Domain.Binding.ApplicationJobs(),
                       new PostaFlya.Application.Domain.Binding.ApplicationJobs(),

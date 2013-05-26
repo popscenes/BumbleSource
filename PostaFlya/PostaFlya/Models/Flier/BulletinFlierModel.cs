@@ -1,26 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Runtime.Serialization;
-using System.Web;
-using Newtonsoft.Json;
-using PostaFlya.Areas.TaskJob.Models.Bulletin;
 using PostaFlya.Models.Factory;
 using Website.Application.Content;
-using Website.Application.Extension.Validation;
-using PostaFlya.Areas.Default.Models;
 using PostaFlya.Areas.Default.Models.Bulletin;
 using PostaFlya.Domain.Behaviour;
 using PostaFlya.Domain.Flier;
-using PostaFlya.Areas.TaskJob.Models;
 using PostaFlya.Models.Location;
 using PostaFlya.Models.Content;
 using Website.Application.Domain.Content;
 using Website.Domain.Browser;
 using Website.Infrastructure.Query;
-using Resources = PostaFlya.Properties.Resources;
 
 namespace PostaFlya.Models.Flier
 {
@@ -68,7 +60,7 @@ namespace PostaFlya.Models.Flier
     }
 
     [KnownType(typeof(BulletinFlierModel<BulletinBehaviourModel>))]
-    [KnownType(typeof(BulletinFlierModel<BulletinTaskJobBehaviourModel>))]
+    //[KnownType(typeof(BulletinFlierModel<BulletinTaskJobBehaviourModel>))]
     public class BulletinFlierModel : BrowserIdInterface
     {
         

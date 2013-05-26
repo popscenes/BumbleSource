@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ServiceConfiguration serviceName="PopscenesAzure" xmlns="http://schemas.microsoft.com/ServiceHosting/2008/10/ServiceConfiguration" osFamily="3" osVersion="*" schemaVersion="2013-03.2.0">
+  <Role name="PostaFlya">
+    <Instances count="1" />
+    <ConfigurationSettings>
+      <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" value="UseDevelopmentStorage=true" />
+      <Setting name="StorageConnectionString" value="UseDevelopmentStorage=true" />
+      <Setting name="Microsoft.WindowsAzure.Plugins.Caching.NamedCaches" value="{&quot;caches&quot;:[{&quot;name&quot;:&quot;default&quot;,&quot;policy&quot;:{&quot;eviction&quot;:{&quot;type&quot;:0},&quot;expiration&quot;:{&quot;defaultTTL&quot;:10,&quot;isExpirable&quot;:true,&quot;type&quot;:1},&quot;serverNotification&quot;:{&quot;isEnabled&quot;:true}},&quot;secondaries&quot;:0}]}" />
+      <Setting name="Microsoft.WindowsAzure.Plugins.Caching.DiagnosticLevel" value="0" />
+      <Setting name="Microsoft.WindowsAzure.Plugins.Caching.ClientDiagnosticLevel" value="0" />
+      <Setting name="Microsoft.WindowsAzure.Plugins.Caching.CacheSizePercentage" value="50" />
+      <Setting name="Microsoft.WindowsAzure.Plugins.Caching.ConfigStoreConnectionString" value="UseDevelopmentStorage=true" />
+      <Setting name="SearchDbConnectionString" value="Data Source=.\SQLEXPRESS;Integrated Security=True" />
+      <Setting name="DisableFederation" value="True" />
+      <!--<Setting name="SearchDbConnectionString" value="Data Source=oo6h1elzi7.database.windows.net,1433;User ID=jimmy;Password=Weezer1313" />
+      <Setting name="DisableFederation" value="False" /> -->
+      <Setting name="Microsoft.WindowsAzure.Plugins.RemoteAccess.Enabled" value="true" />
+      <Setting name="Microsoft.WindowsAzure.Plugins.RemoteAccess.AccountUsername" value="flya" />
+      <Setting name="Microsoft.WindowsAzure.Plugins.RemoteAccess.AccountEncryptedPassword" value="MIIBnQYJKoZIhvcNAQcDoIIBjjCCAYoCAQAxggFOMIIBSgIBADAyMB4xHDAaBgNVBAMME1dpbmRvd3MgQXp1cmUgVG9vbHMCEDOTrhHRbUqHQwq/LYkR5gowDQYJKoZIhvcNAQEBBQAEggEAKO+TcLYC2s3u/1V07LcytLoCeHtRQwihnR6dDUB5JYHwTYI82edY3MRdudhXo4IxImAQw0HcTw5qrceeD5CqUuqEjy0PZGeveKCFJ54GqRKBhoUip+kuZMWt00KT5gGBCdUqTICZvkwbeDQfGlt3/SkMu2NL/A7xMPKOUi5xuqjKpNDJScN7IxJap/Q50NYGwAp8wt1QxQo6vuRg4kN7nhmg55EkT4zxd1vrVpTEYiVZ6TdNry/PXgZltOI+l/UjApIMib0ynQOQPOD5txegea7ixsF0lf6UYNV5HfJ+IkShO9/qUW0U0bqcc4qNkR7JYudST+JbgoJHEuRjb+fhVjAzBgkqhkiG9w0BBwEwFAYIKoZIhvcNAwcECNcWUD27qHNcgBCBbrmZFSZIYSvrUi0ZDz7r" />
+      <Setting name="Microsoft.WindowsAzure.Plugins.RemoteAccess.AccountExpiration" value="2013-12-31T23:59:59.0000000+11:00" />
+      <Setting name="Microsoft.WindowsAzure.Plugins.RemoteForwarder.Enabled" value="true" />
+      <Setting name="BlobCdnUrl" value="" />
+      <Setting name="SiteCdnUrl" value="/cdn" />
+      <Setting name="SendGridCreds" value="azure_e8b7810b58a96dd3284881955d728264@azure.com;yofgticl" />
+      <Setting name="PaypalApiEndpoint" value="https://api-3t.sandbox.paypal.com/nvp" />
+      <Setting name="PaypalUrl" value="https://www.sandbox.paypal.com/webscr?cmd=_express-checkout&amp;useraction=commit&amp;token=" />
+      <Setting name="PaypalName" value="teddy_1354614467_biz_api1.bumbleflya.com" />
+      <Setting name="PaypalPassword" value="1354614484" />
+      <Setting name="PaypalSigniture" value="AKL0BHttgt4y7V9TMc6a-MVrjQrzAI7DEOtgV8YofbavU1TCcr-Nyslc" />
+      <Setting name="PaypalVersion" value="92.0" />
+      <Setting name="PaypalCallbackUrl" value="/Payment/PayPalSuccess" />
+      <Setting name="PaypalCancelUrl" value="/Payment/Cancel" />
+      <Setting name="GoogleWalletSellerId" value="08584053315349997151" />
+      <Setting name="GoogleWalletSecret" value="FSTqPHezgu_-8Hbjpf5OGw" />
+      <Setting name="GooglePaymentUrl" value="http://127.0.0.1:81/Payment/GoogleWallet" />
+      <Setting name="GooglePaymentJs" value="https://sandbox.google.com/checkout/inapp/lib/buy.js" />
+      <Setting name="TinyUrlBase" value="http://tfly.in:81/" />
+      <!-- set hosts file to point to localhost -->
+      <Setting name="SiteUrl" value="http://127.0.0.1:81" />
+      <!-- set hosts file to point to localhost -->
+      <Setting name="Tags" value="music,theatre,photography,film,fine arts,community" />
+      <Setting name="NewAccountCredit" value="1024" />
+    </ConfigurationSettings>
+    <Certificates>
+      <Certificate name="Microsoft.WindowsAzure.Plugins.RemoteAccess.PasswordEncryption" thumbprint="2592C67E774BB5327A70A4F3278A1FA91DCA61D0" thumbprintAlgorithm="sha1" />
+    </Certificates>
+  </Role>
+</ServiceConfiguration>
