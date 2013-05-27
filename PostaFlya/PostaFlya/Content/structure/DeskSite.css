@@ -36,19 +36,6 @@ header{
     float: right;
 }
 
-#controls
-{
-    width:850px;
-    margin-left:auto;
-    margin-right:auto;
-	padding-top:25px;
-	z-index:500; 
-}
-
-#controls > * {
-    display: block;
-    float: left;
-}
 
 .locSel{
 
@@ -57,15 +44,6 @@ header{
     border: #A6A5A5 solid 1px;
     background-color: white;
 }
-
-.location-title {
-    line-height: 40px;
-    color: black;
-    font-style: italic;
-    margin-right: 14px;
-    font-size: 18px;
-}
-
 
 
 

@@ -7,6 +7,8 @@
     background-repeat: repeat;
 }
 
+
+
 header{
 background-repeat: no-repeat;
 background-position: center center;
@@ -51,6 +53,17 @@ background-color: white;
     text-transform: none;
     
 }
+
+.location-title {
+    line-height: 40px;
+    color: black;
+    font-style: italic;
+    margin-right: 14px;
+    font-size: 18px;
+    margin-left: 20px;
+}
+
+
 
 
 .std-image-btn
@@ -1524,22 +1537,33 @@ p#copyright {
 }
 
 .bulletin-calendar {
-    margin: 0 auto;
-    padding-left: 0px;
-    padding-right: 0px;
-    background-color: transparent;
+    width: 810px;
+    clear: both;
     float: none !important;
 }
+
+#controls
+{
+    width:850px;
+    margin-left:auto;
+    margin-right:auto;
+	padding-top:25px;
+	z-index:500;
+    background-color: white;
+    margin-top: 10px;
+}
+
+#controls > * {
+    display: block;
+    float: left;
+}
+
 
 .board-information-calendar span, .bulletin-calendar span {
     color: white;
     margin-right: 20px;
     font-weight: bold;
     font-size: 12px;
-}
-
-.bulletin-calendar span {
-    color: black;
 }
 
 #dateFilterList {
@@ -1609,6 +1633,7 @@ section.board-information-desc {
         #controls .location-title {
             float: none;
             font-size: 16px;
+            text-align: center;
         }
 
     .page-toolbar-buttons {
@@ -1620,6 +1645,11 @@ section.board-information-desc {
         margin-right: 5%;
     }
 
+    
+    .locSel {
+        margin-left: 20px;
+    }
+
     .helptips-container#bulletin-toolbar-helptip {
         padding-top: 75px;
         right: 0;
@@ -1628,6 +1658,11 @@ section.board-information-desc {
         .helptips-container#bulletin-toolbar-helptip div.helptips-arrow {
             width: 20px;
             height: 76px;
+        }
+
+        .bulletin-calendar {
+            width: 80%;
+            padding: 8px 10%;
         }
 }
 
@@ -1680,6 +1715,11 @@ section.board-information-desc {
         width: 275px;
     }
 
+    .bulletin-calendar {
+            width: 80%;
+            padding: 8px 10%;
+        }
+
     .bulletin-tags-selector label, .bulletin-calendar span {
         display: block;
     }
@@ -1701,10 +1741,7 @@ section.board-information-desc {
         width: 250px !important;
     }
 
-    .locSel {
-        width: 100%;
-    }
-
+    
    .desk-only {
        display: none !important;
    }
@@ -1813,7 +1850,10 @@ section.board-information-desc {
         padding-right: 0;
     }
 
-    
+    .locSel {
+        width: 80%;
+        margin: 0 10%;
+    }
 
     .helptips-container#global-toolbar-helptip {
         padding-top: 75px;
