@@ -19,6 +19,8 @@ namespace WebScraper.Library.Sites
         public const string Retreat = "Retreat";
         public const string DrunkenPoet = "DrunkenPoet";
 
+        public const string GraceDarling = "GraceDarling";
+
         public override void Load()
         {
             Bind<ConfigurationServiceInterface>()
