@@ -12,6 +12,7 @@ using Ninject;
 using Ninject.Syntax;
 using PostaFlya.App_Start;
 using PostaFlya.Controllers;
+using PostaFlya.Views.Board.Widget;
 using Website.Application.Authentication;
 using Website.Application.Command;
 using Website.Application.Domain.TinyUrl.Web;
@@ -321,7 +322,7 @@ namespace PostaFlya
             Views.HeatMap.Bundles.AddBundles(BundleTable.Bundles);
             Views.Account.Bundles.AddBundles(BundleTable.Bundles);
             Views.Profile.Bundles.AddBundles(BundleTable.Bundles);  
-            Views.Board.WidgetBundles.AddBundles(BundleTable.Bundles);
+            WidgetBundles.AddBundles(BundleTable.Bundles);
         }
 
 

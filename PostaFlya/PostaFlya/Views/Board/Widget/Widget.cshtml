@@ -10,11 +10,7 @@
     Layout = null;
 }
 
-
-
-@Widgets.Write(Html.Partial("Bulletin/SelectedBulletinViewPartial"), Html)
-@Widgets.Write(Html.Partial("WidgetBoard", new List<PostaFlya.Models.Flier.BulletinFlierModel>()), Html)
-
+@Widgets.Write(Html.Partial("Widget/BoardWidgetHtml"), Html)
 
 (function (window, undefined) {
 

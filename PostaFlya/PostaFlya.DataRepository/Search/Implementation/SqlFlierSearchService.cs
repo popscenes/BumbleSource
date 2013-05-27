@@ -68,7 +68,8 @@ namespace PostaFlya.DataRepository.Search.Implementation
                     sort = GetOrderByForSortOrder(sortOrder),
                     skipFlier = skipPast != null ? skipPast.Id : null,
                     xpath = GetTagFilter(tags),
-                    eventDate = date
+                    eventDate = date,
+                    skipPastEventAndCreateDate = sortSkipByEventDate
                 }
                     , true
                 ).ToList();
