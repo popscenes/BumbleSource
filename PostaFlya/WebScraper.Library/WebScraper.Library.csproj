@@ -74,6 +74,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
     <Compile Include="Sites\DrunkenPoetSiteScraper.cs" />
+    <Compile Include="Sites\GraceDarlingScraper.cs" />
     <Compile Include="Sites\RegisterSites.cs" />
     <Compile Include="Sites\RetreatSiteScraper.cs" />
     <Compile Include="Sites\SpottedMallardSiteScraper.cs" />
