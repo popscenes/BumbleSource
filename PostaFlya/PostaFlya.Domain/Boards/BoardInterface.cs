@@ -32,6 +32,9 @@ namespace PostaFlya.Domain.Boards
         //board and information need to already be close by location wise for this
         public static bool MatchVenueBoard(this BoardInterface board, VenueInformation information)
         {
+            if (board == null)
+                return false;
+
             if (board.InformationSources != null && board.InformationSources.Any(venueInformation => venueInformation.Source == information.Source
                                                                  && venueInformation.SourceId == information.SourceId))
                 return true;

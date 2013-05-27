@@ -4,7 +4,6 @@ using System.Linq;
 using NUnit.Framework;
 using Ninject;
 using PostaFlya.DataRepository.Internal;
-using PostaFlya.DataRepository.Search.Command;
 using PostaFlya.DataRepository.Search.Event;
 using PostaFlya.DataRepository.Search.Query;
 using PostaFlya.Domain.Boards;
@@ -14,11 +13,9 @@ using PostaFlya.Domain.Flier.Event;
 using PostaFlya.Domain.Flier.Query;
 using Website.Azure.Common.Environment;
 using PostaFlya.DataRepository.Search.Implementation;
-using PostaFlya.DataRepository.Tests.Behaviour.TaskJob;
 using PostaFlya.DataRepository.Tests.Internal;
 using PostaFlya.Domain.Behaviour;
 using PostaFlya.Domain.Flier;
-using PostaFlya.Domain.TaskJob;
 using Website.Azure.Common.TableStorage;
 using Website.Domain.Browser.Query;
 using Website.Infrastructure.Command;
@@ -63,7 +60,6 @@ namespace PostaFlya.DataRepository.Tests
             Kernel.Get<SqlSeachDbInitializer>().Initialize();
             DeleteAll();
 
-            TaskJobRepositoryTests.BindTaskJobRepository(Kernel);
             
             _repository = Kernel.Get<GenericRepositoryInterface>();
             _queryService = Kernel.Get<QueryServiceForBrowserAggregateInterface>();
@@ -295,7 +291,8 @@ namespace PostaFlya.DataRepository.Tests
                 .Select(id => _queryService.FindById<Domain.Flier.Flier>(id)).ToList();
 
             Assert.That(moreFliers.Count(), Is.EqualTo(1));
-            Assert.That(moreFliers.First().EventDates.Any(time => time == eventDateOne), Is.True);
+            Assert.That(moreFliers.First().Id, Is.Not.EqualTo(retrievedFliers.First().Id));
+            Assert.That(moreFliers.First().EventDates.Any(time => time >= eventDateOne), Is.True);
 
 
         }
@@ -434,11 +431,6 @@ namespace PostaFlya.DataRepository.Tests
             Assert.IsTrue(retrievedFliers.Any());
             AssertRetrievedFliersAreSameLocation(retrievedFliers);
 
-
-            retrievedFliers = _searchService.FindFliersByLocationAndDistance(new Location(130, 130), 5, 30,  skipPast: null, tags: tag)
-                .Select(id => _queryService.FindById<Domain.Flier.Flier>(id)).AsQueryable();
-            Assert.IsTrue(!retrievedFliers.Any());
-
             var theBadTags = new Tags(){"crapolla","shitolla"};
             retrievedFliers = _searchService.FindFliersByLocationAndDistance(location, 5, 30, skipPast: null, tags: theBadTags)
                 .Select(id => _queryService.FindById<Domain.Flier.Flier>(id)).AsQueryable();
@@ -463,26 +455,6 @@ namespace PostaFlya.DataRepository.Tests
             FlierTestData.AssertStoreRetrieve(storedFlier, retrieved);
             
             return retrievedFlier;
-        }
-
-        [Test]
-        public void FlierQueryAndStoreCorrectlyCreatesAndSerialisesTaskJobBehaviourProperties()
-        {
-            var testFlier = FlierTestData.GetOne(Kernel);
-            testFlier.FlierBehaviour = FlierBehaviour.TaskJob;
-            var behaviour = FlierTestData.GetBehaviour(Kernel, testFlier) as TaskJobFlierBehaviourInterface;
-
-            behaviour.CostOverhead = 111;
-
-            testFlier = FlierTestData.StoreOne(testFlier, _repository, Kernel);
-            var retFlier = FlierTestData.AssertGetById(testFlier, _queryService);
-
-            CollectionAssert.AreEquivalent(retFlier.ExtendedProperties
-                , testFlier.ExtendedProperties);
-
-            AssertUtil.Count(1, retFlier.ExtendedProperties);
-            var behaviourRet = FlierTestData.GetBehaviour(Kernel, testFlier) as TaskJobFlierBehaviourInterface;
-            Assert.AreEqual(111, behaviourRet.CostOverhead);
         }
 
         [Test]

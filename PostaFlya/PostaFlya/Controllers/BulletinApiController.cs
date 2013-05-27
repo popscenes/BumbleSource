@@ -96,8 +96,8 @@ namespace PostaFlya.Controllers
         public IList<BulletinFlierModel> Get([FromUri] LocationModel loc, int count, string board = ""
             , string skipPast = "", int distance = 0, string tags = "", DateTime? date = null)
         {
-            if (!loc.IsValid() && string.IsNullOrWhiteSpace(board))
-                return GetDefaultFliers(count, skipPast, tags);
+//            if (!loc.IsValid() && string.IsNullOrWhiteSpace(board))
+//                return GetDefaultFliers(count, skipPast, tags);
 
             if (_browserInformation.LastSearchLocation == null)
             {
@@ -110,19 +110,19 @@ namespace PostaFlya.Controllers
                 , loc, count, board: board, skipPast: skipPast, distance: distance, tags: tags, date: date);
         }
 
-        private IList<BulletinFlierModel> GetDefaultFliers(int count, string skipPast, string tags)
-        {
-            var skipFlier = string.IsNullOrWhiteSpace(skipPast) ? null : _queryService.FindById<Flier>(skipPast);
-            var ids = _flierSearchService.IterateAllIndexedFliers(count, skipFlier, new Tags(tags));
-            if (ids.Count > 0)
-                return BulletinFlierModelUtil.IdsToModel(ids.Select(_ => _.Id), _queryService, _blobStorage, _viewModelFactory);
-            if(skipFlier != null)
-                return new List<BulletinFlierModel>();
-
-            var defaultIds = _configurationService.GetSetting("DefaultFliers");
-            return string.IsNullOrWhiteSpace(defaultIds) ? new List<BulletinFlierModel>() :
-                BulletinFlierModelUtil.IdsToModel(defaultIds.Split(','), _queryService, _blobStorage, _viewModelFactory);
-        }
+//        private IList<BulletinFlierModel> GetDefaultFliers(int count, string skipPast, string tags)
+//        {
+//            var skipFlier = string.IsNullOrWhiteSpace(skipPast) ? null : _queryService.FindById<Flier>(skipPast);
+//            var ids = _flierSearchService.IterateAllIndexedFliers(count, skipFlier, new Tags(tags));
+//            if (ids.Count > 0)
+//                return BulletinFlierModelUtil.IdsToModel(ids.Select(_ => _.Id), _queryService, _blobStorage, _viewModelFactory);
+//            if(skipFlier != null)
+//                return new List<BulletinFlierModel>();
+//
+//            var defaultIds = _configurationService.GetSetting("DefaultFliers");
+//            return string.IsNullOrWhiteSpace(defaultIds) ? new List<BulletinFlierModel>() :
+//                BulletinFlierModelUtil.IdsToModel(defaultIds.Split(','), _queryService, _blobStorage, _viewModelFactory);
+//        }
 
         [NonAction]
         public static DefaultDetailsViewModel GetDetail(string id, GenericQueryServiceInterface queryService, FlierBehaviourQueryServiceInterface behaviourQueryService, BlobStorageInterface blobStorage, FlierBehaviourViewModelFactoryInterface viewModelFactory, PostaFlyaBrowserInformationInterface browserInformation)

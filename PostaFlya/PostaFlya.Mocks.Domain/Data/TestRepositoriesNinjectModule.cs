@@ -10,11 +10,9 @@ using PostaFlya.Domain.Boards.Query;
 using PostaFlya.Domain.Flier;
 using PostaFlya.Domain.Flier.Analytic;
 using PostaFlya.Domain.Flier.Query;
-using PostaFlya.Domain.TaskJob;
 using Website.Domain.Browser.Query;
 using Website.Domain.Payment;
 using Website.Infrastructure.Command;
-using Website.Infrastructure.Domain;
 using Website.Domain.Claims;
 using Website.Domain.Comments;
 using Website.Domain.Location;
@@ -41,9 +39,6 @@ namespace PostaFlya.Mocks.Domain.Data
                 , RepoCoreUtil.GetMockStore<PaymentTransactionInterface>()
                 , RepoCoreUtil.GetMockStore<CreditTransactionInterface>());
  
-            SetUpTaskJobRepositoryAndQueryService(kernel
-                , RepoCoreUtil.GetMockStore<TaskJobFlierBehaviourInterface>()
-                , RepoCoreUtil.GetMockStore<TaskJobBidInterface>());
 
             SetUpBoardRepositoryAndQueryService(kernel
                 , RepoCoreUtil.GetMockStore<BoardInterface>());
@@ -267,16 +262,16 @@ namespace PostaFlya.Mocks.Domain.Data
 
 
 
-        public static void SetUpTaskJobRepositoryAndQueryService(MoqMockingKernel kernel, 
-            HashSet<TaskJobFlierBehaviourInterface> store
-            ,HashSet<TaskJobBidInterface> bidstore)
-        {
-            var repository = RepoUtil.SetupRepo<GenericRepositoryInterface, TaskJobFlierBehaviour, TaskJobFlierBehaviourInterface>(store, kernel, TaskJobFlierBehavourInterfaceExtensions.CopyFieldsFrom);
-
-            var taskJobQueryService =
-                RepoUtil.SetupQueryService<QueryServiceForBrowserAggregateInterface, TaskJobFlierBehaviour, TaskJobFlierBehaviourInterface>(store, kernel, TaskJobFlierBehavourInterfaceExtensions.CopyFieldsFrom);
-
-        }
+//        public static void SetUpTaskJobRepositoryAndQueryService(MoqMockingKernel kernel, 
+//            HashSet<TaskJobFlierBehaviourInterface> store
+//            ,HashSet<TaskJobBidInterface> bidstore)
+//        {
+//            var repository = RepoUtil.SetupRepo<GenericRepositoryInterface, TaskJobFlierBehaviour, TaskJobFlierBehaviourInterface>(store, kernel, TaskJobFlierBehavourInterfaceExtensions.CopyFieldsFrom);
+//
+//            var taskJobQueryService =
+//                RepoUtil.SetupQueryService<QueryServiceForBrowserAggregateInterface, TaskJobFlierBehaviour, TaskJobFlierBehaviourInterface>(store, kernel, TaskJobFlierBehavourInterfaceExtensions.CopyFieldsFrom);
+//
+//        }
     }
 
 

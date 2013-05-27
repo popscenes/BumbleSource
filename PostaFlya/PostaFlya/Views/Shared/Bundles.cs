@@ -62,7 +62,8 @@ namespace PostaFlya.Views.Shared
             "Base/jquery.helptips.js",
             "Base/HelpTips.js",
             "Base/PageInit.js",
-            "Base/dateFilter.js"
+            "Base/dateFilter.js",
+            "Base/PageDefaultAction.js"
         };
 
         private static readonly string[] DeskJsFiles =

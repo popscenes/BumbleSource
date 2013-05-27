@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.Serialization;
-using PostaFlya.Areas.TaskJob.Models.Bulletin;
-using PostaFlya.Domain.Behaviour;
 using PostaFlya.Domain.Flier;
 using PostaFlya.Models.Content;
 using PostaFlya.Models.Flier;

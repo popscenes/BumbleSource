@@ -24,6 +24,10 @@ namespace PostaFlya.Views.Board
             "jquery.imagesloaded.js", //this overrides the implementation in isotope
             "Extension/knockout-jquery-ui-widget.js",
             "jquery.endless-scroll.js",
+            "jquery.cookie.js", 
+            "jquery-ui-{version}.js",
+            "jquery.ui.touch-punch.min.js",
+            "jquery-ui-timepicker-addon.js",
  
             //ours
             "Extension/knockout.custombindings.js",
@@ -40,7 +44,9 @@ namespace PostaFlya.Views.Board
             "Base/TagsSelector.js",
             "Base/ClaimsViewModel.js",
             "Base/TileLayoutViewModel.js",
-            "Base/dateFilter.js"
+            "Base/dateFilter.js",
+            "Base/ErrorHandling.js",
+            "Base/PageDefaultAction.js"
         };
 
         private static readonly string[]
@@ -62,6 +68,7 @@ namespace PostaFlya.Views.Board
 
         private static readonly string[]ThemeCss =
         {
+            "jquery.ui.datepicker.css",
             "CommonSite.css",
             "DeskSite.css",
 

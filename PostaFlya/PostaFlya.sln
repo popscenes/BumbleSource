@@ -28,15 +28,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PostaFlya.DataRepository.Te
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PostaFlya.Domain", "PostaFlya.Domain\PostaFlya.Domain.csproj", "{77BD3622-4D65-4776-AC5A-4F779CC526ED}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PostaFlya.Domain.TaskJob", "PostaFlya.Domain.TaskJob\PostaFlya.Domain.TaskJob.csproj", "{761D2C3C-2C8A-4277-AAD3-407872797B9C}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PostaFlya.Mocks.Domain", "PostaFlya.Mocks.Domain\PostaFlya.Mocks.Domain.csproj", "{2AA4C663-ADFF-47C7-9770-92D7A524DD33}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PostaFlya.Specification", "PostaFlya.Specification\PostaFlya.Specification.csproj", "{AE147187-755E-44A9-B1C8-CF0E5C55E081}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PostaFlya.Website.Tests", "PostaFlya.Website.Tests\PostaFlya.Website.Tests.csproj", "{F1D8194A-A9CF-4B13-BF8D-1B7F487AB2D4}"
-EndProject
-Project("{CC5FD16D-436D-48AD-A40C-5A424C6E3E79}") = "AzureProject", "AzureProject.ccproj", "{E802B837-37D8-4960-8055-193583A8ED7A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Website.Application", "..\Core\Website.Application\Website.Application.csproj", "{46DB8930-71D8-4DE4-BAA6-39944F07D6F5}"
 EndProject
@@ -70,6 +66,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	ProjectSection(SolutionItems) = preProject
 		WE-browsers.xml = WE-browsers.xml
 	EndProjectSection
+EndProject
+Project("{CC5FD16D-436D-48AD-A40C-5A424C6E3E79}") = "PopscenesAzure", "PopscenesAzure\PopscenesAzure.ccproj", "{5EB1820C-2152-4083-9395-A8094E85083E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -105,10 +103,6 @@ Global
 		{77BD3622-4D65-4776-AC5A-4F779CC526ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{77BD3622-4D65-4776-AC5A-4F779CC526ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{77BD3622-4D65-4776-AC5A-4F779CC526ED}.Release|Any CPU.Build.0 = Release|Any CPU
-		{761D2C3C-2C8A-4277-AAD3-407872797B9C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{761D2C3C-2C8A-4277-AAD3-407872797B9C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{761D2C3C-2C8A-4277-AAD3-407872797B9C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{761D2C3C-2C8A-4277-AAD3-407872797B9C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{2AA4C663-ADFF-47C7-9770-92D7A524DD33}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{2AA4C663-ADFF-47C7-9770-92D7A524DD33}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2AA4C663-ADFF-47C7-9770-92D7A524DD33}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -121,10 +115,6 @@ Global
 		{F1D8194A-A9CF-4B13-BF8D-1B7F487AB2D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F1D8194A-A9CF-4B13-BF8D-1B7F487AB2D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F1D8194A-A9CF-4B13-BF8D-1B7F487AB2D4}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E802B837-37D8-4960-8055-193583A8ED7A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E802B837-37D8-4960-8055-193583A8ED7A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E802B837-37D8-4960-8055-193583A8ED7A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E802B837-37D8-4960-8055-193583A8ED7A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{46DB8930-71D8-4DE4-BAA6-39944F07D6F5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{46DB8930-71D8-4DE4-BAA6-39944F07D6F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{46DB8930-71D8-4DE4-BAA6-39944F07D6F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -181,6 +171,10 @@ Global
 		{E602D5BC-F9A6-4CB5-915B-760CA16F826C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E602D5BC-F9A6-4CB5-915B-760CA16F826C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E602D5BC-F9A6-4CB5-915B-760CA16F826C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5EB1820C-2152-4083-9395-A8094E85083E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5EB1820C-2152-4083-9395-A8094E85083E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5EB1820C-2152-4083-9395-A8094E85083E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5EB1820C-2152-4083-9395-A8094E85083E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

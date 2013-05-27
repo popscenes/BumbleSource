@@ -1,18 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.Serialization;
-using System.Web;
+﻿using System.Runtime.Serialization;
 using PostaFlya.Areas.Default.Models.Bulletin;
-using PostaFlya.Areas.TaskJob.Models;
 using PostaFlya.Domain.Behaviour;
-using PostaFlya.Domain.Flier.Analytic;
 using PostaFlya.Models.Flier;
 using PostaFlya.Models.Location;
 
 namespace PostaFlya.Areas.Default.Models
 {
-    [KnownType(typeof(TaskJobDetailsViewModel))]
+    //[KnownType(typeof(TaskJobDetailsViewModel))] //for different behaviour types
     public class DefaultDetailsViewModel
     {
         public BulletinFlierModel Flier { get; set; }

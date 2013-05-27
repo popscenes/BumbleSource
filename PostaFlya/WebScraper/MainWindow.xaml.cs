@@ -96,17 +96,20 @@ namespace WebScraper
             }
 
             var items = new ConcurrentQueue<ImportedFlyerScraperModel>();
-            var all = _kernel.GetAll<SiteScraperInterface>(metadata => metadata.Name == DrunkenPoetSiteScraper.BaseUrl).ToList();
-            foreach (var siteScraper in all)
-            {
-                Trace.TraceInformation("Running " + siteScraper.SiteName);
-                var next = siteScraper.GetFlyersFrom(startEnd.Start, startEnd.End);
-                foreach (var importedFlyerScraperModel in next.Where(model => model.EventDates.All(time => time <= startEnd.End)))
+            //var all = _kernel.GetAll<SiteScraperInterface>(metadata => metadata.Name == DrunkenPoetSiteScraper.BaseUrl).ToList();
+            var all = _kernel.GetAll<SiteScraperInterface>().ToList();
+            Parallel.ForEach(all, siteScraper =>
                 {
-                    items.Enqueue(importedFlyerScraperModel);
-                }
+                    Trace.TraceInformation("Running " + siteScraper.SiteName);
+                    var next = siteScraper.GetFlyersFrom(startEnd.Start, startEnd.End);
+                    foreach (
+                        var importedFlyerScraperModel in
+                            next.Where(model => model.EventDates.All(time => time <= startEnd.End)))
+                    {
+                        items.Enqueue(importedFlyerScraperModel);
+                    }
 
-            }
+                });
 
             e.Result = items.ToList();
         }

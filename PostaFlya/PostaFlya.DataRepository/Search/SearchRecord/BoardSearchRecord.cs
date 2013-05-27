@@ -35,5 +35,7 @@ namespace PostaFlya.DataRepository.Search.SearchRecord
 
         public int BoardStatus { get; set; }
 
+        public int SortOrder { get; set; }
+
     }
 }

@@ -68,7 +68,7 @@ namespace PostaFlya.DataRepository.Search.Implementation
                     sort = GetOrderByForSortOrder(sortOrder),
                     skipFlier = skipPast != null ? skipPast.Id : null,
                     xpath = GetTagFilter(tags),
-                    eventDate = date != null ? date.Value.ToUniversalTime() as DateTime? : null
+                    eventDate = date
                 }
                     , true
                 ).ToList();
@@ -88,9 +88,6 @@ namespace PostaFlya.DataRepository.Search.Implementation
 
         public IList<string> FindFliersByLocationAndDistance(Location location, int distance, int take, FlierInterface skipPast = null, Tags tags = null, DateTime? date = null, FlierSortOrder sortOrder = FlierSortOrder.SortOrder)
         {                
-            if(location == null || !location.IsValid)
-                return new List<string>();
-
             var sqlCmd = _searchString;
 
             var watch = new Stopwatch();
@@ -104,6 +101,7 @@ namespace PostaFlya.DataRepository.Search.Implementation
             //	@xpath nvarchar(1000) = null
             //	@eventDate datetime2 = null
 
+            var hasLocation = location != null && location.IsValid;
             var sortSkip = skipPast == null ? (long?) null : skipPast.ToSearchRecords().First().SortOrder;
             var sortSkipByEventDate = (skipPast == null || date == null)
                                           ? null
@@ -117,14 +115,14 @@ namespace PostaFlya.DataRepository.Search.Implementation
                 , shards
                 , new
                 {
-                    loc = location.ToGeography(),
-                    distance,
+                    loc = !hasLocation ? (SqlGeography)null : location.ToGeography(),
+                    distance = !hasLocation ? 0 : distance,
                     top = take,
                     sort = GetOrderByForSortOrder(sortOrder),
                     skipPast = sortSkip,
                     skipPastEventAndCreateDate = sortSkipByEventDate,
                     xpath = GetTagFilter(tags),
-                    eventDate = date != null ? date.Value.ToUniversalTime() as DateTime? : null
+                    eventDate = date
                 }, true).ToList();
 
             Trace.TraceInformation("FindFliers time: {0}, numfliers {1}", watch.ElapsedMilliseconds, ret.Count());
@@ -214,6 +212,13 @@ namespace PostaFlya.DataRepository.Search.Implementation
                 default:
                     return new FlierSearchRecordWithDistanceComparer((x, y) =>
                     {
+                        if (x.SortOrderString != null && y.SortOrderString != null)
+                        {
+                            var val = System.String.Compare(x.SortOrderString, y.SortOrderString, System.StringComparison.Ordinal);
+                            if (val != 0)
+                                return val < 0 ? -1 : 1;    
+                        }
+
                         if (x.SortOrder > y.SortOrder)
                             return -1;
                         if (x.SortOrder < y.SortOrder)

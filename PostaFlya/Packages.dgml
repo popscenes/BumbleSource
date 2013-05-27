@@ -1,0 +1,1018 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DirectedGraph GraphDirection="LeftToRight" xmlns="http://schemas.microsoft.com/vs/2009/dgml">
+  <Nodes>
+    <Node Id="PostaFlya.Domain" Label="PostaFlya.Domain" Category="Project" />
+    <Node Id="Ninject 3.0.2-unstable-8" Label="Ninject 3.0.2-unstable-8" Category="Package" />
+    <Node Id="ninject.extensions.conventions 3.0.2-unstable-2" Label="ninject.extensions.conventions 3.0.2-unstable-2" Category="Package" />
+    <Node Id="PostaFlya.DataRepository" Label="PostaFlya.DataRepository" Category="Project" />
+    <Node Id="Microsoft.Data.Edm 5.2.0" Label="Microsoft.Data.Edm 5.2.0" Category="Package" />
+    <Node Id="Microsoft.Data.OData 5.2.0" Label="Microsoft.Data.OData 5.2.0" Category="Package" />
+    <Node Id="Microsoft.WindowsAzure.ConfigurationManager 2.0.1.0" Label="Microsoft.WindowsAzure.ConfigurationManager 2.0.1.0" Category="Package" />
+    <Node Id="Newtonsoft.Json 4.5.11" Label="Newtonsoft.Json 4.5.11" Category="Package" />
+    <Node Id="Ninject 3.0.2-unstable-8" Label="Ninject 3.0.2-unstable-8" Category="Package" />
+    <Node Id="ninject.extensions.conventions 3.0.2-unstable-2" Label="ninject.extensions.conventions 3.0.2-unstable-2" Category="Package" />
+    <Node Id="System.Spatial 5.2.0" Label="System.Spatial 5.2.0" Category="Package" />
+    <Node Id="WindowsAzure.Storage 2.0.5.1" Label="WindowsAzure.Storage 2.0.5.1" Category="Package" />
+    <Node Id="PostaFlya.CommandWorker" Label="PostaFlya.CommandWorker" Category="Project" />
+    <Node Id="Microsoft.Data.Edm 5.2.0" Label="Microsoft.Data.Edm 5.2.0" Category="Package" />
+    <Node Id="Microsoft.Data.OData 5.2.0" Label="Microsoft.Data.OData 5.2.0" Category="Package" />
+    <Node Id="Microsoft.WindowsAzure.ConfigurationManager 2.0.1.0" Label="Microsoft.WindowsAzure.ConfigurationManager 2.0.1.0" Category="Package" />
+    <Node Id="Ninject 3.0.2-unstable-8" Label="Ninject 3.0.2-unstable-8" Category="Package" />
+    <Node Id="ninject.extensions.conventions 3.0.2-unstable-2" Label="ninject.extensions.conventions 3.0.2-unstable-2" Category="Package" />
+    <Node Id="System.Spatial 5.2.0" Label="System.Spatial 5.2.0" Category="Package" />
+    <Node Id="WindowsAzure.Storage 2.0.5.1" Label="WindowsAzure.Storage 2.0.5.1" Category="Package" />
+    <Node Id="PostaFlya.Application.Domain" Label="PostaFlya.Application.Domain" Category="Project" />
+    <Node Id="Ninject 3.0.2-unstable-8" Label="Ninject 3.0.2-unstable-8" Category="Package" />
+    <Node Id="ninject.extensions.conventions 3.0.2-unstable-2" Label="ninject.extensions.conventions 3.0.2-unstable-2" Category="Package" />
+    <Node Id="Ninject.Web.Common 3.0.2-unstable-2" Label="Ninject.Web.Common 3.0.2-unstable-2" Category="Package" />
+    <Node Id="PostaFlya" Label="PostaFlya" Category="Project" />
+    <Node Id="DataAnnotationsExtensions 1.1.0.0" Label="DataAnnotationsExtensions 1.1.0.0" Category="Package" />
+    <Node Id="DataAnnotationsExtensions.MVC3 1.1.0.0" Label="DataAnnotationsExtensions.MVC3 1.1.0.0" Category="Package" />
+    <Node Id="DotNetOpenAuth 4.2.1.13026" Label="DotNetOpenAuth 4.2.1.13026" Category="Package" />
+    <Node Id="DotNetOpenAuth.Core 4.2.1.13026" Label="DotNetOpenAuth.Core 4.2.1.13026" Category="Package" />
+    <Node Id="DotNetOpenAuth.Core.UI 4.2.1.13026" Label="DotNetOpenAuth.Core.UI 4.2.1.13026" Category="Package" />
+    <Node Id="DotNetOpenAuth.InfoCard 4.2.1.13026" Label="DotNetOpenAuth.InfoCard 4.2.1.13026" Category="Package" />
+    <Node Id="DotNetOpenAuth.InfoCard.UI 4.2.1.13026" Label="DotNetOpenAuth.InfoCard.UI 4.2.1.13026" Category="Package" />
+    <Node Id="DotNetOpenAuth.OAuth.Common 4.2.1.13026" Label="DotNetOpenAuth.OAuth.Common 4.2.1.13026" Category="Package" />
+    <Node Id="DotNetOpenAuth.OAuth.Consumer 4.2.1.13026" Label="DotNetOpenAuth.OAuth.Consumer 4.2.1.13026" Category="Package" />
+    <Node Id="DotNetOpenAuth.OAuth.Core 4.2.1.13026" Label="DotNetOpenAuth.OAuth.Core 4.2.1.13026" Category="Package" />
+    <Node Id="DotNetOpenAuth.OAuth.ServiceProvider 4.2.1.13026" Label="DotNetOpenAuth.OAuth.ServiceProvider 4.2.1.13026" Category="Package" />
+    <Node Id="DotNetOpenAuth.OAuth2.AuthorizationServer 4.2.1.13026" Label="DotNetOpenAuth.OAuth2.AuthorizationServer 4.2.1.13026" Category="Package" />
+    <Node Id="DotNetOpenAuth.OAuth2.Client 4.2.1.13026" Label="DotNetOpenAuth.OAuth2.Client 4.2.1.13026" Category="Package" />
+    <Node Id="DotNetOpenAuth.OAuth2.Client.UI 4.2.1.13026" Label="DotNetOpenAuth.OAuth2.Client.UI 4.2.1.13026" Category="Package" />
+    <Node Id="DotNetOpenAuth.OAuth2.ClientAuthorization 4.2.1.13026" Label="DotNetOpenAuth.OAuth2.ClientAuthorization 4.2.1.13026" Category="Package" />
+    <Node Id="DotNetOpenAuth.OAuth2.Core 4.2.1.13026" Label="DotNetOpenAuth.OAuth2.Core 4.2.1.13026" Category="Package" />
+    <Node Id="DotNetOpenAuth.OAuth2.ResourceServer 4.2.1.13026" Label="DotNetOpenAuth.OAuth2.ResourceServer 4.2.1.13026" Category="Package" />
+    <Node Id="DotNetOpenAuth.OpenId.Core 4.2.1.13026" Label="DotNetOpenAuth.OpenId.Core 4.2.1.13026" Category="Package" />
+    <Node Id="DotNetOpenAuth.OpenId.Core.UI 4.2.1.13026" Label="DotNetOpenAuth.OpenId.Core.UI 4.2.1.13026" Category="Package" />
+    <Node Id="DotNetOpenAuth.OpenId.Provider 4.2.1.13026" Label="DotNetOpenAuth.OpenId.Provider 4.2.1.13026" Category="Package" />
+    <Node Id="DotNetOpenAuth.OpenId.Provider.UI 4.2.1.13026" Label="DotNetOpenAuth.OpenId.Provider.UI 4.2.1.13026" Category="Package" />
+    <Node Id="DotNetOpenAuth.OpenId.RelyingParty 4.2.1.13026" Label="DotNetOpenAuth.OpenId.RelyingParty 4.2.1.13026" Category="Package" />
+    <Node Id="DotNetOpenAuth.OpenId.RelyingParty.UI 4.2.1.13026" Label="DotNetOpenAuth.OpenId.RelyingParty.UI 4.2.1.13026" Category="Package" />
+    <Node Id="DotNetOpenAuth.OpenIdInfoCard.UI 4.2.1.13026" Label="DotNetOpenAuth.OpenIdInfoCard.UI 4.2.1.13026" Category="Package" />
+    <Node Id="DotNetOpenAuth.OpenIdOAuth 4.2.1.13026" Label="DotNetOpenAuth.OpenIdOAuth 4.2.1.13026" Category="Package" />
+    <Node Id="EntityFramework 6.0.0-alpha1" Label="EntityFramework 6.0.0-alpha1" Category="Package" />
+    <Node Id="jQuery 1.9.1" Label="jQuery 1.9.1" Category="Package" />
+    <Node Id="jquery.mobile 1.1.0" Label="jquery.mobile 1.1.0" Category="Package" />
+    <Node Id="jQuery.UI.Combined 1.10.0" Label="jQuery.UI.Combined 1.10.0" Category="Package" />
+    <Node Id="jQuery.Validation 1.11.0" Label="jQuery.Validation 1.11.0" Category="Package" />
+    <Node Id="Knockout.Mapping 2.4.0" Label="Knockout.Mapping 2.4.0" Category="Package" />
+    <Node Id="knockoutjs 2.2.1" Label="knockoutjs 2.2.1" Category="Package" />
+    <Node Id="Microsoft.AspNet.Mvc 4.0.20710.0" Label="Microsoft.AspNet.Mvc 4.0.20710.0" Category="Package" />
+    <Node Id="Microsoft.AspNet.Providers 1.2" Label="Microsoft.AspNet.Providers 1.2" Category="Package" />
+    <Node Id="Microsoft.AspNet.Providers.Core 1.2" Label="Microsoft.AspNet.Providers.Core 1.2" Category="Package" />
+    <Node Id="Microsoft.AspNet.Razor 2.0.20715.0" Label="Microsoft.AspNet.Razor 2.0.20715.0" Category="Package" />
+    <Node Id="Microsoft.AspNet.Web.Optimization 1.1.0-alpha1" Label="Microsoft.AspNet.Web.Optimization 1.1.0-alpha1" Category="Package" />
+    <Node Id="Microsoft.AspNet.WebApi 4.0.20710.0" Label="Microsoft.AspNet.WebApi 4.0.20710.0" Category="Package" />
+    <Node Id="Microsoft.AspNet.WebApi.Client 4.1.0-alpha-120809" Label="Microsoft.AspNet.WebApi.Client 4.1.0-alpha-120809" Category="Package" />
+    <Node Id="Microsoft.AspNet.WebApi.Core 4.0.20710.0" Label="Microsoft.AspNet.WebApi.Core 4.0.20710.0" Category="Package" />
+    <Node Id="Microsoft.AspNet.WebApi.WebHost 4.0.20710.0" Label="Microsoft.AspNet.WebApi.WebHost 4.0.20710.0" Category="Package" />
+    <Node Id="Microsoft.AspNet.WebPages 2.0.20710.0" Label="Microsoft.AspNet.WebPages 2.0.20710.0" Category="Package" />
+    <Node Id="Microsoft.AspNet.WebPages.Data 2.0.20710.0" Label="Microsoft.AspNet.WebPages.Data 2.0.20710.0" Category="Package" />
+    <Node Id="Microsoft.AspNet.WebPages.WebData 2.0.20710.0" Label="Microsoft.AspNet.WebPages.WebData 2.0.20710.0" Category="Package" />
+    <Node Id="Microsoft.Data.Edm 5.2.0" Label="Microsoft.Data.Edm 5.2.0" Category="Package" />
+    <Node Id="Microsoft.Data.OData 5.2.0" Label="Microsoft.Data.OData 5.2.0" Category="Package" />
+    <Node Id="Microsoft.jQuery.Unobtrusive.Ajax 2.0.30116.0" Label="Microsoft.jQuery.Unobtrusive.Ajax 2.0.30116.0" Category="Package" />
+    <Node Id="Microsoft.jQuery.Unobtrusive.Validation 2.0.30116.0" Label="Microsoft.jQuery.Unobtrusive.Validation 2.0.30116.0" Category="Package" />
+    <Node Id="Microsoft.Net.Http 2.0.20710.0" Label="Microsoft.Net.Http 2.0.20710.0" Category="Package" />
+    <Node Id="Microsoft.Web.Infrastructure 1.0.0.0" Label="Microsoft.Web.Infrastructure 1.0.0.0" Category="Package" />
+    <Node Id="Microsoft.Web.Optimization 1.0.0-beta2" Label="Microsoft.Web.Optimization 1.0.0-beta2" Category="Package" />
+    <Node Id="Microsoft.WindowsAzure.ConfigurationManager 1.8.0.0" Label="Microsoft.WindowsAzure.ConfigurationManager 1.8.0.0" Category="Package" />
+    <Node Id="microsoft-web-helpers 2.1.20710.2" Label="microsoft-web-helpers 2.1.20710.2" Category="Package" />
+    <Node Id="Modernizr 2.6.2" Label="Modernizr 2.6.2" Category="Package" />
+    <Node Id="NewRelicWindowsAzure 1.0.0.33" Label="NewRelicWindowsAzure 1.0.0.33" Category="Package" />
+    <Node Id="Newtonsoft.Json 4.5.11" Label="Newtonsoft.Json 4.5.11" Category="Package" />
+    <Node Id="Ninject 3.0.2-unstable-8" Label="Ninject 3.0.2-unstable-8" Category="Package" />
+    <Node Id="ninject.extensions.conventions 3.0.2-unstable-2" Label="ninject.extensions.conventions 3.0.2-unstable-2" Category="Package" />
+    <Node Id="Ninject.MVC3 3.0.2-unstable-2" Label="Ninject.MVC3 3.0.2-unstable-2" Category="Package" />
+    <Node Id="Ninject.Web.Common 3.0.2-unstable-2" Label="Ninject.Web.Common 3.0.2-unstable-2" Category="Package" />
+    <Node Id="Ninject.Web.Common.WebHost 3.0.2-unstable-2" Label="Ninject.Web.Common.WebHost 3.0.2-unstable-2" Category="Package" />
+    <Node Id="System.Json 4.0.20126.16343" Label="System.Json 4.0.20126.16343" Category="Package" />
+    <Node Id="System.Spatial 5.2.0" Label="System.Spatial 5.2.0" Category="Package" />
+    <Node Id="System.Web.Providers 1.2" Label="System.Web.Providers 1.2" Category="Package" />
+    <Node Id="WebActivator 1.5.3" Label="WebActivator 1.5.3" Category="Package" />
+    <Node Id="WebGrease 1.3.0" Label="WebGrease 1.3.0" Category="Package" />
+    <Node Id="WindowsAzure.DevelopmentFabric.IISConfigurator.Syncronizer 1.0.0.5" Label="WindowsAzure.DevelopmentFabric.IISConfigurator.Syncronizer 1.0.0.5" Category="Package" />
+    <Node Id="WindowsAzure.Storage 2.0.5.1" Label="WindowsAzure.Storage 2.0.5.1" Category="Package" />
+    <Node Id="Tests\PostaFlya.Website.Tests" Label="PostaFlya.Website.Tests" Category="Project" />
+    <Node Id="DotNetOpenAuth 4.2.1.13026" Label="DotNetOpenAuth 4.2.1.13026" Category="Package" />
+    <Node Id="DotNetOpenAuth.Core 4.2.1.13026" Label="DotNetOpenAuth.Core 4.2.1.13026" Category="Package" />
+    <Node Id="DotNetOpenAuth.Core.UI 4.2.1.13026" Label="DotNetOpenAuth.Core.UI 4.2.1.13026" Category="Package" />
+    <Node Id="DotNetOpenAuth.InfoCard 4.2.1.13026" Label="DotNetOpenAuth.InfoCard 4.2.1.13026" Category="Package" />
+    <Node Id="DotNetOpenAuth.InfoCard.UI 4.2.1.13026" Label="DotNetOpenAuth.InfoCard.UI 4.2.1.13026" Category="Package" />
+    <Node Id="DotNetOpenAuth.OAuth.Common 4.2.1.13026" Label="DotNetOpenAuth.OAuth.Common 4.2.1.13026" Category="Package" />
+    <Node Id="DotNetOpenAuth.OAuth.Consumer 4.2.1.13026" Label="DotNetOpenAuth.OAuth.Consumer 4.2.1.13026" Category="Package" />
+    <Node Id="DotNetOpenAuth.OAuth.Core 4.2.1.13026" Label="DotNetOpenAuth.OAuth.Core 4.2.1.13026" Category="Package" />
+    <Node Id="DotNetOpenAuth.OAuth.ServiceProvider 4.2.1.13026" Label="DotNetOpenAuth.OAuth.ServiceProvider 4.2.1.13026" Category="Package" />
+    <Node Id="DotNetOpenAuth.OAuth2.AuthorizationServer 4.2.1.13026" Label="DotNetOpenAuth.OAuth2.AuthorizationServer 4.2.1.13026" Category="Package" />
+    <Node Id="DotNetOpenAuth.OAuth2.Client 4.2.1.13026" Label="DotNetOpenAuth.OAuth2.Client 4.2.1.13026" Category="Package" />
+    <Node Id="DotNetOpenAuth.OAuth2.Client.UI 4.2.1.13026" Label="DotNetOpenAuth.OAuth2.Client.UI 4.2.1.13026" Category="Package" />
+    <Node Id="DotNetOpenAuth.OAuth2.ClientAuthorization 4.2.1.13026" Label="DotNetOpenAuth.OAuth2.ClientAuthorization 4.2.1.13026" Category="Package" />
+    <Node Id="DotNetOpenAuth.OAuth2.Core 4.2.1.13026" Label="DotNetOpenAuth.OAuth2.Core 4.2.1.13026" Category="Package" />
+    <Node Id="DotNetOpenAuth.OAuth2.ResourceServer 4.2.1.13026" Label="DotNetOpenAuth.OAuth2.ResourceServer 4.2.1.13026" Category="Package" />
+    <Node Id="DotNetOpenAuth.OpenId.Core 4.2.1.13026" Label="DotNetOpenAuth.OpenId.Core 4.2.1.13026" Category="Package" />
+    <Node Id="DotNetOpenAuth.OpenId.Core.UI 4.2.1.13026" Label="DotNetOpenAuth.OpenId.Core.UI 4.2.1.13026" Category="Package" />
+    <Node Id="DotNetOpenAuth.OpenId.Provider 4.2.1.13026" Label="DotNetOpenAuth.OpenId.Provider 4.2.1.13026" Category="Package" />
+    <Node Id="DotNetOpenAuth.OpenId.Provider.UI 4.2.1.13026" Label="DotNetOpenAuth.OpenId.Provider.UI 4.2.1.13026" Category="Package" />
+    <Node Id="DotNetOpenAuth.OpenId.RelyingParty 4.2.1.13026" Label="DotNetOpenAuth.OpenId.RelyingParty 4.2.1.13026" Category="Package" />
+    <Node Id="DotNetOpenAuth.OpenId.RelyingParty.UI 4.2.1.13026" Label="DotNetOpenAuth.OpenId.RelyingParty.UI 4.2.1.13026" Category="Package" />
+    <Node Id="DotNetOpenAuth.OpenIdInfoCard.UI 4.2.1.13026" Label="DotNetOpenAuth.OpenIdInfoCard.UI 4.2.1.13026" Category="Package" />
+    <Node Id="DotNetOpenAuth.OpenIdOAuth 4.2.1.13026" Label="DotNetOpenAuth.OpenIdOAuth 4.2.1.13026" Category="Package" />
+    <Node Id="Microsoft.AspNet.Mvc 4.0.20710.0" Label="Microsoft.AspNet.Mvc 4.0.20710.0" Category="Package" />
+    <Node Id="Microsoft.AspNet.Razor 2.0.20715.0" Label="Microsoft.AspNet.Razor 2.0.20715.0" Category="Package" />
+    <Node Id="Microsoft.AspNet.WebPages 2.0.20710.0" Label="Microsoft.AspNet.WebPages 2.0.20710.0" Category="Package" />
+    <Node Id="Microsoft.Net.Http 2.0.20710.0" Label="Microsoft.Net.Http 2.0.20710.0" Category="Package" />
+    <Node Id="Microsoft.Web.Infrastructure 1.0.0.0" Label="Microsoft.Web.Infrastructure 1.0.0.0" Category="Package" />
+    <Node Id="Moq 4.0.10827" Label="Moq 4.0.10827" Category="Package" />
+    <Node Id="Ninject 3.0.2-unstable-8" Label="Ninject 3.0.2-unstable-8" Category="Package" />
+    <Node Id="Ninject.MockingKernel 3.0.2-unstable-0" Label="Ninject.MockingKernel 3.0.2-unstable-0" Category="Package" />
+    <Node Id="Ninject.MockingKernel.Moq 3.0.2-unstable-0" Label="Ninject.MockingKernel.Moq 3.0.2-unstable-0" Category="Package" />
+    <Node Id="NUnit 2.6.2" Label="NUnit 2.6.2" Category="Package" />
+    <Node Id="Tests\PostaFlya.Specification" Label="PostaFlya.Specification" Category="Project" />
+    <Node Id="Microsoft.AspNet.Mvc 4.0.20710.0" Label="Microsoft.AspNet.Mvc 4.0.20710.0" Category="Package" />
+    <Node Id="Microsoft.AspNet.Razor 2.0.20715.0" Label="Microsoft.AspNet.Razor 2.0.20715.0" Category="Package" />
+    <Node Id="Microsoft.AspNet.WebApi.Client 4.1.0-alpha-120809" Label="Microsoft.AspNet.WebApi.Client 4.1.0-alpha-120809" Category="Package" />
+    <Node Id="Microsoft.AspNet.WebApi.Core 4.0.20710.0" Label="Microsoft.AspNet.WebApi.Core 4.0.20710.0" Category="Package" />
+    <Node Id="Microsoft.AspNet.WebApi.WebHost 4.0.20710.0" Label="Microsoft.AspNet.WebApi.WebHost 4.0.20710.0" Category="Package" />
+    <Node Id="Microsoft.AspNet.WebPages 2.0.20710.0" Label="Microsoft.AspNet.WebPages 2.0.20710.0" Category="Package" />
+    <Node Id="Microsoft.AspNet.WebPages.Data 2.0.20710.0" Label="Microsoft.AspNet.WebPages.Data 2.0.20710.0" Category="Package" />
+    <Node Id="Microsoft.AspNet.WebPages.WebData 2.0.20710.0" Label="Microsoft.AspNet.WebPages.WebData 2.0.20710.0" Category="Package" />
+    <Node Id="Microsoft.Net.Http 2.0.20710.0" Label="Microsoft.Net.Http 2.0.20710.0" Category="Package" />
+    <Node Id="Microsoft.Web.Infrastructure 1.0.0.0" Label="Microsoft.Web.Infrastructure 1.0.0.0" Category="Package" />
+    <Node Id="microsoft-web-helpers 2.1.20710.2" Label="microsoft-web-helpers 2.1.20710.2" Category="Package" />
+    <Node Id="Moq 4.0.10827" Label="Moq 4.0.10827" Category="Package" />
+    <Node Id="Newtonsoft.Json 4.5.11" Label="Newtonsoft.Json 4.5.11" Category="Package" />
+    <Node Id="Ninject 3.0.2-unstable-8" Label="Ninject 3.0.2-unstable-8" Category="Package" />
+    <Node Id="Ninject.Extensions.Conventions 3.0.0.11" Label="Ninject.Extensions.Conventions 3.0.0.11" Category="Package" />
+    <Node Id="Ninject.MockingKernel 3.0.0.5" Label="Ninject.MockingKernel 3.0.0.5" Category="Package" />
+    <Node Id="Ninject.MockingKernel.Moq 3.0.0.5" Label="Ninject.MockingKernel.Moq 3.0.0.5" Category="Package" />
+    <Node Id="NUnit 2.6.2" Label="NUnit 2.6.2" Category="Package" />
+    <Node Id="SpecFlow 1.9.0" Label="SpecFlow 1.9.0" Category="Package" />
+    <Node Id="Tests\PostaFlya.Mocks.Domain" Label="PostaFlya.Mocks.Domain" Category="Project" />
+    <Node Id="Moq 4.0.10827" Label="Moq 4.0.10827" Category="Package" />
+    <Node Id="Ninject 3.0.2-unstable-8" Label="Ninject 3.0.2-unstable-8" Category="Package" />
+    <Node Id="Ninject.Extensions.Conventions 3.0.0.11" Label="Ninject.Extensions.Conventions 3.0.0.11" Category="Package" />
+    <Node Id="Ninject.MockingKernel 3.0.0.5" Label="Ninject.MockingKernel 3.0.0.5" Category="Package" />
+    <Node Id="Ninject.MockingKernel.Moq 3.0.0.5" Label="Ninject.MockingKernel.Moq 3.0.0.5" Category="Package" />
+    <Node Id="NUnit 2.6.2" Label="NUnit 2.6.2" Category="Package" />
+    <Node Id="Tests\PostaFlya.DataRepository.Tests" Label="PostaFlya.DataRepository.Tests" Category="Project" />
+    <Node Id="Microsoft.Data.Edm 5.2.0" Label="Microsoft.Data.Edm 5.2.0" Category="Package" />
+    <Node Id="Microsoft.Data.OData 5.2.0" Label="Microsoft.Data.OData 5.2.0" Category="Package" />
+    <Node Id="Microsoft.WindowsAzure.ConfigurationManager 2.0.1.0" Label="Microsoft.WindowsAzure.ConfigurationManager 2.0.1.0" Category="Package" />
+    <Node Id="Moq 4.0.10827" Label="Moq 4.0.10827" Category="Package" />
+    <Node Id="Ninject 3.0.2-unstable-8" Label="Ninject 3.0.2-unstable-8" Category="Package" />
+    <Node Id="ninject.extensions.conventions 3.0.2-unstable-2" Label="ninject.extensions.conventions 3.0.2-unstable-2" Category="Package" />
+    <Node Id="Ninject.MockingKernel 3.0.2-unstable-0" Label="Ninject.MockingKernel 3.0.2-unstable-0" Category="Package" />
+    <Node Id="Ninject.MockingKernel.Moq 3.0.2-unstable-0" Label="Ninject.MockingKernel.Moq 3.0.2-unstable-0" Category="Package" />
+    <Node Id="NUnit 2.6.2" Label="NUnit 2.6.2" Category="Package" />
+    <Node Id="System.Spatial 5.2.0" Label="System.Spatial 5.2.0" Category="Package" />
+    <Node Id="WindowsAzure.Storage 2.0.5.1" Label="WindowsAzure.Storage 2.0.5.1" Category="Package" />
+    <Node Id="Tests\PostaFlya.Application.Domain.Tests" Label="PostaFlya.Application.Domain.Tests" Category="Project" />
+    <Node Id="Moq 4.0.10827" Label="Moq 4.0.10827" Category="Package" />
+    <Node Id="Ninject 3.0.2-unstable-8" Label="Ninject 3.0.2-unstable-8" Category="Package" />
+    <Node Id="Ninject.MockingKernel 3.0.0.5" Label="Ninject.MockingKernel 3.0.0.5" Category="Package" />
+    <Node Id="Ninject.MockingKernel.Moq 3.0.0.5" Label="Ninject.MockingKernel.Moq 3.0.0.5" Category="Package" />
+    <Node Id="NUnit 2.6.2" Label="NUnit 2.6.2" Category="Package" />
+    <Node Id="Core\Website.Application.Domain" Label="Website.Application.Domain" Category="Project" />
+    <Node Id="Microsoft.AspNet.Mvc 4.0.20710.0" Label="Microsoft.AspNet.Mvc 4.0.20710.0" Category="Package" />
+    <Node Id="Microsoft.AspNet.Razor 2.0.20715.0" Label="Microsoft.AspNet.Razor 2.0.20715.0" Category="Package" />
+    <Node Id="Microsoft.AspNet.WebApi 4.0.20710.0" Label="Microsoft.AspNet.WebApi 4.0.20710.0" Category="Package" />
+    <Node Id="Microsoft.AspNet.WebApi.Client 4.1.0-alpha-120809" Label="Microsoft.AspNet.WebApi.Client 4.1.0-alpha-120809" Category="Package" />
+    <Node Id="Microsoft.AspNet.WebApi.Core 4.0.20710.0" Label="Microsoft.AspNet.WebApi.Core 4.0.20710.0" Category="Package" />
+    <Node Id="Microsoft.AspNet.WebApi.WebHost 4.0.20710.0" Label="Microsoft.AspNet.WebApi.WebHost 4.0.20710.0" Category="Package" />
+    <Node Id="Microsoft.AspNet.WebPages 2.0.20710.0" Label="Microsoft.AspNet.WebPages 2.0.20710.0" Category="Package" />
+    <Node Id="Microsoft.Net.Http 2.0.20710.0" Label="Microsoft.Net.Http 2.0.20710.0" Category="Package" />
+    <Node Id="Microsoft.Web.Infrastructure 1.0.0.0" Label="Microsoft.Web.Infrastructure 1.0.0.0" Category="Package" />
+    <Node Id="Newtonsoft.Json 4.5.11" Label="Newtonsoft.Json 4.5.11" Category="Package" />
+    <Node Id="Ninject 3.0.2-unstable-8" Label="Ninject 3.0.2-unstable-8" Category="Package" />
+    <Node Id="ninject.extensions.conventions 3.0.2-unstable-2" Label="ninject.extensions.conventions 3.0.2-unstable-2" Category="Package" />
+    <Node Id="Ninject.Web.Common 3.0.2-unstable-2" Label="Ninject.Web.Common 3.0.2-unstable-2" Category="Package" />
+    <Node Id="Core\Website.Domain" Label="Website.Domain" Category="Project" />
+    <Node Id="Ninject 3.0.2-unstable-8" Label="Ninject 3.0.2-unstable-8" Category="Package" />
+    <Node Id="ninject.extensions.conventions 3.0.2-unstable-2" Label="ninject.extensions.conventions 3.0.2-unstable-2" Category="Package" />
+    <Node Id="Core\Website.Infrastructure" Label="Website.Infrastructure" Category="Project" />
+    <Node Id="DotNetOpenAuth 4.2.1.13026" Label="DotNetOpenAuth 4.2.1.13026" Category="Package" />
+    <Node Id="DotNetOpenAuth.Core 4.2.1.13026" Label="DotNetOpenAuth.Core 4.2.1.13026" Category="Package" />
+    <Node Id="DotNetOpenAuth.Core.UI 4.2.1.13026" Label="DotNetOpenAuth.Core.UI 4.2.1.13026" Category="Package" />
+    <Node Id="DotNetOpenAuth.InfoCard 4.2.1.13026" Label="DotNetOpenAuth.InfoCard 4.2.1.13026" Category="Package" />
+    <Node Id="DotNetOpenAuth.InfoCard.UI 4.2.1.13026" Label="DotNetOpenAuth.InfoCard.UI 4.2.1.13026" Category="Package" />
+    <Node Id="DotNetOpenAuth.OAuth.Common 4.2.1.13026" Label="DotNetOpenAuth.OAuth.Common 4.2.1.13026" Category="Package" />
+    <Node Id="DotNetOpenAuth.OAuth.Consumer 4.2.1.13026" Label="DotNetOpenAuth.OAuth.Consumer 4.2.1.13026" Category="Package" />
+    <Node Id="DotNetOpenAuth.OAuth.Core 4.2.1.13026" Label="DotNetOpenAuth.OAuth.Core 4.2.1.13026" Category="Package" />
+    <Node Id="DotNetOpenAuth.OAuth.ServiceProvider 4.2.1.13026" Label="DotNetOpenAuth.OAuth.ServiceProvider 4.2.1.13026" Category="Package" />
+    <Node Id="DotNetOpenAuth.OAuth2.AuthorizationServer 4.2.1.13026" Label="DotNetOpenAuth.OAuth2.AuthorizationServer 4.2.1.13026" Category="Package" />
+    <Node Id="DotNetOpenAuth.OAuth2.Client 4.2.1.13026" Label="DotNetOpenAuth.OAuth2.Client 4.2.1.13026" Category="Package" />
+    <Node Id="DotNetOpenAuth.OAuth2.Client.UI 4.2.1.13026" Label="DotNetOpenAuth.OAuth2.Client.UI 4.2.1.13026" Category="Package" />
+    <Node Id="DotNetOpenAuth.OAuth2.ClientAuthorization 4.2.1.13026" Label="DotNetOpenAuth.OAuth2.ClientAuthorization 4.2.1.13026" Category="Package" />
+    <Node Id="DotNetOpenAuth.OAuth2.Core 4.2.1.13026" Label="DotNetOpenAuth.OAuth2.Core 4.2.1.13026" Category="Package" />
+    <Node Id="DotNetOpenAuth.OAuth2.ResourceServer 4.2.1.13026" Label="DotNetOpenAuth.OAuth2.ResourceServer 4.2.1.13026" Category="Package" />
+    <Node Id="DotNetOpenAuth.OpenId.Core 4.2.1.13026" Label="DotNetOpenAuth.OpenId.Core 4.2.1.13026" Category="Package" />
+    <Node Id="DotNetOpenAuth.OpenId.Core.UI 4.2.1.13026" Label="DotNetOpenAuth.OpenId.Core.UI 4.2.1.13026" Category="Package" />
+    <Node Id="DotNetOpenAuth.OpenId.Provider 4.2.1.13026" Label="DotNetOpenAuth.OpenId.Provider 4.2.1.13026" Category="Package" />
+    <Node Id="DotNetOpenAuth.OpenId.Provider.UI 4.2.1.13026" Label="DotNetOpenAuth.OpenId.Provider.UI 4.2.1.13026" Category="Package" />
+    <Node Id="DotNetOpenAuth.OpenId.RelyingParty 4.2.1.13026" Label="DotNetOpenAuth.OpenId.RelyingParty 4.2.1.13026" Category="Package" />
+    <Node Id="DotNetOpenAuth.OpenId.RelyingParty.UI 4.2.1.13026" Label="DotNetOpenAuth.OpenId.RelyingParty.UI 4.2.1.13026" Category="Package" />
+    <Node Id="DotNetOpenAuth.OpenIdInfoCard.UI 4.2.1.13026" Label="DotNetOpenAuth.OpenIdInfoCard.UI 4.2.1.13026" Category="Package" />
+    <Node Id="DotNetOpenAuth.OpenIdOAuth 4.2.1.13026" Label="DotNetOpenAuth.OpenIdOAuth 4.2.1.13026" Category="Package" />
+    <Node Id="elmah 1.2.2" Label="elmah 1.2.2" Category="Package" />
+    <Node Id="elmah.corelibrary 1.2.2" Label="elmah.corelibrary 1.2.2" Category="Package" />
+    <Node Id="Microsoft.Net.Http 2.0.20710.0" Label="Microsoft.Net.Http 2.0.20710.0" Category="Package" />
+    <Node Id="Microsoft.Web.Infrastructure 1.0.0.0" Label="Microsoft.Web.Infrastructure 1.0.0.0" Category="Package" />
+    <Node Id="Newtonsoft.Json 4.5.11" Label="Newtonsoft.Json 4.5.11" Category="Package" />
+    <Node Id="Ninject 3.0.2-unstable-8" Label="Ninject 3.0.2-unstable-8" Category="Package" />
+    <Node Id="ninject.extensions.conventions 3.0.2-unstable-2" Label="ninject.extensions.conventions 3.0.2-unstable-2" Category="Package" />
+    <Node Id="Core\Website.Common" Label="Website.Common" Category="Project" />
+    <Node Id="Microsoft.AspNet.Mvc 4.0.20710.0" Label="Microsoft.AspNet.Mvc 4.0.20710.0" Category="Package" />
+    <Node Id="Microsoft.AspNet.Razor 2.0.20715.0" Label="Microsoft.AspNet.Razor 2.0.20715.0" Category="Package" />
+    <Node Id="Microsoft.AspNet.Web.Optimization 1.1.0-alpha1" Label="Microsoft.AspNet.Web.Optimization 1.1.0-alpha1" Category="Package" />
+    <Node Id="Microsoft.AspNet.WebApi 4.0.20710.0" Label="Microsoft.AspNet.WebApi 4.0.20710.0" Category="Package" />
+    <Node Id="Microsoft.AspNet.WebApi.Client 4.1.0-alpha-120809" Label="Microsoft.AspNet.WebApi.Client 4.1.0-alpha-120809" Category="Package" />
+    <Node Id="Microsoft.AspNet.WebApi.Core 4.0.20710.0" Label="Microsoft.AspNet.WebApi.Core 4.0.20710.0" Category="Package" />
+    <Node Id="Microsoft.AspNet.WebApi.WebHost 4.0.20710.0" Label="Microsoft.AspNet.WebApi.WebHost 4.0.20710.0" Category="Package" />
+    <Node Id="Microsoft.AspNet.WebPages 2.0.20710.0" Label="Microsoft.AspNet.WebPages 2.0.20710.0" Category="Package" />
+    <Node Id="Microsoft.Net.Http 2.0.20710.0" Label="Microsoft.Net.Http 2.0.20710.0" Category="Package" />
+    <Node Id="Microsoft.Web.Infrastructure 1.0.0.0" Label="Microsoft.Web.Infrastructure 1.0.0.0" Category="Package" />
+    <Node Id="Microsoft.Web.Optimization 1.0.0-beta2" Label="Microsoft.Web.Optimization 1.0.0-beta2" Category="Package" />
+    <Node Id="Newtonsoft.Json 4.5.11" Label="Newtonsoft.Json 4.5.11" Category="Package" />
+    <Node Id="Ninject 3.0.2-unstable-8" Label="Ninject 3.0.2-unstable-8" Category="Package" />
+    <Node Id="ninject.extensions.conventions 3.0.2-unstable-2" Label="ninject.extensions.conventions 3.0.2-unstable-2" Category="Package" />
+    <Node Id="WebGrease 1.3.0" Label="WebGrease 1.3.0" Category="Package" />
+    <Node Id="Core\Website.Azure.Common" Label="Website.Azure.Common" Category="Project" />
+    <Node Id="Microsoft.Data.Edm 5.2.0" Label="Microsoft.Data.Edm 5.2.0" Category="Package" />
+    <Node Id="Microsoft.Data.OData 5.2.0" Label="Microsoft.Data.OData 5.2.0" Category="Package" />
+    <Node Id="Microsoft.Web.Optimization 1.0.0-beta2" Label="Microsoft.Web.Optimization 1.0.0-beta2" Category="Package" />
+    <Node Id="Microsoft.WindowsAzure.ConfigurationManager 2.0.1.0" Label="Microsoft.WindowsAzure.ConfigurationManager 2.0.1.0" Category="Package" />
+    <Node Id="Newtonsoft.Json 4.5.11" Label="Newtonsoft.Json 4.5.11" Category="Package" />
+    <Node Id="Ninject 3.0.2-unstable-8" Label="Ninject 3.0.2-unstable-8" Category="Package" />
+    <Node Id="System.Spatial 5.2.0" Label="System.Spatial 5.2.0" Category="Package" />
+    <Node Id="WindowsAzure.Storage 2.0.5.1" Label="WindowsAzure.Storage 2.0.5.1" Category="Package" />
+    <Node Id="Core\Website.Application.Azure" Label="Website.Application.Azure" Category="Project" />
+    <Node Id="Microsoft.Data.Edm 5.2.0" Label="Microsoft.Data.Edm 5.2.0" Category="Package" />
+    <Node Id="Microsoft.Data.OData 5.2.0" Label="Microsoft.Data.OData 5.2.0" Category="Package" />
+    <Node Id="Microsoft.WindowsAzure.Caching 2.0.0.0" Label="Microsoft.WindowsAzure.Caching 2.0.0.0" Category="Package" />
+    <Node Id="Microsoft.WindowsAzure.ConfigurationManager 2.0.1.0" Label="Microsoft.WindowsAzure.ConfigurationManager 2.0.1.0" Category="Package" />
+    <Node Id="Ninject 3.0.2-unstable-8" Label="Ninject 3.0.2-unstable-8" Category="Package" />
+    <Node Id="System.Spatial 5.2.0" Label="System.Spatial 5.2.0" Category="Package" />
+    <Node Id="WindowsAzure.Storage 2.0.5.1" Label="WindowsAzure.Storage 2.0.5.1" Category="Package" />
+    <Node Id="Core\Website.Application" Label="Website.Application" Category="Project" />
+    <Node Id="DataAnnotationsExtensions 1.1.0.0" Label="DataAnnotationsExtensions 1.1.0.0" Category="Package" />
+    <Node Id="DotNetOpenAuth 4.2.1.13026" Label="DotNetOpenAuth 4.2.1.13026" Category="Package" />
+    <Node Id="DotNetOpenAuth.Core 4.2.1.13026" Label="DotNetOpenAuth.Core 4.2.1.13026" Category="Package" />
+    <Node Id="DotNetOpenAuth.Core.UI 4.2.1.13026" Label="DotNetOpenAuth.Core.UI 4.2.1.13026" Category="Package" />
+    <Node Id="DotNetOpenAuth.InfoCard 4.2.1.13026" Label="DotNetOpenAuth.InfoCard 4.2.1.13026" Category="Package" />
+    <Node Id="DotNetOpenAuth.InfoCard.UI 4.2.1.13026" Label="DotNetOpenAuth.InfoCard.UI 4.2.1.13026" Category="Package" />
+    <Node Id="DotNetOpenAuth.OAuth.Common 4.2.1.13026" Label="DotNetOpenAuth.OAuth.Common 4.2.1.13026" Category="Package" />
+    <Node Id="DotNetOpenAuth.OAuth.Consumer 4.2.1.13026" Label="DotNetOpenAuth.OAuth.Consumer 4.2.1.13026" Category="Package" />
+    <Node Id="DotNetOpenAuth.OAuth.Core 4.2.1.13026" Label="DotNetOpenAuth.OAuth.Core 4.2.1.13026" Category="Package" />
+    <Node Id="DotNetOpenAuth.OAuth.ServiceProvider 4.2.1.13026" Label="DotNetOpenAuth.OAuth.ServiceProvider 4.2.1.13026" Category="Package" />
+    <Node Id="DotNetOpenAuth.OAuth2.AuthorizationServer 4.2.1.13026" Label="DotNetOpenAuth.OAuth2.AuthorizationServer 4.2.1.13026" Category="Package" />
+    <Node Id="DotNetOpenAuth.OAuth2.Client 4.2.1.13026" Label="DotNetOpenAuth.OAuth2.Client 4.2.1.13026" Category="Package" />
+    <Node Id="DotNetOpenAuth.OAuth2.Client.UI 4.2.1.13026" Label="DotNetOpenAuth.OAuth2.Client.UI 4.2.1.13026" Category="Package" />
+    <Node Id="DotNetOpenAuth.OAuth2.ClientAuthorization 4.2.1.13026" Label="DotNetOpenAuth.OAuth2.ClientAuthorization 4.2.1.13026" Category="Package" />
+    <Node Id="DotNetOpenAuth.OAuth2.Core 4.2.1.13026" Label="DotNetOpenAuth.OAuth2.Core 4.2.1.13026" Category="Package" />
+    <Node Id="DotNetOpenAuth.OAuth2.ResourceServer 4.2.1.13026" Label="DotNetOpenAuth.OAuth2.ResourceServer 4.2.1.13026" Category="Package" />
+    <Node Id="DotNetOpenAuth.OpenId.Core 4.2.1.13026" Label="DotNetOpenAuth.OpenId.Core 4.2.1.13026" Category="Package" />
+    <Node Id="DotNetOpenAuth.OpenId.Core.UI 4.2.1.13026" Label="DotNetOpenAuth.OpenId.Core.UI 4.2.1.13026" Category="Package" />
+    <Node Id="DotNetOpenAuth.OpenId.Provider 4.2.1.13026" Label="DotNetOpenAuth.OpenId.Provider 4.2.1.13026" Category="Package" />
+    <Node Id="DotNetOpenAuth.OpenId.Provider.UI 4.2.1.13026" Label="DotNetOpenAuth.OpenId.Provider.UI 4.2.1.13026" Category="Package" />
+    <Node Id="DotNetOpenAuth.OpenId.RelyingParty 4.2.1.13026" Label="DotNetOpenAuth.OpenId.RelyingParty 4.2.1.13026" Category="Package" />
+    <Node Id="DotNetOpenAuth.OpenId.RelyingParty.UI 4.2.1.13026" Label="DotNetOpenAuth.OpenId.RelyingParty.UI 4.2.1.13026" Category="Package" />
+    <Node Id="DotNetOpenAuth.OpenIdInfoCard.UI 4.2.1.13026" Label="DotNetOpenAuth.OpenIdInfoCard.UI 4.2.1.13026" Category="Package" />
+    <Node Id="DotNetOpenAuth.OpenIdOAuth 4.2.1.13026" Label="DotNetOpenAuth.OpenIdOAuth 4.2.1.13026" Category="Package" />
+    <Node Id="Google.Checkout 2.5.0.12" Label="Google.Checkout 2.5.0.12" Category="Package" />
+    <Node Id="Microsoft.AspNet.WebApi.Client 4.1.0-alpha-120809" Label="Microsoft.AspNet.WebApi.Client 4.1.0-alpha-120809" Category="Package" />
+    <Node Id="Microsoft.Net.Http 2.0.20710.0" Label="Microsoft.Net.Http 2.0.20710.0" Category="Package" />
+    <Node Id="Microsoft.Web.Infrastructure 1.0.0.0" Label="Microsoft.Web.Infrastructure 1.0.0.0" Category="Package" />
+    <Node Id="Newtonsoft.Json 4.5.11" Label="Newtonsoft.Json 4.5.11" Category="Package" />
+    <Node Id="Ninject 3.0.2-unstable-8" Label="Ninject 3.0.2-unstable-8" Category="Package" />
+    <Node Id="ninject.extensions.conventions 3.0.2-unstable-2" Label="ninject.extensions.conventions 3.0.2-unstable-2" Category="Package" />
+    <Node Id="RestSharp 104.1" Label="RestSharp 104.1" Category="Package" />
+    <Node Id="Sendgrid 1.1.1" Label="Sendgrid 1.1.1" Category="Package" />
+    <Node Id="WebActivator 1.5.3" Label="WebActivator 1.5.3" Category="Package" />
+    <Node Id="ZXing.Net 0.10.0.0" Label="ZXing.Net 0.10.0.0" Category="Package" />
+    <Node Id="Core\Tests\Website.Domain.Tests" Label="Website.Domain.Tests" Category="Project" />
+    <Node Id="Moq 4.0.10827" Label="Moq 4.0.10827" Category="Package" />
+    <Node Id="Ninject 3.0.2-unstable-8" Label="Ninject 3.0.2-unstable-8" Category="Package" />
+    <Node Id="Ninject.MockingKernel 3.0.2-unstable-0" Label="Ninject.MockingKernel 3.0.2-unstable-0" Category="Package" />
+    <Node Id="Ninject.MockingKernel.Moq 3.0.2-unstable-0" Label="Ninject.MockingKernel.Moq 3.0.2-unstable-0" Category="Package" />
+    <Node Id="NUnit 2.6.2" Label="NUnit 2.6.2" Category="Package" />
+    <Node Id="Core\Tests\Website.Mocks.Domain" Label="Website.Mocks.Domain" Category="Project" />
+    <Node Id="Moq 4.0.10827" Label="Moq 4.0.10827" Category="Package" />
+    <Node Id="Ninject 3.0.2-unstable-8" Label="Ninject 3.0.2-unstable-8" Category="Package" />
+    <Node Id="Ninject.MockingKernel 3.0.2-unstable-0" Label="Ninject.MockingKernel 3.0.2-unstable-0" Category="Package" />
+    <Node Id="Ninject.MockingKernel.Moq 3.0.2-unstable-0" Label="Ninject.MockingKernel.Moq 3.0.2-unstable-0" Category="Package" />
+    <Node Id="NUnit 2.6.2" Label="NUnit 2.6.2" Category="Package" />
+    <Node Id="Core\Tests\Website.Application.Domain.Tests" Label="Website.Application.Domain.Tests" Category="Project" />
+    <Node Id="Microsoft.AspNet.Mvc 4.0.20710.0" Label="Microsoft.AspNet.Mvc 4.0.20710.0" Category="Package" />
+    <Node Id="Microsoft.AspNet.Razor 2.0.20715.0" Label="Microsoft.AspNet.Razor 2.0.20715.0" Category="Package" />
+    <Node Id="Microsoft.AspNet.WebApi 4.0.20710.0" Label="Microsoft.AspNet.WebApi 4.0.20710.0" Category="Package" />
+    <Node Id="Microsoft.AspNet.WebApi.Client 4.1.0-alpha-120809" Label="Microsoft.AspNet.WebApi.Client 4.1.0-alpha-120809" Category="Package" />
+    <Node Id="Microsoft.AspNet.WebApi.Core 4.0.20710.0" Label="Microsoft.AspNet.WebApi.Core 4.0.20710.0" Category="Package" />
+    <Node Id="Microsoft.AspNet.WebApi.WebHost 4.0.20710.0" Label="Microsoft.AspNet.WebApi.WebHost 4.0.20710.0" Category="Package" />
+    <Node Id="Microsoft.AspNet.WebPages 2.0.20710.0" Label="Microsoft.AspNet.WebPages 2.0.20710.0" Category="Package" />
+    <Node Id="Microsoft.Net.Http 2.0.20710.0" Label="Microsoft.Net.Http 2.0.20710.0" Category="Package" />
+    <Node Id="Microsoft.Web.Infrastructure 1.0.0.0" Label="Microsoft.Web.Infrastructure 1.0.0.0" Category="Package" />
+    <Node Id="Moq 4.0.10827" Label="Moq 4.0.10827" Category="Package" />
+    <Node Id="Newtonsoft.Json 4.5.11" Label="Newtonsoft.Json 4.5.11" Category="Package" />
+    <Node Id="Ninject 3.0.2-unstable-8" Label="Ninject 3.0.2-unstable-8" Category="Package" />
+    <Node Id="Ninject.MockingKernel 3.0.2-unstable-0" Label="Ninject.MockingKernel 3.0.2-unstable-0" Category="Package" />
+    <Node Id="Ninject.MockingKernel.Moq 3.0.2-unstable-0" Label="Ninject.MockingKernel.Moq 3.0.2-unstable-0" Category="Package" />
+    <Node Id="NUnit 2.6.2" Label="NUnit 2.6.2" Category="Package" />
+    <Node Id="Core\Tests\Website.Test.Common" Label="Website.Test.Common" Category="Project" />
+    <Node Id="Microsoft.AspNet.Mvc 4.0.20710.0" Label="Microsoft.AspNet.Mvc 4.0.20710.0" Category="Package" />
+    <Node Id="Microsoft.AspNet.Razor 2.0.20715.0" Label="Microsoft.AspNet.Razor 2.0.20715.0" Category="Package" />
+    <Node Id="Microsoft.AspNet.WebApi.Client 4.1.0-alpha-120809" Label="Microsoft.AspNet.WebApi.Client 4.1.0-alpha-120809" Category="Package" />
+    <Node Id="Microsoft.AspNet.WebApi.Core 4.0.20710.0" Label="Microsoft.AspNet.WebApi.Core 4.0.20710.0" Category="Package" />
+    <Node Id="Microsoft.AspNet.WebApi.WebHost 4.0.20710.0" Label="Microsoft.AspNet.WebApi.WebHost 4.0.20710.0" Category="Package" />
+    <Node Id="Microsoft.AspNet.WebPages 2.0.20710.0" Label="Microsoft.AspNet.WebPages 2.0.20710.0" Category="Package" />
+    <Node Id="Microsoft.Net.Http 2.0.20710.0" Label="Microsoft.Net.Http 2.0.20710.0" Category="Package" />
+    <Node Id="Microsoft.Web.Infrastructure 1.0.0.0" Label="Microsoft.Web.Infrastructure 1.0.0.0" Category="Package" />
+    <Node Id="Moq 4.0.10827" Label="Moq 4.0.10827" Category="Package" />
+    <Node Id="Newtonsoft.Json 4.5.11" Label="Newtonsoft.Json 4.5.11" Category="Package" />
+    <Node Id="Ninject 3.0.2-unstable-8" Label="Ninject 3.0.2-unstable-8" Category="Package" />
+    <Node Id="Ninject.MockingKernel 3.0.2-unstable-0" Label="Ninject.MockingKernel 3.0.2-unstable-0" Category="Package" />
+    <Node Id="Ninject.MockingKernel.Moq 3.0.2-unstable-0" Label="Ninject.MockingKernel.Moq 3.0.2-unstable-0" Category="Package" />
+    <Node Id="NUnit 2.6.2" Label="NUnit 2.6.2" Category="Package" />
+    <Node Id="Core\Tests\Website.Azure.Common.Tests" Label="Website.Azure.Common.Tests" Category="Project" />
+    <Node Id="Microsoft.Data.Edm 5.2.0" Label="Microsoft.Data.Edm 5.2.0" Category="Package" />
+    <Node Id="Microsoft.Data.OData 5.2.0" Label="Microsoft.Data.OData 5.2.0" Category="Package" />
+    <Node Id="Microsoft.WindowsAzure.ConfigurationManager 2.0.1.0" Label="Microsoft.WindowsAzure.ConfigurationManager 2.0.1.0" Category="Package" />
+    <Node Id="Moq 4.0.10827" Label="Moq 4.0.10827" Category="Package" />
+    <Node Id="Newtonsoft.Json 4.5.11" Label="Newtonsoft.Json 4.5.11" Category="Package" />
+    <Node Id="Ninject 3.0.2-unstable-8" Label="Ninject 3.0.2-unstable-8" Category="Package" />
+    <Node Id="Ninject.MockingKernel 3.0.2-unstable-0" Label="Ninject.MockingKernel 3.0.2-unstable-0" Category="Package" />
+    <Node Id="Ninject.MockingKernel.Moq 3.0.2-unstable-0" Label="Ninject.MockingKernel.Moq 3.0.2-unstable-0" Category="Package" />
+    <Node Id="NUnit 2.6.2" Label="NUnit 2.6.2" Category="Package" />
+    <Node Id="System.Spatial 5.2.0" Label="System.Spatial 5.2.0" Category="Package" />
+    <Node Id="WindowsAzure.Storage 2.0.5.1" Label="WindowsAzure.Storage 2.0.5.1" Category="Package" />
+    <Node Id="Core\Tests\Website.Application.Tests" Label="Website.Application.Tests" Category="Project" />
+    <Node Id="Moq 4.0.10827" Label="Moq 4.0.10827" Category="Package" />
+    <Node Id="Ninject 3.0.2-unstable-8" Label="Ninject 3.0.2-unstable-8" Category="Package" />
+    <Node Id="ninject.extensions.conventions 3.0.2-unstable-2" Label="ninject.extensions.conventions 3.0.2-unstable-2" Category="Package" />
+    <Node Id="Ninject.MockingKernel 3.0.2-unstable-0" Label="Ninject.MockingKernel 3.0.2-unstable-0" Category="Package" />
+    <Node Id="Ninject.MockingKernel.Moq 3.0.2-unstable-0" Label="Ninject.MockingKernel.Moq 3.0.2-unstable-0" Category="Package" />
+    <Node Id="NUnit 2.6.2" Label="NUnit 2.6.2" Category="Package" />
+    <Node Id="RestSharp 104.1" Label="RestSharp 104.1" Category="Package" />
+    <Node Id="Sendgrid 1.1.1" Label="Sendgrid 1.1.1" Category="Package" />
+    <Node Id="Core\Tests\Website.Application.Azure.Tests" Label="Website.Application.Azure.Tests" Category="Project" />
+    <Node Id="Microsoft.Data.Edm 5.2.0" Label="Microsoft.Data.Edm 5.2.0" Category="Package" />
+    <Node Id="Microsoft.Data.OData 5.2.0" Label="Microsoft.Data.OData 5.2.0" Category="Package" />
+    <Node Id="Microsoft.WindowsAzure.ConfigurationManager 2.0.1.0" Label="Microsoft.WindowsAzure.ConfigurationManager 2.0.1.0" Category="Package" />
+    <Node Id="Moq 4.0.10827" Label="Moq 4.0.10827" Category="Package" />
+    <Node Id="Newtonsoft.Json 4.5.11" Label="Newtonsoft.Json 4.5.11" Category="Package" />
+    <Node Id="Ninject 3.0.2-unstable-8" Label="Ninject 3.0.2-unstable-8" Category="Package" />
+    <Node Id="ninject.extensions.conventions 3.0.2-unstable-2" Label="ninject.extensions.conventions 3.0.2-unstable-2" Category="Package" />
+    <Node Id="Ninject.MockingKernel 3.0.2-unstable-0" Label="Ninject.MockingKernel 3.0.2-unstable-0" Category="Package" />
+    <Node Id="Ninject.MockingKernel.Moq 3.0.2-unstable-0" Label="Ninject.MockingKernel.Moq 3.0.2-unstable-0" Category="Package" />
+    <Node Id="NUnit 2.6.2" Label="NUnit 2.6.2" Category="Package" />
+    <Node Id="System.Spatial 5.2.0" Label="System.Spatial 5.2.0" Category="Package" />
+    <Node Id="WindowsAzure.Storage 2.0.5.1" Label="WindowsAzure.Storage 2.0.5.1" Category="Package" />
+  </Nodes>
+  <Links>
+    <Link Source="ninject.extensions.conventions 3.0.2-unstable-2" Target="Ninject 3.0.2-unstable-8" Category="Package Dependency" />
+    <Link Source="PostaFlya.Domain" Target="Ninject 3.0.2-unstable-8" Category="Installed Package" />
+    <Link Source="PostaFlya.Domain" Target="ninject.extensions.conventions 3.0.2-unstable-2" Category="Installed Package" />
+    <Link Source="Microsoft.Data.OData 5.2.0" Target="System.Spatial 5.2.0" Category="Package Dependency" />
+    <Link Source="Microsoft.Data.OData 5.2.0" Target="Microsoft.Data.Edm 5.2.0" Category="Package Dependency" />
+    <Link Source="ninject.extensions.conventions 3.0.2-unstable-2" Target="Ninject 3.0.2-unstable-8" Category="Package Dependency" />
+    <Link Source="WindowsAzure.Storage 2.0.5.1" Target="Microsoft.Data.OData 5.2.0" Category="Package Dependency" />
+    <Link Source="WindowsAzure.Storage 2.0.5.1" Target="Microsoft.WindowsAzure.ConfigurationManager 2.0.1.0" Category="Package Dependency" />
+    <Link Source="PostaFlya.DataRepository" Target="Microsoft.Data.Edm 5.2.0" Category="Installed Package" />
+    <Link Source="PostaFlya.DataRepository" Target="Microsoft.Data.OData 5.2.0" Category="Installed Package" />
+    <Link Source="PostaFlya.DataRepository" Target="Microsoft.WindowsAzure.ConfigurationManager 2.0.1.0" Category="Installed Package" />
+    <Link Source="PostaFlya.DataRepository" Target="Newtonsoft.Json 4.5.11" Category="Installed Package" />
+    <Link Source="PostaFlya.DataRepository" Target="Ninject 3.0.2-unstable-8" Category="Installed Package" />
+    <Link Source="PostaFlya.DataRepository" Target="ninject.extensions.conventions 3.0.2-unstable-2" Category="Installed Package" />
+    <Link Source="PostaFlya.DataRepository" Target="System.Spatial 5.2.0" Category="Installed Package" />
+    <Link Source="PostaFlya.DataRepository" Target="WindowsAzure.Storage 2.0.5.1" Category="Installed Package" />
+    <Link Source="Microsoft.Data.OData 5.2.0" Target="System.Spatial 5.2.0" Category="Package Dependency" />
+    <Link Source="Microsoft.Data.OData 5.2.0" Target="Microsoft.Data.Edm 5.2.0" Category="Package Dependency" />
+    <Link Source="ninject.extensions.conventions 3.0.2-unstable-2" Target="Ninject 3.0.2-unstable-8" Category="Package Dependency" />
+    <Link Source="WindowsAzure.Storage 2.0.5.1" Target="Microsoft.Data.OData 5.2.0" Category="Package Dependency" />
+    <Link Source="WindowsAzure.Storage 2.0.5.1" Target="Microsoft.WindowsAzure.ConfigurationManager 2.0.1.0" Category="Package Dependency" />
+    <Link Source="PostaFlya.CommandWorker" Target="Microsoft.Data.Edm 5.2.0" Category="Installed Package" />
+    <Link Source="PostaFlya.CommandWorker" Target="Microsoft.Data.OData 5.2.0" Category="Installed Package" />
+    <Link Source="PostaFlya.CommandWorker" Target="Microsoft.WindowsAzure.ConfigurationManager 2.0.1.0" Category="Installed Package" />
+    <Link Source="PostaFlya.CommandWorker" Target="Ninject 3.0.2-unstable-8" Category="Installed Package" />
+    <Link Source="PostaFlya.CommandWorker" Target="ninject.extensions.conventions 3.0.2-unstable-2" Category="Installed Package" />
+    <Link Source="PostaFlya.CommandWorker" Target="System.Spatial 5.2.0" Category="Installed Package" />
+    <Link Source="PostaFlya.CommandWorker" Target="WindowsAzure.Storage 2.0.5.1" Category="Installed Package" />
+    <Link Source="ninject.extensions.conventions 3.0.2-unstable-2" Target="Ninject 3.0.2-unstable-8" Category="Package Dependency" />
+    <Link Source="Ninject.Web.Common 3.0.2-unstable-2" Target="Ninject 3.0.2-unstable-8" Category="Package Dependency" />
+    <Link Source="PostaFlya.Application.Domain" Target="Ninject 3.0.2-unstable-8" Category="Installed Package" />
+    <Link Source="PostaFlya.Application.Domain" Target="ninject.extensions.conventions 3.0.2-unstable-2" Category="Installed Package" />
+    <Link Source="PostaFlya.Application.Domain" Target="Ninject.Web.Common 3.0.2-unstable-2" Category="Installed Package" />
+    <Link Source="DataAnnotationsExtensions.MVC3 1.1.0.0" Target="DataAnnotationsExtensions 1.1.0.0" Category="Package Dependency" />
+    <Link Source="DataAnnotationsExtensions.MVC3 1.1.0.0" Target="WebActivator 1.5.3" Category="Package Dependency" />
+    <Link Source="DotNetOpenAuth 4.2.1.13026" Target="DotNetOpenAuth.OpenId.RelyingParty.UI 4.2.1.13026" Category="Package Dependency" />
+    <Link Source="DotNetOpenAuth 4.2.1.13026" Target="DotNetOpenAuth.OpenId.Provider.UI 4.2.1.13026" Category="Package Dependency" />
+    <Link Source="DotNetOpenAuth 4.2.1.13026" Target="DotNetOpenAuth.OAuth.Consumer 4.2.1.13026" Category="Package Dependency" />
+    <Link Source="DotNetOpenAuth 4.2.1.13026" Target="DotNetOpenAuth.OAuth.ServiceProvider 4.2.1.13026" Category="Package Dependency" />
+    <Link Source="DotNetOpenAuth 4.2.1.13026" Target="DotNetOpenAuth.OpenIdInfoCard.UI 4.2.1.13026" Category="Package Dependency" />
+    <Link Source="DotNetOpenAuth 4.2.1.13026" Target="DotNetOpenAuth.OpenIdOAuth 4.2.1.13026" Category="Package Dependency" />
+    <Link Source="DotNetOpenAuth 4.2.1.13026" Target="DotNetOpenAuth.OAuth2.Client.UI 4.2.1.13026" Category="Package Dependency" />
+    <Link Source="DotNetOpenAuth 4.2.1.13026" Target="DotNetOpenAuth.OAuth2.AuthorizationServer 4.2.1.13026" Category="Package Dependency" />
+    <Link Source="DotNetOpenAuth 4.2.1.13026" Target="DotNetOpenAuth.OAuth2.ResourceServer 4.2.1.13026" Category="Package Dependency" />
+    <Link Source="DotNetOpenAuth.Core 4.2.1.13026" Target="Microsoft.Net.Http 2.0.20710.0" Category="Package Dependency" />
+    <Link Source="DotNetOpenAuth.Core.UI 4.2.1.13026" Target="DotNetOpenAuth.Core 4.2.1.13026" Category="Package Dependency" />
+    <Link Source="DotNetOpenAuth.InfoCard 4.2.1.13026" Target="DotNetOpenAuth.Core 4.2.1.13026" Category="Package Dependency" />
+    <Link Source="DotNetOpenAuth.InfoCard.UI 4.2.1.13026" Target="DotNetOpenAuth.Core.UI 4.2.1.13026" Category="Package Dependency" />
+    <Link Source="DotNetOpenAuth.InfoCard.UI 4.2.1.13026" Target="DotNetOpenAuth.InfoCard 4.2.1.13026" Category="Package Dependency" />
+    <Link Source="DotNetOpenAuth.OAuth.Common 4.2.1.13026" Target="DotNetOpenAuth.Core 4.2.1.13026" Category="Package Dependency" />
+    <Link Source="DotNetOpenAuth.OAuth.Consumer 4.2.1.13026" Target="DotNetOpenAuth.OAuth.Core 4.2.1.13026" Category="Package Dependency" />
+    <Link Source="DotNetOpenAuth.OAuth.Core 4.2.1.13026" Target="DotNetOpenAuth.Core 4.2.1.13026" Category="Package Dependency" />
+    <Link Source="DotNetOpenAuth.OAuth.ServiceProvider 4.2.1.13026" Target="DotNetOpenAuth.OAuth.Core 4.2.1.13026" Category="Package Dependency" />
+    <Link Source="DotNetOpenAuth.OAuth.ServiceProvider 4.2.1.13026" Target="DotNetOpenAuth.OAuth.Common 4.2.1.13026" Category="Package Dependency" />
+    <Link Source="DotNetOpenAuth.OAuth2.AuthorizationServer 4.2.1.13026" Target="DotNetOpenAuth.OAuth2.ClientAuthorization 4.2.1.13026" Category="Package Dependency" />
+    <Link Source="DotNetOpenAuth.OAuth2.Client 4.2.1.13026" Target="DotNetOpenAuth.OAuth2.ClientAuthorization 4.2.1.13026" Category="Package Dependency" />
+    <Link Source="DotNetOpenAuth.OAuth2.Client.UI 4.2.1.13026" Target="DotNetOpenAuth.OAuth2.Client 4.2.1.13026" Category="Package Dependency" />
+    <Link Source="DotNetOpenAuth.OAuth2.ClientAuthorization 4.2.1.13026" Target="DotNetOpenAuth.OAuth2.Core 4.2.1.13026" Category="Package Dependency" />
+    <Link Source="DotNetOpenAuth.OAuth2.Core 4.2.1.13026" Target="DotNetOpenAuth.Core 4.2.1.13026" Category="Package Dependency" />
+    <Link Source="DotNetOpenAuth.OAuth2.ResourceServer 4.2.1.13026" Target="DotNetOpenAuth.OAuth2.Core 4.2.1.13026" Category="Package Dependency" />
+    <Link Source="DotNetOpenAuth.OAuth2.ResourceServer 4.2.1.13026" Target="DotNetOpenAuth.OAuth.Common 4.2.1.13026" Category="Package Dependency" />
+    <Link Source="DotNetOpenAuth.OpenId.Core 4.2.1.13026" Target="DotNetOpenAuth.Core 4.2.1.13026" Category="Package Dependency" />
+    <Link Source="DotNetOpenAuth.OpenId.Core.UI 4.2.1.13026" Target="DotNetOpenAuth.Core.UI 4.2.1.13026" Category="Package Dependency" />
+    <Link Source="DotNetOpenAuth.OpenId.Provider 4.2.1.13026" Target="DotNetOpenAuth.OpenId.Core 4.2.1.13026" Category="Package Dependency" />
+    <Link Source="DotNetOpenAuth.OpenId.Provider.UI 4.2.1.13026" Target="DotNetOpenAuth.OpenId.Core.UI 4.2.1.13026" Category="Package Dependency" />
+    <Link Source="DotNetOpenAuth.OpenId.Provider.UI 4.2.1.13026" Target="DotNetOpenAuth.OpenId.Provider 4.2.1.13026" Category="Package Dependency" />
+    <Link Source="DotNetOpenAuth.OpenId.RelyingParty 4.2.1.13026" Target="DotNetOpenAuth.OpenId.Core 4.2.1.13026" Category="Package Dependency" />
+    <Link Source="DotNetOpenAuth.OpenId.RelyingParty.UI 4.2.1.13026" Target="DotNetOpenAuth.OpenId.Core.UI 4.2.1.13026" Category="Package Dependency" />
+    <Link Source="DotNetOpenAuth.OpenId.RelyingParty.UI 4.2.1.13026" Target="DotNetOpenAuth.OpenId.RelyingParty 4.2.1.13026" Category="Package Dependency" />
+    <Link Source="DotNetOpenAuth.OpenIdInfoCard.UI 4.2.1.13026" Target="DotNetOpenAuth.OpenId.RelyingParty.UI 4.2.1.13026" Category="Package Dependency" />
+    <Link Source="DotNetOpenAuth.OpenIdInfoCard.UI 4.2.1.13026" Target="DotNetOpenAuth.InfoCard.UI 4.2.1.13026" Category="Package Dependency" />
+    <Link Source="DotNetOpenAuth.OpenIdOAuth 4.2.1.13026" Target="DotNetOpenAuth.OAuth.Consumer 4.2.1.13026" Category="Package Dependency" />
+    <Link Source="DotNetOpenAuth.OpenIdOAuth 4.2.1.13026" Target="DotNetOpenAuth.OAuth.ServiceProvider 4.2.1.13026" Category="Package Dependency" />
+    <Link Source="DotNetOpenAuth.OpenIdOAuth 4.2.1.13026" Target="DotNetOpenAuth.OpenId.Core 4.2.1.13026" Category="Package Dependency" />
+    <Link Source="jquery.mobile 1.1.0" Target="jQuery 1.9.1" Category="Package Dependency" />
+    <Link Source="jQuery.UI.Combined 1.10.0" Target="jQuery 1.9.1" Category="Package Dependency" />
+    <Link Source="jQuery.Validation 1.11.0" Target="jQuery 1.9.1" Category="Package Dependency" />
+    <Link Source="Knockout.Mapping 2.4.0" Target="knockoutjs 2.2.1" Category="Package Dependency" />
+    <Link Source="Microsoft.AspNet.Mvc 4.0.20710.0" Target="Microsoft.AspNet.WebPages 2.0.20710.0" Category="Package Dependency" />
+    <Link Source="Microsoft.AspNet.Mvc 4.0.20710.0" Target="Microsoft.AspNet.Razor 2.0.20715.0" Category="Package Dependency" />
+    <Link Source="Microsoft.AspNet.Providers 1.2" Target="Microsoft.AspNet.Providers.Core 1.2" Category="Package Dependency" />
+    <Link Source="Microsoft.AspNet.Providers.Core 1.2" Target="EntityFramework 6.0.0-alpha1" Category="Package Dependency" />
+    <Link Source="Microsoft.AspNet.Web.Optimization 1.1.0-alpha1" Target="Microsoft.Web.Infrastructure 1.0.0.0" Category="Package Dependency" />
+    <Link Source="Microsoft.AspNet.Web.Optimization 1.1.0-alpha1" Target="WebGrease 1.3.0" Category="Package Dependency" />
+    <Link Source="Microsoft.AspNet.WebApi 4.0.20710.0" Target="Microsoft.AspNet.WebApi.WebHost 4.0.20710.0" Category="Package Dependency" />
+    <Link Source="Microsoft.AspNet.WebApi.Client 4.1.0-alpha-120809" Target="Microsoft.Net.Http 2.0.20710.0" Category="Package Dependency" />
+    <Link Source="Microsoft.AspNet.WebApi.Client 4.1.0-alpha-120809" Target="Newtonsoft.Json 4.5.11" Category="Package Dependency" />
+    <Link Source="Microsoft.AspNet.WebApi.Client 4.1.0-alpha-120809" Target="Newtonsoft.Json 4.5.11" Category="Package Dependency" />
+    <Link Source="Microsoft.AspNet.WebApi.Core 4.0.20710.0" Target="Microsoft.AspNet.WebApi.Client 4.1.0-alpha-120809" Category="Package Dependency" />
+    <Link Source="Microsoft.AspNet.WebApi.WebHost 4.0.20710.0" Target="Microsoft.Web.Infrastructure 1.0.0.0" Category="Package Dependency" />
+    <Link Source="Microsoft.AspNet.WebApi.WebHost 4.0.20710.0" Target="Microsoft.AspNet.WebApi.Core 4.0.20710.0" Category="Package Dependency" />
+    <Link Source="Microsoft.AspNet.WebPages 2.0.20710.0" Target="Microsoft.Web.Infrastructure 1.0.0.0" Category="Package Dependency" />
+    <Link Source="Microsoft.AspNet.WebPages 2.0.20710.0" Target="Microsoft.AspNet.Razor 2.0.20715.0" Category="Package Dependency" />
+    <Link Source="Microsoft.AspNet.WebPages.WebData 2.0.20710.0" Target="Microsoft.AspNet.WebPages.Data 2.0.20710.0" Category="Package Dependency" />
+    <Link Source="Microsoft.Data.OData 5.2.0" Target="System.Spatial 5.2.0" Category="Package Dependency" />
+    <Link Source="Microsoft.Data.OData 5.2.0" Target="Microsoft.Data.Edm 5.2.0" Category="Package Dependency" />
+    <Link Source="Microsoft.jQuery.Unobtrusive.Ajax 2.0.30116.0" Target="jQuery 1.9.1" Category="Package Dependency" />
+    <Link Source="Microsoft.jQuery.Unobtrusive.Validation 2.0.30116.0" Target="jQuery.Validation 1.11.0" Category="Package Dependency" />
+    <Link Source="Microsoft.Web.Optimization 1.0.0-beta2" Target="Microsoft.AspNet.Web.Optimization 1.1.0-alpha1" Category="Package Dependency" />
+    <Link Source="microsoft-web-helpers 2.1.20710.2" Target="Microsoft.AspNet.WebPages 2.0.20710.0" Category="Package Dependency" />
+    <Link Source="microsoft-web-helpers 2.1.20710.2" Target="Microsoft.AspNet.WebPages.WebData 2.0.20710.0" Category="Package Dependency" />
+    <Link Source="ninject.extensions.conventions 3.0.2-unstable-2" Target="Ninject 3.0.2-unstable-8" Category="Package Dependency" />
+    <Link Source="Ninject.MVC3 3.0.2-unstable-2" Target="Ninject 3.0.2-unstable-8" Category="Package Dependency" />
+    <Link Source="Ninject.MVC3 3.0.2-unstable-2" Target="Ninject.Web.Common.WebHost 3.0.2-unstable-2" Category="Package Dependency" />
+    <Link Source="Ninject.Web.Common 3.0.2-unstable-2" Target="Ninject 3.0.2-unstable-8" Category="Package Dependency" />
+    <Link Source="Ninject.Web.Common.WebHost 3.0.2-unstable-2" Target="Ninject.Web.Common 3.0.2-unstable-2" Category="Package Dependency" />
+    <Link Source="Ninject.Web.Common.WebHost 3.0.2-unstable-2" Target="WebActivator 1.5.3" Category="Package Dependency" />
+    <Link Source="System.Web.Providers 1.2" Target="Microsoft.AspNet.Providers 1.2" Category="Package Dependency" />
+    <Link Source="WebActivator 1.5.3" Target="Microsoft.Web.Infrastructure 1.0.0.0" Category="Package Dependency" />
+    <Link Source="WindowsAzure.Storage 2.0.5.1" Target="Microsoft.Data.OData 5.2.0" Category="Package Dependency" />
+    <Link Source="WindowsAzure.Storage 2.0.5.1" Target="Microsoft.WindowsAzure.ConfigurationManager 1.8.0.0" Category="Package Dependency" />
+    <Link Source="PostaFlya" Target="DataAnnotationsExtensions.MVC3 1.1.0.0" Category="Installed Package" />
+    <Link Source="PostaFlya" Target="DotNetOpenAuth 4.2.1.13026" Category="Installed Package" />
+    <Link Source="PostaFlya" Target="DotNetOpenAuth.Core 4.2.1.13026" Category="Installed Package" />
+    <Link Source="PostaFlya" Target="DotNetOpenAuth.Core.UI 4.2.1.13026" Category="Installed Package" />
+    <Link Source="PostaFlya" Target="DotNetOpenAuth.InfoCard 4.2.1.13026" Category="Installed Package" />
+    <Link Source="PostaFlya" Target="DotNetOpenAuth.InfoCard.UI 4.2.1.13026" Category="Installed Package" />
+    <Link Source="PostaFlya" Target="DotNetOpenAuth.OAuth.Common 4.2.1.13026" Category="Installed Package" />
+    <Link Source="PostaFlya" Target="DotNetOpenAuth.OAuth.Consumer 4.2.1.13026" Category="Installed Package" />
+    <Link Source="PostaFlya" Target="DotNetOpenAuth.OAuth.Core 4.2.1.13026" Category="Installed Package" />
+    <Link Source="PostaFlya" Target="DotNetOpenAuth.OAuth.ServiceProvider 4.2.1.13026" Category="Installed Package" />
+    <Link Source="PostaFlya" Target="DotNetOpenAuth.OAuth2.AuthorizationServer 4.2.1.13026" Category="Installed Package" />
+    <Link Source="PostaFlya" Target="DotNetOpenAuth.OAuth2.Client 4.2.1.13026" Category="Installed Package" />
+    <Link Source="PostaFlya" Target="DotNetOpenAuth.OAuth2.Client.UI 4.2.1.13026" Category="Installed Package" />
+    <Link Source="PostaFlya" Target="DotNetOpenAuth.OAuth2.ClientAuthorization 4.2.1.13026" Category="Installed Package" />
+    <Link Source="PostaFlya" Target="DotNetOpenAuth.OAuth2.Core 4.2.1.13026" Category="Installed Package" />
+    <Link Source="PostaFlya" Target="DotNetOpenAuth.OAuth2.ResourceServer 4.2.1.13026" Category="Installed Package" />
+    <Link Source="PostaFlya" Target="DotNetOpenAuth.OpenId.Core 4.2.1.13026" Category="Installed Package" />
+    <Link Source="PostaFlya" Target="DotNetOpenAuth.OpenId.Core.UI 4.2.1.13026" Category="Installed Package" />
+    <Link Source="PostaFlya" Target="DotNetOpenAuth.OpenId.Provider 4.2.1.13026" Category="Installed Package" />
+    <Link Source="PostaFlya" Target="DotNetOpenAuth.OpenId.Provider.UI 4.2.1.13026" Category="Installed Package" />
+    <Link Source="PostaFlya" Target="DotNetOpenAuth.OpenId.RelyingParty 4.2.1.13026" Category="Installed Package" />
+    <Link Source="PostaFlya" Target="DotNetOpenAuth.OpenId.RelyingParty.UI 4.2.1.13026" Category="Installed Package" />
+    <Link Source="PostaFlya" Target="DotNetOpenAuth.OpenIdInfoCard.UI 4.2.1.13026" Category="Installed Package" />
+    <Link Source="PostaFlya" Target="DotNetOpenAuth.OpenIdOAuth 4.2.1.13026" Category="Installed Package" />
+    <Link Source="PostaFlya" Target="jQuery 1.9.1" Category="Installed Package" />
+    <Link Source="PostaFlya" Target="jquery.mobile 1.1.0" Category="Installed Package" />
+    <Link Source="PostaFlya" Target="jQuery.UI.Combined 1.10.0" Category="Installed Package" />
+    <Link Source="PostaFlya" Target="jQuery.Validation 1.11.0" Category="Installed Package" />
+    <Link Source="PostaFlya" Target="Knockout.Mapping 2.4.0" Category="Installed Package" />
+    <Link Source="PostaFlya" Target="knockoutjs 2.2.1" Category="Installed Package" />
+    <Link Source="PostaFlya" Target="Microsoft.AspNet.Mvc 4.0.20710.0" Category="Installed Package" />
+    <Link Source="PostaFlya" Target="Microsoft.AspNet.Razor 2.0.20715.0" Category="Installed Package" />
+    <Link Source="PostaFlya" Target="Microsoft.AspNet.Web.Optimization 1.1.0-alpha1" Category="Installed Package" />
+    <Link Source="PostaFlya" Target="Microsoft.AspNet.WebApi 4.0.20710.0" Category="Installed Package" />
+    <Link Source="PostaFlya" Target="Microsoft.Data.Edm 5.2.0" Category="Installed Package" />
+    <Link Source="PostaFlya" Target="Microsoft.Data.OData 5.2.0" Category="Installed Package" />
+    <Link Source="PostaFlya" Target="Microsoft.jQuery.Unobtrusive.Ajax 2.0.30116.0" Category="Installed Package" />
+    <Link Source="PostaFlya" Target="Microsoft.jQuery.Unobtrusive.Validation 2.0.30116.0" Category="Installed Package" />
+    <Link Source="PostaFlya" Target="Microsoft.Net.Http 2.0.20710.0" Category="Installed Package" />
+    <Link Source="PostaFlya" Target="Microsoft.Web.Optimization 1.0.0-beta2" Category="Installed Package" />
+    <Link Source="PostaFlya" Target="microsoft-web-helpers 2.1.20710.2" Category="Installed Package" />
+    <Link Source="PostaFlya" Target="Modernizr 2.6.2" Category="Installed Package" />
+    <Link Source="PostaFlya" Target="NewRelicWindowsAzure 1.0.0.33" Category="Installed Package" />
+    <Link Source="PostaFlya" Target="Newtonsoft.Json 4.5.11" Category="Installed Package" />
+    <Link Source="PostaFlya" Target="Ninject 3.0.2-unstable-8" Category="Installed Package" />
+    <Link Source="PostaFlya" Target="ninject.extensions.conventions 3.0.2-unstable-2" Category="Installed Package" />
+    <Link Source="PostaFlya" Target="Ninject.MVC3 3.0.2-unstable-2" Category="Installed Package" />
+    <Link Source="PostaFlya" Target="Ninject.Web.Common 3.0.2-unstable-2" Category="Installed Package" />
+    <Link Source="PostaFlya" Target="Ninject.Web.Common.WebHost 3.0.2-unstable-2" Category="Installed Package" />
+    <Link Source="PostaFlya" Target="System.Json 4.0.20126.16343" Category="Installed Package" />
+    <Link Source="PostaFlya" Target="System.Spatial 5.2.0" Category="Installed Package" />
+    <Link Source="PostaFlya" Target="System.Web.Providers 1.2" Category="Installed Package" />
+    <Link Source="PostaFlya" Target="WebActivator 1.5.3" Category="Installed Package" />
+    <Link Source="PostaFlya" Target="WebGrease 1.3.0" Category="Installed Package" />
+    <Link Source="PostaFlya" Target="WindowsAzure.DevelopmentFabric.IISConfigurator.Syncronizer 1.0.0.5" Category="Installed Package" />
+    <Link Source="PostaFlya" Target="WindowsAzure.Storage 2.0.5.1" Category="Installed Package" />
+    <Link Source="DotNetOpenAuth 4.2.1.13026" Target="DotNetOpenAuth.OpenId.RelyingParty.UI 4.2.1.13026" Category="Package Dependency" />
+    <Link Source="DotNetOpenAuth 4.2.1.13026" Target="DotNetOpenAuth.OpenId.Provider.UI 4.2.1.13026" Category="Package Dependency" />
+    <Link Source="DotNetOpenAuth 4.2.1.13026" Target="DotNetOpenAuth.OAuth.Consumer 4.2.1.13026" Category="Package Dependency" />
+    <Link Source="DotNetOpenAuth 4.2.1.13026" Target="DotNetOpenAuth.OAuth.ServiceProvider 4.2.1.13026" Category="Package Dependency" />
+    <Link Source="DotNetOpenAuth 4.2.1.13026" Target="DotNetOpenAuth.OpenIdInfoCard.UI 4.2.1.13026" Category="Package Dependency" />
+    <Link Source="DotNetOpenAuth 4.2.1.13026" Target="DotNetOpenAuth.OpenIdOAuth 4.2.1.13026" Category="Package Dependency" />
+    <Link Source="DotNetOpenAuth 4.2.1.13026" Target="DotNetOpenAuth.OAuth2.Client.UI 4.2.1.13026" Category="Package Dependency" />
+    <Link Source="DotNetOpenAuth 4.2.1.13026" Target="DotNetOpenAuth.OAuth2.AuthorizationServer 4.2.1.13026" Category="Package Dependency" />
+    <Link Source="DotNetOpenAuth 4.2.1.13026" Target="DotNetOpenAuth.OAuth2.ResourceServer 4.2.1.13026" Category="Package Dependency" />
+    <Link Source="DotNetOpenAuth.Core 4.2.1.13026" Target="Microsoft.Net.Http 2.0.20710.0" Category="Package Dependency" />
+    <Link Source="DotNetOpenAuth.Core.UI 4.2.1.13026" Target="DotNetOpenAuth.Core 4.2.1.13026" Category="Package Dependency" />
+    <Link Source="DotNetOpenAuth.InfoCard 4.2.1.13026" Target="DotNetOpenAuth.Core 4.2.1.13026" Category="Package Dependency" />
+    <Link Source="DotNetOpenAuth.InfoCard.UI 4.2.1.13026" Target="DotNetOpenAuth.Core.UI 4.2.1.13026" Category="Package Dependency" />
+    <Link Source="DotNetOpenAuth.InfoCard.UI 4.2.1.13026" Target="DotNetOpenAuth.InfoCard 4.2.1.13026" Category="Package Dependency" />
+    <Link Source="DotNetOpenAuth.OAuth.Common 4.2.1.13026" Target="DotNetOpenAuth.Core 4.2.1.13026" Category="Package Dependency" />
+    <Link Source="DotNetOpenAuth.OAuth.Consumer 4.2.1.13026" Target="DotNetOpenAuth.OAuth.Core 4.2.1.13026" Category="Package Dependency" />
+    <Link Source="DotNetOpenAuth.OAuth.Core 4.2.1.13026" Target="DotNetOpenAuth.Core 4.2.1.13026" Category="Package Dependency" />
+    <Link Source="DotNetOpenAuth.OAuth.ServiceProvider 4.2.1.13026" Target="DotNetOpenAuth.OAuth.Core 4.2.1.13026" Category="Package Dependency" />
+    <Link Source="DotNetOpenAuth.OAuth.ServiceProvider 4.2.1.13026" Target="DotNetOpenAuth.OAuth.Common 4.2.1.13026" Category="Package Dependency" />
+    <Link Source="DotNetOpenAuth.OAuth2.AuthorizationServer 4.2.1.13026" Target="DotNetOpenAuth.OAuth2.ClientAuthorization 4.2.1.13026" Category="Package Dependency" />
+    <Link Source="DotNetOpenAuth.OAuth2.Client 4.2.1.13026" Target="DotNetOpenAuth.OAuth2.ClientAuthorization 4.2.1.13026" Category="Package Dependency" />
+    <Link Source="DotNetOpenAuth.OAuth2.Client.UI 4.2.1.13026" Target="DotNetOpenAuth.OAuth2.Client 4.2.1.13026" Category="Package Dependency" />
+    <Link Source="DotNetOpenAuth.OAuth2.ClientAuthorization 4.2.1.13026" Target="DotNetOpenAuth.OAuth2.Core 4.2.1.13026" Category="Package Dependency" />
+    <Link Source="DotNetOpenAuth.OAuth2.Core 4.2.1.13026" Target="DotNetOpenAuth.Core 4.2.1.13026" Category="Package Dependency" />
+    <Link Source="DotNetOpenAuth.OAuth2.ResourceServer 4.2.1.13026" Target="DotNetOpenAuth.OAuth2.Core 4.2.1.13026" Category="Package Dependency" />
+    <Link Source="DotNetOpenAuth.OAuth2.ResourceServer 4.2.1.13026" Target="DotNetOpenAuth.OAuth.Common 4.2.1.13026" Category="Package Dependency" />
+    <Link Source="DotNetOpenAuth.OpenId.Core 4.2.1.13026" Target="DotNetOpenAuth.Core 4.2.1.13026" Category="Package Dependency" />
+    <Link Source="DotNetOpenAuth.OpenId.Core.UI 4.2.1.13026" Target="DotNetOpenAuth.Core.UI 4.2.1.13026" Category="Package Dependency" />
+    <Link Source="DotNetOpenAuth.OpenId.Provider 4.2.1.13026" Target="DotNetOpenAuth.OpenId.Core 4.2.1.13026" Category="Package Dependency" />
+    <Link Source="DotNetOpenAuth.OpenId.Provider.UI 4.2.1.13026" Target="DotNetOpenAuth.OpenId.Core.UI 4.2.1.13026" Category="Package Dependency" />
+    <Link Source="DotNetOpenAuth.OpenId.Provider.UI 4.2.1.13026" Target="DotNetOpenAuth.OpenId.Provider 4.2.1.13026" Category="Package Dependency" />
+    <Link Source="DotNetOpenAuth.OpenId.RelyingParty 4.2.1.13026" Target="DotNetOpenAuth.OpenId.Core 4.2.1.13026" Category="Package Dependency" />
+    <Link Source="DotNetOpenAuth.OpenId.RelyingParty.UI 4.2.1.13026" Target="DotNetOpenAuth.OpenId.Core.UI 4.2.1.13026" Category="Package Dependency" />
+    <Link Source="DotNetOpenAuth.OpenId.RelyingParty.UI 4.2.1.13026" Target="DotNetOpenAuth.OpenId.RelyingParty 4.2.1.13026" Category="Package Dependency" />
+    <Link Source="DotNetOpenAuth.OpenIdInfoCard.UI 4.2.1.13026" Target="DotNetOpenAuth.OpenId.RelyingParty.UI 4.2.1.13026" Category="Package Dependency" />
+    <Link Source="DotNetOpenAuth.OpenIdInfoCard.UI 4.2.1.13026" Target="DotNetOpenAuth.InfoCard.UI 4.2.1.13026" Category="Package Dependency" />
+    <Link Source="DotNetOpenAuth.OpenIdOAuth 4.2.1.13026" Target="DotNetOpenAuth.OAuth.Consumer 4.2.1.13026" Category="Package Dependency" />
+    <Link Source="DotNetOpenAuth.OpenIdOAuth 4.2.1.13026" Target="DotNetOpenAuth.OAuth.ServiceProvider 4.2.1.13026" Category="Package Dependency" />
+    <Link Source="DotNetOpenAuth.OpenIdOAuth 4.2.1.13026" Target="DotNetOpenAuth.OpenId.Core 4.2.1.13026" Category="Package Dependency" />
+    <Link Source="Microsoft.AspNet.Mvc 4.0.20710.0" Target="Microsoft.AspNet.WebPages 2.0.20710.0" Category="Package Dependency" />
+    <Link Source="Microsoft.AspNet.Mvc 4.0.20710.0" Target="Microsoft.AspNet.Razor 2.0.20715.0" Category="Package Dependency" />
+    <Link Source="Microsoft.AspNet.WebPages 2.0.20710.0" Target="Microsoft.Web.Infrastructure 1.0.0.0" Category="Package Dependency" />
+    <Link Source="Microsoft.AspNet.WebPages 2.0.20710.0" Target="Microsoft.AspNet.Razor 2.0.20715.0" Category="Package Dependency" />
+    <Link Source="Ninject.MockingKernel 3.0.2-unstable-0" Target="Ninject 3.0.2-unstable-8" Category="Package Dependency" />
+    <Link Source="Ninject.MockingKernel.Moq 3.0.2-unstable-0" Target="Ninject.MockingKernel 3.0.2-unstable-0" Category="Package Dependency" />
+    <Link Source="Ninject.MockingKernel.Moq 3.0.2-unstable-0" Target="Moq 4.0.10827" Category="Package Dependency" />
+    <Link Source="Tests\PostaFlya.Website.Tests" Target="DotNetOpenAuth 4.2.1.13026" Category="Installed Package" />
+    <Link Source="Tests\PostaFlya.Website.Tests" Target="DotNetOpenAuth.Core 4.2.1.13026" Category="Installed Package" />
+    <Link Source="Tests\PostaFlya.Website.Tests" Target="DotNetOpenAuth.Core.UI 4.2.1.13026" Category="Installed Package" />
+    <Link Source="Tests\PostaFlya.Website.Tests" Target="DotNetOpenAuth.InfoCard 4.2.1.13026" Category="Installed Package" />
+    <Link Source="Tests\PostaFlya.Website.Tests" Target="DotNetOpenAuth.InfoCard.UI 4.2.1.13026" Category="Installed Package" />
+    <Link Source="Tests\PostaFlya.Website.Tests" Target="DotNetOpenAuth.OAuth.Common 4.2.1.13026" Category="Installed Package" />
+    <Link Source="Tests\PostaFlya.Website.Tests" Target="DotNetOpenAuth.OAuth.Consumer 4.2.1.13026" Category="Installed Package" />
+    <Link Source="Tests\PostaFlya.Website.Tests" Target="DotNetOpenAuth.OAuth.Core 4.2.1.13026" Category="Installed Package" />
+    <Link Source="Tests\PostaFlya.Website.Tests" Target="DotNetOpenAuth.OAuth.ServiceProvider 4.2.1.13026" Category="Installed Package" />
+    <Link Source="Tests\PostaFlya.Website.Tests" Target="DotNetOpenAuth.OAuth2.AuthorizationServer 4.2.1.13026" Category="Installed Package" />
+    <Link Source="Tests\PostaFlya.Website.Tests" Target="DotNetOpenAuth.OAuth2.Client 4.2.1.13026" Category="Installed Package" />
+    <Link Source="Tests\PostaFlya.Website.Tests" Target="DotNetOpenAuth.OAuth2.Client.UI 4.2.1.13026" Category="Installed Package" />
+    <Link Source="Tests\PostaFlya.Website.Tests" Target="DotNetOpenAuth.OAuth2.ClientAuthorization 4.2.1.13026" Category="Installed Package" />
+    <Link Source="Tests\PostaFlya.Website.Tests" Target="DotNetOpenAuth.OAuth2.Core 4.2.1.13026" Category="Installed Package" />
+    <Link Source="Tests\PostaFlya.Website.Tests" Target="DotNetOpenAuth.OAuth2.ResourceServer 4.2.1.13026" Category="Installed Package" />
+    <Link Source="Tests\PostaFlya.Website.Tests" Target="DotNetOpenAuth.OpenId.Core 4.2.1.13026" Category="Installed Package" />
+    <Link Source="Tests\PostaFlya.Website.Tests" Target="DotNetOpenAuth.OpenId.Core.UI 4.2.1.13026" Category="Installed Package" />
+    <Link Source="Tests\PostaFlya.Website.Tests" Target="DotNetOpenAuth.OpenId.Provider 4.2.1.13026" Category="Installed Package" />
+    <Link Source="Tests\PostaFlya.Website.Tests" Target="DotNetOpenAuth.OpenId.Provider.UI 4.2.1.13026" Category="Installed Package" />
+    <Link Source="Tests\PostaFlya.Website.Tests" Target="DotNetOpenAuth.OpenId.RelyingParty 4.2.1.13026" Category="Installed Package" />
+    <Link Source="Tests\PostaFlya.Website.Tests" Target="DotNetOpenAuth.OpenId.RelyingParty.UI 4.2.1.13026" Category="Installed Package" />
+    <Link Source="Tests\PostaFlya.Website.Tests" Target="DotNetOpenAuth.OpenIdInfoCard.UI 4.2.1.13026" Category="Installed Package" />
+    <Link Source="Tests\PostaFlya.Website.Tests" Target="DotNetOpenAuth.OpenIdOAuth 4.2.1.13026" Category="Installed Package" />
+    <Link Source="Tests\PostaFlya.Website.Tests" Target="Microsoft.AspNet.Mvc 4.0.20710.0" Category="Installed Package" />
+    <Link Source="Tests\PostaFlya.Website.Tests" Target="Microsoft.AspNet.Razor 2.0.20715.0" Category="Installed Package" />
+    <Link Source="Tests\PostaFlya.Website.Tests" Target="Microsoft.Net.Http 2.0.20710.0" Category="Installed Package" />
+    <Link Source="Tests\PostaFlya.Website.Tests" Target="Ninject 3.0.2-unstable-8" Category="Installed Package" />
+    <Link Source="Tests\PostaFlya.Website.Tests" Target="Ninject.MockingKernel 3.0.2-unstable-0" Category="Installed Package" />
+    <Link Source="Tests\PostaFlya.Website.Tests" Target="Ninject.MockingKernel.Moq 3.0.2-unstable-0" Category="Installed Package" />
+    <Link Source="Tests\PostaFlya.Website.Tests" Target="NUnit 2.6.2" Category="Installed Package" />
+    <Link Source="Microsoft.AspNet.Mvc 4.0.20710.0" Target="Microsoft.AspNet.WebPages 2.0.20710.0" Category="Package Dependency" />
+    <Link Source="Microsoft.AspNet.Mvc 4.0.20710.0" Target="Microsoft.AspNet.Razor 2.0.20715.0" Category="Package Dependency" />
+    <Link Source="Microsoft.AspNet.WebApi.Client 4.1.0-alpha-120809" Target="Microsoft.Net.Http 2.0.20710.0" Category="Package Dependency" />
+    <Link Source="Microsoft.AspNet.WebApi.Client 4.1.0-alpha-120809" Target="Newtonsoft.Json 4.5.11" Category="Package Dependency" />
+    <Link Source="Microsoft.AspNet.WebApi.Client 4.1.0-alpha-120809" Target="Newtonsoft.Json 4.5.11" Category="Package Dependency" />
+    <Link Source="Microsoft.AspNet.WebApi.Core 4.0.20710.0" Target="Microsoft.AspNet.WebApi.Client 4.1.0-alpha-120809" Category="Package Dependency" />
+    <Link Source="Microsoft.AspNet.WebApi.WebHost 4.0.20710.0" Target="Microsoft.Web.Infrastructure 1.0.0.0" Category="Package Dependency" />
+    <Link Source="Microsoft.AspNet.WebApi.WebHost 4.0.20710.0" Target="Microsoft.AspNet.WebApi.Core 4.0.20710.0" Category="Package Dependency" />
+    <Link Source="Microsoft.AspNet.WebPages 2.0.20710.0" Target="Microsoft.Web.Infrastructure 1.0.0.0" Category="Package Dependency" />
+    <Link Source="Microsoft.AspNet.WebPages 2.0.20710.0" Target="Microsoft.AspNet.Razor 2.0.20715.0" Category="Package Dependency" />
+    <Link Source="Microsoft.AspNet.WebPages.WebData 2.0.20710.0" Target="Microsoft.AspNet.WebPages.Data 2.0.20710.0" Category="Package Dependency" />
+    <Link Source="microsoft-web-helpers 2.1.20710.2" Target="Microsoft.AspNet.WebPages 2.0.20710.0" Category="Package Dependency" />
+    <Link Source="microsoft-web-helpers 2.1.20710.2" Target="Microsoft.AspNet.WebPages.WebData 2.0.20710.0" Category="Package Dependency" />
+    <Link Source="Ninject.Extensions.Conventions 3.0.0.11" Target="Ninject 3.0.2-unstable-8" Category="Package Dependency" />
+    <Link Source="Ninject.MockingKernel 3.0.0.5" Target="Ninject 3.0.2-unstable-8" Category="Package Dependency" />
+    <Link Source="Ninject.MockingKernel.Moq 3.0.0.5" Target="Ninject.MockingKernel 3.0.0.5" Category="Package Dependency" />
+    <Link Source="Ninject.MockingKernel.Moq 3.0.0.5" Target="Moq 4.0.10827" Category="Package Dependency" />
+    <Link Source="Tests\PostaFlya.Specification" Target="Microsoft.AspNet.Mvc 4.0.20710.0" Category="Installed Package" />
+    <Link Source="Tests\PostaFlya.Specification" Target="Microsoft.AspNet.Razor 2.0.20715.0" Category="Installed Package" />
+    <Link Source="Tests\PostaFlya.Specification" Target="Microsoft.AspNet.WebApi.WebHost 4.0.20710.0" Category="Installed Package" />
+    <Link Source="Tests\PostaFlya.Specification" Target="Microsoft.Net.Http 2.0.20710.0" Category="Installed Package" />
+    <Link Source="Tests\PostaFlya.Specification" Target="microsoft-web-helpers 2.1.20710.2" Category="Installed Package" />
+    <Link Source="Tests\PostaFlya.Specification" Target="Newtonsoft.Json 4.5.11" Category="Installed Package" />
+    <Link Source="Tests\PostaFlya.Specification" Target="Ninject 3.0.2-unstable-8" Category="Installed Package" />
+    <Link Source="Tests\PostaFlya.Specification" Target="Ninject.Extensions.Conventions 3.0.0.11" Category="Installed Package" />
+    <Link Source="Tests\PostaFlya.Specification" Target="Ninject.MockingKernel.Moq 3.0.0.5" Category="Installed Package" />
+    <Link Source="Tests\PostaFlya.Specification" Target="NUnit 2.6.2" Category="Installed Package" />
+    <Link Source="Tests\PostaFlya.Specification" Target="SpecFlow 1.9.0" Category="Installed Package" />
+    <Link Source="Ninject.Extensions.Conventions 3.0.0.11" Target="Ninject 3.0.2-unstable-8" Category="Package Dependency" />
+    <Link Source="Ninject.MockingKernel 3.0.0.5" Target="Ninject 3.0.2-unstable-8" Category="Package Dependency" />
+    <Link Source="Ninject.MockingKernel.Moq 3.0.0.5" Target="Ninject.MockingKernel 3.0.0.5" Category="Package Dependency" />
+    <Link Source="Ninject.MockingKernel.Moq 3.0.0.5" Target="Moq 4.0.10827" Category="Package Dependency" />
+    <Link Source="Tests\PostaFlya.Mocks.Domain" Target="Ninject 3.0.2-unstable-8" Category="Installed Package" />
+    <Link Source="Tests\PostaFlya.Mocks.Domain" Target="Ninject.Extensions.Conventions 3.0.0.11" Category="Installed Package" />
+    <Link Source="Tests\PostaFlya.Mocks.Domain" Target="Ninject.MockingKernel.Moq 3.0.0.5" Category="Installed Package" />
+    <Link Source="Tests\PostaFlya.Mocks.Domain" Target="NUnit 2.6.2" Category="Installed Package" />
+    <Link Source="Microsoft.Data.OData 5.2.0" Target="System.Spatial 5.2.0" Category="Package Dependency" />
+    <Link Source="Microsoft.Data.OData 5.2.0" Target="Microsoft.Data.Edm 5.2.0" Category="Package Dependency" />
+    <Link Source="ninject.extensions.conventions 3.0.2-unstable-2" Target="Ninject 3.0.2-unstable-8" Category="Package Dependency" />
+    <Link Source="Ninject.MockingKernel 3.0.2-unstable-0" Target="Ninject 3.0.2-unstable-8" Category="Package Dependency" />
+    <Link Source="Ninject.MockingKernel.Moq 3.0.2-unstable-0" Target="Ninject.MockingKernel 3.0.2-unstable-0" Category="Package Dependency" />
+    <Link Source="Ninject.MockingKernel.Moq 3.0.2-unstable-0" Target="Moq 4.0.10827" Category="Package Dependency" />
+    <Link Source="WindowsAzure.Storage 2.0.5.1" Target="Microsoft.Data.OData 5.2.0" Category="Package Dependency" />
+    <Link Source="WindowsAzure.Storage 2.0.5.1" Target="Microsoft.WindowsAzure.ConfigurationManager 2.0.1.0" Category="Package Dependency" />
+    <Link Source="Tests\PostaFlya.DataRepository.Tests" Target="Microsoft.Data.Edm 5.2.0" Category="Installed Package" />
+    <Link Source="Tests\PostaFlya.DataRepository.Tests" Target="Microsoft.Data.OData 5.2.0" Category="Installed Package" />
+    <Link Source="Tests\PostaFlya.DataRepository.Tests" Target="Microsoft.WindowsAzure.ConfigurationManager 2.0.1.0" Category="Installed Package" />
+    <Link Source="Tests\PostaFlya.DataRepository.Tests" Target="Ninject 3.0.2-unstable-8" Category="Installed Package" />
+    <Link Source="Tests\PostaFlya.DataRepository.Tests" Target="ninject.extensions.conventions 3.0.2-unstable-2" Category="Installed Package" />
+    <Link Source="Tests\PostaFlya.DataRepository.Tests" Target="Ninject.MockingKernel 3.0.2-unstable-0" Category="Installed Package" />
+    <Link Source="Tests\PostaFlya.DataRepository.Tests" Target="Ninject.MockingKernel.Moq 3.0.2-unstable-0" Category="Installed Package" />
+    <Link Source="Tests\PostaFlya.DataRepository.Tests" Target="NUnit 2.6.2" Category="Installed Package" />
+    <Link Source="Tests\PostaFlya.DataRepository.Tests" Target="System.Spatial 5.2.0" Category="Installed Package" />
+    <Link Source="Tests\PostaFlya.DataRepository.Tests" Target="WindowsAzure.Storage 2.0.5.1" Category="Installed Package" />
+    <Link Source="Ninject.MockingKernel 3.0.0.5" Target="Ninject 3.0.2-unstable-8" Category="Package Dependency" />
+    <Link Source="Ninject.MockingKernel.Moq 3.0.0.5" Target="Ninject.MockingKernel 3.0.0.5" Category="Package Dependency" />
+    <Link Source="Ninject.MockingKernel.Moq 3.0.0.5" Target="Moq 4.0.10827" Category="Package Dependency" />
+    <Link Source="Tests\PostaFlya.Application.Domain.Tests" Target="Ninject 3.0.2-unstable-8" Category="Installed Package" />
+    <Link Source="Tests\PostaFlya.Application.Domain.Tests" Target="Ninject.MockingKernel.Moq 3.0.0.5" Category="Installed Package" />
+    <Link Source="Tests\PostaFlya.Application.Domain.Tests" Target="NUnit 2.6.2" Category="Installed Package" />
+    <Link Source="Microsoft.AspNet.Mvc 4.0.20710.0" Target="Microsoft.AspNet.WebPages 2.0.20710.0" Category="Package Dependency" />
+    <Link Source="Microsoft.AspNet.Mvc 4.0.20710.0" Target="Microsoft.AspNet.Razor 2.0.20715.0" Category="Package Dependency" />
+    <Link Source="Microsoft.AspNet.WebApi 4.0.20710.0" Target="Microsoft.AspNet.WebApi.WebHost 4.0.20710.0" Category="Package Dependency" />
+    <Link Source="Microsoft.AspNet.WebApi.Client 4.1.0-alpha-120809" Target="Microsoft.Net.Http 2.0.20710.0" Category="Package Dependency" />
+    <Link Source="Microsoft.AspNet.WebApi.Client 4.1.0-alpha-120809" Target="Newtonsoft.Json 4.5.11" Category="Package Dependency" />
+    <Link Source="Microsoft.AspNet.WebApi.Client 4.1.0-alpha-120809" Target="Newtonsoft.Json 4.5.11" Category="Package Dependency" />
+    <Link Source="Microsoft.AspNet.WebApi.Core 4.0.20710.0" Target="Microsoft.AspNet.WebApi.Client 4.1.0-alpha-120809" Category="Package Dependency" />
+    <Link Source="Microsoft.AspNet.WebApi.WebHost 4.0.20710.0" Target="Microsoft.Web.Infrastructure 1.0.0.0" Category="Package Dependency" />
+    <Link Source="Microsoft.AspNet.WebApi.WebHost 4.0.20710.0" Target="Microsoft.AspNet.WebApi.Core 4.0.20710.0" Category="Package Dependency" />
+    <Link Source="Microsoft.AspNet.WebPages 2.0.20710.0" Target="Microsoft.Web.Infrastructure 1.0.0.0" Category="Package Dependency" />
+    <Link Source="Microsoft.AspNet.WebPages 2.0.20710.0" Target="Microsoft.AspNet.Razor 2.0.20715.0" Category="Package Dependency" />
+    <Link Source="ninject.extensions.conventions 3.0.2-unstable-2" Target="Ninject 3.0.2-unstable-8" Category="Package Dependency" />
+    <Link Source="Ninject.Web.Common 3.0.2-unstable-2" Target="Ninject 3.0.2-unstable-8" Category="Package Dependency" />
+    <Link Source="Core\Website.Application.Domain" Target="Microsoft.AspNet.Mvc 4.0.20710.0" Category="Installed Package" />
+    <Link Source="Core\Website.Application.Domain" Target="Microsoft.AspNet.Razor 2.0.20715.0" Category="Installed Package" />
+    <Link Source="Core\Website.Application.Domain" Target="Microsoft.AspNet.WebApi 4.0.20710.0" Category="Installed Package" />
+    <Link Source="Core\Website.Application.Domain" Target="Microsoft.Net.Http 2.0.20710.0" Category="Installed Package" />
+    <Link Source="Core\Website.Application.Domain" Target="Newtonsoft.Json 4.5.11" Category="Installed Package" />
+    <Link Source="Core\Website.Application.Domain" Target="Ninject 3.0.2-unstable-8" Category="Installed Package" />
+    <Link Source="Core\Website.Application.Domain" Target="ninject.extensions.conventions 3.0.2-unstable-2" Category="Installed Package" />
+    <Link Source="Core\Website.Application.Domain" Target="Ninject.Web.Common 3.0.2-unstable-2" Category="Installed Package" />
+    <Link Source="ninject.extensions.conventions 3.0.2-unstable-2" Target="Ninject 3.0.2-unstable-8" Category="Package Dependency" />
+    <Link Source="Core\Website.Domain" Target="Ninject 3.0.2-unstable-8" Category="Installed Package" />
+    <Link Source="Core\Website.Domain" Target="ninject.extensions.conventions 3.0.2-unstable-2" Category="Installed Package" />
+    <Link Source="DotNetOpenAuth 4.2.1.13026" Target="DotNetOpenAuth.OpenId.RelyingParty.UI 4.2.1.13026" Category="Package Dependency" />
+    <Link Source="DotNetOpenAuth 4.2.1.13026" Target="DotNetOpenAuth.OpenId.Provider.UI 4.2.1.13026" Category="Package Dependency" />
+    <Link Source="DotNetOpenAuth 4.2.1.13026" Target="DotNetOpenAuth.OAuth.Consumer 4.2.1.13026" Category="Package Dependency" />
+    <Link Source="DotNetOpenAuth 4.2.1.13026" Target="DotNetOpenAuth.OAuth.ServiceProvider 4.2.1.13026" Category="Package Dependency" />
+    <Link Source="DotNetOpenAuth 4.2.1.13026" Target="DotNetOpenAuth.OpenIdInfoCard.UI 4.2.1.13026" Category="Package Dependency" />
+    <Link Source="DotNetOpenAuth 4.2.1.13026" Target="DotNetOpenAuth.OpenIdOAuth 4.2.1.13026" Category="Package Dependency" />
+    <Link Source="DotNetOpenAuth 4.2.1.13026" Target="DotNetOpenAuth.OAuth2.Client.UI 4.2.1.13026" Category="Package Dependency" />
+    <Link Source="DotNetOpenAuth 4.2.1.13026" Target="DotNetOpenAuth.OAuth2.AuthorizationServer 4.2.1.13026" Category="Package Dependency" />
+    <Link Source="DotNetOpenAuth 4.2.1.13026" Target="DotNetOpenAuth.OAuth2.ResourceServer 4.2.1.13026" Category="Package Dependency" />
+    <Link Source="DotNetOpenAuth.Core 4.2.1.13026" Target="Microsoft.Net.Http 2.0.20710.0" Category="Package Dependency" />
+    <Link Source="DotNetOpenAuth.Core.UI 4.2.1.13026" Target="DotNetOpenAuth.Core 4.2.1.13026" Category="Package Dependency" />
+    <Link Source="DotNetOpenAuth.InfoCard 4.2.1.13026" Target="DotNetOpenAuth.Core 4.2.1.13026" Category="Package Dependency" />
+    <Link Source="DotNetOpenAuth.InfoCard.UI 4.2.1.13026" Target="DotNetOpenAuth.Core.UI 4.2.1.13026" Category="Package Dependency" />
+    <Link Source="DotNetOpenAuth.InfoCard.UI 4.2.1.13026" Target="DotNetOpenAuth.InfoCard 4.2.1.13026" Category="Package Dependency" />
+    <Link Source="DotNetOpenAuth.OAuth.Common 4.2.1.13026" Target="DotNetOpenAuth.Core 4.2.1.13026" Category="Package Dependency" />
+    <Link Source="DotNetOpenAuth.OAuth.Consumer 4.2.1.13026" Target="DotNetOpenAuth.OAuth.Core 4.2.1.13026" Category="Package Dependency" />
+    <Link Source="DotNetOpenAuth.OAuth.Core 4.2.1.13026" Target="DotNetOpenAuth.Core 4.2.1.13026" Category="Package Dependency" />
+    <Link Source="DotNetOpenAuth.OAuth.ServiceProvider 4.2.1.13026" Target="DotNetOpenAuth.OAuth.Core 4.2.1.13026" Category="Package Dependency" />
+    <Link Source="DotNetOpenAuth.OAuth.ServiceProvider 4.2.1.13026" Target="DotNetOpenAuth.OAuth.Common 4.2.1.13026" Category="Package Dependency" />
+    <Link Source="DotNetOpenAuth.OAuth2.AuthorizationServer 4.2.1.13026" Target="DotNetOpenAuth.OAuth2.ClientAuthorization 4.2.1.13026" Category="Package Dependency" />
+    <Link Source="DotNetOpenAuth.OAuth2.Client 4.2.1.13026" Target="DotNetOpenAuth.OAuth2.ClientAuthorization 4.2.1.13026" Category="Package Dependency" />
+    <Link Source="DotNetOpenAuth.OAuth2.Client.UI 4.2.1.13026" Target="DotNetOpenAuth.OAuth2.Client 4.2.1.13026" Category="Package Dependency" />
+    <Link Source="DotNetOpenAuth.OAuth2.ClientAuthorization 4.2.1.13026" Target="DotNetOpenAuth.OAuth2.Core 4.2.1.13026" Category="Package Dependency" />
+    <Link Source="DotNetOpenAuth.OAuth2.Core 4.2.1.13026" Target="DotNetOpenAuth.Core 4.2.1.13026" Category="Package Dependency" />
+    <Link Source="DotNetOpenAuth.OAuth2.ResourceServer 4.2.1.13026" Target="DotNetOpenAuth.OAuth2.Core 4.2.1.13026" Category="Package Dependency" />
+    <Link Source="DotNetOpenAuth.OAuth2.ResourceServer 4.2.1.13026" Target="DotNetOpenAuth.OAuth.Common 4.2.1.13026" Category="Package Dependency" />
+    <Link Source="DotNetOpenAuth.OpenId.Core 4.2.1.13026" Target="DotNetOpenAuth.Core 4.2.1.13026" Category="Package Dependency" />
+    <Link Source="DotNetOpenAuth.OpenId.Core.UI 4.2.1.13026" Target="DotNetOpenAuth.Core.UI 4.2.1.13026" Category="Package Dependency" />
+    <Link Source="DotNetOpenAuth.OpenId.Provider 4.2.1.13026" Target="DotNetOpenAuth.OpenId.Core 4.2.1.13026" Category="Package Dependency" />
+    <Link Source="DotNetOpenAuth.OpenId.Provider.UI 4.2.1.13026" Target="DotNetOpenAuth.OpenId.Core.UI 4.2.1.13026" Category="Package Dependency" />
+    <Link Source="DotNetOpenAuth.OpenId.Provider.UI 4.2.1.13026" Target="DotNetOpenAuth.OpenId.Provider 4.2.1.13026" Category="Package Dependency" />
+    <Link Source="DotNetOpenAuth.OpenId.RelyingParty 4.2.1.13026" Target="DotNetOpenAuth.OpenId.Core 4.2.1.13026" Category="Package Dependency" />
+    <Link Source="DotNetOpenAuth.OpenId.RelyingParty.UI 4.2.1.13026" Target="DotNetOpenAuth.OpenId.Core.UI 4.2.1.13026" Category="Package Dependency" />
+    <Link Source="DotNetOpenAuth.OpenId.RelyingParty.UI 4.2.1.13026" Target="DotNetOpenAuth.OpenId.RelyingParty 4.2.1.13026" Category="Package Dependency" />
+    <Link Source="DotNetOpenAuth.OpenIdInfoCard.UI 4.2.1.13026" Target="DotNetOpenAuth.OpenId.RelyingParty.UI 4.2.1.13026" Category="Package Dependency" />
+    <Link Source="DotNetOpenAuth.OpenIdInfoCard.UI 4.2.1.13026" Target="DotNetOpenAuth.InfoCard.UI 4.2.1.13026" Category="Package Dependency" />
+    <Link Source="DotNetOpenAuth.OpenIdOAuth 4.2.1.13026" Target="DotNetOpenAuth.OAuth.Consumer 4.2.1.13026" Category="Package Dependency" />
+    <Link Source="DotNetOpenAuth.OpenIdOAuth 4.2.1.13026" Target="DotNetOpenAuth.OAuth.ServiceProvider 4.2.1.13026" Category="Package Dependency" />
+    <Link Source="DotNetOpenAuth.OpenIdOAuth 4.2.1.13026" Target="DotNetOpenAuth.OpenId.Core 4.2.1.13026" Category="Package Dependency" />
+    <Link Source="elmah 1.2.2" Target="elmah.corelibrary 1.2.2" Category="Package Dependency" />
+    <Link Source="ninject.extensions.conventions 3.0.2-unstable-2" Target="Ninject 3.0.2-unstable-8" Category="Package Dependency" />
+    <Link Source="Core\Website.Infrastructure" Target="DotNetOpenAuth 4.2.1.13026" Category="Installed Package" />
+    <Link Source="Core\Website.Infrastructure" Target="DotNetOpenAuth.Core 4.2.1.13026" Category="Installed Package" />
+    <Link Source="Core\Website.Infrastructure" Target="DotNetOpenAuth.Core.UI 4.2.1.13026" Category="Installed Package" />
+    <Link Source="Core\Website.Infrastructure" Target="DotNetOpenAuth.InfoCard 4.2.1.13026" Category="Installed Package" />
+    <Link Source="Core\Website.Infrastructure" Target="DotNetOpenAuth.InfoCard.UI 4.2.1.13026" Category="Installed Package" />
+    <Link Source="Core\Website.Infrastructure" Target="DotNetOpenAuth.OAuth.Common 4.2.1.13026" Category="Installed Package" />
+    <Link Source="Core\Website.Infrastructure" Target="DotNetOpenAuth.OAuth.Consumer 4.2.1.13026" Category="Installed Package" />
+    <Link Source="Core\Website.Infrastructure" Target="DotNetOpenAuth.OAuth.Core 4.2.1.13026" Category="Installed Package" />
+    <Link Source="Core\Website.Infrastructure" Target="DotNetOpenAuth.OAuth.ServiceProvider 4.2.1.13026" Category="Installed Package" />
+    <Link Source="Core\Website.Infrastructure" Target="DotNetOpenAuth.OAuth2.AuthorizationServer 4.2.1.13026" Category="Installed Package" />
+    <Link Source="Core\Website.Infrastructure" Target="DotNetOpenAuth.OAuth2.Client 4.2.1.13026" Category="Installed Package" />
+    <Link Source="Core\Website.Infrastructure" Target="DotNetOpenAuth.OAuth2.Client.UI 4.2.1.13026" Category="Installed Package" />
+    <Link Source="Core\Website.Infrastructure" Target="DotNetOpenAuth.OAuth2.ClientAuthorization 4.2.1.13026" Category="Installed Package" />
+    <Link Source="Core\Website.Infrastructure" Target="DotNetOpenAuth.OAuth2.Core 4.2.1.13026" Category="Installed Package" />
+    <Link Source="Core\Website.Infrastructure" Target="DotNetOpenAuth.OAuth2.ResourceServer 4.2.1.13026" Category="Installed Package" />
+    <Link Source="Core\Website.Infrastructure" Target="DotNetOpenAuth.OpenId.Core 4.2.1.13026" Category="Installed Package" />
+    <Link Source="Core\Website.Infrastructure" Target="DotNetOpenAuth.OpenId.Core.UI 4.2.1.13026" Category="Installed Package" />
+    <Link Source="Core\Website.Infrastructure" Target="DotNetOpenAuth.OpenId.Provider 4.2.1.13026" Category="Installed Package" />
+    <Link Source="Core\Website.Infrastructure" Target="DotNetOpenAuth.OpenId.Provider.UI 4.2.1.13026" Category="Installed Package" />
+    <Link Source="Core\Website.Infrastructure" Target="DotNetOpenAuth.OpenId.RelyingParty 4.2.1.13026" Category="Installed Package" />
+    <Link Source="Core\Website.Infrastructure" Target="DotNetOpenAuth.OpenId.RelyingParty.UI 4.2.1.13026" Category="Installed Package" />
+    <Link Source="Core\Website.Infrastructure" Target="DotNetOpenAuth.OpenIdInfoCard.UI 4.2.1.13026" Category="Installed Package" />
+    <Link Source="Core\Website.Infrastructure" Target="DotNetOpenAuth.OpenIdOAuth 4.2.1.13026" Category="Installed Package" />
+    <Link Source="Core\Website.Infrastructure" Target="elmah 1.2.2" Category="Installed Package" />
+    <Link Source="Core\Website.Infrastructure" Target="Microsoft.Net.Http 2.0.20710.0" Category="Installed Package" />
+    <Link Source="Core\Website.Infrastructure" Target="Microsoft.Web.Infrastructure 1.0.0.0" Category="Installed Package" />
+    <Link Source="Core\Website.Infrastructure" Target="Newtonsoft.Json 4.5.11" Category="Installed Package" />
+    <Link Source="Core\Website.Infrastructure" Target="Ninject 3.0.2-unstable-8" Category="Installed Package" />
+    <Link Source="Core\Website.Infrastructure" Target="ninject.extensions.conventions 3.0.2-unstable-2" Category="Installed Package" />
+    <Link Source="Microsoft.AspNet.Mvc 4.0.20710.0" Target="Microsoft.AspNet.WebPages 2.0.20710.0" Category="Package Dependency" />
+    <Link Source="Microsoft.AspNet.Mvc 4.0.20710.0" Target="Microsoft.AspNet.Razor 2.0.20715.0" Category="Package Dependency" />
+    <Link Source="Microsoft.AspNet.Web.Optimization 1.1.0-alpha1" Target="Microsoft.Web.Infrastructure 1.0.0.0" Category="Package Dependency" />
+    <Link Source="Microsoft.AspNet.Web.Optimization 1.1.0-alpha1" Target="WebGrease 1.3.0" Category="Package Dependency" />
+    <Link Source="Microsoft.AspNet.WebApi 4.0.20710.0" Target="Microsoft.AspNet.WebApi.WebHost 4.0.20710.0" Category="Package Dependency" />
+    <Link Source="Microsoft.AspNet.WebApi.Client 4.1.0-alpha-120809" Target="Microsoft.Net.Http 2.0.20710.0" Category="Package Dependency" />
+    <Link Source="Microsoft.AspNet.WebApi.Client 4.1.0-alpha-120809" Target="Newtonsoft.Json 4.5.11" Category="Package Dependency" />
+    <Link Source="Microsoft.AspNet.WebApi.Client 4.1.0-alpha-120809" Target="Newtonsoft.Json 4.5.11" Category="Package Dependency" />
+    <Link Source="Microsoft.AspNet.WebApi.Core 4.0.20710.0" Target="Microsoft.AspNet.WebApi.Client 4.1.0-alpha-120809" Category="Package Dependency" />
+    <Link Source="Microsoft.AspNet.WebApi.WebHost 4.0.20710.0" Target="Microsoft.Web.Infrastructure 1.0.0.0" Category="Package Dependency" />
+    <Link Source="Microsoft.AspNet.WebApi.WebHost 4.0.20710.0" Target="Microsoft.AspNet.WebApi.Core 4.0.20710.0" Category="Package Dependency" />
+    <Link Source="Microsoft.AspNet.WebPages 2.0.20710.0" Target="Microsoft.Web.Infrastructure 1.0.0.0" Category="Package Dependency" />
+    <Link Source="Microsoft.AspNet.WebPages 2.0.20710.0" Target="Microsoft.AspNet.Razor 2.0.20715.0" Category="Package Dependency" />
+    <Link Source="Microsoft.Web.Optimization 1.0.0-beta2" Target="Microsoft.AspNet.Web.Optimization 1.1.0-alpha1" Category="Package Dependency" />
+    <Link Source="ninject.extensions.conventions 3.0.2-unstable-2" Target="Ninject 3.0.2-unstable-8" Category="Package Dependency" />
+    <Link Source="Core\Website.Common" Target="Microsoft.AspNet.Mvc 4.0.20710.0" Category="Installed Package" />
+    <Link Source="Core\Website.Common" Target="Microsoft.AspNet.Razor 2.0.20715.0" Category="Installed Package" />
+    <Link Source="Core\Website.Common" Target="Microsoft.AspNet.Web.Optimization 1.1.0-alpha1" Category="Installed Package" />
+    <Link Source="Core\Website.Common" Target="Microsoft.AspNet.WebApi 4.0.20710.0" Category="Installed Package" />
+    <Link Source="Core\Website.Common" Target="Microsoft.Net.Http 2.0.20710.0" Category="Installed Package" />
+    <Link Source="Core\Website.Common" Target="Microsoft.Web.Optimization 1.0.0-beta2" Category="Installed Package" />
+    <Link Source="Core\Website.Common" Target="Newtonsoft.Json 4.5.11" Category="Installed Package" />
+    <Link Source="Core\Website.Common" Target="Ninject 3.0.2-unstable-8" Category="Installed Package" />
+    <Link Source="Core\Website.Common" Target="ninject.extensions.conventions 3.0.2-unstable-2" Category="Installed Package" />
+    <Link Source="Core\Website.Common" Target="WebGrease 1.3.0" Category="Installed Package" />
+    <Link Source="Microsoft.Data.OData 5.2.0" Target="System.Spatial 5.2.0" Category="Package Dependency" />
+    <Link Source="Microsoft.Data.OData 5.2.0" Target="Microsoft.Data.Edm 5.2.0" Category="Package Dependency" />
+    <Link Source="WindowsAzure.Storage 2.0.5.1" Target="Microsoft.Data.OData 5.2.0" Category="Package Dependency" />
+    <Link Source="WindowsAzure.Storage 2.0.5.1" Target="Microsoft.WindowsAzure.ConfigurationManager 2.0.1.0" Category="Package Dependency" />
+    <Link Source="Core\Website.Azure.Common" Target="Microsoft.Data.Edm 5.2.0" Category="Installed Package" />
+    <Link Source="Core\Website.Azure.Common" Target="Microsoft.Data.OData 5.2.0" Category="Installed Package" />
+    <Link Source="Core\Website.Azure.Common" Target="Microsoft.Web.Optimization 1.0.0-beta2" Category="Installed Package" />
+    <Link Source="Core\Website.Azure.Common" Target="Microsoft.WindowsAzure.ConfigurationManager 2.0.1.0" Category="Installed Package" />
+    <Link Source="Core\Website.Azure.Common" Target="Newtonsoft.Json 4.5.11" Category="Installed Package" />
+    <Link Source="Core\Website.Azure.Common" Target="Ninject 3.0.2-unstable-8" Category="Installed Package" />
+    <Link Source="Core\Website.Azure.Common" Target="System.Spatial 5.2.0" Category="Installed Package" />
+    <Link Source="Core\Website.Azure.Common" Target="WindowsAzure.Storage 2.0.5.1" Category="Installed Package" />
+    <Link Source="Microsoft.Data.OData 5.2.0" Target="System.Spatial 5.2.0" Category="Package Dependency" />
+    <Link Source="Microsoft.Data.OData 5.2.0" Target="Microsoft.Data.Edm 5.2.0" Category="Package Dependency" />
+    <Link Source="WindowsAzure.Storage 2.0.5.1" Target="Microsoft.Data.OData 5.2.0" Category="Package Dependency" />
+    <Link Source="WindowsAzure.Storage 2.0.5.1" Target="Microsoft.WindowsAzure.ConfigurationManager 2.0.1.0" Category="Package Dependency" />
+    <Link Source="Core\Website.Application.Azure" Target="Microsoft.Data.Edm 5.2.0" Category="Installed Package" />
+    <Link Source="Core\Website.Application.Azure" Target="Microsoft.Data.OData 5.2.0" Category="Installed Package" />
+    <Link Source="Core\Website.Application.Azure" Target="Microsoft.WindowsAzure.Caching 2.0.0.0" Category="Installed Package" />
+    <Link Source="Core\Website.Application.Azure" Target="Microsoft.WindowsAzure.ConfigurationManager 2.0.1.0" Category="Installed Package" />
+    <Link Source="Core\Website.Application.Azure" Target="Ninject 3.0.2-unstable-8" Category="Installed Package" />
+    <Link Source="Core\Website.Application.Azure" Target="System.Spatial 5.2.0" Category="Installed Package" />
+    <Link Source="Core\Website.Application.Azure" Target="WindowsAzure.Storage 2.0.5.1" Category="Installed Package" />
+    <Link Source="DotNetOpenAuth 4.2.1.13026" Target="DotNetOpenAuth.OpenId.RelyingParty.UI 4.2.1.13026" Category="Package Dependency" />
+    <Link Source="DotNetOpenAuth 4.2.1.13026" Target="DotNetOpenAuth.OpenId.Provider.UI 4.2.1.13026" Category="Package Dependency" />
+    <Link Source="DotNetOpenAuth 4.2.1.13026" Target="DotNetOpenAuth.OAuth.Consumer 4.2.1.13026" Category="Package Dependency" />
+    <Link Source="DotNetOpenAuth 4.2.1.13026" Target="DotNetOpenAuth.OAuth.ServiceProvider 4.2.1.13026" Category="Package Dependency" />
+    <Link Source="DotNetOpenAuth 4.2.1.13026" Target="DotNetOpenAuth.OpenIdInfoCard.UI 4.2.1.13026" Category="Package Dependency" />
+    <Link Source="DotNetOpenAuth 4.2.1.13026" Target="DotNetOpenAuth.OpenIdOAuth 4.2.1.13026" Category="Package Dependency" />
+    <Link Source="DotNetOpenAuth 4.2.1.13026" Target="DotNetOpenAuth.OAuth2.Client.UI 4.2.1.13026" Category="Package Dependency" />
+    <Link Source="DotNetOpenAuth 4.2.1.13026" Target="DotNetOpenAuth.OAuth2.AuthorizationServer 4.2.1.13026" Category="Package Dependency" />
+    <Link Source="DotNetOpenAuth 4.2.1.13026" Target="DotNetOpenAuth.OAuth2.ResourceServer 4.2.1.13026" Category="Package Dependency" />
+    <Link Source="DotNetOpenAuth.Core 4.2.1.13026" Target="Microsoft.Net.Http 2.0.20710.0" Category="Package Dependency" />
+    <Link Source="DotNetOpenAuth.Core.UI 4.2.1.13026" Target="DotNetOpenAuth.Core 4.2.1.13026" Category="Package Dependency" />
+    <Link Source="DotNetOpenAuth.InfoCard 4.2.1.13026" Target="DotNetOpenAuth.Core 4.2.1.13026" Category="Package Dependency" />
+    <Link Source="DotNetOpenAuth.InfoCard.UI 4.2.1.13026" Target="DotNetOpenAuth.Core.UI 4.2.1.13026" Category="Package Dependency" />
+    <Link Source="DotNetOpenAuth.InfoCard.UI 4.2.1.13026" Target="DotNetOpenAuth.InfoCard 4.2.1.13026" Category="Package Dependency" />
+    <Link Source="DotNetOpenAuth.OAuth.Common 4.2.1.13026" Target="DotNetOpenAuth.Core 4.2.1.13026" Category="Package Dependency" />
+    <Link Source="DotNetOpenAuth.OAuth.Consumer 4.2.1.13026" Target="DotNetOpenAuth.OAuth.Core 4.2.1.13026" Category="Package Dependency" />
+    <Link Source="DotNetOpenAuth.OAuth.Core 4.2.1.13026" Target="DotNetOpenAuth.Core 4.2.1.13026" Category="Package Dependency" />
+    <Link Source="DotNetOpenAuth.OAuth.ServiceProvider 4.2.1.13026" Target="DotNetOpenAuth.OAuth.Core 4.2.1.13026" Category="Package Dependency" />
+    <Link Source="DotNetOpenAuth.OAuth.ServiceProvider 4.2.1.13026" Target="DotNetOpenAuth.OAuth.Common 4.2.1.13026" Category="Package Dependency" />
+    <Link Source="DotNetOpenAuth.OAuth2.AuthorizationServer 4.2.1.13026" Target="DotNetOpenAuth.OAuth2.ClientAuthorization 4.2.1.13026" Category="Package Dependency" />
+    <Link Source="DotNetOpenAuth.OAuth2.Client 4.2.1.13026" Target="DotNetOpenAuth.OAuth2.ClientAuthorization 4.2.1.13026" Category="Package Dependency" />
+    <Link Source="DotNetOpenAuth.OAuth2.Client.UI 4.2.1.13026" Target="DotNetOpenAuth.OAuth2.Client 4.2.1.13026" Category="Package Dependency" />
+    <Link Source="DotNetOpenAuth.OAuth2.ClientAuthorization 4.2.1.13026" Target="DotNetOpenAuth.OAuth2.Core 4.2.1.13026" Category="Package Dependency" />
+    <Link Source="DotNetOpenAuth.OAuth2.Core 4.2.1.13026" Target="DotNetOpenAuth.Core 4.2.1.13026" Category="Package Dependency" />
+    <Link Source="DotNetOpenAuth.OAuth2.ResourceServer 4.2.1.13026" Target="DotNetOpenAuth.OAuth2.Core 4.2.1.13026" Category="Package Dependency" />
+    <Link Source="DotNetOpenAuth.OAuth2.ResourceServer 4.2.1.13026" Target="DotNetOpenAuth.OAuth.Common 4.2.1.13026" Category="Package Dependency" />
+    <Link Source="DotNetOpenAuth.OpenId.Core 4.2.1.13026" Target="DotNetOpenAuth.Core 4.2.1.13026" Category="Package Dependency" />
+    <Link Source="DotNetOpenAuth.OpenId.Core.UI 4.2.1.13026" Target="DotNetOpenAuth.Core.UI 4.2.1.13026" Category="Package Dependency" />
+    <Link Source="DotNetOpenAuth.OpenId.Provider 4.2.1.13026" Target="DotNetOpenAuth.OpenId.Core 4.2.1.13026" Category="Package Dependency" />
+    <Link Source="DotNetOpenAuth.OpenId.Provider.UI 4.2.1.13026" Target="DotNetOpenAuth.OpenId.Core.UI 4.2.1.13026" Category="Package Dependency" />
+    <Link Source="DotNetOpenAuth.OpenId.Provider.UI 4.2.1.13026" Target="DotNetOpenAuth.OpenId.Provider 4.2.1.13026" Category="Package Dependency" />
+    <Link Source="DotNetOpenAuth.OpenId.RelyingParty 4.2.1.13026" Target="DotNetOpenAuth.OpenId.Core 4.2.1.13026" Category="Package Dependency" />
+    <Link Source="DotNetOpenAuth.OpenId.RelyingParty.UI 4.2.1.13026" Target="DotNetOpenAuth.OpenId.Core.UI 4.2.1.13026" Category="Package Dependency" />
+    <Link Source="DotNetOpenAuth.OpenId.RelyingParty.UI 4.2.1.13026" Target="DotNetOpenAuth.OpenId.RelyingParty 4.2.1.13026" Category="Package Dependency" />
+    <Link Source="DotNetOpenAuth.OpenIdInfoCard.UI 4.2.1.13026" Target="DotNetOpenAuth.OpenId.RelyingParty.UI 4.2.1.13026" Category="Package Dependency" />
+    <Link Source="DotNetOpenAuth.OpenIdInfoCard.UI 4.2.1.13026" Target="DotNetOpenAuth.InfoCard.UI 4.2.1.13026" Category="Package Dependency" />
+    <Link Source="DotNetOpenAuth.OpenIdOAuth 4.2.1.13026" Target="DotNetOpenAuth.OAuth.Consumer 4.2.1.13026" Category="Package Dependency" />
+    <Link Source="DotNetOpenAuth.OpenIdOAuth 4.2.1.13026" Target="DotNetOpenAuth.OAuth.ServiceProvider 4.2.1.13026" Category="Package Dependency" />
+    <Link Source="DotNetOpenAuth.OpenIdOAuth 4.2.1.13026" Target="DotNetOpenAuth.OpenId.Core 4.2.1.13026" Category="Package Dependency" />
+    <Link Source="Microsoft.AspNet.WebApi.Client 4.1.0-alpha-120809" Target="Microsoft.Net.Http 2.0.20710.0" Category="Package Dependency" />
+    <Link Source="Microsoft.AspNet.WebApi.Client 4.1.0-alpha-120809" Target="Newtonsoft.Json 4.5.11" Category="Package Dependency" />
+    <Link Source="Microsoft.AspNet.WebApi.Client 4.1.0-alpha-120809" Target="Newtonsoft.Json 4.5.11" Category="Package Dependency" />
+    <Link Source="ninject.extensions.conventions 3.0.2-unstable-2" Target="Ninject 3.0.2-unstable-8" Category="Package Dependency" />
+    <Link Source="Sendgrid 1.1.1" Target="RestSharp 104.1" Category="Package Dependency" />
+    <Link Source="WebActivator 1.5.3" Target="Microsoft.Web.Infrastructure 1.0.0.0" Category="Package Dependency" />
+    <Link Source="Core\Website.Application" Target="DataAnnotationsExtensions 1.1.0.0" Category="Installed Package" />
+    <Link Source="Core\Website.Application" Target="DotNetOpenAuth 4.2.1.13026" Category="Installed Package" />
+    <Link Source="Core\Website.Application" Target="DotNetOpenAuth.Core 4.2.1.13026" Category="Installed Package" />
+    <Link Source="Core\Website.Application" Target="DotNetOpenAuth.Core.UI 4.2.1.13026" Category="Installed Package" />
+    <Link Source="Core\Website.Application" Target="DotNetOpenAuth.InfoCard 4.2.1.13026" Category="Installed Package" />
+    <Link Source="Core\Website.Application" Target="DotNetOpenAuth.InfoCard.UI 4.2.1.13026" Category="Installed Package" />
+    <Link Source="Core\Website.Application" Target="DotNetOpenAuth.OAuth.Common 4.2.1.13026" Category="Installed Package" />
+    <Link Source="Core\Website.Application" Target="DotNetOpenAuth.OAuth.Consumer 4.2.1.13026" Category="Installed Package" />
+    <Link Source="Core\Website.Application" Target="DotNetOpenAuth.OAuth.Core 4.2.1.13026" Category="Installed Package" />
+    <Link Source="Core\Website.Application" Target="DotNetOpenAuth.OAuth.ServiceProvider 4.2.1.13026" Category="Installed Package" />
+    <Link Source="Core\Website.Application" Target="DotNetOpenAuth.OAuth2.AuthorizationServer 4.2.1.13026" Category="Installed Package" />
+    <Link Source="Core\Website.Application" Target="DotNetOpenAuth.OAuth2.Client 4.2.1.13026" Category="Installed Package" />
+    <Link Source="Core\Website.Application" Target="DotNetOpenAuth.OAuth2.Client.UI 4.2.1.13026" Category="Installed Package" />
+    <Link Source="Core\Website.Application" Target="DotNetOpenAuth.OAuth2.ClientAuthorization 4.2.1.13026" Category="Installed Package" />
+    <Link Source="Core\Website.Application" Target="DotNetOpenAuth.OAuth2.Core 4.2.1.13026" Category="Installed Package" />
+    <Link Source="Core\Website.Application" Target="DotNetOpenAuth.OAuth2.ResourceServer 4.2.1.13026" Category="Installed Package" />
+    <Link Source="Core\Website.Application" Target="DotNetOpenAuth.OpenId.Core 4.2.1.13026" Category="Installed Package" />
+    <Link Source="Core\Website.Application" Target="DotNetOpenAuth.OpenId.Core.UI 4.2.1.13026" Category="Installed Package" />
+    <Link Source="Core\Website.Application" Target="DotNetOpenAuth.OpenId.Provider 4.2.1.13026" Category="Installed Package" />
+    <Link Source="Core\Website.Application" Target="DotNetOpenAuth.OpenId.Provider.UI 4.2.1.13026" Category="Installed Package" />
+    <Link Source="Core\Website.Application" Target="DotNetOpenAuth.OpenId.RelyingParty 4.2.1.13026" Category="Installed Package" />
+    <Link Source="Core\Website.Application" Target="DotNetOpenAuth.OpenId.RelyingParty.UI 4.2.1.13026" Category="Installed Package" />
+    <Link Source="Core\Website.Application" Target="DotNetOpenAuth.OpenIdInfoCard.UI 4.2.1.13026" Category="Installed Package" />
+    <Link Source="Core\Website.Application" Target="DotNetOpenAuth.OpenIdOAuth 4.2.1.13026" Category="Installed Package" />
+    <Link Source="Core\Website.Application" Target="Google.Checkout 2.5.0.12" Category="Installed Package" />
+    <Link Source="Core\Website.Application" Target="Microsoft.AspNet.WebApi.Client 4.1.0-alpha-120809" Category="Installed Package" />
+    <Link Source="Core\Website.Application" Target="Microsoft.Net.Http 2.0.20710.0" Category="Installed Package" />
+    <Link Source="Core\Website.Application" Target="Newtonsoft.Json 4.5.11" Category="Installed Package" />
+    <Link Source="Core\Website.Application" Target="Ninject 3.0.2-unstable-8" Category="Installed Package" />
+    <Link Source="Core\Website.Application" Target="ninject.extensions.conventions 3.0.2-unstable-2" Category="Installed Package" />
+    <Link Source="Core\Website.Application" Target="RestSharp 104.1" Category="Installed Package" />
+    <Link Source="Core\Website.Application" Target="Sendgrid 1.1.1" Category="Installed Package" />
+    <Link Source="Core\Website.Application" Target="WebActivator 1.5.3" Category="Installed Package" />
+    <Link Source="Core\Website.Application" Target="ZXing.Net 0.10.0.0" Category="Installed Package" />
+    <Link Source="Ninject.MockingKernel 3.0.2-unstable-0" Target="Ninject 3.0.2-unstable-8" Category="Package Dependency" />
+    <Link Source="Ninject.MockingKernel.Moq 3.0.2-unstable-0" Target="Ninject.MockingKernel 3.0.2-unstable-0" Category="Package Dependency" />
+    <Link Source="Ninject.MockingKernel.Moq 3.0.2-unstable-0" Target="Moq 4.0.10827" Category="Package Dependency" />
+    <Link Source="Core\Tests\Website.Domain.Tests" Target="Ninject 3.0.2-unstable-8" Category="Installed Package" />
+    <Link Source="Core\Tests\Website.Domain.Tests" Target="Ninject.MockingKernel 3.0.2-unstable-0" Category="Installed Package" />
+    <Link Source="Core\Tests\Website.Domain.Tests" Target="Ninject.MockingKernel.Moq 3.0.2-unstable-0" Category="Installed Package" />
+    <Link Source="Core\Tests\Website.Domain.Tests" Target="NUnit 2.6.2" Category="Installed Package" />
+    <Link Source="Ninject.MockingKernel 3.0.2-unstable-0" Target="Ninject 3.0.2-unstable-8" Category="Package Dependency" />
+    <Link Source="Ninject.MockingKernel.Moq 3.0.2-unstable-0" Target="Ninject.MockingKernel 3.0.2-unstable-0" Category="Package Dependency" />
+    <Link Source="Ninject.MockingKernel.Moq 3.0.2-unstable-0" Target="Moq 4.0.10827" Category="Package Dependency" />
+    <Link Source="Core\Tests\Website.Mocks.Domain" Target="Ninject 3.0.2-unstable-8" Category="Installed Package" />
+    <Link Source="Core\Tests\Website.Mocks.Domain" Target="Ninject.MockingKernel 3.0.2-unstable-0" Category="Installed Package" />
+    <Link Source="Core\Tests\Website.Mocks.Domain" Target="Ninject.MockingKernel.Moq 3.0.2-unstable-0" Category="Installed Package" />
+    <Link Source="Core\Tests\Website.Mocks.Domain" Target="NUnit 2.6.2" Category="Installed Package" />
+    <Link Source="Microsoft.AspNet.Mvc 4.0.20710.0" Target="Microsoft.AspNet.WebPages 2.0.20710.0" Category="Package Dependency" />
+    <Link Source="Microsoft.AspNet.Mvc 4.0.20710.0" Target="Microsoft.AspNet.Razor 2.0.20715.0" Category="Package Dependency" />
+    <Link Source="Microsoft.AspNet.WebApi 4.0.20710.0" Target="Microsoft.AspNet.WebApi.WebHost 4.0.20710.0" Category="Package Dependency" />
+    <Link Source="Microsoft.AspNet.WebApi.Client 4.1.0-alpha-120809" Target="Microsoft.Net.Http 2.0.20710.0" Category="Package Dependency" />
+    <Link Source="Microsoft.AspNet.WebApi.Client 4.1.0-alpha-120809" Target="Newtonsoft.Json 4.5.11" Category="Package Dependency" />
+    <Link Source="Microsoft.AspNet.WebApi.Client 4.1.0-alpha-120809" Target="Newtonsoft.Json 4.5.11" Category="Package Dependency" />
+    <Link Source="Microsoft.AspNet.WebApi.Core 4.0.20710.0" Target="Microsoft.AspNet.WebApi.Client 4.1.0-alpha-120809" Category="Package Dependency" />
+    <Link Source="Microsoft.AspNet.WebApi.WebHost 4.0.20710.0" Target="Microsoft.Web.Infrastructure 1.0.0.0" Category="Package Dependency" />
+    <Link Source="Microsoft.AspNet.WebApi.WebHost 4.0.20710.0" Target="Microsoft.AspNet.WebApi.Core 4.0.20710.0" Category="Package Dependency" />
+    <Link Source="Microsoft.AspNet.WebPages 2.0.20710.0" Target="Microsoft.Web.Infrastructure 1.0.0.0" Category="Package Dependency" />
+    <Link Source="Microsoft.AspNet.WebPages 2.0.20710.0" Target="Microsoft.AspNet.Razor 2.0.20715.0" Category="Package Dependency" />
+    <Link Source="Ninject.MockingKernel 3.0.2-unstable-0" Target="Ninject 3.0.2-unstable-8" Category="Package Dependency" />
+    <Link Source="Ninject.MockingKernel.Moq 3.0.2-unstable-0" Target="Ninject.MockingKernel 3.0.2-unstable-0" Category="Package Dependency" />
+    <Link Source="Ninject.MockingKernel.Moq 3.0.2-unstable-0" Target="Moq 4.0.10827" Category="Package Dependency" />
+    <Link Source="Core\Tests\Website.Application.Domain.Tests" Target="Microsoft.AspNet.Mvc 4.0.20710.0" Category="Installed Package" />
+    <Link Source="Core\Tests\Website.Application.Domain.Tests" Target="Microsoft.AspNet.Razor 2.0.20715.0" Category="Installed Package" />
+    <Link Source="Core\Tests\Website.Application.Domain.Tests" Target="Microsoft.AspNet.WebApi 4.0.20710.0" Category="Installed Package" />
+    <Link Source="Core\Tests\Website.Application.Domain.Tests" Target="Microsoft.Net.Http 2.0.20710.0" Category="Installed Package" />
+    <Link Source="Core\Tests\Website.Application.Domain.Tests" Target="Newtonsoft.Json 4.5.11" Category="Installed Package" />
+    <Link Source="Core\Tests\Website.Application.Domain.Tests" Target="Ninject 3.0.2-unstable-8" Category="Installed Package" />
+    <Link Source="Core\Tests\Website.Application.Domain.Tests" Target="Ninject.MockingKernel 3.0.2-unstable-0" Category="Installed Package" />
+    <Link Source="Core\Tests\Website.Application.Domain.Tests" Target="Ninject.MockingKernel.Moq 3.0.2-unstable-0" Category="Installed Package" />
+    <Link Source="Core\Tests\Website.Application.Domain.Tests" Target="NUnit 2.6.2" Category="Installed Package" />
+    <Link Source="Microsoft.AspNet.Mvc 4.0.20710.0" Target="Microsoft.AspNet.WebPages 2.0.20710.0" Category="Package Dependency" />
+    <Link Source="Microsoft.AspNet.Mvc 4.0.20710.0" Target="Microsoft.AspNet.Razor 2.0.20715.0" Category="Package Dependency" />
+    <Link Source="Microsoft.AspNet.WebApi.Client 4.1.0-alpha-120809" Target="Microsoft.Net.Http 2.0.20710.0" Category="Package Dependency" />
+    <Link Source="Microsoft.AspNet.WebApi.Client 4.1.0-alpha-120809" Target="Newtonsoft.Json 4.5.11" Category="Package Dependency" />
+    <Link Source="Microsoft.AspNet.WebApi.Client 4.1.0-alpha-120809" Target="Newtonsoft.Json 4.5.11" Category="Package Dependency" />
+    <Link Source="Microsoft.AspNet.WebApi.Core 4.0.20710.0" Target="Microsoft.AspNet.WebApi.Client 4.1.0-alpha-120809" Category="Package Dependency" />
+    <Link Source="Microsoft.AspNet.WebApi.WebHost 4.0.20710.0" Target="Microsoft.Web.Infrastructure 1.0.0.0" Category="Package Dependency" />
+    <Link Source="Microsoft.AspNet.WebApi.WebHost 4.0.20710.0" Target="Microsoft.AspNet.WebApi.Core 4.0.20710.0" Category="Package Dependency" />
+    <Link Source="Microsoft.AspNet.WebPages 2.0.20710.0" Target="Microsoft.Web.Infrastructure 1.0.0.0" Category="Package Dependency" />
+    <Link Source="Microsoft.AspNet.WebPages 2.0.20710.0" Target="Microsoft.AspNet.Razor 2.0.20715.0" Category="Package Dependency" />
+    <Link Source="Ninject.MockingKernel 3.0.2-unstable-0" Target="Ninject 3.0.2-unstable-8" Category="Package Dependency" />
+    <Link Source="Ninject.MockingKernel.Moq 3.0.2-unstable-0" Target="Ninject.MockingKernel 3.0.2-unstable-0" Category="Package Dependency" />
+    <Link Source="Ninject.MockingKernel.Moq 3.0.2-unstable-0" Target="Moq 4.0.10827" Category="Package Dependency" />
+    <Link Source="Core\Tests\Website.Test.Common" Target="Microsoft.AspNet.Mvc 4.0.20710.0" Category="Installed Package" />
+    <Link Source="Core\Tests\Website.Test.Common" Target="Microsoft.AspNet.Razor 2.0.20715.0" Category="Installed Package" />
+    <Link Source="Core\Tests\Website.Test.Common" Target="Microsoft.AspNet.WebApi.WebHost 4.0.20710.0" Category="Installed Package" />
+    <Link Source="Core\Tests\Website.Test.Common" Target="Microsoft.Net.Http 2.0.20710.0" Category="Installed Package" />
+    <Link Source="Core\Tests\Website.Test.Common" Target="Newtonsoft.Json 4.5.11" Category="Installed Package" />
+    <Link Source="Core\Tests\Website.Test.Common" Target="Ninject 3.0.2-unstable-8" Category="Installed Package" />
+    <Link Source="Core\Tests\Website.Test.Common" Target="Ninject.MockingKernel 3.0.2-unstable-0" Category="Installed Package" />
+    <Link Source="Core\Tests\Website.Test.Common" Target="Ninject.MockingKernel.Moq 3.0.2-unstable-0" Category="Installed Package" />
+    <Link Source="Core\Tests\Website.Test.Common" Target="NUnit 2.6.2" Category="Installed Package" />
+    <Link Source="Microsoft.Data.OData 5.2.0" Target="System.Spatial 5.2.0" Category="Package Dependency" />
+    <Link Source="Microsoft.Data.OData 5.2.0" Target="Microsoft.Data.Edm 5.2.0" Category="Package Dependency" />
+    <Link Source="Ninject.MockingKernel 3.0.2-unstable-0" Target="Ninject 3.0.2-unstable-8" Category="Package Dependency" />
+    <Link Source="Ninject.MockingKernel.Moq 3.0.2-unstable-0" Target="Ninject.MockingKernel 3.0.2-unstable-0" Category="Package Dependency" />
+    <Link Source="Ninject.MockingKernel.Moq 3.0.2-unstable-0" Target="Moq 4.0.10827" Category="Package Dependency" />
+    <Link Source="WindowsAzure.Storage 2.0.5.1" Target="Microsoft.Data.OData 5.2.0" Category="Package Dependency" />
+    <Link Source="WindowsAzure.Storage 2.0.5.1" Target="Microsoft.WindowsAzure.ConfigurationManager 2.0.1.0" Category="Package Dependency" />
+    <Link Source="Core\Tests\Website.Azure.Common.Tests" Target="Microsoft.Data.Edm 5.2.0" Category="Installed Package" />
+    <Link Source="Core\Tests\Website.Azure.Common.Tests" Target="Microsoft.Data.OData 5.2.0" Category="Installed Package" />
+    <Link Source="Core\Tests\Website.Azure.Common.Tests" Target="Microsoft.WindowsAzure.ConfigurationManager 2.0.1.0" Category="Installed Package" />
+    <Link Source="Core\Tests\Website.Azure.Common.Tests" Target="Newtonsoft.Json 4.5.11" Category="Installed Package" />
+    <Link Source="Core\Tests\Website.Azure.Common.Tests" Target="Ninject 3.0.2-unstable-8" Category="Installed Package" />
+    <Link Source="Core\Tests\Website.Azure.Common.Tests" Target="Ninject.MockingKernel 3.0.2-unstable-0" Category="Installed Package" />
+    <Link Source="Core\Tests\Website.Azure.Common.Tests" Target="Ninject.MockingKernel.Moq 3.0.2-unstable-0" Category="Installed Package" />
+    <Link Source="Core\Tests\Website.Azure.Common.Tests" Target="NUnit 2.6.2" Category="Installed Package" />
+    <Link Source="Core\Tests\Website.Azure.Common.Tests" Target="System.Spatial 5.2.0" Category="Installed Package" />
+    <Link Source="Core\Tests\Website.Azure.Common.Tests" Target="WindowsAzure.Storage 2.0.5.1" Category="Installed Package" />
+    <Link Source="ninject.extensions.conventions 3.0.2-unstable-2" Target="Ninject 3.0.2-unstable-8" Category="Package Dependency" />
+    <Link Source="Ninject.MockingKernel 3.0.2-unstable-0" Target="Ninject 3.0.2-unstable-8" Category="Package Dependency" />
+    <Link Source="Ninject.MockingKernel.Moq 3.0.2-unstable-0" Target="Ninject.MockingKernel 3.0.2-unstable-0" Category="Package Dependency" />
+    <Link Source="Ninject.MockingKernel.Moq 3.0.2-unstable-0" Target="Moq 4.0.10827" Category="Package Dependency" />
+    <Link Source="Sendgrid 1.1.1" Target="RestSharp 104.1" Category="Package Dependency" />
+    <Link Source="Core\Tests\Website.Application.Tests" Target="Ninject 3.0.2-unstable-8" Category="Installed Package" />
+    <Link Source="Core\Tests\Website.Application.Tests" Target="ninject.extensions.conventions 3.0.2-unstable-2" Category="Installed Package" />
+    <Link Source="Core\Tests\Website.Application.Tests" Target="Ninject.MockingKernel 3.0.2-unstable-0" Category="Installed Package" />
+    <Link Source="Core\Tests\Website.Application.Tests" Target="Ninject.MockingKernel.Moq 3.0.2-unstable-0" Category="Installed Package" />
+    <Link Source="Core\Tests\Website.Application.Tests" Target="NUnit 2.6.2" Category="Installed Package" />
+    <Link Source="Core\Tests\Website.Application.Tests" Target="RestSharp 104.1" Category="Installed Package" />
+    <Link Source="Core\Tests\Website.Application.Tests" Target="Sendgrid 1.1.1" Category="Installed Package" />
+    <Link Source="Microsoft.Data.OData 5.2.0" Target="System.Spatial 5.2.0" Category="Package Dependency" />
+    <Link Source="Microsoft.Data.OData 5.2.0" Target="Microsoft.Data.Edm 5.2.0" Category="Package Dependency" />
+    <Link Source="ninject.extensions.conventions 3.0.2-unstable-2" Target="Ninject 3.0.2-unstable-8" Category="Package Dependency" />
+    <Link Source="Ninject.MockingKernel 3.0.2-unstable-0" Target="Ninject 3.0.2-unstable-8" Category="Package Dependency" />
+    <Link Source="Ninject.MockingKernel.Moq 3.0.2-unstable-0" Target="Ninject.MockingKernel 3.0.2-unstable-0" Category="Package Dependency" />
+    <Link Source="Ninject.MockingKernel.Moq 3.0.2-unstable-0" Target="Moq 4.0.10827" Category="Package Dependency" />
+    <Link Source="WindowsAzure.Storage 2.0.5.1" Target="Microsoft.Data.OData 5.2.0" Category="Package Dependency" />
+    <Link Source="WindowsAzure.Storage 2.0.5.1" Target="Microsoft.WindowsAzure.ConfigurationManager 2.0.1.0" Category="Package Dependency" />
+    <Link Source="Core\Tests\Website.Application.Azure.Tests" Target="Microsoft.Data.Edm 5.2.0" Category="Installed Package" />
+    <Link Source="Core\Tests\Website.Application.Azure.Tests" Target="Microsoft.Data.OData 5.2.0" Category="Installed Package" />
+    <Link Source="Core\Tests\Website.Application.Azure.Tests" Target="Microsoft.WindowsAzure.ConfigurationManager 2.0.1.0" Category="Installed Package" />
+    <Link Source="Core\Tests\Website.Application.Azure.Tests" Target="Newtonsoft.Json 4.5.11" Category="Installed Package" />
+    <Link Source="Core\Tests\Website.Application.Azure.Tests" Target="Ninject 3.0.2-unstable-8" Category="Installed Package" />
+    <Link Source="Core\Tests\Website.Application.Azure.Tests" Target="ninject.extensions.conventions 3.0.2-unstable-2" Category="Installed Package" />
+    <Link Source="Core\Tests\Website.Application.Azure.Tests" Target="Ninject.MockingKernel 3.0.2-unstable-0" Category="Installed Package" />
+    <Link Source="Core\Tests\Website.Application.Azure.Tests" Target="Ninject.MockingKernel.Moq 3.0.2-unstable-0" Category="Installed Package" />
+    <Link Source="Core\Tests\Website.Application.Azure.Tests" Target="NUnit 2.6.2" Category="Installed Package" />
+    <Link Source="Core\Tests\Website.Application.Azure.Tests" Target="System.Spatial 5.2.0" Category="Installed Package" />
+    <Link Source="Core\Tests\Website.Application.Azure.Tests" Target="WindowsAzure.Storage 2.0.5.1" Category="Installed Package" />
+  </Links>
+  <Categories>
+    <Category Id="Project" />
+    <Category Id="Package" />
+  </Categories>
+  <Styles>
+    <Style TargetType="Node" GroupLabel="Project" ValueLabel="True">
+      <Condition Expression="HasCategory('Project')" />
+      <Setter Property="Background" Value="Blue" />
+    </Style>
+    <Style TargetType="Link" GroupLabel="Package Dependency" ValueLabel="True">
+      <Condition Expression="HasCategory('Package Dependency')" />
+      <Setter Property="Background" Value="Yellow" />
+    </Style>
+  </Styles>
+</DirectedGraph>

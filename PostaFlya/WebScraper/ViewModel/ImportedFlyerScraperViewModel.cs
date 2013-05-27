@@ -26,7 +26,7 @@ namespace WebScraper.ViewModel
                 bi.EndInit();
                 target.Image = bi;
             }
-            else
+            else if (source.ImageUrl != null)
             {
                 target.Image = new BitmapImage(new Uri(source.ImageUrl));
             }
