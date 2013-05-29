@@ -206,7 +206,7 @@
             if (locality) {
                 nomore += ' around ' + locality;
             }
-            nomore += '! Why not ';
+            nomore += '!';
 
             self.noMoreFliersText(nomore);
 

@@ -38,7 +38,7 @@ namespace PostaFlya.Controllers
         public ActionResult Widget(string id)
         {
             Response.ContentType = "text/javascript";
-            return View(new BoardWidgetViewModel()
+            return View("Widget/Widget", new BoardWidgetViewModel()
                 {
                     BoardFriendlyId = id,
                     SiteBase = _configurationService.GetSetting("SiteUrl")

@@ -411,7 +411,7 @@
     </Compile>
     <Compile Include="RemoveWwwRedirectFilter.cs" />
     <Compile Include="Views\Account\Bundles.cs" />
-    <Compile Include="Views\Board\WidgetBundles.cs" />
+    <Compile Include="Views\Board\Widget\WidgetBundles.cs" />
     <Compile Include="Views\Bulletin\Bundles.cs" />
     <Compile Include="Views\FlierImport\Bundles.cs" />
     <Compile Include="Views\Flier\Bundles.cs" />
@@ -435,7 +435,6 @@
     <Content Include="Content\themes\taskflya\images\icons-44h.png" />
     <Content Include="Content\themes\taskflya\images\icons-44h1.png" />
     <Content Include="Content\themes\taskflya\images\icons-88h.png" />
-    <Content Include="Content\structure\CommonSiteOld.css" />
     <Content Include="Content\themes\taskflya\images\about-flya.png" />
     <Content Include="Content\themes\taskflya\images\add-btn.png" />
     <Content Include="Content\themes\taskflya\images\back-btn.png" />
@@ -462,7 +461,6 @@
     <Content Include="Content\images\prev-horizontal.png" />
     <Content Include="Content\images\prev-vertical.png" />
     <Content Include="Content\structure\jquery.isotope.css" />
-    <Content Include="Content\structure\CommonSite.css" />
     <Content Include="Content\structure\jcarousel-skin-tango.css" />
     <Content Include="Content\themes\taskflya\images\header-bg-shim.png" />
     <Content Include="Content\themes\taskflya\images\helptips-arrow.png" />
@@ -515,7 +513,6 @@
     <Content Include="Content\themes\taskflya\openid-shadow.css" />
     <Content Include="Content\themes\taskflya\openid.css" />
     <Content Include="Content\Testing\qunit.css" />
-    <Content Include="Content\themes\taskflya\CommonSite.css" />
     <Content Include="Content\themes\taskflya\DeskSite.css" />
     <Content Include="Content\themes\taskflya\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\themes\taskflya\images\ui-bg_flat_75_ffffff_40x100.png" />
@@ -550,6 +547,7 @@
     <Content Include="Content\themes\taskflya\images\icons-36-black.png" />
     <Content Include="Content\themes\taskflya\images\icons-36-white.png" />
     <Content Include="Content\themes\taskflya\images\loading.gif" />
+    <Content Include="Content\themes\taskflya\Widgets.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Areas\Default\Views\Web.config" />
@@ -804,10 +802,12 @@
     <Content Include="Views\Shared\Bulletin\BulletinUserLinks.cshtml" />
     <Content Include="Views\Board\Get.cshtml" />
     <Content Include="Views\Board\BoardInformation.cshtml" />
-    <Content Include="Views\Board\Widget.cshtml" />
+    <Content Include="Views\Board\Widget\Widget.cshtml" />
     <Content Include="Views\Shared\Widget\WidgetLoadPartial.cshtml" />
     <Content Include="Views\Shared\_DateFilterPartial.cshtml" />
-    <Content Include="Views\Board\WidgetBoard.cshtml" />
+    <Content Include="Views\Board\Widget\BulletinList.cshtml" />
+    <Content Include="Views\Board\BoardCalendarPartial.cshtml" />
+    <Content Include="Views\Board\Widget\BoardWidgetHtml.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

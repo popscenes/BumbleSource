@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Optimization;
-using Microsoft.Web.Helpers;
+﻿using System.Web.Optimization;
 using Website.Common.Extension;
 
-namespace PostaFlya.Views.Board
+namespace PostaFlya.Views.Board.Widget
 {
     public static class WidgetBundles
     {
@@ -61,17 +56,13 @@ namespace PostaFlya.Views.Board
 
         private static readonly string[] Css =
         {
-            "jquery.isotope.css",
-            "CommonSite.css",
-            "DeskSite.css",          
+            "jquery.isotope.css",         
         };
 
         private static readonly string[]ThemeCss =
         {
             "jquery.ui.datepicker.css",
-            "CommonSite.css",
-            "DeskSite.css",
-
+            "Widgets.css",
         };
 
         public static void AddBundles(BundleCollection table)
