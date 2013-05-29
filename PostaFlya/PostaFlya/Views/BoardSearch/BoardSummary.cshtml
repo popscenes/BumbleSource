@@ -1,0 +1,33 @@
+﻿
+<script type="text/html" id="board-bulletin-template">
+        <div class="ui-flier-tile addedtile" data-bind="bulletintile: $root.Layout">
+
+            <div class="tile-image">
+                <img class="tile-img bulletin-img"
+                    data-bind="bulletinimg: BoardImageUrl, root: $root, alt: Name, imgRetry: BoardImageUrl, external: BoardImageExternal" />
+            </div>
+
+            <div class="tile-summary">
+
+                <div class="tile-description">
+                    <div class="flier-title">
+                        <span data-bind="text: Name"></span>
+                    </div>
+                    <div class="flier-locality">
+                        <span data-bind="text: Location.Description()"></span>
+                    </div>
+                </div>
+                <div class="tile-peel">
+                    <a class="bold-link" data-bind="attr: { href: '/' + FriendlyId }">View</a>
+                </div>
+
+            </div>
+        </div>
+
+    </script>
+
+                    
+        
+
+
+
