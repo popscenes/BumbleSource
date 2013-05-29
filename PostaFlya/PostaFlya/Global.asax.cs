@@ -66,6 +66,12 @@ namespace PostaFlya
                 );
 
             routes.MapRoute(
+                name: "BoardSearch",
+                url: "Boards",
+                defaults: new { controller = "BoardSearch", action = "Get" }
+            ); 
+
+            routes.MapRoute(
                 name: "BulletinDetail",
                 url: "{id}",
                 defaults: new { controller = "Bulletin", action = "Detail" },

@@ -69,6 +69,7 @@ namespace PostaFlya.Controllers
             return View("Get", model);
         }
 
+
         public ActionResult Detail(string id)
         {
             var model = new BulletinDetailPageModel

@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Web.Mvc;
 using System.Web.Routing;
+using Website.Application.Domain.Google.Places;
 using Website.Application.Google.Content;
 using Website.Domain.Location;
 
@@ -12,16 +13,7 @@ namespace Website.Application.Domain.Google.Content
         public static MvcHtmlString LocationImage(this HtmlHelper htmlHelper, Website.Domain.Location.Location location,
             int width = 400, int height = 400, int zoom = 16, object htmlAttributes = null)
         {
-            var url = GoogleMaps.MapUrl(location.Latitude, location.Longitude
-                , new List<GoogleMaps.Marker>()
-                    {
-                        new GoogleMaps.Marker()
-                            {
-                                Latitude = location.Latitude, 
-                                Longitude = location.Longitude                          
-                            }
-                    }
-                , width, height, zoom);
+            var url = location.GoogleMapsUrl(width, height, zoom);
 
             var tag = new TagBuilder("img");
             if (htmlAttributes != null)

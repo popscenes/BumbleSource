@@ -27,7 +27,7 @@ namespace PostaFlya.DataRepository.Search.Query
 
             var shards = location.GetShardIdsFor(argument.WithinMetres).Cast<object>().ToArray();
 
-            var ret = SqlExecute.Query<BoardSearchRecord>(sqlCmd,
+            var ret = SqlExecute.Query<BoardSearchRecordWithDistance>(sqlCmd,
                 _connection
                 , new object[] { shards }
                 , new
@@ -40,10 +40,18 @@ namespace PostaFlya.DataRepository.Search.Query
 
             //because of possible federation fan out above make sure we re-order
             //may return more than take but can't avoid that nicely
-            return ret
-                .Select(sr => sr.Id.ToString())
-                .Distinct()
-                .ToList();
+            var result = ret
+                .OrderBy(distance => distance.Metres)
+                .Select(sr => sr.Id.ToString())               
+                .Distinct();
+
+            if (argument.Skip > 0)
+                result = result.Skip(argument.Skip);
+
+            if (argument.Take > 0)
+                result = result.Take(argument.Take);
+
+            return result.ToList();
 
         }
     }

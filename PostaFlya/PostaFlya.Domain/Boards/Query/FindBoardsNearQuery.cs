@@ -7,5 +7,7 @@ namespace PostaFlya.Domain.Boards.Query
     {
         public Location Location { get; set; }
         public int WithinMetres { get; set; }
+        public int Skip { get; set; }
+        public int Take { get; set; }
     }
 }

@@ -19,6 +19,11 @@ namespace PostaFlya.DataRepository.Search.SearchRecord
                 };
         }
     }
+
+    public class BoardSearchRecordWithDistance : BoardSearchRecord
+    {
+        public double Metres { get; set; }
+    }
     public class BoardSearchRecord
     {
         [PrimaryKey]

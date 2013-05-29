@@ -43,12 +43,17 @@ namespace PostaFlya.Models
         public const string BulletinBoardPage = "bulletin-board";
         public const string BulletinDetailPage = "bulletin-detail";
         public const string BoardPage = "board-page";
+        public const string BoardSearchPage = "board-search-page";
+        public const string BoardSearchPageAuto = "board-search-page-auto";
+
 
         #endregion
 
         #region AccountPages
         public const string AccountLoginPage = "login-page";
         #endregion
+        
+
 
         //TODO get rid of this
 
