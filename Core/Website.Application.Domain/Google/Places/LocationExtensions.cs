@@ -3,12 +3,29 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Website.Application.Google.Content;
 using Website.Application.Google.Places.Details;
 
 namespace Website.Application.Domain.Google.Places
 {
     public static class LocationExtensions
     {
+
+        public static string GoogleMapsUrl(this Website.Domain.Location.Location location
+            ,int width = 400, int height = 400, int zoom = 16)
+        {
+            return GoogleMaps.MapUrl(location.Latitude, location.Longitude
+                , new List<GoogleMaps.Marker>()
+                    {
+                        new GoogleMaps.Marker()
+                            {
+                                Latitude = location.Latitude, 
+                                Longitude = location.Longitude                          
+                            }
+                    }
+                , width, height, zoom);   
+        }
+
         public static Website.Domain.Location.Location MapFrom(this Website.Domain.Location.Location current, Address_Components[] data)
         {
             foreach (var addressPart in data)

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,10 +18,21 @@ namespace Website.Common.Model.Query
 //            return queryChannel.Query(new ToViewModelQuery<ViewModelType>() {Source = source}, default(ViewModelType));
 //        }
 
-        public static ViewModelType ToViewModel<ViewModelType>(this QueryChannelInterface queryChannel, object source) where ViewModelType : class
+        public static ViewModelType ToViewModel<ViewModelType>(this QueryChannelInterface queryChannel, object source, ViewModelType current = null) 
+            where ViewModelType : class
         {
-            return queryChannel.Query(new ToViewModelDynamicQuery() { Source = source, TypeOfViewModel = typeof(ViewModelType)}, default(object))
+            return queryChannel.Query(new ToViewModelDynamicQuery() { Source = source, TypeOfViewModel = typeof(ViewModelType), ViewModel = current}, default(object))
                 as ViewModelType;
+        }
+
+        public static List<ViewModelType> ToViewModel<ViewModelType, SourceType>(this QueryChannelInterface queryChannel, IEnumerable<SourceType> source)
+    where ViewModelType : class
+        {
+            var ret =
+                queryChannel.Query(
+                    new ToViewModelListDynamicQuery() {Source = source.Cast<object>().ToList(), TypeOfViewModel = typeof (ViewModelType)},
+                    new List<object>());
+            return ret.OfType<ViewModelType>().ToList();
         }
     }
 
@@ -54,6 +66,43 @@ namespace Website.Common.Model.Query
         public object Source { get; set; }
         public object ViewModel { get; set; }
         public Type TypeOfViewModel { get; set; }
+    }
+
+    internal class ToViewModelListDynamicQuery : QueryInterface
+    {
+        public List<object> Source { get; set; }
+        public List<object> ViewModel { get; set; }
+        public Type TypeOfViewModel { get; set; }
+    }
+
+    internal class ToViewModelListDynamicQueryHandler : QueryHandlerInterface<ToViewModelListDynamicQuery, List<object>>
+    {
+        private readonly IResolutionRoot _resolutionRoot;
+        private readonly Type _genericViewModelMapperTyp = typeof(ViewModelMapperInterface<,>);
+
+        public ToViewModelListDynamicQueryHandler(IResolutionRoot resolutionRoot)
+        {
+            _resolutionRoot = resolutionRoot;
+        }
+
+        public List<object> Query(ToViewModelListDynamicQuery argument)
+        {
+            var sourceFor = argument.Source.FirstOrDefault();
+            if (sourceFor == null)
+                return new List<object>();
+
+            var mapperTyp = _genericViewModelMapperTyp.MakeGenericType(argument.TypeOfViewModel, sourceFor.GetType());
+            dynamic mapper = _resolutionRoot.Get(mapperTyp);
+
+            var ret = new List<object>();
+            for (var i = 0; i < argument.Source.Count; i++)
+            {
+                dynamic source = argument.Source[i];
+                dynamic vm = argument.ViewModel != null ? argument.ViewModel[i] : null;
+                ret.Add(mapper.ToViewModel(vm, source));
+            }
+            return ret;
+        }
     }
 
     internal class ToViewModelDynamicQueryHandler : QueryHandlerInterface<ToViewModelDynamicQuery, object>

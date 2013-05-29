@@ -541,6 +541,12 @@
             var jele = $(element);
             var baseurl = valueAccessor();
             var all = allBindingsAccessor();
+            
+            if (all.external) {
+                jele.attr('src', baseurl);
+                jele.attr('alt', all.alt);
+                return;
+            }
 
             var position = baseurl.indexOf(".jpg");
             var width = getFlierImageSizeFromWidth(jele.width());
