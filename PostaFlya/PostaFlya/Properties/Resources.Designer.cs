@@ -468,7 +468,7 @@ namespace PostaFlya.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to EffectiveDate.
+        ///   Looks up a localized string similar to Event Date.
         /// </summary>
         public static string EffectiveDate {
             get {

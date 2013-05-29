@@ -7,7 +7,7 @@
         <li class="desk-only"><a data-bind="click:setDateThisWeek">This Week</a></li>
         <li class="desk-only"><a data-bind="click:setDateNextWeek">Next Week</a></li>
         <li class="desk-only"><a data-bind="click:setDateThisMOnth">This Month</a></li>
-        <input id="flyaDate" data-bind="datePicker:{onSelect: $data.setDate}" type="hidden"/>
-        <li><a data-bind="dateToggle:'flyaDate'">Select Date</a></li>
+        <input id="date-filter" data-bind="datePicker:{onSelect: $data.setDate}" type="hidden"/>
+        <li><a data-bind="dateToggle: 'date-filter'">Select Date</a></li>
     </ul>
 </div>

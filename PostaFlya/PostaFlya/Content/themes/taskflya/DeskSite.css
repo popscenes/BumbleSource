@@ -54,13 +54,22 @@ background-color: white;
     
 }
 
+.locSel{
+    width: 620px;
+    height: 34px;
+    border: #A6A5A5 solid 1px;
+    background-color: white;
+    margin-left: 20px;
+}
+
 .location-title {
-    line-height: 40px;
+    margin-bottom: 12px;
     color: black;
-    font-style: italic;
     margin-right: 14px;
     font-size: 18px;
     margin-left: 20px;
+    font-weight: bold;
+    float: none !important;
 }
 
 
@@ -1532,25 +1541,24 @@ p#copyright {
     clear: both;
     background-color: #3D3D3D;
     margin: 0;
-    padding: 8px 20px;
-    width: 708px;
+    padding: 8px 0px 8px 20px;
+    width: 728px;
 }
 
 .bulletin-calendar {
-    width: 810px;
     clear: both;
     float: none !important;
 }
 
 #controls
 {
-    width:850px;
-    margin-left:auto;
-    margin-right:auto;
-	padding-top:25px;
+	padding-top:12px;
 	z-index:500;
     background-color: white;
-    margin-top: 10px;
+    width: 748px;
+    margin: 0 auto;
+    border: 1px #D0CBC4 solid;
+    background-color: white;
 }
 
 #controls > * {
@@ -1630,6 +1638,25 @@ section.board-information-desc {
         width: 90%;
     }
 
+    #controls > * {
+        float: none;
+    }
+
+    .locSel {
+        width: 80%;
+        margin: 0 10%;
+    }
+
+      #controls .dist-selector-container {
+        margin: 10px auto;
+    }
+
+      #controls .bulletin-tags-selector, .bulletin-calendar {
+        text-align: center;
+        width: 275px;
+    }
+
+
         #controls .location-title {
             float: none;
             font-size: 16px;
@@ -1645,11 +1672,7 @@ section.board-information-desc {
         margin-right: 5%;
     }
 
-    
-    .locSel {
-        margin-left: 20px;
-    }
-
+   
     .helptips-container#bulletin-toolbar-helptip {
         padding-top: 75px;
         right: 0;

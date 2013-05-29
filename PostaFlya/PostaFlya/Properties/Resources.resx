@@ -181,7 +181,7 @@
     <comment>LocationModel</comment>
   </data>
   <data name="EffectiveDate" xml:space="preserve">
-    <value>EffectiveDate</value>
+    <value>Event Date</value>
     <comment>BulletinFlierModel FlierCreateModel</comment>
   </data>
   <data name="ContactDetailsModel_EmailAddress" xml:space="preserve">

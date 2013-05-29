@@ -3,7 +3,7 @@
   <Role name="PostaFlya">
     <Instances count="1" />
     <ConfigurationSettings>
-      <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" value="UseDevelopmentStorage=true" />
+      <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" value="DefaultEndpointsProtocol=https;AccountName=popscenes;AccountKey=7ng0VK5SiSrysxeOJBgdNz7CVT/09k0xQuYVciJcY9wHnKfBNiaZRIkIz+82waiOt0itxWXgh6KdegUFRgiHCw==" />
       <Setting name="StorageConnectionString" value="BlobEndpoint=http://storage.popscenes.com/;QueueEndpoint=http://popscenes.queue.core.windows.net/;TableEndpoint=http://popscenes.table.core.windows.net/;AccountName=popscenes;AccountKey=7ng0VK5SiSrysxeOJBgdNz7CVT/09k0xQuYVciJcY9wHnKfBNiaZRIkIz+82waiOt0itxWXgh6KdegUFRgiHCw==" />
       <Setting name="Microsoft.WindowsAzure.Plugins.Caching.NamedCaches" value="{&quot;caches&quot;:[{&quot;name&quot;:&quot;default&quot;,&quot;policy&quot;:{&quot;eviction&quot;:{&quot;type&quot;:0},&quot;expiration&quot;:{&quot;defaultTTL&quot;:10,&quot;isExpirable&quot;:true,&quot;type&quot;:1},&quot;serverNotification&quot;:{&quot;isEnabled&quot;:true}},&quot;secondaries&quot;:0}]}" />
       <Setting name="Microsoft.WindowsAzure.Plugins.Caching.DiagnosticLevel" value="0" />

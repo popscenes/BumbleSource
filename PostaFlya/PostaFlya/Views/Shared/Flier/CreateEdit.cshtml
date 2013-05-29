@@ -74,7 +74,7 @@
 <script type="text/html" id="UserLinks-template">
     <form id="flierForm" class="" data-bind="validate: true" data-validate-on-next="false">
         <fieldset>
-            <h2>ADD SOME LINKS YOUR FLYER</h2>
+            <h2>ADD SOME LINKS YOUR FLYER(Optional)</h2>
             
             <div>
                 <h3>Select Type of Link</h3>
@@ -238,7 +238,7 @@
                 <h3>Date</h3>
                 @Html.ValidationMessageFor(model => model.EventDates)
 
-                @*                @Html.HiddenFor(model => model.EventDates, new { data_bind = "value:EffectiveDate" })            *@
+              @Html.HiddenFor(model => model.EventDates, new { data_bind = "value:EventDates" })      
                 <div id="flyaDate" data-bind="datePicker:{onSelect: $data.setDate}"></div>
                 
                 @*                @Html.HiddenFor(model => model.EffectiveDate, new { data_bind = "value:EffectiveDate" })*@
