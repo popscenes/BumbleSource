@@ -1,0 +1,61 @@
+﻿@using System.Web.Optimization
+@using PostaFlya.Models
+@model PostaFlya.Models.Board.BoardSearchPageViewModel
+
+@{
+    ViewBag.Title = "Popscenes - Discover Local Cultural Happenings";
+    Layout = "~/Views/Shared/_DefaultLayout.cshtml";
+}
+
+section scripts
+{
+    @Scripts.Render("~/Script/BulletinDeskJs.js")
+}
+
+@{
+    WebConstants.SetViewBagForLocationPicker(ViewBag);
+}
+
+
+<div id="controls">
+    <div class="location-title">
+        Find Venues or Fesitvals near:
+    </div>
+    <div>
+        <div class="locSel">
+            <div class="current-loc" data-bind="click: TryFindLocation"></div>
+            @Html.Partial("Location/LocationAutocomplete")
+        </div>
+    </div>
+    <div class="dist-selector-container" data-bind="touchHover: '.dist-selector-container', visible: Location().ValidLocation()">
+        Within <span class="distance-selected" data-bind="text: @ViewBag.DistanceVariable"></span>km
+        <ul class="dist-selector" data-bind="distanceDropDown: @ViewBag.DistanceVariable">
+        </ul>
+    </div>
+
+    <div class="clear-fix" style="clear: both;"></div>
+    <div class="clear-fix" style="clear: both;"></div>
+
+</div>
+
+<div class="trying-to-find-yourloc" style="display: none" data-bind="visible: TryingToFindLocation">
+    We can show you the board for the place you are at using your location
+</div>
+@Html.Partial("BoardSummary")
+
+<div class="ui-bulletin-board">
+
+    <div class="bulletin-showing-div" data-bind="visible: StatusText()">
+        <span data-bind="text: StatusText"></span>
+    </div>
+    <div id="bulletinboard" data-bind="template: { name: 'board-bulletin-template', foreach: boards }, visible: boards().length > 0, updateLayout: Layout">
+
+    </div>
+    <div class="bulletin-loading-div" data-bind="visible: moreBoardsPending">
+        <span>Finding Venues.....Please wait </span>
+        <div class="targetloading"></div>
+    </div>
+    <div class="bulletin-loading-div" data-bind="visible: noMoreBoardsText()" style="display: none;">
+        <span data-bind="text:noMoreBoardsText"></span>
+    </div>
+</div>

@@ -336,6 +336,8 @@
     <Compile Include="Binding\WebNinjectBindings.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BoardController.cs" />
+    <Compile Include="Controllers\BoardSearchApiController.cs" />
+    <Compile Include="Controllers\BoardSearchController.cs" />
     <Compile Include="Controllers\BrowserInformationController.cs" />
     <Compile Include="Controllers\ClaimController.cs" />
     <Compile Include="Controllers\BoardFlierController.cs" />
@@ -343,6 +345,7 @@
     <Compile Include="Controllers\FlierImportController.cs" />
     <Compile Include="Controllers\MyBoardFlierController.cs" />
     <Compile Include="Controllers\MyBoardsController.cs" />
+    <Compile Include="Controllers\PagedModel.cs" />
     <Compile Include="Controllers\PaymentController.cs" />
     <Compile Include="Controllers\PendingFliersApiController.cs" />
     <Compile Include="Controllers\ProfileApiController.cs" />
@@ -357,7 +360,10 @@
     <Compile Include="Models\Board\AddBoardFlierModel.cs" />
     <Compile Include="Models\Board\BoardCreateEditModel.cs" />
     <Compile Include="Models\Board\BoardFlierModel.cs" />
+    <Compile Include="Models\Board\BoardModel.cs" />
     <Compile Include="Models\Board\BoardPageViewModel.cs" />
+    <Compile Include="Models\Board\BoardSearchModel.cs" />
+    <Compile Include="Models\Board\BoardSearchPageViewModel.cs" />
     <Compile Include="Models\Board\BoardWidgetViewModel.cs" />
     <Compile Include="Models\Board\EditBoardFlierModel.cs" />
     <Compile Include="Models\Browser\BrowserModel.cs" />
@@ -632,6 +638,7 @@
     <Content Include="Scripts\Behaviour\BehaviourViewModelFactory.js" />
     <Content Include="Scripts\Behaviour\Default\DefaultBehaviourViewModel.js" />
     <Content Include="Scripts\Bulletin\BoardPage.js" />
+    <Content Include="Scripts\Bulletin\BoardSearchPage.js" />
     <Content Include="Scripts\Bulletin\BoardWidgetPage.js" />
     <Content Include="Scripts\Bulletin\BulletinLayoutProperties.js" />
     <Content Include="Scripts\Bulletin\Detail.js" />
@@ -826,13 +833,14 @@
     <Content Include="Views\Shared\Contact\EventContactDetailsViewPartial.cshtml" />
     <Content Include="Views\Shared\Bulletin\BulletinUserLinks.cshtml" />
     <Content Include="Views\Board\Get.cshtml" />
-    <Content Include="Views\Board\BoardInformation.cshtml" />
+    <Content Include="Views\BoardSearch\BoardSummary.cshtml" />
     <Content Include="Views\Board\Widget\Widget.cshtml" />
     <Content Include="Views\Shared\Widget\WidgetLoadPartial.cshtml" />
     <Content Include="Views\Shared\_DateFilterPartial.cshtml" />
     <Content Include="Views\Board\Widget\BulletinList.cshtml" />
     <Content Include="Views\Board\BoardCalendarPartial.cshtml" />
     <Content Include="Views\Board\Widget\BoardWidgetHtml.cshtml" />
+    <Content Include="Views\BoardSearch\Get.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
