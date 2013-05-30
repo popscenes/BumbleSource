@@ -4,9 +4,11 @@ using System.Linq;
 using System.Runtime.Caching;
 using System.Web;
 using System.Web.Mvc;
+using PostaFlya.Domain.Flier.Command;
 using Website.Application.Azure.Caching;
 using Website.Application.Domain.Browser.Web;
 using Website.Domain.Browser.Command;
+using Website.Infrastructure.Binding;
 using Website.Infrastructure.Command;
 
 namespace PostaFlya.Controllers
@@ -41,6 +43,12 @@ namespace PostaFlya.Controllers
                     BrowserId = browserId,
                     Credit = credit
                 });
+            return RedirectToAction("Get", "Bulletin");
+        }
+
+        public ActionResult ReindexFlyers()
+        {
+            _commandBus.Send(new ReindexFlyersCommand());
             return RedirectToAction("Get", "Bulletin");
         }
 

@@ -104,6 +104,7 @@
     <Compile Include="Flier\Analytic\FlierAnalyticInfo.cs" />
     <Compile Include="Flier\Command\FlierAnalyticCommand.cs" />
     <Compile Include="Flier\Command\FlierAnalyticCommandHandler.cs" />
+    <Compile Include="Flier\Command\ReindexFlyersCommand.cs" />
     <Compile Include="Flier\Event\FlierModifiedEvent.cs" />
     <Compile Include="Flier\FlierImage.cs" />
     <Compile Include="Flier\LinkType.cs" />

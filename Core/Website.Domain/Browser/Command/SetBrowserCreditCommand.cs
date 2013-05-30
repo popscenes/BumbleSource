@@ -1,16 +1,18 @@
+using System;
 using System.Collections.Generic;
 using Website.Domain.Payment;
 using Website.Infrastructure.Command;
 
 namespace Website.Domain.Browser.Command
 {
+    [Serializable]
     public class SetBrowserCreditCommand : DefaultCommandBase, BrowserIdInterface
     {
         public string BrowserId { get; set; }
         public double Credit { get; set; }
     }
 
-    internal class SetBrowserCreditCommandHandler : CommandHandlerInterface<SetBrowserCreditCommand>
+    public class SetBrowserCreditCommandHandler : CommandHandlerInterface<SetBrowserCreditCommand>
     {
         private readonly UnitOfWorkFactoryInterface _unitOfWorkFactory;
         private readonly GenericRepositoryInterface _genericRepository;
