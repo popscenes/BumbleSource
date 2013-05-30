@@ -110,7 +110,7 @@ namespace Website.Azure.Common.Sql
                 Properties.Resources.DbExists,
                 databasename); 
             var res = SqlExecute.Query<CountResult>(cmdText, _connection).SingleOrDefault();
-            return res.Count > 0;
+            return res != null && res.Count > 0;
         }
 
         public static bool CreateTableFrom(Type metaTyp, SqlConnection connection, string tableName = null)
