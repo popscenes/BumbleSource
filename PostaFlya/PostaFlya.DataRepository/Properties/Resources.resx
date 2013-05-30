@@ -118,13 +118,13 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="SqlAllOrderedBy" xml:space="preserve">
-    <value>FindFliersByLocationAndTags</value>
+    <value>FindFliersByLocationAndTags2</value>
   </data>
   <data name="SqlSeachFliersByBoard" xml:space="preserve">
-    <value>FindFliersByBoard</value>
+    <value>FindFliersByBoard2</value>
   </data>
   <data name="SqlSearchFliersByLocationTags" xml:space="preserve">
-    <value>FindFliersByLocationAndTags</value>
+    <value>FindFliersByLocationAndTags2</value>
   </data>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="StoredProcs" type="System.Resources.ResXFileRef, System.Windows.Forms">

@@ -1,11 +1,11 @@
 
 --CONTEXT=PostaFlya.DataRepository.Search.SearchRecord.FlierSearchRecord
-if not exists (select * from sys.objects where type = 'P' AND name = 'FindFliersByLocationAndTags')
-   exec('create procedure FindFliersByLocationAndTags as begin SET NOCOUNT ON; end')
+if not exists (select * from sys.objects where type = 'P' AND name = 'FindFliersByLocationAndTags2')
+   exec('create procedure FindFliersByLocationAndTags2 as begin SET NOCOUNT ON; end')
 GO
 	
 --CONTEXT=PostaFlya.DataRepository.Search.SearchRecord.FlierSearchRecord 
-alter procedure FindFliersByLocationAndTags
+alter procedure FindFliersByLocationAndTags2
 	@loc geography,
 	@top int,
 	@distance int,
@@ -137,12 +137,12 @@ end
 GO
 
 --CONTEXT=PostaFlya.DataRepository.Search.SearchRecord.BoardFlierSearchRecord
-if not exists (select * from sys.objects where type = 'P' AND name = 'FindFliersByBoard')
-   exec('create procedure FindFliersByBoard as begin SET NOCOUNT ON; end')
+if not exists (select * from sys.objects where type = 'P' AND name = 'FindFliersByBoard2')
+   exec('create procedure FindFliersByBoard2 as begin SET NOCOUNT ON; end')
 GO
 
 --CONTEXT=PostaFlya.DataRepository.Search.SearchRecord.BoardFlierSearchRecord
-alter procedure FindFliersByBoard
+alter procedure FindFliersByBoard2
 		@board uniqueidentifier,
 		@loc geography,
 		@top int,

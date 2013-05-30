@@ -61,7 +61,7 @@ namespace PostaFlya.DataRepository.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to FindFliersByLocationAndTags.
+        ///   Looks up a localized string similar to FindFliersByLocationAndTags2.
         /// </summary>
         internal static string SqlAllOrderedBy {
             get {
@@ -70,7 +70,7 @@ namespace PostaFlya.DataRepository.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to FindFliersByBoard.
+        ///   Looks up a localized string similar to FindFliersByBoard2.
         /// </summary>
         internal static string SqlSeachFliersByBoard {
             get {
@@ -79,7 +79,7 @@ namespace PostaFlya.DataRepository.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to FindFliersByLocationAndTags.
+        ///   Looks up a localized string similar to FindFliersByLocationAndTags2.
         /// </summary>
         internal static string SqlSearchFliersByLocationTags {
             get {
@@ -90,18 +90,18 @@ namespace PostaFlya.DataRepository.Properties {
         /// <summary>
         ///   Looks up a localized string similar to 
         ///--CONTEXT=PostaFlya.DataRepository.Search.SearchRecord.FlierSearchRecord
-        ///if not exists (select * from sys.objects where type = &apos;P&apos; AND name = &apos;FindFliersByLocationAndTags&apos;)
-        ///   exec(&apos;create procedure FindFliersByLocationAndTags as begin SET NOCOUNT ON; end&apos;)
+        ///if not exists (select * from sys.objects where type = &apos;P&apos; AND name = &apos;FindFliersByLocationAndTags2&apos;)
+        ///   exec(&apos;create procedure FindFliersByLocationAndTags2 as begin SET NOCOUNT ON; end&apos;)
         ///GO
         ///	
         ///--CONTEXT=PostaFlya.DataRepository.Search.SearchRecord.FlierSearchRecord 
-        ///alter procedure FindFliersByLocationAndTags
+        ///alter procedure FindFliersByLocationAndTags2
         ///	@loc geography,
         ///	@top int,
         ///	@distance int,
-        ///	@sort int,
-        ///	@createDate datetimeoffset = null,
-        ///	@xpath nvarchar(1000) =  [rest of string was truncated]&quot;;.
+        ///	@sort int = 1,
+        ///	@skipPast bigint = null,
+        ///	@skipPastEventAndCreateDate [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string StoredProcs {
             get {
