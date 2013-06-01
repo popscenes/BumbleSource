@@ -10,8 +10,10 @@ using System.Net.Http;
 using System.Net.Http.Formatting;
 using System.Net.Http.Headers;
 using System.Web.Http.Description;
+using System.Web.Http.ModelBinding;
 using System.Xml.Linq;
 using Newtonsoft.Json;
+using PostaFlya.Models.Flier;
 
 namespace PostaFlya.Areas.HelpPage.SampleGeneration
 {
@@ -210,6 +212,18 @@ namespace PostaFlya.Areas.HelpPage.SampleGeneration
                         ApiParameterDescription requestBodyParameter = api.ParameterDescriptions.FirstOrDefault(p => p.Source == ApiParameterSource.FromBody);
                         type = requestBodyParameter == null ? null : requestBodyParameter.ParameterDescriptor.ParameterType;
                         formatters = api.SupportedRequestBodyFormatters;
+                        if (type == null)
+                        {
+                            var requestGet =
+                                api.ParameterDescriptions.FirstOrDefault(p => p.Source == ApiParameterSource.FromUri);
+
+                            if (requestGet != null &&
+                                requestGet.ParameterDescriptor.ParameterType.GetInterface("RequestModelInterface")!=null)
+                            {
+                                type = requestGet.ParameterDescriptor.ParameterType;
+                                formatters = new BindingList<MediaTypeFormatter>(){new JsonMediaTypeFormatter()};
+                            }
+                        }
                         break;
                     case SampleDirection.Response:
                     default:

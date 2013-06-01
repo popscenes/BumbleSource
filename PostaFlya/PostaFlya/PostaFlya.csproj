@@ -39,6 +39,7 @@
     <WarningLevel>4</WarningLevel>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
     <Prefer32Bit>false</Prefer32Bit>
+    <DocumentationFile>App_Data/XmlDocument.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -386,6 +387,7 @@
     <Compile Include="Models\FlierPaymentModel.cs" />
     <Compile Include="Models\Flier\BulletinBoardPageModel.cs" />
     <Compile Include="Models\Flier\BulletinDetailPageModel.cs" />
+    <Compile Include="Models\Flier\BulletinGetRequestModel.cs" />
     <Compile Include="Models\Flier\FlierAnalyticTrackingSummaryModel.cs" />
     <Compile Include="Models\Flier\FlierAnalyticInfoModel.cs" />
     <Compile Include="Models\Flier\HeatMapPoint.cs" />

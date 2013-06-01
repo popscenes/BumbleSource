@@ -32,11 +32,17 @@ namespace PostaFlya.Specification.DynamicBulletinBoard
 
             var dateFilter = ScenarioContext.Current.ContainsKey("eventfilterdate") ? ScenarioContext.Current["eventfilterdate"] as DateTime? : null;
 
-            
+
             SpecUtil.ControllerResult = bulletinController
-                .Get(location.ToViewModel(), 30, board: "", skipPast: null
-                , distance: browserInfoService.Browser.Distance ?? 0
-                , tags: browserInfoService.Browser.Tags.ToString(), date: dateFilter);
+                .Get(new BulletinGetRequestModel()
+                    {
+                        Loc = location.ToViewModel(),
+                        Count = 30,
+                        Board = "",
+                        Distance = browserInfoService.Browser.Distance ?? 0,
+                        Tags = browserInfoService.Browser.Tags.ToString(),
+                        Date = dateFilter
+                    });
         }
 
         [Given(@"I have navigated to the public view page for a FLIER from the BULLETIN BOARD")]
@@ -117,9 +123,16 @@ namespace PostaFlya.Specification.DynamicBulletinBoard
             var bulletinApiController = SpecUtil.GetController<BulletinApiController>();
             var location = SpecUtil.CurrIocKernel.Get<Location>(ib => ib.Get<bool>("default"));
             var browserInfoService = SpecUtil.GetCurrBrowser();
-            var result = bulletinApiController.Get(location.ToViewModel(), 30, board: "", skipPast: null
-                , distance: browserInfoService.Browser.Distance.GetValueOrDefault(), tags: browserInfoService.Browser.Tags.ToString());
-
+            var result = bulletinApiController.Get(
+                new BulletinGetRequestModel()
+                    {
+                        Loc = location.ToViewModel(),
+                        Count = 30,
+                        Board = "",
+                        Distance = browserInfoService.Browser.Distance.GetValueOrDefault(),
+                        Tags = browserInfoService.Browser.Tags.ToString()
+                    });
+                
             var locationService = SpecUtil.CurrIocKernel.Get<LocationServiceInterface>();
             var box = locationService.GetBoundingBox(location, browserInfoService.Browser.Distance.GetValueOrDefault());
 

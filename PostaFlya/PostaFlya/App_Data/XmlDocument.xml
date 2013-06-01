@@ -1,0 +1,976 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>PostaFlya</name>
+    </assembly>
+    <members>
+        <member name="M:PostaFlya.App_Start.NinjectWebCommon.Start">
+            <summary>
+            Starts the application
+            </summary>
+        </member>
+        <member name="M:PostaFlya.App_Start.NinjectWebCommon.Stop">
+            <summary>
+            Stops the application.
+            </summary>
+        </member>
+        <member name="M:PostaFlya.App_Start.NinjectWebCommon.CreateKernel">
+            <summary>
+            Creates the kernel that will manage your application.
+            </summary>
+            <returns>The created kernel.</returns>
+        </member>
+        <member name="M:PostaFlya.App_Start.NinjectWebCommon.RegisterServices(Ninject.IKernel)">
+            <summary>
+            Load your modules or register your services here!
+            </summary>
+            <param name="kernel">The kernel.</param>
+        </member>
+        <member name="M:PostaFlya.Areas.HelpPage.ApiDescriptionExtensions.GetFriendlyId(System.Web.Http.Description.ApiDescription)">
+            <summary>
+            Generates an URI-friendly ID for the <see cref="T:System.Web.Http.Description.ApiDescription"/>. E.g. "Get-Values-id_name" instead of "GetValues/{id}?name={name}"
+            </summary>
+            <param name="description">The <see cref="T:System.Web.Http.Description.ApiDescription"/>.</param>
+            <returns>The ID as a string.</returns>
+        </member>
+        <member name="T:PostaFlya.Areas.HelpPage.App_Start.HelpPageConfig">
+            <summary>
+            Use this class to customize the Help Page.
+            For example you can set a custom <see cref="T:System.Web.Http.Description.IDocumentationProvider"/> to supply the documentation
+            or you can provide the samples for the requests/responses.
+            </summary>
+        </member>
+        <member name="T:PostaFlya.Areas.HelpPage.Controllers.HelpController">
+            <summary>
+            The controller that will handle requests for the help page.
+            </summary>
+        </member>
+        <member name="M:PostaFlya.Areas.HelpPage.HelpPageConfigurationExtensions.SetDocumentationProvider(System.Web.Http.HttpConfiguration,System.Web.Http.Description.IDocumentationProvider)">
+            <summary>
+            Sets the documentation provider for help page.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <param name="documentationProvider">The documentation provider.</param>
+        </member>
+        <member name="M:PostaFlya.Areas.HelpPage.HelpPageConfigurationExtensions.SetSampleObjects(System.Web.Http.HttpConfiguration,System.Collections.Generic.IDictionary{System.Type,System.Object})">
+            <summary>
+            Sets the objects that will be used by the formatters to produce sample requests/responses.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <param name="sampleObjects">The sample objects.</param>
+        </member>
+        <member name="M:PostaFlya.Areas.HelpPage.HelpPageConfigurationExtensions.SetSampleRequest(System.Web.Http.HttpConfiguration,System.Object,System.Net.Http.Headers.MediaTypeHeaderValue,System.String,System.String)">
+            <summary>
+            Sets the sample request directly for the specified media type and action.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <param name="sample">The sample request.</param>
+            <param name="mediaType">The media type.</param>
+            <param name="controllerName">Name of the controller.</param>
+            <param name="actionName">Name of the action.</param>
+        </member>
+        <member name="M:PostaFlya.Areas.HelpPage.HelpPageConfigurationExtensions.SetSampleRequest(System.Web.Http.HttpConfiguration,System.Object,System.Net.Http.Headers.MediaTypeHeaderValue,System.String,System.String,System.String[])">
+            <summary>
+            Sets the sample request directly for the specified media type and action with parameters.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <param name="sample">The sample request.</param>
+            <param name="mediaType">The media type.</param>
+            <param name="controllerName">Name of the controller.</param>
+            <param name="actionName">Name of the action.</param>
+            <param name="parameterNames">The parameter names.</param>
+        </member>
+        <member name="M:PostaFlya.Areas.HelpPage.HelpPageConfigurationExtensions.SetSampleResponse(System.Web.Http.HttpConfiguration,System.Object,System.Net.Http.Headers.MediaTypeHeaderValue,System.String,System.String)">
+            <summary>
+            Sets the sample request directly for the specified media type of the action.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <param name="sample">The sample response.</param>
+            <param name="mediaType">The media type.</param>
+            <param name="controllerName">Name of the controller.</param>
+            <param name="actionName">Name of the action.</param>
+        </member>
+        <member name="M:PostaFlya.Areas.HelpPage.HelpPageConfigurationExtensions.SetSampleResponse(System.Web.Http.HttpConfiguration,System.Object,System.Net.Http.Headers.MediaTypeHeaderValue,System.String,System.String,System.String[])">
+            <summary>
+            Sets the sample response directly for the specified media type of the action with specific parameters.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <param name="sample">The sample response.</param>
+            <param name="mediaType">The media type.</param>
+            <param name="controllerName">Name of the controller.</param>
+            <param name="actionName">Name of the action.</param>
+            <param name="parameterNames">The parameter names.</param>
+        </member>
+        <member name="M:PostaFlya.Areas.HelpPage.HelpPageConfigurationExtensions.SetSampleForType(System.Web.Http.HttpConfiguration,System.Object,System.Net.Http.Headers.MediaTypeHeaderValue,System.Type)">
+            <summary>
+            Sets the sample directly for all actions with the specified type and media type.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <param name="sample">The sample.</param>
+            <param name="mediaType">The media type.</param>
+            <param name="type">The parameter type or return type of an action.</param>
+        </member>
+        <member name="M:PostaFlya.Areas.HelpPage.HelpPageConfigurationExtensions.SetActualRequestType(System.Web.Http.HttpConfiguration,System.Type,System.String,System.String)">
+            <summary>
+            Specifies the actual type of <see cref="T:System.Net.Http.ObjectContent`1"/> passed to the <see cref="T:System.Net.Http.HttpRequestMessage"/> in an action. 
+            The help page will use this information to produce more accurate request samples.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <param name="type">The type.</param>
+            <param name="controllerName">Name of the controller.</param>
+            <param name="actionName">Name of the action.</param>
+        </member>
+        <member name="M:PostaFlya.Areas.HelpPage.HelpPageConfigurationExtensions.SetActualRequestType(System.Web.Http.HttpConfiguration,System.Type,System.String,System.String,System.String[])">
+            <summary>
+            Specifies the actual type of <see cref="T:System.Net.Http.ObjectContent`1"/> passed to the <see cref="T:System.Net.Http.HttpRequestMessage"/> in an action. 
+            The help page will use this information to produce more accurate request samples.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <param name="type">The type.</param>
+            <param name="controllerName">Name of the controller.</param>
+            <param name="actionName">Name of the action.</param>
+            <param name="parameterNames">The parameter names.</param>
+        </member>
+        <member name="M:PostaFlya.Areas.HelpPage.HelpPageConfigurationExtensions.SetActualResponseType(System.Web.Http.HttpConfiguration,System.Type,System.String,System.String)">
+            <summary>
+            Specifies the actual type of <see cref="T:System.Net.Http.ObjectContent`1"/> returned as part of the <see cref="T:System.Net.Http.HttpRequestMessage"/> in an action. 
+            The help page will use this information to produce more accurate response samples.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <param name="type">The type.</param>
+            <param name="controllerName">Name of the controller.</param>
+            <param name="actionName">Name of the action.</param>
+        </member>
+        <member name="M:PostaFlya.Areas.HelpPage.HelpPageConfigurationExtensions.SetActualResponseType(System.Web.Http.HttpConfiguration,System.Type,System.String,System.String,System.String[])">
+            <summary>
+            Specifies the actual type of <see cref="T:System.Net.Http.ObjectContent`1"/> returned as part of the <see cref="T:System.Net.Http.HttpRequestMessage"/> in an action. 
+            The help page will use this information to produce more accurate response samples.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <param name="type">The type.</param>
+            <param name="controllerName">Name of the controller.</param>
+            <param name="actionName">Name of the action.</param>
+            <param name="parameterNames">The parameter names.</param>
+        </member>
+        <member name="M:PostaFlya.Areas.HelpPage.HelpPageConfigurationExtensions.GetHelpPageSampleGenerator(System.Web.Http.HttpConfiguration)">
+            <summary>
+            Gets the help page sample generator.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <returns>The help page sample generator.</returns>
+        </member>
+        <member name="M:PostaFlya.Areas.HelpPage.HelpPageConfigurationExtensions.SetHelpPageSampleGenerator(System.Web.Http.HttpConfiguration,PostaFlya.Areas.HelpPage.SampleGeneration.HelpPageSampleGenerator)">
+            <summary>
+            Sets the help page sample generator.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <param name="sampleGenerator">The help page sample generator.</param>
+        </member>
+        <member name="M:PostaFlya.Areas.HelpPage.HelpPageConfigurationExtensions.GetHelpPageApiModel(System.Web.Http.HttpConfiguration,System.String)">
+            <summary>
+            Gets the model that represents an API displayed on the help page. The model is initialized on the first call and cached for subsequent calls.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <param name="apiDescriptionId">The <see cref="T:System.Web.Http.Description.ApiDescription"/> ID.</param>
+            <returns>
+            An <see cref="T:PostaFlya.Areas.HelpPage.Models.HelpPageApiModel"/>
+            </returns>
+        </member>
+        <member name="T:PostaFlya.Areas.HelpPage.Models.HelpPageApiModel">
+            <summary>
+            The model that represents an API displayed on the help page.
+            </summary>
+        </member>
+        <member name="M:PostaFlya.Areas.HelpPage.Models.HelpPageApiModel.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:PostaFlya.Areas.HelpPage.Models.HelpPageApiModel"/> class.
+            </summary>
+        </member>
+        <member name="P:PostaFlya.Areas.HelpPage.Models.HelpPageApiModel.ApiDescription">
+            <summary>
+            Gets or sets the <see cref="P:PostaFlya.Areas.HelpPage.Models.HelpPageApiModel.ApiDescription"/> that describes the API.
+            </summary>
+        </member>
+        <member name="P:PostaFlya.Areas.HelpPage.Models.HelpPageApiModel.SampleRequests">
+            <summary>
+            Gets the sample requests associated with the API.
+            </summary>
+        </member>
+        <member name="P:PostaFlya.Areas.HelpPage.Models.HelpPageApiModel.SampleResponses">
+            <summary>
+            Gets the sample responses associated with the API.
+            </summary>
+        </member>
+        <member name="P:PostaFlya.Areas.HelpPage.Models.HelpPageApiModel.ErrorMessages">
+            <summary>
+            Gets the error messages associated with this model.
+            </summary>
+        </member>
+        <member name="T:PostaFlya.Areas.HelpPage.SampleGeneration.HelpPageSampleGenerator">
+            <summary>
+            This class will generate the samples for the help page.
+            </summary>
+        </member>
+        <member name="M:PostaFlya.Areas.HelpPage.SampleGeneration.HelpPageSampleGenerator.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:PostaFlya.Areas.HelpPage.SampleGeneration.HelpPageSampleGenerator"/> class.
+            </summary>
+        </member>
+        <member name="M:PostaFlya.Areas.HelpPage.SampleGeneration.HelpPageSampleGenerator.GetSampleRequests(System.Web.Http.Description.ApiDescription)">
+            <summary>
+            Gets the request body samples for a given <see cref="T:System.Web.Http.Description.ApiDescription"/>.
+            </summary>
+            <param name="api">The <see cref="T:System.Web.Http.Description.ApiDescription"/>.</param>
+            <returns>The samples keyed by media type.</returns>
+        </member>
+        <member name="M:PostaFlya.Areas.HelpPage.SampleGeneration.HelpPageSampleGenerator.GetSampleResponses(System.Web.Http.Description.ApiDescription)">
+            <summary>
+            Gets the response body samples for a given <see cref="T:System.Web.Http.Description.ApiDescription"/>.
+            </summary>
+            <param name="api">The <see cref="T:System.Web.Http.Description.ApiDescription"/>.</param>
+            <returns>The samples keyed by media type.</returns>
+        </member>
+        <member name="M:PostaFlya.Areas.HelpPage.SampleGeneration.HelpPageSampleGenerator.GetSample(System.Web.Http.Description.ApiDescription,PostaFlya.Areas.HelpPage.SampleGeneration.SampleDirection)">
+            <summary>
+            Gets the request or response body samples.
+            </summary>
+            <param name="api">The <see cref="T:System.Web.Http.Description.ApiDescription"/>.</param>
+            <param name="sampleDirection">The value indicating whether the sample is for a request or for a response.</param>
+            <returns>The samples keyed by media type.</returns>
+        </member>
+        <member name="M:PostaFlya.Areas.HelpPage.SampleGeneration.HelpPageSampleGenerator.GetActionSample(System.String,System.String,System.Collections.Generic.IEnumerable{System.String},System.Type,System.Net.Http.Formatting.MediaTypeFormatter,System.Net.Http.Headers.MediaTypeHeaderValue,PostaFlya.Areas.HelpPage.SampleGeneration.SampleDirection)">
+            <summary>
+            Search for samples that are provided directly through <see cref="P:PostaFlya.Areas.HelpPage.SampleGeneration.HelpPageSampleGenerator.ActionSamples"/>.
+            </summary>
+            <param name="controllerName">Name of the controller.</param>
+            <param name="actionName">Name of the action.</param>
+            <param name="parameterNames">The parameter names.</param>
+            <param name="type">The CLR type.</param>
+            <param name="formatter">The formatter.</param>
+            <param name="mediaType">The media type.</param>
+            <param name="sampleDirection">The value indicating whether the sample is for a request or for a response.</param>
+            <returns>The sample that matches the parameters.</returns>
+        </member>
+        <member name="M:PostaFlya.Areas.HelpPage.SampleGeneration.HelpPageSampleGenerator.GetSampleObject(System.Type)">
+            <summary>
+            Gets the sample object that will be serialized by the formatters. 
+            First, it will look at the <see cref="P:PostaFlya.Areas.HelpPage.SampleGeneration.HelpPageSampleGenerator.SampleObjects"/>. If no sample object is found, it will try to create one using <see cref="T:PostaFlya.Areas.HelpPage.SampleGeneration.ObjectGenerator"/>.
+            </summary>
+            <param name="type">The type.</param>
+            <returns>The sample object.</returns>
+        </member>
+        <member name="M:PostaFlya.Areas.HelpPage.SampleGeneration.HelpPageSampleGenerator.ResolveType(System.Web.Http.Description.ApiDescription,System.String,System.String,System.Collections.Generic.IEnumerable{System.String},PostaFlya.Areas.HelpPage.SampleGeneration.SampleDirection,System.Collections.ObjectModel.Collection{System.Net.Http.Formatting.MediaTypeFormatter}@)">
+            <summary>
+            Resolves the type of the action parameter or return value when <see cref="T:System.Net.Http.HttpRequestMessage"/> or <see cref="T:System.Net.Http.HttpResponseMessage"/> is used.
+            </summary>
+            <param name="api">The <see cref="T:System.Web.Http.Description.ApiDescription"/>.</param>
+            <param name="controllerName">Name of the controller.</param>
+            <param name="actionName">Name of the action.</param>
+            <param name="parameterNames">The parameter names.</param>
+            <param name="sampleDirection">The value indicating whether the sample is for a request or a response.</param>
+            <param name="formatters">The formatters.</param>
+        </member>
+        <member name="M:PostaFlya.Areas.HelpPage.SampleGeneration.HelpPageSampleGenerator.WriteSampleObjectUsingFormatter(System.Net.Http.Formatting.MediaTypeFormatter,System.Object,System.Type,System.Net.Http.Headers.MediaTypeHeaderValue)">
+            <summary>
+            Writes the sample object using formatter.
+            </summary>
+            <param name="formatter">The formatter.</param>
+            <param name="value">The value.</param>
+            <param name="type">The type.</param>
+            <param name="mediaType">Type of the media.</param>
+            <returns></returns>
+        </member>
+        <member name="P:PostaFlya.Areas.HelpPage.SampleGeneration.HelpPageSampleGenerator.ActualHttpMessageTypes">
+            <summary>
+            Gets CLR types that are used as the content of <see cref="T:System.Net.Http.HttpRequestMessage"/> or <see cref="T:System.Net.Http.HttpResponseMessage"/>.
+            </summary>
+        </member>
+        <member name="P:PostaFlya.Areas.HelpPage.SampleGeneration.HelpPageSampleGenerator.ActionSamples">
+            <summary>
+            Gets the objects that are used directly as samples for certain actions.
+            </summary>
+        </member>
+        <member name="P:PostaFlya.Areas.HelpPage.SampleGeneration.HelpPageSampleGenerator.SampleObjects">
+            <summary>
+            Gets the objects that are serialized as samples by the supported formatters.
+            </summary>
+        </member>
+        <member name="T:PostaFlya.Areas.HelpPage.SampleGeneration.HelpPageSampleKey">
+            <summary>
+            This is used to identify the place where the sample should be applied.
+            </summary>
+        </member>
+        <member name="M:PostaFlya.Areas.HelpPage.SampleGeneration.HelpPageSampleKey.#ctor(System.Net.Http.Headers.MediaTypeHeaderValue,System.Type)">
+            <summary>
+            Creates a new <see cref="T:PostaFlya.Areas.HelpPage.SampleGeneration.HelpPageSampleKey"/> based on media type and CLR type.
+            </summary>
+            <param name="mediaType">The media type.</param>
+            <param name="type">The CLR type.</param>
+        </member>
+        <member name="M:PostaFlya.Areas.HelpPage.SampleGeneration.HelpPageSampleKey.#ctor(PostaFlya.Areas.HelpPage.SampleGeneration.SampleDirection,System.String,System.String,System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            Creates a new <see cref="T:PostaFlya.Areas.HelpPage.SampleGeneration.HelpPageSampleKey"/> based on <see cref="P:PostaFlya.Areas.HelpPage.SampleGeneration.HelpPageSampleKey.SampleDirection"/>, controller name, action name and parameter names.
+            </summary>
+            <param name="sampleDirection">The <see cref="P:PostaFlya.Areas.HelpPage.SampleGeneration.HelpPageSampleKey.SampleDirection"/>.</param>
+            <param name="controllerName">Name of the controller.</param>
+            <param name="actionName">Name of the action.</param>
+            <param name="parameterNames">The parameter names.</param>
+        </member>
+        <member name="M:PostaFlya.Areas.HelpPage.SampleGeneration.HelpPageSampleKey.#ctor(System.Net.Http.Headers.MediaTypeHeaderValue,PostaFlya.Areas.HelpPage.SampleGeneration.SampleDirection,System.String,System.String,System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            Creates a new <see cref="T:PostaFlya.Areas.HelpPage.SampleGeneration.HelpPageSampleKey"/> based on media type, <see cref="P:PostaFlya.Areas.HelpPage.SampleGeneration.HelpPageSampleKey.SampleDirection"/>, controller name, action name and parameter names.
+            </summary>
+            <param name="mediaType">The media type.</param>
+            <param name="sampleDirection">The <see cref="P:PostaFlya.Areas.HelpPage.SampleGeneration.HelpPageSampleKey.SampleDirection"/>.</param>
+            <param name="controllerName">Name of the controller.</param>
+            <param name="actionName">Name of the action.</param>
+            <param name="parameterNames">The parameter names.</param>
+        </member>
+        <member name="P:PostaFlya.Areas.HelpPage.SampleGeneration.HelpPageSampleKey.ControllerName">
+            <summary>
+            Gets the name of the controller.
+            </summary>
+            <value>
+            The name of the controller.
+            </value>
+        </member>
+        <member name="P:PostaFlya.Areas.HelpPage.SampleGeneration.HelpPageSampleKey.ActionName">
+            <summary>
+            Gets the name of the action.
+            </summary>
+            <value>
+            The name of the action.
+            </value>
+        </member>
+        <member name="P:PostaFlya.Areas.HelpPage.SampleGeneration.HelpPageSampleKey.MediaType">
+            <summary>
+            Gets the media type.
+            </summary>
+            <value>
+            The media type.
+            </value>
+        </member>
+        <member name="P:PostaFlya.Areas.HelpPage.SampleGeneration.HelpPageSampleKey.ParameterNames">
+            <summary>
+            Gets the parameter names.
+            </summary>
+        </member>
+        <member name="P:PostaFlya.Areas.HelpPage.SampleGeneration.HelpPageSampleKey.SampleDirection">
+            <summary>
+            Gets the <see cref="P:PostaFlya.Areas.HelpPage.SampleGeneration.HelpPageSampleKey.SampleDirection"/>.
+            </summary>
+        </member>
+        <member name="T:PostaFlya.Areas.HelpPage.SampleGeneration.ImageSample">
+            <summary>
+            This represents an image sample on the help page. There's a display template named ImageSample associated with this class.
+            </summary>
+        </member>
+        <member name="M:PostaFlya.Areas.HelpPage.SampleGeneration.ImageSample.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:PostaFlya.Areas.HelpPage.SampleGeneration.ImageSample"/> class.
+            </summary>
+            <param name="src">The URL of an image.</param>
+        </member>
+        <member name="T:PostaFlya.Areas.HelpPage.SampleGeneration.InvalidSample">
+            <summary>
+            This represents an invalid sample on the help page. There's a display template named InvalidSample associated with this class.
+            </summary>
+        </member>
+        <member name="T:PostaFlya.Areas.HelpPage.SampleGeneration.ObjectGenerator">
+            <summary>
+            This class will create an object of a given type and populate it with sample data.
+            </summary>
+        </member>
+        <member name="M:PostaFlya.Areas.HelpPage.SampleGeneration.ObjectGenerator.GenerateObject(System.Type)">
+            <summary>
+            Generates an object for a given type. The type needs to be public, have a public default constructor and settable public properties/fields. Currently it supports the following types:
+            Simple types: <see cref="T:System.Int32"/>, <see cref="T:System.String"/>, <see cref="T:System.Enum"/>, <see cref="T:System.DateTime"/>, <see cref="T:System.Uri"/>, etc.
+            Complex types: POCO types.
+            Nullables: <see cref="T:System.Nullable`1"/>.
+            Arrays: arrays of simple types or complex types.
+            Key value pairs: <see cref="T:System.Collections.Generic.KeyValuePair`2"/>
+            Tuples: <see cref="T:System.Tuple`1"/>, <see cref="T:System.Tuple`2"/>, etc
+            Dictionaries: <see cref="T:System.Collections.Generic.IDictionary`2"/> or anything deriving from <see cref="T:System.Collections.Generic.IDictionary`2"/>.
+            Collections: <see cref="T:System.Collections.Generic.IList`1"/>, <see cref="T:System.Collections.Generic.IEnumerable`1"/>, <see cref="T:System.Collections.Generic.ICollection`1"/>, <see cref="T:System.Collections.IList"/>, <see cref="T:System.Collections.IEnumerable"/>, <see cref="T:System.Collections.ICollection"/> or anything deriving from <see cref="T:System.Collections.Generic.ICollection`1"/> or <see cref="T:System.Collections.IList"/>.
+            Queryables: <see cref="T:System.Linq.IQueryable"/>, <see cref="T:System.Linq.IQueryable`1"/>.
+            </summary>
+            <param name="type">The type.</param>
+            <returns>An object of the given type.</returns>
+        </member>
+        <member name="T:PostaFlya.Areas.HelpPage.SampleGeneration.SampleDirection">
+            <summary>
+            Indicates whether the sample is used for request or response
+            </summary>
+        </member>
+        <member name="T:PostaFlya.Areas.HelpPage.SampleGeneration.TextSample">
+            <summary>
+            This represents a preformatted text sample on the help page. There's a display template named TextSample associated with this class.
+            </summary>
+        </member>
+        <member name="T:PostaFlya.Areas.HelpPage.XmlDocumentationProvider">
+            <summary>
+            A custom <see cref="T:System.Web.Http.Description.IDocumentationProvider"/> that reads the API documentation from an XML documentation file.
+            </summary>
+        </member>
+        <member name="M:PostaFlya.Areas.HelpPage.XmlDocumentationProvider.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:PostaFlya.Areas.HelpPage.XmlDocumentationProvider"/> class.
+            </summary>
+            <param name="documentPath">The physical path to XML document.</param>
+        </member>
+        <member name="M:PostaFlya.Controllers.BulletinApiController.Get(PostaFlya.Models.Flier.BulletinGetRequestModel)">
+            <summary>
+            dgdgsdgdsfgg
+            </summary>
+            <param name="req">ytrydyr</param>
+            <returns></returns>
+        </member>
+        <member name="T:PostaFlya.Models.Flier.BulletinGetRequestModel">
+            <summary>
+            test 123456
+            </summary>
+        </member>
+        <member name="P:PostaFlya.MvcApplication.NinjectDependencyResolver">
+            <summary>
+            Use ONLY as last resort. When depenecy injection isn't possible
+            otherwise will fall into the service locator anti-pattern
+            </summary>
+        </member>
+        <member name="T:PostaFlya.Properties.Resources">
+            <summary>
+              A strongly-typed resource class, for looking up localized strings, etc.
+            </summary>
+        </member>
+        <member name="P:PostaFlya.Properties.Resources.ResourceManager">
+            <summary>
+              Returns the cached ResourceManager instance used by this class.
+            </summary>
+        </member>
+        <member name="P:PostaFlya.Properties.Resources.Culture">
+            <summary>
+              Overrides the current thread's CurrentUICulture property for all
+              resource lookups using this strongly typed resource class.
+            </summary>
+        </member>
+        <member name="P:PostaFlya.Properties.Resources.AlpaNumericAndHiphensOnly">
+            <summary>
+              Looks up a localized string similar to {0} can consist of &apos;a-z&apos; and &apos;-&apos; only.
+            </summary>
+        </member>
+        <member name="P:PostaFlya.Properties.Resources.AnalyticTrackingSummaryExtensions_GetLocationSourceDesc_LocationFromDevice">
+            <summary>
+              Looks up a localized string similar to Location from device.
+            </summary>
+        </member>
+        <member name="P:PostaFlya.Properties.Resources.AnalyticTrackingSummaryExtensions_GetLocationSourceDesc_LocationFromSearch">
+            <summary>
+              Looks up a localized string similar to Location from search.
+            </summary>
+        </member>
+        <member name="P:PostaFlya.Properties.Resources.AnalyticTrackingSummaryExtensions_GetLocationSourceDesc_LocationNotKnown">
+            <summary>
+              Looks up a localized string similar to Location not known.
+            </summary>
+        </member>
+        <member name="P:PostaFlya.Properties.Resources.AnalyticTrackingSummaryExtensions_GetSourceDescription_IdByApi">
+            <summary>
+              Looks up a localized string similar to From Api.
+            </summary>
+        </member>
+        <member name="P:PostaFlya.Properties.Resources.AnalyticTrackingSummaryExtensions_GetSourceDescription_IdByBulletin">
+            <summary>
+              Looks up a localized string similar to From Navigation directly to Url.
+            </summary>
+        </member>
+        <member name="P:PostaFlya.Properties.Resources.AnalyticTrackingSummaryExtensions_GetSourceDescription_LocationTrack">
+            <summary>
+              Looks up a localized string similar to From browser location detection.
+            </summary>
+        </member>
+        <member name="P:PostaFlya.Properties.Resources.AnalyticTrackingSummaryExtensions_GetSourceDescription_QrCodeSrcCodeOnly">
+            <summary>
+              Looks up a localized string similar to From Qr Code without poster.
+            </summary>
+        </member>
+        <member name="P:PostaFlya.Properties.Resources.AnalyticTrackingSummaryExtensions_GetSourceDescription_QrCodeSrcOnFlierWithoutTearOffs">
+            <summary>
+              Looks up a localized string similar to From Qr Code on printed flya without tear offs.
+            </summary>
+        </member>
+        <member name="P:PostaFlya.Properties.Resources.AnalyticTrackingSummaryExtensions_GetSourceDescription_QrCodeSrcOnFlierWithTearOffs">
+            <summary>
+              Looks up a localized string similar to From large Qr Code on printed flier with tear offs.
+            </summary>
+        </member>
+        <member name="P:PostaFlya.Properties.Resources.AnalyticTrackingSummaryExtensions_GetSourceDescription_QrCodeSrcTearOff">
+            <summary>
+              Looks up a localized string similar to From Qr Code on tear off tag.
+            </summary>
+        </member>
+        <member name="P:PostaFlya.Properties.Resources.AnalyticTrackingSummaryExtensions_GetSourceDescription_TinyUrl">
+            <summary>
+              Looks up a localized string similar to From Tiny Url typed in.
+            </summary>
+        </member>
+        <member name="P:PostaFlya.Properties.Resources.AnalyticTrackingSummaryExtensions_GetSourceDescription_TinyUrlByApi">
+            <summary>
+              Looks up a localized string similar to From Tiny Url by Api.
+            </summary>
+        </member>
+        <member name="P:PostaFlya.Properties.Resources.AnalyticTrackingSummaryExtensions_GetSourceDescription_Unknown">
+            <summary>
+              Looks up a localized string similar to Unknown.
+            </summary>
+        </member>
+        <member name="P:PostaFlya.Properties.Resources.AttachContactDetails">
+            <summary>
+              Looks up a localized string similar to AttachContactDetails.
+            </summary>
+        </member>
+        <member name="P:PostaFlya.Properties.Resources.BehaviourType">
+            <summary>
+              Looks up a localized string similar to BehaviourType.
+            </summary>
+        </member>
+        <member name="P:PostaFlya.Properties.Resources.BidAmount">
+            <summary>
+              Looks up a localized string similar to BidAmount.
+            </summary>
+        </member>
+        <member name="P:PostaFlya.Properties.Resources.BoardCreateEditModel_AllowOthersToPostFliers">
+            <summary>
+              Looks up a localized string similar to AllowOthersToPostFliers.
+            </summary>
+        </member>
+        <member name="P:PostaFlya.Properties.Resources.BoardCreateEditModel_BoardName">
+            <summary>
+              Looks up a localized string similar to BoardName.
+            </summary>
+        </member>
+        <member name="P:PostaFlya.Properties.Resources.BoardCreateEditModel_Description">
+            <summary>
+              Looks up a localized string similar to BoardDescription.
+            </summary>
+        </member>
+        <member name="P:PostaFlya.Properties.Resources.BoardCreateEditModel_Location">
+            <summary>
+              Looks up a localized string similar to Location.
+            </summary>
+        </member>
+        <member name="P:PostaFlya.Properties.Resources.BoardCreateEditModel_PercentageOfPublicFliersToShow">
+            <summary>
+              Looks up a localized string similar to PercentageOfPublicFliersToShow.
+            </summary>
+        </member>
+        <member name="P:PostaFlya.Properties.Resources.BoardCreateEditModel_RequireApprovalOfPostedFliers">
+            <summary>
+              Looks up a localized string similar to RequireApprovalOfPostedFliers.
+            </summary>
+        </member>
+        <member name="P:PostaFlya.Properties.Resources.BoardCreateEditModel_Status">
+            <summary>
+              Looks up a localized string similar to Status.
+            </summary>
+        </member>
+        <member name="P:PostaFlya.Properties.Resources.BoardCreateEditModel_TypeOfBoard">
+            <summary>
+              Looks up a localized string similar to Board Type.
+            </summary>
+        </member>
+        <member name="P:PostaFlya.Properties.Resources.BoardFlier">
+            <summary>
+              Looks up a localized string similar to BoardFlier.
+            </summary>
+        </member>
+        <member name="P:PostaFlya.Properties.Resources.BoardId">
+            <summary>
+              Looks up a localized string similar to BoardId.
+            </summary>
+        </member>
+        <member name="P:PostaFlya.Properties.Resources.BoardList">
+            <summary>
+              Looks up a localized string similar to BoardList.
+            </summary>
+        </member>
+        <member name="P:PostaFlya.Properties.Resources.BulletinFlierModel_UserLinks_UserLinks">
+            <summary>
+              Looks up a localized string similar to User Links.
+            </summary>
+        </member>
+        <member name="P:PostaFlya.Properties.Resources.ClaimTime">
+            <summary>
+              Looks up a localized string similar to ClaimTime.
+            </summary>
+        </member>
+        <member name="P:PostaFlya.Properties.Resources.Comment">
+            <summary>
+              Looks up a localized string similar to Comment.
+            </summary>
+        </member>
+        <member name="P:PostaFlya.Properties.Resources.CommentTime">
+            <summary>
+              Looks up a localized string similar to CommentTime.
+            </summary>
+        </member>
+        <member name="P:PostaFlya.Properties.Resources.ContactDetailsModel_Address">
+            <summary>
+              Looks up a localized string similar to Address.
+            </summary>
+        </member>
+        <member name="P:PostaFlya.Properties.Resources.ContactDetailsModel_EmailAddress">
+            <summary>
+              Looks up a localized string similar to EmailAddress.
+            </summary>
+        </member>
+        <member name="P:PostaFlya.Properties.Resources.ContactDetailsModel_FirstName">
+            <summary>
+              Looks up a localized string similar to FirstName.
+            </summary>
+        </member>
+        <member name="P:PostaFlya.Properties.Resources.ContactDetailsModel_MiddleNames">
+            <summary>
+              Looks up a localized string similar to MiddleNames.
+            </summary>
+        </member>
+        <member name="P:PostaFlya.Properties.Resources.ContactDetailsModel_PhoneNumber">
+            <summary>
+              Looks up a localized string similar to PhoneNumber.
+            </summary>
+        </member>
+        <member name="P:PostaFlya.Properties.Resources.ContactDetailsModel_Surname">
+            <summary>
+              Looks up a localized string similar to Surname.
+            </summary>
+        </member>
+        <member name="P:PostaFlya.Properties.Resources.ContactDetailsModel_WebSite">
+            <summary>
+              Looks up a localized string similar to Website.
+            </summary>
+        </member>
+        <member name="P:PostaFlya.Properties.Resources.CostOverhead">
+            <summary>
+              Looks up a localized string similar to CostOverhead.
+            </summary>
+        </member>
+        <member name="P:PostaFlya.Properties.Resources.CostOverheadDisplay">
+            <summary>
+              Looks up a localized string similar to CostOverheadDisplay.
+            </summary>
+        </member>
+        <member name="P:PostaFlya.Properties.Resources.CountryName">
+            <summary>
+              Looks up a localized string similar to CountryName.
+            </summary>
+        </member>
+        <member name="P:PostaFlya.Properties.Resources.CreateDate">
+            <summary>
+              Looks up a localized string similar to CreateDate.
+            </summary>
+        </member>
+        <member name="P:PostaFlya.Properties.Resources.Credits">
+            <summary>
+              Looks up a localized string similar to Flya Credits.
+            </summary>
+        </member>
+        <member name="P:PostaFlya.Properties.Resources.Description">
+            <summary>
+              Looks up a localized string similar to Description.
+            </summary>
+        </member>
+        <member name="P:PostaFlya.Properties.Resources.EffectiveDate">
+            <summary>
+              Looks up a localized string similar to Event Date.
+            </summary>
+        </member>
+        <member name="P:PostaFlya.Properties.Resources.ExtraLocations">
+            <summary>
+              Looks up a localized string similar to ExtraLocations.
+            </summary>
+        </member>
+        <member name="P:PostaFlya.Properties.Resources.FlierAnalyticTrackingSummaryModel_InitialSource">
+            <summary>
+              Looks up a localized string similar to Initial source.
+            </summary>
+        </member>
+        <member name="P:PostaFlya.Properties.Resources.FlierAnalyticTrackingSummaryModel_InitialVisitTime">
+            <summary>
+              Looks up a localized string similar to Initial visit time.
+            </summary>
+        </member>
+        <member name="P:PostaFlya.Properties.Resources.FlierAnalyticTrackingSummaryModel_Location">
+            <summary>
+              Looks up a localized string similar to Recorded Location.
+            </summary>
+        </member>
+        <member name="P:PostaFlya.Properties.Resources.FlierAnalyticTrackingSummaryModel_LocationSource">
+            <summary>
+              Looks up a localized string similar to Location source.
+            </summary>
+        </member>
+        <member name="P:PostaFlya.Properties.Resources.FlierAnalyticTrackingSummaryModel_TotalDetailViews">
+            <summary>
+              Looks up a localized string similar to Total number of views from this Tracking Id.
+            </summary>
+        </member>
+        <member name="P:PostaFlya.Properties.Resources.FlierAnalyticTrackingSummaryModel_TrackingId_TrackingId">
+            <summary>
+              Looks up a localized string similar to Unique Tracking Id.
+            </summary>
+        </member>
+        <member name="P:PostaFlya.Properties.Resources.FlierAnalyticTrackingSummaryModel_UserAgent">
+            <summary>
+              Looks up a localized string similar to User agent (browser and or device) information .
+            </summary>
+        </member>
+        <member name="P:PostaFlya.Properties.Resources.FlierCreateModel_AttachSuppliedContactDetails">
+            <summary>
+              Looks up a localized string similar to Attach Specified Contact Details.
+            </summary>
+        </member>
+        <member name="P:PostaFlya.Properties.Resources.FlierCreateModel_AttachTearOffs">
+            <summary>
+              Looks up a localized string similar to Attach Contact Details to Flier.
+            </summary>
+        </member>
+        <member name="P:PostaFlya.Properties.Resources.FlierCreateModel_EnableAnalytics_EnableAnalytics">
+            <summary>
+              Looks up a localized string similar to Enable Analytics for flier.
+            </summary>
+        </member>
+        <member name="P:PostaFlya.Properties.Resources.FlierCreateModel_PostRadius">
+            <summary>
+              Looks up a localized string similar to PostLocationRadius.
+            </summary>
+        </member>
+        <member name="P:PostaFlya.Properties.Resources.FlierDescription">
+            <summary>
+              Looks up a localized string similar to FlierDescription.
+            </summary>
+        </member>
+        <member name="P:PostaFlya.Properties.Resources.FlierId">
+            <summary>
+              Looks up a localized string similar to FlierId.
+            </summary>
+        </member>
+        <member name="P:PostaFlya.Properties.Resources.FlierImage">
+            <summary>
+              Looks up a localized string similar to Image.
+            </summary>
+        </member>
+        <member name="P:PostaFlya.Properties.Resources.FlierImages">
+            <summary>
+              Looks up a localized string similar to FlierImages.
+            </summary>
+        </member>
+        <member name="P:PostaFlya.Properties.Resources.FlierLocation">
+            <summary>
+              Looks up a localized string similar to FlierLocation.
+            </summary>
+        </member>
+        <member name="P:PostaFlya.Properties.Resources.FlierStatus">
+            <summary>
+              Looks up a localized string similar to Status.
+            </summary>
+        </member>
+        <member name="P:PostaFlya.Properties.Resources.FlierTags">
+            <summary>
+              Looks up a localized string similar to Flier Tags.
+            </summary>
+        </member>
+        <member name="P:PostaFlya.Properties.Resources.FlierTitle">
+            <summary>
+              Looks up a localized string similar to Flier Title.
+            </summary>
+        </member>
+        <member name="P:PostaFlya.Properties.Resources.FlierTitleRequired">
+            <summary>
+              Looks up a localized string similar to {0} is and invalid Id.
+            </summary>
+        </member>
+        <member name="P:PostaFlya.Properties.Resources.FlyerContactDetailsModel_Address_FlyerContactDetailsModel_Address_FlyerContactDetailsModel_Address">
+            <summary>
+              Looks up a localized string similar to Address.
+            </summary>
+        </member>
+        <member name="P:PostaFlya.Properties.Resources.FlyerContactDetailsModel_EmailAddress_FlyerContactDetailsModel_EmailAddress_FlyerContactDetailsModel_EmailAddress">
+            <summary>
+              Looks up a localized string similar to Email.
+            </summary>
+        </member>
+        <member name="P:PostaFlya.Properties.Resources.FlyerContactDetailsModel_FirstName_FlyerContactDetailsModel_FirstName_FlyerContactDetailsModel_FirstName">
+            <summary>
+              Looks up a localized string similar to First Name.
+            </summary>
+        </member>
+        <member name="P:PostaFlya.Properties.Resources.FlyerContactDetailsModel_MiddleNames_FlyerContactDetailsModel_MiddleNames_FlyerContactDetailsModel_MiddleNames">
+            <summary>
+              Looks up a localized string similar to Middle Names.
+            </summary>
+        </member>
+        <member name="P:PostaFlya.Properties.Resources.FlyerContactDetailsModel_PhoneNumber_FlyerContactDetailsModel_PhoneNumber_FlyerContactDetailsModel_PhoneNumber">
+            <summary>
+              Looks up a localized string similar to Phone.
+            </summary>
+        </member>
+        <member name="P:PostaFlya.Properties.Resources.FlyerContactDetailsModel_Surname_FlyerContactDetailsModel_Surname_FlyerContactDetailsModel_Surname">
+            <summary>
+              Looks up a localized string similar to Surname.
+            </summary>
+        </member>
+        <member name="P:PostaFlya.Properties.Resources.FlyerContactDetailsModel_WebSite_FlyerContactDetailsModel_WebSite_FlyerContactDetailsModel_WebSite">
+            <summary>
+              Looks up a localized string similar to Event Link.
+            </summary>
+        </member>
+        <member name="P:PostaFlya.Properties.Resources.FriendlyId">
+            <summary>
+              Looks up a localized string similar to FriendlyId.
+            </summary>
+        </member>
+        <member name="P:PostaFlya.Properties.Resources.Handle">
+            <summary>
+              Looks up a localized string similar to Handle.
+            </summary>
+        </member>
+        <member name="P:PostaFlya.Properties.Resources.ImageProcessing">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="P:PostaFlya.Properties.Resources.ImageProcessingFailed">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="P:PostaFlya.Properties.Resources.ImageTitle">
+            <summary>
+              Looks up a localized string similar to ImageTitle.
+            </summary>
+        </member>
+        <member name="P:PostaFlya.Properties.Resources.InvalidEmailAddress">
+            <summary>
+              Looks up a localized string similar to {0} is not a valid email address..
+            </summary>
+        </member>
+        <member name="P:PostaFlya.Properties.Resources.InvalidGuid">
+            <summary>
+              Looks up a localized string similar to {0} is and invalid Id.
+            </summary>
+        </member>
+        <member name="P:PostaFlya.Properties.Resources.Latitude">
+            <summary>
+              Looks up a localized string similar to Latitude.
+            </summary>
+        </member>
+        <member name="P:PostaFlya.Properties.Resources.Locality">
+            <summary>
+              Looks up a localized string similar to Locality.
+            </summary>
+        </member>
+        <member name="P:PostaFlya.Properties.Resources.Longitude">
+            <summary>
+              Looks up a localized string similar to Longitude.
+            </summary>
+        </member>
+        <member name="P:PostaFlya.Properties.Resources.MaxTaskAmount">
+            <summary>
+              Looks up a localized string similar to MaxTaskAmount.
+            </summary>
+        </member>
+        <member name="P:PostaFlya.Properties.Resources.NotFoundImg">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="P:PostaFlya.Properties.Resources.NumberOfClaims">
+            <summary>
+              Looks up a localized string similar to NumberOfClaims.
+            </summary>
+        </member>
+        <member name="P:PostaFlya.Properties.Resources.NumberOfComments">
+            <summary>
+              Looks up a localized string similar to NumberOfComments.
+            </summary>
+        </member>
+        <member name="P:PostaFlya.Properties.Resources.OutOfRange">
+            <summary>
+              Looks up a localized string similar to {0} must be between {1} and {2}.
+            </summary>
+        </member>
+        <member name="P:PostaFlya.Properties.Resources.PlaceName">
+            <summary>
+              Looks up a localized string similar to PlaceName.
+            </summary>
+        </member>
+        <member name="P:PostaFlya.Properties.Resources.PostCode">
+            <summary>
+              Looks up a localized string similar to PostCode.
+            </summary>
+        </member>
+        <member name="P:PostaFlya.Properties.Resources.Region">
+            <summary>
+              Looks up a localized string similar to Region.
+            </summary>
+        </member>
+        <member name="P:PostaFlya.Properties.Resources.Required">
+            <summary>
+              Looks up a localized string similar to {0} required..
+            </summary>
+        </member>
+        <member name="P:PostaFlya.Properties.Resources.Status">
+            <summary>
+              Looks up a localized string similar to Status.
+            </summary>
+        </member>
+        <member name="P:PostaFlya.Properties.Resources.Street">
+            <summary>
+              Looks up a localized string similar to StreetAddress.
+            </summary>
+        </member>
+        <member name="P:PostaFlya.Properties.Resources.StreetNumber">
+            <summary>
+              Looks up a localized string similar to StreetNumber.
+            </summary>
+        </member>
+        <member name="P:PostaFlya.Properties.Resources.StringTooLarge">
+            <summary>
+              Looks up a localized string similar to {0} must be less than {1} characters.
+            </summary>
+        </member>
+        <member name="P:PostaFlya.Properties.Resources.StringTooLargeOrSmall">
+            <summary>
+              Looks up a localized string similar to {0} must be between {2} and {1} characters.
+            </summary>
+        </member>
+        <member name="P:PostaFlya.Properties.Resources.TagList">
+            <summary>
+              Looks up a localized string similar to TagList.
+            </summary>
+        </member>
+        <member name="P:PostaFlya.Properties.Resources.UserLinkViewModel_Link_Link_Url">
+            <summary>
+              Looks up a localized string similar to Link Url.
+            </summary>
+        </member>
+        <member name="P:PostaFlya.Properties.Resources.UserLinkViewModel_Text_Link_Text">
+            <summary>
+              Looks up a localized string similar to Link Text.
+            </summary>
+        </member>
+        <member name="P:PostaFlya.Properties.Resources.UserLinkViewModel_Type_Link_Type">
+            <summary>
+              Looks up a localized string similar to Link Type.
+            </summary>
+        </member>
+        <member name="P:PostaFlya.Properties.Resources.ValidLocation">
+            <summary>
+              Looks up a localized string similar to {0} must be a valid location.
+            </summary>
+        </member>
+        <member name="P:PostaFlya.Properties.Resources.ValidUrl">
+            <summary>
+              Looks up a localized string similar to {0} is not a valid website address..
+            </summary>
+        </member>
+    </members>
+</doc>

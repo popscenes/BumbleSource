@@ -19,7 +19,7 @@ namespace Website.Domain.Tag
         }
 
         public Tags(string tagsString)
-            : base((IEnumerable<string>) tagsString.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
+            : base((IEnumerable<string>) (tagsString ?? String.Empty).Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
                                      .Select(s => s.Trim()).Where(s => !string.IsNullOrWhiteSpace(s)))
         {
         }

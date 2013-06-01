@@ -374,9 +374,15 @@ namespace PostaFlya.Specification.Fliers
 
 
             SpecUtil.ControllerResult = bulletinController
-                .Get(loc: new LocationModel(), count: 30, board: board.Id, skipPast: null
-                , distance: 0
-                , tags: "", date: dateFilter);
+                .Get(new BulletinGetRequestModel()
+                    {
+                        Loc = new LocationModel(),
+                        Count = 30,
+                        Board = board.Id,
+                        Date = dateFilter,
+                        Tags = ""
+                    });
+               
 
             var fliers = SpecUtil.ControllerResult as IList<BulletinFlierModel>;
             var flier = fliers.FirstOrDefault();

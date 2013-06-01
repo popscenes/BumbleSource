@@ -93,8 +93,12 @@ namespace PostaFlya.Controllers
             return ret;
         }
 
-        public IList<BulletinFlierModel> Get([FromUri] LocationModel loc, int count, string board = ""
-            , string skipPast = "", int distance = 0, string tags = "", DateTime? date = null)
+        /// <summary>
+        /// dgdgsdgdsfgg
+        /// </summary>
+        /// <param name="req">ytrydyr</param>
+        /// <returns></returns>
+        public IList<BulletinFlierModel> Get([FromUri]BulletinGetRequestModel req)
         {
 //            if (!loc.IsValid() && string.IsNullOrWhiteSpace(board))
 //                return GetDefaultFliers(count, skipPast, tags);
@@ -103,11 +107,11 @@ namespace PostaFlya.Controllers
             {
                 _browserInformation.LastSearchLocation = new Location();
             }
-            _browserInformation.LastSearchLocation.CopyFieldsFrom(loc);
-            
-            _webAnalyticService.SetLastSearchLocation(loc.ToDomainModel());
+            _browserInformation.LastSearchLocation.CopyFieldsFrom(req.Loc);
+
+            _webAnalyticService.SetLastSearchLocation(req.Loc.ToDomainModel());
             return GetFliers(_flierSearchService, _queryService, _blobStorage, _viewModelFactory
-                , loc, count, board: board, skipPast: skipPast, distance: distance, tags: tags, date: date);
+                , req.Loc, req.Count, board: req.Board, skipPast: req.SkipPast, distance: req.Distance, tags: req.Tags, date: req.Date);
         }
 
 //        private IList<BulletinFlierModel> GetDefaultFliers(int count, string skipPast, string tags)
