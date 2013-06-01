@@ -435,6 +435,7 @@
     <Compile Include="WebRole.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\XmlDocument.xml" />
     <Content Include="App_Loading.html" />
     <Content Include="Areas\HelpPage\HelpPage.css" />
     <Content Include="Content\images\bumbl8.png" />
@@ -835,7 +836,6 @@
     <Content Include="Views\Board\Widget\BoardWidgetHtml.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Data\" />
     <Folder Include="Areas\Default\Controllers\" />
     <Folder Include="Areas\Default\Views\Shared\" />
     <Folder Include="Areas\HelpPage\Views\Shared\" />
