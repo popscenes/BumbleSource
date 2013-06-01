@@ -18,7 +18,6 @@ namespace WebScraper.Library.Sites
         public const string SpottedMallard = "SpottedMallard";
         public const string Retreat = "Retreat";
         public const string DrunkenPoet = "DrunkenPoet";
-
         public const string GraceDarling = "GraceDarling";
 
         public override void Load()
@@ -50,6 +49,10 @@ namespace WebScraper.Library.Sites
             Kernel.Bind<SiteScraperInterface>()
       .To<DrunkenPoetSiteScraper>()
       .Named(DrunkenPoetSiteScraper.BaseUrl);
+
+            Kernel.Bind<SiteScraperInterface>()
+            .To<GraceDarlingScraper>()
+            .Named(GraceDarlingScraper.BaseUrl);
 
         }
     }
