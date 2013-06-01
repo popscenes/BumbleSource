@@ -66,8 +66,8 @@
                 @RenderSection("rightheader", required: false)
             </div>
                                   
-            @Html.Action("BrowserInfo", "BrowserInformation")   
-            @Html.Action("Info", "Social")     
+            @Html.Action("BrowserInfo", "BrowserInformation", new{ Area = ""} )   
+            @Html.Action("Info", "Social", new{ Area = ""} )     
                 
         </header>
             <div id="body">
