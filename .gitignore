@@ -21,3 +21,4 @@ AzureProject/Downloaded Profiling Logs/
 *.ncrunchproject
 *.ncrunchsolution
 *ncrunchsolution*
+*/rcf/Debug/*
