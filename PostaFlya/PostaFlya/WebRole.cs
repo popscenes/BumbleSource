@@ -4,7 +4,7 @@ using Microsoft.Web.Administration;
 using Microsoft.WindowsAzure.ServiceRuntime;
 using PostaFlya.CommandWorker;
 using Website.Azure.Common.Environment;
-using WindowsAzure.DevelopmentFabric.IISConfigurator.Syncronizer;
+//using WindowsAzure.DevelopmentFabric.IISConfigurator.Syncronizer;
 
 namespace PostaFlya
 {
@@ -75,7 +75,12 @@ namespace PostaFlya
                         }
                     };
 
-                ServerManagerBarrier.ApplyServerManagerActions(updatePreload); 
+               // ServerManagerBarrier.ApplyServerManagerActions(updatePreload); 
+                using (var sm = new ServerManager())
+                {
+                    updatePreload(sm);
+                }
+                
 
             }
 

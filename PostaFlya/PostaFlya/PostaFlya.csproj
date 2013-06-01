@@ -309,9 +309,6 @@
       <Private>True</Private>
       <HintPath>..\..\..\Libraries\Microsoft.AspNet.WebPages.WebData.2.0.20710.0\lib\net40\WebMatrix.WebData.dll</HintPath>
     </Reference>
-    <Reference Include="WindowsAzure.DevelopmentFabric.IISConfigurator.Syncronizer">
-      <HintPath>..\..\..\Libraries\WindowsAzure.DevelopmentFabric.IISConfigurator.Syncronizer.1.0.0.5\lib\net40\WindowsAzure.DevelopmentFabric.IISConfigurator.Syncronizer.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\NinjectWebCommon.cs" />
@@ -321,6 +318,20 @@
     <Compile Include="Areas\Default\DefaultAreaRegistration.cs" />
     <Compile Include="Areas\Default\Models\DefaultDetailsViewModel.cs" />
     <Compile Include="Areas\Default\Models\Factory\DefaultBehaviourFlierBehaviourViewModelFactory.cs" />
+    <Compile Include="Areas\HelpPage\ApiDescriptionExtensions.cs" />
+    <Compile Include="Areas\HelpPage\App_Start\HelpPageConfig.cs" />
+    <Compile Include="Areas\HelpPage\Controllers\HelpController.cs" />
+    <Compile Include="Areas\HelpPage\HelpPageAreaRegistration.cs" />
+    <Compile Include="Areas\HelpPage\HelpPageConfigurationExtensions.cs" />
+    <Compile Include="Areas\HelpPage\Models\HelpPageApiModel.cs" />
+    <Compile Include="Areas\HelpPage\SampleGeneration\HelpPageSampleGenerator.cs" />
+    <Compile Include="Areas\HelpPage\SampleGeneration\HelpPageSampleKey.cs" />
+    <Compile Include="Areas\HelpPage\SampleGeneration\ImageSample.cs" />
+    <Compile Include="Areas\HelpPage\SampleGeneration\InvalidSample.cs" />
+    <Compile Include="Areas\HelpPage\SampleGeneration\ObjectGenerator.cs" />
+    <Compile Include="Areas\HelpPage\SampleGeneration\SampleDirection.cs" />
+    <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
+    <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Binding\WebNinjectBindings.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BoardController.cs" />
@@ -429,6 +440,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Loading.html" />
+    <Content Include="Areas\HelpPage\HelpPage.css" />
     <Content Include="Content\images\bumbl8.png" />
     <Content Include="Content\themes\taskflya\images\bg-high-quality.jpg" />
     <Content Include="Content\themes\taskflya\images\bg-low-quality.jpg" />
@@ -569,6 +581,17 @@
     <Content Include="Areas\Default\Views\Bulletin\SummaryOwner.cshtml" />
     <Content Include="Areas\Default\Views\Bulletin\SummaryOwnerTemplate.cshtml" />
     <Content Include="App_Code\Widgets.cshtml" />
+    <Content Include="Areas\HelpPage\Views\Web.config" />
+    <Content Include="Areas\HelpPage\Views\Help\Api.cshtml" />
+    <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\ApiGroup.cshtml" />
+    <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\HelpPageApiModel.cshtml" />
+    <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\ImageSample.cshtml" />
+    <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\InvalidSample.cshtml" />
+    <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\Parameters.cshtml" />
+    <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\Samples.cshtml" />
+    <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\TextSample.cshtml" />
+    <Content Include="Areas\HelpPage\Views\Help\Index.cshtml" />
+    <Content Include="Areas\HelpPage\Views\_ViewStart.cshtml" />
     <None Include="Diagnostics.wadcfg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>
@@ -821,6 +844,7 @@
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Default\Controllers\" />
     <Folder Include="Areas\Default\Views\Shared\" />
+    <Folder Include="Areas\HelpPage\Views\Shared\" />
     <Folder Include="Attributes\" />
     <Folder Include="Properties\PublishProfiles\" />
     <Folder Include="Scripts\plupload\jquery.plupload.queue\css\" />
