@@ -452,12 +452,10 @@ namespace PostaFlya.Specification.Fliers
 //            var createFlierModel = ScenarioContext.Current["createflya"] as FlierCreateModel;
 //        }
 
-        [Then(@"the FLIER will contain a FEATURE described as (.*) with a cost of (.*) credits")]
-        public void ThenTheFLIERWillContainAFEATUREForTearOffInAEnabledState(string featureDescription, string cost)
+        [Then(@"the FLIER will contain a FEATURE described as (.*)")]
+        public void ThenTheFLIERWillContainAFEATUREForTearOffInAEnabledState(string featureDescription)
         {
             featureDescription = featureDescription.Trim('\"');
-            var creditCost = Int32.Parse(cost);
-            
             var flierid = ScenarioContext.Current["createdflyaid"] as string;
 
             var flierQueryService = SpecUtil.CurrIocKernel.Get<GenericQueryServiceInterface>();
@@ -466,7 +464,6 @@ namespace PostaFlya.Specification.Fliers
             Assert.AreEqual(flier.Features.Count, 2);
             var flierFeature = flier.Features.FirstOrDefault(f => f.Description.Equals(featureDescription));
             Assert.NotNull(flierFeature, "no feature found with description " + featureDescription);
-            Assert.AreEqual(flierFeature.Cost, creditCost);
         }
 
         [Given(@"I choose to allow User Contact")]

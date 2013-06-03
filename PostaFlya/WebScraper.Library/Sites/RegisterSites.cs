@@ -21,6 +21,8 @@ namespace WebScraper.Library.Sites
 
         public const string GraceDarling = "GraceDarling";
 
+        public const string DingDong = "DingDong";
+
         public override void Load()
         {
             Bind<ConfigurationServiceInterface>()
