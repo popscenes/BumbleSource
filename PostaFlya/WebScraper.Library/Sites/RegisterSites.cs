@@ -55,6 +55,10 @@ namespace WebScraper.Library.Sites
             .To<GraceDarlingScraper>()
             .Named(GraceDarlingScraper.BaseUrl);
 
+            Kernel.Bind<SiteScraperInterface>()
+            .To<GraceDarlingScraper>()
+            .Named(GraceDarlingScraper.BaseUrl);
+
 
             Kernel.Bind<SiteScraperInterface>()
             .To<DingDongScraper>()
