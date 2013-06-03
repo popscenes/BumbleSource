@@ -57,7 +57,7 @@
 
         var self = this;
         self.apiUrl = sprintf("/api/Browser/%s/MyFliers", bf.currentBrowserInstance.BrowserId);
-        self.Steps = ['AddImages', 'DetailsAndTags', 'UserLinks', 'Summary', 'Complete'];
+        self.Steps = ['AddImages', 'DetailsAndTags', 'UserLinks', 'Complete'];
 
 
         self.UserLinkTypes = ko.observableArray([]);
@@ -338,7 +338,7 @@
             }
 
             var validate = $('#flierForm').validate();
-            if (!validate.form()) {
+            if (!validate.form() && $('#flierForm').attr("data-validate-on-next") != "false") {
                 return false;
             }
 
