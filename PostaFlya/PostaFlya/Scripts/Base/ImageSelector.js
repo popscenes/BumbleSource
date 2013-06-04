@@ -156,6 +156,7 @@
                 max_file_size: '10mb',
                 unique_names: true,
                 multiple_queues: true,
+                multi_selection: false,
                 filters: [
                     { title: "Image files", extensions: "jpg,jpeg,gif,png" }
                 ]
@@ -163,11 +164,11 @@
             });
            
 
-            $('#uploadfiles').click(function (e) {
+            /*$('#uploadfiles').click(function (e) {
                 $('#filelist p').html('');
                 uploader.start();
                 e.preventDefault();
-            });
+            });*/
 
             uploader.init();
 
@@ -181,6 +182,10 @@
                 });
 
                 up.refresh(); // Reposition Flash/Silverlight
+                
+                $('#filelist p').html('');
+                uploader.start();
+                e.preventDefault();
             });
 
             uploader.bind('UploadProgress', function (up, file) {
@@ -211,7 +216,7 @@
                 //if (self.imageList().length > 0)
                 //    self.slider.destroyShow();
                 self._LoadImageList();
-                $('#filelist p').html('Upload complete feed me more images!!');
+                $('#filelist p').html('Upload complete!!');
             });
         };
     };

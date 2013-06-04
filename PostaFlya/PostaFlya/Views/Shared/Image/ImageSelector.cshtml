@@ -2,28 +2,28 @@
 <div class="imageSelector ignore">
     <div data-bind="attr:{id:uploaderElementId}"></div>
     
-     <div id="new-images-upload" class="form-component">
+     <div id="new-images-upload">
         <h3>UPLOAD NEW IMAGE</h3>
         <div id="upload-container">
             <div id="filelist">
-                <p>Browse to select images then select Add to upload to Popscenes</p>
+                <p>Browse to select image for your flyer</p>
             </div>
+            
+            <span data-bind="with: selectedImage">
+                <img data-bind="attr: { id: ImageId, src: ImageUrl }, imgRetry: ImageUrl" />
+            </span>
             
             <div id="upload-controls">
                 <a id="pickfiles" href="javascript:void(0);" class="pickfiles std-btn std-image-btn">
                     <span class="std-image-btn-icon"></span>
                     <span>Browse</span>
                 </a>
-                <a id="uploadfiles" href="javascript:void(0);" class="uploadfiles std-btn std-image-btn">
-                    <span class="std-image-btn-icon"></span>
-                    <span>Add</span>
-                </a>
             </div>
         </div>
     </div>
     
     
-    <div id="current-images" class="form-component">
+    <div id="current-images" class="form-component" style="display: none">
         
         <div id="thumbs">
                 
