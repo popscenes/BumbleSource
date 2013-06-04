@@ -1565,6 +1565,7 @@ p#copyright {
 .bulletin-calendar {
     clear: both;
     float: none !important;
+    margin-top: 20px;
 }
 
 #controls

@@ -254,18 +254,7 @@
                 </li>
                 </ol>
             </fieldset>
-          <fieldset>
-            <legend>Now add some flyer tags</legend>
-            <ol>
-                <li data-bind="with:tagsSelector">
-                    <h3>Choose Scene For Your Flyer</h3>
-                    @Html.ValidationMessageFor(model => model.TagsString)
-                    @Html.HiddenFor(model => model.TagsString, new { data_bind = "value:SelectedTags()" })
-                
-                    @Html.Partial("Tags/TagsSelector")
-                </li>
-            </ol>        
-        </fieldset>
+          
     </form>
 </script>
 

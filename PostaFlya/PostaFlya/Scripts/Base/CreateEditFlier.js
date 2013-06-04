@@ -39,7 +39,7 @@
             Id: '',
             Title: '',
             Description: '',
-            TagsString: '',
+            TagsString: 'Music',
             EventDates: [],
             FlierImageId: '',
             FlierImageUrl: '',
