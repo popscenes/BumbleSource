@@ -55,8 +55,9 @@ namespace PostaFlya.Controllers
 
         public IQueryable<CommentModel> Get(EntityTypeEnum entityTypeEnum, string id)
         {
-            return GetComments(_queryService, id)
-                .Select(c => c.FillBrowserModel(_queryService, _blobStorage));
+//            return GetComments(_queryService, id)
+//                .Select(c => c.FillBrowserModel(_queryService, _blobStorage));
+            return GetComments(_queryService, id);
         }
 
         public static IQueryable<CommentModel> GetComments(GenericQueryServiceInterface commentQuery, string id)

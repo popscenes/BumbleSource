@@ -26,7 +26,7 @@ namespace PostaFlya.Domain.Flier.Payment
             if (flier == null)
                 return false;
 
-            var chargableEntity = queryService.FindById<Browser>(flier.BrowserId);
+            var chargableEntity = queryService.FindById<Browser.Browser>(flier.BrowserId);
             if (entityFeatureCharge.IsPaid || chargableEntity.AccountCredit < entityFeatureCharge.OutstandingBalance)
                 return false;
 

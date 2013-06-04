@@ -15,12 +15,7 @@ namespace Website.Domain.Browser
         {
             EntityInterfaceExtensions.CopyFieldsFrom(target, source);
             ContactDetailsInterfaceExtensions.CopyFieldsFrom(target, source);
-            target.Tags = new Tags(source.Tags);
-            target.Distance = source.Distance;
             target.Roles = new Roles(source.Roles);
-            target.DefaultLocation = source.DefaultLocation;
-            target.SavedLocations = new Locations(source.SavedLocations.Select(l => new Location.Location(l)));
-            target.SavedTags = new List<Tags>(source.SavedTags.Select(t => new Tags(t)));
             target.ExternalCredentials = source.ExternalCredentials != null ? new HashSet<BrowserIdentityProviderCredential>(source.ExternalCredentials) : null;
             target.AvatarImageId = source.AvatarImageId;
             target.Properties = source.Properties != null ? new Dictionary<string, object>(source.Properties) : null;
@@ -61,12 +56,7 @@ namespace Website.Domain.Browser
 
     public interface BrowserInterface : EntityInterface, ContactDetailsInterface, ChargableEntityInterface
     {
-        Tags Tags { get; set; }
-        int? Distance { get; set; }
         Roles Roles { get; set; }
-        Location.Location DefaultLocation { get; set; }
-        Locations SavedLocations { get; set; }
-        List<Tags> SavedTags { get; set; }  
         HashSet<BrowserIdentityProviderCredential> ExternalCredentials { get; set; }
         
         string AvatarImageId { get; set; }

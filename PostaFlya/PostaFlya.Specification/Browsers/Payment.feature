@@ -10,25 +10,29 @@ Scenario: Accouunt Credit Page
 	Then I will be presented with the valid PAYMENT OPTIONS
 
 Scenario: Add Credit TO Account
-	Given I Am on the Add ACCOUUNT CREDIT PAGE
+	Given I am a BROWSER in PARTICIPANT ROLE
+	And I Am on the Add ACCOUUNT CREDIT PAGE
 	When I go Select a PAYMENT OPTION
 	Then I will be redirected to that OPTIONS PROCESS
 
 
 Scenario: Payment Callback Success
-	Given I Have Selected a PAYMENT OPTION
+	Given I am a BROWSER in PARTICIPANT ROLE
+	And I Have Selected a PAYMENT OPTION
 	When The Payment OPTION is Completed Successfully
 	Then I will be Shown the Transaction Details
 	And the my account will have the credit i purchased
 
 Scenario: Payment Callback Failure
-	Given I Have Selected a PAYMENT OPTION
+	Given I am a BROWSER in PARTICIPANT ROLE
+	And I Have Selected a PAYMENT OPTION
 	When The Payment OPTION is Completed Unsuccessfully
 	Then I will be Shown the Error Details
 	And the my account will not have the credit i purchased
 
 Scenario: Payment Transaction History
-	Given I have a Successful PAYMENT TRANSACTION
+	Given I am a BROWSER in PARTICIPANT ROLE
+	And I have a Successful PAYMENT TRANSACTION
 	And I have a Unuccessful PAYMENT TRANSACTION
 	When I navigate to the TRANSACTION HISTORY PAGE
 	Then I will be presented with My Transactions

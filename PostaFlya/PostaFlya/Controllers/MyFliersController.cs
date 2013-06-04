@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Web.Http;
+using PostaFlya.Application.Domain.Browser;
 using PostaFlya.Models.Content;
 using Website.Application.Binding;
 using Website.Application.Content;
@@ -29,12 +30,12 @@ namespace PostaFlya.Controllers
         private readonly QueryServiceForBrowserAggregateInterface _queryService;
         private readonly BlobStorageInterface _blobStorage;
         private readonly FlierBehaviourViewModelFactoryInterface _viewModelFactory;
-        private readonly BrowserInformationInterface _browserInformation;
+        private readonly PostaFlyaBrowserInformationInterface _browserInformation;
 
         public MyFliersController(CommandBusInterface commandBus,
             QueryServiceForBrowserAggregateInterface queryService,
             [ImageStorage]BlobStorageInterface blobStorage
-            , FlierBehaviourViewModelFactoryInterface viewModelFactory, BrowserInformationInterface browserInformation)
+            , FlierBehaviourViewModelFactoryInterface viewModelFactory, PostaFlyaBrowserInformationInterface browserInformation)
         {
             _commandBus = commandBus;
             _queryService = queryService;
@@ -63,7 +64,8 @@ namespace PostaFlya.Controllers
         }
 
         public HttpResponseMessage Post(string browserId, FlierCreateModel createModel)
-        {         
+        {
+            var isAnon = createModel.Anonymous && _browserInformation.Browser.HasRole(Role.Admin);
             var createFlier = new CreateFlierCommand()
             {
                 BrowserId = browserId,
@@ -83,7 +85,7 @@ namespace PostaFlya.Controllers
                 EnableAnalytics = createModel.EnableAnalytics,
                 ContactDetails = createModel.VenueInformation != null ? createModel.VenueInformation.ToDomainModel() : null,
                 UserLinks = createModel.UserLinks == null? new List<UserLink>() : createModel.UserLinks.Select(_ => new UserLink(){Link = _.Link, Text = _.Text, Type = _.Type}).ToList(),
-                Anonymous = createModel.Anonymous && _browserInformation.Browser.HasRole(Role.Admin)
+                Anonymous = isAnon
             };
 
             var res = _commandBus.Send(createFlier);

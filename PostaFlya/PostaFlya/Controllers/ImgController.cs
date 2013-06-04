@@ -6,6 +6,7 @@ using System.Net;
 using System.Net.Http;
 using System.Web;
 using System.Web.Mvc;
+using PostaFlya.Application.Domain.Browser;
 using PostaFlya.Application.Domain.Flier;
 using PostaFlya.Domain.Flier;
 using Website.Application.Binding;
@@ -27,7 +28,7 @@ namespace PostaFlya.Controllers
     {
         private readonly BlobStorageInterface _blobStorage;
         private readonly RequestContentRetrieverFactoryInterface _contentRetrieverFactory;
-        private readonly BrowserInformationInterface _browserInformation;
+        private readonly PostaFlyaBrowserInformationInterface _browserInformation;
         private readonly CommandBusInterface _commandBus;
         private readonly GenericQueryServiceInterface _queryService;
         private readonly FlierPrintImageServiceInterface _flierPrintImageService;
@@ -35,7 +36,7 @@ namespace PostaFlya.Controllers
 
         public ImgController([ImageStorage]BlobStorageInterface blobStorage
             , RequestContentRetrieverFactoryInterface contentRetrieverFactory
-            , BrowserInformationInterface browserInformation, CommandBusInterface commandBus
+            , PostaFlyaBrowserInformationInterface browserInformation, CommandBusInterface commandBus
             , GenericQueryServiceInterface queryService, 
             FlierPrintImageServiceInterface flierPrintImageService)
         {

@@ -10,6 +10,7 @@ using PostaFlya.Domain.Flier.Analytic;
 using TechTalk.SpecFlow;
 using PostaFlya.Domain.Flier;
 using Website.Application.Domain.Browser;
+using PostaFlya.Domain.Browser;
 using Website.Domain.Browser;
 using Website.Domain.Claims;
 using Website.Domain.Comments;
@@ -18,6 +19,8 @@ using Website.Domain.Location;
 using Website.Domain.Payment;
 using Website.Infrastructure.Query;
 using Website.Mocks.Domain.Data;
+using Browser = PostaFlya.Domain.Browser.Browser;
+using BrowserInterface = PostaFlya.Domain.Browser.BrowserInterface;
 using TestRepositoriesNinjectModule = PostaFlya.Mocks.Domain.Data.TestRepositoriesNinjectModule;
 
 
@@ -34,7 +37,7 @@ namespace PostaFlya.Specification.Util
             SetUpBrowserInformation(kernel);
             Website.Mocks.Domain.Data.TestRepositoriesNinjectModule.SetUpWebsiteInfo(kernel);
 
-            Website.Mocks.Domain.Data.TestRepositoriesNinjectModule.SetUpBrowserRepositoryAndQueryService(
+            TestRepositoriesNinjectModule.SetUpBrowserRepositoryAndQueryService(
                 kernel 
                 , SpecUtil.GetMockStore<HashSet<BrowserInterface>>("browserstore")
                 , SpecUtil.GetMockStore<HashSet<BrowserIdentityProviderCredentialInterface>>("browsercredstore"));
@@ -65,12 +68,11 @@ namespace PostaFlya.Specification.Util
 
         }
 
-        
 
         private void SetUpBrowserInformation(MoqMockingKernel kernel)
         {
-            
-            var mockBrowserInfo = kernel.GetMock<PostaFlyaBrowserInformationInterface>();
+
+           var mockBrowserInfo = kernel.GetMock<PostaFlyaBrowserInformationInterface>();
 
             kernel.Bind<BrowserInformationInterface>()
                 .ToConstant(mockBrowserInfo.Object).InSingletonScope();
@@ -79,7 +81,7 @@ namespace PostaFlya.Specification.Util
                 .ToConstant(mockBrowserInfo.Object).InSingletonScope();
 
             mockBrowserInfo.SetupGet(m => m.Browser).Returns(GetBrowserInfo);
-            mockBrowserInfo.SetupSet<BrowserInterface>(m => m.Browser = It.IsAny<BrowserInterface>()).Callback(SetBrowserInfo);
+            //mockBrowserInfo.SetupSet<BrowserInterface>(m => m.Browser = It.IsAny<BrowserInterface>()).Callback(SetBrowserInfo);
             mockBrowserInfo.SetupGet(bi => bi.IpAddress).Returns("192.168.3.1");
             mockBrowserInfo.SetupGet(bi => bi.UserAgent).Returns("some user agent string");
 
@@ -102,18 +104,19 @@ namespace PostaFlya.Specification.Util
 
         public Browser GetBrowserInfo()
         {
-            var browser = Kernel.Get<BrowserInterface>(ctx => ctx.Has("defaultbrowser"));
-            
-            browser.SavedLocations.Add(new Location(20, 20));
+//            var browser = Kernel.Get<BrowserInterface>(ctx => ctx.Has("postadefaultbrowser"));
+//            
+//            browser.SavedLocations.Add(new Location(20, 20));
 
+            Browser browser = null;
             if (ScenarioContext.Current.ContainsKey("browserId"))
             {
                 browser = Kernel.Get<GenericQueryServiceInterface>()
                     .FindById<Browser>(ScenarioContext.Current.Get<string>("browserId"));
             }
-            else
+            else if (ScenarioContext.Current.ContainsKey("currbrowser"))
             {
-                SetBrowserInfo(browser);
+                return ScenarioContext.Current["currbrowser"] as Browser;
             }
 
             return browser as Browser;

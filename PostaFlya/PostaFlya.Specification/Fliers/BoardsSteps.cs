@@ -156,6 +156,10 @@ namespace PostaFlya.Specification.Fliers
         [Given(@"I have created an approved public board named (.*)")]
         public void GivenIHaveCreatedAnApprovedPublicBoardNamed(string targetBoard)
         {
+            if (SpecUtil.GetCurrBrowser().Browser == null)
+                ScenarioContext.Current["browserid"] =
+                    SpecUtil.CurrIocKernel.Get<BrowserInterface>(ctx => ctx.Has("postadefaultbrowser"));
+
             var browserId = SpecUtil.GetCurrBrowser().Browser.Id;
             GivenThereIsAPublicBoardForBrowserNamed(browserId, targetBoard);
             _common.GivenIHaveRole(Role.Admin.ToString());
@@ -330,7 +334,8 @@ namespace PostaFlya.Specification.Fliers
         public void GivenThereIsABoardForAVenueWithAFlier()
         {
             GivenThereIsNoBoardForAVenue();
-            new FlierSteps().GivenIHaveCreatedAflier();
+            _common.GivenIamAParticipantWithRole("Admin");
+            new FlierSteps().WhenICreateAnAnonymousFlier();
             ThenAVenueBOARDWillBeCreated();
             ThenItWillBeAMemberOfTheBoardWithAStatusOf(BoardFlierStatus.Approved);
         }

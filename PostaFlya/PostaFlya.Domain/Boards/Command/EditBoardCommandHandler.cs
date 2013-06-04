@@ -29,7 +29,7 @@ namespace PostaFlya.Domain.Boards.Command
         public object Handle(EditBoardCommand command)
         {
             var boardExist = _boardQueryService.FindById<Board>(command.Id);
-            var brows = _boardQueryService.FindById<Browser>(command.BrowserId);
+            var brows = _boardQueryService.FindById<PostaFlya.Domain.Browser.Browser>(command.BrowserId);
 
             if(boardExist == null || (boardExist.BrowserId != command.BrowserId && !brows.HasRole(Role.Admin)))
                 return new MsgResponse("Board Edit not allowed", true)

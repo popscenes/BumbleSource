@@ -282,6 +282,10 @@
       <Project>{DC7CC356-EE06-49C0-9985-9D0101AAF45F}</Project>
       <Name>Website.Test.Common</Name>
     </ProjectReference>
+    <ProjectReference Include="..\PostaFlya.Domain\PostaFlya.Domain.csproj">
+      <Project>{77bd3622-4d65-4776-ac5a-4f779cc526ed}</Project>
+      <Name>PostaFlya.Domain</Name>
+    </ProjectReference>
     <ProjectReference Include="..\PostaFlya.Mocks.Domain\PostaFlya.Mocks.Domain.csproj">
       <Project>{2AA4C663-ADFF-47C7-9770-92D7A524DD33}</Project>
       <Name>PostaFlya.Mocks.Domain</Name>

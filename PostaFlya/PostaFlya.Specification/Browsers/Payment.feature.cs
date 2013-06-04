@@ -82,7 +82,8 @@ namespace PostaFlya.Specification.Browsers
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Add Credit TO Account", ((string[])(null)));
             this.ScenarioSetup(scenarioInfo);
-            testRunner.Given("I Am on the Add ACCOUUNT CREDIT PAGE", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+            testRunner.Given("I am a BROWSER in PARTICIPANT ROLE", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+            testRunner.And("I Am on the Add ACCOUUNT CREDIT PAGE", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
             testRunner.When("I go Select a PAYMENT OPTION", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
             testRunner.Then("I will be redirected to that OPTIONS PROCESS", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
             this.ScenarioCleanup();
@@ -94,7 +95,8 @@ namespace PostaFlya.Specification.Browsers
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Payment Callback Success", ((string[])(null)));
             this.ScenarioSetup(scenarioInfo);
-            testRunner.Given("I Have Selected a PAYMENT OPTION", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+            testRunner.Given("I am a BROWSER in PARTICIPANT ROLE", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+            testRunner.And("I Have Selected a PAYMENT OPTION", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
             testRunner.When("The Payment OPTION is Completed Successfully", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
             testRunner.Then("I will be Shown the Transaction Details", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
             testRunner.And("the my account will have the credit i purchased", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
@@ -107,7 +109,8 @@ namespace PostaFlya.Specification.Browsers
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Payment Callback Failure", ((string[])(null)));
             this.ScenarioSetup(scenarioInfo);
-            testRunner.Given("I Have Selected a PAYMENT OPTION", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+            testRunner.Given("I am a BROWSER in PARTICIPANT ROLE", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+            testRunner.And("I Have Selected a PAYMENT OPTION", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
             testRunner.When("The Payment OPTION is Completed Unsuccessfully", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
             testRunner.Then("I will be Shown the Error Details", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
             testRunner.And("the my account will not have the credit i purchased", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
@@ -120,7 +123,8 @@ namespace PostaFlya.Specification.Browsers
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Payment Transaction History", ((string[])(null)));
             this.ScenarioSetup(scenarioInfo);
-            testRunner.Given("I have a Successful PAYMENT TRANSACTION", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+            testRunner.Given("I am a BROWSER in PARTICIPANT ROLE", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+            testRunner.And("I have a Successful PAYMENT TRANSACTION", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
             testRunner.And("I have a Unuccessful PAYMENT TRANSACTION", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
             testRunner.When("I navigate to the TRANSACTION HISTORY PAGE", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
             testRunner.Then("I will be presented with My Transactions", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");

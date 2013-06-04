@@ -158,11 +158,15 @@ namespace PostaFlya.Binding
                 .ToConstant(Kernel.Get<FlierBehaviourViewModelFactory>())
                 .InSingletonScope();
 
-            var kernel = Kernel as StandardKernel;
-            kernel.BindViewModelMappersFromCallingAssembly();
+            BindViewModelMappers(Kernel);
 
             Trace.TraceInformation("Finished Binding WebNinjectBindings");
 
+        }
+
+        public static void BindViewModelMappers(IKernel kernel)
+        {
+            kernel.BindViewModelMappersFromCallingAssembly();
         }
 
         #endregion

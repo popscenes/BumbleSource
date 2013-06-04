@@ -1,6 +1,6 @@
 using Website.Infrastructure.Command;
 
-namespace Website.Domain.Browser.Command
+namespace PostaFlya.Domain.Browser.Command
 {
     public class AddBrowserCommand : DefaultCommandBase
     {

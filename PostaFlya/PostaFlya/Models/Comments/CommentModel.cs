@@ -20,7 +20,8 @@ namespace PostaFlya.Models.Comments
             , BlobStorageInterface blobStorage)
         {
             var ret = comment.ToViewModel();
-            return ret.FillBrowserModel(browserQuery, blobStorage);
+            return ret;
+            //return ret.FillBrowserModel(browserQuery, blobStorage);
         }
 
         public static CommentModel ToViewModel(this CommentInterface comment)

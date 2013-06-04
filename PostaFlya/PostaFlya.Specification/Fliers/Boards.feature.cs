@@ -161,6 +161,7 @@ namespace PostaFlya.Specification.Fliers
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Create Flyer at Place Creates Venue Board if not exists", ((string[])(null)));
             this.ScenarioSetup(scenarioInfo);
             testRunner.Given("There is no Board for a Venue", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+            testRunner.And("I am a PARTICIPANT with Admin ROLE", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
             testRunner.When("I create a FLIER at a Venue", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
             testRunner.Then("a Venue BOARD will be created", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
             testRunner.And("The FLIER will be a member of the board with a status of Approved", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
@@ -174,6 +175,7 @@ namespace PostaFlya.Specification.Fliers
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Create Flyer at Place Adds To Existing Venue Board", ((string[])(null)));
             this.ScenarioSetup(scenarioInfo);
             testRunner.Given("There is a Board for a Venue with a Flier", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+            testRunner.And("I am a PARTICIPANT with Admin ROLE", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
             testRunner.When("I create a FLIER at a Venue", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
             testRunner.Then("The FLIER will be a member of the board with a status of Approved", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
             testRunner.And("The Board will have 2 Fliers", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");

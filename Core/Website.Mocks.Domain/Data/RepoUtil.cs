@@ -44,15 +44,16 @@ namespace Website.Mocks.Domain.Data
             return RepoCoreUtil.SetupRepo<RepoType, EntityType, EntityInterfaceType, EntityInterfaceType>(store, kernel, copyFields);
         }
 
-        public static Mock<QsType> SetupQueryService<QsType, EntityType, EntityInterfaceType>(
-            HashSet<EntityInterfaceType> store
+        public static Mock<QsType> SetupQueryService<QsType, EntityType, EntityInterfaceType, StoreType>(
+            HashSet<StoreType> store
             , MoqMockingKernel kernel
             , Action<EntityInterfaceType, EntityInterfaceType> copyFields)
             where QsType : class, GenericQueryServiceInterface where EntityType : class, EntityInterfaceType, new()
             where EntityInterfaceType : class, EntityIdInterface
+            where StoreType : EntityInterfaceType
         {
 
-            var ret = RepoCoreUtil.SetupQueryService<QsType, EntityType, EntityInterfaceType, EntityInterfaceType>(store, kernel, copyFields);
+            var ret = RepoCoreUtil.SetupQueryService<QsType, EntityType, EntityInterfaceType, StoreType>(store, kernel, copyFields);
             var queryServiceWithBrowser = (typeof (QueryServiceForBrowserAggregateInterface)
                                               .IsAssignableFrom(typeof (QsType)))
                                               ? kernel.GetMock<QueryServiceForBrowserAggregateInterface>()

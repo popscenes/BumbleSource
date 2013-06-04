@@ -18,6 +18,7 @@ using PostaFlya.Models.Location;
 using PostaFlya.Specification.Util;
 using PostaFlya.Models.Content;
 using Website.Application.Domain.Content;
+using Website.Domain.Browser;
 using Website.Domain.Browser.Query;
 using Website.Domain.Contact;
 using Website.Domain.Payment;
@@ -25,9 +26,9 @@ using Website.Infrastructure.Authentication;
 using Website.Infrastructure.Command;
 using Website.Infrastructure.Query;
 using Website.Test.Common;
-using Website.Domain.Browser;
 using Website.Domain.Location;
 using Website.Domain.Tag;
+using Browser = PostaFlya.Domain.Browser.Browser;
 
 namespace PostaFlya.Specification.Fliers
 {
@@ -82,6 +83,16 @@ namespace PostaFlya.Specification.Fliers
             ScenarioContext.Current["createdflyaid"] = flierid;
         }
 
+        public void WhenTheBrowserSubmitsTheRequiredDataForAnAnonymousFlier(string browserId)
+        {
+            var myFliersApiController = SpecUtil.GetApiController<MyFliersController>();
+            var createModel = ScenarioContext.Current["createflya"] as FlierCreateModel;
+            createModel.Anonymous = true;
+            var test = myFliersApiController.Post(browserId, createModel);
+            var flierid = test.EntityId();
+            ScenarioContext.Current["createdflyaid"] = flierid;
+        }
+
 
         [Then(@"the new FLIER will be created for behviour (.*)")]
         public void ThenTheNewFlierWillBeCreated(string flierBehaviour)
@@ -115,11 +126,17 @@ namespace PostaFlya.Specification.Fliers
         //REUSE
         [Given(@"There is a FLIER")]
         [Given(@"I have created a FLIER")]
-        [Given(@"I have created a FLIER at a Venue")]
-        [When(@"I create a FLIER at a Venue")]
         public void GivenIHaveCreatedAflier()
         {
             GivenIHaveCreatedAflierofBehaviour(FlierBehaviour.Default.ToString());
+        }
+
+        [When(@"I create a FLIER at a Venue")]
+        public void WhenICreateAnAnonymousFlier()
+        {
+            GivenIOrAnotherBrowserHasNavigatedToTheCreateFlierPage("Default");
+            WhenTheBrowserSubmitsTheRequiredDataForAnAnonymousFlier(SpecUtil.GetCurrBrowser().Browser.Id);
+            ThenTheNewFlierWillBeCreated("Default");
         }
 
         //[Given(@"There is a FLIER with Contact Details")]
@@ -210,10 +227,6 @@ namespace PostaFlya.Specification.Fliers
         {
             var browserInformation = SpecUtil.GetCurrBrowser();
 
-            var browser = SpecUtil.CurrIocKernel.Get<BrowserInterface>(ctx => ctx.Has("defaultbrowser"));
-
-            browserInformation.Browser = browser;
-
             var myFliersApiController = SpecUtil.GetController<MyFliersController>();
             SpecUtil.ControllerResult = myFliersApiController.Get(browserInformation.Browser.Id);
         }
@@ -241,7 +254,7 @@ namespace PostaFlya.Specification.Fliers
         {
             var fliers = SpecUtil.ControllerResult as IList<BulletinFlierModel>;
 
-            Assert.IsTrue(fliers.Count() == 3);
+            Assert.IsTrue(fliers.Count() > 0);
         }
 
         [When(@"i view the HEAT MAP")]

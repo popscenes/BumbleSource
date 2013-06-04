@@ -105,7 +105,7 @@ namespace Website.Test.Common
             , MoqMockingKernel kernel
             , Action<EntityInterfaceType, EntityInterfaceType> copyFields)
             where QsType : class, GenericQueryServiceInterface where EntityType : class, EntityInterfaceType, new()
-            where EntityInterfaceType : class, EntityIdInterface, StoreInterfaceType
+            where EntityInterfaceType : class, EntityIdInterface
             where StoreInterfaceType : EntityIdInterface
         {
             var queryService = kernel.GetMock<QsType>();

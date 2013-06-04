@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Web.Mvc;
 using System.Web.Routing;
+using PostaFlya.Application.Domain.Browser;
 using PostaFlya.Application.Domain.ExternalSource;
 using PostaFlya.Models;
 using Website.Application.Content;
@@ -23,13 +24,13 @@ namespace PostaFlya.Controllers
     [Authorize(Roles = "Participant")]
     public class FlierImportController : Controller
     {
-        private BrowserInformationInterface _browserInfoService;
-        private FlierImportServiceInterface _flierImportService;
+        private readonly PostaFlyaBrowserInformationInterface _browserInfoService;
+        private readonly FlierImportServiceInterface _flierImportService;
         private IdentityProviderServiceInterface _identityProviderService;
         private CommandBusInterface _commandBus;
         private readonly BlobStorageInterface _blobStorage;
 
-        public FlierImportController(BrowserInformationInterface browserInfoService, FlierImportServiceInterface flierImportService,
+        public FlierImportController(PostaFlyaBrowserInformationInterface browserInfoService, FlierImportServiceInterface flierImportService,
             IdentityProviderServiceInterface identityProviderService, CommandBusInterface commandBus, [ImageStorage]BlobStorageInterface blobStorage)
         {
             _browserInfoService = browserInfoService;

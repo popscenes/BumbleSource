@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Newtonsoft.Json;
+using PostaFlya.Application.Domain.Browser;
 using PostaFlya.Models;
 using PostaFlya.Models.Browser;
 using PostaFlya.Models.Flier;
@@ -22,7 +23,7 @@ namespace PostaFlya.Controllers
     {
         private readonly PaymentServiceProviderInterface _paymentServiceProvider;
         private readonly GenericQueryServiceInterface _queryService;
-        private readonly BrowserInformationInterface _browserInfo;
+        private readonly PostaFlyaBrowserInformationInterface _browserInfo;
         private readonly PaymentPackageServiceInterface _paymentPackageService;
         private readonly ConfigurationServiceInterface _configurationServiceInterface;
         private readonly HttpContextBase _httpContext;
@@ -32,7 +33,7 @@ namespace PostaFlya.Controllers
         public PaymentController(PaymentServiceProviderInterface paymentServiceProvider,
             CommandBusInterface commandBus,
             GenericQueryServiceInterface queryService,
-            BrowserInformationInterface browserInfo,
+            PostaFlyaBrowserInformationInterface browserInfo,
             PaymentPackageServiceInterface paymentPackageService,
             ConfigurationServiceInterface configurationServiceInterface,
             HttpContextBase httpContext)

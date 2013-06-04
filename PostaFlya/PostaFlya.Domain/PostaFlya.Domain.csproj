@@ -99,6 +99,13 @@
     <Compile Include="Boards\Query\FindBoardForVenueQuery.cs" />
     <Compile Include="Boards\Query\FindBoardNearQueryHandler.cs" />
     <Compile Include="Boards\Query\FindBoardsNearQuery.cs" />
+    <Compile Include="Boards\Query\GetBoardsByIdsQuery.cs" />
+    <Compile Include="Boards\Query\GetBoardsByIdsQueryHandler.cs" />
+    <Compile Include="Browser\Browser.cs" />
+    <Compile Include="Browser\Command\AddBrowserCommand.cs" />
+    <Compile Include="Browser\Command\AddBrowserCommandHandler.cs" />
+    <Compile Include="Browser\Command\ProfileEditCommand.cs" />
+    <Compile Include="Browser\Command\ProfileEditCommandHandler.cs" />
     <Compile Include="Flier\Analytic\AnalyticTrackingSummary.cs" />
     <Compile Include="Flier\Analytic\FlierAnalyticSourceAction.cs" />
     <Compile Include="Flier\Analytic\FlierAnalytic.cs" />

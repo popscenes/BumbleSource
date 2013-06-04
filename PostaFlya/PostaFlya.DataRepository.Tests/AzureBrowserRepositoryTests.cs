@@ -106,7 +106,6 @@ namespace PostaFlya.DataRepository.Tests
         public BrowserInterface StoreBrowserNullLocationRepository()
         {
             var browser = GetBrowser();
-            browser.DefaultLocation = null;
             return BrowserTestData.StoreOne(browser, _repository, Kernel);
         }
 
@@ -124,10 +123,6 @@ namespace PostaFlya.DataRepository.Tests
             var ret = new Website.Domain.Browser.Browser(Guid.NewGuid().ToString())
                        {
                            FriendlyId = "YoYo",
-                           Tags = Kernel.Get<Tags>(ctx => ctx.Has("default")),
-                           SavedTags = new List<Tags> { new Tags{"one","two","three"}, new Tags{"three ","four","five"} },
-                           SavedLocations = new Locations { new Location(1, 2), new Location(3, 4) },
-                           DefaultLocation =  Kernel.Get<Location>(ctx => ctx.Has("default")),
                            Roles = new Roles { "SomeRole" },
                            FirstName = "FirstName",
                            Surname = "Surname",
@@ -182,8 +177,6 @@ namespace PostaFlya.DataRepository.Tests
                     , browser =>
                           {
                               entityToStore = browser;
-                              browser.Tags.Add("hello");
-                              browser.SavedLocations.Add(new Location(34, 34));
 
                               var creds = browser.ExternalCredentials.GetEnumerator();
                               creds.MoveNext();

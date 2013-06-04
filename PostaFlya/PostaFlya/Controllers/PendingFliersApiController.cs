@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using PostaFlya.Application.Domain.Browser;
 using PostaFlya.Domain.Flier;
 using PostaFlya.Domain.Flier.Command;
 using PostaFlya.Models.Factory;
@@ -23,14 +24,14 @@ namespace PostaFlya.Controllers
      [BrowserAuthorizeHttp(Roles = "Participant")]
     public class PendingFliersApiController : ApiController
     {
-        private readonly BrowserInformationInterface _browserInformation;
+         private readonly PostaFlyaBrowserInformationInterface _browserInformation;
         private readonly QueryServiceForBrowserAggregateInterface _browserQueryService;
         private readonly BlobStorageInterface _blobStorage;
         private readonly FlierBehaviourViewModelFactoryInterface _viewModelFactory;
         private readonly GenericQueryServiceInterface _queryService;
         private readonly CommandBusInterface _commandBus;
 
-        public PendingFliersApiController(BrowserInformationInterface browserInformation
+        public PendingFliersApiController(PostaFlyaBrowserInformationInterface browserInformation
             , QueryServiceForBrowserAggregateInterface browserQueryService, 
             [ImageStorage]BlobStorageInterface blobStorage
             , FlierBehaviourViewModelFactoryInterface viewModelFactory
