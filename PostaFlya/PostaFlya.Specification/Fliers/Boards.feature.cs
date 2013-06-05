@@ -68,7 +68,7 @@ namespace PostaFlya.Specification.Fliers
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Participant Creates Board", ((string[])(null)));
             this.ScenarioSetup(scenarioInfo);
-            testRunner.Given("i am an existing BROWSER with PARTICIPANT ROLE", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+            testRunner.Given("I am a BROWSER in PARTICIPANT ROLE", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
             TechTalk.SpecFlow.Table table1 = new TechTalk.SpecFlow.Table(new string[] {
                         "BoardName",
                         "AcceptOthersFliers",
@@ -94,6 +94,7 @@ namespace PostaFlya.Specification.Fliers
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Participant Adds Flier To Board They Dont Own", ((string[])(null)));
             this.ScenarioSetup(scenarioInfo);
             testRunner.Given("there is an approved public board named publicBoard", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+            testRunner.And("I am a BROWSER in PARTICIPANT ROLE", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
             testRunner.And("I have created a FLIER", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
             testRunner.When("I add the FLIER to the board", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
             testRunner.Then("The FLIER will be a member of the board with a status of PendingApproval", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");

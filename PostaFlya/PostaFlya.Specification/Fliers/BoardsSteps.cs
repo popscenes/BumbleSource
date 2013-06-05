@@ -21,6 +21,7 @@ using Website.Domain.Location;
 using Website.Infrastructure.Command;
 using Website.Infrastructure.Domain;
 using Website.Infrastructure.Query;
+using BrowserInterface = PostaFlya.Domain.Browser.BrowserInterface;
 
 namespace PostaFlya.Specification.Fliers
 {
@@ -141,6 +142,8 @@ namespace PostaFlya.Specification.Fliers
         {
             var browserId = _common.GivenThereIsAnExistingBrowserWithParticipantRole();
             GivenThereIsAPublicBoardForBrowserNamed(browserId, targetBoard);
+            ScenarioContext.Current["browserId"] =
+                SpecUtil.CurrIocKernel.Get<BrowserInterface>(ctx => ctx.Has("postadefaultbrowser")).Id;
             _common.GivenIHaveRole(Role.Admin.ToString());
             WhenIApproveTheBOARD();
             ThenTheBOARDHasStatus(BoardStatus.Approved);
@@ -149,6 +152,10 @@ namespace PostaFlya.Specification.Fliers
         [Given(@"I have created a public board named (.*) that requires approval")]
         public void GivenIHaveCreatedAPublicBoardThatRequiresApprovalNamed(string targetBoard)
         {
+            if (SpecUtil.GetCurrBrowser().Browser == null)
+                ScenarioContext.Current["browserId"] =
+                    SpecUtil.CurrIocKernel.Get<BrowserInterface>(ctx => ctx.Has("postadefaultbrowser")).Id;
+
             var browserId = SpecUtil.GetCurrBrowser().Browser.Id;
             GivenThereIsAPublicBoardForBrowserNamed(browserId, targetBoard);
         }
@@ -157,8 +164,8 @@ namespace PostaFlya.Specification.Fliers
         public void GivenIHaveCreatedAnApprovedPublicBoardNamed(string targetBoard)
         {
             if (SpecUtil.GetCurrBrowser().Browser == null)
-                ScenarioContext.Current["browserid"] =
-                    SpecUtil.CurrIocKernel.Get<BrowserInterface>(ctx => ctx.Has("postadefaultbrowser"));
+                ScenarioContext.Current["browserId"] =
+                    SpecUtil.CurrIocKernel.Get<BrowserInterface>(ctx => ctx.Has("postadefaultbrowser")).Id;
 
             var browserId = SpecUtil.GetCurrBrowser().Browser.Id;
             GivenThereIsAPublicBoardForBrowserNamed(browserId, targetBoard);

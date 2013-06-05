@@ -27,7 +27,6 @@ namespace PostaFlya.Website.Tests.Controllers
         {
             var browserInfo = Kernel.GetMock<PostaFlyaBrowserInformationInterface>();
 
-            TestRepositoriesNinjectModule.AddBrowsers(Kernel);
             var browser = Kernel.Get<BrowserInterface>(ctx => ctx.Has("postadefaultbrowser"));
 
             

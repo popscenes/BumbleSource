@@ -167,6 +167,7 @@ namespace PostaFlya.Binding
         public static void BindViewModelMappers(IKernel kernel)
         {
             kernel.BindViewModelMappersFromCallingAssembly();
+            kernel.BindCommandAndQueryHandlersFromCallingAssembly(c => c.InTransientScope());
         }
 
         #endregion

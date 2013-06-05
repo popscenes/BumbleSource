@@ -17,7 +17,7 @@ using Website.Infrastructure.Query;
 
 namespace PostaFlya.Models.Browser
 {
-    public class ToCurrentBrowserModel : ViewModelMapperInterface<CurrentBrowserModel, PostaFlyaBrowserInformationInterface>
+    public class ToCurrentBrowserModel : ViewModelMapperInterface<CurrentBrowserModel, PostaFlyaBrowserInformation>
     {
         private readonly QueryChannelInterface _queryChannel;
 
@@ -26,7 +26,7 @@ namespace PostaFlya.Models.Browser
             _queryChannel = queryChannel;
         }
 
-        public CurrentBrowserModel ToViewModel(CurrentBrowserModel target, PostaFlyaBrowserInformationInterface source)
+        public CurrentBrowserModel ToViewModel(CurrentBrowserModel target, PostaFlyaBrowserInformation source)
         {
             if (target == null) 
                 target = new CurrentBrowserModel();
@@ -35,6 +35,7 @@ namespace PostaFlya.Models.Browser
             target.BrowserId = source.Browser.Id;
             target.Roles = source.Browser.Roles.Select(r => r).ToList();
             target.LastSearchedLocation = source.LastSearchLocation.ToViewModel();
+            if (source.PostaBrowser.AdminBoards != null && source.PostaBrowser.AdminBoards.Count > 0)
             target.AdminBoards =
                 _queryChannel.Query(new GetBoardsByIdsQuery() { Ids = source.PostaBrowser.AdminBoards },
                                       (List<BoardModel>) null);

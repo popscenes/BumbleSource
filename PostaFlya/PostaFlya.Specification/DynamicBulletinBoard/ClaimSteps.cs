@@ -19,7 +19,7 @@ using Website.Domain.Service;
 using Website.Infrastructure.Command;
 using Website.Infrastructure.Publish;
 using Website.Infrastructure.Query;
-using Website.Mocks.Domain.Data;
+using PostaFlya.Mocks.Domain.Data;
 
 namespace PostaFlya.Specification.DynamicBulletinBoard
 {
@@ -40,6 +40,8 @@ namespace PostaFlya.Specification.DynamicBulletinBoard
             var newBrowser = BrowserTestData.GetOne(SpecUtil.CurrIocKernel);
 
             BrowserTestData.StoreOne(newBrowser, SpecUtil.CurrIocKernel.Get<GenericRepositoryInterface>(), SpecUtil.CurrIocKernel);
+
+            ScenarioContext.Current["browserId"] = newBrowser.Id;
             WhenABrowserClaimsATearOffForThatFlier(newBrowser.Id);
         }
 
@@ -55,6 +57,7 @@ namespace PostaFlya.Specification.DynamicBulletinBoard
                 BrowserId = browserId,
             };
 
+            ScenarioContext.Current["browserId"] = browserId;
             ScenarioContext.Current["initialclaims"] = flier.NumberOfClaims;
             ScenarioContext.Current["CreateClaimModel"] = claim;
             var res = claimController.Post(claim);

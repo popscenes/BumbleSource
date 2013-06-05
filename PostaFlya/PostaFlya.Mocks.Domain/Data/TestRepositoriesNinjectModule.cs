@@ -58,6 +58,10 @@ namespace PostaFlya.Mocks.Domain.Data
             SetUpAnalyticRepositoryAndQueryService(kernel
                 , RepoCoreUtil.GetMockStore<FlierAnalyticInterface>());
 
+            SetUpBrowserRepositoryAndQueryService(kernel
+                , RepoCoreUtil.GetMockStore<BrowserInterface>()
+                , RepoCoreUtil.GetMockStore<BrowserIdentityProviderCredentialInterface>());
+
         }
 
         public static void SetUpAnalyticRepositoryAndQueryService(MoqMockingKernel kernel, HashSet<FlierAnalyticInterface> store)
@@ -315,7 +319,7 @@ namespace PostaFlya.Mocks.Domain.Data
 
         }
 
-        public static void AddMembersToStore(StandardKernel kernel, ISet<BrowserInterface> mockStore)
+        public static void AddMembersToStore(IKernel kernel, ISet<BrowserInterface> mockStore)
         {
             AddBrowsers(kernel);
             mockStore.Add(kernel.Get<BrowserInterface>(ctx => ctx.Has("postadefaultbrowser")));

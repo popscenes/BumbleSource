@@ -5,7 +5,7 @@
 
 
 Scenario: Participant Creates Board
-Given i am an existing BROWSER with PARTICIPANT ROLE
+Given I am a BROWSER in PARTICIPANT ROLE
 When I submit the following data for the BOARD:
 	| BoardName | AcceptOthersFliers | RequireApprovalForFliers | TypeOfBoard  |                                      
 	| MyBoard	| True               | True                     | InterestBoard |
@@ -16,6 +16,7 @@ And the BOARD will have the status Approved
 
 Scenario: Participant Adds Flier To Board They Dont Own
 Given there is an approved public board named publicBoard
+And I am a BROWSER in PARTICIPANT ROLE
 And I have created a FLIER
 When I add the FLIER to the board 
 Then The FLIER will be a member of the board with a status of PendingApproval 

@@ -62,7 +62,6 @@
     <Compile Include="Browser\BrowserInterface.cs" />
     <Compile Include="Browser\Command\SetBrowserCreditCommand.cs" />
     <Compile Include="Browser\Command\SetBrowserPropertyCommand.cs" />
-    <Compile Include="Browser\Command\SetBrowserPropertyCommandHandler.cs" />
     <Compile Include="Browser\Command\SetExternalCredentialCommand.cs" />
     <Compile Include="Browser\Command\SetExternalCredentialCommandHandler.cs" />
     <Compile Include="Browser\Publish\BrowserSubscriptionBase.cs" />

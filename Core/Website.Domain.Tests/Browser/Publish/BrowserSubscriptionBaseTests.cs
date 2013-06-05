@@ -5,6 +5,7 @@ using Ninject;
 using Ninject.MockingKernel.Moq;
 using Website.Application.Publish;
 using Website.Domain.Browser;
+using Website.Domain.Browser.Command;
 using Website.Domain.Browser.Publish;
 using Website.Infrastructure.Command;
 using Website.Infrastructure.Publish;
@@ -30,7 +31,7 @@ namespace Website.Domain.Tests.Browser.Publish
             kernel.Bind<BroadcastServiceInterface>().To<DefaultBroadcastService>();
             // kernel.Bind<CommandHandlerInterface<SetBrowserPropertyCommand>>().To<SetBrowserPropertyCommandHandler>();
 
-
+            kernel.Bind<CommandHandlerInterface<SetBrowserPropertyCommand>>().To<TestSetBrowserPropertyCommandHandler>();
         }
 
         [TestFixtureSetUp]
@@ -156,6 +157,32 @@ namespace Website.Domain.Tests.Browser.Publish
                 _publishedBrowser.Add(browser);
                 return true;
             }
+        }
+    }
+
+    internal class TestSetBrowserPropertyCommandHandler : CommandHandlerInterface<SetBrowserPropertyCommand>
+    {
+        private readonly GenericRepositoryInterface _repository;
+        private readonly UnitOfWorkFactoryInterface _unitOfWorkFactory;
+
+        public TestSetBrowserPropertyCommandHandler(GenericRepositoryInterface repository
+                                                , UnitOfWorkFactoryInterface unitOfWorkFactory)
+        {
+            _repository = repository;
+            _unitOfWorkFactory = unitOfWorkFactory;
+        }
+
+        public object Handle(SetBrowserPropertyCommand command)
+        {
+            var uow = _unitOfWorkFactory.GetUnitOfWork(new[] { _repository });
+            using (uow)
+            {
+                _repository.UpdateEntity<Website.Domain.Browser.Browser>(
+                    command.Browser.Id,
+                    browser =>
+                    browser.Properties[command.PropertyName] = command.PropertyValue);
+            }
+            return uow.Successful;
         }
     }
 }

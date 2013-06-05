@@ -67,7 +67,7 @@ namespace Website.Infrastructure.Binding
                     .Configure(ninjectConfiguration));
         }
 
-        public static void BindCommandAndQueryHandlersFromCallingAssembly(this StandardKernel kernel
+        public static void BindCommandAndQueryHandlersFromCallingAssembly(this IKernel kernel
                                                                   , ConfigurationAction ninjectConfiguration)
         {
             var asm = Assembly.GetCallingAssembly();

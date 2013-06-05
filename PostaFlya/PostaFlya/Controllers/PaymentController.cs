@@ -10,7 +10,7 @@ using PostaFlya.Models.Browser;
 using PostaFlya.Models.Flier;
 using Website.Application.Domain.Browser;
 using Website.Application.Domain.Payment;
-using Website.Domain.Browser;
+using PostaFlya.Domain.Browser;
 using Website.Domain.Payment;
 using Website.Domain.Payment.Command;
 using Website.Infrastructure.Command;
