@@ -69,8 +69,8 @@ namespace Website.Azure.Common.TableStorage
                     var partitionKey = partKeyFunc(currentState);
                     var rowkey = rowKeyFunc(currentState);
                     partitionClone = tableContext.PerformQuery<TableEntryType>
-                        (tableName, te => te.PartitionKey == partitionKey
-                               && te.RowKey == rowkey, partition).SingleOrDefault();
+                        (tableName, query: te => te.PartitionKey == partitionKey
+                                                 && te.RowKey == rowkey).SingleOrDefault();
 
                     _entities[partition] = partitionClone ?? new TableEntryType();
                 }

@@ -42,7 +42,7 @@ namespace Website.Azure.Common.Tests.TableStorage
                 context.InitTable<ExtendableTableEntry>(tableName);
             }
 
-            context.Delete<ExtendableTableEntry>("testExtendableTable", null, 0);
+            context.Delete<ExtendableTableEntry>("testExtendableTable", null);
             context.SaveChanges();
         }
 
@@ -72,8 +72,8 @@ namespace Website.Azure.Common.Tests.TableStorage
             tabCtx.SaveChanges();
 
             var tabCtxRet = Kernel.Get<TableContextInterface>();
-            var ret = tabCtxRet.PerformQuery<ExtendableTableEntry>(tableName, e => e.PartitionKey == tableEntry.PartitionKey
-                                                                   && e.RowKey == tableEntry.RowKey)
+            var ret = tabCtxRet.PerformQuery<ExtendableTableEntry>(tableName, query: e => e.PartitionKey == tableEntry.PartitionKey
+                                                                                          && e.RowKey == tableEntry.RowKey)
                                                                    .SingleOrDefault();
 
             Assert.IsNotNull(ret);

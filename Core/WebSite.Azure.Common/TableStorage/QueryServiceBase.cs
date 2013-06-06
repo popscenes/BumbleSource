@@ -112,7 +112,7 @@ namespace Website.Azure.Common.TableStorage
         {
             var tableName = NameAndPartitionProviderService.GetTableName<EntityRetType>(idPartition);
             return TableContext.PerformSelectQuery(
-                tableName, query, selectExpression, idPartition, take);
+                tableName, query, selectExpression, take: take);
         }
 
         protected IQueryable<SelectType> GetSelectTableEntries<SelectType>(Type entity, Expression<Func<TableEntryType, bool>> query
@@ -121,7 +121,7 @@ namespace Website.Azure.Common.TableStorage
         {
             var tableName = NameAndPartitionProviderService.GetTableName(entity, idPartition);
             return TableContext.PerformSelectQuery(
-                tableName, query, selectExpression, idPartition, take);
+                tableName, query, selectExpression, take: take);
         }
 
         protected TableEntryType GetTableEntry<EntityRetType>(string id, int idPartition = 0)
@@ -137,13 +137,13 @@ namespace Website.Azure.Common.TableStorage
         protected IQueryable<TableEntryType> GetTableEntries<EntityRetType>(string id, int idPartition = 0, int take = -1)
         {
             var tableName = NameAndPartitionProviderService.GetTableName<EntityRetType>(idPartition);
-            return TableContext.PerformQuery<TableEntryType>(tableName, te => te.PartitionKey == id, idPartition, take);
+            return TableContext.PerformQuery<TableEntryType>(tableName, query: te => te.PartitionKey == id, take: take);
         }
 
         protected IQueryable<TableEntryType> GetTableEntries(Type entity, string id, int idPartition = 0, int take = -1)
         {
             var tableName = NameAndPartitionProviderService.GetTableName(entity, idPartition);
-            return TableContext.PerformQuery<TableEntryType>(tableName, te => te.PartitionKey == id, idPartition, take);
+            return TableContext.PerformQuery<TableEntryType>(tableName, query: te => te.PartitionKey == id, take: take);
         }
     }
 }

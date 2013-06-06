@@ -68,8 +68,8 @@ namespace Website.Azure.Common.Tests.TableStorage
                 context.InitTable<JsonTableEntry>(tableName);
             }
 
-            context.Delete<JsonTableEntry>("testJsonEntity", null, 0);
-            context.Delete<JsonTableEntry>("testJsonConcurrEntity", null, 0);
+            context.Delete<JsonTableEntry>("testJsonEntity", null);
+            context.Delete<JsonTableEntry>("testJsonConcurrEntity", null);
 
             context.SaveChanges();
         }
@@ -128,8 +128,8 @@ namespace Website.Azure.Common.Tests.TableStorage
             tabCtx.SaveChanges();
 
             var tabCtxRet = Kernel.Get<TableContextInterface>();
-            var ret = tabCtxRet.PerformQuery<JsonTableEntry>(tableName, e => e.PartitionKey == tableEntry.PartitionKey 
-                                                                   && e.RowKey == tableEntry.RowKey)
+            var ret = tabCtxRet.PerformQuery<JsonTableEntry>(tableName, query: e => e.PartitionKey == tableEntry.PartitionKey 
+                                                                                    && e.RowKey == tableEntry.RowKey)
                                                                    .SingleOrDefault();
 
             Assert.IsNotNull(ret);
@@ -168,8 +168,8 @@ namespace Website.Azure.Common.Tests.TableStorage
             tabCtx.SaveChanges();
 
             var tabCtxRet = Kernel.Get<TableContextInterface>();
-            var ret = tabCtxRet.PerformQuery<JsonTableEntry>(tableName, e => e.PartitionKey == tableEntry.PartitionKey
-                                                                   && e.RowKey == tableEntry.RowKey)
+            var ret = tabCtxRet.PerformQuery<JsonTableEntry>(tableName, query: e => e.PartitionKey == tableEntry.PartitionKey
+                                                                                    && e.RowKey == tableEntry.RowKey)
                                                                    .SingleOrDefault();
 
             Assert.IsNotNull(ret);
@@ -178,8 +178,8 @@ namespace Website.Azure.Common.Tests.TableStorage
 
             //get a new context and find the same entity
             var tabCtxTwo = Kernel.Get<TableContextInterface>();
-            ret = tabCtxTwo.PerformQuery<JsonTableEntry>(tableName, e => e.PartitionKey == tableEntry.PartitionKey
-                                                       && e.RowKey == tableEntry.RowKey)
+            ret = tabCtxTwo.PerformQuery<JsonTableEntry>(tableName, query: e => e.PartitionKey == tableEntry.PartitionKey
+                                                                                && e.RowKey == tableEntry.RowKey)
                                                        .SingleOrDefault();
             deserialized = ret.GetEntity<JsonTestEntity>();
             AssertAreEqual(testob, deserialized);
@@ -190,8 +190,8 @@ namespace Website.Azure.Common.Tests.TableStorage
             tabCtxTwo.SaveChanges();
 
             //use initial context to retrieve entity
-            var reAgain = tabCtxRet.PerformQuery<JsonTableEntry>(tableName, e => e.PartitionKey == tableEntry.PartitionKey
-                                                                   && e.RowKey == tableEntry.RowKey)
+            var reAgain = tabCtxRet.PerformQuery<JsonTableEntry>(tableName, query: e => e.PartitionKey == tableEntry.PartitionKey
+                                                                                        && e.RowKey == tableEntry.RowKey)
                                                                    .SingleOrDefault();
             Assert.IsNotNull(reAgain);
             var deserializedAgain = reAgain.GetEntity<JsonTestEntity>();
@@ -239,8 +239,8 @@ namespace Website.Azure.Common.Tests.TableStorage
             tabCtx.SaveChanges();
 
             var tabCtxRet = Kernel.Get<TableContextInterface>();
-            var ret = tabCtxRet.PerformQuery<JsonTableEntry>(tableName, e => e.PartitionKey == tableEntry.PartitionKey
-                                                                   && e.RowKey == tableEntry.RowKey)
+            var ret = tabCtxRet.PerformQuery<JsonTableEntry>(tableName, query: e => e.PartitionKey == tableEntry.PartitionKey
+                                                                                    && e.RowKey == tableEntry.RowKey)
                                                                    .SingleOrDefault();
 
             Assert.IsNotNull(ret);
