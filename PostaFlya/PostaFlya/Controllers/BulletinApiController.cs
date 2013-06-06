@@ -20,6 +20,7 @@ using PostaFlya.Models.Flier;
 using PostaFlya.Models.Location;
 using Website.Application.Content;
 using Website.Application.Domain.Content;
+using Website.Common.Controller;
 using Website.Domain.Browser;
 using Website.Domain.Claims;
 using Website.Domain.Location;
@@ -30,7 +31,7 @@ using Website.Infrastructure.Query;
 
 namespace PostaFlya.Controllers
 {
-    public class BulletinApiController : ApiController
+    public class BulletinApiController : WebApiControllerBase
     {
         private readonly GenericQueryServiceInterface _queryService;
         private readonly BlobStorageInterface _blobStorage;

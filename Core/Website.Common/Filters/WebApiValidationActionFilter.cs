@@ -11,21 +11,27 @@ using Website.Infrastructure.Command;
 namespace Website.Common.Filters
 {
     //Web Api doesn't use model validators atm, if this changes in the future no need for this
-    public class ApiValidationActionFilter : ActionFilterAttribute
+    public abstract class ApiValidationActionFilterBaseAttribute : ActionFilterAttribute
     {
         public override void OnActionExecuting(HttpActionContext context)
         {
             var modelState = context.ModelState;
             if (modelState.IsValid) return;
 
-            //var responseMessage = new HttpResponseMessage(HttpStatusCode.BadRequest);
             var faultMessage = CreateFaultMessage(context.ModelState);
             var responseMessage = context.Request.CreateResponse(HttpStatusCode.BadRequest, faultMessage);
-            //responseMessage.Content = responseMessage.CreateContent(faultMessage);
             context.Response = responseMessage;
         }
 
-        private static MsgResponse CreateFaultMessage(IDictionary<string, ModelState> modelState)
+        protected abstract object CreateFaultMessage(IDictionary<string, ModelState> modelState);
+
+
+    }
+
+    //Web Api doesn't use model validators atm, if this changes in the future no need for this
+    public class WebApiValidationActionFilter : ApiValidationActionFilterBaseAttribute
+    {
+        protected override object CreateFaultMessage(IDictionary<string, ModelState> modelState)
         {
             var errList = new List<MsgResponseDetail>();
             var errorResponse = new MsgResponse {Message = "Validation Error", Details = errList, IsError = true};

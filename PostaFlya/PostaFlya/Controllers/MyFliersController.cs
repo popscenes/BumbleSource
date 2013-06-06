@@ -11,6 +11,7 @@ using PostaFlya.Domain.Flier;
 using PostaFlya.Domain.Flier.Command;
 using Website.Application.Domain.Browser;
 using Website.Application.Domain.Browser.Web;
+using Website.Common.Controller;
 using Website.Common.Extension;
 using Website.Domain.Browser;
 using Website.Domain.Browser.Query;
@@ -24,7 +25,7 @@ using Website.Infrastructure.Util.Extension;
 namespace PostaFlya.Controllers
 {
     [BrowserAuthorizeHttp(Roles = "Participant")]
-    public class MyFliersController : ApiController
+    public class MyFliersController : WebApiControllerBase
     {
         private readonly CommandBusInterface _commandBus;
         private readonly QueryServiceForBrowserAggregateInterface _queryService;

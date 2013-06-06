@@ -7,6 +7,7 @@ using System.Web.Mvc;
 using PostaFlya.Domain.Browser.Command;
 using PostaFlya.Models.Location;
 using Website.Application.Domain.Browser.Web;
+using Website.Common.Controller;
 using Website.Common.Extension;
 using Website.Infrastructure.Command;
 using PostaFlya.Models.Browser;
@@ -18,7 +19,7 @@ using Website.Infrastructure.Util.Extension;
 namespace PostaFlya.Controllers
 {
     [BrowserAuthorizeHttp]
-    public class MyDetailsController : ApiController
+    public class MyDetailsController : WebApiControllerBase
     {
         private readonly CommandBusInterface _commandBus;
         private readonly GenericQueryServiceInterface _queryService;

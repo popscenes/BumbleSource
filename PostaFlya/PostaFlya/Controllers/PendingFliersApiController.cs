@@ -13,6 +13,7 @@ using Website.Application.Binding;
 using Website.Application.Content;
 using Website.Application.Domain.Browser;
 using Website.Application.Domain.Browser.Web;
+using Website.Common.Controller;
 using Website.Common.Extension;
 using Website.Domain.Browser.Query;
 using Website.Domain.Tag;
@@ -22,7 +23,7 @@ using Website.Infrastructure.Query;
 namespace PostaFlya.Controllers
 {
      [BrowserAuthorizeHttp(Roles = "Participant")]
-    public class PendingFliersApiController : ApiController
+    public class PendingFliersApiController : WebApiControllerBase
     {
          private readonly PostaFlyaBrowserInformationInterface _browserInformation;
         private readonly QueryServiceForBrowserAggregateInterface _browserQueryService;

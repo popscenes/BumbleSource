@@ -173,7 +173,7 @@ namespace PostaFlya.Binding
         #endregion
     }
 
-    public static class AllBindings
+    public static class AllWebSiteBindings
     {
         public static readonly List<INinjectModule> NinjectModules = new List<INinjectModule>()
                   {
