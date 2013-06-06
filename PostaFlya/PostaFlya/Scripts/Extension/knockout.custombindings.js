@@ -584,10 +584,14 @@
             if (value) {
                 var $ele = $(element);
                 $ele.fadeIn();
-                var top = $(window).scrollTop();
+                /*var top = $(window).scrollTop();
                 $ele.css({
                     'top': top
-                });
+                });*/
+                
+                var windowHeight = $(window).height();
+
+                $("body").css({ 'height': windowHeight, 'overflow-y': 'hidden' });
 
                 if (args.refreshtrig && value[args.refreshtrig] && ko.isObservable(value[args.refreshtrig])) {
                     value[args.refreshtrig].subscribe(function() {
@@ -597,6 +601,8 @@
 
             } else {
                 $(element).fadeOut();
+                //alert("fadeout");
+                $("body").css({ 'height': 'auto', 'overflow-y': 'auto' });
             }
         }
     };

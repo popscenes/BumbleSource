@@ -431,11 +431,13 @@ div#create-flier-item-div, div#selected-item-div
 div#selected-item-div, div#create-flier-item-div {
     background-color: white; 
     opacity: 1;
+    margin-top: 20px;
 }
 
 div#selected-item-popup-overlay, div#create-flier-popup-overlay {
-    background-color: white;
-    opacity: 0.95;
+    background-color: rgba(227, 224, 226, 0.95);
+    overflow-y: scroll;
+    
 }
 /************end selected item popup/overlay div ********************/
 
@@ -1219,6 +1221,10 @@ div.helptips-arrow
 
 a.helptips-next {
     display: none;
+}
+
+.simple-controls {
+    padding-bottom: 20px;
 }
 /*End Help Tips Core**********************************/
 

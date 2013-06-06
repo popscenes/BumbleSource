@@ -7,7 +7,7 @@
     Layout = "~/Views/Shared/_DefaultLayout.cshtml";
 }
 
-section scripts
+@section scripts
 {
     @Scripts.Render("~/Script/BulletinDeskJs.js")
 }
@@ -17,7 +17,7 @@ section scripts
 }
 
 
-<div id="controls">
+<div id="controls" class="simple-controls">
     <div class="location-title">
         Find Venues or Fesitvals near:
     </div>
@@ -32,10 +32,7 @@ section scripts
         <ul class="dist-selector" data-bind="distanceDropDown: @ViewBag.DistanceVariable">
         </ul>
     </div>
-
-    <div class="clear-fix" style="clear: both;"></div>
-    <div class="clear-fix" style="clear: both;"></div>
-
+    <div class="clear-fix" style="clear: both; float: none"></div>
 </div>
 
 <div class="trying-to-find-yourloc" style="display: none" data-bind="visible: TryingToFindLocation">
