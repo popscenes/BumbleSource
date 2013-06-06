@@ -4,18 +4,22 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
+using PostaFlya.Application.Domain.Browser;
+using PostaFlya.Domain.Browser.Command;
 using PostaFlya.Models.Account;
 using Website.Application.Authentication;
+using Website.Domain.Browser;
 using Website.Domain.Browser.Query;
 using Website.Infrastructure.Authentication;
 using Website.Infrastructure.Command;
 using PostaFlya.Models;
 using Website.Application.Domain.Browser;
-using Website.Domain.Browser;
 using Website.Domain.Browser.Command;
 using Website.Domain.Location;
 using Website.Infrastructure.Configuration;
 using Website.Infrastructure.Query;
+using Browser = PostaFlya.Domain.Browser.Browser;
+using Roles = Website.Domain.Browser.Roles;
 
 namespace PostaFlya.Controllers
 {
@@ -26,11 +30,11 @@ namespace PostaFlya.Controllers
         private readonly IdentityProviderServiceInterface _identityProviderService;
         private readonly GenericQueryServiceInterface _queryService;
         private readonly CommandBusInterface _commandBus;
-        private readonly BrowserInformationInterface _browserInformation;
+        private readonly PostaFlyaBrowserInformationInterface _browserInformation;
         private readonly ConfigurationServiceInterface _configurationService;
 
         public AccountController(IdentityProviderServiceInterface identityProviderService, GenericQueryServiceInterface queryService,
-            CommandBusInterface commandBus, BrowserInformationInterface browserInformation, ConfigurationServiceInterface configurationService)
+            CommandBusInterface commandBus, PostaFlyaBrowserInformationInterface browserInformation, ConfigurationServiceInterface configurationService)
         {
             _identityProviderService = identityProviderService;
             _queryService = queryService;
@@ -133,8 +137,8 @@ namespace PostaFlya.Controllers
             }
 
             //just set the current browser as the browser
-            if (!browserAsParticipant.Equals(_browserInformation.Browser))
-                _browserInformation.Browser = browserAsParticipant;
+//            if (!browserAsParticipant.Equals(_browserInformation.Browser))
+//                _browserInformation.Browser = browserAsParticipant;
 
 
         }
@@ -144,12 +148,12 @@ namespace PostaFlya.Controllers
         {
             var command = new AddBrowserCommand()
             {
-                Browser = new Website.Domain.Browser.Browser(Guid.NewGuid().ToString())
+                Browser = new PostaFlya.Domain.Browser.Browser()
                 {
+                    Id = Guid.NewGuid().ToString(),
                     FriendlyId = identityProviderCredentials.Name,
                     EmailAddress = identityProviderCredentials.Email,
                     Roles = new Website.Domain.Browser.Roles { Role.Participant.ToString() },
-                    SavedLocations = new Locations(),
                     AccountCredit = _configurationService.GetSetting<double>("NewAccountCredit")
                 }
             };
@@ -175,8 +179,8 @@ namespace PostaFlya.Controllers
             }
 
             //just set the current browser as the browser
-            if (!browserAsParticipant.Equals(_browserInformation.Browser))
-                _browserInformation.Browser = browserAsParticipant;
+//            if (!browserAsParticipant.Equals(_browserInformation.Browser))
+//                _browserInformation.Browser = browserAsParticipant;
 
             var target = formCollection.Get("ReturnUrl");
             if (!string.IsNullOrWhiteSpace(target) && target.StartsWith("/"))
@@ -190,12 +194,12 @@ namespace PostaFlya.Controllers
         {
             var command = new AddBrowserCommand()
                               {
-                                  Browser = new Website.Domain.Browser.Browser(Guid.NewGuid().ToString())
+                                  Browser = new Browser()
                                                 {
+                                                    Id = Guid.NewGuid().ToString(),
                                                     FriendlyId = principal.Name,
                                                     EmailAddress = principal.EmailAddress,
-                                                    Roles = new Website.Domain.Browser.Roles{ Role.Participant.ToString() },
-                                                    SavedLocations = new Locations(),
+                                                    Roles = new Roles{ Role.Participant.ToString() },
                                                 }
                               };
 

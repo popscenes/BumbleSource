@@ -35,7 +35,8 @@ namespace Website.Application.Domain.Browser.Web
         public IResolutionRoot ResolutionRoot { get; set; }
 
         protected BrowserInformationInterface BrowserInformation {
-            get { return ResolutionRoot.Get<BrowserInformationInterface>(); }}
+            get { return ResolutionRoot.Get<BrowserInformationInterface>(); }
+        }
 
         public override void OnActionExecuting(HttpActionContext actionContext)
         {

@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Runtime.Serialization;
 using PostaFlya.Domain.Boards;
+using PostaFlya.Domain.Boards.Query;
 using PostaFlya.Models.Location;
 using Website.Application.Binding;
 using Website.Application.Content;
@@ -13,6 +14,22 @@ using Website.Infrastructure.Query;
 
 namespace PostaFlya.Models.Board
 {
+    public class GetBoardModelsByIdsQueryHandler : QueryHandlerInterface<GetBoardsByIdsQuery, List<BoardModel>>
+    {
+        private readonly QueryChannelInterface _queryChannel;
+
+        public GetBoardModelsByIdsQueryHandler(QueryChannelInterface queryChannel)
+        {
+            _queryChannel = queryChannel;
+        }
+
+        public List<BoardModel> Query(GetBoardsByIdsQuery argument)
+        {
+            var ret = _queryChannel.Query(argument, new List<PostaFlya.Domain.Boards.Board>());
+            return _queryChannel.ToViewModel<BoardModel, PostaFlya.Domain.Boards.Board>(ret);
+        }
+    }
+
     public class ToBoardModel
     : ViewModelMapperInterface<BoardModel, PostaFlya.Domain.Boards.Board>
     {

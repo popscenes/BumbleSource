@@ -37,13 +37,13 @@ namespace Website.Common.Model.Query
     }
 
 
-    internal class ToViewModelQuery<ViewModelType, SourceType> : QueryInterface
+    public class ToViewModelQuery<ViewModelType, SourceType> : QueryInterface
     {
         public SourceType Source { get; set; }
         public ViewModelType ViewModel { get; set; }
     }
 
-    internal class ToViewModelQueryHandler<ViewModelType, SourceType> :
+    public class ToViewModelQueryHandler<ViewModelType, SourceType> :
         QueryHandlerInterface<ToViewModelQuery<ViewModelType, SourceType>, ViewModelType>
     {
         private readonly IResolutionRoot _resolutionRoot;
@@ -61,21 +61,21 @@ namespace Website.Common.Model.Query
         }
     }
 
-    internal class ToViewModelDynamicQuery : QueryInterface
+    public class ToViewModelDynamicQuery : QueryInterface
     {
         public object Source { get; set; }
         public object ViewModel { get; set; }
         public Type TypeOfViewModel { get; set; }
     }
 
-    internal class ToViewModelListDynamicQuery : QueryInterface
+    public class ToViewModelListDynamicQuery : QueryInterface
     {
         public List<object> Source { get; set; }
         public List<object> ViewModel { get; set; }
         public Type TypeOfViewModel { get; set; }
     }
 
-    internal class ToViewModelListDynamicQueryHandler : QueryHandlerInterface<ToViewModelListDynamicQuery, List<object>>
+    public class ToViewModelListDynamicQueryHandler : QueryHandlerInterface<ToViewModelListDynamicQuery, List<object>>
     {
         private readonly IResolutionRoot _resolutionRoot;
         private readonly Type _genericViewModelMapperTyp = typeof(ViewModelMapperInterface<,>);
@@ -105,7 +105,7 @@ namespace Website.Common.Model.Query
         }
     }
 
-    internal class ToViewModelDynamicQueryHandler : QueryHandlerInterface<ToViewModelDynamicQuery, object>
+    public class ToViewModelDynamicQueryHandler : QueryHandlerInterface<ToViewModelDynamicQuery, object>
     {
         private readonly IResolutionRoot _resolutionRoot;
         private readonly Type _genericViewModelMapperTyp = typeof(ViewModelMapperInterface<,>);

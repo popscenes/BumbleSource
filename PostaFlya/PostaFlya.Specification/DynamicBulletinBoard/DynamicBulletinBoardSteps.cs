@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web.Mvc;
 using NUnit.Framework;
 using Ninject;
+using PostaFlya.Domain.Browser;
 using TechTalk.SpecFlow;
 using PostaFlya.Controllers;
 using PostaFlya.Domain.Flier;
@@ -29,8 +30,19 @@ namespace PostaFlya.Specification.DynamicBulletinBoard
             var bulletinController = SpecUtil.GetApiController<BulletinApiController>();
             var location = SpecUtil.CurrIocKernel.Get<Location>(ib => ib.Get<bool>("default"));
             var browserInfoService = SpecUtil.GetCurrBrowser();
+            if(browserInfoService.Browser == null)
+            {
+                var defBrows = SpecUtil.CurrIocKernel.Get<BrowserInterface>(ctx => ctx.Has("postadefaultbrowser"));
+                ScenarioContext.Current["browserId"] = defBrows.Id;
+            }
 
             var dateFilter = ScenarioContext.Current.ContainsKey("eventfilterdate") ? ScenarioContext.Current["eventfilterdate"] as DateTime? : null;
+            var distance = ScenarioContext.Current.ContainsKey("currentdistance")
+                   ? (int)ScenarioContext.Current["currentdistance"]
+                   : 0;
+            var tags = ScenarioContext.Current.ContainsKey("currenttags")
+                               ? (string)ScenarioContext.Current["currenttags"]
+                               : null;
 
 
             SpecUtil.ControllerResult = bulletinController
@@ -39,8 +51,8 @@ namespace PostaFlya.Specification.DynamicBulletinBoard
                         Loc = location.ToViewModel(),
                         Count = 30,
                         Board = "",
-                        Distance = browserInfoService.Browser.Distance ?? 0,
-                        Tags = browserInfoService.Browser.Tags.ToString(),
+                        Distance = distance,
+                        Tags = tags,
                         Date = dateFilter
                     });
         }
@@ -68,9 +80,7 @@ namespace PostaFlya.Specification.DynamicBulletinBoard
 
         public void SetSomeTagsSet(string testSetName = "default")
         {
-            var settingController = SpecUtil.GetController<BrowserController>();
-            var defaultTags = SpecUtil.CurrIocKernel.Get<Tags>(ib => ib.Get<bool>(testSetName));
-            settingController.AddTags(new AddTagsModel() { TagsString = defaultTags.ToString() });
+            ScenarioContext.Current["currenttags"] = SpecUtil.CurrIocKernel.Get<Tags>(ib => ib.Get<bool>(testSetName)).ToString();
         }
 
         [Then(@"I should only see FLIERS within a DISTANCE from that LOCATION")]
@@ -108,13 +118,7 @@ namespace PostaFlya.Specification.DynamicBulletinBoard
         [When(@"I set my DISTANCE")]
         public void WhenISetMyDISTANCE()
         {
-            var settingController = SpecUtil.GetController<BrowserController>();
-            var browserInfoService = SpecUtil.GetCurrBrowser();
-            Assert.IsTrue(!browserInfoService.Browser.Distance.HasValue);
-            
-            settingController.SetDistance(15);
-
-            Assert.IsTrue(browserInfoService.Browser.Distance.HasValue);
+            ScenarioContext.Current["currentdistance"] = 15;
         }
 
         [Then(@"i should see all fliers within my new DISTANCE that have matching TAGS")]
@@ -123,18 +127,25 @@ namespace PostaFlya.Specification.DynamicBulletinBoard
             var bulletinApiController = SpecUtil.GetController<BulletinApiController>();
             var location = SpecUtil.CurrIocKernel.Get<Location>(ib => ib.Get<bool>("default"));
             var browserInfoService = SpecUtil.GetCurrBrowser();
+
+            var distance = ScenarioContext.Current.ContainsKey("currentdistance")
+                               ? (int) ScenarioContext.Current["currentdistance"]
+                               : 0;
+            var tags = ScenarioContext.Current.ContainsKey("currenttags")
+                               ? (string)ScenarioContext.Current["currenttags"]
+                               : null;
             var result = bulletinApiController.Get(
                 new BulletinGetRequestModel()
                     {
                         Loc = location.ToViewModel(),
                         Count = 30,
                         Board = "",
-                        Distance = browserInfoService.Browser.Distance.GetValueOrDefault(),
-                        Tags = browserInfoService.Browser.Tags.ToString()
+                        Distance = distance,
+                        Tags = tags
                     });
                 
             var locationService = SpecUtil.CurrIocKernel.Get<LocationServiceInterface>();
-            var box = locationService.GetBoundingBox(location, browserInfoService.Browser.Distance.GetValueOrDefault());
+            var box = locationService.GetBoundingBox(location, distance);
 
             Assert.IsNotNull(result, "no view result in context");
             var fliers = result;
@@ -144,8 +155,8 @@ namespace PostaFlya.Specification.DynamicBulletinBoard
             foreach (var bulletinFlierModel in fliers)
             {
                 Assert.IsTrue(locationService.IsWithinBoundingBox(box, bulletinFlierModel.Location.ToDomainModel()));
-                var tags = new Tags(bulletinFlierModel.TagsString);
-                Assert.IsTrue(tags.Union(browserInfoService.Browser.Tags).Any());
+                var tagsret = new Tags(bulletinFlierModel.TagsString);
+                Assert.IsTrue(tagsret.Union(new Tags(tags)).Any());
             }
         }
 

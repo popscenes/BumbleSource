@@ -5,7 +5,7 @@ using Ninject;
 using PostaFlya.Domain.Flier;
 using TechTalk.SpecFlow;
 using PostaFlya.Controllers;
-using Website.Domain.Browser;
+using PostaFlya.Domain.Browser;
 using Website.Domain.Browser.Command;
 using Website.Infrastructure.Authentication;
 using Website.Infrastructure.Command;
@@ -13,6 +13,7 @@ using Website.Infrastructure.Domain;
 using PostaFlya.Specification.Browsers;
 using PostaFlya.Specification.Util;
 using Website.Test.Common;
+using BrowserInterface = PostaFlya.Domain.Browser.BrowserInterface;
 
 namespace PostaFlya.Specification
 {
@@ -149,6 +150,11 @@ namespace PostaFlya.Specification
         public void GivenIHaveAccountCredit(int credit)
         {
             var browserInformation = SpecUtil.GetCurrBrowser();
+            if (browserInformation.Browser == null)
+            {
+                var defBrows = SpecUtil.CurrIocKernel.Get<BrowserInterface>(ctx => ctx.Has("postadefaultbrowser"));
+                ScenarioContext.Current["browserId"] = defBrows.Id;
+            }
             GivenABrowserHasAccountCredit(browserInformation.Browser.Id, credit);
         }
 

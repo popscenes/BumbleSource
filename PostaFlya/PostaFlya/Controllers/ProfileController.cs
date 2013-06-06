@@ -4,6 +4,7 @@ using System.Globalization;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using PostaFlya.Application.Domain.Browser;
 using PostaFlya.Domain.Flier;
 using PostaFlya.Models;
 using PostaFlya.Models.Browser;
@@ -19,12 +20,12 @@ namespace PostaFlya.Controllers
     [BrowserAuthorizeMvc]
     public class ProfileController : Controller
     {
-        private readonly BrowserInformationInterface _browserInformation;
+        private readonly PostaFlyaBrowserInformationInterface _browserInformation;
         private readonly QueryServiceForBrowserAggregateInterface _queryService;
         private readonly BlobStorageInterface _blobStorage;
         private readonly FlierBehaviourViewModelFactoryInterface _viewModelFactory;
 
-        public ProfileController( BrowserInformationInterface browserInformation
+        public ProfileController(PostaFlyaBrowserInformationInterface browserInformation
             , QueryServiceForBrowserAggregateInterface queryService, [ImageStorage]BlobStorageInterface blobStorage
             , FlierBehaviourViewModelFactoryInterface viewModelFactory)
         {

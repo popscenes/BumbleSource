@@ -152,17 +152,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>SaveImages.feature</DependentUpon>
     </Compile>
-    <Compile Include="BrowserSettings\SaveLocation.feature.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>SaveLocation.feature</DependentUpon>
-    </Compile>
     <Compile Include="BrowserSettings\SettingsSteps.cs" />
-    <Compile Include="BrowserSettings\SaveTags.feature.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>SaveTags.feature</DependentUpon>
-    </Compile>
     <Compile Include="Browsers\Tokens.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -265,14 +255,6 @@
     <None Include="BrowserSettings\SaveImages.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>SaveImages.feature.cs</LastGenOutput>
-    </None>
-    <None Include="BrowserSettings\SaveLocation.feature">
-      <Generator>SpecFlowSingleFileGenerator</Generator>
-      <LastGenOutput>SaveLocation.feature.cs</LastGenOutput>
-    </None>
-    <None Include="BrowserSettings\SaveTags.feature">
-      <Generator>SpecFlowSingleFileGenerator</Generator>
-      <LastGenOutput>SaveTags.feature.cs</LastGenOutput>
     </None>
     <None Include="Browsers\Tokens.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>

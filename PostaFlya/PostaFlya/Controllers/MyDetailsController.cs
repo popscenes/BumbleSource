@@ -4,6 +4,7 @@ using System.Net.Http;
 using System.Web;
 using System.Web.Http;
 using System.Web.Mvc;
+using PostaFlya.Domain.Browser.Command;
 using PostaFlya.Models.Location;
 using Website.Application.Domain.Browser.Web;
 using Website.Common.Extension;

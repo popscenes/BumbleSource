@@ -24,7 +24,7 @@ namespace Website.Common.Binding
 
     public static class WebsiteCommonNinjectExtensions
     {
-        public static void BindViewModelMappersFromCallingAssembly(this StandardKernel kernel)
+        public static void BindViewModelMappersFromCallingAssembly(this IKernel kernel)
         {
             var asm = Assembly.GetCallingAssembly();
             kernel.BindAllInterfacesFromAssemblyFor(asm, typeof(ViewModelMapperInterface<,>), c => c.InThreadScope());

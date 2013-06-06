@@ -4,7 +4,7 @@ using Website.Infrastructure.Command;
 using Website.Infrastructure.Domain;
 using Website.Infrastructure.Query;
 
-namespace Website.Domain.Browser.Command
+namespace PostaFlya.Domain.Browser.Command
 {
     internal class AddBrowserCommandHandler: CommandHandlerInterface<AddBrowserCommand>
     {

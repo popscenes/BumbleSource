@@ -59,7 +59,6 @@ namespace Website.Mocks.Domain.Defaults
                     Surname = "Audsley",
                     PhoneNumber = "0411111111",
                     Roles = new Roles{Role.Participant.ToString()},
-                    SavedLocations = new Locations(),
                     ExternalCredentials = new HashSet<BrowserIdentityProviderCredential>()
                                                 {
                                                     new BrowserIdentityProviderCredential()
@@ -88,7 +87,6 @@ namespace Website.Mocks.Domain.Defaults
                     FriendlyId = "anthonyborg",
                     EmailAddress = "teddymccuddles@gmail.com",
                     Roles = new Roles{ Role.Participant.ToString() },
-                    SavedLocations = new Locations(),
                     ExternalCredentials = new HashSet<BrowserIdentityProviderCredential>()
                                                 {
                                                     new BrowserIdentityProviderCredential()

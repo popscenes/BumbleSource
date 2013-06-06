@@ -1,6 +1,8 @@
+
+using Website.Domain.Browser;
 using Website.Infrastructure.Command;
 
-namespace Website.Domain.Browser.Command
+namespace PostaFlya.Domain.Browser.Command
 {
     public class ProfileEditCommand : DefaultCommandBase, BrowserIdInterface
     {
@@ -11,7 +13,7 @@ namespace Website.Domain.Browser.Command
         public string EmailAddress { get; set; }
         public string BrowserId { get; set; }
         public string Handle { get; set; }
-        public Location.Location Address { get; set; }
+        public Website.Domain.Location.Location Address { get; set; }
         public string WebSite { get; set; }
     }
 }

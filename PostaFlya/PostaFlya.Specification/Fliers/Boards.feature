@@ -5,7 +5,7 @@
 
 
 Scenario: Participant Creates Board
-Given i am an existing BROWSER with PARTICIPANT ROLE
+Given I am a BROWSER in PARTICIPANT ROLE
 When I submit the following data for the BOARD:
 	| BoardName | AcceptOthersFliers | RequireApprovalForFliers | TypeOfBoard  |                                      
 	| MyBoard	| True               | True                     | InterestBoard |
@@ -16,6 +16,7 @@ And the BOARD will have the status Approved
 
 Scenario: Participant Adds Flier To Board They Dont Own
 Given there is an approved public board named publicBoard
+And I am a BROWSER in PARTICIPANT ROLE
 And I have created a FLIER
 When I add the FLIER to the board 
 Then The FLIER will be a member of the board with a status of PendingApproval 
@@ -48,12 +49,14 @@ Then the BOARD will have the status PendingApproval
 
 Scenario: Create Flyer at Place Creates Venue Board if not exists
 Given There is no Board for a Venue
+And I am a PARTICIPANT with Admin ROLE
 When I create a FLIER at a Venue
 Then a Venue BOARD will be created
 And The FLIER will be a member of the board with a status of Approved
 
 Scenario: Create Flyer at Place Adds To Existing Venue Board
 Given There is a Board for a Venue with a Flier
+And I am a PARTICIPANT with Admin ROLE
 When I create a FLIER at a Venue
 Then The FLIER will be a member of the board with a status of Approved
 And The Board will have 2 Fliers

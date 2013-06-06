@@ -25,13 +25,13 @@ namespace Website.Domain.Browser.Publish
                                     PublishToBrowser(brows, @event) || current);
         }
 
-        public bool IsBrowserSubscribed(BrowserInterface browser)
+        public bool IsBrowserSubscribed(Website.Domain.Browser.BrowserInterface browser)
         {
             const bool ret = true;
             return browser.Properties.GetOrDefault(SubscriptionName, ret);
         }
 
-        public bool BrowserSubscribe(BrowserInterface browser)
+        public bool BrowserSubscribe(Website.Domain.Browser.BrowserInterface browser)
         {
             _commandBus.Send(new SetBrowserPropertyCommand()
                                  {
@@ -42,7 +42,7 @@ namespace Website.Domain.Browser.Publish
             return true;
         }
 
-        public bool BrowserUnsubscribe(BrowserInterface browser)
+        public bool BrowserUnsubscribe(Website.Domain.Browser.BrowserInterface browser)
         {
             _commandBus.Send(new SetBrowserPropertyCommand()
                                  {
@@ -53,8 +53,8 @@ namespace Website.Domain.Browser.Publish
             return IsBrowserSubscribed(browser);
         }
 
-        public abstract BrowserInterface[] GetBrowsersForPublish(PublishType publish);
-        public abstract bool PublishToBrowser(BrowserInterface browser, PublishType publish);
+        public abstract Website.Domain.Browser.BrowserInterface[] GetBrowsersForPublish(PublishType publish);
+        public abstract bool PublishToBrowser(Website.Domain.Browser.BrowserInterface browser, PublishType publish);
         public abstract string SubscriptionName { get; }
     }
 }

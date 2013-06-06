@@ -29,11 +29,9 @@ namespace Website.Application.Domain.Tests.Browser
         [TestFixtureSetUp]
         public void FixtureSetUp()
         {
-            Kernel.Bind<BrowserInformationInterface>().To<BrowserInformation>().InTransientScope();
+            Kernel.Bind<BrowserInformationInterface>().To<DefaultBrowserInformation>().InTransientScope();
             HttpContextMock.FakeHttpContext(Kernel);
             
-
-
         }
 
         [TestFixtureTearDown]
@@ -54,16 +52,16 @@ namespace Website.Application.Domain.Tests.Browser
 
             Kernel.Unbind<WebPrincipalInterface>();
             var browser = Kernel.Get<BrowserInformationInterface>();
-            Assert.That(browser, Is.InstanceOf<BrowserInformation>());
+            Assert.That(browser, Is.InstanceOf<DefaultBrowserInformation>());
 
             Assert.IsNotNull(browser.Browser);
             Assert.IsFalse(string.IsNullOrWhiteSpace(browser.Browser.Id));
 
             var httpContext = Kernel.Get<HttpContextBase>();
 
-            var httpCookie = httpContext.Response.Cookies[BrowserInformation.BrowserCookieId];
+            var httpCookie = httpContext.Response.Cookies[BrowserInformation<Website.Domain.Browser.Browser>.BrowserCookieId];
             Assert.IsTrue(httpCookie != null);
-            Assert.IsNotNullOrEmpty(httpCookie.Values[BrowserInformation.TempBrowserId]);
+            Assert.IsNotNullOrEmpty(httpCookie.Values[BrowserInformation<Website.Domain.Browser.Browser>.TempBrowserId]);
 
             httpContext.Request.Cookies.Add(httpCookie);
 
@@ -97,7 +95,7 @@ namespace Website.Application.Domain.Tests.Browser
             mockHttpContext.Setup(_ => _.User).Returns(prin);
 
             var browser = Kernel.Get<BrowserInformationInterface>();
-            Assert.That(browser, Is.InstanceOf<BrowserInformation>());
+            Assert.That(browser, Is.InstanceOf<DefaultBrowserInformation>());
 
             Assert.That(browser.Browser.Id, Is.EqualTo(brows.Id));
 

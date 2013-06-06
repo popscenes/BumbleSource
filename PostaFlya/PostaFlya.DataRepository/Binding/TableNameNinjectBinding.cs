@@ -15,6 +15,7 @@ using Website.Domain.Comments;
 using Website.Domain.Content;
 using Website.Domain.Payment;
 
+
 namespace PostaFlya.DataRepository.Binding
 {
     public class TableNameNinjectBinding : NinjectModule

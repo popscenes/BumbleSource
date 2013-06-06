@@ -7,22 +7,25 @@ using NUnit.Framework;
 using Ninject;
 using Ninject.MockingKernel.Moq;
 using Ninject.Modules;
+using PostaFlya.Application.Domain.Browser;
 using TechTalk.SpecFlow;
 using PostaFlya.Mocks.Domain.Data;
+using Website.Domain.Browser;
 using Website.Infrastructure.Query;
 using Website.Mocks.Domain.Data;
 using Website.Test.Common;
 using Website.Application.Domain.Browser;
-using Website.Domain.Browser;
 using Website.Mocks.Domain.Defaults;
+using Browser = PostaFlya.Domain.Browser.Browser;
+using BrowserInterface = PostaFlya.Domain.Browser.BrowserInterface;
 
 namespace PostaFlya.Specification.Util
 {
     internal static class SpecUtil
     {
-        public static BrowserInformationInterface GetCurrBrowser()
+        public static PostaFlyaBrowserInformationInterface GetCurrBrowser()
         {
-            return CurrIocKernel.Get<BrowserInformationInterface>();
+            return CurrIocKernel.Get<PostaFlyaBrowserInformationInterface>();
         }
 
         public static T GetMockStore<T>(string name) where T : class, new()

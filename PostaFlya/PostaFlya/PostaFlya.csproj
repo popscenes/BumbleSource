@@ -399,8 +399,6 @@
     <Compile Include="Models\Flier\HeatMapPoint.cs" />
     <Compile Include="Controllers\ImgController.cs" />
     <Compile Include="Controllers\MyFliersController.cs" />
-    <Compile Include="Controllers\SavedLocationsController.cs" />
-    <Compile Include="Controllers\SavedTagsController.cs" />
     <Compile Include="Models\Content\ImageCreateModel.cs" />
     <Compile Include="Models\Flier\BulletinFlierModel.cs" />
     <Compile Include="Models\Flier\FlierEditModel.cs" />
@@ -413,7 +411,6 @@
     <Compile Include="Models\Tags\TagSetListViewModel.cs" />
     <Compile Include="Models\ViewModelBase.cs" />
     <Compile Include="Models\Tags\AddTagsModel.cs" />
-    <Compile Include="Controllers\BrowserController.cs" />
     <Compile Include="Controllers\BulletinController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">

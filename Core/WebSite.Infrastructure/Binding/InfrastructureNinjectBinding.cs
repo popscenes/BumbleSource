@@ -51,7 +51,7 @@ namespace Website.Infrastructure.Binding
             kernel.BindAllInterfacesFromAssemblyFor(asm, typeof(HandleEventInterface), ninjectConfiguration);
         }
 
-        public static void BindAllInterfacesFromAssemblyFor(this StandardKernel kernel, Assembly asm, Type type, ConfigurationAction ninjectConfiguration)
+        public static void BindAllInterfacesFromAssemblyFor(this IKernel kernel, Assembly asm, Type type, ConfigurationAction ninjectConfiguration)
         {
             kernel.Bind(
                 x => x.From(asm)
@@ -67,7 +67,7 @@ namespace Website.Infrastructure.Binding
                     .Configure(ninjectConfiguration));
         }
 
-        public static void BindCommandAndQueryHandlersFromCallingAssembly(this StandardKernel kernel
+        public static void BindCommandAndQueryHandlersFromCallingAssembly(this IKernel kernel
                                                                   , ConfigurationAction ninjectConfiguration)
         {
             var asm = Assembly.GetCallingAssembly();

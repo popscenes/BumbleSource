@@ -1,6 +1,7 @@
+using Website.Domain.Browser.Command;
 using Website.Infrastructure.Command;
 
-namespace Website.Domain.Browser.Command
+namespace PostaFlya.Domain.Browser.Command
 {
     internal class SetBrowserPropertyCommandHandler : CommandHandlerInterface<SetBrowserPropertyCommand>
     {
@@ -19,7 +20,7 @@ namespace Website.Domain.Browser.Command
             var uow = _unitOfWorkFactory.GetUnitOfWork(new[] {_repository});
             using (uow)
             {
-                _repository.UpdateEntity<Browser>(
+                _repository.UpdateEntity<PostaFlya.Domain.Browser.Browser>(
                     command.Browser.Id,
                     browser => 
                     browser.Properties[command.PropertyName] = command.PropertyValue);
