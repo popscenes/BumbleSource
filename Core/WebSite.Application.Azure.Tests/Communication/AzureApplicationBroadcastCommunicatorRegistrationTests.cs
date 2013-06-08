@@ -30,7 +30,7 @@ namespace Website.Application.Azure.Tests.Communication
 //                .WhenAnyAnchestorNamed("broadcastCommunicators");
 
             _tableName =
-                Kernel.Get<TableNameAndPartitionProviderServiceInterface>().GetTableName<AzureBroadcastRegistrationEntry>(0);
+                Kernel.Get<TableNameAndPartitionProviderServiceInterface>().GetTableName<AzureBroadcastRegistrationEntry>();
             Reinit();
         }
 

@@ -15,7 +15,9 @@ namespace Website.Application.Domain.Browser
     {
         private readonly GenericQueryServiceInterface _browserQueryService;
 
-        public DefaultBrowserInformation(GenericQueryServiceInterface browserQueryService, HttpContextBase httpContext) : base(browserQueryService, httpContext)
+        public DefaultBrowserInformation(GenericQueryServiceInterface browserQueryService
+            , HttpContextBase httpContext, QueryChannelInterface queryChannel)
+            : base(browserQueryService, httpContext, queryChannel)
         {
             _browserQueryService = browserQueryService;
         }
@@ -46,15 +48,17 @@ namespace Website.Application.Domain.Browser
     public abstract class BrowserInformation<BrowserType> : BrowserInformationInterface where BrowserType : class, BrowserInterface
     {
         private readonly GenericQueryServiceInterface _browserQueryService;
+        private readonly QueryChannelInterface _queryChannel;
         private readonly HttpContextBase _httpContext;
 
         public const string BrowserCookieId = "browserInformation";
         public const string TempBrowserId = "tempId";
 
-        protected BrowserInformation(GenericQueryServiceInterface browserQueryService, HttpContextBase httpContext)
+        protected BrowserInformation(GenericQueryServiceInterface browserQueryService, HttpContextBase httpContext, QueryChannelInterface queryChannel)
         {
             _browserQueryService = browserQueryService;
             _httpContext = httpContext;
+            _queryChannel = queryChannel;
 
             IpAddress = _httpContext.Request.UserHostAddress;
             UserAgent = _httpContext.Request.UserAgent;
@@ -69,10 +73,9 @@ namespace Website.Application.Domain.Browser
             BrowserType browser = null;
             if (identity.IsAuthenticated)
             {
-                var prov =
-                    _browserQueryService.FindById<BrowserIdentityProviderCredential>(
-                        identity.ToCredential().ToUniqueString());
-                if (prov != null && (browser = BrowserGetById(prov.BrowserId)) != null)
+                browser = _queryChannel.Query(new FindBrowserByIdentityProviderQuery() { Credential = identity.ToCredential() }, (BrowserType)null);
+
+                if (browser != null)
                     _httpContext.User = new GenericPrincipal(_httpContext.User.Identity, browser.Roles.ToArray());
             }
             if (browser == null)

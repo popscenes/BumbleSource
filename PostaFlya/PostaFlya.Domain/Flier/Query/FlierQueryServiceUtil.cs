@@ -11,7 +11,7 @@ namespace PostaFlya.Domain.Flier.Query
     public static class FlierQueryServiceUtil
     {
 
-        public static string FindFreeFriendlyIdForFlier(this GenericQueryServiceInterface queryService, FlierInterface targetFlier)
+        public static string FindFreeFriendlyIdForFlier(this QueryChannelInterface queryChannel, FlierInterface targetFlier)
         {
             const string pattern = "@dd-MMM-yy";
 
@@ -23,7 +23,8 @@ namespace PostaFlya.Domain.Flier.Query
 
             Flier flierFind = null;
 
-            if (queryService != null && (flierFind = queryService.FindByFriendlyId<Flier>(tryTitle)) != null
+            if (queryChannel != null && 
+                (flierFind = queryChannel.Query(new FindByFriendlyIdQuery() { FriendlyId = tryTitle }, (Flier)null)) != null
                 && flierFind.Id != targetFlier.Id)
             {
                 if (targetFlier.Location.HasAddressParts())
@@ -43,7 +44,7 @@ namespace PostaFlya.Domain.Flier.Query
 
 
             var counter = 0;
-            while ((flierFind = queryService.FindByFriendlyId<Flier>(tryTitle)) != null
+            while ((flierFind = queryChannel.Query(new FindByFriendlyIdQuery() { FriendlyId = tryTitle }, (Flier)null)) != null
                 && flierFind.Id != targetFlier.Id)
             {
                 tryTitle = (counter++) + "-" + tryTitleBase;

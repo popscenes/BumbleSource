@@ -7,14 +7,15 @@ namespace Website.Domain.Browser.Query
 {
     public static class BrowserQueryServiceUtil
     {
-        public static string FindFreeHandleForBrowser(this GenericQueryServiceInterface queryService, string handle, string id)
+        public static string FindFreeHandleForBrowser(this QueryChannelInterface queryService, string handle, string id)
         {
             var tryHandle = handle.ToLowerHiphen();
             var tryHandleBase = tryHandle;
 
             int counter = 0;
             BrowserInterface brows = null;
-            while ((brows = queryService.FindByFriendlyId<Browser>(tryHandle)) != null && brows.Id != id)
+            while ((brows = queryService.Query(new FindByFriendlyIdQuery(){FriendlyId = tryHandle}, (Browser)null)) != null 
+                && brows.Id != id)
             {
                 if (counter == 0 && Char.IsDigit(tryHandle[tryHandleBase.Length - 1]))
                 {

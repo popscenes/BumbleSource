@@ -11,6 +11,7 @@ namespace PostaFlya.Domain.Browser.Command
         private readonly GenericRepositoryInterface _repository;
         private readonly UnitOfWorkFactoryInterface _unitOfWorkFactory;
         private readonly GenericQueryServiceInterface _queryService;
+        private readonly QueryChannelInterface _queryChannel;
 
         public AddBrowserCommandHandler(GenericRepositoryInterface repository, 
                                     UnitOfWorkFactoryInterface unitOfWorkFactory,
@@ -39,7 +40,7 @@ namespace PostaFlya.Domain.Browser.Command
                     browser.Surname = parts[partsIndx];
             }
 
-            browser.FriendlyId = _queryService
+            browser.FriendlyId = _queryChannel
                 .FindFreeHandleForBrowser(string.IsNullOrWhiteSpace(browser.FriendlyId) ? browser.Id : browser.FriendlyId, browser.Id);
 
             var uow = _unitOfWorkFactory.GetUnitOfWork(GetReposForUnitOfWork());

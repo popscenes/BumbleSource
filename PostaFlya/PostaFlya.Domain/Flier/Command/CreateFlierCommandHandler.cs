@@ -29,12 +29,13 @@ namespace PostaFlya.Domain.Flier.Command
         private readonly DomainEventPublishServiceInterface _domainEventPublishService;
         private readonly CreditChargeServiceInterface _creditChargeService;
         private readonly TinyUrlServiceInterface _tinyUrlService;
+        private readonly QueryChannelInterface _queryChannel;
 
         public CreateFlierCommandHandler(GenericRepositoryInterface repository
             , UnitOfWorkFactoryInterface unitOfWorkFactory, GenericQueryServiceInterface flierQueryService
             , DomainEventPublishServiceInterface domainEventPublishService
             , CreditChargeServiceInterface creditChargeService
-            , TinyUrlServiceInterface tinyUrlService)
+            , TinyUrlServiceInterface tinyUrlService, QueryChannelInterface queryChannel)
         {
             _repository = repository;
             _unitOfWorkFactory = unitOfWorkFactory;
@@ -42,6 +43,7 @@ namespace PostaFlya.Domain.Flier.Command
             _domainEventPublishService = domainEventPublishService;
             _creditChargeService = creditChargeService;
             _tinyUrlService = tinyUrlService;
+            _queryChannel = queryChannel;
         }
 
         public object Handle(CreateFlierCommand command)
@@ -72,7 +74,7 @@ namespace PostaFlya.Domain.Flier.Command
                                    UserLinks = command.UserLinks
                                };
 
-            newFlier.FriendlyId = _flierQueryService.FindFreeFriendlyIdForFlier(newFlier);
+            newFlier.FriendlyId = _queryChannel.FindFreeFriendlyIdForFlier(newFlier);
             newFlier.Features = GetPaymentFeatures(newFlier);
             newFlier.TinyUrl = _tinyUrlService.UrlFor(newFlier);
 

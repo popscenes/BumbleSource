@@ -1,5 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Services.Client;
+using Ninject;
+using PostaFlya.DataRepository.Search.Implementation;
+using Website.Azure.Common.Environment;
 using Website.Azure.Common.TableStorage;
 
 namespace Popscenes.Specification.Util
@@ -64,6 +68,24 @@ namespace Popscenes.Specification.Util
 
 
             return ret;
+        }
+
+        public static void InitTableStorage()
+        {
+            var tableNameProv = SpecUtil.Kernel.Get<TableNameAndPartitionProviderServiceInterface>();
+
+            tableNameProv.SuffixTableNames("test");
+
+            SpecUtil.Kernel.Get<SqlSeachDbInitializer>().DeleteAll();
+
+            AzureEnv.UseRealStorage = false;
+            var tctx = SpecUtil.Kernel.Get<TableContextInterface>();
+            foreach (var tableName in tableNameProv.GetAllTableNames())
+            {
+                tctx.InitTable<JsonTableEntry>(tableName);
+                tctx.Delete<JsonTableEntry>(tableName, null);
+            }
+            tctx.SaveChanges(SaveChangesOptions.ReplaceOnUpdate);
         }
     }
 }

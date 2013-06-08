@@ -17,8 +17,9 @@ namespace Website.Azure.Common.TableStorage
     {
         int PartitionClone { get; set; }
         bool KeyChanged { get; set; }
-        void UpdateEntry(object source);
-        object GetEntity(Type entityTyp);
+        void Init(object source);
+        void UpdateEntry();
+        object GetEntity(Type entityTyp = null);
         
     }
 

@@ -27,9 +27,14 @@ namespace PostaFlya.Domain.Behaviour.Command
         }
 
 
-        public void UpdateEntity<UpdateType>(string id, Action<UpdateType> updateAction) where UpdateType : class, EntityIdInterface, new()
+        public void UpdateEntity<UpdateType>(string id, Action<UpdateType> updateAction) where UpdateType : class, AggregateRootInterface, new()
         {
 
+        }
+
+        public void UpdateAggregateEntity<UpdateType>(string id, string aggregateRootId, Action<UpdateType> updateAction) where UpdateType : class, AggregateInterface, new()
+        {
+            
         }
 
         public void UpdateEntity(Type entityTyp, string id, Action<object> updateAction)
@@ -37,12 +42,17 @@ namespace PostaFlya.Domain.Behaviour.Command
             
         }
 
+        public void UpdateAggregateEntity(Type entityTyp, string id, string aggregateRootId, Action<object> updateAction)
+        {
+
+        }
+
         public void Store<EntityType>(EntityType entity)
         {
 
         }
 
-        public EntityRetType FindById<EntityRetType>(string id) where EntityRetType : class, new()
+        public EntityRetType FindById<EntityRetType>(string id) where EntityRetType : class, AggregateRootInterface, new()
         {
             return null;
         }
@@ -52,15 +62,16 @@ namespace PostaFlya.Domain.Behaviour.Command
             return null;
         }
 
-        public EntityRetType FindByFriendlyId<EntityRetType>(string id) where EntityRetType : class, new()
+        public EntityRetType FindByAggregate<EntityRetType>(string id, string aggregateRootId) where EntityRetType : class, AggregateInterface, new()
         {
             return null;
         }
 
-        public object FindByFriendlyId(Type entity, string id)
+        public object FindByAggregate(Type entity, string id, string aggregateRootId)
         {
             return null;
         }
+
 
         public IQueryable<string> FindAggregateEntityIds<EntityRetType>(string aggregateRootId)
             where EntityRetType : class, AggregateInterface, new()
@@ -68,7 +79,7 @@ namespace PostaFlya.Domain.Behaviour.Command
             return new List<string>().AsQueryable();
         }
 
-        public IQueryable<string> GetAllIds<EntityRetType>() where EntityRetType : class, new()
+        public IQueryable<string> GetAllIds<EntityRetType>() where EntityRetType : class, AggregateRootInterface, new()
         {
             return null;
         }

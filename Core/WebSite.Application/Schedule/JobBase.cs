@@ -20,7 +20,7 @@ namespace Website.Application.Schedule
                 target.JobStorage = new Dictionary<string, string>(source.JobStorage);
         }
     }
-    public interface JobInterface : EntityIdInterface
+    public interface JobInterface : AggregateRootInterface
     {
         DateTimeOffset LastRun { get; set; }
         TimeSpan LastDuration { get; set; }

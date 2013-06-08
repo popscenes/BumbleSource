@@ -30,14 +30,11 @@ namespace Website.Azure.Common.Tests.TableStorage
                 .InSingletonScope();
 
             var tableNameAndPartitionProviderService = Kernel.Get<TableNameAndPartitionProviderServiceInterface>();
-            tableNameAndPartitionProviderService.Add<OneEntity>(0, "testOneEntity", entity => entity.Prop);
-            tableNameAndPartitionProviderService.Add<OneEntity>(1, "testOneEntity", entity => entity.PropTwo, entity => entity.Prop);
-            tableNameAndPartitionProviderService.Add<OneEntity>(2, "testOneEntity", entity => entity.Prop + entity.PropTwo, entity => entity.PropTwo);
+            tableNameAndPartitionProviderService.Add<OneEntity>("testOneEntity", entity => entity.Prop);
+            
+            tableNameAndPartitionProviderService.Add<TwoEntity>("testTwoEntity", entity => entity.Prop);
 
-            tableNameAndPartitionProviderService.Add<TwoEntity>(0, "testTwoEntity", entity => entity.Prop);
-            tableNameAndPartitionProviderService.Add<TwoEntity>(1, "testTwoEntity", entity => entity.PropTwo, entity => entity.Prop);
-
-            tableNameAndPartitionProviderService.Add<ThreeEntity>(0, "testThreeEntity", entity => entity.SomeProp.ToString(CultureInfo.InvariantCulture));
+            tableNameAndPartitionProviderService.Add<ThreeEntity>("testThreeEntity", entity => entity.SomeProp.ToString(CultureInfo.InvariantCulture));
 
             _mockStore = TableContextTests.SetupMockTableContext<JsonTableEntry>(Kernel, new Dictionary<string, List<JsonTableEntry>>());
 
@@ -132,13 +129,13 @@ namespace Website.Azure.Common.Tests.TableStorage
 
         public Dictionary<string, object> MockDeserializationStore { get; set; } 
 
-        protected override StorageAggregate GetEntityForUpdate(Type entity, string id) 
-        {
-            var root = MockDeserializationStore[id];
-            var ret =  new StorageAggregate(root, NameAndPartitionProviderService);
-            ret.LoadAllTableEntriesForUpdate<TableEntryType>(TableContext);
-            return ret;
-        }
+//        protected override StorageAggregate GetEntityForUpdate(Type entity, string id) 
+//        {
+//            var root = MockDeserializationStore[id];
+//            var ret =  new StorageAggregate(root, NameAndPartitionProviderService);
+//            ret.LoadAllTableEntriesForUpdate<TableEntryType>(TableContext);
+//            return ret;
+//        }
 
         public override void Store<EntityType>(EntityType entity)
         {

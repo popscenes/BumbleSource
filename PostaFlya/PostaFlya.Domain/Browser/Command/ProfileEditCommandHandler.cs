@@ -11,6 +11,7 @@ namespace PostaFlya.Domain.Browser.Command
         private readonly GenericRepositoryInterface _repository;
         private readonly UnitOfWorkFactoryInterface _unitOfWorkFactory;
         private readonly GenericQueryServiceInterface _queryService;
+        private readonly QueryChannelInterface _queryChannel;
 
         public ProfileEditCommandHandler(GenericRepositoryInterface repository
             , UnitOfWorkFactoryInterface unitOfWorkFactory
@@ -29,7 +30,7 @@ namespace PostaFlya.Domain.Browser.Command
                     .AddCommandId(command).AddEntityIdError(command.BrowserId);
 
             if(!string.IsNullOrWhiteSpace(command.Handle) && command.Handle != browser.FriendlyId &&
-                _queryService.FindFreeHandleForBrowser(command.Handle, browser.Id) != command.Handle.ToLower())
+                _queryChannel.FindFreeHandleForBrowser(command.Handle, browser.Id) != command.Handle.ToLower())
                     return new MsgResponse("Error updating profile details", true)
                         .AddCommandId(command).AddEntityIdError(command.BrowserId)
                         .AddMessageProperty("Handle", "Invalid Handle");

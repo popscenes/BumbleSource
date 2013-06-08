@@ -25,7 +25,7 @@ namespace Popscenes.Specification.Util
 
             SpecUtil.Server = server; 
             SpecUtil.Kernel = kernel;
-            ScenarioContext.Current[SpecUtil.BaseAddressContext] = "http://scoopon/";
+            ScenarioContext.Current[SpecUtil.BaseAddressContext] = "http://popscenes.com/";
         }
 
 

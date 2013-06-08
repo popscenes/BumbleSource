@@ -17,8 +17,8 @@ namespace Website.Domain.Content
         }
     }
 
-    public interface ImageInterface : 
-        EntityInterface, BrowserIdInterface
+    public interface ImageInterface :
+        EntityInterface, AggregateRootInterface, BrowserIdInterface
     {
         string Title { get; set; }
         ImageStatus Status { get; set; }

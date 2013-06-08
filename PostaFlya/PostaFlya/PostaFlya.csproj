@@ -352,7 +352,6 @@
     <Compile Include="Controllers\FlierImportController.cs" />
     <Compile Include="Controllers\MyBoardFlierController.cs" />
     <Compile Include="Controllers\MyBoardsController.cs" />
-    <Compile Include="Controllers\PagedModel.cs" />
     <Compile Include="Controllers\PaymentController.cs" />
     <Compile Include="Controllers\PendingFliersApiController.cs" />
     <Compile Include="Controllers\ProfileApiController.cs" />
@@ -414,6 +413,7 @@
     <Compile Include="Models\Location\ContactDetailsModel.cs" />
     <Compile Include="Models\Location\VenueInformationModel.cs" />
     <Compile Include="Models\Location\LocationModel.cs" />
+    <Compile Include="Models\PagedModel.cs" />
     <Compile Include="Models\PageModelInterface.cs" />
     <Compile Include="Models\Tags\TagSetListViewModel.cs" />
     <Compile Include="Models\ViewModelBase.cs" />

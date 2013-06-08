@@ -12,6 +12,7 @@ using PostaFlya.Models.Flier;
 using Website.Application.Binding;
 using Website.Application.Content;
 using Website.Application.Domain.Browser;
+using Website.Application.Domain.Browser.Query;
 using Website.Application.Domain.Browser.Web;
 using Website.Common.Controller;
 using Website.Common.Extension;
@@ -26,18 +27,19 @@ namespace PostaFlya.Controllers
     public class PendingFliersApiController : WebApiControllerBase
     {
          private readonly PostaFlyaBrowserInformationInterface _browserInformation;
-        private readonly QueryServiceForBrowserAggregateInterface _browserQueryService;
+        private readonly GenericQueryServiceInterface _browserQueryService;
         private readonly BlobStorageInterface _blobStorage;
         private readonly FlierBehaviourViewModelFactoryInterface _viewModelFactory;
         private readonly GenericQueryServiceInterface _queryService;
         private readonly CommandBusInterface _commandBus;
+         private readonly QueryChannelInterface _queryChannel;
 
         public PendingFliersApiController(PostaFlyaBrowserInformationInterface browserInformation
-            , QueryServiceForBrowserAggregateInterface browserQueryService, 
+            , GenericQueryServiceInterface browserQueryService, 
             [ImageStorage]BlobStorageInterface blobStorage
             , FlierBehaviourViewModelFactoryInterface viewModelFactory
             , GenericQueryServiceInterface queryService
-            , CommandBusInterface commandBus)
+            , CommandBusInterface commandBus, QueryChannelInterface queryChannel)
         {
             _browserInformation = browserInformation;
             _browserQueryService = browserQueryService;
@@ -45,12 +47,13 @@ namespace PostaFlya.Controllers
             _viewModelFactory = viewModelFactory;
             _queryService = queryService;
             _commandBus = commandBus;
+            _queryChannel = queryChannel;
         }
 
         // GET api/pendingfliersapi
         public IEnumerable<BulletinFlierModel> Get()
         {
-            var fliers = _browserQueryService.GetByBrowserId<Flier>(_browserInformation.Browser.Id);
+            var fliers = _queryChannel.Query(new GetByBrowserIdQuery() {BrowserId = _browserInformation.Browser.Id}, new List<Flier>());
             var pendingFliers = fliers.Where(_ => _.Status == FlierStatus.PaymentPending);
             var model = pendingFliers.Select(_ => _viewModelFactory.GetBulletinViewModel(_, false).GetImageUrl(_blobStorage)).ToList();
             return model;

@@ -7,7 +7,7 @@ using Website.Infrastructure.Domain;
 namespace PostaFlya.Domain.Boards
 {
     [Serializable]
-    public class Board : EntityBase<BoardInterface>, BoardInterface
+    public class Board : EntityBase<BoardInterface>, AggregateRootInterface, BoardInterface
     {
         public string BrowserId { get; set; }
         public bool AllowOthersToPostFliers { get; set; }

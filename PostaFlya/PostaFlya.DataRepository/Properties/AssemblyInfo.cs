@@ -45,3 +45,4 @@ using System.Runtime.InteropServices;
 [assembly: InternalsVisibleTo("DynamicProxyGenAssembly2")]
 [assembly: InternalsVisibleTo("PostaFlya.DataRepository.Tests")]
 [assembly: InternalsVisibleTo("Website.Infrastructure")]
+[assembly: InternalsVisibleTo("Popscenes.Specification")]

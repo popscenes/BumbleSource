@@ -89,7 +89,7 @@ namespace PostaFlya.Domain.Flier
         }
     }
 
-    public interface FlierInterface : BrowserIdInterface, 
+    public interface FlierInterface : AggregateRootInterface, BrowserIdInterface, 
         ClaimableEntityInterface,
         CommentableInterface,
         EntityFeatureChargesInterface, TinyUrlInterface

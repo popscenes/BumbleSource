@@ -28,14 +28,11 @@ namespace Website.Azure.Common.Tests.TableStorage
                 .InSingletonScope();
 
             var tableNameAndPartitionProviderService = Kernel.Get<TableNameAndPartitionProviderServiceInterface>();
-            tableNameAndPartitionProviderService.Add<OneEntity>(0, "testOneEntity", entity => entity.Id);
-            tableNameAndPartitionProviderService.Add<OneEntity>(1, "testOneEntity", entity => entity.PropTwo, entity => entity.Id);
-            tableNameAndPartitionProviderService.Add<OneEntity>(2, "testOneEntity", entity => entity.Prop + entity.PropTwo, entity => entity.Id);
+            tableNameAndPartitionProviderService.Add<OneEntity>("testOneEntity", entity => entity.Id);
+          
+            tableNameAndPartitionProviderService.Add<TwoEntity>("testTwoEntity", entity => entity.Id);
 
-            tableNameAndPartitionProviderService.Add<TwoEntity>(0, "testTwoEntity", entity => entity.Id);
-            tableNameAndPartitionProviderService.Add<TwoEntity>(10, "testTwoEntity", entity => entity.PropTwo, entity => entity.Id);//using PropTwo as aggregate partition id
-
-            tableNameAndPartitionProviderService.Add<ThreeEntity>(0, "testThreeEntity", entity => entity.SomeProp.ToString(CultureInfo.InvariantCulture));
+            tableNameAndPartitionProviderService.Add<ThreeEntity>("testThreeEntity", entity => entity.SomeProp.ToString(CultureInfo.InvariantCulture));
 
             _mockStore = TableContextTests.SetupMockTableContext<JsonTableEntry>(Kernel, new Dictionary<string, List<JsonTableEntry>>());
 
@@ -118,14 +115,14 @@ namespace Website.Azure.Common.Tests.TableStorage
             _mockStore.Clear();
     
             var repo = Kernel.Get<TestRespositoryBase<JsonTableEntry>>();
-            repo.Store(new TwoEntity() {Id = Guid.NewGuid().ToString(), Prop = "123", PropTwo = "1" });
-            repo.Store(new TwoEntity() { Id = Guid.NewGuid().ToString(), Prop = "123", PropTwo = "1" });
-            repo.Store(new TwoEntity() { Id = Guid.NewGuid().ToString(), Prop = "123", PropTwo = "1" });
+            repo.Store(new OneEntity() {Id = Guid.NewGuid().ToString(), Prop = "123", PropTwo = "1" });
+            repo.Store(new OneEntity() { Id = Guid.NewGuid().ToString(), Prop = "123", PropTwo = "1" });
+            repo.Store(new OneEntity() { Id = Guid.NewGuid().ToString(), Prop = "123", PropTwo = "1" });
             
             repo.SaveChanges();
 
             var qs = Kernel.Get<QueryServiceBase<JsonTableEntry>>();
-            var ret = qs.GetAllIds<TwoEntity>();
+            var ret = qs.GetAllIds<OneEntity>();
 
             AssertUtil.Count(3, ret);
         }

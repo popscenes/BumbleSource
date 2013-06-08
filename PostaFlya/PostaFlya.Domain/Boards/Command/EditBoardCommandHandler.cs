@@ -14,16 +14,18 @@ namespace PostaFlya.Domain.Boards.Command
         private readonly GenericQueryServiceInterface _boardQueryService;
         private readonly UnitOfWorkFactoryInterface _unitOfWorkFactory;
         private readonly DomainEventPublishServiceInterface _domainEventPublishService;
+        private readonly QueryChannelInterface _queryChannel;
 
         public EditBoardCommandHandler(GenericRepositoryInterface boardRepository
                                        , GenericQueryServiceInterface boardQueryService
                                        , UnitOfWorkFactoryInterface unitOfWorkFactory
-                                       , DomainEventPublishServiceInterface domainEventPublishService)
+                                       , DomainEventPublishServiceInterface domainEventPublishService, QueryChannelInterface queryChannel)
         {
             _boardRepository = boardRepository;
             _boardQueryService = boardQueryService;
             _unitOfWorkFactory = unitOfWorkFactory;
             _domainEventPublishService = domainEventPublishService;
+            _queryChannel = queryChannel;
         }
 
         public object Handle(EditBoardCommand command)
@@ -48,7 +50,7 @@ namespace PostaFlya.Domain.Boards.Command
                         if (!string.IsNullOrWhiteSpace(command.BoardName))
                         {
                             board.FriendlyId = command.BoardName;
-                            _boardQueryService.FindFreeFriendlyId(board);
+                            board.FriendlyId = _queryChannel.FindFreeFriendlyId(board);
                         }
 
                         if (!string.IsNullOrWhiteSpace(command.Description))

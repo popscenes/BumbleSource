@@ -42,6 +42,7 @@ namespace PostaFlya.Controllers
         private readonly TinyUrlServiceInterface _tinyUrlService;
         private readonly PostaFlyaBrowserInformationInterface _browserInformation;
         private readonly ConfigurationServiceInterface _configurationService;
+        private readonly QueryChannelInterface _queryChannel;
 
 
         public BulletinApiController(GenericQueryServiceInterface queryService,
@@ -49,7 +50,7 @@ namespace PostaFlya.Controllers
             , FlierBehaviourQueryServiceInterface behaviourQueryService
             , FlierBehaviourViewModelFactoryInterface viewModelFactory, FlierSearchServiceInterface flierSearchService
             , FlierWebAnalyticServiceInterface webAnalyticService, TinyUrlServiceInterface tinyUrlService
-            , PostaFlyaBrowserInformationInterface browserInformation, ConfigurationServiceInterface configurationService)
+            , PostaFlyaBrowserInformationInterface browserInformation, ConfigurationServiceInterface configurationService, QueryChannelInterface queryChannel)
         {
             _queryService = queryService;
             _blobStorage = blobStorage;
@@ -60,6 +61,7 @@ namespace PostaFlya.Controllers
             _tinyUrlService = tinyUrlService;
             _browserInformation = browserInformation;
             _configurationService = configurationService;
+            _queryChannel = queryChannel;
         }
 
 //        public DefaultDetailsViewModel Get([FromUri] LocationModel currloc, string tinyUrl)
@@ -86,7 +88,7 @@ namespace PostaFlya.Controllers
 
         public DefaultDetailsViewModel Get(string id)
         {
-            var ret = GetDetail(id, _queryService, _behaviourQueryService, _blobStorage, _viewModelFactory, _browserInformation);
+            var ret = GetDetail(id, _queryChannel, _queryService, _behaviourQueryService, _blobStorage, _viewModelFactory, _browserInformation);
             
             if(ret != null)
                 _webAnalyticService.RecordVisit(ret.Flier.Id, FlierAnalyticSourceAction.IdByApi);
@@ -111,7 +113,7 @@ namespace PostaFlya.Controllers
             _browserInformation.LastSearchLocation.CopyFieldsFrom(req.Loc);
 
             _webAnalyticService.SetLastSearchLocation(req.Loc.ToDomainModel());
-            return GetFliers(_flierSearchService, _queryService, _blobStorage, _viewModelFactory
+            return GetFliers(_flierSearchService, _queryChannel, _queryService, _blobStorage, _viewModelFactory
                 , req.Loc, req.Count, board: req.Board, skipPast: req.SkipPast, distance: req.Distance, tags: req.Tags, date: req.Date);
         }
 
@@ -130,10 +132,12 @@ namespace PostaFlya.Controllers
 //        }
 
         [NonAction]
-        public static DefaultDetailsViewModel GetDetail(string id, GenericQueryServiceInterface queryService, FlierBehaviourQueryServiceInterface behaviourQueryService, BlobStorageInterface blobStorage, FlierBehaviourViewModelFactoryInterface viewModelFactory, PostaFlyaBrowserInformationInterface browserInformation)
+        public static DefaultDetailsViewModel GetDetail(string id, QueryChannelInterface queryChannel 
+            , GenericQueryServiceInterface queryService, FlierBehaviourQueryServiceInterface behaviourQueryService, BlobStorageInterface blobStorage, FlierBehaviourViewModelFactoryInterface viewModelFactory, PostaFlyaBrowserInformationInterface browserInformation)
         {
             
-            var flier = queryService.FindByFriendlyId<Flier>(id);
+            var flier = queryChannel.Query(new FindByFriendlyIdQuery() { FriendlyId = id }, (Flier)null);
+
             if (flier == null)
             {
                 flier = queryService.FindById<Flier>(id);
@@ -174,7 +178,9 @@ namespace PostaFlya.Controllers
 
 
         [NonAction]
-        public static IList<BulletinFlierModel> GetFliers(FlierSearchServiceInterface flierSearchService, GenericQueryServiceInterface flierQueryService, BlobStorageInterface blobStorage, FlierBehaviourViewModelFactoryInterface viewModelFactory, LocationModel loc, 
+        public static IList<BulletinFlierModel> GetFliers(FlierSearchServiceInterface flierSearchService
+            , QueryChannelInterface queryChannel 
+            , GenericQueryServiceInterface flierQueryService, BlobStorageInterface blobStorage, FlierBehaviourViewModelFactoryInterface viewModelFactory, LocationModel loc, 
             int count, string board = "", string skipPast = null, int distance = 0, string tags = "", DateTime? date = null)
         {
             var locDomainModel = loc.ToDomainModel();
@@ -182,7 +188,7 @@ namespace PostaFlya.Controllers
             var skip = string.IsNullOrWhiteSpace(skipPast) ? null : flierQueryService.FindById<Flier>(skipPast);
             if (!string.IsNullOrWhiteSpace(board))
             {
-                var found = flierQueryService.FindByFriendlyId<Board>(board);
+                var found = queryChannel.Query(new FindByFriendlyIdQuery() { FriendlyId = board }, (Board)null);
                 board = found != null ? found.Id : board;
             }
 

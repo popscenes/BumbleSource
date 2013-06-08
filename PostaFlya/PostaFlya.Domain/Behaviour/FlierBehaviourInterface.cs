@@ -11,7 +11,7 @@ namespace PostaFlya.Domain.Behaviour
 //    {
 //        static Type GetTopLevelFlierBehaviourInterface
 //    }
-    public interface FlierBehaviourInterface : EntityInterface
+    public interface FlierBehaviourInterface : EntityInterface, AggregateInterface
     {
         Flier.Flier Flier { get; set; }
         Dictionary<string, object> FlierProperties { get; set; }

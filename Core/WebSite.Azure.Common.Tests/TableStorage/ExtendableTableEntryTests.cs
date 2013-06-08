@@ -33,7 +33,7 @@ namespace Website.Azure.Common.Tests.TableStorage
                 .InSingletonScope();
 
             var tableNameAndPartitionProviderService = Kernel.Get<TableNameAndPartitionProviderServiceInterface>();
-            tableNameAndPartitionProviderService.Add<ExtendableTableEntry>(0, "testExtendableTable", entity => entity.PartitionKey, entity => entity.RowKey);
+            tableNameAndPartitionProviderService.Add<ExtendableTableEntry>("testExtendableTable", entity => entity.PartitionKey, entity => entity.RowKey);
 
             var context = Kernel.Get<TableContextInterface>();
 
@@ -66,7 +66,7 @@ namespace Website.Azure.Common.Tests.TableStorage
             FillPropertyGroupWithEdmTypes(tableEntry);
 
             var nameAndPartitionProviderService = Kernel.Get<TableNameAndPartitionProviderServiceInterface>();
-            var tableName = nameAndPartitionProviderService.GetTableName<ExtendableTableEntry>(0);
+            var tableName = nameAndPartitionProviderService.GetTableName<ExtendableTableEntry>();
             var tabCtx = Kernel.Get<TableContextInterface>();
             tabCtx.Store(tableName, tableEntry);
             tabCtx.SaveChanges();

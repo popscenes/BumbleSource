@@ -16,7 +16,7 @@ using Website.Infrastructure.Query;
 namespace PostaFlya.Domain.Flier
 {
     [Serializable]
-    public class Flier : EntityBase<FlierInterface>, FlierInterface
+    public class Flier : EntityBase<FlierInterface>, AggregateRootInterface, FlierInterface
     {
         private List<DateTimeOffset> _eventDates;
 

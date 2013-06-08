@@ -14,6 +14,7 @@ using Website.Application.Content;
 using Website.Application.Domain.Browser;
 using Website.Application.Domain.Browser.Web;
 using Website.Domain.Browser.Query;
+using Website.Infrastructure.Query;
 
 namespace PostaFlya.Controllers
 {
@@ -21,18 +22,20 @@ namespace PostaFlya.Controllers
     public class ProfileController : Controller
     {
         private readonly PostaFlyaBrowserInformationInterface _browserInformation;
-        private readonly QueryServiceForBrowserAggregateInterface _queryService;
+        private readonly GenericQueryServiceInterface _queryService;
         private readonly BlobStorageInterface _blobStorage;
         private readonly FlierBehaviourViewModelFactoryInterface _viewModelFactory;
+        private readonly QueryChannelInterface _queryChannel;
 
         public ProfileController(PostaFlyaBrowserInformationInterface browserInformation
-            , QueryServiceForBrowserAggregateInterface queryService, [ImageStorage]BlobStorageInterface blobStorage
-            , FlierBehaviourViewModelFactoryInterface viewModelFactory)
+            , GenericQueryServiceInterface queryService, [ImageStorage]BlobStorageInterface blobStorage
+            , FlierBehaviourViewModelFactoryInterface viewModelFactory, QueryChannelInterface queryChannel)
         {
             _browserInformation = browserInformation;
             _queryService = queryService;
             _blobStorage = blobStorage;
             _viewModelFactory = viewModelFactory;
+            _queryChannel = queryChannel;
         }
 
         public ActionResult Posted()
@@ -57,7 +60,8 @@ namespace PostaFlya.Controllers
 
         public ActionResult CheckHandle(string handle)
         {
-            var result = _queryService.FindFreeHandleForBrowser(handle, _browserInformation.Browser.Id);
+            var result =
+                _queryChannel.FindFreeHandleForBrowser(handle, _browserInformation.Browser.Id);
             if (result == handle)
                 return Json(true,  JsonRequestBehavior.AllowGet);
 

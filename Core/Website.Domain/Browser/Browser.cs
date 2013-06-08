@@ -7,7 +7,7 @@ using Website.Domain.Tag;
 namespace Website.Domain.Browser
 {
     [Serializable]
-    public class Browser : EntityBase<BrowserInterface>, BrowserInterface
+    public class Browser : EntityBase<BrowserInterface>, AggregateRootInterface, BrowserInterface
     {
         public Browser(string id)
             :this()
@@ -31,7 +31,6 @@ namespace Website.Domain.Browser
 
         public string AvatarImageId { get; set; }
         public Roles Roles { get; set; }
-        [AggregateMemberEntity]
         public HashSet<BrowserIdentityProviderCredential> ExternalCredentials { get; set; }
         public Dictionary<string, object> Properties { get; set; }
         public double AccountCredit { get; set; }

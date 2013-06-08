@@ -23,10 +23,8 @@ namespace Website.Domain.Claims
             target.ClaimTime = source.ClaimTime;
         }
     }
-    public interface ClaimInterface : EntityInterface
-        , BrowserIdInterface
-        , AggregateInterface
-        , EntityFeatureChargesInterface
+    public interface ClaimInterface : EntityInterface, AggregateInterface
+        , BrowserIdInterface, EntityFeatureChargesInterface
     {
         string ClaimContext { get; set; }
         string ClaimMessage { get; set; }

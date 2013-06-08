@@ -54,7 +54,7 @@ namespace Website.Domain.Browser
         }
     }
 
-    public interface BrowserInterface : EntityInterface, ContactDetailsInterface, ChargableEntityInterface
+    public interface BrowserInterface : EntityInterface, AggregateRootInterface, ContactDetailsInterface, ChargableEntityInterface
     {
         Roles Roles { get; set; }
         HashSet<BrowserIdentityProviderCredential> ExternalCredentials { get; set; }

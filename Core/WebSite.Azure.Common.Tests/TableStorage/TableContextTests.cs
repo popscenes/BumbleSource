@@ -39,9 +39,7 @@ namespace Website.Azure.Common.Tests.TableStorage
                 .InSingletonScope();
 
             var tableNameAndPartitionProviderService = Kernel.Get<TableNameAndPartitionProviderServiceInterface>();
-            tableNameAndPartitionProviderService.Add<OneEntity>(0, "testOneEntity", entity => entity.Prop);
-            tableNameAndPartitionProviderService.Add<OneEntity>(1, "testOneEntity", entity => entity.PropTwo, entity => entity.Prop);
-            tableNameAndPartitionProviderService.Add<OneEntity>(2, "testOneEntity", entity => entity.Prop + entity.PropTwo, entity => entity.PropTwo);
+            tableNameAndPartitionProviderService.Add<OneEntity>("testOneEntity", entity => entity.Prop);
 
             var context = Kernel.Get<TableContextInterface>();
 

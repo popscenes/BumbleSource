@@ -3,14 +3,9 @@ using Ninject;
 using Ninject.Extensions.Conventions.Syntax;
 using Ninject.Modules;
 using Website.Application.Caching.Query;
-using Website.Application.Domain.Command;
 using Website.Infrastructure.Binding;
-using Website.Infrastructure.Caching.Command;
-using Website.Infrastructure.Caching.Query;
 using Website.Infrastructure.Command;
 using Website.Infrastructure.Query;
-using Website.Application.Domain.Query;
-using Website.Domain.Browser.Query;
 
 namespace Website.Application.Domain.Binding
 {
@@ -33,20 +28,14 @@ namespace Website.Application.Domain.Binding
                 , new[]
                       {
                           typeof(GenericQueryServiceInterface),
-                          typeof(GenericRepositoryInterface),
-                          typeof(QueryServiceForBrowserAggregateInterface)
+                          typeof(GenericRepositoryInterface)
                       });
 
-            _repositoryConfiguration(kernel.Bind(typeof(GenericRepositoryInterface))
-                .To(typeof(CachedRepositoryWithBrowser)));
 
             _repositoryConfiguration(kernel.Bind(typeof(GenericQueryServiceInterface))
                 .To(typeof(TimedExpiryCachedQueryService)));
-            _repositoryConfiguration(kernel.Bind(typeof(QueryServiceForBrowserAggregateInterface))
-                .To(typeof(CachedQueryServiceWithBrowser)));
 
             
-
             Trace.TraceInformation("Finished Binding ApplicationDomainRepositoriesNinjectBinding");
 
         }

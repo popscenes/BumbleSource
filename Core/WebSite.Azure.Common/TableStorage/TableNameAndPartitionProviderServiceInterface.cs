@@ -1,25 +1,38 @@
 using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 
 namespace Website.Azure.Common.TableStorage
 {
+    public class IndexEntry
+    {
+                 
+    }
+
     public interface TableNameAndPartitionProviderServiceInterface
     {
-        void Add<EntityType>(int partitionId, string tableName,
+
+        void Add<EntityType>(string tableName,
                              Func<EntityType, string> partitionKeyFunc,
                              Func<EntityType, string> rowKeyFunc = null)
             where EntityType : class;
-        int[] GetPartitionIdentifiers<EntityType>();
-        int[] GetPartitionIdentifiers(Type entityTyp);
 
-        Func<object, string> GetPartitionKeyFunc<EntityType>(int partition);
-        Func<object, string> GetRowKeyFunc<EntityType>(int partition);
+        void AddIndex<EntityType>(string tableName, string indexname
+            , Expression<Func<EntityType, IEnumerable<StorageTableEntryInterface>>> indexEntryFactory)
+                where EntityType : class;
 
-        Func<object, string> GetPartitionKeyFunc(Type entityTyp, int partition);
-        Func<object, string> GetRowKeyFunc(Type entityTyp, int partition);
+        Func<object, string> GetPartitionKeyFunc<EntityType>();
+        Func<object, string> GetRowKeyFunc<EntityType>();
+
+        Func<object, string> GetPartitionKeyFunc(Type entityTyp);
+        Func<object, string> GetRowKeyFunc(Type entityTyp);
         
-        string GetTableName<EntityType>(int partition);
-        string GetTableName(Type entityTyp, int partition);
+        string GetTableName<EntityType>();
+        string GetTableName(Type entityTyp);
+
+        string GetTableNameForIndex<EntityType>(string indexname);
+        string GetTableNameForIndex(Type entityTyp, string indexname);
+
         
         IEnumerable<string> GetAllTableNames();
 

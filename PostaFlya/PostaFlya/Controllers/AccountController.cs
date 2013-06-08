@@ -32,15 +32,17 @@ namespace PostaFlya.Controllers
         private readonly CommandBusInterface _commandBus;
         private readonly PostaFlyaBrowserInformationInterface _browserInformation;
         private readonly ConfigurationServiceInterface _configurationService;
+        private readonly QueryChannelInterface _queryChannel;
 
         public AccountController(IdentityProviderServiceInterface identityProviderService, GenericQueryServiceInterface queryService,
-            CommandBusInterface commandBus, PostaFlyaBrowserInformationInterface browserInformation, ConfigurationServiceInterface configurationService)
+            CommandBusInterface commandBus, PostaFlyaBrowserInformationInterface browserInformation, ConfigurationServiceInterface configurationService, QueryChannelInterface queryChannel)
         {
             _identityProviderService = identityProviderService;
             _queryService = queryService;
             _commandBus = commandBus;
             _browserInformation = browserInformation;
             _configurationService = configurationService;
+            _queryChannel = queryChannel;
         }
 
         public ActionResult LoginPage(string ReturnUrl = null)
@@ -128,12 +130,16 @@ namespace PostaFlya.Controllers
         [Authorize]
         public void SetBrowserFromIdentityProviderCredentials(IdentityProviderCredential identityProviderCredentials)
         {
-            var browserAsParticipant = _queryService.FindBrowserByIdentityProvider(identityProviderCredentials);
+
+            var browserAsParticipant =
+                _queryChannel.Query(
+                    new FindBrowserByIdentityProviderQuery() {Credential = identityProviderCredentials}, (Browser) null);
 
             if (browserAsParticipant == null)
             {
                 CreateBrowserFromIdentityProviderCredentials(identityProviderCredentials);
-                browserAsParticipant = _queryService.FindBrowserByIdentityProvider(identityProviderCredentials);
+                browserAsParticipant = _queryChannel.Query(
+                    new FindBrowserByIdentityProviderQuery() { Credential = identityProviderCredentials }, (Browser)null);
             }
 
             //just set the current browser as the browser
@@ -170,12 +176,14 @@ namespace PostaFlya.Controllers
         public ActionResult Authenticate(FormCollection formCollection)
         {
             var principal = ((AzureWebPrincipal)User);
-            var browserAsParticipant = _queryService.FindBrowserByIdentityProvider(principal.ToCredential());
+            var browserAsParticipant = _queryChannel.Query(
+                    new FindBrowserByIdentityProviderQuery() { Credential = principal.ToCredential() }, (Browser)null);
                 
             if (browserAsParticipant == null)
             {
                 CreateBrowser(principal);
-                browserAsParticipant = _queryService.FindBrowserByIdentityProvider(principal.ToCredential());
+                browserAsParticipant = _queryChannel.Query(
+                    new FindBrowserByIdentityProviderQuery() { Credential = principal.ToCredential() }, (Browser)null);
             }
 
             //just set the current browser as the browser

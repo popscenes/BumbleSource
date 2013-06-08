@@ -108,6 +108,7 @@
     <Compile Include="Binding\ApplicationJobs.cs" />
     <Compile Include="Browser\BrowserInformation.cs" />
     <Compile Include="Browser\BrowserInformationInterface.cs" />
+    <Compile Include="Browser\Query\GetByBrowserIdQuery.cs" />
     <Compile Include="Browser\Web\BrowserAuthorizeHttpAttribute.cs" />
     <Compile Include="Browser\Web\BrowserAuthorizeMvcAttribute.cs" />
     <Compile Include="Command\CachedRepositoryWithBrowser.cs" />
@@ -165,7 +166,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Browser\Command\" />
-    <Folder Include="Browser\Query\" />
     <Folder Include="Claims\" />
     <Folder Include="Content\Query\" />
   </ItemGroup>

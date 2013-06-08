@@ -8,6 +8,7 @@ using NUnit.Framework;
 using Ninject;
 using Ninject.MockingKernel.Moq;
 using Website.Application.Content;
+using Website.Application.Domain.Browser.Query;
 using Website.Domain.Browser.Query;
 using Website.Infrastructure.Command;
 using Website.Infrastructure.Query;
@@ -132,7 +133,7 @@ namespace Website.Application.Domain.Tests.Content
             //test the state was initially processing
             Assert.AreEqual(ImageStatus.Processing, imageInterface.Status);
 
-            var imageQueryService = ResolutionExtensions.Get<QueryServiceForBrowserAggregateInterface>(kernel);
+            var imageQueryService = ResolutionExtensions.Get<GenericQueryServiceInterface>(kernel);
             
 
             //test the state is ready
@@ -140,11 +141,13 @@ namespace Website.Application.Domain.Tests.Content
 
             assertions(new Guid(imageInterface.Id), storage);
 
+            var qc = kernel.Get<QueryChannelInterface>();
 
             //command.CommandId = Guid.NewGuid().ToString();
             
             //kernel.Get<CommandBusInterface>().Send(command);
-            var browserImages = imageQueryService.GetByBrowserId<Website.Domain.Content.Image>(command.BrowserId);
+            var browserImages = qc.Query(new GetByBrowserIdQuery() {BrowserId = command.BrowserId},
+                                         new List<Website.Domain.Content.Image>());
 
             //make sure only 1 image per external id
             AssertUtil.Count(1, browserImages);

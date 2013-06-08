@@ -23,7 +23,7 @@ namespace PostaFlya.Domain.Boards.Command
 
         public object Handle(EditBoardFlierCommand command)
         {
-            var boardFlier = _queryService.FindById<BoardFlier>(command.FlierId + command.BoardId);
+            var boardFlier = _queryService.FindByAggregate<BoardFlier>(command.FlierId + command.BoardId, command.BoardId);
             if(boardFlier == null)
                 return new MsgResponse("Updating Flier On Board Failed, Flier not on board", true)
                     .AddCommandId(command);
@@ -35,7 +35,7 @@ namespace PostaFlya.Domain.Boards.Command
             var unitOfWork = _unitOfWorkFactory.GetUnitOfWork(new[] { _repository });
             using (unitOfWork)
             {
-                _repository.UpdateEntity<BoardFlier>(command.FlierId + command.BoardId, bf =>
+                _repository.UpdateAggregateEntity<BoardFlier>(command.FlierId + command.BoardId, command.BoardId, bf =>
                     {
                         bf.Status = command.Status;
                     });
@@ -47,7 +47,7 @@ namespace PostaFlya.Domain.Boards.Command
             _domainEventPublishService.Publish(new BoardFlierModifiedEvent()
                 {
                     OrigState = boardFlier,
-                    NewState = _queryService.FindById<BoardFlier>(command.FlierId + command.BoardId)
+                    NewState = _queryService.FindByAggregate<BoardFlier>(command.FlierId + command.BoardId, command.BoardId)
                 }
             );
 

@@ -8,13 +8,11 @@ using PostaFlya.Domain.Flier.Query;
 using Website.Azure.Common.Binding;
 using Website.Azure.Common.Sql;
 using Website.Azure.Common.TableStorage;
-using PostaFlya.DataRepository.Internal;
 using PostaFlya.DataRepository.Search.Implementation;
 using Website.Infrastructure.Binding;
 using Website.Infrastructure.Command;
 using Website.Infrastructure.Query;
 using Website.Infrastructure.Util;
-using Website.Domain.Browser.Query;
 
 namespace PostaFlya.DataRepository.Binding
 {
@@ -42,14 +40,13 @@ namespace PostaFlya.DataRepository.Binding
                       {
                           typeof(GenericQueryServiceInterface),
                           typeof(GenericRepositoryInterface),
-                          typeof(QueryServiceForBrowserAggregateInterface)
+
                       });
             _repositoryScopeConfiguration(kernel.Bind(typeof(GenericQueryServiceInterface))
                 .To(typeof(JsonRepository)));
             _repositoryScopeConfiguration(kernel.Bind(typeof(GenericRepositoryInterface))
                 .To(typeof(JsonRepository)));
-            _repositoryScopeConfiguration(kernel.Bind(typeof(QueryServiceForBrowserAggregateInterface))
-                .To(typeof(JsonRepositoryWithBrowser)));
+
 
 
             Trace.TraceInformation("Binding TableNameNinjectBinding");

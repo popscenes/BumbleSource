@@ -12,9 +12,6 @@ namespace Website.Azure.Common.TableStorage
     {
         protected readonly TableContextInterface TableContext;
         protected readonly TableNameAndPartitionProviderServiceInterface NameAndPartitionProviderService;
-        public const int IdPartition = 0;
-        public const int FriendlyIdPartiton = 1;
-        public const int AggregateIdPartition = 10;
 
 
         public QueryServiceBase(TableContextInterface tableContext, TableNameAndPartitionProviderServiceInterface nameAndPartitionProviderService)
@@ -23,25 +20,37 @@ namespace Website.Azure.Common.TableStorage
             NameAndPartitionProviderService = nameAndPartitionProviderService;
         }
 
-        public EntityRetType FindById<EntityRetType>(string id) 
-            where EntityRetType : class, new()
+        public EntityRetType FindById<EntityRetType>(string id) where EntityRetType : class, AggregateRootInterface, new()
         {
-            return FindById<EntityRetType>(id, IdPartition);
+            var tableEntry = GetTableEntry<EntityRetType>(id, null);
+            return tableEntry == null ? null : tableEntry.GetEntity<EntityRetType>();
         }
 
         public object FindById(Type entity, string id)
         {
-            var tableEntry = GetTableEntry(entity, id, IdPartition);
+            var tableEntry = GetTableEntry(entity, id, null);
+            return tableEntry == null ? null : tableEntry.GetEntity(entity);
+        }
+
+        public EntityRetType FindByAggregate<EntityRetType>(string id, string aggregateRootId) where EntityRetType : class, AggregateInterface, new()
+        {
+            var tableEntry = GetTableEntry<EntityRetType>(aggregateRootId, id);
+            return tableEntry == null ? null : tableEntry.GetEntity<EntityRetType>();
+        }
+
+        public object FindByAggregate(Type entity, string id, string aggregateRootId)
+        {
+            var tableEntry = GetTableEntry(entity, aggregateRootId, id);
             return tableEntry == null ? null : tableEntry.GetEntity(entity);
         }
 
         public IQueryable<string> FindAggregateEntityIds<EntityType>(string myAggregateRootId)
             where EntityType : class, AggregateInterface, new()
         {
-            return FindEntityIdsByPartition<EntityType>(myAggregateRootId, AggregateIdPartition);
+            return FindEntityIdsByPartition<EntityType>(myAggregateRootId);
         }
 
-        public IQueryable<string> GetAllIds<EntityRetType>() where EntityRetType : class, new()
+        public IQueryable<string> GetAllIds<EntityRetType>() where EntityRetType : class, AggregateRootInterface, new()
         {
             return GetSelectTableEntries<EntityRetType, StorageTableKey>((Expression<Func<TableEntryType, bool>>) null,
                 e => new StorageTableKey() { PartitionKey = e.PartitionKey, RowKey = e.RowKey })
@@ -57,93 +66,79 @@ namespace Website.Azure.Common.TableStorage
                 .Distinct();
         }
 
-        public EntityRetType FindByFriendlyId<EntityRetType>(string id) where EntityRetType : class, new()
-        {
-            return FindById<EntityRetType>(id, FriendlyIdPartiton);
-        }
-
-        public object FindByFriendlyId(Type entity, string id)
-        {
-            var tableEntry = GetTableEntry(entity, id, FriendlyIdPartiton);
-            return tableEntry == null ? null : tableEntry.GetEntity(entity);
-        }
-
-        protected EntityRetType FindById<EntityRetType>(string id, int partitionId)
-            where EntityRetType : class, new()
-        {
-            var tableEntry = GetTableEntry<EntityRetType>(id, partitionId);
-            return tableEntry == null ? null : tableEntry.GetEntity<EntityRetType>();
-        }
-
         public IQueryable<EntityRetType> FindAggregateEntities<EntityRetType>(string myAggregateRootId, int take = -1) 
             where EntityRetType : class, AggregateInterface, new()
         {
-            return FindEntitiesByPartition<EntityRetType>(myAggregateRootId, AggregateIdPartition, take);
+            return FindEntitiesByPartition<EntityRetType>(myAggregateRootId, take);
         }
 
-        public IQueryable<EntityRetType> FindEntitiesByPartition<EntityRetType>(string partitionKey, int partitionId, int take = -1)
+        public IQueryable<EntityRetType> FindEntitiesByPartition<EntityRetType>(string partitionKey, int take = -1)
             where EntityRetType : class, new()
         {
-            return GetTableEntries<EntityRetType>(partitionKey, partitionId, take)
+            return GetTableEntries<EntityRetType>(partitionKey, null, take)
                 .Select(te => te.GetEntity<EntityRetType>());
         }
 
-        public IQueryable<string> FindEntityIdsByPartition<EntityType>(string partitionKey, int partitionId, int take = -1)
+        public IQueryable<string> FindEntityIdsByPartition<EntityType>(string partitionKey, int take = -1)
             where EntityType : class, new()
         {
             return GetSelectTableEntries<EntityType, StorageTableKey>(partitionKey, 
-                e => new StorageTableKey(){PartitionKey = e.PartitionKey, RowKey = e.RowKey},
-                partitionId, take)
+                e => new StorageTableKey(){PartitionKey = e.PartitionKey, RowKey = e.RowKey}, take)
                 .Select(te => te.RowKey.ExtractEntityIdFromRowKey());
         }
 
 
         protected IQueryable<SelectType> GetSelectTableEntries<EntityRetType, SelectType>(string id
             , Expression<Func<TableEntryType, SelectType>> selectExpression
-            , int idPartition = 0, int take = -1)
+            , int take = -1)
         {
             return GetSelectTableEntries<EntityRetType, SelectType>(te => te.PartitionKey == id, selectExpression,
-                                                                    idPartition, take);
+                                                                    take);
         }
 
         protected IQueryable<SelectType> GetSelectTableEntries<EntityRetType, SelectType>(Expression<Func<TableEntryType, bool>> query
             , Expression<Func<TableEntryType, SelectType>> selectExpression
-            , int idPartition = 0, int take = -1)
+            , int take = -1)
         {
-            var tableName = NameAndPartitionProviderService.GetTableName<EntityRetType>(idPartition);
+            var tableName = NameAndPartitionProviderService.GetTableName<EntityRetType>();
             return TableContext.PerformSelectQuery(
                 tableName, query, selectExpression, take: take);
         }
 
         protected IQueryable<SelectType> GetSelectTableEntries<SelectType>(Type entity, Expression<Func<TableEntryType, bool>> query
             , Expression<Func<TableEntryType, SelectType>> selectExpression
-            , int idPartition = 0, int take = -1)
+            , int take = -1)
         {
-            var tableName = NameAndPartitionProviderService.GetTableName(entity, idPartition);
+            var tableName = NameAndPartitionProviderService.GetTableName(entity);
             return TableContext.PerformSelectQuery(
                 tableName, query, selectExpression, take: take);
         }
 
-        protected TableEntryType GetTableEntry<EntityRetType>(string id, int idPartition = 0)
+        protected TableEntryType GetTableEntry<EntityRetType>(string id, string rowkey)
         {
-            return GetTableEntries<EntityRetType>(id, idPartition, 1).FirstOrDefault();
+            return GetTableEntries<EntityRetType>(id, rowkey, 1).FirstOrDefault();
         }
 
-        protected TableEntryType GetTableEntry(Type entity, string id, int idPartition = 0)
+        protected TableEntryType GetTableEntry(Type entity, string partitionKey, string rowkey)
         {
-            return GetTableEntries(entity, id, idPartition, 1).FirstOrDefault();
+            return GetTableEntries(entity, partitionKey, rowkey, 1).FirstOrDefault();
         }
 
-        protected IQueryable<TableEntryType> GetTableEntries<EntityRetType>(string id, int idPartition = 0, int take = -1)
+        protected IQueryable<TableEntryType> GetTableEntries<EntityRetType>(string partitionkey, string rowkey, int take = -1)
         {
-            var tableName = NameAndPartitionProviderService.GetTableName<EntityRetType>(idPartition);
-            return TableContext.PerformQuery<TableEntryType>(tableName, query: te => te.PartitionKey == id, take: take);
+            var tableName = NameAndPartitionProviderService.GetTableName<EntityRetType>();
+
+            return string.IsNullOrEmpty(rowkey) 
+                ? TableContext.PerformQuery<TableEntryType>(tableName, te => te.PartitionKey == partitionkey, take) 
+                : TableContext.PerformQuery<TableEntryType>(tableName, te => te.PartitionKey == partitionkey && te.RowKey == rowkey, take);
         }
 
-        protected IQueryable<TableEntryType> GetTableEntries(Type entity, string id, int idPartition = 0, int take = -1)
+        protected IQueryable<TableEntryType> GetTableEntries(Type entity, string partitionkey, string rowkey, int take = -1)
         {
-            var tableName = NameAndPartitionProviderService.GetTableName(entity, idPartition);
-            return TableContext.PerformQuery<TableEntryType>(tableName, query: te => te.PartitionKey == id, take: take);
+            var tableName = NameAndPartitionProviderService.GetTableName(entity);
+            return string.IsNullOrEmpty(rowkey) 
+                ? TableContext.PerformQuery<TableEntryType>(tableName, te => te.PartitionKey == partitionkey, take) 
+                : TableContext.PerformQuery<TableEntryType>(tableName, te => te.PartitionKey == partitionkey && te.RowKey == rowkey, take);
         }
     }
 }
