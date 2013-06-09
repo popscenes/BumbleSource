@@ -21,10 +21,28 @@ using Website.Infrastructure.Domain;
 
 namespace PostaFlya.DataRepository.Binding
 {
+    public static class DomainIndexSelectors
+    {
+        public const string BrowserIdIndex = "BrowserId";
+
+        public static Expression<Func<EntityInterfaceType, IEnumerable<StorageTableKeyInterface>>>
+            BrowserIdSelector<EntityInterfaceType>() where EntityInterfaceType : EntityIdInterface, BrowserIdInterface
+        {
+            Expression<Func<EntityInterfaceType, IEnumerable<StorageTableKeyInterface>>> indexEntryFactory = root => new List<StorageTableKeyInterface>()
+                {
+                    new StorageTableKey()
+                        {
+                            PartitionKey = root.BrowserId.ToStorageKeySection(),
+                            RowKey = root.Id.ToStorageKeySection()
+                        }
+                };
+            return indexEntryFactory;
+        }
+
+    }
+
     public class TableNameNinjectBinding : NinjectModule
     {
-
-
         #region Overrides of NinjectModule
 
         public override void Load()
@@ -36,6 +54,8 @@ namespace PostaFlya.DataRepository.Binding
 
 
             tableNameProv.Add<BoardInterface>("board", e => e.Id);
+            tableNameProv.AddIndex("boardIndex", StandardIndexSelectors.FriendlyIdIndex, StandardIndexSelectors.FriendlyIdSelector<BoardInterface>());
+
             //tableNameProv.Add<BoardInterface>(JsonRepository.FriendlyIdPartiton, "boardFriendly", e => e.FriendlyId, e => e.Id);
             //tableNameProv.Add<BoardInterface>(JsonRepositoryWithBrowser.BrowserPartitionId, "boardByBrowser", e => e.BrowserId, e => e.Id);
 
@@ -44,6 +64,9 @@ namespace PostaFlya.DataRepository.Binding
 
 
             tableNameProv.Add<FlierInterface>("flier", e => e.Id);
+            tableNameProv.AddIndex("flierIndex", StandardIndexSelectors.FriendlyIdIndex, StandardIndexSelectors.FriendlyIdSelector<FlierInterface>());
+            tableNameProv.AddIndex("flierIndex", DomainIndexSelectors.BrowserIdIndex, DomainIndexSelectors.BrowserIdSelector<FlierInterface>());
+
             //tableNameProv.Add<FlierInterface>(JsonRepository.FriendlyIdPartiton, "flierFriendly", e => e.FriendlyId, e => e.Id);
             //tableNameProv.Add<FlierInterface>(JsonRepositoryWithBrowser.BrowserPartitionId, "flierByBrowser", e => e.BrowserId, e => e.Id);
 
@@ -54,9 +77,13 @@ namespace PostaFlya.DataRepository.Binding
 //            tableNameProv.Add<BrowserIdentityProviderCredential>(JsonRepositoryWithBrowser.AggregateIdPartition, "browsercredsByBrowser", e => e.BrowserId, e => e.ToUniqueString());
 
             tableNameProv.Add<ImageInterface>("image", e => e.Id);
+            tableNameProv.AddIndex("imageIndex", DomainIndexSelectors.BrowserIdIndex, DomainIndexSelectors.BrowserIdSelector<ImageInterface>());
+
 //            tableNameProv.Add<ImageInterface>(JsonRepositoryWithBrowser.BrowserPartitionId, "imageByBrowser", e => e.BrowserId, e => e.Id);
 
             tableNameProv.Add<ClaimInterface>("claim", e => e.Id);
+            tableNameProv.AddIndex("claimIndex", DomainIndexSelectors.BrowserIdIndex, DomainIndexSelectors.BrowserIdSelector<ClaimInterface>());
+
 //            tableNameProv.Add<ClaimInterface>(JsonRepositoryWithBrowser.BrowserPartitionId, "claimByBrowser", e => e.BrowserId, e => e.Id);
 //            tableNameProv.Add<ClaimInterface>(JsonRepositoryWithBrowser.AggregateIdPartition, "claimByAggregate", e => e.AggregateId, e => e.Id);
 

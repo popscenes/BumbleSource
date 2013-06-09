@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using PostaFlya.DataRepository.Binding;
+using Website.Application.Domain.Browser.Query;
 using Website.Azure.Common.TableStorage;
+using Website.Domain.Browser;
 using Website.Infrastructure.Domain;
 using Website.Infrastructure.Query;
 
@@ -12,14 +15,12 @@ namespace PostaFlya.DataRepository.DomainQuery
     public class FindByFriendlyIdQueryHandler<EntityType> : 
         QueryHandlerInterface<FindByFriendlyIdQuery, EntityType> where EntityType : class, AggregateRootInterface, new()
     {
-        private readonly TableNameAndIndexProviderServiceInterface _tableNameService;
         private readonly TableIndexServiceInterface _indexService;
         private readonly GenericQueryServiceInterface _queryService;
 
 
-        public FindByFriendlyIdQueryHandler(TableNameAndIndexProviderServiceInterface tableNameService, TableIndexServiceInterface indexService, GenericQueryServiceInterface queryService)
+        public FindByFriendlyIdQueryHandler(TableIndexServiceInterface indexService, GenericQueryServiceInterface queryService)
         {
-            _tableNameService = tableNameService;
             _indexService = indexService;
             _queryService = queryService;
         }
@@ -31,4 +32,27 @@ namespace PostaFlya.DataRepository.DomainQuery
             return !entries.Any() ? default(EntityType) : _queryService.FindById<EntityType>(entries.First().RowKey.ExtractEntityIdFromRowKey());
         }
     }
+
+    public class GetByBrowserIdQueryHandler<EntityType> :
+        QueryHandlerInterface<GetByBrowserIdQuery, List<EntityType>> where EntityType : class, AggregateRootInterface, BrowserIdInterface, new()
+    {
+        private readonly TableIndexServiceInterface _indexService;
+        private readonly GenericQueryServiceInterface _queryService;
+
+        public GetByBrowserIdQueryHandler(TableIndexServiceInterface indexService, GenericQueryServiceInterface queryService)
+        {
+            _indexService = indexService;
+            _queryService = queryService;
+        }
+
+        public List<EntityType> Query(GetByBrowserIdQuery argument)
+        {
+            var entries = _indexService.FindEntitiesByIndex<EntityType, StorageTableKey>(DomainIndexSelectors.BrowserIdIndex,
+                                                   argument.BrowserId);
+            return _queryService.FindByIds<EntityType>(entries.Select(_ => _.RowKey.ExtractEntityIdFromRowKey()))
+                .ToList();
+        }
+    }
+
+
 }

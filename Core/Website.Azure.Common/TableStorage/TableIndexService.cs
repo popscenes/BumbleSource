@@ -22,7 +22,7 @@ namespace Website.Azure.Common.TableStorage
     public static class StandardIndexSelectors
     {
         public const string FriendlyIdIndex = "FriendlyId";
-
+        
         public static Expression<Func<EntityInterfaceType, IEnumerable<StorageTableKeyInterface>>>
             FriendlyIdSelector<EntityInterfaceType>() where EntityInterfaceType : AggregateRootInterface
         {
@@ -36,6 +36,7 @@ namespace Website.Azure.Common.TableStorage
                 };
             return indexEntryFactory;
         }
+
     }
 
     public class TableIndexService : TableIndexServiceInterface

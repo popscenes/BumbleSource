@@ -51,7 +51,10 @@ namespace PostaFlya.DataRepository.Binding
 
             kernel.BindCommandAndQueryHandlersFromCallingAssembly(_repositoryScopeConfiguration);
             kernel.BindGenericQueryHandlersFromCallingAssemblyForTypesFrom(Assembly.GetAssembly(typeof(PostaFlya.Domain.Flier.Flier))
-                , arg => !arg.IsInterface && arg.GetInterface("AggregateRootInterface") != null, _repositoryScopeConfiguration);
+                , arg => !arg.IsInterface && arg.GetInterface("AggregateRootInterface") != null, 
+                _repositoryScopeConfiguration, arg 
+                    => arg == typeof(FindByFriendlyIdQueryHandler<>) ||
+                            arg == typeof(FindByFriendlyIdQueryHandler<>));
 
             
 
