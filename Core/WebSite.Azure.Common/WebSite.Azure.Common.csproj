@@ -126,8 +126,9 @@
     <Compile Include="TableStorage\ClonedTableEntry.cs" />
     <Compile Include="TableStorage\StorageTableKey.cs" />
     <Compile Include="TableStorage\TableContext.cs" />
-    <Compile Include="TableStorage\TableNameAndPartitionProviderService.cs" />
-    <Compile Include="TableStorage\TableNameAndPartitionProviderServiceInterface.cs" />
+    <Compile Include="TableStorage\TableIndexService.cs" />
+    <Compile Include="TableStorage\TableNameAndIndexProviderService.cs" />
+    <Compile Include="TableStorage\TableNameAndIndexProviderServiceInterface.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Website.Infrastructure\Website.Infrastructure.csproj">

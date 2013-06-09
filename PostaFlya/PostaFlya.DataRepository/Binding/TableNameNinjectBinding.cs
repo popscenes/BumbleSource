@@ -1,4 +1,7 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq.Expressions;
 using Ninject;
 using Ninject.Modules;
 using PostaFlya.Domain.Behaviour;
@@ -13,19 +16,24 @@ using Website.Domain.Claims;
 using Website.Domain.Comments;
 using Website.Domain.Content;
 using Website.Domain.Payment;
+using Website.Infrastructure.Domain;
 
 
 namespace PostaFlya.DataRepository.Binding
 {
     public class TableNameNinjectBinding : NinjectModule
     {
+
+
         #region Overrides of NinjectModule
 
         public override void Load()
         {
             Trace.TraceInformation("Binding TableNameNinjectBinding");
 
-            var tableNameProv = Kernel.Get<TableNameAndPartitionProviderServiceInterface>();
+            var tableNameProv = Kernel.Get<TableNameAndIndexProviderServiceInterface>();
+            
+
 
             tableNameProv.Add<BoardInterface>("board", e => e.Id);
             //tableNameProv.Add<BoardInterface>(JsonRepository.FriendlyIdPartiton, "boardFriendly", e => e.FriendlyId, e => e.Id);
@@ -40,6 +48,7 @@ namespace PostaFlya.DataRepository.Binding
             //tableNameProv.Add<FlierInterface>(JsonRepositoryWithBrowser.BrowserPartitionId, "flierByBrowser", e => e.BrowserId, e => e.Id);
 
             tableNameProv.Add<BrowserInterface>("browser", e => e.Id);
+            tableNameProv.AddIndex("browserIndex", StandardIndexSelectors.FriendlyIdIndex, StandardIndexSelectors.FriendlyIdSelector<BrowserInterface>());
 //            tableNameProv.Add<BrowserInterface>(JsonRepository.FriendlyIdPartiton, "browserFriendly", e => e.FriendlyId, e => e.Id);
 //            tableNameProv.Add<BrowserIdentityProviderCredential>(JsonRepositoryWithBrowser.IdPartition, "browsercreds", e => e.ToUniqueString(), e => e.BrowserId);
 //            tableNameProv.Add<BrowserIdentityProviderCredential>(JsonRepositoryWithBrowser.AggregateIdPartition, "browsercredsByBrowser", e => e.BrowserId, e => e.ToUniqueString());

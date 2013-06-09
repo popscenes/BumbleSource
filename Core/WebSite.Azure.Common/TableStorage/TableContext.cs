@@ -32,8 +32,8 @@ namespace Website.Azure.Common.TableStorage
         DataServiceResponse SaveChanges();
         DataServiceResponse SaveChanges(SaveChangesOptions saveChangesOptions);
         void Delete<TableEntryType>(string tableName, Expression<Func<TableEntryType, bool>> query);
-        void Delete(StorageTableEntryInterface tableEntry);
-        void Store(string tableName, StorageTableEntryInterface tableEntry);
+        void Delete(StorageTableKeyInterface tableEntry);
+        void Store(string tableName, StorageTableKeyInterface tableEntry);
     }
 
     public class TableContext : TableContextInterface
@@ -207,7 +207,7 @@ namespace Website.Azure.Common.TableStorage
             }
         }
 
-        public void Delete(StorageTableEntryInterface tableEntry)
+        public void Delete(StorageTableKeyInterface tableEntry)
         {
             if (_containedContext.GetEntityDescriptor(tableEntry) != null)
             {
@@ -215,14 +215,8 @@ namespace Website.Azure.Common.TableStorage
             }
         }
 
-        public void Store(string tableName, StorageTableEntryInterface tableEntry)
+        public void Store(string tableName, StorageTableKeyInterface tableEntry)
         {
-            if (tableEntry.KeyChanged && _containedContext.GetEntityDescriptor(tableEntry) != null)
-            {
-                _containedContext.DeleteObject(tableEntry);
-                this.SaveChanges();
-            }
-
             //do insert or replace in prod env
             if (AzureEnv.UseRealStorage)
             {

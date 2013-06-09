@@ -35,7 +35,7 @@ namespace Website.Application.Azure.Tests
             Kernel.Rebind<WebsiteInfoServiceInterface>().To<WebsiteInfoServiceAzure>();
 
             _tableName =
-                Kernel.Get<TableNameAndPartitionProviderServiceInterface>().GetTableName<WebsiteInfoEntity>();
+                Kernel.Get<TableNameAndIndexProviderServiceInterface>().GetTableName<WebsiteInfoEntity>();
 
             Reinit();
         }

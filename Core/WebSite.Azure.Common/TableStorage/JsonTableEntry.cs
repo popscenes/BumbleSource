@@ -5,6 +5,7 @@ using Website.Infrastructure.Util;
 
 namespace Website.Azure.Common.TableStorage
 {
+
     public class JsonTableEntry : TableServiceEntity, StorageTableEntryInterface
     {
         public int PartitionClone { get; set; }
@@ -20,6 +21,7 @@ namespace Website.Azure.Common.TableStorage
         {
             _sourceObject = source;
             _clrTyp = source.GetType();
+            UpdateEntry();
         }
 
         public void UpdateEntry()

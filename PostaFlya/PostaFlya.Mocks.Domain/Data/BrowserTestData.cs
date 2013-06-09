@@ -44,7 +44,7 @@ namespace PostaFlya.Mocks.Domain.Data
 
             Assert.IsTrue(uow.Successful);
 
-            Website.Mocks.Domain.Data.BrowserTestData.StoreOne(browser, repository, kernel);
+            Website.Mocks.Domain.Data.BrowserTestData.StoreOne(browser, repository, kernel, false);
 
             return browser;
         }

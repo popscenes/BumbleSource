@@ -75,7 +75,7 @@ namespace Website.Application.Azure.Binding
                 .WithMetadata("applicationstorage", true);
             //end applicationstorage
 
-            var tableNameProv = Kernel.Get<TableNameAndPartitionProviderServiceInterface>();
+            var tableNameProv = Kernel.Get<TableNameAndIndexProviderServiceInterface>();
             Kernel.Bind<ApplicationBroadcastCommunicatorRegistrationInterface>().To<AzureApplicationBroadcastCommunicatorRegistration>();
             //            Kernel.Bind<AzureTableContext>().ToSelf().Named("broadcastCommunicators");
             //            Kernel.Bind<TableNameAndPartitionProviderInterface>()

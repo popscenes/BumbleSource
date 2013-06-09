@@ -5,7 +5,7 @@ using System.Linq.Expressions;
 
 namespace Website.Azure.Common.TableStorage
 {
-    public class TableNameAndPartitionProviderService : TableNameAndPartitionProviderServiceInterface
+    public class TableNameAndIndexProviderService : TableNameAndIndexProviderServiceInterface
     {
         
         protected class EntryBase
@@ -48,14 +48,14 @@ namespace Website.Azure.Common.TableStorage
 
         protected class IndexEntry : EntryBase
         {
-            public string IndexNane { get; set; }
-            public Func<object, IEnumerable<StorageTableEntryInterface>> IndexEntryFactory { get; set; }
+            public string IndexName { get; set; }
+            public Func<object, IEnumerable<StorageTableKeyInterface>> IndexEntryFactory { get; set; }
 
         }
 
         protected class IndexEntry<EntityType> : IndexEntry
         {
-            public Func<EntityType, IEnumerable<StorageTableEntryInterface>> IndexEntryFactoryTyp { get; set; }
+            public Func<EntityType, IEnumerable<StorageTableKeyInterface>> IndexEntryFactoryTyp { get; set; }
         }
 
         protected class TableEntry<EntityType> : TableEntry
@@ -96,7 +96,7 @@ namespace Website.Azure.Common.TableStorage
         }
 
         public void AddIndex<EntityType>(string tableName, string indexname
-            , Expression<Func<EntityType, IEnumerable<StorageTableEntryInterface>>> indexEntryFactory)
+            , Expression<Func<EntityType, IEnumerable<StorageTableKeyInterface>>> indexEntryFactory)
                 where EntityType : class
         {
 
@@ -105,7 +105,7 @@ namespace Website.Azure.Common.TableStorage
                     EntityTyp = typeof(EntityType),
                     IndexEntryFactoryTyp = indexEntryFactory.Compile(),
                     TableName = tableName,
-                    IndexNane = indexname
+                    IndexName = indexname
                 };
             entry.IndexEntryFactory = (o) => entry.IndexEntryFactoryTyp(o as EntityType);
             InsertEntry(_indexEntries, entry);
@@ -176,6 +176,19 @@ namespace Website.Azure.Common.TableStorage
             return entry != null ? entry.TableName : null;
         }
 
+        public IEnumerable<string> GetAllIndexesFor<EntityType>()
+        {
+            return _indexEntries.Where(e => e.EntityTyp.IsAssignableFrom(typeof (EntityType)))
+                                .Select(e => e.IndexName);
+
+        }
+
+        public Func<object, IEnumerable<StorageTableKeyInterface>> GetIndexEntryFactoryFor<EntityType>(string indexname)
+        {
+            var entry = GetIndexEntry<EntityType>(indexname);
+            return entry != null ? entry.IndexEntryFactory : null;
+        }
+
         private TableEntry GetEntry<EntityType>()
         {
             return GetEntry(typeof (EntityType));
@@ -195,7 +208,7 @@ namespace Website.Azure.Common.TableStorage
         private IndexEntry GetIndexEntry(Type entityTyp, string indexname)
         {
             return _indexEntries.LastOrDefault(e => e.EntityTyp.IsAssignableFrom(entityTyp)
-                                               && e.IndexNane == indexname);
+                                               && e.IndexName == indexname);
 
         }
 

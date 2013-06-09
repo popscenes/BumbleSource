@@ -11,13 +11,13 @@ namespace Website.Azure.Common.TableStorage
         where TableEntryType : class, StorageTableEntryInterface, new()
     {
         protected readonly TableContextInterface TableContext;
-        protected readonly TableNameAndPartitionProviderServiceInterface NameAndPartitionProviderService;
+        protected readonly TableNameAndIndexProviderServiceInterface NameAndIndexProviderService;
 
 
-        public QueryServiceBase(TableContextInterface tableContext, TableNameAndPartitionProviderServiceInterface nameAndPartitionProviderService)
+        public QueryServiceBase(TableContextInterface tableContext, TableNameAndIndexProviderServiceInterface nameAndIndexProviderService)
         {
             TableContext = tableContext;
-            NameAndPartitionProviderService = nameAndPartitionProviderService;
+            NameAndIndexProviderService = nameAndIndexProviderService;
         }
 
         public EntityRetType FindById<EntityRetType>(string id) where EntityRetType : class, AggregateRootInterface, new()
@@ -100,7 +100,7 @@ namespace Website.Azure.Common.TableStorage
             , Expression<Func<TableEntryType, SelectType>> selectExpression
             , int take = -1)
         {
-            var tableName = NameAndPartitionProviderService.GetTableName<EntityRetType>();
+            var tableName = NameAndIndexProviderService.GetTableName<EntityRetType>();
             return TableContext.PerformSelectQuery(
                 tableName, query, selectExpression, take: take);
         }
@@ -109,7 +109,7 @@ namespace Website.Azure.Common.TableStorage
             , Expression<Func<TableEntryType, SelectType>> selectExpression
             , int take = -1)
         {
-            var tableName = NameAndPartitionProviderService.GetTableName(entity);
+            var tableName = NameAndIndexProviderService.GetTableName(entity);
             return TableContext.PerformSelectQuery(
                 tableName, query, selectExpression, take: take);
         }
@@ -126,7 +126,7 @@ namespace Website.Azure.Common.TableStorage
 
         protected IQueryable<TableEntryType> GetTableEntries<EntityRetType>(string partitionkey, string rowkey, int take = -1)
         {
-            var tableName = NameAndPartitionProviderService.GetTableName<EntityRetType>();
+            var tableName = NameAndIndexProviderService.GetTableName<EntityRetType>();
 
             return string.IsNullOrEmpty(rowkey) 
                 ? TableContext.PerformQuery<TableEntryType>(tableName, te => te.PartitionKey == partitionkey, take) 
@@ -135,7 +135,7 @@ namespace Website.Azure.Common.TableStorage
 
         protected IQueryable<TableEntryType> GetTableEntries(Type entity, string partitionkey, string rowkey, int take = -1)
         {
-            var tableName = NameAndPartitionProviderService.GetTableName(entity);
+            var tableName = NameAndIndexProviderService.GetTableName(entity);
             return string.IsNullOrEmpty(rowkey) 
                 ? TableContext.PerformQuery<TableEntryType>(tableName, te => te.PartitionKey == partitionkey, take) 
                 : TableContext.PerformQuery<TableEntryType>(tableName, te => te.PartitionKey == partitionkey && te.RowKey == rowkey, take);

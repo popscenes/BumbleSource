@@ -20,12 +20,12 @@ namespace Website.Application.Azure.Communication
 
         private readonly string _tableName;
         public AzureApplicationBroadcastCommunicatorRegistration(TableContextInterface tableContext
-            , TableNameAndPartitionProviderServiceInterface nameAndPartitionProviderService
+            , TableNameAndIndexProviderServiceInterface nameAndIndexProviderService
             , CommandQueueFactoryInterface commandQueueFactory) 
-            : base(tableContext, nameAndPartitionProviderService)
+            : base(tableContext, nameAndIndexProviderService)
         {
             _commandQueueFactory = commandQueueFactory;
-            _tableName = nameAndPartitionProviderService.GetTableName<AzureBroadcastRegistrationEntry>();
+            _tableName = nameAndIndexProviderService.GetTableName<AzureBroadcastRegistrationEntry>();
         }
 
         public void RegisterEndpoint(string myEndpoint)

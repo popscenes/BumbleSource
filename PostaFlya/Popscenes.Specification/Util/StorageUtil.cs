@@ -72,7 +72,7 @@ namespace Popscenes.Specification.Util
 
         public static void InitTableStorage()
         {
-            var tableNameProv = SpecUtil.Kernel.Get<TableNameAndPartitionProviderServiceInterface>();
+            var tableNameProv = SpecUtil.Kernel.Get<TableNameAndIndexProviderServiceInterface>();
 
             tableNameProv.SuffixTableNames("test");
 

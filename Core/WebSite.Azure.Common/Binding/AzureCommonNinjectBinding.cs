@@ -56,9 +56,12 @@ namespace Website.Azure.Common.Binding
                 .To<TableContext>()
                 .InTransientScope();
 
-            Bind<TableNameAndPartitionProviderServiceInterface>()
-                .To<TableNameAndPartitionProviderService>()
+            Bind<TableNameAndIndexProviderServiceInterface>()
+                .To<TableNameAndIndexProviderService>()
                 .InSingletonScope();
+            Bind<TableIndexServiceInterface>()
+                .To<TableIndexService>()
+                .InTransientScope();
 
             Trace.TraceInformation("Finished Binding AzureCommonNinjectBinding");
 

@@ -87,34 +87,34 @@ namespace Website.Azure.Common.Tests.TableStorage
         [TestFixtureSetUp]
         public void FixtureSetUp()
         {
-            Kernel.Rebind<TableNameAndPartitionProviderServiceInterface>()
-                .To<TableNameAndPartitionProviderService>();
+            Kernel.Rebind<TableNameAndIndexProviderServiceInterface>()
+                .To<TableNameAndIndexProviderService>();
         }
 
         [TestFixtureTearDown]
         public void FixtureTearDown()
         {
-            Kernel.Unbind<TableNameAndPartitionProviderServiceInterface>();
+            Kernel.Unbind<TableNameAndIndexProviderServiceInterface>();
         }
 
-        private void register(TableNameAndPartitionProviderServiceInterface tableNameAndPartitionProviderService)
+        private void register(TableNameAndIndexProviderServiceInterface tableNameAndIndexProviderService)
         {
 
-            tableNameAndPartitionProviderService.Add<OneEntity>("testOneEntity", entity => entity.Prop);
+            tableNameAndIndexProviderService.Add<OneEntity>("testOneEntity", entity => entity.Prop);
 
-            AssertUtil.Count(1, tableNameAndPartitionProviderService.GetAllTableNames());
+            AssertUtil.Count(1, tableNameAndIndexProviderService.GetAllTableNames());
         }
 
         [Test]
         public void TableNameAndPartitionProviderServiceRegister()
         {
-            register(Kernel.Get<TableNameAndPartitionProviderServiceInterface>());
+            register(Kernel.Get<TableNameAndIndexProviderServiceInterface>());
         }
 
         [Test]
         public void TableNameAndPartitionProviderServiceReRegisterUpdateEntry()
         {
-            var tableNameAndPartitionProviderService = Kernel.Get<TableNameAndPartitionProviderServiceInterface>();
+            var tableNameAndPartitionProviderService = Kernel.Get<TableNameAndIndexProviderServiceInterface>();
 
             register(tableNameAndPartitionProviderService);
 
@@ -129,7 +129,7 @@ namespace Website.Azure.Common.Tests.TableStorage
         [Test]
         public void TableNameAndPartitionProviderServiceReturnsMappingForSubClass()
         {
-            var tableNameAndPartitionProviderService = Kernel.Get<TableNameAndPartitionProviderServiceInterface>();
+            var tableNameAndPartitionProviderService = Kernel.Get<TableNameAndIndexProviderServiceInterface>();
 
             register(tableNameAndPartitionProviderService);
 
@@ -150,7 +150,7 @@ namespace Website.Azure.Common.Tests.TableStorage
         [Test]
         public void TableNameAndPartitionProviderServiceReturnsMappingForClosestSubClass()
         {
-            var tableNameAndPartitionProviderService = Kernel.Get<TableNameAndPartitionProviderServiceInterface>();
+            var tableNameAndPartitionProviderService = Kernel.Get<TableNameAndIndexProviderServiceInterface>();
 
             register(tableNameAndPartitionProviderService);
 
@@ -195,7 +195,7 @@ namespace Website.Azure.Common.Tests.TableStorage
         [Test]
         public void TableNameAndPartitionProviderServiceGetGetPartitionKeyFunc()
         {
-            var tableNameAndPartitionProviderService = Kernel.Get<TableNameAndPartitionProviderServiceInterface>();
+            var tableNameAndPartitionProviderService = Kernel.Get<TableNameAndIndexProviderServiceInterface>();
 
             Func<OneEntity, string> partKey = entity => entity.Prop;
 
@@ -208,7 +208,7 @@ namespace Website.Azure.Common.Tests.TableStorage
         [Test]
         public void TableNameAndPartitionProviderServiceGetGetRowKeyFunc()
         {
-            var tableNameAndPartitionProviderService = Kernel.Get<TableNameAndPartitionProviderServiceInterface>();
+            var tableNameAndPartitionProviderService = Kernel.Get<TableNameAndIndexProviderServiceInterface>();
 
             Func<OneEntity, string> partKey = entity => entity.Prop;
             Func<OneEntity, string> rowKey = entity => entity.Prop;

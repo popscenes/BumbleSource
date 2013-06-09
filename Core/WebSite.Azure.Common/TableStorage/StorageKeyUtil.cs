@@ -26,6 +26,19 @@ namespace Website.Azure.Common.TableStorage
                     }).ToString();
         }
 
+        public static string ToStorageKeySection(this string keyVal)
+        {
+            return '[' + keyVal.EscapeValForKey() + ']';
+        }
+
+        public static string GetValueForStartsWith(this string startsWith)
+        {
+            var last = startsWith.Last();
+            var ret = startsWith.TrimEnd(last);          
+            last++;
+            return ret + last;
+        }
+
         public static string GetTableKeyForTerms(this IEnumerable<string> terms)
         {
             return terms.Select(s => s.Trim().ToLowerInvariant().EscapeValForKey())
@@ -48,16 +61,22 @@ namespace Website.Azure.Common.TableStorage
 
         public static string ExtractEntityIdFromRowKey(this string key)
         {
-            var start = key.IndexOf(']');
-            return start < 0 ? key : key.Substring(start + 1);
+            var parts = GetKeySections(key);
+            return parts[parts.Length - 1];
+        }
+
+        public static string[] GetKeySections(this string key)
+        {
+            return key.Split(new []{'[', ']'}, StringSplitOptions.RemoveEmptyEntries);
         }
 
         public static string CreateRowKeyForEntityId(this string entityId, string idPrefix)
         {
             if (String.IsNullOrWhiteSpace(idPrefix))
                 return entityId;
-            const string format = "[{0}]{1}";
-            return string.Format(format, idPrefix.EscapeValForKey(), entityId.CheckValidForKey());
+
+            entityId.CheckValidForKey();
+            return idPrefix.ToStorageKeySection() + entityId.ToStorageKeySection();
         }
 
         //var dattimedesc = (DateTime.MaxValue.Ticks - DateTime.UtcNow.Ticks).ToString("D20");

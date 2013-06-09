@@ -34,11 +34,11 @@ namespace Website.Azure.Common.Tests.TableStorage
             Kernel.Rebind<TableContextInterface>()
                 .To<TableContext>();
 
-            Kernel.Rebind<TableNameAndPartitionProviderServiceInterface>()
-                .To<TableNameAndPartitionProviderService>()
+            Kernel.Rebind<TableNameAndIndexProviderServiceInterface>()
+                .To<TableNameAndIndexProviderService>()
                 .InSingletonScope();
 
-            var tableNameAndPartitionProviderService = Kernel.Get<TableNameAndPartitionProviderServiceInterface>();
+            var tableNameAndPartitionProviderService = Kernel.Get<TableNameAndIndexProviderServiceInterface>();
             tableNameAndPartitionProviderService.Add<OneEntity>("testOneEntity", entity => entity.Prop);
 
             var context = Kernel.Get<TableContextInterface>();
@@ -55,7 +55,7 @@ namespace Website.Azure.Common.Tests.TableStorage
         [TestFixtureTearDown]
         public void FixtureTearDown()
         {
-            Kernel.Unbind<TableNameAndPartitionProviderServiceInterface>();
+            Kernel.Unbind<TableNameAndIndexProviderServiceInterface>();
             Kernel.Unbind<TableContextInterface>();
             AzureEnv.UseRealStorage = false;
         }

@@ -39,7 +39,7 @@ namespace PostaFlya.DataRepository.Tests
 
         private static void InitializeBinding()
         {
-            var tableNameProv = CurrIocKernel.Get<TableNameAndPartitionProviderServiceInterface>();
+            var tableNameProv = CurrIocKernel.Get<TableNameAndIndexProviderServiceInterface>();
 
             tableNameProv.SuffixTableNames("test");
 

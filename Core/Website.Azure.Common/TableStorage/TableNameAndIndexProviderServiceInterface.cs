@@ -9,7 +9,7 @@ namespace Website.Azure.Common.TableStorage
                  
     }
 
-    public interface TableNameAndPartitionProviderServiceInterface
+    public interface TableNameAndIndexProviderServiceInterface
     {
 
         void Add<EntityType>(string tableName,
@@ -18,7 +18,7 @@ namespace Website.Azure.Common.TableStorage
             where EntityType : class;
 
         void AddIndex<EntityType>(string tableName, string indexname
-            , Expression<Func<EntityType, IEnumerable<StorageTableEntryInterface>>> indexEntryFactory)
+            , Expression<Func<EntityType, IEnumerable<StorageTableKeyInterface>>> indexEntryFactory)
                 where EntityType : class;
 
         Func<object, string> GetPartitionKeyFunc<EntityType>();
@@ -29,11 +29,12 @@ namespace Website.Azure.Common.TableStorage
         
         string GetTableName<EntityType>();
         string GetTableName(Type entityTyp);
-
+ 
         string GetTableNameForIndex<EntityType>(string indexname);
         string GetTableNameForIndex(Type entityTyp, string indexname);
+        IEnumerable<string> GetAllIndexesFor<EntityType>();
+        Func<object, IEnumerable<StorageTableKeyInterface>> GetIndexEntryFactoryFor<EntityType>(string indexname);
 
-        
         IEnumerable<string> GetAllTableNames();
 
         void SuffixTableNames(string suffix);

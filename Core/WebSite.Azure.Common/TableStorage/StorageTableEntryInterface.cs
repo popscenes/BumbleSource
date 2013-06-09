@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace Website.Azure.Common.TableStorage
 {
@@ -12,6 +13,7 @@ namespace Website.Azure.Common.TableStorage
 //            return ret;
 //        }
     }
+
 
     public interface StorageTableEntryInterface : StorageTableKeyInterface
     {

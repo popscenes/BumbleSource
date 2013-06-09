@@ -37,10 +37,10 @@ namespace Website.Application.Azure.WebsiteInformation
 
         private readonly string _tableName;
         public WebsiteInfoServiceAzure(TableContextInterface tableContext
-            , TableNameAndPartitionProviderServiceInterface nameAndPartitionProviderService) 
-            : base(tableContext, nameAndPartitionProviderService)
+            , TableNameAndIndexProviderServiceInterface nameAndIndexProviderService) 
+            : base(tableContext, nameAndIndexProviderService)
         {
-            _tableName = nameAndPartitionProviderService.GetTableName<WebsiteInfoEntity>();
+            _tableName = nameAndIndexProviderService.GetTableName<WebsiteInfoEntity>();
         }
 
         public void RegisterWebsite(string url, WebsiteInfo getWebsiteInfo, bool isDefault = false)

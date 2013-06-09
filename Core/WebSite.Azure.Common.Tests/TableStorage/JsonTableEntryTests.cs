@@ -51,11 +51,11 @@ namespace Website.Azure.Common.Tests.TableStorage
             Kernel.Rebind<JsonRepository>()
                 .ToSelf().InTransientScope();
 
-            Kernel.Rebind<TableNameAndPartitionProviderServiceInterface>()
-                .To<TableNameAndPartitionProviderService>()
+            Kernel.Rebind<TableNameAndIndexProviderServiceInterface>()
+                .To<TableNameAndIndexProviderService>()
                 .InSingletonScope();
 
-            var tableNameAndPartitionProviderService = Kernel.Get<TableNameAndPartitionProviderServiceInterface>();
+            var tableNameAndPartitionProviderService = Kernel.Get<TableNameAndIndexProviderServiceInterface>();
             tableNameAndPartitionProviderService.Add<JsonTestEntity>("testJsonEntity", entity => entity.Prop, entity => entity.PropTwo);
 
             tableNameAndPartitionProviderService.Add<JsonTestConcurrentEntity>("testJsonConcurrEntity", entity => entity.Id);
@@ -77,7 +77,7 @@ namespace Website.Azure.Common.Tests.TableStorage
         [TestFixtureTearDown]
         public void FixtureTearDown()
         {
-            Kernel.Unbind<TableNameAndPartitionProviderServiceInterface>();
+            Kernel.Unbind<TableNameAndIndexProviderServiceInterface>();
             Kernel.Unbind<TableContextInterface>();
             AzureEnv.UseRealStorage = false;
         }
@@ -108,7 +108,7 @@ namespace Website.Azure.Common.Tests.TableStorage
                                  SubEntity = new List<TwoEntity>(){new TwoEntity(){Prop = "TwoProp",PropTwo = null}}
                              };
 
-            var nameAndPartitionProviderService = Kernel.Get<TableNameAndPartitionProviderServiceInterface>();
+            var nameAndPartitionProviderService = Kernel.Get<TableNameAndIndexProviderServiceInterface>();
             var partKeyFunc = nameAndPartitionProviderService.GetPartitionKeyFunc<JsonTestEntity>();
             var rowKeyFunc = nameAndPartitionProviderService.GetRowKeyFunc<JsonTestEntity>();
 
@@ -149,7 +149,7 @@ namespace Website.Azure.Common.Tests.TableStorage
                 SubEntity = new List<TwoEntity>() { new TwoEntity() { Prop = "TwoProp", PropTwo = null } }
             };
 
-            var nameAndPartitionProviderService = Kernel.Get<TableNameAndPartitionProviderServiceInterface>();
+            var nameAndPartitionProviderService = Kernel.Get<TableNameAndIndexProviderServiceInterface>();
             var partKeyFunc = nameAndPartitionProviderService.GetPartitionKeyFunc<JsonTestEntity>();
             var rowKeyFunc = nameAndPartitionProviderService.GetRowKeyFunc<JsonTestEntity>();
 
@@ -221,7 +221,7 @@ namespace Website.Azure.Common.Tests.TableStorage
 
 
 
-            var nameAndPartitionProviderService = Kernel.Get<TableNameAndPartitionProviderServiceInterface>();
+            var nameAndPartitionProviderService = Kernel.Get<TableNameAndIndexProviderServiceInterface>();
             var partKeyFunc = nameAndPartitionProviderService.GetPartitionKeyFunc<JsonTestEntity>();
             var rowKeyFunc = nameAndPartitionProviderService.GetRowKeyFunc<JsonTestEntity>();
 

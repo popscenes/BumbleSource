@@ -24,11 +24,11 @@ namespace Website.Azure.Common.Tests.TableStorage
         [TestFixtureSetUp]
         public void FixtureSetUp()
         {
-            Kernel.Rebind<TableNameAndPartitionProviderServiceInterface>()
-                .To<TableNameAndPartitionProviderService>()
+            Kernel.Rebind<TableNameAndIndexProviderServiceInterface>()
+                .To<TableNameAndIndexProviderService>()
                 .InSingletonScope();
 
-            var tableNameAndPartitionProviderService = Kernel.Get<TableNameAndPartitionProviderServiceInterface>();
+            var tableNameAndPartitionProviderService = Kernel.Get<TableNameAndIndexProviderServiceInterface>();
             tableNameAndPartitionProviderService.Add<OneEntity>("testOneEntity", entity => entity.Id);
 
             tableNameAndPartitionProviderService.Add<TwoEntity>("testTwoEntity", entity => entity.Prop);
@@ -45,7 +45,7 @@ namespace Website.Azure.Common.Tests.TableStorage
         public void FixtureTearDown()
         {
             Kernel.Unbind<TableContextInterface>();
-            Kernel.Unbind<TableNameAndPartitionProviderServiceInterface>();
+            Kernel.Unbind<TableNameAndIndexProviderServiceInterface>();
             Kernel.Unbind<JsonRepository>();
         }
 

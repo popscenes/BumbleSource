@@ -25,11 +25,11 @@ namespace Website.Azure.Common.Tests.TableStorage
         [TestFixtureSetUp]
         public void FixtureSetUp()
         {
-            Kernel.Rebind<TableNameAndPartitionProviderServiceInterface>()
-                .To<TableNameAndPartitionProviderService>()
+            Kernel.Rebind<TableNameAndIndexProviderServiceInterface>()
+                .To<TableNameAndIndexProviderService>()
                 .InSingletonScope();
 
-            var tableNameAndPartitionProviderService = Kernel.Get<TableNameAndPartitionProviderServiceInterface>();
+            var tableNameAndPartitionProviderService = Kernel.Get<TableNameAndIndexProviderServiceInterface>();
             tableNameAndPartitionProviderService.Add<OneEntity>("testOneEntity", entity => entity.Prop);
             
             tableNameAndPartitionProviderService.Add<TwoEntity>("testTwoEntity", entity => entity.Prop);
@@ -46,7 +46,7 @@ namespace Website.Azure.Common.Tests.TableStorage
         public void FixtureTearDown()
         {
             Kernel.Unbind<TableContextInterface>();
-            Kernel.Unbind<TableNameAndPartitionProviderServiceInterface>();
+            Kernel.Unbind<TableNameAndIndexProviderServiceInterface>();
             Kernel.Unbind<TestRespositoryBase<JsonTableEntry>>();
         }
 
@@ -121,8 +121,8 @@ namespace Website.Azure.Common.Tests.TableStorage
         where TableEntryType : class, StorageTableEntryInterface, new()
     {
         public TestRespositoryBase(TableContextInterface tableContext
-            , TableNameAndPartitionProviderServiceInterface nameAndPartitionProviderService) 
-            : base(tableContext, nameAndPartitionProviderService)
+            , TableNameAndIndexProviderServiceInterface nameAndIndexProviderService) 
+            : base(tableContext, nameAndIndexProviderService)
         {
             MockDeserializationStore = new Dictionary<string, object>();
         }

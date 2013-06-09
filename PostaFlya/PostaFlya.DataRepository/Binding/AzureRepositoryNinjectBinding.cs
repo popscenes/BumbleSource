@@ -1,9 +1,11 @@
 ﻿using System.Configuration;
 using System.Data.SqlClient;
 using System.Diagnostics;
+using System.Reflection;
 using Ninject;
 using Ninject.Extensions.Conventions.Syntax;
 using Ninject.Modules;
+using PostaFlya.DataRepository.DomainQuery;
 using PostaFlya.Domain.Flier.Query;
 using Website.Azure.Common.Binding;
 using Website.Azure.Common.Sql;
@@ -47,6 +49,11 @@ namespace PostaFlya.DataRepository.Binding
             _repositoryScopeConfiguration(kernel.Bind(typeof(GenericRepositoryInterface))
                 .To(typeof(JsonRepository)));
 
+            kernel.BindCommandAndQueryHandlersFromCallingAssembly(_repositoryScopeConfiguration);
+            kernel.BindGenericQueryHandlersFromCallingAssemblyForTypesFrom(Assembly.GetAssembly(typeof(PostaFlya.Domain.Flier.Flier))
+                , arg => !arg.IsInterface && arg.GetInterface("AggregateRootInterface") != null, _repositoryScopeConfiguration);
+
+            
 
 
             Trace.TraceInformation("Binding TableNameNinjectBinding");

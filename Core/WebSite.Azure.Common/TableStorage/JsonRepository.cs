@@ -7,8 +7,8 @@ namespace Website.Azure.Common.TableStorage
         : RepositoryBase<JsonTableEntry>
     {
         public JsonRepository(TableContextInterface tableContext
-                      , TableNameAndPartitionProviderServiceInterface nameAndPartitionProviderService)
-            : base(tableContext, nameAndPartitionProviderService)
+                      , TableNameAndIndexProviderServiceInterface nameAndIndexProviderService)
+            : base(tableContext, nameAndIndexProviderService)
         {
         }
     }
