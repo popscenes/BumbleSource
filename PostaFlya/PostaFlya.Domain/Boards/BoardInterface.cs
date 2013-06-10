@@ -47,7 +47,7 @@ namespace PostaFlya.Domain.Boards
 
     }
 
-    public interface BoardInterface : EntityInterface, BrowserIdInterface
+    public interface BoardInterface : EntityInterface, AggregateRootInterface, BrowserIdInterface
     {
         bool AllowOthersToPostFliers { get; set; }
         bool RequireApprovalOfPostedFliers { get; set; }

@@ -10,7 +10,9 @@ using Website.Application.Content;
 using PostaFlya.Domain.Flier;
 using PostaFlya.Domain.Flier.Command;
 using Website.Application.Domain.Browser;
+using Website.Application.Domain.Browser.Query;
 using Website.Application.Domain.Browser.Web;
+using Website.Common.Controller;
 using Website.Common.Extension;
 using Website.Domain.Browser;
 using Website.Domain.Browser.Query;
@@ -19,35 +21,39 @@ using PostaFlya.Models.Factory;
 using PostaFlya.Models.Flier;
 using Website.Application.Domain.Content;
 using Website.Domain.Tag;
+using Website.Infrastructure.Query;
 using Website.Infrastructure.Util.Extension;
 
 namespace PostaFlya.Controllers
 {
     [BrowserAuthorizeHttp(Roles = "Participant")]
-    public class MyFliersController : ApiController
+    public class MyFliersController : WebApiControllerBase
     {
         private readonly CommandBusInterface _commandBus;
-        private readonly QueryServiceForBrowserAggregateInterface _queryService;
+        private readonly GenericQueryServiceInterface _queryService;
         private readonly BlobStorageInterface _blobStorage;
         private readonly FlierBehaviourViewModelFactoryInterface _viewModelFactory;
         private readonly PostaFlyaBrowserInformationInterface _browserInformation;
+        private readonly QueryChannelInterface _queryChannel;
 
         public MyFliersController(CommandBusInterface commandBus,
-            QueryServiceForBrowserAggregateInterface queryService,
+            GenericQueryServiceInterface queryService,
             [ImageStorage]BlobStorageInterface blobStorage
-            , FlierBehaviourViewModelFactoryInterface viewModelFactory, PostaFlyaBrowserInformationInterface browserInformation)
+            , FlierBehaviourViewModelFactoryInterface viewModelFactory, PostaFlyaBrowserInformationInterface browserInformation, QueryChannelInterface queryChannel)
         {
             _commandBus = commandBus;
             _queryService = queryService;
             _blobStorage = blobStorage;
             _viewModelFactory = viewModelFactory;
             _browserInformation = browserInformation;
+            _queryChannel = queryChannel;
         }
 
         // GET /api/myfliersapi
         public IList<BulletinFlierModel> Get(string browserId)
         {
-            var fliers = _queryService.GetByBrowserId<Flier>(browserId).ToViewModel(_queryService, _blobStorage, _viewModelFactory);
+            var fliers = _queryChannel.Query(new GetByBrowserIdQuery() {BrowserId = browserId}, new List<Flier>())
+                .ToViewModel(_queryService, _blobStorage, _viewModelFactory);
             return fliers;
         }
 

@@ -28,12 +28,12 @@ namespace Website.Azure.Common.Tests.TableStorage
             Kernel.Rebind<TableContextInterface>()
                 .To<TableContext>();
 
-            Kernel.Rebind<TableNameAndPartitionProviderServiceInterface>()
-                .To<TableNameAndPartitionProviderService>()
+            Kernel.Rebind<TableNameAndIndexProviderServiceInterface>()
+                .To<TableNameAndIndexProviderService>()
                 .InSingletonScope();
 
-            var tableNameAndPartitionProviderService = Kernel.Get<TableNameAndPartitionProviderServiceInterface>();
-            tableNameAndPartitionProviderService.Add<ExtendableTableEntry>(0, "testExtendableTable", entity => entity.PartitionKey, entity => entity.RowKey);
+            var tableNameAndPartitionProviderService = Kernel.Get<TableNameAndIndexProviderServiceInterface>();
+            tableNameAndPartitionProviderService.Add<ExtendableTableEntry>("testExtendableTable", entity => entity.PartitionKey, entity => entity.RowKey);
 
             var context = Kernel.Get<TableContextInterface>();
 
@@ -42,7 +42,7 @@ namespace Website.Azure.Common.Tests.TableStorage
                 context.InitTable<ExtendableTableEntry>(tableName);
             }
 
-            context.Delete<ExtendableTableEntry>("testExtendableTable", null, 0);
+            context.Delete<ExtendableTableEntry>("testExtendableTable", null);
             context.SaveChanges();
         }
 
@@ -50,7 +50,7 @@ namespace Website.Azure.Common.Tests.TableStorage
         [TestFixtureTearDown]
         public void FixtureTearDown()
         {
-            Kernel.Unbind<TableNameAndPartitionProviderServiceInterface>();
+            Kernel.Unbind<TableNameAndIndexProviderServiceInterface>();
             Kernel.Unbind<TableContextInterface>();
             AzureEnv.UseRealStorage = false;
         }
@@ -65,15 +65,15 @@ namespace Website.Azure.Common.Tests.TableStorage
 
             FillPropertyGroupWithEdmTypes(tableEntry);
 
-            var nameAndPartitionProviderService = Kernel.Get<TableNameAndPartitionProviderServiceInterface>();
-            var tableName = nameAndPartitionProviderService.GetTableName<ExtendableTableEntry>(0);
+            var nameAndPartitionProviderService = Kernel.Get<TableNameAndIndexProviderServiceInterface>();
+            var tableName = nameAndPartitionProviderService.GetTableName<ExtendableTableEntry>();
             var tabCtx = Kernel.Get<TableContextInterface>();
             tabCtx.Store(tableName, tableEntry);
             tabCtx.SaveChanges();
 
             var tabCtxRet = Kernel.Get<TableContextInterface>();
-            var ret = tabCtxRet.PerformQuery<ExtendableTableEntry>(tableName, e => e.PartitionKey == tableEntry.PartitionKey
-                                                                   && e.RowKey == tableEntry.RowKey)
+            var ret = tabCtxRet.PerformQuery<ExtendableTableEntry>(tableName, query: e => e.PartitionKey == tableEntry.PartitionKey
+                                                                                          && e.RowKey == tableEntry.RowKey)
                                                                    .SingleOrDefault();
 
             Assert.IsNotNull(ret);

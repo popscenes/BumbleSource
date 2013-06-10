@@ -9,14 +9,12 @@ using Website.Test.Common;
 namespace Website.Azure.Common.Tests.TableStorage
 {
 
-    class OneEntity : EntityBase<OneEntity>, EntityInterface
+    class OneEntity : EntityBase<OneEntity>, AggregateRootInterface, EntityInterface
     {
         public string Prop { get; set; }
         public string PropTwo { get; set; }
         public string PropThree { get; set; }
-        [AggregateMemberEntity]
         public List<TwoEntity> RelatedEntities { get; set; }
-        [AggregateMemberEntity]
         public ThreeEntity MemberEntity { get; set; }
 
         internal static void AssertAreEqual(OneEntity one, OneEntity two)
@@ -58,7 +56,6 @@ namespace Website.Azure.Common.Tests.TableStorage
     class ThreeEntity 
     {
         public int SomeProp { get; set; }
-        [AggregateMemberEntity]
         public TwoEntity MemberEntity { get; set; }
 
         internal static void AssertAreEqual(ThreeEntity one, ThreeEntity two)
@@ -90,55 +87,55 @@ namespace Website.Azure.Common.Tests.TableStorage
         [TestFixtureSetUp]
         public void FixtureSetUp()
         {
-            Kernel.Rebind<TableNameAndPartitionProviderServiceInterface>()
-                .To<TableNameAndPartitionProviderService>();
+            Kernel.Rebind<TableNameAndIndexProviderServiceInterface>()
+                .To<TableNameAndIndexProviderService>();
         }
 
         [TestFixtureTearDown]
         public void FixtureTearDown()
         {
-            Kernel.Unbind<TableNameAndPartitionProviderServiceInterface>();
+            Kernel.Unbind<TableNameAndIndexProviderServiceInterface>();
         }
 
-        private void register(TableNameAndPartitionProviderServiceInterface tableNameAndPartitionProviderService)
+        private void register(TableNameAndIndexProviderServiceInterface tableNameAndIndexProviderService)
         {
 
-            tableNameAndPartitionProviderService.Add<OneEntity>(0, "testOneEntity", entity => entity.Prop);
+            tableNameAndIndexProviderService.Add<OneEntity>("testOneEntity", entity => entity.Prop);
 
-            AssertUtil.Count(1, tableNameAndPartitionProviderService.GetAllTableNames());
+            AssertUtil.Count(1, tableNameAndIndexProviderService.GetAllTableNames());
         }
 
         [Test]
         public void TableNameAndPartitionProviderServiceRegister()
         {
-            register(Kernel.Get<TableNameAndPartitionProviderServiceInterface>());
+            register(Kernel.Get<TableNameAndIndexProviderServiceInterface>());
         }
 
         [Test]
         public void TableNameAndPartitionProviderServiceReRegisterUpdateEntry()
         {
-            var tableNameAndPartitionProviderService = Kernel.Get<TableNameAndPartitionProviderServiceInterface>();
+            var tableNameAndPartitionProviderService = Kernel.Get<TableNameAndIndexProviderServiceInterface>();
 
             register(tableNameAndPartitionProviderService);
 
 
-            tableNameAndPartitionProviderService.Add<OneEntity>(0, "testOneEntityNewTable", entity => entity.Prop);
+            tableNameAndPartitionProviderService.Add<OneEntity>("testOneEntityNewTable", entity => entity.Prop);
             AssertUtil.Count(1, tableNameAndPartitionProviderService.GetAllTableNames());
 
-            var tableName = tableNameAndPartitionProviderService.GetTableName<OneEntity>(0);
+            var tableName = tableNameAndPartitionProviderService.GetTableName<OneEntity>();
             Assert.AreEqual("testOneEntityNewTable", tableName);
         }
 
         [Test]
         public void TableNameAndPartitionProviderServiceReturnsMappingForSubClass()
         {
-            var tableNameAndPartitionProviderService = Kernel.Get<TableNameAndPartitionProviderServiceInterface>();
+            var tableNameAndPartitionProviderService = Kernel.Get<TableNameAndIndexProviderServiceInterface>();
 
             register(tableNameAndPartitionProviderService);
 
            
 
-            var tableName = tableNameAndPartitionProviderService.GetTableName<OneExtend>(0);
+            var tableName = tableNameAndPartitionProviderService.GetTableName<OneExtend>();
             Assert.AreEqual("testOneEntity", tableName);
         }
 
@@ -153,82 +150,72 @@ namespace Website.Azure.Common.Tests.TableStorage
         [Test]
         public void TableNameAndPartitionProviderServiceReturnsMappingForClosestSubClass()
         {
-            var tableNameAndPartitionProviderService = Kernel.Get<TableNameAndPartitionProviderServiceInterface>();
+            var tableNameAndPartitionProviderService = Kernel.Get<TableNameAndIndexProviderServiceInterface>();
 
             register(tableNameAndPartitionProviderService);
 
-            tableNameAndPartitionProviderService.Add<OneEntity>(1, "OneEntity", entity => entity.PropTwo);
-            tableNameAndPartitionProviderService.Add<OneExtend>(1, "OneExtend", entity => entity.PropThree);
-            tableNameAndPartitionProviderService.Add<AnotherEnt>(0, "AnotherEnt", entity => entity.Blah);
-            tableNameAndPartitionProviderService.Add<OneExtend>(2, "OneExtend2", entity => entity.PropThree);
-            tableNameAndPartitionProviderService.Add<AnotherEntExtend>(1, "AnotherEntExtend", entity => entity.BlahTwo);
+            tableNameAndPartitionProviderService.Add<OneExtend>("OneExtend", entity => entity.PropThree);
+            tableNameAndPartitionProviderService.Add<AnotherEnt>("AnotherEnt", entity => entity.Blah);
+            tableNameAndPartitionProviderService.Add<AnotherEntExtend>("AnotherEntExtend", entity => entity.BlahTwo);
 
-            var tableName = tableNameAndPartitionProviderService.GetTableName<OneExtend>(0);
+            var tableName = tableNameAndPartitionProviderService.GetTableName<OneExtend>();
             Assert.AreEqual("testOneEntity", tableName);
 
-            tableName = tableNameAndPartitionProviderService.GetTableName<OneExtend>(1);
+
+            tableName = tableNameAndPartitionProviderService.GetTableName<OneExtendExtend>();
             Assert.AreEqual("OneExtend", tableName);
 
-            tableName = tableNameAndPartitionProviderService.GetTableName<OneExtendExtend>(1);
-            Assert.AreEqual("OneExtend", tableName);
-
-            tableName = tableNameAndPartitionProviderService.GetTableName<AnotherEntExtend>(0);
+            tableName = tableNameAndPartitionProviderService.GetTableName<AnotherEntExtend>();
             Assert.AreEqual("AnotherEnt", tableName);
 
-            tableName = tableNameAndPartitionProviderService.GetTableName<AnotherEntExtend>(1);
-            Assert.AreEqual("AnotherEntExtend", tableName);
 
-            tableName = tableNameAndPartitionProviderService.GetTableName<OneExtendExtend>(2);
-            Assert.AreEqual("OneExtend2", tableName);
 
-            tableName = tableNameAndPartitionProviderService.GetTableName<OneExtendExtend>(0);
+            tableName = tableNameAndPartitionProviderService.GetTableName<OneExtendExtend>();
             Assert.AreEqual("testOneEntity", tableName);
         }
 
-        [Test]
-        public void TableNameAndPartitionProviderServiceGetPartitionIdentifiers()
-        {
-            var tableNameAndPartitionProviderService = Kernel.Get<TableNameAndPartitionProviderServiceInterface>();
-
-            register(tableNameAndPartitionProviderService);
-            tableNameAndPartitionProviderService.Add<OneEntity>(1, "testOneEntity", entity => entity.Prop);
-
-            //add another entity type
-            tableNameAndPartitionProviderService.Add<TwoEntity>(0, "testTwoEntity", entity => entity.Prop);
-
-            var partitions =
-                tableNameAndPartitionProviderService.GetPartitionIdentifiers<OneEntity>();
-            AssertUtil.Count(2, partitions);
-            CollectionAssert.Contains(partitions, 0);
-            CollectionAssert.Contains(partitions, 1);
-        }
+//        [Test]
+//        public void TableNameAndPartitionProviderServiceGetPartitionIdentifiers()
+//        {
+//            var tableNameAndPartitionProviderService = Kernel.Get<TableNameAndPartitionProviderServiceInterface>();
+//
+//            register(tableNameAndPartitionProviderService);
+//            tableNameAndPartitionProviderService.Add<OneEntity>(1, "testOneEntity", entity => entity.Prop);
+//
+//            //add another entity type
+//            tableNameAndPartitionProviderService.Add<TwoEntity>(0, "testTwoEntity", entity => entity.Prop);
+//
+//            var partitions =
+//                tableNameAndPartitionProviderService.GetPartitionIdentifiers<OneEntity>();
+//            AssertUtil.Count(2, partitions);
+//            CollectionAssert.Contains(partitions, 0);
+//            CollectionAssert.Contains(partitions, 1);
+//        }
 
         [Test]
         public void TableNameAndPartitionProviderServiceGetGetPartitionKeyFunc()
         {
-            var tableNameAndPartitionProviderService = Kernel.Get<TableNameAndPartitionProviderServiceInterface>();
+            var tableNameAndPartitionProviderService = Kernel.Get<TableNameAndIndexProviderServiceInterface>();
 
             Func<OneEntity, string> partKey = entity => entity.Prop;
 
-            tableNameAndPartitionProviderService.Add<OneEntity>(0, "testOneEntity", partKey);
-            tableNameAndPartitionProviderService.Add<OneEntity>(1, "testOneEntity", entity => entity.Prop);
+            tableNameAndPartitionProviderService.Add<OneEntity>("testOneEntity", partKey);
 
-            var tablePartitonFunc = tableNameAndPartitionProviderService.GetPartitionKeyFunc<OneEntity>(0);
+            var tablePartitonFunc = tableNameAndPartitionProviderService.GetPartitionKeyFunc<OneEntity>();
             Assert.IsNotNull(tablePartitonFunc);
         }
 
         [Test]
         public void TableNameAndPartitionProviderServiceGetGetRowKeyFunc()
         {
-            var tableNameAndPartitionProviderService = Kernel.Get<TableNameAndPartitionProviderServiceInterface>();
+            var tableNameAndPartitionProviderService = Kernel.Get<TableNameAndIndexProviderServiceInterface>();
 
             Func<OneEntity, string> partKey = entity => entity.Prop;
             Func<OneEntity, string> rowKey = entity => entity.Prop;
 
-            tableNameAndPartitionProviderService.Add<OneEntity>(0, "testOneEntity", partKey, rowKey);
-            tableNameAndPartitionProviderService.Add<OneEntity>(1, "testOneEntity", entity => entity.Prop, entity => entity.Prop);
+            tableNameAndPartitionProviderService.Add<OneEntity>("testOneEntity", partKey, rowKey);
 
-            var tableRowFunc = tableNameAndPartitionProviderService.GetRowKeyFunc<OneEntity>(0);
+            var tableRowFunc = tableNameAndPartitionProviderService.GetRowKeyFunc<OneEntity>();
             Assert.IsNotNull(tableRowFunc);
         }
     }

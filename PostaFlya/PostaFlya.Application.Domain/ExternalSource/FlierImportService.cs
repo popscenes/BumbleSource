@@ -9,24 +9,26 @@ namespace PostaFlya.Application.Domain.ExternalSource
 {
     class FlierImportService : FlierImportServiceInterface
     {
-        private readonly QueryServiceForBrowserAggregateInterface _queryService;
+        private readonly GenericQueryServiceInterface _queryService;
+        private readonly QueryChannelInterface _queryChannel;
         private readonly UrlContentRetrieverFactoryInterface _contentRetrieverFactory;
         private readonly CommandBusInterface _commandBus;
 
-        public FlierImportService(QueryServiceForBrowserAggregateInterface queryService, 
+        public FlierImportService(GenericQueryServiceInterface queryService, 
             UrlContentRetrieverFactoryInterface contentRetrieverFactory, 
-            CommandBusInterface commandBus)
+            CommandBusInterface commandBus, QueryChannelInterface queryChannel)
         {
             _queryService = queryService;
             _contentRetrieverFactory = contentRetrieverFactory;
             _commandBus = commandBus;
+            _queryChannel = queryChannel;
         }
 
         public FlierImporterInterface GetImporter(string providerName)
         {
             if (providerName == IdentityProviders.FACEBOOK)
             {
-                return new FacebookFlierImporter(_queryService, _contentRetrieverFactory, _commandBus);
+                return new FacebookFlierImporter(_queryChannel, _queryService, _contentRetrieverFactory, _commandBus);
             }
             throw new ArgumentException();
         }

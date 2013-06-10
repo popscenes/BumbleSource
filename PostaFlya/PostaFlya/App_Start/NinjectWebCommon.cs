@@ -71,9 +71,9 @@ namespace PostaFlya.App_Start
         {
             Trace.TraceInformation("Start Ninject load modules " + AzureEnv.GetIdForInstance());
 
-            kernel.Load(AllBindings.NinjectModules);
+            kernel.Load(AllWebSiteBindings.NinjectModules);
 
-            Trace.TraceInformation("Ninject load modules complete " + AzureEnv.GetIdForInstance() + ":" + AllBindings.NinjectModules);
+            Trace.TraceInformation("Ninject load modules complete " + AzureEnv.GetIdForInstance() + ":" + AllWebSiteBindings.NinjectModules);
         }        
     }
 }

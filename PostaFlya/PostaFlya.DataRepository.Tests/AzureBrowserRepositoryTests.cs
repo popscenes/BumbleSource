@@ -1,17 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using NUnit.Framework;
 using Ninject;
+using PostaFlya.Domain.Browser.Event;
 using Website.Azure.Common.Environment;
 using Website.Azure.Common.TableStorage;
+using Website.Domain.Browser;
+using Website.Domain.Browser.Query;
 using Website.Infrastructure.Authentication;
 using Website.Infrastructure.Command;
-using Website.Domain.Browser;
 using Website.Domain.Location;
 using Website.Domain.Tag;
+using Website.Infrastructure.Publish;
 using Website.Infrastructure.Query;
-using Website.Mocks.Domain.Data;
+using PostaFlya.Mocks.Domain.Data;
 using Website.Mocks.Domain.Defaults;
+using Browser = PostaFlya.Domain.Browser.Browser;
+using BrowserInterface = PostaFlya.Domain.Browser.BrowserInterface;
 
 namespace PostaFlya.DataRepository.Tests
 {
@@ -21,6 +27,7 @@ namespace PostaFlya.DataRepository.Tests
     {
         private GenericRepositoryInterface _repository;
         private GenericQueryServiceInterface _queryService;
+        private QueryChannelInterface _queryChannel;
 
         StandardKernel Kernel
         {
@@ -65,6 +72,7 @@ namespace PostaFlya.DataRepository.Tests
 
             _repository = Kernel.Get<GenericRepositoryInterface>();
             _queryService = Kernel.Get<GenericQueryServiceInterface>();
+            _queryChannel = Kernel.Get<QueryChannelInterface>();
         }
 
         [TestFixtureTearDown]
@@ -92,9 +100,24 @@ namespace PostaFlya.DataRepository.Tests
             StoreBrowserRepository();
         }
 
+        [Test]
+        public void FindByFriendlyIdForBrowserAggreagateReturnsBrowser()
+        {
+            var brows = StoreBrowserRepository();
+            var res = _queryChannel.Query(new FindByFriendlyIdQuery() {FriendlyId = brows.FriendlyId}, (Browser) null);
+            Assert.That(res, Is.Not.Null);
+            Assert.That(res.Id, Is.EqualTo(brows.Id));
+        }
+
         public BrowserInterface StoreBrowserRepository()
         {
-            return BrowserTestData.StoreOne(GetBrowser(), _repository, Kernel);
+            var ret = BrowserTestData.StoreOne(GetBrowser(), _repository, Kernel, false);
+            var indexers = Kernel.GetAll<HandleEventInterface<BrowserModifiedEvent>>();
+            foreach (var handleEvent in indexers)
+            {
+                handleEvent.Handle(new BrowserModifiedEvent() {NewState = (Browser) ret});
+            }
+            return ret;
         }
 
         [Test]
@@ -106,10 +129,10 @@ namespace PostaFlya.DataRepository.Tests
         public BrowserInterface StoreBrowserNullLocationRepository()
         {
             var browser = GetBrowser();
-            return BrowserTestData.StoreOne(browser, _repository, Kernel);
+            return BrowserTestData.StoreOne(browser, _repository, Kernel, false);
         }
 
-        private Website.Domain.Browser.Browser GetBrowser()
+        private Browser GetBrowser()
         {
             var externalId = Guid.NewGuid();
 
@@ -120,8 +143,9 @@ namespace PostaFlya.DataRepository.Tests
                 Permissions = "post"
             };
 
-            var ret = new Website.Domain.Browser.Browser(Guid.NewGuid().ToString())
+            var ret = new Browser()
                        {
+                           Id = Guid.NewGuid().ToString(),
                            FriendlyId = "YoYo",
                            Roles = new Roles { "SomeRole" },
                            FirstName = "FirstName",
@@ -165,6 +189,15 @@ namespace PostaFlya.DataRepository.Tests
         }
 
         [Test]
+        public void FindByIdentityProviderReturnsBrowser()
+        {
+            var brows = StoreBrowserRepository();
+            var res = _queryChannel.Query(new FindBrowserByIdentityProviderQuery() { Credential = brows.ExternalCredentials.First()}, (Browser)null);
+            Assert.That(res, Is.Not.Null);
+            Assert.That(res.Id, Is.EqualTo(brows.Id));
+        }
+
+        [Test]
         public void TestSaveQueryModifySaveBrowserRepository()
         {
             var source = QueryBrowserRepository();
@@ -173,7 +206,7 @@ namespace PostaFlya.DataRepository.Tests
             using (Kernel.Get<UnitOfWorkFactoryInterface>()
                 .GetUnitOfWork(new List<RepositoryInterface>() { _repository }))
             {
-                _repository.UpdateEntity<Website.Domain.Browser.Browser>(source.Id
+                _repository.UpdateEntity<Browser>(source.Id
                     , browser =>
                           {
                               entityToStore = browser;

@@ -75,16 +75,16 @@ namespace Website.Application.Azure.Binding
                 .WithMetadata("applicationstorage", true);
             //end applicationstorage
 
-            var tableNameProv = Kernel.Get<TableNameAndPartitionProviderServiceInterface>();
+            var tableNameProv = Kernel.Get<TableNameAndIndexProviderServiceInterface>();
             Kernel.Bind<ApplicationBroadcastCommunicatorRegistrationInterface>().To<AzureApplicationBroadcastCommunicatorRegistration>();
             //            Kernel.Bind<AzureTableContext>().ToSelf().Named("broadcastCommunicators");
             //            Kernel.Bind<TableNameAndPartitionProviderInterface>()
             //                .ToConstant(AzureBroadcastRegistrator.TableNameBinding)
             //                .WhenAnyAnchestorNamed("broadcastCommunicators");
-            tableNameProv.Add<AzureBroadcastRegistrationEntry>(0, "broadcastCommunicators", e => "", e => e.Get<string>("Endpoint"));
+            tableNameProv.Add<AzureBroadcastRegistrationEntry>("broadcastCommunicators", e => "", e => e.Get<string>("Endpoint"));
 
             Kernel.Bind<WebsiteInfoServiceInterface>().To<WebsiteInfoServiceAzure>().WhenTargetHas<SourceDataSourceAttribute>();         
-            tableNameProv.Add<WebsiteInfoEntity>(0, "websiteinfo", e => "", e => e.Get<string>("url"));
+            tableNameProv.Add<WebsiteInfoEntity>("websiteinfo", e => "", e => e.Get<string>("url"));
 //            Kernel.Bind<AzureTableContext>().ToSelf().Named("websiteinfo");
 //            Kernel.Bind<TableNameAndPartitionProviderInterface>()
 //               .ToConstant(WebsiteInfoServiceAzure.TableNameBinding)

@@ -13,7 +13,6 @@ namespace PostaFlya.App_Start
         public static void Register(HttpConfiguration config)
         {
             //Web Api doesn't use model validators atm, if this changes in the future no need for this
-            config.Filters.Add(new ApiValidationActionFilter());
             RegisterMediaFormatters.For(config);
 
             RegisterRoutes(config.Routes);

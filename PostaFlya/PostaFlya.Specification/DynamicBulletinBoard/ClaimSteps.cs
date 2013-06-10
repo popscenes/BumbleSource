@@ -39,7 +39,7 @@ namespace PostaFlya.Specification.DynamicBulletinBoard
         {
             var newBrowser = BrowserTestData.GetOne(SpecUtil.CurrIocKernel);
 
-            BrowserTestData.StoreOne(newBrowser, SpecUtil.CurrIocKernel.Get<GenericRepositoryInterface>(), SpecUtil.CurrIocKernel);
+            BrowserTestData.StoreOne(newBrowser, SpecUtil.CurrIocKernel.Get<GenericRepositoryInterface>(), SpecUtil.CurrIocKernel, true);
 
             ScenarioContext.Current["browserId"] = newBrowser.Id;
             WhenABrowserClaimsATearOffForThatFlier(newBrowser.Id);

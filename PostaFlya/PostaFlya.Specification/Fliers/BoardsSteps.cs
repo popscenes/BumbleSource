@@ -56,10 +56,11 @@ namespace PostaFlya.Specification.Fliers
         public void ThenABOARDNamedBoardWillBeCreated(string boardName)
         {
             var queryService = SpecUtil.CurrIocKernel.Get<GenericQueryServiceInterface>();
+            var queryChannel = SpecUtil.CurrIocKernel.Get<QueryChannelInterface>();
             var board = queryService.FindById<Board>(ScenarioContext.Current["createdboardid"] as string);
             Assert.IsNotNull(board);
 
-            var board2 = queryService.FindByFriendlyId<Board>(boardName.ToLower());
+            var board2 = queryChannel.Query(new FindByFriendlyIdQuery() {FriendlyId = boardName.ToLower()}, (Board) null);
             Assert.IsNotNull(board2);
 
             BoardTestData.AssertStoreRetrieve(board, board2);

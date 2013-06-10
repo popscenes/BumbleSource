@@ -9,7 +9,7 @@ using Website.Azure.Common.TableStorage;
 
 namespace Website.Application.Azure.WebsiteInformation
 {
-    public class WebsiteInfoEntity : SimpleExtendableEntity
+    public class WebsiteInfoEntity : SimpleExtendableEntity, AggregateRootInterface
     {
         internal const string FIELD_BEHAIVORTAGS = "behaivourtags";
         internal const string FIELD_URL = "url";
@@ -37,10 +37,10 @@ namespace Website.Application.Azure.WebsiteInformation
 
         private readonly string _tableName;
         public WebsiteInfoServiceAzure(TableContextInterface tableContext
-            , TableNameAndPartitionProviderServiceInterface nameAndPartitionProviderService) 
-            : base(tableContext, nameAndPartitionProviderService)
+            , TableNameAndIndexProviderServiceInterface nameAndIndexProviderService) 
+            : base(tableContext, nameAndIndexProviderService)
         {
-            _tableName = nameAndPartitionProviderService.GetTableName<WebsiteInfoEntity>(IdPartition);
+            _tableName = nameAndIndexProviderService.GetTableName<WebsiteInfoEntity>();
         }
 
         public void RegisterWebsite(string url, WebsiteInfo getWebsiteInfo, bool isDefault = false)
@@ -130,15 +130,5 @@ namespace Website.Application.Azure.WebsiteInformation
             return websiteInfo ?? websites.Where(entity => entity.IsDefault()).Select(select).FirstOrDefault();
         }
 
-
-        protected override StorageAggregate GetEntityForUpdate(Type entity, string id)
-        {
-            var root = FindById(entity, id);
-            if (root == null)
-                return null;
-            var ret = new StorageAggregate(root, NameAndPartitionProviderService);
-            ret.LoadAllTableEntriesForUpdate<WebsiteInfoEntity>(TableContext);
-            return ret;
-        }
     }
 }

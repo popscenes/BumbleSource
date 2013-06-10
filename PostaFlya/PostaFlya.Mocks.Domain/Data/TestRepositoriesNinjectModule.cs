@@ -66,10 +66,9 @@ namespace PostaFlya.Mocks.Domain.Data
 
         public static void SetUpAnalyticRepositoryAndQueryService(MoqMockingKernel kernel, HashSet<FlierAnalyticInterface> store)
         {
-            RepoUtil.SetupRepo<GenericRepositoryInterface, FlierAnalytic, FlierAnalyticInterface>(store, kernel, FlierAnalyticInterfaceExtensions.CopyFieldsFrom);
+            RepoCoreUtil.SetupAggregateRepo<GenericRepositoryInterface, FlierAnalytic, FlierAnalyticInterface, FlierAnalyticInterface>(store, kernel, FlierAnalyticInterfaceExtensions.CopyFieldsFrom);
 
             /////////////query service
-            RepoUtil.SetupQueryService<GenericQueryServiceInterface, FlierAnalytic, FlierAnalyticInterface, FlierAnalyticInterface>(store, kernel, FlierAnalyticInterfaceExtensions.CopyFieldsFrom);
             RepoUtil.FindAggregateEntities<GenericQueryServiceInterface, FlierAnalytic, FlierAnalyticInterface>(store, kernel,
                                                                                       FlierAnalyticInterfaceExtensions
                                                                                           .CopyFieldsFrom);
@@ -77,10 +76,9 @@ namespace PostaFlya.Mocks.Domain.Data
 
         public static  void SetUpBoardFlierRepositoryAndQueryService(MoqMockingKernel kernel, HashSet<BoardFlierInterface> store)
         {
-            RepoUtil.SetupRepo<GenericRepositoryInterface, BoardFlier, BoardFlierInterface>(store, kernel, BoardFlierInterfaceExtensions.CopyFieldsFrom);
+            RepoCoreUtil.SetupAggregateRepo<GenericRepositoryInterface, BoardFlier, BoardFlierInterface, BoardFlierInterface>(store, kernel, BoardFlierInterfaceExtensions.CopyFieldsFrom);
 
             /////////////query service
-            RepoUtil.SetupQueryService<GenericQueryServiceInterface, BoardFlier, BoardFlierInterface, BoardFlierInterface>(store, kernel, BoardFlierInterfaceExtensions.CopyFieldsFrom);
             RepoUtil.FindAggregateEntities<GenericQueryServiceInterface, BoardFlier, BoardFlierInterface>(store, kernel,
                                                                                       BoardFlierInterfaceExtensions
                                                                                           .CopyFieldsFrom);
@@ -136,61 +134,57 @@ namespace PostaFlya.Mocks.Domain.Data
 
 
             /////////////query service
-            var flierQueryService = RepoUtil.SetupQueryService<QueryServiceForBrowserAggregateInterface, Flier, FlierInterface, FlierInterface>(store, kernel, FlierInterfaceExtensions.CopyFieldsFrom);
+            var flierQueryService = RepoUtil.SetupQueryService<GenericQueryServiceInterface, Flier, FlierInterface, FlierInterface>(store, kernel, FlierInterfaceExtensions.CopyFieldsFrom);
 
             //by browser
-            RepoUtil.SetupQueryByBrowser<QueryServiceForBrowserAggregateInterface, Flier, FlierInterface>(flierQueryService, store,
-                                                                                              kernel,
-                                                                                              FlierInterfaceExtensions.
-                                                                                                  CopyFieldsFrom);
+//            RepoUtil.SetupQueryByBrowser<GenericQueryServiceInterface, Flier, FlierInterface>(flierQueryService, store,
+//                                                                                              kernel,
+//                                                                                              FlierInterfaceExtensions.
+//                                                                                                  CopyFieldsFrom);
 
             //Comments
-            RepoUtil.SetupRepo<GenericRepositoryInterface, Comment, CommentInterface>(storeComment, kernel, CommentInterfaceExtensions.CopyFieldsFrom);
-            RepoUtil.SetupQueryService<QueryServiceForBrowserAggregateInterface, Comment, CommentInterface, CommentInterface>(storeComment, kernel, CommentInterfaceExtensions.CopyFieldsFrom);
+            RepoCoreUtil.SetupAggregateRepo<GenericRepositoryInterface, Comment, CommentInterface, CommentInterface>(storeComment, kernel, CommentInterfaceExtensions.CopyFieldsFrom);
 
-            RepoUtil.FindAggregateEntities<QueryServiceForBrowserAggregateInterface, Comment, CommentInterface>(storeComment, kernel,
+            RepoUtil.FindAggregateEntities<GenericQueryServiceInterface, Comment, CommentInterface>(storeComment, kernel,
                                                                                                   CommentInterfaceExtensions
                                                                                                       .CopyFieldsFrom);
 
-            RepoUtil.SetupQueryByBrowser<QueryServiceForBrowserAggregateInterface, Comment, CommentInterface>(flierQueryService, storeComment,
-                                                                                              kernel,
-                                                                                              CommentInterfaceExtensions.
-                                                                                                  CopyFieldsFrom);
+//            RepoUtil.SetupQueryByBrowser<GenericQueryServiceInterface, Comment, CommentInterface>(flierQueryService, storeComment,
+//                                                                                              kernel,
+//                                                                                              CommentInterfaceExtensions.
+//                                                                                                  CopyFieldsFrom);
             //RepoUtil.SetupQueryComments<FlierQueryServiceInterface, FlierInterface>(flierQueryService, storeComment, kernel);
 
 
 
             //claims
-            RepoUtil.SetupRepo<GenericRepositoryInterface, Claim, ClaimInterface>(claimStore, kernel, ClaimInterfaceExtensions.CopyFieldsFrom);
-            RepoUtil.SetupQueryService<QueryServiceForBrowserAggregateInterface, Claim, ClaimInterface, ClaimInterface>(claimStore, kernel, ClaimInterfaceExtensions.CopyFieldsFrom);
+            RepoCoreUtil.SetupAggregateRepo<GenericRepositoryInterface, Claim, ClaimInterface, ClaimInterface>(claimStore, kernel, ClaimInterfaceExtensions.CopyFieldsFrom);
 
-            RepoUtil.FindAggregateEntities<QueryServiceForBrowserAggregateInterface, Claim, ClaimInterface>(claimStore, kernel,
+            RepoUtil.FindAggregateEntities<GenericQueryServiceInterface, Claim, ClaimInterface>(claimStore, kernel,
                                                                                       ClaimInterfaceExtensions
                                                                                           .CopyFieldsFrom);
-            RepoUtil.SetupQueryByBrowser<QueryServiceForBrowserAggregateInterface, Claim, ClaimInterface>(flierQueryService, claimStore,
-                                                                                  kernel,
-                                                                                  ClaimInterfaceExtensions.
-                                                                                      CopyFieldsFrom);
+//            RepoUtil.SetupQueryByBrowser<GenericQueryServiceInterface, Claim, ClaimInterface>(flierQueryService, claimStore,
+//                                                                                  kernel,
+//                                                                                  ClaimInterfaceExtensions.
+//                                                                                      CopyFieldsFrom);
             //payment transaction
-            RepoUtil.SetupRepo<GenericRepositoryInterface, PaymentTransaction, PaymentTransactionInterface>(paymentTransactionStore, kernel, PaymentTransactionInterfaceExtensions.CopyFieldsFrom);
+            RepoCoreUtil.SetupAggregateRepo<GenericRepositoryInterface, PaymentTransaction, PaymentTransactionInterface, PaymentTransactionInterface>(paymentTransactionStore, kernel, PaymentTransactionInterfaceExtensions.CopyFieldsFrom);
 
-            RepoUtil.SetupQueryService<QueryServiceForBrowserAggregateInterface, PaymentTransaction, PaymentTransactionInterface, PaymentTransactionInterface>(paymentTransactionStore, kernel, 
+            RepoCoreUtil.SetupAggregateQuery<GenericQueryServiceInterface, PaymentTransaction, PaymentTransactionInterface>(paymentTransactionStore, kernel, 
                 PaymentTransactionInterfaceExtensions.CopyFieldsFrom);
-            RepoUtil.FindAggregateEntities<QueryServiceForBrowserAggregateInterface, PaymentTransaction, PaymentTransactionInterface>(paymentTransactionStore, kernel,
+            RepoUtil.FindAggregateEntities<GenericQueryServiceInterface, PaymentTransaction, PaymentTransactionInterface>(paymentTransactionStore, kernel,
                                                                                                   PaymentTransactionInterfaceExtensions
                                                                                                       .CopyFieldsFrom);
 
-            RepoUtil.SetupQueryByBrowser<QueryServiceForBrowserAggregateInterface, PaymentTransaction, PaymentTransactionInterface>(flierQueryService, paymentTransactionStore,
-                                                                                              kernel,
-                                                                                              PaymentTransactionInterfaceExtensions.
-                                                                                                  CopyFieldsFrom);
+//            RepoUtil.SetupQueryByBrowser<GenericQueryServiceInterface, PaymentTransaction, PaymentTransactionInterface>(flierQueryService, paymentTransactionStore,
+//                                                                                              kernel,
+//                                                                                              PaymentTransactionInterfaceExtensions.
+//                                                                                                  CopyFieldsFrom);
 
             //payment transaction
-            RepoUtil.SetupRepo<GenericRepositoryInterface, CreditTransaction, CreditTransactionInterface>(creditTransactionStore, kernel, CreditTransactionInterfaceExtensions.CopyFieldsFrom);
+            RepoCoreUtil.SetupAggregateRepo<GenericRepositoryInterface, CreditTransaction, CreditTransactionInterface, CreditTransactionInterface>(creditTransactionStore, kernel, CreditTransactionInterfaceExtensions.CopyFieldsFrom);
 
-            RepoUtil.SetupQueryService<GenericQueryServiceInterface, CreditTransaction, CreditTransactionInterface, CreditTransactionInterface>(creditTransactionStore, kernel,
-                CreditTransactionInterfaceExtensions.CopyFieldsFrom);
-            RepoUtil.FindAggregateEntities<QueryServiceForBrowserAggregateInterface, CreditTransaction, CreditTransactionInterface>(creditTransactionStore, kernel,
+            RepoUtil.FindAggregateEntities<GenericQueryServiceInterface, CreditTransaction, CreditTransactionInterface>(creditTransactionStore, kernel,
                                                                                                   CreditTransactionInterfaceExtensions
                                                                                                       .CopyFieldsFrom);
 
@@ -282,7 +276,7 @@ namespace PostaFlya.Mocks.Domain.Data
 //            var repository = RepoUtil.SetupRepo<GenericRepositoryInterface, TaskJobFlierBehaviour, TaskJobFlierBehaviourInterface>(store, kernel, TaskJobFlierBehavourInterfaceExtensions.CopyFieldsFrom);
 //
 //            var taskJobQueryService =
-//                RepoUtil.SetupQueryService<QueryServiceForBrowserAggregateInterface, TaskJobFlierBehaviour, TaskJobFlierBehaviourInterface>(store, kernel, TaskJobFlierBehavourInterfaceExtensions.CopyFieldsFrom);
+//                RepoUtil.SetupQueryService<GenericQueryServiceInterface, TaskJobFlierBehaviour, TaskJobFlierBehaviourInterface>(store, kernel, TaskJobFlierBehavourInterfaceExtensions.CopyFieldsFrom);
 //
 //        }
 
@@ -292,19 +286,19 @@ namespace PostaFlya.Mocks.Domain.Data
         {
 
             //repo
-            var browserCredRepository = RepoUtil.SetupRepo<GenericRepositoryInterface, BrowserIdentityProviderCredential, BrowserIdentityProviderCredentialInterface>(credStore, kernel, BrowserIdentityProviderCredentialInterfaceExtensions.CopyFieldsFrom);
+//            var browserCredRepository = RepoUtil.SetupRepo<GenericRepositoryInterface, BrowserIdentityProviderCredential, BrowserIdentityProviderCredentialInterface>(credStore, kernel, BrowserIdentityProviderCredentialInterfaceExtensions.CopyFieldsFrom);
 
             //queryservice
-            var browserCredQueryService =
-                RepoUtil.SetupQueryService<QueryServiceForBrowserAggregateInterface, BrowserIdentityProviderCredential, BrowserIdentityProviderCredentialInterface, BrowserIdentityProviderCredentialInterface>(credStore, kernel, BrowserIdentityProviderCredentialInterfaceExtensions.CopyFieldsFrom);
+//            var browserCredQueryService =
+//                RepoUtil.SetupQueryService<GenericQueryServiceInterface, BrowserIdentityProviderCredential, BrowserIdentityProviderCredentialInterface, BrowserIdentityProviderCredentialInterface>(credStore, kernel, BrowserIdentityProviderCredentialInterfaceExtensions.CopyFieldsFrom);
 
             //repo
             var browserRepository = RepoUtil.SetupRepo<GenericRepositoryInterface, Browser, BrowserInterface>(store, kernel, BrowserInterfaceExtensions.CopyFieldsFrom);
 
             //queryservice
             var browserQueryService =
-                RepoUtil.SetupQueryService<QueryServiceForBrowserAggregateInterface, Browser, BrowserInterface, BrowserInterface>(store, kernel, BrowserInterfaceExtensions.CopyFieldsFrom);
-            RepoUtil.SetupQueryService<QueryServiceForBrowserAggregateInterface, Website.Domain.Browser.Browser, Website.Domain.Browser.BrowserInterface, BrowserInterface>(store, kernel, Website.Domain.Browser.BrowserInterfaceExtensions.CopyFieldsFrom);
+                RepoUtil.SetupQueryService<GenericQueryServiceInterface, Browser, BrowserInterface, BrowserInterface>(store, kernel, BrowserInterfaceExtensions.CopyFieldsFrom);
+            RepoUtil.SetupQueryService<GenericQueryServiceInterface, Website.Domain.Browser.Browser, Website.Domain.Browser.BrowserInterface, BrowserInterface>(store, kernel, Website.Domain.Browser.BrowserInterfaceExtensions.CopyFieldsFrom);
 
             //            browserQueryService.Setup(m => m.FindBrowserByIdentityProvider(It.IsAny<IdentityProviderCredential>()))
             //                .Returns<IdentityProviderCredential>(prov =>

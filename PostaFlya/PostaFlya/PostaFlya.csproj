@@ -333,6 +333,13 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\SampleDirection.cs" />
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
+    <Compile Include="Areas\MobileApi\App_Start\MobileApiConfig.cs" />
+    <Compile Include="Areas\MobileApi\Infrastructure\Controller\MobileApiControllerBase.cs" />
+    <Compile Include="Areas\MobileApi\Infrastructure\HttpFilters\MobileApiValidationActionFilter.cs" />
+    <Compile Include="Areas\MobileApi\Infrastructure\Model\ResponseContent.cs" />
+    <Compile Include="Areas\MobileApi\MobileApiAreaRegistration.cs" />
+    <Compile Include="Areas\MobileApi\Infrastructure\Model\PageRequestModel.cs" />
+    <Compile Include="Areas\MobileApi\Infrastructure\Model\ValidationErrorModel.cs" />
     <Compile Include="Binding\WebNinjectBindings.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BoardController.cs" />
@@ -345,7 +352,6 @@
     <Compile Include="Controllers\FlierImportController.cs" />
     <Compile Include="Controllers\MyBoardFlierController.cs" />
     <Compile Include="Controllers\MyBoardsController.cs" />
-    <Compile Include="Controllers\PagedModel.cs" />
     <Compile Include="Controllers\PaymentController.cs" />
     <Compile Include="Controllers\PendingFliersApiController.cs" />
     <Compile Include="Controllers\ProfileApiController.cs" />
@@ -407,6 +413,7 @@
     <Compile Include="Models\Location\ContactDetailsModel.cs" />
     <Compile Include="Models\Location\VenueInformationModel.cs" />
     <Compile Include="Models\Location\LocationModel.cs" />
+    <Compile Include="Models\PagedModel.cs" />
     <Compile Include="Models\PageModelInterface.cs" />
     <Compile Include="Models\Tags\TagSetListViewModel.cs" />
     <Compile Include="Models\ViewModelBase.cs" />
@@ -844,6 +851,10 @@
     <Folder Include="Areas\Default\Controllers\" />
     <Folder Include="Areas\Default\Views\Shared\" />
     <Folder Include="Areas\HelpPage\Views\Shared\" />
+    <Folder Include="Areas\MobileApi\Controllers\Board\" />
+    <Folder Include="Areas\MobileApi\Controllers\Browser\" />
+    <Folder Include="Areas\MobileApi\Controllers\Bulletin\" />
+    <Folder Include="Areas\MobileApi\Models\" />
     <Folder Include="Attributes\" />
     <Folder Include="Properties\PublishProfiles\" />
     <Folder Include="Scripts\plupload\jquery.plupload.queue\css\" />

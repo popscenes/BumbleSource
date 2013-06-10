@@ -40,7 +40,7 @@ namespace Website.Test.Common
             , MoqMockingKernel kernel
             , Action<EntityInterfaceType, EntityInterfaceType> copyFields)
             where RepoType : class, GenericRepositoryInterface where EntityType : class, EntityInterfaceType, new()
-            where EntityInterfaceType : EntityIdInterface, StoreInterfaceType
+            where EntityInterfaceType : AggregateRootInterface, StoreInterfaceType
             where StoreInterfaceType : EntityIdInterface
         {
             var repository = kernel.GetMock<RepoType>();
@@ -54,14 +54,14 @@ namespace Website.Test.Common
             Action<EntityInterfaceType> storeAction = entity =>
                 {
                     store.CopyAndStore<EntityType, EntityInterfaceType, StoreInterfaceType>(entity, copyFields);
-                    //find any top level aggregate members and store them
-                    var aggMembers = new HashSet<object>();
-                    AggregateMemberEntityAttribute.GetAggregateEnities(aggMembers, entity, false);
-                    var repoForAggs = kernel.Get<GenericRepositoryInterface>();
-                    foreach (dynamic aggMember in aggMembers.Where(m => !ReferenceEquals(m, entity)))
-                    {
-                       repoForAggs.Store(aggMember);
-                    }
+//                    //find any top level aggregate members and store them
+//                    var aggMembers = new HashSet<object>();
+//                    AggregateMemberEntityAttribute.GetAggregateEnities(aggMembers, entity, false);
+//                    var repoForAggs = kernel.Get<GenericRepositoryInterface>();
+//                    foreach (dynamic aggMember in aggMembers.Where(m => !ReferenceEquals(m, entity)))
+//                    {
+//                       repoForAggs.Store(aggMember);
+//                    }
                 };
 
             repository.Setup(o => o.Store(It.IsAny<EntityType>()))
@@ -100,12 +100,78 @@ namespace Website.Test.Common
             return repository;
         }
 
+        public static Mock<RepoType> SetupAggregateRepo<RepoType, EntityType, EntityInterfaceType, StoreInterfaceType>(
+            HashSet<StoreInterfaceType> store
+            , MoqMockingKernel kernel
+            , Action<EntityInterfaceType, EntityInterfaceType> copyFields)
+                    where RepoType : class, GenericRepositoryInterface
+                    where EntityType : class, EntityInterfaceType, new()
+                    where EntityInterfaceType : AggregateInterface, StoreInterfaceType
+                    where StoreInterfaceType : EntityIdInterface
+        {
+            var repository = kernel.GetMock<RepoType>();
+            kernel.Rebind<RepoType>()
+                .ToConstant(repository.Object).InSingletonScope();
+
+            var repositoryGeneric = kernel.GetMock<GenericRepositoryInterface>();
+            kernel.Rebind<GenericRepositoryInterface>()
+                .ToConstant(repositoryGeneric.Object).InSingletonScope();
+
+            Action<EntityInterfaceType> storeAction = entity =>
+            {
+                store.CopyAndStore<EntityType, EntityInterfaceType, StoreInterfaceType>(entity, copyFields);
+//                //find any top level aggregate members and store them
+//                var aggMembers = new HashSet<object>();
+//                AggregateMemberEntityAttribute.GetAggregateEnities(aggMembers, entity, false);
+//                var repoForAggs = kernel.Get<GenericRepositoryInterface>();
+//                foreach (dynamic aggMember in aggMembers.Where(m => !ReferenceEquals(m, entity)))
+//                {
+//                    repoForAggs.Store(aggMember);
+//                }
+            };
+
+            repository.Setup(o => o.Store(It.IsAny<EntityType>()))
+                .Callback<EntityType>(storeAction);
+            repository.Setup(o => o.Store(It.IsAny<EntityInterfaceType>()))
+                .Callback<EntityInterfaceType>(storeAction);
+
+            repositoryGeneric.Setup(o => o.Store(It.IsAny<EntityType>()))
+                .Callback<EntityType>(storeAction);
+            repositoryGeneric.Setup(o => o.Store(It.IsAny<EntityInterfaceType>()))
+                .Callback<EntityInterfaceType>(storeAction);
+
+
+            Action<string, string, Action<EntityType>> updateAction = (id, agg, act) =>
+            {
+                var entity = store.OfType<EntityType>().SingleOrDefault(b => b.Id == id && b.AggregateId == agg);
+                act(entity);
+                storeAction(entity);
+            };
+
+            repository.Setup(m => m.UpdateAggregateEntity(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<Action<EntityType>>()))
+                .Callback<string, string, Action<EntityType>>(updateAction);
+
+            repositoryGeneric.Setup(m => m.UpdateAggregateEntity(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<Action<EntityType>>()))
+                .Callback<string, string, Action<EntityType>>(updateAction);
+
+            repository.Setup(m => m.UpdateAggregateEntity(typeof(EntityType), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<Action<object>>()))
+                .Callback<Type, string, string, Action<EntityType>>((type, id, agg, act) => updateAction(id, agg, act));
+
+            repositoryGeneric.Setup(m => m.UpdateAggregateEntity(typeof(EntityType), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<Action<object>>()))
+                .Callback<Type, string, string, Action<EntityType>>((type, id, agg, act) => updateAction(id, agg, act));
+
+            repository.Setup(r => r.SaveChanges()).Returns(() => true);
+            repositoryGeneric.Setup(r => r.SaveChanges()).Returns(() => true);
+
+            return repository;
+        }
+
         public static Mock<QsType> SetupQueryService<QsType, EntityType, EntityInterfaceType, StoreInterfaceType>(
             HashSet<StoreInterfaceType> store
             , MoqMockingKernel kernel
             , Action<EntityInterfaceType, EntityInterfaceType> copyFields)
             where QsType : class, GenericQueryServiceInterface where EntityType : class, EntityInterfaceType, new()
-            where EntityInterfaceType : class, EntityIdInterface
+            where EntityInterfaceType : class, AggregateRootInterface
             where StoreInterfaceType : EntityIdInterface
         {
             var queryService = kernel.GetMock<QsType>();
@@ -152,21 +218,11 @@ namespace Website.Test.Common
                 return entity;
             };
 
-            queryService.Setup(m => m.FindByFriendlyId<EntityType>(It.IsAny<string>()))
-                .Returns<string>(findByFriendlyId);
-            queryServiceGeneric.Setup(m => m.FindByFriendlyId<EntityType>(It.IsAny<string>()))
-                .Returns<string>(findByFriendlyId);
-
-            Func<Type, string, EntityType> findFriendlyByTypeId = (type, id) => findById(id);
-            queryService.Setup(m => m.FindByFriendlyId(typeof(EntityType), It.IsAny<string>()))
-                .Returns<Type, string>(findFriendlyByTypeId);
-            queryServiceGeneric.Setup(m => m.FindByFriendlyId(typeof(EntityType), It.IsAny<string>()))
-                .Returns<Type, string>(findFriendlyByTypeId);
 
             return queryService;
         }
 
-        public static Mock<QsType> FindAggregateEntities<QsType, EntityType, EntityInterfaceType>(
+        public static Mock<QsType> SetupAggregateQuery<QsType, EntityType, EntityInterfaceType>(
             HashSet<EntityInterfaceType> store
             , MoqMockingKernel kernel
             , Action<EntityInterfaceType, EntityInterfaceType> copyFields)
@@ -178,7 +234,7 @@ namespace Website.Test.Common
             var queryServiceGeneric = kernel.GetMock<GenericQueryServiceInterface>();
 
 
-            Func<string, IQueryable<string>> findById =
+            Func<string, IQueryable<string>> findByAgg =
                 (id) =>
                     {
                         var list = store.Where(f => f.AggregateId == id)
@@ -192,10 +248,36 @@ namespace Website.Test.Common
                         return list.Select(e => e.Id);
                     };
 
+            Func<string, string, EntityType> findById =
+                (id, agg) =>
+                {
+                    var list = store.Where(f => f.AggregateId == agg && f.Id == id)
+                        .Select(
+                            e =>
+                            {
+                                var ret = new EntityType();
+                                copyFields(ret, e);
+                                return ret;
+                            }).AsQueryable();
+                    return list.Single();
+                };
+
+
             queryService.Setup(m => m.FindAggregateEntityIds<EntityType>(It.IsAny<string>()))
-                .Returns<string>(findById);
+                .Returns(findByAgg);
             queryServiceGeneric.Setup(m => m.FindAggregateEntityIds<EntityType>(It.IsAny<string>()))
-                .Returns<string>(findById);
+                .Returns(findByAgg);
+
+            queryService.Setup(m => m.FindByAggregate<EntityType>(It.IsAny<string>(), It.IsAny<string>()))
+                .Returns(findById);
+            queryServiceGeneric.Setup(m => m.FindByAggregate<EntityType>(It.IsAny<string>(), It.IsAny<string>()))
+                .Returns(findById);
+
+            queryService.Setup(m => m.GetAllAggregateIds<EntityType>())
+                .Returns(() => store.ToList().AsQueryable());
+            queryServiceGeneric.Setup(m => m.GetAllAggregateIds<EntityType>())
+                .Returns(() => store.ToList().AsQueryable());
+
 
             return queryService;
         }

@@ -41,7 +41,7 @@ namespace Website.Mocks.Domain.Data
 
         internal static CommentInterface AssertGetById(CommentInterface comment, GenericQueryServiceInterface queryService)
         {
-            var retrievedFlier = queryService.FindById<Comment>(comment.Id);
+            var retrievedFlier = queryService.FindByAggregate<Comment>(comment.Id, comment.AggregateId);
             AssertStoreRetrieve(comment, retrievedFlier);
 
             return retrievedFlier;
@@ -97,7 +97,7 @@ namespace Website.Mocks.Domain.Data
             using (kernel.Get<UnitOfWorkFactoryInterface>()
                 .GetUnitOfWork(new List<RepositoryInterface>() { repository }))
             {
-                repository.UpdateEntity<Comment>(comment.Id, e => e.CopyFieldsFrom(comment));
+                repository.UpdateAggregateEntity<Comment>(comment.Id, comment.AggregateId, e => e.CopyFieldsFrom(comment));
             }
         }
 

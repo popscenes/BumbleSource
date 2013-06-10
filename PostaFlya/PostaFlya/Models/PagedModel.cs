@@ -1,6 +1,6 @@
 ﻿using System.Runtime.Serialization;
 
-namespace PostaFlya.Controllers
+namespace PostaFlya.Models
 {
     [DataContract]
     public class PagedModel

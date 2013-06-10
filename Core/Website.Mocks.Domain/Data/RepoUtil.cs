@@ -39,7 +39,7 @@ namespace Website.Mocks.Domain.Data
             , MoqMockingKernel kernel
             , Action<EntityInterfaceType, EntityInterfaceType> copyFields)
             where RepoType : class, GenericRepositoryInterface where EntityType : class, EntityInterfaceType, new()
-            where EntityInterfaceType : EntityIdInterface
+            where EntityInterfaceType : AggregateRootInterface
         {
             return RepoCoreUtil.SetupRepo<RepoType, EntityType, EntityInterfaceType, EntityInterfaceType>(store, kernel, copyFields);
         }
@@ -49,18 +49,17 @@ namespace Website.Mocks.Domain.Data
             , MoqMockingKernel kernel
             , Action<EntityInterfaceType, EntityInterfaceType> copyFields)
             where QsType : class, GenericQueryServiceInterface where EntityType : class, EntityInterfaceType, new()
-            where EntityInterfaceType : class, EntityIdInterface
-            where StoreType : EntityInterfaceType
+            where EntityInterfaceType : class, AggregateRootInterface where StoreType : EntityInterfaceType
         {
 
             var ret = RepoCoreUtil.SetupQueryService<QsType, EntityType, EntityInterfaceType, StoreType>(store, kernel, copyFields);
-            var queryServiceWithBrowser = (typeof (QueryServiceForBrowserAggregateInterface)
+            var queryServiceWithBrowser = (typeof (GenericQueryServiceInterface)
                                               .IsAssignableFrom(typeof (QsType)))
-                                              ? kernel.GetMock<QueryServiceForBrowserAggregateInterface>()
+                                              ? kernel.GetMock<GenericQueryServiceInterface>()
                                               : null;
 
             if(queryServiceWithBrowser != null)
-                kernel.Rebind<QueryServiceForBrowserAggregateInterface>()
+                kernel.Rebind<GenericQueryServiceInterface>()
                 .ToConstant(queryServiceWithBrowser.Object);
 
             Func<string, EntityType> findById =
@@ -96,15 +95,6 @@ namespace Website.Mocks.Domain.Data
                 return entity;
             };
 
-            if(queryServiceWithBrowser != null)
-                queryServiceWithBrowser.Setup(m => m.FindByFriendlyId<EntityType>(It.IsAny<string>()))
-                .Returns<string>(findByFriendlyId);
-
-            Func<Type, string, EntityType> findFriendlyByTypeId = (type, id) => findById(id);
-
-            if (queryServiceWithBrowser != null)
-                queryServiceWithBrowser.Setup(m => m.FindByFriendlyId(typeof(EntityType), It.IsAny<string>()))
-                .Returns<Type, string>(findFriendlyByTypeId);
 
             return ret;
         }
@@ -117,41 +107,9 @@ namespace Website.Mocks.Domain.Data
             where EntityType : class, EntityInterfaceType,  new()
             where EntityInterfaceType : class, EntityInterface, AggregateInterface
         {
-            return RepoCoreUtil.FindAggregateEntities<QsType, EntityType, EntityInterfaceType>(store, kernel, copyFields);
+            return RepoCoreUtil.SetupAggregateQuery<QsType, EntityType, EntityInterfaceType>(store, kernel, copyFields);
         }
 
-        public static Mock<QsType> SetupQueryByBrowser<QsType, EntityType, EntityInterfaceType>(
-            Mock<QsType> queryService,
-            HashSet<EntityInterfaceType> store
-            , MoqMockingKernel kernel
-            , Action<EntityInterfaceType, EntityInterfaceType> copyFields)
-            where QsType : class, QueryServiceForBrowserAggregateInterface where EntityType : class, EntityInterfaceType, new()
-            where EntityInterfaceType : class, BrowserIdInterface, EntityInterface
-        {
-//            kernel.Bind<QueryByBrowserInterface>()
-//                .ToConstant(queryService.Object);
-
-            var queryServiceGeneric = kernel.GetMock<QueryServiceForBrowserAggregateInterface>();
-            kernel.Rebind<QueryServiceForBrowserAggregateInterface>()
-                .ToConstant(queryServiceGeneric.Object);
-
-            Func<string, IQueryable<string>> findByBrows = id =>
-                                                           store.Where(f => f.BrowserId == id)
-                                                                .Select(f =>
-                                                                    {
-                                                                        var fli = new EntityType();
-                                                                        copyFields(fli, f);
-                                                                        return fli;
-                                                                    }).Select(e => e.Id)
-                                                                .AsQueryable();
-
-            queryService.Setup(o => o.GetEntityIdsByBrowserId<EntityType>(It.IsAny<string>()))
-                .Returns<String>(findByBrows);
-            queryServiceGeneric.Setup(o => o.GetEntityIdsByBrowserId<EntityType>(It.IsAny<string>()))
-                .Returns<String>(findByBrows);
-            
-            return queryService;
-        }
 
     }
 

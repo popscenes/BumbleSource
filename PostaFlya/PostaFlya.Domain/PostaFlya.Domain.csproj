@@ -107,6 +107,7 @@
     <Compile Include="Browser\Command\ProfileEditCommand.cs" />
     <Compile Include="Browser\Command\ProfileEditCommandHandler.cs" />
     <Compile Include="Browser\Command\SetBrowserPropertyCommandHandler.cs" />
+    <Compile Include="Browser\Event\BrowserModifiedEvent.cs" />
     <Compile Include="Flier\Analytic\AnalyticTrackingSummary.cs" />
     <Compile Include="Flier\Analytic\FlierAnalyticSourceAction.cs" />
     <Compile Include="Flier\Analytic\FlierAnalytic.cs" />

@@ -66,9 +66,9 @@
     <Compile Include="Browser\Command\SetExternalCredentialCommandHandler.cs" />
     <Compile Include="Browser\Publish\BrowserSubscriptionBase.cs" />
     <Compile Include="Browser\Publish\BrowserSubscriptionInterface.cs" />
-    <Compile Include="Browser\Query\BrowserQueryServiceExtensions.cs" />
+    <Compile Include="Browser\Query\FindBrowserByIdentityProviderQuery.cs" />
     <Compile Include="Browser\Query\BrowserQueryServiceUtil.cs" />
-    <Compile Include="Browser\Query\QueryServiceForBrowserAggregateInterface.cs" />
+    <Compile Include="Browser\Query\GetEntityIdsByBrowserIdQuery.cs" />
     <Compile Include="Browser\Role.cs" />
     <Compile Include="Browser\Roles.cs" />
     <Compile Include="Claims\Event\ClaimEvent.cs" />

@@ -42,7 +42,7 @@ namespace Website.Mocks.Domain.Data
 
         internal static ClaimInterface AssertGetById(ClaimInterface claim, GenericQueryServiceInterface queryService)
         {
-            var retrievedFlier = queryService.FindById<Claim>(claim.AggregateId + claim.BrowserId);
+            var retrievedFlier = queryService.FindByAggregate<Claim>(claim.AggregateId + claim.BrowserId, claim.AggregateId);
             AssertStoreRetrieve(claim, retrievedFlier);
 
             return retrievedFlier;
@@ -125,7 +125,7 @@ namespace Website.Mocks.Domain.Data
             using (kernel.Get<UnitOfWorkFactoryInterface>()
                 .GetUnitOfWork(new List<RepositoryInterface>() { repository }))
             {
-                repository.UpdateEntity<Claim>(claim.AggregateId + claim.BrowserId, e => e.CopyFieldsFrom(claim));
+                repository.UpdateAggregateEntity<Claim>(claim.AggregateId + claim.BrowserId, claim.AggregateId, e => e.CopyFieldsFrom(claim));
             }
         }
 

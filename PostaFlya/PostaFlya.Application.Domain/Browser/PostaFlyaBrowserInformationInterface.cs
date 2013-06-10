@@ -16,8 +16,8 @@ namespace PostaFlya.Application.Domain.Browser
     public class PostaFlyaBrowserInformation : BrowserInformation<PostaFlya.Domain.Browser.Browser>, PostaFlyaBrowserInformationInterface
     {
         private readonly GenericQueryServiceInterface _genericQueryService;
-        public PostaFlyaBrowserInformation(GenericQueryServiceInterface browserQueryService, HttpContextBase httpContext, GenericQueryServiceInterface genericQueryService) 
-            : base(browserQueryService, httpContext)
+        public PostaFlyaBrowserInformation(GenericQueryServiceInterface genericQueryService, HttpContextBase httpContext, QueryChannelInterface queryChannel)
+            : base(genericQueryService, httpContext, queryChannel)
         {
             _genericQueryService = genericQueryService;
         }

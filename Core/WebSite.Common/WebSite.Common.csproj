@@ -131,12 +131,13 @@
     <Compile Include="Binding\NinjectHttpDependencyResolver.cs" />
     <Compile Include="Binding\WebsiteCommonNinjectBinding.cs" />
     <Compile Include="Content\ScriptsExtensions.cs" />
+    <Compile Include="Controller\WebApiControllerBase.cs" />
     <Compile Include="Extension\ApiControllerExtensions.cs" />
     <Compile Include="Extension\BundleExtensions.cs" />
     <Compile Include="Extension\HtmlHelperExtensions.cs" />
     <Compile Include="Extension\StringExtensions.cs" />
     <Compile Include="Extension\WebViewPageExtensions.cs" />
-    <Compile Include="Filters\ApiValidationActionFilter.cs" />
+    <Compile Include="Filters\WebApiValidationActionFilter.cs" />
     <Compile Include="Filters\DefaultNinjectHttpFilterProvider.cs" />
     <Compile Include="MediaFormatters\JsonpMediaTypeFormatter.cs" />
     <Compile Include="MediaFormatters\RegisterMediaFormatters.cs" />

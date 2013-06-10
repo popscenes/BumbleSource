@@ -300,13 +300,13 @@ div.popsceneswidget div#selected-item-div
     border-left: 1px solid #ccc;
     background-color: white; 
     opacity: 1;
-
+    margin-top: 20px;
 }
 
 
 div.popsceneswidget div#selected-item-popup-overlay{
-    background-color: white;
-    opacity: 0.95;
+    background-color: rgba(227, 224, 226, 0.95);
+    overflow-y: scroll;
 }
 /************end selected item popup/overlay div ********************/
 

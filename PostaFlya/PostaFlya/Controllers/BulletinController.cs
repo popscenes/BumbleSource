@@ -36,6 +36,7 @@ namespace PostaFlya.Controllers
         private readonly PostaFlyaBrowserInformationInterface _browserInformation;
         private readonly FlierWebAnalyticServiceInterface _webAnalyticService;
         private readonly WebsiteInfoServiceInterface _websiteInfoService;
+        private readonly QueryChannelInterface _queryChannel;
 
         public BulletinController(GenericQueryServiceInterface queryService
             , [ImageStorage]BlobStorageInterface blobStorage
@@ -44,7 +45,7 @@ namespace PostaFlya.Controllers
             , FlierSearchServiceInterface flierSearchService
             , PostaFlyaBrowserInformationInterface browserInformation
             , FlierWebAnalyticServiceInterface webAnalyticService
-            ,WebsiteInfoServiceInterface websiteInfoService)
+            ,WebsiteInfoServiceInterface websiteInfoService, QueryChannelInterface queryChannel)
         {
             _queryService = queryService;
             _blobStorage = blobStorage;
@@ -54,6 +55,7 @@ namespace PostaFlya.Controllers
             _browserInformation = browserInformation;
             _webAnalyticService = webAnalyticService;
             _websiteInfoService = websiteInfoService;
+            _queryChannel = queryChannel;
         }
 
         public ActionResult Get(LocationModel loc
@@ -63,7 +65,7 @@ namespace PostaFlya.Controllers
             var model = new BulletinBoardPageModel(){PageId = WebConstants.BulletinBoardPage};
 
             if (loc.IsValid())
-                model.Fliers = BulletinApiController.GetFliers(_flierSearchService, _queryService, _blobStorage, _viewModelFactory
+                model.Fliers = BulletinApiController.GetFliers(_flierSearchService, _queryChannel, _queryService, _blobStorage, _viewModelFactory
                              , loc, count, board: board, skipPast: skipPast, distance: distance, tags: tags);
       
             return View("Get", model);
@@ -75,7 +77,7 @@ namespace PostaFlya.Controllers
             var model = new BulletinDetailPageModel
                 {
                     PageId = WebConstants.BulletinDetailPage,
-                    Detail = BulletinApiController.GetDetail(id, _queryService, _behaviourQueryService, _blobStorage,
+                    Detail = BulletinApiController.GetDetail(id, _queryChannel, _queryService, _behaviourQueryService, _blobStorage,
                                                               _viewModelFactory, _browserInformation)
                 };
 

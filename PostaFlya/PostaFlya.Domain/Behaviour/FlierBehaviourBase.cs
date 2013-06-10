@@ -13,5 +13,7 @@ namespace PostaFlya.Domain.Behaviour
     {
         public abstract Flier.Flier Flier { get; set; }
         public abstract Dictionary<string, object> FlierProperties { get; set; }
+        public string AggregateId { get; set; }
+        public string AggregateTypeTag { get; set; }
     }
 }

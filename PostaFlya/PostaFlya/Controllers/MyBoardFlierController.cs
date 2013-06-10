@@ -10,13 +10,14 @@ using PostaFlya.Models.Board;
 using PostaFlya.Models.Factory;
 using PostaFlya.Models.Flier;
 using Website.Application.Content;
+using Website.Common.Controller;
 using Website.Common.Extension;
 using Website.Infrastructure.Command;
 using Website.Infrastructure.Query;
 
 namespace PostaFlya.Controllers
 {
-    public class MyBoardFlierController : ApiController 
+    public class MyBoardFlierController : WebApiControllerBase
     {
         private readonly GenericQueryServiceInterface _queryService;
         private readonly BlobStorageInterface _blobStorage;

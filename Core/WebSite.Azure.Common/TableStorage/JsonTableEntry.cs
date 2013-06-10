@@ -5,6 +5,7 @@ using Website.Infrastructure.Util;
 
 namespace Website.Azure.Common.TableStorage
 {
+
     public class JsonTableEntry : TableServiceEntity, StorageTableEntryInterface
     {
         public int PartitionClone { get; set; }
@@ -16,19 +17,24 @@ namespace Website.Azure.Common.TableStorage
             return _clrTyp == null ? null : SerializeUtil.GetAssemblyQualifiedNameWithoutVer(_clrTyp);    
         }
 
-        public void UpdateEntry(object source)
+        public void Init(object source)
         {
             _sourceObject = source;
-            _jsonText = JsonConvert.SerializeObject(source);
             _clrTyp = source.GetType();
+            UpdateEntry();
         }
 
-        public object GetEntity(Type entityTyp)
+        public void UpdateEntry()
+        {
+            _jsonText = JsonConvert.SerializeObject(_sourceObject);
+        }
+
+        public object GetEntity(Type entityTyp = null)
         {
             if (_sourceObject != null)
                 return _sourceObject;
 
-            if (_clrTyp != null && entityTyp.IsAssignableFrom(_clrTyp))
+            if (_clrTyp != null && (entityTyp == null || entityTyp.IsAssignableFrom(_clrTyp)))
                 _sourceObject = JsonConvert.DeserializeObject(_jsonText, _clrTyp);
 
             return _sourceObject ?? (_sourceObject = JsonConvert.DeserializeObject(_jsonText, entityTyp));

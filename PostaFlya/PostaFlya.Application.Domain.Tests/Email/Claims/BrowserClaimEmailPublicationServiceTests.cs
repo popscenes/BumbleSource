@@ -49,10 +49,10 @@ namespace PostaFlya.Application.Domain.Tests.Email.Claims
             var repository = Kernel.Get<GenericRepositoryInterface>();
             
             BrowserInterface claimBrowser = new PostaFlya.Domain.Browser.Browser {Id = Guid.NewGuid().ToString(), EmailAddress = "test@bumbleflya.com"};
-            claimBrowser = BrowserTestData.StoreOne(claimBrowser, repository, Kernel);
+            claimBrowser = BrowserTestData.StoreOne(claimBrowser, repository, Kernel, true);
 
             var flierBrowser = BrowserTestData.GetOne(Kernel);
-            flierBrowser = BrowserTestData.StoreOne(flierBrowser, repository, Kernel);
+            flierBrowser = BrowserTestData.StoreOne(flierBrowser, repository, Kernel, true);
 
             var flier = FlierTestData.GetOne(Kernel);
             flier.EffectiveDate = DateTime.UtcNow.AddDays(-1);
@@ -103,11 +103,11 @@ namespace PostaFlya.Application.Domain.Tests.Email.Claims
             var repository = Kernel.Get<GenericRepositoryInterface>();
 
             BrowserInterface claimBrowser = new PostaFlya.Domain.Browser.Browser { Id = Guid.NewGuid().ToString(), EmailAddress = "test@bumbleflya.com" };
-            claimBrowser = BrowserTestData.StoreOne(claimBrowser, repository, Kernel);
+            claimBrowser = BrowserTestData.StoreOne(claimBrowser, repository, Kernel, true);
             
 
             var flierBrowser = BrowserTestData.GetOne(Kernel);
-            flierBrowser = BrowserTestData.StoreOne(flierBrowser, repository, Kernel);
+            flierBrowser = BrowserTestData.StoreOne(flierBrowser, repository, Kernel, true);
 
             var flier = FlierTestData.GetOne(Kernel);
             flier.BrowserId = flierBrowser.Id;

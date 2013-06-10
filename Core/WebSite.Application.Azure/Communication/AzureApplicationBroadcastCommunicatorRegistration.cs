@@ -9,7 +9,7 @@ using Website.Azure.Common.TableStorage;
 
 namespace Website.Application.Azure.Communication
 {
-    public class AzureBroadcastRegistrationEntry : SimpleExtendableEntity
+    public class AzureBroadcastRegistrationEntry : SimpleExtendableEntity, AggregateRootInterface
     {
         
     }
@@ -20,12 +20,12 @@ namespace Website.Application.Azure.Communication
 
         private readonly string _tableName;
         public AzureApplicationBroadcastCommunicatorRegistration(TableContextInterface tableContext
-            , TableNameAndPartitionProviderServiceInterface nameAndPartitionProviderService
+            , TableNameAndIndexProviderServiceInterface nameAndIndexProviderService
             , CommandQueueFactoryInterface commandQueueFactory) 
-            : base(tableContext, nameAndPartitionProviderService)
+            : base(tableContext, nameAndIndexProviderService)
         {
             _commandQueueFactory = commandQueueFactory;
-            _tableName = nameAndPartitionProviderService.GetTableName<AzureBroadcastRegistrationEntry>(IdPartition);
+            _tableName = nameAndIndexProviderService.GetTableName<AzureBroadcastRegistrationEntry>();
         }
 
         public void RegisterEndpoint(string myEndpoint)
@@ -81,15 +81,6 @@ namespace Website.Application.Azure.Communication
             return (DateTime.UtcNow - registrationEntry.Get<DateTime>("LastRegisterTime")).Minutes > 10;
         }
 
-        protected override StorageAggregate GetEntityForUpdate(Type entity, string id)
-        {
-            var root = FindById(entity, id);
-            if (root == null)
-                return null;
-            var ret = new StorageAggregate(root, NameAndPartitionProviderService);
-            ret.LoadAllTableEntriesForUpdate<AzureBroadcastRegistrationEntry>(TableContext);
-            return ret;
-        }
 
     }
 }

@@ -14,7 +14,8 @@ namespace Website.Application.Domain.TinyUrl
         }
     }
 
-    public interface TinyUrlRecordInterface : EntityIdInterface, AggregateInterface, TinyUrlInterface
+    public interface TinyUrlRecordInterface : AggregateRootInterface, 
+        AggregateInterface, TinyUrlInterface
     {
     }
 

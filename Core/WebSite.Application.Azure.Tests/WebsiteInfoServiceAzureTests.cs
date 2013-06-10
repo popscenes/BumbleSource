@@ -35,7 +35,7 @@ namespace Website.Application.Azure.Tests
             Kernel.Rebind<WebsiteInfoServiceInterface>().To<WebsiteInfoServiceAzure>();
 
             _tableName =
-                Kernel.Get<TableNameAndPartitionProviderServiceInterface>().GetTableName<WebsiteInfoEntity>(0);
+                Kernel.Get<TableNameAndIndexProviderServiceInterface>().GetTableName<WebsiteInfoEntity>();
 
             Reinit();
         }
@@ -50,7 +50,7 @@ namespace Website.Application.Azure.Tests
         {
             //Kernel.Get<AzureTableContext>("websiteinfo").InitFirstTimeUse();
             var context = Kernel.Get<TableContextInterface>();
-            context.Delete<WebsiteInfoEntity>(_tableName, null, 0);
+            context.Delete<WebsiteInfoEntity>(_tableName, null);
             context.SaveChanges();
         }
 

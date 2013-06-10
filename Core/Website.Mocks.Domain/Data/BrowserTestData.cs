@@ -46,7 +46,7 @@ namespace Website.Mocks.Domain.Data
             return retrievedBrowser;
         }
 
-        public static BrowserInterface StoreOne(BrowserInterface browser, GenericRepositoryInterface repository, StandardKernel kernel)
+        public static BrowserInterface StoreOne(BrowserInterface browser, GenericRepositoryInterface repository, StandardKernel kernel, bool checkuow = true)
         {
             var uow = kernel.Get<UnitOfWorkFactoryInterface>()
                 .GetUnitOfWork(new List<RepositoryInterface>() {repository});
@@ -56,7 +56,8 @@ namespace Website.Mocks.Domain.Data
                 repository.Store(browser);
             }
 
-            Assert.IsTrue(uow.Successful);
+            if (checkuow)
+                Assert.IsTrue(uow.Successful);
             return browser;
         }
 

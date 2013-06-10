@@ -21,29 +21,19 @@ namespace Website.Azure.Common.TableStorage
     {
         void InitTable<TableEntryType>(string tableName);
 
-        IQueryable<TableEntryType> PerformQuery<TableEntryType>(string tableName
-                , Expression<Func<TableEntryType, bool>> query = null
-                , int partition = 0, int take = -1);
+        IQueryable<TableEntryType> PerformQuery<TableEntryType>(string tableName, Expression<Func<TableEntryType, bool>> query = null, int take = -1);
 
-        IQueryable<TableEntryType> PerformParallelQueries<TableEntryType>(string tableName
-                , Expression<Func<TableEntryType, bool>>[] queries
-                , int partition = 0, int take = -1);
+        IQueryable<TableEntryType> PerformParallelQueries<TableEntryType>(string tableName, Expression<Func<TableEntryType, bool>>[] queries, int take = -1);
 
-        IQueryable<SelectType> PerformSelectQuery<TableEntryType, SelectType>(string tableName
-                , Expression<Func<TableEntryType, bool>> query
-                , Expression<Func<TableEntryType, SelectType>> selectExpression
-                , int partition = 0, int take = -1);
+        IQueryable<SelectType> PerformSelectQuery<TableEntryType, SelectType>(string tableName, Expression<Func<TableEntryType, bool>> query, Expression<Func<TableEntryType, SelectType>> selectExpression, int take = -1);
 
-        IQueryable<SelectType> PerformParallelSelectQueries<TableEntryType, SelectType>(string tableName
-                , Expression<Func<TableEntryType, bool>>[] queries
-                , Expression<Func<TableEntryType, SelectType>> selectExpression
-                , int partition = 0, int take = -1);
+        IQueryable<SelectType> PerformParallelSelectQueries<TableEntryType, SelectType>(string tableName, Expression<Func<TableEntryType, bool>>[] queries, Expression<Func<TableEntryType, SelectType>> selectExpression, int take = -1);
 
         DataServiceResponse SaveChanges();
         DataServiceResponse SaveChanges(SaveChangesOptions saveChangesOptions);
-        void Delete<TableEntryType>(string tableName, Expression<Func<TableEntryType, bool>> query, int partition = 0);
-        void Delete(StorageTableEntryInterface tableEntry);
-        void Store(string tableName, StorageTableEntryInterface tableEntry);
+        void Delete<TableEntryType>(string tableName, Expression<Func<TableEntryType, bool>> query);
+        void Delete(StorageTableKeyInterface tableEntry);
+        void Store(string tableName, StorageTableKeyInterface tableEntry);
     }
 
     public class TableContext : TableContextInterface
@@ -108,7 +98,7 @@ namespace Website.Azure.Common.TableStorage
             
         }
 
-        public IQueryable<TableEntryType> PerformQuery<TableEntryType>(string tableName, Expression<Func<TableEntryType, bool>> query = null, int partition = 0, int take = -1)
+        public IQueryable<TableEntryType> PerformQuery<TableEntryType>(string tableName, Expression<Func<TableEntryType, bool>> query = null, int take = -1)
         {
             Func<IQueryable<TableEntryType>> exec = () =>
                                                         {
@@ -126,14 +116,14 @@ namespace Website.Azure.Common.TableStorage
             return ret ?? (new List<TableEntryType>()).AsQueryable();
         }
 
-        public IQueryable<TableEntryType> PerformParallelQueries<TableEntryType>(string tableName, Expression<Func<TableEntryType, bool>>[] queries, int partition = 0, int take = -1)
+        public IQueryable<TableEntryType> PerformParallelQueries<TableEntryType>(string tableName, Expression<Func<TableEntryType, bool>>[] queries, int take = -1)
         {
             var res = new ConcurrentQueue<TableEntryType>();
             var parallelOptions = new ParallelOptions { MaxDegreeOfParallelism = Math.Max(8, queries.Length) };
             Action<Expression<Func<TableEntryType, bool>>> parallelAction =
                 (q) =>
                     {
-                        var items = PerformQuery(tableName, q, partition, take);
+                        var items = PerformQuery(tableName, query: q, take: take);
                         foreach (var tableEntry in items)
                         {
                             res.Enqueue(tableEntry);
@@ -145,7 +135,7 @@ namespace Website.Azure.Common.TableStorage
             return res.AsQueryable();
         }
 
-        public IQueryable<SelectType> PerformSelectQuery<TableEntryType, SelectType>(string tableName, Expression<Func<TableEntryType, bool>> query, Expression<Func<TableEntryType, SelectType>> selectExpression, int partition = 0, int take = -1)
+        public IQueryable<SelectType> PerformSelectQuery<TableEntryType, SelectType>(string tableName, Expression<Func<TableEntryType, bool>> query, Expression<Func<TableEntryType, SelectType>> selectExpression, int take = -1)
         {
             //just fake it if not using real storage
             //throw new NotSupportedException("as at at 1.6 sdk Development storage doesn't fucking support projection queries");
@@ -180,14 +170,14 @@ namespace Website.Azure.Common.TableStorage
             }
         }
 
-        public IQueryable<SelectType> PerformParallelSelectQueries<TableEntryType, SelectType>(string tableName, Expression<Func<TableEntryType, bool>>[] queries, Expression<Func<TableEntryType, SelectType>> selectExpression, int partition = 0, int take = -1)
+        public IQueryable<SelectType> PerformParallelSelectQueries<TableEntryType, SelectType>(string tableName, Expression<Func<TableEntryType, bool>>[] queries, Expression<Func<TableEntryType, SelectType>> selectExpression, int take = -1)
         {
             var res = new ConcurrentQueue<SelectType>();
             var parallelOptions = new ParallelOptions { MaxDegreeOfParallelism = Math.Max(8, queries.Length) };
             Action<Expression<Func<TableEntryType, bool>>> parallelAction =
                 (q) =>
                     {
-                        var items = PerformSelectQuery(tableName, q, selectExpression, partition, take);
+                        var items = PerformSelectQuery(tableName, q, selectExpression, take: take);
                         foreach (var tableEntry in items)
                         {
                             res.Enqueue(tableEntry);
@@ -208,16 +198,16 @@ namespace Website.Azure.Common.TableStorage
             return _containedContext.SaveChangesWithRetries(saveChangesOptions);
         }
 
-        public void Delete<TableEntryType>(string tableName, Expression<Func<TableEntryType, bool>> query, int partition = 0)
+        public void Delete<TableEntryType>(string tableName, Expression<Func<TableEntryType, bool>> query)
         {
-            var entities = PerformQuery(tableName, query, partition);
+            var entities = PerformQuery(tableName, query: query);
             foreach (var tableEntity in entities)
             {
                 _containedContext.DeleteObject(tableEntity);
             }
         }
 
-        public void Delete(StorageTableEntryInterface tableEntry)
+        public void Delete(StorageTableKeyInterface tableEntry)
         {
             if (_containedContext.GetEntityDescriptor(tableEntry) != null)
             {
@@ -225,14 +215,8 @@ namespace Website.Azure.Common.TableStorage
             }
         }
 
-        public void Store(string tableName, StorageTableEntryInterface tableEntry)
+        public void Store(string tableName, StorageTableKeyInterface tableEntry)
         {
-            if (tableEntry.KeyChanged && _containedContext.GetEntityDescriptor(tableEntry) != null)
-            {
-                _containedContext.DeleteObject(tableEntry);
-                this.SaveChanges();
-            }
-
             //do insert or replace in prod env
             if (AzureEnv.UseRealStorage)
             {

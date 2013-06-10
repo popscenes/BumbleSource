@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
 using Ninject;
-using PostaFlya.DataRepository.Internal;
+using Website.Application.Domain.Browser.Query;
 using Website.Azure.Common.Environment;
 using Website.Azure.Common.TableStorage;
-using Website.Domain.Browser.Query;
 using Website.Infrastructure.Command;
 using Website.Domain.Content;
 using Website.Domain.Location;
+using Website.Infrastructure.Query;
 
 namespace PostaFlya.DataRepository.Tests
 {
@@ -29,7 +29,7 @@ namespace PostaFlya.DataRepository.Tests
 
 
         GenericRepositoryInterface _repository;
-        QueryServiceForBrowserAggregateInterface _queryService;
+        GenericQueryServiceInterface _queryService;
 
         [TestFixtureSetUp]
         public void FixtureSetUp()
@@ -50,7 +50,7 @@ namespace PostaFlya.DataRepository.Tests
 //            context.SaveChanges();
 
             _repository = Kernel.Get<GenericRepositoryInterface>();
-            _queryService = Kernel.Get<QueryServiceForBrowserAggregateInterface>();
+            _queryService = Kernel.Get<GenericQueryServiceInterface>();
         }
         
         [TestFixtureTearDown]
@@ -67,9 +67,9 @@ namespace PostaFlya.DataRepository.Tests
             Assert.IsNotNull(repository);
             Assert.That(repository, Is.InstanceOf<JsonRepository>());
 
-            var queryService = Kernel.Get<QueryServiceForBrowserAggregateInterface>();
+            var queryService = Kernel.Get<GenericQueryServiceInterface>();
             Assert.IsNotNull(queryService);
-            Assert.That(queryService, Is.InstanceOf<JsonRepositoryWithBrowser>());
+            Assert.That(queryService, Is.InstanceOf<JsonRepository>());
         }
 
         [Test]
@@ -138,7 +138,10 @@ namespace PostaFlya.DataRepository.Tests
         private ImageInterface Query(ImageInterface source)
         {
             var storedbyid = _queryService.FindById<Image>(source.Id);
-            var storedbybrowser = _queryService.GetByBrowserId<Image>(source.BrowserId).FirstOrDefault();
+
+            var queryChannel = Kernel.Get<QueryChannelInterface>();
+            var storedbybrowser = queryChannel.Query(new GetByBrowserIdQuery() {BrowserId = source.BrowserId},
+                                                     new List<Image>()).FirstOrDefault();
 
             AssertAreEqual(source, storedbybrowser);
             AssertAreEqual(source, storedbyid);

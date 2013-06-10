@@ -596,7 +596,7 @@ namespace PostaFlya.Specification.Fliers
             var analytics = queryService.FindAggregateEntityIds<FlierAnalytic>(mod.Flier.Id);
             Assert.That(analytics.Count(), Is.GreaterThan(0));
 
-            var item = queryService.FindById<FlierAnalytic>(analytics.First());
+            var item = queryService.FindByAggregate<FlierAnalytic>(analytics.First(), mod.Flier.Id);
 
             Assert.That(item.TemporaryBrowser, Is.False);
 

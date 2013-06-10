@@ -32,7 +32,7 @@ namespace PostaFlya.Mocks.Domain.Data
             return retrievedBrowser;
         }
 
-        public static BrowserInterface StoreOne(BrowserInterface browser, GenericRepositoryInterface repository, StandardKernel kernel)
+        public static BrowserInterface StoreOne(BrowserInterface browser, GenericRepositoryInterface repository, StandardKernel kernel, bool callbase)
         {
             var uow = kernel.Get<UnitOfWorkFactoryInterface>()
                             .GetUnitOfWork(new List<RepositoryInterface>() { repository });
@@ -44,7 +44,8 @@ namespace PostaFlya.Mocks.Domain.Data
 
             Assert.IsTrue(uow.Successful);
 
-            Website.Mocks.Domain.Data.BrowserTestData.StoreOne(browser, repository, kernel);
+            if (callbase)//only needed for mock repositories because of generic binding
+                Website.Mocks.Domain.Data.BrowserTestData.StoreOne(browser, repository, kernel, false);
 
             return browser;
         }

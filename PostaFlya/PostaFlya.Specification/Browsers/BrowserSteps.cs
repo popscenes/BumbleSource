@@ -76,7 +76,10 @@ namespace PostaFlya.Specification.Browsers
             var test = SpecUtil.CurrIocKernel.Get<IdentityProviderServiceInterface>();
             var prov = test.GetProviderByIdentifier("TestProvider");
             var cred = prov.GetCredentials();
-            var browserAsParticipant = SpecUtil.CurrIocKernel.Get<GenericQueryServiceInterface>().FindBrowserByIdentityProvider(cred);
+            var browserAsParticipant = SpecUtil.CurrIocKernel.Get<QueryChannelInterface>()
+                                               .Query(new FindBrowserByIdentityProviderQuery() {Credential = cred},
+                                                      (Browser) null);
+
             ScenarioContext.Current["browserId"] = browserAsParticipant.Id;
         }
 
@@ -108,7 +111,9 @@ namespace PostaFlya.Specification.Browsers
             var browserQuery = SpecUtil.CurrIocKernel.Get<GenericQueryServiceInterface>();
             var creds = new IdentityProviderCredential()
                             {IdentityProvider = IdentityProviders.GOOGLE, UserIdentifier = "AItOawnldHWXFZoFpHDwBAMy34d1aO7qHSPz1ho"};
-            var browser = browserQuery.FindBrowserByIdentityProvider(creds);
+            var browser = SpecUtil.CurrIocKernel.Get<QueryChannelInterface>()
+                                               .Query(new FindBrowserByIdentityProviderQuery() { Credential = creds },
+                                                      (Browser) null);
             if (exists)
             {
                 Assert.IsTrue(browser != null);
