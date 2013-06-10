@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using NUnit.Framework;
 using Ninject;
 using PostaFlya.Domain.Browser.Event;
 using Website.Azure.Common.Environment;
 using Website.Azure.Common.TableStorage;
 using Website.Domain.Browser;
+using Website.Domain.Browser.Query;
 using Website.Infrastructure.Authentication;
 using Website.Infrastructure.Command;
 using Website.Domain.Location;
@@ -184,6 +186,15 @@ namespace PostaFlya.DataRepository.Tests
         {
             var storedBrowser = StoreBrowserRepository();
             return BrowserTestData.AssertGetById(storedBrowser, _queryService);
+        }
+
+        [Test]
+        public void FindByIdentityProviderReturnsBrowser()
+        {
+            var brows = StoreBrowserRepository();
+            var res = _queryChannel.Query(new FindBrowserByIdentityProviderQuery() { Credential = brows.ExternalCredentials.First()}, (Browser)null);
+            Assert.That(res, Is.Not.Null);
+            Assert.That(res.Id, Is.EqualTo(brows.Id));
         }
 
         [Test]

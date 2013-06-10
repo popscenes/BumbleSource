@@ -65,6 +65,13 @@ namespace Website.Azure.Common.TableStorage
             return parts[parts.Length - 1];
         }
 
+        public static string ExtractAggregateRootEntityIdFromRowKey(this string key)
+        {
+            var parts = GetKeySections(key);
+            if(parts.Length < 2) throw new ArgumentOutOfRangeException(key, "must be an aggregate id of the form [rootid][id]");
+            return parts[parts.Length - 2];
+        }
+
         public static string[] GetKeySections(this string key)
         {
             return key.Split(new []{'[', ']'}, StringSplitOptions.RemoveEmptyEntries);

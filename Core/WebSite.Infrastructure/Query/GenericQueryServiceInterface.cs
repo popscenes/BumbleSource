@@ -40,6 +40,13 @@ namespace Website.Infrastructure.Query
                 .Select(id => queryService.FindByAggregate<EntityRetType>(id, aggregateRootId));
         }
 
+        public static IEnumerable<EntityRetType> FindByAggregateIds<EntityRetType>(this GenericQueryServiceInterface queryService
+            , IEnumerable<AggregateInterface> ids )
+            where EntityRetType : class, AggregateInterface, new()
+        {
+            return ids.Select(a => queryService.FindByAggregate<EntityRetType>(a.Id, a.AggregateId));
+        }
+
 //        public static IQueryable<EntityRetType> GetAll<EntityRetType>(this GenericQueryServiceInterface queryService)
 //                where EntityRetType : class, AggregateInterface, new()
 //        {

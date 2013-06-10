@@ -67,6 +67,7 @@ namespace Website.Infrastructure.Domain
     {
         public static void CopyFieldsFrom(this AggregateInterface target, AggregateInterface source)
         {
+            EntityIdInterfaceExtensions.CopyFieldsFrom(target, source);
             target.AggregateId = source.AggregateId;
             target.AggregateTypeTag = source.AggregateTypeTag;
         }
@@ -81,5 +82,13 @@ namespace Website.Infrastructure.Domain
     {
         string AggregateId { get; set; }
         string AggregateTypeTag { get; set; } 
+    }
+
+    public class AggregateIds : AggregateInterface
+    {
+        public string Id { get; set; }
+        public string FriendlyId { get; set; }
+        public string AggregateId { get; set; }
+        public string AggregateTypeTag { get; set; }
     }
 }

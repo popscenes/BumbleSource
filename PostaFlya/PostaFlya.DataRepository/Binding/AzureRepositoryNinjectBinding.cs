@@ -6,6 +6,7 @@ using Ninject;
 using Ninject.Extensions.Conventions.Syntax;
 using Ninject.Modules;
 using PostaFlya.DataRepository.DomainQuery;
+using PostaFlya.DataRepository.DomainQuery.Browser;
 using PostaFlya.Domain.Flier.Query;
 using Website.Azure.Common.Binding;
 using Website.Azure.Common.Sql;
@@ -51,10 +52,10 @@ namespace PostaFlya.DataRepository.Binding
 
             kernel.BindCommandAndQueryHandlersFromCallingAssembly(_repositoryScopeConfiguration);
             kernel.BindGenericQueryHandlersFromCallingAssemblyForTypesFrom(Assembly.GetAssembly(typeof(PostaFlya.Domain.Flier.Flier))
-                , arg => !arg.IsInterface && arg.GetInterface("AggregateRootInterface") != null, 
-                _repositoryScopeConfiguration, arg 
-                    => arg == typeof(FindByFriendlyIdQueryHandler<>) ||
-                            arg == typeof(FindByFriendlyIdQueryHandler<>));
+                , _repositoryScopeConfiguration);
+
+            kernel.BindGenericQueryHandlersFromCallingAssemblyForTypesFrom(Assembly.GetAssembly(typeof(Website.Domain.Claims.Claim))
+                ,  _repositoryScopeConfiguration);
 
             
 
