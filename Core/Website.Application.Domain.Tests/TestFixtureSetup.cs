@@ -51,7 +51,8 @@ namespace Website.Application.Domain.Tests
                       new DefaultServicesNinjectBinding(),
                       new CommandNinjectBinding(),
                       new ApplicationCommandHandlersNinjectBinding(),
-                      new TestRepositoriesNinjectModule()
+                      new TestRepositoriesNinjectModule(),
+                      new Website.Mocks.Domain.Binding.QueryHandlerBinding(),
                   };
     }
 }

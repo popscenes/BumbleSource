@@ -2,10 +2,11 @@ using System.Linq;
 using Website.Domain.Browser.Query;
 using Website.Infrastructure.Query;
 
-namespace PostaFlya.Specification.DomainQuery.Browser
+namespace Website.Mocks.Domain.DomainQuery.Browser
 {
-    public class TestFindBrowserByIdentityProviderQueryHandler 
-        : QueryHandlerInterface<FindBrowserByIdentityProviderQuery, Domain.Browser.Browser>
+    public class TestFindBrowserByIdentityProviderQueryHandler<BrowserType>
+        : QueryHandlerInterface<FindBrowserByIdentityProviderQuery, BrowserType>
+        where BrowserType : Website.Domain.Browser.Browser, new()
     {
         private readonly GenericQueryServiceInterface _queryService;
         public TestFindBrowserByIdentityProviderQueryHandler(GenericQueryServiceInterface queryService)
@@ -13,9 +14,9 @@ namespace PostaFlya.Specification.DomainQuery.Browser
             _queryService = queryService;
         }
 
-        public Domain.Browser.Browser Query(FindBrowserByIdentityProviderQuery argument)
+        public BrowserType Query(FindBrowserByIdentityProviderQuery argument)
         {
-            var all = _queryService.GetAllIds<Domain.Browser.Browser>().Select(_queryService.FindById<Domain.Browser.Browser>);
+            var all = _queryService.GetAllIds<BrowserType>().Select(_queryService.FindById<BrowserType>);
             return all.FirstOrDefault(a => a.ExternalCredentials.Any(e => e.ToUniqueString() == argument.Credential.ToUniqueString()));  
         }
     }

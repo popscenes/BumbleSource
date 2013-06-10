@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Reflection;
 using Ninject;
 using Ninject.Modules;
 using Website.Infrastructure.Binding;
 
-namespace PostaFlya.Specification.Binding
+namespace PostaFlya.Mocks.Domain.Binding
 {
-    public class SpecificationQueryHandlerBinding : NinjectModule
+    public class QueryHandlerBinding : NinjectModule
     {
         public override void Load()
         {
@@ -19,7 +14,9 @@ namespace PostaFlya.Specification.Binding
             kernel.BindGenericQueryHandlersFromCallingAssemblyForTypesFrom(Assembly.GetAssembly(typeof(PostaFlya.Domain.Flier.Flier))
                 , syntax => syntax.InTransientScope());
 
-            kernel.BindGenericQueryHandlersFromCallingAssemblyForTypesFrom(Assembly.GetAssembly(typeof(Website.Domain.Claims.Claim))
+            kernel.BindGenericQueryHandlersFromAssemblyForTypesFrom(
+                Assembly.GetAssembly(typeof(Website.Mocks.Domain.Binding.QueryHandlerBinding)),
+                Assembly.GetAssembly(typeof(PostaFlya.Domain.Flier.Flier))
                 , syntax => syntax.InTransientScope());
         }
     }

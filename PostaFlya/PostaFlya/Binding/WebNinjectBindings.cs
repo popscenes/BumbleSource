@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Diagnostics;
 using System.Runtime.Caching;
 using System.Security.Principal;
@@ -13,6 +15,7 @@ using Website.Application.Caching.Command;
 using Website.Application.Domain.Google.Payment;
 using Website.Application.Domain.Payment;
 using Website.Application.Google.Payment;
+using Website.Azure.Common.Environment;
 using Website.Common.Binding;
 using Website.Infrastructure.Authentication;
 using Website.Infrastructure.Binding;
@@ -109,10 +112,21 @@ namespace PostaFlya.Binding
 //                  .InRequestScope();
 
 // Azure caching
+            Func<ObjectCache> getInMemCache = () =>
+                {
+                    var cacheSettings = new NameValueCollection(3)
+                        {
+                            {"CacheMemoryLimitMegabytes", Convert.ToString(0)},
+                            {"physicalMemoryLimitPercentage", Convert.ToString(49)},
+                            {"pollingInterval", Convert.ToString("00:00:30")}
+                        };
+                    return new MemoryCache("WebSiteCache", cacheSettings);
+                };
+
             Bind<ObjectCache>()
                 .ToMethod(ctx =>
                 {
-                    var ret =  new AzureCacheProvider();
+                    var ret = AzureEnv.IsRunningInCloud() ? new AzureCacheProvider() : getInMemCache();
                     return ret;
                 }).InSingletonScope();
             //turn off notifications for cached repositories when using azure cache          

@@ -35,8 +35,6 @@ namespace Website.Application.Azure.Communication
                     {
                         registrationEntry["LastRegisterTime"] = DateTime.UtcNow;
                         registrationEntry["Endpoint"] = myEndpoint;
-                        registrationEntry.RowKey = myEndpoint;
-                        registrationEntry.PartitionKey = "";
                     };
 
             var existing = FindById<AzureBroadcastRegistrationEntry>(myEndpoint);

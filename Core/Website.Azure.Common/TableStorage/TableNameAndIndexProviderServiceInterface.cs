@@ -11,7 +11,7 @@ namespace Website.Azure.Common.TableStorage
 
     public interface TableNameAndIndexProviderServiceInterface
     {
-
+        //note partitionKeyFunc and rowKeyFunc should not return different values in AggregateRootInterface entities
         void Add<EntityType>(string tableName,
                              Func<EntityType, string> partitionKeyFunc,
                              Func<EntityType, string> rowKeyFunc = null)

@@ -81,10 +81,10 @@ namespace Website.Application.Azure.Binding
             //            Kernel.Bind<TableNameAndPartitionProviderInterface>()
             //                .ToConstant(AzureBroadcastRegistrator.TableNameBinding)
             //                .WhenAnyAnchestorNamed("broadcastCommunicators");
-            tableNameProv.Add<AzureBroadcastRegistrationEntry>("broadcastCommunicators", e => "", e => e.Get<string>("Endpoint"));
+            tableNameProv.Add<AzureBroadcastRegistrationEntry>("broadcastCommunicators", e => e.Get<string>("Endpoint"));
 
-            Kernel.Bind<WebsiteInfoServiceInterface>().To<WebsiteInfoServiceAzure>().WhenTargetHas<SourceDataSourceAttribute>();         
-            tableNameProv.Add<WebsiteInfoEntity>("websiteinfo", e => "", e => e.Get<string>("url"));
+            Kernel.Bind<WebsiteInfoServiceInterface>().To<WebsiteInfoServiceAzure>().WhenTargetHas<SourceDataSourceAttribute>();
+            tableNameProv.Add<WebsiteInfoEntity>("websiteinfo", e => e.Get<string>("url"));
 //            Kernel.Bind<AzureTableContext>().ToSelf().Named("websiteinfo");
 //            Kernel.Bind<TableNameAndPartitionProviderInterface>()
 //               .ToConstant(WebsiteInfoServiceAzure.TableNameBinding)

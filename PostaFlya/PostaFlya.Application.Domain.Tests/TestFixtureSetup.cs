@@ -5,6 +5,7 @@ using Ninject.Modules;
 using Website.Application.Caching.Command;
 using PostaFlya.Domain.Binding;
 using Website.Infrastructure.Binding;
+using Website.Mocks.Domain.Binding;
 using Website.Test.Common;
 using PostaFlya.Mocks.Domain.Data;
 using Website.Mocks.Domain.Defaults;
@@ -53,6 +54,8 @@ namespace PostaFlya.Application.Domain.Tests
                       new PostaFlya.Domain.Binding.CommandNinjectBinding(),
                       new TestRepositoriesNinjectModule(),
                       new Website.Mocks.Domain.Data.TestRepositoriesNinjectModule(),
+                      new QueryHandlerBinding(),
+                      new Mocks.Domain.Binding.QueryHandlerBinding()
                   };
     }
 }

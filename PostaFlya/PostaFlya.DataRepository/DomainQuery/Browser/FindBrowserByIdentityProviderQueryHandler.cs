@@ -6,8 +6,9 @@ using Website.Infrastructure.Query;
 
 namespace PostaFlya.DataRepository.DomainQuery.Browser
 {
-    public class FindBrowserByIdentityProviderQueryHandler 
-        : QueryHandlerInterface<FindBrowserByIdentityProviderQuery, Domain.Browser.Browser>
+    public class FindBrowserByIdentityProviderQueryHandler<BrowserType>
+        : QueryHandlerInterface<FindBrowserByIdentityProviderQuery, BrowserType>
+        where BrowserType : Website.Domain.Browser.Browser, new()
     {
         private readonly TableIndexServiceInterface _indexService;
         private readonly GenericQueryServiceInterface _queryService;
@@ -17,13 +18,13 @@ namespace PostaFlya.DataRepository.DomainQuery.Browser
             _queryService = queryService;
         }
 
-        public Domain.Browser.Browser Query(FindBrowserByIdentityProviderQuery argument)
+        public BrowserType Query(FindBrowserByIdentityProviderQuery argument)
         {
             var rec = _indexService.FindEntitiesByIndex<Domain.Browser.Browser, StorageTableKey>(
                 DomainIndexSelectors.BrowserCredentialIndex
                 , argument.Credential.ToUniqueString()).SingleOrDefault();
 
-            return _queryService.FindById<Domain.Browser.Browser>(rec.RowKey.ExtractEntityIdFromRowKey());
+            return _queryService.FindById<BrowserType>(rec.RowKey.ExtractEntityIdFromRowKey());
         }
     }
 }

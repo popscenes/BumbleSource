@@ -206,6 +206,17 @@ namespace Website.Test.Common
                 .Returns<Type, string>(findByTypeId);
 
 
+            queryService.Setup(m => m.GetAllIds<EntityType>())
+                .Returns(() => store.Select(inf => inf.Id).AsQueryable());
+            queryServiceGeneric.Setup(m => m.GetAllIds<EntityType>())
+                .Returns(() => store.Select(inf => inf.Id).AsQueryable());
+
+            queryService.Setup(m => m.GetAllIds(typeof(EntityType)))
+            .Returns(() => store.Select(inf => inf.Id).AsQueryable());
+            queryServiceGeneric.Setup(m => m.GetAllIds(typeof(EntityType)))
+                .Returns(() => store.Select(inf => inf.Id).AsQueryable());
+
+
 
             Func<string, EntityType> findByFriendlyId =
             friendlyId =>

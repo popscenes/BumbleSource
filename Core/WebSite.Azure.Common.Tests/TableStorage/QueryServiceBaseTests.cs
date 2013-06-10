@@ -29,8 +29,8 @@ namespace Website.Azure.Common.Tests.TableStorage
 
             var tableNameAndPartitionProviderService = Kernel.Get<TableNameAndIndexProviderServiceInterface>();
             tableNameAndPartitionProviderService.Add<OneEntity>("testOneEntity", entity => entity.Id);
-          
-            tableNameAndPartitionProviderService.Add<TwoEntity>("testTwoEntity", entity => entity.Id);
+
+            tableNameAndPartitionProviderService.Add<TwoEntity>("testTwoEntity", entity => entity.AggregateId, entity => entity.Id);
 
             tableNameAndPartitionProviderService.Add<ThreeEntity>("testThreeEntity", entity => entity.SomeProp.ToString(CultureInfo.InvariantCulture));
 
@@ -93,13 +93,17 @@ namespace Website.Azure.Common.Tests.TableStorage
                 MemberEntity = new ThreeEntity() { SomeProp = 45, MemberEntity = new TwoEntity() { Prop = "ThreeMember", PropTwo = "ThreeMemberTwo" } },
                 RelatedEntities = new List<TwoEntity>()
                                       {
-                                          new TwoEntity() {Id = Guid.NewGuid().ToString(), Prop = "123", PropTwo = aggregateId }, 
-                                          new TwoEntity() {Id = Guid.NewGuid().ToString(), Prop = "555", PropTwo = aggregateId }
+                                          new TwoEntity() {Id = Guid.NewGuid().ToString(), Prop = "123", PropTwo = aggregateId, AggregateId = aggregateId}, 
+                                          new TwoEntity() {Id = Guid.NewGuid().ToString(), Prop = "555", PropTwo = aggregateId, AggregateId = aggregateId }
                                       }
             };
 
             var repo = Kernel.Get<TestRespositoryBase<JsonTableEntry>>();
             repo.Store(one);
+            foreach (var two in one.RelatedEntities)
+            {
+                repo.Store(two);
+            }
             repo.SaveChanges();
 
             var qs = Kernel.Get<QueryServiceBase<JsonTableEntry>>();
@@ -140,13 +144,17 @@ namespace Website.Azure.Common.Tests.TableStorage
                 MemberEntity = new ThreeEntity() { SomeProp = 45, MemberEntity = new TwoEntity() { Prop = "ThreeMember", PropTwo = "ThreeMemberTwo" } },
                 RelatedEntities = new List<TwoEntity>()
                                       {
-                                          new TwoEntity() {Id = Guid.NewGuid().ToString(), Prop = "123", PropTwo = aggregateId }, 
-                                          new TwoEntity() {Id = Guid.NewGuid().ToString(), Prop = "555", PropTwo = aggregateId }
+                                          new TwoEntity() {Id = Guid.NewGuid().ToString(), Prop = "123", PropTwo = aggregateId, AggregateId = aggregateId}, 
+                                          new TwoEntity() {Id = Guid.NewGuid().ToString(), Prop = "555", PropTwo = aggregateId, AggregateId = aggregateId }
                                       }
             };
 
             var repo = Kernel.Get<TestRespositoryBase<JsonTableEntry>>();
             repo.Store(one);
+            foreach (var two in one.RelatedEntities)
+            {
+                repo.Store(two);
+            }
             repo.SaveChanges();
 
             var qs = Kernel.Get<QueryServiceBase<JsonTableEntry>>();

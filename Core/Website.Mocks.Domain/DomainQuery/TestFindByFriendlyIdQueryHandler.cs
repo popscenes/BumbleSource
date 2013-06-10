@@ -2,7 +2,7 @@
 using Website.Infrastructure.Domain;
 using Website.Infrastructure.Query;
 
-namespace PostaFlya.Specification.DomainQuery
+namespace Website.Mocks.Domain.DomainQuery
 {
     public class TestFindByFriendlyIdQueryHandler<EntityType> : 
         QueryHandlerInterface<FindByFriendlyIdQuery, EntityType> where EntityType : class, AggregateRootInterface, new()

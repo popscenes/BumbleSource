@@ -208,9 +208,14 @@ namespace Website.Azure.Common.TableStorage
         {
         }
 
-        public object GetEntity(Type entityTyp)
+        public object GetEntity(Type entityTyp = null)
         {
-            var ret = Activator.CreateInstance(entityTyp, true);
+            var ret = entityTyp == null || entityTyp == this.GetType() 
+                ? this 
+                : Activator.CreateInstance(entityTyp, true);
+
+            if (ret == this)
+                return ret;
 
             var tableEntry = ret as ExtendableTableEntry;
             if (tableEntry != null)
