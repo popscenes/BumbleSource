@@ -34,7 +34,7 @@ namespace Website.Application.Domain.Tests.TinyUrl
         {           
             RepoCoreUtil.SetupRepo<GenericRepositoryInterface, TinyUrlRecord, TinyUrlRecordInterface, TinyUrlRecordInterface>(_store, Kernel, TinyUrlRecordInterfaceExtensions.CopyFieldsFrom);
             RepoCoreUtil.SetupQueryService<GenericQueryServiceInterface, TinyUrlRecord, TinyUrlRecordInterface, TinyUrlRecordInterface>(_store, Kernel, TinyUrlRecordInterfaceExtensions.CopyFieldsFrom);
-            RepoCoreUtil.FindAggregateEntities<GenericQueryServiceInterface, TinyUrlRecord, TinyUrlRecordInterface>(_store, Kernel, TinyUrlRecordInterfaceExtensions.CopyFieldsFrom);
+            RepoCoreUtil.SetupAggregateQuery<GenericQueryServiceInterface, TinyUrlRecord, TinyUrlRecordInterface>(_store, Kernel, TinyUrlRecordInterfaceExtensions.CopyFieldsFrom);
 
             ReInit();
         }

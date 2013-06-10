@@ -22,10 +22,8 @@ namespace Website.Infrastructure.Query
         public ReturnType Query<ReturnType, QueryType>(QueryType query, ReturnType defaultRet = default(ReturnType)) 
             where QueryType : QueryInterface
         {
-            //var ret = _resolutionRoot.Get<QueryHandlerInterface<QueryType, ReturnType>>();
-            var ret = _resolutionRoot.GetAll<QueryHandlerInterface<QueryType, ReturnType>>();
-           // return ret == null ? defaultRet : ret.Query(query);
-            return !ret.Any() ? defaultRet : ret.First().Query(query);
+            var ret = _resolutionRoot.Get<QueryHandlerInterface<QueryType, ReturnType>>();
+            return ret == null ? defaultRet : ret.Query(query);
         }
     }
 }

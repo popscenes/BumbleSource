@@ -170,7 +170,7 @@ namespace PostaFlya.Mocks.Domain.Data
             //payment transaction
             RepoCoreUtil.SetupAggregateRepo<GenericRepositoryInterface, PaymentTransaction, PaymentTransactionInterface, PaymentTransactionInterface>(paymentTransactionStore, kernel, PaymentTransactionInterfaceExtensions.CopyFieldsFrom);
 
-            RepoCoreUtil.FindAggregateEntities<GenericQueryServiceInterface, PaymentTransaction, PaymentTransactionInterface>(paymentTransactionStore, kernel, 
+            RepoCoreUtil.SetupAggregateQuery<GenericQueryServiceInterface, PaymentTransaction, PaymentTransactionInterface>(paymentTransactionStore, kernel, 
                 PaymentTransactionInterfaceExtensions.CopyFieldsFrom);
             RepoUtil.FindAggregateEntities<GenericQueryServiceInterface, PaymentTransaction, PaymentTransactionInterface>(paymentTransactionStore, kernel,
                                                                                                   PaymentTransactionInterfaceExtensions

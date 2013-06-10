@@ -107,7 +107,7 @@ namespace Website.Mocks.Domain.Data
             where EntityType : class, EntityInterfaceType,  new()
             where EntityInterfaceType : class, EntityInterface, AggregateInterface
         {
-            return RepoCoreUtil.FindAggregateEntities<QsType, EntityType, EntityInterfaceType>(store, kernel, copyFields);
+            return RepoCoreUtil.SetupAggregateQuery<QsType, EntityType, EntityInterfaceType>(store, kernel, copyFields);
         }
 
 

@@ -88,5 +88,10 @@ namespace PostaFlya.Domain.Behaviour.Command
         {
             return null;
         }
+
+        public IQueryable<AggregateInterface> GetAllAggregateIds<EntityRetType>() where EntityRetType : class, AggregateInterface, new()
+        {
+            return null;
+        }
     }
 }

@@ -146,5 +146,15 @@ namespace Website.Infrastructure.Caching.Query
                 () => _genericQueryService.GetAllIds(type)
                 .ToList()).AsQueryable();
         }
+
+        public IQueryable<AggregateInterface> GetAllAggregateIds<EntityRetType>() where EntityRetType : class, AggregateInterface, new()
+        {
+            if (_genericQueryService == null)
+                return null;
+            return RetrieveCachedData(
+                "".GetCacheKeyFor<EntityRetType>("AllIds"),
+                () => _genericQueryService.GetAllAggregateIds<EntityRetType>()
+                .ToList()).AsQueryable();
+        }
     }
 }

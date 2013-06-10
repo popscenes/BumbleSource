@@ -1,6 +1,7 @@
 ﻿using System.Configuration;
 using System.Data.SqlClient;
 using System.Diagnostics;
+using System.Linq;
 using System.Reflection;
 using Ninject;
 using Ninject.Extensions.Conventions.Syntax;
@@ -57,32 +58,6 @@ namespace PostaFlya.DataRepository.Binding
             kernel.BindGenericQueryHandlersFromCallingAssemblyForTypesFrom(Assembly.GetAssembly(typeof(Website.Domain.Claims.Claim))
                 ,  _repositoryScopeConfiguration);
 
-            
-
-
-            Trace.TraceInformation("Binding TableNameNinjectBinding");
-
-//            Bind<AzureCommentRepository>().ToSelf();//this is only used inside other repositories so no need to configure scope etc
-//            Bind<AzureClaimRepository>().ToSelf();
- 
-            //this basically names the azure table context so
-            //we can set up bindings for the Type => TableName dictionary
-//            Kernel.Bind<AzureTableContext>().ToSelf().Named("flier");
-//            Kernel.Bind<AzureTableContext>().ToSelf().Named("taskjob");
-//            Kernel.Bind<AzureTableContext>().ToSelf().Named("image");
-//            Kernel.Bind<AzureTableContext>().ToSelf().Named("browser");
-//            Kernel.Bind<AzureTableContext>().ToSelf().Named("comments");
-//            Kernel.Bind<AzureTableContext>().ToSelf().Named("claims");
-
-            //Kernel.Bind<AzureTableContext>().ToSelf().Named("websiteinfo");
-
-            
-
-//            Bind<PropertyGroupTableSerializerInterface>().ToMethod(context 
-//                => new DefaultPropertyGroupTableSerializer(CustomEdmSerializers.CustomSerializers)
-//                ).InSingletonScope();
-
-            kernel.BindCommandAndQueryHandlersFromCallingAssembly(syntax => syntax.InTransientScope());
             kernel.BindEventHandlersFromCallingAssembly(syntax => syntax.InTransientScope());
             Bind<FlierSearchServiceInterface>()
                 .To<SqlFlierSearchService>();

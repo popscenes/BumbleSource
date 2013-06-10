@@ -66,6 +66,13 @@ namespace Website.Azure.Common.TableStorage
                 .Distinct();
         }
 
+        public IQueryable<AggregateInterface> GetAllAggregateIds<EntityRetType>() where EntityRetType : class, AggregateInterface, new()
+        {
+            return GetSelectTableEntries<EntityRetType, StorageTableKey>((Expression<Func<TableEntryType, bool>>)null,
+            e => new StorageTableKey() { PartitionKey = e.PartitionKey, RowKey = e.RowKey })
+            .Select(te => new AggregateIds() { AggregateId = te.PartitionKey, Id = te.RowKey });         
+        }
+
         public IQueryable<EntityRetType> FindAggregateEntities<EntityRetType>(string myAggregateRootId, int take = -1) 
             where EntityRetType : class, AggregateInterface, new()
         {

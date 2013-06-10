@@ -111,7 +111,7 @@ namespace PostaFlya.DataRepository.Tests
 
         public BrowserInterface StoreBrowserRepository()
         {
-            var ret = BrowserTestData.StoreOne(GetBrowser(), _repository, Kernel);
+            var ret = BrowserTestData.StoreOne(GetBrowser(), _repository, Kernel, false);
             var indexers = Kernel.GetAll<HandleEventInterface<BrowserModifiedEvent>>();
             foreach (var handleEvent in indexers)
             {
@@ -129,7 +129,7 @@ namespace PostaFlya.DataRepository.Tests
         public BrowserInterface StoreBrowserNullLocationRepository()
         {
             var browser = GetBrowser();
-            return BrowserTestData.StoreOne(browser, _repository, Kernel);
+            return BrowserTestData.StoreOne(browser, _repository, Kernel, false);
         }
 
         private Browser GetBrowser()

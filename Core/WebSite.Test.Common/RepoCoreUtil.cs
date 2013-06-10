@@ -222,7 +222,7 @@ namespace Website.Test.Common
             return queryService;
         }
 
-        public static Mock<QsType> FindAggregateEntities<QsType, EntityType, EntityInterfaceType>(
+        public static Mock<QsType> SetupAggregateQuery<QsType, EntityType, EntityInterfaceType>(
             HashSet<EntityInterfaceType> store
             , MoqMockingKernel kernel
             , Action<EntityInterfaceType, EntityInterfaceType> copyFields)
@@ -272,6 +272,11 @@ namespace Website.Test.Common
                 .Returns(findById);
             queryServiceGeneric.Setup(m => m.FindByAggregate<EntityType>(It.IsAny<string>(), It.IsAny<string>()))
                 .Returns(findById);
+
+            queryService.Setup(m => m.GetAllAggregateIds<EntityType>())
+                .Returns(() => store.ToList().AsQueryable());
+            queryServiceGeneric.Setup(m => m.GetAllAggregateIds<EntityType>())
+                .Returns(() => store.ToList().AsQueryable());
 
 
             return queryService;

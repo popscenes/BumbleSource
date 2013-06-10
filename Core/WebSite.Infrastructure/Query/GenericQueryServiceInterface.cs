@@ -28,6 +28,8 @@ namespace Website.Infrastructure.Query
         IQueryable<string> GetAllIds<EntityRetType>() where EntityRetType : class, AggregateRootInterface, new();
         IQueryable<string> GetAllIds(Type type);
 
+        IQueryable<AggregateInterface> GetAllAggregateIds<EntityRetType>() where EntityRetType : class, AggregateInterface, new(); 
+
     }
 
     public static class GenericQueryServiceInterfaceExtension
