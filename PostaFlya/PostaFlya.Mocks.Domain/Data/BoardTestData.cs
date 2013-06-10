@@ -5,9 +5,12 @@ using System.Text;
 using NUnit.Framework;
 using Ninject;
 using PostaFlya.Domain.Boards;
+using PostaFlya.Domain.Boards.Event;
 using PostaFlya.Domain.Boards.Query;
 using Website.Domain.Location;
 using Website.Infrastructure.Command;
+using Website.Infrastructure.Domain;
+using Website.Infrastructure.Publish;
 
 namespace PostaFlya.Mocks.Domain.Data
 {
@@ -43,8 +46,55 @@ namespace PostaFlya.Mocks.Domain.Data
             return board;
         }
 
+        internal static Board StoreOne(Board board, GenericRepositoryInterface repository, StandardKernel kernel)
+        {
+            var uow = kernel.Get<UnitOfWorkFactoryInterface>()
+                .GetUnitOfWork(new List<RepositoryInterface>() { repository });
+            using (uow)
+            {
 
-        internal static BoardFlier StoreOne(BoardFlier boardFlier, GenericRepositoryInterface repository, StandardKernel kernel)
+                repository.Store(board);
+            }
+
+            Assert.IsTrue(uow.Successful);
+
+            if (uow.Successful)
+            {
+                var indexers = kernel.GetAll<HandleEventInterface<BoardModifiedEvent>>();
+                foreach (var handleEvent in indexers)
+                {
+                    handleEvent.Handle(new BoardModifiedEvent() { NewState = board });
+                }
+            }
+
+            return board;
+        }
+
+        internal static void UpdateOne(Board board, GenericRepositoryInterface repository, StandardKernel kernel)
+        {
+            Board oldState = null;
+            UnitOfWorkInterface unitOfWork;
+            using (unitOfWork = kernel.Get<UnitOfWorkFactoryInterface>().GetUnitOfWork(new List<RepositoryInterface>() { repository }))
+            {
+                repository.UpdateEntity<Board>(board.Id, e =>
+                {
+                    oldState = e.CreateCopy<Board, Board>(BoardInterfaceExtensions.CopyFieldsFrom);
+                    e.CopyFieldsFrom(board);
+                });
+            }
+
+            if (unitOfWork.Successful)
+            {
+                var indexers = kernel.GetAll<HandleEventInterface<BoardModifiedEvent>>();
+                foreach (var handleEvent in indexers)
+                {
+                    handleEvent.Handle(new BoardModifiedEvent() { NewState = board, OrigState = oldState });
+                }
+            }
+        }
+
+
+        public static BoardFlier StoreOne(BoardFlier boardFlier, GenericRepositoryInterface repository, StandardKernel kernel)
         {
             var uow = kernel.Get<UnitOfWorkFactoryInterface>()
                 .GetUnitOfWork(new List<RepositoryInterface>() { repository });
@@ -55,6 +105,16 @@ namespace PostaFlya.Mocks.Domain.Data
             }
 
             Assert.IsTrue(uow.Successful);
+
+            if (uow.Successful)
+            {
+                var indexers = kernel.GetAll<HandleEventInterface<BoardFlierModifiedEvent>>();
+                foreach (var handleEvent in indexers)
+                {
+                    handleEvent.Handle(new BoardFlierModifiedEvent() { NewState = boardFlier });
+                }
+            }
+
             return boardFlier;
         }
 

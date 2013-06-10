@@ -5,9 +5,13 @@ using NUnit.Framework;
 using Ninject;
 using PostaFlya.Domain.Behaviour;
 using PostaFlya.Domain.Flier;
+using PostaFlya.Domain.Flier.Event;
 using PostaFlya.Domain.Flier.Query;
 using PostaFlya.Domain.Service;
+using Website.Domain.Claims.Event;
 using Website.Infrastructure.Command;
+using Website.Infrastructure.Domain;
+using Website.Infrastructure.Publish;
 using Website.Infrastructure.Query;
 //using Website.Infrastructure.Service;
 using Website.Domain.Location;
@@ -185,14 +189,14 @@ namespace PostaFlya.Mocks.Domain.Data
             flier.BrowserId = GlobalDefaultsNinjectModule.DefaultBrowserId;
             flier.FriendlyId = "Bulletin" + count++;
             flier.EventDates = eventDates;
-            flierRepository.Store(flier);
+            StoreOne(flier, flierRepository, (StandardKernel) kernel);
 
             flier = new Flier(getRandLoc(true)) {  EffectiveDate = DateTime.UtcNow, CreateDate = DateTime.UtcNow };
             getTags(true, flier.Tags);
             flier.BrowserId = GlobalDefaultsNinjectModule.DefaultBrowserId;
             flier.FriendlyId = "Bulletin" + count++;
             flier.EventDates = eventDates;             
-            flierRepository.Store(flier);
+            StoreOne(flier, flierRepository, (StandardKernel) kernel);
 
             eventDates = new List<DateTimeOffset>() { new DateTime(2077, 12, 19), DateTime.UtcNow.AddDays(3) };
             flier = new Flier(getRandLoc(true)) { EffectiveDate = DateTime.UtcNow, CreateDate = DateTime.UtcNow };
@@ -200,7 +204,7 @@ namespace PostaFlya.Mocks.Domain.Data
             flier.BrowserId = GlobalDefaultsNinjectModule.DefaultBrowserId;
             flier.FriendlyId = "Bulletin" + count++;                         
             flier.EventDates = eventDates;
-            flierRepository.Store(flier);
+            StoreOne(flier, flierRepository, (StandardKernel) kernel);
 
             //add inside the bounds without matching tags
             eventDates = new List<DateTimeOffset>() { new DateTime(2076, 8, 11), DateTime.UtcNow.AddDays(3) };
@@ -208,56 +212,56 @@ namespace PostaFlya.Mocks.Domain.Data
             getTags(false, flier.Tags);
             flier.FriendlyId = "Bulletin" + count++;
             flier.EventDates = eventDates;
-            flierRepository.Store(flier);
+            StoreOne(flier, flierRepository, (StandardKernel) kernel);
 
             flier = new Flier(getRandLoc(true)) { EffectiveDate = DateTime.UtcNow, CreateDate = DateTime.UtcNow };
             getTags(false, flier.Tags);
             flier.FriendlyId = "Bulletin" + count++;
             flier.EventDates = eventDates;
-            flierRepository.Store(flier);
+            StoreOne(flier, flierRepository, (StandardKernel) kernel);
 
             flier = new Flier(getRandLoc(true)) { EffectiveDate = DateTime.UtcNow, CreateDate = DateTime.UtcNow };
             getTags(false, flier.Tags);
             flier.FriendlyId = "Bulletin" + count++;
             flier.EventDates = eventDates;
-            flierRepository.Store(flier);
+            StoreOne(flier, flierRepository, (StandardKernel) kernel);
 
             //add some outside the bounds with some matching tags
             flier = new Flier(getRandLoc(false)) { EffectiveDate = DateTime.UtcNow, CreateDate = DateTime.UtcNow };
             getTags(true, flier.Tags);
             flier.FriendlyId = "Bulletin" + count++;
             flier.EventDates = eventDates;
-            flierRepository.Store(flier);
+            StoreOne(flier, flierRepository, (StandardKernel) kernel);
 
             flier = new Flier(getRandLoc(false)) { EffectiveDate = DateTime.UtcNow, CreateDate = DateTime.UtcNow };
             getTags(true, flier.Tags);
             flier.FriendlyId = "Bulletin" + count++;
             flier.EventDates = eventDates;
-            flierRepository.Store(flier);
+            StoreOne(flier, flierRepository, (StandardKernel) kernel);
 
             flier = new Flier(getRandLoc(false)) { EffectiveDate = DateTime.UtcNow, CreateDate = DateTime.UtcNow };
             getTags(true, flier.Tags);
             flier.FriendlyId = "Bulletin" + count++;                         
-            flierRepository.Store(flier);
+            StoreOne(flier, flierRepository, (StandardKernel) kernel);
 
             //add some outside the bounds without matching tags
             flier = new Flier(getRandLoc(false)) { EffectiveDate = DateTime.UtcNow, CreateDate = DateTime.UtcNow };
             getTags(false, flier.Tags);
             flier.FriendlyId = "Bulletin" + count++;
             flier.EventDates = eventDates;
-            flierRepository.Store(flier);
+            StoreOne(flier, flierRepository, (StandardKernel) kernel);
 
             flier = new Flier(getRandLoc(false)) { EffectiveDate = DateTime.UtcNow, CreateDate = DateTime.UtcNow };
             getTags(false, flier.Tags);
             flier.FriendlyId = "Bulletin" + count++;
             flier.EventDates = eventDates;
-            flierRepository.Store(flier);
+            StoreOne(flier, flierRepository, (StandardKernel) kernel);
 
             flier = new Flier(getRandLoc(false)) { EffectiveDate = DateTime.UtcNow, CreateDate = DateTime.UtcNow };
             getTags(false, flier.Tags);
             flier.FriendlyId = "Bulletin" + count;
             flier.EventDates = eventDates;
-            flierRepository.Store(flier);
+            StoreOne(flier, flierRepository, (StandardKernel) kernel);
         }
 
         public static void AssertStoreRetrieve(FlierInterface storedFlier, FlierInterface retrievedFlier)
@@ -301,15 +305,40 @@ namespace PostaFlya.Mocks.Domain.Data
             }
 
             Assert.IsTrue(uow.Successful);
+
+            if (uow.Successful)
+            {
+                var indexers = kernel.GetAll<HandleEventInterface<FlierModifiedEvent>>();
+                foreach (var handleEvent in indexers)
+                {
+                    handleEvent.Handle(new FlierModifiedEvent() { NewState = (Flier)flier });
+                }
+            }
+
+            
             return flier;
         }
 
         internal static void UpdateOne(FlierInterface flier, GenericRepositoryInterface repository, StandardKernel kernel)
         {
-            using (kernel.Get<UnitOfWorkFactoryInterface>()
-                .GetUnitOfWork(new List<RepositoryInterface>() { repository }))
+            Flier oldState = null;
+            UnitOfWorkInterface unitOfWork;
+            using (unitOfWork = kernel.Get<UnitOfWorkFactoryInterface>().GetUnitOfWork(new List<RepositoryInterface>() {repository}))
             {
-                repository.UpdateEntity<Flier>(flier.Id, e => e.CopyFieldsFrom(flier));
+                repository.UpdateEntity<Flier>(flier.Id, e =>
+                    {
+                        oldState = e.CreateCopy<Flier, Flier>(FlierInterfaceExtensions.CopyFieldsFrom);
+                        e.CopyFieldsFrom(flier);
+                    });
+            }
+
+            if (unitOfWork.Successful)
+            {
+                var indexers = kernel.GetAll<HandleEventInterface<FlierModifiedEvent>>();
+                foreach (var handleEvent in indexers)
+                {
+                    handleEvent.Handle(new FlierModifiedEvent() { NewState = (Flier)flier, OrigState = oldState });
+                }
             }
         }
     }

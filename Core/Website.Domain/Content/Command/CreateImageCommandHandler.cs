@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Website.Domain.Content.Event;
 using Website.Infrastructure.Command;
 using Website.Domain.Service;
 using System.Linq;
@@ -11,13 +12,15 @@ namespace Website.Domain.Content.Command
         private readonly ContentStorageServiceInterface _contentStorageService;
         private readonly GenericRepositoryInterface _repository;
         private readonly UnitOfWorkFactoryInterface _unitOfWorkFactory;
+        private readonly DomainEventPublishServiceInterface _publishService;
 
         public CreateImageCommandHandler(ContentStorageServiceInterface contentStorageService
-            , GenericRepositoryInterface repository, UnitOfWorkFactoryInterface unitOfWorkFactory)
+            , GenericRepositoryInterface repository, UnitOfWorkFactoryInterface unitOfWorkFactory, DomainEventPublishServiceInterface publishService)
         {
             _contentStorageService = contentStorageService;
             _repository = repository;
             _unitOfWorkFactory = unitOfWorkFactory;
+            _publishService = publishService;
         }
 
         #region Implementation of CommandHandlerInterface<in CreateImageCommand>
@@ -41,8 +44,11 @@ namespace Website.Domain.Content.Command
             }
 
             if (unitOfWork.Successful)
+            {
                 _contentStorageService.Store(command.Content, new Guid(insert.Id));
-
+                _publishService.Publish(new ImageModifiedEvent() { NewState = insert });
+            }
+                
             return insert;
         }
 

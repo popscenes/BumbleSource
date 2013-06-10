@@ -9,6 +9,7 @@ using PostaFlya.Domain.Flier.Event;
 using Website.Azure.Common.TableStorage;
 using Website.Domain.Claims.Event;
 using Website.Domain.Comments.Event;
+using Website.Domain.Content.Event;
 using Website.Infrastructure.Domain;
 using Website.Infrastructure.Publish;
 
@@ -21,6 +22,7 @@ namespace PostaFlya.DataRepository.Search.Event
         , HandleEventInterface<ClaimEvent>
         , HandleEventInterface<CommentEvent>
         , HandleEventInterface<BrowserModifiedEvent>
+        , HandleEventInterface<ImageModifiedEvent>
     {
         private readonly TableIndexServiceInterface _indexService;
 
@@ -63,6 +65,11 @@ namespace PostaFlya.DataRepository.Search.Event
         }
 
         public bool Handle(BrowserModifiedEvent @event)
+        {
+            return HandleInternal(@event);
+        }
+
+        public bool Handle(ImageModifiedEvent @event)
         {
             return HandleInternal(@event);
         }

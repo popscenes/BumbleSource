@@ -89,8 +89,6 @@ namespace PostaFlya.DataRepository.Binding
             .WhenTargetHas<SqlSearchConnectionString>()
             .InSingletonScope();
 
-
-
             Trace.TraceInformation("Finished Binding AzureRepositoryNinjectBinding");
  
         }

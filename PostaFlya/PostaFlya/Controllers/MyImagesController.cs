@@ -21,10 +21,11 @@ namespace PostaFlya.Controllers
         private readonly QueryChannelInterface _queryChannel;
 
         public MyImagesController(GenericQueryServiceInterface queryService,
-            [ImageStorage]BlobStorageInterface blobStorage)
+            [ImageStorage]BlobStorageInterface blobStorage, QueryChannelInterface queryChannel)
         {
             _queryService = queryService;
             _blobStorage = blobStorage;
+            _queryChannel = queryChannel;
         }
 
         public List<ImageViewModel> Get(string browserid)

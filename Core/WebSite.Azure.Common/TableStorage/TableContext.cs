@@ -147,7 +147,8 @@ namespace Website.Azure.Common.TableStorage
                                                                 var execQuery =
                                                                     _containedContext.CreateQuery<TableEntryType>(tableName) as
                                                                     IQueryable<TableEntryType>;
-                                                                execQuery = execQuery.Where(query);
+                                                                if (query != null)
+                                                                    execQuery = execQuery.Where(query);
                                                                 return ExecuteQuery(execQuery, take);
                                                             };
 
@@ -161,7 +162,8 @@ namespace Website.Azure.Common.TableStorage
                                                             var execQuery =
                                                                 _containedContext.CreateQuery<TableEntryType>(tableName) as
                                                                 IQueryable<TableEntryType>;
-                                                            execQuery = execQuery.Where(query);
+                                                            if (query != null)
+                                                                execQuery = execQuery.Where(query);
                                                             return ExecuteQuery(execQuery.Select(selectExpression), take);
                                                         };
 

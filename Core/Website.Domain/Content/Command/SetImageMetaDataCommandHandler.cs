@@ -1,7 +1,9 @@
 using System.Collections.Generic;
+using Website.Domain.Content.Event;
 using Website.Infrastructure.Command;
 using Website.Domain.Service;
 using Website.Domain.Location;
+using Website.Infrastructure.Query;
 
 namespace Website.Domain.Content.Command
 {
@@ -10,14 +12,19 @@ namespace Website.Domain.Content.Command
         private readonly GenericRepositoryInterface _repository;
         private readonly UnitOfWorkFactoryInterface _unitOfWorkFactory;
         private readonly ContentStorageServiceInterface _contentStorageService;
+        private readonly DomainEventPublishServiceInterface _publishService;
+        private readonly GenericQueryServiceInterface _genericQueryService;
+
 
         public SetImageMetaDataCommandHandler(GenericRepositoryInterface repository
             , UnitOfWorkFactoryInterface unitOfWorkFactory
-            , ContentStorageServiceInterface contentStorageService)
+            , ContentStorageServiceInterface contentStorageService, DomainEventPublishServiceInterface publishService, GenericQueryServiceInterface genericQueryService)
         {
             _repository = repository;
             _unitOfWorkFactory = unitOfWorkFactory;
             _contentStorageService = contentStorageService;
+            _publishService = publishService;
+            _genericQueryService = genericQueryService;
         }
 
         #region Implementation of CommandHandlerInterface<in SetImageStatusCommand>
@@ -25,6 +32,7 @@ namespace Website.Domain.Content.Command
         public object Handle(SetImageMetaDataCommand command)
         {
             var change = false;
+            var oldstate = _genericQueryService.FindById<Image>(command.Id);
             UnitOfWorkInterface unitOfWork;
             using (unitOfWork = _unitOfWorkFactory.GetUnitOfWork(new List<RepositoryInterface>() {_repository}))
             {
@@ -44,8 +52,14 @@ namespace Website.Domain.Content.Command
                         });
             }
 
-            if (unitOfWork.Successful && change) 
+            if (unitOfWork.Successful && change)
+            {
                 _contentStorageService.SetMetaData(command);
+
+                var newstate = _genericQueryService.FindById<Image>(command.Id);
+                _publishService.Publish(new ImageModifiedEvent() { NewState = newstate, OrigState = oldstate });
+            }
+                
 
             return unitOfWork.Successful;
         }

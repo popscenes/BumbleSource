@@ -7,6 +7,7 @@ using Website.Infrastructure.Domain;
 
 namespace PostaFlya.Domain.Browser
 {
+    [Serializable]
     public class Browser : Website.Domain.Browser.Browser, BrowserInterface
     {
         public List<string> AdminBoards { get; set; }

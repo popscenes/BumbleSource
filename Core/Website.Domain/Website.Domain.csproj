@@ -89,6 +89,7 @@
     <Compile Include="Content\Command\SetImageStatusCommand.cs" />
     <Compile Include="Content\Command\SetImageStatusCommandHandler.cs" />
     <Compile Include="Content\Content.cs" />
+    <Compile Include="Content\Event\ImageModifiedEvent.cs" />
     <Compile Include="Content\Image.cs" />
     <Compile Include="Content\ImageInterface.cs" />
     <Compile Include="Content\ImageStatus.cs" />

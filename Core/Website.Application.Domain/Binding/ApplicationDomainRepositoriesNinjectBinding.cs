@@ -4,6 +4,7 @@ using Ninject.Extensions.Conventions.Syntax;
 using Ninject.Modules;
 using Website.Application.Caching.Query;
 using Website.Infrastructure.Binding;
+using Website.Infrastructure.Caching.Command;
 using Website.Infrastructure.Command;
 using Website.Infrastructure.Query;
 
@@ -35,6 +36,8 @@ namespace Website.Application.Domain.Binding
             _repositoryConfiguration(kernel.Bind(typeof(GenericQueryServiceInterface))
                 .To(typeof(TimedExpiryCachedQueryService)));
 
+            _repositoryConfiguration(kernel.Bind(typeof(GenericRepositoryInterface))
+                .To(typeof(CachedRepositoryBase)));
             
             Trace.TraceInformation("Finished Binding ApplicationDomainRepositoriesNinjectBinding");
 

@@ -30,6 +30,8 @@ namespace PostaFlya.Application.Domain.Binding
                           typeof(GenericRepositoryInterface),
                       });
 
+
+
             Trace.TraceInformation("Finished Binding ApplicationDomainRepositoriesNinjectBinding");
 
         }

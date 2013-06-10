@@ -270,7 +270,7 @@ namespace Website.Test.Common
                                 copyFields(ret, e);
                                 return ret;
                             }).AsQueryable();
-                    return list.Single();
+                    return list.SingleOrDefault();
                 };
 
 
