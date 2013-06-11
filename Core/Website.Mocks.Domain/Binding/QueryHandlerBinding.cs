@@ -13,6 +13,7 @@ namespace Website.Mocks.Domain.Binding
 
             kernel.BindGenericQueryHandlersFromCallingAssemblyForTypesFrom(Assembly.GetAssembly(typeof(Website.Domain.Claims.Claim))
                 , syntax => syntax.InTransientScope());
+            kernel.BindCommandAndQueryHandlersFromCallingAssembly(syntax => syntax.InTransientScope());
         }
     }
 }

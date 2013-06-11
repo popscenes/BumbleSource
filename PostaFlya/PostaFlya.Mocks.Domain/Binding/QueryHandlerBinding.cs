@@ -18,6 +18,9 @@ namespace PostaFlya.Mocks.Domain.Binding
                 Assembly.GetAssembly(typeof(Website.Mocks.Domain.Binding.QueryHandlerBinding)),
                 Assembly.GetAssembly(typeof(PostaFlya.Domain.Flier.Flier))
                 , syntax => syntax.InTransientScope());
+
+            kernel.BindCommandAndQueryHandlersFromCallingAssembly(syntax => syntax.InTransientScope());
+
         }
     }
 }

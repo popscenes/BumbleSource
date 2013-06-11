@@ -162,9 +162,12 @@ namespace PostaFlya
             UpdateScriptsAndStylesForCdn(NinjectDependencyResolver.Get<ConfigurationServiceInterface>());
 
             //UNCOMMENT TO REINDEX FLIERS
-//            var bus = NinjectDependencyResolver.Get<CommandQueueFactoryInterface>()
-//                                     .GetCommandBusForEndpoint("workercommandqueue");
-//            bus.Send(new ReindexFlyersCommand());
+//            if (AzureEnv.GetInstanceIndex() == 0)
+//            {
+//                var bus = NinjectDependencyResolver.Get<CommandQueueFactoryInterface>()
+//                         .GetCommandBusForEndpoint("workercommandqueue");
+//                bus.Send(new ReindexFlyersCommand());
+//            }
             //UNCOMMENT TO REINDEX FLIERS
 
 

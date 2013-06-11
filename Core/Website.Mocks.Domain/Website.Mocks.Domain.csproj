@@ -93,6 +93,7 @@
     <Compile Include="DomainQuery\Browser\TestGetAggregateByBrowserIdQueryHandler.cs" />
     <Compile Include="DomainQuery\Browser\TestGetByBrowserIdQueryHandler.cs" />
     <Compile Include="DomainQuery\TestFindByFriendlyIdQueryHandler.cs" />
+    <Compile Include="DomainQuery\TestFindByTinyUrlQueryHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

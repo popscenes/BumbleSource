@@ -12,6 +12,16 @@ namespace Website.Azure.Common.TableStorage
 
         public bool KeyChanged { get; set; }
 
+        public JsonTableEntry(object sourceObject)
+        {
+            Init(sourceObject);
+        }
+
+        public JsonTableEntry()
+        {
+            
+        }
+
         public string GetClrTyp()
         {
             return _clrTyp == null ? null : SerializeUtil.GetAssemblyQualifiedNameWithoutVer(_clrTyp);    

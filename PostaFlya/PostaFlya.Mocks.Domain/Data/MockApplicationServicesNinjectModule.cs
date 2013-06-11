@@ -50,7 +50,7 @@ namespace PostaFlya.Mocks.Domain.Data
 
 
         public static void SetUpTinyUrlService<EnityType>(MoqMockingKernel kernel)
-            where EnityType : EntityInterface, TinyUrlInterface
+            where EnityType : class, EntityWithTinyUrlInterface, new()
         {
             var tinyUrlService = kernel.GetMock<TinyUrlServiceInterface>();
             tinyUrlService.Setup(service => service.UrlFor(It.IsAny<EnityType>()))

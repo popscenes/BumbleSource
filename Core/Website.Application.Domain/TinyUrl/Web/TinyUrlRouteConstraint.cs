@@ -16,25 +16,26 @@ namespace Website.Application.Domain.TinyUrl.Web
 
         private readonly TinyUrlServiceInterface _tinyUrlService;
 
-        private readonly string _tinyUrlBase;
+        private readonly Uri _tinyUrlHost;
         public TinyUrlRouteConstraint(TinyUrlServiceInterface tinyUrlService,
             ConfigurationServiceInterface configurationService)
         {
             _tinyUrlService = tinyUrlService;
-            _tinyUrlBase = configurationService.GetSetting("TinyUrlBase");
+            _tinyUrlHost = new Uri(configurationService.GetSetting("TinyUrlBase"));
         }
 
         public bool Match(HttpContextBase httpContext, Route route,
             string parameterName, RouteValueDictionary values,
             RouteDirection routeDirection)
         {
-            if (routeDirection == RouteDirection.IncomingRequest)
+            if (routeDirection == RouteDirection.IncomingRequest
+                && httpContext.Request.Url != null)
             {
-                var url = httpContext.Request.Url.ToString();
-                if (!url.StartsWith(_tinyUrlBase))
+                
+                if (httpContext.Request.Url.Host != _tinyUrlHost.Host)
                     return false;
-
-                var ret =  _tinyUrlService.EntityInfoFor(url);
+                var url = _tinyUrlHost.GetComponents(UriComponents.SchemeAndServer, UriFormat.Unescaped) + httpContext.Request.Url.PathAndQuery;
+                var ret = _tinyUrlService.EntityInfoFor(url);
                 if (ret != null)
                 {
                     httpContext.Items.Add("tinyUrlEntityInfo", ret);

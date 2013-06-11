@@ -17,6 +17,7 @@ using Website.Domain.Claims;
 using Website.Domain.Comments;
 using Website.Domain.Content;
 using Website.Domain.Payment;
+using Website.Domain.TinyUrl;
 using Website.Infrastructure.Domain;
 
 
@@ -27,9 +28,10 @@ namespace PostaFlya.DataRepository.Binding
         public const string BrowserIdIndex = "BrowserId";
         public const string BrowserCredentialIndex = "BrowserCredential";
         public const string BrowserEmailIndex = "BrowserEmail";
+        public const string TinyUrlIndex = "TinyUrl";
 
-        public static Expression<Func<EntityInterfaceType, IEnumerable<StorageTableKeyInterface>>>
-            BrowserIdSelector<EntityInterfaceType>() where EntityInterfaceType : AggregateRootInterface, BrowserIdInterface
+
+        public static Expression<Func<EntityInterfaceType, IEnumerable<StorageTableKeyInterface>>> BrowserIdSelector<EntityInterfaceType>() where EntityInterfaceType : AggregateRootInterface, BrowserIdInterface
         {
             Expression<Func<EntityInterfaceType, IEnumerable<StorageTableKeyInterface>>> indexEntryFactory = root => new List<StorageTableKeyInterface>()
                 {
@@ -42,8 +44,7 @@ namespace PostaFlya.DataRepository.Binding
             return indexEntryFactory;
         }
 
-        public static Expression<Func<EntityInterfaceType, IEnumerable<StorageTableKeyInterface>>>
-            BrowserIdSelectorForAggregate<EntityInterfaceType>() where EntityInterfaceType : AggregateInterface, BrowserIdInterface
+        public static Expression<Func<EntityInterfaceType, IEnumerable<StorageTableKeyInterface>>> BrowserIdSelectorForAggregate<EntityInterfaceType>() where EntityInterfaceType : AggregateInterface, BrowserIdInterface
         {
             Expression<Func<EntityInterfaceType, IEnumerable<StorageTableKeyInterface>>> indexEntryFactory = root => new List<StorageTableKeyInterface>()
                 {
@@ -56,8 +57,7 @@ namespace PostaFlya.DataRepository.Binding
             return indexEntryFactory;
         }
 
-        public static Expression<Func<BrowserInterface, IEnumerable<StorageTableKeyInterface>>>
-            BrowserCredentialSelector()
+        public static Expression<Func<BrowserInterface, IEnumerable<StorageTableKeyInterface>>> BrowserCredentialSelector()
         {
             Expression<Func<BrowserInterface, IEnumerable<StorageTableKeyInterface>>> indexEntryFactory
                 = browser =>
@@ -73,8 +73,7 @@ namespace PostaFlya.DataRepository.Binding
             return indexEntryFactory;
         }
 
-        public static Expression<Func<BrowserInterface, IEnumerable<StorageTableKeyInterface>>>
-            BrowserEmailSelector()
+        public static Expression<Func<BrowserInterface, IEnumerable<StorageTableKeyInterface>>> BrowserEmailSelector()
         {
             Expression<Func<BrowserInterface, IEnumerable<StorageTableKeyInterface>>> indexEntryFactory
                 = browser =>
@@ -88,6 +87,26 @@ namespace PostaFlya.DataRepository.Binding
             return indexEntryFactory;
         }
 
+        public static Expression<Func<EntityInterfaceType, IEnumerable<StorageTableKeyInterface>>>
+            TinyUrlSelector<EntityInterfaceType>() where EntityInterfaceType : EntityWithTinyUrlInterface, AggregateRootInterface
+        {
+            Expression<Func<EntityInterfaceType, IEnumerable<StorageTableKeyInterface>>> indexEntryFactory = root => new List<StorageTableKeyInterface>()
+                {
+                    new JsonTableEntry(new EntityKeyWithTinyUrl()
+                        {
+                            Id = root.Id, 
+                            TinyUrl = root.TinyUrl, 
+                            PrimaryInterface = root.PrimaryInterface, 
+                            FriendlyId = root.FriendlyId
+                        })
+                        {
+                           
+                            PartitionKey = root.TinyUrl.ToStorageKeySection(),
+                            RowKey = root.Id.ToStorageKeySection()
+                        }
+                };
+            return indexEntryFactory;
+        }
     }
 
     public class TableNameNinjectBinding : NinjectModule
@@ -99,8 +118,9 @@ namespace PostaFlya.DataRepository.Binding
             Trace.TraceInformation("Binding TableNameNinjectBinding");
 
             var tableNameProv = Kernel.Get<TableNameAndIndexProviderServiceInterface>();
-            
 
+
+            tableNameProv.AddIndex("tinyUrlIndex", DomainIndexSelectors.TinyUrlIndex, DomainIndexSelectors.TinyUrlSelector<EntityWithTinyUrlInterface>());
 
             tableNameProv.Add<BoardInterface>("board", e => e.Id);
             tableNameProv.AddIndex("boardIndex", StandardIndexSelectors.FriendlyIdIndex, StandardIndexSelectors.FriendlyIdSelector<BoardInterface>());
@@ -115,6 +135,8 @@ namespace PostaFlya.DataRepository.Binding
             tableNameProv.Add<FlierInterface>("flier", e => e.Id);
             tableNameProv.AddIndex("flierFriendlyIndex", StandardIndexSelectors.FriendlyIdIndex, StandardIndexSelectors.FriendlyIdSelector<FlierInterface>());
             tableNameProv.AddIndex("flierBrowserIndex", DomainIndexSelectors.BrowserIdIndex, DomainIndexSelectors.BrowserIdSelector<FlierInterface>());
+            
+
 
             //tableNameProv.Add<FlierInterface>(JsonRepository.FriendlyIdPartiton, "flierFriendly", e => e.FriendlyId, e => e.Id);
             //tableNameProv.Add<FlierInterface>(JsonRepositoryWithBrowser.BrowserPartitionId, "flierByBrowser", e => e.BrowserId, e => e.Id);
@@ -152,12 +174,12 @@ namespace PostaFlya.DataRepository.Binding
             tableNameProv.Add<CreditTransaction>("creditTransaction", e => e.AggregateId, e => e.Id);
 //            tableNameProv.Add<CreditTransaction>(JsonRepository.AggregateIdPartition, "creditTransactionByAggregate", e => e.AggregateId, e => e.Id);
 
-            tableNameProv.Add<TinyUrlRecordInterface>("tinyurlentity", e => e.Id);
+            tableNameProv.Add<TinyUrlRecord>("tinyurlentity", e => e.AggregateId, e => e.Id);
 //            tableNameProv.Add<TinyUrlRecordInterface>(JsonRepository.AggregateIdPartition, "tinyurlentityByAggregate", e => e.AggregateId, e => e.Id);
 
             tableNameProv.Add<JobBase>("jobs", e => e.Id);
 
-            tableNameProv.Add<FlierAnalyticInterface>("analytics", e => e.AggregateId, e => e.Id);
+            tableNameProv.Add<FlierAnalyticInterface>("analytics", e => e.Id);
 //            tableNameProv.Add<FlierAnalyticInterface>(JsonRepositoryWithBrowser.AggregateIdPartition, "analyticsByAggregate", e => e.AggregateId, e => e.Id.ToAscendingTimeKey(e.Time));
 //            tableNameProv.Add<FlierAnalyticInterface>(JsonRepositoryWithBrowser.BrowserPartitionId, "analyticsByBrowser", e => e.BrowserId, e => e.Id);
 
