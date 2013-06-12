@@ -92,7 +92,7 @@ namespace PostaFlya.Domain.Flier
     public interface FlierInterface : AggregateRootInterface, BrowserIdInterface, 
         ClaimableEntityInterface,
         CommentableInterface,
-        EntityFeatureChargesInterface, TinyUrlInterface
+        EntityFeatureChargesInterface, EntityWithTinyUrlInterface
     {
         string Title { get; set; }
         string Description { get; set; }

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.WindowsAzure.Storage.Table.DataServices;
 using Website.Azure.Common.DataServices;
 using Website.Infrastructure.Command;
 using Website.Infrastructure.Domain;
@@ -36,7 +37,6 @@ namespace Website.Azure.Common.TableStorage
                 };
             return indexEntryFactory;
         }
-
     }
 
     public class TableIndexService : TableIndexServiceInterface
@@ -68,11 +68,19 @@ namespace Website.Azure.Common.TableStorage
             var indexes = _indexProviderService.GetAllIndexesFor<EntityType>().ToList();
             foreach (var index in indexes)
             {
+                var lowerKey = index.ToStorageKeySection();
+                var upperKey = index.ToStorageKeySection().GetValueForStartsWith();
+                var rowKey =
+                    _indexProviderService.GetIndexEntryFactoryFor<EntityType>(index)(entity)
+                        .Select(e => e.RowKey)
+                        .Distinct()
+                        .Single();
+
                 var tableName = _indexProviderService.GetTableNameForIndex<EntityType>(index);
-                _tableContext.Delete<StorageTableEntryInterface>(tableName, entry =>
-                    entry.PartitionKey.CompareTo(index.ToStorageKeySection()) >= 0 &&
-                    entry.PartitionKey.CompareTo(index.ToStorageKeySection().GetValueForStartsWith()) < 0 &&
-                    entry.RowKey == entity.Id.EscapeValForKey());
+                _tableContext.Delete<StorageTableKey>(tableName, entry =>
+                    entry.PartitionKey.CompareTo(lowerKey) >= 0 &&
+                    entry.PartitionKey.CompareTo(upperKey) < 0 &&
+                    entry.RowKey.Equals(rowKey));
             }
 
             _tableContext.SaveChangesRetryOnException();

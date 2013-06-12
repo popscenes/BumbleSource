@@ -100,8 +100,8 @@ namespace Website.Azure.Common.Tests.TableStorage
                             return ret.Select(select);
                         });
 
-            mockTableContext.Setup(tc => tc.Store(It.IsAny<string>(), It.IsAny<StorageTableEntryInterface>()))
-                .Callback<string, StorageTableEntryInterface>((table, entry) =>
+            mockTableContext.Setup(tc => tc.Store(It.IsAny<string>(), It.IsAny<StorageTableKeyInterface>()))
+                .Callback<string, StorageTableKeyInterface>((table, entry) =>
                                                                   {
                                                                       ensureTable(table);
                                                                       var store = mockStore[table];

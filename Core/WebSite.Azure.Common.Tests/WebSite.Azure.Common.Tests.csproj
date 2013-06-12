@@ -129,6 +129,7 @@
     <Compile Include="TableStorage\RepositoryBaseTests.cs" />
     <Compile Include="TableStorage\StorageAggregateTests.cs" />
     <Compile Include="TableStorage\TableContextTests.cs" />
+    <Compile Include="TableStorage\TableIndexServiceTests.cs" />
     <Compile Include="TableStorage\TableNameAndPartitionProviderServiceTests.cs" />
     <Compile Include="TestFixtureSetup.cs" />
   </ItemGroup>

@@ -83,13 +83,17 @@ namespace Website.Infrastructure.Binding
 
         }
 
-        public static void BindGenericQueryHandlersFromCallingAssemblyForTypesFrom(this IKernel kernel
-            , Assembly typeAssembly, ConfigurationAction ninjectConfiguration
-            , Func<Type, bool> typeSelector = null, Func<Type, bool> querySelector = null)
+        public static void BindGenericQueryHandlersFromAssemblyForTypesFrom(this IKernel kernel
+            , Assembly asm                                                                       
+            , Assembly typeAssembly
+            , ConfigurationAction
+                ninjectConfiguration
+            ,
+            Func<Type, bool> typeSelector = null,
+            Func<Type, bool> querySelector = null)
         {
-            var asm = Assembly.GetCallingAssembly();
             Trace.TraceInformation("Binding generic query handler from {0} for {1}", asm.FullName, typeAssembly.FullName);
-            
+
             var genHandlers = asm.DefinedTypes
                                  .Select(info => info.AsType())
                                  .Where(
@@ -108,19 +112,28 @@ namespace Website.Infrastructure.Binding
             {
                 var arg = handler.GetGenericArguments().First();
                 var con = arg.GetGenericParameterConstraints();
-                foreach (var argType in argTypes.Where(argtype 
-                    =>  
+                foreach (var argType in argTypes.Where(argtype
+                    =>
                         TypeUtil.CheckGenericParameterAttributes(arg, argtype) &&
                     con.All(
-                    constype => 
+                    constype =>
                         constype.IsAssignableFrom(argtype))))
                 {
                     var inst = handler.MakeGenericType(argType);
-                    var iface = inst.GetInterfaces().FirstOrDefault(arg1 => 
+                    var iface = inst.GetInterfaces().FirstOrDefault(arg1 =>
                                                             arg1.IsGenericType && arg1.GetGenericTypeDefinition() == qhInt);
                     kernel.Bind(iface).To(inst);
                 }
             }
+        }
+
+        public static void BindGenericQueryHandlersFromCallingAssemblyForTypesFrom(this IKernel kernel
+            , Assembly typeAssembly, ConfigurationAction ninjectConfiguration
+            , Func<Type, bool> typeSelector = null, Func<Type, bool> querySelector = null)
+        {
+            var asm = Assembly.GetCallingAssembly();
+            kernel.BindGenericQueryHandlersFromAssemblyForTypesFrom(asm, typeAssembly, ninjectConfiguration
+                , typeSelector, querySelector);
         }
 
         public static void BindRepositoriesFromCallingAssembly(this StandardKernel kernel

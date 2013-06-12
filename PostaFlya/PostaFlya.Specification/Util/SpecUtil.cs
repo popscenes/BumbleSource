@@ -8,14 +8,12 @@ using Ninject;
 using Ninject.MockingKernel.Moq;
 using Ninject.Modules;
 using PostaFlya.Application.Domain.Browser;
-using PostaFlya.Specification.Binding;
 using TechTalk.SpecFlow;
 using PostaFlya.Mocks.Domain.Data;
 using Website.Domain.Browser;
 using Website.Infrastructure.Query;
 using Website.Mocks.Domain.Data;
 using Website.Test.Common;
-using Website.Application.Domain.Browser;
 using Website.Mocks.Domain.Defaults;
 using Browser = PostaFlya.Domain.Browser.Browser;
 using BrowserInterface = PostaFlya.Domain.Browser.BrowserInterface;
@@ -139,7 +137,9 @@ namespace PostaFlya.Specification.Util
                       new MockApplicationServicesNinjectModule(),
                       new PaymentTestData(),
                       new Website.Common.Binding.WebsiteCommonNinjectBinding(),
-                      new SpecificationQueryHandlerBinding()
+                      new Website.Mocks.Domain.Binding.QueryHandlerBinding(),
+                      new PostaFlya.Mocks.Domain.Binding.QueryHandlerBinding(),
+                     
                   };
     }
 }

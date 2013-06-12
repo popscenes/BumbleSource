@@ -10,7 +10,7 @@ using Website.Infrastructure.Query;
 
 namespace PostaFlya.DataRepository.Search.Query
 {
-    internal class FindBoardsNearQueryHandler : QueryHandlerInterface<FindBoardsNearQuery, List<string>>
+    public class FindBoardsNearQueryHandler : QueryHandlerInterface<FindBoardsNearQuery, List<string>>
     {
         private readonly SqlConnection _connection;
 

@@ -10,6 +10,7 @@ using Website.Infrastructure.Command;
 using Website.Domain.Content;
 using Website.Domain.Location;
 using Website.Infrastructure.Query;
+using Website.Mocks.Domain.Data;
 
 namespace PostaFlya.DataRepository.Tests
 {
@@ -123,15 +124,11 @@ namespace PostaFlya.DataRepository.Tests
         private void Store(ImageInterface source)
         {
             var exists = _queryService.FindById<Image>(source.Id) != null;
-            using (Kernel.Get<UnitOfWorkFactoryInterface>()
-                .GetUnitOfWork(new List<RepositoryInterface>() { _repository }))
+            if(exists)
+                DomainImageTestData.UpdateOne(source, _repository, Kernel);
+            else
             {
-                if (exists)
-                {
-                    _repository.UpdateEntity<Image>(source.Id, e => e.CopyFieldsFrom(source));
-                }
-                else
-                    _repository.Store(source);
+                DomainImageTestData.StoreOne((Image) source, _repository, Kernel);
             }
         }
 

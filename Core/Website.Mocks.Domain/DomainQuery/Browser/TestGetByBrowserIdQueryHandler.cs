@@ -5,7 +5,7 @@ using Website.Domain.Browser;
 using Website.Infrastructure.Domain;
 using Website.Infrastructure.Query;
 
-namespace PostaFlya.Specification.DomainQuery.Browser
+namespace Website.Mocks.Domain.DomainQuery.Browser
 {
     public class TestGetByBrowserIdQueryHandler<EntityType> :
         QueryHandlerInterface<GetByBrowserIdQuery, List<EntityType>> where EntityType : class, AggregateRootInterface, BrowserIdInterface, new()

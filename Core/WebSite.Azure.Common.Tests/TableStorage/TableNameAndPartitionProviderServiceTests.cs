@@ -154,13 +154,17 @@ namespace Website.Azure.Common.Tests.TableStorage
 
             register(tableNameAndPartitionProviderService);
 
-            tableNameAndPartitionProviderService.Add<OneExtend>("OneExtend", entity => entity.PropThree);
+            
             tableNameAndPartitionProviderService.Add<AnotherEnt>("AnotherEnt", entity => entity.Blah);
-            tableNameAndPartitionProviderService.Add<AnotherEntExtend>("AnotherEntExtend", entity => entity.BlahTwo);
+            
 
             var tableName = tableNameAndPartitionProviderService.GetTableName<OneExtend>();
             Assert.AreEqual("testOneEntity", tableName);
 
+            tableNameAndPartitionProviderService.Add<OneExtend>("OneExtend", entity => entity.PropThree);
+
+            tableName = tableNameAndPartitionProviderService.GetTableName<OneExtend>();
+            Assert.AreEqual("OneExtend", tableName);
 
             tableName = tableNameAndPartitionProviderService.GetTableName<OneExtendExtend>();
             Assert.AreEqual("OneExtend", tableName);
@@ -168,10 +172,12 @@ namespace Website.Azure.Common.Tests.TableStorage
             tableName = tableNameAndPartitionProviderService.GetTableName<AnotherEntExtend>();
             Assert.AreEqual("AnotherEnt", tableName);
 
-
+            tableNameAndPartitionProviderService.Add<AnotherEntExtend>("AnotherEntExtend", entity => entity.BlahTwo);
+            tableName = tableNameAndPartitionProviderService.GetTableName<AnotherEntExtend>();
+            Assert.AreEqual("AnotherEntExtend", tableName);
 
             tableName = tableNameAndPartitionProviderService.GetTableName<OneExtendExtend>();
-            Assert.AreEqual("testOneEntity", tableName);
+            Assert.AreEqual("OneExtend", tableName);
         }
 
 //        [Test]

@@ -28,13 +28,17 @@ namespace Website.Application.Domain.Tests.TinyUrl
         }
 
         readonly HashSet<TinyUrlRecordInterface> _store = RepoCoreUtil.GetMockStore<TinyUrlRecordInterface>();
+        readonly HashSet<EntityWithTinyUrlInterface> _entityStore = RepoCoreUtil.GetMockStore<EntityWithTinyUrlInterface>();
+
         
         [TestFixtureSetUp]
         public void FixtureSetUp()
         {           
-            RepoCoreUtil.SetupRepo<GenericRepositoryInterface, TinyUrlRecord, TinyUrlRecordInterface, TinyUrlRecordInterface>(_store, Kernel, TinyUrlRecordInterfaceExtensions.CopyFieldsFrom);
-            RepoCoreUtil.SetupQueryService<GenericQueryServiceInterface, TinyUrlRecord, TinyUrlRecordInterface, TinyUrlRecordInterface>(_store, Kernel, TinyUrlRecordInterfaceExtensions.CopyFieldsFrom);
+            RepoCoreUtil.SetupAggregateRepo<GenericRepositoryInterface, TinyUrlRecord, TinyUrlRecordInterface, TinyUrlRecordInterface>(_store, Kernel, TinyUrlRecordInterfaceExtensions.CopyFieldsFrom);
             RepoCoreUtil.SetupAggregateQuery<GenericQueryServiceInterface, TinyUrlRecord, TinyUrlRecordInterface>(_store, Kernel, TinyUrlRecordInterfaceExtensions.CopyFieldsFrom);
+
+            RepoCoreUtil.SetupRepo<GenericRepositoryInterface, EntityKeyWithTinyUrl, EntityWithTinyUrlInterface, EntityWithTinyUrlInterface>(_entityStore, Kernel, EntityWithTinyUrlInterfaceExtensions.CopyFieldsFrom);
+            RepoCoreUtil.SetupQueryService<GenericQueryServiceInterface, EntityKeyWithTinyUrl, EntityWithTinyUrlInterface, EntityWithTinyUrlInterface>(_entityStore, Kernel, EntityWithTinyUrlInterfaceExtensions.CopyFieldsFrom);
 
             ReInit();
         }
@@ -42,6 +46,8 @@ namespace Website.Application.Domain.Tests.TinyUrl
         private  void ReInit()
         {
             _store.Clear();
+            _entityStore.Clear();
+            
             var repo = Kernel.Get<GenericRepositoryInterface>();
             repo.Store(new TinyUrlRecord()
             {
@@ -78,23 +84,32 @@ namespace Website.Application.Domain.Tests.TinyUrl
             Kernel.Unbind<QueueInterface>();
         }
 
-        class  TestEntity : EntityBase<TestEntity>, EntityInterface, TinyUrlInterface
-        {
-            public string TinyUrl { get; set; }
-        }
 
         [Test]
         public void DefaultTinyUrlServiceUrlForReturnsANewUrlForANewEntityTest()
         {
             ReInit();
             var urlService = Kernel.Get<DefaultTinyUrlService>();
-            var entity = new TestEntity() {Id = "TestId"};
+            var entity = new EntityKeyWithTinyUrl() {Id = "TestId"};
             entity.TinyUrl = urlService.UrlFor(entity);
             Assert.IsNotNullOrEmpty(entity.TinyUrl);
+            StoreEntity(entity);
 
-            var entityTwo = new TestEntity() { Id = "TestIdTwo" };
+            var ret = urlService.EntityInfoFor(entity.TinyUrl);
+            Assert.That(ret, Is.Not.Null);
+            Assert.That(ret.Id, Is.EqualTo(entity.Id));
+
+
+            var entityTwo = new EntityKeyWithTinyUrl() { Id = "TestIdTwo" };
             entityTwo.TinyUrl = urlService.UrlFor(entityTwo);
             Assert.IsNotNullOrEmpty(entityTwo.TinyUrl);
+            StoreEntity(entityTwo);
+            
+            ret = urlService.EntityInfoFor(entityTwo.TinyUrl);
+            Assert.That(ret, Is.Not.Null);
+            Assert.That(ret.Id, Is.EqualTo(entityTwo.Id));
+
+
 
             Assert.AreNotEqual(entity.TinyUrl, entityTwo.TinyUrl);
         }
@@ -104,9 +119,11 @@ namespace Website.Application.Domain.Tests.TinyUrl
         {
             ReInit();
             var urlService = Kernel.Get<DefaultTinyUrlService>();
-            var entity = new TestEntity() { Id = "TestId" };
+            var entity = new EntityKeyWithTinyUrl() { Id = "TestId" };
             entity.TinyUrl = urlService.UrlFor(entity);
             Assert.IsNotNullOrEmpty(entity.TinyUrl);
+            StoreEntity(entity);
+
 
             var sameUrl = urlService.UrlFor(entity);
             Assert.IsNotNullOrEmpty(sameUrl);
@@ -119,8 +136,10 @@ namespace Website.Application.Domain.Tests.TinyUrl
         {
             ReInit();
             var urlService = Kernel.Get<DefaultTinyUrlService>();
-            var entity = new TestEntity() { Id = "TestId" };
+            var entity = new EntityKeyWithTinyUrl() { Id = "TestId" };
             entity.TinyUrl = urlService.UrlFor(entity);
+            StoreEntity(entity);
+
             Assert.IsNotNullOrEmpty(entity.TinyUrl);
 
             var ret = urlService.EntityInfoFor(entity.TinyUrl);
@@ -129,6 +148,15 @@ namespace Website.Application.Domain.Tests.TinyUrl
             
             Assert.AreEqual(entity.Id, ret.Id);
             Assert.AreEqual(entity.PrimaryInterface, ret.PrimaryInterface);
+        }
+
+        private void StoreEntity(EntityKeyWithTinyUrl entity)
+        {
+            var repo = Kernel.Get<GenericRepositoryInterface>();
+            using (var uow = Kernel.Get<UnitOfWorkFactoryInterface>().GetUnitOfWork(new[] {repo}))
+            {
+                repo.Store(entity);
+            }
         }
     }
 }

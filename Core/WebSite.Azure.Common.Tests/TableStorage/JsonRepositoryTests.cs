@@ -66,21 +66,13 @@ namespace Website.Azure.Common.Tests.TableStorage
             repo.Store(one);
             repo.SaveChanges();
 
-
-
-            AssertUtil.Count(3, _mockStore);
-            AssertUtil.Count(3, _mockStore["testOneEntity"]);
-            AssertUtil.Count(6, _mockStore["testTwoEntity"]);
-            AssertUtil.Count(1, _mockStore["testThreeEntity"]);
+            AssertUtil.Count(1, _mockStore["testOneEntity"]);
 
 
             repo.UpdateEntity<OneEntity>(one.Id, entity => entity.Prop = "Some Updated Text");
             repo.SaveChanges();
 
-            AssertUtil.Count(3, _mockStore);
-            AssertUtil.Count(3, _mockStore["testOneEntity"]);
-            AssertUtil.Count(6, _mockStore["testTwoEntity"]);
-            AssertUtil.Count(1, _mockStore["testThreeEntity"]);
+            AssertUtil.Count(1, _mockStore["testOneEntity"]);
 
             Assert.IsTrue(_mockStore["testOneEntity"].Any(entry => entry.GetJson().Contains("Some Updated Text")));
         }

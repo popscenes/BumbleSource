@@ -141,6 +141,7 @@
     <Compile Include="Publish\DomainEventPublishService.cs" />
     <Compile Include="Query\CachedQueryServiceWithBrowser.cs" />
     <Compile Include="TinyUrl\DefaultTinyUrlService.cs" />
+    <Compile Include="TinyUrl\Query\FindByTinyUrlQuery.cs" />
     <Compile Include="TinyUrl\TinyUrlGenerationJobAction.cs" />
     <Compile Include="TinyUrl\TinyUrlRecord.cs" />
     <Compile Include="TinyUrl\TinyUrlUtil.cs" />

@@ -15,11 +15,12 @@ namespace PostaFlya.Domain.Browser.Command
 
         public AddBrowserCommandHandler(GenericRepositoryInterface repository, 
                                     UnitOfWorkFactoryInterface unitOfWorkFactory,
-            GenericQueryServiceInterface queryService)
+            GenericQueryServiceInterface queryService, QueryChannelInterface queryChannel)
         {
             _repository = repository;
             _unitOfWorkFactory = unitOfWorkFactory;
             _queryService = queryService;
+            _queryChannel = queryChannel;
         }
 
         public object Handle(AddBrowserCommand command)

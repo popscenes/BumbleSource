@@ -151,7 +151,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Binding\SpecificationQueryHandlerBinding.cs" />
     <Compile Include="BrowserSettings\SaveImages.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -165,10 +164,6 @@
     </Compile>
     <Compile Include="Browsers\TokenSteps.cs" />
     <Compile Include="CommonSteps.cs" />
-    <Compile Include="DomainQuery\Browser\TestFindBrowserByIdentityProviderQueryHandler.cs" />
-    <Compile Include="DomainQuery\Browser\TestGetAggregateByBrowserIdQueryHandler.cs" />
-    <Compile Include="DomainQuery\Browser\TestGetByBrowserIdQueryHandler.cs" />
-    <Compile Include="DomainQuery\TestFindByFriendlyIdQueryHandler.cs" />
     <Compile Include="DynamicBulletinBoard\CommentSteps.cs" />
     <Compile Include="DynamicBulletinBoard\Claim.feature.cs">
       <AutoGen>True</AutoGen>
@@ -410,6 +405,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Behaviour\" />
+    <Folder Include="Binding\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
