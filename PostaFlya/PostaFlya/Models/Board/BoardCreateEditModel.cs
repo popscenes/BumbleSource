@@ -41,5 +41,8 @@ namespace PostaFlya.Models.Board
 
         [Display(Name = "BoardCreateEditModel_Status", ResourceType = typeof (Properties.Resources))] 
         public BoardStatus? Status { get; set; }
+
+        [DataMember]
+        public VenueInformationModel VenueInformation { get; set; }
     }
 }

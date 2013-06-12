@@ -57,6 +57,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Infrastructure\BoardUpload.cs" />
     <Compile Include="Infrastructure\FlyerUpload.cs" />
     <Compile Include="Infrastructure\SiteScraperInterface.cs" />
     <Compile Include="Infrastructure\State.cs" />
