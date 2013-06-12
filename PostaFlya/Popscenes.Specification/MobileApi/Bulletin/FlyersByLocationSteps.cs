@@ -22,8 +22,11 @@ namespace Popscenes.Specification.MobileApi.Bulletin
                                                                 kilometers);
             var flyers = Builder<Flier>.CreateListOfSize(flyercount)
                                        .All()
+                                       .With(flier => flier.Id = Guid.NewGuid().ToString())
                                        .With(flier => flier.LocationRadius = 0)
-                                       .With(f => f.Location = locs[--flyercount]).Build();
+                                       .With(f => f.Location = locs[--flyercount])
+                                       .With(flier => flier.Status = FlierStatus.Active)
+                                       .Build();
             
             StorageUtil.StoreAll(flyers);
 
