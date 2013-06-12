@@ -30,6 +30,7 @@ namespace Popscenes.Specification.Util
 
 
 
+
         public static void SetupMockServices(StandardKernel kernel)
         {
 
@@ -51,7 +52,8 @@ namespace Popscenes.Specification.Util
             kernel.Settings.InjectParentPrivateProperties = true;
             kernel.Settings.InjectNonPublic = true;
             SetupUtil.CreateServer(kernel);
-            SetupUtil.SetupMockServices(kernel);
+            StorageUtil.InitTableStorage();
+            SetupUtil.SetupMockServices(kernel);        
         }
 
         public virtual void AfterScenario()
@@ -61,7 +63,7 @@ namespace Popscenes.Specification.Util
 
         public virtual void AfterStep()
         {
-
+            StorageUtil.ProcessAllMessagesAndEvents();
         }
     }
 

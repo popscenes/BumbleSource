@@ -74,20 +74,20 @@ namespace Popscenes.Specification.MobileApi.Bulletin
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Mobile Api flyers by location with valid location returns all fliers within speci" +
                     "fied distance", ((string[])(null)));
-#line 8
-this.ScenarioSetup(scenarioInfo);
 #line 9
- testRunner.Given("There are flyers around the geolocation <Latitude>, <Longitude>", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+this.ScenarioSetup(scenarioInfo);
 #line 10
+ testRunner.Given("There are 50 flyers within 10 kilometers of the geolocation (.*), (.*)", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 11
  testRunner.When("I perform a get request for the path MobileApi/Bulletin/NearBy?lat=-37.769&long=1" +
                     "44.979&distance=10&take=30", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 11
- testRunner.Then("I should receive a http response with a status of 200", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 12
- testRunner.And("The content should have a response status of OK", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.Then("I should receive a http response with a status of 200", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 13
- testRunner.And("The content should contain a list of 30 flyers within <10> kilometers of <Latitud" +
-                    "e>, <Longitude>", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("The content should have a response status of OK", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 14
+ testRunner.And("The content should contain a list of 30 flyers within 10 kilometers of -37.769, 1" +
+                    "44.979", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             this.ScenarioCleanup();
         }

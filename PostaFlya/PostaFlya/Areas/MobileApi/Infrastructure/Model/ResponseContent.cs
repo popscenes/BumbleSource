@@ -4,13 +4,9 @@ namespace PostaFlya.Areas.MobileApi.Infrastructure.Model
     {
         public enum StatusEnum
         {
-            Ok = 1000,
-            Authorized = 1001,
-            AccountCreated = 1002,
-            ValidationError = 2000,
-            NotFound = 5000,
-            NotScheduled = 5001,
-            Unauthorized = 6000,
+            Ok = 200,
+            ValidationError = 400,
+            Unauthorized = 401,
             AccountAlreadyExists = 6001
         }
 

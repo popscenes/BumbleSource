@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Data.Services.Client;
 using Ninject;
 using PostaFlya.DataRepository.Search.Implementation;
+using TechTalk.SpecFlow;
+using Website.Application.Command;
 using Website.Azure.Common.Environment;
 using Website.Azure.Common.TableStorage;
 
@@ -74,7 +76,7 @@ namespace Popscenes.Specification.Util
         {
             var tableNameProv = SpecUtil.Kernel.Get<TableNameAndIndexProviderServiceInterface>();
 
-            tableNameProv.SuffixTableNames("test");
+            tableNameProv.SuffixTableNames("spec");
 
             SpecUtil.Kernel.Get<SqlSeachDbInitializer>().DeleteAll();
 
@@ -86,6 +88,31 @@ namespace Popscenes.Specification.Util
                 tctx.Delete<JsonTableEntry>(tableName, null);
             }
             tctx.SaveChanges(SaveChangesOptions.ReplaceOnUpdate);
+        }
+
+        private const string SentWorkerBusMessagesForContext = "SentBusMessagesForContext";
+        public static List<object> ScenarioSentWorkerBusMessagesForContext
+        {
+            get
+            {
+                var ret = ScenarioContext.Current.TryGet<List<object>>(SentWorkerBusMessagesForContext);
+                if (ret == null)
+                {
+                    ret = new List<object>();
+                    ScenarioContext.Current[SentWorkerBusMessagesForContext] = ret;
+                }
+                return ret;
+            }
+        }
+
+        public static void ProcessAllMessagesAndEvents()
+        {
+            var processor = SpecUtil.Kernel.Get<QueuedCommandProcessor>(ctx => ctx.Has("workercommandqueue"));
+            QueuedCommandProcessor.WorkInProgress wip = null;
+            while ((wip = processor.ProcessOneSynch()) != null)
+            {
+                ScenarioSentWorkerBusMessagesForContext.Add(wip);
+            }
         }
     }
 }
