@@ -50,7 +50,7 @@ namespace Website.Application.Command
 
                 ret = RunTask(workInProgress).Result;
 
-            } while (ret.Result != QueuedCommandResult.Retry);
+            } while (ret.Result == QueuedCommandResult.Retry);
             
             return ret;
         }

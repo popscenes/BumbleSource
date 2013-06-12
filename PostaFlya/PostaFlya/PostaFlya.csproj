@@ -341,6 +341,11 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Areas\MobileApi\App_Start\MobileApiConfig.cs" />
+    <Compile Include="Areas\MobileApi\Flyers\Controllers\FlyersByLocationController.cs" />
+    <Compile Include="Areas\MobileApi\Flyers\Model\FlyersByLocationRequest.cs" />
+    <Compile Include="Areas\MobileApi\Flyers\Model\FlyerSummaryContent.cs" />
+    <Compile Include="Areas\MobileApi\Flyers\Model\FlyerSummaryModel.cs" />
+    <Compile Include="Areas\MobileApi\Flyers\Query\FindFlyersByLocationAndDistanceQueryHandler.cs" />
     <Compile Include="Areas\MobileApi\Infrastructure\Controller\MobileApiControllerBase.cs" />
     <Compile Include="Areas\MobileApi\Infrastructure\HttpFilters\MobileApiValidationActionFilter.cs" />
     <Compile Include="Areas\MobileApi\Infrastructure\Model\ResponseContent.cs" />
@@ -858,9 +863,6 @@
     <Folder Include="Areas\Default\Controllers\" />
     <Folder Include="Areas\Default\Views\Shared\" />
     <Folder Include="Areas\HelpPage\Views\Shared\" />
-    <Folder Include="Areas\MobileApi\Controllers\Board\" />
-    <Folder Include="Areas\MobileApi\Controllers\Browser\" />
-    <Folder Include="Areas\MobileApi\Controllers\Bulletin\" />
     <Folder Include="Areas\MobileApi\Models\" />
     <Folder Include="Attributes\" />
     <Folder Include="Properties\PublishProfiles\" />

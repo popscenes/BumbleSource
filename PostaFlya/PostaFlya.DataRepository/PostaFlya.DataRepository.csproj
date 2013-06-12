@@ -123,6 +123,7 @@
     <Compile Include="Search\Implementation\SqlFlierSearchService.cs" />
     <Compile Include="Search\Implementation\SqlSeachDbInitializer.cs" />
     <Compile Include="Search\Query\FindBoardsNearQueryHandler.cs" />
+    <Compile Include="Search\Query\FindFlyersByLocationAndDistanceQueryHandler.cs" />
     <Compile Include="Search\SearchRecord\BoardFlierSearchRecord.cs" />
     <Compile Include="Search\SearchRecord\BoardSearchRecord.cs" />
     <Compile Include="Search\SearchRecord\FlierSearchRecord.cs" />

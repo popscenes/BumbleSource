@@ -43,6 +43,7 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\Libraries\Microsoft.Data.OData.5.2.0\lib\net40\Microsoft.Data.OData.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.SqlServer.Types, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
       <HintPath>..\..\..\Libraries\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
@@ -141,6 +142,7 @@
     <Compile Include="MobileApi\Bulletin\FlyersByLocationSteps.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Util\CookieContainerDelegatingHandler.cs" />
+    <Compile Include="Util\DataUtil.cs" />
     <Compile Include="Util\HttpResponseMessageExtensions.cs" />
     <Compile Include="Util\InMemoryHttpContentSerializationHandler.cs" />
     <Compile Include="Util\StorageUtil.cs" />
@@ -200,6 +202,10 @@
     <ProjectReference Include="..\PostaFlya.Domain\PostaFlya.Domain.csproj">
       <Project>{77bd3622-4d65-4776-ac5a-4f779cc526ed}</Project>
       <Name>PostaFlya.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PostaFlya.Mocks.Domain\PostaFlya.Mocks.Domain.csproj">
+      <Project>{2AA4C663-ADFF-47C7-9770-92D7A524DD33}</Project>
+      <Name>PostaFlya.Mocks.Domain</Name>
     </ProjectReference>
     <ProjectReference Include="..\PostaFlya\PostaFlya.csproj">
       <Project>{85753e12-6d9b-4b33-9ebd-bf31dbe10088}</Project>

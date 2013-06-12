@@ -77,10 +77,10 @@ namespace Popscenes.Specification.MobileApi.Bulletin
 #line 9
 this.ScenarioSetup(scenarioInfo);
 #line 10
- testRunner.Given("There are 50 flyers within 10 kilometers of the geolocation (.*), (.*)", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+ testRunner.Given("There are 50 flyers within 10 kilometers of the geolocation -37.769, 144.979", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 11
- testRunner.When("I perform a get request for the path MobileApi/Bulletin/NearBy?lat=-37.769&long=1" +
-                    "44.979&distance=10&take=30", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.When("I perform a get request for the path mobileapi/gigs/near?lat=-37.769&long=144.979" +
+                    "&distance=10&take=30", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 12
  testRunner.Then("I should receive a http response with a status of 200", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 13

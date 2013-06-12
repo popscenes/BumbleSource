@@ -1,6 +1,7 @@
 ﻿using System.Web.Http;
 using Ninject;
 using PostaFlya.App_Start;
+using PostaFlya.Areas.MobileApi.App_Start;
 using PostaFlya.Binding;
 using TechTalk.SpecFlow;
 
@@ -20,6 +21,7 @@ namespace Popscenes.Specification.Util
             config.DependencyResolver = new TestNinjectHttpDependencyResolver(kernel, config);
 
             WebApiConfig.Register(config);
+            MobileApiConfig.Register(config);
 
             var server = new HttpServer(config);
 

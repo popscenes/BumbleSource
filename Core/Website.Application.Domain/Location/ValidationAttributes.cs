@@ -28,4 +28,28 @@ namespace Website.Application.Domain.Location
             return locs != null && locs.All(loc => loc.IsValid());
         }
     }
+
+    public class ValidLatitudeAttribute : ValidationAttribute
+    {
+        public override bool IsValid(object value)
+        {
+            if (value == null)
+                return true;
+
+            var loc = value is double ? (double) value : -200;
+            return loc >= -90 && loc <= 90;
+        }
+    }
+
+    public class ValidLongitudeAttribute : ValidationAttribute
+    {
+        public override bool IsValid(object value)
+        {
+            if (value == null)
+                return true;
+
+            var loc = value is double ? (double)value : -200;
+            return loc >= -180 && loc <= 180;
+        }
+    }
 }

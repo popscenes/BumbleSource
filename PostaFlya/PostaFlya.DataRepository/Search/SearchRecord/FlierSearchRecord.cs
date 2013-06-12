@@ -109,6 +109,12 @@ namespace PostaFlya.DataRepository.Search.SearchRecord
                 return null;
             }
         }
+
+        public static Location ToLocation(this SqlGeography sqlLoc)
+        {
+            return new Location(sqlLoc.Long.Value, sqlLoc.Lat.Value);
+        }
+
         public static SqlGeography ToGeography(this BoundingBox boundingBox)
         {
             try

@@ -34,6 +34,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyVersion("1.0.0.0")]
 [assembly: AssemblyFileVersion("1.0.0.0")]
 
+[assembly: InternalsVisibleTo("Popscenes.Specification")]
 [assembly: InternalsVisibleTo("PostaFlya.Specification")]
 [assembly: InternalsVisibleTo("PostaFlya.DataRepository.Tests")]
 [assembly: InternalsVisibleTo("PostaFlya.Application.Domain.Tests")]

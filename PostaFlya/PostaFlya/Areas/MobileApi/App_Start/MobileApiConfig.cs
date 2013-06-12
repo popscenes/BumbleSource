@@ -10,7 +10,11 @@ namespace PostaFlya.Areas.MobileApi.App_Start
     {
         public static void Register(HttpConfiguration config)
         {
-            
+            config.Routes.MapHttpRoute(
+                name: "GigsNearBy",
+                routeTemplate: "mobileapi/gigs/near",
+                defaults: new { Controller = "FlyersByLocation" }
+                );
         }
     }
 }
