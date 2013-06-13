@@ -24,6 +24,9 @@ namespace PostaFlya.DataRepository.DomainQuery.Browser
                 DomainIndexSelectors.BrowserCredentialIndex
                 , argument.Credential.ToUniqueString()).SingleOrDefault();
 
+            if (rec == null)
+                return null;
+
             return _queryService.FindById<BrowserType>(rec.RowKey.ExtractEntityIdFromRowKey());
         }
     }

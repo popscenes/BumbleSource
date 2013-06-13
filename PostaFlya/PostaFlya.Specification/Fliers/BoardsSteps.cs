@@ -90,8 +90,8 @@ namespace PostaFlya.Specification.Fliers
             var boardCreate = new BoardCreateEditModel()
             {
                 BoardName = targetBoard,
-                AllowOthersToPostFliers = true,
-                RequireApprovalOfPostedFliers = requiresApproval,
+                //AllowOthersToPostFliers = true,
+                //RequireApprovalOfPostedFliers = requiresApproval,
             };
 
             WhenABrowserSubmitsTheFollowingDataForTheBOARD(boardCreate, browserId);

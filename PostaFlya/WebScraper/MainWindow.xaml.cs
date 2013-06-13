@@ -107,7 +107,7 @@ namespace WebScraper
                     VenueInformation = venueInfo,
                     BoardName = venueInfo.PlaceName,
                     AllowOthersToPostFliers = false,
-                    Description = venueInfo + " Venue Board",
+                    Description = venueInfo.PlaceName + " Venue Board",
                     RequireApprovalOfPostedFliers = false,
                     Status = BoardStatus.Approved,
                     TypeOfBoard = BoardTypeEnum.VenueBoard

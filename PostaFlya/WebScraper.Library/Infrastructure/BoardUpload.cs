@@ -45,6 +45,10 @@ namespace WebScraper.Library.Infrastructure
                         {
                             req.Method = HttpMethod.Post;
                             req.RequestUri = new Uri(_server + _flyerPost);
+                            
+                            Trace.TraceInformation(JsonConvert.SerializeObject(_model));
+
+                            //_model.Id = "fuckity";
 
                             req.Content = new ObjectContent<BoardCreateEditModel>(_model, new JsonMediaTypeFormatter());
                             using (var res = await client.SendAsync(req))

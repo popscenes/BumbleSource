@@ -1,5 +1,6 @@
 using System.Net.Http;
 using System.Web.Http;
+using PostaFlya.Application.Domain.Browser;
 using PostaFlya.Domain.Boards;
 using PostaFlya.Domain.Boards.Command;
 using PostaFlya.Models.Board;
@@ -14,10 +15,12 @@ namespace PostaFlya.Controllers
     public class MyBoardsController : WebApiControllerBase
     {
         private readonly CommandBusInterface _commandBus;
+        private readonly PostaFlyaBrowserInformationInterface _browserInformation;
 
-        public MyBoardsController(CommandBusInterface commandBus)
+        public MyBoardsController(CommandBusInterface commandBus, PostaFlyaBrowserInformationInterface browserInformation)
         {
             _commandBus = commandBus;
+            _browserInformation = browserInformation;
         }
 
         public HttpResponseMessage Post(string browserId, BoardCreateEditModel boardCreate)
@@ -25,7 +28,7 @@ namespace PostaFlya.Controllers
             var createBoardCommand = new CreateBoardCommand()
                 {
 
-                    BrowserId = browserId,
+                    BrowserId = _browserInformation.Browser.Id,
                     BoardName = boardCreate.BoardName,
                     AllowOthersToPostFliers = boardCreate.AllowOthersToPostFliers,
                     RequireApprovalOfPostedFliers = boardCreate.RequireApprovalOfPostedFliers,

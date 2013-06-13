@@ -10,6 +10,7 @@ namespace PostaFlya.Models.Board
     [DataContract]
     public class BoardCreateEditModel : ViewModelBase
     {
+        [DataMember]
         public string Id { get; set; }
 
         [Display(Name = "BoardCreateEditModel_BoardName", ResourceType = typeof(Properties.Resources))]
@@ -18,13 +19,13 @@ namespace PostaFlya.Models.Board
         public string BoardName { get; set; }
 
         [Display(Name = "BoardCreateEditModel_AllowOthersToPostFliers", ResourceType = typeof(Properties.Resources))] 
-        [DataMember]
+        [DataMember(IsRequired = true)]
         [Required(ErrorMessageResourceName = "Required", ErrorMessageResourceType = typeof(Properties.Resources))]
         public bool AllowOthersToPostFliers { get; set; }
 
         [Display(Name = "BoardCreateEditModel_RequireApprovalOfPostedFliers", ResourceType = typeof(Properties.Resources))] 
-        [DataMember]
         [Required(ErrorMessageResourceName = "Required", ErrorMessageResourceType = typeof(Properties.Resources))]
+        [DataMember(IsRequired = true)]
         public bool RequireApprovalOfPostedFliers { get; set; }
 
 //        [Display(Name = "BoardCreateEditModel_Location", ResourceType = typeof(Properties.Resources))] 
@@ -32,6 +33,7 @@ namespace PostaFlya.Models.Board
 
         [Display(Name = "BoardCreateEditModel_Description", ResourceType = typeof(Properties.Resources))] 
         [Required(ErrorMessageResourceName = "Required", ErrorMessageResourceType = typeof(Properties.Resources))]
+        [DataMember(IsRequired = true)]
         public string Description { get; set; }
 
         [Display(Name = "BoardCreateEditModel_TypeOfBoard", ResourceType = typeof(Properties.Resources))]
@@ -39,7 +41,8 @@ namespace PostaFlya.Models.Board
         [Required(ErrorMessageResourceName = "Required", ErrorMessageResourceType = typeof(Properties.Resources))]
         public BoardTypeEnum TypeOfBoard { get; set; }
 
-        [Display(Name = "BoardCreateEditModel_Status", ResourceType = typeof (Properties.Resources))] 
+        [Display(Name = "BoardCreateEditModel_Status", ResourceType = typeof (Properties.Resources))]
+        [DataMember]
         public BoardStatus? Status { get; set; }
 
         [DataMember]
