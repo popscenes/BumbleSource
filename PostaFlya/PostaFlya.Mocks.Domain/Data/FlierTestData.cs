@@ -9,6 +9,7 @@ using PostaFlya.Domain.Flier.Event;
 using PostaFlya.Domain.Flier.Query;
 using PostaFlya.Domain.Service;
 using Website.Domain.Claims.Event;
+using Website.Domain.Service;
 using Website.Infrastructure.Command;
 using Website.Infrastructure.Domain;
 using Website.Infrastructure.Publish;
@@ -294,7 +295,30 @@ namespace PostaFlya.Mocks.Domain.Data
         }
 
 
-        internal static Flier StoreOne(Flier flier, GenericRepositoryInterface repository, StandardKernel kernel)
+        internal static Flier StoreOnePublishEvent(Flier flier, GenericRepositoryInterface repository, IKernel kernel)
+        {
+            var uow = kernel.Get<UnitOfWorkFactoryInterface>()
+                .GetUnitOfWork(new List<RepositoryInterface>() { repository });
+            using (uow)
+            {
+
+                repository.Store(flier);
+            }
+
+            Assert.IsTrue(uow.Successful);
+
+
+            if (uow.Successful)
+            {
+                var domainEvent = kernel.Get<DomainEventPublishServiceInterface>();
+                domainEvent.Publish(new FlierModifiedEvent() { NewState = (Flier)flier });
+            }
+
+
+            return flier;
+        }
+
+        internal static Flier StoreOne(Flier flier, GenericRepositoryInterface repository, IKernel kernel)
         {
             var uow = kernel.Get<UnitOfWorkFactoryInterface>()
                 .GetUnitOfWork(new List<RepositoryInterface>() {repository});

@@ -10,9 +10,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{C2921358-37F3-4AF8-B702-C5D07E0478AD}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{8400D11F-7F5E-402D-A01D-29A4DA0D2E68}"
-	ProjectSection(SolutionItems) = preProject
-		.nuget\packages.config = .nuget\packages.config
-	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PostaFlya", "PostaFlya\PostaFlya.csproj", "{85753E12-6D9B-4B33-9EBD-BF31DBE10088}"
 EndProject

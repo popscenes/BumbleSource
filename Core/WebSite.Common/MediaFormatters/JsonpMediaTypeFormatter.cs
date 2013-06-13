@@ -55,7 +55,7 @@ namespace Website.Common.MediaFormatters
         {
             callback = null;
 
-            if (HttpContext.Current.Request.HttpMethod != "GET")
+            if (HttpContext.Current == null || HttpContext.Current.Request.HttpMethod != "GET")
                 return false;
 
             callback = HttpContext.Current.Request.QueryString[CallbackQueryParameter];

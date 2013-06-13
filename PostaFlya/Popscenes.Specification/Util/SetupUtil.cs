@@ -1,6 +1,7 @@
 ﻿using System.Web.Http;
 using Ninject;
 using PostaFlya.App_Start;
+using PostaFlya.Areas.MobileApi.App_Start;
 using PostaFlya.Binding;
 using TechTalk.SpecFlow;
 
@@ -20,6 +21,7 @@ namespace Popscenes.Specification.Util
             config.DependencyResolver = new TestNinjectHttpDependencyResolver(kernel, config);
 
             WebApiConfig.Register(config);
+            MobileApiConfig.Register(config);
 
             var server = new HttpServer(config);
 
@@ -27,6 +29,7 @@ namespace Popscenes.Specification.Util
             SpecUtil.Kernel = kernel;
             ScenarioContext.Current[SpecUtil.BaseAddressContext] = "http://popscenes.com/";
         }
+
 
 
 
@@ -51,7 +54,8 @@ namespace Popscenes.Specification.Util
             kernel.Settings.InjectParentPrivateProperties = true;
             kernel.Settings.InjectNonPublic = true;
             SetupUtil.CreateServer(kernel);
-            SetupUtil.SetupMockServices(kernel);
+            StorageUtil.InitTableStorage();
+            SetupUtil.SetupMockServices(kernel);        
         }
 
         public virtual void AfterScenario()
@@ -61,7 +65,7 @@ namespace Popscenes.Specification.Util
 
         public virtual void AfterStep()
         {
-
+            StorageUtil.ProcessAllMessagesAndEvents();
         }
     }
 

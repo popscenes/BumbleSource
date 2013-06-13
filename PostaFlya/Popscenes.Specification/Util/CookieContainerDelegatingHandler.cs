@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -28,7 +29,8 @@ namespace Popscenes.Specification.Util
             if (Cookies != null && Cookies.Count > 0)
             {
                 request.Headers.Remove("Cookie");
-                request.Headers.Add("Cookie", Cookies.GetCookieHeader(request.RequestUri));
+                var val = Cookies.GetCookieHeader(request.RequestUri);
+                request.Headers.Add("Cookie", val);
             }
 
             var response = await base.SendAsync(request, cancellationToken);
@@ -42,7 +44,8 @@ namespace Popscenes.Specification.Util
             Cookies = new CookieContainer();
             foreach (var cookie in setCookieHeaders)
             {
-                Cookies.SetCookies(request.RequestUri, cookie);
+                var host = request.RequestUri.GetLeftPart(UriPartial.Authority);
+                Cookies.SetCookies(new Uri(host), cookie);
             }
 
             return response;

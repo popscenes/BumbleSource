@@ -10,7 +10,6 @@ using NUnit.Framework;
 using Ninject;
 using PostaFlya.Areas.MobileApi.Infrastructure.Model;
 using TechTalk.SpecFlow;
-using Website.Infrastructure.Command;
 using Website.Infrastructure.Query;
 
 namespace Popscenes.Specification.Util
@@ -27,6 +26,7 @@ namespace Popscenes.Specification.Util
         private const string RequestObjectContext = "RequestObjectContext";
         private const string RequestCookieContext = "RequestCookieContext";
         private const string ResponseCookieContext = "ResponseCookieContext";
+        private const string AuthTokenContext = "AuthTokenContext";
 
 
         public static HttpServer Server
@@ -38,20 +38,35 @@ namespace Popscenes.Specification.Util
                 if(curr != null && curr != value)
                     curr.Dispose();
 
-                ScenarioContext.Current[ServerContext] = value;
+                if (value == null)
+                    ScenarioContext.Current.Remove(ServerContext);
+                else
+                    ScenarioContext.Current[ServerContext] = value;
             }
         }
 
         public static CookieContainer RequestCookies
         {
             get { return ScenarioContext.Current.TryGet<CookieContainer>(RequestCookieContext); }
-            set { ScenarioContext.Current[RequestCookieContext] = value; }
+            set
+            {
+                if (value == null)
+                    ScenarioContext.Current.Remove(RequestCookieContext);
+                else
+                    ScenarioContext.Current[RequestCookieContext] = value;
+            }
         }
 
         public static CookieContainer ResponseCookies
         {
             get { return ScenarioContext.Current.TryGet<CookieContainer>(ResponseCookieContext); }
-            set { ScenarioContext.Current[ResponseCookieContext] = value; }
+            set
+            {
+                if (value == null)
+                    ScenarioContext.Current.Remove(ResponseCookieContext);
+                else
+                    ScenarioContext.Current[ResponseCookieContext] = value;
+            }
         }
 
         public static HttpResponseMessage ResponseMessage
@@ -63,7 +78,10 @@ namespace Popscenes.Specification.Util
                 if(curr != null && curr != value)
                     curr.Dispose();
 
-                ScenarioContext.Current[ResponseContext] = value;
+                if (value == null)
+                    ScenarioContext.Current.Remove(ResponseContext);
+                else
+                    ScenarioContext.Current[ResponseContext] = value;
             }
         }
 
@@ -76,23 +94,39 @@ namespace Popscenes.Specification.Util
                 if(curr != null && curr != value)
                     curr.Dispose();
 
-                ScenarioContext.Current[RequestContext] = value;
+                if (value == null)
+                    ScenarioContext.Current.Remove(RequestContext);
+                else
+                    ScenarioContext.Current[RequestContext] = value;
+            }
+        }
+
+        public static string AuthToken
+        {
+            get { return ScenarioContext.Current.TryGet<string>(AuthTokenContext); }
+            set
+            {
+                if (value == null)
+                    ScenarioContext.Current.Remove(AuthTokenContext);
+                else
+                    ScenarioContext.Current[AuthTokenContext] = value;
             }
         }
 
         public static object RequestObject
         {
             get { return ScenarioContext.Current.TryGet<object>(RequestObjectContext); }
-            set { ScenarioContext.Current[RequestObjectContext] = value; }
+            set
+            {
+                if (value == null)
+                    ScenarioContext.Current.Remove(RequestObjectContext);
+                else
+                    ScenarioContext.Current[RequestObjectContext] = value;
+            }
         }
 
-        /// <summary>
-        /// This gets a copy of the content as a certain type with out calling ReadAsAsync on the original content
-        /// enables you to check the response as different types at runtime
-        /// </summary>
-        /// <typeparam name="TResponseContent"></typeparam>
-        /// <returns></returns>
-        public static TResponseContent GetResponseContentAs<TResponseContent>() where TResponseContent : ResponseContent
+
+        public static ResponseContentType GetResponseContentAs<ResponseContentType>() where ResponseContentType : ResponseContent
         {
             Assert.NotNull(ResponseMessage.Content);
             Assert.NotNull(ResponseMessage.Content.Headers.ContentType);
@@ -100,7 +134,7 @@ namespace Popscenes.Specification.Util
 
             using(var contentCopy = ResponseMessage.Content.GetContentCopy())
             {
-                return contentCopy.ReadAsAsync<TResponseContent>().Result;
+                return contentCopy.ReadAsAsync<ResponseContentType>().Result;
             }
         }
 
@@ -167,6 +201,8 @@ namespace Popscenes.Specification.Util
         public static void Send(HttpRequestMessage request, out HttpResponseMessage response)
         {
             RequestMessage = request;
+            if(!string.IsNullOrWhiteSpace(AuthToken))
+                request.Headers.Authorization = new AuthenticationHeaderValue("Basic", AuthToken);
 
             var cts = new CancellationTokenSource();
                        
@@ -178,18 +214,48 @@ namespace Popscenes.Specification.Util
             response = messageInvoker.SendAsync(request, cts.Token).Result;
 
             ResponseCookies = handler.Cookies;
+            if (ResponseCookies != null)
+                RequestCookies = ResponseCookies;//set next request cookies
         }
 
-        public static TReturn PerformQuery<TReturn, TQueryType>(TQueryType query) where TQueryType : QueryInterface
+        public static TReturn PerformQuery<TSource, TReturn>(QueryHandlerInterface<TSource, TReturn> query) where TSource 
+            : class, QueryInterface
         {
             var ret = default(TReturn);
+            PerformInUnitOfWork(() =>
+            {
 
-            var queryFactory = Kernel.Get<QueryChannelInterface>();
-            ret = queryFactory.Query<TReturn, TQueryType>(query);
-            
+            });
             return ret;
         }
 
+        public static void PerformInUnitOfWork(Action action)
+        {
+
+        }
+
+        public static void AssertThatTableColsEqualModelProperties(TableRow row, object model)
+        {
+            //not going to traverse row key as expression here simple props, 
+            //you have nested properties do the traversal yourself
+            var type = model.GetType();
+            var gotone = false;
+            foreach (var col in row)
+            {
+                var prop =
+                    type.GetProperties().SingleOrDefault(
+                        info => info.Name.ToLowerInvariant() == col.Key.ToLowerInvariant());
+                if (prop == null)
+                {
+                    Assert.Fail("Property Not Found" + col.Key);
+                    continue;
+                }
+                gotone = true;
+                var ob = prop.GetValue(model);
+                Assert.That(col.Value, Is.EqualTo(ob.ToString()));
+            }
+            Assert.True(gotone);
+        }
     }
 
 
