@@ -308,7 +308,11 @@ namespace WebScraper
             if (_board == null)
             {
                 MessageBox.Show("No board to import");
+                return;
             }
+
+            _board.Description = Description.Text;
+            _board.AdminEmailAddresses = AdminList.Text.Split(new char[] {','}).ToList();
 
             boardUpdateWorker.RunWorkerAsync(new BoardPublishData()
             {

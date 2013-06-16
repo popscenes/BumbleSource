@@ -83,6 +83,8 @@ namespace PostaFlya.Domain.Boards.Command
                     AllowOthersToPostFliers = command.AllowOthersToPostFliers,
                     Status = BoardStatus.Approved,
                     BoardTypeEnum = command.BoardTypeEnum,
+                    AdminEmailAddresses = command.AdminEmailAddresses,
+                    Description = command.Description
 
                 };
 

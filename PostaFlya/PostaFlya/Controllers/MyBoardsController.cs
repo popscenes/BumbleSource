@@ -33,7 +33,9 @@ namespace PostaFlya.Controllers
                     AllowOthersToPostFliers = boardCreate.AllowOthersToPostFliers,
                     RequireApprovalOfPostedFliers = boardCreate.RequireApprovalOfPostedFliers,
                     BoardTypeEnum = boardCreate.TypeOfBoard != BoardTypeEnum.VenueBoard ? boardCreate.TypeOfBoard : BoardTypeEnum.InterestBoard,
-                    SourceInformation = boardCreate.VenueInformation == null ? null :boardCreate.VenueInformation.ToDomainModel()
+                    SourceInformation = boardCreate.VenueInformation == null ? null :boardCreate.VenueInformation.ToDomainModel(),
+                    AdminEmailAddresses = boardCreate.AdminEmailAddresses,
+                    Description = boardCreate.Description
                     
                 };
 

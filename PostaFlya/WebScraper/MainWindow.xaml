@@ -104,7 +104,10 @@
                     </StackPanel>
                     
                     <StackPanel Grid.Column="0" Grid.Row="2" Height="500">
-                        <TextBox Name="PlaceName" Text="{Binding ElementName=MainWindow, Path=_venueModel.PlaceName, Mode=TwoWay}" IsReadOnly="True" IsReadOnlyCaretVisible="False"/>
+                        <Label Content="Description"></Label>
+                        <TextBox Name="Description"  IsReadOnlyCaretVisible="False" Height="125"/>
+                        <Label Content="Board Admin Emails(Comma Seperated)"></Label>
+                        <TextBox Name="AdminList" IsReadOnlyCaretVisible="False"/>
                     </StackPanel>
                 </Grid>
                 

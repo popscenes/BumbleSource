@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
@@ -47,5 +48,8 @@ namespace PostaFlya.Models.Board
 
         [DataMember]
         public VenueInformationModel VenueInformation { get; set; }
+
+        [DataMember]
+        public List<string> AdminEmailAddresses { get; set; }
     }
 }
