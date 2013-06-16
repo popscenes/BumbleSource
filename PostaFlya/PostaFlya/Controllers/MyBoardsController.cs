@@ -28,7 +28,7 @@ namespace PostaFlya.Controllers
             var createBoardCommand = new CreateBoardCommand()
                 {
 
-                    BrowserId = _browserInformation.Browser.Id,
+                    BrowserId = browserId,
                     BoardName = boardCreate.BoardName,
                     AllowOthersToPostFliers = boardCreate.AllowOthersToPostFliers,
                     RequireApprovalOfPostedFliers = boardCreate.RequireApprovalOfPostedFliers,
