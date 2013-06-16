@@ -87,6 +87,31 @@
             <TabItem Header="Messages">
                 <TextBox Name="TraceText" Text="{Binding Trace}" IsReadOnly="True" IsReadOnlyCaretVisible="False"/>
             </TabItem>
+            <TabItem Header="Boards">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="0" Grid.Row="0" Orientation="Horizontal">
+                        <Label Content="Google Places Ref"></Label>
+                        <TextBox Width="265" Name="GooglePlacesRef"></TextBox>
+                        <Button Name="Places" Content="Google Places" Click="Places_OnClick"></Button>
+                        <Button Name="Upload" Content="Upload To Site" Click="UploadBoard_OnClick"></Button>
+                    </StackPanel>
+                    
+                    <StackPanel Grid.Column="0" Grid.Row="2" Height="500">
+                        <Label Content="Description"></Label>
+                        <TextBox Name="Description"  IsReadOnlyCaretVisible="False" Height="125"/>
+                        <Label Content="Board Admin Emails(Comma Seperated)"></Label>
+                        <TextBox Name="AdminList" IsReadOnlyCaretVisible="False"/>
+                    </StackPanel>
+                </Grid>
+                
+            </TabItem>
         </TabControl>
     </Grid>
 

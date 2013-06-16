@@ -6,6 +6,10 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Web;
 using OpenQA.Selenium;
+using PostaFlya.Application.Domain.Google.Places;
+using PostaFlya.Domain.Venue;
+using PostaFlya.Models.Location;
+using Website.Application.Google.Places.Details;
 
 namespace WebScraper.Library.Infrastructure
 {
@@ -16,6 +20,20 @@ namespace WebScraper.Library.Infrastructure
             return text.Split('\n').Where(s => !terms.Any(term => s.ToLower().Contains(term.ToLower()) ))
                        .Aggregate(new StringBuilder(), (builder, s) => builder.Append(s + "\n"))
                        .ToString();
+        }
+
+        public static VenueInformationModel GetVenueInformationModelFromGooglePleacesRef(String googlePlacesRef)
+        {
+            var res = new PlaceDetailsRequest(googlePlacesRef).Request().Result;
+
+
+            if (!PlaceDetailsRequest.IsFailure(res))
+            {
+                var venuInfo = new VenueInformation().MapFrom(res.result);
+                return venuInfo.ToViewModel();
+            }
+
+            return null;
         }
 
         public static string ToTextWithLineBreaks(this IWebElement element, string cssSelectors = "h1,h2,p")

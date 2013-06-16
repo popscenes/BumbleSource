@@ -20,10 +20,16 @@ namespace WebScraper.Library.Sites
         public string SiteName { get { return RegisterSites.DingDong; } }
         public List<ImportedFlyerScraperModel> GetFlyersFrom(DateTime eventDateStart, DateTime eventDateEnd)
         {
+            _driver.Navigate().GoToUrl(Url);
             var eles = _driver.FindElements(By.CssSelector("div.gig"));
             var list = eles.Select(e => FirstPassGetSummary(e, eventDateStart, eventDateEnd)).ToList();
 
             var ret = list.Where(model => model != null).ToList();
+
+            foreach (var flyer in list.Where(model => model != null))
+            {
+                SecondPassGetDetails(flyer);
+            }
 
             _driver.Navigate().GoToUrl("about:blank");
             _driver.Quit();
@@ -47,11 +53,11 @@ namespace WebScraper.Library.Sites
                 var flyer = new ImportedFlyerScraperModel();
                 flyer.EventDates = new List<DateTime>();
                 var date = entry.FindElement(By.CssSelector(".giginfo h4"));
-                var dateText = date.Text.Replace("st", "").Replace("nd", "").Replace("rd", "").Replace("th", "").Trim() + " " + DateTime.Now.Year;
+                var dateText = date.Text.Replace("1st", "1").Replace("2nd", "2").Replace("3rd", "3").Replace("th", "").Trim() + " " + DateTime.Now.Year;
 
 
                 CultureInfo provider = CultureInfo.InvariantCulture;
-                flyer.EventDates.Add(DateTime.ParseExact(dateText, "dddd MMMM yyyy", provider));
+                flyer.EventDates.Add(DateTime.ParseExact(dateText, "dddd d MMMM yyyy", provider));
                 if (flyer.EventDates.First() < eventDateStart || flyer.EventDates.First() > eventDateEnd)
                     return null;
 
@@ -67,6 +73,21 @@ namespace WebScraper.Library.Sites
             {
                 Trace.WriteLine(e);
                 return null;
+            }
+
+        }
+
+        private void SecondPassGetDetails(ImportedFlyerScraperModel flyer)
+        {
+            try
+            {
+                _driver.Navigate().GoToUrl(flyer.SourceDetailPage.ToString());
+                flyer.Description = _driver.FindElement(By.CssSelector("#singlegigright")).ToTextWithLineBreaks().RemoveLinesContaining("Gracebook"); ;
+                flyer.ImageUrl = _driver.FindElement(By.CssSelector("#singlegigleft img")).GetAttribute("src").Replace("-212x300", "");
+            }
+            catch (Exception e)
+            {
+                Trace.WriteLine(e);
             }
 
         }

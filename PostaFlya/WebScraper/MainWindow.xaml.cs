@@ -21,10 +21,15 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Ninject;
 using OpenQA.Selenium;
+using PostaFlya.Domain.Boards;
+using PostaFlya.Domain.Venue;
+using PostaFlya.Models.Board;
+using PostaFlya.Models.Location;
 using WebScraper.Library.Infrastructure;
 using WebScraper.Library.Model;
 using WebScraper.Library.Sites;
 using WebScraper.ViewModel;
+using Website.Application.Google.Places.Details;
 using Website.Infrastructure.Configuration;
 using Image = System.Drawing.Image;
 
@@ -36,6 +41,12 @@ namespace WebScraper
     public partial class MainWindow : Window
     {
         public StandardKernel _kernel;
+        public BoardCreateEditModel _board { get; set; }
+        
+        private readonly BackgroundWorker worker = new BackgroundWorker();
+        private readonly BackgroundWorker googlePlacesWorker = new BackgroundWorker();
+        private readonly BackgroundWorker boardUpdateWorker = new BackgroundWorker();
+
         public MainWindow()
         {
             InitializeComponent();
@@ -47,11 +58,61 @@ namespace WebScraper
             TraceText.DataContext = listener;
             Bind(listener, "Trace", TraceText, BindingMode.OneWay, TextBox.TextProperty);
 
+           // PlaceName.DataContext = _venueModel;
+            //Bind(_venueModel, "PlaceName", PlaceName, BindingMode.TwoWay, TextBox.TextProperty);
+
             StartDate.SelectedDate = DateTime.Now.Date;
             EndDate.SelectedDate = DateTime.Now.Date;
 
             worker.DoWork += Worker_DoWork;
             worker.RunWorkerCompleted += Worker_RunWorkerCompleted;
+
+            googlePlacesWorker.DoWork += googlePlacesWorker_DoWork;
+            googlePlacesWorker.RunWorkerCompleted += googlePlacesWorker_RunWorkerCompleted;
+
+            boardUpdateWorker.DoWork += boardUpdateWorker_DoWork;
+            boardUpdateWorker.RunWorkerCompleted += boardUpdateWorker_RunWorkerCompleted;
+        }
+
+        void boardUpdateWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            var success = e.Result as bool?;
+            if (success.Value)
+            {
+                Trace.TraceInformation("Board Uploaded");
+            }
+        }
+
+        void boardUpdateWorker_DoWork(object sender, DoWorkEventArgs e)
+        {
+            var data = e.Argument as BoardPublishData;
+            var uploader = new BoardUpload(data.authcookie, Guid.Empty.ToString(), data.board, data.server);
+            var ret = uploader.Request().Result;
+            e.Result = ret;
+
+        }
+
+        void googlePlacesWorker_DoWork(object sender, DoWorkEventArgs e)
+        {
+            var googlePLacesRef = e.Argument as String;
+            var locModel = Util.GetVenueInformationModelFromGooglePleacesRef(googlePLacesRef);
+            e.Result = locModel;
+        }
+
+        void googlePlacesWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            var venueInfo = e.Result as VenueInformationModel;
+            _board = new BoardCreateEditModel()
+                {
+                    VenueInformation = venueInfo,
+                    BoardName = venueInfo.PlaceName,
+                    AllowOthersToPostFliers = false,
+                    Description = venueInfo.PlaceName + " Venue Board",
+                    RequireApprovalOfPostedFliers = false,
+                    Status = BoardStatus.Approved,
+                    TypeOfBoard = BoardTypeEnum.VenueBoard
+                };
+
         }
 
         void Bind(object source, string sourceProp, DependencyObject target, BindingMode mode, DependencyProperty dp)
@@ -124,9 +185,6 @@ namespace WebScraper
             });
         }
 
-        private readonly BackgroundWorker worker = new BackgroundWorker();
-
-
         private class StartEnd
         {
             public DateTime Start { get; set; }
@@ -184,6 +242,14 @@ namespace WebScraper
             public List<ImportedFlyerScraperModel> import { get; set; }
             public string server { get; set; }
         }
+
+        class BoardPublishData
+        {
+            public string authcookie { get; set; }
+            public BoardCreateEditModel board { get; set; }
+            public string server { get; set; }
+        }
+
         private void Publish_Click(object sender, RoutedEventArgs e)
         {
 
@@ -219,6 +285,42 @@ namespace WebScraper
             if (cookie == null)
                 return null;
             return cookie.Value;
+        }
+
+        private void Places_OnClick(object sender, RoutedEventArgs e)
+        {
+            googlePlacesWorker.RunWorkerAsync(GooglePlacesRef.Text);
+        }
+
+
+        private void UploadBoard_OnClick(object sender, RoutedEventArgs e)
+        {
+            var config = _kernel.Get<ConfigurationServiceInterface>();
+            var server = config.GetSetting("Server");
+
+            if (string.IsNullOrWhiteSpace(Auth))
+            {
+                MessageBox.Show("Login First");
+                Login_Click(this, new RoutedEventArgs());
+            }
+
+
+            if (_board == null)
+            {
+                MessageBox.Show("No board to import");
+                return;
+            }
+
+            _board.Description = Description.Text;
+            _board.AdminEmailAddresses = AdminList.Text.Split(new char[] {','}).ToList();
+
+            boardUpdateWorker.RunWorkerAsync(new BoardPublishData()
+            {
+                authcookie = Auth,
+                board = _board,
+                server = server
+            });
+
         }
     }
 
