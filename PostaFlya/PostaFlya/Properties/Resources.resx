@@ -479,4 +479,19 @@
   <data name="BulletinFlierModel_UserLinks_UserLinks" xml:space="preserve">
     <value>User Links</value>
   </data>
+  <data name="Flyer_EventDates" xml:space="preserve">
+    <value>EventDates</value>
+  </data>
+  <data name="Flyer_ImageUrl" xml:space="preserve">
+    <value>FlyerImage</value>
+  </data>
+  <data name="Id" xml:space="preserve">
+    <value>Id</value>
+  </data>
+  <data name="Flyer_Title" xml:space="preserve">
+    <value>Title</value>
+  </data>
+  <data name="Flyer_Venue" xml:space="preserve">
+    <value>Venue</value>
+  </data>
 </root>

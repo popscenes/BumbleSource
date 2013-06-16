@@ -33,13 +33,12 @@ namespace PostaFlya.Domain.Flier
             ClaimableEntityInterfaceExtensions.CopyFieldsFrom(target, source);
             EntityFeatureChargesInterfaceExtension.CopyFieldsFrom(target, source);
             TinyUrlInterfaceExtensions.CopyFieldsFrom(target, source);
-            target.ContactDetails = source.ContactDetails != null ? new VenueInformation(source.ContactDetails) : null;
+            target.Venue = source.Venue != null ? new VenueInformation(source.Venue) : null;
 
 
             target.Title = source.Title;
             target.Description = source.Description;
             target.Tags = new Tags(source.Tags);
-            target.Location = new Location(source.Location);
             target.Image = source.Image;
             target.EffectiveDate = source.EffectiveDate;
             target.EventDates = new List<DateTimeOffset>(source.EventDates);
@@ -61,8 +60,8 @@ namespace PostaFlya.Domain.Flier
 
         public static ContactDetailsInterface GetContactDetailsForFlier(this FlierInterface flier, BrowserInterface browser)
         {
-            if (flier.ContactDetails != null && flier.ContactDetails.HasEnoughForContact())
-                return flier.ContactDetails;
+            if (flier.Venue != null && flier.Venue.HasEnoughForContact())
+                return flier.Venue;
             return browser;
         }
 
@@ -97,7 +96,6 @@ namespace PostaFlya.Domain.Flier
         string Title { get; set; }
         string Description { get; set; }
         Tags Tags { get; set; }
-        Location Location { get; set; }
         Guid? Image { get; set; }
         List<DateTimeOffset> EventDates { get; set; }
 
@@ -112,7 +110,7 @@ namespace PostaFlya.Domain.Flier
         string ExternalSource { get; set; }
         string ExternalId { get; set; }
         Dictionary<string, object> ExtendedProperties { get;set; }
-        VenueInformation ContactDetails { get; set; }
+        VenueInformation Venue { get; set; }
         HashSet<string> Boards { get; set; }
         bool HasLeadGeneration { get; set; }
         int LocationRadius { get; set; }

@@ -666,6 +666,42 @@ namespace PostaFlya.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to EventDates.
+        /// </summary>
+        public static string Flyer_EventDates {
+            get {
+                return ResourceManager.GetString("Flyer_EventDates", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to FlyerImage.
+        /// </summary>
+        public static string Flyer_ImageUrl {
+            get {
+                return ResourceManager.GetString("Flyer_ImageUrl", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Title.
+        /// </summary>
+        public static string Flyer_Title {
+            get {
+                return ResourceManager.GetString("Flyer_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Venue.
+        /// </summary>
+        public static string Flyer_Venue {
+            get {
+                return ResourceManager.GetString("Flyer_Venue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Address.
         /// </summary>
         public static string FlyerContactDetailsModel_Address_FlyerContactDetailsModel_Address_FlyerContactDetailsModel_Address {
@@ -750,6 +786,15 @@ namespace PostaFlya.Properties {
         public static string Handle {
             get {
                 return ResourceManager.GetString("Handle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Id.
+        /// </summary>
+        public static string Id {
+            get {
+                return ResourceManager.GetString("Id", resourceCulture);
             }
         }
         

@@ -39,7 +39,7 @@ namespace PostaFlya.DataRepository.Search.SearchRecord
             if (flier == null)
                 return ret;
 
-            var geog = flier.Location.ToGeography();
+            var geog = flier.Venue.Address.ToGeography();
             geog = geog.BufferWithTolerance(flier.LocationRadius * 1000, 0.2, false);
             ret.EffectiveDate = flier.EffectiveDate;
             ret.CreateDate = flier.CreateDate;

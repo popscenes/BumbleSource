@@ -205,7 +205,7 @@ namespace PostaFlya.Mocks.Domain.Data
                         var ret =  store
                             .Where(
                                 f =>
-                                locationService.IsWithinBoundingBox(boundingBox, f.Location) &&
+                                locationService.IsWithinBoundingBox(boundingBox, f.Venue.Address) &&
                                 (t.Count == 0 || f.Tags.Union(t).Any()) &&
                                 (dt == null || f.EventDates.Any(ed => ed == dt.Value))
                              )
@@ -239,7 +239,7 @@ namespace PostaFlya.Mocks.Domain.Data
                                               .Where(
                                                   f =>
                                                   (boundingBox == null ||
-                                                   locationService.IsWithinBoundingBox(boundingBox, f.Location)) &&
+                                                   locationService.IsWithinBoundingBox(boundingBox, f.Venue.Address)) &&
                                                   (t.Count == 0 || f.Tags.Intersect(t).Any()) &&
                                                   (dt == null || f.EventDates.Any(ed => ed == dt.Value)) &&
                                                   (boardFlierStore.Any(

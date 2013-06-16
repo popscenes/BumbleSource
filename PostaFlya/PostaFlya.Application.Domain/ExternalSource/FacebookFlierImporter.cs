@@ -97,7 +97,7 @@ namespace PostaFlya.Application.Domain.ExternalSource
                 Description = fbEvent.description,
                 Image = imageId,
                 Id = "", 
-                ContactDetails =  contactDetails
+                Venue =  contactDetails
             };
         }
 

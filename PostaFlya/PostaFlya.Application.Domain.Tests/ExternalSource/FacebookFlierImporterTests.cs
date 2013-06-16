@@ -133,10 +133,10 @@ namespace PostaFlya.Application.Domain.Tests.ExternalSource
             var fliersList = fliers.ToList();
             var repo = Kernel.GetMock<GenericRepositoryInterface>();
             fliersList[0].Id = "extflier1";
-            fliersList[0].Location = new Location();
+            new Location();
             repo.Object.Store(fliersList[0]);
             fliersList[1].Id = "extflier2";
-            fliersList[1].Location = new Location();
+            new Location();
             repo.Object.Store(fliersList[1]);
 
             fliers = facebookFlierImporter.ImportFliers(browser);

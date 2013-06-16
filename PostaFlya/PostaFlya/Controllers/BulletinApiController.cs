@@ -158,7 +158,7 @@ namespace PostaFlya.Controllers
             if (browserInformation.Browser.Id == flier.BrowserId)
                 AddOwnerInfo(flier, ret, queryService);
 
-            var dets = flier.ContactDetails;
+            var dets = flier.Venue;
             if (dets != null)
                 ret.VenueInformation = dets.ToViewModel();
 

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.SqlServer.Types;
+using NUnit.Framework;
 using PostaFlya.DataRepository.Search.SearchRecord;
 using Website.Domain.Location;
 
@@ -46,6 +47,14 @@ namespace Popscenes.Specification.Util
 
             } while (ret.Count < numToGet);
             return ret;
+        }
+
+        public static void AssertIsWithinKmsOf(LocationInterface isLoc, int kilometers, LocationInterface ofLoc)
+        {
+            SqlGeography isGeog = isLoc.ToGeography();
+            SqlGeography ofGeog = ofLoc.ToGeography();
+            var dist = (double)isGeog.STDistance(ofGeog);
+            Assert.That(dist/1000, Is.LessThanOrEqualTo(kilometers));
         }
     }
 }

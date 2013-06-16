@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Runtime.Serialization;
+using PostaFlya.Domain.Venue;
 using PostaFlya.Models.Factory;
 using Website.Application.Content;
 using PostaFlya.Areas.Default.Models.Bulletin;
@@ -124,7 +125,7 @@ namespace PostaFlya.Models.Flier
 
         public static BulletinFlierModel DefaultForTemplate(FlierBehaviour behaviour)
         {
-            var flier = new Domain.Flier.Flier() { FlierBehaviour = behaviour, Location = new Website.Domain.Location.Location() };
+            var flier = new Domain.Flier.Flier() { FlierBehaviour = behaviour, Venue = new VenueInformation() };
             var ret = flier.ToViewModel<BehaviourType>(false);
             ret.Behaviour = new BehaviourType();
             ret.ImageList = new List<ImageViewModel>() { new ImageViewModel() };

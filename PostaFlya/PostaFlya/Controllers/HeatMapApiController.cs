@@ -37,8 +37,9 @@ namespace PostaFlya.Controllers
 
         protected IQueryable<HeatMapPoint> GetHeatMapPointsFromFliers(IQueryable<FlierInterface> fliers)
         {
-            var groupedFliers = fliers.GroupBy(_ => new { Longitude = Math.Round(_.Location.Longitude, RoundingForHeatmapGrouping), 
-                                                          Latitude = Math.Round(_.Location.Latitude, RoundingForHeatmapGrouping) });
+            var groupedFliers = fliers.GroupBy(_ => new { Longitude = Math.Round(_.Venue.Address.Longitude, RoundingForHeatmapGrouping),
+                                                          Latitude = Math.Round(_.Venue.Address.Latitude, RoundingForHeatmapGrouping)
+            });
             var heatMapPointList = groupedFliers.Select(groupedFlier => new HeatMapPoint()
             {
                 Longitude = groupedFlier.Key.Longitude, Latitude = groupedFlier.Key.Latitude
