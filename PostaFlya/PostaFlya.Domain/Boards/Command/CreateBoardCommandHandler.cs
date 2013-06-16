@@ -90,14 +90,12 @@ namespace PostaFlya.Domain.Boards.Command
 
             if (newBoard.BoardTypeEnum != BoardTypeEnum.InterestBoard)
             {
-                if (command.Location != null && command.Location.IsValid)
-                    newBoard.Location = command.Location;
-                
+
                 if (command.SourceInformation != null)
                 {
                     newBoard.InformationSources = new List<VenueInformation>() { command.SourceInformation };
-                    if (command.SourceInformation.Address.IsValid)
-                        newBoard.Location = command.SourceInformation.Address;
+                    newBoard.InformationSources = new List<VenueInformation>();
+                    newBoard.InformationSources.Add(command.SourceInformation);
                     newBoard.DefaultInformationSource = command.SourceInformation.Source;
                 }
                     

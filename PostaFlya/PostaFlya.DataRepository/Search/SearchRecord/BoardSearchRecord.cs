@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Microsoft.SqlServer.Types;
 using PostaFlya.Domain.Boards;
 using Website.Azure.Common.Sql;
@@ -11,8 +12,8 @@ namespace PostaFlya.DataRepository.Search.SearchRecord
         {
             return new BoardSearchRecord()
                 {
-                    Location = board.Location.ToGeography(),
-                    LocationShard = board.Location.GetShardId(),
+                    Location = board.InformationSources.First().Address.ToGeography(),
+                    LocationShard = board.InformationSources.First().Address.GetShardId(),
                     FriendlyId = board.FriendlyId,
                     Id = board.Id,
                     BoardStatus = (int) board.Status

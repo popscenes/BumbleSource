@@ -53,7 +53,7 @@ namespace PostaFlya.Models.Board
                 .InformationSources
                 .Select(information => _queryChannel.ToViewModel<VenueInformationModel>(information))
                 .ToList();
-            target.Location = _queryChannel.ToViewModel<LocationModel>(source.Location);
+            target.Location = _queryChannel.ToViewModel<LocationModel>(source.InformationSources.First().Address);
             target.BoardTypeEnum = source.BoardTypeEnum;
             target.Id = source.Id;
             target.DefaultVenueInformation =
@@ -61,9 +61,9 @@ namespace PostaFlya.Models.Board
             target.DefaultVenueInformation = target.DefaultVenueInformation ?? target.VenueInformation.FirstOrDefault();
             if (!string.IsNullOrWhiteSpace(source.ImageId))
                 target.BoardImageUrl = _blobStorage.GetBlobUri(source.ImageId).ToString();
-            else if (source.Location != null && source.Location.IsValid)
+            else if (source.InformationSources.First().Address != null && source.InformationSources.First().Address.IsValid)
             {
-                target.BoardImageUrl = source.Location.GoogleMapsUrl(400, 200);
+                target.BoardImageUrl = source.InformationSources.First().Address.GoogleMapsUrl(400, 200);
                 target.BoardImageExternal = true;
             }
 

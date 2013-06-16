@@ -7,6 +7,7 @@ using Ninject;
 using PostaFlya.Domain.Boards;
 using PostaFlya.Domain.Boards.Event;
 using PostaFlya.Domain.Boards.Query;
+using PostaFlya.Domain.Venue;
 using Website.Domain.Location;
 using Website.Infrastructure.Command;
 using Website.Infrastructure.Domain;
@@ -19,8 +20,10 @@ namespace PostaFlya.Mocks.Domain.Data
 
         public static Board GetOne(IKernel kernel, String boardName, BoardTypeEnum typeOfBoard = BoardTypeEnum.InterestBoard, Location loc = null)
         {
+            var venuInfo = new VenueInformation();
+            venuInfo.Address = loc;
 
-            var ret = typeOfBoard != BoardTypeEnum.InterestBoard ? new Board() { Location = loc } : new Board();
+            var ret = typeOfBoard != BoardTypeEnum.InterestBoard ? new Board() { InformationSources = new List<VenueInformation>(){venuInfo}} : new Board();
             ret.Id = Guid.NewGuid().ToString();
             ret.FriendlyId = boardName;
             ret.BrowserId = kernel.Get<string>(bm => bm.Has("defaultbrowserid"));
@@ -126,7 +129,7 @@ namespace PostaFlya.Mocks.Domain.Data
             Assert.AreEqual(storedBoard.BrowserId, retrievedBoard.BrowserId);
             Assert.AreEqual(storedBoard.RequireApprovalOfPostedFliers, retrievedBoard.RequireApprovalOfPostedFliers);
             Assert.AreEqual(storedBoard.AllowOthersToPostFliers, retrievedBoard.AllowOthersToPostFliers);
-            Assert.AreEqual(storedBoard.Location, retrievedBoard.Location);
+            Assert.AreEqual(storedBoard.InformationSources.First().Address, retrievedBoard.InformationSources.First().Address);
         }
     }
 }
