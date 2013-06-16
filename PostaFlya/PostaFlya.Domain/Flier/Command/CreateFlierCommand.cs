@@ -4,7 +4,6 @@ using PostaFlya.Domain.Venue;
 using Website.Domain.Contact;
 using Website.Infrastructure.Command;
 using System.Collections.Generic;
-using Website.Domain.Location;
 using Website.Domain.Tag;
 
 namespace PostaFlya.Domain.Flier.Command
@@ -16,7 +15,6 @@ namespace PostaFlya.Domain.Flier.Command
         public Tags Tags { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
-        public Location Location { get; set; }
         public FlierBehaviour FlierBehaviour { get; set; }
         public Tags WebSiteTags { get;set;}
         public List<DateTimeOffset> EventDates { get; set; }
@@ -28,7 +26,7 @@ namespace PostaFlya.Domain.Flier.Command
         public bool AttachTearOffs { get; set; }
         public int ExtendPostRadius { get; set; }
         public bool EnableAnalytics { get; set; }
-        public VenueInformation ContactDetails { get; set; }
+        public VenueInformation Venue { get; set; }
         public List<UserLink> UserLinks { get; set; }
         public bool Anonymous { get; set; }
     }

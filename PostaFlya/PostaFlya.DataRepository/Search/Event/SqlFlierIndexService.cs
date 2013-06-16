@@ -42,8 +42,8 @@ namespace PostaFlya.DataRepository.Search.Event
         public bool Handle(FlierModifiedEvent @event)
         {
             if (@event.OrigState != null &&
-                (@event.NewState == null || 
-                !@event.NewState.Location.Equals(@event.OrigState.Location) ||
+                (@event.NewState == null ||
+                !@event.NewState.Venue.Address.Equals(@event.OrigState.Venue.Address) ||
                 @event.NewState.LocationRadius != @event.OrigState.LocationRadius ||
                 @event.NewState.Status != FlierStatus.Active)
              )

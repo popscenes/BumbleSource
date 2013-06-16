@@ -206,7 +206,7 @@ namespace PostaFlya.Specification.Fliers
             var flierSearchService = SpecUtil.CurrIocKernel.Get<FlierSearchServiceInterface>();
 
             var flierUpdatedId = flierSearchService
-                .FindFliersByLocationAndDistance(flier.Location, 5, 3000, skipPast: null, tags: flier.Tags)
+                .FindFliersByLocationAndDistance(flier.Venue.Address, 5, 3000, skipPast: null, tags: flier.Tags)
                 .SingleOrDefault(id => flier.Id == id);
 
             var flierUpdated = flierQueryService.FindById<Flier>(flierUpdatedId);
@@ -306,7 +306,7 @@ namespace PostaFlya.Specification.Fliers
             flierEditModel.Description = flier.Description;
             flierEditModel.Title = flier.Title;
             flierEditModel.TagsString = flier.Tags.ToString();
-            flierEditModel.VenueInformation = flier.ContactDetails.ToViewModel();
+            flierEditModel.VenueInformation = flier.Venue.ToViewModel();
             flierEditModel.FlierImageId = flier.Image.Value.ToString();
             flierEditModel.EventDates = flier.EventDates.Select(d => d.DateTime).ToList();
             return flierEditModel;

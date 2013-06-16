@@ -100,7 +100,7 @@ namespace PostaFlya.Domain.Boards.Command
                                             : BoardFlierStatus.Approved;
                 }
 
-                if (board.BoardTypeEnum != BoardTypeEnum.InterestBoard && board.MatchVenueBoard(flier.ContactDetails))
+                if (board.BoardTypeEnum != BoardTypeEnum.InterestBoard && board.MatchVenueBoard(flier.Venue))
                     friendlyIdForVenueBoard = board.FriendlyId;
                 
                 boardFlier.FlierId = flier.Id;
@@ -126,8 +126,8 @@ namespace PostaFlya.Domain.Boards.Command
                 if (update.Boards == null)
                     update.Boards = new HashSet<string>();
 
-                if (!string.IsNullOrWhiteSpace(friendlyIdForVenueBoard) && update.ContactDetails != null)
-                    update.ContactDetails.BoardFriendlyId = friendlyIdForVenueBoard;
+                if (!string.IsNullOrWhiteSpace(friendlyIdForVenueBoard) && update.Venue != null)
+                    update.Venue.BoardFriendlyId = friendlyIdForVenueBoard;
 
                 update.Boards.UnionWith(ret.Select(r => r.NewState.AggregateId));
                 flier.Boards.UnionWith(update.Boards);

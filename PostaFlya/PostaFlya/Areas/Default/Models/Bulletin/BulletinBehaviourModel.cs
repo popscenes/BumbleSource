@@ -11,10 +11,10 @@ namespace PostaFlya.Areas.Default.Models.Bulletin
     {
         public static LocationModel LocationModelForFlier(this FlierInterface flier)
         {
-            return (flier.ContactDetails != null && flier.ContactDetails.Address != null &&
-                    flier.ContactDetails.Address.IsValid)
-                       ? flier.ContactDetails.Address.ToViewModel()
-                       : flier.Location.ToViewModel();
+            return (flier.Venue != null && flier.Venue.Address != null &&
+                    flier.Venue.Address.IsValid)
+                       ? flier.Venue.Address.ToViewModel()
+                       : flier.Venue.Address.ToViewModel();
         }
         public static BulletinFlierModel<BulletinBehaviourType> ToViewModel<BulletinBehaviourType>(this FlierInterface flier, bool detailMode) where BulletinBehaviourType : new()
         {

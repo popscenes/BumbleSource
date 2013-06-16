@@ -693,6 +693,15 @@ namespace PostaFlya.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Venue.
+        /// </summary>
+        public static string Flyer_Venue {
+            get {
+                return ResourceManager.GetString("Flyer_Venue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Address.
         /// </summary>
         public static string FlyerContactDetailsModel_Address_FlyerContactDetailsModel_Address_FlyerContactDetailsModel_Address {

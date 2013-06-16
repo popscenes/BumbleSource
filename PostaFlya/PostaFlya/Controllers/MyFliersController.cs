@@ -78,7 +78,6 @@ namespace PostaFlya.Controllers
                 Tags = new Tags(createModel.TagsString),
                 Title = createModel.Title.SafeText(),
                 Description = createModel.Description.SafeText(),
-                Location = createModel.VenueInformation.Address.ToDomainModel(),
                 Image = new Guid(createModel.FlierImageId),
                 FlierBehaviour = createModel.FlierBehaviour,
                 EventDates = createModel.EventDates.Select(d => d.AsUnspecifiedDateTimeOffset()).ToList(),
@@ -86,10 +85,8 @@ namespace PostaFlya.Controllers
                 ExternalSource = createModel.ExternalSource,
                 ExternalId = createModel.ExternalId,
                 BoardSet = new HashSet<string>(createModel.BoardList),
-                //AllowUserContact = createModel.AllowUserContact,
-                //ExtendPostRadius = Math.Max(0, createModel.PostRadius - 5),
                 EnableAnalytics = createModel.EnableAnalytics,
-                ContactDetails = createModel.VenueInformation != null ? createModel.VenueInformation.ToDomainModel() : null,
+                Venue = createModel.VenueInformation != null ? createModel.VenueInformation.ToDomainModel() : null,
                 UserLinks = createModel.UserLinks == null? new List<UserLink>() : createModel.UserLinks.Select(_ => new UserLink(){Link = _.Link, Text = _.Text, Type = _.Type}).ToList(),
                 Anonymous = isAnon
             };
@@ -107,15 +104,12 @@ namespace PostaFlya.Controllers
                 Tags = new Tags(editModel.TagsString.EmptyIfNull()),
                 Title = editModel.Title.SafeText(),
                 Description = editModel.Description.SafeText(),
-                Location = editModel.VenueInformation.Address.ToDomainModel(),
                 Image = new Guid(editModel.FlierImageId),
                 EventDates = editModel.EventDates.Select(d => d.AsUnspecifiedDateTimeOffset()).ToList(),
                 ImageList = editModel.ImageList.Select(_ => new FlierImage(_.ImageId)).ToList(),
                 BoardSet = new HashSet<string>(editModel.BoardList),
-                //AllowUserContact = editModel.AllowUserContact,
-                //ExtendPostRadius = Math.Max(0, editModel.PostRadius - 5),
                 EnableAnalytics = editModel.EnableAnalytics,
-                ContactDetails = editModel.VenueInformation != null ? editModel.VenueInformation.ToDomainModel() : null,
+                Venue = editModel.VenueInformation != null ? editModel.VenueInformation.ToDomainModel() : null,
                 UserLinks = editModel.UserLinks == null ? new List<UserLink>() : editModel.UserLinks.Select(_ => new UserLink() { Link = _.Link, Text = _.Text, Type = _.Type }).ToList()
             };
 

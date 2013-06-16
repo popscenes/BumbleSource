@@ -11,6 +11,7 @@ using PostaFlya.Domain.Boards.Event;
 using PostaFlya.Domain.Boards.Query;
 using PostaFlya.Domain.Flier.Event;
 using PostaFlya.Domain.Flier.Query;
+using PostaFlya.Domain.Venue;
 using Website.Application.Domain.Browser.Query;
 using Website.Azure.Common.Environment;
 using PostaFlya.DataRepository.Search.Implementation;
@@ -58,7 +59,6 @@ namespace PostaFlya.DataRepository.Tests
             new AzureClaimRepositoryTests(_env).FixtureSetUp();
 
             Kernel.Get<SqlSeachDbInitializer>().Initialize();
-            DeleteAll();
 
             
             _repository = Kernel.Get<GenericRepositoryInterface>();
@@ -72,6 +72,12 @@ namespace PostaFlya.DataRepository.Tests
             Kernel.Unbind<FlierBehaviourInterface>();
             //Kernel.Unbind<TableNameAndPartitionProviderInterface>();
             AzureEnv.UseRealStorage = false;
+        }
+
+        [SetUp]
+        public void BeforeTestDeleteAll()
+        {
+            DeleteAll();
         }
 
         private void DeleteAll()
@@ -109,8 +115,6 @@ namespace PostaFlya.DataRepository.Tests
 
         public Domain.Flier.Flier StoreFlierRepository()
         {
-            DeleteAll();
-
             var eventDateOne = new DateTimeOffset(new DateTime(2076, 8, 11), TimeSpan.FromHours(10));
             var eventDateTwo = new DateTimeOffset(new DateTime(2077, 12, 19), TimeSpan.FromHours(10));
 
@@ -150,7 +154,7 @@ namespace PostaFlya.DataRepository.Tests
                 outOfRangeFlier.CopyFieldsFrom(flier);
                 outOfRangeFlier.Id = Guid.NewGuid().ToString();
                 outOfRangeFlier.CreateDate = outOfRangeFlier.CreateDate.AddSeconds(rand.Next(-1000, 1000));
-                outOfRangeFlier.Location = new Location(flier.Location.Longitude + 10, flier.Location.Latitude);
+                outOfRangeFlier.Venue = new VenueInformation() { Address = new Location(flier.Venue.Address.Longitude + 10, flier.Venue.Address.Latitude) };
                 outOfRangeFlier.FriendlyId = qc.FindFreeFriendlyIdForFlier(outOfRangeFlier);
                 FlierTestData.StoreOne(outOfRangeFlier, _repository, Kernel);
 
@@ -159,7 +163,7 @@ namespace PostaFlya.DataRepository.Tests
                 outOfRangeFlier.CopyFieldsFrom(flier);
                 outOfRangeFlier.Id = Guid.NewGuid().ToString();
                 outOfRangeFlier.CreateDate = outOfRangeFlier.CreateDate.AddSeconds(rand.Next(-1000, 1000));
-                outOfRangeFlier.Location = new Location(flier.Location.Longitude, flier.Location.Latitude + 10);
+                outOfRangeFlier.Venue = new VenueInformation() { Address = new Location(flier.Venue.Address.Longitude, flier.Venue.Address.Latitude + 10) };
                 outOfRangeFlier.FriendlyId = qc.FindFreeFriendlyIdForFlier(outOfRangeFlier);
                 FlierTestData.StoreOne(outOfRangeFlier, _repository, Kernel);
 
@@ -168,7 +172,7 @@ namespace PostaFlya.DataRepository.Tests
                 outOfRangeFlier.CopyFieldsFrom(flier);
                 outOfRangeFlier.Id = Guid.NewGuid().ToString();
                 outOfRangeFlier.CreateDate = outOfRangeFlier.CreateDate.AddSeconds(rand.Next(-1000, 1000));
-                outOfRangeFlier.Location = new Location(flier.Location.Longitude + 10, flier.Location.Latitude + 10);
+                outOfRangeFlier.Venue = new VenueInformation() { Address = new Location(flier.Venue.Address.Longitude + 10, flier.Venue.Address.Latitude + 10) };
                 outOfRangeFlier.FriendlyId = qc.FindFreeFriendlyIdForFlier(outOfRangeFlier);
                 FlierTestData.StoreOne(outOfRangeFlier, _repository, Kernel);
 
@@ -213,7 +217,7 @@ namespace PostaFlya.DataRepository.Tests
             } while (skip != null);
 
 
-            Assert.That(count, Is.EqualTo(5));
+            Assert.That(count, Is.EqualTo(6));
 
         }
 
@@ -229,7 +233,7 @@ namespace PostaFlya.DataRepository.Tests
             var retrievedFliers = _searchService.FindFliersByLocationAndDistance(location, 5, 30, skipPast: null, tags: tag)
                 .Select(id => _queryService.FindById<Domain.Flier.Flier>(id)).ToList();
 
-            Assert.That(retrievedFliers.Count(), Is.EqualTo(2));
+            Assert.That(retrievedFliers.Count(), Is.EqualTo(3));
 
             FlierTestData.AssertStoreRetrieve(storedFlier, retrievedFliers.FirstOrDefault());
         }
@@ -248,14 +252,14 @@ namespace PostaFlya.DataRepository.Tests
             var retrievedFliers = _searchService.FindFliersByLocationAndDistance(location, 5, 30, null, tag, eventDateOne)
                 .Select(id => _queryService.FindById<Domain.Flier.Flier>(id)).ToList();
 
-            Assert.That(retrievedFliers.Count(), Is.EqualTo(2));
-            Assert.That(retrievedFliers.First().EventDates.Any(time => time == eventDateOne), Is.True);
+            Assert.That(retrievedFliers.Count(), Is.EqualTo(3));
+            Assert.That(retrievedFliers.All(_ => _.EventDates.Any(time => time >= eventDateOne)), Is.True);
 
             retrievedFliers = _searchService.FindFliersByLocationAndDistance(location, 5, 30, null, tag, eventDateTwo)
                 .Select(id => _queryService.FindById<Domain.Flier.Flier>(id)).ToList();
 
-            Assert.That(retrievedFliers.Count(), Is.EqualTo(2));
-            AssertUtil.AreAll(retrievedFliers, flier => flier.EventDates.Any(time => time.DateTime == eventDateTwo));
+            Assert.That(retrievedFliers.Count(), Is.EqualTo(3));
+            AssertUtil.AreAll(retrievedFliers, flier => flier.EventDates.Any(time => time.DateTime >= eventDateTwo));
 
             retrievedFliers = _searchService.FindFliersByLocationAndDistance(location, 5, 30, null, tag, eventDateThree)
                 .Select(id => _queryService.FindById<Domain.Flier.Flier>(id)).ToList();
@@ -590,8 +594,6 @@ namespace PostaFlya.DataRepository.Tests
 
         public FlierInterface FindFliersByLocationTagsByDifferentSortOrders()
         {
-            DeleteAll();
-
             var flier = FlierTestData.GetOne(Kernel, _loc);
 
             var beh = FlierTestData.GetBehaviour(Kernel, flier);
@@ -616,19 +618,19 @@ namespace PostaFlya.DataRepository.Tests
             var outOfRangeFlier = new Domain.Flier.Flier();
             outOfRangeFlier.CopyFieldsFrom(flier);
             outOfRangeFlier.Id = Guid.NewGuid().ToString();
-            outOfRangeFlier.Location = new Location(flier.Location.Longitude + 10, flier.Location.Latitude);
+            new Location(flier.Venue.Address.Longitude + 10, flier.Venue.Address.Latitude);
             FlierTestData.StoreOne(outOfRangeFlier, _repository, Kernel);
 
             outOfRangeFlier = new Domain.Flier.Flier();
             outOfRangeFlier.CopyFieldsFrom(flier);
             outOfRangeFlier.Id = Guid.NewGuid().ToString();
-            outOfRangeFlier.Location = new Location(flier.Location.Longitude, flier.Location.Latitude + 10);
+            new Location(flier.Venue.Address.Longitude, flier.Venue.Address.Latitude + 10);
             FlierTestData.StoreOne(outOfRangeFlier, _repository, Kernel);
 
             outOfRangeFlier = new Domain.Flier.Flier();
             outOfRangeFlier.CopyFieldsFrom(flier);
             outOfRangeFlier.Id = Guid.NewGuid().ToString();
-            outOfRangeFlier.Location = new Location(flier.Location.Longitude + 10, flier.Location.Latitude + 10);
+            new Location(flier.Venue.Address.Longitude + 10, flier.Venue.Address.Latitude + 10);
             FlierTestData.StoreOne(outOfRangeFlier, _repository, Kernel);
 
             foreach (FlierSortOrder sortOrder in Enum.GetValues(typeof(FlierSortOrder)))
@@ -642,8 +644,6 @@ namespace PostaFlya.DataRepository.Tests
 
         public void FindFliersByLocationTagsPagedReturnsUniqueFliers()
         {
-            DeleteAll();
-
             var flier = FlierTestData.GetOne(Kernel, _loc);
 
             FlierTestData.StoreOne(flier, _repository, Kernel);
@@ -682,7 +682,7 @@ namespace PostaFlya.DataRepository.Tests
                                                 from r2 in retrievedFliers
                                                 select new { r1, r2})
             {
-                Assert.AreEqual(retrievedFlierCombo.r1.Location, retrievedFlierCombo.r2.Location);
+                Assert.AreEqual(retrievedFlierCombo.r1.Venue.Address, retrievedFlierCombo.r2.Venue.Address);
             }
         }
     }

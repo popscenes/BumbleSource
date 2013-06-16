@@ -4,7 +4,6 @@ using Website.Domain.Contact;
 using Website.Domain.Payment;
 using Website.Infrastructure.Command;
 using System.Collections.Generic;
-using Website.Domain.Location;
 using Website.Domain.Tag;
 
 namespace PostaFlya.Domain.Flier.Command
@@ -12,7 +11,6 @@ namespace PostaFlya.Domain.Flier.Command
     public class EditFlierCommand : DefaultCommandBase
     {
         public Guid? Image { get; set; }
-        public Location Location { get; set; }
         public string Description { get; set; }
         public string Title { get; set; }
         public string Id { get; set; }
@@ -24,7 +22,7 @@ namespace PostaFlya.Domain.Flier.Command
         public bool AllowUserContact { get; set; }
         public int ExtendPostRadius { get; set; }
         public bool EnableAnalytics { get; set; }
-        public VenueInformation ContactDetails { get; set; }
+        public VenueInformation Venue { get; set; }
         public List<UserLink> UserLinks{ get; set; }
     }
 }

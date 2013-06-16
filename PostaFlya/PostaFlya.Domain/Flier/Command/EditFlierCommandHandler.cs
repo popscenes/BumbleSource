@@ -46,7 +46,7 @@ namespace PostaFlya.Domain.Flier.Command
             UnitOfWorkInterface unitOfWork;
 
             var eventDates =
-                command.EventDates.Select(d => d.SetOffsetMinutes(command.ContactDetails != null ? command.ContactDetails.UtcOffset : 0)).ToList();
+                command.EventDates.Select(d => d.SetOffsetMinutes(command.Venue != null ? command.Venue.UtcOffset : 0)).ToList();
             using (unitOfWork = _unitOfWorkFactory.GetUnitOfWork(new[] { _repository }))
             {
                 //
@@ -57,7 +57,6 @@ namespace PostaFlya.Domain.Flier.Command
                             flier.Title = command.Title;
                             flier.Description = command.Description;
                             flier.Tags = command.Tags;
-                            flier.Location = command.Location;
                             flier.Image = command.Image;
                             flier.EventDates = eventDates;
                             flier.ImageList = command.ImageList;
@@ -67,7 +66,7 @@ namespace PostaFlya.Domain.Flier.Command
                             flier.Status = FlierStatus.Pending;
                             flier.Features = CreateFlierCommandHandler.GetPaymentFeatures(flier);
                             flier.MergeUpdateFeatureCharges(flierQuery.Features);
-                            flier.ContactDetails = command.ContactDetails;
+                            flier.Venue = command.Venue;
                             flier.UserLinks = command.UserLinks;
                         });
                       
