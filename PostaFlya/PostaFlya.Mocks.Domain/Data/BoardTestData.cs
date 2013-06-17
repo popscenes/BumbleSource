@@ -129,7 +129,8 @@ namespace PostaFlya.Mocks.Domain.Data
             Assert.AreEqual(storedBoard.BrowserId, retrievedBoard.BrowserId);
             Assert.AreEqual(storedBoard.RequireApprovalOfPostedFliers, retrievedBoard.RequireApprovalOfPostedFliers);
             Assert.AreEqual(storedBoard.AllowOthersToPostFliers, retrievedBoard.AllowOthersToPostFliers);
-            Assert.AreEqual(storedBoard.InformationSources.First().Address, retrievedBoard.InformationSources.First().Address);
+            if(storedBoard.BoardTypeEnum != BoardTypeEnum.InterestBoard)
+                Assert.AreEqual(storedBoard.InformationSources.First().Address, retrievedBoard.InformationSources.First().Address);
         }
     }
 }
