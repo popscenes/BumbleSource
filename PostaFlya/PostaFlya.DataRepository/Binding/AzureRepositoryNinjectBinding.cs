@@ -58,6 +58,9 @@ namespace PostaFlya.DataRepository.Binding
             kernel.BindGenericQueryHandlersFromCallingAssemblyForTypesFrom(Assembly.GetAssembly(typeof(Website.Domain.Claims.Claim))
                 ,  _repositoryScopeConfiguration);
 
+            //kernel.BindGenericQueryHandlersFromCallingAssemblyForTypesFrom(Assembly.GetAssembly(typeof(PostaFlya.Domain.Boards.Board))
+             //   , _repositoryScopeConfiguration);
+
             kernel.BindEventHandlersFromCallingAssembly(syntax => syntax.InTransientScope());
             Bind<FlierSearchServiceInterface>()
                 .To<SqlFlierSearchService>();

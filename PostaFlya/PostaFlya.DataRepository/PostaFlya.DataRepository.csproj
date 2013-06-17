@@ -104,6 +104,7 @@
     <Compile Include="Binding\AzureRepositoryNinjectBinding.cs" />
     <Compile Include="Binding\BindingAttributes.cs" />
     <Compile Include="Binding\TableNameNinjectBinding.cs" />
+    <Compile Include="DomainQuery\Board\FindBoardByAdminEmailQueryHandler.cs" />
     <Compile Include="DomainQuery\Browser\FindBrowserByIdentityProviderQueryHandler.cs" />
     <Compile Include="DomainQuery\FindByFriendlyIdQueryHandler.cs" />
     <Compile Include="DomainQuery\Browser\GetAggregateByBrowserIdQueryHandler.cs" />

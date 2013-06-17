@@ -1,7 +1,10 @@
+using System.Collections.Generic;
 using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
 using PostaFlya.Application.Domain.Browser;
+using PostaFlya.Domain.Boards.Query;
+using PostaFlya.Models.Board;
 using PostaFlya.Models.Browser;
 using Website.Application.Domain.Browser;
 using Website.Common.Model.Query;
@@ -25,6 +28,9 @@ namespace PostaFlya.Controllers
             //var js = new JsonResult {Data = _browserQueryService.ToCurrentBrowserModel()};
             var serializer = new JavaScriptSerializer();
             var model = _queryChannel.ToViewModel<CurrentBrowserModel>(_browserInformation);
+            model.AdminBoards =
+               _queryChannel.Query(new FindBoardByAdminEmailQuery() { AdminEmail = _browserInformation.Browser.EmailAddress },
+                                     (List<BoardModel>)null);
             ViewBag.BrowserInfoJson = serializer.Serialize(model);          
             return View("_BrowserInfoPartial");
         }

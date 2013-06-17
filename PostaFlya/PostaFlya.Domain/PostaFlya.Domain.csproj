@@ -96,6 +96,7 @@
     <Compile Include="Boards\Event\BoardModifiedEvent.cs" />
     <Compile Include="Boards\Event\MatchFlierToBoardEventHandler.cs" />
     <Compile Include="Boards\Query\BoardQueryServiceUtil.cs" />
+    <Compile Include="Boards\Query\FindBoardByAdminEmailQuery.cs" />
     <Compile Include="Boards\Query\FindBoardForVenueQuery.cs" />
     <Compile Include="Boards\Query\FindBoardNearQueryHandler.cs" />
     <Compile Include="Boards\Query\FindBoardsNearQuery.cs" />
@@ -160,6 +161,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Core\Website.Azure.Common\Website.Azure.Common.csproj">
+      <Project>{63418161-2D30-4BC6-B1C1-015CDA302B08}</Project>
+      <Name>Website.Azure.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Core\Website.Domain\Website.Domain.csproj">
       <Project>{C479A98A-EC5A-45EF-968A-2D81B406485F}</Project>
       <Name>Website.Domain</Name>

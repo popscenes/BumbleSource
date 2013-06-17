@@ -37,7 +37,7 @@ namespace PostaFlya.Models.Browser
             target.LastSearchedLocation = source.LastSearchLocation.ToViewModel();
             if (source.PostaBrowser.AdminBoards != null && source.PostaBrowser.AdminBoards.Count > 0)
             target.AdminBoards =
-                _queryChannel.Query(new GetBoardsByIdsQuery() { Ids = source.PostaBrowser.AdminBoards },
+                _queryChannel.Query(new FindBoardByAdminEmailQuery() { AdminEmail  = source.Browser.EmailAddress},
                                       (List<BoardModel>) null);
                              
 
