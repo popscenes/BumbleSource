@@ -113,7 +113,9 @@ namespace PostaFlya.DataRepository.Search.Event
                 SqlExecute.Delete(searchRecord, _connection);
             }
 
-            if (@event.NewState != null && @event.NewState.InformationSources.First().Address != null && @event.NewState.InformationSources.First().Address.IsValid 
+            if (@event.NewState != null && @event.NewState.InformationSources  != null 
+                && @event.NewState.InformationSources.First().Address != null 
+                && @event.NewState.InformationSources.First().Address.IsValid 
                 && @event.NewState.BoardTypeEnum != BoardTypeEnum.InterestBoard)
             {
                 var searchRecord = @event.NewState.ToSearchRecord();

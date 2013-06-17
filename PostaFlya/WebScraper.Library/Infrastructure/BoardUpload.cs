@@ -59,7 +59,7 @@ namespace WebScraper.Library.Infrastructure
                                     return false;
                                 }
                                 
-                                there Trace.TraceInformation("Created " + res.Headers.Location);
+                                Trace.TraceInformation("Created " + res.Headers.Location);
                                 return true;
                                 
                             }
