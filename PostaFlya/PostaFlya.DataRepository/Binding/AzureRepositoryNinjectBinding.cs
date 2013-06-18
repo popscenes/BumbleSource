@@ -1,4 +1,5 @@
-﻿using System.Configuration;
+﻿using System.Collections.Generic;
+using System.Configuration;
 using System.Data.SqlClient;
 using System.Diagnostics;
 using System.Linq;
@@ -7,7 +8,9 @@ using Ninject;
 using Ninject.Extensions.Conventions.Syntax;
 using Ninject.Modules;
 using PostaFlya.DataRepository.DomainQuery;
+using PostaFlya.DataRepository.DomainQuery.Board;
 using PostaFlya.DataRepository.DomainQuery.Browser;
+using PostaFlya.Domain.Boards.Query;
 using PostaFlya.Domain.Flier.Query;
 using Website.Azure.Common.Binding;
 using Website.Azure.Common.Sql;
@@ -57,6 +60,14 @@ namespace PostaFlya.DataRepository.Binding
 
             kernel.BindGenericQueryHandlersFromCallingAssemblyForTypesFrom(Assembly.GetAssembly(typeof(Website.Domain.Claims.Claim))
                 ,  _repositoryScopeConfiguration);
+
+            //kernel.BindGenericQueryHandlersFromCallingAssemblyForTypesFrom(Assembly.GetAssembly(typeof(PostaFlya.DataRepository.DomainQuery.Board.FindBoardByAdminEmailQueryHandler))
+              //  ,  _repositoryScopeConfiguration);
+
+            //Bind<QueryHandlerInterface<FindBoardByAdminEmailQuery, List<Domain.Boards.Board>>>()
+             //   .To<FindBoardByAdminEmailQueryHandler>();
+
+            
 
             //kernel.BindGenericQueryHandlersFromCallingAssemblyForTypesFrom(Assembly.GetAssembly(typeof(PostaFlya.Domain.Boards.Board))
              //   , _repositoryScopeConfiguration);
