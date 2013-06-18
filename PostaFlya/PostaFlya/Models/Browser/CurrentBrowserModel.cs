@@ -51,7 +51,7 @@ namespace PostaFlya.Models.Browser
     {
         public String BrowserId { get; set; }
         public List<LocationModel> SavedLocations { get; set; }
-        public List<BoardModel> AdminBoards { get; set; } 
+        public List<BrowserInformationBoardModel> AdminBoards { get; set; } 
         public List<String> SavedTags { get; set; }
         public List<string> Roles { get; set; }
         public double Credits { get; set; }  

@@ -37,7 +37,7 @@ namespace PostaFlya.Controllers
                     _queryChannel.Query(
                         new FindBoardByAdminEmailQuery() {AdminEmail = _browserInformation.Browser.EmailAddress},
                         (List<Board>) null);
-                model.AdminBoards = _queryChannel.ToViewModel<BoardModel, PostaFlya.Domain.Boards.Board>(boards);
+                model.AdminBoards = _queryChannel.ToViewModel<BrowserInformationBoardModel, PostaFlya.Domain.Boards.Board>(boards);
             }
 
             ViewBag.BrowserInfoJson = serializer.Serialize(model);          

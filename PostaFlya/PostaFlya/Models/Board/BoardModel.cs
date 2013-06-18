@@ -72,6 +72,48 @@ namespace PostaFlya.Models.Board
 
     }
 
+    public class ToBrowserInformationBoardModel
+    : ViewModelMapperInterface<BrowserInformationBoardModel, PostaFlya.Domain.Boards.Board>
+    {
+        private readonly QueryChannelInterface _queryChannel;
+        private readonly BlobStorageInterface _blobStorage;
+
+        public ToBrowserInformationBoardModel(QueryChannelInterface queryChannel, [ImageStorage]BlobStorageInterface blobStorage)
+        {
+            _queryChannel = queryChannel;
+            _blobStorage = blobStorage;
+        }
+
+        public BrowserInformationBoardModel ToViewModel(BrowserInformationBoardModel target, Domain.Boards.Board source)
+        {
+            if (target == null)
+                target = new BrowserInformationBoardModel();
+            target.Name = source.Name;
+            target.Description = source.Description;
+            target.Location = _queryChannel.ToViewModel<LocationModel>(source.InformationSources.First().Address);
+            target.Id = source.Id;
+            return target;
+        }
+
+    }
+
+    [DataContract]
+    public class BrowserInformationBoardModel
+    {
+        [DataMember]
+        public string Name { get; set; }
+
+        [DataMember]
+        public string Description { get; set; }
+
+        [DataMember]
+        public string Id { get; set; }
+
+        [DataMember]
+        public LocationModel Location { get; set; }
+
+    }
+
     [DataContract]
     public class BoardModel
     {
