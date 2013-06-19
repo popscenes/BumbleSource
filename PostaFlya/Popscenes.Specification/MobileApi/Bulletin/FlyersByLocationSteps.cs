@@ -45,10 +45,10 @@ namespace Popscenes.Specification.MobileApi.Bulletin
 
         }
 
-        [Given(@"I have retrieved the first (.*) flyers within (.*) kilometers of (.*), (.*)")]
-        public void GivenIHaveRetrievedTheFirstFlyersWithinKilometersOf(int takenumber, int kilometers, double latitude, double longitude)
+        [Given(@"I have retrieved the first (.*) flyers within (.*) kilometers of (.*), (.*) using (.*)")]
+        public void GivenIHaveRetrievedTheFirstFlyersWithinKilometersOf(int takenumber, int kilometers, double latitude, double longitude, string requestFormat)
         {
-            When(string.Format(@"I perform a get request for the path mobileapi/gigs/near?lat={0}&long={1}&distance={2}&take={3}", latitude, longitude, kilometers, takenumber));
+            When(string.Format(@"I perform a get request for the path " + requestFormat, latitude, longitude, kilometers, takenumber));
             Then(@"I should receive a http response with a status of 200");
             Then(@"The content should have a response status of OK");
             Then(string.Format(@"The content should contain a list of {0} flyers within {1} kilometers of {2}, {3}", takenumber, kilometers, latitude, longitude));

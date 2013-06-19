@@ -11,5 +11,8 @@ namespace PostaFlya.Areas.MobileApi.Flyers.Model
         }
 
         public int Take { get; set; }
+
+        public string Skip { get; set; }
+
     }
 }

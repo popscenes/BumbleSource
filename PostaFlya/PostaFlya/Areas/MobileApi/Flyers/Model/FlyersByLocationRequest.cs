@@ -27,5 +27,7 @@ namespace PostaFlya.Areas.MobileApi.Flyers.Model
         public int Distance { get; set; }
 
         public int Take { get; set; }
+
+        public string Skip { get; set; }
     }
 }

@@ -29,7 +29,8 @@ namespace PostaFlya.Areas.MobileApi.Flyers.Controllers
                 {
                     Location = new Location(req.Long, req.Lat),
                     Distance = req.Distance,
-                    Take = req.Take
+                    Take = req.Take,
+                    Skip = req.Skip
                 }, new List<FlyerSummaryModel>());
 
             return ResponseContent<FlyerSummaryContent>.GetResponse(new FlyerSummaryContent() {Flyers = flyers});

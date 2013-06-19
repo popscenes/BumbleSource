@@ -102,7 +102,8 @@ this.ScenarioSetup(scenarioInfo);
 #line 17
  testRunner.Given("There are 50 flyers within 10 kilometers of the geolocation -37.769, 144.979", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 18
- testRunner.And("I have retrieved the first 30 flyers within 10 kilometers of -37.769, 144.979", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("I have retrieved the first 30 flyers within 10 kilometers of -37.769, 144.979 usi" +
+                    "ng mobileapi/gigs/near?lat={0}&long={1}&distance={2}&take={3}", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 19
  testRunner.When("I attempt to retrieve the next 30 flyers within 10 kilometers of -37.769, 144.979" +
                     " using mobileapi/gigs/near?lat={0}&long={1}&distance={2}&take={3}&skip={4}", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");

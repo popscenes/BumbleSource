@@ -33,5 +33,22 @@ namespace Popscenes.Specification.MobileApi.Bulletin
             }
         }
 
+        [Given(@"I have retrieved the latest (.*) flyers using (.*)")]
+        public void GivenIHaveRetrievedTheLatestFlyers(int takenumber, string requestFormat)
+        {
+            When(string.Format(@"I perform a get request for the path " + requestFormat, takenumber));
+            Then(@"I should receive a http response with a status of 200");
+            Then(@"The content should have a response status of OK");
+            Then(string.Format(@"The content should contain a list of {0} flyers ordered by created date desc", takenumber));
+        }
+
+        [When(@"I attempt to retrieve the next (.*) latest flyers using (.*)")]
+        public void WhenIAttemptToRetrieveTheNextLatestFlyersUsing(int takenumber, string requestFormat)
+        {
+            var last = SpecUtil.GetResponseContentAs<ResponseContent<FlyerSummaryContent>>().Data.Flyers.Last();
+            SpecUtil.GetRequest(string.Format(requestFormat, takenumber, last.Id));
+        }
+
+
     }
 }
