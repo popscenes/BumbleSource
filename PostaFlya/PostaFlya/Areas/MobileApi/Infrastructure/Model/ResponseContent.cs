@@ -7,6 +7,7 @@ namespace PostaFlya.Areas.MobileApi.Infrastructure.Model
             Ok = 200,
             ValidationError = 400,
             Unauthorized = 401,
+            NotFound = 404,
             AccountAlreadyExists = 6001
         }
 
@@ -24,6 +25,12 @@ namespace PostaFlya.Areas.MobileApi.Infrastructure.Model
             : this(StatusEnum.Ok)
         {
             Messages = new[]{message};
+        }
+
+        public ResponseContent(StatusEnum status, string messageFmt, params object[] args)
+            : this(StatusEnum.Ok)
+        {
+            Messages = new[] { string.Format(messageFmt, args) };
         }
 
         public int Code { get; set; }

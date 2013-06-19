@@ -7,6 +7,7 @@ using Website.Infrastructure.Query;
 
 namespace PostaFlya.Areas.MobileApi.Flyers.Query
 {
+    
     public class FindFlyersByLatestQueryHandler : QueryHandlerInterface<FindFlyersByLatestQuery, List<FlyerSummaryModel>>
     {
         private readonly QueryChannelInterface _queryChannel;

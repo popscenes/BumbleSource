@@ -79,5 +79,20 @@ namespace Popscenes.Specification.Util
                           .With(flier => flier.Status = FlierStatus.Active)
                           .With(flier => flier.CreateDate = DateTime.UtcNow.AddDays(flyercount - counter));
         }
+
+        public static ISingleObjectBuilder<Flier> GetAFlyer(Guid id, FlierStatus status = FlierStatus.Active)
+        {
+
+            var venue = Builder<VenueInformation>.CreateNew()
+                                                  .With(information => information.Address = new Location(50,50))
+                                                  .Build();
+            return
+            Builder<Flier>.CreateNew()
+                          .With(flier => flier.Id = id.ToString())
+                          .With(flier => flier.LocationRadius = 0)
+                          .With(flier => flier.Venue = venue)
+                          .With(flier => flier.Status = status)
+                          .With(flier => flier.CreateDate = DateTime.UtcNow);
+        }
     }
 }

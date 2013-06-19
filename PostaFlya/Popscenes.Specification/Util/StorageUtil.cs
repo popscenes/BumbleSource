@@ -56,8 +56,6 @@ namespace Popscenes.Specification.Util
         }
 
 
-
-
         public static EntityType Get<EntityType>(string id) where EntityType : class, AggregateRootInterface, new()
         {
             var qs = SpecUtil.Kernel.Get<GenericQueryServiceInterface>();

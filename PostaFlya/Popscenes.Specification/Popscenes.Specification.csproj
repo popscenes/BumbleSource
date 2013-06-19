@@ -134,6 +134,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MobileApi\Bulletin\BulletinHooks.cs" />
+    <Compile Include="MobileApi\Bulletin\FlyerDetail.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>FlyerDetail.feature</DependentUpon>
+    </Compile>
+    <Compile Include="MobileApi\Bulletin\FlyerDetailSteps.cs" />
     <Compile Include="MobileApi\Bulletin\FlyersByLatest.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -159,6 +165,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <None Include="MobileApi\Bulletin\FlyerDetail.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>FlyerDetail.feature.cs</LastGenOutput>
+    </None>
     <None Include="MobileApi\Bulletin\FlyersByLatest.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>FlyersByLatest.feature.cs</LastGenOutput>

@@ -16,11 +16,18 @@ namespace PostaFlya.Areas.MobileApi.App_Start
                 defaults: new { Controller = "FlyersByLocation" }
                 );
 
-                config.Routes.MapHttpRoute(
+            config.Routes.MapHttpRoute(
                 name: "GigsLatest",
                 routeTemplate: "mobileapi/gigs/latest",
                 defaults: new { Controller = "FlyersByLatest" }
-                );          
+                );
+
+            config.Routes.MapHttpRoute(
+                name: "GigDetail",
+                routeTemplate: "mobileapi/gig/{id}",
+                defaults: new { Controller = "FlyerDetail" }
+                );
+
         }
     }
 }
