@@ -341,10 +341,13 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Areas\MobileApi\App_Start\MobileApiConfig.cs" />
+    <Compile Include="Areas\MobileApi\Flyers\Controllers\FlyersByLatestController.cs" />
     <Compile Include="Areas\MobileApi\Flyers\Controllers\FlyersByLocationController.cs" />
+    <Compile Include="Areas\MobileApi\Flyers\Model\FlyersByLatestRequest.cs" />
     <Compile Include="Areas\MobileApi\Flyers\Model\FlyersByLocationRequest.cs" />
     <Compile Include="Areas\MobileApi\Flyers\Model\FlyerSummaryContent.cs" />
     <Compile Include="Areas\MobileApi\Flyers\Model\FlyerSummaryModel.cs" />
+    <Compile Include="Areas\MobileApi\Flyers\Query\FindFlyersByLatestQueryHandler.cs" />
     <Compile Include="Areas\MobileApi\Flyers\Query\FindFlyersByLocationAndDistanceQueryHandler.cs" />
     <Compile Include="Areas\MobileApi\Infrastructure\Controller\MobileApiControllerBase.cs" />
     <Compile Include="Areas\MobileApi\Infrastructure\HttpFilters\MobileApiValidationActionFilter.cs" />

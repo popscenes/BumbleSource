@@ -22,24 +22,10 @@ namespace Popscenes.Specification.MobileApi.Bulletin
         [Given(@"There are (.*) flyers within (.*) kilometers of the geolocation (.*), (.*)")]
         public void GivenThereAreFlyersAroundTheGeolocation(int flyercount, int kilometers, double latitude, double longitude)
         {
-            var locs = DataUtil.GetSomeRandomLocationsWithKmsOf(flyercount, new Location(longitude, latitude),
-                                                                kilometers);
-            var counter = flyercount;
-            var venues = Builder<VenueInformation>.CreateListOfSize(flyercount)
-                                                  .All()
-                                                  .With(information => information.Address = locs[--counter])
-                                                  .Build();
-            counter = flyercount;
-            var flyers = Builder<Flier>.CreateListOfSize(flyercount)
-                                       .All()
-                                       .With(flier => flier.Id = Guid.NewGuid().ToString())
-                                       .With(flier => flier.LocationRadius = 0)
-                                       .With(flier => flier.Venue = venues[--counter])
-                                       .With(flier => flier.Status = FlierStatus.Active)
-                                       .Build();
-            
-            StorageUtil.StoreAll(flyers);
+            var flyersbuild = DataUtil.GetSomeFlyersAroundTheGeolocation(flyercount, kilometers, latitude, longitude);
+            var flyers = flyersbuild.Build();
 
+            StorageUtil.StoreAll(flyers);
         }
 
         [Then(@"The content should contain a list of (.*) flyers within (.*) kilometers of (.*), (.*)")]
@@ -58,6 +44,23 @@ namespace Popscenes.Specification.MobileApi.Bulletin
             }
 
         }
+
+        [Given(@"I have retrieved the first (.*) flyers within (.*) kilometers of (.*), (.*)")]
+        public void GivenIHaveRetrievedTheFirstFlyersWithinKilometersOf(int takenumber, int kilometers, double latitude, double longitude)
+        {
+            When(string.Format(@"I perform a get request for the path mobileapi/gigs/near?lat={0}&long={1}&distance={2}&take={3}", latitude, longitude, kilometers, takenumber));
+            Then(@"I should receive a http response with a status of 200");
+            Then(@"The content should have a response status of OK");
+            Then(string.Format(@"The content should contain a list of {0} flyers within {1} kilometers of {2}, {3}", takenumber, kilometers, latitude, longitude));
+        }
+
+        [When(@"I attempt to retrieve the next (.*) flyers within (.*) kilometers of (.*), (.*) using (.*)")]
+        public void WhenIAttemptToRetrieveTheNextFlyersWithinKilometersOf(int takenumber, int kilometers, double latitude, double longitude, string requestFormat)
+        {
+            var last = SpecUtil.GetResponseContentAs<ResponseContent<FlyerSummaryContent>>().Data.Flyers.Last();
+            SpecUtil.GetRequest(string.Format(requestFormat, latitude, longitude, kilometers, takenumber, last.Id));
+        }
+
 
     }
 }

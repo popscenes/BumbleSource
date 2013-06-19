@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Http;
+using Website.Azure.Common.Environment;
 using Website.Common.Filters;
 using Website.Common.MediaFormatters;
 
@@ -12,6 +13,9 @@ namespace PostaFlya.App_Start
     {
         public static void Register(HttpConfiguration config)
         {
+            if(AzureEnv.IsRunningInDevFabric())
+                config.IncludeErrorDetailPolicy = IncludeErrorDetailPolicy.Always;
+            
             //Web Api doesn't use model validators atm, if this changes in the future no need for this
             RegisterMediaFormatters.For(config);
 

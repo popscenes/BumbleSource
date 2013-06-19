@@ -17,7 +17,8 @@ namespace PostaFlya.DataRepository.Search.Query
         public List<string> Query(FindFlyersByLocationAndDistanceQuery argument)
         {
             var ret = 
-                _searchService.FindFliersByLocationAndDistance(argument.Location, argument.Distance, argument.Take);
+                _searchService.FindFliersByLocationAndDistance(argument.Location
+                , argument.Distance, argument.Take, argument.Skip);
             
             return ret.ToList();
         }
