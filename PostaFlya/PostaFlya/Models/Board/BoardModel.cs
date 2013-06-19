@@ -53,7 +53,7 @@ namespace PostaFlya.Models.Board
                 .InformationSources
                 .Select(information => _queryChannel.ToViewModel<VenueInformationModel>(information))
                 .ToList();
-            target.Location = _queryChannel.ToViewModel<LocationModel>(source.Location);
+            target.Location = _queryChannel.ToViewModel<LocationModel>(source.InformationSources.First().Address);
             target.BoardTypeEnum = source.BoardTypeEnum;
             target.Id = source.Id;
             target.DefaultVenueInformation =
@@ -61,14 +61,56 @@ namespace PostaFlya.Models.Board
             target.DefaultVenueInformation = target.DefaultVenueInformation ?? target.VenueInformation.FirstOrDefault();
             if (!string.IsNullOrWhiteSpace(source.ImageId))
                 target.BoardImageUrl = _blobStorage.GetBlobUri(source.ImageId).ToString();
-            else if (source.Location != null && source.Location.IsValid)
+            else if (source.InformationSources.First().Address != null && source.InformationSources.First().Address.IsValid)
             {
-                target.BoardImageUrl = source.Location.GoogleMapsUrl(400, 200);
+                target.BoardImageUrl = source.InformationSources.First().Address.GoogleMapsUrl(400, 200);
                 target.BoardImageExternal = true;
             }
 
             return target;
         }
+
+    }
+
+    public class ToBrowserInformationBoardModel
+    : ViewModelMapperInterface<BrowserInformationBoardModel, PostaFlya.Domain.Boards.Board>
+    {
+        private readonly QueryChannelInterface _queryChannel;
+        private readonly BlobStorageInterface _blobStorage;
+
+        public ToBrowserInformationBoardModel(QueryChannelInterface queryChannel, [ImageStorage]BlobStorageInterface blobStorage)
+        {
+            _queryChannel = queryChannel;
+            _blobStorage = blobStorage;
+        }
+
+        public BrowserInformationBoardModel ToViewModel(BrowserInformationBoardModel target, Domain.Boards.Board source)
+        {
+            if (target == null)
+                target = new BrowserInformationBoardModel();
+            target.Name = source.Name;
+            target.Description = source.Description;
+            target.Location = _queryChannel.ToViewModel<LocationModel>(source.InformationSources.First().Address);
+            target.Id = source.Id;
+            return target;
+        }
+
+    }
+
+    [DataContract]
+    public class BrowserInformationBoardModel
+    {
+        [DataMember]
+        public string Name { get; set; }
+
+        [DataMember]
+        public string Description { get; set; }
+
+        [DataMember]
+        public string Id { get; set; }
+
+        [DataMember]
+        public LocationModel Location { get; set; }
 
     }
 

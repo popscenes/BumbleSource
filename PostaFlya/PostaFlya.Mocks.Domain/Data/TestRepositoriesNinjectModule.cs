@@ -103,8 +103,8 @@ namespace PostaFlya.Mocks.Domain.Data
                         var boundingBox = locationService.GetBoundingBox(query.Location, query.WithinMetres / 1000.0);
                         var ret = store
                         .Where(
-                            f => f.Location != null && f.Location.IsValid && f.BoardTypeEnum != BoardTypeEnum.InterestBoard && 
-                            locationService.IsWithinBoundingBox(boundingBox, f.Location)
+                            f => f.InformationSources.First().Address != null && f.InformationSources.First().Address.IsValid && f.BoardTypeEnum != BoardTypeEnum.InterestBoard &&
+                            locationService.IsWithinBoundingBox(boundingBox, f.InformationSources.First().Address)
                          )
                          .Select(f => f.Id);
 

@@ -106,14 +106,16 @@ namespace PostaFlya.DataRepository.Search.Event
         {
             
             if (@event.OrigState != null &&
-                (@event.NewState.BoardTypeEnum == BoardTypeEnum.InterestBoard || 
-                    @event.NewState == null || !@event.NewState.Location.Equals(@event.OrigState.Location)))
+                (@event.NewState.BoardTypeEnum == BoardTypeEnum.InterestBoard ||
+                    @event.NewState == null || !@event.NewState.InformationSources.First().Address.Equals(@event.OrigState.InformationSources.First().Address)))
             {
                 var searchRecord = @event.OrigState.ToSearchRecord();
                 SqlExecute.Delete(searchRecord, _connection);
             }
 
-            if (@event.NewState != null && @event.NewState.Location != null && @event.NewState.Location.IsValid 
+            if (@event.NewState != null && @event.NewState.InformationSources  != null 
+                && @event.NewState.InformationSources.First().Address != null 
+                && @event.NewState.InformationSources.First().Address.IsValid 
                 && @event.NewState.BoardTypeEnum != BoardTypeEnum.InterestBoard)
             {
                 var searchRecord = @event.NewState.ToSearchRecord();

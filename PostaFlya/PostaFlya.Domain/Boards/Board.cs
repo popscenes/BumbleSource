@@ -17,7 +17,6 @@ namespace PostaFlya.Domain.Boards
         public BoardStatus Status { get; set; }
         public BoardTypeEnum BoardTypeEnum { get; set; }
         public BoardSubscription Subscription { get; set; }
-        public Location Location { get; set; }
         public string ImageId { get; set; }
         public List<VenueInformation> InformationSources { get; set; }
         public string DefaultInformationSource { get; set; }

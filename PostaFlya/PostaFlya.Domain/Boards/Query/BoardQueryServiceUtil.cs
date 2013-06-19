@@ -3,6 +3,7 @@ using System.Text;
 using Website.Domain.Location;
 using Website.Infrastructure.Query;
 using Website.Infrastructure.Util.Extension;
+using System.Linq;
 
 namespace PostaFlya.Domain.Boards.Query
 {
@@ -21,9 +22,9 @@ namespace PostaFlya.Domain.Boards.Query
                 && boardFind.Id != targetBoard.Id)
             {
                 if (targetBoard.BoardTypeEnum != BoardTypeEnum.InterestBoard 
-                    && targetBoard.Location.HasAddressParts())
+                    && targetBoard.InformationSources.First().Address.HasAddressParts())
                 {
-                    var locInfo = targetBoard.Location.Locality;
+                    var locInfo = targetBoard.InformationSources.First().Address.Locality;
                     if (!string.IsNullOrWhiteSpace(locInfo))
                     {
                         tryNameBase = locInfo + "-" + tryNameBase;

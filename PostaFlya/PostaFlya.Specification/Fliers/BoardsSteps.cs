@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PostaFlya.Models.Location;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
@@ -33,12 +34,18 @@ namespace PostaFlya.Specification.Fliers
         [When(@"I submit the following data for the BOARD:")]
         public void WhenISubmitsTheFollowingDataForTheBOARD(Table table)
         {
+            var venueInfo = new VenueInformationModel();
+            venueInfo.Address = new LocationModel();
+            venueInfo.Address.Longitude = 55;
+            venueInfo.Address.Latitude = 55;
+
             var boardCreate = new BoardCreateEditModel()
                 {
                     BoardName = table.Rows[0]["BoardName"],
                     AllowOthersToPostFliers = Boolean.Parse(table.Rows[0]["AcceptOthersFliers"]),
                     RequireApprovalOfPostedFliers = Boolean.Parse(table.Rows[0]["RequireApprovalForFliers"]),
-                    TypeOfBoard = (BoardTypeEnum)Enum.Parse(typeof(BoardTypeEnum), table.Rows[0]["TypeOfBoard"])
+                    TypeOfBoard = (BoardTypeEnum)Enum.Parse(typeof(BoardTypeEnum), table.Rows[0]["TypeOfBoard"]),
+                    VenueInformation = venueInfo
                 };
 
             WhenABrowserSubmitsTheFollowingDataForTheBOARD(boardCreate, SpecUtil.GetCurrBrowser().Browser.Id);
@@ -87,13 +94,20 @@ namespace PostaFlya.Specification.Fliers
 
         private void GivenThereIsAPublicBoardForBrowserNamed(string browserId, string targetBoard, bool requiresApproval = true)
         {
+            var venueInfo = new VenueInformationModel();
+            venueInfo.Address = new LocationModel();
+            venueInfo.Address.Longitude = 55;
+            venueInfo.Address.Latitude = 55;
+
             var boardCreate = new BoardCreateEditModel()
             {
                 BoardName = targetBoard,
                 AllowOthersToPostFliers = true,
                 RequireApprovalOfPostedFliers = requiresApproval,
+                VenueInformation = venueInfo
             };
 
+            
             WhenABrowserSubmitsTheFollowingDataForTheBOARD(boardCreate, browserId);
             ThenABOARDNamedBoardWillBeCreated(targetBoard);
             ThenTheBOARDWillAllowOthersToPost();

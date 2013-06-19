@@ -28,6 +28,7 @@ namespace PostaFlya.DataRepository.Binding
         public const string BrowserIdIndex = "BrowserId";
         public const string BrowserCredentialIndex = "BrowserCredential";
         public const string BrowserEmailIndex = "BrowserEmail";
+        public const string BoardAdminEmailIndex = "BoardAdminEmail";
         public const string TinyUrlIndex = "TinyUrl";
 
 
@@ -87,6 +88,16 @@ namespace PostaFlya.DataRepository.Binding
             return indexEntryFactory;
         }
 
+        public static Expression<Func<BoardInterface, IEnumerable<StorageTableKeyInterface>>> BaordAdminEmailSelector()
+        {
+            Expression<Func<BoardInterface, IEnumerable<StorageTableKeyInterface>>> indexEntryFactory
+                = board =>
+
+                  board.AdminEmailAddresses.Select(adimEmail => new StorageTableKey() { PartitionKey = adimEmail.ToStorageKeySection(), RowKey = board.Id.ToStorageKeySection() });
+
+            return indexEntryFactory;
+        }
+
         public static Expression<Func<EntityInterfaceType, IEnumerable<StorageTableKeyInterface>>>
             TinyUrlSelector<EntityInterfaceType>() where EntityInterfaceType : EntityWithTinyUrlInterface, AggregateRootInterface
         {
@@ -124,6 +135,7 @@ namespace PostaFlya.DataRepository.Binding
 
             tableNameProv.Add<BoardInterface>("board", e => e.Id);
             tableNameProv.AddIndex("boardIndex", StandardIndexSelectors.FriendlyIdIndex, StandardIndexSelectors.FriendlyIdSelector<BoardInterface>());
+            tableNameProv.AddIndex("boardAdminEmailIndex", DomainIndexSelectors.BoardAdminEmailIndex, DomainIndexSelectors.BaordAdminEmailSelector());
 
             //tableNameProv.Add<BoardInterface>(JsonRepository.FriendlyIdPartiton, "boardFriendly", e => e.FriendlyId, e => e.Id);
             //tableNameProv.Add<BoardInterface>(JsonRepositoryWithBrowser.BrowserPartitionId, "boardByBrowser", e => e.BrowserId, e => e.Id);
