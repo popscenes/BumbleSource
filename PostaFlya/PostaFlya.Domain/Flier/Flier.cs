@@ -1,16 +1,11 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using PostaFlya.Domain.Behaviour;
 using PostaFlya.Domain.Venue;
-using Website.Domain.Claims;
-using Website.Domain.Contact;
 using Website.Domain.Payment;
 using Website.Infrastructure.Domain;
-using Website.Domain.Location;
 using Website.Domain.Tag;
-using Website.Infrastructure.Query;
 
 
 namespace PostaFlya.Domain.Flier

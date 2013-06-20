@@ -1,7 +1,6 @@
 using System;
 using PostaFlya.Domain.Behaviour;
 using PostaFlya.Domain.Venue;
-using Website.Domain.Contact;
 using Website.Infrastructure.Command;
 using System.Collections.Generic;
 using Website.Domain.Tag;

@@ -71,11 +71,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Behaviour\BehaviourFactory.cs" />
-    <Compile Include="Behaviour\Command\FlierBehaviourDefaultRespository.cs" />
-    <Compile Include="Behaviour\FlierBehaviourBase.cs" />
-    <Compile Include="Behaviour\Query\DefaultFlierBehaviourQueryService.cs" />
-    <Compile Include="Behaviour\Query\FlierBehaviourQueryServiceInterface.cs" />
+    <Compile Include="Behaviour\FlierBehaviour.cs" />
     <Compile Include="Boards\Board.cs" />
     <Compile Include="Boards\BoardFlier.cs" />
     <Compile Include="Boards\BoardFlierInterface.cs" />
@@ -134,10 +130,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Service\BehaviourFactoryInterface.cs" />
-    <Compile Include="Behaviour\FlierBehaviour.cs" />
-    <Compile Include="Behaviour\FlierBehaviourInterface.cs" />
-    <Compile Include="Behaviour\FlierBehaviourDefault.cs" />
     <Compile Include="Binding\CommandNinjectBinding.cs" />
     <Compile Include="Binding\DefaultServicesNinjectBinding.cs" />
     <Compile Include="Flier\Command\CreateFlierCommand.cs" />
@@ -197,7 +189,9 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Service\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -5,7 +5,6 @@ using System.Linq;
 using System.Linq.Expressions;
 using Ninject;
 using Ninject.Modules;
-using PostaFlya.Domain.Behaviour;
 using PostaFlya.Domain.Boards;
 using PostaFlya.Domain.Flier;
 using PostaFlya.Domain.Flier.Analytic;
@@ -177,8 +176,6 @@ namespace PostaFlya.DataRepository.Binding
             tableNameProv.Add<CommentInterface>("comment", e => e.AggregateId, e => e.Id);
 //            tableNameProv.Add<CommentInterface>(JsonRepository.AggregateIdPartition, "commentByAggregate", e => e.AggregateId, e => e.Id);
 
-//            tableNameProv.Add<FlierBehaviourInterface>("flierbehaviour", e => e.AggregateId, e => e.Id);
-//            tableNameProv.Add<FlierBehaviourInterface>(JsonRepository.FriendlyIdPartiton, "flierbehaviourFriendly", e => e.FriendlyId, e => e.Id);
 
             tableNameProv.Add<PaymentTransaction>("paymentTransaction", e => e.AggregateId, e => e.Id);
 //            tableNameProv.Add<PaymentTransaction>(JsonRepository.AggregateIdPartition, "paymentTransactionByAggregate", e => e.AggregateId, e => e.Id.ToDescendingTimeKey(e.Time));

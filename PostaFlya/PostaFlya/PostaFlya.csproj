@@ -322,10 +322,8 @@
     <Compile Include="App_Start\NinjectWebCommon.cs" />
     <Compile Include="App_Start\RegisterClientValidationExtensions.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
-    <Compile Include="Areas\Default\Binding\DefaultBehaviourWebNinjectBinding.cs" />
     <Compile Include="Areas\Default\DefaultAreaRegistration.cs" />
     <Compile Include="Areas\Default\Models\DefaultDetailsViewModel.cs" />
-    <Compile Include="Areas\Default\Models\Factory\DefaultBehaviourFlierBehaviourViewModelFactory.cs" />
     <Compile Include="Areas\HelpPage\ApiDescriptionExtensions.cs" />
     <Compile Include="Areas\HelpPage\App_Start\HelpPageConfig.cs" />
     <Compile Include="Areas\HelpPage\Controllers\HelpController.cs" />
@@ -406,16 +404,12 @@
     <Compile Include="Controllers\FlierController.cs" />
     <Compile Include="Controllers\HeatMapApiController.cs" />
     <Compile Include="Controllers\HeatMapController.cs" />
-    <Compile Include="Areas\Default\Models\Bulletin\BulletinBehaviourModel.cs" />
     <Compile Include="Controllers\MyImagesController.cs" />
     <Compile Include="Controllers\TagsApiController.cs" />
     <Compile Include="Models\Browser\CurrentBrowserModel.cs" />
     <Compile Include="Models\Comments\CreateCommentModel.cs" />
     <Compile Include="Models\Content\ImageModelExtension.cs" />
     <Compile Include="Models\Content\ImageViewModel.cs" />
-    <Compile Include="Models\Factory\FlierBehaviourViewModelFactory.cs" />
-    <Compile Include="Models\Factory\FlierBehaviourViewModelFactoryInterface.cs" />
-    <Compile Include="Models\Factory\FlierBehaviourViewModelFactoryRegistryInterface.cs" />
     <Compile Include="Models\FlierPaymentModel.cs" />
     <Compile Include="Models\Flier\BulletinBoardPageModel.cs" />
     <Compile Include="Models\Flier\BulletinDetailPageModel.cs" />
@@ -872,7 +866,9 @@
     <Content Include="Views\Shared\Location\VenueSelector.cshtml" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Areas\Default\Binding\" />
     <Folder Include="Areas\Default\Controllers\" />
+    <Folder Include="Areas\Default\Models\Bulletin\" />
     <Folder Include="Areas\Default\Views\Shared\" />
     <Folder Include="Areas\HelpPage\Views\Shared\" />
     <Folder Include="Areas\MobileApi\Models\" />

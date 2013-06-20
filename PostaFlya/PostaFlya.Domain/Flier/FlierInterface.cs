@@ -10,7 +10,6 @@ using Website.Infrastructure.Domain;
 using Website.Domain.Browser;
 using Website.Domain.Claims;
 using Website.Domain.Comments;
-using Website.Domain.Location;
 using Website.Domain.Tag;
 
 namespace PostaFlya.Domain.Flier
