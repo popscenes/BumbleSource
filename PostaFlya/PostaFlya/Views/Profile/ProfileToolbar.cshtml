@@ -7,7 +7,7 @@
    class="std-btn std-image-btn btn-white btn-44 @Model.GetNavigationItemClass(WebConstants.ProfileNavPeeled)" >
     <span class="std-image-btn-icon"></span>
     <span class="image-btn-text">Peeled</span>
-</a><a id="profile-posted" href="@Url.Action("Posted", "Profile")"  
+</a><a id="profile-posted" data-bind="visible: bf.currentBrowserInstance.AdminBoards.length > 0" href="@Url.Action("Posted", "Profile")"  
        class="std-btn std-image-btn btn-white btn-white btn-44 @Model.GetNavigationItemClass(WebConstants.ProfileNavPosted)">
         <span class="std-image-btn-icon"></span>
         <span class="image-btn-text">Posted</span>
