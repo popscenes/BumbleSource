@@ -19,7 +19,7 @@
         self.imageList = ko.observableArray([]);
         self.selectedImageId = ko.observable();
 
-        self.selectedImage = ko.observable();
+        self.selectedImage = ko.observable(null);
         //self.selectedImageUrl = ko.observable();
 
         self.SetCallback = function (callback) {
@@ -56,11 +56,13 @@
             var url = sprintf("/api/Browser/%s/MyImages", bf.currentBrowserInstance.BrowserId);
 
             $.getJSON(url, function (allData) {
-                var imagesDisplayNum = 8;
+                //var imagesDisplayNum = 8;
 
 
+                //alert(self.selectedImageId());
                 self.imageList(allData);
-                if (self.imageList().length < imagesDisplayNum)
+                //self._loadSelectedImageFromId();
+                /*if (self.imageList().length < imagesDisplayNum)
                     imagesDisplayNum = self.imageList().length;
 
                 if (imagesDisplayNum > 0) {
@@ -107,11 +109,11 @@
                     $('a.next').click(function (e) {
                         gallery.nextPage();
                         e.preventDefault();
-                    });
+                    });*/
 
                     self._loadSelectedImageFromId();
                     
-                }
+                //}
             }).fail(function (jqXhr, textStatus, errorThrown) {
                 bf.ErrorUtil.HandleRequestError(null, jqXhr, self.ErrorHandler);
             });
@@ -185,7 +187,7 @@
                 
                 $('#filelist p').html('');
                 uploader.start();
-                e.preventDefault();
+                //e.preventDefault();
             });
 
             uploader.bind('UploadProgress', function (up, file) {
@@ -206,7 +208,14 @@
                 $('#' + file.id + " span").html("100%");
                 $('#' + file.id).addClass('upload-complete');
                 var result = jQuery.parseJSON(info.response);
-                self.selectedImageId(result.id);
+                var image = {};
+                image.ImageUrl = result.url;
+                image.ImageId = result.id;
+
+                self.selectedImage(image);
+
+                //self.selectedImageId(result.id);
+                //self._loadSelectedImageFromId();
             });
 
 
@@ -215,7 +224,8 @@
 
                 //if (self.imageList().length > 0)
                 //    self.slider.destroyShow();
-                self._LoadImageList();
+                //self._LoadImageList();
+                //self._loadSelectedImageFromId();
                 $('#filelist p').html('Upload complete!!');
             });
         };

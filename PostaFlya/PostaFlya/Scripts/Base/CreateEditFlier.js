@@ -95,6 +95,13 @@
             }
         };
         ko.mapping.fromJS(data, mapping, this);
+        
+        self.browserVenues = ko.mapping.fromJS(bf.currentBrowserInstance.AdminBoards, {
+            create: function(item) {
+                return ko.observable(new bf.VenueInformationModel(item.data.Location));
+            }
+        });
+ 
 
         
         self.afterUpdateCallback = afterUpdateCallback;  

@@ -3,6 +3,7 @@ using System.Linq;
 using System.Runtime.Serialization;
 using PostaFlya.Domain.Boards;
 using PostaFlya.Domain.Boards.Query;
+using PostaFlya.Domain.Venue;
 using PostaFlya.Models.Location;
 using Website.Application.Binding;
 using Website.Application.Content;
@@ -90,7 +91,7 @@ namespace PostaFlya.Models.Board
                 target = new BrowserInformationBoardModel();
             target.Name = source.Name;
             target.Description = source.Description;
-            target.Location = _queryChannel.ToViewModel<LocationModel>(source.InformationSources.First().Address);
+            target.Location = _queryChannel.ToViewModel<VenueInformationModel>(source.InformationSources.First());
             target.Id = source.Id;
             return target;
         }
@@ -110,7 +111,7 @@ namespace PostaFlya.Models.Board
         public string Id { get; set; }
 
         [DataMember]
-        public LocationModel Location { get; set; }
+        public VenueInformationModel Location { get; set; }
 
     }
 
