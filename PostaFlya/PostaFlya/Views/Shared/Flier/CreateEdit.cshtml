@@ -215,7 +215,7 @@
                 <h3>Date</h3>
                 @Html.ValidationMessageFor(model => model.EventDates)
 
-              @Html.HiddenFor(model => model.EventDates, new { data_bind = "value:EventDates" })      
+                @Html.HiddenFor(model => model.EventDates, new { data_bind = "value:EventDates" })      
                 <div id="flyaDate" data-bind="datePicker:{onSelect: $data.setDate}"></div>
                 
                 @*                @Html.HiddenFor(model => model.EffectiveDate, new { data_bind = "value:EffectiveDate" })*@
@@ -243,14 +243,8 @@
                     @{
                    
                         ViewBag.LocationVariable = "VenueInformation";
-                        if (string.IsNullOrWhiteSpace(ViewBag.AutoCompleteLocationBannerText))
-                        {
-                            ViewBag.AutoCompleteLocationBannerText = "'Venue'"; 
-                        }                    
-                        ViewBag.AutoCompleteLocationId = "addressSearch";
-                        ViewBag.AutoCompleteBinding = "placeAutoComplete";
                     }
-                    @Html.Partial("Location/LocationAutocomplete")
+                    @Html.Partial("Location/VenueSelector")
                 </li>
                 </ol>
             </fieldset>

@@ -869,6 +869,7 @@
     <Content Include="Views\Board\BoardCalendarPartial.cshtml" />
     <Content Include="Views\Board\Widget\BoardWidgetHtml.cshtml" />
     <Content Include="Views\BoardSearch\Get.cshtml" />
+    <Content Include="Views\Shared\Location\VenueSelector.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Areas\Default\Controllers\" />
