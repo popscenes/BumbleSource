@@ -76,6 +76,7 @@ namespace Website.Azure.Common.TableStorage
                         .Distinct()
                         .Single();
 
+
                 var tableName = _indexProviderService.GetTableNameForIndex<EntityType>(index);
                 _tableContext.Delete<StorageTableKey>(tableName, entry =>
                     entry.PartitionKey.CompareTo(lowerKey) >= 0 &&
@@ -99,6 +100,7 @@ namespace Website.Azure.Common.TableStorage
                 let tableName = storageTableEntry.tableName
                 let indexName = storageTableEntry.indexName
                 from entry in storageTableEntry.entries
+                where entry.PartitionKey != null
                 select new { tableName, entry, indexName })
             {
                 tabEntry.entry.PartitionKey = tabEntry.indexName.ToStorageKeySection() + tabEntry.entry.PartitionKey;

@@ -92,7 +92,7 @@ namespace PostaFlya.DataRepository.Binding
         {
             Expression<Func<BoardInterface, IEnumerable<StorageTableKeyInterface>>> indexEntryFactory
                 = board =>
-
+                  board.AdminEmailAddresses == null ? new List<StorageTableKey>() { new StorageTableKey() { RowKey = board.Id.ToStorageKeySection() } } : 
                   board.AdminEmailAddresses.Select(adimEmail => new StorageTableKey() { PartitionKey = adimEmail.ToStorageKeySection(), RowKey = board.Id.ToStorageKeySection() });
 
             return indexEntryFactory;

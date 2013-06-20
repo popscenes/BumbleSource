@@ -1,4 +1,6 @@
-﻿using PostaFlya.Models.Flier;
+﻿using System;
+using System.Collections.Generic;
+using PostaFlya.Models.Flier;
 using PostaFlya.Models.Location;
 
 namespace PostaFlya.Areas.Default.Models
@@ -12,7 +14,14 @@ namespace PostaFlya.Areas.Default.Models
         {
             var ret = new DefaultDetailsViewModel()
                        {
-                           Flier = new BulletinFlierDetailModel(){Venue = new VenueInformationModel()}
+                           Flier = new BulletinFlierDetailModel()
+                               {
+                                   Venue = new VenueInformationModel()
+                                       {
+                                           Address = new LocationModel()
+                                       },
+                                   EventDates = new List<DateTimeOffset>()
+                               }
                        };
             return ret;
         }

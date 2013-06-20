@@ -59,7 +59,7 @@ namespace PostaFlya.Controllers
                 return null;
 
             var flierModel = flier.ToCreateModel().GetImageUrl(_blobStorage);
-            flierModel.ImageList.ForEach(_ => _.GetImageUrl(_blobStorage, ThumbOrientation.Vertical, ThumbSize.S114));
+            flierModel.ImageList = _queryChannel.ToViewModel<ImageViewModel, FlierImage>(flier.ImageList);
             return flierModel;
         }
 

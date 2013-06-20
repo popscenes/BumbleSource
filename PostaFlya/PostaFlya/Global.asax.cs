@@ -150,8 +150,8 @@ namespace PostaFlya
             if (init != null)
                 init.Init(NinjectDependencyResolver);
 
-
-            RegisterWebsiteInformation();
+            if (AzureEnv.GetInstanceIndex() == 0)
+                RegisterWebsiteInformation();
 
 
             AddSpecifiedDisplayModeProviders();

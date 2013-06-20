@@ -6,6 +6,9 @@ using System.Web.Mvc;
 using PostaFlya.Domain.Flier;
 using PostaFlya.Models.Location;
 using PostaFlya.Models.Content;
+using Website.Application.Binding;
+using Website.Application.Content;
+using Website.Application.Domain.Content;
 using Website.Common.Model;
 using Website.Common.Model.Query;
 using Website.Domain.Browser;
@@ -59,10 +62,12 @@ namespace PostaFlya.Models.Flier
     public class ToBulletinFlierModel : ViewModelMapperInterface<BulletinFlierSummaryModel, PostaFlya.Domain.Flier.Flier>
     {
         private readonly QueryChannelInterface _queryChannel;
+        private readonly BlobStorageInterface _blobStorage;
 
-        public ToBulletinFlierModel(QueryChannelInterface queryChannel)
+        public ToBulletinFlierModel(QueryChannelInterface queryChannel, [ImageStorage]BlobStorageInterface blobStorage)
         {
             _queryChannel = queryChannel;
+            _blobStorage = blobStorage;
         }
 
         public BulletinFlierSummaryModel ToViewModel(BulletinFlierSummaryModel target, Domain.Flier.Flier flier)
@@ -85,7 +90,8 @@ namespace PostaFlya.Models.Flier
             target.PendingCredits = flier.Features.Sum(_ => _.OutstandingBalance);
             target.Status = flier.Status.ToString();
             target.TinyUrl = flier.TinyUrl;
-
+            target.FlierBehaviour = flier.FlierBehaviour.ToString();
+            target.FlierImageUrl = _blobStorage.GetBlobUri(flier.Image + ImageUtil.GetIdFileExtension()).ToString();
 
             return target;
         }
@@ -118,6 +124,7 @@ namespace PostaFlya.Models.Flier
 
         public string FlierImageId { get; set; }
 
+        public string FlierBehaviour { get; set; }
 
         [Display(Name = "NumberOfClaims", ResourceType = typeof(Properties.Resources))] 
         public int NumberOfClaims { get; set; }
@@ -144,7 +151,12 @@ namespace PostaFlya.Models.Flier
         {
             return new BulletinFlierSummaryModel()
                 {
-                    Venue = new VenueInformationModel() { Address = new LocationModel()}
+                    Venue = new VenueInformationModel()
+                        {
+                            Address = new LocationModel()
+                        },
+                    EventDates = new List<DateTimeOffset>()
+
                 };
         }
     }

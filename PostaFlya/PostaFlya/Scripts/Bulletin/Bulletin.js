@@ -194,7 +194,7 @@
             var showingmostrecent = 'Showing most recent posts';
 
             if (self.fliterDate() != null) {
-                showingmostrecent = "Showing events on " + new Date(self.fliterDate()).toDateString();
+                showingmostrecent = "Showing gigs from " + new Date(self.fliterDate()).toDateString();
             }
 
             var validLoc = self.Location().ValidLocation();
