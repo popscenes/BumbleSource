@@ -14,14 +14,24 @@ namespace PostaFlya.Controllers
         //
         // GET: /BoardSearch/
 
-        public ActionResult Get(bool autosearch = false)
+        public ActionResult Get()
         {
             var model = new BoardSearchPageViewModel()
                 {
-                    PageId = autosearch ? WebConstants.BoardSearchPageAuto : WebConstants.BoardSearchPage
+                    PageId = WebConstants.BoardSearchPage
                 };
 
             return View(model);
+        }
+
+        public ActionResult FindMe()
+        {
+            var model = new BoardSearchPageViewModel()
+            {
+                PageId = WebConstants.BoardSearchPageAuto
+            };
+
+            return View("Get", model);
         }
 
     }

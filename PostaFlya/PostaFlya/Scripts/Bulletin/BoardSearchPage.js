@@ -4,7 +4,7 @@
     bf.pageinit = bf.pageinit || {};
 
     var pageInitInternal = function(tryFindAuto) {
-        bf.page = new bf.BoardSearchBoard(new bf.TileLayoutViewModel('#bulletinboard', new bf.BulletinLayoutProperties()));
+        bf.page = new bf.BoardSearchBoard(new bf.TileLayoutViewModel('#bulletinboard', new bf.BulletinLayoutProperties()), tryFindAuto);
 
         var endscroll = new EndlessScroll(window, {
             fireOnce: false,
@@ -104,7 +104,7 @@
             self.TryingToFindLocation(true);
             bf.getCurrentPosition(function (position, status) {
                 if (status === 'OK') {
-                    var loc = new bf.LocationModel({ Longitude: position.coords.longitude, Latitude: position.coords.latitude })
+                    var loc = new bf.LocationModel({ Longitude: position.coords.longitude, Latitude: position.coords.latitude });
                     bf.reverseGeocode(loc, self.Location);
                 }
                 self.TryingToFindLocation(false);
