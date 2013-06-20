@@ -208,7 +208,7 @@ namespace PostaFlya.Specification.Fliers
         [Then(@"I will be shown all the fliers that are PaymentPending Status")]
         public void ThenIWilloBeShownAllTheFliersThatArePaymentPendingStatus()
         {
-            var paymentPendingModel = SpecUtil.ControllerResult as List<BulletinFlierModel>;
+            var paymentPendingModel = SpecUtil.ControllerResult as List<BulletinFlierSummaryModel>;
             Assert.IsTrue(paymentPendingModel.Count() == 1);
             Assert.AreEqual(paymentPendingModel.First().Title, "This is a Title");
             Assert.AreEqual(100, paymentPendingModel.First().PendingCredits);
@@ -223,7 +223,7 @@ namespace PostaFlya.Specification.Fliers
         [When(@"I Choose to pay for a flier")]
         public void WhenIChooseToPayForAFlier()
         {
-            var paymentPendingModel = SpecUtil.ControllerResult as List<BulletinFlierModel>;
+            var paymentPendingModel = SpecUtil.ControllerResult as List<BulletinFlierSummaryModel>;
             var profileController = SpecUtil.GetApiController<PendingFliersApiController>();
             var browserInformation = SpecUtil.GetCurrBrowser();
             profileController.Put(browserInformation.Browser.Id, paymentPendingModel.First().Id);

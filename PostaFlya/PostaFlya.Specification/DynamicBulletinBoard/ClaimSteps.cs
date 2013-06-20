@@ -229,7 +229,7 @@ namespace PostaFlya.Specification.DynamicBulletinBoard
         public void ThenIShouldSeeTheContactDetailsAssociatedWithThatFLIER()
         {
             var mod = ScenarioContext.Current["fliermodel"]  as DefaultDetailsViewModel;
-            Assert.That(mod.VenueInformation, Is.Not.Null);
+            Assert.That(mod.Flier.Venue, Is.Not.Null);
         }
 
 

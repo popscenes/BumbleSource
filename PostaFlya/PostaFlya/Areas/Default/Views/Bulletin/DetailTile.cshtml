@@ -7,8 +7,8 @@
 
 @model DefaultDetailsViewModel
 @{
-    BulletinFlierModel flier = Model.Flier;
-    VenueInformationModel contactDets = Model.VenueInformation ?? new VenueInformationModel();
+    BulletinFlierDetailModel flier = Model.Flier;
+    VenueInformationModel contactDets = Model.Flier.Venue ?? new VenueInformationModel();
 }
 
 <div class="flier-view flier-view-default">
@@ -28,11 +28,11 @@
         </div>
     </div>
         
-    <div data-bind="if:VenueInformation() != null">
+    <div data-bind="if:Flier.Venue() != null">
         <h4>
                 Venue Details
         </h4>
-        <div class="flier-contact-dets" data-bind="with:VenueInformation">
+        <div class="flier-contact-dets" data-bind="with:Flier.Venue">
             
             @Html.Partial("Contact/EventContactDetailsViewPartial", contactDets)
 

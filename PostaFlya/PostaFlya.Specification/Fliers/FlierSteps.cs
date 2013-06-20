@@ -235,7 +235,7 @@ namespace PostaFlya.Specification.Fliers
         public void WhenIClickOnViewForAFlier()
         {
             var browserInformation = SpecUtil.GetCurrBrowser();
-            var fliers = SpecUtil.ControllerResult as List<BulletinFlierModel>;
+            var fliers = SpecUtil.ControllerResult as List<BulletinFlierSummaryModel>;
 
             var myFliersApiController = SpecUtil.GetController<MyFliersController>();
             SpecUtil.ControllerResult = myFliersApiController.Get(browserInformation.Browser.Id, fliers.First().Id);
@@ -252,7 +252,7 @@ namespace PostaFlya.Specification.Fliers
         [Then(@"I should see a list of fliers I have created")]
         public void ThenIShouldSeeAListOfFliersIHaveCreated()
         {
-            var fliers = SpecUtil.ControllerResult as IList<BulletinFlierModel>;
+            var fliers = SpecUtil.ControllerResult as IList<BulletinFlierSummaryModel>;
 
             Assert.IsTrue(fliers.Count() > 0);
         }
@@ -647,12 +647,12 @@ namespace PostaFlya.Specification.Fliers
         }
 
 
-        [Then(@"I should see the Analytic Info with the FLIER details")]
-        public void ThenIShouldSeeTheAnalyticInfoWithTheFLIERDetails()
-        {
-            var mod = ScenarioContext.Current["fliermodel"] as DefaultDetailsViewModel;
-            Assert.That(mod.AnalyticInfo, Is.Not.Null);
-        }
+//        [Then(@"I should see the Analytic Info with the FLIER details")]
+//        public void ThenIShouldSeeTheAnalyticInfoWithTheFLIERDetails()
+//        {
+//            var mod = ScenarioContext.Current["fliermodel"] as DefaultDetailsViewModel;
+//            Assert.That(mod.AnalyticInfo, Is.Not.Null);
+//        }
 
         [Given(@"i choose to attach contact details other than my saved details")]
         public void GivenIChooseToAttachContactDetailsOtherThanMySavedDetails()

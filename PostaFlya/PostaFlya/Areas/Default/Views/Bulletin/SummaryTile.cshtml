@@ -1,9 +1,6 @@
-﻿
-@using PostaFlya.Areas.Default.Models.Bulletin
-@using PostaFlya.Domain.Behaviour
-@using PostaFlya.Models.Flier
+﻿@using PostaFlya.Models.Flier
 
-@model BulletinFlierModel<BulletinBehaviourModel>
+@model BulletinFlierSummaryModel
 
 @{var flier = Model;}
 
@@ -22,7 +19,7 @@
                 <span data-bind="text:Title">@flier.Title</span>
             </div>      
             <div class="flier-locality">
-                <span data-bind="text: Location.Locality">@flier.Location.Locality</span>              
+                <span data-bind="text: Venue.Address.Locality">@flier.Venue.Address.Locality</span>              
             </div>
         </div>
         <div class="tile-peel">

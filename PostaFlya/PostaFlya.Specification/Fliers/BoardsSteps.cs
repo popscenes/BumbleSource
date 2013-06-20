@@ -411,7 +411,7 @@ namespace PostaFlya.Specification.Fliers
                     });
                
 
-            var fliers = SpecUtil.ControllerResult as IList<BulletinFlierModel>;
+            var fliers = SpecUtil.ControllerResult as IList<BulletinFlierSummaryModel>;
             var flier = fliers.FirstOrDefault();
             Assert.IsNotNull(flier, "no fliers in context");
         }

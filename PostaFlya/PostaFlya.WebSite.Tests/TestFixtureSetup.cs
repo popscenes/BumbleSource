@@ -1,11 +1,8 @@
 ﻿using System.Collections.Generic;
 using NUnit.Framework;
-using Ninject;
 using Ninject.MockingKernel.Moq;
 using Ninject.Modules;
 using PostaFlya.Binding;
-using PostaFlya.Models.Factory;
-using Website.Common.Binding;
 using Website.Domain.Binding;
 using PostaFlya.Mocks.Domain.Data;
 using Website.Test.Common;

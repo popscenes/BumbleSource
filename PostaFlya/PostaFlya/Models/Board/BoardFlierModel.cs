@@ -11,7 +11,7 @@ namespace PostaFlya.Models.Board
     {
         [Display(Name = "BoardFlier", ResourceType = typeof(Properties.Resources))] 
         [DataMember]        
-        public BulletinFlierModel BoardFlier { get; set; }
+        public BulletinFlierSummaryModel BoardFlier { get; set; }
 
         [Display(Name = "BoardId ", ResourceType = typeof(Properties.Resources))] 
         [DataMember]        

@@ -7,9 +7,7 @@ using PostaFlya.Domain.Behaviour;
 using PostaFlya.Domain.Flier;
 using PostaFlya.Domain.Flier.Event;
 using PostaFlya.Domain.Flier.Query;
-using PostaFlya.Domain.Service;
 using PostaFlya.Domain.Venue;
-using Website.Domain.Claims.Event;
 using Website.Domain.Service;
 using Website.Infrastructure.Command;
 using Website.Infrastructure.Domain;
@@ -50,16 +48,16 @@ namespace PostaFlya.Mocks.Domain.Data
             return ret;
         }
 
-        public static FlierBehaviourInterface GetBehaviour(StandardKernel kernel, Flier ret)
-        {
-            var behaviourFactory = kernel.Get<BehaviourFactoryInterface>();
-            var queryService = kernel.Get<GenericQueryServiceInterface>();
-            var behaviour = behaviourFactory.GetDefaultBehaviourTypeForBehaviour(ret.FlierBehaviour);
-            var behave = queryService.FindById(behaviour, ret.Id) as FlierBehaviourInterface ??
-                         behaviourFactory.CreateBehaviourInstanceForFlier(ret);
-            behave.Flier = ret;
-            return behave;
-        }
+//        public static FlierBehaviourInterface GetBehaviour(StandardKernel kernel, Flier ret)
+//        {
+//            var behaviourFactory = kernel.Get<BehaviourFactoryInterface>();
+//            var queryService = kernel.Get<GenericQueryServiceInterface>();
+//            var behaviour = behaviourFactory.GetDefaultBehaviourTypeForBehaviour(ret.FlierBehaviour);
+//            var behave = queryService.FindById(behaviour, ret.Id) as FlierBehaviourInterface ??
+//                         behaviourFactory.CreateBehaviourInstanceForFlier(ret);
+//            behave.Flier = ret;
+//            return behave;
+//        }
 
         internal static void AddSomeDataForHeatMapToMockFlierStore(GenericRepositoryInterface flierRepository, IKernel kernel)
         {

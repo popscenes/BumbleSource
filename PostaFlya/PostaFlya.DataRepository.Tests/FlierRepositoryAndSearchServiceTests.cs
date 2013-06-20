@@ -69,7 +69,7 @@ namespace PostaFlya.DataRepository.Tests
         [TestFixtureTearDown]
         public void FixtureTearDown()
         {
-            Kernel.Unbind<FlierBehaviourInterface>();
+            //Kernel.Unbind<FlierBehaviourInterface>();
             //Kernel.Unbind<TableNameAndPartitionProviderInterface>();
             AzureEnv.UseRealStorage = false;
         }
@@ -129,7 +129,7 @@ namespace PostaFlya.DataRepository.Tests
 
             using (uow)
             {
-                var beh = FlierTestData.GetBehaviour(Kernel, flier);
+//                var beh = FlierTestData.GetBehaviour(Kernel, flier);
                 flier.EventDates = new List<DateTimeOffset>(){eventDateOne, eventDateTwo};
                 FlierTestData.StoreOne(flier, _repository, Kernel);
 
@@ -596,7 +596,7 @@ namespace PostaFlya.DataRepository.Tests
         {
             var flier = FlierTestData.GetOne(Kernel, _loc);
 
-            var beh = FlierTestData.GetBehaviour(Kernel, flier);
+//            var beh = FlierTestData.GetBehaviour(Kernel, flier);
             FlierTestData.StoreOne(flier, _repository, Kernel);
 
             var earlierFlier = new Domain.Flier.Flier();

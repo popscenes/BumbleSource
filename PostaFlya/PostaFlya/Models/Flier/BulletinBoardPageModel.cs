@@ -9,11 +9,11 @@ namespace PostaFlya.Models.Flier
     {
         public BulletinBoardPageModel()
         {
-            Fliers = new List<BulletinFlierModel>();
+            Fliers = new List<BulletinFlierSummaryModel>();
         }
         public string PageId { get; set; }
         public string ActiveNav { get; set; }
 
-        public IList<BulletinFlierModel> Fliers { get; set; }
+        public IList<BulletinFlierSummaryModel> Fliers { get; set; }
     }
 }

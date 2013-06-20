@@ -419,6 +419,7 @@
     <Compile Include="Models\FlierPaymentModel.cs" />
     <Compile Include="Models\Flier\BulletinBoardPageModel.cs" />
     <Compile Include="Models\Flier\BulletinDetailPageModel.cs" />
+    <Compile Include="Models\Flier\BulletinFlierDetailModel.cs" />
     <Compile Include="Models\Flier\BulletinGetRequestModel.cs" />
     <Compile Include="Models\Flier\FlierAnalyticTrackingSummaryModel.cs" />
     <Compile Include="Models\Flier\FlierAnalyticInfoModel.cs" />
@@ -426,7 +427,7 @@
     <Compile Include="Controllers\ImgController.cs" />
     <Compile Include="Controllers\MyFliersController.cs" />
     <Compile Include="Models\Content\ImageCreateModel.cs" />
-    <Compile Include="Models\Flier\BulletinFlierModel.cs" />
+    <Compile Include="Models\Flier\BulletinFlierSummaryModel.cs" />
     <Compile Include="Models\Flier\FlierEditModel.cs" />
     <Compile Include="Binding\EntityTypeEnum.cs" />
     <Compile Include="Models\Flier\UserLinkViewModel.cs" />
@@ -452,6 +453,8 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Query\DefaultDetailsFindFindByFriendlyIdQueryHandler.cs" />
+    <Compile Include="Query\DefaultDetailsFindFindByIdQueryHandler.cs" />
     <Compile Include="RemoveWwwRedirectFilter.cs" />
     <Compile Include="Views\Account\Bundles.cs" />
     <Compile Include="Views\Board\Widget\WidgetBundles.cs" />

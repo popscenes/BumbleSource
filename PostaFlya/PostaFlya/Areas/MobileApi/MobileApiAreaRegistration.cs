@@ -1,4 +1,6 @@
-﻿using System.Web.Mvc;
+﻿using System.Web.Http;
+using System.Web.Mvc;
+using PostaFlya.Areas.MobileApi.App_Start;
 
 namespace PostaFlya.Areas.MobileApi
 {
@@ -14,11 +16,7 @@ namespace PostaFlya.Areas.MobileApi
 
         public override void RegisterArea(AreaRegistrationContext context)
         {
-            context.MapRoute(
-                "MobileApi_default",
-                "MobileApi/{controller}/{action}/{id}",
-                new { action = "Index", id = UrlParameter.Optional }
-            );
+            MobileApiConfig.Register(GlobalConfiguration.Configuration);
         }
     }
 }

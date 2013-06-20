@@ -131,7 +131,6 @@ namespace PostaFlya.Specification.Util
                       new PostaFlya.Domain.Binding.CommandNinjectBinding(),
                       new Website.Domain.Binding.CommandNinjectBinding(),
                       new PostaFlya.Binding.WebNinjectBindings(),  
-                      new PostaFlya.Areas.Default.Binding.DefaultBehaviourWebNinjectBinding(),
                       new MockRepositoriesNinjectModule(),
                       new Website.Mocks.Domain.Data.TestIdentityProvidersNinjectModult(),
                       new MockApplicationServicesNinjectModule(),

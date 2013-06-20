@@ -3,7 +3,7 @@
 @using PostaFlya.Domain.Behaviour
 @using PostaFlya.Models.Flier
 @model dynamic
-@{ var Flier = ViewBag.Template != null && ViewBag.Template ? BulletinFlierModel<BulletinBehaviourModel>.DefaultForTemplate(FlierBehaviour.Default) : Model;}
+@{ var Flier = ViewBag.Template != null && ViewBag.Template ? BulletinFlierSummaryModel.DefaultForTemplate(FlierBehaviour.Default) : Model;}
 
 <div class="flier-print">
     <a class="show-hide-print-options" data-bind="touchHover: '.flier-print'"></a>

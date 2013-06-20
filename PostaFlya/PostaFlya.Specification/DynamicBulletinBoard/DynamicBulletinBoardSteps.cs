@@ -8,14 +8,14 @@ using PostaFlya.Domain.Browser;
 using TechTalk.SpecFlow;
 using PostaFlya.Controllers;
 using PostaFlya.Domain.Flier;
-using PostaFlya.Models.Factory;
 using PostaFlya.Models.Flier;
 using PostaFlya.Models.Location;
-using PostaFlya.Models.Tags;
 using PostaFlya.Specification.Fliers;
 using PostaFlya.Specification.Util;
+using Website.Common.Model.Query;
 using Website.Domain.Location;
 using Website.Domain.Tag;
+using Website.Infrastructure.Query;
 using Website.Test.Common;
 
 namespace PostaFlya.Specification.DynamicBulletinBoard
@@ -61,7 +61,7 @@ namespace PostaFlya.Specification.DynamicBulletinBoard
         [When(@"I navigate to the public view page for a FLIER from the BULLETIN BOARD")]
         public void WhenIHaveNavigatedToThePublicViewPageForAFLIERFromTheBULLETINBOARD()
         {
-            var fliers = SpecUtil.ControllerResult as IList<BulletinFlierModel>;
+            var fliers = SpecUtil.ControllerResult as IList<BulletinFlierSummaryModel>;
             var flier = fliers.FirstOrDefault();
             Assert.IsNotNull(flier, "no fliers in context");
 
@@ -86,13 +86,13 @@ namespace PostaFlya.Specification.DynamicBulletinBoard
         [Then(@"I should only see FLIERS within a DISTANCE from that LOCATION")]
         public void ThenIShouldSeeFliersWithinADistanceFromThatLocation()
         {
-            var fliers = SpecUtil.ControllerResult as IList<BulletinFlierModel>;
+            var fliers = SpecUtil.ControllerResult as IList<BulletinFlierSummaryModel>;
             Assert.IsNotNull(fliers, "no fliers in context");
 
             var locService = SpecUtil.CurrIocKernel.Get<LocationServiceInterface>();
             foreach (var flier in fliers)
             {
-                Assert.IsTrue(locService.IsWithinDefaultDistance(flier.Location.ToDomainModel()),
+                Assert.IsTrue(locService.IsWithinDefaultDistance(flier.Venue.Address.ToDomainModel()),
                               "Flier returned that isn't within default distance");
             }
 
@@ -102,7 +102,7 @@ namespace PostaFlya.Specification.DynamicBulletinBoard
         [Then(@"I should only see FLIERS with matching TAGS")]
         public void ThenIShouldSeeFliersWithMatchingTags()
         {
-            var fliers = SpecUtil.ControllerResult as IList<BulletinFlierModel>;
+            var fliers = SpecUtil.ControllerResult as IList<BulletinFlierSummaryModel>;
             Assert.IsNotNull(fliers, "no fliers in context");
 
             var defaultTags = SpecUtil.CurrIocKernel.Get<Tags>(ib => ib.Get<bool>("default"));
@@ -154,7 +154,7 @@ namespace PostaFlya.Specification.DynamicBulletinBoard
             Assert.IsTrue(fliers.Any());
             foreach (var bulletinFlierModel in fliers)
             {
-                Assert.IsTrue(locationService.IsWithinBoundingBox(box, bulletinFlierModel.Location.ToDomainModel()));
+                Assert.IsTrue(locationService.IsWithinBoundingBox(box, bulletinFlierModel.Venue.Address.ToDomainModel()));
                 var tagsret = new Tags(bulletinFlierModel.TagsString);
                 Assert.IsTrue(tagsret.Union(new Tags(tags)).Any());
             }
@@ -163,7 +163,7 @@ namespace PostaFlya.Specification.DynamicBulletinBoard
         [Then(@"I should see FLIERS ordered by create date")]
         public void ThenIShouldSeeFliersOrderedByCreatetDate()
         {
-            var flierList = SpecUtil.ControllerResult as IList<BulletinFlierModel>;
+            var flierList = SpecUtil.ControllerResult as IList<BulletinFlierSummaryModel>;
             Assert.IsNotNull(flierList);
             var flierListArray = flierList.ToArray();
             Assert.That(flierListArray.Count(), Is.EqualTo(30));
@@ -187,7 +187,7 @@ namespace PostaFlya.Specification.DynamicBulletinBoard
         [Then(@"I should see only FLIERS with that event date")]
         public void ThenIShouldSeeOnlyFLIERSWithThatEventDate()
         {
-            var flierList = SpecUtil.ControllerResult as IList<BulletinFlierModel>;
+            var flierList = SpecUtil.ControllerResult as IList<BulletinFlierSummaryModel>;
             Assert.IsNotNull(flierList);
             var flierListArray = flierList.ToArray();
 
@@ -210,19 +210,18 @@ namespace PostaFlya.Specification.DynamicBulletinBoard
             var retMod = bulletinController.Get(flier.FriendlyId);
             Assert.IsNotNull(retMod);
 
-            var viewModelFact = SpecUtil.CurrIocKernel.Get<FlierBehaviourViewModelFactoryInterface>();
-            var currMod = viewModelFact.GetBulletinViewModel(flier, true);
+            var viewModelFact = SpecUtil.CurrIocKernel.Get<QueryChannelInterface>();
+            var currMod = viewModelFact.ToViewModel<BulletinFlierDetailModel>(flier);
             AssertAreEqual(retMod.Flier, currMod);
             ScenarioContext.Current["fliermodel"] = retMod;
         }
 
-        private void AssertAreEqual(BulletinFlierModel retMod, BulletinFlierModel currMod)
+        private void AssertAreEqual(BulletinFlierDetailModel retMod, BulletinFlierDetailModel currMod)
         {
             Assert.AreEqual(currMod.Id, retMod.Id);
             Assert.AreEqual(currMod.Title, retMod.Title);
             Assert.AreEqual(currMod.Description, retMod.Description);
             Assert.AreEqual(currMod.EventDates, retMod.EventDates);
-            Assert.AreEqual(currMod.FlierBehaviour, retMod.FlierBehaviour);
         }
 
         [When(@"I have navigated to the public view page for that FLIER")]

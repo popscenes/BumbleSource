@@ -1,8 +1,7 @@
 ﻿
-@using PostaFlya.Areas.Default.Models.Bulletin
-@using PostaFlya.Domain.Behaviour
 @using PostaFlya.Models.Flier
+@using PostaFlya.Models.Location
 
 <script type="text/html" id="BehaviourDefault-template">
-    @Html.Partial("~/Areas/Default/Views/Bulletin/SummaryTile.cshtml", BulletinFlierModel<BulletinBehaviourModel>.DefaultForTemplate(FlierBehaviour.Default))
+    @Html.Partial("~/Areas/Default/Views/Bulletin/SummaryTile.cshtml", BulletinFlierSummaryModel.DefaultForTemplate())
 </script>

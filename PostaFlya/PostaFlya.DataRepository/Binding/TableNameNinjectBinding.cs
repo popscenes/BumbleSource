@@ -177,7 +177,7 @@ namespace PostaFlya.DataRepository.Binding
             tableNameProv.Add<CommentInterface>("comment", e => e.AggregateId, e => e.Id);
 //            tableNameProv.Add<CommentInterface>(JsonRepository.AggregateIdPartition, "commentByAggregate", e => e.AggregateId, e => e.Id);
 
-            tableNameProv.Add<FlierBehaviourInterface>("flierbehaviour", e => e.AggregateId, e => e.Id);
+//            tableNameProv.Add<FlierBehaviourInterface>("flierbehaviour", e => e.AggregateId, e => e.Id);
 //            tableNameProv.Add<FlierBehaviourInterface>(JsonRepository.FriendlyIdPartiton, "flierbehaviourFriendly", e => e.FriendlyId, e => e.Id);
 
             tableNameProv.Add<PaymentTransaction>("paymentTransaction", e => e.AggregateId, e => e.Id);

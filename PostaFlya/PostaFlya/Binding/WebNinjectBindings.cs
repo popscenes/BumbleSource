@@ -21,7 +21,6 @@ using Website.Infrastructure.Authentication;
 using Website.Infrastructure.Binding;
 using Website.Infrastructure.Command;
 using Website.Infrastructure.Configuration;
-using PostaFlya.Models.Factory;
 using Website.Application.Domain.Content;
 using Website.Domain.Content;
 
@@ -162,15 +161,7 @@ namespace PostaFlya.Binding
 //                            })
 //                            .WithMetadata("BroadcastCommunicator", true);
 
-            Bind<FlierBehaviourViewModelFactory>()
-                .ToSelf().InSingletonScope();
-            Bind<FlierBehaviourViewModelFactoryInterface>()
-                .ToConstant(Kernel.Get<FlierBehaviourViewModelFactory>())
-                .InSingletonScope();
-            //retrieve and add view model factories for the different behaviours
-            Bind<FlierBehaviourViewModelFactoryRegistryInterface>()
-                .ToConstant(Kernel.Get<FlierBehaviourViewModelFactory>())
-                .InSingletonScope();
+
 
             BindViewModelMappers(Kernel);
 
@@ -217,7 +208,6 @@ namespace PostaFlya.Binding
                       new Website.Application.Domain.Binding.ApplicationDomainNinjectBinding(),
                       new Website.Application.Azure.Binding.AzureApplicationNinjectBinding(),
                       new PostaFlya.Binding.WebNinjectBindings(),
-                      new PostaFlya.Areas.Default.Binding.DefaultBehaviourWebNinjectBinding(),
                       new PostaFlya.DataRepository.Binding.TableNameNinjectBinding(),
                       new Website.Application.Domain.Binding.ApplicationJobs(),
                       new PostaFlya.Application.Domain.Binding.ApplicationJobs(),
