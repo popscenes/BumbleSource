@@ -13,22 +13,19 @@ using Website.Infrastructure.Query;
 
 namespace PostaFlya.Areas.MobileApi.Flyers.Controllers
 {
-
-    public class FlyersByLocationController : MobileApiControllerBase
+    public class FlyersByLatestController : MobileApiControllerBase
     {
         private readonly QueryChannelInterface _queryChannel;
 
-        public FlyersByLocationController(QueryChannelInterface queryChannel)
+        public FlyersByLatestController(QueryChannelInterface queryChannel)
         {
             _queryChannel = queryChannel;
         }
 
-        public ResponseContent<FlyerSummaryContent> Get([FromUri]FlyersByLocationRequest req)
+        public ResponseContent<FlyerSummaryContent> Get([FromUri]FlyersByLatestRequest req)
         {
-            var flyers = _queryChannel.Query(new FindFlyersByLocationAndDistanceQuery()
+            var flyers = _queryChannel.Query(new FindFlyersByLatestQuery()
                 {
-                    Location = new Location(req.Long, req.Lat),
-                    Distance = req.Distance,
                     Take = req.Take,
                     Skip = req.Skip
                 }, new List<FlyerSummaryModel>());

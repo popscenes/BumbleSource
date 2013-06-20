@@ -1,12 +1,17 @@
-﻿using System.Web.Http;
+﻿using System.Runtime.Caching;
+using System.Web.Http;
+using NUnit.Framework;
 using Ninject;
+using Popscenes.Specification.Util;
 using PostaFlya.App_Start;
 using PostaFlya.Areas.MobileApi.App_Start;
 using PostaFlya.Binding;
 using TechTalk.SpecFlow;
+using Website.Test.Common;
 
 namespace Popscenes.Specification.Util
 {
+  
     public static class SetupUtil
     {
         public static void CreateServer(IKernel kernel)
@@ -30,19 +35,16 @@ namespace Popscenes.Specification.Util
             ScenarioContext.Current[SpecUtil.BaseAddressContext] = "http://popscenes.com/";
         }
 
-
-
-
         public static void SetupMockServices(StandardKernel kernel)
         {
-
+            kernel.Rebind<ObjectCache>()
+                .ToMethod(ctx => new TestSerializingCache())
+                .InSingletonScope();
         }
     }
 
     public class SetupBase
     {
-
-
         public SetupBase()
         {
 
@@ -68,5 +70,6 @@ namespace Popscenes.Specification.Util
             StorageUtil.ProcessAllMessagesAndEvents();
         }
     }
-
 }
+
+

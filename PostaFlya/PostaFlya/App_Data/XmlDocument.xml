@@ -418,6 +418,11 @@
             </summary>
             <param name="documentPath">The physical path to XML document.</param>
         </member>
+        <member name="T:PostaFlya.Areas.MobileApi.Flyers.Model.FlyerDetailRequest">
+            <summary>
+            
+            </summary>
+        </member>
         <member name="M:PostaFlya.Controllers.BulletinApiController.Get(PostaFlya.Models.Flier.BulletinGetRequestModel)">
             <summary>
             dgdgsdgdsfgg
@@ -785,6 +790,11 @@
         <member name="P:PostaFlya.Properties.Resources.FlierTitleRequired">
             <summary>
               Looks up a localized string similar to {0} is and invalid Id.
+            </summary>
+        </member>
+        <member name="P:PostaFlya.Properties.Resources.Flyer_Description">
+            <summary>
+              Looks up a localized string similar to Description.
             </summary>
         </member>
         <member name="P:PostaFlya.Properties.Resources.Flyer_EventDates">

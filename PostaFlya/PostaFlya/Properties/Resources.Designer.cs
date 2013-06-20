@@ -666,6 +666,15 @@ namespace PostaFlya.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Description.
+        /// </summary>
+        public static string Flyer_Description {
+            get {
+                return ResourceManager.GetString("Flyer_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to EventDates.
         /// </summary>
         public static string Flyer_EventDates {

@@ -19,22 +19,22 @@ namespace Popscenes.Specification.MobileApi.Bulletin
     [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "1.9.0.77")]
     [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     [NUnit.Framework.TestFixtureAttribute()]
-    [NUnit.Framework.DescriptionAttribute("FlyersByLocationFeature")]
+    [NUnit.Framework.DescriptionAttribute("FlyersByLatest")]
     [NUnit.Framework.CategoryAttribute("bulletinfeatures")]
-    public partial class FlyersByLocationFeatureFeature
+    public partial class FlyersByLatestFeature
     {
         
         private static TechTalk.SpecFlow.ITestRunner testRunner;
         
-#line 1 "FlyersByLocation.feature"
+#line 1 "FlyersByLatest.feature"
 #line hidden
         
         [NUnit.Framework.TestFixtureSetUpAttribute()]
         public virtual void FeatureSetup()
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
-            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "FlyersByLocationFeature", "In order to find gigs\r\nAs a browser\r\nI want to be able to search for gigs around " +
-                    "my area", ProgrammingLanguage.CSharp, new string[] {
+            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "FlyersByLatest", "In order to find gigs\r\nAs a browser\r\nI want to be able to search for gigs by most" +
+                    " recent posts", ProgrammingLanguage.CSharp, new string[] {
                         "bulletinfeatures"});
             testRunner.OnFeatureStart(featureInfo);
         }
@@ -68,52 +68,46 @@ namespace Popscenes.Specification.MobileApi.Bulletin
         }
         
         [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("Mobile Api flyers by location with valid location returns all fliers within speci" +
-            "fied distance")]
-        public virtual void MobileApiFlyersByLocationWithValidLocationReturnsAllFliersWithinSpecifiedDistance()
+        [NUnit.Framework.DescriptionAttribute("Mobile Api flyers by latest returns latest flyers")]
+        public virtual void MobileApiFlyersByLatestReturnsLatestFlyers()
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Mobile Api flyers by location with valid location returns all fliers within speci" +
-                    "fied distance", ((string[])(null)));
-#line 9
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Mobile Api flyers by latest returns latest flyers", ((string[])(null)));
+#line 7
 this.ScenarioSetup(scenarioInfo);
+#line 8
+ testRunner.Given("There are 50 flyers within 100 kilometers of the geolocation -37.769, 144.979", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 9
+ testRunner.When("I perform a get request for the path mobileapi/gigs/latest?take=30", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 10
- testRunner.Given("There are 50 flyers within 10 kilometers of the geolocation -37.769, 144.979", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 11
- testRunner.When("I perform a get request for the path mobileapi/gigs/near?lat=-37.769&long=144.979" +
-                    "&distance=10&take=30", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 12
  testRunner.Then("I should receive a http response with a status of 200", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 13
+#line 11
  testRunner.And("The content should have a response status of OK", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 14
- testRunner.And("The content should contain a list of 30 flyers within 10 kilometers of -37.769, 1" +
-                    "44.979", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 12
+ testRunner.And("The content should contain a list of 30 flyers ordered by created date desc", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             this.ScenarioCleanup();
         }
         
         [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("Mobile Api flyers by location pages to next flyers")]
-        public virtual void MobileApiFlyersByLocationPagesToNextFlyers()
+        [NUnit.Framework.DescriptionAttribute("Mobile Api flyers by latest pages to next flyers")]
+        public virtual void MobileApiFlyersByLatestPagesToNextFlyers()
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Mobile Api flyers by location pages to next flyers", ((string[])(null)));
-#line 16
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Mobile Api flyers by latest pages to next flyers", ((string[])(null)));
+#line 14
 this.ScenarioSetup(scenarioInfo);
-#line 17
+#line 15
  testRunner.Given("There are 50 flyers within 10 kilometers of the geolocation -37.769, 144.979", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 16
+ testRunner.And("I have retrieved the latest 30 flyers using mobileapi/gigs/latest?take={0}", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 17
+ testRunner.When("I attempt to retrieve the next 30 latest flyers using mobileapi/gigs/latest?take=" +
+                    "{0}&skip={1}", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 18
- testRunner.And("I have retrieved the first 30 flyers within 10 kilometers of -37.769, 144.979 usi" +
-                    "ng mobileapi/gigs/near?lat={0}&long={1}&distance={2}&take={3}", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 19
- testRunner.When("I attempt to retrieve the next 30 flyers within 10 kilometers of -37.769, 144.979" +
-                    " using mobileapi/gigs/near?lat={0}&long={1}&distance={2}&take={3}&skip={4}", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 20
  testRunner.Then("I should receive a http response with a status of 200", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 21
+#line 19
  testRunner.And("The content should have a response status of OK", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 22
- testRunner.And("The content should contain a list of 20 flyers within 10 kilometers of -37.769, 1" +
-                    "44.979", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 20
+ testRunner.And("The content should contain a list of 20 flyers ordered by created date desc", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             this.ScenarioCleanup();
         }

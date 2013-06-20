@@ -27,7 +27,7 @@ namespace Popscenes.Specification
             Assert.That(msg.Code, Is.EqualTo((int)statusEnum));
         }
 
-
+        [Given(@"I perform a get request for the path (.*)")]
         [When(@"I perform a get request for the path (.*)")]
         public void WhenIPerformAGetRequestForThePath(string path)
         {
