@@ -11,6 +11,7 @@
       <Setting name="Microsoft.WindowsAzure.Plugins.Caching.CacheSizePercentage" value="50" />
       <Setting name="Microsoft.WindowsAzure.Plugins.Caching.ConfigStoreConnectionString" value="UseDevelopmentStorage=true" />
       <Setting name="SearchDbConnectionString" value="Data Source=.\SQLEXPRESS;Integrated Security=True" />
+      <Setting name="SearchDbConnectionStringDbName" value="GigSearch"/>
       <Setting name="DisableFederation" value="True" />
       <!--<Setting name="SearchDbConnectionString" value="Data Source=oo6h1elzi7.database.windows.net,1433;User ID=jimmy;Password=Weezer1313" />
       <Setting name="DisableFederation" value="False" /> -->

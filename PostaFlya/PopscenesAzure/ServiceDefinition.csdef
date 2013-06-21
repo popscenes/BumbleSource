@@ -26,6 +26,7 @@
     <ConfigurationSettings>
       <Setting name="StorageConnectionString" />
       <Setting name="SearchDbConnectionString" />
+      <Setting name="SearchDbConnectionStringDbName" />
       <Setting name="DisableFederation" />
       <Setting name="Microsoft.WindowsAzure.Plugins.Caching.ClientDiagnosticLevel" />
       <Setting name="BlobCdnUrl" />

@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
+using PostaFlya.Models.Flier;
 using Website.Application.Extension.Validation;
 
 namespace PostaFlya.Areas.MobileApi.Flyers.Model
@@ -8,7 +9,7 @@ namespace PostaFlya.Areas.MobileApi.Flyers.Model
     /// 
     /// </summary>
     [DataContract]
-    public class FlyerDetailRequest
+    public class FlyerDetailRequest : RequestModelInterface
     {
         [DataMember(IsRequired = true)]
         [Required]

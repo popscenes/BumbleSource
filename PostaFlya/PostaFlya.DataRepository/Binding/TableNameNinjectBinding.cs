@@ -130,65 +130,65 @@ namespace PostaFlya.DataRepository.Binding
             var tableNameProv = Kernel.Get<TableNameAndIndexProviderServiceInterface>();
 
 
-            tableNameProv.AddIndex("tinyUrlIndex", DomainIndexSelectors.TinyUrlIndex, DomainIndexSelectors.TinyUrlSelector<EntityWithTinyUrlInterface>());
+            tableNameProv.AddIndex("tinyUrlIDX", DomainIndexSelectors.TinyUrlIndex, DomainIndexSelectors.TinyUrlSelector<EntityWithTinyUrlInterface>());
 
-            tableNameProv.Add<BoardInterface>("board", e => e.Id);
-            tableNameProv.AddIndex("boardIndex", StandardIndexSelectors.FriendlyIdIndex, StandardIndexSelectors.FriendlyIdSelector<BoardInterface>());
-            tableNameProv.AddIndex("boardAdminEmailIndex", DomainIndexSelectors.BoardAdminEmailIndex, DomainIndexSelectors.BaordAdminEmailSelector());
+            tableNameProv.Add<BoardInterface>("boardEntity", e => e.Id);
+            tableNameProv.AddIndex("boardIDX", StandardIndexSelectors.FriendlyIdIndex, StandardIndexSelectors.FriendlyIdSelector<BoardInterface>());
+            tableNameProv.AddIndex("boardAdminEmailIDX", DomainIndexSelectors.BoardAdminEmailIndex, DomainIndexSelectors.BaordAdminEmailSelector());
 
             //tableNameProv.Add<BoardInterface>(JsonRepository.FriendlyIdPartiton, "boardFriendly", e => e.FriendlyId, e => e.Id);
             //tableNameProv.Add<BoardInterface>(JsonRepositoryWithBrowser.BrowserPartitionId, "boardByBrowser", e => e.BrowserId, e => e.Id);
 
-            tableNameProv.Add<BoardFlierInterface>("boardflier", e => e.AggregateId, e => e.Id);
+            tableNameProv.Add<BoardFlierInterface>("boardflierEntity", e => e.AggregateId, e => e.Id);
             //tableNameProv.Add<BoardFlierInterface>(JsonRepositoryWithBrowser.AggregateIdPartition, "boardflierByBoard", e => e.AggregateId, e => e.Id.ToDescendingTimeKey(e.DateAdded));
 
 
-            tableNameProv.Add<FlierInterface>("flier", e => e.Id);
-            tableNameProv.AddIndex("flierFriendlyIndex", StandardIndexSelectors.FriendlyIdIndex, StandardIndexSelectors.FriendlyIdSelector<FlierInterface>());
-            tableNameProv.AddIndex("flierBrowserIndex", DomainIndexSelectors.BrowserIdIndex, DomainIndexSelectors.BrowserIdSelector<FlierInterface>());
+            tableNameProv.Add<FlierInterface>("flierEntity", e => e.Id);
+            tableNameProv.AddIndex("flierFriendlyIDX", StandardIndexSelectors.FriendlyIdIndex, StandardIndexSelectors.FriendlyIdSelector<FlierInterface>());
+            tableNameProv.AddIndex("flierBrowserIDX", DomainIndexSelectors.BrowserIdIndex, DomainIndexSelectors.BrowserIdSelector<FlierInterface>());
             
 
 
             //tableNameProv.Add<FlierInterface>(JsonRepository.FriendlyIdPartiton, "flierFriendly", e => e.FriendlyId, e => e.Id);
             //tableNameProv.Add<FlierInterface>(JsonRepositoryWithBrowser.BrowserPartitionId, "flierByBrowser", e => e.BrowserId, e => e.Id);
 
-            tableNameProv.Add<BrowserInterface>("browser", e => e.Id);
-            tableNameProv.AddIndex("browserFriendlyIndex", StandardIndexSelectors.FriendlyIdIndex, StandardIndexSelectors.FriendlyIdSelector<BrowserInterface>());
-            tableNameProv.AddIndex("browserCredIndex", DomainIndexSelectors.BrowserCredentialIndex, DomainIndexSelectors.BrowserCredentialSelector());
-            tableNameProv.AddIndex("browserEmailIndex", DomainIndexSelectors.BrowserEmailIndex, DomainIndexSelectors.BrowserEmailSelector());
+            tableNameProv.Add<BrowserInterface>("browserEntity", e => e.Id);
+            tableNameProv.AddIndex("browserFriendlyIDX", StandardIndexSelectors.FriendlyIdIndex, StandardIndexSelectors.FriendlyIdSelector<BrowserInterface>());
+            tableNameProv.AddIndex("browserCredIDX", DomainIndexSelectors.BrowserCredentialIndex, DomainIndexSelectors.BrowserCredentialSelector());
+            tableNameProv.AddIndex("browserEmailIDX", DomainIndexSelectors.BrowserEmailIndex, DomainIndexSelectors.BrowserEmailSelector());
 
 
 //            tableNameProv.Add<BrowserInterface>(JsonRepository.FriendlyIdPartiton, "browserFriendly", e => e.FriendlyId, e => e.Id);
 //            tableNameProv.Add<BrowserIdentityProviderCredential>(JsonRepositoryWithBrowser.IdPartition, "browsercreds", e => e.ToUniqueString(), e => e.BrowserId);
 //            tableNameProv.Add<BrowserIdentityProviderCredential>(JsonRepositoryWithBrowser.AggregateIdPartition, "browsercredsByBrowser", e => e.BrowserId, e => e.ToUniqueString());
 
-            tableNameProv.Add<ImageInterface>("image", e => e.Id);
-            tableNameProv.AddIndex("imageBrowserIndex", DomainIndexSelectors.BrowserIdIndex, DomainIndexSelectors.BrowserIdSelector<ImageInterface>());
+            tableNameProv.Add<ImageInterface>("imageEntity", e => e.Id);
+            tableNameProv.AddIndex("imageBrowserIDX", DomainIndexSelectors.BrowserIdIndex, DomainIndexSelectors.BrowserIdSelector<ImageInterface>());
 
 //            tableNameProv.Add<ImageInterface>(JsonRepositoryWithBrowser.BrowserPartitionId, "imageByBrowser", e => e.BrowserId, e => e.Id);
 
-            tableNameProv.Add<ClaimInterface>("claim", e => e.AggregateId, e => e.Id);
-            tableNameProv.AddIndex("claimBrowserIndex", DomainIndexSelectors.BrowserIdIndex, DomainIndexSelectors.BrowserIdSelectorForAggregate<ClaimInterface>());
+            tableNameProv.Add<ClaimInterface>("claimEntity", e => e.AggregateId, e => e.Id);
+            tableNameProv.AddIndex("claimBrowserIDX", DomainIndexSelectors.BrowserIdIndex, DomainIndexSelectors.BrowserIdSelectorForAggregate<ClaimInterface>());
 
 //            tableNameProv.Add<ClaimInterface>(JsonRepositoryWithBrowser.BrowserPartitionId, "claimByBrowser", e => e.BrowserId, e => e.Id);
 //            tableNameProv.Add<ClaimInterface>(JsonRepositoryWithBrowser.AggregateIdPartition, "claimByAggregate", e => e.AggregateId, e => e.Id);
 
-            tableNameProv.Add<CommentInterface>("comment", e => e.AggregateId, e => e.Id);
+            tableNameProv.Add<CommentInterface>("commentEntity", e => e.AggregateId, e => e.Id);
 //            tableNameProv.Add<CommentInterface>(JsonRepository.AggregateIdPartition, "commentByAggregate", e => e.AggregateId, e => e.Id);
 
 
-            tableNameProv.Add<PaymentTransaction>("paymentTransaction", e => e.AggregateId, e => e.Id);
+            tableNameProv.Add<PaymentTransaction>("paymentTransactionEntity", e => e.AggregateId, e => e.Id);
 //            tableNameProv.Add<PaymentTransaction>(JsonRepository.AggregateIdPartition, "paymentTransactionByAggregate", e => e.AggregateId, e => e.Id.ToDescendingTimeKey(e.Time));
 
-            tableNameProv.Add<CreditTransaction>("creditTransaction", e => e.AggregateId, e => e.Id);
+            tableNameProv.Add<CreditTransaction>("creditTransactionEntity", e => e.AggregateId, e => e.Id);
 //            tableNameProv.Add<CreditTransaction>(JsonRepository.AggregateIdPartition, "creditTransactionByAggregate", e => e.AggregateId, e => e.Id);
 
-            tableNameProv.Add<TinyUrlRecord>("tinyurlentity", e => e.AggregateId, e => e.Id);
+            tableNameProv.Add<TinyUrlRecord>("tinyurlentityEntity", e => e.AggregateId, e => e.Id);
 //            tableNameProv.Add<TinyUrlRecordInterface>(JsonRepository.AggregateIdPartition, "tinyurlentityByAggregate", e => e.AggregateId, e => e.Id);
 
-            tableNameProv.Add<JobBase>("jobs", e => e.Id);
+            tableNameProv.Add<JobBase>("jobsEntity", e => e.Id);
 
-            tableNameProv.Add<FlierAnalyticInterface>("analytics", e => e.Id);
+            tableNameProv.Add<FlierAnalyticInterface>("analyticsEntity", e => e.Id);
 //            tableNameProv.Add<FlierAnalyticInterface>(JsonRepositoryWithBrowser.AggregateIdPartition, "analyticsByAggregate", e => e.AggregateId, e => e.Id.ToAscendingTimeKey(e.Time));
 //            tableNameProv.Add<FlierAnalyticInterface>(JsonRepositoryWithBrowser.BrowserPartitionId, "analyticsByBrowser", e => e.BrowserId, e => e.Id);
 

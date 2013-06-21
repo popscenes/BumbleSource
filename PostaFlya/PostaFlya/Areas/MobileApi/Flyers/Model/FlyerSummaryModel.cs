@@ -5,6 +5,7 @@ using PostaFlya.Domain.Flier;
 using PostaFlya.Models.Location;
 using Website.Application.Binding;
 using Website.Application.Content;
+using Website.Application.Domain.Content;
 using Website.Common.Model;
 using Website.Common.Model.Query;
 using Website.Infrastructure.Query;
@@ -30,7 +31,7 @@ namespace PostaFlya.Areas.MobileApi.Flyers.Model
 
             target.Id = source.Id;
             target.FriendlyId = source.FriendlyId;
-            target.ImageUrl = _blobStorage.GetBlobUri(source.Image.ToString()).ToString();
+            target.ImageUrl = _blobStorage.GetBlobUri(source.Image.ToString() + ImageUtil.GetIdFileExtension()).ToString();
             target.Title = source.Title;
             target.EventDates = source.EventDates;
             target.Venue = _queryChannel.ToViewModel<VenueInformationModel>(source.Venue);

@@ -18,6 +18,7 @@ using Website.Azure.Common.TableStorage;
 using PostaFlya.DataRepository.Search.Implementation;
 using Website.Infrastructure.Binding;
 using Website.Infrastructure.Command;
+using Website.Infrastructure.Configuration;
 using Website.Infrastructure.Query;
 using Website.Infrastructure.Util;
 
@@ -95,7 +96,7 @@ namespace PostaFlya.DataRepository.Binding
                 => {
                        var master = ctx.Kernel.Get<string>(c => c.Has("SqlMasterDbConnectionString"));
                        var masterConn = new SqlConnectionStringBuilder(master);
-                       var configDb = ConfigurationManager.AppSettings["SearchDbConnectionStringDbName"];
+                       var configDb = Config.Instance.GetSetting("SearchDbConnectionStringDbName");
                        masterConn.InitialCatalog = string.IsNullOrWhiteSpace(configDb) ? "SearchDb" : configDb;
                        return masterConn.ToString();
                     }

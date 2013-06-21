@@ -27,19 +27,11 @@
             <h3>Parameters</h3>
             <p>
                 Note: If parameter is a complex type and is "Define this parameter in the request URI."<br/>
-                These parameter need to be url encoded in the query string so for the following example:
-                <pre class="sample-content">
-    {
-        "arg1":{
-            "prop1": "hello"
-        }
-        "arg2: "world"
-    }
-                </pre>
+                These parameter need to be url encoded in the query string<br/>
                 The parameters would be added to the URL as such:
-                <pre class="sample-content">
+<pre class="sample-content">
     ?arg1[prop1]=hello&arg2=world
-                </pre>
+</pre>
             </p>
             @Html.DisplayFor(apiModel => apiModel.ApiDescription.ParameterDescriptions, "Parameters")
         }
