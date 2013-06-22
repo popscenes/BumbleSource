@@ -37,6 +37,8 @@
       <Setting name="SiteUrl" value="http://popscenes.com" />
       <Setting name="Tags" value="music,theatre,photography,film,fine arts,community" />
       <Setting name="NewAccountCredit" value="500" />
+      <Setting name="SkipSomethingForNow" value="true" />
+
     </ConfigurationSettings>
     <Certificates>
       <!--<Certificate name="Microsoft.WindowsAzure.Plugins.RemoteAccess.PasswordEncryption" thumbprint="B5EB70801A6D0B9319FDE06E891D90737F129018" thumbprintAlgorithm="sha1" />-->

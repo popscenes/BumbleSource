@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -15,8 +16,11 @@ namespace Website.Common.Binding
 {
     public class WebsiteCommonNinjectBinding : NinjectModule 
     {
+        
         public override void Load()
         {
+            Trace.TraceInformation("Binding WebsiteCommonNinjectBinding");
+
             var kernel = Kernel as StandardKernel;
             kernel.BindCommandAndQueryHandlersFromCallingAssembly(c => c.InTransientScope());
         }
@@ -26,6 +30,7 @@ namespace Website.Common.Binding
     {
         public static void BindViewModelMappersFromCallingAssembly(this IKernel kernel)
         {
+            Trace.TraceInformation("Binding BindViewModelMappersFromCallingAssembly");
             var asm = Assembly.GetCallingAssembly();
             kernel.BindAllInterfacesFromAssemblyFor(asm, typeof(ViewModelMapperInterface<,>), c => c.InThreadScope());
         }

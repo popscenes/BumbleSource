@@ -386,7 +386,7 @@ namespace PostaFlya
                     });
             _commandQueueWorker.Start();
 
-            if (AzureEnv.GetInstanceIndex() != 0)//just run scheduler on 1st intance
+            if (AzureEnv.GetInstanceIndex() != 0 || Config.Instance.GetSetting("SkipSomethingForNow", true))//just run scheduler on 1st intance
                 return;
 
             _schedulerWorker = new WebBackgroundWorker((t)
