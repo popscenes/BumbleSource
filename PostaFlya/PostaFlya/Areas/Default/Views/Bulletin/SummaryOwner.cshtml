@@ -1,24 +1,25 @@
-﻿
-@using PostaFlya.Models.Flier
+﻿@using PostaFlya.Models.Flier
 
 @model BulletinFlierSummaryModel
+
 @{var flier = Model;}
 
 <div class="ui-flier-tile addedtile" data-bind="bulletintile: $root.Layout, click: $root.SelectedViewModel.showDetails">     
     
     <div class="tile-image">
         <img class="tile-img bulletin-img" 
-             data-bind="bulletinimg: FlierImageUrl, root: $root, alt: Title, imgRetry: FlierImageUrl"
-             src="@flier.FlierImageUrl"/>    
+                   data-bind="bulletinimg: FlierImageUrl, root: $root, alt: Title, imgRetry: FlierImageUrl"
+                   src="@flier.FlierImageUrl"/>
     </div>
     
     <div class="tile-summary">
-       
+      
         <div class="tile-description">
             <div class="flier-title" >
-                <span data-bind="text:Title">@flier.Title</span>
+                <span data-bind="text: $root.TitleWithDate($data)">@flier.Title</span>
             </div>      
             <div class="flier-locality">
+                <a data-bind="clickBubble: false, attr: { href: (bf.widgetbase ? bf.widgetbase : '') + '/' + Venue.BoardFriendlyId }, text: Venue.PlaceName" href="@flier.Venue.BoardFriendlyId">@flier.Venue.PlaceName</a>
                 <span data-bind="text: Venue.Address.Locality">@flier.Venue.Address.Locality</span>              
             </div>
         </div>

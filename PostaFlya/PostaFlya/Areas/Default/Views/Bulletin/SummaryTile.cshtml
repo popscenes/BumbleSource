@@ -13,12 +13,13 @@
     </div>
     
     <div class="tile-summary">
-       
+      
         <div class="tile-description">
             <div class="flier-title" >
-                <span data-bind="text:Title">@flier.Title</span>
+                <span data-bind="text: $root.TitleWithDate($data)">@flier.Title</span>
             </div>      
             <div class="flier-locality">
+                <a data-bind="click: function () { return true;}, clickBubble: false, attr: { href: (bf.widgetbase ? bf.widgetbase : '') + '/' + Venue.BoardFriendlyId }, text: Venue.PlaceName" href="@flier.Venue.BoardFriendlyId">@flier.Venue.PlaceName</a>
                 <span data-bind="text: Venue.Address.Locality">@flier.Venue.Address.Locality</span>              
             </div>
         </div>

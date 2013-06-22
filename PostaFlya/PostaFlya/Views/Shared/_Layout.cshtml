@@ -54,7 +54,7 @@
             
         @RenderSection("scripts", required: false)
     </head>
-    <body data-pageid="@PageId(Model)">
+    <body data-pageid="@PageId(Model)" id="@PageId(Model)">
         <header>
             <div id="left-header">            
                 @RenderSection("leftheader", required: false)

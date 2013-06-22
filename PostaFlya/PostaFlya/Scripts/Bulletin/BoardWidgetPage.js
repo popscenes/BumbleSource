@@ -243,6 +243,15 @@
             window.location = bf.widgetbase + '/' + flier.FriendlyId;
             return true;
         };
+
+        self.TitleWithDate = function (flyer) {
+
+            var ret = flyer.Title;
+            ret = ret + ' - ' + new Date(flyer.EventDates[0]).format("DDD DD MMM");
+            if (flyer.EventDates.length > 1)
+                ret = ret + " to " + new Date(flyer.EventDates[Flier.EventDates.length - 1]).format("DDD DD MMM");
+            return ret;
+        };
         
         self.TearOff = function (flier) {
 

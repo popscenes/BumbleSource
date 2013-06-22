@@ -148,16 +148,20 @@ namespace PostaFlya
             //BundleTable.Bundles.RegisterTemplateBundles();
             //BundleTable.Bundles.EnableDefaultBundles();
 
-            var init = NinjectDependencyResolver.Get<InitServiceInterface>(md => md.Has("tablestorageinit"));
-            if (init != null)
-                init.Init(NinjectDependencyResolver);
 
-            init = NinjectDependencyResolver.Get<InitServiceInterface>(md => md.Has("storageinit"));
-            if (init != null)
-                init.Init(NinjectDependencyResolver);
 
             if (AzureEnv.GetInstanceIndex() == 0)
+            {
                 RegisterWebsiteInformation();
+                var init = NinjectDependencyResolver.Get<InitServiceInterface>(md => md.Has("tablestorageinit"));
+                if (init != null)
+                    init.Init(NinjectDependencyResolver);
+
+                init = NinjectDependencyResolver.Get<InitServiceInterface>(md => md.Has("storageinit"));
+                if (init != null)
+                    init.Init(NinjectDependencyResolver);
+            }
+                
 
 
             AddSpecifiedDisplayModeProviders();

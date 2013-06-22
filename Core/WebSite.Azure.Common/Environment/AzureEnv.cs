@@ -39,7 +39,7 @@ namespace Website.Azure.Common.Environment
 
         public static string GetIdForInstance()
         {
-             return RoleEnvironment.CurrentRoleInstance.Id;
+             return RoleEnvironment.CurrentRoleInstance != null ? RoleEnvironment.CurrentRoleInstance.Id : ".0";
         }
 
         public static int GetInstanceIndex()

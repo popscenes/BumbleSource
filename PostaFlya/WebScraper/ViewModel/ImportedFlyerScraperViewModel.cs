@@ -63,6 +63,31 @@ namespace WebScraper.ViewModel
             return target;
         }
     }
+
+    public class ImportedFlyerScraperViewModelEqual : IEqualityComparer<ImportedFlyerScraperViewModel>
+    {
+        public bool Equals(ImportedFlyerScraperViewModel x, ImportedFlyerScraperViewModel y)
+        {
+            if (x.VenueInfo.PlaceName != y.VenueInfo.PlaceName ||
+                x.VenueInfo.SourceId != y.VenueInfo.SourceId ||
+                x.Title.ToLower() != y.Title.ToLower() ||
+                x.EventDates.Any(xtime => y.EventDates.All(ytime => ytime != xtime)))
+                return false;
+            return true;
+        }
+
+        public int GetHashCode(ImportedFlyerScraperViewModel obj)
+        {
+            var ret = 0;
+
+            ret = obj.VenueInfo.PlaceName.GetHashCode() ^ obj.VenueInfo.SourceId.GetHashCode();
+            ret = ret ^ obj.Title.GetHashCode();
+            ret = ret ^ obj.EventDates.Aggregate(0, (i, time) => i ^ time.GetHashCode());
+
+            return ret;
+        }
+    }
+
     public class ImportedFlyerScraperViewModel
     {
         public Guid Id { get; set; }   
