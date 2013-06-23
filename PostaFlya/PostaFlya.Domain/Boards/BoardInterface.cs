@@ -21,7 +21,6 @@ namespace PostaFlya.Domain.Boards
             target.InformationSources = source.InformationSources != null
                                             ? new List<VenueInformation>(source.InformationSources)
                                             : null;
-            target.Location = source.Location != null ? new Location(source.Location) : null;
             target.Name = source.Name;
             target.ImageId = source.ImageId;
             target.DefaultInformationSource = source.DefaultInformationSource;
@@ -47,7 +46,7 @@ namespace PostaFlya.Domain.Boards
 
     }
 
-    public interface BoardInterface : EntityInterface, BrowserIdInterface
+    public interface BoardInterface : EntityInterface, AggregateRootInterface, BrowserIdInterface
     {
         bool AllowOthersToPostFliers { get; set; }
         bool RequireApprovalOfPostedFliers { get; set; }
@@ -56,7 +55,6 @@ namespace PostaFlya.Domain.Boards
         BoardStatus Status { get; set; }
         BoardTypeEnum BoardTypeEnum { get; set; }
         BoardSubscription Subscription { get; set; }
-        Location Location { get; set; }
         string ImageId { get; set; }
         List<VenueInformation> InformationSources { get; set; }
         string DefaultInformationSource { get; set; }

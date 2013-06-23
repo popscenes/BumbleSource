@@ -31,6 +31,29 @@ namespace Website.Application.Command
             _handlerRespository = handlerRespository;
         }
 
+        public WorkInProgress ProcessOneSynch()
+        {
+            WorkInProgress ret = null;
+            var message = GetMessage();
+
+            do
+            {                
+                if (message == null)
+                    return null;
+
+
+                var workInProgress = new WorkInProgress()
+                    {
+                        Id = Guid.NewGuid().ToString(),
+                        Message = message,
+                    };
+
+                ret = RunTask(workInProgress).Result;
+
+            } while (ret.Result == QueuedCommandResult.Retry);
+            
+            return ret;
+        }
         
         public void Run(CancellationToken cancellationToken)
         {
@@ -61,7 +84,7 @@ namespace Website.Application.Command
             return _messageCount;
         }
 
-        private class WorkInProgress
+        public class WorkInProgress
         {
             public string Id { get; set; }
             public QueueMessageInterface Message { get; set; }
@@ -94,7 +117,7 @@ namespace Website.Application.Command
             }          
         }
 
-        private async void RunTask(WorkInProgress workInProgress)
+        private async Task<WorkInProgress> RunTask(WorkInProgress workInProgress)
         {
             Wip++;
             var progress = workInProgress;
@@ -105,10 +128,11 @@ namespace Website.Application.Command
             if ((task.IsCanceled || task.IsFaulted) || (wipret.Result == QueuedCommandResult.Retry))
             {
                 Wip--;
-                return;
+                return wipret;
             }
 
             WorkComplete(wipret);
+            return wipret;
         }
 
         private int _wip;

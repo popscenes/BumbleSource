@@ -80,7 +80,7 @@ namespace Website.Infrastructure.Caching.Query
 
         protected abstract CacheItemPolicy GetDefaultPolicy();
         
-        public EntityRetType FindById<EntityRetType>(string id) where EntityRetType : class, new()
+        public EntityRetType FindById<EntityRetType>(string id) where EntityRetType : class, AggregateRootInterface, new()
         {
             if (_genericQueryService == null)
                 return null;
@@ -98,22 +98,22 @@ namespace Website.Infrastructure.Caching.Query
                 () => _genericQueryService.FindById(entity, id));
         }
 
-        public EntityRetType FindByFriendlyId<EntityRetType>(string id) where EntityRetType : class, new()
+        public EntityRetType FindByAggregate<EntityRetType>(string id, string aggregateRootId) where EntityRetType : class, AggregateInterface, new()
         {
             if (_genericQueryService == null)
                 return null;
             return RetrieveCachedData(
-                id.GetCacheKeyFor<EntityRetType>("FriendlyId"),
-                () => _genericQueryService.FindByFriendlyId<EntityRetType>(id));
+                id.GetCacheKeyFor<EntityRetType>("Id"),
+                () => _genericQueryService.FindByAggregate<EntityRetType>(id, aggregateRootId));
         }
 
-        public object FindByFriendlyId(Type entity, string id)
+        public object FindByAggregate(Type entity, string id, string aggregateRootId)
         {
             if (_genericQueryService == null)
                 return null;
             return RetrieveCachedData(
-                id.GetCacheKeyFor(entity, "FriendlyId"),
-                () => _genericQueryService.FindByFriendlyId(entity, id));
+                id.GetCacheKeyFor(entity, "Id"),
+                () => _genericQueryService.FindByAggregate(entity, id, aggregateRootId));
         }
 
         public IQueryable<string> FindAggregateEntityIds<EntityRetType>(string aggregateRootId)
@@ -127,7 +127,7 @@ namespace Website.Infrastructure.Caching.Query
                 .ToList()).AsQueryable();
         }
 
-        public IQueryable<string> GetAllIds<EntityRetType>() where EntityRetType : class, new()
+        public IQueryable<string> GetAllIds<EntityRetType>() where EntityRetType : class, AggregateRootInterface, new()
         {
             if (_genericQueryService == null)
                 return null;
@@ -144,6 +144,16 @@ namespace Website.Infrastructure.Caching.Query
             return RetrieveCachedData(
                 "".GetCacheKeyFor(type, "AllIds"),
                 () => _genericQueryService.GetAllIds(type)
+                .ToList()).AsQueryable();
+        }
+
+        public IQueryable<AggregateInterface> GetAllAggregateIds<EntityRetType>() where EntityRetType : class, AggregateInterface, new()
+        {
+            if (_genericQueryService == null)
+                return null;
+            return RetrieveCachedData(
+                "".GetCacheKeyFor<EntityRetType>("AllIds"),
+                () => _genericQueryService.GetAllAggregateIds<EntityRetType>()
                 .ToList()).AsQueryable();
         }
     }

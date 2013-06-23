@@ -1,22 +1,17 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using PostaFlya.Domain.Behaviour;
 using PostaFlya.Domain.Venue;
-using Website.Domain.Claims;
-using Website.Domain.Contact;
 using Website.Domain.Payment;
 using Website.Infrastructure.Domain;
-using Website.Domain.Location;
 using Website.Domain.Tag;
-using Website.Infrastructure.Query;
 
 
 namespace PostaFlya.Domain.Flier
 {
     [Serializable]
-    public class Flier : EntityBase<FlierInterface>, FlierInterface
+    public class Flier : EntityBase<FlierInterface>, AggregateRootInterface, FlierInterface
     {
         private List<DateTimeOffset> _eventDates;
 
@@ -31,26 +26,19 @@ namespace PostaFlya.Domain.Flier
             Features = new HashSet<EntityFeatureCharge>();
         }
 
-        public Flier(Location location)
-            : this()
-        {
-            Location = location;
-        }
-
         public override string ToString()
         {
             var stringBuilder = new StringBuilder();
             stringBuilder.Append("Tags: ");
             stringBuilder.Append(Tags);
             stringBuilder.Append(" Location: ");
-            stringBuilder.Append(Location);
+            stringBuilder.Append(Venue.PlaceName);
             return stringBuilder.ToString();
         }
 
         public string Title { get; set; }
         public string Description { get; set; }
         public Tags Tags { get; set; }
-        public Location Location { get; set; }
         public Guid? Image { get; set; }
         public List<DateTimeOffset> EventDates
         {
@@ -81,7 +69,7 @@ namespace PostaFlya.Domain.Flier
         public Dictionary<string, object> ExtendedProperties { get; set; }
         public int NumberOfClaims { get; set; }
         public int NumberOfComments { get; set; }
-        public VenueInformation ContactDetails { get; set; }
+        public VenueInformation Venue { get; set; }
         public HashSet<string> Boards { get; set; }
         public HashSet<EntityFeatureCharge> Features { get; set; }
         public bool HasLeadGeneration { get; set; }

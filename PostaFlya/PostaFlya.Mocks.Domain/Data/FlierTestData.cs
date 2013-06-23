@@ -5,9 +5,13 @@ using NUnit.Framework;
 using Ninject;
 using PostaFlya.Domain.Behaviour;
 using PostaFlya.Domain.Flier;
+using PostaFlya.Domain.Flier.Event;
 using PostaFlya.Domain.Flier.Query;
-using PostaFlya.Domain.Service;
+using PostaFlya.Domain.Venue;
+using Website.Domain.Service;
 using Website.Infrastructure.Command;
+using Website.Infrastructure.Domain;
+using Website.Infrastructure.Publish;
 using Website.Infrastructure.Query;
 //using Website.Infrastructure.Service;
 using Website.Domain.Location;
@@ -23,7 +27,7 @@ namespace PostaFlya.Mocks.Domain.Data
         {
             if (loc == null)
                 loc = kernel.Get<Location>(ib => ib.Get<bool>("default"));
-            var ret = new Flier(loc)
+            var ret = new Flier()
                        {
                            BrowserId = kernel.Get<string>(bm => bm.Has("defaultbrowserid")),
                            Title = "Test Title",
@@ -35,30 +39,32 @@ namespace PostaFlya.Mocks.Domain.Data
                            Status = FlierStatus.Active,
                            ImageList = new List<FlierImage>() { new FlierImage(Guid.NewGuid().ToString()), new FlierImage(Guid.NewGuid().ToString()), new FlierImage(Guid.NewGuid().ToString()) },
                            ExternalSource = "testsource",
-                           ExternalId = "123"
+                           ExternalId = "123",
+                           Venue = new VenueInformation(){PlaceName = "Venue", Address = loc},
+                           TinyUrl = "http://tfly.in/" +  new Random().Next().ToString()
                            
                        };
             ret.FriendlyId = FlierQueryServiceUtil.FindFreeFriendlyIdForFlier(null, ret);
             return ret;
         }
 
-        public static FlierBehaviourInterface GetBehaviour(StandardKernel kernel, Flier ret)
-        {
-            var behaviourFactory = kernel.Get<BehaviourFactoryInterface>();
-            var queryService = kernel.Get<GenericQueryServiceInterface>();
-            var behaviour = behaviourFactory.GetDefaultBehaviourTypeForBehaviour(ret.FlierBehaviour);
-            var behave = queryService.FindById(behaviour, ret.Id) as FlierBehaviourInterface ??
-                         behaviourFactory.CreateBehaviourInstanceForFlier(ret);
-            behave.Flier = ret;
-            return behave;
-        }
+//        public static FlierBehaviourInterface GetBehaviour(StandardKernel kernel, Flier ret)
+//        {
+//            var behaviourFactory = kernel.Get<BehaviourFactoryInterface>();
+//            var queryService = kernel.Get<GenericQueryServiceInterface>();
+//            var behaviour = behaviourFactory.GetDefaultBehaviourTypeForBehaviour(ret.FlierBehaviour);
+//            var behave = queryService.FindById(behaviour, ret.Id) as FlierBehaviourInterface ??
+//                         behaviourFactory.CreateBehaviourInstanceForFlier(ret);
+//            behave.Flier = ret;
+//            return behave;
+//        }
 
         internal static void AddSomeDataForHeatMapToMockFlierStore(GenericRepositoryInterface flierRepository, IKernel kernel)
         {
             //Jr's house
             for(var i = 0; i < 100; i++)
             {
-                var flier = new Flier(new Location(145.0138751 ,-37.8799136))
+                var flier = new Flier()
                 {
                     BrowserId = Guid.NewGuid().ToString(),
                     Title = "Test Title",
@@ -67,7 +73,9 @@ namespace PostaFlya.Mocks.Domain.Data
                     EffectiveDate = DateTime.Now.AddDays(1),
                     Image = Guid.NewGuid(),
                     FlierBehaviour = FlierBehaviour.Default,
-                    Status = FlierStatus.Active
+                    Status = FlierStatus.Active,
+                    Venue = new VenueInformation() { PlaceName = "Venue", Address = new Location(145.0138751, -37.8799136) }
+
                 };
 
                 flierRepository.Store(flier);
@@ -76,7 +84,7 @@ namespace PostaFlya.Mocks.Domain.Data
             //disneyland
             for (var i = 0; i < 50; i++)
             {
-                var flier = new Flier(new Location(-117.9189478,33.8102936))
+                var flier = new Flier()
                 {
                     BrowserId = Guid.NewGuid().ToString(),
                     Title = "Test Title",
@@ -85,7 +93,9 @@ namespace PostaFlya.Mocks.Domain.Data
                     EffectiveDate = DateTime.Now.AddDays(1),
                     Image = Guid.NewGuid(),
                     FlierBehaviour = FlierBehaviour.Default,
-                    Status = FlierStatus.Active
+                    Status = FlierStatus.Active,
+                    Venue = new VenueInformation() { PlaceName = "Venue", Address = new Location(-117.9189478, 33.8102936) }
+
                 };
 
                 flierRepository.Store(flier);
@@ -94,7 +104,7 @@ namespace PostaFlya.Mocks.Domain.Data
             //Ricks at casablanca
             for (var i = 0; i < 100; i++)
             {
-                var flier = new Flier(new Location(144.9770748, -37.7654897))
+                var flier = new Flier()
                 {
                     BrowserId = Guid.NewGuid().ToString(),
                     Title = "Test Title",
@@ -103,7 +113,9 @@ namespace PostaFlya.Mocks.Domain.Data
                     EffectiveDate = DateTime.Now.AddDays(1),
                     Image = Guid.NewGuid(),
                     FlierBehaviour = FlierBehaviour.Default,
-                    Status = FlierStatus.Active
+                    Status = FlierStatus.Active,
+                    Venue = new VenueInformation() { PlaceName = "Venue", Address = new Location(144.9770748, -37.7654897) }
+
                 };
 
                 flierRepository.Store(flier);
@@ -180,84 +192,96 @@ namespace PostaFlya.Mocks.Domain.Data
             var eventDates = new List<DateTimeOffset>() {new DateTime(2076, 8, 11), DateTime.UtcNow.AddDays(3)};
             //add inside the bounds with some matching tags
             var count = 0;
-            var flier = new Flier(getRandLoc(true)) { EffectiveDate = DateTime.UtcNow, CreateDate = DateTime.UtcNow };
+            var flier = new Flier() { EffectiveDate = DateTime.UtcNow, CreateDate = DateTime.UtcNow };
             getTags(true, flier.Tags);
             flier.BrowserId = GlobalDefaultsNinjectModule.DefaultBrowserId;
             flier.FriendlyId = "Bulletin" + count++;
             flier.EventDates = eventDates;
-            flierRepository.Store(flier);
+            flier.Venue = new VenueInformation() { PlaceName = "Venue", Address = getRandLoc(true) };
+            StoreOne(flier, flierRepository, (StandardKernel) kernel);
 
-            flier = new Flier(getRandLoc(true)) {  EffectiveDate = DateTime.UtcNow, CreateDate = DateTime.UtcNow };
+            flier = new Flier() {  EffectiveDate = DateTime.UtcNow, CreateDate = DateTime.UtcNow };
             getTags(true, flier.Tags);
             flier.BrowserId = GlobalDefaultsNinjectModule.DefaultBrowserId;
             flier.FriendlyId = "Bulletin" + count++;
-            flier.EventDates = eventDates;             
-            flierRepository.Store(flier);
+            flier.EventDates = eventDates;
+            flier.Venue = new VenueInformation() { PlaceName = "Venue", Address = getRandLoc(true) };        
+            StoreOne(flier, flierRepository, (StandardKernel) kernel);
 
             eventDates = new List<DateTimeOffset>() { new DateTime(2077, 12, 19), DateTime.UtcNow.AddDays(3) };
-            flier = new Flier(getRandLoc(true)) { EffectiveDate = DateTime.UtcNow, CreateDate = DateTime.UtcNow };
+            flier = new Flier() { EffectiveDate = DateTime.UtcNow, CreateDate = DateTime.UtcNow };
             getTags(true, flier.Tags);
             flier.BrowserId = GlobalDefaultsNinjectModule.DefaultBrowserId;
             flier.FriendlyId = "Bulletin" + count++;                         
             flier.EventDates = eventDates;
-            flierRepository.Store(flier);
+            flier.Venue = new VenueInformation() { PlaceName = "Venue", Address = getRandLoc(true) };
+            StoreOne(flier, flierRepository, (StandardKernel) kernel);
 
             //add inside the bounds without matching tags
             eventDates = new List<DateTimeOffset>() { new DateTime(2076, 8, 11), DateTime.UtcNow.AddDays(3) };
-            flier = new Flier(getRandLoc(true)) { EffectiveDate = DateTime.UtcNow, CreateDate = DateTime.UtcNow };
+            flier = new Flier() { EffectiveDate = DateTime.UtcNow, CreateDate = DateTime.UtcNow };
             getTags(false, flier.Tags);
             flier.FriendlyId = "Bulletin" + count++;
             flier.EventDates = eventDates;
-            flierRepository.Store(flier);
+            flier.Venue = new VenueInformation() { PlaceName = "Venue", Address = getRandLoc(true) };
+            StoreOne(flier, flierRepository, (StandardKernel) kernel);
 
-            flier = new Flier(getRandLoc(true)) { EffectiveDate = DateTime.UtcNow, CreateDate = DateTime.UtcNow };
+            flier = new Flier() { EffectiveDate = DateTime.UtcNow, CreateDate = DateTime.UtcNow };
             getTags(false, flier.Tags);
             flier.FriendlyId = "Bulletin" + count++;
             flier.EventDates = eventDates;
-            flierRepository.Store(flier);
+            flier.Venue = new VenueInformation() { PlaceName = "Venue", Address = getRandLoc(true) };
+            StoreOne(flier, flierRepository, (StandardKernel) kernel);
 
-            flier = new Flier(getRandLoc(true)) { EffectiveDate = DateTime.UtcNow, CreateDate = DateTime.UtcNow };
+            flier = new Flier() { EffectiveDate = DateTime.UtcNow, CreateDate = DateTime.UtcNow };
             getTags(false, flier.Tags);
             flier.FriendlyId = "Bulletin" + count++;
             flier.EventDates = eventDates;
-            flierRepository.Store(flier);
+            flier.Venue = new VenueInformation() { PlaceName = "Venue", Address = getRandLoc(true) };
+            StoreOne(flier, flierRepository, (StandardKernel) kernel);
 
             //add some outside the bounds with some matching tags
-            flier = new Flier(getRandLoc(false)) { EffectiveDate = DateTime.UtcNow, CreateDate = DateTime.UtcNow };
+            flier = new Flier() { EffectiveDate = DateTime.UtcNow, CreateDate = DateTime.UtcNow };
             getTags(true, flier.Tags);
             flier.FriendlyId = "Bulletin" + count++;
             flier.EventDates = eventDates;
-            flierRepository.Store(flier);
+            flier.Venue = new VenueInformation() { PlaceName = "Venue", Address = getRandLoc(false) };
+            StoreOne(flier, flierRepository, (StandardKernel) kernel);
 
-            flier = new Flier(getRandLoc(false)) { EffectiveDate = DateTime.UtcNow, CreateDate = DateTime.UtcNow };
+            flier = new Flier() { EffectiveDate = DateTime.UtcNow, CreateDate = DateTime.UtcNow };
             getTags(true, flier.Tags);
             flier.FriendlyId = "Bulletin" + count++;
             flier.EventDates = eventDates;
-            flierRepository.Store(flier);
+            flier.Venue = new VenueInformation() { PlaceName = "Venue", Address = getRandLoc(false) };
+            StoreOne(flier, flierRepository, (StandardKernel) kernel);
 
-            flier = new Flier(getRandLoc(false)) { EffectiveDate = DateTime.UtcNow, CreateDate = DateTime.UtcNow };
+            flier = new Flier() { EffectiveDate = DateTime.UtcNow, CreateDate = DateTime.UtcNow };
             getTags(true, flier.Tags);
-            flier.FriendlyId = "Bulletin" + count++;                         
-            flierRepository.Store(flier);
+            flier.FriendlyId = "Bulletin" + count++;
+            flier.Venue = new VenueInformation() { PlaceName = "Venue", Address = getRandLoc(false) };                  
+            StoreOne(flier, flierRepository, (StandardKernel) kernel);
 
             //add some outside the bounds without matching tags
-            flier = new Flier(getRandLoc(false)) { EffectiveDate = DateTime.UtcNow, CreateDate = DateTime.UtcNow };
+            flier = new Flier() { EffectiveDate = DateTime.UtcNow, CreateDate = DateTime.UtcNow };
             getTags(false, flier.Tags);
             flier.FriendlyId = "Bulletin" + count++;
             flier.EventDates = eventDates;
-            flierRepository.Store(flier);
+            flier.Venue = new VenueInformation() { PlaceName = "Venue", Address = getRandLoc(false) };                  
+            StoreOne(flier, flierRepository, (StandardKernel) kernel);
 
-            flier = new Flier(getRandLoc(false)) { EffectiveDate = DateTime.UtcNow, CreateDate = DateTime.UtcNow };
+            flier = new Flier() { EffectiveDate = DateTime.UtcNow, CreateDate = DateTime.UtcNow };
             getTags(false, flier.Tags);
             flier.FriendlyId = "Bulletin" + count++;
             flier.EventDates = eventDates;
-            flierRepository.Store(flier);
+            flier.Venue = new VenueInformation() { PlaceName = "Venue", Address = getRandLoc(false) };                  
+            StoreOne(flier, flierRepository, (StandardKernel) kernel);
 
-            flier = new Flier(getRandLoc(false)) { EffectiveDate = DateTime.UtcNow, CreateDate = DateTime.UtcNow };
+            flier = new Flier() { EffectiveDate = DateTime.UtcNow, CreateDate = DateTime.UtcNow };
             getTags(false, flier.Tags);
             flier.FriendlyId = "Bulletin" + count;
             flier.EventDates = eventDates;
-            flierRepository.Store(flier);
+            flier.Venue = new VenueInformation() { PlaceName = "Venue", Address = getRandLoc(false) };                  
+            StoreOne(flier, flierRepository, (StandardKernel) kernel);
         }
 
         public static void AssertStoreRetrieve(FlierInterface storedFlier, FlierInterface retrievedFlier)
@@ -290,7 +314,30 @@ namespace PostaFlya.Mocks.Domain.Data
         }
 
 
-        internal static Flier StoreOne(Flier flier, GenericRepositoryInterface repository, StandardKernel kernel)
+        internal static Flier StoreOnePublishEvent(Flier flier, GenericRepositoryInterface repository, IKernel kernel)
+        {
+            var uow = kernel.Get<UnitOfWorkFactoryInterface>()
+                .GetUnitOfWork(new List<RepositoryInterface>() { repository });
+            using (uow)
+            {
+
+                repository.Store(flier);
+            }
+
+            Assert.IsTrue(uow.Successful);
+
+
+            if (uow.Successful)
+            {
+                var domainEvent = kernel.Get<DomainEventPublishServiceInterface>();
+                domainEvent.Publish(new FlierModifiedEvent() { NewState = (Flier)flier });
+            }
+
+
+            return flier;
+        }
+
+        internal static Flier StoreOne(Flier flier, GenericRepositoryInterface repository, IKernel kernel)
         {
             var uow = kernel.Get<UnitOfWorkFactoryInterface>()
                 .GetUnitOfWork(new List<RepositoryInterface>() {repository});
@@ -301,15 +348,40 @@ namespace PostaFlya.Mocks.Domain.Data
             }
 
             Assert.IsTrue(uow.Successful);
+
+            if (uow.Successful)
+            {
+                var indexers = kernel.GetAll<HandleEventInterface<FlierModifiedEvent>>();
+                foreach (var handleEvent in indexers)
+                {
+                    handleEvent.Handle(new FlierModifiedEvent() { NewState = (Flier)flier });
+                }
+            }
+
+            
             return flier;
         }
 
         internal static void UpdateOne(FlierInterface flier, GenericRepositoryInterface repository, StandardKernel kernel)
         {
-            using (kernel.Get<UnitOfWorkFactoryInterface>()
-                .GetUnitOfWork(new List<RepositoryInterface>() { repository }))
+            Flier oldState = null;
+            UnitOfWorkInterface unitOfWork;
+            using (unitOfWork = kernel.Get<UnitOfWorkFactoryInterface>().GetUnitOfWork(new List<RepositoryInterface>() {repository}))
             {
-                repository.UpdateEntity<Flier>(flier.Id, e => e.CopyFieldsFrom(flier));
+                repository.UpdateEntity<Flier>(flier.Id, e =>
+                    {
+                        oldState = e.CreateCopy<Flier, Flier>(FlierInterfaceExtensions.CopyFieldsFrom);
+                        e.CopyFieldsFrom(flier);
+                    });
+            }
+
+            if (unitOfWork.Successful)
+            {
+                var indexers = kernel.GetAll<HandleEventInterface<FlierModifiedEvent>>();
+                foreach (var handleEvent in indexers)
+                {
+                    handleEvent.Handle(new FlierModifiedEvent() { NewState = (Flier)flier, OrigState = oldState });
+                }
             }
         }
     }

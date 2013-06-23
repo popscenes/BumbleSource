@@ -418,6 +418,11 @@
             </summary>
             <param name="documentPath">The physical path to XML document.</param>
         </member>
+        <member name="T:PostaFlya.Areas.MobileApi.Flyers.Model.FlyerDetailRequest">
+            <summary>
+            
+            </summary>
+        </member>
         <member name="M:PostaFlya.Controllers.BulletinApiController.Get(PostaFlya.Models.Flier.BulletinGetRequestModel)">
             <summary>
             dgdgsdgdsfgg
@@ -787,6 +792,31 @@
               Looks up a localized string similar to {0} is and invalid Id.
             </summary>
         </member>
+        <member name="P:PostaFlya.Properties.Resources.Flyer_Description">
+            <summary>
+              Looks up a localized string similar to Description.
+            </summary>
+        </member>
+        <member name="P:PostaFlya.Properties.Resources.Flyer_EventDates">
+            <summary>
+              Looks up a localized string similar to EventDates.
+            </summary>
+        </member>
+        <member name="P:PostaFlya.Properties.Resources.Flyer_ImageUrl">
+            <summary>
+              Looks up a localized string similar to FlyerImage.
+            </summary>
+        </member>
+        <member name="P:PostaFlya.Properties.Resources.Flyer_Title">
+            <summary>
+              Looks up a localized string similar to Title.
+            </summary>
+        </member>
+        <member name="P:PostaFlya.Properties.Resources.Flyer_Venue">
+            <summary>
+              Looks up a localized string similar to Venue.
+            </summary>
+        </member>
         <member name="P:PostaFlya.Properties.Resources.FlyerContactDetailsModel_Address_FlyerContactDetailsModel_Address_FlyerContactDetailsModel_Address">
             <summary>
               Looks up a localized string similar to Address.
@@ -830,6 +860,11 @@
         <member name="P:PostaFlya.Properties.Resources.Handle">
             <summary>
               Looks up a localized string similar to Handle.
+            </summary>
+        </member>
+        <member name="P:PostaFlya.Properties.Resources.Id">
+            <summary>
+              Looks up a localized string similar to Id.
             </summary>
         </member>
         <member name="P:PostaFlya.Properties.Resources.ImageProcessing">

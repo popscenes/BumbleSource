@@ -15,8 +15,8 @@ namespace Website.Azure.Common.TableStorage
 
 
         protected RepositoryBase(TableContextInterface tableContext,
-                                 TableNameAndPartitionProviderServiceInterface nameAndPartitionProviderService) 
-            : base(tableContext, nameAndPartitionProviderService)
+                                 TableNameAndIndexProviderServiceInterface nameAndIndexProviderService) 
+            : base(tableContext, nameAndIndexProviderService)
         {
         }
 
@@ -24,20 +24,35 @@ namespace Website.Azure.Common.TableStorage
 
         public virtual bool SaveChanges()
         {
-            var ret = TableContext.SaveChangesRetryMutatorsOnConcurrencyException(_mutatorsForRetry);
+            var ret = TableContext.SaveChangesRetryOnException(_mutatorsForRetry);
             _mutatorsForRetry.Clear();
             return ret;
         }
 
-        public void UpdateEntity<UpdateType>(string id, Action<UpdateType> updateAction) where UpdateType : class, EntityIdInterface, new()
+        public void UpdateEntity<UpdateType>(string id, Action<UpdateType> updateAction) where UpdateType : class, AggregateRootInterface, new()
         {
             Action mutator = () =>
                                  {
-                                     var storage = GetEntityForUpdate<UpdateType>(id);
+                                     var storage = GetTableEntry<UpdateType>(id, null);
                                      if (storage == null) return;
-                                     updateAction((UpdateType)storage.AggregateRoot);
+                                     updateAction(storage.GetEntity<UpdateType>());
+                                     storage.UpdateEntry();
                                      StoreAggregate(storage);
                                  };
+            mutator();
+            _mutatorsForRetry.Add(mutator);
+        }
+
+        public void UpdateAggregateEntity<UpdateType>(string id, string aggregateRootId, Action<UpdateType> updateAction) where UpdateType : class, AggregateInterface, new()
+        {
+            Action mutator = () =>
+            {
+                var storage = GetTableEntry<UpdateType>(aggregateRootId, id);
+                if (storage == null) return;
+                updateAction(storage.GetEntity<UpdateType>());
+                storage.UpdateEntry();
+                StoreAggregate(storage);
+            };
             mutator();
             _mutatorsForRetry.Add(mutator);
         }
@@ -46,21 +61,30 @@ namespace Website.Azure.Common.TableStorage
         {
             Action mutator = () =>
             {
-                var storage = GetEntityForUpdate(entityTyp, id);
+                var storage = GetTableEntry(entityTyp, id, null);
                 if (storage == null) return;
-                updateAction(storage.AggregateRoot);
+                updateAction(storage.GetEntity(entityTyp));
+                storage.UpdateEntry();
                 StoreAggregate(storage);
             };
             mutator();
             _mutatorsForRetry.Add(mutator);
         }
 
-        protected StorageAggregate GetEntityForUpdate<UpdateType>(string id) where UpdateType : class, new()
+        public void UpdateAggregateEntity(Type entityTyp, string id, string aggregateRootId, Action<object> updateAction)
         {
-            return GetEntityForUpdate(typeof (UpdateType), id);
+            Action mutator = () =>
+            {
+                var storage = GetTableEntry(entityTyp, aggregateRootId, id);
+                if (storage == null) return;
+                updateAction(storage.GetEntity(entityTyp));
+                storage.UpdateEntry();
+                StoreAggregate(storage);
+            };
+            mutator();
+            _mutatorsForRetry.Add(mutator);
         }
 
-        protected abstract StorageAggregate GetEntityForUpdate(Type entity, string id);
 
         /// <summary>
         /// For general operations that mutate the table context. Handles retry on concurrency exception
@@ -75,8 +99,9 @@ namespace Website.Azure.Common.TableStorage
 
         public virtual void Store<EntityType>(EntityType entity)
         {
-            var storageAggregate = new StorageAggregate(entity, NameAndPartitionProviderService);
-            StoreAggregate(storageAggregate);
+            var tableStorage = new TableEntryType();
+            tableStorage.Init(entity);
+            StoreAggregate(tableStorage);
         }
 
         public virtual void Store(object entity)
@@ -84,24 +109,32 @@ namespace Website.Azure.Common.TableStorage
             Store<object>(entity);
         }
 
-        private void StoreAggregate(StorageAggregate aggregate)
+        private void StoreAggregate(StorageTableEntryInterface aggregate)
         {
+            var type = aggregate.GetEntity().GetType();
+            var partKeyFunc = NameAndIndexProviderService.GetPartitionKeyFunc(type);
+            var rowKeyFunc = NameAndIndexProviderService.GetRowKeyFunc(type);
+            var rowKey = rowKeyFunc(aggregate.GetEntity());
+            var partitionKey = partKeyFunc(aggregate.GetEntity());
+            aggregate.KeyChanged = (!string.IsNullOrWhiteSpace(aggregate.RowKey) &&
+                                            (aggregate.RowKey != rowKey ||
+                                            aggregate.PartitionKey != partitionKey));
+            aggregate.RowKey = rowKey;
+            aggregate.PartitionKey = partitionKey;
+
             var deleted = false;
-            var tableEntries = aggregate.GetTableEntries<TableEntryType>(TableContext);
-            foreach (var tableEntry in tableEntries.Where(e => e.Deleted || e.Entry.KeyChanged))
+            if(aggregate.KeyChanged)
             {
                 deleted = true;
-                TableContext.Delete(tableEntry.Entry);
-                tableEntry.Entry.KeyChanged = false;
+                TableContext.Delete(aggregate);
+                aggregate.KeyChanged = false;
             }
 
             if (deleted)
                 TableContext.SaveChanges();
 
-            foreach (var tableEntry in tableEntries.Where(e => !e.Deleted))
-            {
-                TableContext.Store(tableEntry.TableName, tableEntry.Entry);
-            }
+            TableContext.Store(NameAndIndexProviderService.GetTableName(aggregate.GetEntity().GetType()),aggregate);
+            
         }
 
 

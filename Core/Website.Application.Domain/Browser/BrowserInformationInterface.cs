@@ -11,11 +11,12 @@ namespace Website.Application.Domain.Browser
                    (string.IsNullOrWhiteSpace(browserid) && browserInformation.Browser.FriendlyId == handle);
         }
     }
-    public interface BrowserInformationInterface
+    public interface BrowserInformationInterface 
     {
-        BrowserInterface Browser { get; set; }
+        BrowserInterface Browser { get; }
         string IpAddress { get; }
         string UserAgent { get; }
         string TrackingId { get; set; }
     }
+
 }

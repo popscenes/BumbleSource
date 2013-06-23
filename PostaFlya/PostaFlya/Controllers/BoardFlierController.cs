@@ -5,12 +5,13 @@ using System.Web.Http;
 using PostaFlya.Domain.Boards;
 using PostaFlya.Domain.Boards.Command;
 using PostaFlya.Models.Board;
+using Website.Common.Controller;
 using Website.Common.Extension;
 using Website.Infrastructure.Command;
 
 namespace PostaFlya.Controllers
 {
-    public class BoardFlierController : ApiController
+    public class BoardFlierController : WebApiControllerBase
     {
         private readonly CommandBusInterface _commandBus;
 

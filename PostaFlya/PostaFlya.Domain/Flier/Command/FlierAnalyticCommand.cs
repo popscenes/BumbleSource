@@ -20,7 +20,7 @@ namespace PostaFlya.Domain.Flier.Command
         public FlierAnalyticSourceAction SourceAction { get; set; }
         public DateTimeOffset Time { get; set; }
         public Location Location { get; set; }
-        public Browser Browser { get; set; }
+        public Browser.Browser Browser { get; set; }
         public bool LocationFromSearch { get; set; }
     }
 }

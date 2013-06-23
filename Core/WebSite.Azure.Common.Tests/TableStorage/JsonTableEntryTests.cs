@@ -18,11 +18,10 @@ namespace Website.Azure.Common.Tests.TableStorage
         public string PropTwo { get; set; }
         public string PropThree { get; set; }
         public HashSet<string> HashTest { get; set; }
-        [AggregateMemberEntity]
         public List<TwoEntity> SubEntity { get; set; }
     }
 
-    public class JsonTestConcurrentEntity : EntityBase<EntityInterface>, EntityInterface
+    public class JsonTestConcurrentEntity : EntityBase<EntityInterface>, AggregateRootInterface, EntityInterface
     {
         public string Prop { get; set; }
         public string PropTwo { get; set; }
@@ -52,14 +51,14 @@ namespace Website.Azure.Common.Tests.TableStorage
             Kernel.Rebind<JsonRepository>()
                 .ToSelf().InTransientScope();
 
-            Kernel.Rebind<TableNameAndPartitionProviderServiceInterface>()
-                .To<TableNameAndPartitionProviderService>()
+            Kernel.Rebind<TableNameAndIndexProviderServiceInterface>()
+                .To<TableNameAndIndexProviderService>()
                 .InSingletonScope();
 
-            var tableNameAndPartitionProviderService = Kernel.Get<TableNameAndPartitionProviderServiceInterface>();
-            tableNameAndPartitionProviderService.Add<JsonTestEntity>(0, "testJsonEntity", entity => entity.Prop, entity => entity.PropTwo);
+            var tableNameAndPartitionProviderService = Kernel.Get<TableNameAndIndexProviderServiceInterface>();
+            tableNameAndPartitionProviderService.Add<JsonTestEntity>("testJsonEntity", entity => entity.Prop, entity => entity.PropTwo);
 
-            tableNameAndPartitionProviderService.Add<JsonTestConcurrentEntity>(0, "testJsonConcurrEntity", entity => entity.Id);
+            tableNameAndPartitionProviderService.Add<JsonTestConcurrentEntity>("testJsonConcurrEntity", entity => entity.Id);
 
             var context = Kernel.Get<TableContextInterface>();
 
@@ -68,8 +67,8 @@ namespace Website.Azure.Common.Tests.TableStorage
                 context.InitTable<JsonTableEntry>(tableName);
             }
 
-            context.Delete<JsonTableEntry>("testJsonEntity", null, 0);
-            context.Delete<JsonTableEntry>("testJsonConcurrEntity", null, 0);
+            context.Delete<JsonTableEntry>("testJsonEntity", null);
+            context.Delete<JsonTableEntry>("testJsonConcurrEntity", null);
 
             context.SaveChanges();
         }
@@ -78,7 +77,7 @@ namespace Website.Azure.Common.Tests.TableStorage
         [TestFixtureTearDown]
         public void FixtureTearDown()
         {
-            Kernel.Unbind<TableNameAndPartitionProviderServiceInterface>();
+            Kernel.Unbind<TableNameAndIndexProviderServiceInterface>();
             Kernel.Unbind<TableContextInterface>();
             AzureEnv.UseRealStorage = false;
         }
@@ -109,9 +108,9 @@ namespace Website.Azure.Common.Tests.TableStorage
                                  SubEntity = new List<TwoEntity>(){new TwoEntity(){Prop = "TwoProp",PropTwo = null}}
                              };
 
-            var nameAndPartitionProviderService = Kernel.Get<TableNameAndPartitionProviderServiceInterface>();
-            var partKeyFunc = nameAndPartitionProviderService.GetPartitionKeyFunc<JsonTestEntity>(0);
-            var rowKeyFunc = nameAndPartitionProviderService.GetRowKeyFunc<JsonTestEntity>(0);
+            var nameAndPartitionProviderService = Kernel.Get<TableNameAndIndexProviderServiceInterface>();
+            var partKeyFunc = nameAndPartitionProviderService.GetPartitionKeyFunc<JsonTestEntity>();
+            var rowKeyFunc = nameAndPartitionProviderService.GetRowKeyFunc<JsonTestEntity>();
 
 
             var tableEntry = new JsonTableEntry()
@@ -120,16 +119,17 @@ namespace Website.Azure.Common.Tests.TableStorage
                                      PartitionKey = partKeyFunc(testob),
                                      RowKey = rowKeyFunc(testob)
                                  };
-            tableEntry.UpdateEntry(testob);
+            tableEntry.Init(testob);
+            tableEntry.UpdateEntry();
 
-            var tableName = nameAndPartitionProviderService.GetTableName<JsonTestEntity>(0);
+            var tableName = nameAndPartitionProviderService.GetTableName<JsonTestEntity>();
             var tabCtx = Kernel.Get<TableContextInterface>();
             tabCtx.Store(tableName, tableEntry);
             tabCtx.SaveChanges();
 
             var tabCtxRet = Kernel.Get<TableContextInterface>();
-            var ret = tabCtxRet.PerformQuery<JsonTableEntry>(tableName, e => e.PartitionKey == tableEntry.PartitionKey 
-                                                                   && e.RowKey == tableEntry.RowKey)
+            var ret = tabCtxRet.PerformQuery<JsonTableEntry>(tableName, query: e => e.PartitionKey == tableEntry.PartitionKey 
+                                                                                    && e.RowKey == tableEntry.RowKey)
                                                                    .SingleOrDefault();
 
             Assert.IsNotNull(ret);
@@ -149,9 +149,9 @@ namespace Website.Azure.Common.Tests.TableStorage
                 SubEntity = new List<TwoEntity>() { new TwoEntity() { Prop = "TwoProp", PropTwo = null } }
             };
 
-            var nameAndPartitionProviderService = Kernel.Get<TableNameAndPartitionProviderServiceInterface>();
-            var partKeyFunc = nameAndPartitionProviderService.GetPartitionKeyFunc<JsonTestEntity>(0);
-            var rowKeyFunc = nameAndPartitionProviderService.GetRowKeyFunc<JsonTestEntity>(0);
+            var nameAndPartitionProviderService = Kernel.Get<TableNameAndIndexProviderServiceInterface>();
+            var partKeyFunc = nameAndPartitionProviderService.GetPartitionKeyFunc<JsonTestEntity>();
+            var rowKeyFunc = nameAndPartitionProviderService.GetRowKeyFunc<JsonTestEntity>();
 
 
             var tableEntry = new JsonTableEntry()
@@ -160,16 +160,17 @@ namespace Website.Azure.Common.Tests.TableStorage
                 PartitionKey = partKeyFunc(testob),
                 RowKey = rowKeyFunc(testob)
             };
-            tableEntry.UpdateEntry(testob);
+            tableEntry.Init(testob);
+            tableEntry.UpdateEntry();
 
-            var tableName = nameAndPartitionProviderService.GetTableName<JsonTestEntity>(0);
+            var tableName = nameAndPartitionProviderService.GetTableName<JsonTestEntity>();
             var tabCtx = Kernel.Get<TableContextInterface>();
             tabCtx.Store(tableName, tableEntry);
             tabCtx.SaveChanges();
 
             var tabCtxRet = Kernel.Get<TableContextInterface>();
-            var ret = tabCtxRet.PerformQuery<JsonTableEntry>(tableName, e => e.PartitionKey == tableEntry.PartitionKey
-                                                                   && e.RowKey == tableEntry.RowKey)
+            var ret = tabCtxRet.PerformQuery<JsonTableEntry>(tableName, query: e => e.PartitionKey == tableEntry.PartitionKey
+                                                                                    && e.RowKey == tableEntry.RowKey)
                                                                    .SingleOrDefault();
 
             Assert.IsNotNull(ret);
@@ -178,20 +179,20 @@ namespace Website.Azure.Common.Tests.TableStorage
 
             //get a new context and find the same entity
             var tabCtxTwo = Kernel.Get<TableContextInterface>();
-            ret = tabCtxTwo.PerformQuery<JsonTableEntry>(tableName, e => e.PartitionKey == tableEntry.PartitionKey
-                                                       && e.RowKey == tableEntry.RowKey)
+            ret = tabCtxTwo.PerformQuery<JsonTableEntry>(tableName, query: e => e.PartitionKey == tableEntry.PartitionKey
+                                                                                && e.RowKey == tableEntry.RowKey)
                                                        .SingleOrDefault();
             deserialized = ret.GetEntity<JsonTestEntity>();
             AssertAreEqual(testob, deserialized);
             deserialized.PropThree = "MODIFIED";
-            ret.UpdateEntry(deserialized);
+            ret.UpdateEntry();
             //update in next context
             tabCtxTwo.Store(tableName, ret);
             tabCtxTwo.SaveChanges();
 
             //use initial context to retrieve entity
-            var reAgain = tabCtxRet.PerformQuery<JsonTableEntry>(tableName, e => e.PartitionKey == tableEntry.PartitionKey
-                                                                   && e.RowKey == tableEntry.RowKey)
+            var reAgain = tabCtxRet.PerformQuery<JsonTableEntry>(tableName, query: e => e.PartitionKey == tableEntry.PartitionKey
+                                                                                        && e.RowKey == tableEntry.RowKey)
                                                                    .SingleOrDefault();
             Assert.IsNotNull(reAgain);
             var deserializedAgain = reAgain.GetEntity<JsonTestEntity>();
@@ -220,9 +221,9 @@ namespace Website.Azure.Common.Tests.TableStorage
 
 
 
-            var nameAndPartitionProviderService = Kernel.Get<TableNameAndPartitionProviderServiceInterface>();
-            var partKeyFunc = nameAndPartitionProviderService.GetPartitionKeyFunc<JsonTestEntity>(0);
-            var rowKeyFunc = nameAndPartitionProviderService.GetRowKeyFunc<JsonTestEntity>(0);
+            var nameAndPartitionProviderService = Kernel.Get<TableNameAndIndexProviderServiceInterface>();
+            var partKeyFunc = nameAndPartitionProviderService.GetPartitionKeyFunc<JsonTestEntity>();
+            var rowKeyFunc = nameAndPartitionProviderService.GetRowKeyFunc<JsonTestEntity>();
 
 
             var tableEntry = new JsonTableEntry()
@@ -231,16 +232,17 @@ namespace Website.Azure.Common.Tests.TableStorage
                 PartitionKey = partKeyFunc(testob),
                 RowKey = rowKeyFunc(testob)
             };
-            tableEntry.UpdateEntry(testob);
+            tableEntry.Init(testob);
+            tableEntry.UpdateEntry();
 
-            var tableName = nameAndPartitionProviderService.GetTableName<JsonTestEntity>(0);
+            var tableName = nameAndPartitionProviderService.GetTableName<JsonTestEntity>();
             var tabCtx = Kernel.Get<TableContextInterface>();
             tabCtx.Store(tableName, tableEntry);
             tabCtx.SaveChanges();
 
             var tabCtxRet = Kernel.Get<TableContextInterface>();
-            var ret = tabCtxRet.PerformQuery<JsonTableEntry>(tableName, e => e.PartitionKey == tableEntry.PartitionKey
-                                                                   && e.RowKey == tableEntry.RowKey)
+            var ret = tabCtxRet.PerformQuery<JsonTableEntry>(tableName, query: e => e.PartitionKey == tableEntry.PartitionKey
+                                                                                    && e.RowKey == tableEntry.RowKey)
                                                                    .SingleOrDefault();
 
             Assert.IsNotNull(ret);

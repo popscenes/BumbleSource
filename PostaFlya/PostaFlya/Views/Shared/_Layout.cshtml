@@ -54,7 +54,7 @@
             
         @RenderSection("scripts", required: false)
     </head>
-    <body data-pageid="@PageId(Model)">
+    <body data-pageid="@PageId(Model)" id="@PageId(Model)">
         <header>
             <div id="left-header">            
                 @RenderSection("leftheader", required: false)
@@ -77,15 +77,16 @@
             
                     @if (Request.IsAuthenticated)
                     {
-                        <div id="create-flier-popup-overlay" data-bind="visible:CreateFlierInstance.CreateFlier" style="display: none;"></div>
+                        <div id="create-flier-popup-overlay" data-bind="visible:CreateFlierInstance.CreateFlier" style="display: none;">
                         <div id="create-flier-item-div" 
-                            data-bind="with:CreateFlierInstance.CreateFlier, visible:CreateFlierInstance.CreateFlier, absolutePosFromScroll: {target: CreateFlierInstance.CreateFlier, refreshtrig: 'currentStep'}" style="display: none;">
+                             data-bind="with:CreateFlierInstance.CreateFlier, visible:CreateFlierInstance.CreateFlier, absolutePosFromScroll: {target: CreateFlierInstance.CreateFlier, refreshtrig: 'currentStep'}" style="display: none;">
                             <a class="close-button mini-button red-button" 
-                                data-bind="click: function(){$root.CreateFlierInstance.FlierFormClose(true);}">close</a>
+                               data-bind="click: function(){$root.CreateFlierInstance.FlierFormClose(true);}">close</a>
                           
                             @Html.Partial("Flier/CreateEdit", FlierCreateModel.DefaultForTemplate())
 
                         </div>
+                            </div>
             
                     }
                 </section>

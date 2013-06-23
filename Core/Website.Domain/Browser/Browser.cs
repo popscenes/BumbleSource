@@ -7,7 +7,7 @@ using Website.Domain.Tag;
 namespace Website.Domain.Browser
 {
     [Serializable]
-    public class Browser : EntityBase<BrowserInterface>, BrowserInterface
+    public class Browser : EntityBase<BrowserInterface>, AggregateRootInterface, BrowserInterface
     {
         public Browser(string id)
             :this()
@@ -17,14 +17,9 @@ namespace Website.Domain.Browser
 
         public Browser()
         {
-            Tags = new Tags();
-            SavedTags = new List<Tags>();
-            SavedLocations = new Locations();
             Roles = new Roles();
             Properties = new Dictionary<string, object>();
         }
-
-        public Tags Tags { get; set; }
 
         public string PhoneNumber { get; set; }
         public string EmailAddress { get; set; }
@@ -35,12 +30,7 @@ namespace Website.Domain.Browser
         public string WebSite { get; set; }
 
         public string AvatarImageId { get; set; }
-        public int? Distance { get;set;}
         public Roles Roles { get; set; }
-        public Location.Location DefaultLocation { get; set; }
-        public Locations SavedLocations { get; set; }
-        public List<Tags> SavedTags  { get; set; }
-        [AggregateMemberEntity]
         public HashSet<BrowserIdentityProviderCredential> ExternalCredentials { get; set; }
         public Dictionary<string, object> Properties { get; set; }
         public double AccountCredit { get; set; }

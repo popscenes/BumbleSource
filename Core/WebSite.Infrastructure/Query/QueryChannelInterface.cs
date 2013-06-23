@@ -1,3 +1,4 @@
+using System.Linq;
 using Ninject;
 using Ninject.Syntax;
 

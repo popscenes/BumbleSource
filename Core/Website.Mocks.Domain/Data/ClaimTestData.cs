@@ -3,8 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using NUnit.Framework;
 using Ninject;
+using Website.Domain.Claims.Event;
 using Website.Infrastructure.Command;
 using Website.Infrastructure.Domain;
+using Website.Infrastructure.Publish;
 using Website.Infrastructure.Query;
 using Website.Domain.Claims;
 using Website.Test.Common;
@@ -42,7 +44,7 @@ namespace Website.Mocks.Domain.Data
 
         internal static ClaimInterface AssertGetById(ClaimInterface claim, GenericQueryServiceInterface queryService)
         {
-            var retrievedFlier = queryService.FindById<Claim>(claim.AggregateId + claim.BrowserId);
+            var retrievedFlier = queryService.FindByAggregate<Claim>(claim.AggregateId + claim.BrowserId, claim.AggregateId);
             AssertStoreRetrieve(claim, retrievedFlier);
 
             return retrievedFlier;
@@ -54,8 +56,8 @@ namespace Website.Mocks.Domain.Data
             , StandardKernel kernel) 
             where EntityInterfaceType : EntityInterface, ClaimableEntityInterface
         {
-            using (kernel.Get<UnitOfWorkFactoryInterface>()
-                .GetUnitOfWork(new List<object>() { repository }))
+            UnitOfWorkInterface unitOfWork;
+            using (unitOfWork = kernel.Get<UnitOfWorkFactoryInterface>().GetUnitOfWork(new List<object>() {repository}))
             {
                 claim.Id = claim.GetId();
                 repository.Store(claim);
@@ -67,6 +69,16 @@ namespace Website.Mocks.Domain.Data
                               targ.NumberOfClaims++;
                           } );
 
+            }
+
+
+            if (unitOfWork.Successful)
+            {
+                var indexers = kernel.GetAll<HandleEventInterface<ClaimEvent>>();
+                foreach (var handleEvent in indexers)
+                {
+                    handleEvent.Handle(new ClaimEvent() { NewState = (Claim)claim });
+                }
             }
             return claim;
         }
@@ -82,7 +94,18 @@ namespace Website.Mocks.Domain.Data
             }
 
             Assert.IsTrue(uow.Successful);
+
+            if (uow.Successful)
+            {
+                var indexers = kernel.GetAll<HandleEventInterface<ClaimEvent>>();
+                foreach (var handleEvent in indexers)
+                {
+                    handleEvent.Handle(new ClaimEvent() { NewState = (Claim)claim });
+                }
+            }
+
             return claim;
+
         }
 
         internal static IList<ClaimInterface> StoreSome(GenericRepositoryInterface repository, StandardKernel kernel, string entityId, int num = 5)
@@ -99,6 +122,14 @@ namespace Website.Mocks.Domain.Data
                     repository.Store(claim);
                 }
                 Assert.IsTrue(unitOfWork.Successful);
+                if (unitOfWork.Successful)
+                {
+                    var indexers = kernel.GetAll<HandleEventInterface<ClaimEvent>>();
+                    foreach (var handleEvent in indexers)
+                    {
+                        handleEvent.Handle(new ClaimEvent() { NewState = (Claim)claim });
+                    }
+                }
             }
             return ret;
         }
@@ -122,10 +153,26 @@ namespace Website.Mocks.Domain.Data
 
         internal static void UpdateOne(ClaimInterface claim, GenericRepositoryInterface repository, StandardKernel kernel)
         {
-            using (kernel.Get<UnitOfWorkFactoryInterface>()
-                .GetUnitOfWork(new List<RepositoryInterface>() { repository }))
+            Claim oldState = null;
+            UnitOfWorkInterface unitOfWork;
+            using (unitOfWork = kernel.Get<UnitOfWorkFactoryInterface>().GetUnitOfWork(new List<RepositoryInterface>() {repository}))
             {
-                repository.UpdateEntity<Claim>(claim.AggregateId + claim.BrowserId, e => e.CopyFieldsFrom(claim));
+                repository.UpdateAggregateEntity<Claim>(claim.AggregateId + claim.BrowserId
+                    , claim.AggregateId
+                    , e =>
+                        {
+                            oldState = e.CreateCopy<Claim, Claim>(ClaimInterfaceExtensions.CopyFieldsFrom);
+                            e.CopyFieldsFrom(claim);
+                        });
+            }
+
+            if (unitOfWork.Successful)
+            {
+                var indexers = kernel.GetAll<HandleEventInterface<ClaimEvent>>();
+                foreach (var handleEvent in indexers)
+                {
+                    handleEvent.Handle(new ClaimEvent() { NewState = (Claim)claim, OrigState = oldState});
+                }
             }
         }
 

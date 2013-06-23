@@ -10,6 +10,7 @@ namespace PostaFlya.Views.Bulletin
                         "Base/facebook.js",
                         "Bulletin/Bulletin.js",
                         "Bulletin/BoardPage.js",
+                        "Bulletin/BoardSearchPage.js",
                         "Behaviour/Default/DefaultBehaviourViewModel.js",
                         "Behaviour/BehaviourViewModelFactory.js",
                         "Behaviour/BehaviourViewModel.js",

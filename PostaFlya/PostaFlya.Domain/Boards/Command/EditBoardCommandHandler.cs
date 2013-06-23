@@ -14,22 +14,24 @@ namespace PostaFlya.Domain.Boards.Command
         private readonly GenericQueryServiceInterface _boardQueryService;
         private readonly UnitOfWorkFactoryInterface _unitOfWorkFactory;
         private readonly DomainEventPublishServiceInterface _domainEventPublishService;
+        private readonly QueryChannelInterface _queryChannel;
 
         public EditBoardCommandHandler(GenericRepositoryInterface boardRepository
                                        , GenericQueryServiceInterface boardQueryService
                                        , UnitOfWorkFactoryInterface unitOfWorkFactory
-                                       , DomainEventPublishServiceInterface domainEventPublishService)
+                                       , DomainEventPublishServiceInterface domainEventPublishService, QueryChannelInterface queryChannel)
         {
             _boardRepository = boardRepository;
             _boardQueryService = boardQueryService;
             _unitOfWorkFactory = unitOfWorkFactory;
             _domainEventPublishService = domainEventPublishService;
+            _queryChannel = queryChannel;
         }
 
         public object Handle(EditBoardCommand command)
         {
             var boardExist = _boardQueryService.FindById<Board>(command.Id);
-            var brows = _boardQueryService.FindById<Browser>(command.BrowserId);
+            var brows = _boardQueryService.FindById<PostaFlya.Domain.Browser.Browser>(command.BrowserId);
 
             if(boardExist == null || (boardExist.BrowserId != command.BrowserId && !brows.HasRole(Role.Admin)))
                 return new MsgResponse("Board Edit not allowed", true)
@@ -48,7 +50,7 @@ namespace PostaFlya.Domain.Boards.Command
                         if (!string.IsNullOrWhiteSpace(command.BoardName))
                         {
                             board.FriendlyId = command.BoardName;
-                            _boardQueryService.FindFreeFriendlyId(board);
+                            board.FriendlyId = _queryChannel.FindFreeFriendlyId(board);
                         }
 
                         if (!string.IsNullOrWhiteSpace(command.Description))

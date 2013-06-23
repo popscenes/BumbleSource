@@ -3,12 +3,13 @@ using System.Text;
 using Website.Domain.Location;
 using Website.Infrastructure.Query;
 using Website.Infrastructure.Util.Extension;
+using System.Linq;
 
 namespace PostaFlya.Domain.Boards.Query
 {
     public static class BoardQueryServiceUtil
     {
-        public static string FindFreeFriendlyId(this GenericQueryServiceInterface queryService, BoardInterface targetBoard)
+        public static string FindFreeFriendlyId(this QueryChannelInterface queryChannel, BoardInterface targetBoard)
         {
             var name = targetBoard.FriendlyId;
             var tryName = name.ToLowerHiphen();
@@ -16,13 +17,14 @@ namespace PostaFlya.Domain.Boards.Query
 
             Board boardFind = null;
 
-            if (queryService != null && (boardFind = queryService.FindByFriendlyId<Board>(tryName)) != null
+            if (queryChannel != null && 
+                ( boardFind = queryChannel.Query(new FindByFriendlyIdQuery() { FriendlyId = tryName }, (Board)null)) != null
                 && boardFind.Id != targetBoard.Id)
             {
                 if (targetBoard.BoardTypeEnum != BoardTypeEnum.InterestBoard 
-                    && targetBoard.Location.HasAddressParts())
+                    && targetBoard.InformationSources.First().Address.HasAddressParts())
                 {
-                    var locInfo = targetBoard.Location.Locality;
+                    var locInfo = targetBoard.InformationSources.First().Address.Locality;
                     if (!string.IsNullOrWhiteSpace(locInfo))
                     {
                         tryNameBase = locInfo + "-" + tryNameBase;
@@ -35,7 +37,7 @@ namespace PostaFlya.Domain.Boards.Query
 
 
             var counter = 0;
-            while ((boardFind = queryService.FindByFriendlyId<Board>(tryName)) != null
+            while ((boardFind = queryChannel.Query(new FindByFriendlyIdQuery() { FriendlyId = tryName }, (Board)null)) != null
                 && boardFind.Id != targetBoard.Id)
             {
                 tryName = (counter++) + "-" + tryNameBase;

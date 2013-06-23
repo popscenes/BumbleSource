@@ -15,7 +15,7 @@ namespace PostaFlya.Domain.Flier.Payment
     [Serializable]
     class PostFlierFlatFeeChargeBehaivour : FlierChargeBehaviourBase
     {
-        public static readonly int costForPost = 100;
+        public static readonly int costForPost = 0;
         public static EntityFeatureCharge GetPostRadiusFeatureCharge()
         {
 

@@ -1,21 +1,11 @@
 ﻿using System.Diagnostics;
-using System.Linq;
 using Ninject;
 using Ninject.Modules;
 using Ninject.Web.Common;
 using PostaFlya.Application.Domain.Browser;
-using PostaFlya.Application.Domain.ExternalSource;
 using PostaFlya.Application.Domain.Flier;
-using Website.Application.Binding;
-using Website.Application.Command;
-using PostaFlya.Domain.Service;
 using Website.Infrastructure.Binding;
-using Website.Infrastructure.Command;
-using Ninject.Extensions.Conventions;
 using Website.Application.Domain.Browser;
-using Website.Application.Domain.Content;
-using Website.Application.Domain.Content.Command;
-using Website.Domain.Service;
 
 namespace PostaFlya.Application.Domain.Binding
 {
@@ -35,6 +25,10 @@ namespace PostaFlya.Application.Domain.Binding
             kernel.BindEventHandlersFromCallingAssembly(c => c.InTransientScope());
 
             Kernel.Bind<PostaFlyaBrowserInformationInterface>()
+                .To<PostaFlyaBrowserInformation>()
+                .InRequestScope();
+
+            Kernel.Bind<BrowserInformationInterface>()
                 .To<PostaFlyaBrowserInformation>()
                 .InRequestScope();
 

@@ -3,10 +3,13 @@ using System.Collections.Generic;
 using NUnit.Framework;
 using Ninject;
 using Ninject.MockingKernel.Moq;
+using Website.Domain.Content.Event;
 using Website.Infrastructure.Command;
 using Website.Domain.Browser;
 using Website.Domain.Content;
 using Website.Domain.Location;
+using Website.Infrastructure.Domain;
+using Website.Infrastructure.Publish;
 using Website.Infrastructure.Query;
 
 namespace Website.Mocks.Domain.Data
@@ -41,16 +44,39 @@ namespace Website.Mocks.Domain.Data
                 repository.Store(image);
             }
 
+            if (uow.Successful)
+            {
+                var indexers = kernel.GetAll<HandleEventInterface<ImageModifiedEvent>>();
+                foreach (var handleEvent in indexers)
+                {
+                    handleEvent.Handle(new ImageModifiedEvent() { NewState = image });
+                }
+            }
+
             Assert.IsTrue(uow.Successful);
             return image;
         }
 
         internal static void UpdateOne(ImageInterface image, GenericRepositoryInterface repository, StandardKernel kernel)
         {
-            using (kernel.Get<UnitOfWorkFactoryInterface>()
-                .GetUnitOfWork(new List<RepositoryInterface>() { repository }))
+            ImageInterface oldState = null;
+            UnitOfWorkInterface unitOfWork;
+            using (unitOfWork = kernel.Get<UnitOfWorkFactoryInterface>().GetUnitOfWork(new List<RepositoryInterface>() { repository }))
             {
-                repository.UpdateEntity<Image>(image.Id, e => e.CopyFieldsFrom(image));
+                repository.UpdateEntity<Image>(image.Id, e =>
+                    {
+                        oldState = e.CreateCopy<Image, Image>(ImageInterfaceExtensions.CopyFieldsFrom);
+                        e.CopyFieldsFrom(image);
+                    });
+            }
+
+            if (unitOfWork.Successful)
+            {
+                var indexers = kernel.GetAll<HandleEventInterface<ImageModifiedEvent>>();
+                foreach (var handleEvent in indexers)
+                {
+                    handleEvent.Handle(new ImageModifiedEvent() { NewState = (Image)image, OrigState = (Image)oldState });
+                }
             }
         }
 

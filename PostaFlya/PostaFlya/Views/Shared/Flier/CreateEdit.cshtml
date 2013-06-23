@@ -2,29 +2,6 @@
 @using PostaFlya.Models.Location
 @model PostaFlya.Models.Flier.FlierCreateModel
 
-@*<script language="javascript" type="text/javascript">*@
-@**@
-@**@
-@*    // example of how to add new rule*@
-@*    *@
-@*//    $.validator.addMethod('hiddenrequiredrule', function (value, element, param) {*@
-@*//        alert(value);*@
-@*//        return false;*@
-@*//    });*@
-@*    $.validator.unobtrusive.adapters.addBool('requiredwithmsg', 'required');  *@
-@*</script>*@
-
-<div class="cost-container">
-    <a data-bind="click:showCostBreakdown" class="flier-cost-summary">Flier Cost <span data-bind="text:totalCost"></span> </a>
-    <ul class="cost-breakdown" data-bind="visible:costBreakdown, foreach:flierCosts">
-        <li data-bind="visible:credits() > 0">
-            <span data-bind="text:title"></span>:
-            <span data-bind="text:credits"></span>
-            <div class="cost-description" data-bind="text:description"></div>
-        </li>
-    </ul>
-</div>
-
 
 <div id="flierCreateStep"  data-bind="template: { name: stepTemplate}">
 </div>
@@ -34,16 +11,16 @@
         <span class="std-image-btn-icon"></span>
         <span>BACK</span>
     </a>
-    <a id="flya-create-continue" data-bind="click: nextTemplate, visible:isNextStep() && stepTemplate() != 'Summary-template'" class="std-btn std-image-btn">
+    <a id="flya-create-continue" data-bind="click: nextTemplate, visible: isNextStep() && stepTemplate() != 'UserLinks-template'" class="std-btn std-image-btn">
         <span class="std-image-btn-icon"></span>
         <span>CONTINUE</span>
     </a>
 
-    <a id="flya-create-save" data-bind="click: save, visible:!isUpdate() && stepTemplate() == 'Summary-template', css: { 'btn-std-inuse': posting() == true }" class="std-btn std-image-btn">
+    <a id="flya-create-save" data-bind="click: save, visible: !isUpdate() && stepTemplate() == 'UserLinks-template', css: { 'btn-std-inuse': posting() == true }" class="std-btn std-image-btn">
         <span class="std-image-btn-icon"></span>
         <span data-bind="text: saveText"></span>
     </a>
-    <a id="flya-create-update" data-bind="click: update, visible:isUpdate() && stepTemplate() == 'Summary-template', css: { 'btn-std-inuse': posting() == true }" class="std-btn std-image-btn">
+    <a id="flya-create-update" data-bind="click: update, visible: isUpdate() && stepTemplate() == 'UserLinks-template', css: { 'btn-std-inuse': posting() == true }" class="std-btn std-image-btn">
         <span class="std-image-btn-icon"></span>
         <span data-bind="text: updateText"></span>
     </a>
@@ -238,7 +215,7 @@
                 <h3>Date</h3>
                 @Html.ValidationMessageFor(model => model.EventDates)
 
-              @Html.HiddenFor(model => model.EventDates, new { data_bind = "value:EventDates" })      
+                @Html.HiddenFor(model => model.EventDates, new { data_bind = "value:EventDates" })      
                 <div id="flyaDate" data-bind="datePicker:{onSelect: $data.setDate}"></div>
                 
                 @*                @Html.HiddenFor(model => model.EffectiveDate, new { data_bind = "value:EffectiveDate" })*@
@@ -266,29 +243,12 @@
                     @{
                    
                         ViewBag.LocationVariable = "VenueInformation";
-                        if (string.IsNullOrWhiteSpace(ViewBag.AutoCompleteLocationBannerText))
-                        {
-                            ViewBag.AutoCompleteLocationBannerText = "'Venue'"; 
-                        }                    
-                        ViewBag.AutoCompleteLocationId = "addressSearch";
-                        ViewBag.AutoCompleteBinding = "placeAutoComplete";
                     }
-                    @Html.Partial("Location/LocationAutocomplete")
+                    @Html.Partial("Location/VenueSelector")
                 </li>
                 </ol>
             </fieldset>
-          <fieldset>
-            <legend>Now add some flyer tags</legend>
-            <ol>
-                <li data-bind="with:tagsSelector">
-                    <h3>Choose Scene For Your Flyer</h3>
-                    @Html.ValidationMessageFor(model => model.TagsString)
-                    @Html.HiddenFor(model => model.TagsString, new { data_bind = "value:SelectedTags()" })
-                
-                    @Html.Partial("Tags/TagsSelector")
-                </li>
-            </ol>        
-        </fieldset>
+          
     </form>
 </script>
 

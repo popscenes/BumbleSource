@@ -8,10 +8,17 @@
         //mapping is buggy when source object is null
         data.VenueInformation = data.VenueInformation || {};
         var mapping = {
-            'copy': ["Flier"],
+            //'copy': ["Flier"],
             'VenueInformation': {
                 update: function (options) {                               
                     return ko.observable(options.data == null || $.isEmptyObject(options.data) ? null : new bf.VenueInformationModel(options.data));
+                }
+            },
+            'Flier': {
+                update: function (options) {
+                    var ret = options.data;
+                    ret.Venue = ko.observable(ret.Venue == null || $.isEmptyObject(ret.Venue) ? null : new bf.VenueInformationModel(ret.Venue));
+                    return ret;
                 }
             }
             

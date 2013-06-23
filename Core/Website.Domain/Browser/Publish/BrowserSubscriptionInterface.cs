@@ -4,9 +4,9 @@ namespace Website.Domain.Browser.Publish
 {
     public interface BrowserSubscriptionInterface : HandleEventInterface
     {
-        bool IsBrowserSubscribed(BrowserInterface browser);
-        bool BrowserSubscribe(BrowserInterface browser);
-        bool BrowserUnsubscribe(BrowserInterface browser);
+        bool IsBrowserSubscribed(Website.Domain.Browser.BrowserInterface browser);
+        bool BrowserSubscribe(Website.Domain.Browser.BrowserInterface browser);
+        bool BrowserUnsubscribe(Website.Domain.Browser.BrowserInterface browser);
     }
 
     public interface BrowserSubscriptionInterface<in PublishType> 

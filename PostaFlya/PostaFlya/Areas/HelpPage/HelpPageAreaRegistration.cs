@@ -18,7 +18,7 @@ namespace PostaFlya.Areas.HelpPage
         {
             context.MapRoute(
                 "HelpPage_Default",
-                "HelpApi123/{action}/{apiId}",
+                "mobileapi/help/{action}/{apiId}",
                 new { controller = "Help", action = "Index", apiId = UrlParameter.Optional });
 
             HelpPageConfig.Register(GlobalConfiguration.Configuration);

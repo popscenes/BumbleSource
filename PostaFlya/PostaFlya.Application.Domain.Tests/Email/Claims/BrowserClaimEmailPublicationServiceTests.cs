@@ -6,13 +6,15 @@ using NUnit.Framework;
 using Ninject;
 using Ninject.MockingKernel.Moq;
 using PostaFlya.Application.Domain.Email.Claims;
+using PostaFlya.Domain.Browser;
 using PostaFlya.Mocks.Domain.Data;
 using Website.Application.Email;
-using Website.Domain.Browser;
 using Website.Domain.Claims;
 using Website.Domain.Claims.Event;
 using Website.Infrastructure.Command;
 using Website.Mocks.Domain.Data;
+using BrowserTestData = PostaFlya.Mocks.Domain.Data.BrowserTestData;
+using TestRepositoriesNinjectModule = PostaFlya.Mocks.Domain.Data.TestRepositoriesNinjectModule;
 
 namespace PostaFlya.Application.Domain.Tests.Email.Claims
 {
@@ -46,11 +48,11 @@ namespace PostaFlya.Application.Domain.Tests.Email.Claims
         {
             var repository = Kernel.Get<GenericRepositoryInterface>();
             
-            BrowserInterface claimBrowser = new Website.Domain.Browser.Browser {Id = Guid.NewGuid().ToString(), EmailAddress = "test@bumbleflya.com"};
-            claimBrowser = BrowserTestData.StoreOne(claimBrowser, repository, Kernel);
+            BrowserInterface claimBrowser = new PostaFlya.Domain.Browser.Browser {Id = Guid.NewGuid().ToString(), EmailAddress = "test@bumbleflya.com"};
+            claimBrowser = BrowserTestData.StoreOne(claimBrowser, repository, Kernel, true);
 
             var flierBrowser = BrowserTestData.GetOne(Kernel);
-            flierBrowser = BrowserTestData.StoreOne(flierBrowser, repository, Kernel);
+            flierBrowser = BrowserTestData.StoreOne(flierBrowser, repository, Kernel, true);
 
             var flier = FlierTestData.GetOne(Kernel);
             flier.EffectiveDate = DateTime.UtcNow.AddDays(-1);
@@ -100,11 +102,12 @@ namespace PostaFlya.Application.Domain.Tests.Email.Claims
         {
             var repository = Kernel.Get<GenericRepositoryInterface>();
 
-            BrowserInterface claimBrowser = new Website.Domain.Browser.Browser { Id = Guid.NewGuid().ToString(), EmailAddress = "test@bumbleflya.com" };
-            claimBrowser = BrowserTestData.StoreOne(claimBrowser, repository, Kernel);
+            BrowserInterface claimBrowser = new PostaFlya.Domain.Browser.Browser { Id = Guid.NewGuid().ToString(), EmailAddress = "test@bumbleflya.com" };
+            claimBrowser = BrowserTestData.StoreOne(claimBrowser, repository, Kernel, true);
+            
 
             var flierBrowser = BrowserTestData.GetOne(Kernel);
-            flierBrowser = BrowserTestData.StoreOne(flierBrowser, repository, Kernel);
+            flierBrowser = BrowserTestData.StoreOne(flierBrowser, repository, Kernel, true);
 
             var flier = FlierTestData.GetOne(Kernel);
             flier.BrowserId = flierBrowser.Id;

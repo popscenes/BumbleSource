@@ -72,6 +72,15 @@ namespace PostaFlya.Specification.Browsers
             ControllerContextMock.FakeControllerContext(SpecUtil.CurrIocKernel, accountController);
             accountController.AuthResponse("TestProvider");
 
+            //below just does what about does but stores browser id in scenario context
+            var test = SpecUtil.CurrIocKernel.Get<IdentityProviderServiceInterface>();
+            var prov = test.GetProviderByIdentifier("TestProvider");
+            var cred = prov.GetCredentials();
+            var browserAsParticipant = SpecUtil.CurrIocKernel.Get<QueryChannelInterface>()
+                                               .Query(new FindBrowserByIdentityProviderQuery() {Credential = cred},
+                                                      (Browser) null);
+
+            ScenarioContext.Current["browserId"] = browserAsParticipant.Id;
         }
 
         [Given(@"i am not yet a BROWSER with PARTICIPANT ROLE")]
@@ -102,7 +111,9 @@ namespace PostaFlya.Specification.Browsers
             var browserQuery = SpecUtil.CurrIocKernel.Get<GenericQueryServiceInterface>();
             var creds = new IdentityProviderCredential()
                             {IdentityProvider = IdentityProviders.GOOGLE, UserIdentifier = "AItOawnldHWXFZoFpHDwBAMy34d1aO7qHSPz1ho"};
-            var browser = browserQuery.FindBrowserByIdentityProvider(creds);
+            var browser = SpecUtil.CurrIocKernel.Get<QueryChannelInterface>()
+                                               .Query(new FindBrowserByIdentityProviderQuery() { Credential = creds },
+                                                      (Browser) null);
             if (exists)
             {
                 Assert.IsTrue(browser != null);
@@ -118,8 +129,7 @@ namespace PostaFlya.Specification.Browsers
         [Given(@"i am currently operating in a BROWSER with TEMPORARY ROLE")]
         public void GivenIAmCurrentlyOperatingInABrowserWithTemporaryRole()
         {
-            var browserInformation = SpecUtil.GetCurrBrowser();
-            browserInformation.Browser = new Browser(Guid.NewGuid().ToString()) { Roles = new Roles { Role.Temporary.ToString()} };
+            ScenarioContext.Current["currbrowser"] = new Browser(Guid.NewGuid().ToString()) { Roles = new Roles { Role.Temporary.ToString()} };
         }
 
         [Then(@"my registered BROWSER will be loaded as the ACTIVE BROWSER")]

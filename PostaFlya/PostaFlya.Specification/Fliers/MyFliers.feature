@@ -7,16 +7,19 @@
 @mytag
 Scenario: Show Fliers I have Created
 	Given I am a BROWSER in PARTICIPANT ROLE 
+	And I have created a FLIER
 	When I navigate to the my fliers page 
 	Then I should see a list of fliers I have created
 
 Scenario: Show Fliers Detail View
-	Given I am a BROWSER in PARTICIPANT ROLE  
+	Given I am a BROWSER in PARTICIPANT ROLE 
+	And I have created a FLIER
 	And I have navigated to the my fliers page 
 	When I click on view for my FLIER 
 	Then I should see the details for my FLIER
 
 Scenario: Download Print Image From Detail View
-	Given I have created a FLIER
+	Given I am a BROWSER in PARTICIPANT ROLE 
+	And I have created a FLIER
 	When I choose to download the printable flier image
 	Then I should recieve the printable flier image

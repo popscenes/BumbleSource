@@ -24,7 +24,9 @@ namespace Website.Application.Domain.Binding
         {
             Trace.TraceInformation("Binding ApplicationDomainNinjectBinding");
 
-            Kernel.Bind<BrowserInformationInterface>().To<BrowserInformation>().InRequestScope();
+//            Kernel.Bind<BrowserInformationInterface<Website.Domain.Browser.Browser>>()
+//                .To<BrowserInformation<Website.Domain.Browser.Browser>>()
+//                .InRequestScope();
 
             Bind<RequestContentRetrieverFactoryInterface>().To<RequestContentRetrieverFactory>();
 

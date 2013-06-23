@@ -7,22 +7,24 @@ using NUnit.Framework;
 using Ninject;
 using Ninject.MockingKernel.Moq;
 using Ninject.Modules;
+using PostaFlya.Application.Domain.Browser;
 using TechTalk.SpecFlow;
 using PostaFlya.Mocks.Domain.Data;
+using Website.Domain.Browser;
 using Website.Infrastructure.Query;
 using Website.Mocks.Domain.Data;
 using Website.Test.Common;
-using Website.Application.Domain.Browser;
-using Website.Domain.Browser;
 using Website.Mocks.Domain.Defaults;
+using Browser = PostaFlya.Domain.Browser.Browser;
+using BrowserInterface = PostaFlya.Domain.Browser.BrowserInterface;
 
 namespace PostaFlya.Specification.Util
 {
     internal static class SpecUtil
     {
-        public static BrowserInformationInterface GetCurrBrowser()
+        public static PostaFlyaBrowserInformationInterface GetCurrBrowser()
         {
-            return CurrIocKernel.Get<BrowserInformationInterface>();
+            return CurrIocKernel.Get<PostaFlyaBrowserInformationInterface>();
         }
 
         public static T GetMockStore<T>(string name) where T : class, new()
@@ -129,12 +131,14 @@ namespace PostaFlya.Specification.Util
                       new PostaFlya.Domain.Binding.CommandNinjectBinding(),
                       new Website.Domain.Binding.CommandNinjectBinding(),
                       new PostaFlya.Binding.WebNinjectBindings(),  
-                      new PostaFlya.Areas.Default.Binding.DefaultBehaviourWebNinjectBinding(),
                       new MockRepositoriesNinjectModule(),
                       new Website.Mocks.Domain.Data.TestIdentityProvidersNinjectModult(),
                       new MockApplicationServicesNinjectModule(),
                       new PaymentTestData(),
-                      new Website.Common.Binding.WebsiteCommonNinjectBinding()
+                      new Website.Common.Binding.WebsiteCommonNinjectBinding(),
+                      new Website.Mocks.Domain.Binding.QueryHandlerBinding(),
+                      new PostaFlya.Mocks.Domain.Binding.QueryHandlerBinding(),
+                     
                   };
     }
 }

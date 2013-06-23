@@ -18,18 +18,20 @@ namespace PostaFlya.Domain.Boards.Command
         private readonly UnitOfWorkFactoryInterface _unitOfWorkFactory;
         private readonly DomainEventPublishServiceInterface _domainEventPublishService;
         private readonly CommandBusInterface _commandBus;
+        private readonly QueryChannelInterface _queryChannel;
 
         public CreateBoardCommandHandler(GenericRepositoryInterface boardRepository
             , GenericQueryServiceInterface boardQueryService
             , UnitOfWorkFactoryInterface unitOfWorkFactory
             , DomainEventPublishServiceInterface domainEventPublishService
-            , [WorkerCommandBus]CommandBusInterface commandBus)
+            , [WorkerCommandBus]CommandBusInterface commandBus, QueryChannelInterface queryChannel)
         {
             _boardRepository = boardRepository;
             _boardQueryService = boardQueryService;
             _unitOfWorkFactory = unitOfWorkFactory;
             _domainEventPublishService = domainEventPublishService;
             _commandBus = commandBus;
+            _queryChannel = queryChannel;
         }
 
         public object Handle(CreateBoardCommand command)
@@ -39,7 +41,7 @@ namespace PostaFlya.Domain.Boards.Command
             var unitOfWork = _unitOfWorkFactory.GetUnitOfWork(new object[] { _boardRepository, _boardQueryService });
             using (unitOfWork)
             {
-                newBoard.FriendlyId = _boardQueryService.FindFreeFriendlyId(newBoard);
+                newBoard.FriendlyId = _queryChannel.FindFreeFriendlyId(newBoard);
                 _boardRepository.Store(newBoard);
             }
 
@@ -81,19 +83,19 @@ namespace PostaFlya.Domain.Boards.Command
                     AllowOthersToPostFliers = command.AllowOthersToPostFliers,
                     Status = BoardStatus.Approved,
                     BoardTypeEnum = command.BoardTypeEnum,
+                    AdminEmailAddresses = command.AdminEmailAddresses,
+                    Description = command.Description
 
                 };
 
             if (newBoard.BoardTypeEnum != BoardTypeEnum.InterestBoard)
             {
-                if (command.Location != null && command.Location.IsValid)
-                    newBoard.Location = command.Location;
-                
+
                 if (command.SourceInformation != null)
                 {
                     newBoard.InformationSources = new List<VenueInformation>() { command.SourceInformation };
-                    if (command.SourceInformation.Address.IsValid)
-                        newBoard.Location = command.SourceInformation.Address;
+                    newBoard.InformationSources = new List<VenueInformation>();
+                    newBoard.InformationSources.Add(command.SourceInformation);
                     newBoard.DefaultInformationSource = command.SourceInformation.Source;
                 }
                     

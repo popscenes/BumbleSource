@@ -2,52 +2,53 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
-using System.Web.Http;
+using PostaFlya.Application.Domain.Browser;
 using PostaFlya.Models.Content;
 using Website.Application.Binding;
 using Website.Application.Content;
 using PostaFlya.Domain.Flier;
 using PostaFlya.Domain.Flier.Command;
-using Website.Application.Domain.Browser;
+using Website.Application.Domain.Browser.Query;
 using Website.Application.Domain.Browser.Web;
+using Website.Common.Controller;
 using Website.Common.Extension;
+using Website.Common.Model.Query;
 using Website.Domain.Browser;
-using Website.Domain.Browser.Query;
 using Website.Infrastructure.Command;
-using PostaFlya.Models.Factory;
 using PostaFlya.Models.Flier;
 using Website.Application.Domain.Content;
 using Website.Domain.Tag;
+using Website.Infrastructure.Query;
 using Website.Infrastructure.Util.Extension;
 
 namespace PostaFlya.Controllers
 {
     [BrowserAuthorizeHttp(Roles = "Participant")]
-    public class MyFliersController : ApiController
+    public class MyFliersController : WebApiControllerBase
     {
         private readonly CommandBusInterface _commandBus;
-        private readonly QueryServiceForBrowserAggregateInterface _queryService;
+        private readonly GenericQueryServiceInterface _queryService;
         private readonly BlobStorageInterface _blobStorage;
-        private readonly FlierBehaviourViewModelFactoryInterface _viewModelFactory;
-        private readonly BrowserInformationInterface _browserInformation;
+        private readonly PostaFlyaBrowserInformationInterface _browserInformation;
+        private readonly QueryChannelInterface _queryChannel;
 
         public MyFliersController(CommandBusInterface commandBus,
-            QueryServiceForBrowserAggregateInterface queryService,
+            GenericQueryServiceInterface queryService,
             [ImageStorage]BlobStorageInterface blobStorage
-            , FlierBehaviourViewModelFactoryInterface viewModelFactory, BrowserInformationInterface browserInformation)
+            , PostaFlyaBrowserInformationInterface browserInformation, QueryChannelInterface queryChannel)
         {
             _commandBus = commandBus;
             _queryService = queryService;
             _blobStorage = blobStorage;
-            _viewModelFactory = viewModelFactory;
             _browserInformation = browserInformation;
+            _queryChannel = queryChannel;
         }
 
         // GET /api/myfliersapi
-        public IList<BulletinFlierModel> Get(string browserId)
+        public IList<BulletinFlierSummaryModel> Get(string browserId)
         {
-            var fliers = _queryService.GetByBrowserId<Flier>(browserId).ToViewModel(_queryService, _blobStorage, _viewModelFactory);
-            return fliers;
+            var fliers = _queryChannel.Query(new GetByBrowserIdQuery() {BrowserId = browserId}, new List<Flier>());
+            return _queryChannel.ToViewModel<BulletinFlierSummaryModel, Flier>(fliers);
         }
 
         // GET /api/Browser/browserId/myfliers/5
@@ -58,19 +59,19 @@ namespace PostaFlya.Controllers
                 return null;
 
             var flierModel = flier.ToCreateModel().GetImageUrl(_blobStorage);
-            flierModel.ImageList.ForEach(_ => _.GetImageUrl(_blobStorage, ThumbOrientation.Vertical, ThumbSize.S114));
+            flierModel.ImageList = _queryChannel.ToViewModel<ImageViewModel, FlierImage>(flier.ImageList);
             return flierModel;
         }
 
         public HttpResponseMessage Post(string browserId, FlierCreateModel createModel)
-        {         
+        {
+            var isAnon = createModel.Anonymous && _browserInformation.Browser.HasRole(Role.Admin);
             var createFlier = new CreateFlierCommand()
             {
                 BrowserId = browserId,
                 Tags = new Tags(createModel.TagsString),
                 Title = createModel.Title.SafeText(),
                 Description = createModel.Description.SafeText(),
-                Location = createModel.VenueInformation.Address.ToDomainModel(),
                 Image = new Guid(createModel.FlierImageId),
                 FlierBehaviour = createModel.FlierBehaviour,
                 EventDates = createModel.EventDates.Select(d => d.AsUnspecifiedDateTimeOffset()).ToList(),
@@ -78,12 +79,10 @@ namespace PostaFlya.Controllers
                 ExternalSource = createModel.ExternalSource,
                 ExternalId = createModel.ExternalId,
                 BoardSet = new HashSet<string>(createModel.BoardList),
-                //AllowUserContact = createModel.AllowUserContact,
-                //ExtendPostRadius = Math.Max(0, createModel.PostRadius - 5),
                 EnableAnalytics = createModel.EnableAnalytics,
-                ContactDetails = createModel.VenueInformation != null ? createModel.VenueInformation.ToDomainModel() : null,
+                Venue = createModel.VenueInformation != null ? createModel.VenueInformation.ToDomainModel() : null,
                 UserLinks = createModel.UserLinks == null? new List<UserLink>() : createModel.UserLinks.Select(_ => new UserLink(){Link = _.Link, Text = _.Text, Type = _.Type}).ToList(),
-                Anonymous = createModel.Anonymous && _browserInformation.Browser.HasRole(Role.Admin)
+                Anonymous = isAnon
             };
 
             var res = _commandBus.Send(createFlier);
@@ -99,15 +98,12 @@ namespace PostaFlya.Controllers
                 Tags = new Tags(editModel.TagsString.EmptyIfNull()),
                 Title = editModel.Title.SafeText(),
                 Description = editModel.Description.SafeText(),
-                Location = editModel.VenueInformation.Address.ToDomainModel(),
                 Image = new Guid(editModel.FlierImageId),
                 EventDates = editModel.EventDates.Select(d => d.AsUnspecifiedDateTimeOffset()).ToList(),
                 ImageList = editModel.ImageList.Select(_ => new FlierImage(_.ImageId)).ToList(),
                 BoardSet = new HashSet<string>(editModel.BoardList),
-                //AllowUserContact = editModel.AllowUserContact,
-                //ExtendPostRadius = Math.Max(0, editModel.PostRadius - 5),
                 EnableAnalytics = editModel.EnableAnalytics,
-                ContactDetails = editModel.VenueInformation != null ? editModel.VenueInformation.ToDomainModel() : null,
+                Venue = editModel.VenueInformation != null ? editModel.VenueInformation.ToDomainModel() : null,
                 UserLinks = editModel.UserLinks == null ? new List<UserLink>() : editModel.UserLinks.Select(_ => new UserLink() { Link = _.Link, Text = _.Text, Type = _.Type }).ToList()
             };
 

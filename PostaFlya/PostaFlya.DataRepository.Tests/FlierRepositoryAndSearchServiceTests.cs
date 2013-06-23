@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Linq;
 using NUnit.Framework;
 using Ninject;
-using PostaFlya.DataRepository.Internal;
 using PostaFlya.DataRepository.Search.Event;
 using PostaFlya.DataRepository.Search.Query;
 using PostaFlya.Domain.Boards;
@@ -11,13 +11,14 @@ using PostaFlya.Domain.Boards.Event;
 using PostaFlya.Domain.Boards.Query;
 using PostaFlya.Domain.Flier.Event;
 using PostaFlya.Domain.Flier.Query;
+using PostaFlya.Domain.Venue;
+using Website.Application.Domain.Browser.Query;
 using Website.Azure.Common.Environment;
 using PostaFlya.DataRepository.Search.Implementation;
 using PostaFlya.DataRepository.Tests.Internal;
 using PostaFlya.Domain.Behaviour;
 using PostaFlya.Domain.Flier;
 using Website.Azure.Common.TableStorage;
-using Website.Domain.Browser.Query;
 using Website.Infrastructure.Command;
 using PostaFlya.Mocks.Domain.Data;
 using Website.Domain.Claims;
@@ -35,7 +36,7 @@ namespace PostaFlya.DataRepository.Tests
     public class FlierRepositoryAndSearchServiceTests
     {
         private GenericRepositoryInterface _repository;
-        private QueryServiceForBrowserAggregateInterface _queryService;
+        private GenericQueryServiceInterface _queryService;
         private FlierSearchServiceInterface _searchService;
 
         StandardKernel Kernel
@@ -58,20 +59,25 @@ namespace PostaFlya.DataRepository.Tests
             new AzureClaimRepositoryTests(_env).FixtureSetUp();
 
             Kernel.Get<SqlSeachDbInitializer>().Initialize();
-            DeleteAll();
 
             
             _repository = Kernel.Get<GenericRepositoryInterface>();
-            _queryService = Kernel.Get<QueryServiceForBrowserAggregateInterface>();
+            _queryService = Kernel.Get<GenericQueryServiceInterface>();
             _searchService = Kernel.Get<FlierSearchServiceInterface>();
         }
 
         [TestFixtureTearDown]
         public void FixtureTearDown()
         {
-            Kernel.Unbind<FlierBehaviourInterface>();
+            //Kernel.Unbind<FlierBehaviourInterface>();
             //Kernel.Unbind<TableNameAndPartitionProviderInterface>();
             AzureEnv.UseRealStorage = false;
+        }
+
+        [SetUp]
+        public void BeforeTestDeleteAll()
+        {
+            DeleteAll();
         }
 
         private void DeleteAll()
@@ -94,9 +100,9 @@ namespace PostaFlya.DataRepository.Tests
             Assert.IsNotNull(repository);
             Assert.That(repository, Is.InstanceOf<JsonRepository>());
 
-            var queryService = Kernel.Get<QueryServiceForBrowserAggregateInterface>();
+            var queryService = Kernel.Get<GenericQueryServiceInterface>();
             Assert.IsNotNull(queryService);
-            Assert.That(queryService, Is.InstanceOf<JsonRepositoryWithBrowser>());
+            Assert.That(queryService, Is.InstanceOf<JsonRepository>());
         }
 
         private static Location _loc = new Location(55,55);
@@ -109,8 +115,6 @@ namespace PostaFlya.DataRepository.Tests
 
         public Domain.Flier.Flier StoreFlierRepository()
         {
-            DeleteAll();
-
             var eventDateOne = new DateTimeOffset(new DateTime(2076, 8, 11), TimeSpan.FromHours(10));
             var eventDateTwo = new DateTimeOffset(new DateTime(2077, 12, 19), TimeSpan.FromHours(10));
 
@@ -120,34 +124,29 @@ namespace PostaFlya.DataRepository.Tests
                 .GetUnitOfWork(new List<RepositoryInterface>() {_repository});
 
             var qs = Kernel.Get<GenericQueryServiceInterface>();
+            var qc = Kernel.Get<QueryChannelInterface>();
             var rand = new Random();
-            var indexer = Kernel.Get<SqlFlierIndexService>();
+
             using (uow)
             {
-                var beh = FlierTestData.GetBehaviour(Kernel, flier);
+//                var beh = FlierTestData.GetBehaviour(Kernel, flier);
                 flier.EventDates = new List<DateTimeOffset>(){eventDateOne, eventDateTwo};
-                _repository.Store(flier);
-                _repository.SaveChanges();
-                indexer.Handle(new FlierModifiedEvent(){NewState = flier});
+                FlierTestData.StoreOne(flier, _repository, Kernel);
 
                 var earlierFlier = new Domain.Flier.Flier();
                 earlierFlier.CopyFieldsFrom(flier);
                 earlierFlier.CreateDate = earlierFlier.CreateDate.AddDays(-1);
                 earlierFlier.Id = Guid.NewGuid().ToString();
-                earlierFlier.FriendlyId = qs.FindFreeFriendlyIdForFlier(earlierFlier);
+                earlierFlier.FriendlyId = qc.FindFreeFriendlyIdForFlier(earlierFlier);
                 earlierFlier.EventDates = new List<DateTimeOffset>() { eventDateTwo };
-                _repository.Store(earlierFlier);
-                _repository.SaveChanges();
-                indexer.Handle(new FlierModifiedEvent() { NewState = earlierFlier });
+                FlierTestData.StoreOne(earlierFlier, _repository, Kernel);
 
                 var flierCreatedSameDay = new Domain.Flier.Flier();
                 flierCreatedSameDay.CopyFieldsFrom(flier);
                 flierCreatedSameDay.CreateDate = earlierFlier.CreateDate.AddSeconds(-1);
                 flierCreatedSameDay.Id = Guid.NewGuid().ToString();
-                flierCreatedSameDay.FriendlyId = qs.FindFreeFriendlyIdForFlier(flierCreatedSameDay);
-                _repository.Store(flierCreatedSameDay);
-                _repository.SaveChanges();
-                indexer.Handle(new FlierModifiedEvent() { NewState = earlierFlier });
+                flierCreatedSameDay.FriendlyId = qc.FindFreeFriendlyIdForFlier(flierCreatedSameDay);
+                FlierTestData.StoreOne(flierCreatedSameDay, _repository, Kernel);
                 
 
                 //add fliers with variations on longitude and latitude
@@ -155,32 +154,27 @@ namespace PostaFlya.DataRepository.Tests
                 outOfRangeFlier.CopyFieldsFrom(flier);
                 outOfRangeFlier.Id = Guid.NewGuid().ToString();
                 outOfRangeFlier.CreateDate = outOfRangeFlier.CreateDate.AddSeconds(rand.Next(-1000, 1000));
-                outOfRangeFlier.Location = new Location(flier.Location.Longitude + 10, flier.Location.Latitude);
-                outOfRangeFlier.FriendlyId = qs.FindFreeFriendlyIdForFlier(outOfRangeFlier);
-                _repository.Store(outOfRangeFlier);
-                _repository.SaveChanges();
-                indexer.Handle(new FlierModifiedEvent() { NewState = outOfRangeFlier });
-
-                outOfRangeFlier = new Domain.Flier.Flier();
-                outOfRangeFlier.CopyFieldsFrom(flier);
-                outOfRangeFlier.Id = Guid.NewGuid().ToString();
-                outOfRangeFlier.CreateDate = outOfRangeFlier.CreateDate.AddSeconds(rand.Next(-1000, 1000));
-                outOfRangeFlier.Location = new Location(flier.Location.Longitude, flier.Location.Latitude + 10);
-                outOfRangeFlier.FriendlyId = qs.FindFreeFriendlyIdForFlier(outOfRangeFlier);
-                _repository.Store(outOfRangeFlier);
-                _repository.SaveChanges();
-                indexer.Handle(new FlierModifiedEvent() { NewState = outOfRangeFlier });
+                outOfRangeFlier.Venue = new VenueInformation() { Address = new Location(flier.Venue.Address.Longitude + 10, flier.Venue.Address.Latitude) };
+                outOfRangeFlier.FriendlyId = qc.FindFreeFriendlyIdForFlier(outOfRangeFlier);
+                FlierTestData.StoreOne(outOfRangeFlier, _repository, Kernel);
 
 
                 outOfRangeFlier = new Domain.Flier.Flier();
                 outOfRangeFlier.CopyFieldsFrom(flier);
                 outOfRangeFlier.Id = Guid.NewGuid().ToString();
                 outOfRangeFlier.CreateDate = outOfRangeFlier.CreateDate.AddSeconds(rand.Next(-1000, 1000));
-                outOfRangeFlier.Location = new Location(flier.Location.Longitude + 10, flier.Location.Latitude + 10);
-                outOfRangeFlier.FriendlyId = qs.FindFreeFriendlyIdForFlier(outOfRangeFlier);
-                _repository.Store(outOfRangeFlier);
-                _repository.SaveChanges();
-                indexer.Handle(new FlierModifiedEvent() { NewState = outOfRangeFlier });
+                outOfRangeFlier.Venue = new VenueInformation() { Address = new Location(flier.Venue.Address.Longitude, flier.Venue.Address.Latitude + 10) };
+                outOfRangeFlier.FriendlyId = qc.FindFreeFriendlyIdForFlier(outOfRangeFlier);
+                FlierTestData.StoreOne(outOfRangeFlier, _repository, Kernel);
+
+
+                outOfRangeFlier = new Domain.Flier.Flier();
+                outOfRangeFlier.CopyFieldsFrom(flier);
+                outOfRangeFlier.Id = Guid.NewGuid().ToString();
+                outOfRangeFlier.CreateDate = outOfRangeFlier.CreateDate.AddSeconds(rand.Next(-1000, 1000));
+                outOfRangeFlier.Venue = new VenueInformation() { Address = new Location(flier.Venue.Address.Longitude + 10, flier.Venue.Address.Latitude + 10) };
+                outOfRangeFlier.FriendlyId = qc.FindFreeFriendlyIdForFlier(outOfRangeFlier);
+                FlierTestData.StoreOne(outOfRangeFlier, _repository, Kernel);
 
             }
 
@@ -223,7 +217,7 @@ namespace PostaFlya.DataRepository.Tests
             } while (skip != null);
 
 
-            Assert.That(count, Is.EqualTo(5));
+            Assert.That(count, Is.EqualTo(6));
 
         }
 
@@ -239,7 +233,7 @@ namespace PostaFlya.DataRepository.Tests
             var retrievedFliers = _searchService.FindFliersByLocationAndDistance(location, 5, 30, skipPast: null, tags: tag)
                 .Select(id => _queryService.FindById<Domain.Flier.Flier>(id)).ToList();
 
-            Assert.That(retrievedFliers.Count(), Is.EqualTo(2));
+            Assert.That(retrievedFliers.Count(), Is.EqualTo(3));
 
             FlierTestData.AssertStoreRetrieve(storedFlier, retrievedFliers.FirstOrDefault());
         }
@@ -258,14 +252,14 @@ namespace PostaFlya.DataRepository.Tests
             var retrievedFliers = _searchService.FindFliersByLocationAndDistance(location, 5, 30, null, tag, eventDateOne)
                 .Select(id => _queryService.FindById<Domain.Flier.Flier>(id)).ToList();
 
-            Assert.That(retrievedFliers.Count(), Is.EqualTo(2));
-            Assert.That(retrievedFliers.First().EventDates.Any(time => time == eventDateOne), Is.True);
+            Assert.That(retrievedFliers.Count(), Is.EqualTo(3));
+            Assert.That(retrievedFliers.All(_ => _.EventDates.Any(time => time >= eventDateOne)), Is.True);
 
             retrievedFliers = _searchService.FindFliersByLocationAndDistance(location, 5, 30, null, tag, eventDateTwo)
                 .Select(id => _queryService.FindById<Domain.Flier.Flier>(id)).ToList();
 
-            Assert.That(retrievedFliers.Count(), Is.EqualTo(2));
-            AssertUtil.AreAll(retrievedFliers, flier => flier.EventDates.Any(time => time.DateTime == eventDateTwo));
+            Assert.That(retrievedFliers.Count(), Is.EqualTo(3));
+            AssertUtil.AreAll(retrievedFliers, flier => flier.EventDates.Any(time => time.DateTime >= eventDateTwo));
 
             retrievedFliers = _searchService.FindFliersByLocationAndDistance(location, 5, 30, null, tag, eventDateThree)
                 .Select(id => _queryService.FindById<Domain.Flier.Flier>(id)).ToList();
@@ -313,24 +307,9 @@ namespace PostaFlya.DataRepository.Tests
                     DateAdded = DateTime.Now
                 };
 
-            var uow = Kernel.Get<UnitOfWorkFactoryInterface>()
-                            .GetUnitOfWork(new List<RepositoryInterface>() {_repository});
-
-            var indexer = Kernel.Get<SqlFlierIndexService>();
-            using (uow)
-            {
-                _repository.Store(boardFlier);
-                _repository.UpdateEntity<Domain.Flier.Flier>(storedFlier.Id,
-                                                             flier => flier.Boards.Add(board.Id));
-            }
-            Assert.IsTrue(uow.Successful);
-
-            indexer.Handle(new FlierModifiedEvent()
-                {
-                    NewState = _queryService.FindById<Domain.Flier.Flier>(storedFlier.Id),
-                    OrigState = storedFlier
-                });
-            indexer.Handle(new BoardFlierModifiedEvent() {NewState = boardFlier});
+            storedFlier.Boards.Add(board.Id);
+            FlierTestData.UpdateOne(storedFlier, _repository, Kernel);
+            BoardTestData.StoreOne(boardFlier, _repository, Kernel);
 
             return _queryService.FindById<Flier>(storedFlier.Id);
         }
@@ -340,15 +319,12 @@ namespace PostaFlya.DataRepository.Tests
         {
             var board = BoardTestData.GetOne(Kernel, "TestBoardNameNoLoc", BoardTypeEnum.VenueBoard, _loc);
             board = BoardTestData.StoreOne(board, _repository, Kernel);
-            var indexer = Kernel.Get<SqlFlierIndexService>();
-            indexer.Handle(new BoardModifiedEvent() { NewState = board });
 
             var loc2 = new Location(_loc);
             loc2.Latitude += 1;
             loc2.Longitude += 1;
             var board2 = BoardTestData.GetOne(Kernel, "TestBoardNameNoLoc", BoardTypeEnum.VenueBoard, loc2);
             board2 = BoardTestData.StoreOne(board2, _repository, Kernel);
-            indexer.Handle(new BoardModifiedEvent() { NewState = board2 });
 
             var nearbyQuery = Kernel.Get<FindBoardsNearQueryHandler>();
             var nearby = nearbyQuery.Query(new FindBoardsNearQuery() {Location = _loc, WithinMetres = 1});
@@ -375,15 +351,9 @@ namespace PostaFlya.DataRepository.Tests
                 DateAdded = DateTime.UtcNow
             };
 
-            var uow = Kernel.Get<UnitOfWorkFactoryInterface>()
-                .GetUnitOfWork(new List<RepositoryInterface>() { _repository });
-
-            var indexer = Kernel.Get<SqlFlierIndexService>();
-            using (uow)
-            {
-                _repository.Store(boardFlier);
-                indexer.Handle(new BoardFlierModifiedEvent() { NewState = boardFlier });
-            }
+            storedFlier.Boards.Add(board.Id);
+            FlierTestData.UpdateOne(storedFlier, _repository, Kernel);
+            BoardTestData.StoreOne(boardFlier, _repository, Kernel);
 
             var tag = Kernel.Get<Tags>(bm => bm.Has("default"));
 
@@ -448,13 +418,16 @@ namespace PostaFlya.DataRepository.Tests
         public IQueryable<FlierInterface> FlierRepositoryGetByBrowserId()
         {
             var storedFlier = StoreFlierRepository();
-            var retrievedFlier = _queryService.GetByBrowserId<Domain.Flier.Flier>(storedFlier.BrowserId);
+
+            var qc = Kernel.Get<QueryChannelInterface>();
+            var retrievedFlier = qc.Query(new GetByBrowserIdQuery() {BrowserId = storedFlier.BrowserId},
+                                          new List<Flier>());
 
             Assert.IsTrue(retrievedFlier.Any());
             var retrieved = retrievedFlier.SingleOrDefault(f => f.Id == storedFlier.Id);
             FlierTestData.AssertStoreRetrieve(storedFlier, retrieved);
             
-            return retrievedFlier;
+            return retrievedFlier.AsQueryable();
         }
 
         [Test]
@@ -467,13 +440,8 @@ namespace PostaFlya.DataRepository.Tests
 
             var addComment = CommentTestData.GetOne(Kernel, retFlier.Id);
 
-            using (Kernel.Get<UnitOfWorkFactoryInterface>()
-                .GetUnitOfWork(new List<RepositoryInterface>() { _repository }))
-            {
-
-                _repository.Store(addComment);
-                testFlier.NumberOfComments++;
-            }
+            CommentTestData.StoreOne(addComment, _repository, Kernel);
+            testFlier.NumberOfComments++;
             FlierTestData.UpdateOne(testFlier, _repository, Kernel);
 
             retFlier = FlierTestData.AssertGetById(testFlier, _queryService);
@@ -494,13 +462,8 @@ namespace PostaFlya.DataRepository.Tests
             var comments = CommentTestData.GetSome(Kernel, retFlier.Id, 5);
             foreach (var comment in comments)
             {
-                using (Kernel.Get<UnitOfWorkFactoryInterface>()
-                    .GetUnitOfWork(new List<RepositoryInterface>() {_repository}))
-                {
-
-                    _repository.Store(comment);
-                    testFlier.NumberOfComments++;
-                }
+                CommentTestData.StoreOne(comment, _repository, Kernel);
+                testFlier.NumberOfComments++;
             }
             FlierTestData.UpdateOne(testFlier, _repository, Kernel);
 
@@ -523,14 +486,8 @@ namespace PostaFlya.DataRepository.Tests
             var retFlier = FlierTestData.AssertGetById(testFlier, _queryService);
 
             var claim = ClaimTestData.GetOne(Kernel, retFlier.Id);
-
-            using (Kernel.Get<UnitOfWorkFactoryInterface>()
-                .GetUnitOfWork(new List<RepositoryInterface>() { _repository }))
-            {
-
-                _repository.Store(claim);
-                testFlier.NumberOfClaims++;
-            }
+            ClaimTestData.StoreOne(claim, _repository, Kernel);
+            testFlier.NumberOfClaims++;
             FlierTestData.UpdateOne(testFlier, _repository, Kernel);
 
             retFlier = FlierTestData.AssertGetById(testFlier, _queryService);
@@ -549,15 +506,10 @@ namespace PostaFlya.DataRepository.Tests
 
 
             var claims = ClaimTestData.GetSome(Kernel, retFlier.Id, 5);
-            foreach (var comment in claims)
+            foreach (var claim in claims)
             {
-                using (Kernel.Get<UnitOfWorkFactoryInterface>()
-                    .GetUnitOfWork(new List<RepositoryInterface>() { _repository }))
-                {
-
-                    _repository.Store(comment);
-                    testFlier.NumberOfClaims++;
-                }
+                ClaimTestData.StoreOne(claim, _repository, Kernel);
+                testFlier.NumberOfClaims++;
             }
             FlierTestData.UpdateOne(testFlier, _repository, Kernel);
 
@@ -594,7 +546,8 @@ namespace PostaFlya.DataRepository.Tests
             ClaimTestData.ClaimOne(testFlier, claim, _repository, Kernel);
             claims.Add(claim);
 
-            var retClaims = _queryService.GetByBrowserId<Claim>(browserId);
+            var qc = Kernel.Get<QueryChannelInterface>();
+            var retClaims = qc.Query(new GetByBrowserIdQuery() { BrowserId = browserId }, new List<Claim>()).AsQueryable();
             retClaims = retClaims.OrderByDescending(c => c.ClaimTime);
             AssertUtil.Count(2, retClaims);
             //the latest claims should be stored first
@@ -641,64 +594,44 @@ namespace PostaFlya.DataRepository.Tests
 
         public FlierInterface FindFliersByLocationTagsByDifferentSortOrders()
         {
-            DeleteAll();
-
             var flier = FlierTestData.GetOne(Kernel, _loc);
-            var uow = Kernel.Get<UnitOfWorkFactoryInterface>()
-                .GetUnitOfWork(new List<RepositoryInterface>() { _repository });
 
-            var indexer = Kernel.Get<SqlFlierIndexService>();
-            using (uow)
-            {
-                var beh = FlierTestData.GetBehaviour(Kernel, flier);
-                _repository.Store(flier);
-                indexer.Handle(new FlierModifiedEvent() { NewState = flier });
+//            var beh = FlierTestData.GetBehaviour(Kernel, flier);
+            FlierTestData.StoreOne(flier, _repository, Kernel);
 
-                var earlierFlier = new Domain.Flier.Flier();
-                earlierFlier.CopyFieldsFrom(flier);
-                earlierFlier.CreateDate = earlierFlier.CreateDate.AddDays(-10);
-                earlierFlier.Id = Guid.NewGuid().ToString();
-                earlierFlier.NumberOfClaims = 1;
-                _repository.Store(earlierFlier);
-                indexer.Handle(new FlierModifiedEvent() { NewState = earlierFlier });
+            var earlierFlier = new Domain.Flier.Flier();
+            earlierFlier.CopyFieldsFrom(flier);
+            earlierFlier.CreateDate = earlierFlier.CreateDate.AddDays(-10);
+            earlierFlier.Id = Guid.NewGuid().ToString();
+            earlierFlier.NumberOfClaims = 1;
+            FlierTestData.StoreOne(earlierFlier, _repository, Kernel);
 
-                var expiresLaterFlier = new Domain.Flier.Flier();
-                expiresLaterFlier.CopyFieldsFrom(flier);
-                expiresLaterFlier.CreateDate = earlierFlier.CreateDate.AddDays(-5);
-                expiresLaterFlier.EffectiveDate = earlierFlier.EffectiveDate.AddDays(20);
-                expiresLaterFlier.Id = Guid.NewGuid().ToString();
-                expiresLaterFlier.NumberOfClaims = 2;
-                _repository.Store(expiresLaterFlier);
-                indexer.Handle(new FlierModifiedEvent() { NewState = expiresLaterFlier });
+            var expiresLaterFlier = new Domain.Flier.Flier();
+            expiresLaterFlier.CopyFieldsFrom(flier);
+            expiresLaterFlier.CreateDate = earlierFlier.CreateDate.AddDays(-5);
+            expiresLaterFlier.EffectiveDate = earlierFlier.EffectiveDate.AddDays(20);
+            expiresLaterFlier.Id = Guid.NewGuid().ToString();
+            expiresLaterFlier.NumberOfClaims = 2;
+            FlierTestData.StoreOne(expiresLaterFlier, _repository, Kernel);
 
+            //add fliers with variations on longitude and latitude
+            var outOfRangeFlier = new Domain.Flier.Flier();
+            outOfRangeFlier.CopyFieldsFrom(flier);
+            outOfRangeFlier.Id = Guid.NewGuid().ToString();
+            new Location(flier.Venue.Address.Longitude + 10, flier.Venue.Address.Latitude);
+            FlierTestData.StoreOne(outOfRangeFlier, _repository, Kernel);
 
-                //add fliers with variations on longitude and latitude
-                var outOfRangeFlier = new Domain.Flier.Flier();
-                outOfRangeFlier.CopyFieldsFrom(flier);
-                outOfRangeFlier.Id = Guid.NewGuid().ToString();
-                outOfRangeFlier.Location = new Location(flier.Location.Longitude + 10, flier.Location.Latitude);
-                _repository.Store(outOfRangeFlier);
-                indexer.Handle(new FlierModifiedEvent() { NewState = outOfRangeFlier });
+            outOfRangeFlier = new Domain.Flier.Flier();
+            outOfRangeFlier.CopyFieldsFrom(flier);
+            outOfRangeFlier.Id = Guid.NewGuid().ToString();
+            new Location(flier.Venue.Address.Longitude, flier.Venue.Address.Latitude + 10);
+            FlierTestData.StoreOne(outOfRangeFlier, _repository, Kernel);
 
-
-                outOfRangeFlier = new Domain.Flier.Flier();
-                outOfRangeFlier.CopyFieldsFrom(flier);
-                outOfRangeFlier.Id = Guid.NewGuid().ToString();
-                outOfRangeFlier.Location = new Location(flier.Location.Longitude, flier.Location.Latitude + 10);
-                _repository.Store(outOfRangeFlier);
-                indexer.Handle(new FlierModifiedEvent() { NewState = outOfRangeFlier });
-
-
-                outOfRangeFlier = new Domain.Flier.Flier();
-                outOfRangeFlier.CopyFieldsFrom(flier);
-                outOfRangeFlier.Id = Guid.NewGuid().ToString();
-                outOfRangeFlier.Location = new Location(flier.Location.Longitude + 10, flier.Location.Latitude + 10);
-                _repository.Store(outOfRangeFlier);
-                indexer.Handle(new FlierModifiedEvent() { NewState = outOfRangeFlier });
-
-            }
-
-            Assert.IsTrue(uow.Successful);
+            outOfRangeFlier = new Domain.Flier.Flier();
+            outOfRangeFlier.CopyFieldsFrom(flier);
+            outOfRangeFlier.Id = Guid.NewGuid().ToString();
+            new Location(flier.Venue.Address.Longitude + 10, flier.Venue.Address.Latitude + 10);
+            FlierTestData.StoreOne(outOfRangeFlier, _repository, Kernel);
 
             foreach (FlierSortOrder sortOrder in Enum.GetValues(typeof(FlierSortOrder)))
             {
@@ -711,45 +644,31 @@ namespace PostaFlya.DataRepository.Tests
 
         public void FindFliersByLocationTagsPagedReturnsUniqueFliers()
         {
-            DeleteAll();
-
             var flier = FlierTestData.GetOne(Kernel, _loc);
-            var uow = Kernel.Get<UnitOfWorkFactoryInterface>()
-                .GetUnitOfWork(new List<RepositoryInterface>() { _repository });
 
-            var indexer = Kernel.Get<SqlFlierIndexService>();
-            using (uow)
-            {
-                _repository.Store(flier);
-                indexer.Handle(new FlierModifiedEvent() { NewState = flier });
+            FlierTestData.StoreOne(flier, _repository, Kernel);
 
-                var earlierFlier = new Domain.Flier.Flier();
-                earlierFlier.CopyFieldsFrom(flier);
-                earlierFlier.CreateDate = earlierFlier.CreateDate.AddDays(-10);
-                earlierFlier.Id = Guid.NewGuid().ToString();
-                earlierFlier.LocationRadius = 5;
-                _repository.Store(earlierFlier);
-                indexer.Handle(new FlierModifiedEvent() { NewState = earlierFlier });
+            var earlierFlier = new Domain.Flier.Flier();
+            earlierFlier.CopyFieldsFrom(flier);
+            earlierFlier.CreateDate = earlierFlier.CreateDate.AddDays(-10);
+            earlierFlier.Id = Guid.NewGuid().ToString();
+            earlierFlier.LocationRadius = 5;
+            FlierTestData.StoreOne(earlierFlier, _repository, Kernel);
 
-                var earlierFlierSecond = new Domain.Flier.Flier();
-                earlierFlierSecond.CopyFieldsFrom(flier);
-                earlierFlierSecond.CreateDate = earlierFlier.CreateDate.AddDays(-5);
-                earlierFlierSecond.Id = Guid.NewGuid().ToString();
-                earlierFlierSecond.LocationRadius = 5;
-                _repository.Store(earlierFlierSecond);
-                indexer.Handle(new FlierModifiedEvent() { NewState = earlierFlierSecond });
+            var earlierFlierSecond = new Domain.Flier.Flier();
+            earlierFlierSecond.CopyFieldsFrom(flier);
+            earlierFlierSecond.CreateDate = earlierFlier.CreateDate.AddDays(-5);
+            earlierFlierSecond.Id = Guid.NewGuid().ToString();
+            earlierFlierSecond.LocationRadius = 5;
+            FlierTestData.StoreOne(earlierFlierSecond, _repository, Kernel);
 
-                var earlierFlierThird = new Domain.Flier.Flier();
-                earlierFlierThird.CopyFieldsFrom(flier);
-                earlierFlierThird.CreateDate = earlierFlier.CreateDate.AddDays(-3);
-                earlierFlierThird.Id = Guid.NewGuid().ToString();
-                earlierFlierThird.LocationRadius = 5;
-                _repository.Store(earlierFlierThird);
-                indexer.Handle(new FlierModifiedEvent() { NewState = earlierFlierThird });
+            var earlierFlierThird = new Domain.Flier.Flier();
+            earlierFlierThird.CopyFieldsFrom(flier);
+            earlierFlierThird.CreateDate = earlierFlier.CreateDate.AddDays(-3);
+            earlierFlierThird.Id = Guid.NewGuid().ToString();
+            earlierFlierThird.LocationRadius = 5;
+            FlierTestData.StoreOne(earlierFlierThird, _repository, Kernel);
 
-            }
-
-            Assert.IsTrue(uow.Successful);
 
             foreach (FlierSortOrder sortOrder in Enum.GetValues(typeof(FlierSortOrder)))
             {
@@ -763,7 +682,7 @@ namespace PostaFlya.DataRepository.Tests
                                                 from r2 in retrievedFliers
                                                 select new { r1, r2})
             {
-                Assert.AreEqual(retrievedFlierCombo.r1.Location, retrievedFlierCombo.r2.Location);
+                Assert.AreEqual(retrievedFlierCombo.r1.Venue.Address, retrievedFlierCombo.r2.Venue.Address);
             }
         }
     }

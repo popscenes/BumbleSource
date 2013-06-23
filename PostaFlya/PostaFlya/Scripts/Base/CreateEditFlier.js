@@ -39,7 +39,7 @@
             Id: '',
             Title: '',
             Description: '',
-            TagsString: '',
+            TagsString: 'Music',
             EventDates: [],
             FlierImageId: '',
             FlierImageUrl: '',
@@ -57,7 +57,7 @@
 
         var self = this;
         self.apiUrl = sprintf("/api/Browser/%s/MyFliers", bf.currentBrowserInstance.BrowserId);
-        self.Steps = ['AddImages', 'DetailsAndTags', 'UserLinks', 'Summary', 'Complete'];
+        self.Steps = ['AddImages', 'DetailsAndTags', 'UserLinks', 'Complete'];
 
 
         self.UserLinkTypes = ko.observableArray([]);
@@ -95,6 +95,13 @@
             }
         };
         ko.mapping.fromJS(data, mapping, this);
+        
+        self.browserVenues = ko.mapping.fromJS(bf.currentBrowserInstance.AdminBoards, {
+            create: function(item) {
+                return ko.observable(new bf.VenueInformationModel(item.data.Location));
+            }
+        });
+ 
 
         
         self.afterUpdateCallback = afterUpdateCallback;  
@@ -338,7 +345,7 @@
             }
 
             var validate = $('#flierForm').validate();
-            if (!validate.form()) {
+            if (!validate.form() && $('#flierForm').attr("data-validate-on-next") != "false") {
                 return false;
             }
 

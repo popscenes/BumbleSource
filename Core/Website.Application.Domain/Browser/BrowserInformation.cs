@@ -11,32 +11,77 @@ using Website.Infrastructure.Query;
 
 namespace Website.Application.Domain.Browser
 {
-    public class BrowserInformation : BrowserInformationInterface
+    public class DefaultBrowserInformation : BrowserInformation<Website.Domain.Browser.Browser>
     {
+        private readonly GenericQueryServiceInterface _browserQueryService;
+
+        public DefaultBrowserInformation(GenericQueryServiceInterface browserQueryService
+            , HttpContextBase httpContext, QueryChannelInterface queryChannel)
+            : base(browserQueryService, httpContext, queryChannel)
+        {
+            _browserQueryService = browserQueryService;
+        }
+
+        public override Website.Domain.Browser.Browser AnonymousBrowserGet()
+        {
+            var browserId = GetClientStateValue<string>(TempBrowserId);
+            if (browserId == null)
+            {
+                browserId = Guid.NewGuid().ToString();
+                SetClientStateValue(TempBrowserId, browserId);
+            }
+
+            return new Website.Domain.Browser.Browser()
+            {
+                Id = browserId,
+                FriendlyId = "Anonymous-Browser",
+                Roles = new Website.Domain.Browser.Roles { Role.Temporary.ToString() },
+            };
+        }
+
+        public override Website.Domain.Browser.Browser BrowserGetById(string browserId)
+        {
+            return _browserQueryService.FindById<Website.Domain.Browser.Browser>(browserId);
+        }
+    }
+
+    public abstract class BrowserInformation<BrowserType> : BrowserInformationInterface where BrowserType : class, BrowserInterface
+    {
+        private readonly GenericQueryServiceInterface _browserQueryService;
+        private readonly QueryChannelInterface _queryChannel;
         private readonly HttpContextBase _httpContext;
 
         public const string BrowserCookieId = "browserInformation";
         public const string TempBrowserId = "tempId";
 
-        public BrowserInformation(GenericQueryServiceInterface browserQueryService, HttpContextBase httpContext)
+        protected BrowserInformation(GenericQueryServiceInterface browserQueryService, HttpContextBase httpContext, QueryChannelInterface queryChannel)
         {
+            _browserQueryService = browserQueryService;
             _httpContext = httpContext;
+            _queryChannel = queryChannel;
 
             IpAddress = _httpContext.Request.UserHostAddress;
             UserAgent = _httpContext.Request.UserAgent;
             
+        }
+
+        private void PopulateBrowser()
+        {
+            if (_browser != null)
+                return;
             var identity = (WebIdentityInterface)_httpContext.User.Identity;
-            BrowserInterface browser = null;
-            if (identity.IsAuthenticated 
-                && (browser = browserQueryService.FindBrowserByIdentityProvider(identity.ToCredential())) != null)
+            BrowserType browser = null;
+            if (identity.IsAuthenticated)
             {
-                //reset the roles
-                _httpContext.User = new GenericPrincipal(httpContext.User.Identity, browser.Roles.ToArray());
+                browser = _queryChannel.Query(new FindBrowserByIdentityProviderQuery() { Credential = identity.ToCredential() }, (BrowserType)null);
+
+                if (browser != null)
+                    _httpContext.User = new GenericPrincipal(_httpContext.User.Identity, browser.Roles.ToArray());
             }
             if (browser == null)
                 browser = AnonymousBrowserGet();
 
-            Browser = browser;
+            _browser = browser;
         }
 
         //don't over use these mmmK?
@@ -72,28 +117,21 @@ namespace Website.Application.Domain.Browser
             _httpContext.Response.Cookies.Add(browserCookie);
         }
 
-        public BrowserInterface AnonymousBrowserGet()
-        {
-            if (Browser != null)
-                return Browser;
-
-            var browserId = GetClientStateValue<string>(TempBrowserId);
-            if (browserId == null)
-            {
-                browserId = Guid.NewGuid().ToString();
-                SetClientStateValue(TempBrowserId, browserId);
-            }
-
-            return new Website.Domain.Browser.Browser(browserId)
-                {
-                    FriendlyId = "Anonymous-Browser",
-                    Roles = new Website.Domain.Browser.Roles { Role.Temporary.ToString() },
-                };
-        }
+        public abstract BrowserType AnonymousBrowserGet();
+        public abstract BrowserType BrowserGetById(string browserId);
 
         #region Implementation of BrowserInformationInterface
 
-        public BrowserInterface Browser { get; set; }
+        private BrowserType _browser;
+        public BrowserInterface Browser
+        {
+            get
+            {
+                PopulateBrowser();
+                return _browser;
+            }
+        }
+
         public string IpAddress { get; private set; }
         public string UserAgent { get; private set; }
 
@@ -104,5 +142,7 @@ namespace Website.Application.Domain.Browser
         }
 
         #endregion
+
+
     }
 }

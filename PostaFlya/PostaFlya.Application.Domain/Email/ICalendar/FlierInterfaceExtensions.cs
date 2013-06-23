@@ -30,11 +30,11 @@ namespace PostaFlya.Application.Domain.Email.ICalendar
                     };
             }
 
-            evnt.GpsCoordinate = new GeoCoordinate(flier.Location.Latitude, flier.Location.Longitude);
+            evnt.GpsCoordinate = new GeoCoordinate(flier.Venue.Address.Latitude, flier.Venue.Address.Longitude);
             evnt.Status = EventStatus.CONFIRMED;
             evnt.PriorityLevel = PriorityLevel.Normal;
             evnt.SequenceNbr = 1;
-            evnt.Location = flier.Location.GetAddressDescription();
+            evnt.Location = flier.Venue.PlaceName + " (" + flier.Venue.Address.GetAddressDescription() +")";
             evnt.UID = flier.Id;
             return evnt;
         }

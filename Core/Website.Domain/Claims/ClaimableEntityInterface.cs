@@ -16,7 +16,7 @@ namespace Website.Domain.Claims
                                      GenericQueryServiceInterface queryService)
         {
             var claim = new Claim() {AggregateId = entity.Id, BrowserId = browser.Id};
-            return queryService.FindById<Claim>(claim.GetId()) != null;
+            return queryService.FindByAggregate<Claim>(claim.GetId(), entity.Id) != null;
         }
 
         public static void CopyFieldsFrom(this ClaimableEntityInterface target, ClaimableEntityInterface source)

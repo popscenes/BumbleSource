@@ -49,7 +49,7 @@ namespace Website.Application.Azure.Tests
             CurrIocKernel.Unbind<CloudQueue>();
             CurrIocKernel.Unbind<CloudBlobContainer>();
 
-            var tableNameProv = CurrIocKernel.Get<TableNameAndPartitionProviderServiceInterface>();
+            var tableNameProv = CurrIocKernel.Get<TableNameAndIndexProviderServiceInterface>();
             tableNameProv.SuffixTableNames("test");
 
             AzureEnv.UseRealStorage = true;

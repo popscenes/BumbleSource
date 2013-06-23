@@ -187,10 +187,10 @@ namespace Website.Azure.Common.TableStorage
             }
         }
 
-        public void UpdateEntry(object source)
+        public void Init(object source)
         {
             var tableEntry = source as ExtendableTableEntry;
-            if(tableEntry != null)
+            if (tableEntry != null)
             {
                 MergeProperties(tableEntry, "", true);
             }
@@ -202,12 +202,20 @@ namespace Website.Azure.Common.TableStorage
 
                 AddDict(dictionary);
             }
-
         }
 
-        public object GetEntity(Type entityTyp)
+        public void UpdateEntry()
         {
-            var ret = Activator.CreateInstance(entityTyp, true);
+        }
+
+        public object GetEntity(Type entityTyp = null)
+        {
+            var ret = entityTyp == null || entityTyp == this.GetType() 
+                ? this 
+                : Activator.CreateInstance(entityTyp, true);
+
+            if (ret == this)
+                return ret;
 
             var tableEntry = ret as ExtendableTableEntry;
             if (tableEntry != null)

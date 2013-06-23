@@ -57,6 +57,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Infrastructure\BoardUpload.cs" />
     <Compile Include="Infrastructure\FlyerUpload.cs" />
     <Compile Include="Infrastructure\SiteScraperInterface.cs" />
     <Compile Include="Infrastructure\State.cs" />
@@ -73,6 +74,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="Sites\DingDongScraper.cs" />
     <Compile Include="Sites\DrunkenPoetSiteScraper.cs" />
     <Compile Include="Sites\GraceDarlingScraper.cs" />
     <Compile Include="Sites\RegisterSites.cs" />

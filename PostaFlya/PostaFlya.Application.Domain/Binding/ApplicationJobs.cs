@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,6 +17,7 @@ namespace PostaFlya.Application.Domain.Binding
     {
         public override void Load()
         {
+            Trace.TraceInformation("Binding ApplicationJobs");
             //every day at 1 am
             Kernel.Get<SchedulerInterface>().Jobs.Add(new AbsoluteRepeatJob()
             {
@@ -28,6 +30,8 @@ namespace PostaFlya.Application.Domain.Binding
                 JobActionClass = typeof(SiteMapXmlGenJobAction),
                 TimeOut = TimeSpan.FromDays(1)
             });
+
+            Trace.TraceInformation("End Binding ApplicationJobs");
         }
     }
 }

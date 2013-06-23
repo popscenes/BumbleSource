@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Diagnostics;
 using System.Runtime.Caching;
 using System.Security.Principal;
@@ -13,12 +15,12 @@ using Website.Application.Caching.Command;
 using Website.Application.Domain.Google.Payment;
 using Website.Application.Domain.Payment;
 using Website.Application.Google.Payment;
+using Website.Azure.Common.Environment;
 using Website.Common.Binding;
 using Website.Infrastructure.Authentication;
 using Website.Infrastructure.Binding;
 using Website.Infrastructure.Command;
 using Website.Infrastructure.Configuration;
-using PostaFlya.Models.Factory;
 using Website.Application.Domain.Content;
 using Website.Domain.Content;
 
@@ -109,10 +111,21 @@ namespace PostaFlya.Binding
 //                  .InRequestScope();
 
 // Azure caching
+            Func<ObjectCache> getInMemCache = () =>
+                {
+                    var cacheSettings = new NameValueCollection(3)
+                        {
+                            {"CacheMemoryLimitMegabytes", Convert.ToString(0)},
+                            {"physicalMemoryLimitPercentage", Convert.ToString(49)},
+                            {"pollingInterval", Convert.ToString("00:00:30")}
+                        };
+                    return new MemoryCache("WebSiteCache", cacheSettings);
+                };
+
             Bind<ObjectCache>()
                 .ToMethod(ctx =>
                 {
-                    var ret =  new AzureCacheProvider();
+                    var ret = AzureEnv.IsRunningInCloud() ? new AzureCacheProvider() : getInMemCache();
                     return ret;
                 }).InSingletonScope();
             //turn off notifications for cached repositories when using azure cache          
@@ -148,27 +161,24 @@ namespace PostaFlya.Binding
 //                            })
 //                            .WithMetadata("BroadcastCommunicator", true);
 
-            Bind<FlierBehaviourViewModelFactory>()
-                .ToSelf().InSingletonScope();
-            Bind<FlierBehaviourViewModelFactoryInterface>()
-                .ToConstant(Kernel.Get<FlierBehaviourViewModelFactory>())
-                .InSingletonScope();
-            //retrieve and add view model factories for the different behaviours
-            Bind<FlierBehaviourViewModelFactoryRegistryInterface>()
-                .ToConstant(Kernel.Get<FlierBehaviourViewModelFactory>())
-                .InSingletonScope();
 
-            var kernel = Kernel as StandardKernel;
-            kernel.BindViewModelMappersFromCallingAssembly();
+
+            BindViewModelMappers(Kernel);
 
             Trace.TraceInformation("Finished Binding WebNinjectBindings");
 
         }
 
+        public static void BindViewModelMappers(IKernel kernel)
+        {
+            kernel.BindViewModelMappersFromCallingAssembly();
+            kernel.BindCommandAndQueryHandlersFromCallingAssembly(c => c.InTransientScope());
+        }
+
         #endregion
     }
 
-    public static class AllBindings
+    public static class AllWebSiteBindings
     {
         public static readonly List<INinjectModule> NinjectModules = new List<INinjectModule>()
                   {
@@ -198,7 +208,6 @@ namespace PostaFlya.Binding
                       new Website.Application.Domain.Binding.ApplicationDomainNinjectBinding(),
                       new Website.Application.Azure.Binding.AzureApplicationNinjectBinding(),
                       new PostaFlya.Binding.WebNinjectBindings(),
-                      new PostaFlya.Areas.Default.Binding.DefaultBehaviourWebNinjectBinding(),
                       new PostaFlya.DataRepository.Binding.TableNameNinjectBinding(),
                       new Website.Application.Domain.Binding.ApplicationJobs(),
                       new PostaFlya.Application.Domain.Binding.ApplicationJobs(),

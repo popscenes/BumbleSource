@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace Website.Azure.Common.TableStorage
 {
@@ -13,12 +14,14 @@ namespace Website.Azure.Common.TableStorage
 //        }
     }
 
+
     public interface StorageTableEntryInterface : StorageTableKeyInterface
     {
         int PartitionClone { get; set; }
         bool KeyChanged { get; set; }
-        void UpdateEntry(object source);
-        object GetEntity(Type entityTyp);
+        void Init(object source);
+        void UpdateEntry();
+        object GetEntity(Type entityTyp = null);
         
     }
 

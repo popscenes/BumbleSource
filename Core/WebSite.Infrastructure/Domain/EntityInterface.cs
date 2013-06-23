@@ -62,19 +62,33 @@ namespace Website.Infrastructure.Domain
         string Id { get; set; }
         string FriendlyId { get; set; }
     }
-    
+ 
     public static class AggregateInterfaceExtensions
     {
         public static void CopyFieldsFrom(this AggregateInterface target, AggregateInterface source)
         {
+            EntityIdInterfaceExtensions.CopyFieldsFrom(target, source);
             target.AggregateId = source.AggregateId;
             target.AggregateTypeTag = source.AggregateTypeTag;
         }
     }
 
-    public interface AggregateInterface
+    public interface AggregateRootInterface : EntityIdInterface
+    {
+
+    }
+
+    public interface AggregateInterface : EntityIdInterface
     {
         string AggregateId { get; set; }
         string AggregateTypeTag { get; set; } 
+    }
+
+    public class AggregateIds : AggregateInterface
+    {
+        public string Id { get; set; }
+        public string FriendlyId { get; set; }
+        public string AggregateId { get; set; }
+        public string AggregateTypeTag { get; set; }
     }
 }

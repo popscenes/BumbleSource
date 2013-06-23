@@ -23,17 +23,19 @@ namespace PostaFlya.Controllers
         private readonly ConfigurationServiceInterface _configurationService;
         private readonly GenericQueryServiceInterface _queryService;
         private readonly FlierWebAnalyticServiceInterface _webAnalyticService;
+        private readonly QueryChannelInterface _queryChannel;
         
 
         public TrackViewController(PostaFlyaBrowserInformationInterface browserInformation
             , ConfigurationServiceInterface configurationService
             , GenericQueryServiceInterface queryService
-            , FlierWebAnalyticServiceInterface webAnalyticService)
+            , FlierWebAnalyticServiceInterface webAnalyticService, QueryChannelInterface queryChannel)
         {
             _browserInformation = browserInformation;
             _configurationService = configurationService;
             _queryService = queryService;
             _webAnalyticService = webAnalyticService;
+            _queryChannel = queryChannel;
         }
 
         public ActionResult Index(string src, string id)
@@ -51,7 +53,8 @@ namespace PostaFlya.Controllers
 
         public ActionResult Loc([FromUri]LocationModel loc, string id)
         {
-            var flier = _queryService.FindByFriendlyId<Flier>(id.Trim('/'));
+            var flier = _queryChannel.Query(new FindByFriendlyIdQuery() { FriendlyId = id.Trim('/') }, (Flier)null);
+
             if(flier == null)
                 return new HttpStatusCodeResult(HttpStatusCode.NotFound);
 

@@ -115,7 +115,7 @@ namespace Website.Azure.Common.DataServices
             Thread.Sleep((int) backoff);
         }
 
-        public static bool SaveChangesRetryMutatorsOnConcurrencyException(this TableContextInterface context
+        public static bool SaveChangesRetryOnException(this TableContextInterface context
     , List<Action> retryActions = null)
         {
             var tryCount = 0;
@@ -150,5 +150,6 @@ namespace Website.Azure.Common.DataServices
             }
             while (true);
         }
+
     }
 }

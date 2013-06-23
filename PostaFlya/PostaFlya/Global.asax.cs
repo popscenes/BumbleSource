@@ -12,6 +12,7 @@ using Ninject;
 using Ninject.Syntax;
 using PostaFlya.App_Start;
 using PostaFlya.Controllers;
+using PostaFlya.Domain.Flier.Command;
 using PostaFlya.Views.Board.Widget;
 using Website.Application.Authentication;
 using Website.Application.Command;
@@ -24,6 +25,7 @@ using Website.Common.Environment;
 using Website.Common.Filters;
 using Website.Common.MediaFormatters;
 using Website.Common.Util;
+using Website.Infrastructure.Command;
 using Website.Infrastructure.Configuration;
 using Website.Infrastructure.Util;
 using Website.Domain.Tag;
@@ -64,6 +66,18 @@ namespace PostaFlya
                 url: "",
                 defaults: new { controller = "Bulletin", action = "Get" }
                 );
+
+            routes.MapRoute(
+                name: "BoardSearch",
+                url: "Boards",
+                defaults: new { controller = "BoardSearch", action = "Get" }
+            );
+
+            routes.MapRoute(
+                name: "BoardSearchMe",
+                url: "Locate",
+                defaults: new { controller = "BoardSearch", action = "FindMe" }
+            ); 
 
             routes.MapRoute(
                 name: "BulletinDetail",
@@ -125,6 +139,7 @@ namespace PostaFlya
 
         protected void Application_Start()
         {
+
             AreaRegistration.RegisterAllAreas();
             WebApiConfig.Register(GlobalConfiguration.Configuration);
 
@@ -134,16 +149,21 @@ namespace PostaFlya
             //BundleTable.Bundles.RegisterTemplateBundles();
             //BundleTable.Bundles.EnableDefaultBundles();
 
-            var init = NinjectDependencyResolver.Get<InitServiceInterface>(md => md.Has("tablestorageinit"));
-            if (init != null)
-                init.Init(NinjectDependencyResolver);
-
-            init = NinjectDependencyResolver.Get<InitServiceInterface>(md => md.Has("storageinit"));
-            if (init != null)
-                init.Init(NinjectDependencyResolver);
 
 
-            RegisterWebsiteInformation();
+            if (AzureEnv.GetInstanceIndex() == 0)
+            {
+                
+                var init = NinjectDependencyResolver.Get<InitServiceInterface>(md => md.Has("tablestorageinit"));
+                if (init != null)
+                    init.Init(NinjectDependencyResolver);
+
+                init = NinjectDependencyResolver.Get<InitServiceInterface>(md => md.Has("storageinit"));
+                if (init != null)
+                    init.Init(NinjectDependencyResolver);
+                RegisterWebsiteInformation();
+            }
+                
 
 
             AddSpecifiedDisplayModeProviders();
@@ -152,6 +172,16 @@ namespace PostaFlya
             ValidationAdapters.Register();
 
             UpdateScriptsAndStylesForCdn(NinjectDependencyResolver.Get<ConfigurationServiceInterface>());
+
+            //UNCOMMENT TO REINDEX FLIERS
+//            if (AzureEnv.GetInstanceIndex() == 0)
+//            {
+//                var bus = NinjectDependencyResolver.Get<CommandQueueFactoryInterface>()
+//                         .GetCommandBusForEndpoint("workercommandqueue");
+//                bus.Send(new ReindexFlyersCommand());
+//            }
+            //UNCOMMENT TO REINDEX FLIERS
+
 
             //not using broadcast communicators for anything atm. Was being used for cache notifications but now using azure caching
             //re-enable if we ever need to communicate across roles
@@ -358,7 +388,7 @@ namespace PostaFlya
                     });
             _commandQueueWorker.Start();
 
-            if (AzureEnv.GetInstanceIndex() != 0)//just run scheduler on 1st intance
+            if (AzureEnv.GetInstanceIndex() != 0 || Config.Instance.GetSetting("SkipSomethingForNow", true))//just run scheduler on 1st intance
                 return;
 
             _schedulerWorker = new WebBackgroundWorker((t)

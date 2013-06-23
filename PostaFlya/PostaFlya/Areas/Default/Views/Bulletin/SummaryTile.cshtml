@@ -1,9 +1,7 @@
 ﻿
-@using PostaFlya.Areas.Default.Models.Bulletin
-@using PostaFlya.Domain.Behaviour
 @using PostaFlya.Models.Flier
 
-@model BulletinFlierModel<BulletinBehaviourModel>
+@model BulletinFlierSummaryModel
 
 @{var flier = Model;}
 
@@ -16,13 +14,14 @@
     </div>
     
     <div class="tile-summary">
-       
+      
         <div class="tile-description">
             <div class="flier-title" >
-                <span data-bind="text:Title">@flier.Title</span>
+                <span data-bind="text: $root.TitleWithDate($data)">@flier.Title</span>
             </div>      
             <div class="flier-locality">
-                <span data-bind="text: Location.Locality">@flier.Location.Locality</span>              
+                <a data-bind="click: function () { return true;}, clickBubble: false, attr: { href: (bf.widgetbase ? bf.widgetbase : '') + '/' + Venue.BoardFriendlyId }, text: Venue.PlaceName" href="@flier.Venue.BoardFriendlyId">@flier.Venue.PlaceName</a>
+                <span data-bind="text: Venue.Address.Locality">@flier.Venue.Address.Locality</span>              
             </div>
         </div>
         <div class="tile-peel">

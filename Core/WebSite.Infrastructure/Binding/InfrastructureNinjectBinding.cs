@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Reflection;
 using System.Text;
 using Ninject;
@@ -12,6 +13,7 @@ using Ninject.Syntax;
 using Website.Infrastructure.Command;
 using Website.Infrastructure.Publish;
 using Website.Infrastructure.Query;
+using Website.Infrastructure.Util;
 
 namespace Website.Infrastructure.Binding
 {
@@ -51,7 +53,7 @@ namespace Website.Infrastructure.Binding
             kernel.BindAllInterfacesFromAssemblyFor(asm, typeof(HandleEventInterface), ninjectConfiguration);
         }
 
-        public static void BindAllInterfacesFromAssemblyFor(this StandardKernel kernel, Assembly asm, Type type, ConfigurationAction ninjectConfiguration)
+        public static void BindAllInterfacesFromAssemblyFor(this IKernel kernel, Assembly asm, Type type, ConfigurationAction ninjectConfiguration)
         {
             kernel.Bind(
                 x => x.From(asm)
@@ -67,10 +69,16 @@ namespace Website.Infrastructure.Binding
                     .Configure(ninjectConfiguration));
         }
 
-        public static void BindCommandAndQueryHandlersFromCallingAssembly(this StandardKernel kernel
+        public static void BindCommandAndQueryHandlersFromCallingAssembly(this IKernel kernel
                                                                   , ConfigurationAction ninjectConfiguration)
         {
             var asm = Assembly.GetCallingAssembly();
+            kernel.BindCommandAndQueryHandlersForAssembly(asm, ninjectConfiguration);
+        }
+
+        public static void BindCommandAndQueryHandlersForAssembly(this IKernel kernel, Assembly asm 
+                                                          , ConfigurationAction ninjectConfiguration)
+        {
             Trace.TraceInformation("Binding command handlers from {0}", asm.FullName);
             //command handlers
             kernel.BindAllInterfacesFromAssemblyFor(asm, typeof(CommandHandlerInterface<>), ninjectConfiguration);
@@ -78,7 +86,61 @@ namespace Website.Infrastructure.Binding
 
             //query handlers
             kernel.BindAllInterfacesFromAssemblyFor(asm, typeof(QueryHandlerInterface<,>), ninjectConfiguration);
+            Trace.TraceInformation("End Binding command handlers from {0}", asm.FullName);
 
+        }
+
+        public static void BindGenericQueryHandlersFromAssemblyForTypesFrom(this IKernel kernel
+            , Assembly asm                                                                       
+            , Assembly typeAssembly
+            , ConfigurationAction
+                ninjectConfiguration
+            ,
+            Func<Type, bool> typeSelector = null,
+            Func<Type, bool> querySelector = null)
+        {
+            Trace.TraceInformation("Binding generic query handler from {0} for {1}", asm.FullName, typeAssembly.FullName);
+
+            var genHandlers = asm.DefinedTypes
+                                 .Select(info => info.AsType())
+                                 .Where(
+                                     arg =>
+                                     arg.IsGenericType &&
+                                     typeof(QueryHandlerInterface).IsAssignableFrom(arg)
+                                     && (querySelector == null || querySelector(arg))).ToList();
+
+            if (typeSelector == null) typeSelector = arg => true;
+            var argTypes = typeAssembly.DefinedTypes
+                        .Select(info => info.AsType())
+                        .Where(typeSelector).ToList();
+
+            var qhInt = typeof(QueryHandlerInterface<,>);
+            foreach (var handler in genHandlers)
+            {
+                var arg = handler.GetGenericArguments().First();
+                var con = arg.GetGenericParameterConstraints();
+                foreach (var argType in argTypes.Where(argtype
+                    =>
+                        TypeUtil.CheckGenericParameterAttributes(arg, argtype) &&
+                    con.All(
+                    constype =>
+                        constype.IsAssignableFrom(argtype))))
+                {
+                    var inst = handler.MakeGenericType(argType);
+                    var iface = inst.GetInterfaces().FirstOrDefault(arg1 =>
+                                                            arg1.IsGenericType && arg1.GetGenericTypeDefinition() == qhInt);
+                    kernel.Bind(iface).To(inst);
+                }
+            }
+        }
+
+        public static void BindGenericQueryHandlersFromCallingAssemblyForTypesFrom(this IKernel kernel
+            , Assembly typeAssembly, ConfigurationAction ninjectConfiguration
+            , Func<Type, bool> typeSelector = null, Func<Type, bool> querySelector = null)
+        {
+            var asm = Assembly.GetCallingAssembly();
+            kernel.BindGenericQueryHandlersFromAssemblyForTypesFrom(asm, typeAssembly, ninjectConfiguration
+                , typeSelector, querySelector);
         }
 
         public static void BindRepositoriesFromCallingAssembly(this StandardKernel kernel

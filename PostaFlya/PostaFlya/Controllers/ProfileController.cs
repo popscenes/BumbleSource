@@ -1,37 +1,33 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
-using PostaFlya.Domain.Flier;
+using PostaFlya.Application.Domain.Browser;
 using PostaFlya.Models;
 using PostaFlya.Models.Browser;
 using Website.Application.Binding;
-using PostaFlya.Models.Factory;
 using Website.Application.Content;
-using Website.Application.Domain.Browser;
 using Website.Application.Domain.Browser.Web;
 using Website.Domain.Browser.Query;
+using Website.Infrastructure.Query;
 
 namespace PostaFlya.Controllers
 {
     [BrowserAuthorizeMvc]
     public class ProfileController : Controller
     {
-        private readonly BrowserInformationInterface _browserInformation;
-        private readonly QueryServiceForBrowserAggregateInterface _queryService;
+        private readonly PostaFlyaBrowserInformationInterface _browserInformation;
+        private readonly GenericQueryServiceInterface _queryService;
         private readonly BlobStorageInterface _blobStorage;
-        private readonly FlierBehaviourViewModelFactoryInterface _viewModelFactory;
+        private readonly QueryChannelInterface _queryChannel;
 
-        public ProfileController( BrowserInformationInterface browserInformation
-            , QueryServiceForBrowserAggregateInterface queryService, [ImageStorage]BlobStorageInterface blobStorage
-            , FlierBehaviourViewModelFactoryInterface viewModelFactory)
+        public ProfileController(PostaFlyaBrowserInformationInterface browserInformation
+            , GenericQueryServiceInterface queryService, [ImageStorage]BlobStorageInterface blobStorage
+            , QueryChannelInterface queryChannel)
         {
             _browserInformation = browserInformation;
             _queryService = queryService;
             _blobStorage = blobStorage;
-            _viewModelFactory = viewModelFactory;
+            _queryChannel = queryChannel;
         }
 
         public ActionResult Posted()
@@ -56,7 +52,8 @@ namespace PostaFlya.Controllers
 
         public ActionResult CheckHandle(string handle)
         {
-            var result = _queryService.FindFreeHandleForBrowser(handle, _browserInformation.Browser.Id);
+            var result =
+                _queryChannel.FindFreeHandleForBrowser(handle, _browserInformation.Browser.Id);
             if (result == handle)
                 return Json(true,  JsonRequestBehavior.AllowGet);
 

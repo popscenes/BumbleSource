@@ -25,19 +25,16 @@ namespace Website.Azure.Common.Tests.TableStorage
         [TestFixtureSetUp]
         public void FixtureSetUp()
         {
-            Kernel.Rebind<TableNameAndPartitionProviderServiceInterface>()
-                .To<TableNameAndPartitionProviderService>()
+            Kernel.Rebind<TableNameAndIndexProviderServiceInterface>()
+                .To<TableNameAndIndexProviderService>()
                 .InSingletonScope();
 
-            var tableNameAndPartitionProviderService = Kernel.Get<TableNameAndPartitionProviderServiceInterface>();
-            tableNameAndPartitionProviderService.Add<OneEntity>(0, "testOneEntity", entity => entity.Prop);
-            tableNameAndPartitionProviderService.Add<OneEntity>(1, "testOneEntity", entity => entity.PropTwo, entity => entity.Prop);
-            tableNameAndPartitionProviderService.Add<OneEntity>(2, "testOneEntity", entity => entity.Prop + entity.PropTwo, entity => entity.PropTwo);
+            var tableNameAndPartitionProviderService = Kernel.Get<TableNameAndIndexProviderServiceInterface>();
+            tableNameAndPartitionProviderService.Add<OneEntity>("testOneEntity", entity => entity.Id);
+            
+            tableNameAndPartitionProviderService.Add<TwoEntity>("testTwoEntity", entity => entity.AggregateId, entity => entity.Id);
 
-            tableNameAndPartitionProviderService.Add<TwoEntity>(0, "testTwoEntity", entity => entity.Prop);
-            tableNameAndPartitionProviderService.Add<TwoEntity>(1, "testTwoEntity", entity => entity.PropTwo, entity => entity.Prop);
-
-            tableNameAndPartitionProviderService.Add<ThreeEntity>(0, "testThreeEntity", entity => entity.SomeProp.ToString(CultureInfo.InvariantCulture));
+            tableNameAndPartitionProviderService.Add<ThreeEntity>("testThreeEntity", entity => entity.SomeProp.ToString(CultureInfo.InvariantCulture));
 
             _mockStore = TableContextTests.SetupMockTableContext<JsonTableEntry>(Kernel, new Dictionary<string, List<JsonTableEntry>>());
 
@@ -49,7 +46,7 @@ namespace Website.Azure.Common.Tests.TableStorage
         public void FixtureTearDown()
         {
             Kernel.Unbind<TableContextInterface>();
-            Kernel.Unbind<TableNameAndPartitionProviderServiceInterface>();
+            Kernel.Unbind<TableNameAndIndexProviderServiceInterface>();
             Kernel.Unbind<TestRespositoryBase<JsonTableEntry>>();
         }
 
@@ -64,17 +61,24 @@ namespace Website.Azure.Common.Tests.TableStorage
                 PropTwo = "You",
                 PropThree = "My property",
                 MemberEntity = new ThreeEntity() { SomeProp = 45, MemberEntity = new TwoEntity() { Prop = "ThreeMember", PropTwo = "ThreeMemberTwo" } },
-                RelatedEntities = new List<TwoEntity>() { new TwoEntity() { Prop = "123", PropTwo = "333" }, new TwoEntity() { Prop = "555" } }
+                RelatedEntities = new List<TwoEntity>()
+                    {
+                        new TwoEntity() { Prop = "123", PropTwo = "333", AggregateId = id}, 
+                        new TwoEntity() { Prop = "555", AggregateId = id }
+                    }
             };
 
             var repo = Kernel.Get<TestRespositoryBase<JsonTableEntry>>();
             repo.Store(one);
+            foreach (var two in one.RelatedEntities)
+            {
+                repo.Store(two);
+            }
             repo.SaveChanges();
 
-            Assert.That(_mockStore.Count(), Is.EqualTo(3));
-            Assert.That(_mockStore["testOneEntity"].Count(), Is.EqualTo(3));
-            Assert.That(_mockStore["testTwoEntity"].Count(), Is.EqualTo(6));
-            Assert.That(_mockStore["testThreeEntity"].Count(), Is.EqualTo(1));
+            Assert.That(_mockStore.Count(), Is.EqualTo(2));
+            Assert.That(_mockStore["testOneEntity"].Count(), Is.EqualTo(1));
+            Assert.That(_mockStore["testTwoEntity"].Count(), Is.EqualTo(2));
             _mockStore.Clear();
         }
 
@@ -82,35 +86,42 @@ namespace Website.Azure.Common.Tests.TableStorage
         [Test]
         public void RepositoryBaseTestUpdateEntity()
         {
+            var id = Guid.NewGuid().ToString();
             var one = new OneEntity()
             {
-                Id = Guid.NewGuid().ToString(),
+                Id = id,
                 Prop = "Ya",
                 PropTwo = "You",
                 PropThree = "My property",
                 MemberEntity = new ThreeEntity() { SomeProp = 45, MemberEntity = new TwoEntity() { Prop = "ThreeMember", PropTwo = "ThreeMemberTwo" } },
-                RelatedEntities = new List<TwoEntity>() { new TwoEntity() { Prop = "123", PropTwo = "333" }, new TwoEntity() { Prop = "555" } }
+                RelatedEntities = new List<TwoEntity>()
+                    {
+                        new TwoEntity() { Prop = "123", PropTwo = "333", AggregateId = id}, 
+                        new TwoEntity() { Prop = "555", AggregateId = id }
+                    }
             };
 
             var repo = Kernel.Get<TestRespositoryBase<JsonTableEntry>>();
             repo.Store(one);
+            foreach (var two in one.RelatedEntities)
+            {
+                repo.Store(two);
+            }
             repo.SaveChanges();
 
 
 
-            AssertUtil.Count(3, _mockStore);
-            AssertUtil.Count(3, _mockStore["testOneEntity"]);
-            AssertUtil.Count(6, _mockStore["testTwoEntity"]);
-            AssertUtil.Count(1, _mockStore["testThreeEntity"]);
+            AssertUtil.Count(2, _mockStore);
+            AssertUtil.Count(1, _mockStore["testOneEntity"]);
+
 
 
             repo.UpdateEntity<OneEntity>(one.Id, entity => entity.Prop = "Some Updated Text");
             repo.SaveChanges();
 
-            AssertUtil.Count(3, _mockStore);
-            AssertUtil.Count(3, _mockStore["testOneEntity"]);
-            AssertUtil.Count(6, _mockStore["testTwoEntity"]);
-            AssertUtil.Count(1, _mockStore["testThreeEntity"]);
+            AssertUtil.Count(2, _mockStore);
+            AssertUtil.Count(1, _mockStore["testOneEntity"]);
+            AssertUtil.Count(2, _mockStore["testTwoEntity"]);
 
             Assert.IsTrue(_mockStore["testOneEntity"].Any(entry => entry.GetJson().Contains("Some Updated Text")));
 
@@ -124,21 +135,21 @@ namespace Website.Azure.Common.Tests.TableStorage
         where TableEntryType : class, StorageTableEntryInterface, new()
     {
         public TestRespositoryBase(TableContextInterface tableContext
-            , TableNameAndPartitionProviderServiceInterface nameAndPartitionProviderService) 
-            : base(tableContext, nameAndPartitionProviderService)
+            , TableNameAndIndexProviderServiceInterface nameAndIndexProviderService) 
+            : base(tableContext, nameAndIndexProviderService)
         {
             MockDeserializationStore = new Dictionary<string, object>();
         }
 
         public Dictionary<string, object> MockDeserializationStore { get; set; } 
 
-        protected override StorageAggregate GetEntityForUpdate(Type entity, string id) 
-        {
-            var root = MockDeserializationStore[id];
-            var ret =  new StorageAggregate(root, NameAndPartitionProviderService);
-            ret.LoadAllTableEntriesForUpdate<TableEntryType>(TableContext);
-            return ret;
-        }
+//        protected override StorageAggregate GetEntityForUpdate(Type entity, string id) 
+//        {
+//            var root = MockDeserializationStore[id];
+//            var ret =  new StorageAggregate(root, NameAndPartitionProviderService);
+//            ret.LoadAllTableEntriesForUpdate<TableEntryType>(TableContext);
+//            return ret;
+//        }
 
         public override void Store<EntityType>(EntityType entity)
         {

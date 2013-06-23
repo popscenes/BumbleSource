@@ -1,8 +1,15 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using PostaFlya.Domain.Boards;
+using PostaFlya.Domain.Boards.Event;
+using PostaFlya.Domain.Browser.Event;
 using PostaFlya.Domain.Flier.Event;
 using PostaFlya.Domain.Flier.Query;
+using Website.Domain.Claims;
+using Website.Domain.Claims.Event;
+using Website.Domain.Content;
+using Website.Domain.Content.Event;
 using Website.Domain.Service;
 using Website.Infrastructure.Command;
 using Website.Infrastructure.Domain;
@@ -32,28 +39,84 @@ namespace PostaFlya.Domain.Flier.Command
 
         public object Handle(ReindexFlyersCommand command)
         {
-            const int skiptake = 1000;
+            ReindexAll();
+            return true;
+        }
 
-            IList<EntityIdInterface> flierIds = new List<EntityIdInterface>();
-            do
+        private void ReindexAll()
+        {
+            var fliers = _queryService.FindByIds<Flier>(_queryService.GetAllIds<Flier>());
+            foreach (var flier in fliers)
             {
-                var skip = flierIds.Any() ? _queryService.FindById<PostaFlya.Domain.Flier.Flier>(flierIds.Last().Id) : null;
-                flierIds = _flierSearchService.IterateAllIndexedFliers(skiptake, skip);
+                _domainEventPublishService.Publish(
+                    new FlierModifiedEvent()
+                        {
+                            OrigState = flier,
+                            NewState = flier
+                        });
 
-                var fliers = _queryService.FindByIds<Flier>(flierIds.Select(i  => i.Id)).ToList();
-                foreach (var flier in fliers)
+                var claims = _queryService.FindAggregateEntities<Claim>(flier.Id);
+                foreach (var claim in claims)
                 {
                     _domainEventPublishService.Publish(
-                            new FlierModifiedEvent()
-                            {
-                                OrigState = flier,
-                                NewState = flier
-                            }
-                    );
+                        new ClaimEvent()
+                        {
+                            OrigState = claim,
+                            NewState = claim
+                        });
                 }
+            }
 
-            } while (flierIds.Any());
-            return true;
+            var boards = _queryService.FindByIds<Board>(_queryService.GetAllIds<Board>());
+            foreach (var board in boards)
+            {
+                _domainEventPublishService.Publish(
+                    new BoardModifiedEvent()
+                    {
+                        OrigState = board,
+                        NewState = board
+                    });
+
+                var boardfliers = _queryService.FindAggregateEntities<BoardFlier>(board.Id);
+                foreach (var boardflier in boardfliers)
+                {
+                    _domainEventPublishService.Publish(
+                        new BoardFlierModifiedEvent()
+                        {
+                            OrigState = boardflier,
+                            NewState = boardflier
+                        });
+                }
+            }
+
+            var browsers = _queryService.FindByIds<Browser.Browser>(_queryService.GetAllIds<Browser.Browser>());
+            foreach (var browser in browsers)
+            {
+                _domainEventPublishService.Publish(
+                    new BrowserModifiedEvent()
+                    {
+                        OrigState = browser,
+                        NewState = browser
+                    });
+            }
+
+            var images = _queryService.FindByIds<Image>(_queryService.GetAllIds<Image>());
+            foreach (var image in images)
+            {
+                _domainEventPublishService.Publish(
+                    new ImageModifiedEvent()
+                    {
+                        OrigState = image,
+                        NewState = image
+                    });
+            }
+
+
+
+
+//        , HandleEventInterface<ClaimEvent>
+
+//        , HandleEventInterface<ImageModifiedEvent>
         }
     }
 }

@@ -4,7 +4,7 @@ namespace Website.Domain.TinyUrl
 {
     public interface TinyUrlServiceInterface
     {
-        string UrlFor<UrlEntityType>(UrlEntityType entity) where UrlEntityType : TinyUrlInterface, EntityInterface;
+        string UrlFor<UrlEntityType>(UrlEntityType entity) where UrlEntityType : class, EntityWithTinyUrlInterface, new();
         EntityInterface EntityInfoFor(string url);
     }
 }

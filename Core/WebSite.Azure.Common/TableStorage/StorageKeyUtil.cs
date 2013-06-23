@@ -1,21 +1,89 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 
 namespace Website.Azure.Common.TableStorage
 {
     public static class StorageKeyUtil
     {
+        private const char EscapeChar = '*';
+        private const string EscapeEscape = "**";
+        private static readonly HashSet<char> _invalidKeyChars = new HashSet<char>()
+            {
+                '\\', '/','?','#','[',']','*'
+            };
+
+        public static string EscapeValForKey(this string key)
+        {
+            return key.ToCharArray()
+                .Aggregate(new StringBuilder(), (builder, c) =>
+                    {
+                        if (c == EscapeChar) builder.Append(EscapeEscape);
+                        else if (_invalidKeyChars.Contains(c)) builder.Append(EscapeChar);
+                        else builder.Append(c);
+                        return builder;
+                    }).ToString();
+        }
+
+        public static string ToStorageKeySection(this string keyVal)
+        {
+            return '[' + keyVal.EscapeValForKey() + ']';
+        }
+
+        public static string GetValueForStartsWith(this string startsWith)
+        {
+            var last = startsWith.Last();
+            var ret = startsWith.TrimEnd(last);          
+            last++;
+            return ret + last;
+        }
+
+        public static string GetTableKeyForTerms(this IEnumerable<string> terms)
+        {
+            return terms.Select(s => s.Trim().ToLowerInvariant().EscapeValForKey())
+                 .OrderBy(s => s)
+                 .Aggregate(new StringBuilder(), (builder, s) =>
+                     {
+                         builder.Append('[');
+                         builder.Append(s);
+                         builder.Append(']');
+                         return builder;
+                     }).ToString();
+        }
+
+        public static string CheckValidForKey(this string forKey)
+        {
+            if(forKey.ToCharArray().Any(c => _invalidKeyChars.Contains(c)))
+                throw new InvalidOperationException("invalid valid for table key: " + forKey);
+            return forKey;
+        }
+
         public static string ExtractEntityIdFromRowKey(this string key)
         {
-            var start = key.IndexOf(']');
-            return start < 0 ? key : key.Substring(start + 1);
+            var parts = GetKeySections(key);
+            return parts[parts.Length - 1];
+        }
+
+        public static string ExtractAggregateRootEntityIdFromRowKey(this string key)
+        {
+            var parts = GetKeySections(key);
+            if(parts.Length < 2) throw new ArgumentOutOfRangeException(key, "must be an aggregate id of the form [rootid][id]");
+            return parts[parts.Length - 2];
+        }
+
+        public static string[] GetKeySections(this string key)
+        {
+            return key.Split(new []{'[', ']'}, StringSplitOptions.RemoveEmptyEntries);
         }
 
         public static string CreateRowKeyForEntityId(this string entityId, string idPrefix)
         {
             if (String.IsNullOrWhiteSpace(idPrefix))
                 return entityId;
-            const string format = "[{0}]{1}";
-            return string.Format(format, idPrefix, entityId);
+
+            entityId.CheckValidForKey();
+            return idPrefix.ToStorageKeySection() + entityId.ToStorageKeySection();
         }
 
         //var dattimedesc = (DateTime.MaxValue.Ticks - DateTime.UtcNow.Ticks).ToString("D20");

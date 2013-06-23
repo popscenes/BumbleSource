@@ -5,21 +5,12 @@
     bf.BehaviourViewModelFactory = function () {
         var self = this;
 
-        self.Behaviours = ['Default', 'TaskJob'];
         self.hasHistory = !!(window.history && history.pushState);
         self.disablePushState = false;
 
         self.createViewModel = function (behaviourData) {
 
-//            var comments = new bf.CommentsViewModel('Flier', behaviourData.Flier.Id);
-//            var claims = new bf.ClaimsViewModel('Flier', behaviourData.Flier.Id);
-            switch (behaviourData.Flier.FlierBehaviour) {
-                case 'Default':
-                    return new bf.DefaultBehaviourViewModel(behaviourData);
-                case 'TaskJob':
-                default:
-                    return new bf.DefaultBehaviourViewModel(behaviourData);
-            }
+            return new bf.DefaultBehaviourViewModel(behaviourData);
         };
 
         self.addSammyRoutes = function (rootPath, sam, obsViewMod, initpath) {
@@ -99,15 +90,6 @@
             return path;
         };
 
-        self.getBehaviourForPath = function (path) {
-            for (var i = 0; i < self.Behaviours.length; i++) {
-                var behaviour = self.Behaviours[i];
-                if (path.indexOf(behaviour) != -1)
-                    return behaviour;
-            }
-            return self.Behaviours[0];
-        };
-
         self.stripDetailFromPath = function (path) {
             var indx = path.lastIndexOf('/');
             if (indx != -1) {
@@ -133,12 +115,6 @@
             return isOwner ? ret + '-owner' : ret;
         };
 
-
-        self.isBehaviour = function (behaviour) {
-            if (behaviour == undefined || behaviour == null)
-                return false;
-            return ($.inArray(params.behaviour, self.Behaviours) >= 0);
-        };
     };
 
 

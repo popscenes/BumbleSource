@@ -541,6 +541,12 @@
             var jele = $(element);
             var baseurl = valueAccessor();
             var all = allBindingsAccessor();
+            
+            if (all.external) {
+                jele.attr('src', baseurl);
+                jele.attr('alt', all.alt);
+                return;
+            }
 
             var position = baseurl.indexOf(".jpg");
             var width = getFlierImageSizeFromWidth(jele.width());
@@ -566,9 +572,20 @@
         if (width <= 456)
             return 'h456';
         return '';
-    }
-
-    ;
+    };
+    
+    ko.bindingHandlers.fadeVisible = {
+        init: function (element, valueAccessor) {
+            // Initially set the element to be instantly visible/hidden depending on the value
+            var value = valueAccessor();
+            $(element).toggle(ko.utils.unwrapObservable(value)); // Use "unwrapObservable" so we can handle values that may or may not be observable
+        },
+        update: function (element, valueAccessor) {
+            // Whenever the value subsequently changes, slowly fade the element in or out
+            var value = valueAccessor();
+            ko.utils.unwrapObservable(value) ? $(element).fadeIn() : $(element).fadeOut(2000);
+        }
+    };
 
     ko.bindingHandlers.absolutePosFromScroll = {
         update: function(element, valueAccessor, allBindingsAccessor) {
@@ -578,10 +595,14 @@
             if (value) {
                 var $ele = $(element);
                 $ele.fadeIn();
-                var top = $(window).scrollTop();
+                /*var top = $(window).scrollTop();
                 $ele.css({
                     'top': top
-                });
+                });*/
+                
+                var windowHeight = $(window).height();
+
+                $("body").css({ 'height': windowHeight, 'overflow-y': 'hidden' });
 
                 if (args.refreshtrig && value[args.refreshtrig] && ko.isObservable(value[args.refreshtrig])) {
                     value[args.refreshtrig].subscribe(function() {
@@ -591,6 +612,8 @@
 
             } else {
                 $(element).fadeOut();
+                //alert("fadeout");
+                $("body").css({ 'height': 'auto', 'overflow-y': 'auto' });
             }
         }
     };

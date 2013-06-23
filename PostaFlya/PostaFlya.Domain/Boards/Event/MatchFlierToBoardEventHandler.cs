@@ -23,7 +23,7 @@ namespace PostaFlya.Domain.Boards.Event
 
         public bool Handle(FlierModifiedEvent @event)
         {
-            if (@event.NewState != null)
+            if (@event.NewState != null && @event.NewState.BrowserId == Guid.Empty.ToString())
             {
                 _commandBus.Send(new MatchFlierToBoardsCommand() { FlierId = @event.NewState.Id });
             }

@@ -1,18 +1,13 @@
 using System;
 using System.Collections.Generic;
-using PostaFlya.Domain.Behaviour;
 using PostaFlya.Domain.Boards.Command;
 using PostaFlya.Domain.Boards.Event;
 using PostaFlya.Domain.Flier.Event;
 using PostaFlya.Domain.Flier.Payment;
 using PostaFlya.Domain.Flier.Query;
-using PostaFlya.Domain.Service;
-using Website.Domain.Browser;
-using Website.Domain.Browser.Command;
 using Website.Domain.Payment;
 using Website.Domain.Service;
 using Website.Domain.TinyUrl;
-using Website.Infrastructure.Binding;
 using Website.Infrastructure.Command;
 using Website.Infrastructure.Domain;
 using System.Linq;
@@ -29,12 +24,13 @@ namespace PostaFlya.Domain.Flier.Command
         private readonly DomainEventPublishServiceInterface _domainEventPublishService;
         private readonly CreditChargeServiceInterface _creditChargeService;
         private readonly TinyUrlServiceInterface _tinyUrlService;
+        private readonly QueryChannelInterface _queryChannel;
 
         public CreateFlierCommandHandler(GenericRepositoryInterface repository
             , UnitOfWorkFactoryInterface unitOfWorkFactory, GenericQueryServiceInterface flierQueryService
             , DomainEventPublishServiceInterface domainEventPublishService
             , CreditChargeServiceInterface creditChargeService
-            , TinyUrlServiceInterface tinyUrlService)
+            , TinyUrlServiceInterface tinyUrlService, QueryChannelInterface queryChannel)
         {
             _repository = repository;
             _unitOfWorkFactory = unitOfWorkFactory;
@@ -42,15 +38,16 @@ namespace PostaFlya.Domain.Flier.Command
             _domainEventPublishService = domainEventPublishService;
             _creditChargeService = creditChargeService;
             _tinyUrlService = tinyUrlService;
+            _queryChannel = queryChannel;
         }
 
         public object Handle(CreateFlierCommand command)
         {
             var date = DateTime.UtcNow;
             var eventDates =
-                    command.EventDates.Select(d => d.SetOffsetMinutes(command.ContactDetails != null ? command.ContactDetails.UtcOffset : 0)).ToList();
+                    command.EventDates.Select(d => d.SetOffsetMinutes(command.Venue != null ? command.Venue.UtcOffset : 0)).ToList();
 
-            var newFlier = new Flier(command.Location)
+            var newFlier = new Flier()
                                {
                                    BrowserId = command.Anonymous ? Guid.Empty.ToString() : command.BrowserId,
                                    Title = command.Title,
@@ -68,11 +65,11 @@ namespace PostaFlya.Domain.Flier.Command
                                    HasLeadGeneration = command.AllowUserContact,
                                    EnableAnalytics = command.EnableAnalytics,
                                    Status = FlierStatus.Pending,
-                                   ContactDetails = command.ContactDetails,
+                                   Venue = command.Venue,
                                    UserLinks = command.UserLinks
                                };
 
-            newFlier.FriendlyId = _flierQueryService.FindFreeFriendlyIdForFlier(newFlier);
+            newFlier.FriendlyId = _queryChannel.FindFreeFriendlyIdForFlier(newFlier);
             newFlier.Features = GetPaymentFeatures(newFlier);
             newFlier.TinyUrl = _tinyUrlService.UrlFor(newFlier);
 

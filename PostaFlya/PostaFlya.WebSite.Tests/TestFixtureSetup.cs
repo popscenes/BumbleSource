@@ -2,6 +2,7 @@
 using NUnit.Framework;
 using Ninject.MockingKernel.Moq;
 using Ninject.Modules;
+using PostaFlya.Binding;
 using Website.Domain.Binding;
 using PostaFlya.Mocks.Domain.Data;
 using Website.Test.Common;
@@ -41,7 +42,7 @@ namespace PostaFlya.Website.Tests
 
         private static void InitializeBinding()
         {
-
+            WebNinjectBindings.BindViewModelMappers(CurrIocKernel);
         }
 
         private static readonly List<INinjectModule> NinjectModules = new List<INinjectModule>()

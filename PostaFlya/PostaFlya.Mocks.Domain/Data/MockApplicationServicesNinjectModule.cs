@@ -14,13 +14,16 @@ using Website.Application.Domain.Binding;
 using Website.Application.Domain.Content;
 using Website.Application.Domain.Publish;
 using Website.Application.Publish;
+using Website.Domain.Browser;
+using Website.Domain.Location;
 using Website.Domain.Service;
 using Website.Domain.TinyUrl;
 using Website.Infrastructure.Authentication;
-using Website.Domain.Browser;
 using Website.Infrastructure.Domain;
 using Website.Infrastructure.Publish;
 using Website.Infrastructure.Query;
+using Website.Mocks.Domain.Defaults;
+using BrowserInterface = PostaFlya.Domain.Browser.BrowserInterface;
 
 namespace PostaFlya.Mocks.Domain.Data
 {
@@ -42,10 +45,12 @@ namespace PostaFlya.Mocks.Domain.Data
             Bind<BroadcastServiceInterface>().To<DefaultBroadcastService>().InTransientScope();
 
             ApplicationDomainNinjectBinding.BindCommandAndQueryHandlers(kernel);
+
         }
 
+
         public static void SetUpTinyUrlService<EnityType>(MoqMockingKernel kernel)
-            where EnityType : EntityInterface, TinyUrlInterface
+            where EnityType : class, EntityWithTinyUrlInterface, new()
         {
             var tinyUrlService = kernel.GetMock<TinyUrlServiceInterface>();
             tinyUrlService.Setup(service => service.UrlFor(It.IsAny<EnityType>()))

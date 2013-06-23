@@ -50,30 +50,37 @@ namespace PostaFlya.App_Start
         private static IKernel CreateKernel()
         {
             var kernel = new StandardKernel();
-            kernel.Bind<Func<IKernel>>().ToMethod(ctx => () => new Bootstrapper().Kernel);
-            kernel.Bind<IHttpModule>().To<HttpApplicationInitializationHttpModule>();
-            
-            RegisterServices(kernel);
+            try
+            {
+                kernel.Bind<Func<IKernel>>().ToMethod(ctx => () => new Bootstrapper().Kernel);
+                kernel.Bind<IHttpModule>().To<HttpApplicationInitializationHttpModule>();
 
+            RegisterServices(kernel);
             //until a new version of ninject that supports web api
             GlobalConfiguration.Configuration.DependencyResolver = new NinjectHttpDependencyResolver(kernel);
             //this means that properties in filter attributes can be bound for http controllers
             kernel.Bind<System.Web.Http.Filters.IFilterProvider>().To<DefaultNinjectHttpFilterProvider>();
             //end until a new version
-            return kernel;
+                return kernel;
+            }
+            catch
+            {
+                kernel.Dispose();
+                throw;
+            }
         }
 
         /// <summary>
         /// Load your modules or register your services here!
         /// </summary>
         /// <param name="kernel">The kernel.</param>
-        private static void RegisterServices(IKernel kernel)
+        public static void RegisterServices(IKernel kernel)
         {
             Trace.TraceInformation("Start Ninject load modules " + AzureEnv.GetIdForInstance());
 
-            kernel.Load(AllBindings.NinjectModules);
+            kernel.Load(AllWebSiteBindings.NinjectModules);
 
-            Trace.TraceInformation("Ninject load modules complete " + AzureEnv.GetIdForInstance() + ":" + AllBindings.NinjectModules);
+            Trace.TraceInformation("Ninject load modules complete " + AzureEnv.GetIdForInstance() + ":" + AllWebSiteBindings.NinjectModules);
         }        
     }
 }

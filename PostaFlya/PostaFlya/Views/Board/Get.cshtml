@@ -1,4 +1,5 @@
-﻿@using System.Web.Optimization
+﻿
+@using System.Web.Optimization
 @using PostaFlya.Models
 @using PostaFlya.Models.Flier
 @using Website.Application.Domain.Google.Content
@@ -74,7 +75,7 @@
 
 
 @Html.Partial("Bulletin/SelectedBulletinViewPartial")
-@Html.Partial("Bulletin/BulletinList", new List<BulletinFlierModel>())
+@Html.Partial("Bulletin/BulletinList", new List<BulletinFlierSummaryModel>())
 
 
 

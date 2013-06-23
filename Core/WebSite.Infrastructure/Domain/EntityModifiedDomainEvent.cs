@@ -10,7 +10,7 @@ namespace Website.Infrastructure.Domain
     
     [Serializable]
     public class EntityModifiedDomainEvent<EntityType> : DomainEventBase, EntityModifiedDomainEventInterface<EntityType>
-        where EntityType : EntityInterface
+        where EntityType : class, EntityInterface
     {
         public EntityType OrigState { get; set; }
         public EntityType NewState { get; set; }

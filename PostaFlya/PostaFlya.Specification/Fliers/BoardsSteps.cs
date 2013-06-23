@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PostaFlya.Models.Location;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
@@ -21,6 +22,7 @@ using Website.Domain.Location;
 using Website.Infrastructure.Command;
 using Website.Infrastructure.Domain;
 using Website.Infrastructure.Query;
+using BrowserInterface = PostaFlya.Domain.Browser.BrowserInterface;
 
 namespace PostaFlya.Specification.Fliers
 {
@@ -32,12 +34,18 @@ namespace PostaFlya.Specification.Fliers
         [When(@"I submit the following data for the BOARD:")]
         public void WhenISubmitsTheFollowingDataForTheBOARD(Table table)
         {
+            var venueInfo = new VenueInformationModel();
+            venueInfo.Address = new LocationModel();
+            venueInfo.Address.Longitude = 55;
+            venueInfo.Address.Latitude = 55;
+
             var boardCreate = new BoardCreateEditModel()
                 {
                     BoardName = table.Rows[0]["BoardName"],
                     AllowOthersToPostFliers = Boolean.Parse(table.Rows[0]["AcceptOthersFliers"]),
                     RequireApprovalOfPostedFliers = Boolean.Parse(table.Rows[0]["RequireApprovalForFliers"]),
-                    TypeOfBoard = (BoardTypeEnum)Enum.Parse(typeof(BoardTypeEnum), table.Rows[0]["TypeOfBoard"])
+                    TypeOfBoard = (BoardTypeEnum)Enum.Parse(typeof(BoardTypeEnum), table.Rows[0]["TypeOfBoard"]),
+                    VenueInformation = venueInfo
                 };
 
             WhenABrowserSubmitsTheFollowingDataForTheBOARD(boardCreate, SpecUtil.GetCurrBrowser().Browser.Id);
@@ -55,10 +63,11 @@ namespace PostaFlya.Specification.Fliers
         public void ThenABOARDNamedBoardWillBeCreated(string boardName)
         {
             var queryService = SpecUtil.CurrIocKernel.Get<GenericQueryServiceInterface>();
+            var queryChannel = SpecUtil.CurrIocKernel.Get<QueryChannelInterface>();
             var board = queryService.FindById<Board>(ScenarioContext.Current["createdboardid"] as string);
             Assert.IsNotNull(board);
 
-            var board2 = queryService.FindByFriendlyId<Board>(boardName.ToLower());
+            var board2 = queryChannel.Query(new FindByFriendlyIdQuery() {FriendlyId = boardName.ToLower()}, (Board) null);
             Assert.IsNotNull(board2);
 
             BoardTestData.AssertStoreRetrieve(board, board2);
@@ -85,13 +94,20 @@ namespace PostaFlya.Specification.Fliers
 
         private void GivenThereIsAPublicBoardForBrowserNamed(string browserId, string targetBoard, bool requiresApproval = true)
         {
+            var venueInfo = new VenueInformationModel();
+            venueInfo.Address = new LocationModel();
+            venueInfo.Address.Longitude = 55;
+            venueInfo.Address.Latitude = 55;
+
             var boardCreate = new BoardCreateEditModel()
             {
                 BoardName = targetBoard,
                 AllowOthersToPostFliers = true,
                 RequireApprovalOfPostedFliers = requiresApproval,
+                VenueInformation = venueInfo
             };
 
+            
             WhenABrowserSubmitsTheFollowingDataForTheBOARD(boardCreate, browserId);
             ThenABOARDNamedBoardWillBeCreated(targetBoard);
             ThenTheBOARDWillAllowOthersToPost();
@@ -141,6 +157,8 @@ namespace PostaFlya.Specification.Fliers
         {
             var browserId = _common.GivenThereIsAnExistingBrowserWithParticipantRole();
             GivenThereIsAPublicBoardForBrowserNamed(browserId, targetBoard);
+            ScenarioContext.Current["browserId"] =
+                SpecUtil.CurrIocKernel.Get<BrowserInterface>(ctx => ctx.Has("postadefaultbrowser")).Id;
             _common.GivenIHaveRole(Role.Admin.ToString());
             WhenIApproveTheBOARD();
             ThenTheBOARDHasStatus(BoardStatus.Approved);
@@ -149,6 +167,10 @@ namespace PostaFlya.Specification.Fliers
         [Given(@"I have created a public board named (.*) that requires approval")]
         public void GivenIHaveCreatedAPublicBoardThatRequiresApprovalNamed(string targetBoard)
         {
+            if (SpecUtil.GetCurrBrowser().Browser == null)
+                ScenarioContext.Current["browserId"] =
+                    SpecUtil.CurrIocKernel.Get<BrowserInterface>(ctx => ctx.Has("postadefaultbrowser")).Id;
+
             var browserId = SpecUtil.GetCurrBrowser().Browser.Id;
             GivenThereIsAPublicBoardForBrowserNamed(browserId, targetBoard);
         }
@@ -156,6 +178,10 @@ namespace PostaFlya.Specification.Fliers
         [Given(@"I have created an approved public board named (.*)")]
         public void GivenIHaveCreatedAnApprovedPublicBoardNamed(string targetBoard)
         {
+            if (SpecUtil.GetCurrBrowser().Browser == null)
+                ScenarioContext.Current["browserId"] =
+                    SpecUtil.CurrIocKernel.Get<BrowserInterface>(ctx => ctx.Has("postadefaultbrowser")).Id;
+
             var browserId = SpecUtil.GetCurrBrowser().Browser.Id;
             GivenThereIsAPublicBoardForBrowserNamed(browserId, targetBoard);
             _common.GivenIHaveRole(Role.Admin.ToString());
@@ -330,7 +356,8 @@ namespace PostaFlya.Specification.Fliers
         public void GivenThereIsABoardForAVenueWithAFlier()
         {
             GivenThereIsNoBoardForAVenue();
-            new FlierSteps().GivenIHaveCreatedAflier();
+            _common.GivenIamAParticipantWithRole("Admin");
+            new FlierSteps().WhenICreateAnAnonymousFlier();
             ThenAVenueBOARDWillBeCreated();
             ThenItWillBeAMemberOfTheBoardWithAStatusOf(BoardFlierStatus.Approved);
         }
@@ -384,7 +411,7 @@ namespace PostaFlya.Specification.Fliers
                     });
                
 
-            var fliers = SpecUtil.ControllerResult as IList<BulletinFlierModel>;
+            var fliers = SpecUtil.ControllerResult as IList<BulletinFlierSummaryModel>;
             var flier = fliers.FirstOrDefault();
             Assert.IsNotNull(flier, "no fliers in context");
         }

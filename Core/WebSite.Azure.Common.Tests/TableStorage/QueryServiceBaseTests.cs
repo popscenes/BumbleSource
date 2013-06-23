@@ -23,19 +23,16 @@ namespace Website.Azure.Common.Tests.TableStorage
         [TestFixtureSetUp]
         public void FixtureSetUp()
         {
-            Kernel.Rebind<TableNameAndPartitionProviderServiceInterface>()
-                .To<TableNameAndPartitionProviderService>()
+            Kernel.Rebind<TableNameAndIndexProviderServiceInterface>()
+                .To<TableNameAndIndexProviderService>()
                 .InSingletonScope();
 
-            var tableNameAndPartitionProviderService = Kernel.Get<TableNameAndPartitionProviderServiceInterface>();
-            tableNameAndPartitionProviderService.Add<OneEntity>(0, "testOneEntity", entity => entity.Id);
-            tableNameAndPartitionProviderService.Add<OneEntity>(1, "testOneEntity", entity => entity.PropTwo, entity => entity.Id);
-            tableNameAndPartitionProviderService.Add<OneEntity>(2, "testOneEntity", entity => entity.Prop + entity.PropTwo, entity => entity.Id);
+            var tableNameAndPartitionProviderService = Kernel.Get<TableNameAndIndexProviderServiceInterface>();
+            tableNameAndPartitionProviderService.Add<OneEntity>("testOneEntity", entity => entity.Id);
 
-            tableNameAndPartitionProviderService.Add<TwoEntity>(0, "testTwoEntity", entity => entity.Id);
-            tableNameAndPartitionProviderService.Add<TwoEntity>(10, "testTwoEntity", entity => entity.PropTwo, entity => entity.Id);//using PropTwo as aggregate partition id
+            tableNameAndPartitionProviderService.Add<TwoEntity>("testTwoEntity", entity => entity.AggregateId, entity => entity.Id);
 
-            tableNameAndPartitionProviderService.Add<ThreeEntity>(0, "testThreeEntity", entity => entity.SomeProp.ToString(CultureInfo.InvariantCulture));
+            tableNameAndPartitionProviderService.Add<ThreeEntity>("testThreeEntity", entity => entity.SomeProp.ToString(CultureInfo.InvariantCulture));
 
             _mockStore = TableContextTests.SetupMockTableContext<JsonTableEntry>(Kernel, new Dictionary<string, List<JsonTableEntry>>());
 
@@ -48,7 +45,7 @@ namespace Website.Azure.Common.Tests.TableStorage
         public void FixtureTearDown()
         {
             Kernel.Unbind<TableContextInterface>();
-            Kernel.Unbind<TableNameAndPartitionProviderServiceInterface>();
+            Kernel.Unbind<TableNameAndIndexProviderServiceInterface>();
             Kernel.Unbind<TestRespositoryBase<JsonTableEntry>>();
         }
 
@@ -96,13 +93,17 @@ namespace Website.Azure.Common.Tests.TableStorage
                 MemberEntity = new ThreeEntity() { SomeProp = 45, MemberEntity = new TwoEntity() { Prop = "ThreeMember", PropTwo = "ThreeMemberTwo" } },
                 RelatedEntities = new List<TwoEntity>()
                                       {
-                                          new TwoEntity() {Id = Guid.NewGuid().ToString(), Prop = "123", PropTwo = aggregateId }, 
-                                          new TwoEntity() {Id = Guid.NewGuid().ToString(), Prop = "555", PropTwo = aggregateId }
+                                          new TwoEntity() {Id = Guid.NewGuid().ToString(), Prop = "123", PropTwo = aggregateId, AggregateId = aggregateId}, 
+                                          new TwoEntity() {Id = Guid.NewGuid().ToString(), Prop = "555", PropTwo = aggregateId, AggregateId = aggregateId }
                                       }
             };
 
             var repo = Kernel.Get<TestRespositoryBase<JsonTableEntry>>();
             repo.Store(one);
+            foreach (var two in one.RelatedEntities)
+            {
+                repo.Store(two);
+            }
             repo.SaveChanges();
 
             var qs = Kernel.Get<QueryServiceBase<JsonTableEntry>>();
@@ -118,14 +119,14 @@ namespace Website.Azure.Common.Tests.TableStorage
             _mockStore.Clear();
     
             var repo = Kernel.Get<TestRespositoryBase<JsonTableEntry>>();
-            repo.Store(new TwoEntity() {Id = Guid.NewGuid().ToString(), Prop = "123", PropTwo = "1" });
-            repo.Store(new TwoEntity() { Id = Guid.NewGuid().ToString(), Prop = "123", PropTwo = "1" });
-            repo.Store(new TwoEntity() { Id = Guid.NewGuid().ToString(), Prop = "123", PropTwo = "1" });
+            repo.Store(new OneEntity() {Id = Guid.NewGuid().ToString(), Prop = "123", PropTwo = "1" });
+            repo.Store(new OneEntity() { Id = Guid.NewGuid().ToString(), Prop = "123", PropTwo = "1" });
+            repo.Store(new OneEntity() { Id = Guid.NewGuid().ToString(), Prop = "123", PropTwo = "1" });
             
             repo.SaveChanges();
 
             var qs = Kernel.Get<QueryServiceBase<JsonTableEntry>>();
-            var ret = qs.GetAllIds<TwoEntity>();
+            var ret = qs.GetAllIds<OneEntity>();
 
             AssertUtil.Count(3, ret);
         }
@@ -143,13 +144,17 @@ namespace Website.Azure.Common.Tests.TableStorage
                 MemberEntity = new ThreeEntity() { SomeProp = 45, MemberEntity = new TwoEntity() { Prop = "ThreeMember", PropTwo = "ThreeMemberTwo" } },
                 RelatedEntities = new List<TwoEntity>()
                                       {
-                                          new TwoEntity() {Id = Guid.NewGuid().ToString(), Prop = "123", PropTwo = aggregateId }, 
-                                          new TwoEntity() {Id = Guid.NewGuid().ToString(), Prop = "555", PropTwo = aggregateId }
+                                          new TwoEntity() {Id = Guid.NewGuid().ToString(), Prop = "123", PropTwo = aggregateId, AggregateId = aggregateId}, 
+                                          new TwoEntity() {Id = Guid.NewGuid().ToString(), Prop = "555", PropTwo = aggregateId, AggregateId = aggregateId }
                                       }
             };
 
             var repo = Kernel.Get<TestRespositoryBase<JsonTableEntry>>();
             repo.Store(one);
+            foreach (var two in one.RelatedEntities)
+            {
+                repo.Store(two);
+            }
             repo.SaveChanges();
 
             var qs = Kernel.Get<QueryServiceBase<JsonTableEntry>>();

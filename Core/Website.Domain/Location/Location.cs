@@ -19,7 +19,8 @@ namespace Website.Domain.Location
 
         public Location(LocationAndAddressInterface source)
         {
-            this.CopyFieldsFrom(source);
+            if(source != null)
+                this.CopyFieldsFrom(source);
         }
 
         public Location(double longitude, double latitude, string description = "")

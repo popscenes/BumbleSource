@@ -86,7 +86,7 @@ namespace PostaFlya.Domain.Boards.Command
                 }
 
                 var existing = new BoardFlier(){FlierId = flier.Id, AggregateId = board.Id};
-                existing = queryService.FindById<BoardFlier>(existing.GetIdFor());
+                existing = queryService.FindByAggregate<BoardFlier>(existing.GetIdFor(), board.Id);
 
                 var boardFlier = new BoardFlier();
                 if (board.BrowserId == flier.BrowserId)
@@ -100,7 +100,7 @@ namespace PostaFlya.Domain.Boards.Command
                                             : BoardFlierStatus.Approved;
                 }
 
-                if (board.BoardTypeEnum != BoardTypeEnum.InterestBoard && board.MatchVenueBoard(flier.ContactDetails))
+                if (board.BoardTypeEnum != BoardTypeEnum.InterestBoard && board.MatchVenueBoard(flier.Venue))
                     friendlyIdForVenueBoard = board.FriendlyId;
                 
                 boardFlier.FlierId = flier.Id;
@@ -108,7 +108,8 @@ namespace PostaFlya.Domain.Boards.Command
                 boardFlier.DateAdded = DateTime.UtcNow;
                 boardFlier.Id = boardFlier.GetIdFor();
                 if(existing != null)
-                    repository.UpdateEntity<BoardFlier>(existing.Id, bf => bf.CopyFieldsFrom(boardFlier));
+                    repository.UpdateAggregateEntity<BoardFlier>(existing.Id, existing.AggregateId, 
+                        bf => bf.CopyFieldsFrom(boardFlier));
                 else
                     repository.Store(boardFlier);
 
@@ -125,8 +126,8 @@ namespace PostaFlya.Domain.Boards.Command
                 if (update.Boards == null)
                     update.Boards = new HashSet<string>();
 
-                if (!string.IsNullOrWhiteSpace(friendlyIdForVenueBoard) && update.ContactDetails != null)
-                    update.ContactDetails.BoardFriendlyId = friendlyIdForVenueBoard;
+                if (!string.IsNullOrWhiteSpace(friendlyIdForVenueBoard) && update.Venue != null)
+                    update.Venue.BoardFriendlyId = friendlyIdForVenueBoard;
 
                 update.Boards.UnionWith(ret.Select(r => r.NewState.AggregateId));
                 flier.Boards.UnionWith(update.Boards);

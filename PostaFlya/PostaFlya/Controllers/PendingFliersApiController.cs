@@ -1,19 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using System.Net.Http;
-using System.Web.Http;
+using PostaFlya.Application.Domain.Browser;
 using PostaFlya.Domain.Flier;
 using PostaFlya.Domain.Flier.Command;
-using PostaFlya.Models.Factory;
 using PostaFlya.Models.Flier;
 using Website.Application.Binding;
 using Website.Application.Content;
-using Website.Application.Domain.Browser;
+using Website.Application.Domain.Browser.Query;
 using Website.Application.Domain.Browser.Web;
+using Website.Common.Controller;
 using Website.Common.Extension;
-using Website.Domain.Browser.Query;
+using Website.Common.Model.Query;
 using Website.Domain.Tag;
 using Website.Infrastructure.Command;
 using Website.Infrastructure.Query;
@@ -21,36 +20,35 @@ using Website.Infrastructure.Query;
 namespace PostaFlya.Controllers
 {
      [BrowserAuthorizeHttp(Roles = "Participant")]
-    public class PendingFliersApiController : ApiController
+    public class PendingFliersApiController : WebApiControllerBase
     {
-        private readonly BrowserInformationInterface _browserInformation;
-        private readonly QueryServiceForBrowserAggregateInterface _browserQueryService;
+         private readonly PostaFlyaBrowserInformationInterface _browserInformation;
+        private readonly GenericQueryServiceInterface _browserQueryService;
         private readonly BlobStorageInterface _blobStorage;
-        private readonly FlierBehaviourViewModelFactoryInterface _viewModelFactory;
         private readonly GenericQueryServiceInterface _queryService;
         private readonly CommandBusInterface _commandBus;
+         private readonly QueryChannelInterface _queryChannel;
 
-        public PendingFliersApiController(BrowserInformationInterface browserInformation
-            , QueryServiceForBrowserAggregateInterface browserQueryService, 
+        public PendingFliersApiController(PostaFlyaBrowserInformationInterface browserInformation
+            , GenericQueryServiceInterface browserQueryService, 
             [ImageStorage]BlobStorageInterface blobStorage
-            , FlierBehaviourViewModelFactoryInterface viewModelFactory
             , GenericQueryServiceInterface queryService
-            , CommandBusInterface commandBus)
+            , CommandBusInterface commandBus, QueryChannelInterface queryChannel)
         {
             _browserInformation = browserInformation;
             _browserQueryService = browserQueryService;
             _blobStorage = blobStorage;
-            _viewModelFactory = viewModelFactory;
             _queryService = queryService;
             _commandBus = commandBus;
+            _queryChannel = queryChannel;
         }
 
         // GET api/pendingfliersapi
-        public IEnumerable<BulletinFlierModel> Get()
+        public IEnumerable<BulletinFlierSummaryModel> Get()
         {
-            var fliers = _browserQueryService.GetByBrowserId<Flier>(_browserInformation.Browser.Id);
+            var fliers = _queryChannel.Query(new GetByBrowserIdQuery() {BrowserId = _browserInformation.Browser.Id}, new List<Flier>());
             var pendingFliers = fliers.Where(_ => _.Status == FlierStatus.PaymentPending);
-            var model = pendingFliers.Select(_ => _viewModelFactory.GetBulletinViewModel(_, false).GetImageUrl(_blobStorage)).ToList();
+            var model = _queryChannel.ToViewModel<BulletinFlierSummaryModel, Flier>(pendingFliers);
             return model;
         }
         // PUT api/pendingfliersapi/5
@@ -64,8 +62,8 @@ namespace PostaFlya.Controllers
                 BrowserId = flier.BrowserId,
                 Tags = new Tags(flier.Tags),
                 Title = flier.Title,
-                Description = flier.Description,
-                Location = flier.Location,
+                Description = flier.Description,            
+                Venue = flier.Venue,
                 Image = flier.Image,
                 EventDates = flier.EventDates,
                 ImageList = flier.ImageList,

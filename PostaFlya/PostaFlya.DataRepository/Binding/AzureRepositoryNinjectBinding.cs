@@ -1,20 +1,26 @@
-﻿using System.Configuration;
+﻿using System.Collections.Generic;
+using System.Configuration;
 using System.Data.SqlClient;
 using System.Diagnostics;
+using System.Linq;
+using System.Reflection;
 using Ninject;
 using Ninject.Extensions.Conventions.Syntax;
 using Ninject.Modules;
+using PostaFlya.DataRepository.DomainQuery;
+using PostaFlya.DataRepository.DomainQuery.Board;
+using PostaFlya.DataRepository.DomainQuery.Browser;
+using PostaFlya.Domain.Boards.Query;
 using PostaFlya.Domain.Flier.Query;
 using Website.Azure.Common.Binding;
 using Website.Azure.Common.Sql;
 using Website.Azure.Common.TableStorage;
-using PostaFlya.DataRepository.Internal;
 using PostaFlya.DataRepository.Search.Implementation;
 using Website.Infrastructure.Binding;
 using Website.Infrastructure.Command;
+using Website.Infrastructure.Configuration;
 using Website.Infrastructure.Query;
 using Website.Infrastructure.Util;
-using Website.Domain.Browser.Query;
 
 namespace PostaFlya.DataRepository.Binding
 {
@@ -42,39 +48,31 @@ namespace PostaFlya.DataRepository.Binding
                       {
                           typeof(GenericQueryServiceInterface),
                           typeof(GenericRepositoryInterface),
-                          typeof(QueryServiceForBrowserAggregateInterface)
+
                       });
             _repositoryScopeConfiguration(kernel.Bind(typeof(GenericQueryServiceInterface))
                 .To(typeof(JsonRepository)));
             _repositoryScopeConfiguration(kernel.Bind(typeof(GenericRepositoryInterface))
                 .To(typeof(JsonRepository)));
-            _repositoryScopeConfiguration(kernel.Bind(typeof(QueryServiceForBrowserAggregateInterface))
-                .To(typeof(JsonRepositoryWithBrowser)));
 
+            kernel.BindCommandAndQueryHandlersFromCallingAssembly(syntax => syntax.InTransientScope());
+            kernel.BindGenericQueryHandlersFromCallingAssemblyForTypesFrom(Assembly.GetAssembly(typeof(PostaFlya.Domain.Flier.Flier))
+                , _repositoryScopeConfiguration);
 
-            Trace.TraceInformation("Binding TableNameNinjectBinding");
+            kernel.BindGenericQueryHandlersFromCallingAssemblyForTypesFrom(Assembly.GetAssembly(typeof(Website.Domain.Claims.Claim))
+                ,  _repositoryScopeConfiguration);
 
-//            Bind<AzureCommentRepository>().ToSelf();//this is only used inside other repositories so no need to configure scope etc
-//            Bind<AzureClaimRepository>().ToSelf();
- 
-            //this basically names the azure table context so
-            //we can set up bindings for the Type => TableName dictionary
-//            Kernel.Bind<AzureTableContext>().ToSelf().Named("flier");
-//            Kernel.Bind<AzureTableContext>().ToSelf().Named("taskjob");
-//            Kernel.Bind<AzureTableContext>().ToSelf().Named("image");
-//            Kernel.Bind<AzureTableContext>().ToSelf().Named("browser");
-//            Kernel.Bind<AzureTableContext>().ToSelf().Named("comments");
-//            Kernel.Bind<AzureTableContext>().ToSelf().Named("claims");
+            //kernel.BindGenericQueryHandlersFromCallingAssemblyForTypesFrom(Assembly.GetAssembly(typeof(PostaFlya.DataRepository.DomainQuery.Board.FindBoardByAdminEmailQueryHandler))
+              //  ,  _repositoryScopeConfiguration);
 
-            //Kernel.Bind<AzureTableContext>().ToSelf().Named("websiteinfo");
+            //Bind<QueryHandlerInterface<FindBoardByAdminEmailQuery, List<Domain.Boards.Board>>>()
+             //   .To<FindBoardByAdminEmailQueryHandler>();
 
             
 
-//            Bind<PropertyGroupTableSerializerInterface>().ToMethod(context 
-//                => new DefaultPropertyGroupTableSerializer(CustomEdmSerializers.CustomSerializers)
-//                ).InSingletonScope();
+            //kernel.BindGenericQueryHandlersFromCallingAssemblyForTypesFrom(Assembly.GetAssembly(typeof(PostaFlya.Domain.Boards.Board))
+             //   , _repositoryScopeConfiguration);
 
-            kernel.BindCommandAndQueryHandlersFromCallingAssembly(syntax => syntax.InTransientScope());
             kernel.BindEventHandlersFromCallingAssembly(syntax => syntax.InTransientScope());
             Bind<FlierSearchServiceInterface>()
                 .To<SqlFlierSearchService>();
@@ -98,15 +96,13 @@ namespace PostaFlya.DataRepository.Binding
                 => {
                        var master = ctx.Kernel.Get<string>(c => c.Has("SqlMasterDbConnectionString"));
                        var masterConn = new SqlConnectionStringBuilder(master);
-                       var configDb = ConfigurationManager.AppSettings["SearchDbConnectionStringDbName"];
+                       var configDb = Config.Instance.GetSetting("SearchDbConnectionStringDbName");
                        masterConn.InitialCatalog = string.IsNullOrWhiteSpace(configDb) ? "SearchDb" : configDb;
                        return masterConn.ToString();
                     }
             )
             .WhenTargetHas<SqlSearchConnectionString>()
             .InSingletonScope();
-
-
 
             Trace.TraceInformation("Finished Binding AzureRepositoryNinjectBinding");
  

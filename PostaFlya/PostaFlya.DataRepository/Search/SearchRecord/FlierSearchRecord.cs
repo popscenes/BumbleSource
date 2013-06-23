@@ -34,7 +34,7 @@ namespace PostaFlya.DataRepository.Search.SearchRecord
         public static IEnumerable<FlierSearchRecord> ToSearchRecords(this FlierInterface flier)
         {
             SqlGeography geog = null;
-            var shards = flier.Location.GetShardIdsFor(flier.LocationRadius*1000, out geog);
+            var shards = flier.Venue.Address.GetShardIdsFor(flier.LocationRadius*1000, out geog);
 
             return shards.Select(shard => new  FlierSearchRecord()
                 {
@@ -97,7 +97,7 @@ namespace PostaFlya.DataRepository.Search.SearchRecord
             return element;
         }
 
-        public static SqlGeography ToGeography(this Location location)
+        public static SqlGeography ToGeography(this LocationInterface location)
         {
             try
             {
@@ -109,6 +109,12 @@ namespace PostaFlya.DataRepository.Search.SearchRecord
                 return null;
             }
         }
+
+        public static Location ToLocation(this SqlGeography sqlLoc)
+        {
+            return new Location(sqlLoc.Long.Value, sqlLoc.Lat.Value);
+        }
+
         public static SqlGeography ToGeography(this BoundingBox boundingBox)
         {
             try

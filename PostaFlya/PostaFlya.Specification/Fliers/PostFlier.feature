@@ -10,12 +10,12 @@ When I SUBMIT the data for that FLIER
 Then the new FLIER will be created for behviour Default
 And the FLIER STATUS will be ACTIVE
 
-Scenario: Create Flier With With Insufficient Credit
-Given i have navigated to the CREATE PAGE for a FLIER TYPE Default
-And I have 0 Account Credits
-When I SUBMIT the data for that FLIER 
-Then the new FLIER will be created for behviour Default
-And the FLIER STATUS will be PaymentPending
+#Scenario: Create Flier With With Insufficient Credit
+#Given i have navigated to the CREATE PAGE for a FLIER TYPE Default
+#And I have 0 Account Credits
+#When I SUBMIT the data for that FLIER 
+#Then the new FLIER will be created for behviour Default
+#And the FLIER STATUS will be PaymentPending
 
 Scenario: Attach Images to an existing flier
 Given I have created a FLIER 

@@ -18,6 +18,7 @@ using PostaFlya.Models.Location;
 using PostaFlya.Specification.Util;
 using PostaFlya.Models.Content;
 using Website.Application.Domain.Content;
+using Website.Domain.Browser;
 using Website.Domain.Browser.Query;
 using Website.Domain.Contact;
 using Website.Domain.Payment;
@@ -25,9 +26,9 @@ using Website.Infrastructure.Authentication;
 using Website.Infrastructure.Command;
 using Website.Infrastructure.Query;
 using Website.Test.Common;
-using Website.Domain.Browser;
 using Website.Domain.Location;
 using Website.Domain.Tag;
+using Browser = PostaFlya.Domain.Browser.Browser;
 
 namespace PostaFlya.Specification.Fliers
 {
@@ -82,6 +83,16 @@ namespace PostaFlya.Specification.Fliers
             ScenarioContext.Current["createdflyaid"] = flierid;
         }
 
+        public void WhenTheBrowserSubmitsTheRequiredDataForAnAnonymousFlier(string browserId)
+        {
+            var myFliersApiController = SpecUtil.GetApiController<MyFliersController>();
+            var createModel = ScenarioContext.Current["createflya"] as FlierCreateModel;
+            createModel.Anonymous = true;
+            var test = myFliersApiController.Post(browserId, createModel);
+            var flierid = test.EntityId();
+            ScenarioContext.Current["createdflyaid"] = flierid;
+        }
+
 
         [Then(@"the new FLIER will be created for behviour (.*)")]
         public void ThenTheNewFlierWillBeCreated(string flierBehaviour)
@@ -115,11 +126,17 @@ namespace PostaFlya.Specification.Fliers
         //REUSE
         [Given(@"There is a FLIER")]
         [Given(@"I have created a FLIER")]
-        [Given(@"I have created a FLIER at a Venue")]
-        [When(@"I create a FLIER at a Venue")]
         public void GivenIHaveCreatedAflier()
         {
             GivenIHaveCreatedAflierofBehaviour(FlierBehaviour.Default.ToString());
+        }
+
+        [When(@"I create a FLIER at a Venue")]
+        public void WhenICreateAnAnonymousFlier()
+        {
+            GivenIOrAnotherBrowserHasNavigatedToTheCreateFlierPage("Default");
+            WhenTheBrowserSubmitsTheRequiredDataForAnAnonymousFlier(SpecUtil.GetCurrBrowser().Browser.Id);
+            ThenTheNewFlierWillBeCreated("Default");
         }
 
         //[Given(@"There is a FLIER with Contact Details")]
@@ -189,7 +206,7 @@ namespace PostaFlya.Specification.Fliers
             var flierSearchService = SpecUtil.CurrIocKernel.Get<FlierSearchServiceInterface>();
 
             var flierUpdatedId = flierSearchService
-                .FindFliersByLocationAndDistance(flier.Location, 5, 3000, skipPast: null, tags: flier.Tags)
+                .FindFliersByLocationAndDistance(flier.Venue.Address, 5, 3000, skipPast: null, tags: flier.Tags)
                 .SingleOrDefault(id => flier.Id == id);
 
             var flierUpdated = flierQueryService.FindById<Flier>(flierUpdatedId);
@@ -210,10 +227,6 @@ namespace PostaFlya.Specification.Fliers
         {
             var browserInformation = SpecUtil.GetCurrBrowser();
 
-            var browser = SpecUtil.CurrIocKernel.Get<BrowserInterface>(ctx => ctx.Has("defaultbrowser"));
-
-            browserInformation.Browser = browser;
-
             var myFliersApiController = SpecUtil.GetController<MyFliersController>();
             SpecUtil.ControllerResult = myFliersApiController.Get(browserInformation.Browser.Id);
         }
@@ -222,7 +235,7 @@ namespace PostaFlya.Specification.Fliers
         public void WhenIClickOnViewForAFlier()
         {
             var browserInformation = SpecUtil.GetCurrBrowser();
-            var fliers = SpecUtil.ControllerResult as List<BulletinFlierModel>;
+            var fliers = SpecUtil.ControllerResult as List<BulletinFlierSummaryModel>;
 
             var myFliersApiController = SpecUtil.GetController<MyFliersController>();
             SpecUtil.ControllerResult = myFliersApiController.Get(browserInformation.Browser.Id, fliers.First().Id);
@@ -239,9 +252,9 @@ namespace PostaFlya.Specification.Fliers
         [Then(@"I should see a list of fliers I have created")]
         public void ThenIShouldSeeAListOfFliersIHaveCreated()
         {
-            var fliers = SpecUtil.ControllerResult as IList<BulletinFlierModel>;
+            var fliers = SpecUtil.ControllerResult as IList<BulletinFlierSummaryModel>;
 
-            Assert.IsTrue(fliers.Count() == 3);
+            Assert.IsTrue(fliers.Count() > 0);
         }
 
         [When(@"i view the HEAT MAP")]
@@ -293,7 +306,7 @@ namespace PostaFlya.Specification.Fliers
             flierEditModel.Description = flier.Description;
             flierEditModel.Title = flier.Title;
             flierEditModel.TagsString = flier.Tags.ToString();
-            flierEditModel.VenueInformation = flier.ContactDetails.ToViewModel();
+            flierEditModel.VenueInformation = flier.Venue.ToViewModel();
             flierEditModel.FlierImageId = flier.Image.Value.ToString();
             flierEditModel.EventDates = flier.EventDates.Select(d => d.DateTime).ToList();
             return flierEditModel;
@@ -452,12 +465,10 @@ namespace PostaFlya.Specification.Fliers
 //            var createFlierModel = ScenarioContext.Current["createflya"] as FlierCreateModel;
 //        }
 
-        [Then(@"the FLIER will contain a FEATURE described as (.*) with a cost of (.*) credits")]
-        public void ThenTheFLIERWillContainAFEATUREForTearOffInAEnabledState(string featureDescription, string cost)
+        [Then(@"the FLIER will contain a FEATURE described as (.*)")]
+        public void ThenTheFLIERWillContainAFEATUREForTearOffInAEnabledState(string featureDescription)
         {
             featureDescription = featureDescription.Trim('\"');
-            var creditCost = Int32.Parse(cost);
-            
             var flierid = ScenarioContext.Current["createdflyaid"] as string;
 
             var flierQueryService = SpecUtil.CurrIocKernel.Get<GenericQueryServiceInterface>();
@@ -466,7 +477,6 @@ namespace PostaFlya.Specification.Fliers
             Assert.AreEqual(flier.Features.Count, 2);
             var flierFeature = flier.Features.FirstOrDefault(f => f.Description.Equals(featureDescription));
             Assert.NotNull(flierFeature, "no feature found with description " + featureDescription);
-            Assert.AreEqual(flierFeature.Cost, creditCost);
         }
 
         [Given(@"I choose to allow User Contact")]
@@ -586,7 +596,7 @@ namespace PostaFlya.Specification.Fliers
             var analytics = queryService.FindAggregateEntityIds<FlierAnalytic>(mod.Flier.Id);
             Assert.That(analytics.Count(), Is.GreaterThan(0));
 
-            var item = queryService.FindById<FlierAnalytic>(analytics.First());
+            var item = queryService.FindByAggregate<FlierAnalytic>(analytics.First(), mod.Flier.Id);
 
             Assert.That(item.TemporaryBrowser, Is.False);
 
@@ -637,12 +647,12 @@ namespace PostaFlya.Specification.Fliers
         }
 
 
-        [Then(@"I should see the Analytic Info with the FLIER details")]
-        public void ThenIShouldSeeTheAnalyticInfoWithTheFLIERDetails()
-        {
-            var mod = ScenarioContext.Current["fliermodel"] as DefaultDetailsViewModel;
-            Assert.That(mod.AnalyticInfo, Is.Not.Null);
-        }
+//        [Then(@"I should see the Analytic Info with the FLIER details")]
+//        public void ThenIShouldSeeTheAnalyticInfoWithTheFLIERDetails()
+//        {
+//            var mod = ScenarioContext.Current["fliermodel"] as DefaultDetailsViewModel;
+//            Assert.That(mod.AnalyticInfo, Is.Not.Null);
+//        }
 
         [Given(@"i choose to attach contact details other than my saved details")]
         public void GivenIChooseToAttachContactDetailsOtherThanMySavedDetails()

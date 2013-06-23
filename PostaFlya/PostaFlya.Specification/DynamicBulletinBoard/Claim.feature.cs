@@ -68,7 +68,8 @@ namespace PostaFlya.Specification.DynamicBulletinBoard
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Claim An Initial Tear Off", ((string[])(null)));
             this.ScenarioSetup(scenarioInfo);
-            testRunner.Given("I have navigated to the public view page for a FLIER With TEAR OFF", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+            testRunner.Given("I am a BROWSER in PARTICIPANT ROLE", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+            testRunner.And("I have navigated to the public view page for a FLIER With TEAR OFF", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
             testRunner.When("I claim a tear off for that FLIER", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
             testRunner.Then("I will be recorded as having claimed the flier once", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
             testRunner.And("the number of claims against the FLIER will be incremented", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
@@ -81,7 +82,8 @@ namespace PostaFlya.Specification.DynamicBulletinBoard
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Claim A Tear Off When One Has Been Claimed", ((string[])(null)));
             this.ScenarioSetup(scenarioInfo);
-            testRunner.Given("I have navigated to the public view page for a FLIER With TEAR OFF", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+            testRunner.Given("I am a BROWSER in PARTICIPANT ROLE", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+            testRunner.And("I have navigated to the public view page for a FLIER With TEAR OFF", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
             testRunner.And("I have already claimed a tear off for that FLIER", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
             testRunner.When("Another Browser claims a tear off for that FLIER", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
             testRunner.Then("the number of claims against the FLIER will be incremented", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
@@ -94,7 +96,8 @@ namespace PostaFlya.Specification.DynamicBulletinBoard
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Cant Claim Two Tear Offs  Flier", ((string[])(null)));
             this.ScenarioSetup(scenarioInfo);
-            testRunner.Given("I have navigated to the public view page for a FLIER With TEAR OFF", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+            testRunner.Given("I am a BROWSER in PARTICIPANT ROLE", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+            testRunner.And("I have navigated to the public view page for a FLIER With TEAR OFF", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
             testRunner.And("I have already claimed a tear off for that FLIER", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
             testRunner.When("I claim a tear off for that FLIER", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
             testRunner.Then("I will be recorded as having claimed the flier once", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
@@ -110,7 +113,8 @@ namespace PostaFlya.Specification.DynamicBulletinBoard
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Tear Off Claim Publishes Tear Off Notification", new string[] {
                         "TearOffNotification"});
             this.ScenarioSetup(scenarioInfo);
-            testRunner.Given("I have navigated to the public view page for a FLIER", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+            testRunner.Given("I am a BROWSER in PARTICIPANT ROLE", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+            testRunner.And("I have navigated to the public view page for a FLIER", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
             testRunner.When("I claim a tear off for that FLIER", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
             testRunner.Then("A Notification for that Tear Off should be published", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
             this.ScenarioCleanup();
@@ -122,7 +126,8 @@ namespace PostaFlya.Specification.DynamicBulletinBoard
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Can See Contact Details on flier Once Tear Off Is Claimed", ((string[])(null)));
             this.ScenarioSetup(scenarioInfo);
-            testRunner.Given("I have navigated to the public view page for a FLIER With TEAR OFF", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+            testRunner.Given("I am a BROWSER in PARTICIPANT ROLE", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+            testRunner.And("I have navigated to the public view page for a FLIER With TEAR OFF", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
             testRunner.And("I have already claimed a tear off for that FLIER", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
             testRunner.When("I have navigated to the public view page for that FLIER", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
             testRunner.Then("I should see the public details of that FLIER", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");

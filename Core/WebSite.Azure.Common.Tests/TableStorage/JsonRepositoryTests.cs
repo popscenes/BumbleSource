@@ -24,19 +24,16 @@ namespace Website.Azure.Common.Tests.TableStorage
         [TestFixtureSetUp]
         public void FixtureSetUp()
         {
-            Kernel.Rebind<TableNameAndPartitionProviderServiceInterface>()
-                .To<TableNameAndPartitionProviderService>()
+            Kernel.Rebind<TableNameAndIndexProviderServiceInterface>()
+                .To<TableNameAndIndexProviderService>()
                 .InSingletonScope();
 
-            var tableNameAndPartitionProviderService = Kernel.Get<TableNameAndPartitionProviderServiceInterface>();
-            tableNameAndPartitionProviderService.Add<OneEntity>(0, "testOneEntity", entity => entity.Id);
-            tableNameAndPartitionProviderService.Add<OneEntity>(1, "testOneEntity", entity => entity.PropTwo, entity => entity.Prop);
-            tableNameAndPartitionProviderService.Add<OneEntity>(2, "testOneEntity", entity => entity.Prop + entity.PropTwo, entity => entity.PropTwo);
+            var tableNameAndPartitionProviderService = Kernel.Get<TableNameAndIndexProviderServiceInterface>();
+            tableNameAndPartitionProviderService.Add<OneEntity>("testOneEntity", entity => entity.Id);
 
-            tableNameAndPartitionProviderService.Add<TwoEntity>(0, "testTwoEntity", entity => entity.Prop);
-            tableNameAndPartitionProviderService.Add<TwoEntity>(1, "testTwoEntity", entity => entity.PropTwo, entity => entity.Prop);
+            tableNameAndPartitionProviderService.Add<TwoEntity>("testTwoEntity", entity => entity.Prop);
 
-            tableNameAndPartitionProviderService.Add<ThreeEntity>(0, "testThreeEntity", entity => entity.SomeProp.ToString(CultureInfo.InvariantCulture));
+            tableNameAndPartitionProviderService.Add<ThreeEntity>("testThreeEntity", entity => entity.SomeProp.ToString(CultureInfo.InvariantCulture));
 
             _mockStore = TableContextTests.SetupMockTableContext<JsonTableEntry>(Kernel, new Dictionary<string, List<JsonTableEntry>>());
 
@@ -48,7 +45,7 @@ namespace Website.Azure.Common.Tests.TableStorage
         public void FixtureTearDown()
         {
             Kernel.Unbind<TableContextInterface>();
-            Kernel.Unbind<TableNameAndPartitionProviderServiceInterface>();
+            Kernel.Unbind<TableNameAndIndexProviderServiceInterface>();
             Kernel.Unbind<JsonRepository>();
         }
 
@@ -69,21 +66,13 @@ namespace Website.Azure.Common.Tests.TableStorage
             repo.Store(one);
             repo.SaveChanges();
 
-
-
-            AssertUtil.Count(3, _mockStore);
-            AssertUtil.Count(3, _mockStore["testOneEntity"]);
-            AssertUtil.Count(6, _mockStore["testTwoEntity"]);
-            AssertUtil.Count(1, _mockStore["testThreeEntity"]);
+            AssertUtil.Count(1, _mockStore["testOneEntity"]);
 
 
             repo.UpdateEntity<OneEntity>(one.Id, entity => entity.Prop = "Some Updated Text");
             repo.SaveChanges();
 
-            AssertUtil.Count(3, _mockStore);
-            AssertUtil.Count(3, _mockStore["testOneEntity"]);
-            AssertUtil.Count(6, _mockStore["testTwoEntity"]);
-            AssertUtil.Count(1, _mockStore["testThreeEntity"]);
+            AssertUtil.Count(1, _mockStore["testOneEntity"]);
 
             Assert.IsTrue(_mockStore["testOneEntity"].Any(entry => entry.GetJson().Contains("Some Updated Text")));
         }

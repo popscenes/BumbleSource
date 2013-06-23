@@ -32,9 +32,6 @@ namespace Website.Mocks.Domain.Data
 
             ContactDetailTestData.AssertStoreRetrieve(storedBrowser, retrievedBrowser);
             Assert.AreEqual(storedBrowser.FriendlyId, retrievedBrowser.FriendlyId);
-            Assert.AreEqual(storedBrowser.DefaultLocation, retrievedBrowser.DefaultLocation);
-            Assert.AreEqual(storedBrowser.SavedLocations, retrievedBrowser.SavedLocations);
-            CollectionAssert.AreEquivalent(storedBrowser.SavedTags, retrievedBrowser.SavedTags);
             CollectionAssert.AreEquivalent(storedBrowser.Roles, retrievedBrowser.Roles);
             CollectionAssert.AreEquivalent(storedBrowser.ExternalCredentials, retrievedBrowser.ExternalCredentials);
             Assert.AreEqual(storedBrowser.AvatarImageId, retrievedBrowser.AvatarImageId);
@@ -49,7 +46,7 @@ namespace Website.Mocks.Domain.Data
             return retrievedBrowser;
         }
 
-        public static BrowserInterface StoreOne(BrowserInterface browser, GenericRepositoryInterface repository, StandardKernel kernel)
+        public static BrowserInterface StoreOne(BrowserInterface browser, GenericRepositoryInterface repository, StandardKernel kernel, bool checkuow = true)
         {
             var uow = kernel.Get<UnitOfWorkFactoryInterface>()
                 .GetUnitOfWork(new List<RepositoryInterface>() {repository});
@@ -59,7 +56,8 @@ namespace Website.Mocks.Domain.Data
                 repository.Store(browser);
             }
 
-            Assert.IsTrue(uow.Successful);
+            if (checkuow)
+                Assert.IsTrue(uow.Successful);
             return browser;
         }
 

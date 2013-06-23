@@ -34,14 +34,12 @@ namespace Website.Azure.Common.Tests.TableStorage
             Kernel.Rebind<TableContextInterface>()
                 .To<TableContext>();
 
-            Kernel.Rebind<TableNameAndPartitionProviderServiceInterface>()
-                .To<TableNameAndPartitionProviderService>()
+            Kernel.Rebind<TableNameAndIndexProviderServiceInterface>()
+                .To<TableNameAndIndexProviderService>()
                 .InSingletonScope();
 
-            var tableNameAndPartitionProviderService = Kernel.Get<TableNameAndPartitionProviderServiceInterface>();
-            tableNameAndPartitionProviderService.Add<OneEntity>(0, "testOneEntity", entity => entity.Prop);
-            tableNameAndPartitionProviderService.Add<OneEntity>(1, "testOneEntity", entity => entity.PropTwo, entity => entity.Prop);
-            tableNameAndPartitionProviderService.Add<OneEntity>(2, "testOneEntity", entity => entity.Prop + entity.PropTwo, entity => entity.PropTwo);
+            var tableNameAndPartitionProviderService = Kernel.Get<TableNameAndIndexProviderServiceInterface>();
+            tableNameAndPartitionProviderService.Add<OneEntity>("testOneEntity", entity => entity.Prop);
 
             var context = Kernel.Get<TableContextInterface>();
 
@@ -50,14 +48,14 @@ namespace Website.Azure.Common.Tests.TableStorage
                 context.InitTable<MyExtendableTableEntry>(tableName);
             }
 
-            context.Delete<MyExtendableTableEntry>("testOneEntity", null, 0);
+            context.Delete<MyExtendableTableEntry>("testOneEntity", null);
             context.SaveChanges();
         }
 
         [TestFixtureTearDown]
         public void FixtureTearDown()
         {
-            Kernel.Unbind<TableNameAndPartitionProviderServiceInterface>();
+            Kernel.Unbind<TableNameAndIndexProviderServiceInterface>();
             Kernel.Unbind<TableContextInterface>();
             AzureEnv.UseRealStorage = false;
         }
@@ -70,10 +68,10 @@ namespace Website.Azure.Common.Tests.TableStorage
 
             mockTableContext.Setup(
                 tc =>
-                tc.PerformQuery(It.IsAny<string>(), It.IsAny<Expression<Func<TableEntryType, bool>>>(), It.IsAny<int>(),
+                tc.PerformQuery(It.IsAny<string>(), It.IsAny<Expression<Func<TableEntryType, bool>>>(),
                                 It.IsAny<int>()))
-                .Returns<string, Expression<Func<TableEntryType, bool>>, int, int>(
-                    (table, query, partition, take) =>
+                .Returns<string, Expression<Func<TableEntryType, bool>>, int>(
+                    (table, query, take) =>
                         {
                             ensureTable(table);
                             var ret = mockStore[table].AsQueryable();
@@ -87,12 +85,11 @@ namespace Website.Azure.Common.Tests.TableStorage
             mockTableContext.Setup(
                     tc =>
                     tc.PerformSelectQuery(It.IsAny<string>(), It.IsAny<Expression<Func<TableEntryType, bool>>>()
-                    , It.IsAny<Expression<Func<TableEntryType, StorageTableKey>>>()
-                    , It.IsAny<int>(), It.IsAny<int>()))
+                    , It.IsAny<Expression<Func<TableEntryType, StorageTableKey>>>(), It.IsAny<int>()))
                     .Returns<string, Expression<Func<TableEntryType, bool>>
                     , Expression<Func<TableEntryType, StorageTableKey>> 
-                    ,int, int>(
-                        (table, query, select, partition, take) =>
+                    ,int>(
+                        (table, query, select, take) =>
                         {
                             ensureTable(table);
                             var ret = mockStore[table].AsQueryable();
@@ -103,8 +100,8 @@ namespace Website.Azure.Common.Tests.TableStorage
                             return ret.Select(select);
                         });
 
-            mockTableContext.Setup(tc => tc.Store(It.IsAny<string>(), It.IsAny<StorageTableEntryInterface>()))
-                .Callback<string, StorageTableEntryInterface>((table, entry) =>
+            mockTableContext.Setup(tc => tc.Store(It.IsAny<string>(), It.IsAny<StorageTableKeyInterface>()))
+                .Callback<string, StorageTableKeyInterface>((table, entry) =>
                                                                   {
                                                                       ensureTable(table);
                                                                       var store = mockStore[table];
@@ -135,7 +132,7 @@ namespace Website.Azure.Common.Tests.TableStorage
             Assert.IsNotNull(tabCtxQuery);
 
             var ret = tabCtxQuery.PerformQuery<ExtendableTableEntry>
-                ("testOneEntity", t => t.PartitionKey == dynamicEntity.PartitionKey && t.RowKey == dynamicEntity.RowKey)
+                ("testOneEntity", query: t => t.PartitionKey == dynamicEntity.PartitionKey && t.RowKey == dynamicEntity.RowKey)
                 .SingleOrDefault();
 
             Assert.IsNotNull(ret);
@@ -164,7 +161,7 @@ namespace Website.Azure.Common.Tests.TableStorage
             Assert.IsNotNull(tabCtxQuery);
 
             var ret = tabCtxQuery.PerformQuery<ExtendableTableEntry>
-                ("testOneEntity", t => t.PartitionKey == dynamicEntity.PartitionKey && t.RowKey == dynamicEntity.RowKey)
+                ("testOneEntity", query: t => t.PartitionKey == dynamicEntity.PartitionKey && t.RowKey == dynamicEntity.RowKey)
                 .SingleOrDefault();
 
             Assert.IsNotNull(ret);
@@ -187,7 +184,7 @@ namespace Website.Azure.Common.Tests.TableStorage
             Assert.IsNotNull(tabCtx);
 
             var dynamicEntity = tabCtx.PerformQuery<ExtendableTableEntry>
-                ("testOneEntity", t => t.PartitionKey == "123" && t.RowKey == "123")
+                ("testOneEntity", query: t => t.PartitionKey == "123" && t.RowKey == "123")
                 .SingleOrDefault();
             Assert.IsNotNull(dynamicEntity);//keys from AzureTableContextCanSerializeDynamicProperties()
             dynamicEntity["stringval", Edm.String] = null;
@@ -200,7 +197,7 @@ namespace Website.Azure.Common.Tests.TableStorage
             Assert.IsNotNull(tabCtxQuery);
 
             var ret = tabCtxQuery.PerformQuery<ExtendableTableEntry>
-                ("testOneEntity", t => t.PartitionKey == dynamicEntity.PartitionKey && t.RowKey == dynamicEntity.RowKey)
+                ("testOneEntity", query: t => t.PartitionKey == dynamicEntity.PartitionKey && t.RowKey == dynamicEntity.RowKey)
                 .SingleOrDefault();
 
             Assert.IsNotNull(ret);
@@ -220,7 +217,7 @@ namespace Website.Azure.Common.Tests.TableStorage
             Assert.IsNotNull(tabCtx);
 
             var dynamicEntity = tabCtx.PerformQuery<ExtendableTableEntry>
-                ("testOneEntity", t => t.PartitionKey == "123" && t.RowKey == "123")
+                ("testOneEntity", query: t => t.PartitionKey == "123" && t.RowKey == "123")
                 .SingleOrDefault();
             Assert.IsNotNull(dynamicEntity);//keys from AzureTableContextCanSerializeDynamicProperties()
             dynamicEntity["stringval", Edm.String] = null;
@@ -233,7 +230,7 @@ namespace Website.Azure.Common.Tests.TableStorage
             Assert.IsNotNull(tabCtxQuery);
 
             var ret = tabCtxQuery.PerformQuery<ExtendableTableEntry>
-                ("testOneEntity", t => t.PartitionKey == dynamicEntity.PartitionKey && t.RowKey == dynamicEntity.RowKey)
+                ("testOneEntity", query: t => t.PartitionKey == dynamicEntity.PartitionKey && t.RowKey == dynamicEntity.RowKey)
                 .SingleOrDefault();
 
             Assert.IsNotNull(ret);
@@ -332,7 +329,7 @@ namespace Website.Azure.Common.Tests.TableStorage
             Assert.IsNotNull(tabCtxQuery);
 
             var ret = tabCtxQuery.PerformQuery<MyExtendableTableEntry>
-                ("testOneEntity", t => t.PartitionKey == myEntity.PartitionKey && t.RowKey == myEntity.RowKey)
+                ("testOneEntity", query: t => t.PartitionKey == myEntity.PartitionKey && t.RowKey == myEntity.RowKey)
                 .SingleOrDefault();
 
             Assert.AreEqual(myEntity.RowKey, ret.RowKey);

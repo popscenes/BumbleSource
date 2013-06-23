@@ -1,19 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
+﻿using System.Diagnostics;
 using Ninject;
 using Ninject.Extensions.Conventions.Syntax;
 using Ninject.Modules;
-using Website.Application.Caching.Query;
 using Website.Infrastructure.Binding;
-using Website.Infrastructure.Caching.Command;
-using Website.Infrastructure.Caching.Query;
 using Website.Infrastructure.Command;
 using Website.Infrastructure.Query;
-using Website.Application.Domain.Query;
-using Website.Domain.Browser.Query;
 
 namespace PostaFlya.Application.Domain.Binding
 {
@@ -37,8 +28,9 @@ namespace PostaFlya.Application.Domain.Binding
                       {
                           typeof(GenericQueryServiceInterface),
                           typeof(GenericRepositoryInterface),
-                          typeof(QueryServiceForBrowserAggregateInterface)
                       });
+
+
 
             Trace.TraceInformation("Finished Binding ApplicationDomainRepositoriesNinjectBinding");
 

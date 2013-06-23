@@ -7,20 +7,9 @@ namespace Website.Azure.Common.TableStorage
         : RepositoryBase<JsonTableEntry>
     {
         public JsonRepository(TableContextInterface tableContext
-                      , TableNameAndPartitionProviderServiceInterface nameAndPartitionProviderService)
-            : base(tableContext, nameAndPartitionProviderService)
+                      , TableNameAndIndexProviderServiceInterface nameAndIndexProviderService)
+            : base(tableContext, nameAndIndexProviderService)
         {
-        }
-
-        //can do this with json repository as full aggregate can be reconstructed from root table entry
-        protected override StorageAggregate GetEntityForUpdate(Type entity, string id) 
-        {
-            var root = FindById(entity, id);
-            if (root == null)
-                return null;
-            var ret = new StorageAggregate(root, NameAndPartitionProviderService);
-            ret.LoadAllTableEntriesForUpdate<JsonTableEntry>(TableContext);
-            return ret;
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
 using System.Net;
@@ -9,6 +10,7 @@ using Ninject;
 using TechTalk.SpecFlow;
 using Website.Application.Content;
 using PostaFlya.Controllers;
+using Website.Application.Domain.Browser.Query;
 using Website.Domain.Browser.Query;
 using Website.Infrastructure.Command;
 using PostaFlya.Models.Content;
@@ -64,8 +66,8 @@ namespace PostaFlya.Specification.Content
             var img = ScenarioContext.Current["uploadedImage"] as string;
             var browserInformation = SpecUtil.GetCurrBrowser();
 
-            var imageQs = SpecUtil.CurrIocKernel.Get<QueryServiceForBrowserAggregateInterface>();
-            var imgs = imageQs.GetByBrowserId<Image>(browserInformation.Browser.Id);
+            var qc = SpecUtil.CurrIocKernel.Get<QueryChannelInterface>();
+            var imgs = qc.Query(new GetByBrowserIdQuery() {BrowserId = browserInformation.Browser.Id}, new List<Image>());
             Assert.IsNotEmpty(imgs);
             Assert.IsNotEmpty(imgs.Where(i => i.Id == img));
         }

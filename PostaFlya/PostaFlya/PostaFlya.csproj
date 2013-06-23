@@ -203,12 +203,13 @@
     <Reference Include="Microsoft.WindowsFabric.Data.Common, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\..\..\Libraries\Microsoft.WindowsAzure.Caching.2.0.0.0\lib\net40-full\Microsoft.WindowsFabric.Data.Common.dll</HintPath>
     </Reference>
-    <Reference Include="NewRelic.Api.Agent">
-      <HintPath>..\..\..\Libraries\NewRelicWindowsAzure.1.0.0.33\lib\net40\NewRelic.Api.Agent.dll</HintPath>
+    <Reference Include="NewRelic.Api.Agent, Version=2.5.112.0, Culture=neutral, PublicKeyToken=06552fced0b33d87, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Libraries\NewRelicWindowsAzure.1.0.0.35\lib\NewRelic.Api.Agent.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\Libraries\Newtonsoft.Json.4.5.11\lib\net40\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\..\..\Libraries\Newtonsoft.Json.5.0.6\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="Ninject, Version=3.0.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -220,7 +221,7 @@
     </Reference>
     <Reference Include="Ninject.Web.Common, Version=3.0.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\Libraries\Ninject.Web.Common.3.0.2-unstable-2\lib\net45-full\Ninject.Web.Common.dll</HintPath>
+      <HintPath>..\..\..\Libraries\Ninject.Web.Common.3.0.2-unstable-6\lib\net45-full\Ninject.Web.Common.dll</HintPath>
     </Reference>
     <Reference Include="Ninject.Web.Mvc, Version=3.0.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -237,9 +238,15 @@
       <HintPath>..\..\..\Libraries\System.Json.4.0.20126.16343\lib\net40\System.Json.dll</HintPath>
     </Reference>
     <Reference Include="System.Net.Http" />
-    <Reference Include="System.Net.Http.Formatting, Version=4.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+    <Reference Include="System.Net.Http.Extensions">
+      <HintPath>..\..\..\Libraries\Microsoft.Net.Http.2.2.3-beta\lib\net45\System.Net.Http.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.Formatting, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\Libraries\Microsoft.AspNet.WebApi.Client.4.1.0-alpha-120809\lib\net40\System.Net.Http.Formatting.dll</HintPath>
+      <HintPath>..\..\..\Libraries\Microsoft.AspNet.WebApi.Client.5.0.0-alpha1\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.Primitives">
+      <HintPath>..\..\..\Libraries\Microsoft.Net.Http.2.2.3-beta\lib\net45\System.Net.Http.Primitives.dll</HintPath>
     </Reference>
     <Reference Include="System.Net.Http.WebRequest" />
     <Reference Include="System.Runtime.Caching" />
@@ -251,44 +258,44 @@
     <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Web.Helpers, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
-      <HintPath>..\..\..\Libraries\Microsoft.AspNet.WebPages.2.0.20710.0\lib\net40\System.Web.Helpers.dll</HintPath>
+      <HintPath>..\..\..\Libraries\Microsoft.AspNet.WebPages.2.0.30506.0\lib\net40\System.Web.Helpers.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.Http, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\..\..\Libraries\Microsoft.AspNet.WebApi.Core.4.0.20710.0\lib\net40\System.Web.Http.dll</HintPath>
+      <HintPath>..\..\..\Libraries\Microsoft.AspNet.WebApi.Core.4.0.30506.0\lib\net40\System.Web.Http.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.Http.WebHost, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\..\..\Libraries\Microsoft.AspNet.WebApi.WebHost.4.0.20710.0\lib\net40\System.Web.Http.WebHost.dll</HintPath>
+      <HintPath>..\..\..\Libraries\Microsoft.AspNet.WebApi.WebHost.4.0.30506.0\lib\net40\System.Web.Http.WebHost.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
-      <HintPath>..\..\..\Libraries\Microsoft.AspNet.Mvc.4.0.20710.0\lib\net40\System.Web.Mvc.dll</HintPath>
+      <HintPath>..\..\..\Libraries\Microsoft.AspNet.Mvc.4.0.30506.0\lib\net40\System.Web.Mvc.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.Optimization, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\Libraries\Microsoft.AspNet.Web.Optimization.1.1.0-alpha1\lib\net40\System.Web.Optimization.dll</HintPath>
+      <HintPath>..\..\..\Libraries\Microsoft.AspNet.Web.Optimization.1.1.0-Beta1\lib\net40\System.Web.Optimization.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.Providers">
       <HintPath>..\..\..\Libraries\Microsoft.AspNet.Providers.Core.1.2\lib\net40\System.Web.Providers.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.Razor, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
-      <HintPath>..\..\..\Libraries\Microsoft.AspNet.Razor.2.0.20715.0\lib\net40\System.Web.Razor.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Web.WebPages, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <Private>True</Private>
-      <HintPath>..\..\..\Libraries\Microsoft.AspNet.WebPages.2.0.20710.0\lib\net40\System.Web.WebPages.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Web.WebPages.Deployment, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <Private>True</Private>
-      <HintPath>..\..\..\Libraries\Microsoft.AspNet.WebPages.2.0.20710.0\lib\net40\System.Web.WebPages.Deployment.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Web.WebPages.Razor, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <Private>True</Private>
-      <HintPath>..\..\..\Libraries\Microsoft.AspNet.WebPages.2.0.20710.0\lib\net40\System.Web.WebPages.Razor.dll</HintPath>
+      <HintPath>..\..\..\Libraries\Microsoft.AspNet.Razor.2.0.30506.0\lib\net40\System.Web.Razor.dll</HintPath>
     </Reference>
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Abstractions" />
     <Reference Include="System.Web.Routing" />
+    <Reference Include="System.Web.WebPages, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\..\..\Libraries\Microsoft.AspNet.WebPages.2.0.30506.0\lib\net40\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\..\..\Libraries\Microsoft.AspNet.WebPages.2.0.30506.0\lib\net40\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\..\..\Libraries\Microsoft.AspNet.WebPages.2.0.30506.0\lib\net40\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Web.Services" />
@@ -308,17 +315,15 @@
     </Reference>
     <Reference Include="WebMatrix.WebData, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
-      <HintPath>..\..\..\Libraries\Microsoft.AspNet.WebPages.WebData.2.0.20710.0\lib\net40\WebMatrix.WebData.dll</HintPath>
+      <HintPath>..\..\..\Libraries\Microsoft.AspNet.WebPages.WebData.2.0.30506.0\lib\net40\WebMatrix.WebData.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\NinjectWebCommon.cs" />
     <Compile Include="App_Start\RegisterClientValidationExtensions.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
-    <Compile Include="Areas\Default\Binding\DefaultBehaviourWebNinjectBinding.cs" />
     <Compile Include="Areas\Default\DefaultAreaRegistration.cs" />
     <Compile Include="Areas\Default\Models\DefaultDetailsViewModel.cs" />
-    <Compile Include="Areas\Default\Models\Factory\DefaultBehaviourFlierBehaviourViewModelFactory.cs" />
     <Compile Include="Areas\HelpPage\ApiDescriptionExtensions.cs" />
     <Compile Include="Areas\HelpPage\App_Start\HelpPageConfig.cs" />
     <Compile Include="Areas\HelpPage\Controllers\HelpController.cs" />
@@ -333,9 +338,31 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\SampleDirection.cs" />
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
+    <Compile Include="Areas\MobileApi\App_Start\MobileApiConfig.cs" />
+    <Compile Include="Areas\MobileApi\Flyers\Controllers\FlyerDetailController.cs" />
+    <Compile Include="Areas\MobileApi\Flyers\Controllers\FlyersByLatestController.cs" />
+    <Compile Include="Areas\MobileApi\Flyers\Controllers\FlyersByLocationController.cs" />
+    <Compile Include="Areas\MobileApi\Flyers\Model\FlyerDetailModel.cs" />
+    <Compile Include="Areas\MobileApi\Flyers\Model\FlyerDetailRequest.cs" />
+    <Compile Include="Areas\MobileApi\Flyers\Model\FlyersByLatestRequest.cs" />
+    <Compile Include="Areas\MobileApi\Flyers\Model\FlyersByLocationRequest.cs" />
+    <Compile Include="Areas\MobileApi\Flyers\Model\FlyerSummaryContent.cs" />
+    <Compile Include="Areas\MobileApi\Flyers\Model\FlyerSummaryModel.cs" />
+    <Compile Include="Areas\MobileApi\Flyers\Query\FindFlyerByIdQueryHandler.cs" />
+    <Compile Include="Areas\MobileApi\Flyers\Query\FindFlyersByLatestQueryHandler.cs" />
+    <Compile Include="Areas\MobileApi\Flyers\Query\FindFlyersByLocationAndDistanceQueryHandler.cs" />
+    <Compile Include="Areas\MobileApi\Infrastructure\Controller\MobileApiControllerBase.cs" />
+    <Compile Include="Areas\MobileApi\Infrastructure\Controller\ResponseContentExtensions.cs" />
+    <Compile Include="Areas\MobileApi\Infrastructure\HttpFilters\MobileApiValidationActionFilter.cs" />
+    <Compile Include="Areas\MobileApi\Infrastructure\Model\ResponseContent.cs" />
+    <Compile Include="Areas\MobileApi\MobileApiAreaRegistration.cs" />
+    <Compile Include="Areas\MobileApi\Infrastructure\Model\PageRequestModel.cs" />
+    <Compile Include="Areas\MobileApi\Infrastructure\Model\ValidationErrorModel.cs" />
     <Compile Include="Binding\WebNinjectBindings.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BoardController.cs" />
+    <Compile Include="Controllers\BoardSearchApiController.cs" />
+    <Compile Include="Controllers\BoardSearchController.cs" />
     <Compile Include="Controllers\BrowserInformationController.cs" />
     <Compile Include="Controllers\ClaimController.cs" />
     <Compile Include="Controllers\BoardFlierController.cs" />
@@ -357,7 +384,10 @@
     <Compile Include="Models\Board\AddBoardFlierModel.cs" />
     <Compile Include="Models\Board\BoardCreateEditModel.cs" />
     <Compile Include="Models\Board\BoardFlierModel.cs" />
+    <Compile Include="Models\Board\BoardModel.cs" />
     <Compile Include="Models\Board\BoardPageViewModel.cs" />
+    <Compile Include="Models\Board\BoardSearchModel.cs" />
+    <Compile Include="Models\Board\BoardSearchPageViewModel.cs" />
     <Compile Include="Models\Board\BoardWidgetViewModel.cs" />
     <Compile Include="Models\Board\EditBoardFlierModel.cs" />
     <Compile Include="Models\Browser\BrowserModel.cs" />
@@ -374,40 +404,35 @@
     <Compile Include="Controllers\FlierController.cs" />
     <Compile Include="Controllers\HeatMapApiController.cs" />
     <Compile Include="Controllers\HeatMapController.cs" />
-    <Compile Include="Areas\Default\Models\Bulletin\BulletinBehaviourModel.cs" />
     <Compile Include="Controllers\MyImagesController.cs" />
     <Compile Include="Controllers\TagsApiController.cs" />
     <Compile Include="Models\Browser\CurrentBrowserModel.cs" />
     <Compile Include="Models\Comments\CreateCommentModel.cs" />
     <Compile Include="Models\Content\ImageModelExtension.cs" />
     <Compile Include="Models\Content\ImageViewModel.cs" />
-    <Compile Include="Models\Factory\FlierBehaviourViewModelFactory.cs" />
-    <Compile Include="Models\Factory\FlierBehaviourViewModelFactoryInterface.cs" />
-    <Compile Include="Models\Factory\FlierBehaviourViewModelFactoryRegistryInterface.cs" />
     <Compile Include="Models\FlierPaymentModel.cs" />
     <Compile Include="Models\Flier\BulletinBoardPageModel.cs" />
     <Compile Include="Models\Flier\BulletinDetailPageModel.cs" />
+    <Compile Include="Models\Flier\BulletinFlierDetailModel.cs" />
     <Compile Include="Models\Flier\BulletinGetRequestModel.cs" />
     <Compile Include="Models\Flier\FlierAnalyticTrackingSummaryModel.cs" />
     <Compile Include="Models\Flier\FlierAnalyticInfoModel.cs" />
     <Compile Include="Models\Flier\HeatMapPoint.cs" />
     <Compile Include="Controllers\ImgController.cs" />
     <Compile Include="Controllers\MyFliersController.cs" />
-    <Compile Include="Controllers\SavedLocationsController.cs" />
-    <Compile Include="Controllers\SavedTagsController.cs" />
     <Compile Include="Models\Content\ImageCreateModel.cs" />
-    <Compile Include="Models\Flier\BulletinFlierModel.cs" />
+    <Compile Include="Models\Flier\BulletinFlierSummaryModel.cs" />
     <Compile Include="Models\Flier\FlierEditModel.cs" />
     <Compile Include="Binding\EntityTypeEnum.cs" />
     <Compile Include="Models\Flier\UserLinkViewModel.cs" />
     <Compile Include="Models\Location\ContactDetailsModel.cs" />
     <Compile Include="Models\Location\VenueInformationModel.cs" />
     <Compile Include="Models\Location\LocationModel.cs" />
+    <Compile Include="Models\PagedModel.cs" />
     <Compile Include="Models\PageModelInterface.cs" />
     <Compile Include="Models\Tags\TagSetListViewModel.cs" />
     <Compile Include="Models\ViewModelBase.cs" />
     <Compile Include="Models\Tags\AddTagsModel.cs" />
-    <Compile Include="Controllers\BrowserController.cs" />
     <Compile Include="Controllers\BulletinController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
@@ -422,6 +447,8 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Query\DefaultDetailsFindFindByFriendlyIdQueryHandler.cs" />
+    <Compile Include="Query\DefaultDetailsFindFindByIdQueryHandler.cs" />
     <Compile Include="RemoveWwwRedirectFilter.cs" />
     <Compile Include="Views\Account\Bundles.cs" />
     <Compile Include="Views\Board\Widget\WidgetBundles.cs" />
@@ -589,10 +616,6 @@
     <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\TextSample.cshtml" />
     <Content Include="Areas\HelpPage\Views\Help\Index.cshtml" />
     <Content Include="Areas\HelpPage\Views\_ViewStart.cshtml" />
-    <None Include="Diagnostics.wadcfg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <SubType>Designer</SubType>
-    </None>
     <Content Include="humans.txt" />
     <None Include="Microsoft.WindowsAzure.Caching\ClientPerfCountersInstaller.exe">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -600,15 +623,15 @@
     <None Include="Microsoft.WindowsAzure.Caching\PerformanceCounters.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <Content Include="NewRelicAgent_x64_2.1.2.472.msi">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="newrelic.cmd">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <None Include="Microsoft.WindowsAzure.Caching\ClientPerfCountersInstaller.exe.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <Content Include="NewRelicAgent_x64_2.5.112.0.msi">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="Resources\NotFoundImg.jpg" />
     <None Include="Resources\ImageProcessing.jpg" />
     <None Include="Resources\ImageProcessingFailed.jpg" />
@@ -633,6 +656,7 @@
     <Content Include="Scripts\Behaviour\BehaviourViewModelFactory.js" />
     <Content Include="Scripts\Behaviour\Default\DefaultBehaviourViewModel.js" />
     <Content Include="Scripts\Bulletin\BoardPage.js" />
+    <Content Include="Scripts\Bulletin\BoardSearchPage.js" />
     <Content Include="Scripts\Bulletin\BoardWidgetPage.js" />
     <Content Include="Scripts\Bulletin\BulletinLayoutProperties.js" />
     <Content Include="Scripts\Bulletin\Detail.js" />
@@ -677,13 +701,13 @@
     <Content Include="Scripts\jquery.isotope.min.js" />
     <Content Include="Scripts\jquery.jcarousel.min.js" />
     <Content Include="Scripts\jquery-1.9.1.min.map" />
-    <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
-    <Content Include="Scripts\jquery.validate.js" />
-    <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\HeatMap\heatmap-gmaps.js" />
     <Content Include="Scripts\HeatMap\heatmap-lib.js" />
+    <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.validate.js" />
+    <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\knockout-2.2.1.debug.js" />
@@ -827,18 +851,23 @@
     <Content Include="Views\Shared\Contact\EventContactDetailsViewPartial.cshtml" />
     <Content Include="Views\Shared\Bulletin\BulletinUserLinks.cshtml" />
     <Content Include="Views\Board\Get.cshtml" />
-    <Content Include="Views\Board\BoardInformation.cshtml" />
+    <Content Include="Views\BoardSearch\BoardSummary.cshtml" />
     <Content Include="Views\Board\Widget\Widget.cshtml" />
     <Content Include="Views\Shared\Widget\WidgetLoadPartial.cshtml" />
     <Content Include="Views\Shared\_DateFilterPartial.cshtml" />
     <Content Include="Views\Board\Widget\BulletinList.cshtml" />
     <Content Include="Views\Board\BoardCalendarPartial.cshtml" />
     <Content Include="Views\Board\Widget\BoardWidgetHtml.cshtml" />
+    <Content Include="Views\BoardSearch\Get.cshtml" />
+    <Content Include="Views\Shared\Location\VenueSelector.cshtml" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Areas\Default\Binding\" />
     <Folder Include="Areas\Default\Controllers\" />
+    <Folder Include="Areas\Default\Models\Bulletin\" />
     <Folder Include="Areas\Default\Views\Shared\" />
     <Folder Include="Areas\HelpPage\Views\Shared\" />
+    <Folder Include="Areas\MobileApi\Models\" />
     <Folder Include="Attributes\" />
     <Folder Include="Properties\PublishProfiles\" />
     <Folder Include="Scripts\plupload\jquery.plupload.queue\css\" />
@@ -946,4 +975,5 @@
     </VisualStudio>
   </ProjectExtensions>
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
+  <Import Project="..\..\..\Libraries\Microsoft.Bcl.Build.1.0.7\tools\Microsoft.Bcl.Build.targets" />
 </Project>
