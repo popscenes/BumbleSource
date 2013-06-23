@@ -120,6 +120,8 @@ namespace PostaFlya.Domain.Boards.Command
             if (!ret.Any())
                 return ret;
 
+            if (flier.Boards == null)
+                flier.Boards = new HashSet<string>();
 
             repository.UpdateEntity<Flier.Flier>(flier.Id, update =>
             {

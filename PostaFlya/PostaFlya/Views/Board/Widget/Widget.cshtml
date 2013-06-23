@@ -19,7 +19,7 @@
 
     bf.widgetbase = '@Model.SiteBase';
     bf.boardid = '@Model.BoardFriendlyId';
-    bf.widgetcss = @Html.Raw(Styles.Render("~/Content/BoardWidget.css").GetHref().ToJsArray());
+    bf.widgetcss = @Html.Raw(Styles.Render("~/Content/themes/taskflya/BoardWidget.css").GetHref().ToJsArray());
     bf.widgetsrc = @Html.Raw(Scripts.Render("~/Script/BoardWidget.js").GetScriptSrc().ToJsArray());
     bf.widgetload = function(window, $, undefined){
         
