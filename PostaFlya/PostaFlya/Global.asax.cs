@@ -139,6 +139,7 @@ namespace PostaFlya
 
         protected void Application_Start()
         {
+
             AreaRegistration.RegisterAllAreas();
             WebApiConfig.Register(GlobalConfiguration.Configuration);
 
@@ -152,7 +153,7 @@ namespace PostaFlya
 
             if (AzureEnv.GetInstanceIndex() == 0)
             {
-                RegisterWebsiteInformation();
+                
                 var init = NinjectDependencyResolver.Get<InitServiceInterface>(md => md.Has("tablestorageinit"));
                 if (init != null)
                     init.Init(NinjectDependencyResolver);
@@ -160,6 +161,7 @@ namespace PostaFlya
                 init = NinjectDependencyResolver.Get<InitServiceInterface>(md => md.Has("storageinit"));
                 if (init != null)
                     init.Init(NinjectDependencyResolver);
+                RegisterWebsiteInformation();
             }
                 
 

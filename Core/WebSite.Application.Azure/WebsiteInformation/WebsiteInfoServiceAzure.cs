@@ -60,7 +60,7 @@ namespace Website.Application.Azure.WebsiteInformation
                     registrationEntry[WebsiteInfoEntity.FIELD_ISDEFAULT] = isDefault;
 
                     registrationEntry.RowKey = url;
-                    registrationEntry.PartitionKey = "";
+                    registrationEntry.PartitionKey = url;
                     
                 };
 

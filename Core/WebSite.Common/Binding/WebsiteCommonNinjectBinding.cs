@@ -22,7 +22,12 @@ namespace Website.Common.Binding
             Trace.TraceInformation("Binding WebsiteCommonNinjectBinding");
 
             var kernel = Kernel as StandardKernel;
-            kernel.BindCommandAndQueryHandlersFromCallingAssembly(c => c.InTransientScope());
+            
+            kernel.BindCommandAndQueryHandlersForAssembly(Assembly.GetAssembly(typeof(WebsiteCommonNinjectBinding)), 
+                c => c.InTransientScope());
+
+            Trace.TraceInformation("End Binding WebsiteCommonNinjectBinding");
+
         }
     }
 
@@ -30,8 +35,9 @@ namespace Website.Common.Binding
     {
         public static void BindViewModelMappersFromCallingAssembly(this IKernel kernel)
         {
-            Trace.TraceInformation("Binding BindViewModelMappersFromCallingAssembly");
+            
             var asm = Assembly.GetCallingAssembly();
+            Trace.TraceInformation("Binding BindViewModelMappersFromCallingAssembly " + asm.FullName);
             kernel.BindAllInterfacesFromAssemblyFor(asm, typeof(ViewModelMapperInterface<,>), c => c.InThreadScope());
         }
     }

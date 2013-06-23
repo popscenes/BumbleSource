@@ -37,7 +37,7 @@
       <Setting name="SiteUrl" value="http://popscenes.com" />
       <Setting name="Tags" value="music,theatre,photography,film,fine arts,community" />
       <Setting name="NewAccountCredit" value="500" />
-      <Setting name="SkipSomethingForNow" value="true" />
+      <Setting name="SkipSomethingForNow" value="false" />
 
     </ConfigurationSettings>
     <Certificates>

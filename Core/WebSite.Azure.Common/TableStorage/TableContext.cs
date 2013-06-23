@@ -52,8 +52,8 @@ namespace Website.Azure.Common.TableStorage
 
         public void InitTable<TableEntryType>(string tableName)
         {
-            if (AzureEnv.IsRunningInProdFabric())//no need in prod
-                return;
+//            if (AzureEnv.IsRunningInProdFabric())//no need in prod
+//                return;
 
             var cli = _account.CreateCloudTableClient();
             var cloudTable = cli.GetTableReference(tableName);
@@ -69,6 +69,9 @@ namespace Website.Azure.Common.TableStorage
                         return true;
                     };
             DataServicesQueryHelper.QueryRetry(create);
+
+            if (AzureEnv.IsRunningInProdFabric())//no need in prod
+                return;
 
             var initOb =
                 Activator.CreateInstance(typeof(TableEntryType), true) as TableServiceEntity;
