@@ -201,7 +201,7 @@
             if (self.fliers().length) {
                 nomore += ' more';
             }
-            nomore += ' happenings';
+            nomore += ' gigs';
             var locality = self.Location().Locality();
             if (locality) {
                 nomore += ' around ' + locality;
