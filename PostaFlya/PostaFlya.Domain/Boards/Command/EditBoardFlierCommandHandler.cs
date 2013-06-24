@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using PostaFlya.Domain.Boards.Event;
 using Website.Domain.Service;
 using Website.Infrastructure.Command;
@@ -23,35 +24,29 @@ namespace PostaFlya.Domain.Boards.Command
 
         public object Handle(EditBoardFlierCommand command)
         {
-            var boardFlier = _queryService.FindByAggregate<BoardFlier>(command.FlierId + command.BoardId, command.BoardId);
-            if(boardFlier == null)
-                return new MsgResponse("Updating Flier On Board Failed, Flier not on board", true)
-                    .AddCommandId(command);
-            var board = _queryService.FindById<Board>(command.BoardId);
-            if(board.BrowserId != command.BrowserId)
-                return new MsgResponse("Updating Flier On Board Failed, browser doesn't own board", true)
-                    .AddCommandId(command);
-
-            var unitOfWork = _unitOfWorkFactory.GetUnitOfWork(new[] { _repository });
-            using (unitOfWork)
+            UnitOfWorkInterface unitOfWork = null;
+            using (unitOfWork = _unitOfWorkFactory.GetUnitOfWork(new[] { _repository }))
             {
-                _repository.UpdateAggregateEntity<BoardFlier>(command.FlierId + command.BoardId, command.BoardId, bf =>
+
+                var boardId = command.BoardId;
+                    _repository.UpdateEntity<Domain.Flier.Flier>(command.FlierId,
+                    flier =>
                     {
-                        bf.Status = command.Status;
+                        if (flier.Boards == null)
+                            flier.Boards = new HashSet<string>();
+
+                        flier.Boards.Add(boardId);
+
                     });
+                
+
+
             }
             if (!unitOfWork.Successful)
-                return new MsgResponse("Updating Flier On Board Status Failed", true)
-                        .AddCommandId(command);
+                return new MsgResponse("Edit Flyer to board failed", true)
+                    .AddCommandId(command);
 
-            _domainEventPublishService.Publish(new BoardFlierModifiedEvent()
-                {
-                    OrigState = boardFlier,
-                    NewState = _queryService.FindByAggregate<BoardFlier>(command.FlierId + command.BoardId, command.BoardId)
-                }
-            );
-
-            return new MsgResponse("Updated Flier On Board Status", false)
+            return new MsgResponse("Edit Flyer to board", false)
                 .AddCommandId(command);
         }
     }

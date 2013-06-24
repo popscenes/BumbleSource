@@ -32,110 +32,32 @@ namespace PostaFlya.Domain.Boards.Command
 
         public object Handle(AddFlierToBoardCommand command)
         {
-//            if (command.BoardFliers
-//                .Select(boardFlier => _queryService
-//                    .FindById<Flier.Flier>(boardFlier.FlierId))
-//                    .Any(flier => flier == null || flier.BrowserId != command.BrowserId))
-//            {
-//                return new MsgResponse("Invalid Flier for board", true)
-//                    .AddCommandId(command);
-//            }
-
-            var boardFliers = new List<BoardFlierModifiedEvent>();
-            var unitOfWork = _unitOfWorkFactory.GetUnitOfWork(new[] { _repository });
-            using (unitOfWork)
+            UnitOfWorkInterface unitOfWork = null;
+            using (unitOfWork = _unitOfWorkFactory.GetUnitOfWork(new[] { _repository }))
             {
-                foreach (var flierBoards in command.BoardFliers.ToLookup(bf => bf.FlierId, bf => bf.AggregateId))
+                foreach (var boardFlier in command.BoardFliers)
                 {
-                    var flier = _queryService.FindById<Flier.Flier>(flierBoards.Key);
-                    var boards = flierBoards.Where(id => flier.Boards == null || !flier.Boards.Contains(id));
-                    boardFliers.AddRange(
-                        UpdateAddFlierToBoards(new HashSet<string>(boards), flier, _queryService, _repository));
+                    var boardId = boardFlier.AggregateId;
+                    _repository.UpdateEntity<Domain.Flier.Flier>(boardFlier.FlierId,
+                    flier =>
+                    {
+                        if (flier.Boards == null)
+                            flier.Boards = new HashSet<string>();
+
+                        flier.Boards.Add(boardId);
+                        
+                    });
                 }
-            }
 
+
+            }
             if (!unitOfWork.Successful)
-                return new MsgResponse("Adding Fliers To Boards Failed", true)
-                        .AddCommandId(command);
-
-            foreach (var boardFlier in boardFliers)
-            {
-                _domainEventPublishService.Publish(boardFlier);
-            }
+                return new MsgResponse("Added Fliers To Boards failed", true)
+                    .AddCommandId(command);
 
             return new MsgResponse("Added Fliers To Boards", false)
                 .AddCommandId(command);
 
-        }
-
-        internal static List<BoardFlierModifiedEvent> UpdateAddFlierToBoards(HashSet<string> boardIds
-            , Flier.Flier flier, GenericQueryServiceInterface queryService
-            , GenericRepositoryInterface repository)
-        {
-            var ret = new List<BoardFlierModifiedEvent>();
-            if (boardIds == null)
-                return ret;
-
-            var friendlyIdForVenueBoard = "";
-            foreach (var boardid in boardIds)
-            {
-                var board = queryService.FindById<Board>(boardid);
-                if (board == null)
-                {
-                    continue;
-                }
-
-                var existing = new BoardFlier(){FlierId = flier.Id, AggregateId = board.Id};
-                existing = queryService.FindByAggregate<BoardFlier>(existing.GetIdFor(), board.Id);
-
-                var boardFlier = new BoardFlier();
-                if (board.BrowserId == flier.BrowserId)
-                {
-                    boardFlier.Status = BoardFlierStatus.Approved;
-                }
-                else if (board.AllowOthersToPostFliers)
-                {
-                    boardFlier.Status = board.RequireApprovalOfPostedFliers
-                                            ? BoardFlierStatus.PendingApproval
-                                            : BoardFlierStatus.Approved;
-                }
-
-                if (board.BoardTypeEnum != BoardTypeEnum.InterestBoard && board.MatchVenueBoard(flier.Venue))
-                    friendlyIdForVenueBoard = board.FriendlyId;
-                
-                boardFlier.FlierId = flier.Id;
-                boardFlier.AggregateId = board.Id;
-                boardFlier.DateAdded = DateTime.UtcNow;
-                boardFlier.Id = boardFlier.GetIdFor();
-                if(existing != null)
-                    repository.UpdateAggregateEntity<BoardFlier>(existing.Id, existing.AggregateId, 
-                        bf => bf.CopyFieldsFrom(boardFlier));
-                else
-                    repository.Store(boardFlier);
-
-                var modEvent = new BoardFlierModifiedEvent {NewState = boardFlier, OrigState = existing};
-                ret.Add(modEvent);
-            }
-
-            if (!ret.Any())
-                return ret;
-
-            if (flier.Boards == null)
-                flier.Boards = new HashSet<string>();
-
-            repository.UpdateEntity<Flier.Flier>(flier.Id, update =>
-            {
-                if (update.Boards == null)
-                    update.Boards = new HashSet<string>();
-
-                if (!string.IsNullOrWhiteSpace(friendlyIdForVenueBoard) && update.Venue != null)
-                    update.Venue.BoardFriendlyId = friendlyIdForVenueBoard;
-
-                update.Boards.UnionWith(ret.Select(r => r.NewState.AggregateId));
-                flier.Boards.UnionWith(update.Boards);
-            });
-
-            return ret;
         }
 
     }
