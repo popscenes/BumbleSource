@@ -116,6 +116,7 @@
     <Compile Include="Flier\Query\FindFlyersByLocationAndDistanceQuery.cs" />
     <Compile Include="Flier\Query\FlierQueryServiceUtil.cs" />
     <Compile Include="Flier\Query\FlierSearchServiceInterface.cs" />
+    <Compile Include="Flier\Query\GetFlyerVenueBoardQuery.cs" />
     <Compile Include="Flier\UserLink.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
