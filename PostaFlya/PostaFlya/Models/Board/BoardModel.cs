@@ -73,22 +73,22 @@ namespace PostaFlya.Models.Board
 
     }
 
-    public class ToBrowserInformationBoardModel
-    : ViewModelMapperInterface<BrowserInformationBoardModel, PostaFlya.Domain.Boards.Board>
+    public class ToBoardSummaryModel
+    : ViewModelMapperInterface<BoardSummaryModel, PostaFlya.Domain.Boards.Board>
     {
         private readonly QueryChannelInterface _queryChannel;
         private readonly BlobStorageInterface _blobStorage;
 
-        public ToBrowserInformationBoardModel(QueryChannelInterface queryChannel, [ImageStorage]BlobStorageInterface blobStorage)
+        public ToBoardSummaryModel(QueryChannelInterface queryChannel, [ImageStorage]BlobStorageInterface blobStorage)
         {
             _queryChannel = queryChannel;
             _blobStorage = blobStorage;
         }
 
-        public BrowserInformationBoardModel ToViewModel(BrowserInformationBoardModel target, Domain.Boards.Board source)
+        public BoardSummaryModel ToViewModel(BoardSummaryModel target, Domain.Boards.Board source)
         {
             if (target == null)
-                target = new BrowserInformationBoardModel();
+                target = new BoardSummaryModel();
             target.Name = source.Name;
             target.Description = source.Description;
             target.Location = _queryChannel.ToViewModel<VenueInformationModel>(source.InformationSources.First());
@@ -99,8 +99,12 @@ namespace PostaFlya.Models.Board
     }
 
     [DataContract]
-    public class BrowserInformationBoardModel
+    public class BoardSummaryModel
     {
+        public BoardSummaryModel()
+        {
+            Location = new VenueInformationModel();
+        }
         [DataMember]
         public string Name { get; set; }
 

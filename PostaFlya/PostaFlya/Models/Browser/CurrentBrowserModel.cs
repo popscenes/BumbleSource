@@ -35,7 +35,7 @@ namespace PostaFlya.Models.Browser
             target.BrowserId = source.Browser.Id;
             target.Roles = source.Browser.Roles.Select(r => r).ToList();
             target.LastSearchedLocation = source.LastSearchLocation.ToViewModel();
-            target.AdminBoards = new List<BrowserInformationBoardModel>();
+            target.AdminBoards = new List<BoardSummaryModel>();
             /*if (source.PostaBrowser.AdminBoards != null && source.PostaBrowser.AdminBoards.Count > 0)
             target.AdminBoards =
                 _queryChannel.Query(new FindBoardByAdminEmailQuery() { AdminEmail  = source.Browser.EmailAddress},
@@ -52,7 +52,7 @@ namespace PostaFlya.Models.Browser
     {
         public String BrowserId { get; set; }
         public List<LocationModel> SavedLocations { get; set; }
-        public List<BrowserInformationBoardModel> AdminBoards { get; set; } 
+        public List<BoardSummaryModel> AdminBoards { get; set; } 
         public List<String> SavedTags { get; set; }
         public List<string> Roles { get; set; }
         public double Credits { get; set; }  

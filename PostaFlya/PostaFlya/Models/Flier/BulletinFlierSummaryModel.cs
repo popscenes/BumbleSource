@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web.Mvc;
+using PostaFlya.Domain.Boards.Query;
 using PostaFlya.Domain.Flier;
+using PostaFlya.Models.Board;
 using PostaFlya.Models.Location;
 using PostaFlya.Models.Content;
 using Website.Application.Binding;
@@ -91,6 +93,10 @@ namespace PostaFlya.Models.Flier
             target.TinyUrl = flier.TinyUrl;
             target.FlierBehaviour = flier.FlierBehaviour.ToString();
             target.FlierImageUrl = _blobStorage.GetBlobUri(flier.Image + ImageUtil.GetIdFileExtension()).ToString();
+            
+            var boards =  _queryChannel.Query(new GetBoardsByIdsQuery(){Ids = flier.Boards.Select(_ => _.BoardId)}, (List<BoardSummaryModel>)null);
+            if (boards.Any())
+                target.VenueBoard = boards.First();
 
             return target;
         }
@@ -144,6 +150,8 @@ namespace PostaFlya.Models.Flier
         [Display(Name = "FlierStatus", ResourceType = typeof(Properties.Resources))] 
         public string Status { get; set; }
 
+        public BoardSummaryModel VenueBoard { get; set; }
+
         public string TinyUrl { get; set; }
 
         public static BulletinFlierSummaryModel DefaultForTemplate()
@@ -154,8 +162,9 @@ namespace PostaFlya.Models.Flier
                         {
                             Address = new LocationModel()
                         },
-                    EventDates = new List<DateTimeOffset>()
-
+                    EventDates = new List<DateTimeOffset>(),
+                    
+                    VenueBoard = new BoardSummaryModel(){Location = new VenueInformationModel(){Address = new LocationModel()}}
                 };
         }
     }
