@@ -75,10 +75,10 @@ namespace PostaFlya.Domain.Flier.Command
             newFlier.Features = GetPaymentFeatures(newFlier);
             newFlier.TinyUrl = _tinyUrlService.UrlFor(newFlier);
 
-            newFlier.Boards = new HashSet<string>()
-                {
-                   _queryChannel.Query(new FindBoardForVenueQuery() { VenueInformation = newFlier.Venue }, (Board)null).Id
-                };
+            newFlier.Boards =
+                command.BoardSet.Select(
+                    _ => new BoardFlier() {BoardId = _, DateAdded = DateTime.Now, Status = BoardFlierStatus.Approved})
+                       .ToList();
 
 //            List<BoardFlierModifiedEvent> boardFliers = null;
 //            UnitOfWorkInterface unitOfWork;
