@@ -35,7 +35,7 @@ namespace PostaFlya.Mocks.Domain.Data
             return ret;
         }
 
-        internal static BoardTyp StoreOne<BoardTyp>(BoardTyp board, GenericRepositoryInterface repository, StandardKernel kernel)
+        internal static BoardTyp StoreOne<BoardTyp>(BoardTyp board, GenericRepositoryInterface repository, IKernel kernel)
         {
             var uow = kernel.Get<UnitOfWorkFactoryInterface>()
                 .GetUnitOfWork(new List<RepositoryInterface>() { repository });

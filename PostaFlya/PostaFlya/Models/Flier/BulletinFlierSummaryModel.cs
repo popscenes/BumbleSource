@@ -78,7 +78,6 @@ namespace PostaFlya.Models.Flier
             target.Id = flier.Id;
             target.FriendlyId = flier.FriendlyId;
             target.Title = flier.Title;
-            target.Venue = _queryChannel.ToViewModel<VenueInformationModel>(flier.Venue);
             target.EventDates = flier.EventDates;
             target.CreateDate = flier.CreateDate;
             target.TagsString = flier.Tags.ToString();

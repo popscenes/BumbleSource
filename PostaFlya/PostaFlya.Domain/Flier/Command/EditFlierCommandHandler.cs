@@ -67,14 +67,13 @@ namespace PostaFlya.Domain.Flier.Command
                             flier.Status = FlierStatus.Pending;
                             flier.Features = CreateFlierCommandHandler.GetPaymentFeatures(flier);
                             flier.MergeUpdateFeatureCharges(flierQuery.Features);
-                            flier.Venue = command.Venue;
                             flier.UserLinks = command.UserLinks;
                             if (flierQuery.Boards != null)
                             {
                                 flier.Boards =
                                     flier.Boards.Union(
                                         command.BoardSet.Select(
-                                            _ => new BoardFlier() {BoardId = _, DateAdded = DateTime.Now})).ToList();
+                                            _ => new BoardFlier() {BoardId = _, DateAdded = DateTime.UtcNow})).ToList();
                             }
                         });
                       

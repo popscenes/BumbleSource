@@ -2,13 +2,14 @@ using PostaFlya.Domain.Flier;
 using Website.Application.Email.ICalendar;
 using Website.Domain.Browser;
 using Website.Domain.Location;
+using Website.Infrastructure.Query;
 using Role = Website.Application.Email.ICalendar.Role;
 
 namespace PostaFlya.Application.Domain.Email.ICalendar
 {
     public static class FlierInterfaceExtensions
     {
-        public static Event ToICalEvent(this FlierInterface flier, BrowserInterface browser)
+        public static Event ToICalEvent(this FlierInterface flier, QueryChannelInterface queryChannel)
         {
             var evnt = new Event
                 {
@@ -19,22 +20,22 @@ namespace PostaFlya.Application.Domain.Email.ICalendar
                     IsUtcTime = true
                 };
 
-            var contact = flier.GetContactDetailsForFlier(browser);
+            var contact = flier.GetContactDetailsForFlier(queryChannel);
             if(contact != null)
             {
                 evnt.Organizer = new Organizer
                     {
-                        PublicName = browser.GetNameString(), 
+                        PublicName = contact.PlaceName, 
                         Email = contact.EmailAddress, 
                         Role = Role.CHAIR
                     };
             }
 
-            evnt.GpsCoordinate = new GeoCoordinate(flier.Venue.Address.Latitude, flier.Venue.Address.Longitude);
+            evnt.GpsCoordinate = new GeoCoordinate(contact.Address.Latitude, contact.Address.Longitude);
             evnt.Status = EventStatus.CONFIRMED;
             evnt.PriorityLevel = PriorityLevel.Normal;
             evnt.SequenceNbr = 1;
-            evnt.Location = flier.Venue.PlaceName + " (" + flier.Venue.Address.GetAddressDescription() +")";
+            evnt.Location = contact.PlaceName + " (" + contact.Address.GetAddressDescription() +")";
             evnt.UID = flier.Id;
             return evnt;
         }

@@ -63,7 +63,6 @@ namespace PostaFlya.Controllers
                 Tags = new Tags(flier.Tags),
                 Title = flier.Title,
                 Description = flier.Description,            
-                Venue = flier.Venue,
                 Image = flier.Image,
                 EventDates = flier.EventDates,
                 ImageList = flier.ImageList,

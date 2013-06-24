@@ -7,6 +7,7 @@ using System.Web.Mvc;
 using NUnit.Framework;
 using Ninject;
 using PostaFlya.Areas.Default.Models;
+using PostaFlya.Domain.Boards;
 using PostaFlya.Domain.Flier.Analytic;
 using PostaFlya.Domain.Flier.Query;
 using TechTalk.SpecFlow;
@@ -62,7 +63,10 @@ namespace PostaFlya.Specification.Fliers
             Assert.IsNotNull(createdFlier);//test ThenTheNewFlierWillBeCreated(string flierBehaviour) first
 
             var browserInformation = SpecUtil.GetCurrBrowser();
-            Assert.IsTrue(createdFlier.GetContactDetailsForFlier(browserInformation.Browser).HasEnoughForContact());
+            var queryChannel = SpecUtil.CurrIocKernel.Get<QueryChannelInterface>();
+
+
+            Assert.IsTrue(createdFlier.GetContactDetailsForFlier(queryChannel).HasEnoughForContact());
             
         }
 
@@ -205,8 +209,10 @@ namespace PostaFlya.Specification.Fliers
             var flierQueryService = SpecUtil.CurrIocKernel.Get<GenericQueryServiceInterface>();
             var flierSearchService = SpecUtil.CurrIocKernel.Get<FlierSearchServiceInterface>();
 
+            var fb = flierQueryService.FindByIds<Board>(flier.Boards.Select(bf => bf.BoardId)).FirstOrDefault(board => board.Venue() != null);
+
             var flierUpdatedId = flierSearchService
-                .FindFliersByLocationAndDistance(flier.Venue.Address, 5, 3000, skipPast: null, tags: flier.Tags)
+                .FindFliersByLocationAndDistance(fb.Venue().Address, 5, 3000, skipPast: null, tags: flier.Tags)
                 .SingleOrDefault(id => flier.Id == id);
 
             var flierUpdated = flierQueryService.FindById<Flier>(flierUpdatedId);

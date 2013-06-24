@@ -39,12 +39,10 @@ namespace PostaFlya.Mocks.Domain.Data
         {
             var kernel = Kernel as MoqMockingKernel;
 
-            var boardFlierStore = RepoCoreUtil.GetMockStore<BoardFlierInterface>();
             SetUpFlierRepositoryAndQueryService(kernel
                 , RepoCoreUtil.GetMockStore<FlierInterface>()
                 , RepoCoreUtil.GetMockStore<CommentInterface>()
                 , RepoCoreUtil.GetMockStore<ClaimInterface>()
-                , boardFlierStore
                 , RepoCoreUtil.GetMockStore<PaymentTransactionInterface>()
                 , RepoCoreUtil.GetMockStore<CreditTransactionInterface>());
  
@@ -52,8 +50,6 @@ namespace PostaFlya.Mocks.Domain.Data
             SetUpBoardRepositoryAndQueryService(kernel
                 , RepoCoreUtil.GetMockStore<BoardInterface>());
 
-            SetUpBoardFlierRepositoryAndQueryService(kernel
-                , boardFlierStore);
 
             SetUpAnalyticRepositoryAndQueryService(kernel
                 , RepoCoreUtil.GetMockStore<FlierAnalyticInterface>());
@@ -74,15 +70,6 @@ namespace PostaFlya.Mocks.Domain.Data
                                                                                           .CopyFieldsFrom);
         }
 
-        public static  void SetUpBoardFlierRepositoryAndQueryService(MoqMockingKernel kernel, HashSet<BoardFlierInterface> store)
-        {
-            //RepoCoreUtil.SetupAggregateRepo<GenericRepositoryInterface, BoardFlier, BoardFlierInterface, BoardFlierInterface>(store, kernel, BoardFlierInterfaceExtensions.CopyFieldsFrom);
-
-            /////////////query service
-            //RepoUtil.FindAggregateEntities<GenericQueryServiceInterface, BoardFlier, BoardFlierInterface>(store, kernel,
-           //                                                                           BoardFlierInterfaceExtensions
-           //                                                                               .CopyFieldsFrom);
-        }
 
         public static void SetUpBoardRepositoryAndQueryService(MoqMockingKernel kernel, HashSet<BoardInterface> store)
         {
@@ -118,7 +105,6 @@ namespace PostaFlya.Mocks.Domain.Data
             , HashSet<FlierInterface> store
             , HashSet<CommentInterface> storeComment
             , HashSet<ClaimInterface> claimStore
-            , HashSet<BoardFlierInterface> boardFlierStore
             , HashSet<PaymentTransactionInterface> paymentTransactionStore
             , HashSet<CreditTransactionInterface> creditTransactionStore)
         {
@@ -193,6 +179,7 @@ namespace PostaFlya.Mocks.Domain.Data
             var locationService = kernel.Get<LocationServiceInterface>();
 
             var flierSearchService = kernel.GetMock<FlierSearchServiceInterface>();
+            var queryService = kernel.Get<GenericQueryServiceInterface>();
             flierSearchService.Setup(o => o.FindFliersByLocationAndDistance(
                 It.IsAny<Location>(),
                     It.IsAny<int>(), It.IsAny<int>(), It.IsAny<FlierInterface>(), It.IsAny<Tags>(),  It.IsAny<DateTime?>(), It.IsAny<FlierSortOrder>()))
@@ -202,12 +189,18 @@ namespace PostaFlya.Mocks.Domain.Data
                         var boundingBox = d <= 0 ? locationService.GetDefaultBox(l) : 
                             locationService.GetBoundingBox(l, d);
 
-                        var ret =  store
+                        var ret = store
                             .Where(
                                 f =>
-                                locationService.IsWithinBoundingBox(boundingBox, f.Venue.Address) &&
-                                (t.Count == 0 || f.Tags.Union(t).Any()) &&
-                                (dt == null || f.EventDates.Any(ed => ed == dt.Value))
+                                    {
+                                        var venuBoard = queryService.FindByIds<Board>(f.Boards.Select(b => b.BoardId))
+                                            .First(board => board.Venue() != null);
+                                        return
+                                            locationService.IsWithinBoundingBox(boundingBox, venuBoard.Venue().Address) &&
+                                            (t.Count == 0 || f.Tags.Union(t).Any()) &&
+                                            (dt == null || f.EventDates.Any(ed => ed == dt.Value));
+                                    }
+
                              )
                              .Select(f => f.Id);
 
@@ -238,13 +231,19 @@ namespace PostaFlya.Mocks.Domain.Data
                                           var ret = store
                                               .Where(
                                                   f =>
-                                                  (boundingBox == null ||
-                                                   locationService.IsWithinBoundingBox(boundingBox, f.Venue.Address)) &&
-                                                  (t.Count == 0 || f.Tags.Intersect(t).Any()) &&
-                                                  (dt == null || f.EventDates.Any(ed => ed == dt.Value)) &&
-                                                  (boardFlierStore.Any(
-                                                      bf => bf.BoardId == b &&
-                                                            bf.Status == BoardFlierStatus.Approved))
+                                                      {
+                                                          var venuBoard = queryService.FindByIds<Board>(f.Boards.Select(brd => brd.BoardId))
+                                                                    .First(board => board.Venue() != null);
+                                                          return (boundingBox == null ||
+                                                                  locationService.IsWithinBoundingBox(boundingBox,
+                                                                                                      venuBoard.Venue().Address)) &&
+                                                                 (t.Count == 0 || f.Tags.Intersect(t).Any()) &&
+                                                                 (dt == null || f.EventDates.Any(ed => ed == dt.Value)) &&
+                                                                 (f.Boards.Any(
+                                                                     bf => bf.BoardId == b &&
+                                                                           bf.Status == BoardFlierStatus.Approved));
+                                                      }
+
                                                             
                                               )
                                               .Select(f => f.Id);
