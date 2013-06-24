@@ -32,10 +32,10 @@ namespace PostaFlya.Models.Flier
                            ImageList = flier.ImageList.Select(_ => new ImageViewModel(){ImageId = _.ImageID}).ToList(),
                            ExternalSource = flier.ExternalSource,
                            ExternalId = flier.ExternalId,
-                           BoardList =  flier.Boards != null ? flier.Boards.ToList() : new List<string>(),
+                           BoardList =  flier.Boards != null ? flier.Boards.Select(_ => _.BoardId).ToList() : new List<string>(),
                            EnableAnalytics =  flier.EnableAnalytics,
                            //PostRadius = flier.LocationRadius+5,
-                           VenueInformation = flier.Venue.ToViewModel(),
+                           //VenueInformation = flier.Venue.ToViewModel(),
                            //TotalPaid = flier.GetTotalPaid(),
                            UserLinks = flier.UserLinks == null ? new List<UserLinkViewModel>() : flier.UserLinks.Select(_ => _.ToViewModel()).ToList()
                        };
@@ -144,12 +144,6 @@ namespace PostaFlya.Models.Flier
         [DataMember]
         [Display(Name = "FlierCreateModel_EnableAnalytics_EnableAnalytics", ResourceType = typeof(Properties.Resources))] 
         public bool EnableAnalytics { get; set; }
-
-        [DataMember]
-        public VenueInformationModel VenueInformation { get; set; }
-
-//        [DataMember]
-//        public int TotalPaid { get; set; }
 
         [DataMember(IsRequired = false)]
         public bool Anonymous { get; set; }

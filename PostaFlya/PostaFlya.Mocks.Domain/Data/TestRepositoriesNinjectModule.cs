@@ -76,12 +76,12 @@ namespace PostaFlya.Mocks.Domain.Data
 
         public static  void SetUpBoardFlierRepositoryAndQueryService(MoqMockingKernel kernel, HashSet<BoardFlierInterface> store)
         {
-            RepoCoreUtil.SetupAggregateRepo<GenericRepositoryInterface, BoardFlier, BoardFlierInterface, BoardFlierInterface>(store, kernel, BoardFlierInterfaceExtensions.CopyFieldsFrom);
+            //RepoCoreUtil.SetupAggregateRepo<GenericRepositoryInterface, BoardFlier, BoardFlierInterface, BoardFlierInterface>(store, kernel, BoardFlierInterfaceExtensions.CopyFieldsFrom);
 
             /////////////query service
-            RepoUtil.FindAggregateEntities<GenericQueryServiceInterface, BoardFlier, BoardFlierInterface>(store, kernel,
-                                                                                      BoardFlierInterfaceExtensions
-                                                                                          .CopyFieldsFrom);
+            //RepoUtil.FindAggregateEntities<GenericQueryServiceInterface, BoardFlier, BoardFlierInterface>(store, kernel,
+           //                                                                           BoardFlierInterfaceExtensions
+           //                                                                               .CopyFieldsFrom);
         }
 
         public static void SetUpBoardRepositoryAndQueryService(MoqMockingKernel kernel, HashSet<BoardInterface> store)
@@ -243,8 +243,7 @@ namespace PostaFlya.Mocks.Domain.Data
                                                   (t.Count == 0 || f.Tags.Intersect(t).Any()) &&
                                                   (dt == null || f.EventDates.Any(ed => ed == dt.Value)) &&
                                                   (boardFlierStore.Any(
-                                                      bf => bf.AggregateId == b &&
-                                                            bf.FlierId == f.Id &&
+                                                      bf => bf.BoardId == b &&
                                                             bf.Status == BoardFlierStatus.Approved))
                                                             
                                               )

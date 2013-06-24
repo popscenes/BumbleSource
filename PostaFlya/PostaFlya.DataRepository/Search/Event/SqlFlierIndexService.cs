@@ -23,7 +23,6 @@ namespace PostaFlya.DataRepository.Search.Event
 {
     public class SqlFlierIndexService : 
         HandleEventInterface<FlierModifiedEvent>
-        , HandleEventInterface<BoardFlierModifiedEvent>
         , HandleEventInterface<BoardModifiedEvent>
         , HandleEventInterface<ClaimEvent>
         , HandleEventInterface<CommentEvent>
@@ -68,7 +67,7 @@ namespace PostaFlya.DataRepository.Search.Event
             return (@event.OrigState != null) || (@event.NewState != null);
         }
 
-        public bool Handle(BoardFlierModifiedEvent @event)
+        /*public bool Handle(BoardFlierModifiedEvent @event)
         {
             if (@event.OrigState != null && @event.NewState == null)
             {
@@ -100,7 +99,7 @@ namespace PostaFlya.DataRepository.Search.Event
 
             return (@event.OrigState != null) || (@event.NewState != null);
 
-        }
+        }*/
 
         public bool Handle(BoardModifiedEvent @event)
         {

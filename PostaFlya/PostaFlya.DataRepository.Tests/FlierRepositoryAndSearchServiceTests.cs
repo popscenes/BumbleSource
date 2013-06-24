@@ -290,8 +290,6 @@ namespace PostaFlya.DataRepository.Tests
 
 
         }
-
-
         private Flier StoredFlier()
         {
             var storedFlier = StoreFlierRepository();
@@ -300,14 +298,12 @@ namespace PostaFlya.DataRepository.Tests
 
             var boardFlier = new BoardFlier()
                 {
-                    Id = storedFlier.Id + board.Id,
-                    AggregateId = board.Id,
-                    FlierId = storedFlier.Id,
+                    BoardId = board.Id,
                     Status = BoardFlierStatus.Approved,
                     DateAdded = DateTime.Now
                 };
 
-            storedFlier.Boards.Add(board.Id);
+            storedFlier.Boards.Add(boardFlier);
             FlierTestData.UpdateOne(storedFlier, _repository, Kernel);
             BoardTestData.StoreOne(boardFlier, _repository, Kernel);
 
@@ -344,14 +340,12 @@ namespace PostaFlya.DataRepository.Tests
 
             var boardFlier = new BoardFlier()
             {
-                Id = storedFlier.Id + board.Id,
-                AggregateId = board.Id,
-                FlierId = storedFlier.Id,
+                BoardId = board.Id,
                 Status = BoardFlierStatus.Approved,
                 DateAdded = DateTime.UtcNow
             };
 
-            storedFlier.Boards.Add(board.Id);
+            storedFlier.Boards.Add(boardFlier);
             FlierTestData.UpdateOne(storedFlier, _repository, Kernel);
             BoardTestData.StoreOne(boardFlier, _repository, Kernel);
 
@@ -375,13 +369,13 @@ namespace PostaFlya.DataRepository.Tests
 
             var board = flier.Boards.FirstOrDefault();
 
-            var retrievedFliers = _searchService.FindFliersByBoard(board, 30, null, eventDateOne)
+            var retrievedFliers = _searchService.FindFliersByBoard(board.BoardId, 30, null, eventDateOne)
                 .Select(id => _queryService.FindById<Domain.Flier.Flier>(id)).ToList();
 
             Assert.That(retrievedFliers.Count(), Is.EqualTo(1));
             Assert.That(retrievedFliers.Single().EventDates.Any(time => time == eventDateOne), Is.True);
 
-            retrievedFliers = _searchService.FindFliersByBoard(board, 30, null, eventDateTwo)
+            retrievedFliers = _searchService.FindFliersByBoard(board.BoardId, 30, null, eventDateTwo)
                 .Select(id => _queryService.FindById<Domain.Flier.Flier>(id)).ToList();
 
             Assert.That(retrievedFliers.Count(), Is.EqualTo(0));

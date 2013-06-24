@@ -17,7 +17,6 @@ namespace PostaFlya.DataRepository.Search.Event
 {
     public class EntityIndexEventHandler :
         HandleEventInterface<FlierModifiedEvent>
-        , HandleEventInterface<BoardFlierModifiedEvent>
         , HandleEventInterface<BoardModifiedEvent>
         , HandleEventInterface<ClaimEvent>
         , HandleEventInterface<CommentEvent>
@@ -40,11 +39,6 @@ namespace PostaFlya.DataRepository.Search.Event
         }
 
         public bool Handle(FlierModifiedEvent @event)
-        {
-            return HandleInternal(@event);
-        }
-
-        public bool Handle(BoardFlierModifiedEvent @event)
         {
             return HandleInternal(@event);
         }

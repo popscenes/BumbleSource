@@ -1,6 +1,8 @@
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using PostaFlya.Domain.Boards;
 using PostaFlya.Domain.Boards.Command;
 using PostaFlya.Domain.Boards.Event;
 using PostaFlya.Domain.Flier.Event;
@@ -42,7 +44,6 @@ namespace PostaFlya.Domain.Flier.Command
                 !flierQuery.BrowserId.Equals(command.BrowserId))
                 return false;
 
-            List<BoardFlierModifiedEvent> boardFliers = null;
             UnitOfWorkInterface unitOfWork;
 
             var eventDates =
@@ -68,6 +69,8 @@ namespace PostaFlya.Domain.Flier.Command
                             flier.MergeUpdateFeatureCharges(flierQuery.Features);
                             flier.Venue = command.Venue;
                             flier.UserLinks = command.UserLinks;
+                            flier.Boards =
+                                flier.Boards.Union(command.BoardSet.Select(_ => new BoardFlier() {BoardId = _, DateAdded = DateTime.Now})).ToList();
                         });
                       
             }
@@ -76,7 +79,7 @@ namespace PostaFlya.Domain.Flier.Command
                 return new MsgResponse("Flier Edit Failed", true)
                     .AddCommandId(command);
 
-            using (unitOfWork = _unitOfWorkFactory.GetUnitOfWork(new[] {_repository}))
+            /*using (unitOfWork = _unitOfWorkFactory.GetUnitOfWork(new[] {_repository}))
             {
                 //add all existing board to the operation, as if a flier is modified it needs to be re-approved
                 if (flierQuery.Boards != null)
@@ -84,7 +87,7 @@ namespace PostaFlya.Domain.Flier.Command
 
                 boardFliers = AddFlierToBoardCommandHandler.UpdateAddFlierToBoards(command.BoardSet, flierQuery, _queryService,
                                                      _repository);     
-            }
+            }*/
 
 
             //charge for any new state
@@ -113,10 +116,6 @@ namespace PostaFlya.Domain.Flier.Command
                     }
                 );
 
-            foreach (var boardFlierModifiedEvent in boardFliers)
-            {
-                _domainEventPublishService.Publish(boardFlierModifiedEvent);
-            }
 
             return new MsgResponse("Flier Edit", false)
                 .AddEntityId(command.Id)

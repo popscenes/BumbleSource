@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using PostaFlya.Domain.Boards;
 using PostaFlya.Domain.Boards.Command;
 using PostaFlya.Domain.Boards.Event;
 using PostaFlya.Domain.Flier.Event;
@@ -66,35 +67,16 @@ namespace PostaFlya.Domain.Flier.Command
                                    EnableAnalytics = command.EnableAnalytics,
                                    Status = FlierStatus.Pending,
                                    Venue = command.Venue,
-                                   UserLinks = command.UserLinks
+                                   UserLinks = command.UserLinks,
+                                   Boards = command.BoardSet.Select(_ => new BoardFlier(){BoardId = _, DateAdded = DateTime.Now, Status = BoardFlierStatus.Approved}).ToList()
                                };
 
             newFlier.FriendlyId = _queryChannel.FindFreeFriendlyIdForFlier(newFlier);
             newFlier.Features = GetPaymentFeatures(newFlier);
             newFlier.TinyUrl = _tinyUrlService.UrlFor(newFlier);
 
-            List<BoardFlierModifiedEvent> boardFliers = null;
-            UnitOfWorkInterface unitOfWork;
-            using (unitOfWork = _unitOfWorkFactory.GetUnitOfWork(new[] { _repository }))
-            {
-                var enabled = command.Anonymous || newFlier.ChargeForState(_repository, _flierQueryService, _creditChargeService);
-                newFlier.Status = enabled ? FlierStatus.Active : FlierStatus.PaymentPending;
-                _repository.Store(newFlier);
-                boardFliers = AddFlierToBoardCommandHandler.UpdateAddFlierToBoards(command.BoardSet, newFlier, _flierQueryService,
-                                                                     _repository);
-            }
-
-            if(!unitOfWork.Successful)
-                return new MsgResponse("Flier Creation Failed", true)
-                        .AddCommandId(command);
-            
 
             _domainEventPublishService.Publish(new FlierModifiedEvent() { NewState = newFlier });
-
-            foreach (var boardFlierModifiedEvent in boardFliers)
-            {
-                _domainEventPublishService.Publish(boardFlierModifiedEvent);
-            }
 
             return new MsgResponse("Flier Create", false)
                 .AddEntityId(newFlier.Id)

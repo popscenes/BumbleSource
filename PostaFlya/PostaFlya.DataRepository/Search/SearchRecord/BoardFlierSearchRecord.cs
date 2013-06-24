@@ -30,9 +30,9 @@ namespace PostaFlya.DataRepository.Search.SearchRecord
         {
             var ret =  new BoardFlierSearchRecord()
             {
-                FlierId = boardFlier.FlierId,
-                BoardId = new Guid(boardFlier.AggregateId),
-                Id = boardFlier.Id,
+                FlierId = flier.Id,
+                BoardId = new Guid(boardFlier.BoardId),
+                Id = flier.Id + boardFlier.BoardId,
                 BoardStatus = (int)boardFlier.Status,
             };
 

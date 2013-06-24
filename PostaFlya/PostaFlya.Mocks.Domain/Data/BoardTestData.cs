@@ -109,14 +109,14 @@ namespace PostaFlya.Mocks.Domain.Data
 
             Assert.IsTrue(uow.Successful);
 
-            if (uow.Successful)
+            /*if (uow.Successful)
             {
                 var indexers = kernel.GetAll<HandleEventInterface<BoardFlierModifiedEvent>>();
                 foreach (var handleEvent in indexers)
                 {
                     handleEvent.Handle(new BoardFlierModifiedEvent() { NewState = boardFlier });
                 }
-            }
+            }*/
 
             return boardFlier;
         }

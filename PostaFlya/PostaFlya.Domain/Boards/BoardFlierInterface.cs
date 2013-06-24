@@ -7,22 +7,20 @@ namespace PostaFlya.Domain.Boards
     {
         public static string GetIdFor(this BoardFlierInterface source)
         {
-            return source.FlierId + source.AggregateId;
+            return source.BoardId;
         }
         public static void CopyFieldsFrom(this BoardFlierInterface target, BoardFlierInterface source)
         {
-            EntityInterfaceExtensions.CopyFieldsFrom(target, source);
-            AggregateInterfaceExtensions.CopyFieldsFrom(target, source);
             target.Status = source.Status;
-            target.FlierId = source.FlierId;
+            target.BoardId = source.BoardId;
             target.BoardRank = source.BoardRank;
         }
     }
 
-    public interface BoardFlierInterface : EntityInterface, AggregateInterface
+    public interface BoardFlierInterface
     {
         BoardFlierStatus Status { get; set; }
-        string FlierId { get; set; }
+        string BoardId { get; set; }
         DateTime DateAdded { get; set; }
         int BoardRank { get; set; }
     }

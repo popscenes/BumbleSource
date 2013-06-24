@@ -27,19 +27,8 @@ namespace PostaFlya.Controllers
 
         public HttpResponseMessage Post(string browserId, List<AddBoardFlierModel> addFlierModel)
         {
-            var addFlierToBoardCommand = new AddFlierToBoardCommand()
-                {
-                    BrowserId = browserId,
-                    BoardFliers = addFlierModel.Select( m => new BoardFlier()
-                        {
-                            AggregateId = m.BoardId,
-                            FlierId = m.FlierId,
-                            Status = BoardFlierStatus.PendingApproval
-                        })
-                };
 
-            var res = _commandBus.Send(addFlierToBoardCommand);
-            return this.GetResponseForRes(res);
+            return null;
         }
     }
 }

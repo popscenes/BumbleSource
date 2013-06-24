@@ -39,14 +39,14 @@ namespace PostaFlya.Specification.Util
                                 Title = "This is a Title",
                                 Description = "This is a Description",
                                 TagsString = Kernel.Get<Tags>(ib => ib.Get<bool>("default")).ToString(),
-                                VenueInformation = new VenueInformationModel()
+                                /*VenueInformation = new VenueInformationModel()
                                     {
                                         PlaceName = "Test Pub",
                                         Address = SpecUtil.CurrIocKernel.Get<Location>(ib => ib.Get<bool>("default")).ToViewModel(),
                                         Source = "Google Place",
                                         SourceUrl = "http://googleplace.com/123",
                                         SourceId = "123456"
-                                    },
+                                    },*/
                                 FlierImageId = Guid.NewGuid().ToString(),
                                 EventDates = new List<DateTime>(){new DateTime(2076, 8, 11), new DateTime(2077, 12, 19)},
                                 ImageList = new List<ImageViewModel>() 

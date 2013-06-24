@@ -35,30 +35,13 @@ namespace PostaFlya.Controllers
 
         public List<BoardFlierModel> Get(string browserId, string boardId, BoardFlierStatus status)
         {
-            var boardFlier = _queryService.FindAggregateEntities<BoardFlier>(boardId);
-            return boardFlier
-                .Where( bf=> status == BoardFlierStatus.UnKnown || bf.Status == status)
-                .Select(bf => new BoardFlierModel()
-                    {
-                        BoardFlier = _queryChannel.ToViewModel<BulletinFlierSummaryModel>(_queryService.FindById<Flier>(bf.FlierId), null),
-                        BoardId = bf.AggregateId,
-                        Status = bf.Status
-                    }).ToList();
+            return null;
         }
 
         public HttpResponseMessage Put(string browserId, EditBoardFlierModel boardEdit)
         {
 
-            var editBoardFlierCommand = new EditBoardFlierCommand()
-                {
-                    BrowserId = browserId,
-                    FlierId = boardEdit.FlierId,
-                    BoardId = boardEdit.BoardId,
-                    Status = boardEdit.Status               
-                };
-
-            var res = _commandBus.Send(editBoardFlierCommand);
-            return this.GetResponseForRes(res);
+            return null;
         }
     }
 }

@@ -306,7 +306,7 @@ namespace PostaFlya.Specification.Fliers
             flierEditModel.Description = flier.Description;
             flierEditModel.Title = flier.Title;
             flierEditModel.TagsString = flier.Tags.ToString();
-            flierEditModel.VenueInformation = flier.Venue.ToViewModel();
+            //flierEditModel.VenueInformation = flier.Venue.ToViewModel();
             flierEditModel.FlierImageId = flier.Image.Value.ToString();
             flierEditModel.EventDates = flier.EventDates.Select(d => d.DateTime).ToList();
             return flierEditModel;
@@ -658,7 +658,7 @@ namespace PostaFlya.Specification.Fliers
         public void GivenIChooseToAttachContactDetailsOtherThanMySavedDetails()
         {
             var createFlierModel = ScenarioContext.Current["createflya"] as FlierCreateModel;
-            createFlierModel.VenueInformation = new VenueInformationModel();
+            //createFlierModel.VenueInformation = new VenueInformationModel();
         }
 
         [Given(@"i choose to attach USER LINKS")]

@@ -139,7 +139,7 @@ namespace PostaFlya.DataRepository.Binding
             //tableNameProv.Add<BoardInterface>(JsonRepository.FriendlyIdPartiton, "boardFriendly", e => e.FriendlyId, e => e.Id);
             //tableNameProv.Add<BoardInterface>(JsonRepositoryWithBrowser.BrowserPartitionId, "boardByBrowser", e => e.BrowserId, e => e.Id);
 
-            tableNameProv.Add<BoardFlierInterface>("boardflierEntity", e => e.AggregateId, e => e.Id);
+            //tableNameProv.Add<BoardFlierInterface>("boardflierEntity", e => e.AggregateId, e => e.Id);
             //tableNameProv.Add<BoardFlierInterface>(JsonRepositoryWithBrowser.AggregateIdPartition, "boardflierByBoard", e => e.AggregateId, e => e.Id.ToDescendingTimeKey(e.DateAdded));
 
 

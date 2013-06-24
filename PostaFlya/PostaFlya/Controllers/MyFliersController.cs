@@ -80,7 +80,7 @@ namespace PostaFlya.Controllers
                 ExternalId = createModel.ExternalId,
                 BoardSet = new HashSet<string>(createModel.BoardList),
                 EnableAnalytics = createModel.EnableAnalytics,
-                Venue = createModel.VenueInformation != null ? createModel.VenueInformation.ToDomainModel() : null,
+                //Venue = createModel.VenueInformation != null ? createModel.VenueInformation.ToDomainModel() : null,
                 UserLinks = createModel.UserLinks == null? new List<UserLink>() : createModel.UserLinks.Select(_ => new UserLink(){Link = _.Link, Text = _.Text, Type = _.Type}).ToList(),
                 Anonymous = isAnon
             };
@@ -103,7 +103,7 @@ namespace PostaFlya.Controllers
                 ImageList = editModel.ImageList.Select(_ => new FlierImage(_.ImageId)).ToList(),
                 BoardSet = new HashSet<string>(editModel.BoardList),
                 EnableAnalytics = editModel.EnableAnalytics,
-                Venue = editModel.VenueInformation != null ? editModel.VenueInformation.ToDomainModel() : null,
+                //Venue = editModel.VenueInformation != null ? editModel.VenueInformation.ToDomainModel() : null,
                 UserLinks = editModel.UserLinks == null ? new List<UserLink>() : editModel.UserLinks.Select(_ => new UserLink() { Link = _.Link, Text = _.Text, Type = _.Type }).ToList()
             };
 

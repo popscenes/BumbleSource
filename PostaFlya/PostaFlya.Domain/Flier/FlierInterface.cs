@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using PostaFlya.Domain.Behaviour;
+using PostaFlya.Domain.Boards;
 using PostaFlya.Domain.Venue;
 using Website.Domain.Contact;
 using Website.Domain.Payment;
@@ -50,7 +51,7 @@ namespace PostaFlya.Domain.Flier
             target.ExtendedProperties = source.ExtendedProperties != null
                                             ? new Dictionary<string, object>(source.ExtendedProperties)
                                             : null;
-            target.Boards = source.Boards != null ? new HashSet<string>(source.Boards) : null;
+            target.Boards = source.Boards != null ? new List<BoardFlier>(source.Boards) : null;
             target.HasLeadGeneration = source.HasLeadGeneration;
             target.LocationRadius = source.LocationRadius;
             target.EnableAnalytics = source.EnableAnalytics;
@@ -110,7 +111,7 @@ namespace PostaFlya.Domain.Flier
         string ExternalId { get; set; }
         Dictionary<string, object> ExtendedProperties { get;set; }
         VenueInformation Venue { get; set; }
-        HashSet<string> Boards { get; set; }
+        List<BoardFlier> Boards { get; set; }
         bool HasLeadGeneration { get; set; }
         int LocationRadius { get; set; }
         bool EnableAnalytics { get; set; }

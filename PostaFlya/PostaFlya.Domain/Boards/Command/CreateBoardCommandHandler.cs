@@ -51,7 +51,7 @@ namespace PostaFlya.Domain.Boards.Command
 
             _domainEventPublishService.Publish(new BoardModifiedEvent(){NewState = newBoard});
 
-            if (!string.IsNullOrWhiteSpace(command.FlierIdToAddOnCreate))
+            /*if (!string.IsNullOrWhiteSpace(command.FlierIdToAddOnCreate))
             {
                 _commandBus.Send(new AddFlierToBoardCommand()
                 {
@@ -64,7 +64,7 @@ namespace PostaFlya.Domain.Boards.Command
                             
                         }}
                 });
-            }
+            }*/
 
             return new MsgResponse("Board Create", false)
                 .AddEntityId(newBoard.Id)
