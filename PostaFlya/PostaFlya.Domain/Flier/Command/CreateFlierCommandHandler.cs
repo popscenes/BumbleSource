@@ -80,21 +80,18 @@ namespace PostaFlya.Domain.Flier.Command
                     _ => new BoardFlier() {BoardId = _, DateAdded = DateTime.Now, Status = BoardFlierStatus.Approved})
                        .ToList();
 
-//            List<BoardFlierModifiedEvent> boardFliers = null;
-//            UnitOfWorkInterface unitOfWork;
-//            using (unitOfWork = _unitOfWorkFactory.GetUnitOfWork(new[] { _repository }))
-//            {
-//                var enabled = command.Anonymous || newFlier.ChargeForState(_repository, _flierQueryService, _creditChargeService);
-//                newFlier.Status = enabled ? FlierStatus.Active : FlierStatus.PaymentPending;
-//                _repository.Store(newFlier);
-//                boardFliers = AddFlierToBoardCommandHandler.UpdateAddFlierToBoards(command.BoardSet, newFlier, _flierQueryService,
-//                                                                     _repository);
-//            }
-//
-//            if(!unitOfWork.Successful)
-//                return new MsgResponse("Flier Creation Failed", true)
-//                        .AddCommandId(command);
-//            
+            UnitOfWorkInterface unitOfWork;
+            using (unitOfWork = _unitOfWorkFactory.GetUnitOfWork(new[] { _repository }))
+            {
+                var enabled = command.Anonymous || newFlier.ChargeForState(_repository, _flierQueryService, _creditChargeService);
+                newFlier.Status = enabled ? FlierStatus.Active : FlierStatus.PaymentPending;
+                _repository.Store(newFlier);
+            }
+
+            if(!unitOfWork.Successful)
+                return new MsgResponse("Flier Creation Failed", true)
+                        .AddCommandId(command);
+            
 
             _domainEventPublishService.Publish(new FlierModifiedEvent() { NewState = newFlier });
 
