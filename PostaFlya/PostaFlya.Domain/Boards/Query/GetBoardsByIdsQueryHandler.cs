@@ -17,5 +17,5 @@ namespace PostaFlya.Domain.Boards.Query
         {
             return _queryService.FindByIds<Board>(argument.Ids).ToList();
         }
-    }
+    } 
 }

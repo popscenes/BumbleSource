@@ -445,6 +445,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Query\BoardSummaryGetByIdsQueryHandler.cs" />
     <Compile Include="Query\DefaultDetailsFindFindByFriendlyIdQueryHandler.cs" />
     <Compile Include="Query\DefaultDetailsFindFindByIdQueryHandler.cs" />
     <Compile Include="RemoveWwwRedirectFilter.cs" />
