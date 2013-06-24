@@ -44,6 +44,17 @@ namespace PostaFlya.Domain.Boards
             return false;
         }
 
+        public static VenueInformation Venue(this BoardInterface board)
+        {
+            if (board.InformationSources == null || board.InformationSources.Count == 0)
+                return null;
+
+            var ret =
+                board.InformationSources.FirstOrDefault(
+                    information => information.Source == board.DefaultInformationSource);
+            return ret ?? board.InformationSources.First();
+        }
+
     }
 
     public interface BoardInterface : EntityInterface, AggregateRootInterface, BrowserIdInterface
