@@ -1,6 +1,7 @@
 using Website.Application.Binding;
 using Website.Application.Content;
 using Website.Infrastructure.Command;
+using Website.Infrastructure.Types;
 using Website.Infrastructure.Util;
 
 namespace Website.Application.Command
@@ -27,13 +28,16 @@ namespace Website.Application.Command
                 byte[] data = _blobStorage.GetBlob(message.StorageId);
                 message = SerializeUtil.FromByteArray(data);
             }
+
+            if (message is JsonSerializedTypeContainer)
+                return message.GetObject() as CommandType;
             
             return message as CommandType;
         }
 
         public byte[] ToByteArray<CommandType>(CommandType command) where CommandType : class, CommandInterface
         {
-            byte[] message = SerializeUtil.ToByteArray(command);
+            byte[] message = SerializeUtil.ToByteArray(JsonSerializedTypeContainer.Get(command));
             if(message.Length >= MaxInlineMessageSize)
             {
                 var redirect = new DataBusRedirectToStorage()

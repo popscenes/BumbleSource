@@ -216,16 +216,17 @@
     <Compile Include="Query\QueryInterface.cs" />
     <Compile Include="Query\QueryServiceInterface.cs" />
     <Compile Include="Tracing\TraceUtil.cs" />
+    <Compile Include="Types\JsonSerializedTypeContainer.cs" />
     <Compile Include="Util\CryptoUtil.cs" />
     <Compile Include="Util\Extension\DateTimeExtensions.cs" />
     <Compile Include="Util\Extension\DictionaryExtensions.cs" />
     <Compile Include="Util\Extension\EnumerableExtensions.cs" />
     <Compile Include="Util\Extension\ExpressionExtension.cs" />
     <Compile Include="Util\Extension\StringExtensions.cs" />
-    <Compile Include="Util\SerializeUtil.cs" />
+    <Compile Include="Types\SerializeUtil.cs" />
     <Compile Include="Util\InitServiceInterface.cs" />
     <Compile Include="Util\StringUtil.cs" />
-    <Compile Include="Util\TypeUtil.cs" />
+    <Compile Include="Types\TypeUtil.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

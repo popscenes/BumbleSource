@@ -20,6 +20,7 @@ using Microsoft.SqlServer.Types;
 using Microsoft.WindowsAzure.ServiceRuntime;
 using Website.Azure.Common.Properties;
 using Website.Infrastructure.Configuration;
+using Website.Infrastructure.Types;
 using Website.Infrastructure.Util;
 using Website.Infrastructure.Util.Extension;
 

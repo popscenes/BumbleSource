@@ -3,6 +3,7 @@ using Ninject;
 using Ninject.MockingKernel.Moq;
 using Website.Application.Command;
 using Website.Application.Tests.Mocks;
+using Website.Infrastructure.Types;
 using Website.Infrastructure.Util;
 
 namespace Website.Application.Tests.Command

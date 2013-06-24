@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Website.Infrastructure.Util
+namespace Website.Infrastructure.Types
 {
     public static class TypeUtil
     {

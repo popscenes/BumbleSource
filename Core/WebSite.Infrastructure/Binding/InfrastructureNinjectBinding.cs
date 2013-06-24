@@ -13,6 +13,7 @@ using Ninject.Syntax;
 using Website.Infrastructure.Command;
 using Website.Infrastructure.Publish;
 using Website.Infrastructure.Query;
+using Website.Infrastructure.Types;
 using Website.Infrastructure.Util;
 
 namespace Website.Infrastructure.Binding

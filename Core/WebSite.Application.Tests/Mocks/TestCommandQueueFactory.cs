@@ -7,6 +7,7 @@ using Ninject.MockingKernel.Moq;
 using Website.Application.Command;
 using Website.Application.Queue;
 using Website.Infrastructure.Command;
+using Website.Infrastructure.Types;
 using Website.Infrastructure.Util;
 
 namespace Website.Application.Tests.Mocks
