@@ -189,24 +189,6 @@ namespace PostaFlya.Specification.Fliers
             ThenTheBOARDHasStatus(BoardStatus.Approved);
         }
 
-        [When(@"I add the FLIER to the board")]
-        public void WhenIAddTheFLIERToTheBoard()
-        {
-            var browserId = SpecUtil.GetCurrBrowser().Browser.Id;
-            var flier = ScenarioContext.Current["flier"] as FlierInterface;
-            var board = ScenarioContext.Current["board"] as BoardInterface;
-
-            var controller = SpecUtil.GetApiController<BoardFlierController>();
-
-            var addFlierModel = new AddBoardFlierModel()
-            {
-                BoardId = board.Id,
-                FlierId = flier.Id
-            };
-            var res = controller.Post(browserId, addFlierModel);
-            res.AssertStatusCode();
-        }
-
         [When(@"A BROWSER adds the FLIER to the board")]
         public void WhenABrowserAddsTheFLIERToTheBoard()
         {
@@ -247,37 +229,6 @@ namespace PostaFlya.Specification.Fliers
             //Assert.IsNotNull(ret);
             //Assert.That(ret.Status, Is.EqualTo(status));
             ScenarioContext.Current["flier"] = queryService.FindById<Flier>(flier.Id);
-        }
-
-        [When(@"I approve the FLIER")]
-        public void WhenIApproveTheFLIER()
-        {
-            var board = ScenarioContext.Current["board"] as BoardInterface;
-            var flier = ScenarioContext.Current["flier"] as FlierInterface;
-
-            var controller = SpecUtil.GetApiController<MyBoardFlierController>();
-            var browserId = SpecUtil.GetCurrBrowser().Browser.Id;
-            var res = controller.Get(browserId, board.Id, BoardFlierStatus.PendingApproval);
-
-            var ret = res.SingleOrDefault(bf => bf.BoardFlier.Id == flier.Id);
-            Assert.IsNotNull(ret);
-
-            var updateRes = controller.Put(browserId,
-                           new EditBoardFlierModel()
-                               {BoardId = board.Id, FlierId = ret.BoardFlier.Id, Status = BoardFlierStatus.Approved});
-
-            updateRes.AssertStatusCode();
-        }
-
-
-        [Given(@"There is a FLIER that is Approved on a Board")]
-        public void GivenThereIsAFLIERThatIsApprovedOnABoard()
-        {
-            GivenIHaveCreatedAPublicBoardThatRequiresApprovalNamed("testBoard");
-            new FlierSteps().GivenABrowserHasCreatedAFlier();
-            GivenABrowserAddsTheFLIERToTheBoard();
-            WhenIApproveTheFLIER();
-            ThenItWillBeAMemberOfTheBoardWithAStatusOf(BoardFlierStatus.Approved);
         }
 
         [When(@"A BROWSER modifies the FLIER on a Board")]
@@ -332,35 +283,6 @@ namespace PostaFlya.Specification.Fliers
         }
 
 
-        [Given(@"There is no Board for a Venue")]
-        public void GivenThereIsNoBoardForAVenue()
-        {
-           var venueInfo = SpecUtil.CurrIocKernel.Get<VenueInformation>(ib => ib.Get<bool>("default"));
-           var qc = SpecUtil.CurrIocKernel.Get<QueryChannelInterface>();
-           var ret = qc.Query(new FindBoardForVenueQuery() {VenueInformation = venueInfo}, (Board)null);
-           Assert.That(ret, Is.Null);
-        }
-
-        [Then(@"a Venue BOARD will be created")]
-        public void ThenAVenueBOARDWillBeCreated()
-        {
-            var venueInfo = SpecUtil.CurrIocKernel.Get<VenueInformation>(ib => ib.Get<bool>("default"));
-            var qc = SpecUtil.CurrIocKernel.Get<QueryChannelInterface>();
-            var ret = qc.Query(new FindBoardForVenueQuery() { VenueInformation = venueInfo }, (Board)null);
-            Assert.That(ret, Is.Not.Null);
-            Assert.That(ret.Name, Is.EqualTo(venueInfo.PlaceName));
-            ScenarioContext.Current["board"] = ret;
-        }
-
-        [Given("There is a Board for a Venue with a Flier")]
-        public void GivenThereIsABoardForAVenueWithAFlier()
-        {
-            GivenThereIsNoBoardForAVenue();
-            _common.GivenIamAParticipantWithRole("Admin");
-            new FlierSteps().WhenICreateAnAnonymousFlier();
-            ThenAVenueBOARDWillBeCreated();
-            ThenItWillBeAMemberOfTheBoardWithAStatusOf(BoardFlierStatus.Approved);
-        }
 
         [Then(@"The Board will have (.*) Fliers")]
         public void ThenTheBoardWillHaveFliers(int numoffliers)

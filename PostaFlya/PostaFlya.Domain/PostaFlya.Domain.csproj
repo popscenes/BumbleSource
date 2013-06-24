@@ -86,7 +86,6 @@
     <Compile Include="Boards\Event\BoardModifiedEvent.cs" />
     <Compile Include="Boards\Query\BoardQueryServiceUtil.cs" />
     <Compile Include="Boards\Query\FindBoardByAdminEmailQuery.cs" />
-    <Compile Include="Boards\Query\FindBoardForVenueQuery.cs" />
     <Compile Include="Boards\Query\FindBoardNearQueryHandler.cs" />
     <Compile Include="Boards\Query\FindBoardsNearQuery.cs" />
     <Compile Include="Boards\Query\GetBoardsByIdsQuery.cs" />
