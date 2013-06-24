@@ -26,7 +26,7 @@ namespace PostaFlya.DataRepository.Search.SearchRecord
 
         }
 
-        public static BoardFlierSearchRecord ToSearchRecord(this BoardFlierInterface boardFlier, FlierInterface flier)
+        public static BoardFlierSearchRecord ToSearchRecord(this BoardInterface boardFlier, FlierInterface flier)
         {
             var ret =  new BoardFlierSearchRecord()
             {
@@ -43,7 +43,6 @@ namespace PostaFlya.DataRepository.Search.SearchRecord
             geog = geog.BufferWithTolerance(flier.LocationRadius * 1000, 0.2, false);
             ret.EffectiveDate = flier.EffectiveDate;
             ret.CreateDate = flier.CreateDate;
-            ret.DateAdded = new DateTimeOffset(boardFlier.DateAdded);
             ret.Tags = flier.Tags.ToXml().ToSql();
             ret.Location = geog;
             ret.NumberOfClaims = flier.NumberOfClaims;
