@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using PostaFlya.Domain.Behaviour;
 using PostaFlya.Domain.Boards;
+using PostaFlya.Domain.Flier.Query;
 using PostaFlya.Domain.Venue;
 using Website.Domain.Contact;
 using Website.Domain.Payment;
@@ -60,9 +61,8 @@ namespace PostaFlya.Domain.Flier
 
         public static VenueInformationInterface GetContactDetailsForFlier(this FlierInterface flier, QueryChannelInterface queryChannel)
         {
-            var board = queryChannel.Query(new FindByIdsQuery() {Ids = flier.Boards.Select(b => b.BoardId)}, new List<Board>())
-                .FirstOrDefault(b => b.Venue() != null);
-            return board != null ? board.Venue() : null ;
+            var board = queryChannel.Query(new GetFlyerVenueBoardQuery() { FlyerId = flier.Id }, (Board)null);
+            return board != null ? board.Venue() : null;
         }
 
         public static bool HasFeatureAndIsEnabled(this FlierInterface flier, string featureDescription)

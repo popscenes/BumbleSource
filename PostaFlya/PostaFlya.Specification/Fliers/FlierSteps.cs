@@ -208,8 +208,9 @@ namespace PostaFlya.Specification.Fliers
             var flier = ScenarioContext.Current["flier"] as Flier;
             var flierQueryService = SpecUtil.CurrIocKernel.Get<GenericQueryServiceInterface>();
             var flierSearchService = SpecUtil.CurrIocKernel.Get<FlierSearchServiceInterface>();
+            var queryChannel = SpecUtil.CurrIocKernel.Get<QueryChannelInterface>();
+            var fb = queryChannel.Query(new GetFlyerVenueBoardQuery() { FlyerId = flier.Id }, (Board)null);
 
-            var fb = flierQueryService.FindByIds<Board>(flier.Boards.Select(bf => bf.BoardId)).FirstOrDefault(board => board.Venue() != null);
 
             var flierUpdatedId = flierSearchService
                 .FindFliersByLocationAndDistance(fb.Venue().Address, 5, 3000, skipPast: null, tags: flier.Tags)

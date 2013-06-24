@@ -26,10 +26,10 @@ namespace PostaFlya.DataRepository.Search.Implementation
     public class SqlFlierSearchService :  FlierSearchServiceInterface
     {
         private readonly SqlConnection _connection;
-        private readonly GenericQueryServiceInterface _genericQueryService;
-        public SqlFlierSearchService([SqlSearchConnectionString]string searchDbConnectionString, GenericQueryServiceInterface genericQueryService)
+        private readonly QueryChannelInterface _queryChannel;
+        public SqlFlierSearchService([SqlSearchConnectionString]string searchDbConnectionString, QueryChannelInterface queryChannel)
         {
-            _genericQueryService = genericQueryService;
+            _queryChannel = queryChannel;
             _connection = new SqlConnection(searchDbConnectionString);
         }
 
@@ -108,7 +108,7 @@ namespace PostaFlya.DataRepository.Search.Implementation
 
             var venueBoard = skipPast == null
                                  ? null
-                                 : _genericQueryService.FindByIds<Board>(skipPast.Boards.Select(fb=>fb.BoardId)).FirstOrDefault(board => board.Venue() !=  null);
+                                 : _queryChannel.Query(new GetFlyerVenueBoardQuery() { FlyerId = skipPast.Id }, (Board)null);
 
             var hasLocation = location != null && location.IsValid;
             var sortSkip = skipPast == null ? (long?)null : skipPast.ToSearchRecords(venueBoard).First().SortOrder;
@@ -163,7 +163,7 @@ namespace PostaFlya.DataRepository.Search.Implementation
 
             var venueBoard = skipPast == null
                      ? null
-                     : _genericQueryService.FindByIds<Board>(skipPast.Boards.Select(fb => fb.BoardId)).FirstOrDefault(board => board.Venue() != null);
+                     :  _queryChannel.Query(new GetFlyerVenueBoardQuery() { FlyerId = skipPast.Id }, (Board)null);
 
             var sortSkip = skipPast == null ? (long?)null : skipPast.ToSearchRecords(venueBoard).First().SortOrder;
 

@@ -10,7 +10,7 @@ namespace PostaFlya.Domain.Flier.Query
 {
     public class GetFlyerVenueBoardQuery : QueryInterface
     {
-        public FlierInterface Flyer { get; set; }
+        public String FlyerId { get; set; }
     }
 
     public class GetFlyerVenueBoardQueryHandler : QueryHandlerInterface<GetFlyerVenueBoardQuery, Board>
@@ -24,7 +24,9 @@ namespace PostaFlya.Domain.Flier.Query
 
         public Board Query(GetFlyerVenueBoardQuery argument)
         {
-            var boards = _queryChannel.Query(new FindByIdsQuery() {Ids = argument.Flyer.Boards.Select(b => b.BoardId)}, new List<Board>());
+            var flyer = _queryChannel.Query(new FindByIdQuery() {Id = argument.FlyerId}, (Flier) null);
+            if (flyer == null) return null;
+            var boards = _queryChannel.Query(new FindByIdsQuery() { Ids = flyer.Boards.Select(b => b.BoardId) }, new List<Board>());
             return boards.FirstOrDefault(board => board.Venue() != null);
         }
     }

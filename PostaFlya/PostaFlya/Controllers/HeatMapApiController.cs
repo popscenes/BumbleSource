@@ -43,13 +43,7 @@ namespace PostaFlya.Controllers
             var flyerAndLoc = fliers.Select(f => new
                 {
                     flyer = f,
-                    loc = _queryChannel.Query(new FindByIdsQuery()
-                        {
-                            Ids = f.Boards.Select(b => b.BoardId)
-                        }, new List<Board>())
-                            .First(board => board.Venue() != null)
-                            .Venue()
-                            .Address
+                    loc =  _queryChannel.Query(new GetFlyerVenueBoardQuery() { FlyerId = f.Id }, (Board)null).Venue().Address
                 });
             
             var groupedFliers = flyerAndLoc.GroupBy(_ => new
