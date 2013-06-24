@@ -268,7 +268,9 @@ namespace WebScraper
                 MessageBox.Show("No Flyers to import");
             }
 
-            var import = items.Where(i => i.Import).Select(i => new ImportedFlyerScraperModel().MapFrom(i)).ToList();
+            var import = items.Where(i => i.Import)
+                .Distinct(new ImportedFlyerScraperViewModelEqual())
+                .Select(i => new ImportedFlyerScraperModel().MapFrom(i)).ToList();
 
             worker.RunWorkerAsync(new PublishData()
                 {

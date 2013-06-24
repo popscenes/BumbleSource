@@ -520,7 +520,17 @@ namespace Website.Azure.Common.Sql
             var contextRecordTyp = typeof (RecordType);
                 var fedInfo = contextRecordTyp.GetFedInfo();
                 if (fedInfo == null)
-                    return Query<RecordType>(command, connection, (FederationInstance) null, parameters, isStoredProc);
+                {
+#if DEBUG
+                    if (federationValues != null && federationValues.Length > 0)
+                    {
+                        if(federationValues.Any(f => (f as IComparable) == null))
+                            throw new ArgumentException("this probably means your shit will break under federations");
+                    }
+#endif
+                    return Query<RecordType>(command, connection, (FederationInstance)null, parameters, isStoredProc);
+                }
+                    
 
             var federations = GetFederationRangesFor(fedInfo, connection, federationValues);
             var connectionFact = new SqlConnectionFactory(connection);

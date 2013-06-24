@@ -37,7 +37,7 @@
             @Html.Partial("Contact/EventContactDetailsViewPartial", contactDets)
 
 
-            <a class="std-btn" data-bind="click: $parent.TearOff, css{btn-std-inuse: $parent.IsPeeling(), text: $parent.PeelText">Peel Details</a>
+            <a class="std-btn" data-bind="click: $parent.TearOff, css: { 'btn-std-inuse': $parent.IsPeeling()}, text: $parent.PeelText">Peel Details</a>
         </div>
     </div> 
         

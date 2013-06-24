@@ -73,6 +73,12 @@ namespace Website.Infrastructure.Binding
                                                                   , ConfigurationAction ninjectConfiguration)
         {
             var asm = Assembly.GetCallingAssembly();
+            kernel.BindCommandAndQueryHandlersForAssembly(asm, ninjectConfiguration);
+        }
+
+        public static void BindCommandAndQueryHandlersForAssembly(this IKernel kernel, Assembly asm 
+                                                          , ConfigurationAction ninjectConfiguration)
+        {
             Trace.TraceInformation("Binding command handlers from {0}", asm.FullName);
             //command handlers
             kernel.BindAllInterfacesFromAssemblyFor(asm, typeof(CommandHandlerInterface<>), ninjectConfiguration);
@@ -80,6 +86,7 @@ namespace Website.Infrastructure.Binding
 
             //query handlers
             kernel.BindAllInterfacesFromAssemblyFor(asm, typeof(QueryHandlerInterface<,>), ninjectConfiguration);
+            Trace.TraceInformation("End Binding command handlers from {0}", asm.FullName);
 
         }
 

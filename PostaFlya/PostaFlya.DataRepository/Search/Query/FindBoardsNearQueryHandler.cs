@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
 using PostaFlya.DataRepository.Binding;
@@ -29,7 +30,7 @@ namespace PostaFlya.DataRepository.Search.Query
 
             var ret = SqlExecute.Query<BoardSearchRecordWithDistance>(sqlCmd,
                 _connection
-                , new object[] { shards }
+                , shards 
                 , new
                 {
                     loc = location != null && location.IsValid ? location.ToGeography() : null,

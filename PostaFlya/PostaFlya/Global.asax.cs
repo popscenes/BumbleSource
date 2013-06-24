@@ -139,6 +139,7 @@ namespace PostaFlya
 
         protected void Application_Start()
         {
+
             AreaRegistration.RegisterAllAreas();
             WebApiConfig.Register(GlobalConfiguration.Configuration);
 
@@ -148,16 +149,21 @@ namespace PostaFlya
             //BundleTable.Bundles.RegisterTemplateBundles();
             //BundleTable.Bundles.EnableDefaultBundles();
 
-            var init = NinjectDependencyResolver.Get<InitServiceInterface>(md => md.Has("tablestorageinit"));
-            if (init != null)
-                init.Init(NinjectDependencyResolver);
 
-            init = NinjectDependencyResolver.Get<InitServiceInterface>(md => md.Has("storageinit"));
-            if (init != null)
-                init.Init(NinjectDependencyResolver);
 
             if (AzureEnv.GetInstanceIndex() == 0)
+            {
+                
+                var init = NinjectDependencyResolver.Get<InitServiceInterface>(md => md.Has("tablestorageinit"));
+                if (init != null)
+                    init.Init(NinjectDependencyResolver);
+
+                init = NinjectDependencyResolver.Get<InitServiceInterface>(md => md.Has("storageinit"));
+                if (init != null)
+                    init.Init(NinjectDependencyResolver);
                 RegisterWebsiteInformation();
+            }
+                
 
 
             AddSpecifiedDisplayModeProviders();
@@ -382,7 +388,7 @@ namespace PostaFlya
                     });
             _commandQueueWorker.Start();
 
-            if (AzureEnv.GetInstanceIndex() != 0)//just run scheduler on 1st intance
+            if (AzureEnv.GetInstanceIndex() != 0 || Config.Instance.GetSetting("SkipSomethingForNow", true))//just run scheduler on 1st intance
                 return;
 
             _schedulerWorker = new WebBackgroundWorker((t)

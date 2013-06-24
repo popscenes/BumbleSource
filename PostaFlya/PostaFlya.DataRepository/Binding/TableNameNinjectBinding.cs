@@ -192,6 +192,8 @@ namespace PostaFlya.DataRepository.Binding
 //            tableNameProv.Add<FlierAnalyticInterface>(JsonRepositoryWithBrowser.AggregateIdPartition, "analyticsByAggregate", e => e.AggregateId, e => e.Id.ToAscendingTimeKey(e.Time));
 //            tableNameProv.Add<FlierAnalyticInterface>(JsonRepositoryWithBrowser.BrowserPartitionId, "analyticsByBrowser", e => e.BrowserId, e => e.Id);
 
+            Trace.TraceInformation("TableNameNinjectBinding Initializing Tables");
+
             var tctx = Kernel.Get<TableContextInterface>();
             foreach (var tableName in tableNameProv.GetAllTableNames())
             {

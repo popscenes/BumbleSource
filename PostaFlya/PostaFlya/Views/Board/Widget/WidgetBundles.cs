@@ -74,7 +74,7 @@ namespace PostaFlya.Views.Board.Widget
         private static void AddCssBundles(BundleCollection table)
         {
 
-            var cssBundle = new StyleBundle("~/Content/BoardWidget.css");
+            var cssBundle = new StyleBundle("~/Content/themes/taskflya/BoardWidget.css");
             cssBundle.AddStructureCssFiles(Css);
             cssBundle.AddThemedCssFiles(Themes[0], ThemeCss);
             BundleTable.Bundles.Add(cssBundle);

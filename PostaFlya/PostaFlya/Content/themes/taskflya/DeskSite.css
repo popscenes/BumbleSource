@@ -1377,8 +1377,18 @@ div.tile-summary div.flier-title {
 }
 
 div.tile-summary div.flier-locality {
-    color: #CACACA;
+    color: rgb(114, 114, 114);
     font-size: 12px;
+    padding: 5px 5px 5px 0;
+}
+
+div.tile-summary div.flier-locality a{
+    color: rgb(114, 114, 114);
+    font-size: 13px;
+}
+
+body#board-page div.tile-summary div.flier-locality {
+    display: none;
 }
 
 div.tile-summary div.tile-description {
@@ -1648,6 +1658,39 @@ div.targetloading {
     width: 32px;
     height: 32px;
     display: inline-block;
+}
+
+div.alert-box
+{
+    border: #ff7d00 solid 2px;
+    max-width: 748px;
+    width: 80%;
+    min-height: 200px;
+    background-color: rgb(255, 255, 245);
+    margin: auto;
+}
+
+div.alert-box .alert-box-content {
+    font-size: 20px;
+    font-weight: bold;
+    color: #ff7d00;
+    text-align: center;
+    padding-top: 88px;
+    padding-bottom: 44px;
+    padding-left: 22px;
+    padding-right: 22px;
+
+}
+
+div.alert-box .alert-box-icon{
+    width: 88px;
+    height: 88px;
+    background-image: url(images/icons-88h1.png);
+    background-repeat: no-repeat;
+    float: left;
+}
+div.trying-to-find-yourloc.alert-box .alert-box-icon {
+    background-position: -176px -88px;
 }
 
 

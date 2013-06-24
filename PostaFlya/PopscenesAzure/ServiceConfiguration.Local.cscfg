@@ -41,6 +41,7 @@
       <!-- set hosts file to point to localhost -->
       <Setting name="Tags" value="music,theatre,photography,film,fine arts,community" />
       <Setting name="NewAccountCredit" value="1024" />
+      <Setting name="SkipSomethingForNow" value="false" />
     </ConfigurationSettings>
     <Certificates>
       <Certificate name="Microsoft.WindowsAzure.Plugins.RemoteAccess.PasswordEncryption" thumbprint="2592C67E774BB5327A70A4F3278A1FA91DCA61D0" thumbprintAlgorithm="sha1" />

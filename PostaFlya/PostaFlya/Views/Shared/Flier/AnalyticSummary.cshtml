@@ -2,7 +2,7 @@
 @using PostaFlya.Areas.Default.Models
 @using PostaFlya.Models.Flier
 @model dynamic
-@{FlierAnalyticInfoModel analyticInfo = ViewBag.Template != null && ViewBag.Template ? DefaultDetailsViewModel.DefaultForTemplate().AnalyticInfo : Model.AnalyticInfo;}
+@{FlierAnalyticInfoModel analyticInfo =  new FlierAnalyticInfoModel();  }
 
 <div class="flier-analytic-summary" data-bind="if: AnalyticInfo">
     

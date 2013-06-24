@@ -1,9 +1,10 @@
-﻿@using System.Web.Optimization
+﻿
+@using System.Web.Optimization
 @using PostaFlya.Models
 @model PostaFlya.Models.Board.BoardSearchPageViewModel
 
 @{
-    ViewBag.Title = "Popscenes - Discover Local Cultural Happenings";
+    ViewBag.Title = "Popscenes - Discover Local Gigs";
     Layout = "~/Views/Shared/_DefaultLayout.cshtml";
 }
 
@@ -35,9 +36,12 @@
     <div class="clear-fix" style="clear: both; float: none"></div>
 </div>
 
-<div class="trying-to-find-yourloc" style="display: none" data-bind="visible: TryingToFindLocation">
-    <p>We can try to find the venue closest to you now using your current location</p>
-    <p>Or simple search above for it.</p>
+<div class="alert-box trying-to-find-yourloc" style="display: none" data-bind="fadeVisible: TryingToFindLocation">
+    <div class="alert-box-icon"></div>
+    <div class="alert-box-content">
+        <p>We are trying to find the venue closest to you now using your current location</p>
+        <p>If you don't want us to use your location just enter it above</p>
+    </div>
 </div>
 @Html.Partial("BoardSummary")
 
