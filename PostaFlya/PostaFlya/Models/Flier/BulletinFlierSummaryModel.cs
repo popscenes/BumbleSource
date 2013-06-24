@@ -94,9 +94,9 @@ namespace PostaFlya.Models.Flier
             target.FlierBehaviour = flier.FlierBehaviour.ToString();
             target.FlierImageUrl = _blobStorage.GetBlobUri(flier.Image + ImageUtil.GetIdFileExtension()).ToString();
             
-            /*var boards =  _queryChannel.Query(new GetBoardsByIdsQuery(){Ids = flier.Boards.Select(_ => _.BoardId)}, (List<BoardSummaryModel>)null);
+            var boards =  _queryChannel.Query(new GetBoardsByIdsQuery(){Ids = flier.Boards.Select(_ => _.BoardId)}, (List<BoardSummaryModel>)null);
             if (boards.Any())
-                target.VenueBoard = boards.First();*/
+                target.VenueBoard = boards.First();
 
             return target;
         }
@@ -162,8 +162,9 @@ namespace PostaFlya.Models.Flier
                         {
                             Address = new LocationModel()
                         },
-                    EventDates = new List<DateTimeOffset>()
-
+                    EventDates = new List<DateTimeOffset>(),
+                    
+                    VenueBoard = new BoardSummaryModel(){Location = new VenueInformationModel(){Address = new LocationModel()}}
                 };
         }
     }

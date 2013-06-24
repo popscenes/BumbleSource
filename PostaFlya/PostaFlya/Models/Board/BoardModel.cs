@@ -101,6 +101,10 @@ namespace PostaFlya.Models.Board
     [DataContract]
     public class BoardSummaryModel
     {
+        public BoardSummaryModel()
+        {
+            Location = new VenueInformationModel();
+        }
         [DataMember]
         public string Name { get; set; }
 
