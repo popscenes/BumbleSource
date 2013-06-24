@@ -97,31 +97,6 @@ namespace PostaFlya.Mocks.Domain.Data
         }
 
 
-        public static BoardFlier StoreOne(BoardFlier boardFlier, GenericRepositoryInterface repository, StandardKernel kernel)
-        {
-            var uow = kernel.Get<UnitOfWorkFactoryInterface>()
-                .GetUnitOfWork(new List<RepositoryInterface>() { repository });
-            using (uow)
-            {
-
-                repository.Store(boardFlier);
-            }
-
-            Assert.IsTrue(uow.Successful);
-
-            if (uow.Successful)
-            {
-                var indexers = kernel.GetAll<HandleEventInterface<BoardFlierModifiedEvent>>();
-                foreach (var handleEvent in indexers)
-                {
-                    handleEvent.Handle(new BoardFlierModifiedEvent() { NewState = boardFlier });
-                }
-            }
-
-            return boardFlier;
-        }
-
-
         public static void AssertStoreRetrieve(BoardInterface storedBoard, BoardInterface retrievedBoard)
         {
             Assert.AreEqual(storedBoard.Id, retrievedBoard.Id);

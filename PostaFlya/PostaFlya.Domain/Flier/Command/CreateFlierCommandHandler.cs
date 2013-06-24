@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
+using PostaFlya.Domain.Boards;
 using PostaFlya.Domain.Boards.Command;
 using PostaFlya.Domain.Boards.Event;
+using PostaFlya.Domain.Boards.Query;
 using PostaFlya.Domain.Flier.Event;
 using PostaFlya.Domain.Flier.Payment;
 using PostaFlya.Domain.Flier.Query;
@@ -73,28 +75,33 @@ namespace PostaFlya.Domain.Flier.Command
             newFlier.Features = GetPaymentFeatures(newFlier);
             newFlier.TinyUrl = _tinyUrlService.UrlFor(newFlier);
 
-            List<BoardFlierModifiedEvent> boardFliers = null;
-            UnitOfWorkInterface unitOfWork;
-            using (unitOfWork = _unitOfWorkFactory.GetUnitOfWork(new[] { _repository }))
-            {
-                var enabled = command.Anonymous || newFlier.ChargeForState(_repository, _flierQueryService, _creditChargeService);
-                newFlier.Status = enabled ? FlierStatus.Active : FlierStatus.PaymentPending;
-                _repository.Store(newFlier);
-                boardFliers = AddFlierToBoardCommandHandler.UpdateAddFlierToBoards(command.BoardSet, newFlier, _flierQueryService,
-                                                                     _repository);
-            }
+            newFlier.Boards = new HashSet<string>()
+                {
+                   _queryChannel.Query(new FindBoardForVenueQuery() { VenueInformation = newFlier.Venue }, (Board)null).Id
+                };
 
-            if(!unitOfWork.Successful)
-                return new MsgResponse("Flier Creation Failed", true)
-                        .AddCommandId(command);
-            
+//            List<BoardFlierModifiedEvent> boardFliers = null;
+//            UnitOfWorkInterface unitOfWork;
+//            using (unitOfWork = _unitOfWorkFactory.GetUnitOfWork(new[] { _repository }))
+//            {
+//                var enabled = command.Anonymous || newFlier.ChargeForState(_repository, _flierQueryService, _creditChargeService);
+//                newFlier.Status = enabled ? FlierStatus.Active : FlierStatus.PaymentPending;
+//                _repository.Store(newFlier);
+//                boardFliers = AddFlierToBoardCommandHandler.UpdateAddFlierToBoards(command.BoardSet, newFlier, _flierQueryService,
+//                                                                     _repository);
+//            }
+//
+//            if(!unitOfWork.Successful)
+//                return new MsgResponse("Flier Creation Failed", true)
+//                        .AddCommandId(command);
+//            
 
             _domainEventPublishService.Publish(new FlierModifiedEvent() { NewState = newFlier });
 
-            foreach (var boardFlierModifiedEvent in boardFliers)
-            {
-                _domainEventPublishService.Publish(boardFlierModifiedEvent);
-            }
+//            foreach (var boardFlierModifiedEvent in boardFliers)
+//            {
+//                _domainEventPublishService.Publish(boardFlierModifiedEvent);
+//            }
 
             return new MsgResponse("Flier Create", false)
                 .AddEntityId(newFlier.Id)

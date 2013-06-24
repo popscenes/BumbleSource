@@ -77,16 +77,16 @@ namespace PostaFlya.Domain.Flier.Command
                         NewState = board
                     });
 
-                var boardfliers = _queryService.FindAggregateEntities<BoardFlier>(board.Id);
-                foreach (var boardflier in boardfliers)
-                {
-                    _domainEventPublishService.Publish(
-                        new BoardFlierModifiedEvent()
-                        {
-                            OrigState = boardflier,
-                            NewState = boardflier
-                        });
-                }
+//                var boardfliers = _queryService.FindAggregateEntities<BoardFlier>(board.Id);
+//                foreach (var boardflier in boardfliers)
+//                {
+//                    _domainEventPublishService.Publish(
+//                        new BoardFlierModifiedEvent()
+//                        {
+//                            OrigState = boardflier,
+//                            NewState = boardflier
+//                        });
+//                }
             }
 
             var browsers = _queryService.FindByIds<Browser.Browser>(_queryService.GetAllIds<Browser.Browser>());

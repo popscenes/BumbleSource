@@ -42,7 +42,7 @@ namespace PostaFlya.Domain.Flier.Command
                 !flierQuery.BrowserId.Equals(command.BrowserId))
                 return false;
 
-            List<BoardFlierModifiedEvent> boardFliers = null;
+//            List<BoardFlierModifiedEvent> boardFliers = null;
             UnitOfWorkInterface unitOfWork;
 
             var eventDates =
@@ -68,6 +68,8 @@ namespace PostaFlya.Domain.Flier.Command
                             flier.MergeUpdateFeatureCharges(flierQuery.Features);
                             flier.Venue = command.Venue;
                             flier.UserLinks = command.UserLinks;
+                            if (flierQuery.Boards != null)
+                                command.BoardSet.UnionWith(flierQuery.Boards);
                         });
                       
             }
@@ -76,15 +78,15 @@ namespace PostaFlya.Domain.Flier.Command
                 return new MsgResponse("Flier Edit Failed", true)
                     .AddCommandId(command);
 
-            using (unitOfWork = _unitOfWorkFactory.GetUnitOfWork(new[] {_repository}))
-            {
-                //add all existing board to the operation, as if a flier is modified it needs to be re-approved
-                if (flierQuery.Boards != null)
-                    command.BoardSet.UnionWith(flierQuery.Boards);
-
-                boardFliers = AddFlierToBoardCommandHandler.UpdateAddFlierToBoards(command.BoardSet, flierQuery, _queryService,
-                                                     _repository);     
-            }
+//            using (unitOfWork = _unitOfWorkFactory.GetUnitOfWork(new[] {_repository}))
+//            {
+//                //add all existing board to the operation, as if a flier is modified it needs to be re-approved
+//                if (flierQuery.Boards != null)
+//                    command.BoardSet.UnionWith(flierQuery.Boards);
+//
+//                boardFliers = AddFlierToBoardCommandHandler.UpdateAddFlierToBoards(command.BoardSet, flierQuery, _queryService,
+//                                                     _repository);     
+//            }
 
 
             //charge for any new state
@@ -113,10 +115,10 @@ namespace PostaFlya.Domain.Flier.Command
                     }
                 );
 
-            foreach (var boardFlierModifiedEvent in boardFliers)
-            {
-                _domainEventPublishService.Publish(boardFlierModifiedEvent);
-            }
+//            foreach (var boardFlierModifiedEvent in boardFliers)
+//            {
+//                _domainEventPublishService.Publish(boardFlierModifiedEvent);
+//            }
 
             return new MsgResponse("Flier Edit", false)
                 .AddEntityId(command.Id)
