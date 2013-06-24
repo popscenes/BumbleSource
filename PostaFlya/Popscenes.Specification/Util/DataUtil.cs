@@ -75,7 +75,7 @@ namespace Popscenes.Specification.Util
                           .All()
                           .With(flier => flier.Id = Guid.NewGuid().ToString())
                           .With(flier => flier.LocationRadius = 0)
-                          .With(flier => flier.Venue = venues[--counter])
+                          //.With(flier => flier.Venue = venues[--counter])
                           .With(flier => flier.Status = FlierStatus.Active)
                           .With(flier => flier.CreateDate = DateTime.UtcNow.AddDays(flyercount - counter));
         }
@@ -90,7 +90,7 @@ namespace Popscenes.Specification.Util
             Builder<Flier>.CreateNew()
                           .With(flier => flier.Id = id.ToString())
                           .With(flier => flier.LocationRadius = 0)
-                          .With(flier => flier.Venue = venue)
+                          //.With(flier => flier.Venue = venue)
                           .With(flier => flier.Status = status)
                           .With(flier => flier.CreateDate = DateTime.UtcNow);
         }

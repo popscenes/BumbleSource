@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.SqlServer.Types;
 using PostaFlya.DataRepository.Search.SearchRecord;
+using PostaFlya.Domain.Boards;
 using PostaFlya.Domain.Flier.Event;
 using PostaFlya.Domain.Flier.Query;
 using Website.Azure.Common.Sql;
@@ -17,6 +18,7 @@ using Website.Infrastructure.Domain;
 using Website.Domain.Location;
 using Website.Domain.Tag;
 using Website.Infrastructure.Publish;
+using Website.Infrastructure.Query;
 using Website.Infrastructure.Util.Extension;
 
 namespace PostaFlya.DataRepository.Search.Implementation
@@ -24,8 +26,10 @@ namespace PostaFlya.DataRepository.Search.Implementation
     public class SqlFlierSearchService :  FlierSearchServiceInterface
     {
         private readonly SqlConnection _connection;
-        public SqlFlierSearchService([SqlSearchConnectionString]string searchDbConnectionString)
+        private readonly GenericQueryServiceInterface _genericQueryService;
+        public SqlFlierSearchService([SqlSearchConnectionString]string searchDbConnectionString, GenericQueryServiceInterface genericQueryService)
         {
+            _genericQueryService = genericQueryService;
             _connection = new SqlConnection(searchDbConnectionString);
         }
 
@@ -102,8 +106,12 @@ namespace PostaFlya.DataRepository.Search.Implementation
             //	@xpath nvarchar(1000) = null
             //	@eventDate datetime2 = null
 
+            var venueBoard = skipPast == null
+                                 ? null
+                                 : _genericQueryService.FindByIds<Board>(skipPast.Boards.Select(fb=>fb.BoardId)).FirstOrDefault(board => board.Venue() !=  null);
+
             var hasLocation = location != null && location.IsValid;
-            var sortSkip = skipPast == null ? (long?) null : skipPast.ToSearchRecords().First().SortOrder;
+            var sortSkip = skipPast == null ? (long?)null : skipPast.ToSearchRecords(venueBoard).First().SortOrder;
             var sortSkipByEventDate = (skipPast == null || date == null)
                                           ? null
                                           : skipPast.EventDates.First(_ => _.Ticks >= date.Value.Ticks)
@@ -153,7 +161,11 @@ namespace PostaFlya.DataRepository.Search.Implementation
             //	@skipPast bigint = null,
             //	@xpath nvarchar(1000) = null
 
-            var sortSkip = skipPast == null ? (long?)null : skipPast.ToSearchRecords().First().SortOrder;
+            var venueBoard = skipPast == null
+                     ? null
+                     : _genericQueryService.FindByIds<Board>(skipPast.Boards.Select(fb => fb.BoardId)).FirstOrDefault(board => board.Venue() != null);
+
+            var sortSkip = skipPast == null ? (long?)null : skipPast.ToSearchRecords(venueBoard).First().SortOrder;
 
             var ret = SqlExecute.Query<FlierSearchRecord>(sqlCmd,
                 _connection

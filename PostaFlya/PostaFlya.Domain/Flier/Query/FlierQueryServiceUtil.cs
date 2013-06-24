@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using PostaFlya.Domain.Boards;
 using Website.Domain.Location;
 using Website.Infrastructure.Query;
 using Website.Infrastructure.Util.Extension;
@@ -27,11 +28,12 @@ namespace PostaFlya.Domain.Flier.Query
                 (flierFind = queryChannel.Query(new FindByFriendlyIdQuery() { FriendlyId = tryTitle }, (Flier)null)) != null
                 && flierFind.Id != targetFlier.Id)
             {
-                if (targetFlier.Venue.Address.HasAddressParts())
+                var board = queryChannel.Query(new FindByIdQuery() {Id = targetFlier.Boards.FirstOrDefault().BoardId}, (Board) null);
+                if (board != null && board.Venue() != null)
                 {
-                    var locInfo = targetFlier.Venue.Address.Locality.ToLowerHiphen();
+                    var locInfo = board.Venue().Address.Locality.ToLowerHiphen();
                     if (string.IsNullOrWhiteSpace(locInfo))
-                        locInfo = targetFlier.Venue.Address.PostCode;
+                        locInfo = board.Venue().Address.PostCode;
                     if (!string.IsNullOrWhiteSpace(locInfo))
                     {
                         tryTitleBase = locInfo + "-" + tryTitleBase;

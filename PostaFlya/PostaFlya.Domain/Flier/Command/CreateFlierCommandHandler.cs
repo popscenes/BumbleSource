@@ -67,7 +67,6 @@ namespace PostaFlya.Domain.Flier.Command
                                    HasLeadGeneration = command.AllowUserContact,
                                    EnableAnalytics = command.EnableAnalytics,
                                    Status = FlierStatus.Pending,
-                                   Venue = command.Venue,
                                    UserLinks = command.UserLinks
                                };
 

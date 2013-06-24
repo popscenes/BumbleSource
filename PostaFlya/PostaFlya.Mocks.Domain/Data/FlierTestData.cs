@@ -4,6 +4,7 @@ using System.Linq;
 using NUnit.Framework;
 using Ninject;
 using PostaFlya.Domain.Behaviour;
+using PostaFlya.Domain.Boards;
 using PostaFlya.Domain.Flier;
 using PostaFlya.Domain.Flier.Event;
 using PostaFlya.Domain.Flier.Query;
@@ -40,7 +41,7 @@ namespace PostaFlya.Mocks.Domain.Data
                            ImageList = new List<FlierImage>() { new FlierImage(Guid.NewGuid().ToString()), new FlierImage(Guid.NewGuid().ToString()), new FlierImage(Guid.NewGuid().ToString()) },
                            ExternalSource = "testsource",
                            ExternalId = "123",
-                           Venue = new VenueInformation(){PlaceName = "Venue", Address = loc},
+                           //Venue = new VenueInformation(){PlaceName = "Venue", Address = loc},
                            TinyUrl = "http://tfly.in/" +  new Random().Next().ToString()
                            
                        };
@@ -74,7 +75,7 @@ namespace PostaFlya.Mocks.Domain.Data
                     Image = Guid.NewGuid(),
                     FlierBehaviour = FlierBehaviour.Default,
                     Status = FlierStatus.Active,
-                    Venue = new VenueInformation() { PlaceName = "Venue", Address = new Location(145.0138751, -37.8799136) }
+                    //Venue = new VenueInformation() { PlaceName = "Venue", Address = new Location(145.0138751, -37.8799136) }
 
                 };
 
@@ -94,7 +95,7 @@ namespace PostaFlya.Mocks.Domain.Data
                     Image = Guid.NewGuid(),
                     FlierBehaviour = FlierBehaviour.Default,
                     Status = FlierStatus.Active,
-                    Venue = new VenueInformation() { PlaceName = "Venue", Address = new Location(-117.9189478, 33.8102936) }
+                    //Venue = new VenueInformation() { PlaceName = "Venue", Address = new Location(-117.9189478, 33.8102936) }
 
                 };
 
@@ -114,7 +115,7 @@ namespace PostaFlya.Mocks.Domain.Data
                     Image = Guid.NewGuid(),
                     FlierBehaviour = FlierBehaviour.Default,
                     Status = FlierStatus.Active,
-                    Venue = new VenueInformation() { PlaceName = "Venue", Address = new Location(144.9770748, -37.7654897) }
+                    //Venue = new VenueInformation() { PlaceName = "Venue", Address = new Location(144.9770748, -37.7654897) }
 
                 };
 
@@ -197,16 +198,18 @@ namespace PostaFlya.Mocks.Domain.Data
             flier.BrowserId = GlobalDefaultsNinjectModule.DefaultBrowserId;
             flier.FriendlyId = "Bulletin" + count++;
             flier.EventDates = eventDates;
-            flier.Venue = new VenueInformation() { PlaceName = "Venue", Address = getRandLoc(true) };
-            StoreOne(flier, flierRepository, (StandardKernel) kernel);
+            var board = BoardTestData.GetOne(kernel, "Venue", BoardTypeEnum.VenueBoard, getRandLoc(true));
+            BoardTestData.StoreOne(board, flierRepository, kernel);
+            StoreOne(flier, flierRepository, (StandardKernel)kernel, board);
 
             flier = new Flier() {  EffectiveDate = DateTime.UtcNow, CreateDate = DateTime.UtcNow };
             getTags(true, flier.Tags);
             flier.BrowserId = GlobalDefaultsNinjectModule.DefaultBrowserId;
             flier.FriendlyId = "Bulletin" + count++;
             flier.EventDates = eventDates;
-            flier.Venue = new VenueInformation() { PlaceName = "Venue", Address = getRandLoc(true) };        
-            StoreOne(flier, flierRepository, (StandardKernel) kernel);
+            board = BoardTestData.GetOne(kernel, "Venue", BoardTypeEnum.VenueBoard, getRandLoc(true));
+            BoardTestData.StoreOne(board, flierRepository, kernel);
+            StoreOne(flier, flierRepository, (StandardKernel)kernel, board);
 
             eventDates = new List<DateTimeOffset>() { new DateTime(2077, 12, 19), DateTime.UtcNow.AddDays(3) };
             flier = new Flier() { EffectiveDate = DateTime.UtcNow, CreateDate = DateTime.UtcNow };
@@ -214,8 +217,9 @@ namespace PostaFlya.Mocks.Domain.Data
             flier.BrowserId = GlobalDefaultsNinjectModule.DefaultBrowserId;
             flier.FriendlyId = "Bulletin" + count++;                         
             flier.EventDates = eventDates;
-            flier.Venue = new VenueInformation() { PlaceName = "Venue", Address = getRandLoc(true) };
-            StoreOne(flier, flierRepository, (StandardKernel) kernel);
+            board = BoardTestData.GetOne(kernel, "Venue", BoardTypeEnum.VenueBoard, getRandLoc(true));
+            BoardTestData.StoreOne(board, flierRepository, kernel);
+            StoreOne(flier, flierRepository, (StandardKernel)kernel, board);
 
             //add inside the bounds without matching tags
             eventDates = new List<DateTimeOffset>() { new DateTime(2076, 8, 11), DateTime.UtcNow.AddDays(3) };
@@ -223,65 +227,74 @@ namespace PostaFlya.Mocks.Domain.Data
             getTags(false, flier.Tags);
             flier.FriendlyId = "Bulletin" + count++;
             flier.EventDates = eventDates;
-            flier.Venue = new VenueInformation() { PlaceName = "Venue", Address = getRandLoc(true) };
-            StoreOne(flier, flierRepository, (StandardKernel) kernel);
+            board = BoardTestData.GetOne(kernel, "Venue", BoardTypeEnum.VenueBoard, getRandLoc(true));
+            BoardTestData.StoreOne(board, flierRepository, kernel);
+            StoreOne(flier, flierRepository, (StandardKernel) kernel, board);
 
             flier = new Flier() { EffectiveDate = DateTime.UtcNow, CreateDate = DateTime.UtcNow };
             getTags(false, flier.Tags);
             flier.FriendlyId = "Bulletin" + count++;
             flier.EventDates = eventDates;
-            flier.Venue = new VenueInformation() { PlaceName = "Venue", Address = getRandLoc(true) };
-            StoreOne(flier, flierRepository, (StandardKernel) kernel);
+            board = BoardTestData.GetOne(kernel, "Venue", BoardTypeEnum.VenueBoard, getRandLoc(true));
+            BoardTestData.StoreOne(board, flierRepository, kernel);
+            StoreOne(flier, flierRepository, (StandardKernel) kernel, board);
 
             flier = new Flier() { EffectiveDate = DateTime.UtcNow, CreateDate = DateTime.UtcNow };
             getTags(false, flier.Tags);
             flier.FriendlyId = "Bulletin" + count++;
             flier.EventDates = eventDates;
-            flier.Venue = new VenueInformation() { PlaceName = "Venue", Address = getRandLoc(true) };
-            StoreOne(flier, flierRepository, (StandardKernel) kernel);
+            board = BoardTestData.GetOne(kernel, "Venue", BoardTypeEnum.VenueBoard, getRandLoc(true));
+            BoardTestData.StoreOne(board, flierRepository, kernel);
+            StoreOne(flier, flierRepository, (StandardKernel)kernel, board);
 
             //add some outside the bounds with some matching tags
             flier = new Flier() { EffectiveDate = DateTime.UtcNow, CreateDate = DateTime.UtcNow };
             getTags(true, flier.Tags);
             flier.FriendlyId = "Bulletin" + count++;
             flier.EventDates = eventDates;
-            flier.Venue = new VenueInformation() { PlaceName = "Venue", Address = getRandLoc(false) };
-            StoreOne(flier, flierRepository, (StandardKernel) kernel);
+            board = BoardTestData.GetOne(kernel, "Venue", BoardTypeEnum.VenueBoard, getRandLoc(false));
+            BoardTestData.StoreOne(board, flierRepository, kernel);
+            StoreOne(flier, flierRepository, (StandardKernel)kernel, board);
 
             flier = new Flier() { EffectiveDate = DateTime.UtcNow, CreateDate = DateTime.UtcNow };
             getTags(true, flier.Tags);
             flier.FriendlyId = "Bulletin" + count++;
             flier.EventDates = eventDates;
-            flier.Venue = new VenueInformation() { PlaceName = "Venue", Address = getRandLoc(false) };
-            StoreOne(flier, flierRepository, (StandardKernel) kernel);
+            board = BoardTestData.GetOne(kernel, "Venue", BoardTypeEnum.VenueBoard, getRandLoc(false));
+            BoardTestData.StoreOne(board, flierRepository, kernel);
+            StoreOne(flier, flierRepository, (StandardKernel)kernel, board);
 
             flier = new Flier() { EffectiveDate = DateTime.UtcNow, CreateDate = DateTime.UtcNow };
             getTags(true, flier.Tags);
             flier.FriendlyId = "Bulletin" + count++;
-            flier.Venue = new VenueInformation() { PlaceName = "Venue", Address = getRandLoc(false) };                  
-            StoreOne(flier, flierRepository, (StandardKernel) kernel);
+            board = BoardTestData.GetOne(kernel, "Venue", BoardTypeEnum.VenueBoard, getRandLoc(false));
+            BoardTestData.StoreOne(board, flierRepository, kernel);
+            StoreOne(flier, flierRepository, (StandardKernel)kernel, board);
 
             //add some outside the bounds without matching tags
             flier = new Flier() { EffectiveDate = DateTime.UtcNow, CreateDate = DateTime.UtcNow };
             getTags(false, flier.Tags);
             flier.FriendlyId = "Bulletin" + count++;
             flier.EventDates = eventDates;
-            flier.Venue = new VenueInformation() { PlaceName = "Venue", Address = getRandLoc(false) };                  
-            StoreOne(flier, flierRepository, (StandardKernel) kernel);
+            board = BoardTestData.GetOne(kernel, "Venue", BoardTypeEnum.VenueBoard, getRandLoc(false));
+            BoardTestData.StoreOne(board, flierRepository, kernel);
+            StoreOne(flier, flierRepository, (StandardKernel)kernel, board);
 
             flier = new Flier() { EffectiveDate = DateTime.UtcNow, CreateDate = DateTime.UtcNow };
             getTags(false, flier.Tags);
             flier.FriendlyId = "Bulletin" + count++;
             flier.EventDates = eventDates;
-            flier.Venue = new VenueInformation() { PlaceName = "Venue", Address = getRandLoc(false) };                  
-            StoreOne(flier, flierRepository, (StandardKernel) kernel);
+            board = BoardTestData.GetOne(kernel, "Venue", BoardTypeEnum.VenueBoard, getRandLoc(false));
+            BoardTestData.StoreOne(board, flierRepository, kernel);
+            StoreOne(flier, flierRepository, (StandardKernel)kernel, board);
 
             flier = new Flier() { EffectiveDate = DateTime.UtcNow, CreateDate = DateTime.UtcNow };
             getTags(false, flier.Tags);
             flier.FriendlyId = "Bulletin" + count;
             flier.EventDates = eventDates;
-            flier.Venue = new VenueInformation() { PlaceName = "Venue", Address = getRandLoc(false) };                  
-            StoreOne(flier, flierRepository, (StandardKernel) kernel);
+            board = BoardTestData.GetOne(kernel, "Venue", BoardTypeEnum.VenueBoard, getRandLoc(false));
+            BoardTestData.StoreOne(board, flierRepository, kernel);
+            StoreOne(flier, flierRepository, (StandardKernel)kernel, board);
         }
 
         public static void AssertStoreRetrieve(FlierInterface storedFlier, FlierInterface retrievedFlier)
@@ -337,8 +350,17 @@ namespace PostaFlya.Mocks.Domain.Data
             return flier;
         }
 
-        internal static Flier StoreOne(Flier flier, GenericRepositoryInterface repository, IKernel kernel)
+        internal static Flier StoreOne(Flier flier, GenericRepositoryInterface repository, IKernel kernel, BoardInterface board = null)
         {
+            if (board != null)
+            {
+                var exist = flier.Boards.SingleOrDefault(boardFlier => boardFlier.BoardId == board.Id);
+                if (exist != null)
+                    flier.Boards.Remove(exist);
+
+                flier.Boards.Add(new BoardFlier() { BoardId = board.Id, BoardRank = 0, DateAdded = DateTime.UtcNow, Status = BoardFlierStatus.Approved });                             
+            }
+       
             var uow = kernel.Get<UnitOfWorkFactoryInterface>()
                 .GetUnitOfWork(new List<RepositoryInterface>() {repository});
             using (uow)

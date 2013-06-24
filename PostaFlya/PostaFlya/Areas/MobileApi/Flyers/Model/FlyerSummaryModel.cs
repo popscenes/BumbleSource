@@ -34,7 +34,6 @@ namespace PostaFlya.Areas.MobileApi.Flyers.Model
             target.ImageUrl = _blobStorage.GetBlobUri(source.Image.ToString() + ImageUtil.GetIdFileExtension()).ToString();
             target.Title = source.Title;
             target.EventDates = source.EventDates;
-            target.Venue = _queryChannel.ToViewModel<VenueInformationModel>(source.Venue);
             
             return target;
 

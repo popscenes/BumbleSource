@@ -27,15 +27,17 @@ namespace PostaFlya.Application.Domain.Email.Claims
         private readonly GenericQueryServiceInterface _entityQueryService;
         private readonly SendEmailServiceInterface _emailService;
         private readonly ConfigurationServiceInterface _config;
+        private readonly QueryChannelInterface _queryChannel;
 
         public BrowserClaimEmailSubscription(CommandBusInterface commandBus
                                                    , GenericQueryServiceInterface entityQueryService
                                                    , SendEmailServiceInterface emailService
-                                                    ,ConfigurationServiceInterface config) : base(commandBus)
+                                                    ,ConfigurationServiceInterface config, QueryChannelInterface queryChannel) : base(commandBus)
         {
             _entityQueryService = entityQueryService;
             _emailService = emailService;
             _config = config;
+            _queryChannel = queryChannel;
         }
 
         public override string SubscriptionName
@@ -113,7 +115,7 @@ namespace PostaFlya.Application.Domain.Email.Claims
             email.Subject = "Popscenes details for: " + flier.Title.ToLetterOrDigitAndSpaceOnly();
 
             var poster = _entityQueryService.FindById<Website.Domain.Browser.Browser>(flier.BrowserId);
-            var dets = flier.GetContactDetailsForFlier(poster);
+            var dets = flier.GetContactDetailsForFlier(_queryChannel);
 
             email.Body = GetBodyFor(flier, dets);
 
@@ -238,7 +240,7 @@ namespace PostaFlya.Application.Domain.Email.Claims
         private Event GetEventForFlier(PostaFlya.Domain.Flier.Flier flier)
         {
             var browser = _entityQueryService.FindById<Website.Domain.Browser.Browser>(flier.BrowserId);
-            return flier.ToICalEvent(browser);
+            return flier.ToICalEvent(_queryChannel);
         }
 
         private VCard GetVCardForBrowser(string browserId)
@@ -250,7 +252,7 @@ namespace PostaFlya.Application.Domain.Email.Claims
         private VCard GetVCardForFlier(PostaFlya.Domain.Flier.Flier flier)
         {
             var browser = _entityQueryService.FindById<Website.Domain.Browser.Browser>(flier.BrowserId);
-            var dets = flier.GetContactDetailsForFlier(browser);
+            var dets = flier.GetContactDetailsForFlier(_queryChannel);
             return dets == null ? null : dets.ToVCard();
         }
     }

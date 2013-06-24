@@ -12,6 +12,7 @@ using Website.Domain.Browser;
 using Website.Domain.Claims;
 using Website.Domain.Comments;
 using Website.Domain.Tag;
+using Website.Infrastructure.Query;
 
 namespace PostaFlya.Domain.Flier
 {
@@ -33,7 +34,6 @@ namespace PostaFlya.Domain.Flier
             ClaimableEntityInterfaceExtensions.CopyFieldsFrom(target, source);
             EntityFeatureChargesInterfaceExtension.CopyFieldsFrom(target, source);
             TinyUrlInterfaceExtensions.CopyFieldsFrom(target, source);
-            target.Venue = source.Venue != null ? new VenueInformation(source.Venue) : null;
 
 
             target.Title = source.Title;
@@ -58,11 +58,11 @@ namespace PostaFlya.Domain.Flier
             target.UserLinks = source.UserLinks != null ? new List<UserLink>(source.UserLinks) : null;
         }        
 
-        public static ContactDetailsInterface GetContactDetailsForFlier(this FlierInterface flier, BrowserInterface browser)
+        public static VenueInformationInterface GetContactDetailsForFlier(this FlierInterface flier, QueryChannelInterface queryChannel)
         {
-            if (flier.Venue != null && flier.Venue.HasEnoughForContact())
-                return flier.Venue;
-            return browser;
+            var board = queryChannel.Query(new FindByIdsQuery() {Ids = flier.Boards.Select(b => b.BoardId)}, new List<Board>())
+                .FirstOrDefault(b => b.Venue() != null);
+            return board != null ? board.Venue() : null ;
         }
 
         public static bool HasFeatureAndIsEnabled(this FlierInterface flier, string featureDescription)
@@ -110,7 +110,6 @@ namespace PostaFlya.Domain.Flier
         string ExternalSource { get; set; }
         string ExternalId { get; set; }
         Dictionary<string, object> ExtendedProperties { get;set; }
-        VenueInformation Venue { get; set; }
         List<BoardFlier> Boards { get; set; }
         bool HasLeadGeneration { get; set; }
         int LocationRadius { get; set; }

@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Xml.Linq;
 using Microsoft.SqlServer.Types;
+using PostaFlya.Domain.Boards;
 using Website.Azure.Common.Sql;
 using PostaFlya.Domain.Flier;
 using Website.Azure.Common.TableStorage;
@@ -31,10 +32,10 @@ namespace PostaFlya.DataRepository.Search.SearchRecord
             return recs;
 
         }
-        public static IEnumerable<FlierSearchRecord> ToSearchRecords(this FlierInterface flier)
+        public static IEnumerable<FlierSearchRecord> ToSearchRecords(this FlierInterface flier, BoardInterface venueBoard)
         {
             SqlGeography geog = null;
-            var shards = flier.Venue.Address.GetShardIdsFor(flier.LocationRadius*1000, out geog);
+            var shards = venueBoard.Venue().Address.GetShardIdsFor(flier.LocationRadius * 1000, out geog);
 
             return shards.Select(shard => new  FlierSearchRecord()
                 {
