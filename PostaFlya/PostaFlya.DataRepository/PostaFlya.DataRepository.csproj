@@ -109,7 +109,6 @@
     <Compile Include="DomainQuery\FindByFriendlyIdQueryHandler.cs" />
     <Compile Include="DomainQuery\Browser\GetAggregateByBrowserIdQueryHandler.cs" />
     <Compile Include="DomainQuery\Browser\GetByBrowserIdQueryHandler.cs" />
-    <Compile Include="DomainQuery\FindByIdQueryHandler.cs" />
     <Compile Include="DomainQuery\FindByTinyUrlQueryHandler.cs" />
     <Compile Include="Internal\JsonRepositoryWithBrowser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

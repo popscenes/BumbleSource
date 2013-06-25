@@ -1,9 +1,8 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 using Website.Infrastructure.Domain;
-using Website.Infrastructure.Query;
 
-namespace PostaFlya.DataRepository.DomainQuery
+namespace Website.Infrastructure.Query
 {
     public class FindByIdQueryHandler<EntityType> :
         QueryHandlerInterface<FindByIdQuery, EntityType> where EntityType : class, AggregateRootInterface, new()

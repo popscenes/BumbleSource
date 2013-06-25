@@ -21,7 +21,7 @@ namespace PostaFlya.Mocks.Domain.Data
         public static Board GetOne(IKernel kernel, String boardName, BoardTypeEnum typeOfBoard = BoardTypeEnum.InterestBoard, Location loc = null)
         {
             var venuInfo = new VenueInformation();
-            venuInfo.Address = loc;
+            venuInfo.Address = loc ?? kernel.Get<Location>(ib => ib.Get<bool>("default"));
 
             var ret = typeOfBoard != BoardTypeEnum.InterestBoard ? new Board() { InformationSources = new List<VenueInformation>(){venuInfo}} : new Board();
             ret.Id = Guid.NewGuid().ToString();

@@ -37,7 +37,8 @@ namespace Website.Application.Command
 
         public byte[] ToByteArray<CommandType>(CommandType command) where CommandType : class, CommandInterface
         {
-            byte[] message = SerializeUtil.ToByteArray(JsonSerializedTypeContainer.Get(command));
+            //byte[] message = SerializeUtil.ToByteArray(JsonSerializedTypeContainer.Get(command));
+            byte[] message = SerializeUtil.ToByteArray(command);
             if(message.Length >= MaxInlineMessageSize)
             {
                 var redirect = new DataBusRedirectToStorage()
