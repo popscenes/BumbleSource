@@ -11,6 +11,7 @@ using Website.Application.Email.Command;
 using Website.Application.Email.VCard;
 using Website.Application.Extension.Email;
 using Website.Infrastructure.Command;
+using Website.Infrastructure.Types;
 using Website.Infrastructure.Util;
 
 namespace Website.Application.Tests.Email

@@ -4,6 +4,7 @@ using System.Globalization;
 using System.Linq;
 using System.Runtime.Caching;
 using System.Text;
+using Website.Infrastructure.Types;
 using Website.Infrastructure.Util;
 
 namespace Website.Test.Common

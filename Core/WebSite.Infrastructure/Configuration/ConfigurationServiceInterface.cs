@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
 using System.Text;
+using Website.Infrastructure.Types;
 using Website.Infrastructure.Util;
 
 namespace Website.Infrastructure.Configuration

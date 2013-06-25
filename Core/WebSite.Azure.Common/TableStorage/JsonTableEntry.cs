@@ -1,6 +1,7 @@
 using System;
 using Microsoft.WindowsAzure.Storage.Table.DataServices;
 using Newtonsoft.Json;
+using Website.Infrastructure.Types;
 using Website.Infrastructure.Util;
 
 namespace Website.Azure.Common.TableStorage

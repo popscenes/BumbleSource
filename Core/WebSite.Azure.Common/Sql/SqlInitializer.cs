@@ -10,6 +10,7 @@ using System.Xml.Linq;
 using Microsoft.SqlServer.Types;
 using Microsoft.WindowsAzure.ServiceRuntime;
 using Website.Azure.Common.Binding;
+using Website.Infrastructure.Types;
 using Website.Infrastructure.Util;
 
 namespace Website.Azure.Common.Sql
