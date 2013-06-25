@@ -1,5 +1,6 @@
 ﻿
 
+@using PostaFlya.Models.Board
 @using PostaFlya.Models.Flier
 @using PostaFlya.Models.Location
 @using Website.Application.Domain.Content
@@ -8,10 +9,10 @@
 @model DefaultDetailsViewModel
 @{
     BulletinFlierDetailModel flier = Model.Flier;
-    VenueInformationModel contactDets = Model.Flier.Venue ?? new VenueInformationModel();
+    BoardSummaryModel contactDets = Model.Flier.VenueBoard ?? new BoardSummaryModel();
 }
 
-<div class="flier-view flier-view-default">
+<div class="flier-view flier-view-default" data-bind="click: function (event, data) { }, clickBubble: false">
     <div class="flier-details clear-fix" data-bind="with:Flier">  
         
         @Html.Partial("Bulletin/DownloadPrintImagePartial", flier)
@@ -28,11 +29,11 @@
         </div>
     </div>
         
-    <div data-bind="if:Flier.Venue() != null">
+    <div data-bind="if: Flier.VenueBoard != null">
         <h4>
                 Venue Details
         </h4>
-        <div class="flier-contact-dets" data-bind="with:Flier.Venue">
+        <div class="flier-contact-dets" data-bind="with: Flier.VenueBoard">
             
             @Html.Partial("Contact/EventContactDetailsViewPartial", contactDets)
 

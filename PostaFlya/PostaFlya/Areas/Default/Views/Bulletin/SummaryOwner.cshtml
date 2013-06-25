@@ -20,12 +20,12 @@
                 <span data-bind="text: $root.TitleWithDate($data)">@flier.Title</span>
             </div>      
             <div class="flier-locality">
-                <a data-bind="clickBubble: false, attr: { href: (bf.widgetbase ? bf.widgetbase : '') + '/' + VenueBoard.Location.BoardFriendlyId }, text: VenueBoard.Location.PlaceName" href="@flier.VenueBoard.Location.BoardFriendlyId">@flier.VenueBoard.Location.PlaceName</a>
+                <a data-bind="click: function () { return true; }, clickBubble: false, attr: { href: (bf.widgetbase ? bf.widgetbase : '') + '/' + VenueBoard.FriendlyId }, text: VenueBoard.Location.PlaceName" href="@flier.VenueBoard.Location.BoardFriendlyId">@flier.VenueBoard.Location.PlaceName</a>
                 <span data-bind="text: VenueBoard.Location.Address.Locality">@flier.VenueBoard.Location.Address.Locality</span>              
             </div>
         </div>
         <div class="tile-peel">
-            <a class="bold-link" data-bind="clickBubble: false, click: $root.TearOff">Peel</a>
+            <a class="bold-link" data-bind="click: function () { return true; }, clickBubble: false, click: $root.TearOff">Peel</a>
         </div>
 
     </div>

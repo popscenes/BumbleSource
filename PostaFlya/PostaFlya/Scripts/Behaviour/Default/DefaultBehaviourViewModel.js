@@ -17,7 +17,7 @@
             'Flier': {
                 update: function (options) {
                     var ret = options.data;
-                    ret.Venue = ko.observable(ret.Venue == null || $.isEmptyObject(ret.Venue) ? null : new bf.VenueInformationModel(ret.Venue));
+                    ret.VenueBoard.Location = ko.observable(ret.VenueBoard.Location == null || $.isEmptyObject(ret.VenueBoard.Location) ? null : new bf.VenueInformationModel(ret.VenueBoard.Location));
                     return ret;
                 }
             }
