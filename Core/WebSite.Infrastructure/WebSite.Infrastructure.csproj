@@ -210,6 +210,7 @@
     <Compile Include="Publish\HandleEventInterface.cs" />
     <Compile Include="Query\FindByFriendlyIdQuery.cs" />
     <Compile Include="Query\FindByIdQuery.cs" />
+    <Compile Include="Query\FindByIdQueryHandler.cs" />
     <Compile Include="Query\GenericQueryServiceInterface.cs" />
     <Compile Include="Query\QueryChannelInterface.cs" />
     <Compile Include="Query\QueryHandlerInterface.cs" />

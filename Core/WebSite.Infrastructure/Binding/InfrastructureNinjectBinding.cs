@@ -106,7 +106,7 @@ namespace Website.Infrastructure.Binding
                                  .Select(info => info.AsType())
                                  .Where(
                                      arg =>
-                                     arg.IsGenericType &&
+                                     arg.IsGenericType && !arg.IsInterface &&
                                      typeof(QueryHandlerInterface).IsAssignableFrom(arg)
                                      && (querySelector == null || querySelector(arg))).ToList();
 
