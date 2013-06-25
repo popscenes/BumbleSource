@@ -69,7 +69,8 @@ namespace PostaFlya.DataRepository.Tests
                       new PostaFlya.DataRepository.Binding.AzureRepositoryNinjectBinding(c => c.InTransientScope()),
                       new PostaFlya.Domain.Binding.DefaultServicesNinjectBinding(),
                       new Website.Infrastructure.Binding.InfrastructureNinjectBinding(),
-                      new PostaFlya.DataRepository.Binding.TableNameNinjectBinding()
+                      new PostaFlya.DataRepository.Binding.TableNameNinjectBinding(),
+                      new PostaFlya.Domain.Binding.CommandNinjectBinding()
                   };
     }
 }
