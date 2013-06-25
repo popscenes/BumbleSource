@@ -304,18 +304,7 @@ namespace PostaFlya.DataRepository.Tests
         private Flier StoredFlier()
         {
             var storedFlier = StoreFlierRepository();
-            var board = BoardTestData.GetOne(Kernel, "TestBoardName", BoardTypeEnum.VenueBoard, _loc);
-            board = BoardTestData.StoreOne(board, _repository, Kernel);
 
-            var boardFlier = new BoardFlier()
-                {
-                    BoardId = board.Id,
-                    Status = BoardFlierStatus.Approved,
-                    DateAdded = DateTime.Now
-                };
-
-            storedFlier.Boards.Add(boardFlier);
-            FlierTestData.UpdateOne(storedFlier, _repository, Kernel);
 
             return _queryService.FindById<Flier>(storedFlier.Id);
         }
@@ -370,7 +359,7 @@ namespace PostaFlya.DataRepository.Tests
                 .Select(id => _queryService.FindById<Domain.Flier.Flier>(id)).ToList();
 
             Assert.That(retrievedFliers.Count(), Is.EqualTo(3));
-            Assert.That(retrievedFliers.All(f => f.EventDates.Any(time => time == eventDateOne)), Is.True);
+            Assert.That(retrievedFliers.All(f => f.EventDates.Any(time => time >= eventDateOne)), Is.True);
 
             retrievedFliers = _searchService.FindFliersByBoard(board.BoardId, 30, null, eventDateTwo)
                 .Select(id => _queryService.FindById<Domain.Flier.Flier>(id)).ToList();
@@ -390,7 +379,8 @@ namespace PostaFlya.DataRepository.Tests
                 .Select(id => _queryService.FindById<Domain.Flier.Flier>(id)).AsQueryable();
 
             Assert.IsTrue(retrievedFliers.Any());
-            AssertRetrievedFliersAreSameLocation(retrievedFliers);
+            AssertRetrievedFliersAreSameLocation(retrievedFliers, Kernel.Get<QueryChannelInterface>());
+
 
             var theBadTags = new Tags(){"crapolla","shitolla"};
             retrievedFliers = _searchService.FindFliersByLocationAndDistance(location, 5, 30, skipPast: null, tags: theBadTags)
@@ -563,7 +553,7 @@ namespace PostaFlya.DataRepository.Tests
 
             Assert.IsTrue(retrievedFliers.Any());
 
-            AssertRetrievedFliersAreSameLocation(retrievedFliers);
+            AssertRetrievedFliersAreSameLocation(retrievedFliers, Kernel.Get<QueryChannelInterface>());
             var list = retrievedFliers.ToArray();
             for (int i = 0; i < list.Length; i++)
             {
@@ -595,7 +585,7 @@ namespace PostaFlya.DataRepository.Tests
             var flier = FlierTestData.GetOne(Kernel, _loc);
 
 //            var beh = FlierTestData.GetBehaviour(Kernel, flier);
-            var board = BoardTestData.GetOne(Kernel, "TestBoard", BoardTypeEnum.VenueBoard, _loc);            
+            var board = BoardTestData.GetAndStoreOne(Kernel, _repository, loc: _loc);
             FlierTestData.StoreOne(flier, _repository, Kernel, board);
 
 
@@ -682,13 +672,18 @@ namespace PostaFlya.DataRepository.Tests
             }
         }
 
-        private void AssertRetrievedFliersAreSameLocation(IQueryable<FlierInterface> retrievedFliers)
+        private void AssertRetrievedFliersAreSameLocation(IQueryable<FlierInterface> retrievedFliers, QueryChannelInterface query)
         {
             foreach (var retrievedFlierCombo in from r1 in retrievedFliers
                                                 from r2 in retrievedFliers
-                                                select new { r1, r2})
+                                                select new
+                                                    {
+                                                        r1 = query.Query(new GetFlyerVenueBoardQuery(){FlyerId = r1.Id}, (Board)null), 
+                                                        r2 = query.Query(new GetFlyerVenueBoardQuery(){FlyerId = r2.Id}, (Board)null),
+                                                    })
             {
-                CollectionAssert.AreEqual(retrievedFlierCombo.r1.Boards, retrievedFlierCombo.r2.Boards);
+                
+                Assert.AreEqual(retrievedFlierCombo.r1.Venue().Address, retrievedFlierCombo.r2.Venue().Address);
             }
         }
     }

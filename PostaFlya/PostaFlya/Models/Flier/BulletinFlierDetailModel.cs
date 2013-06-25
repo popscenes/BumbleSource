@@ -21,7 +21,7 @@ namespace PostaFlya.Models.Flier
             if (target == null)
                 target = new BulletinFlierDetailModel();
 
-            _queryChannel.ToViewModel<BulletinFlierSummaryModel>(flier, target);
+            _queryChannel.ToViewModel<BulletinFlierSummaryModel, Domain.Flier.Flier>(flier, target);
 
             target.Description = flier.Description;
             target.UserLinks = _queryChannel.ToViewModel<UserLinkViewModel, UserLink>(flier.UserLinks);

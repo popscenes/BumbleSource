@@ -12,6 +12,7 @@ using Website.Application.Google.Content;
 using Website.Common.Model;
 using Website.Common.Model.Query;
 using Website.Infrastructure.Query;
+using Loc = Website.Domain.Location;
 
 namespace PostaFlya.Models.Board
 {
@@ -52,9 +53,9 @@ namespace PostaFlya.Models.Board
             target.Description = source.Description;
             target.VenueInformation = source
                 .InformationSources
-                .Select(information => _queryChannel.ToViewModel<VenueInformationModel>(information))
+                .Select(information => _queryChannel.ToViewModel<VenueInformationModel, VenueInformation>(information))
                 .ToList();
-            target.Location = _queryChannel.ToViewModel<LocationModel>(source.InformationSources.First().Address);
+            target.Location = _queryChannel.ToViewModel<LocationModel, Loc.Location>(source.InformationSources.First().Address);
             target.BoardTypeEnum = source.BoardTypeEnum;
             target.Id = source.Id;
             target.DefaultVenueInformation =
@@ -91,7 +92,7 @@ namespace PostaFlya.Models.Board
                 target = new BoardSummaryModel();
             target.Name = source.Name;
             target.Description = source.Description;
-            target.Location = _queryChannel.ToViewModel<VenueInformationModel>(source.InformationSources.First());
+            target.Location = _queryChannel.ToViewModel<VenueInformationModel, VenueInformation>(source.InformationSources.First());
             target.Id = source.Id;
             target.FriendlyId = source.FriendlyId;
             return target;

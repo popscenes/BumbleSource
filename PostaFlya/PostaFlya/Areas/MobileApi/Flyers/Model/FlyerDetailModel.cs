@@ -21,7 +21,7 @@ namespace PostaFlya.Areas.MobileApi.Flyers.Model
             if (target == null)
                 target = new FlyerDetailModel();
 
-            _queryChannel.ToViewModel<FlyerSummaryModel>(source, target);
+            _queryChannel.ToViewModel<FlyerSummaryModel, Flier>(source, target);
             
             target.Description = source.Description;
             

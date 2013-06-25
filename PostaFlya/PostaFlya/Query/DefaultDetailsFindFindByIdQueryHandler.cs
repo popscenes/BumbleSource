@@ -21,7 +21,7 @@ namespace PostaFlya.Query
             if (flyer == null) return null;
             var ret = new DefaultDetailsViewModel();
 
-            ret.Flier = _queryChannel.ToViewModel<BulletinFlierDetailModel>(flyer);
+            ret.Flier = _queryChannel.ToViewModel<BulletinFlierDetailModel, Flier>(flyer);
 
             return ret;
         }

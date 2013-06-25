@@ -3,6 +3,7 @@ using NUnit.Framework;
 using Ninject.MockingKernel.Moq;
 using Ninject.Modules;
 using PostaFlya.Binding;
+using Website.Common.Binding;
 using Website.Domain.Binding;
 using PostaFlya.Mocks.Domain.Data;
 using Website.Test.Common;
@@ -42,7 +43,7 @@ namespace PostaFlya.Website.Tests
 
         private static void InitializeBinding()
         {
-            WebNinjectBindings.BindViewModelMappers(CurrIocKernel);
+            //WebNinjectBindings.BindViewModelMappers(CurrIocKernel);
         }
 
         private static readonly List<INinjectModule> NinjectModules = new List<INinjectModule>()
@@ -52,7 +53,9 @@ namespace PostaFlya.Website.Tests
                     new InfrastructureNinjectBinding(),
                     new CommandNinjectBinding(),
                     new TestRepositoriesNinjectModule(),
-                    new global::Website.Mocks.Domain.Data.TestRepositoriesNinjectModule()
+                    new global::Website.Mocks.Domain.Data.TestRepositoriesNinjectModule(),
+                    new WebsiteCommonNinjectBinding(),
+                    new WebNinjectBindings()
                   };
     }
 }

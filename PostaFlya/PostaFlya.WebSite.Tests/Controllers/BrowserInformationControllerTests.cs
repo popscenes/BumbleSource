@@ -33,6 +33,9 @@ namespace PostaFlya.Website.Tests.Controllers
             browserInfo.Setup(ctx => ctx.Browser)
                 .Returns(browser as Domain.Browser.Browser);
 
+            browserInfo.Setup(ctx => ctx.PostaBrowser)
+                .Returns(browser as Domain.Browser.Browser);
+
             Kernel.Bind<BrowserInformationInterface, PostaFlyaBrowserInformationInterface>()
                 .ToConstant(browserInfo.Object);
 
