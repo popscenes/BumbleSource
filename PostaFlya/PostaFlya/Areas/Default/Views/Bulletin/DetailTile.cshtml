@@ -11,7 +11,7 @@
     VenueInformationModel contactDets = Model.Flier.Venue ?? new VenueInformationModel();
 }
 
-<div class="flier-view flier-view-default">
+<div class="flier-view flier-view-default" data-bind="clickBubble: false">
     <div class="flier-details clear-fix" data-bind="with:Flier">  
         
         @Html.Partial("Bulletin/DownloadPrintImagePartial", flier)

@@ -14,11 +14,7 @@
         };
 
         self.hideDetailView = function (data, event) {
-            //if()
-            if(event.target.id == "selected-item-popup-overlay")
-            {
-                self.Sam.setLocation(self.initPath);
-            }
+            self.Sam.setLocation(self.initPath);
         };
 
         self.showDetails = function (flier) {
