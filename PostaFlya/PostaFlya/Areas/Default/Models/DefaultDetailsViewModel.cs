@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using PostaFlya.Models.Board;
 using PostaFlya.Models.Flier;
 using PostaFlya.Models.Location;
 
@@ -20,8 +21,11 @@ namespace PostaFlya.Areas.Default.Models
                                        {
                                            Address = new LocationModel()
                                        },
-                                   EventDates = new List<DateTimeOffset>()
+                                   EventDates = new List<DateTimeOffset>(),
+
+                                   VenueBoard = new BoardSummaryModel()
                                }
+
                        };
             return ret;
         }

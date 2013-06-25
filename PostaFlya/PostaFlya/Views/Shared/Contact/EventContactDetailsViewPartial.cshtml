@@ -1,38 +1,38 @@
 ﻿
 @using Website.Application.Domain.Google.Content
 @using Website.Domain.Location
-@model PostaFlya.Models.Location.VenueInformationModel
+@model PostaFlya.Models.Board.BoardSummaryModel
 
 <fieldset>
     <legend>@Html.LabelForModel()</legend>
     
     <ol>
         
-        <li data-bind="visible:PlaceName()">
-            <span data-bind="text:PlaceName()">@Model.PlaceName</span>                  
+        <li data-bind="visible: Location().PlaceName()">
+            <span data-bind="text: Location().PlaceName()">@Model.Location.PlaceName</span>                  
         </li>
 
-        <li data-bind="visible:Address().Description()">
+        <li data-bind="visible: Location().Address().Description()">
             <a class="plainlink"
-                href="@Html.LocationMapSearchUrl(Model.Address.ToDomainModel())" data-bind="attr: { href: Address().SearchLink() }" target="_blank">
-            <span data-bind="text: Address().Description()">@(Model.Address != null ? Model.Address.GetAddressDescription() : "")</span>                                      
+                href="@Html.LocationMapSearchUrl(Model.Location.Address.ToDomainModel())" data-bind="attr: { href: Location().Address().SearchLink() }" target="_blank">
+            <span data-bind="text: Location().Address().Description()">@(Model.Location.Address != null ? Model.Location.Address.GetAddressDescription() : "")</span>                                      
             </a>
         </li>
                     
-        <li data-bind="visible: PhoneNumber()" >
-            @Html.LabelFor(model => model.PhoneNumber)
-            <span data-bind="text:PhoneNumber">@Model.PhoneNumber</span>            
+        <li data-bind="visible: Location().PhoneNumber()" >
+            @Html.LabelFor(model => model.Location.PhoneNumber)
+            <span data-bind="text: Location().PhoneNumber">@Model.Location.PhoneNumber</span>            
         </li>
         
 
-        <li data-bind="visible:EmailAddress()">
-            @Html.LabelFor(model => model.EmailAddress) 
-            <a data-bind="text:EmailAddress, attr:{href: 'mailto:' + EmailAddress()}">@Model.EmailAddress</a>              
+        <li data-bind="visible: Location().EmailAddress()">
+            @Html.LabelFor(model => model.Location.EmailAddress) 
+            <a data-bind="text: Location().EmailAddress, attr: { href: 'mailto:' + Location().EmailAddress() }">@Model.Location.EmailAddress</a>              
         </li>
 
 
-        <li data-bind="if:BoardFriendlyId()">
-            <a  class="bold-link" data-bind="visible:BoardFriendlyId(), attr:{href: (bf.widgetbase ? bf.widgetbase : '' ) + '/' + BoardFriendlyId()}" href="@Model.BoardFriendlyId">Venue Poster Board</a>                 
+        <li data-bind="if:FriendlyId">
+            <a  class="bold-link" data-bind="visible:FriendlyId, attr:{href: (bf.widgetbase ? bf.widgetbase : '' ) + '/' + FriendlyId}" href="@Model.FriendlyId">Venue Poster Board</a>                 
         </li>
 
         

@@ -104,7 +104,7 @@ namespace PostaFlya.Models.Board
     {
         public BoardSummaryModel()
         {
-            Location = new VenueInformationModel();
+            Location = new VenueInformationModel(){Address = new LocationModel()};
         }
         [DataMember]
         public string Name { get; set; }
