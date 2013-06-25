@@ -17,7 +17,7 @@ namespace WebScraper.Library.Model
             target.Description = source.Description;
             target.EventDates = source.EventDates;
             target.Anonymous = true;
-            target.VenueInformation = source.VenueInfo;
+            //target.VenueInformation = source.VenueInfo;
             target.UserLinks = source.Links;
             return target;
         }
