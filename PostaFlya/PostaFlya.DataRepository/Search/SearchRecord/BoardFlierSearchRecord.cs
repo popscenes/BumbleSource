@@ -26,13 +26,13 @@ namespace PostaFlya.DataRepository.Search.SearchRecord
 
         }
 
-        public static BoardFlierSearchRecord ToSearchRecord(this BoardInterface boardFlier, FlierInterface flier, BoardInterface venueBoard)
+        public static BoardFlierSearchRecord ToSearchRecord(this BoardFlierInterface boardFlier, FlierInterface flier, BoardInterface venueBoard)
         {
             var ret =  new BoardFlierSearchRecord()
             {
                 FlierId = flier.Id,
-                BoardId = new Guid(boardFlier.Id),
-                Id = flier.Id + boardFlier.Id,
+                BoardId = new Guid(boardFlier.BoardId),
+                Id = flier.Id + boardFlier.BoardId,
                 BoardStatus = (int)boardFlier.Status,
             };
 
