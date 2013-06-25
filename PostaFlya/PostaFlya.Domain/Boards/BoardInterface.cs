@@ -46,7 +46,7 @@ namespace PostaFlya.Domain.Boards
 
         public static VenueInformation Venue(this BoardInterface board)
         {
-            if (board.InformationSources == null || board.InformationSources.Count == 0)
+            if (board.InformationSources == null || board.InformationSources.Count == 0 || board.BoardTypeEnum == BoardTypeEnum.InterestBoard)
                 return null;
 
             var ret =

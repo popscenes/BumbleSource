@@ -92,7 +92,8 @@ namespace PostaFlya.Models.Flier
             target.Status = flier.Status.ToString();
             target.TinyUrl = flier.TinyUrl;
             target.FlierBehaviour = flier.FlierBehaviour.ToString();
-            target.FlierImageUrl = _blobStorage.GetBlobUri(flier.Image + ImageUtil.GetIdFileExtension()).ToString();
+            var uri = _blobStorage.GetBlobUri(flier.Image + ImageUtil.GetIdFileExtension());
+            target.FlierImageUrl = uri != null ? uri.ToString() : null;
             
             var boards =  _queryChannel.Query(new GetBoardsByIdsQuery(){Ids = flier.Boards.Select(_ => _.BoardId)}, (List<BoardSummaryModel>)null);
             if (boards.Any())

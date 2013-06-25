@@ -33,7 +33,7 @@ Scenario: View Board
 Given there is a public board named publicBoard that requires approval
 When I navigate to the public view page for that Board
 Then I will see the Information for that Board
-And I will see the Fliers on that Board
+
 
 
 

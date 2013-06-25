@@ -124,7 +124,6 @@ namespace PostaFlya.Specification.Fliers
             testRunner.Given("there is a public board named publicBoard that requires approval", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
             testRunner.When("I navigate to the public view page for that Board", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
             testRunner.Then("I will see the Information for that Board", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-            testRunner.And("I will see the Fliers on that Board", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
             this.ScenarioCleanup();
         }
     }

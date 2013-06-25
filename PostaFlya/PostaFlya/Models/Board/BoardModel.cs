@@ -11,6 +11,7 @@ using Website.Application.Domain.Google.Places;
 using Website.Application.Google.Content;
 using Website.Common.Model;
 using Website.Common.Model.Query;
+using Website.Domain.Location;
 using Website.Infrastructure.Query;
 using Loc = Website.Domain.Location;
 
@@ -51,19 +52,17 @@ namespace PostaFlya.Models.Board
             target.Name = source.Name;
             target.FriendlyId = source.FriendlyId;
             target.Description = source.Description;
-            target.VenueInformation = source
-                .InformationSources
+            target.VenueInformation = source.InformationSources == null ? new List<VenueInformationModel>() :
+                source.InformationSources
                 .Select(information => _queryChannel.ToViewModel<VenueInformationModel, VenueInformation>(information))
                 .ToList();
-            target.Location = _queryChannel.ToViewModel<LocationModel, Loc.Location>(source.InformationSources.First().Address);
+            target.Location = target.Venue() == null ? null : target.Venue().Address;
             target.BoardTypeEnum = source.BoardTypeEnum;
             target.Id = source.Id;
-            target.DefaultVenueInformation =
-                target.VenueInformation.FirstOrDefault(model => model.Source == source.DefaultInformationSource);
-            target.DefaultVenueInformation = target.DefaultVenueInformation ?? target.VenueInformation.FirstOrDefault();
+            target.DefaultVenueInformation = target.Venue();
             if (!string.IsNullOrWhiteSpace(source.ImageId))
                 target.BoardImageUrl = _blobStorage.GetBlobUri(source.ImageId).ToString();
-            else if (source.InformationSources.First().Address != null && source.InformationSources.First().Address.IsValid)
+            else if (target.DefaultVenueInformation != null && target.DefaultVenueInformation.Address != null && target.DefaultVenueInformation.Address.IsValid())
             {
                 target.BoardImageUrl = source.InformationSources.First().Address.GoogleMapsUrl(400, 200);
                 target.BoardImageExternal = true;
@@ -157,5 +156,20 @@ namespace PostaFlya.Models.Board
         [DataMember]
         public string BoardImageUrl { get; set; }
 
+    }
+
+    public static class BoardModelExtensions
+    {
+
+        public static VenueInformationModel Venue(this BoardModel board)
+        {
+            if (board.VenueInformation == null || board.VenueInformation.Count == 0)
+                return null;
+
+            var ret =
+                board.VenueInformation.FirstOrDefault(
+                    information => information.Source == board.DefaultVenueInformation.Source);
+            return ret ?? board.VenueInformation.First();
+        }
     }
 }
