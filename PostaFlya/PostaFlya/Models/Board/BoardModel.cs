@@ -93,6 +93,7 @@ namespace PostaFlya.Models.Board
             target.Description = source.Description;
             target.Location = _queryChannel.ToViewModel<VenueInformationModel>(source.InformationSources.First());
             target.Id = source.Id;
+            target.FriendlyId = source.FriendlyId;
             return target;
         }
 
@@ -113,6 +114,9 @@ namespace PostaFlya.Models.Board
 
         [DataMember]
         public string Id { get; set; }
+
+        [DataMember]
+        public string FriendlyId { get; set; }
 
         [DataMember]
         public VenueInformationModel Location { get; set; }
