@@ -204,14 +204,14 @@ namespace PostaFlya.Specification.DynamicBulletinBoard
         {
             var viewRes = SpecUtil.ControllerResult as ViewResult;
             Assert.IsNotNull(viewRes);
-            var flier = ScenarioContext.Current["flier"] as FlierInterface;
+            var flier = ScenarioContext.Current["flier"] as Flier;
             Assert.IsNotNull(flier);
             var bulletinController = SpecUtil.GetController<BulletinApiController>();
             var retMod = bulletinController.Get(flier.FriendlyId);
             Assert.IsNotNull(retMod);
 
             var viewModelFact = SpecUtil.CurrIocKernel.Get<QueryChannelInterface>();
-            var currMod = viewModelFact.ToViewModel<BulletinFlierDetailModel>(flier);
+            var currMod = viewModelFact.ToViewModel<BulletinFlierDetailModel, Flier>(flier);
             AssertAreEqual(retMod.Flier, currMod);
             ScenarioContext.Current["fliermodel"] = retMod;
         }

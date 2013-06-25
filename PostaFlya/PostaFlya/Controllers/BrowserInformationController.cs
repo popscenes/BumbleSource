@@ -28,7 +28,7 @@ namespace PostaFlya.Controllers
         {
             //var js = new JsonResult {Data = _browserQueryService.ToCurrentBrowserModel()};
             var serializer = new JavaScriptSerializer();
-            var model = _queryChannel.ToViewModel<CurrentBrowserModel>(_browserInformation);
+            var model = _queryChannel.ToViewModel<CurrentBrowserModel, PostaFlyaBrowserInformationInterface>(_browserInformation);
             //model.AdminBoards =
 
             if (!string.IsNullOrWhiteSpace(_browserInformation.Browser.EmailAddress))
@@ -36,7 +36,7 @@ namespace PostaFlya.Controllers
                 var boards =
                     _queryChannel.Query(
                         new FindBoardByAdminEmailQuery() {AdminEmail = _browserInformation.Browser.EmailAddress},
-                        (List<Board>) null);
+                        new List<Board>());
                 model.AdminBoards = _queryChannel.ToViewModel<BoardSummaryModel, PostaFlya.Domain.Boards.Board>(boards);
             }
 

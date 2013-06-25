@@ -21,7 +21,7 @@ namespace PostaFlya.Areas.MobileApi.Flyers.Query
             var flyer = _queryChannel.Query(argument, (Flier) null);
             if (flyer == null || flyer.Status != FlierStatus.Active)
                 return null;
-            return _queryChannel.ToViewModel<FlyerDetailModel>(flyer);
+            return _queryChannel.ToViewModel<FlyerDetailModel, Flier>(flyer);
         }
     }
 }
