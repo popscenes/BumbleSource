@@ -316,7 +316,6 @@ namespace PostaFlya.DataRepository.Tests
 
             storedFlier.Boards.Add(boardFlier);
             FlierTestData.UpdateOne(storedFlier, _repository, Kernel);
-            BoardTestData.StoreOne(boardFlier, _repository, Kernel);
 
             return _queryService.FindById<Flier>(storedFlier.Id);
         }
@@ -358,7 +357,6 @@ namespace PostaFlya.DataRepository.Tests
 
             storedFlier.Boards.Add(boardFlier);
             FlierTestData.UpdateOne(storedFlier, _repository, Kernel);
-            BoardTestData.StoreOne(boardFlier, _repository, Kernel);
 
             var tag = Kernel.Get<Tags>(bm => bm.Has("default"));
 
@@ -438,9 +436,10 @@ namespace PostaFlya.DataRepository.Tests
         [Test]
         public void AzureFlierRepositoryCommentUpdatesNumberOfComments()
         {
+            var board = BoardTestData.GetAndStoreOne(Kernel, _repository);
             var testFlier = FlierTestData.GetOne(Kernel);
             testFlier.FlierBehaviour = FlierBehaviour.Default;
-            testFlier = FlierTestData.StoreOne(testFlier, _repository, Kernel);
+            testFlier = FlierTestData.StoreOne(testFlier, _repository, Kernel, board);
             var retFlier = FlierTestData.AssertGetById(testFlier, _queryService);
 
             var addComment = CommentTestData.GetOne(Kernel, retFlier.Id);
@@ -458,9 +457,10 @@ namespace PostaFlya.DataRepository.Tests
         [Test]
         public void AzureFlierRepositoryGetCommentsReturnsAllCommentsOnAFlier()
         {
+            var board = BoardTestData.GetAndStoreOne(Kernel, _repository);
             var testFlier = FlierTestData.GetOne(Kernel);
             testFlier.FlierBehaviour = FlierBehaviour.Default;
-            testFlier = FlierTestData.StoreOne(testFlier, _repository, Kernel);
+            testFlier = FlierTestData.StoreOne(testFlier, _repository, Kernel, board);
             var retFlier = FlierTestData.AssertGetById(testFlier, _queryService);
 
 
@@ -485,9 +485,10 @@ namespace PostaFlya.DataRepository.Tests
         [Test]
         public void AzureFlierRepositoryClaimUpdatesNumberOfClaims()
         {
+            var board = BoardTestData.GetAndStoreOne(Kernel, _repository);
             var testFlier = FlierTestData.GetOne(Kernel);
             testFlier.FlierBehaviour = FlierBehaviour.Default;
-            testFlier = FlierTestData.StoreOne(testFlier, _repository, Kernel);
+            testFlier = FlierTestData.StoreOne(testFlier, _repository, Kernel, board);
             var retFlier = FlierTestData.AssertGetById(testFlier, _queryService);
 
             var claim = ClaimTestData.GetOne(Kernel, retFlier.Id);
@@ -504,9 +505,10 @@ namespace PostaFlya.DataRepository.Tests
         [Test]
         public void AzureFlierRepositoryGetClaimsReturnsAllClaimsOnAFlier()
         {
+            var board = BoardTestData.GetAndStoreOne(Kernel, _repository);
             var testFlier = FlierTestData.GetOne(Kernel);
             testFlier.FlierBehaviour = FlierBehaviour.Default;
-            testFlier = FlierTestData.StoreOne(testFlier, _repository, Kernel);
+            testFlier = FlierTestData.StoreOne(testFlier, _repository, Kernel, board);
             var retFlier = FlierTestData.AssertGetById(testFlier, _queryService);
 
 
@@ -532,10 +534,13 @@ namespace PostaFlya.DataRepository.Tests
         [Test]
         public void AzureFlierRepositoryGetEntitiesClaimedByBrowserReturnsAllFlierClaimed()
         {
+
+            var board = BoardTestData.GetAndStoreOne(Kernel, _repository);
+
             var claims = new List<ClaimInterface>();
             var testFlier = FlierTestData.GetOne(Kernel);
             testFlier.FlierBehaviour = FlierBehaviour.Default;
-            testFlier = FlierTestData.StoreOne(testFlier, _repository, Kernel);
+            testFlier = FlierTestData.StoreOne(testFlier, _repository, Kernel, board);
             var retFlier = FlierTestData.AssertGetById(testFlier, _queryService);
             var claim = ClaimTestData.GetOne(Kernel, retFlier.Id);
             var browserId = claim.BrowserId;
@@ -544,7 +549,7 @@ namespace PostaFlya.DataRepository.Tests
 
             testFlier = FlierTestData.GetOne(Kernel);
             testFlier.FlierBehaviour = FlierBehaviour.Default;
-            testFlier = FlierTestData.StoreOne(testFlier, _repository, Kernel);
+            testFlier = FlierTestData.StoreOne(testFlier, _repository, Kernel, board);
             retFlier = FlierTestData.AssertGetById(testFlier, _queryService);
             claim = ClaimTestData.GetOne(Kernel, retFlier.Id);
             claim.BrowserId = browserId;
