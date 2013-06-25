@@ -345,25 +345,13 @@ namespace PostaFlya.DataRepository.Tests
         public void FindFliersByBoard()
         {
             var storedFlier = StoreFlierRepository();
-            var board = BoardTestData.GetOne(Kernel, "TestBoardNameNoLoc",BoardTypeEnum.VenueBoard, _loc);
-            board = BoardTestData.StoreOne(board, _repository, Kernel);
-
-            var boardFlier = new BoardFlier()
-            {
-                BoardId = board.Id,
-                Status = BoardFlierStatus.Approved,
-                DateAdded = DateTime.UtcNow
-            };
-
-            storedFlier.Boards.Add(boardFlier);
-            FlierTestData.UpdateOne(storedFlier, _repository, Kernel);
 
             var tag = Kernel.Get<Tags>(bm => bm.Has("default"));
 
-            var retrievedFliers = _searchService.FindFliersByBoard(board.Id, 5, null, null, tag)
+            var retrievedFliers = _searchService.FindFliersByBoard(storedFlier.Boards.First().BoardId, 5, null, null, tag)
                 .Select(id => _queryService.FindById<Domain.Flier.Flier>(id)).ToList();
 
-            Assert.That(retrievedFliers.Count(), Is.EqualTo(1));
+            Assert.That(retrievedFliers.Count(), Is.EqualTo(3));
 
             FlierTestData.AssertStoreRetrieve(storedFlier, retrievedFliers.FirstOrDefault());
         }
@@ -381,8 +369,8 @@ namespace PostaFlya.DataRepository.Tests
             var retrievedFliers = _searchService.FindFliersByBoard(board.BoardId, 30, null, eventDateOne)
                 .Select(id => _queryService.FindById<Domain.Flier.Flier>(id)).ToList();
 
-            Assert.That(retrievedFliers.Count(), Is.EqualTo(1));
-            Assert.That(retrievedFliers.Single().EventDates.Any(time => time == eventDateOne), Is.True);
+            Assert.That(retrievedFliers.Count(), Is.EqualTo(3));
+            Assert.That(retrievedFliers.All(f => f.EventDates.Any(time => time == eventDateOne)), Is.True);
 
             retrievedFliers = _searchService.FindFliersByBoard(board.BoardId, 30, null, eventDateTwo)
                 .Select(id => _queryService.FindById<Domain.Flier.Flier>(id)).ToList();
