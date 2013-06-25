@@ -41,6 +41,9 @@ namespace PostaFlya.Specification.Fliers
         [Given(@"i have navigated to the CREATE PAGE for a FLIER TYPE (.*)")]
         public void GivenIOrAnotherBrowserHasNavigatedToTheCreateFlierPage(string flierBehaviour)
         {
+            var repo = SpecUtil.CurrIocKernel.Get<GenericRepositoryInterface>();
+            repo.Store(SpecUtil.CurrIocKernel.Get<Board>(ib => ib.Get<bool>("default")));
+
             var flierController = SpecUtil.GetController<FlierController>();
             var type = (FlierBehaviour)Enum.Parse(typeof(FlierBehaviour), flierBehaviour);
             var createModel = SpecUtil.CurrIocKernel.Get<FlierCreateModel>(ib => ib.Get<bool>("fliercreate"));

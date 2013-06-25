@@ -3,9 +3,11 @@ using System.Web.Mvc;
 using Ninject;
 using Ninject.MockingKernel.Moq;
 using Ninject.Modules;
+using PostaFlya.Domain.Boards;
 using PostaFlya.Domain.Flier;
 using PostaFlya.Domain.Venue;
 using PostaFlya.Mocks.Domain.Data;
+using PostaFlya.Models.Board;
 using Website.Infrastructure.Command;
 using PostaFlya.Models.Flier;
 using PostaFlya.Models.Location;
@@ -32,6 +34,25 @@ namespace PostaFlya.Specification.Util
 
             Bind<FormCollection>().ToConstant(fc).WithMetadata("ACSGoogleFormCollection", true);
 
+            Bind<VenueInformation>().ToMethod(context => new VenueInformation()
+            {
+                PlaceName = "Test Pub",
+                Address = SpecUtil.CurrIocKernel.Get<Location>(ib => ib.Get<bool>("default")),
+                Source = "Google Place",
+                SourceUrl = "http://googleplace.com/123",
+                SourceId = "123456"
+            }).InTransientScope().WithMetadata("default", true);
+
+            Bind<Board>().ToMethod(context => new Board()
+                {
+                    Id =  (new Guid("EAC4C8CC-D2A6-420A-8BCE-CECEDB29B67B")).ToString(),
+                    InformationSources = new List<VenueInformation>()
+                        {
+                            Kernel.Get<VenueInformation>(metadata => metadata.Get<bool>("default"))
+                        },
+                    Name = "TestBoard"
+                }).InTransientScope().WithMetadata("default", true);
+
             //flier creation
             Bind<FlierCreateModel>()
             .ToMethod(ctx => new FlierCreateModel()
@@ -39,6 +60,10 @@ namespace PostaFlya.Specification.Util
                                 Title = "This is a Title",
                                 Description = "This is a Description",
                                 TagsString = Kernel.Get<Tags>(ib => ib.Get<bool>("default")).ToString(),
+                                BoardList = new List<string>()
+                                    {
+                                        Kernel.Get<Board>(ib => ib.Get<bool>("default")).Id
+                                    },
                                 /*VenueInformation = new VenueInformationModel()
                                     {
                                         PlaceName = "Test Pub",
@@ -59,14 +84,7 @@ namespace PostaFlya.Specification.Util
             .InTransientScope()
             .WithMetadata("fliercreate", true);
 
-            Bind<VenueInformation>().ToMethod(context => new VenueInformation()
-            {
-                PlaceName = "Test Pub",
-                Address = SpecUtil.CurrIocKernel.Get<Location>(ib => ib.Get<bool>("default")),
-                Source = "Google Place",
-                SourceUrl = "http://googleplace.com/123",
-                SourceId = "123456"
-            }).InTransientScope().WithMetadata("default", true); ;
+
 
             //set a default command bus if it is needed
             Kernel.Bind<CommandBusInterface>().To<DefaultCommandBus>();
