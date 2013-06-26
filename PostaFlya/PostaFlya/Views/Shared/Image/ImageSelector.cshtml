@@ -10,7 +10,7 @@
             </div>
             
             <span data-bind="with: selectedImage">
-                <img data-bind="attr: { id: ImageId, src: ImageUrl }, imgRetry: ImageUrl" />
+                <img data-bind="bulletinimg:ImageUrl, attr: { id: ImageId }, imgRetry: ImageUrl" style="width: 228px" />
             </span>
             
             <div id="upload-controls">

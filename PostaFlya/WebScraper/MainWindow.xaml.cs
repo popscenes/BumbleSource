@@ -178,11 +178,29 @@ namespace WebScraper
         private void UploadStart(DoWorkEventArgs e)
         {
             var data = e.Argument as PublishData;
-            data.import.ForEach(model =>
+            var boardsReq = new BoardsGet(data.server, data.authcookie);
+            var boardsWorked = boardsReq.Request().Result;
+
+            if (boardsWorked.Any())
             {
-                var up = new FlyerUpload(data.authcookie, Guid.Empty.ToString(), model, data.server);
-                var ret = up.Request().Result;
-            });
+                data.import.ForEach(model =>
+                    {
+                        var foundBoards = boardsWorked.Where(_ => _.DefaultVenueInformation.PlaceName == model.VenueInfo.PlaceName).Select(_ => _.Id);
+                        if (boardsWorked.All(_ => _.DefaultVenueInformation.PlaceName != model.VenueInfo.PlaceName))
+                        {
+                            Trace.TraceInformation("Skipping gig for {0} no board found...", model.VenueInfo.PlaceName);
+                        }
+                        else
+                        {
+                            model.BoardId =
+                                boardsWorked.First(_ => _.DefaultVenueInformation.PlaceName == model.VenueInfo.PlaceName)
+                                            .Id;
+                            var up = new FlyerUpload(data.authcookie, Guid.Empty.ToString(), model, data.server);
+                            var ret = up.Request().Result;    
+                        }
+                        
+                    });
+            }
         }
 
         private class StartEnd

@@ -18,6 +18,7 @@ namespace WebScraper.Library.Model
             target.EventDates = source.EventDates;
             target.Anonymous = true;
             //target.VenueInformation = source.VenueInfo;
+            target.BoardList = new List<string>(){source.BoardId};
             target.UserLinks = source.Links;
             return target;
         }
@@ -33,6 +34,7 @@ namespace WebScraper.Library.Model
         public string Tags { get; set; }
         public string Source { get; set; }
         public Uri SourceDetailPage { get; set; }
+        public string BoardId { get; set; }
 
         public VenueInformationModel VenueInfo { get; set; }
 
@@ -49,8 +51,7 @@ namespace WebScraper.Library.Model
                 ret = ret && !string.IsNullOrWhiteSpace(Description);
                 ret = ret && !string.IsNullOrWhiteSpace(ImageUrl);
                 ret = ret && !string.IsNullOrWhiteSpace(Tags);
-                ret = ret && !string.IsNullOrWhiteSpace(VenueInfo.PlaceName);
-                ret = ret && VenueInfo.Address.IsValid();
+                ret = ret && !string.IsNullOrWhiteSpace(BoardId); 
                 ret = ret && EventDates.Count > 0;
             }
             catch (Exception)

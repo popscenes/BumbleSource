@@ -5,7 +5,7 @@
       
     <div class="bulletin-showing-div" data-bind="visible: StatusText()">
         <span data-bind="text: StatusText"></span>
-    </div>                                                                          
+    </div>                                                                        
     <div id="bulletinboard"  data-bind="template: { name: Layout.FlierTemplate, foreach: fliers }, visible: fliers().length > 0, updateLayout: Layout">
         @Html.Partial("State/PageStateAdd", "Fliers")    
         @Html.Partial("Bulletin/BulletinItems")
