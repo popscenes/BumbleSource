@@ -94,8 +94,6 @@ namespace PostaFlya.Domain.Boards.Command
                 if (command.SourceInformation != null)
                 {
                     newBoard.InformationSources = new List<VenueInformation>() { command.SourceInformation };
-                    newBoard.InformationSources = new List<VenueInformation>();
-                    newBoard.InformationSources.Add(command.SourceInformation);
                     newBoard.DefaultInformationSource = command.SourceInformation.Source;
                 }
                     

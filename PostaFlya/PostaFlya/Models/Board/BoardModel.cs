@@ -166,10 +166,15 @@ namespace PostaFlya.Models.Board
             if (board.VenueInformation == null || board.VenueInformation.Count == 0)
                 return null;
 
-            var ret =
-                board.VenueInformation.FirstOrDefault(
-                    information => information.Source == board.DefaultVenueInformation.Source);
-            return ret ?? board.VenueInformation.First();
+            if (board.DefaultVenueInformation != null)
+            {
+                var ret =
+                    board.VenueInformation.FirstOrDefault(
+                        information => information.Source == board.DefaultVenueInformation.Source);
+                return ret ?? board.VenueInformation.First();
+            }
+
+            return board.VenueInformation.First();
         }
     }
 }
