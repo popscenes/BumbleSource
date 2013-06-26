@@ -9,27 +9,25 @@ using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using PostaFlya.Models.Board;
-using PostaFlya.Models.Flier;
-using WebScraper.Library.Model;
 
 namespace WebScraper.Library.Infrastructure
 {
-    public class BoardUpload
+    public class BoardsGet
     {
         private readonly string _authcookie;
-        private readonly BoardCreateEditModel _model;
         private readonly String _server;
-        private readonly String _flyerPost;
+        private readonly String _boardGetReq;
 
-        public BoardUpload(string authcookie, string browserId, BoardCreateEditModel model, string server)
+        public BoardsGet(string server, string authcookie)
         {
             _authcookie = authcookie;
-            _model = model;
             _server = server;
-            _flyerPost = string.Format("/api/Browser/{0}/MyBoards", browserId);
+
+            //hardoded this for melb for now
+            _boardGetReq = "/api/BoardSearchApi?loc%5BLongitude%5D=144.97169099999996&loc%5BLatitude%5D=-37.81138&distance=25000&count=3000";
         }
 
-        public async Task<bool> Request()
+        public async Task<List<BoardModel>> Request()
         {
             try
             {
@@ -42,25 +40,22 @@ namespace WebScraper.Library.Infrastructure
                     {
                         using (var req = new HttpRequestMessage())
                         {
-                            req.Method = HttpMethod.Post;
-                            req.RequestUri = new Uri(_server + _flyerPost);
-                            
-                            Trace.TraceInformation(JsonConvert.SerializeObject(_model));
+                            req.Method = HttpMethod.Get;
+                            req.RequestUri = new Uri(_server + _boardGetReq);
 
-                            //_model.Id = "fuckity";
-
-                            req.Content = new ObjectContent<BoardCreateEditModel>(_model, new JsonMediaTypeFormatter());
                             using (var res = await client.SendAsync(req))
                             {
                                 if (!res.IsSuccessStatusCode)
                                 {
                                     Trace.TraceError("Error " + res.StatusCode + " " + await res.Content.ReadAsStringAsync());
-                                    return false;
+                                    return null;
                                 }
-                                
-                                Trace.TraceInformation("Created " + res.Headers.Location);
-                                return true;
-                                
+
+                                string responseString = await res.Content.ReadAsStringAsync();
+                                var ret = JsonConvert.DeserializeObject < List<BoardModel>>(responseString);
+
+                                return ret;
+
                             }
                         }
                     }
@@ -69,7 +64,7 @@ namespace WebScraper.Library.Infrastructure
             catch (Exception e)
             {
                 Trace.TraceError("Error " + e);
-                return false;
+                return null;
             }
         }
     }
