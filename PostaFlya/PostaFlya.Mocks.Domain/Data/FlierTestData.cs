@@ -361,6 +361,9 @@ namespace PostaFlya.Mocks.Domain.Data
                 flier.Boards.Add(new BoardFlier() { BoardId = board.Id, BoardRank = 0, DateAdded = DateTime.UtcNow, Status = BoardFlierStatus.Approved });                             
             }
        
+            if(!flier.Boards.Any())
+                throw new Exception("need to have venue board");
+
             var uow = kernel.Get<UnitOfWorkFactoryInterface>()
                 .GetUnitOfWork(new List<RepositoryInterface>() {repository});
             using (uow)
