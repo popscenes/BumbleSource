@@ -22,7 +22,10 @@ namespace Popscenes.Specification.MobileApi.Bulletin
         [Given(@"There are (.*) flyers within (.*) kilometers of the geolocation (.*), (.*)")]
         public void GivenThereAreFlyersAroundTheGeolocation(int flyercount, int kilometers, double latitude, double longitude)
         {
-            var flyersbuild = DataUtil.GetSomeFlyersAroundTheGeolocation(flyercount, kilometers, latitude, longitude);
+            var boardBuild = DataUtil.GetSomeBoardsAroundTheGeolocation(flyercount, kilometers, latitude, longitude);
+            var boards = boardBuild.Build().ToList();
+            StorageUtil.StoreAll(boards);
+            var flyersbuild = DataUtil.GetSomeFlyersForTheBoards(flyercount, boards);
             var flyers = flyersbuild.Build();
 
             StorageUtil.StoreAll(flyers);
@@ -38,7 +41,7 @@ namespace Popscenes.Specification.MobileApi.Bulletin
             Assert.That(content.Data.Flyers.Count, Is.EqualTo(takenumber));
 
             var targetLoc = new Location(longitude, latitude);
-            foreach (var loc in content.Data.Flyers.Select(model => model.Venue.Address))
+            foreach (var loc in content.Data.Flyers.Select(model => model.VenueBoard.Location.Address))
             {
                 DataUtil.AssertIsWithinKmsOf(targetLoc, kilometers, loc.ToDomainModel());
             }

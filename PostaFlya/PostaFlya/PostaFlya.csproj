@@ -448,6 +448,7 @@
     <Compile Include="Query\BoardSummaryGetByIdsQueryHandler.cs" />
     <Compile Include="Query\DefaultDetailsFindFindByFriendlyIdQueryHandler.cs" />
     <Compile Include="Query\DefaultDetailsFindFindByIdQueryHandler.cs" />
+    <Compile Include="Query\GetFlyerVenueBoardQueryHandler.cs" />
     <Compile Include="RemoveWwwRedirectFilter.cs" />
     <Compile Include="Views\Account\Bundles.cs" />
     <Compile Include="Views\Board\Widget\WidgetBundles.cs" />

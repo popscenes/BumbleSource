@@ -19,7 +19,11 @@ namespace Popscenes.Specification.MobileApi.Bulletin
         [Given(@"There is an (.*) flyer with the id (.*)")]
         public void GivenThereIsAnActiveFlyerWithTheId(FlierStatus status, Guid id)
         {
-            var flyerBuild = DataUtil.GetAFlyer(id, status);
+            var boardBuild = DataUtil.GetABoard(Guid.NewGuid());
+            var board = boardBuild.Build();
+            StorageUtil.Store(board);
+
+            var flyerBuild = DataUtil.GetAFlyer(id, board, status);
             var flyer = flyerBuild.Build();
 
             StorageUtil.Store(flyer);

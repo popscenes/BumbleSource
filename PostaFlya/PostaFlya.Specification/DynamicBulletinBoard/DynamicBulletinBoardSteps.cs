@@ -92,7 +92,7 @@ namespace PostaFlya.Specification.DynamicBulletinBoard
             var locService = SpecUtil.CurrIocKernel.Get<LocationServiceInterface>();
             foreach (var flier in fliers)
             {
-                Assert.IsTrue(locService.IsWithinDefaultDistance(flier.Venue.Address.ToDomainModel()),
+                Assert.IsTrue(locService.IsWithinDefaultDistance(flier.VenueBoard.Location.Address.ToDomainModel()),
                               "Flier returned that isn't within default distance");
             }
 
@@ -154,7 +154,7 @@ namespace PostaFlya.Specification.DynamicBulletinBoard
             Assert.IsTrue(fliers.Any());
             foreach (var bulletinFlierModel in fliers)
             {
-                Assert.IsTrue(locationService.IsWithinBoundingBox(box, bulletinFlierModel.Venue.Address.ToDomainModel()));
+                Assert.IsTrue(locationService.IsWithinBoundingBox(box, bulletinFlierModel.VenueBoard.Location.Address.ToDomainModel()));
                 var tagsret = new Tags(bulletinFlierModel.TagsString);
                 Assert.IsTrue(tagsret.Union(new Tags(tags)).Any());
             }

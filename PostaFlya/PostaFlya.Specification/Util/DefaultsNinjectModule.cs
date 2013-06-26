@@ -50,7 +50,8 @@ namespace PostaFlya.Specification.Util
                         {
                             Kernel.Get<VenueInformation>(metadata => metadata.Get<bool>("default"))
                         },
-                    Name = "TestBoard"
+                    Name = "TestBoard",
+                    BoardTypeEnum = BoardTypeEnum.VenueBoard
                 }).InTransientScope().WithMetadata("default", true);
 
             //flier creation

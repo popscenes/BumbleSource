@@ -497,4 +497,7 @@
   <data name="Flyer_Description" xml:space="preserve">
     <value>Description</value>
   </data>
+  <data name="Flyer_Venue_Board" xml:space="preserve">
+    <value>Flyer_Venue_Board</value>
+  </data>
 </root>

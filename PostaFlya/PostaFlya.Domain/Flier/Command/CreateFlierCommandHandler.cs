@@ -70,14 +70,16 @@ namespace PostaFlya.Domain.Flier.Command
                                    UserLinks = command.UserLinks
                                };
 
+            newFlier.Boards =
+                command.BoardSet.Select(
+                    _ => new BoardFlier() { BoardId = _, DateAdded = DateTime.Now, Status = BoardFlierStatus.Approved })
+                    .ToList();
+
             newFlier.FriendlyId = _queryChannel.FindFreeFriendlyIdForFlier(newFlier);
             newFlier.Features = GetPaymentFeatures(newFlier);
             newFlier.TinyUrl = _tinyUrlService.UrlFor(newFlier);
 
-            newFlier.Boards =
-                command.BoardSet.Select(
-                    _ => new BoardFlier() {BoardId = _, DateAdded = DateTime.Now, Status = BoardFlierStatus.Approved})
-                       .ToList();
+
 
             UnitOfWorkInterface unitOfWork;
             using (unitOfWork = _unitOfWorkFactory.GetUnitOfWork(new[] { _repository }))

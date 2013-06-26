@@ -62,6 +62,8 @@ namespace PostaFlya.Mocks.Domain.Data
 
         internal static void AddSomeDataForHeatMapToMockFlierStore(GenericRepositoryInterface flierRepository, IKernel kernel)
         {
+            var board = BoardTestData.GetAndStoreOne(kernel, flierRepository,
+                                                     loc: new Location(145.0138751, -37.8799136));
             //Jr's house
             for(var i = 0; i < 100; i++)
             {
@@ -75,13 +77,15 @@ namespace PostaFlya.Mocks.Domain.Data
                     Image = Guid.NewGuid(),
                     FlierBehaviour = FlierBehaviour.Default,
                     Status = FlierStatus.Active,
-                    //Venue = new VenueInformation() { PlaceName = "Venue", Address = new Location(145.0138751, -37.8799136) }
+                    Boards = new List<BoardFlier>() { new BoardFlier(){BoardId = board.Id, DateAdded = DateTime.UtcNow, Status = BoardFlierStatus.Approved} }
 
                 };
 
                 flierRepository.Store(flier);
             }
 
+            board = BoardTestData.GetAndStoreOne(kernel, flierRepository, boardName: "DisneyLand",
+                                                     loc: new Location(-117.9189478, 33.8102936));
             //disneyland
             for (var i = 0; i < 50; i++)
             {
@@ -95,12 +99,17 @@ namespace PostaFlya.Mocks.Domain.Data
                     Image = Guid.NewGuid(),
                     FlierBehaviour = FlierBehaviour.Default,
                     Status = FlierStatus.Active,
+                    Boards = new List<BoardFlier>() { new BoardFlier() { BoardId = board.Id, DateAdded = DateTime.UtcNow, Status = BoardFlierStatus.Approved } }
+
                     //Venue = new VenueInformation() { PlaceName = "Venue", Address = new Location(-117.9189478, 33.8102936) }
 
                 };
 
                 flierRepository.Store(flier);
             }
+
+            board = BoardTestData.GetAndStoreOne(kernel, flierRepository, boardName: "Ricks",
+                                                     loc: new Location(144.9770748, -37.7654897));
 
             //Ricks at casablanca
             for (var i = 0; i < 100; i++)
@@ -115,6 +124,8 @@ namespace PostaFlya.Mocks.Domain.Data
                     Image = Guid.NewGuid(),
                     FlierBehaviour = FlierBehaviour.Default,
                     Status = FlierStatus.Active,
+                    Boards = new List<BoardFlier>() { new BoardFlier() { BoardId = board.Id, DateAdded = DateTime.UtcNow, Status = BoardFlierStatus.Approved } }
+
                     //Venue = new VenueInformation() { PlaceName = "Venue", Address = new Location(144.9770748, -37.7654897) }
 
                 };
