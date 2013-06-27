@@ -1,6 +1,7 @@
 using PostaFlya.Models.Location;
 using Website.Application.Content;
 using Website.Application.Domain.Content;
+using Website.Domain.Content;
 
 namespace PostaFlya.Models.Content
 {

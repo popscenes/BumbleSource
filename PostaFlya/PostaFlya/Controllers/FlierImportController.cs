@@ -9,6 +9,7 @@ using Website.Application.Content;
 using PostaFlya.Domain.Behaviour;
 using PostaFlya.Domain.Flier.Command;
 using PostaFlya.Domain.Flier.Query;
+using Website.Domain.Content;
 using Website.Infrastructure.Command;
 using PostaFlya.Models.Flier;
 using PostaFlya.Models.Location;

@@ -1,11 +1,12 @@
 using System;
-using System.Drawing;
 using System.IO;
 using System.Linq;
 using Website.Application.Content;
 using Website.Application.Extension.Content;
+using Website.Domain.Content;
 using Website.Infrastructure.Command;
 using Website.Domain.Location;
+using Image = System.Drawing.Image;
 
 namespace Website.Application.Domain.Content.Command
 {

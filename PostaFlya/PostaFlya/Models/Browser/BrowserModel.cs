@@ -4,6 +4,7 @@ using Website.Application.Content;
 using Website.Application.Domain.Content;
 using Website.Common.Model;
 using Website.Domain.Browser;
+using Website.Domain.Content;
 using Website.Infrastructure.Query;
 
 namespace PostaFlya.Models.Browser
