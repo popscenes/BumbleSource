@@ -11,6 +11,7 @@ using Newtonsoft.Json;
 using PostaFlya.Models.Board;
 using PostaFlya.Models.Flier;
 using WebScraper.Library.Model;
+using Website.Infrastructure.Command;
 
 namespace WebScraper.Library.Infrastructure
 {
@@ -29,7 +30,7 @@ namespace WebScraper.Library.Infrastructure
             _flyerPost = string.Format("/api/Browser/{0}/MyBoards", browserId);
         }
 
-        public async Task<bool> Request()
+        public async Task<String> Request()
         {
             try
             {
@@ -55,11 +56,15 @@ namespace WebScraper.Library.Infrastructure
                                 if (!res.IsSuccessStatusCode)
                                 {
                                     Trace.TraceError("Error " + res.StatusCode + " " + await res.Content.ReadAsStringAsync());
-                                    return false;
+                                    return "";
                                 }
-                                
+
+                                string responseString = await res.Content.ReadAsStringAsync();
+
+                                var ret = JsonConvert.DeserializeObject<MsgResponse>(responseString);
+                                var boardId = ret.Details.Where(_ => _.Property.Equals("EntityId")).Select(_ => _.Message).FirstOrDefault();
                                 Trace.TraceInformation("Created " + res.Headers.Location);
-                                return true;
+                                return boardId;
                                 
                             }
                         }
@@ -69,7 +74,7 @@ namespace WebScraper.Library.Infrastructure
             catch (Exception e)
             {
                 Trace.TraceError("Error " + e);
-                return false;
+                return "";
             }
         }
     }
