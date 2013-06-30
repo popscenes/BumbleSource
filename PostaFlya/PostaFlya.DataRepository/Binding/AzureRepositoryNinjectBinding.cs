@@ -16,11 +16,14 @@ using Website.Azure.Common.Binding;
 using Website.Azure.Common.Sql;
 using Website.Azure.Common.TableStorage;
 using PostaFlya.DataRepository.Search.Implementation;
+using Website.Domain.Comments;
 using Website.Infrastructure.Binding;
 using Website.Infrastructure.Command;
 using Website.Infrastructure.Configuration;
+using Website.Infrastructure.Domain;
 using Website.Infrastructure.Query;
 using Website.Infrastructure.Util;
+using TypeUtil = Website.Infrastructure.Types.TypeUtil;
 
 namespace PostaFlya.DataRepository.Binding
 {
@@ -56,11 +59,10 @@ namespace PostaFlya.DataRepository.Binding
                 .To(typeof(JsonRepository)));
 
             kernel.BindCommandAndQueryHandlersFromCallingAssembly(syntax => syntax.InTransientScope());
-            kernel.BindGenericQueryHandlersFromCallingAssemblyForTypesFrom(Assembly.GetAssembly(typeof(PostaFlya.Domain.Flier.Flier))
-                , _repositoryScopeConfiguration);
 
-            kernel.BindGenericQueryHandlersFromCallingAssemblyForTypesFrom(Assembly.GetAssembly(typeof(Website.Domain.Claims.Claim))
-                ,  _repositoryScopeConfiguration);
+            kernel.BindAzureRepositoryHandlersForTypesFrom(_repositoryScopeConfiguration
+                    , Assembly.GetAssembly(typeof(Comment)) 
+                    , Assembly.GetAssembly(typeof (PostaFlya.Domain.Flier.Flier)));
 
             //kernel.BindGenericQueryHandlersFromCallingAssemblyForTypesFrom(Assembly.GetAssembly(typeof(PostaFlya.DataRepository.DomainQuery.Board.FindBoardByAdminEmailQueryHandler))
               //  ,  _repositoryScopeConfiguration);
@@ -110,5 +112,43 @@ namespace PostaFlya.DataRepository.Binding
 
 
 
+    }
+
+    public static class AzureRepositoryNinjectBindingExtensions
+    {
+        public static void BindAzureRepositoryHandlersForTypesFrom(
+            this IKernel kernel, ConfigurationAction ninjectConfiguration
+            , params Assembly[] typeAssemblies)
+        {
+
+            var qh = typeof(FindByFriendlyIdQueryHandler<>);
+            var qhExp = TypeUtil.GetExpandedTypesUsing(qh, typeAssemblies);
+            foreach (var inst in qhExp)
+            {
+                kernel.BindToGenericInterface(inst, typeof(QueryHandlerInterface<,>));
+            }
+
+            qh = typeof(GetAggregateByBrowserIdQueryHandler<>);
+            qhExp = TypeUtil.GetExpandedTypesUsing(qh, typeAssemblies);
+            foreach (var inst in qhExp)
+            {
+                kernel.BindToGenericInterface(inst, typeof(QueryHandlerInterface<,>));
+            }
+
+            qh = typeof(FindBrowserByIdentityProviderQueryHandler<>);
+            qhExp = TypeUtil.GetExpandedTypesUsing(qh, typeAssemblies);
+            foreach (var inst in qhExp)
+            {
+                kernel.BindToGenericInterface(inst, typeof(QueryHandlerInterface<,>));
+            }
+
+            qh = typeof(GetByBrowserIdQueryHandler<>);
+            qhExp = TypeUtil.GetExpandedTypesUsing(qh, typeAssemblies);
+            foreach (var inst in qhExp)
+            {
+                kernel.BindToGenericInterface(inst, typeof(QueryHandlerInterface<,>));
+            }
+
+        }
     }
 }

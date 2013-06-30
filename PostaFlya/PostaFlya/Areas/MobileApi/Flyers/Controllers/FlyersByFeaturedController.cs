@@ -13,11 +13,11 @@ using Website.Infrastructure.Query;
 
 namespace PostaFlya.Areas.MobileApi.Flyers.Controllers
 {
-    public class FlyersByLatestController : MobileApiControllerBase
+    public class FlyersByFeaturedController : MobileApiControllerBase
     {
         private readonly QueryChannelInterface _queryChannel;
 
-        public FlyersByLatestController(QueryChannelInterface queryChannel)
+        public FlyersByFeaturedController(QueryChannelInterface queryChannel)
         {
             _queryChannel = queryChannel;
         }

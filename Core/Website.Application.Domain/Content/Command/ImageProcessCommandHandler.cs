@@ -68,7 +68,7 @@ namespace Website.Application.Domain.Content.Command
                 {
                     Height = img.Height,
                     Width = img.Width,
-                    Url = urlExt,
+                    UrlExtension = urlExt,
                     Orientation = orientation
                 };
         }

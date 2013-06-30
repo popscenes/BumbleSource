@@ -17,22 +17,6 @@ using Loc = Website.Domain.Location;
 
 namespace PostaFlya.Models.Board
 {
-    public class GetBoardModelsByIdsQueryHandler : QueryHandlerInterface<GetBoardsByIdsQuery, List<BoardModel>>
-    {
-        private readonly QueryChannelInterface _queryChannel;
-
-        public GetBoardModelsByIdsQueryHandler(QueryChannelInterface queryChannel)
-        {
-            _queryChannel = queryChannel;
-        }
-
-        public List<BoardModel> Query(GetBoardsByIdsQuery argument)
-        {
-            var ret = _queryChannel.Query(argument, new List<PostaFlya.Domain.Boards.Board>());
-            return _queryChannel.ToViewModel<BoardModel, PostaFlya.Domain.Boards.Board>(ret);
-        }
-    }
-
     public class ToBoardModel
     : ViewModelMapperInterface<BoardModel, PostaFlya.Domain.Boards.Board>
     {
@@ -100,7 +84,7 @@ namespace PostaFlya.Models.Board
     }
 
     [DataContract]
-    public class BoardSummaryModel
+    public class BoardSummaryModel : IsModelInterface
     {
         public BoardSummaryModel()
         {

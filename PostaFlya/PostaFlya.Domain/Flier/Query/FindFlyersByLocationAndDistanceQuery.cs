@@ -3,7 +3,7 @@ using Website.Infrastructure.Query;
 
 namespace PostaFlya.Domain.Flier.Query
 {
-    public class FindFlyersByLocationAndDistanceQuery : QueryInterface
+    public class FindFlyersByLocationAndDistanceQuery : QueryInterface<Flier>
     {
         public Location Location { get; set; }
 

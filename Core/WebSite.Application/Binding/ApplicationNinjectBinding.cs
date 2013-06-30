@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Reflection;
 using Ninject;
+using Ninject.Extensions.Conventions.Syntax;
 using Ninject.Modules;
 using Website.Application.ApplicationCommunication;
 using Website.Application.Command;
@@ -11,6 +13,7 @@ using Website.Application.Publish;
 using Website.Application.Queue;
 using Website.Application.Schedule;
 using Website.Application.WebsiteInformation;
+using Website.Infrastructure.Binding;
 using Website.Infrastructure.Publish;
 
 namespace Website.Application.Binding
@@ -77,6 +80,5 @@ namespace Website.Application.Binding
 
         #endregion
     }
-
 
 }

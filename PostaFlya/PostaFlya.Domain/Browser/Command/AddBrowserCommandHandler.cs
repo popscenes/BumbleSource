@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using PostaFlya.Domain.Browser.Event;
+using Website.Domain.Browser;
 using Website.Domain.Browser.Query;
 using Website.Domain.Service;
 using Website.Infrastructure.Command;

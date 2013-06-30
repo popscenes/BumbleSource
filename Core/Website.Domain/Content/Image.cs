@@ -25,7 +25,7 @@ namespace Website.Domain.Content
     {
         public int Width { get; set; }
         public int Height { get; set; }
-        public string Url { get; set; }
+        public string UrlExtension { get; set; }
         public ThumbOrientation Orientation { get; set; }
     }
 

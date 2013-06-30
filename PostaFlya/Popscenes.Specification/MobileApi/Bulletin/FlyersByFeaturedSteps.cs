@@ -12,7 +12,7 @@ using TechTalk.SpecFlow;
 namespace Popscenes.Specification.MobileApi.Bulletin
 {
     [Binding]
-    public class FlyersByLatestSteps : Steps
+    public class FlyersByFeaturedSteps : Steps
     {
         // For additional details on SpecFlow step definitions see http://go.specflow.org/doc-stepdef
 

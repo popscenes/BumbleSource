@@ -18,7 +18,7 @@ namespace Website.Domain.Content
             target.AvailableDimensions = source.AvailableDimensions != null
                                              ? new List<ImageDimension>(source.AvailableDimensions)
                                              : null;
-        }
+        } 
     }
 
     public interface ImageInterface :

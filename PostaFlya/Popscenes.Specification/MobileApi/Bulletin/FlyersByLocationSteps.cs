@@ -41,7 +41,7 @@ namespace Popscenes.Specification.MobileApi.Bulletin
             Assert.That(content.Data.Flyers.Count, Is.EqualTo(takenumber));
 
             var targetLoc = new Location(longitude, latitude);
-            foreach (var loc in content.Data.Flyers.Select(model => model.VenueBoard.Location.Address))
+            foreach (var loc in content.Data.Flyers.Select(model => model.VenueBoard.Location))
             {
                 DataUtil.AssertIsWithinKmsOf(targetLoc, kilometers, loc.ToDomainModel());
             }

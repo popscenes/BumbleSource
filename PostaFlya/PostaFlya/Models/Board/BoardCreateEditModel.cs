@@ -5,11 +5,12 @@ using System.Runtime.Serialization;
 using PostaFlya.Domain.Boards;
 using PostaFlya.Models.Location;
 using Website.Application.Extension.Validation;
+using Website.Common.Model;
 
 namespace PostaFlya.Models.Board
 {
     [DataContract]
-    public class BoardCreateEditModel : ViewModelBase
+    public class BoardCreateEditModel : IsModelInterface
     {
         [DataMember]
         public string Id { get; set; }

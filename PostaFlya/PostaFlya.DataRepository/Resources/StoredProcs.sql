@@ -13,8 +13,8 @@ alter procedure FindFliersByLocationAndTags2
 	@skipPast bigint = null,
 	@skipPastEventAndCreateDate nvarchar(1000) = null,
 	@xpath nvarchar(1000) = null,
-	@eventDate datetime2 = null
-	
+	@eventDate datetime2 = null,
+	@dateIsUtc bit = 0
 as
 begin
 
@@ -96,9 +96,16 @@ if @xpath IS NOT NULL
 		';
 
 if @eventDate IS NOT NULL and @skipPastEventAndCreateDate IS NULL
-		select @SQL = @SQL + N'
-		and CAST(ed.EventDate as datetime2) >= @eventDateParam
-		';
+begin
+		if @dateIsUtc = 0 
+			select @SQL = @SQL + N'
+			and CAST(ed.EventDate as datetime2) >= @eventDateParam
+			';
+		else
+			select @SQL = @SQL + N'
+			and CONVERT(datetime2, ed.EventDate, 1) >= @eventDateParam
+			';
+end
 
 if @eventDate IS NOT NULL and @skipPastEventAndCreateDate IS NOT NULL
 		select @SQL = @SQL + N'
@@ -151,7 +158,8 @@ alter procedure FindFliersByBoard2
 		@skipFlier nvarchar(255) = null,
 		@skipPastEventAndCreateDate nvarchar(1000) = null,
 		@xpath nvarchar(1000) = null,
-		@eventDate datetime2 = null
+		@eventDate datetime2 = null,
+		@dateIsUtc bit = 0
 as
 begin
 
@@ -236,9 +244,16 @@ select @SQL = @SQL + N'
 		';
 
 if @eventDate IS NOT NULL and @skipPastEventAndCreateDate IS NULL
-		select @SQL = @SQL + N'
-		and CAST(ed.EventDate as datetime2) >= @eventDateParam
-		';
+begin
+		if @dateIsUtc = 0 
+			select @SQL = @SQL + N'
+			and CAST(ed.EventDate as datetime2) >= @eventDateParam
+			';
+		else
+			select @SQL = @SQL + N'
+			and CONVERT(datetime2, ed.EventDate, 1) >= @eventDateParam
+			';
+end
 
 if @eventDate IS NOT NULL and @skipPastEventAndCreateDate IS NOT NULL
 		select @SQL = @SQL + N'

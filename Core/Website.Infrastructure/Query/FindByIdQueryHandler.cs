@@ -5,7 +5,7 @@ using Website.Infrastructure.Domain;
 namespace Website.Infrastructure.Query
 {
     public class FindByIdQueryHandler<EntityType> :
-        QueryHandlerInterface<FindByIdQuery, EntityType> where EntityType : class, AggregateRootInterface, new()
+        QueryHandlerInterface<FindByIdQuery<EntityType>, EntityType> where EntityType : class, AggregateRootInterface, new()
     {
         private readonly GenericQueryServiceInterface _queryService;
 
@@ -15,14 +15,14 @@ namespace Website.Infrastructure.Query
             _queryService = queryService;
         }
 
-        public EntityType Query(FindByIdQuery argument)
+        public EntityType Query(FindByIdQuery<EntityType> argument)
         {
             return _queryService.FindById<EntityType>(argument.Id);
         }
     }
 
     public class FindByIdsQueryHandler<EntityType> :
-    QueryHandlerInterface<FindByIdsQuery, List<EntityType>> where EntityType : class, AggregateRootInterface, new()
+    QueryHandlerInterface<FindByIdsQuery<EntityType>, List<EntityType>> where EntityType : class, AggregateRootInterface, new()
     {
         private readonly GenericQueryServiceInterface _queryService;
 
@@ -32,7 +32,7 @@ namespace Website.Infrastructure.Query
             _queryService = queryService;
         }
 
-        public List<EntityType> Query(FindByIdsQuery argument)
+        public List<EntityType> Query(FindByIdsQuery<EntityType> argument)
         {
             return _queryService.FindByIds<EntityType>(argument.Ids).ToList();
         }

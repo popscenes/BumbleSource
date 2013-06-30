@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Diagnostics;
+using System.Reflection;
 using System.Runtime.Caching;
 using System.Security.Principal;
 using System.Web.Http;
@@ -9,6 +10,7 @@ using System.Web.Mvc;
 using Ninject;
 using Ninject.Modules;
 using Ninject.Web.Common;
+using PostaFlya.Models;
 using Website.Application.Authentication;
 using Website.Application.Azure.Caching;
 using Website.Application.Caching.Command;
@@ -17,12 +19,17 @@ using Website.Application.Domain.Payment;
 using Website.Application.Google.Payment;
 using Website.Azure.Common.Environment;
 using Website.Common.Binding;
+using Website.Common.Model;
+using Website.Common.Model.Query;
 using Website.Infrastructure.Authentication;
 using Website.Infrastructure.Binding;
 using Website.Infrastructure.Command;
 using Website.Infrastructure.Configuration;
 using Website.Application.Domain.Content;
 using Website.Domain.Content;
+using Website.Infrastructure.Domain;
+using Website.Infrastructure.Query;
+using Website.Infrastructure.Types;
 
 namespace PostaFlya.Binding
 {
@@ -173,6 +180,28 @@ namespace PostaFlya.Binding
         {
             kernel.BindViewModelMappersFromCallingAssembly();
             kernel.BindCommandAndQueryHandlersFromCallingAssembly(c => c.InTransientScope());
+
+            kernel.BindWebsiteCommonQueryHandlersForTypesFrom(c => c.InRequestScope()
+                 , Assembly.GetAssembly(typeof(InfrastructureNinjectBinding))
+                 , Assembly.GetAssembly(typeof(WebNinjectBindings))
+                 , Assembly.GetAssembly(typeof(PostaFlya.Domain.Flier.Flier))
+                 , Assembly.GetAssembly(typeof(Website.Domain.Claims.Claim)));
+
+//            kernel.BindInfrastructureQueryHandlersForTypesFrom(
+//                     c => c.InRequestScope()
+//                     , Assembly.GetAssembly(typeof(WebNinjectBindings)));
+
+//
+//            kernel.BindGenericQueryHandlersFromAssemblyForTypesFrom(Assembly.GetAssembly(typeof(IsModelInterface))
+//         , c => c.InRequestScope()
+//         , t => typeof(IsModelInterface).IsAssignableFrom(t)
+//             || typeof(EntityIdInterface).IsAssignableFrom(t)
+//             || typeof(QueryInterface).IsAssignableFrom(t)
+//         , null
+//         , Assembly.GetAssembly(typeof(WebNinjectBindings))
+//         , Assembly.GetAssembly(typeof(PostaFlya.Domain.Flier.Flier))
+//         , Assembly.GetAssembly(typeof(Website.Domain.Claims.Claim))
+//         , Assembly.GetAssembly(typeof(FindByIdQuery<>)));
         }
 
         #endregion

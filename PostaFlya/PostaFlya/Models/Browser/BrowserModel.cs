@@ -76,7 +76,7 @@ namespace PostaFlya.Models.Browser
         }
     }
 
-    public class BrowserModel : ViewModelBase
+    public class BrowserModel : IsModelInterface
     {
         public string DisplayName { get; set; }
         public string Id { get; set; }

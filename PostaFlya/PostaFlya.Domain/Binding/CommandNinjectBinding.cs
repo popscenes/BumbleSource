@@ -24,8 +24,8 @@ namespace PostaFlya.Domain.Binding
             var kernel = Kernel as StandardKernel;
             kernel.BindCommandAndQueryHandlersFromCallingAssembly(c => c.InTransientScope());
 
-            kernel.BindGenericQueryHandlersFromAssemblyForTypesFrom(Assembly.GetAssembly(typeof(FindByIdQuery)),
-                Assembly.GetAssembly(typeof(PostaFlya.Domain.Browser.Browser)), c => c.InTransientScope());
+            kernel.BindInfrastructureQueryHandlersForTypesFrom(
+                c => c.InTransientScope(), Assembly.GetAssembly(typeof(PostaFlya.Domain.Browser.Browser)));
 
             kernel.BindEventHandlersFromCallingAssembly(c => c.InTransientScope());
 

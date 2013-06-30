@@ -95,7 +95,7 @@ namespace PostaFlya.Models.Flier
             var uri = _blobStorage.GetBlobUri(flier.Image + ImageUtil.GetIdFileExtension());
             target.FlierImageUrl = uri != null ? uri.ToString() : null;
             
-            var boards =  _queryChannel.Query(new GetBoardsByIdsQuery(){Ids = flier.Boards.Select(_ => _.BoardId)}, (List<BoardSummaryModel>)null);
+            var boards =  _queryChannel.Query(new FindByIdsQuery<Domain.Boards.Board>(){Ids = flier.Boards.Select(_ => _.BoardId)}, (List<BoardSummaryModel>)null);
             if (boards.Any())
                 target.VenueBoard = boards.First();
 
@@ -104,7 +104,7 @@ namespace PostaFlya.Models.Flier
     }
 
 
-    public class BulletinFlierSummaryModel : BrowserIdInterface
+    public class BulletinFlierSummaryModel : BrowserIdInterface, IsModelInterface
     {
         
         [Display(Name = "FlierId", ResourceType = typeof(Properties.Resources))] 

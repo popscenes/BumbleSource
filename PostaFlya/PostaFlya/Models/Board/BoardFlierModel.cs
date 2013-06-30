@@ -3,11 +3,12 @@ using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
 using PostaFlya.Domain.Boards;
 using PostaFlya.Models.Flier;
+using Website.Common.Model;
 
 namespace PostaFlya.Models.Board
 {
     [DataContract]
-    public class BoardFlierModel
+    public class BoardFlierModel : IsModelInterface
     {
         [Display(Name = "BoardFlier", ResourceType = typeof(Properties.Resources))] 
         [DataMember]        

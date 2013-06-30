@@ -17,8 +17,8 @@ namespace Website.Domain.Binding
             var kernel = Kernel as StandardKernel;
             kernel.BindCommandAndQueryHandlersFromCallingAssembly(c => c.InTransientScope());
 
-            kernel.BindGenericQueryHandlersFromAssemblyForTypesFrom(Assembly.GetAssembly(typeof(FindByIdQuery)),
-                Assembly.GetAssembly(typeof(Browser.Browser)), c => c.InTransientScope());
+            kernel.BindInfrastructureQueryHandlersForTypesFrom(
+                c => c.InTransientScope(), Assembly.GetAssembly(typeof(Domain.Browser.Browser)));
 
             Trace.TraceInformation("Finished Binding CommandNinjectBinding");
 

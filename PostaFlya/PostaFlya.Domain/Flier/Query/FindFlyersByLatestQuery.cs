@@ -2,7 +2,7 @@
 
 namespace PostaFlya.Domain.Flier.Query
 {
-    public class FindFlyersByLatestQuery : QueryInterface
+    public class FindFlyersByLatestQuery : QueryInterface<Flier>
     {
         public int Take { get; set; }
 

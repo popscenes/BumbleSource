@@ -28,7 +28,7 @@ namespace PostaFlya.Domain.Flier.Query
                 (flierFind = queryChannel.Query(new FindByFriendlyIdQuery() { FriendlyId = tryTitle }, (Flier)null)) != null
                 && flierFind.Id != targetFlier.Id)
             {
-                var board = queryChannel.Query(new FindByIdQuery() {Id = targetFlier.Boards.FirstOrDefault().BoardId}, (Board) null);
+                var board = queryChannel.Query(new FindByIdQuery<Board>() {Id = targetFlier.Boards.FirstOrDefault().BoardId}, (Board) null);
                 if (board != null && board.Venue() != null)
                 {
                     var locInfo = board.Venue().Address.Locality.ToLowerHiphen();

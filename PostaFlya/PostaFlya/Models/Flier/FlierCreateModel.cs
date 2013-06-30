@@ -11,6 +11,7 @@ using PostaFlya.Models.Content;
 using Website.Application.Domain.Content;
 using Website.Application.Domain.Location;
 using System.Runtime.Serialization;
+using Website.Common.Model;
 using Website.Domain.Content;
 
 namespace PostaFlya.Models.Flier
@@ -60,7 +61,7 @@ namespace PostaFlya.Models.Flier
     }
 
     [DataContract]
-    public class FlierCreateModel : ViewModelBase
+    public class FlierCreateModel : IsModelInterface
     {
 
         public FlierCreateModel()

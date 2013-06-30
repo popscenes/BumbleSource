@@ -1,10 +1,11 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using Website.Application.Extension.Validation;
+using Website.Common.Model;
 
 namespace PostaFlya.Models.Tags
 {
-    public class AddTagsModel : ViewModelBase
+    public class AddTagsModel : IsModelInterface
     {
         [Required(ErrorMessageResourceName = "Required", ErrorMessageResourceType = typeof(Properties.Resources))]
         [StringLength(100, ErrorMessageResourceName = "StringTooLarge", ErrorMessageResourceType = typeof(Properties.Resources), ErrorMessage = null)]

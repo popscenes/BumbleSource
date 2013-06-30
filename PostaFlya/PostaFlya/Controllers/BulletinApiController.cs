@@ -125,7 +125,7 @@ namespace PostaFlya.Controllers
 
             if (flier == null)
             {
-                flier = queryChannel.Query(new FindByIdQuery() { Id = id }, (DefaultDetailsViewModel)null);
+                flier = queryChannel.Query(new FindByIdQuery<Flier>() { Id = id }, (DefaultDetailsViewModel)null);
 
                 if (flier == null)
                     return null;
