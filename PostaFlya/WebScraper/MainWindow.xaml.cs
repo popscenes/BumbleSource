@@ -179,28 +179,55 @@ namespace WebScraper
         {
             var data = e.Argument as PublishData;
             var boardsReq = new BoardsGet(data.server, data.authcookie);
-            var boardsWorked = boardsReq.Request().Result;
+            
+            data.import.ForEach(model =>
+                {
+                    var boardId = "";
+                    var allBoards = boardsReq.Request().Result;
+                    var foundBoards = allBoards.Where(_ => _.DefaultVenueInformation.PlaceName == model.VenueInfo.PlaceName).Select(_ => _.Id);
 
-            if (boardsWorked.Any())
-            {
-                data.import.ForEach(model =>
+                    if (allBoards.All(_ => _.DefaultVenueInformation.PlaceName != model.VenueInfo.PlaceName))
                     {
-                        var foundBoards = boardsWorked.Where(_ => _.DefaultVenueInformation.PlaceName == model.VenueInfo.PlaceName).Select(_ => _.Id);
-                        if (boardsWorked.All(_ => _.DefaultVenueInformation.PlaceName != model.VenueInfo.PlaceName))
+                        Trace.TraceInformation("Creating board for gig no board found for {0} ...", model.VenueInfo.PlaceName);
+
+                        var venueInfo = model.VenueInfo;
+                        var newBoard = new BoardCreateEditModel()
                         {
-                            Trace.TraceInformation("Skipping gig for {0} no board found...", model.VenueInfo.PlaceName);
-                        }
-                        else
-                        {
-                            model.BoardId =
-                                boardsWorked.First(_ => _.DefaultVenueInformation.PlaceName == model.VenueInfo.PlaceName)
-                                            .Id;
-                            var up = new FlyerUpload(data.authcookie, Guid.Empty.ToString(), model, data.server);
-                            var ret = up.Request().Result;    
-                        }
-                        
-                    });
-            }
+                            VenueInformation = venueInfo,
+                            BoardName = venueInfo.PlaceName,
+                            AllowOthersToPostFliers = false,
+                            Description = venueInfo.PlaceName + " Venue Board",
+                            RequireApprovalOfPostedFliers = false,
+                            Status = BoardStatus.Approved,
+                            TypeOfBoard = BoardTypeEnum.VenueBoard,
+                            AdminEmailAddresses = data.boardAdmins
+                        };
+
+                        var uploadBoardReq = new BoardUpload(data.authcookie, Guid.Empty.ToString(), newBoard, data.server);
+                            
+                        boardId = uploadBoardReq.Request().Result;
+                        Trace.TraceInformation("Created new board {0} Id {1}", newBoard.BoardName, boardId);
+
+                    }
+                    else
+                    {
+                        boardId = allBoards.First(_ => _.DefaultVenueInformation.PlaceName == model.VenueInfo.PlaceName).Id;
+                    }
+
+
+                    if (!String.IsNullOrWhiteSpace(boardId))
+                    {
+                        model.BoardId = boardId;
+                        var up = new FlyerUpload(data.authcookie, Guid.Empty.ToString(), model, data.server);
+                        var ret = up.Request().Result;
+                    }
+                    else
+                    {
+                        Trace.TraceInformation("no baord found or created for {0}", model.VenueInfo.PlaceName);
+                    }
+
+                });
+            
         }
 
         private class StartEnd
@@ -259,6 +286,7 @@ namespace WebScraper
             public string authcookie { get; set; }
             public List<ImportedFlyerScraperModel> import { get; set; }
             public string server { get; set; }
+            public List<String> boardAdmins { get; set; }
         }
 
         class BoardPublishData
@@ -294,7 +322,8 @@ namespace WebScraper
                 {
                     authcookie = Auth,
                     import = import,
-                    server = server                    
+                    server = server,
+                    boardAdmins = autoBoardAdmins.Text.Split(new char[]{','}).ToList()
                 });
 
         }
@@ -341,6 +370,14 @@ namespace WebScraper
                 server = server
             });
 
+        }
+
+        private void autoBoardAdmins_GotFocus(object sender, RoutedEventArgs e)
+        {
+            if (autoBoardAdmins.Text.Equals("Board Auto-Create Admins"))
+                autoBoardAdmins.Text = "teddymccuddles@gmail.com, rickyaudsley@gmail.com";
+
+            autoBoardAdmins.SelectAll();
         }
     }
 

@@ -75,6 +75,7 @@
                         <Button Content="Login" Name="Login" VerticalAlignment="Center" Width="56" Click="Login_Click" Margin="0,0,30,0"/>
                         <Button Content="Publish" Name="Publish" VerticalAlignment="Center" Width="56" Click="Publish_Click"/>
                         <TextBlock Name="NumberValid" Text="{Binding}" Margin="10,0,0,0"></TextBlock>
+                        <TextBox TextWrapping="Wrap" Text="Board Auto-Create Admins" Width="344" Name="autoBoardAdmins" GotFocus="autoBoardAdmins_GotFocus"/>
                     </StackPanel>
 
                     <ListBox VerticalAlignment="Top" Margin="10,10,0,0" 
@@ -94,23 +95,24 @@
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="11*"/>
+                        <ColumnDefinition Width="459*"/>
                     </Grid.ColumnDefinitions>
-                    <StackPanel Grid.Column="0" Grid.Row="0" Orientation="Horizontal">
+                    <StackPanel Grid.Column="0" Grid.Row="0" Orientation="Horizontal" Grid.ColumnSpan="2">
                         <Label Content="Google Places Ref"></Label>
                         <TextBox Width="265" Name="GooglePlacesRef"></TextBox>
                         <Button Name="Places" Content="Google Places" Click="Places_OnClick"></Button>
                         <Button Name="Upload" Content="Upload To Site" Click="UploadBoard_OnClick"></Button>
                     </StackPanel>
-                    
-                    <StackPanel Grid.Column="0" Grid.Row="2" Height="500">
+
+                    <StackPanel Grid.Column="0" Grid.Row="1" Height="500" Grid.ColumnSpan="2" Margin="0,0,0,-238">
                         <Label Content="Description"></Label>
                         <TextBox Name="Description"  IsReadOnlyCaretVisible="False" Height="125"/>
                         <Label Content="Board Admin Emails(Comma Seperated)"></Label>
                         <TextBox Name="AdminList" IsReadOnlyCaretVisible="False"/>
                     </StackPanel>
                 </Grid>
-                
+
             </TabItem>
         </TabControl>
     </Grid>
