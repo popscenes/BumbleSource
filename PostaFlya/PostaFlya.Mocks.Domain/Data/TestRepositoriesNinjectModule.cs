@@ -179,7 +179,7 @@ namespace PostaFlya.Mocks.Domain.Data
             var locationService = kernel.Get<LocationServiceInterface>();
 
             var flierSearchService = kernel.GetMock<FlierSearchServiceInterface>();
-            var queryService = kernel.Get<GenericQueryServiceInterface>();
+            
             flierSearchService.Setup(o => o.FindFliersByLocationAndDistance(
                 It.IsAny<Location>(),
                     It.IsAny<int>(), It.IsAny<int>(), It.IsAny<FlierInterface>(), It.IsAny<Tags>(),  It.IsAny<DateTime?>(), It.IsAny<FlierSortOrder>()))
@@ -193,6 +193,7 @@ namespace PostaFlya.Mocks.Domain.Data
                             .Where(
                                 f =>
                                     {
+                                        var queryService = kernel.Get<GenericQueryServiceInterface>();
                                         var venuBoard = queryService.FindByIds<Board>(f.Boards.Select(b => b.BoardId))
                                             .First(board => board.Venue() != null);
                                         return
@@ -232,6 +233,7 @@ namespace PostaFlya.Mocks.Domain.Data
                                               .Where(
                                                   f =>
                                                       {
+                                                          var queryService = kernel.Get<GenericQueryServiceInterface>();
                                                           var venuBoard = queryService.FindByIds<Board>(f.Boards.Select(brd => brd.BoardId))
                                                                     .First(board => board.Venue() != null);
                                                           return (boundingBox == null ||

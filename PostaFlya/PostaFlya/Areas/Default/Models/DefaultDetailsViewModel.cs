@@ -17,13 +17,15 @@ namespace PostaFlya.Areas.Default.Models
                        {
                            Flier = new BulletinFlierDetailModel()
                                {
-                                   Venue = new VenueInformationModel()
-                                       {
-                                           Address = new LocationModel()
-                                       },
                                    EventDates = new List<DateTimeOffset>(),
 
                                    VenueBoard = new BoardSummaryModel()
+                                   {
+                                       Location = new VenueInformationModel()
+                                       {
+                                           Address = new LocationModel()
+                                       }
+                                   }
                                }
 
                        };

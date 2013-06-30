@@ -817,6 +817,11 @@
               Looks up a localized string similar to Venue.
             </summary>
         </member>
+        <member name="P:PostaFlya.Properties.Resources.Flyer_Venue_Board">
+            <summary>
+              Looks up a localized string similar to Flyer_Venue_Board.
+            </summary>
+        </member>
         <member name="P:PostaFlya.Properties.Resources.FlyerContactDetailsModel_Address_FlyerContactDetailsModel_Address_FlyerContactDetailsModel_Address">
             <summary>
               Looks up a localized string similar to Address.

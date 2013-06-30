@@ -116,9 +116,6 @@ namespace PostaFlya.Models.Flier
         [Display(Name = "FlierTitle", ResourceType = typeof(Properties.Resources))] 
         public string Title { get; set; }
 
-        [Display(Name = "FlierLocation", ResourceType = typeof(Properties.Resources))]
-        public VenueInformationModel Venue { get; set; }
-
         [Display(Name = "FlierTags", ResourceType = typeof(Properties.Resources))] 
         public string TagsString { get; set; }
 
@@ -159,10 +156,6 @@ namespace PostaFlya.Models.Flier
         {
             return new BulletinFlierSummaryModel()
                 {
-                    Venue = new VenueInformationModel()
-                        {
-                            Address = new LocationModel()
-                        },
                     EventDates = new List<DateTimeOffset>(),
                     
                     VenueBoard = new BoardSummaryModel(){Location = new VenueInformationModel(){Address = new LocationModel()}}

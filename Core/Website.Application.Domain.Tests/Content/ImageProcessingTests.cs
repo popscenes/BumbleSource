@@ -351,6 +351,26 @@ namespace Website.Application.Domain.Tests.Content
             return imageInterface.Id;
         }
 
+        [Test]
+        public void ImageProcessSetsDimensionOnImageDomainEntity()
+        {
+            using (var bitmap = new Bitmap(600, 600))
+            {
+                AssertImage(bitmap, AssetImageProcessSetsDimensionOnImageDomainEntity);
+            } 
+        }
+
+        public void AssetImageProcessSetsDimensionOnImageDomainEntity(Guid guid, Dictionary<string, byte[]> dictionary)
+        {
+            var query = Kernel.Get<GenericQueryServiceInterface>();
+            var img = query.FindById<Website.Domain.Content.Image>(guid.ToString());
+            Assert.That(img.AvailableDimensions != null);
+            Assert.That(img.AvailableDimensions.Count, 
+                Is.EqualTo( 1 + 
+                (Enum.GetValues(typeof(ThumbSize)).Length * Enum.GetValues(typeof(ThumbOrientation)).Length))
+                );
+        }
+
         //ImageProcessSetMetaDataCommandHandler
         [Test]
         public void ImageProcessSetMetaDataCommandHandlerMetaDataIsSetOnAllImages()

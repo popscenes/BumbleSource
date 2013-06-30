@@ -11,6 +11,7 @@ using PostaFlya.Models.Content;
 using Website.Application.Domain.Content;
 using Website.Application.Domain.Location;
 using System.Runtime.Serialization;
+using Website.Domain.Content;
 
 namespace PostaFlya.Models.Flier
 {

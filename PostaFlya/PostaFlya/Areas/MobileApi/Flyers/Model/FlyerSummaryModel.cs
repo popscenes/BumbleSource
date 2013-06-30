@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using PostaFlya.Domain.Flier;
+using PostaFlya.Domain.Flier.Query;
+using PostaFlya.Models.Board;
 using PostaFlya.Models.Location;
 using Website.Application.Binding;
 using Website.Application.Content;
@@ -34,6 +36,8 @@ namespace PostaFlya.Areas.MobileApi.Flyers.Model
             target.ImageUrl = _blobStorage.GetBlobUri(source.Image.ToString() + ImageUtil.GetIdFileExtension()).ToString();
             target.Title = source.Title;
             target.EventDates = source.EventDates;
+            target.VenueBoard = _queryChannel.Query(new GetFlyerVenueBoardQuery() {FlyerId = source.Id},
+                                                    new BoardSummaryModel());
             
             return target;
 
@@ -58,7 +62,7 @@ namespace PostaFlya.Areas.MobileApi.Flyers.Model
         [Display(Name = "Flyer_Title", ResourceType = typeof (Res))]
         public string Title { get; set; }
 
-        [Display(Name = "Flyer_Venue", ResourceType = typeof (Res))]
-        public VenueInformationModel Venue{ get; set; }
+        [Display(Name = "Flyer_Venue_Board", ResourceType = typeof(Res))]
+        public BoardSummaryModel VenueBoard { get; set; }
     }
 }
