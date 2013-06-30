@@ -7,7 +7,7 @@ namespace Website.Common.Model.Query
 
     public class AsViewModelsQueryHandler<QueryType, EntityType, ViewModelType> :
     QueryHandlerInterface<QueryType, List<ViewModelType>>
-        where EntityType : class, AggregateRootInterface, new()
+        where EntityType : class, EntityIdInterface, new()
         where ViewModelType : class, IsModelInterface, new()
         where QueryType : class, QueryInterface<EntityType>, new()
     {
@@ -28,7 +28,7 @@ namespace Website.Common.Model.Query
 
     public class AsViewModelQueryHandler<QueryType, EntityType, ViewModelType> :
         QueryHandlerInterface<QueryType, ViewModelType>
-        where EntityType : class, AggregateRootInterface, new()
+        where EntityType : class, EntityIdInterface, new()
         where ViewModelType : class, IsModelInterface, new()
         where QueryType : class, QueryInterface<EntityType>, new()
     {

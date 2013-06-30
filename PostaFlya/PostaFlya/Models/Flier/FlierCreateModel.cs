@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using System.ComponentModel.DataAnnotations;
+using Website.Application.Binding;
 using Website.Application.Content;
 using Website.Application.Extension.Validation;
 using PostaFlya.Domain.Behaviour;
@@ -12,51 +13,99 @@ using Website.Application.Domain.Content;
 using Website.Application.Domain.Location;
 using System.Runtime.Serialization;
 using Website.Common.Model;
+using Website.Common.Model.Query;
 using Website.Domain.Content;
+using Website.Infrastructure.Query;
 
 namespace PostaFlya.Models.Flier
 {
-    public static class FlierCreateModelExtensions
+//    public static class FlierCreateModelExtensions
+//    {
+//        public static FlierCreateModel ToCreateModel(this FlierInterface flier)
+//        {
+//            //dynamic behav = flier.Behaviour;
+//            return new FlierCreateModel()
+//                       {
+//                           Id = flier.Id,
+//                           Title = flier.Title,
+//                           Description = flier.Description,
+//                           //Location = flier.Location.ToViewModel(),
+//                           EventDates = flier.EventDates.Select(d => d.DateTime).ToList(),
+//                           TagsString = flier.Tags.ToString(),
+//                           FlierImageId = flier.Image.HasValue? flier.Image.Value.ToString(): "",
+//                           FlierBehaviour = flier.FlierBehaviour,
+//                           ImageList = flier.ImageList.Select(_ => new ImageViewModel(){ImageId = _.ImageID}).ToList(),
+//                           ExternalSource = flier.ExternalSource,
+//                           ExternalId = flier.ExternalId,
+//                           BoardList =  flier.Boards != null ? flier.Boards.Select(_ => _.BoardId).ToList() : new List<string>(),
+//                           EnableAnalytics =  flier.EnableAnalytics,
+//                           //PostRadius = flier.LocationRadius+5,
+//                           //VenueInformation = flier.Venue.ToViewModel(),
+//                           //TotalPaid = flier.GetTotalPaid(),
+//                           UserLinks = flier.UserLinks == null ? new List<UserLinkViewModel>() : flier.UserLinks.Select(_ => _.ToViewModel()).ToList()
+//                       };
+//        }
+//
+//        public static FlierCreateModel GetImageUrl(this FlierCreateModel model, BlobStorageInterface blobStorage)
+//        {
+//            var uri = blobStorage.GetBlobUri(model.FlierImageId + ImageUtil.GetIdFileExtension());
+//            if (uri != null)
+//                model.FlierImageUrl = uri.ToString();
+//            return model;
+//        }
+//
+//        public static FlierCreateModel GetImageUrl(this FlierCreateModel model, BlobStorageInterface blobStorage, ThumbOrientation orientation, ThumbSize thumbSize)
+//        {
+//            var uri = blobStorage.GetBlobUri(model.FlierImageId + ImageUtil.GetIdFileExtension());
+//            if (uri != null)
+//                model.FlierImageUrl = uri.GetThumbUrlForImage(orientation, thumbSize);
+//            return model;
+//        }
+//    }
+
+
+
+    public class ToFlierCreateModel : ViewModelMapperInterface<FlierCreateModel, Domain.Flier.FlierInterface>,
+        ViewModelMapperInterface<FlierCreateModel,  Domain.Flier.Flier>
     {
-        public static FlierCreateModel ToCreateModel(this FlierInterface flier)
+        private readonly QueryChannelInterface _queryChannel;
+        private BlobStorageInterface _blobStorage;
+
+        public ToFlierCreateModel(QueryChannelInterface queryChannel, [ImageStorage]BlobStorageInterface blobStorage)
         {
-            //dynamic behav = flier.Behaviour;
-            return new FlierCreateModel()
-                       {
-                           Id = flier.Id,
-                           Title = flier.Title,
-                           Description = flier.Description,
-                           //Location = flier.Location.ToViewModel(),
-                           EventDates = flier.EventDates.Select(d => d.DateTime).ToList(),
-                           TagsString = flier.Tags.ToString(),
-                           FlierImageId = flier.Image.HasValue? flier.Image.Value.ToString(): "",
-                           FlierBehaviour = flier.FlierBehaviour,
-                           ImageList = flier.ImageList.Select(_ => new ImageViewModel(){ImageId = _.ImageID}).ToList(),
-                           ExternalSource = flier.ExternalSource,
-                           ExternalId = flier.ExternalId,
-                           BoardList =  flier.Boards != null ? flier.Boards.Select(_ => _.BoardId).ToList() : new List<string>(),
-                           EnableAnalytics =  flier.EnableAnalytics,
-                           //PostRadius = flier.LocationRadius+5,
-                           //VenueInformation = flier.Venue.ToViewModel(),
-                           //TotalPaid = flier.GetTotalPaid(),
-                           UserLinks = flier.UserLinks == null ? new List<UserLinkViewModel>() : flier.UserLinks.Select(_ => _.ToViewModel()).ToList()
-                       };
+            _queryChannel = queryChannel;
+            _blobStorage = blobStorage;
         }
 
-        public static FlierCreateModel GetImageUrl(this FlierCreateModel model, BlobStorageInterface blobStorage)
+        public FlierCreateModel ToViewModel(FlierCreateModel target, Domain.Flier.FlierInterface source)
         {
-            var uri = blobStorage.GetBlobUri(model.FlierImageId + ImageUtil.GetIdFileExtension());
+            if(target == null)
+                target = new FlierCreateModel();
+
+            target.Id = source.Id;
+            target.Title = source.Title;
+            target.Description = source.Description;
+            target.EventDates = source.EventDates.Select(d => d.DateTime).ToList();
+            target.TagsString = source.Tags.ToString();
+            target.FlierImageId = source.Image.HasValue ? source.Image.Value.ToString() : "";
+            target.FlierBehaviour = source.FlierBehaviour;
+            target.ImageList = _queryChannel.ToViewModel<ImageViewModel, FlierImage>(source.ImageList);
+            target.ExternalSource = source.ExternalSource;
+            target.ExternalId = source.ExternalId;
+            target.BoardList = source.Boards != null
+                                   ? source.Boards.Select(_ => _.BoardId).ToList()
+                                   : new List<string>();
+            target.EnableAnalytics = source.EnableAnalytics;
+            target.UserLinks = _queryChannel.ToViewModel<UserLinkViewModel, UserLink>(source.UserLinks);
+            var uri = _blobStorage.GetBlobUri(source.Image + ImageUtil.GetIdFileExtension());
             if (uri != null)
-                model.FlierImageUrl = uri.ToString();
-            return model;
+                target.FlierImageUrl = uri.ToString();
+            return target;
         }
 
-        public static FlierCreateModel GetImageUrl(this FlierCreateModel model, BlobStorageInterface blobStorage, ThumbOrientation orientation, ThumbSize thumbSize)
+        public FlierCreateModel ToViewModel(FlierCreateModel target, Domain.Flier.Flier source)
         {
-            var uri = blobStorage.GetBlobUri(model.FlierImageId + ImageUtil.GetIdFileExtension());
-            if (uri != null)
-                model.FlierImageUrl = uri.GetThumbUrlForImage(orientation, thumbSize);
-            return model;
+            return this.ToViewModel(target, (FlierInterface) source);
         }
     }
 

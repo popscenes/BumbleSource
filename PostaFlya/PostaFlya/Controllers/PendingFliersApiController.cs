@@ -8,11 +8,11 @@ using PostaFlya.Domain.Flier.Command;
 using PostaFlya.Models.Flier;
 using Website.Application.Binding;
 using Website.Application.Content;
-using Website.Application.Domain.Browser.Query;
 using Website.Application.Domain.Browser.Web;
 using Website.Common.Controller;
 using Website.Common.Extension;
 using Website.Common.Model.Query;
+using Website.Domain.Browser.Query;
 using Website.Domain.Tag;
 using Website.Infrastructure.Command;
 using Website.Infrastructure.Query;
@@ -46,7 +46,7 @@ namespace PostaFlya.Controllers
         // GET api/pendingfliersapi
         public IEnumerable<BulletinFlierSummaryModel> Get()
         {
-            var fliers = _queryChannel.Query(new GetByBrowserIdQuery() {BrowserId = _browserInformation.Browser.Id}, new List<Flier>());
+            var fliers = _queryChannel.Query(new GetByBrowserIdQuery<Flier>() {BrowserId = _browserInformation.Browser.Id}, new List<Flier>());
             var pendingFliers = fliers.Where(_ => _.Status == FlierStatus.PaymentPending);
             var model = _queryChannel.ToViewModel<BulletinFlierSummaryModel, Flier>(pendingFliers);
             return model;

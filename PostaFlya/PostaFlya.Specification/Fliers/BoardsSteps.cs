@@ -17,6 +17,7 @@ using PostaFlya.Models.Flier;
 using PostaFlya.Models.Location;
 using PostaFlya.Specification.Util;
 using TechTalk.SpecFlow;
+using Website.Common.Model.Query;
 using Website.Domain.Browser;
 using Website.Domain.Location;
 using Website.Infrastructure.Command;
@@ -198,7 +199,8 @@ namespace PostaFlya.Specification.Fliers
 
             var controller = SpecUtil.GetApiController<MyFliersController>();
 
-            var addFlierModel = flier.ToCreateModel();
+            var queryChannel = SpecUtil.CurrIocKernel.Get<QueryChannelInterface>();
+            var addFlierModel = queryChannel.ToViewModel<FlierCreateModel, FlierInterface>(flier);
             addFlierModel.BoardList.Add(board.Id);
             var res = controller.Put(browserId, addFlierModel);
             res.AssertStatusCode();
@@ -238,7 +240,9 @@ namespace PostaFlya.Specification.Fliers
             var controller = SpecUtil.GetApiController<MyFliersController>();
 
             var browserId = _common.GivenThereIsAnExistingBrowserWithParticipantRole();
-            var edit = flier.ToCreateModel();
+            var queryChannel = SpecUtil.CurrIocKernel.Get<QueryChannelInterface>();
+
+            var edit = queryChannel.ToViewModel<FlierCreateModel, FlierInterface>(flier);
             var updateRes = controller.Put(browserId, edit);
             updateRes.AssertStatusCode();
 

@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
 using Ninject;
-using Website.Application.Domain.Browser.Query;
 using Website.Azure.Common.Environment;
 using Website.Azure.Common.TableStorage;
+using Website.Domain.Browser.Query;
 using Website.Infrastructure.Command;
 using Website.Domain.Content;
 using Website.Domain.Location;
@@ -137,7 +137,7 @@ namespace PostaFlya.DataRepository.Tests
             var storedbyid = _queryService.FindById<Image>(source.Id);
 
             var queryChannel = Kernel.Get<QueryChannelInterface>();
-            var storedbybrowser = queryChannel.Query(new GetByBrowserIdQuery() {BrowserId = source.BrowserId},
+            var storedbybrowser = queryChannel.Query(new GetByBrowserIdQuery<Image>() {BrowserId = source.BrowserId},
                                                      new List<Image>()).FirstOrDefault();
 
             AssertAreEqual(source, storedbybrowser);

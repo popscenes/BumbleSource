@@ -6,7 +6,6 @@ using NUnit.Framework;
 using Ninject;
 using Ninject.MockingKernel.Moq;
 using Website.Application.Caching.Query;
-using Website.Application.Domain.Browser.Query;
 using Website.Infrastructure.Caching.Command;
 using Website.Infrastructure.Command;
 using Website.Infrastructure.Query;

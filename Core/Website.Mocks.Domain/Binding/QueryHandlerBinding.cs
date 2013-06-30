@@ -3,7 +3,6 @@ using System.Reflection;
 using Ninject;
 using Ninject.Extensions.Conventions.Syntax;
 using Ninject.Modules;
-using Website.Application.Domain.Browser.Query;
 using Website.Infrastructure.Binding;
 using Website.Infrastructure.Query;
 using Website.Infrastructure.Types;

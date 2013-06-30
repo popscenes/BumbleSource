@@ -12,13 +12,13 @@ using PostaFlya.Domain.Boards.Query;
 using PostaFlya.Domain.Flier.Event;
 using PostaFlya.Domain.Flier.Query;
 using PostaFlya.Domain.Venue;
-using Website.Application.Domain.Browser.Query;
 using Website.Azure.Common.Environment;
 using PostaFlya.DataRepository.Search.Implementation;
 using PostaFlya.DataRepository.Tests.Internal;
 using PostaFlya.Domain.Behaviour;
 using PostaFlya.Domain.Flier;
 using Website.Azure.Common.TableStorage;
+using Website.Domain.Browser.Query;
 using Website.Infrastructure.Command;
 using PostaFlya.Mocks.Domain.Data;
 using Website.Domain.Claims;
@@ -401,7 +401,7 @@ namespace PostaFlya.DataRepository.Tests
             var storedFlier = StoreFlierRepository();
 
             var qc = Kernel.Get<QueryChannelInterface>();
-            var retrievedFlier = qc.Query(new GetByBrowserIdQuery() {BrowserId = storedFlier.BrowserId},
+            var retrievedFlier = qc.Query(new GetByBrowserIdQuery<Flier>() {BrowserId = storedFlier.BrowserId},
                                           new List<Flier>());
 
             Assert.IsTrue(retrievedFlier.Any());
@@ -535,7 +535,7 @@ namespace PostaFlya.DataRepository.Tests
             claims.Add(claim);
 
             var qc = Kernel.Get<QueryChannelInterface>();
-            var retClaims = qc.Query(new GetByBrowserIdQuery() { BrowserId = browserId }, new List<Claim>()).AsQueryable();
+            var retClaims = qc.Query(new GetByBrowserIdQuery<Claim>() { BrowserId = browserId }, new List<Claim>()).AsQueryable();
             retClaims = retClaims.OrderByDescending(c => c.ClaimTime);
             AssertUtil.Count(2, retClaims);
             //the latest claims should be stored first

@@ -8,12 +8,12 @@ using Website.Application.Binding;
 using Website.Application.Content;
 using PostaFlya.Domain.Flier;
 using PostaFlya.Domain.Flier.Command;
-using Website.Application.Domain.Browser.Query;
 using Website.Application.Domain.Browser.Web;
 using Website.Common.Controller;
 using Website.Common.Extension;
 using Website.Common.Model.Query;
 using Website.Domain.Browser;
+using Website.Domain.Browser.Query;
 using Website.Infrastructure.Command;
 using PostaFlya.Models.Flier;
 using Website.Application.Domain.Content;
@@ -47,8 +47,7 @@ namespace PostaFlya.Controllers
         // GET /api/myfliersapi
         public IList<BulletinFlierSummaryModel> Get(string browserId)
         {
-            var fliers = _queryChannel.Query(new GetByBrowserIdQuery() {BrowserId = browserId}, new List<Flier>());
-            return _queryChannel.ToViewModel<BulletinFlierSummaryModel, Flier>(fliers);
+            return _queryChannel.Query(new GetByBrowserIdQuery<Flier>() { BrowserId = browserId }, new List<BulletinFlierSummaryModel>());
         }
 
         // GET /api/Browser/browserId/myfliers/5
@@ -57,10 +56,7 @@ namespace PostaFlya.Controllers
             var flier = _queryService.FindById<Flier>(id);
             if (flier != null && flier.BrowserId != browserId)
                 return null;
-
-            var flierModel = flier.ToCreateModel().GetImageUrl(_blobStorage);
-            flierModel.ImageList = _queryChannel.ToViewModel<ImageViewModel, FlierImage>(flier.ImageList);
-            return flierModel;
+            return _queryChannel.Query(new FindByIdQuery<Flier>{Id = id}, (FlierCreateModel)null);
         }
 
         public HttpResponseMessage Post(string browserId, FlierCreateModel createModel)

@@ -8,7 +8,6 @@ using NUnit.Framework;
 using Ninject;
 using Ninject.MockingKernel.Moq;
 using Website.Application.Content;
-using Website.Application.Domain.Browser.Query;
 using Website.Domain.Browser.Query;
 using Website.Infrastructure.Command;
 using Website.Infrastructure.Query;
@@ -146,7 +145,7 @@ namespace Website.Application.Domain.Tests.Content
             //command.CommandId = Guid.NewGuid().ToString();
             
             //kernel.Get<CommandBusInterface>().Send(command);
-            var browserImages = qc.Query(new GetByBrowserIdQuery() {BrowserId = command.BrowserId},
+            var browserImages = qc.Query(new GetByBrowserIdQuery<Website.Domain.Content.Image>() { BrowserId = command.BrowserId },
                                          new List<Website.Domain.Content.Image>());
 
             //make sure only 1 image per external id

@@ -4,7 +4,6 @@ using System.Linq;
 using PostaFlya.Domain.Flier;
 using PostaFlya.Domain.Flier.Query;
 using PostaFlya.Domain.Venue;
-using Website.Application.Domain.Browser.Query;
 using Website.Application.Intergrations;
 using Website.Domain.Browser.Query;
 using Website.Domain.Contact;
@@ -110,7 +109,7 @@ namespace PostaFlya.Application.Domain.ExternalSource
             }
 
             String externalId = "facebook" + fbEvent.id;
-            var imagesList = _queryChannel.Query(new GetByBrowserIdQuery() {BrowserId = browser.Id}, new List<Image>());
+            var imagesList = _queryChannel.Query(new GetByBrowserIdQuery<Image>() {BrowserId = browser.Id}, new List<Image>());
             var externalImage = imagesList.Where(_ => _.ExternalId == externalId);
 
             var imgId = Guid.NewGuid().ToString();
@@ -137,7 +136,7 @@ namespace PostaFlya.Application.Domain.ExternalSource
         {
             var faceBookEvents = _graphApi.UserEventsGet();
 
-            var existingFliers = _queryChannel.Query(new GetByBrowserIdQuery() {BrowserId = browser.Id}, new List<PostaFlya.Domain.Flier.Flier>());
+            var existingFliers = _queryChannel.Query(new GetByBrowserIdQuery<PostaFlya.Domain.Flier.Flier>() { BrowserId = browser.Id }, new List<PostaFlya.Domain.Flier.Flier>());
             var existingEventsIds = existingFliers.Where(_ => _.ExternalSource == IdentityProviders.FACEBOOK).Select(_ => _.ExternalId).ToList();
 
             return faceBookEvents.Where(_ => !existingEventsIds.Contains(_.id)).ToList();
