@@ -10,7 +10,9 @@ body{
     background-color: #2F2F2F;
 }
 
-
+a {
+    color: white;
+}
 
 header{
     background-color: #282828;
@@ -1169,6 +1171,8 @@ margin: 0 auto;
     text-decoration: none;
 }
 
+
+
 .red-button {
     background-color: white;
     color: #2F2F2F;
@@ -1553,7 +1557,7 @@ p#copyright {
     padding: 4%;
     width: 90%;
     margin: 0 auto 0;
-    background-color: white;
+    color: white;
     margin-top: 15px;
     border-top: 1px solid #ccc;
     border-right: 1px solid #ccc;

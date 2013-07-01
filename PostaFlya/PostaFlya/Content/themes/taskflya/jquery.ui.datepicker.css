@@ -14,7 +14,6 @@ table {
 	width: 260px;
 	height: auto;
 	margin: 0px auto 0;
-	border: 1px solid #ccc;
     background-color: white;
     z-index: 1001 !important;
     display: none;
@@ -32,7 +31,6 @@ table {
 	font-weight: bold;
 	line-height: 30px;
 	border-width: 1px 0 0 0;
-	border-style: solid;
 	border-color: #ccc;
 }
 .ui-datepicker-title {

@@ -67,13 +67,13 @@ openid = {
 		if (this.no_sprite) {
 			var image_ext = box_size == 'small' ? '.ico.gif' : '.png';
 			return '<a title="' + this.image_title.replace('{provider}', provider["name"]) + '" href="javascript:openid.signin(\'' + box_id + '\');"'
-					+ ' style="background: #FFF url(' + this.img_path + '/' + box_id + image_ext + ') no-repeat center center" '
+					+ ' style="background: url(' + this.img_path + '/' + box_id + image_ext + ') no-repeat center center" '
 					+ 'class="' + box_id + ' openid_' + box_size + '_btn"></a>';
 		}
 		var x = box_size == 'small' ? -index * 24 : -index * 100;
 		var y = box_size == 'small' ? -60 : 0;
 		return '<a title="' + this.image_title.replace('{provider}', provider["name"]) + '" href="javascript:openid.signin(\'' + box_id + '\');"'
-				+ ' style="background: #FFF url(' + this.img_path + 'openid-providers-' + this.sprite + '.png); background-position: ' + x + 'px ' + y + 'px" '
+				+ ' style="background: url(' + this.img_path + 'openid-providers-' + this.sprite + '.png); background-position: ' + x + 'px ' + y + 'px" '
 				+ 'class="' + box_id + ' openid_' + box_size + '_btn"></a>';
 	},
 
