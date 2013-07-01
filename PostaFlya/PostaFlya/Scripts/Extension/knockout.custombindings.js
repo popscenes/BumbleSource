@@ -563,14 +563,14 @@
 
     function getFlierImageSizeFromWidth(width) {
 
-        if (width <= 57)
-            return 'h57';
-        if (width <= 114)
-            return 'h114';
+        if (width <= 150)
+            return 'h150';
         if (width <= 228)
             return 'h228';
-        if (width <= 456)
-            return 'h456';
+        if (width <= 450)
+            return 'h450';
+        if (width <= 900)
+            return 'h900';
         return '';
     };
     

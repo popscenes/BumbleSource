@@ -24,7 +24,7 @@ namespace PostaFlya.Areas.MobileApi.Flyers.Controllers
 
         public ResponseContent<FlyerSummaryContent> Get([FromUri]FlyersByLatestRequest req)
         {
-            var flyers = _queryChannel.Query(new FindFlyersByLatestQuery()
+            var flyers = _queryChannel.Query(new FindFlyersByFeaturedQuery()
                 {
                     Take = req.Take,
                     Skip = req.Skip

@@ -47,10 +47,11 @@ namespace Website.Application.Domain.Content
 
     public enum ThumbSize
     {
-        S57 = 57,
-        S114 = 114,
+        S150 = 150,
         S228 = 228,
-        S456 = 456,
+        S300 = 300,
+        S450 = 450,
+        S900 = 900,
     }
 
 

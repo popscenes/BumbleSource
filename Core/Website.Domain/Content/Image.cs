@@ -32,7 +32,6 @@ namespace Website.Domain.Content
     public enum ThumbOrientation
     {
         Horizontal,
-        Vertical,
         Original,
         Square
     }

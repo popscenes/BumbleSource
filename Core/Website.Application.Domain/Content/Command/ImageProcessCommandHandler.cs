@@ -152,7 +152,7 @@ namespace Website.Application.Domain.Content.Command
             foreach (var size in sizes.Where(size => size > 0))
             {              
                 ret.Add(CreateWidthThumb(commandId, img, (int)size));
-                ret.Add(CreateLengthThumb(commandId, img, (int)size));
+                //ret.Add(CreateLengthThumb(commandId, img, (int)size));
                 ret.Add(CreateOriginalThumb(commandId, img, (int)size));
                 ret.Add(CreateSquareThumb(commandId, img, (int)size));
             }
@@ -187,15 +187,15 @@ namespace Website.Application.Domain.Content.Command
             }
         }
 
-        private ImageDimension CreateLengthThumb(string commandId, Image img, int size)
-        {
-            using (var thumb = img.Resize((int) Math.Ceiling(img.Width*(size/(double) img.Height)), size))
-            {
-                var ext = ImageUtil.GetIdFileExtension(ThumbOrientation.Vertical, (ThumbSize)size);
-                _blobStorage.SetBlob(commandId + ext, thumb.GetBytes(), BlobProperties.JpegContentTypeDefault);
-                return GetDim(thumb, ext, ThumbOrientation.Vertical);
-            }
-        }
+//        private ImageDimension CreateLengthThumb(string commandId, Image img, int size)
+//        {
+//            using (var thumb = img.Resize((int) Math.Ceiling(img.Width*(size/(double) img.Height)), size))
+//            {
+//                var ext = ImageUtil.GetIdFileExtension(ThumbOrientation.Vertical, (ThumbSize)size);
+//                _blobStorage.SetBlob(commandId + ext, thumb.GetBytes(), BlobProperties.JpegContentTypeDefault);
+//                return GetDim(thumb, ext, ThumbOrientation.Vertical);
+//            }
+//        }
 
         private ImageDimension CreateWidthThumb(string commandId, Image img, int size)
         {

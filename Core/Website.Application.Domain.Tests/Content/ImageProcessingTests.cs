@@ -232,72 +232,58 @@ namespace Website.Application.Domain.Tests.Content
             }
         }
 
+//        [Test]
+//        public void ProcessImageCommandHandlerShouldCreateTwoThumbsByLength()
+//        {
+//            System.Drawing.Bitmap bitmap = Website.Application.Tests.Properties.Resources.TestWideImage;
+//            AssertImage(bitmap, TestForThumbnailsOfHeight);
+//            bitmap = Website.Application.Tests.Properties.Resources.TestLongImage;
+//            AssertImage(bitmap, TestForThumbnailsOfHeight);
+//            bitmap = Website.Application.Tests.Properties.Resources.TestWideWideImage;
+//            AssertImage(bitmap, TestForThumbnailsOfHeight);
+//            bitmap = Website.Application.Tests.Properties.Resources.TestLongLongImage;
+//            AssertImage(bitmap, TestForThumbnailsOfHeight);
+//        }
+
+//        private void TestForThumbnailsOfHeight(Guid id, Dictionary<string, byte[]> storage)
+//        {
+//            foreach (ThumbSize size in Enum.GetValues(typeof(ThumbSize)))
+//            {
+//                var data = storage[id.ToString() +
+//                ImageUtil.GetIdFileExtension(
+//                    ThumbOrientation.Vertical,
+//                    size
+//                )];
+//                Assert.IsNotNull(data);
+//                using (var ms = new MemoryStream(data))
+//                {
+//                    var conv = Image.FromStream(ms);
+//                    Assert.AreEqual(conv.Height, (int)size);
+//                }
+//            }
+//        }
+
         [Test]
-        public void ProcessImageCommandHandlerShouldCreateTwoThumbsByLength()
+        public void ProcessImageCommandHandlerShouldCreateThumbsBySource()
         {
             System.Drawing.Bitmap bitmap = Website.Application.Tests.Properties.Resources.TestWideImage;
-            AssertImage(bitmap, TestForThumbnailsOfHeight);
+            AssertImage(bitmap, TestForThumbnailOffSource);
             bitmap = Website.Application.Tests.Properties.Resources.TestLongImage;
-            AssertImage(bitmap, TestForThumbnailsOfHeight);
+            AssertImage(bitmap, TestForThumbnailOffSource);
             bitmap = Website.Application.Tests.Properties.Resources.TestWideWideImage;
-            AssertImage(bitmap, TestForThumbnailsOfHeight);
+            AssertImage(bitmap, TestForThumbnailOffSource);
             bitmap = Website.Application.Tests.Properties.Resources.TestLongLongImage;
-            AssertImage(bitmap, TestForThumbnailsOfHeight);
-        }
-
-        private void TestForThumbnailsOfHeight(Guid id, Dictionary<string, byte[]> storage)
-        {
-            foreach (ThumbSize size in Enum.GetValues(typeof(ThumbSize)))
-            {
-                var data = storage[id.ToString() +
-                ImageUtil.GetIdFileExtension(
-                    ThumbOrientation.Vertical,
-                    size
-                )];
-                Assert.IsNotNull(data);
-                using (var ms = new MemoryStream(data))
-                {
-                    var conv = Image.FromStream(ms);
-                    Assert.AreEqual(conv.Height, (int)size);
-                }
-            }
-        }
-
-        [Test]
-        public void ProcessImageCommandHandlerShouldCreateTwoThumbsBySource()
-        {
-            System.Drawing.Bitmap bitmap = Website.Application.Tests.Properties.Resources.TestWideImage;
-            AssertImage(bitmap, TestForTwoThumbnailsOffSource);
-            bitmap = Website.Application.Tests.Properties.Resources.TestLongImage;
-            AssertImage(bitmap, TestForTwoThumbnailsOffSource);
-            bitmap = Website.Application.Tests.Properties.Resources.TestWideWideImage;
-            AssertImage(bitmap, TestForTwoThumbnailsOffSource);
-            bitmap = Website.Application.Tests.Properties.Resources.TestLongLongImage;
-            AssertImage(bitmap, TestForTwoThumbnailsOffSource);
+            AssertImage(bitmap, TestForThumbnailOffSource);
 
         }
 
-        private void TestForTwoThumbnailsOffSource(Guid id, Dictionary<string, byte[]> storage)
+        private void TestForThumbnailOffSource(Guid id, Dictionary<string, byte[]> storage)
         {
+
             var data = storage[id.ToString() +
             ImageUtil.GetIdFileExtension(
                 ThumbOrientation.Original,
-                ThumbSize.S57
-            )];
-            Assert.IsNotNull(data);
-            using (var ms = new MemoryStream(data))
-            {
-                var conv = Image.FromStream(ms);
-                Assert.IsTrue(
-                        conv.Height == (int)ThumbSize.S57
-                    ||  conv.Width == (int)ThumbSize.S57
-                );
-            }
-
-            data = storage[id.ToString() +
-            ImageUtil.GetIdFileExtension(
-                ThumbOrientation.Original,
-                ThumbSize.S114
+                ThumbSize.S150
             )];
 
             Assert.IsNotNull(data);
@@ -306,8 +292,8 @@ namespace Website.Application.Domain.Tests.Content
                 using(var conv = Image.FromStream(ms))
                 {
                     Assert.IsTrue(
-                               conv.Height == (int)ThumbSize.S114
-                            || conv.Width == (int)ThumbSize.S114
+                               conv.Height == (int)ThumbSize.S150
+                            || conv.Width == (int)ThumbSize.S150
                     );
                 }
             }
