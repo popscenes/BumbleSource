@@ -1,18 +1,34 @@
-﻿body{
-	
-	background-image: url(images/bg-low-quality.jpg);
-    background-repeat: no-repeat;
-    background-position: 0 0;
-    font-family: 'Open Sans',Tahoma, Helvetica, Geneva, sans-serif;
-    background-repeat: repeat;
+﻿@font-face
+{
+font-family: din;
+src: url('fonts/DIN.ttf')
+}
+
+body{
+    font-family: din,'Open Sans',Tahoma, Helvetica, Geneva, sans-serif;
+    margin: 0;
+    background-color: #2F2F2F;
 }
 
 
 
 header{
-background-repeat: no-repeat;
-background-position: center center;
-background-color: white;
+    background-color: #282828;
+	width:100%;
+	height:44px;
+	min-height:44px;
+}
+
+#logo {
+    font-weight: 900;
+    color: white;
+    font-size: 18px;
+    text-decoration: none;
+    display: block;
+    float: left;
+    height: 50%;
+    vertical-align: middle;
+    margin-top: 10px;
 }
 
 
@@ -42,8 +58,8 @@ background-color: white;
     display: inline-block;
     font-size: 12px;
     font-weight: bold;
-    color: white;
-    background-color: #FF7D00;
+    color: #282828;
+    background-color: white;
     height: 14px;
     padding: 10px;
     vertical-align: middle;
@@ -54,22 +70,33 @@ background-color: white;
     
 }
 
+#post-flya {
+    color: white;
+    background-color: #282828;
+}
+
 .locSel{
-    width: 620px;
+    width: 560px;
     height: 34px;
-    border: #A6A5A5 solid 1px;
-    background-color: white;
+    background-color: #2F2F2F;
     margin-left: 20px;
+}
+
+.locSel input {
+    background-color: #2F2F2F;
+    color: white;
+    border: 0;
 }
 
 .location-title {
     margin-bottom: 12px;
-    color: black;
+    color: white;
     margin-right: 14px;
     font-size: 18px;
     margin-left: 20px;
     font-weight: bold;
     float: none !important;
+    text-transform: uppercase;
 }
 
 
@@ -154,7 +181,7 @@ ul.userlinks {
     background-image: url(images/icons-88h1.png);
     width: 88px;
     height: 50px;
-    background-position: -1320px -105px;
+    background-position: -1320px -15px;
     display: inline-block;
     cursor: pointer;
 }
@@ -163,24 +190,24 @@ ul.userlinks {
     background-image: url(images/icons-88h1.png);
     width: 50px;
     height: 50px;
-    background-position: -1428px -105px;
+    background-position: -1428px -15px;
     display: inline-block;
     cursor: pointer;
 }
 
 
 .btn-44.btn-white{
-    background-color: white;
-    color: black;
+    background-color: #282828;
+    color: white;
 }
 
 .btn-44.active{
-    background-color: #FF7D00;
+    background-color: #2F2F2F;
     color: white;
 } 
 
 #profile-peeled.btn-44 .std-image-btn-icon{
-    background-position: -352px -44px;
+    background-position: -352px 0px;
 }
 
 #profile-peeled.btn-44.active .std-image-btn-icon{
@@ -188,7 +215,7 @@ ul.userlinks {
 }
 
 #profile-posted.btn-44 .std-image-btn-icon{
-    background-position: 0 -44px;
+    background-position: 0 0px;
 }
 
 #profile-posted.btn-44.active .std-image-btn-icon{
@@ -196,7 +223,7 @@ ul.userlinks {
 }
 
 #profile-payment.btn-44 .std-image-btn-icon{
-    background-position: -440px -44px;
+    background-position: -440px 0px;
 }
 
 #profile-payment.btn-44.active .std-image-btn-icon{
@@ -204,7 +231,7 @@ ul.userlinks {
 }
 
 #profile-edit.btn-44 .std-image-btn-icon{
-    background-position: -88px -44px;
+    background-position: -88px 0px;
 }
 
 #profile-edit.btn-44.active .std-image-btn-icon{
@@ -232,7 +259,7 @@ ul.userlinks {
 
 
 #flya-create-back .std-image-btn-icon {
-    background-position: -102px 0px;
+    background-position: -102px 34px;
 }
 
 #flya-create-continue {
@@ -258,7 +285,7 @@ ul.userlinks {
 }
 
 #flya-create-continue .std-image-btn-icon {
-    background-position: -136px 0px;
+    background-position: -136px 34px;
     top: 0;
     right: 0;
     left: auto;
@@ -270,14 +297,14 @@ ul.userlinks {
 }
 
 .pickfiles  .std-image-btn-icon {
-    background-position: -272px 0px;
+    background-position: -272px 34px;
 }
 .uploadfiles  .std-image-btn-icon {
-    background-position: -238px 0px;
+    background-position: -238px 34px;
 }
 
 .addButton  .std-image-btn-icon {
-    background-position: -238px 0px;
+    background-position: -238px 34px;
 }
 
 .create-edit-userlink {
@@ -290,15 +317,12 @@ ul.userlinks {
     margin-right: 10px;
 }
 
-#profile-avatar, #log-in-profile {
-    border-right: solid 1px #CFCFCF;
-}
 #log-in-profile  .std-image-btn-icon{
-    background-position: -88px -44px;
+    background-position: -88px 0px;
 }
 
 #profile-avatar .std-image-btn-icon {
-    background-position: -88px -44px;
+    background-position: -88px 0px;
 }
 
 #profile-avatar {
@@ -409,7 +433,7 @@ div.current-loc {
     display: table-cell;
     width: 34px;
     background-image: url(images/icons-34h1.png);
-    background-position: -34px -34px;
+    background-position: -34px -0px;
     cursor: pointer;
 }
 
@@ -429,7 +453,8 @@ div#create-flier-item-div, div#selected-item-div
 
 /************selected item popup/overlay div ********************/
 div#selected-item-div, div#create-flier-item-div {
-    background-color: white; 
+    background-color: #2F2F2F;
+    color: white;
     opacity: 1;
     margin-top: 20px;
 }
@@ -909,7 +934,7 @@ div#selected-item-popup-overlay, div#create-flier-popup-overlay {
     background-image: url(images/icons-88h1.png);
     width: 54px;
     height: 54px;
-    background-position: -1160px -105px;
+    background-position: -1160px -15px;
     display: inline-block;
     cursor: pointer;
 }
@@ -949,7 +974,7 @@ display: inline-block;
 h2 {
     font-weight: normal;
     font-size: 30px;
-    color: #FF7D00;
+    color: white;
     text-transform: uppercase;
 
 }
@@ -957,9 +982,9 @@ h2 {
 h3 {
     font-weight: normal;
     font-size: 20px;
-    color: #FF7D00;
+    color: white;
     text-transform: uppercase;
-    border-bottom: #FF7D00 solid 2px;
+    border-bottom: white solid 2px;
     
 }
 
@@ -970,13 +995,13 @@ form li h3 {
 h4 {
     font-weight: normal;
     font-size: 16px;
-    color: #FF7D00;
+    color: white;
     text-transform: uppercase;
-    border-bottom: #FF7D00 solid 2px;
+    border-bottom: white solid 2px;
 }
 
 .page-content {
-    background-color: white;
+    background-color: #2F2F2F;
     width: 70%;
     margin: 30px auto;
     border: 1px #D0CBC4 solid;
@@ -1145,11 +1170,12 @@ margin: 0 auto;
 }
 
 .red-button {
-    background-color: #D28282;
+    background-color: white;
+    color: #2F2F2F;
 }
 
 .blue-button {
-    background-color: #FF7D00;
+    background-color: #2F2F2F;
 }
 
 .flier-cost-summary {
@@ -1182,11 +1208,6 @@ margin: 0 auto;
     height: 44px;
     background-position: -396px -0px;
     background-color: #ff7d00;
-}
-
-#logo {
-    background-image: url("images/navbar-logo-44h.png");
-    height: 44px;
 }
 
 .page-toolbar-buttons {
@@ -1282,7 +1303,7 @@ div.ls-holder-text input.location-search {
 
 
 a.bold-link {
-    color: #FF7D00;
+    color: rgb(114, 114, 114);
     font-weight: bold;
     cursor: pointer;
 }
@@ -1341,6 +1362,8 @@ a.plainlink {
     margin: 8px;
     width: 228px;
     display: inline-block;
+    background-color: #050505;
+    color: white;
 }
 
 div.tile-image {
@@ -1572,10 +1595,9 @@ p#copyright {
 
 .board-information-calendar, .bulletin-calendar {
     clear: both;
-    background-color: #3D3D3D;
     margin: 0;
     padding: 8px 0px 8px 20px;
-    width: 728px;
+    background-color: #050505;
 }
 
 .bulletin-calendar {
@@ -1588,11 +1610,9 @@ p#copyright {
 {
 	padding-top:12px;
 	z-index:500;
-    background-color: white;
-    width: 748px;
+    background-color: #282828;
+    width: 690px;
     margin: 0 auto;
-    border: 1px #D0CBC4 solid;
-    background-color: white;
 }
 
 #controls > * {
@@ -1622,10 +1642,11 @@ p#copyright {
 
 #dateFilterList li a {
     margin-right: 20px;
-    color: #FF7D00;
+    color: white;
     font-weight: bold;
     cursor: pointer;
     font-size: 12px;
+    text-transform: uppercase;
 }
 
 
