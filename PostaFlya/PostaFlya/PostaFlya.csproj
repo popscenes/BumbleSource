@@ -612,6 +612,8 @@
     <Content Include="Areas\HelpPage\Views\Help\Index.cshtml" />
     <Content Include="Areas\HelpPage\Views\_ViewStart.cshtml" />
     <Content Include="humans.txt" />
+    <Content Include="Content\themes\taskflya\fonts\DIN.ttf" />
+    <Content Include="Content\themes\taskflya\fonts\DIN-Black.ttf" />
     <None Include="Microsoft.WindowsAzure.Caching\ClientPerfCountersInstaller.exe">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
