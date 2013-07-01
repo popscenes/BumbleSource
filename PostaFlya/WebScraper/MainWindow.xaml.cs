@@ -58,6 +58,12 @@ namespace WebScraper
             TraceText.DataContext = listener;
             Bind(listener, "Trace", TraceText, BindingMode.OneWay, TextBox.TextProperty);
 
+            var all = _kernel.GetBindings(typeof (SiteScraperInterface));
+            var venues = all.Select(binding => binding.Metadata.Name).ToList();
+            venues.Insert(0, "<All>");
+            VenueCombo.ItemsSource = venues;
+            VenueCombo.SelectedItem = venues.First();
+
            // PlaceName.DataContext = _venueModel;
             //Bind(_venueModel, "PlaceName", PlaceName, BindingMode.TwoWay, TextBox.TextProperty);
 
@@ -158,7 +164,12 @@ namespace WebScraper
 
             var items = new ConcurrentQueue<ImportedFlyerScraperModel>();
             //var all = _kernel.GetAll<SiteScraperInterface>(metadata => metadata.Name == DrunkenPoetSiteScraper.BaseUrl).ToList();
-            var all = _kernel.GetAll<SiteScraperInterface>().ToList();
+            var all = new List<SiteScraperInterface>();
+            if("<All>" == startEnd.SelectedVenue)
+                all.AddRange(_kernel.GetAll<SiteScraperInterface>());
+            else
+                all.Add(_kernel.Get<SiteScraperInterface>(metadata => metadata.Name == startEnd.SelectedVenue));
+            
             Parallel.ForEach(all, siteScraper =>
                 {
                     Trace.TraceInformation("Running " + siteScraper.SiteName);
@@ -234,6 +245,7 @@ namespace WebScraper
         {
             public DateTime Start { get; set; }
             public DateTime End { get; set; }
+            public string SelectedVenue { get; set; }
         }
         private void Load_Click(object sender, RoutedEventArgs ev)
         {
@@ -251,7 +263,8 @@ namespace WebScraper
             worker.RunWorkerAsync(new StartEnd()
                 {
                     Start = StartDate.SelectedDate.Value,
-                    End = EndDate.SelectedDate.Value
+                    End = EndDate.SelectedDate.Value,
+                    SelectedVenue = VenueCombo.SelectedItem.ToString()
                 });
 
         }

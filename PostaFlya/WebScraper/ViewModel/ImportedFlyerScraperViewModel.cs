@@ -29,6 +29,7 @@ namespace WebScraper.ViewModel
             else if (source.ImageUrl != null)
             {
                 target.Image = new BitmapImage(new Uri(source.ImageUrl));
+                target.ImageUrl = source.ImageUrl;
             }
 
 
@@ -60,6 +61,8 @@ namespace WebScraper.ViewModel
                 target.ImageUrl = source.Image.UriSource.ToString();
             if (source.Image.StreamSource != null)
                 target.Image = Image.FromStream(source.Image.StreamSource);
+            if (!string.IsNullOrWhiteSpace(source.ImageUrl))
+                target.ImageUrl = source.ImageUrl;
             return target;
         }
     }
@@ -70,7 +73,7 @@ namespace WebScraper.ViewModel
         {
             if (x.VenueInfo.PlaceName != y.VenueInfo.PlaceName ||
                 x.VenueInfo.SourceId != y.VenueInfo.SourceId ||
-                x.Title.ToLower() != y.Title.ToLower() ||
+                x.Title.Trim().ToLower().CompareTo(y.Title.Trim().ToLower()) != 0 ||
                 x.EventDates.Any(xtime => y.EventDates.All(ytime => ytime != xtime)))
                 return false;
             return true;
@@ -93,6 +96,7 @@ namespace WebScraper.ViewModel
         public Guid Id { get; set; }   
         public bool Import { get; set; }
         public BitmapImage Image { get; set; }
+        public string ImageUrl { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
         public List<DateTime> EventDates { get; set; }

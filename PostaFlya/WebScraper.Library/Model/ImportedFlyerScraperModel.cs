@@ -51,7 +51,7 @@ namespace WebScraper.Library.Model
                 ret = ret && !string.IsNullOrWhiteSpace(Description);
                 ret = ret && !string.IsNullOrWhiteSpace(ImageUrl);
                 ret = ret && !string.IsNullOrWhiteSpace(Tags);
-                ret = ret && !string.IsNullOrWhiteSpace(BoardId); 
+                //ret = ret && !string.IsNullOrWhiteSpace(BoardId); 
                 ret = ret && EventDates.Count > 0;
             }
             catch (Exception)

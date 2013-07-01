@@ -24,6 +24,7 @@
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
                     <CheckBox Grid.Column="0" Grid.RowSpan="2" VerticalAlignment="Center" HorizontalAlignment="Center" IsChecked="{Binding Import, Mode=TwoWay}" />
+                    <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding ImageUrl, Mode=TwoWay}"></TextBox>
                     <Image Grid.Column="1" Grid.Row="0" Source="{Binding Image}"/>
                     <TextBox Grid.Column="2" Grid.Row="0" Margin="3"  Text="{Binding Title, Mode=TwoWay}" />
                     <TextBox Grid.Column="3" Grid.Row="0" Margin="3"  Text="{Binding Description, Mode=TwoWay}" TextWrapping="Wrap"/>
@@ -66,16 +67,22 @@
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
-                    <StackPanel Grid.Column="0" Grid.Row="0" Orientation="Horizontal">
-                        <Label Content="Start Date"></Label>
-                        <DatePicker Name="StartDate"/>
-                        <Label Content="End Date"></Label>
-                        <DatePicker Name="EndDate"/>
-                        <Button Content="Load" Name="Load" HorizontalAlignment="Left"  VerticalAlignment="Center" Width="56" Click="Load_Click" Margin="30,0,30,0"/>
-                        <Button Content="Login" Name="Login" VerticalAlignment="Center" Width="56" Click="Login_Click" Margin="0,0,30,0"/>
-                        <Button Content="Publish" Name="Publish" VerticalAlignment="Center" Width="56" Click="Publish_Click"/>
-                        <TextBlock Name="NumberValid" Text="{Binding}" Margin="10,0,0,0"></TextBlock>
-                        <TextBox TextWrapping="Wrap" Text="Board Auto-Create Admins" Width="344" Name="autoBoardAdmins" GotFocus="autoBoardAdmins_GotFocus"/>
+                    <StackPanel Orientation="Vertical">
+                        <StackPanel Grid.Column="0" Grid.Row="0" Orientation="Horizontal">
+                            <Label Content="Start Date"></Label>
+                            <DatePicker Name="StartDate"/>
+                            <Label Content="End Date"></Label>
+                            <DatePicker Name="EndDate"/>
+                            <Button Content="Load" Name="Load" HorizontalAlignment="Left"  VerticalAlignment="Center" Width="56" Click="Load_Click" Margin="30,0,30,0"/>
+                            <Button Content="Login" Name="Login" VerticalAlignment="Center" Width="56" Click="Login_Click" Margin="0,0,30,0"/>
+                            <Button Content="Publish" Name="Publish" VerticalAlignment="Center" Width="56" Click="Publish_Click"/>
+                            <TextBlock Name="NumberValid" Text="{Binding}" Margin="10,0,0,0"></TextBlock>
+                            <TextBox TextWrapping="Wrap" Text="Board Auto-Create Admins" Width="344" Name="autoBoardAdmins" GotFocus="autoBoardAdmins_GotFocus"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="10">
+                            <Label Content="Venue"></Label>
+                            <ComboBox Name="VenueCombo" ItemsSource="{Binding}"></ComboBox>
+                        </StackPanel>
                     </StackPanel>
 
                     <ListBox VerticalAlignment="Top" Margin="10,10,0,0" 
@@ -86,7 +93,8 @@
                 </Grid>
             </TabItem>
             <TabItem Header="Messages">
-                <TextBox Name="TraceText" Text="{Binding Trace}" IsReadOnly="True" IsReadOnlyCaretVisible="False"/>
+                <TextBox Name="TraceText" Text="{Binding Trace}" IsReadOnly="True" IsReadOnlyCaretVisible="False" VerticalScrollBarVisibility="Visible"
+                         />
             </TabItem>
             <TabItem Header="Boards">
                 <Grid>

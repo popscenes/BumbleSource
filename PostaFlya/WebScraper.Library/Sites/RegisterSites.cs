@@ -30,14 +30,14 @@ namespace WebScraper.Library.Sites
 
             Kernel.Bind<IWebDriver>().To<ChromeDriver>().InTransientScope();
 
-//            var types = Assembly.GetExecutingAssembly()
-//                                .DefinedTypes
-//                                .Where(t => t.GetInterfaces().Any(arg => arg == typeof (SiteScraperInterface)));
-//
-//            foreach (var typeInfo in types)
-//            {
-//                Kernel.Bind(typeof (SiteScraperInterface)).To(typeInfo);
-//            }
+            //            var types = Assembly.GetExecutingAssembly()
+            //                                .DefinedTypes
+            //                                .Where(t => t.GetInterfaces().Any(arg => arg == typeof (SiteScraperInterface)));
+            //
+            //            foreach (var typeInfo in types)
+            //            {
+            //                Kernel.Bind(typeof (SiteScraperInterface)).To(typeInfo);
+            //            }
 
             Kernel.Bind<SiteScraperInterface>()
                   .To<SpottedMallardSiteScraper>()
@@ -48,17 +48,12 @@ namespace WebScraper.Library.Sites
                   .Named(RetreatSiteScraper.BaseUrl);
 
             Kernel.Bind<SiteScraperInterface>()
-      .To<DrunkenPoetSiteScraper>()
-      .Named(DrunkenPoetSiteScraper.BaseUrl);
+            .To<DrunkenPoetSiteScraper>()
+            .Named(DrunkenPoetSiteScraper.BaseUrl);
 
             Kernel.Bind<SiteScraperInterface>()
             .To<GraceDarlingScraper>()
             .Named(GraceDarlingScraper.BaseUrl);
-
-            Kernel.Bind<SiteScraperInterface>()
-            .To<GraceDarlingScraper>()
-            .Named(GraceDarlingScraper.BaseUrl);
-
 
             Kernel.Bind<SiteScraperInterface>()
             .To<DingDongScraper>()
