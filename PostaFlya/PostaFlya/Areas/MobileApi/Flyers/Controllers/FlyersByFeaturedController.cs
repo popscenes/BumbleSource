@@ -22,15 +22,15 @@ namespace PostaFlya.Areas.MobileApi.Flyers.Controllers
             _queryChannel = queryChannel;
         }
 
-        public ResponseContent<FlyerSummaryContent> Get([FromUri]FlyersByLatestRequest req)
+        public ResponseContent<FlyersByFeaturedContent> Get([FromUri]FlyersByLatestRequest req)
         {
-            var flyers = _queryChannel.Query(new FindFlyersByFeaturedQuery()
+            var content = _queryChannel.Query(new FindFlyersByFeaturedQuery()
                 {
                     Take = req.Take,
                     Skip = req.Skip
-                }, new List<FlyerSummaryModel>());
+                }, new FlyersByFeaturedContent());
 
-            return ResponseContent<FlyerSummaryContent>.GetResponse(new FlyerSummaryContent() {Flyers = flyers});
+            return ResponseContent<FlyersByFeaturedContent>.GetResponse(content);
         }
     }
 }

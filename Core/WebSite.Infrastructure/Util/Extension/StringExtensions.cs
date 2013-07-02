@@ -45,5 +45,10 @@ namespace Website.Infrastructure.Util.Extension
             }
             return stringBuilder.ToString(); 
         }
+
+        public static string Quoted(this string source)
+        {
+            return @"""" + source + @"""";
+        }
     }
 }

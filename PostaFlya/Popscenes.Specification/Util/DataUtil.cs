@@ -83,13 +83,15 @@ namespace Popscenes.Specification.Util
             return venues;
         }
 
-        public static IOperable<Flier> GetSomeFlyersForTheBoards(int flyercount, List<Board> venues)
+        public static IOperable<Flier> GetSomeFlyersForTheBoards(int flyercount, List<Board> venues, DateTimeOffset date)
         {
+            
             var counter = flyercount;
             return
             Builder<Flier>.CreateListOfSize(flyercount)
-                          .All()
+                          .All()                         
                           .With(flier => flier.Id = Guid.NewGuid().ToString())
+                          .With(flier => flier.EventDates = GetSomeRandomDatesStartingFrom(date, 10))
                           .With(flier => flier.LocationRadius = 0)
                           .With(flier => flier.Boards
                               = Builder<BoardFlier>.CreateListOfSize(1)
@@ -102,6 +104,18 @@ namespace Popscenes.Specification.Util
                           .With(flier => flier.CreateDate = DateTime.UtcNow.AddDays(flyercount - counter));
         }
 
+        private static List<DateTimeOffset> GetSomeRandomDatesStartingFrom(DateTimeOffset date, int dayrange = 10)
+        {
+            var r = new Random();
+            var num = r.Next(1, 5);
+            var ret = new List<DateTimeOffset>();
+            for (int i = 0; i < num; i++)
+            {
+                ret.Add(date.AddDays(r.Next(dayrange)));
+            }
+            return ret;
+        }
+
         public static ISingleObjectBuilder<Flier> GetAFlyer(Guid id, Board board, FlierStatus status = FlierStatus.Active)
         {
 
@@ -112,6 +126,7 @@ namespace Popscenes.Specification.Util
             Builder<Flier>.CreateNew()
                           .With(flier => flier.Id = id.ToString())
                           .With(flier => flier.LocationRadius = 0)
+                          .With(flier => flier.EventDates = GetSomeRandomDatesStartingFrom(DateTimeOffset.Now))
                             .With(flier => flier.Boards
                               = Builder<BoardFlier>.CreateListOfSize(1)
                               .All()

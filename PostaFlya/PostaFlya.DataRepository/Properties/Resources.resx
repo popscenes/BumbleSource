@@ -123,8 +123,14 @@
   <data name="SqlSeachFliersByBoard" xml:space="preserve">
     <value>FindFliersByBoard2</value>
   </data>
+  <data name="SqlSeachFlyersByDate" xml:space="preserve">
+    <value>FindFlyersByDateRange</value>
+  </data>
   <data name="SqlSearchFliersByLocationTags" xml:space="preserve">
     <value>FindFliersByLocationAndTags2</value>
+  </data>
+  <data name="SqlSearchFlyersByByBoardAndDate" xml:space="preserve">
+    <value>FindFlyersByByBoardAndDate</value>
   </data>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="StoredProcs" type="System.Resources.ResXFileRef, System.Windows.Forms">

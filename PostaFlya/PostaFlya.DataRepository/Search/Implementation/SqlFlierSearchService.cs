@@ -190,6 +190,40 @@ namespace PostaFlya.DataRepository.Search.Implementation
             return list.ToList();
         }
 
+        public IList<string> FindFliersByLocationAndDate(Location location, int distance, DateTime startdate, DateTime enddate,
+                                                 Tags tags = null)
+        {
+            var sqlCmd = _searchStringDate;
+
+            var watch = new Stopwatch();
+            watch.Start();
+
+
+            if (distance == 0) distance = 15;
+
+            var shards = location.GetShardIdsFor(distance * 1000).Cast<object>().ToArray();
+            var ret = SqlExecute.Query<FlierSearchRecordWithDistance>(sqlCmd,
+                _connection
+                , shards
+                , new
+                {
+                    loc = location.ToGeography(),
+                    distance = distance,
+                    xpath = GetTagFilter(tags),
+                    startdate = startdate,
+                    enddate = enddate,
+                    isUtc = startdate.Kind == DateTimeKind.Utc
+                }, true).ToList();
+
+            Trace.TraceInformation("FindFliers by date time: {0}, numfliers {1}", watch.ElapsedMilliseconds, ret.Count());
+            
+            var list = ret
+                .Select(sr => sr.Id.ToString())
+                .Distinct();
+
+            return list.ToList();
+        }
+
         private static string GetTagFilter(IEnumerable<string> tags)
         {
             if (tags == null || !tags.Any())
@@ -216,6 +250,8 @@ namespace PostaFlya.DataRepository.Search.Implementation
         private readonly string _searchString = Properties.Resources.SqlSearchFliersByLocationTags;
         private readonly string _searhStringByBoard = Properties.Resources.SqlSeachFliersByBoard;
         private readonly string _searhStringAll = Properties.Resources.SqlAllOrderedBy;
+        private readonly string _searchStringDate = Properties.Resources.SqlSeachFlyersByDate;
+        private readonly string _searchStringBoardDate = Properties.Resources.SqlSearchFlyersByByBoardAndDate;
 
         private static IComparer<FlierSearchRecordWithDistance> SorterForOrder(FlierSortOrder sortOrder)
         {

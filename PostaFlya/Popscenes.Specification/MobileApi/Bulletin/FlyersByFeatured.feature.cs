@@ -75,7 +75,8 @@ namespace Popscenes.Specification.MobileApi.Bulletin
 #line 7
 this.ScenarioSetup(scenarioInfo);
 #line 8
- testRunner.Given("There are 50 flyers within 100 kilometers of the geolocation -37.769, 144.979", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+ testRunner.Given("There are 50 flyers within 100 kilometers of the geolocation -37.769, 144.979  wi" +
+                    "th dates starting from 2013-06-29", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 9
  testRunner.When("I perform a get request for the path mobileapi/gigs?take=30", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 10
@@ -84,30 +85,6 @@ this.ScenarioSetup(scenarioInfo);
  testRunner.And("The content should have a response status of OK", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 12
  testRunner.And("The content should contain a list of 30 flyers ordered by created date desc", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line hidden
-            this.ScenarioCleanup();
-        }
-        
-        [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("Mobile Api flyers by featured pages to next flyers")]
-        public virtual void MobileApiFlyersByFeaturedPagesToNextFlyers()
-        {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Mobile Api flyers by featured pages to next flyers", ((string[])(null)));
-#line 14
-this.ScenarioSetup(scenarioInfo);
-#line 15
- testRunner.Given("There are 50 flyers within 10 kilometers of the geolocation -37.769, 144.979", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 16
- testRunner.And("I have retrieved the latest 30 flyers using mobileapi/gigs?take={0}", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 17
- testRunner.When("I attempt to retrieve the next 30 latest flyers using mobileapi/gigs?take={0}&ski" +
-                    "p={1}", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 18
- testRunner.Then("I should receive a http response with a status of 200", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 19
- testRunner.And("The content should have a response status of OK", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 20
- testRunner.And("The content should contain a list of 20 flyers ordered by created date desc", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             this.ScenarioCleanup();
         }
