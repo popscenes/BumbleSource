@@ -18,30 +18,6 @@
     WebConstants.SetViewBagForLocationPicker(ViewBag);
 }
 
-<div id="controls">
-    <div class="location-title">
-        Discover Gigs Near:
-    </div>
-    <div>
-        <div class="locSel">                                                           
-            <div class="current-loc" data-bind="click: TryFindLocation"></div>                
-                @Html.Partial("Location/LocationAutocomplete") 
-            </div>
-        </div>
-    <div class="dist-selector-container" data-bind="touchHover: '.dist-selector-container', visible: Location().ValidLocation()">        
-        Within <span class="distance-selected" data-bind="text: @ViewBag.DistanceVariable"></span>km
-        <ul class="dist-selector" data-bind="distanceDropDown: @ViewBag.DistanceVariable">
-        </ul>
-    </div>
-    
-    <div style="clear: both;float: none"></div>
-    
-    
-    <section class="bulletin-calendar">
-        @Html.Partial("_DateFilterPartial")
-    </section>
-</div>
-   
 @Html.Partial("Bulletin/SelectedBulletinViewPartial")
 @Html.Partial("Bulletin/BulletinList", Model.Fliers)
 

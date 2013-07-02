@@ -8,7 +8,7 @@
  *
  * http://docs.jquery.com/UI/Autocomplete#theming
  */
-.ui-autocomplete { position: absolute; cursor: default;background-color: white;border: #A6A5A5 solid 1px;border-top: 0;list-style: none;padding: 0 4px;z-index: 3000 !important;width: 361px; overflow: hidden}	
+.ui-autocomplete { position: absolute; cursor: default;background-color: #282828;list-style: none;padding: 0 4px;z-index: 3000 !important;width: 361px; overflow: hidden}	
 .ui-autocomplete li{padding: 2px 0}
 /* workarounds */
 * html .ui-autocomplete { width:1px; } /* without this, the menu expands to 100% in IE6 */

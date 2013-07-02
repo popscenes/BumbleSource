@@ -78,14 +78,14 @@ header{
 }
 
 .locSel{
-    width: 560px;
+    width: 300px;
     height: 34px;
-    background-color: #2F2F2F;
-    margin-left: 20px;
+    background-color: #282828;
+    margin-top: 5px;
 }
 
 .locSel input {
-    background-color: #2F2F2F;
+    background-color: #282828;
     color: white;
     border: 0;
 }
@@ -106,6 +106,7 @@ header{
 
 .std-image-btn
 {
+    margin-top: 5px;
     position: relative;
     padding-left: 34px
 }
@@ -320,7 +321,11 @@ ul.userlinks {
 }
 
 #log-in-profile  .std-image-btn-icon{
-    background-position: -88px 0px;
+    background-image: url(images/icons-34h1.png);
+    width: 34px;
+    height: 34px;
+    margin-top: 5px;
+    background-position: -68px 0px;
 }
 
 #profile-avatar .std-image-btn-icon {
@@ -1364,7 +1369,8 @@ a.plainlink {
     -webkit-box-shadow: 1px 1px 4px rgba(0,0,0,0.4);
     /*display: inline-block;*/
     margin: 8px;
-    width: 228px;
+    width: 150px;
+    height: 150px;
     display: inline-block;
     background-color: #050505;
     color: white;
@@ -1376,16 +1382,24 @@ div.tile-image {
 
 .ui-flier-tile img 
 {
-    box-shadow: 0 0 4px rgba(0,0,0,0.4);
-    width: 228px;
+    width: 150px;
+    height: 150px;
     cursor: pointer;
 }
 
 div.tile-summary {
-    display: table;
+    position: relative;
+    top: -54px;
+    left: 0px;
+    z-index: 100000;
     font-size: 12px;
     text-align: left;
-    padding: 5px 10px;    
+    background-color: black;
+    opacity: 0.9;
+    height: 50px;
+    overflow: hidden;
+    font-family: sans-serif;
+    
 }
 div.tile-summary div.tile-peel {
     display: table-cell;
@@ -1399,19 +1413,19 @@ div.tile-summary div.tile-peel a {
 
 div.tile-summary div.flier-title {
     font-weight: bold;
-    font-size: 13PX;
+    font-size: 10PX;
     line-height: 14px;
 }
 
 div.tile-summary div.flier-locality {
-    color: rgb(114, 114, 114);
+    color: white
     font-size: 12px;
     padding: 5px 5px 5px 0;
 }
 
 div.tile-summary div.flier-locality a{
-    color: rgb(114, 114, 114);
-    font-size: 13px;
+    color: white;
+    font-size: 12px;
 }
 
 body#board-page div.tile-summary div.flier-locality {
