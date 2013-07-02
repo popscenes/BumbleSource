@@ -23,12 +23,13 @@ namespace PostaFlya.Areas.MobileApi.Flyers.Query
 
             var bydate = from f in flyers
                          from fd in f.EventDates
-
+                         where fd >= argument.Start && fd < argument.End
                          select new {f.Id, fd.Date}
                          into s
                          group s by s.Date
                          into g
                          orderby g.Key
+                         
                          select new FlyersByDateContent.FlyersByDate()
                              {
                                  Date = g.Key,

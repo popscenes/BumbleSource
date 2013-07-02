@@ -35,7 +35,7 @@ namespace PostaFlya.Areas.MobileApi.Flyers.Model
 
             target.Id = source.Id;
             target.FriendlyId = source.FriendlyId;
-            target.Image = _queryChannel.Query(new FindByIdQuery<Image>() {Id = source.Id}, new ImageModel());
+            target.Image = _queryChannel.Query(new FindByIdQuery<Image>() {Id = source.Image.ToString()}, new ImageModel());
             target.Title = source.Title;
             target.EventDates = source.EventDates;
             target.VenueBoard = _queryChannel.Query(new GetFlyerVenueBoardQuery() {FlyerId = source.Id},

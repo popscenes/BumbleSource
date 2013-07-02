@@ -7,8 +7,7 @@ namespace PostaFlya.Areas.MobileApi.Flyers.Model
 {
 
     public class FlyersByDateContent
-    {
-        public Dictionary<string, FlyerSummaryModel> Flyers { get; set; }
+    {      
         public List<FlyersByDate> Dates { get; set; }
         public class FlyersByDate
         {
@@ -16,5 +15,6 @@ namespace PostaFlya.Areas.MobileApi.Flyers.Model
             public List<string> FlyerIds { get; set; } 
         }
 
+        public Dictionary<string, FlyerSummaryModel> Flyers { get; set; }
     }
 }
