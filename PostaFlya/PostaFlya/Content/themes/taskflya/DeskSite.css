@@ -1399,6 +1399,7 @@ div.tile-summary {
     height: 50px;
     overflow: hidden;
     font-family: sans-serif;
+    padding-left: 8px;
     
 }
 div.tile-summary div.tile-peel {
@@ -1413,8 +1414,14 @@ div.tile-summary div.tile-peel a {
 
 div.tile-summary div.flier-title {
     font-weight: bold;
-    font-size: 10PX;
+    font-size: 12PX;
     line-height: 14px;
+    overflow: hidden;
+    height: 12px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 120px;
+    margin-top: 12px;
 }
 
 div.tile-summary div.flier-locality {
@@ -1426,6 +1433,7 @@ div.tile-summary div.flier-locality {
 div.tile-summary div.flier-locality a{
     color: white;
     font-size: 12px;
+    text-decoration: none;
 }
 
 body#board-page div.tile-summary div.flier-locality {
