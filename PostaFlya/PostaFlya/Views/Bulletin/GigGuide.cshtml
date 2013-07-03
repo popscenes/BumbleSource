@@ -1,5 +1,6 @@
 ﻿
 @using System.Web.Optimization
+@using PostaFlya.Domain.Behaviour
 @using PostaFlya.Models
 @model PostaFlya.Models.Flier.BulletinBoardPageModel
 
@@ -18,8 +19,11 @@
     WebConstants.SetViewBagForLocationPicker(ViewBag);
 }
 
-@Html.Partial("Bulletin/BulletinTileViewsPartial")
-@Html.Partial("Bulletin/BulletinList", Model.Fliers)
+
+@Html.Partial("Bulletin/DetailTileTemplates")
+@Html.Partial("SelectedItemDetailViewPartial")  
+
+@Html.Partial("Bulletin/GigListByDatePartial", Model.Fliers)
 
 
 

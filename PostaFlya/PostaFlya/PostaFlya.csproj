@@ -617,6 +617,8 @@
     <Content Include="humans.txt" />
     <Content Include="Content\themes\taskflya\fonts\DIN.ttf" />
     <Content Include="Content\themes\taskflya\fonts\DIN-Black.ttf" />
+    <Content Include="Areas\Default\Views\Bulletin\SummaryTileTemplateNew.cshtml" />
+    <Content Include="Areas\Default\Views\Bulletin\SummaryTileNew.cshtml" />
     <None Include="Microsoft.WindowsAzure.Caching\ClientPerfCountersInstaller.exe">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -659,6 +661,7 @@
     <Content Include="Scripts\Bulletin\BoardSearchPage.js" />
     <Content Include="Scripts\Bulletin\BoardWidgetPage.js" />
     <Content Include="Scripts\Bulletin\BulletinLayoutProperties.js" />
+    <Content Include="Scripts\Bulletin\GigGuide.js" />
     <Content Include="Scripts\Bulletin\Detail.js" />
     <Content Include="Scripts\Bulletin\SelectedFlierViewModel.js" />
     <Content Include="Scripts\Base\CreateEditFlier.js" />
@@ -810,7 +813,7 @@
     </Content>
     <Content Include="Views\Shared\Bulletin\DetailTileTemplates.cshtml" />
     <Content Include="WaIISHost.exe.config" />
-    <Content Include="Views\Shared\Bulletin\SelectedBulletinViewPartial.cshtml" />
+    <Content Include="Views\Shared\Bulletin\BulletinTileViewsPartial.cshtml" />
     <Content Include="Views\Profile\Edit.cshtml" />
     <Content Include="Views\Shared\Header\GlobalLeftToolbar.cshtml" />
     <Content Include="Views\Shared\Bulletin\BulletinItems.cshtml" />
@@ -861,6 +864,8 @@
     <Content Include="Views\BoardSearch\Get.cshtml" />
     <Content Include="Views\Shared\Location\VenueSelector.cshtml" />
     <Content Include="Views\Shared\Header\RightLoginPostHeader.cshtml" />
+    <Content Include="Views\Bulletin\GigGuide.cshtml" />
+    <Content Include="Views\Shared\Bulletin\GigListByDatePartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Areas\Default\Binding\" />

@@ -45,7 +45,8 @@
             var route = rootUrl + '(.+@[0-9]{2}-[a-zA-Z]{3}-[0-9]{2})';
             sam.get(route, function () {
                 var flierId = this.params['splat'];
-                
+                if (flierId.indexOf("/") == 0)
+                    flierId = flierId.substring(1);
                 self.getSelectedDetail(this.path, obsViewMod, flierId);
                 _gaq.push(['_trackPageview', this.path]);
             });

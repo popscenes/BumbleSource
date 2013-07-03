@@ -22,12 +22,12 @@ namespace PostaFlya.DataRepository.Search.Query
 
         public List<Flier> Query(FindFlyersByDateAndLocationQuery argument)
         {
-            var startDate = argument.Start.DateTime;
-            var endDate = argument.End.DateTime;
+            var startDate = argument.Start.DateTime.Date;
+            var endDate = argument.End.DateTime.Date;
             if (argument.Start.Offset == TimeSpan.Zero)
             {
-                startDate = argument.Start.UtcDateTime;
-                endDate = argument.End.UtcDateTime;
+                startDate = argument.Start.UtcDateTime.Date;
+                endDate = argument.End.UtcDateTime.Date;
             }
             var ids = _searchService.FindFliersByLocationAndDate(argument.Location, argument.Distance, startDate,
                                                                  endDate);

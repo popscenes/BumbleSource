@@ -1,0 +1,31 @@
+﻿
+@using PostaFlya.Domain.Behaviour
+
+@Html.Partial("~/Areas/Default/Views/Bulletin/SummaryTileTemplateNew.cshtml")
+
+<div class="ui-bulletin-board">
+      
+    <div class="bulletin-showing-div" data-bind="visible: StatusText()">
+        <span data-bind="text: StatusText"></span>
+    </div>   
+    
+                                                                         
+    <div id="bulletinboard" data-bind="foreach: DateSections(), visible: DateSections().length > 0">
+        <div class="giglist-time-line">
+            <ul data-bind="foreach: Dates">
+                <li class="time-line-item" data-bind="text: Datestring, css: {'history':Ishistory, 'current':Iscurrent, 'future':Isfuture}"></li>
+            </ul>
+        </div>
+
+        <div data-bind="template: { name: $root.FlierTemplate, foreach: Flyers }, visible: Flyers.length > 0">
+            
+        </div>    
+
+    </div>
+    <div class="bulletin-loading-div" data-bind="visible: moreFliersPending" id="moreFliersPending">
+        <span>Loading Flyers.....Please wait </span><div class="targetloading"></div>
+    </div>
+    <div class="bulletin-loading-div" data-bind="visible: noMoreFliersText()" id="noMoreFliers" style="display: none;"> 
+        <span data-bind="text:noMoreFliersText"></span>  
+    </div>
+</div>

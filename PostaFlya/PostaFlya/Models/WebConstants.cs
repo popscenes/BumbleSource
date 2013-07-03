@@ -41,6 +41,7 @@ namespace PostaFlya.Models
         #region BulletinPages
 
         public const string BulletinBoardPage = "bulletin-board";
+        public const string GigGuidePage = "gig-guide";
         public const string BulletinDetailPage = "bulletin-detail";
         public const string BoardPage = "board-page";
         public const string BoardSearchPage = "board-search-page";

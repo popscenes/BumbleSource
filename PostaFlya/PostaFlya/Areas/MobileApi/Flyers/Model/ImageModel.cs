@@ -42,7 +42,8 @@ namespace PostaFlya.Areas.MobileApi.Flyers.Model
                     ScaleAxis = d.Orientation.ToString(),
                     UrlExtension = d.UrlExtension
                     
-                }).ToList();
+                }).OrderBy(extension => extension.Height)
+                .ToList();
 
             return target;
         }

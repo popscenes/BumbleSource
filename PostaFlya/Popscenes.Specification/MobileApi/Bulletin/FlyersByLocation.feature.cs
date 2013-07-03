@@ -80,8 +80,8 @@ this.ScenarioSetup(scenarioInfo);
  testRunner.Given("There are 50 flyers within 10 kilometers of the geolocation -37.769, 144.979 with" +
                     " dates starting from 2013-06-29T00:00:00+10:00", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 11
- testRunner.When("I perform a get request for the path mobileapi/gigs/bydate?lat=-37.769&long=144.9" +
-                    "79&distance=10&start=2013-06-29&end=2013-07-02", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.When("I perform a get request for the path mobileapi/gigs/bydate?lat=-37.769&lng=144.97" +
+                    "9&distance=10&start=2013-06-29&end=2013-07-02", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 12
  testRunner.Then("I should receive a http response with a status of 200", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 13
