@@ -15,12 +15,9 @@
 
 @section leftheader
 {
-    <div id="global-left-toolbar">
-        <div class="locSel">                                                           
-        <div class="current-loc" data-bind="click: TryFindLocation"></div>                
-        @Html.Partial("Location/LocationAutocomplete") 
-    </div>
-    </div>   
+
+    @RenderSection("leftheader", required: false)   
+    <span>&nbsp;</span>
 }
 
 @section middleheader

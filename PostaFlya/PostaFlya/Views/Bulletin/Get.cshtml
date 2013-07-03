@@ -9,6 +9,16 @@
     Layout = "~/Views/Shared/_DefaultLayout.cshtml";
 }
 
+@section leftheader
+{
+    <div id="global-left-toolbar">
+        <div class="locSel">                                                           
+        <div class="current-loc" data-bind="click: TryFindLocation"></div>                
+        @Html.Partial("Location/LocationAutocomplete") 
+    </div>
+    </div>   
+}
+
 @section scripts
 {
     @Scripts.Render("~/Script/BulletinDeskJs.js")
