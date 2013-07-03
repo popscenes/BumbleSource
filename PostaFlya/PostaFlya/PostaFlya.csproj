@@ -345,11 +345,14 @@
     <Compile Include="Areas\MobileApi\Flyers\Model\FlyerBoardSummaryModel.cs" />
     <Compile Include="Areas\MobileApi\Flyers\Model\FlyerDetailModel.cs" />
     <Compile Include="Areas\MobileApi\Flyers\Model\FlyerDetailRequest.cs" />
+    <Compile Include="Areas\MobileApi\Flyers\Model\FlyersByFeaturedContent.cs" />
     <Compile Include="Areas\MobileApi\Flyers\Model\FlyersByLatestRequest.cs" />
     <Compile Include="Areas\MobileApi\Flyers\Model\FlyersByLocationRequest.cs" />
-    <Compile Include="Areas\MobileApi\Flyers\Model\FlyerSummaryContent.cs" />
+    <Compile Include="Areas\MobileApi\Flyers\Model\FlyersByDateContent.cs" />
     <Compile Include="Areas\MobileApi\Flyers\Model\FlyerSummaryModel.cs" />
     <Compile Include="Areas\MobileApi\Flyers\Model\ImageModel.cs" />
+    <Compile Include="Areas\MobileApi\Flyers\Query\FindFlyersByDateAndLocationQueryAsContentHandler.cs" />
+    <Compile Include="Areas\MobileApi\Flyers\Query\FindFlyersByFeaturedQueryAsContentHandler.cs" />
     <Compile Include="Areas\MobileApi\Infrastructure\Controller\MobileApiControllerBase.cs" />
     <Compile Include="Areas\MobileApi\Infrastructure\Controller\ResponseContentExtensions.cs" />
     <Compile Include="Areas\MobileApi\Infrastructure\HttpFilters\MobileApiValidationActionFilter.cs" />
@@ -865,7 +868,6 @@
     <Folder Include="Areas\Default\Models\Bulletin\" />
     <Folder Include="Areas\Default\Views\Shared\" />
     <Folder Include="Areas\HelpPage\Views\Shared\" />
-    <Folder Include="Areas\MobileApi\Flyers\Query\" />
     <Folder Include="Areas\MobileApi\Models\" />
     <Folder Include="Attributes\" />
     <Folder Include="Properties\PublishProfiles\" />

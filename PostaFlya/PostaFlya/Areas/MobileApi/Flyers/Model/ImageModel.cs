@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using Website.Application.Binding;
 using Website.Application.Content;
+using Website.Application.Domain.Content;
 using Website.Common.Model;
 using Website.Domain.Content;
 
@@ -24,7 +25,17 @@ namespace PostaFlya.Areas.MobileApi.Flyers.Model
                 target = new ImageModel();
             
             target.BaseUrl = _blobStorage.GetBlobUri(source.Id).ToString();
-            target.Extensions = source.AvailableDimensions.Select(d => new ImageModel.Extension()
+            target.Extensions = source.AvailableDimensions
+                .Where(dimension => 
+                    (dimension.Orientation == 
+                    ThumbOrientation.Square
+                    && (dimension.Width == (int) ThumbSize.S150 || dimension.Width == (int) ThumbSize.S300))
+                    ||
+                    (dimension.Orientation == ThumbOrientation.Horizontal && dimension.Width == (int) ThumbSize.S450)
+                    ||
+                    (dimension.UrlExtension == ImageUtil.GetIdFileExtension())
+                    )
+                .Select(d => new ImageModel.Extension()
                 {
                     Width = d.Width,
                     Height = d.Height,

@@ -143,6 +143,7 @@ namespace Website.Azure.Common.Sql
         public const string DbGeography = "geography";
         public const string DbLong = "bigint";
         public const string DbDateTime = "datetime2";
+        public const string DbBit = "bit";
 
         public static readonly Dictionary<Type, string> TypeToDbColTypeDictionary
             = new Dictionary<Type, string>()
@@ -155,7 +156,8 @@ namespace Website.Azure.Common.Sql
                       {typeof(SqlXml), DbXml},
                       {typeof(SqlGeography), DbGeography},  
                       {typeof(long), DbLong},  
-                      {typeof(DateTime), DbDateTime},                    
+                      {typeof(DateTime), DbDateTime},
+                      {typeof(bool), DbBit},  
                   };
 
         public static readonly Dictionary<Type, SqlDbType> TypeToDbTypeDictionary
@@ -169,7 +171,8 @@ namespace Website.Azure.Common.Sql
                       {typeof(DateTime), SqlDbType.DateTime2},
                       {typeof(SqlXml), SqlDbType.Xml},
                       {typeof(SqlGeography), SqlDbType.Udt},  
-                      {typeof(long), SqlDbType.BigInt},                                            
+                      {typeof(long), SqlDbType.BigInt}, 
+                      {typeof(bool), SqlDbType.Bit},                      
                   };
 
 

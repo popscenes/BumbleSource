@@ -77,43 +77,18 @@ namespace Popscenes.Specification.MobileApi.Bulletin
 #line 9
 this.ScenarioSetup(scenarioInfo);
 #line 10
- testRunner.Given("There are 50 flyers within 10 kilometers of the geolocation -37.769, 144.979", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+ testRunner.Given("There are 50 flyers within 10 kilometers of the geolocation -37.769, 144.979 with" +
+                    " dates starting from 2013-06-29T00:00:00+10:00", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 11
- testRunner.When("I perform a get request for the path mobileapi/gigs/near?lat=-37.769&long=144.979" +
-                    "&distance=10&take=30", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.When("I perform a get request for the path mobileapi/gigs/bydate?lat=-37.769&long=144.9" +
+                    "79&distance=10&start=2013-06-29&end=2013-07-02", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 12
  testRunner.Then("I should receive a http response with a status of 200", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 13
  testRunner.And("The content should have a response status of OK", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 14
- testRunner.And("The content should contain a list of 30 flyers within 10 kilometers of -37.769, 1" +
-                    "44.979", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line hidden
-            this.ScenarioCleanup();
-        }
-        
-        [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("Mobile Api flyers by location pages to next flyers")]
-        public virtual void MobileApiFlyersByLocationPagesToNextFlyers()
-        {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Mobile Api flyers by location pages to next flyers", ((string[])(null)));
-#line 16
-this.ScenarioSetup(scenarioInfo);
-#line 17
- testRunner.Given("There are 50 flyers within 10 kilometers of the geolocation -37.769, 144.979", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 18
- testRunner.And("I have retrieved the first 30 flyers within 10 kilometers of -37.769, 144.979 usi" +
-                    "ng mobileapi/gigs/near?lat={0}&long={1}&distance={2}&take={3}", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 19
- testRunner.When("I attempt to retrieve the next 30 flyers within 10 kilometers of -37.769, 144.979" +
-                    " using mobileapi/gigs/near?lat={0}&long={1}&distance={2}&take={3}&skip={4}", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 20
- testRunner.Then("I should receive a http response with a status of 200", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 21
- testRunner.And("The content should have a response status of OK", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 22
- testRunner.And("The content should contain a list of 20 flyers within 10 kilometers of -37.769, 1" +
-                    "44.979", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("The content should contain a list of flyers within 10 kilometers of -37.769, 144." +
+                    "979 in the date range 2013-06-29T00:00:00+10:00 to 2013-07-02T00:00:00+10:00", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             this.ScenarioCleanup();
         }
