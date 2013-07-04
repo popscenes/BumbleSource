@@ -8,7 +8,7 @@ Feature: FlyersByLocationFeature
 
 Scenario: Mobile Api flyers by location with valid location returns all fliers within specified distance
 	Given There are 50 flyers within 10 kilometers of the geolocation -37.769, 144.979 with dates starting from 2013-06-29T00:00:00+10:00
-	When I perform a get request for the path mobileapi/gigs/bydate?lat=-37.769&long=144.979&distance=10&start=2013-06-29&end=2013-07-02
+	When I perform a get request for the path mobileapi/gigs/bydate?lat=-37.769&lng=144.979&distance=10&start=2013-06-29&end=2013-07-02
 	Then I should receive a http response with a status of 200
 	And The content should have a response status of OK
 	And The content should contain a list of flyers within 10 kilometers of -37.769, 144.979 in the date range 2013-06-29T00:00:00+10:00 to 2013-07-02T00:00:00+10:00

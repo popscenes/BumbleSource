@@ -1,0 +1,29 @@
+﻿
+@model PostaFlya.Areas.MobileApi.Flyers.Model.FlyerSummaryModel
+
+
+<div class="ui-flier-tile" data-bind="click: $root.SelectedViewModel.showDetails">     
+    
+    <div class="tile-image">
+        <img class="tile-img bulletin-img" 
+             data-bind="style: { width: Image.Width, height: Image.Height }
+                , attr: { src: Image.FlierImageUrl, alt: Title }, imgRetry: Image.FlierImageUrl"/>
+    </div>
+    
+    <div class="tile-summary">
+      
+        <div class="tile-description">
+            <div class="flier-title" >
+                <span data-bind="text: Title"></span>
+            </div>      
+            <div class="flier-locality">
+                <a data-bind="click: function () { return true; }, clickBubble: false, attr: { href: (bf.widgetbase ? bf.widgetbase : '') + '/' + VenueBoard.FriendlyId }, text: VenueBoard.BoardName">
+                    
+                </a>        
+            </div>
+        </div>
+
+    </div>
+        
+</div>
+

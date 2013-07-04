@@ -12,7 +12,7 @@ namespace PostaFlya.Areas.MobileApi.Flyers.Model
     {
         public FlyersByLocationRequest()
         {
-            Distance = 5;
+            Distance = 15;
         }
 
         [Range(-90.0, 90.0)]
@@ -23,16 +23,16 @@ namespace PostaFlya.Areas.MobileApi.Flyers.Model
         [Range(-180.0, 180.0)]
         [Required(ErrorMessageResourceName = "Required", ErrorMessageResourceType = typeof(Properties.Resources))]
         [DataMember(IsRequired = true)]
-        public double Long { get; set; }
+        public double Lng { get; set; }
 
         [Range(0, 30)]
-        [DataMember(IsRequired = true)]      
+        [DataMember(IsRequired = false)]      
         public int Distance { get; set; }
 
-        [DataMember(IsRequired = true)] 
+        [DataMember(IsRequired = false)] 
         public DateTimeOffset Start { get; set; }
 
-        [DataMember(IsRequired = true)]
+        [DataMember(IsRequired = false)]
         public DateTimeOffset End { get; set; }
     }
 }

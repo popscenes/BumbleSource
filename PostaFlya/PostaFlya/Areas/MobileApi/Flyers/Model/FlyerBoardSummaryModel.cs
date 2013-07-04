@@ -28,6 +28,7 @@ namespace PostaFlya.Areas.MobileApi.Flyers.Model
             target.Location = source.Venue() != null ? source.Venue().Address.ToViewModel() : null;
             target.BoardId = source.Id;
             target.BoardName = source.Name;
+            target.FriendlyId = source.FriendlyId;
 
             return target;
 
@@ -44,5 +45,8 @@ namespace PostaFlya.Areas.MobileApi.Flyers.Model
 
         [DataMember]
         public LocationModel Location { get; set; }
+
+        [DataMember]
+        public string FriendlyId { get; set; }
     }
 }
