@@ -25,12 +25,13 @@ namespace PostaFlya.Areas.MobileApi.Flyers.Controllers
 
         public ResponseContent<FlyersByDateContent> Get([FromUri]FlyersByLocationRequest req)
         {
+            var start = req.Start != default(DateTimeOffset) ? req.Start : DateTimeOffset.UtcNow;
             var content = _queryChannel.Query(new FindFlyersByDateAndLocationQuery()
                 {
                     Location = new Location(req.Lng, req.Lat),
                     Distance = req.Distance,
-                    Start = req.Start != default(DateTimeOffset) ? req.Start : DateTimeOffset.UtcNow,
-                    End = req.End != default(DateTimeOffset) ? req.End : DateTimeOffset.UtcNow.AddDays(4)
+                    Start = start,
+                    End = req.End != default(DateTimeOffset) ? req.End : start.AddDays(4)
                 }, new FlyersByDateContent());
 
             return ResponseContent<FlyersByDateContent>.GetResponse(content);

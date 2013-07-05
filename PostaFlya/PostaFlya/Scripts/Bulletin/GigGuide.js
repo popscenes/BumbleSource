@@ -21,6 +21,7 @@
 
         var currentLocation = new bf.LocationModel(currentBrowser.LastSearchedLocation);
         self.Location = ko.observable(currentLocation);
+        self.StartDate = ko.observable(null);
 
         self.CreateFlier = ko.observable();
         
@@ -37,6 +38,10 @@
                 lat: loc.Latitude,
                 lng: loc.Longitude        
             };
+            
+            if (self.StartDate() != null) {
+                params.Start = self.StartDate();
+            }
 
             return params;
         };
@@ -85,12 +90,14 @@
                      }
 
                      next.Date = new Date(next.Date);
+                     next.DateLink = next.Date.format("DDMMMYYYY");
                      next.Dates = [];
                      for (var d = -2; d <= 2; d++) {
                          var pickDate = new Date(next.Date);
                          pickDate.setDate(pickDate.getDate() + d);
                          next.Dates.push({
                              Datestring: pickDate.format("DDD DD MMM"),
+                             DateLink: '#' + pickDate.format("DDMMMYYYY"),
                              Date: pickDate,
                              Ishistory: i < 0,
                              Iscurrent: i == 0,
@@ -109,7 +116,15 @@
              });
 
         };
-        
+
+        self.navigateToDate = function(dateData) {
+            if ($(dateData.DateLink).length > 0)
+                return true;
+
+            self.DateSections.removeAll();
+            self.StartDate(dataData.Date);
+
+        };
 
         self.TryFindLocation = function() {
             bf.getCurrentPosition(function (position, status) {
