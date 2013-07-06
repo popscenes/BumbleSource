@@ -92,6 +92,29 @@
               : ret;
         });
     };
+    
+    function pad(number) {
+        var r = String(number);
+        if (r.length === 1) {
+            r = '0' + r;
+        }
+        return r;
+    }
+    
+    Date.prototype.toISOOffsetString = function () {
+        var ret = this.getUTCFullYear()
+            + '-' + pad(this.getMonth() + 1)
+            + '-' + pad(this.getDate())
+            + 'T' + pad(this.getHours())
+            + ':' + pad(this.getMinutes())
+            + ':' + pad(this.getSeconds())
+            + '.' + String((this.getMilliseconds() / 1000).toFixed(3)).slice(2, 5)
+            + (this.getTimezoneOffset() <= 0 ? '+' : '-')
+            + pad((Math.abs(this.getTimezoneOffset() / 60)))
+            + ':' + pad((this.getTimezoneOffset() % 60));
+        return ret;
+    };
+
 })();
 
 

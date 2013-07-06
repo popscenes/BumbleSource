@@ -21,7 +21,6 @@
 
         var currentLocation = new bf.LocationModel(currentBrowser.LastSearchedLocation);
         self.Location = ko.observable(currentLocation);
-        self.StartDate = ko.observable(null);
 
         self.CreateFlier = ko.observable();
         
@@ -32,17 +31,33 @@
             return '/mobileapi/gigs/bydate';
         };
 
+        function getDateFromHash() {
+            var parts = window.location && window.location.hash && window.location.hash.slice(1).split("-");
+            if (parts && parts.length >= 3) {
+
+                var date = new Date();
+                if (parts[2])
+                    date.setFullYear(parts[2]);
+                if (parts[1])
+                    date.setMonth(parts[1] - 1);
+                if (parts[0])
+                    date.setDate(parts[0]);
+                return date;
+            }
+            return null;
+        }
         self.GetReqArgs = function (nextpage) {
             var loc = ko.mapping.toJS(self.Location());
             var params = {
                 lat: loc.Latitude,
                 lng: loc.Longitude        
             };
-            
-            if (self.StartDate() != null) {
-                params.Start = self.StartDate();
-            }
 
+            var date = getDateFromHash();
+            if (date) {
+                params.Start = date.toISOOffsetString();
+            }
+            
             return params;
         };
         
@@ -90,18 +105,18 @@
                      }
 
                      next.Date = new Date(next.Date);
-                     next.DateLink = next.Date.format("DDMMMYYYY");
+                     next.DateLink = next.Date.format("DD-MM-YYYY");
                      next.Dates = [];
                      for (var d = -2; d <= 2; d++) {
                          var pickDate = new Date(next.Date);
                          pickDate.setDate(pickDate.getDate() + d);
                          next.Dates.push({
                              Datestring: pickDate.format("DDD DD MMM"),
-                             DateLink: '#' + pickDate.format("DDMMMYYYY"),
+                             DateLink: '#' + pickDate.format("DD-MM-YYYY"),
                              Date: pickDate,
-                             Ishistory: i < 0,
-                             Iscurrent: i == 0,
-                             Isfuture: i > 0
+                             Ishistory: d < 0,
+                             Iscurrent: d == 0,
+                             Isfuture: d > 0
                          });
                      }
 
@@ -122,8 +137,8 @@
                 return true;
 
             self.DateSections.removeAll();
-            self.StartDate(dataData.Date);
-
+            window.location.hash = dateData.DateLink;
+            self.Request();
         };
 
         self.TryFindLocation = function() {
@@ -151,7 +166,7 @@
 
         self.setNoMoreFlyas = function() {
             var nomore = 'No';
-            if (self.fliers().length) {
+            if (self.DateSections().length) {
                 nomore += ' more';
             }
             nomore += ' gigs';
@@ -159,17 +174,21 @@
             if (locality) {
                 nomore += ' around ' + locality;
             }
+            
+            var date = getDateFromHash() || new Date();
+            nomore += ' on ' + date.format("DDD DD MMM");
+            
+
             nomore += '!';
             
             self.noMoreFliersText(nomore);
 
         };
         
-        bf.dateFilter(self, self.fliterDate);
 
         self.StatusText = ko.computed(function () {           
             
-            if (self.moreFliersPending() || (self.noMoreFliersText() && self.fliers().length == 0))
+            if (self.moreFliersPending() || (self.noMoreFliersText() && self.DateSections().length == 0))
                 return '';
 
 
