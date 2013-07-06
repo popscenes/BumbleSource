@@ -53,7 +53,7 @@ namespace PostaFlya.Controllers
 
         public ActionResult Loc([FromUri]LocationModel loc, string id)
         {
-            var flier = _queryChannel.Query(new FindByFriendlyIdQuery() { FriendlyId = id.Trim('/') }, (Flier)null);
+            var flier = _queryChannel.Query(new FindByFriendlyIdQuery<Flier>() { FriendlyId = id.Trim('/') }, (Flier)null);
 
             if(flier == null)
                 return new HttpStatusCodeResult(HttpStatusCode.NotFound);

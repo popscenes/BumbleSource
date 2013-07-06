@@ -14,7 +14,7 @@ namespace Website.Domain.Browser.Query
 
             int counter = 0;
             BrowserInterface brows = null;
-            while ((brows = queryService.Query(new FindByFriendlyIdQuery(){FriendlyId = tryHandle}, (Browser)null)) != null 
+            while ((brows = queryService.Query(new FindByFriendlyIdQuery<Browser>(){FriendlyId = tryHandle}, (Browser)null)) != null 
                 && brows.Id != id)
             {
                 if (counter == 0 && Char.IsDigit(tryHandle[tryHandleBase.Length - 1]))

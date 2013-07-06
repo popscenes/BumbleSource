@@ -97,7 +97,7 @@ namespace PostaFlya.DataRepository.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to FindFlyersByByBoardAndDate.
+        ///   Looks up a localized string similar to FindFlyersByBoard.
         /// </summary>
         internal static string SqlSearchFlyersByByBoardAndDate {
             get {

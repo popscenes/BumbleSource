@@ -25,7 +25,7 @@ namespace PostaFlya.Domain.Flier.Query
             Flier flierFind = null;
 
             if (queryChannel != null && 
-                (flierFind = queryChannel.Query(new FindByFriendlyIdQuery() { FriendlyId = tryTitle }, (Flier)null)) != null
+                (flierFind = queryChannel.Query(new FindByFriendlyIdQuery<Flier>() { FriendlyId = tryTitle }, (Flier)null)) != null
                 && flierFind.Id != targetFlier.Id)
             {
                 var board = queryChannel.Query(new FindByIdQuery<Board>() {Id = targetFlier.Boards.FirstOrDefault().BoardId}, (Board) null);
@@ -46,7 +46,7 @@ namespace PostaFlya.Domain.Flier.Query
 
 
             var counter = 0;
-            while ((flierFind = queryChannel.Query(new FindByFriendlyIdQuery() { FriendlyId = tryTitle }, (Flier)null)) != null
+            while ((flierFind = queryChannel.Query(new FindByFriendlyIdQuery<Flier>() { FriendlyId = tryTitle }, (Flier)null)) != null
                 && flierFind.Id != targetFlier.Id)
             {
                 tryTitle = (counter++) + "-" + tryTitleBase;

@@ -1749,19 +1749,23 @@ ul.time-line li {
     padding: 0 10px 0 10px;
 }
 
-ul.time-line li a{
-    color: #ffffff;
-    text-decoration: none;
-}
 
-ul.time-line li a{
-    color: #ffffff;
-    text-decoration: none;
-}
-ul.time-line li a.history{
+ul.time-line li a.date-nav-link{
     color: #bbbbbb;
     text-decoration: none;
 }
+
+ul.time-line li a.date-nav-link.current{
+    font-weight: bold;
+    color: #ffffff;
+}
+
+/*
+ul.time-line li a.date-nav-link.history{
+    color: #bbbbbb;
+    text-decoration: none;
+}
+*/
 
 
 @media only screen and (max-width: 880px) {

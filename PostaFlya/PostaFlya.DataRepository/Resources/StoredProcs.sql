@@ -261,6 +261,96 @@ end
 GO
 
 --CONTEXT=PostaFlya.DataRepository.Search.SearchRecord.BoardFlierSearchRecord
+if not exists (select * from sys.objects where type = 'P' AND name = 'FindFlyersByBoard')
+   exec('create procedure FindFlyersByBoard as begin SET NOCOUNT ON; end')
+GO
+
+--CONTEXT=PostaFlya.DataRepository.Search.SearchRecord.BoardFlierSearchRecord
+alter procedure FindFlyersByBoard
+		@board uniqueidentifier,
+		@startdate datetime2 = null,
+		@enddate datetime2 = null,
+		@isUtc bit = 0,
+		@xpath nvarchar(1000) = null
+as
+begin
+
+declare @SQL nvarchar(4000);
+declare @ParameterDefinition nvarchar(4000);
+
+select	@ParameterDefinition = '
+	@boardParam uniqueidentifier,
+	@startdateParam datetime2,
+	@enddateParam datetime2,
+	@xpathParam nvarchar(400) = null
+';
+
+select	@SQL = N'
+		select 
+		fr.[BoardId]
+		,fr.[DateAdded]
+		,fr.[BoardStatus]
+		,fr.[FlierId] as [Id]
+		,fr.[Location]
+		,fr.[NumberOfClaims]
+		,fr.[EffectiveDate]
+		,fr.[CreateDate]
+		,fr.[Tags]
+		,fr.[Status]
+		';
+
+select @SQL = @SQL + N', fr.SortOrder as SortOrder' 
+
+select	@SQL = @SQL + N' 
+			from BoardFlierSearchRecord fr
+		';
+
+select @SQL = @SQL + N'
+		left outer join BoardFlierDateSearchRecord ed on ed.Id = fr.Id
+		';
+
+select @SQL = @SQL + N'							
+		where fr.BoardId = @boardParam AND fr.BoardStatus = 2 and (fr.Status is null or fr.Status = 1)
+';
+
+
+
+if @xpath is not null
+		select @SQL = @SQL + N'
+		and fr.Tags.exist(''' + @xpath + ''') > 0
+		';
+
+if @isUtc = 0 
+	begin
+			select @SQL = @SQL + N'
+			and CAST(ed.EventDate as datetime2) >= @startdateParam
+			and CAST(ed.EventDate as datetime2) < @enddateParam
+			';
+	end
+else
+	begin
+			select @SQL = @SQL + N'
+			and CONVERT(datetime2, ed.EventDate, 1) >= @startdateParam
+			and CONVERT(datetime2, ed.EventDate, 1) < @enddateParam
+			';
+	end
+	
+
+select @SQL = @SQL + N' order by SortOrder desc' 
+
+		
+exec sp_executeSQL 
+	@SQL,
+	@ParameterDefinition,
+	@boardParam = @board,
+	@xpathParam = @xpath,
+	@startdateParam = @startdate,
+	@enddateParam = @enddate;
+end
+
+GO
+
+--CONTEXT=PostaFlya.DataRepository.Search.SearchRecord.BoardFlierSearchRecord
 if not exists (select * from sys.objects where type = 'P' AND name = 'FindFliersByBoard2')
    exec('create procedure FindFliersByBoard2 as begin SET NOCOUNT ON; end')
 GO
@@ -413,6 +503,9 @@ exec sp_executeSQL
 end
 
 GO
+
+
+
 
 --CONTEXT=PostaFlya.DataRepository.Search.SearchRecord.BoardSearchRecord
 if not exists (select * from sys.objects where type = 'P' AND name = 'FindNearbyBoards')

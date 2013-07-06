@@ -53,7 +53,7 @@
 })(window, jQuery);
 
 // Date.prototype.format() - By Chris West - MIT Licensed
-(function () {
+(function (window) {
     var D = "Sunday,Monday,Tuesday,Wednesday,Thursday,Friday,Saturday".split(","),
         M = "January,February,March,April,May,June,July,August,September,October,November,December".split(",");
     Date.prototype.format = function (format) {
@@ -115,6 +115,23 @@
         return ret;
     };
 
-})();
+
+    bf.getDateFromHash = function() {
+        var parts = window.location && window.location.hash && window.location.hash.slice(1).split("-");
+        if (parts && parts.length >= 3) {
+
+            var date = new Date();
+            if (parts[2])
+                date.setFullYear(parts[2]);
+            if (parts[1])
+                date.setMonth(parts[1] - 1);
+            if (parts[0])
+                date.setDate(parts[0]);
+            return date;
+        }
+        return null;
+    };
+
+})(window);
 
 

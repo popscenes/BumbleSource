@@ -121,7 +121,7 @@ namespace PostaFlya.Controllers
         [NonAction]
         public static DefaultDetailsViewModel GetDetail(string id, QueryChannelInterface queryChannel)
         {
-            var flier = queryChannel.Query(new FindByFriendlyIdQuery() { FriendlyId = id }, (DefaultDetailsViewModel)null);
+            var flier = queryChannel.Query(new FindByFriendlyIdQuery<Flier>() { FriendlyId = id }, (DefaultDetailsViewModel)null);
 
             if (flier == null)
             {
@@ -148,7 +148,7 @@ namespace PostaFlya.Controllers
             var skip = string.IsNullOrWhiteSpace(skipPast) ? null : flierQueryService.FindById<Flier>(skipPast);
             if (!string.IsNullOrWhiteSpace(board))
             {
-                var found = queryChannel.Query(new FindByFriendlyIdQuery() { FriendlyId = board }, (Board)null);
+                var found = queryChannel.Query(new FindByFriendlyIdQuery<Board>() { FriendlyId = board }, (Board)null);
                 board = found != null ? found.Id : board;
             }
 

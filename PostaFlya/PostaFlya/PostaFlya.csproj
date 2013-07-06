@@ -339,19 +339,21 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Areas\MobileApi\App_Start\MobileApiConfig.cs" />
+    <Compile Include="Areas\MobileApi\Flyers\Controllers\FlyersByBoardController.cs" />
     <Compile Include="Areas\MobileApi\Flyers\Controllers\FlyerDetailController.cs" />
     <Compile Include="Areas\MobileApi\Flyers\Controllers\FlyersByFeaturedController.cs" />
     <Compile Include="Areas\MobileApi\Flyers\Controllers\FlyersByLocationController.cs" />
     <Compile Include="Areas\MobileApi\Flyers\Model\FlyerBoardSummaryModel.cs" />
     <Compile Include="Areas\MobileApi\Flyers\Model\FlyerDetailModel.cs" />
     <Compile Include="Areas\MobileApi\Flyers\Model\FlyerDetailRequest.cs" />
+    <Compile Include="Areas\MobileApi\Flyers\Model\FlyersByBoardRequest.cs" />
     <Compile Include="Areas\MobileApi\Flyers\Model\FlyersByFeaturedContent.cs" />
     <Compile Include="Areas\MobileApi\Flyers\Model\FlyersByLatestRequest.cs" />
     <Compile Include="Areas\MobileApi\Flyers\Model\FlyersByLocationRequest.cs" />
     <Compile Include="Areas\MobileApi\Flyers\Model\FlyersByDateContent.cs" />
     <Compile Include="Areas\MobileApi\Flyers\Model\FlyerSummaryModel.cs" />
     <Compile Include="Areas\MobileApi\Flyers\Model\ImageModel.cs" />
-    <Compile Include="Areas\MobileApi\Flyers\Query\FindFlyersByDateAndLocationQueryAsContentHandler.cs" />
+    <Compile Include="Areas\MobileApi\Flyers\Query\ToFlyersByDateContentQueryHandler.cs" />
     <Compile Include="Areas\MobileApi\Flyers\Query\FindFlyersByFeaturedQueryAsContentHandler.cs" />
     <Compile Include="Areas\MobileApi\Infrastructure\Controller\MobileApiControllerBase.cs" />
     <Compile Include="Areas\MobileApi\Infrastructure\Controller\ResponseContentExtensions.cs" />
@@ -446,7 +448,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Query\DefaultDetailsFindFindByFriendlyIdQueryHandler.cs" />
     <Compile Include="RemoveWwwRedirectFilter.cs" />
     <Compile Include="Views\Account\Bundles.cs" />
     <Compile Include="Views\Board\Widget\WidgetBundles.cs" />
@@ -643,6 +644,7 @@
     <Content Include="Scripts\Base\CreateFlierInstance.js" />
     <Content Include="Scripts\Base\dateFilter.js" />
     <Content Include="Scripts\Base\facebook.js" />
+    <Content Include="Scripts\Base\GigGuideMixin.js" />
     <Content Include="Scripts\Base\PageDefaultAction.js" />
     <Content Include="Scripts\Base\PageInit.js" />
     <Content Include="Scripts\Base\ErrorHandling.js" />
@@ -876,6 +878,7 @@
     <Folder Include="Areas\MobileApi\Models\" />
     <Folder Include="Attributes\" />
     <Folder Include="Properties\PublishProfiles\" />
+    <Folder Include="Query\" />
     <Folder Include="Scripts\plupload\jquery.plupload.queue\css\" />
     <Folder Include="Scripts\plupload\jquery.plupload.queue\img\" />
     <Folder Include="Scripts\Widget\" />

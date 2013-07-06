@@ -104,7 +104,7 @@ namespace PostaFlya.DataRepository.Tests
         public void FindByFriendlyIdForBrowserAggreagateReturnsBrowser()
         {
             var brows = StoreBrowserRepository();
-            var res = _queryChannel.Query(new FindByFriendlyIdQuery() {FriendlyId = brows.FriendlyId}, (Browser) null);
+            var res = _queryChannel.Query(new FindByFriendlyIdQuery<Browser>() {FriendlyId = brows.FriendlyId}, (Browser) null);
             Assert.That(res, Is.Not.Null);
             Assert.That(res.Id, Is.EqualTo(brows.Id));
         }
