@@ -334,14 +334,7 @@ div#create-flier-item-div {
     padding: 20px;
     left: 50%;
 }
-div#selected-item-div {
-    position: absolute;
-    z-index: 1751;
-    padding: 20px;
-    width: 100%;
-    height: 100%;
-    
-}
+
 
 div#create-flier-item-div {
     z-index: 1851;

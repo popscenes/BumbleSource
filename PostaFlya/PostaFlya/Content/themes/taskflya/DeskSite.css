@@ -1389,8 +1389,7 @@ div.tile-image {
 div.tile-summary {
     position: relative;
     top: -54px;
-    left: 0px;
-    z-index: 100000;
+    left: 0;
     font-size: 12px;
     text-align: left;
     background-color: black;
@@ -1512,36 +1511,8 @@ p#copyright {
 
 /***default detail view layout***/
 
-.flier-view {
-
-}
-
-.flier-view .flier-details {
-    
-}
-
-.flier-view .flier-details .flier-img {
-    text-align: center;
-}
-
-.flier-view div.tear-off {
-    text-align: center;
-}
-
-.flier-view div.flier-contact-dets{
-    text-align: center;
-}
-
-.flier-view div.flier-event-dates {
-    text-align: center;
-}
-
 .flier-view .flier-details .flier-img img {
     width: 450px;
-}
-
-.flier-view .flier-details .flier-claims-comments{
-    
 }
 
 .flier-view .flier-details .flier-claims-comments .claim-stats{
@@ -1550,14 +1521,6 @@ p#copyright {
 
 .flier-view .flier-details .flier-claims-comments .comment-stats{
     display: inline;
-}
-
-.flier-view div.flier-desc {
-    text-align: center;
-}
-
-.flier-view .comments {
-    
 }
 
 .flier-view .claims {
@@ -1569,39 +1532,48 @@ p#copyright {
     list-style: none;
 }
 
-
-
-
-
 .get-flier-detail-div {
-    padding: 4%;
+    padding: 20px;
+    padding-left: 140px;
     margin: 0 auto 0;
     color: white;
     margin-top: 15px;
 }
 
-.get-flier-detail-div .flier-details {
-    float: left;   
+div#selected-item-div {
+    position: absolute;
+    z-index: 1751;
+    padding: 20px;
+    padding-left: 140px;
+    width: 100%;
+    height: 100%;
+    
 }
 
-.get-flier-detail-div .flier-img {
-    float: left;
-    margin-right: 50px;
+    .flier-view-default .flier-img {
+        float: left;
+        width: 200px;
+    }
+
+    .flier-view-default .flier-details {
+        float: left;
+        width: 420px;   
+    }
+
+
+
+.flier-view h3 {
+    border: 0;
 }
 
-.get-flier-detail-div h3 {
-    text-decoration: none;
+.event-dates-list {
+    margin: 0;
+    padding: 0;
 }
 /***end default detail view layout***/
 
 .terms-of-service-signin {
     font-size: 11px;
-}
-
-.board-header {
-    
-    
-    
 }
 
 .board-links {
