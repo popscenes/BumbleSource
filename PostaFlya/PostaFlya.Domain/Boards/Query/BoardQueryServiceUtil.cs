@@ -18,7 +18,7 @@ namespace PostaFlya.Domain.Boards.Query
             Board boardFind = null;
 
             if (queryChannel != null && 
-                ( boardFind = queryChannel.Query(new FindByFriendlyIdQuery() { FriendlyId = tryName }, (Board)null)) != null
+                ( boardFind = queryChannel.Query(new FindByFriendlyIdQuery<Board>() { FriendlyId = tryName }, (Board)null)) != null
                 && boardFind.Id != targetBoard.Id)
             {
                 if (targetBoard.BoardTypeEnum != BoardTypeEnum.InterestBoard 
@@ -37,7 +37,7 @@ namespace PostaFlya.Domain.Boards.Query
 
 
             var counter = 0;
-            while ((boardFind = queryChannel.Query(new FindByFriendlyIdQuery() { FriendlyId = tryName }, (Board)null)) != null
+            while ((boardFind = queryChannel.Query(new FindByFriendlyIdQuery<Board>() { FriendlyId = tryName }, (Board)null)) != null
                 && boardFind.Id != targetBoard.Id)
             {
                 tryName = (counter++) + "-" + tryNameBase;

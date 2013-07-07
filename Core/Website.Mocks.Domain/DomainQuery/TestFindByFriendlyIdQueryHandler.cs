@@ -5,7 +5,7 @@ using Website.Infrastructure.Query;
 namespace Website.Mocks.Domain.DomainQuery
 {
     public class TestFindByFriendlyIdQueryHandler<EntityType> : 
-        QueryHandlerInterface<FindByFriendlyIdQuery, EntityType> where EntityType : class, AggregateRootInterface, new()
+        QueryHandlerInterface<FindByFriendlyIdQuery<EntityType>, EntityType> where EntityType : class, AggregateRootInterface, new()
     {
         private readonly GenericQueryServiceInterface _queryService;
 
@@ -15,7 +15,7 @@ namespace Website.Mocks.Domain.DomainQuery
             _queryService = queryService;
         }
 
-        public EntityType Query(FindByFriendlyIdQuery argument)
+        public EntityType Query(FindByFriendlyIdQuery<EntityType> argument)
         {
             var all = _queryService.GetAllIds<EntityType>().Select(_queryService.FindById<EntityType>);
             return all.FirstOrDefault(a => a.FriendlyId == argument.FriendlyId);    

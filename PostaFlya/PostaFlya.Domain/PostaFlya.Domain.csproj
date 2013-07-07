@@ -110,6 +110,7 @@
     <Compile Include="Flier\Payment\LeadGenerationFeatureChargeBehaviour.cs" />
     <Compile Include="Flier\Payment\PostFlierFlatFeeChargeBehaivour.cs" />
     <Compile Include="Flier\Payment\PostRadiusFeatureChargeBehaviour.cs" />
+    <Compile Include="Flier\Query\FindFlyersByBoardQuery.cs" />
     <Compile Include="Flier\Query\FindFlyersByDateAndLocationQuery.cs" />
     <Compile Include="Flier\Query\FindFlyersByFeaturedQuery.cs" />
     <Compile Include="Flier\Query\FindFlyersByLocationAndDistanceQuery.cs" />

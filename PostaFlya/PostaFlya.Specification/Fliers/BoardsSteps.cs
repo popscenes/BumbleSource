@@ -68,7 +68,7 @@ namespace PostaFlya.Specification.Fliers
             var board = queryService.FindById<Board>(ScenarioContext.Current["createdboardid"] as string);
             Assert.IsNotNull(board);
 
-            var board2 = queryChannel.Query(new FindByFriendlyIdQuery() {FriendlyId = boardName.ToLower()}, (Board) null);
+            var board2 = queryChannel.Query(new FindByFriendlyIdQuery<Board>() {FriendlyId = boardName.ToLower()}, (Board) null);
             Assert.IsNotNull(board2);
 
             BoardTestData.AssertStoreRetrieve(board, board2);

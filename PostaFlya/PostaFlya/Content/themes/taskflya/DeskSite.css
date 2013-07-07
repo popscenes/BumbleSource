@@ -1745,6 +1745,33 @@ div.trying-to-find-yourloc.alert-box .alert-box-icon {
     background-position: -176px -88px;
 }
 
+ul.time-line {
+    list-style: none; 
+}
+
+ul.time-line li {
+    display: inline-block;
+    padding: 0 10px 0 10px;
+}
+
+
+ul.time-line li a.date-nav-link{
+    color: #bbbbbb;
+    text-decoration: none;
+}
+
+ul.time-line li a.date-nav-link.current{
+    font-weight: bold;
+    color: #ffffff;
+}
+
+/*
+ul.time-line li a.date-nav-link.history{
+    color: #bbbbbb;
+    text-decoration: none;
+}
+*/
+
 
 @media only screen and (max-width: 880px) {
     .long-toolbar .image-btn-text {

@@ -108,7 +108,7 @@ namespace PostaFlya.Models.Board
     }
 
     [DataContract]
-    public class BoardModel
+    public class BoardModel : IsModelInterface
     {
         [DataMember]
         public string Name { get; set; }

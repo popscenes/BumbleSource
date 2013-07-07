@@ -13,23 +13,21 @@ using Website.Infrastructure.Query;
 
 namespace PostaFlya.Areas.MobileApi.Flyers.Controllers
 {
-
-    public class FlyersByLocationController : MobileApiControllerBase
+    public class FlyersByBoardController : MobileApiControllerBase
     {
         private readonly QueryChannelInterface _queryChannel;
 
-        public FlyersByLocationController(QueryChannelInterface queryChannel)
+        public FlyersByBoardController(QueryChannelInterface queryChannel)
         {
             _queryChannel = queryChannel;
         }
 
-        public ResponseContent<FlyersByDateContent> Get([FromUri]FlyersByLocationRequest req)
+        public ResponseContent<FlyersByDateContent> Get([FromUri]FlyersByBoardRequest req)
         {
             var start = req.Start != default(DateTimeOffset) ? req.Start : DateTimeOffset.UtcNow;
-            var content = _queryChannel.Query(new FindFlyersByDateAndLocationQuery()
+            var content = _queryChannel.Query(new FindFlyersByBoardQuery()
                 {
-                    Location = new Location(req.Lng, req.Lat),
-                    Distance = req.Distance,
+                    BoardId = req.BoardId,
                     Start = start,
                     End = req.End != default(DateTimeOffset) ? req.End : start.AddDays(4)
                 }, new FlyersByDateContent());

@@ -7,7 +7,7 @@ using PostaFlya.Models.Location;
 namespace PostaFlya.Areas.Default.Models
 {
     //[KnownType(typeof(TaskJobDetailsViewModel))] //for different behaviour types
-    public class DefaultDetailsViewModel
+    public class DefaultDetailsViewModel 
     {
         public BulletinFlierDetailModel Flier { get; set; }
 

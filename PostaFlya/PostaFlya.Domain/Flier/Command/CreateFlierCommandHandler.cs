@@ -46,8 +46,12 @@ namespace PostaFlya.Domain.Flier.Command
         public object Handle(CreateFlierCommand command)
         {
             var date = DateTime.UtcNow;
+
+            var venueBoard = _queryChannel.Query(new FindByIdsQuery<Board>() { Ids = command.BoardSet.ToList() }, new List<Board>())
+                .FirstOrDefault(board => board.Venue() != null);
+
             var eventDates =
-                    command.EventDates.Select(d => d.SetOffsetMinutes(command.Venue != null ? command.Venue.UtcOffset : 0)).ToList();
+                    command.EventDates.Select(d => d.SetOffsetMinutes(venueBoard != null ? venueBoard.Venue().UtcOffset : 0)).ToList();
 
             var newFlier = new Flier()
                                {

@@ -12,8 +12,11 @@
                                                                          
     <div id="bulletinboard" data-bind="foreach: DateSections(), visible: DateSections().length > 0">
         <div class="giglist-time-line">
-            <ul data-bind="foreach: Dates">
-                <li class="time-line-item" data-bind="text: Datestring, css: {'history':Ishistory, 'current':Iscurrent, 'future':Isfuture}"></li>
+            
+            <ul class="time-line" data-bind="foreach: Dates, attr: { id: DateLink }">
+                <li class="time-line-item">
+                    <a class="date-nav-link" data-bind="click: $root.navigateToDate, text: Datestring, css: { 'history': Ishistory, 'current': Iscurrent, 'future': Isfuture }, attr: {href: DateLink}"></a>
+                </li>
             </ul>
         </div>
 

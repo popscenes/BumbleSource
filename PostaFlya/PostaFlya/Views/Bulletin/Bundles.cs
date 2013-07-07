@@ -9,6 +9,7 @@ namespace PostaFlya.Views.Bulletin
             CoreJs = {
                         "Base/facebook.js",
                         "Bulletin/Bulletin.js",
+                        "Base/GigGuideMixin.js",
                         "Bulletin/GigGuide.js",
                         "Bulletin/BoardPage.js",
                         "Bulletin/BoardSearchPage.js",

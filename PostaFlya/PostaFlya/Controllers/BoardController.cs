@@ -27,12 +27,11 @@ namespace PostaFlya.Controllers
 
         public ActionResult Get(string id)
         {
-            var board = _queryChannel.Query(new FindByFriendlyIdQuery() { FriendlyId = id }, (Board)null);
+            var board = _queryChannel.Query(new FindByFriendlyIdQuery<Board>() { FriendlyId = id }, (BoardPageViewModel)null);
             if (board == null)
                 return HttpNotFound();
 
-            var ret = _queryChannel.ToViewModel<BoardPageViewModel, Board>(board);
-            return View(ret);
+            return View(board);
         }
 
         public ActionResult Widget(string id)

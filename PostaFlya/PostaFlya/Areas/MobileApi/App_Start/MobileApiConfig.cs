@@ -28,6 +28,12 @@ namespace PostaFlya.Areas.MobileApi.App_Start
                 defaults: new { Controller = "FlyerDetail" }
                 );
 
+            config.Routes.MapHttpRoute(
+                name: "BoardGigs",
+                routeTemplate: "mobileapi/board/{BoardId}/gigs",
+                defaults: new { Controller = "FlyersByBoard" }
+                );
+
         }
     }
 }

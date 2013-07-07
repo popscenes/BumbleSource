@@ -8,8 +8,8 @@ using Website.Infrastructure.Query;
 
 namespace PostaFlya.DataRepository.DomainQuery
 {
-    public class FindByFriendlyIdQueryHandler<EntityType> : 
-        QueryHandlerInterface<FindByFriendlyIdQuery, EntityType> where EntityType : class, AggregateRootInterface, new()
+    public class FindByFriendlyIdQueryHandler<EntityType> :
+        QueryHandlerInterface<FindByFriendlyIdQuery<EntityType>, EntityType> where EntityType : class, AggregateRootInterface, new()
     {
         private readonly TableIndexServiceInterface _indexService;
         private readonly GenericQueryServiceInterface _queryService;
@@ -21,7 +21,7 @@ namespace PostaFlya.DataRepository.DomainQuery
             _queryService = queryService;
         }
 
-        public EntityType Query(FindByFriendlyIdQuery argument)
+        public EntityType Query(FindByFriendlyIdQuery<EntityType> argument)
         {
             var entries = _indexService.FindEntitiesByIndex<EntityType, StorageTableKey>(StandardIndexSelectors.FriendlyIdIndex,
                                                                argument.FriendlyId);

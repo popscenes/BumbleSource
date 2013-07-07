@@ -190,6 +190,36 @@ namespace PostaFlya.DataRepository.Search.Implementation
             return list.ToList();
         }
 
+        public IList<string> FindFlyersByBoard(string board, DateTime startdate, DateTime enddate, Tags tags = null)
+        {
+            var sqlCmd = _searchStringBoardDate;
+
+            var watch = new Stopwatch();
+            watch.Start();
+
+
+            var ret = SqlExecute.Query<FlierSearchRecordWithDistance>(sqlCmd,
+                _connection
+                , new object[] { new Guid(board) }
+                , new
+                {
+                    board = board,
+                    xpath = GetTagFilter(tags),
+                    startdate = startdate,
+                    enddate = enddate,
+                    isUtc = startdate.Kind == DateTimeKind.Utc
+                }, true).ToList();
+
+            Trace.TraceInformation("FindFliers by board date time: {0}, numfliers {1}", watch.ElapsedMilliseconds, ret.Count());
+
+            var list = ret
+                .Select(sr => sr.Id.ToString())
+                .Distinct();
+
+            return list.ToList();
+        }
+
+
         public IList<string> FindFliersByLocationAndDate(Location location, int distance, DateTime startdate, DateTime enddate,
                                                  Tags tags = null)
         {
