@@ -327,12 +327,20 @@ div.question-tool-bar-item {
 }
 
 /************selected item popup/overlay div ********************/
-div#selected-item-div, div#create-flier-item-div {
+div#create-flier-item-div {
     position: absolute;
     z-index: 1751;
     margin-left: -300px;
     padding: 20px;
     left: 50%;
+}
+div#selected-item-div {
+    position: absolute;
+    z-index: 1751;
+    padding: 20px;
+    width: 100%;
+    height: 100%;
+    
 }
 
 div#create-flier-item-div {
@@ -348,10 +356,6 @@ div#create-flier-item-div {
     max-width: 600px;
 }
 
-div#selected-item-div
-{
-    max-width: 700px;
-}
 
 div#selected-item-popup-overlay, div#create-flier-popup-overlay {
     position: fixed;

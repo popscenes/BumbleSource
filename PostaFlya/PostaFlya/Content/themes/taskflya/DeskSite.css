@@ -444,7 +444,7 @@ div.current-loc {
     cursor: pointer;
 }
 
-div#create-flier-item-div, div#selected-item-div
+div#create-flier-item-div
 {
     border-top: 1px solid #ccc;
     border-right: 1px solid #ccc;
@@ -463,11 +463,10 @@ div#selected-item-div, div#create-flier-item-div {
     background-color: #2F2F2F;
     color: white;
     opacity: 1;
-    margin-top: 20px;
+    margin-top: 44px;
 }
 
 div#selected-item-popup-overlay, div#create-flier-popup-overlay {
-    background-color: rgba(227, 224, 226, 0.95);
     overflow-y: scroll;
     
 }
@@ -1575,18 +1574,24 @@ p#copyright {
 
 
 .get-flier-detail-div {
-    max-width: 700px;
     padding: 4%;
-    width: 90%;
     margin: 0 auto 0;
     color: white;
     margin-top: 15px;
-    border-top: 1px solid #ccc;
-    border-right: 1px solid #ccc;
-    border-bottom: 1px solid #ccc;
-    border-left: 1px solid #ccc;
 }
 
+.get-flier-detail-div .flier-details {
+    float: left;   
+}
+
+.get-flier-detail-div .flier-img {
+    float: left;
+    margin-right: 50px;
+}
+
+.get-flier-detail-div h3 {
+    text-decoration: none;
+}
 /***end default detail view layout***/
 
 .terms-of-service-signin {
