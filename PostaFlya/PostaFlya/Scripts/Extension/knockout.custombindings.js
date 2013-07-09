@@ -601,8 +601,10 @@
                 });*/
                 
                 var windowHeight = $(window).height();
+                var windowWidth = $(window).width();
 
                 $("body").css({ 'height': windowHeight, 'overflow-y': 'hidden' });
+                $("header").css({ 'width': windowWidth});
 
                 if (args.refreshtrig && value[args.refreshtrig] && ko.isObservable(value[args.refreshtrig])) {
                     value[args.refreshtrig].subscribe(function() {
@@ -612,8 +614,10 @@
 
             } else {
                 $(element).fadeOut();
+                
                 //alert("fadeout");
                 $("body").css({ 'height': 'auto', 'overflow-y': 'auto' });
+                $("header").css({ 'width': '100%'});
             }
         }
     };
