@@ -1786,11 +1786,6 @@ ul.time-line li a.date-nav-link.history{
         float: none;
     }
 
-    .locSel {
-        width: 80%;
-        margin: 0 10%;
-    }
-
       #controls .dist-selector-container {
         margin: 10px auto;
     }
@@ -1837,16 +1832,16 @@ ul.time-line li a.date-nav-link.history{
 @media only screen and (max-width: 600px)
 {
 
-    .ui-flier-tile img {
-        width: 200px!important;
-    }
-
     .date-filter, #controls .bulletin-tags-selector {
         padding-top: 12px;
     }
 
     #profile-avatar, #log-in-profile {
         border-right: none;
+    }
+
+    #left-header {
+        width: 280px;
     }
 
 
@@ -1858,23 +1853,12 @@ ul.time-line li a.date-nav-link.history{
     #logo {
         width: 38%;
         float: left;
+        display: none;
 
     }
 
     #right-header {
-        width: 28%;
-    }
-
-    #left-header {
-        width: auto;
-        border-right: solid 1px #CFCFCF;
-    }
-
-    
-
-    .ui-flier-tile {
-        margin: 4px!important;
-        width: 200px!important;
+        float: right;
     }
 
     #controls .bulletin-tags-selector, .bulletin-calendar {
@@ -1983,10 +1967,14 @@ ul.time-line li a.date-nav-link.history{
         width: 100%
     }
 
+    .flier-view-default .flier-details {
+        width: auto;
+    }
+
     div#selected-item-div, div#create-flier-item-div {
 
         left: 0;
-        padding: 4%;
+        padding: 10%;
         width: 90%;
         margin-left: 0;
         
@@ -2017,10 +2005,6 @@ ul.time-line li a.date-nav-link.history{
         padding-right: 0;
     }
 
-    .locSel {
-        width: 80%;
-        margin: 0 10%;
-    }
 
     .helptips-container#global-toolbar-helptip {
         padding-top: 75px;
