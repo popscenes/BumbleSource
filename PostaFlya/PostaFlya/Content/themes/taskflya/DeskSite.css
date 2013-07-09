@@ -10,15 +10,23 @@ body{
     background-color: #2F2F2F;
 }
 
+#body {
+    margin-top: 50px
+}
+
 a {
     color: white;
 }
 
 header{
     background-color: #282828;
-	width:100%;
-	height:44px;
-	min-height:44px;
+    width: 100%;
+    height: 44px;
+    min-height: 44px;
+    position: fixed;
+    top: 0px;
+    z-index: 10;
+    left: 0px;
 }
 
 #logo {
@@ -106,7 +114,6 @@ header{
 
 .std-image-btn
 {
-    margin-top: 5px;
     position: relative;
     padding-left: 34px
 }
@@ -115,6 +122,10 @@ header{
     padding: 15px;
     padding-left: 44px;
     
+}
+
+#log-in-profile {
+    background-color: #282828;
 }
 .create-edit-userlink {
     display: inline-block;
@@ -166,6 +177,7 @@ ul.userlinks {
     position: absolute;
     top: 0;
     left: 0;
+    margin-top: 5px;
     width: 34px;
     height: 34px;
 }
@@ -444,7 +456,7 @@ div.current-loc {
     cursor: pointer;
 }
 
-div#create-flier-item-div, div#selected-item-div
+div#create-flier-item-div
 {
     border-top: 1px solid #ccc;
     border-right: 1px solid #ccc;
@@ -463,12 +475,11 @@ div#selected-item-div, div#create-flier-item-div {
     background-color: #2F2F2F;
     color: white;
     opacity: 1;
-    margin-top: 20px;
 }
 
 div#selected-item-popup-overlay, div#create-flier-popup-overlay {
-    background-color: rgba(227, 224, 226, 0.95);
     overflow-y: scroll;
+    white-space: normal;
     
 }
 /************end selected item popup/overlay div ********************/
@@ -1390,8 +1401,7 @@ div.tile-image {
 div.tile-summary {
     position: relative;
     top: -54px;
-    left: 0px;
-    z-index: 100000;
+    left: 0;
     font-size: 12px;
     text-align: left;
     background-color: black;
@@ -1467,7 +1477,7 @@ div.ui-bulletin-board
 }
 
 div.bulletin-showing-div {
-    color: black;
+    color: white;
     font-style: italic;
     padding-bottom: 5px;
 }
@@ -1513,36 +1523,8 @@ p#copyright {
 
 /***default detail view layout***/
 
-.flier-view {
-
-}
-
-.flier-view .flier-details {
-    
-}
-
-.flier-view .flier-details .flier-img {
-    text-align: center;
-}
-
-.flier-view div.tear-off {
-    text-align: center;
-}
-
-.flier-view div.flier-contact-dets{
-    text-align: center;
-}
-
-.flier-view div.flier-event-dates {
-    text-align: center;
-}
-
 .flier-view .flier-details .flier-img img {
     width: 450px;
-}
-
-.flier-view .flier-details .flier-claims-comments{
-    
 }
 
 .flier-view .flier-details .flier-claims-comments .claim-stats{
@@ -1551,14 +1533,6 @@ p#copyright {
 
 .flier-view .flier-details .flier-claims-comments .comment-stats{
     display: inline;
-}
-
-.flier-view div.flier-desc {
-    text-align: center;
-}
-
-.flier-view .comments {
-    
 }
 
 .flier-view .claims {
@@ -1570,33 +1544,54 @@ p#copyright {
     list-style: none;
 }
 
-
-
-
-
 .get-flier-detail-div {
-    max-width: 700px;
-    padding: 4%;
-    width: 90%;
+    padding: 20px;
+    padding-left: 140px;
     margin: 0 auto 0;
     color: white;
     margin-top: 15px;
-    border-top: 1px solid #ccc;
-    border-right: 1px solid #ccc;
-    border-bottom: 1px solid #ccc;
-    border-left: 1px solid #ccc;
 }
 
+div#selected-item-div {
+    position: absolute;
+    z-index: 1751;
+    padding-top: 20px;
+    padding-left: 20%;
+    width: 80%;
+    height: 100%;
+    margin-top: 44px;
+
+    
+}
+
+    .flier-view-default .flier-img {
+        float: left;
+        width: 200px;
+    }
+
+    .flier-view-default .flier-img img {
+        width: 150px;
+    }
+
+    .flier-view-default .flier-details {
+        float: left;
+        width: 420px;   
+    }
+
+
+
+.flier-view h3 {
+    border: 0;
+}
+
+.event-dates-list {
+    margin: 0;
+    padding: 0;
+}
 /***end default detail view layout***/
 
 .terms-of-service-signin {
     font-size: 11px;
-}
-
-.board-header {
-    
-    
-    
 }
 
 .board-links {
@@ -1791,11 +1786,6 @@ ul.time-line li a.date-nav-link.history{
         float: none;
     }
 
-    .locSel {
-        width: 80%;
-        margin: 0 10%;
-    }
-
       #controls .dist-selector-container {
         margin: 10px auto;
     }
@@ -1842,16 +1832,16 @@ ul.time-line li a.date-nav-link.history{
 @media only screen and (max-width: 600px)
 {
 
-    .ui-flier-tile img {
-        width: 200px!important;
-    }
-
     .date-filter, #controls .bulletin-tags-selector {
         padding-top: 12px;
     }
 
     #profile-avatar, #log-in-profile {
         border-right: none;
+    }
+
+    #left-header {
+        width: 280px;
     }
 
 
@@ -1863,23 +1853,12 @@ ul.time-line li a.date-nav-link.history{
     #logo {
         width: 38%;
         float: left;
+        display: none;
 
     }
 
     #right-header {
-        width: 28%;
-    }
-
-    #left-header {
-        width: auto;
-        border-right: solid 1px #CFCFCF;
-    }
-
-    
-
-    .ui-flier-tile {
-        margin: 4px!important;
-        width: 200px!important;
+        float: right;
     }
 
     #controls .bulletin-tags-selector, .bulletin-calendar {
@@ -1988,10 +1967,14 @@ ul.time-line li a.date-nav-link.history{
         width: 100%
     }
 
+    .flier-view-default .flier-details {
+        width: auto;
+    }
+
     div#selected-item-div, div#create-flier-item-div {
 
         left: 0;
-        padding: 4%;
+        padding: 10%;
         width: 90%;
         margin-left: 0;
         
@@ -2022,10 +2005,6 @@ ul.time-line li a.date-nav-link.history{
         padding-right: 0;
     }
 
-    .locSel {
-        width: 80%;
-        margin: 0 10%;
-    }
 
     .helptips-container#global-toolbar-helptip {
         padding-top: 75px;
