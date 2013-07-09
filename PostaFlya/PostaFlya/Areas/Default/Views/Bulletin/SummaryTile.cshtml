@@ -19,7 +19,7 @@
             <div class="flier-title" >
                 <span data-bind="text: $root.TitleWithDate($data)">@flier.Title</span>
             </div>      
-            <div class="flier-locality">
+            <div class="flier-board">
                 <a data-bind="click: function () { return true; }, clickBubble: false, attr: { href: (bf.widgetbase ? bf.widgetbase : '') + '/' + VenueBoard.FriendlyId }, text: VenueBoard.Location.PlaceName" href="@flier.VenueBoard.FriendlyId">@flier.VenueBoard.Location.PlaceName</a>        
             </div>
         </div>

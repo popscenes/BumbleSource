@@ -51,7 +51,7 @@
                 nomore += ' around ' + locality;
             }
             
-            var date = window.location.getDateFromHash() || new Date();
+            var date = bf.getDateFromHash() || new Date();
             nomore += ' on ' + date.format("DDD DD MMM");
 
             nomore += '!';

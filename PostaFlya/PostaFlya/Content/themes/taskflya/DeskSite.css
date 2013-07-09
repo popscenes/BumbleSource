@@ -1424,19 +1424,19 @@ div.tile-summary div.flier-title {
     margin-top: 12px;
 }
 
-div.tile-summary div.flier-locality {
-    color: white
+div.tile-summary div.flier-board {
+    color: white;
     font-size: 12px;
     padding: 5px 5px 5px 0;
 }
 
-div.tile-summary div.flier-locality a{
+div.tile-summary div.flier-board a{
     color: white;
     font-size: 12px;
     text-decoration: none;
 }
 
-body#board-page div.tile-summary div.flier-locality {
+body#board-page div.tile-summary div.flier-board a{
     display: none;
 }
 
