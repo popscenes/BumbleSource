@@ -479,6 +479,7 @@ div#selected-item-div, div#create-flier-item-div {
 
 div#selected-item-popup-overlay, div#create-flier-popup-overlay {
     overflow-y: scroll;
+    white-space: normal;
     
 }
 /************end selected item popup/overlay div ********************/
@@ -1556,7 +1557,7 @@ div#selected-item-div {
     z-index: 1751;
     padding-top: 20px;
     padding-left: 20%;
-    width: 80%%;
+    width: 80%;
     height: 100%;
     margin-top: 44px;
 
@@ -1566,6 +1567,10 @@ div#selected-item-div {
     .flier-view-default .flier-img {
         float: left;
         width: 200px;
+    }
+
+    .flier-view-default .flier-img img {
+        width: 150px;
     }
 
     .flier-view-default .flier-details {
