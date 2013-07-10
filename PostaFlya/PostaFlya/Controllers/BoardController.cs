@@ -37,9 +37,15 @@ namespace PostaFlya.Controllers
         public ActionResult Widget(string id)
         {
             Response.ContentType = "text/javascript";
+
+            var board = _queryChannel.Query(new FindByFriendlyIdQuery<Board>() { FriendlyId = id }, (BoardPageViewModel)null);
+            if (board == null)
+                return HttpNotFound();
+
             return View("Widget/Widget", new BoardWidgetViewModel()
                 {
-                    BoardFriendlyId = id,
+                    BoardFriendlyId = board.FriendlyId,
+                    BoardId = board.Id,
                     SiteBase = _configurationService.GetSetting("SiteUrl")
                 });
         }

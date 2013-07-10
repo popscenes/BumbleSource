@@ -14,8 +14,6 @@ namespace PostaFlya.Views.Board.Widget
             "knockout-{version}.js",    
             "knockout.mapping-latest.js",
             "modernizr-{version}.js",
-            "jquery.isotope.js",
-            "jquery.isotope.centered.js",
             "jquery.imagesloaded.js", //this overrides the implementation in isotope
             "Extension/knockout-jquery-ui-widget.js",
             "jquery.endless-scroll.js",
@@ -36,9 +34,7 @@ namespace PostaFlya.Views.Board.Widget
             "Base/DistanceSelector.js",
             "Base/BrowserViewModel.js",
             "Base/CommentsViewModel.js",
-            "Base/TagsSelector.js",
             "Base/ClaimsViewModel.js",
-            "Base/TileLayoutViewModel.js",
             "Base/dateFilter.js",
             "Base/ErrorHandling.js",
             "Base/PageDefaultAction.js"
@@ -47,6 +43,7 @@ namespace PostaFlya.Views.Board.Widget
         private static readonly string[]
             BulletinJs = {
                         "Base/facebook.js",
+                        "Base/GigGuideMixin.js",
                         "Bulletin/BoardWidgetPage.js",
                         "Behaviour/Default/DefaultBehaviourViewModel.js",
                         "Behaviour/BehaviourViewModelFactory.js",
@@ -56,7 +53,6 @@ namespace PostaFlya.Views.Board.Widget
 
         private static readonly string[] Css =
         {
-            "jquery.isotope.css",         
         };
 
         private static readonly string[]ThemeCss =

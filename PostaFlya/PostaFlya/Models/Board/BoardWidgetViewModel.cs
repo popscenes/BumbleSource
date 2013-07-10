@@ -4,5 +4,6 @@
     {
         public string SiteBase { get; set; }
         public string BoardFriendlyId { get; set; }
+        public string BoardId { get; set; }
     }
 }
