@@ -38,6 +38,7 @@
         var self = this;
         self.SelectedViewModel = selectedDetailViewModel;
         bf.GigGuideMixin(self);
+        self.MinPs = 7;
 
         self.boardId = boardId;
 

@@ -521,16 +521,11 @@ div.popsceneswidget div.tile-summary div.flier-title {
     margin-top: 12px;
 }
 
-div.popsceneswidget div.tile-summary div.flier-locality {
+div.popsceneswidget div.tile-summary div.flier-board a{
     color: rgb(114, 114, 114);
     font-size: 12px;
     padding: 5px 5px 5px 0;
     display: none;
-}
-
-div.popsceneswidget div.tile-summary div.flier-locality a{
-    color: rgb(114, 114, 114);
-    font-size: 13px;
 }
 
 div.popsceneswidget div.tile-summary div.tile-description {
