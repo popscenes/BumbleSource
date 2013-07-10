@@ -56,17 +56,33 @@ div.popsceneswidget .tags-selector .tags-box{
 
 /************selected item popup/overlay div ********************/
 div.popsceneswidget div#selected-item-div{
-    position: absolute;
-    z-index: 1751;
-    margin-left: -300px;
-    padding: 20px;
-    left: 50%;
+    background-color: white;
+    color: black;
+    opacity: 1;
 }
 
+div.popsceneswidget .flier-view-default .flier-img {
+float: left;
+width: 200px;
+}
+
+div.popsceneswidget .flier-view-default .flier-details {
+float: left;
+width: 420px;
+}
+
+div.popsceneswidget .flier-view ul.event-dates-list {
+list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+div.popsceneswidget h3.flier-title {
+    border: 0;
+}
 
 div.popsceneswidget div#selected-item-div
 {
-    max-width: 700px;
 }
 
 div.popsceneswidget div#selected-item-popup-overlay{
@@ -294,13 +310,12 @@ div.popsceneswidget .date-filter span {
 /************selected item popup/overlay div ********************/
 div.popsceneswidget div#selected-item-div
 {
-    border-top: 1px solid #ccc;
-    border-right: 1px solid #ccc;
-    border-bottom: 1px solid #ccc;
-    border-left: 1px solid #ccc;
-    background-color: white; 
-    opacity: 1;
+    position: absolute;
+    z-index: 1751;
     margin-top: 20px;
+    margin-left: 10%;
+    width: 70%;
+    padding: 5%;
 }
 
 
@@ -389,9 +404,9 @@ div.popsceneswidget h2 {
 div.popsceneswidget h3 {
     font-weight: normal;
     font-size: 20px;
-    color: #FF7D00;
+    color: black;
     text-transform: uppercase;
-    border-bottom: #FF7D00 solid 2px;
+    border-bottom: black solid 2px;
     
 }
 
@@ -427,7 +442,6 @@ div.popsceneswidget #logo {
 }
 
 div.popsceneswidget a.bold-link {
-    color: #FF7D00;
     font-weight: bold;
     cursor: pointer;
 }
@@ -602,28 +616,6 @@ div.popsceneswidget p#copyright {
 /***default detail view layout***/
 
 
-div.popsceneswidget .flier-view .flier-details .flier-img {
-    text-align: center;
-}
-
-div.popsceneswidget .flier-view div.tear-off {
-    text-align: center;
-}
-
-div.popsceneswidget .flier-view div.flier-contact-dets{
-    text-align: center;
-}
-
-div.popsceneswidget .flier-view div.flier-event-dates {
-    text-align: center;
-}
-
-div.popsceneswidget .flier-view .flier-details .flier-img img {
-    width: 450px;
-}
-
-
-
 div.popsceneswidget .flier-view .flier-details .flier-claims-comments .claim-stats{
     display: inline;
 }
@@ -631,11 +623,6 @@ div.popsceneswidget .flier-view .flier-details .flier-claims-comments .claim-sta
 div.popsceneswidget .flier-view .flier-details .flier-claims-comments .comment-stats{
     display: inline;
 }
-
-div.popsceneswidget .flier-view div.flier-desc {
-    text-align: center;
-}
-
 
 div.popsceneswidget .flier-view .claims {
     float: left;
