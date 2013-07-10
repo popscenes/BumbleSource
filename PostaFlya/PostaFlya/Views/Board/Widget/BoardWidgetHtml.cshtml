@@ -1,6 +1,12 @@
 ﻿
-<div class="popsceneswidget">
-    @Html.Partial("BoardCalendarPartial")
-    @Html.Partial("Bulletin/BulletinTileViewsPartial")
-    @Html.Partial("Widget/BulletinList", new List<PostaFlya.Models.Flier.BulletinFlierSummaryModel>())
+@using PostaFlya.Models.Flier
+
+<div id="popsceneswidget" class="popsceneswidget" style="display: none;">
+@*    @Html.Partial("BoardCalendarPartial")*@
+@*    @Html.Partial("Bulletin/BulletinTileViewsPartial")*@
+@*    @Html.Partial("Widget/BulletinList", new List<PostaFlya.Models.Flier.BulletinFlierSummaryModel>())*@
+    
+    @Html.Partial("Bulletin/DetailTileTemplates")
+    @Html.Partial("SelectedItemDetailViewPartial")  
+    @Html.Partial("Bulletin/GigListByDatePartial", new List<BulletinFlierSummaryModel>())
 </div>

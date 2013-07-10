@@ -52,9 +52,13 @@
             return false;
         };
 
-
         self.TearOff = function (flier) {
 
+            if (bf.widgetbase) {
+                window.location = bf.widgetbase + '/' + flier.FriendlyId;
+                return true;
+            }
+            
             bf.pagedefaultaction.set('bulletin-detail', 'peel');
             self.SelectedViewModel.showDetails(flier);
             return true;
