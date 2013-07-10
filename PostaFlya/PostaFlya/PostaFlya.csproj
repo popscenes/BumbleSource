@@ -620,6 +620,7 @@
     <Content Include="Content\themes\taskflya\fonts\DIN-Black.ttf" />
     <Content Include="Areas\Default\Views\Bulletin\SummaryTileTemplateNew.cshtml" />
     <Content Include="Areas\Default\Views\Bulletin\SummaryTileNew.cshtml" />
+    <Content Include="Content\themes\taskflya\fonts\DIN Alternate Bold.ttf" />
     <None Include="Microsoft.WindowsAzure.Caching\ClientPerfCountersInstaller.exe">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

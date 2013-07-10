@@ -468,13 +468,12 @@ div.popsceneswidget .flier-view .flier-details .flier-desc {
 /*flier tiles */
 
 div.popsceneswidget .ui-flier-tile {
-    box-shadow: 1px 1px 4px rgba(0,0,0,0.4);
-    -moz-box-shadow: 1px 1px 4px rgba(0,0,0,0.4);
-    -webkit-box-shadow: 1px 1px 4px rgba(0,0,0,0.4);
-    /*display: inline-block;*/
     margin: 8px;
-    width: 228px;
+    width: 150px;
+    height: 150px;
     display: inline-block;
+    background-color: #050505;
+    color: white;
 }
 
 div.popsceneswidget div.tile-image {
@@ -483,16 +482,22 @@ div.popsceneswidget div.tile-image {
 
 div.popsceneswidget .ui-flier-tile img 
 {
-    box-shadow: 0 0 4px rgba(0,0,0,0.4);
-    width: 228px;
+    width: 150px;
+    height: 150px;
     cursor: pointer;
 }
 
 div.popsceneswidget div.tile-summary {
-    display: table;
+    position: relative;
+    top: -54px;
+    left: 0;
     font-size: 12px;
     text-align: left;
-    padding: 5px 10px;    
+    background-color: black;
+    opacity: 0.9;
+    height: 50px;
+    overflow: hidden;
+    padding-left: 8px;    
 }
 div.popsceneswidget div.tile-summary div.tile-peel {
     display: table-cell;
@@ -506,8 +511,14 @@ div.popsceneswidget div.tile-summary div.tile-peel a {
 
 div.popsceneswidget div.tile-summary div.flier-title {
     font-weight: bold;
-    font-size: 13PX;
+    font-size: 12PX;
     line-height: 14px;
+    overflow: hidden;
+    height: 12px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 120px;
+    margin-top: 12px;
 }
 
 div.popsceneswidget div.tile-summary div.flier-locality {

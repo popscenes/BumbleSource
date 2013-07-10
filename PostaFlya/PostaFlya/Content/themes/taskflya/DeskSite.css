@@ -1,11 +1,13 @@
 ﻿@font-face
 {
-font-family: din;
-src: url('fonts/DIN.ttf')
+    font-family: din;
+    src: url('fonts/DIN Alternate Bold.ttf') format('truetype');
+    font-weight:bold;
+    font-style:normal;
 }
 
 body{
-    font-family: din,'Open Sans',Tahoma, Helvetica, Geneva, sans-serif;
+    font-family:'Open Sans',Tahoma, Helvetica, Geneva, sans-serif;
     margin: 0;
     background-color: #2F2F2F;
 }
@@ -30,9 +32,10 @@ header{
 }
 
 #logo {
+    font-family: 'Open Sans',Tahoma, Helvetica, Geneva, sans-serif;
     font-weight: 900;
     color: white;
-    font-size: 18px;
+    font-size: 20px;
     text-decoration: none;
     display: block;
     float: left;
