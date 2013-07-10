@@ -9,56 +9,14 @@
     BoardSummaryModel contactDets = Model.Flier.VenueBoard ?? new BoardSummaryModel();}
 
 <div class="flier-view flier-view-default" data-bind="click: function (event, data) { }, clickBubble: false">
+    <div class="flier-img">
+        <img data-bind="imgRetry: FlierImageUrl, bulletinimg:FlierImageUrl"/>
+    </div>
+
     <div class="flier-details clear-fix" data-bind="with:Flier">
         
 
-        @Html.Partial("Bulletin/DownloadPrintImagePartial", flier)
-        
-        <div class="fb-share" data-bind="click:$parent.facebook"></div>
-        <a class="twitter-share" data-bind="attr:{href: $parent.twitter()}"></a>
-        
-        <h3 class="flier-title" >
-            <span class="edit-from-flya">
-            <a class="std-btn" data-bind="click:$root.CreateFlierInstance.EditFlierLaunch">EDIT</a>
-            </span>
-            <span data-bind="text:Title">@flier.Title</span>
-            (Status <span data-bind="text:Status">@flier.Status</span>)    
-        </h3>
-            
-        <div class="flier-img">
-            <img data-bind="imgRetry: FlierImageUrl, bulletinimg:FlierImageUrl"/>
-        </div>
-    </div>
-             
-         
-    <div data-bind="if:Flier.VenueBoard != null">
-        <h4>
-                Venue Details
-        </h4>
-        <div class="flier-contact-dets" data-bind="with:Flier.VenueBoard">
-            
-            @Html.Partial("Contact/EventContactDetailsViewPartial", contactDets)
-
-
-            <a class="std-btn" data-bind="click: $parent.TearOff, css{btn-std-inuse: $parent.IsPeeling(), text: $parent.PeelText">Resend Details</a>
-        </div>
-    </div> 
-    
-
-    
-@*    @Html.Partial("Flier/AnalyticSummary")*@
-
-        
-    <div class="claim-stats">
-        @*replace with image*@
-        <div class="claim-icon">Number of Peels:</div>
-        <span data-bind="text:Flier.NumberOfClaims">
-            @flier.NumberOfClaims  
-        </span>
-    </div>
-    
-    <div>
-        <h4> Event Dates </h4>
+        <div>
         <div class="flier-event-dates" >
             
             <ul data-bind="if: false" class="event-dates-list">
@@ -74,16 +32,38 @@
             
         </div>
     </div>
+        
+        <h3 class="flier-title" >
+            <span class="edit-from-flya">
+            <a class="std-btn" data-bind="click:$root.CreateFlierInstance.EditFlierLaunch">EDIT</a>
+            </span>
+            <span data-bind="text:Title">@flier.Title</span>
+            (Status <span data-bind="text:Status">@flier.Status</span>)    
+        </h3>
+            
+       
+    </div>
+             
+         
+    <div data-bind="if:Flier.VenueBoard != null">
+        <div class="flier-contact-dets" data-bind="with:Flier.VenueBoard">
+            
+            @Html.Partial("Contact/EventContactDetailsViewPartial", contactDets)
+        </div>
+    </div> 
+    
+
+    
+@*    @Html.Partial("Flier/AnalyticSummary")*@
+
+        
+   
 
     <div>
-        <h4> Description </h4>    
         <div class="flier-desc" data-bind="simpletext:Flier.Description">
             @flier.Description
         </div> 
     </div>
-    @Html.Partial("Bulletin/BulletinUserLinks")
-
-    
 
 </div>
 
