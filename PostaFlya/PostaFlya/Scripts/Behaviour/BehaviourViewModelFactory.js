@@ -15,10 +15,10 @@
 
         self.addSammyRoutes = function (rootPath, sam, obsViewMod, initpath) {
             self.addSammyRoute(rootPath, sam, obsViewMod);
-            sam.get(initpath, function () {           
-                self.hideSelectedDetail(obsViewMod);
-                _gaq.push(['_trackPageview', this.path]);
-            });
+//            sam.get(initpath, function () {           
+//                self.hideSelectedDetail(obsViewMod);
+//                _gaq.push(['_trackPageview', this.path]);
+//            });
         };
 
         self.getSammyRoot = function (rootPath) {

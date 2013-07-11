@@ -21,6 +21,7 @@ namespace PostaFlya.Views.Board.Widget
             "jquery-ui-{version}.js",
             "jquery.ui.touch-punch.min.js",
             "jquery-ui-timepicker-addon.js",
+            "sammy.js",
  
             //ours
             "Extension/knockout.custombindings.js",

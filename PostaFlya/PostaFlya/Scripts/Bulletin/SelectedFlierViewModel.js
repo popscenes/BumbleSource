@@ -13,11 +13,12 @@
             return '/' + flier.FriendlyId;
         };
 
-        self.hideDetailView = function (data, event) {
-            self.Sam.setLocation(self.initPath);
+        self.hideDetailView = function (data, event) {          
+            self.Sam.setLocation(self.LastLocation || self.initPath);
         };
 
         self.showDetails = function (flier) {
+            self.LastLocation = self.Sam.getLocation();            
             self.Sam.setLocation(self.viewModFactory.getDetailPath(self.rootPath, flier));
         };
 

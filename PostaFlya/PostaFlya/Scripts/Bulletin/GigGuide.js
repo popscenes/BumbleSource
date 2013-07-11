@@ -31,11 +31,6 @@
                 lat: loc.Latitude,
                 lng: loc.Longitude        
             };
-
-            var date = bf.getDateFromHash();
-            if (date) {
-                params.Start = date.toISOOffsetString();
-            }
             
             return params;
         };
@@ -69,28 +64,17 @@
         };
         
 
-        self.StatusText = ko.computed(function () {           
-            
-            if (self.moreFliersPending() || (self.noMoreFliersText() && self.DateSections().length == 0))
-                return '';
-
-            var showingmostrecent = "Showing gigs ";
-
-            return showingmostrecent;
-
-        }, self);
-
 
         self.Sam = Sammy('#bulletinboard');
         self.SelectedViewModel.addDetailRoutes(self.Sam);
+        self.AddGetDateRoute(self.Sam);
 
         self._Init = function () {
 
-            self.SelectedViewModel.runSammy(self.Sam);
-
             ko.applyBindings(self);
 
-            self.TryRequest();
+            self.SelectedViewModel.runSammy(self.Sam);
+            //self.TryRequest();
 
             self.Location.subscribe(function (newValue) {
                 self.TryRequest();

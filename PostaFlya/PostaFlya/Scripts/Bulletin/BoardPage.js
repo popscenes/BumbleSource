@@ -64,6 +64,8 @@
 
         self.Sam = Sammy('#bulletinboard');
         self.SelectedViewModel.addDetailRoutes(self.Sam);
+        self.AddGetDateRoute(self.Sam);
+
 
         self._Init = function () {
 

@@ -15,20 +15,31 @@
 
         self.MinPs = 1;
 
+        self.CurrentStartDate = ko.observable(getCurrentDate());
+
         self.Request = function () {
 
             if (self.moreFliersPending())
                 return;
+            
+            self.DateSections.removeAll();
 
             self.moreFliersPending(true);
             self.noMoreFliersText('');
+
+            var reqArgs = self.GetReqArgs(false);
+            var date = getCurrentDate();
+            if (date) {
+                reqArgs.Start = date.toISOOffsetString();
+            }
+            self.CurrentStartDate(date);
 
             $.ajax(
                  {
                      dataType: (bf.widgetbase ? "jsonp" : "json"),
                      url: self.GetReqUrl(),
                      crossDomain: (bf.widgetbase ? true : false),
-                     data: self.GetReqArgs(false)
+                     data: reqArgs
                  }
              ).done(function (resp) {
 
@@ -51,6 +62,32 @@
             self.Request();
             return false;
         };
+        
+        //todo do this nicer
+        self.PrevWeekLink = ko.computed(function () {
+            return getPrevWeek(self.CurrentStartDate()).format("#DD-MM-YYYY");
+        });
+        
+        self.PrevWeek = ko.computed(function () {
+            return 'Back to ' + getPrevWeek(self.CurrentStartDate()).format("DDD DD MMM");
+        });
+        
+        self.CurrentDateLink = ko.computed(function () {
+            return self.CurrentStartDate().format("#DD-MM-YYYY");
+        });
+        
+        self.CurrentDate = ko.computed(function () {
+            return self.CurrentStartDate().format("DDD DD MMM");
+        });
+           
+        self.NextWeekLink = ko.computed(function () {
+            return getNextWeek(self.CurrentStartDate()).format("#DD-MM-YYYY");
+        });
+        
+        self.NextWeek = ko.computed(function () {
+            return 'Jump to ' + getNextWeek(self.CurrentStartDate()).format("DDD DD MMM");
+        });
+        //end todo do this nicer
 
         self.TearOff = function (flier) {
 
@@ -75,8 +112,21 @@
         };
 
         self.TryRequest = function () {
+            self.SelectedViewModel.SelectedDetail(null);
             self.Request();
         };
+
+        self.AddGetDateRoute = function(sam) {
+            var route = window.location.pathname + '#([0-9]{2}-[0-9]{2}-[0-9]{4})';
+            sam.get(route, function () {
+                self.TryRequest();
+            });
+            sam.get(window.location.pathname, function () {
+                self.TryRequest();
+            });
+
+        };
+        
         
         self.setNoMoreFlyas = function () {
             var nomore = 'No more gigs';
@@ -90,8 +140,7 @@
                 return '';
             
             var showingmostrecent = "Showing gigs from ";
-            var date = bf.getDateFromHash() || new Date();
-            showingmostrecent += date.format("DDD DD MMM");
+            showingmostrecent += self.CurrentStartDate().format("DDD DD MMM");
 
             return showingmostrecent;
 
@@ -99,6 +148,21 @@
 
     };
     
+    function getCurrentDate() {
+        return bf.getDateFromHash() || new Date();
+    }
+    
+    function getNextWeek(fromDate) {
+        var curr = new Date(fromDate);
+        curr.setDate(curr.getDate() + 7);
+        return curr;
+    }
+    
+    function getPrevWeek(fromDate) {
+        var curr = new Date(fromDate);
+        curr.setDate(curr.getDate() - 7);
+        return curr;
+    }
 
     function processContent(resp, itemArray, minFlyers, maxFlyers) {
 
