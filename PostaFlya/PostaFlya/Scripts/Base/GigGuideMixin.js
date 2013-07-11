@@ -129,7 +129,7 @@
         
         
         self.setNoMoreFlyas = function () {
-            var nomore = 'No more gigs';
+            var nomore = 'No gigs from ' + self.CurrentStartDate().format("DDD DD MMM");
             self.noMoreFliersText(nomore);
         };
 
@@ -139,7 +139,7 @@
             if (self.moreFliersPending() || (self.noMoreFliersText() && self.DateSections().length == 0))
                 return '';
             
-            var showingmostrecent = "Showing gigs from ";
+            var showingmostrecent = 'Showing gigs from ';
             showingmostrecent += self.CurrentStartDate().format("DDD DD MMM");
 
             return showingmostrecent;

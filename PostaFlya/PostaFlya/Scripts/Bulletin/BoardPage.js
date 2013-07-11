@@ -69,11 +69,11 @@
 
         self._Init = function () {
 
+            ko.applyBindings(self);
+            
             self.SelectedViewModel.runSammy(self.Sam);
 
-            ko.applyBindings(self);
-
-            self.TryRequest();
+            //self.TryRequest();
 
         };
 

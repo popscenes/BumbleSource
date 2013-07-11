@@ -99,10 +99,10 @@
         self.AddGetDateRoute(self.Sam);
         self._Init = function () {
 
-            self.Sam.run(window.location.pathname);
             ko.applyBindings(self);
+            self.Sam.run(window.location.pathname);
 
-            self.TryRequest();
+            //self.TryRequest();
 
         };
 
