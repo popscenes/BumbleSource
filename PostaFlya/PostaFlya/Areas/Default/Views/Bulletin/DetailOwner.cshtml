@@ -54,12 +54,17 @@
     
 
     
-@*    @Html.Partial("Flier/AnalyticSummary")*@
-
-        
-   
+@*@Html.Partial("Flier/AnalyticSummary")*@
 
     <div>
+        @Html.Partial("Bulletin/DownloadPrintImagePartial", flier)
+        <div class="fb-share" data-bind="click: $parent.facebook"></div>
+        <a class="twitter-share" data-bind="attr: { href: $parent.twitter() }"></a>
+        <a class="std-btn" data-bind="click: $parent.TearOff, css: { 'btn-std-inuse': $parent.IsPeeling() }, text: $parent.PeelText">Peel Details</a>   
+    </div>
+   
+
+        <div>
         <div class="flier-desc" data-bind="simpletext:Flier.Description">
             @flier.Description
         </div> 

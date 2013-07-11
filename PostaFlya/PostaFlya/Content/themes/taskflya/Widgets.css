@@ -56,8 +56,8 @@ div.popsceneswidget .tags-selector .tags-box{
 
 /************selected item popup/overlay div ********************/
 div.popsceneswidget div#selected-item-div{
-    background-color: white;
-    color: black;
+    background-color: #68757E;
+    color: white;
     opacity: 1;
 }
 
@@ -176,8 +176,8 @@ div.popsceneswidget .std-btn {
     display: inline-block;
     font-size: 12px;
     font-weight: bold;
-    color: white;
-    background-color: #FF7D00;
+    color: #282828;
+    background-color: white;
     height: 14px;
     padding: 10px;
     vertical-align: middle;
@@ -265,7 +265,7 @@ div.popsceneswidget .fb-share {
     background-image: url(images/icons-88h1.png);
     width: 88px;
     height: 50px;
-    background-position: -1320px -105px;
+    background-position: -1320px -15px;
     display: inline-block;
     cursor: pointer;
 }
@@ -274,7 +274,7 @@ div.popsceneswidget .twitter-share {
     background-image: url(images/icons-88h1.png);
     width: 50px;
     height: 50px;
-    background-position: -1428px -105px;
+    background-position: -1428px -15px;
     display: inline-block;
     cursor: pointer;
 }
@@ -356,7 +356,7 @@ div.popsceneswidget .show-hide-print-options {
     background-image: url(images/icons-88h1.png);
     width: 54px;
     height: 54px;
-    background-position: -1160px -105px;
+    background-position: -1160px -15px;
     display: inline-block;
     cursor: pointer;
 }
@@ -404,7 +404,7 @@ div.popsceneswidget h2 {
 div.popsceneswidget h3 {
     font-weight: normal;
     font-size: 20px;
-    color: black;
+    color: white;
     text-transform: uppercase;
     border-bottom: black solid 2px;
     
@@ -444,12 +444,12 @@ div.popsceneswidget #logo {
 div.popsceneswidget a.bold-link {
     font-weight: bold;
     cursor: pointer;
+    color: white;
 }
 
 div.popsceneswidget a.plainlink {
-    text-decoration: none;
     text-align: center;
-    color: #555555;
+    color: white;
 }
 
 
