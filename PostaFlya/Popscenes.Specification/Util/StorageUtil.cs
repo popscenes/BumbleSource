@@ -4,6 +4,7 @@ using System.Data.Services.Client;
 using System.Linq;
 using Ninject;
 using PostaFlya.DataRepository.Search.Implementation;
+using PostaFlya.Domain.Boards;
 using PostaFlya.Domain.Flier;
 using PostaFlya.Mocks.Domain.Data;
 using TechTalk.SpecFlow;
@@ -53,6 +54,20 @@ namespace Popscenes.Specification.Util
         {
             var repo = SpecUtil.Kernel.Get<GenericRepositoryInterface>();
             FlierTestData.StoreOnePublishEvent(flier, repo, SpecUtil.Kernel);
+        }
+
+        public static void StoreAll(IList<Board> boards)
+        {
+            foreach (var board in boards)
+            {
+                Store(board);
+            }
+        }
+
+        public static void Store(Board board)
+        {
+            var repo = SpecUtil.Kernel.Get<GenericRepositoryInterface>();
+            BoardTestData.StoreOne(board, repo, SpecUtil.Kernel);
         }
 
 

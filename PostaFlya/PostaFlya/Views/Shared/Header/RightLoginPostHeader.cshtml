@@ -1,0 +1,20 @@
+﻿<div id="global-right-toolbar">
+
+
+@if (Request.IsAuthenticated)
+{    
+    <div id="bulletin-right-toolbar" data-bind="visible: bf.currentBrowserInstance.AdminBoards.length > 0">
+        <a id="post-flya" data-bind="click: CreateFlierInstance.CreateFlierLaunch" class="std-btn std-image-btn">
+            <span class="std-image-btn-icon"></span>
+        </a>
+    </div>   
+}
+else
+{
+    
+    <a id="log-in-profile" href="@Url.Action("LoginPage", "Account")"  class="std-btn std-image-btn btn-white" data-helptip-group="global-left-toolbar" data-helptip-text="Login or Create an Account">
+        <span class="std-image-btn-icon"></span>
+    </a>
+}
+
+</div>

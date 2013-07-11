@@ -10,7 +10,6 @@ using Ninject;
 using TechTalk.SpecFlow;
 using Website.Application.Content;
 using PostaFlya.Controllers;
-using Website.Application.Domain.Browser.Query;
 using Website.Domain.Browser.Query;
 using Website.Infrastructure.Command;
 using PostaFlya.Models.Content;
@@ -67,7 +66,7 @@ namespace PostaFlya.Specification.Content
             var browserInformation = SpecUtil.GetCurrBrowser();
 
             var qc = SpecUtil.CurrIocKernel.Get<QueryChannelInterface>();
-            var imgs = qc.Query(new GetByBrowserIdQuery() {BrowserId = browserInformation.Browser.Id}, new List<Image>());
+            var imgs = qc.Query(new GetByBrowserIdQuery<Image>() {BrowserId = browserInformation.Browser.Id}, new List<Image>());
             Assert.IsNotEmpty(imgs);
             Assert.IsNotEmpty(imgs.Where(i => i.Id == img));
         }

@@ -1,0 +1,40 @@
+﻿
+@using System.Web.Optimization
+@using PostaFlya.Domain.Behaviour
+@using PostaFlya.Models
+@model PostaFlya.Models.Flier.BulletinBoardPageModel
+
+
+@{
+    ViewBag.Title = "Popscenes - Discover Local Gigs";
+    Layout = "~/Views/Shared/_DefaultLayout.cshtml";
+}
+
+@section scripts
+{
+    @Scripts.Render("~/Script/BulletinDeskJs.js")
+}
+
+@{
+    WebConstants.SetViewBagForLocationPicker(ViewBag);
+}
+
+@section leftheader
+{
+    <div id="global-left-toolbar">
+        <div class="locSel">                                                           
+        <div class="current-loc" data-bind="click: TryFindLocation"></div>                
+        @Html.Partial("Location/LocationAutocomplete") 
+    </div>
+    </div>   
+}
+
+
+@Html.Partial("Bulletin/DetailTileTemplates")
+@Html.Partial("SelectedItemDetailViewPartial")  
+
+@Html.Partial("Bulletin/GigListByDatePartial", Model.Fliers)
+
+
+
+

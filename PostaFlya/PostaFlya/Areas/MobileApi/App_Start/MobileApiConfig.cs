@@ -11,21 +11,27 @@ namespace PostaFlya.Areas.MobileApi.App_Start
         public static void Register(HttpConfiguration config)
         {
             config.Routes.MapHttpRoute(
-                name: "GigsNearBy",
-                routeTemplate: "mobileapi/gigs/near",
+                name: "GigsByDate",
+                routeTemplate: "mobileapi/gigs/bydate",
                 defaults: new { Controller = "FlyersByLocation" }
                 );
 
             config.Routes.MapHttpRoute(
                 name: "GigsLatest",
-                routeTemplate: "mobileapi/gigs/latest",
-                defaults: new { Controller = "FlyersByLatest" }
+                routeTemplate: "mobileapi/gigs",
+                defaults: new { Controller = "FlyersByFeatured" }
                 );
 
             config.Routes.MapHttpRoute(
                 name: "GigDetail",
                 routeTemplate: "mobileapi/gig/{id}",
                 defaults: new { Controller = "FlyerDetail" }
+                );
+
+            config.Routes.MapHttpRoute(
+                name: "BoardGigs",
+                routeTemplate: "mobileapi/board/{BoardId}/gigs",
+                defaults: new { Controller = "FlyersByBoard" }
                 );
 
         }

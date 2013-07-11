@@ -13,8 +13,8 @@ alter procedure FindFliersByLocationAndTags2
 	@skipPast bigint = null,
 	@skipPastEventAndCreateDate nvarchar(1000) = null,
 	@xpath nvarchar(1000) = null,
-	@eventDate datetime2 = null
-	
+	@eventDate datetime2 = null,
+	@dateIsUtc bit = 0
 as
 begin
 
@@ -96,9 +96,16 @@ if @xpath IS NOT NULL
 		';
 
 if @eventDate IS NOT NULL and @skipPastEventAndCreateDate IS NULL
-		select @SQL = @SQL + N'
-		and CAST(ed.EventDate as datetime2) >= @eventDateParam
-		';
+begin
+		if @dateIsUtc = 0 
+			select @SQL = @SQL + N'
+			and CAST(ed.EventDate as datetime2) >= @eventDateParam
+			';
+		else
+			select @SQL = @SQL + N'
+			and CONVERT(datetime2, ed.EventDate, 1) >= @eventDateParam
+			';
+end
 
 if @eventDate IS NOT NULL and @skipPastEventAndCreateDate IS NOT NULL
 		select @SQL = @SQL + N'
@@ -136,6 +143,213 @@ end
 
 GO
 
+--CONTEXT=PostaFlya.DataRepository.Search.SearchRecord.FlierSearchRecord
+if not exists (select * from sys.objects where type = 'P' AND name = 'FindFlyersByDateRange')
+   exec('create procedure FindFlyersByDateRange as begin SET NOCOUNT ON; end')
+GO
+	
+--CONTEXT=PostaFlya.DataRepository.Search.SearchRecord.FlierSearchRecord 
+alter procedure FindFlyersByDateRange
+	@loc geography,
+	@distance int,
+	@startdate datetime2 = null,
+	@enddate datetime2 = null,
+	@isUtc bit = 0,
+	@xpath nvarchar(1000) = null
+as
+begin
+
+--declare @loc geography,
+--@distance int = 1000,
+--@startdate datetime2 = '2076-08-11',
+--@startdate datetime2 = '2076-08-12',
+--@xpath nvarchar(500) = null;
+
+--set @loc = geography::STPointFromText('POINT (144.979 -37.769)', 4326);
+--set @xpath = '//tags[tag="for sale"]';
+--set @createDate = '2013-03-06 11:26:09.9682780 +00:00';
+
+declare @SQL NVARCHAR(4000);
+declare @ParameterDefinition NVARCHAR(4000);
+
+select	@ParameterDefinition = '
+	@locParam geography,
+	@distanceParam int,
+	@startdateParam datetime2,
+	@enddateParam datetime2,
+	@xpathParam nvarchar(400) = null
+';
+
+select	@SQL = N'
+	;With records as (	
+		select 
+		fr.Location.STDistance(@locParam) as Metres
+		,fr.[Id]
+		,fr.[LocationShard]
+		,fr.[FriendlyId]
+		,fr.[BrowserId]
+		,fr.[NumberOfClaims]
+		,fr.[NumberOfComments]
+		,fr.[Status]
+		,fr.[EffectiveDate]
+		,fr.[CreateDate]
+		,fr.[LastActivity]
+		,fr.[Tags]
+		,fr.[Location],
+		row_number() over(partition by fr.Id order by fr.Id ) as RowNum';
+
+
+select @SQL = @SQL + N'
+		, fr.SortOrder as SortOrder' 
+
+select	@SQL = @SQL + N' 
+			from FlierSearchRecord fr
+		';
+
+select @SQL = @SQL + N'
+		left outer join FlierDateSearchRecord ed on ed.Id = fr.Id
+		';
+
+select @SQL = @SQL + N'
+		where fr.Id = fr.Id and (fr.Status is null or fr.Status = 1)
+		'
+
+select @SQL = @SQL + N'
+		and fr.Location.STDistance(@locParam) <= @distanceParam*1000
+		';
+
+if @isUtc = 0 
+	begin
+			select @SQL = @SQL + N'
+			and CAST(ed.EventDate as datetime2) >= @startdateParam
+			and CAST(ed.EventDate as datetime2) < @enddateParam
+			';
+	end
+else
+	begin
+			select @SQL = @SQL + N'
+				and CONVERT(datetime2, ed.EventDate, 1) >= @startdateParam
+				and CONVERT(datetime2, ed.EventDate, 1) < @enddateParam
+			';
+	end
+
+if @xpath IS NOT NULL
+		select @SQL = @SQL + N'
+		and fr.Tags.exist(''' + @xpath + ''') > 0
+		';
+		
+select @SQL = @SQL + N'
+	)
+	select * 
+	from records
+	where RowNum = 1
+	';
+	
+				
+exec sp_executeSQL 
+	@SQL,
+	@ParameterDefinition,
+	@locParam = @loc,
+	@distanceParam = @distance,
+	@xpathParam = @xpath,
+	@startdateParam = @startdate,
+	@enddateParam = @enddate;
+
+
+end
+
+GO
+
+--CONTEXT=PostaFlya.DataRepository.Search.SearchRecord.BoardFlierSearchRecord
+if not exists (select * from sys.objects where type = 'P' AND name = 'FindFlyersByBoard')
+   exec('create procedure FindFlyersByBoard as begin SET NOCOUNT ON; end')
+GO
+
+--CONTEXT=PostaFlya.DataRepository.Search.SearchRecord.BoardFlierSearchRecord
+alter procedure FindFlyersByBoard
+		@board uniqueidentifier,
+		@startdate datetime2 = null,
+		@enddate datetime2 = null,
+		@isUtc bit = 0,
+		@xpath nvarchar(1000) = null
+as
+begin
+
+declare @SQL nvarchar(4000);
+declare @ParameterDefinition nvarchar(4000);
+
+select	@ParameterDefinition = '
+	@boardParam uniqueidentifier,
+	@startdateParam datetime2,
+	@enddateParam datetime2,
+	@xpathParam nvarchar(400) = null
+';
+
+select	@SQL = N'
+		select 
+		fr.[BoardId]
+		,fr.[DateAdded]
+		,fr.[BoardStatus]
+		,fr.[FlierId] as [Id]
+		,fr.[Location]
+		,fr.[NumberOfClaims]
+		,fr.[EffectiveDate]
+		,fr.[CreateDate]
+		,fr.[Tags]
+		,fr.[Status]
+		';
+
+select @SQL = @SQL + N', fr.SortOrder as SortOrder' 
+
+select	@SQL = @SQL + N' 
+			from BoardFlierSearchRecord fr
+		';
+
+select @SQL = @SQL + N'
+		left outer join BoardFlierDateSearchRecord ed on ed.Id = fr.Id
+		';
+
+select @SQL = @SQL + N'							
+		where fr.BoardId = @boardParam AND fr.BoardStatus = 2 and (fr.Status is null or fr.Status = 1)
+';
+
+
+
+if @xpath is not null
+		select @SQL = @SQL + N'
+		and fr.Tags.exist(''' + @xpath + ''') > 0
+		';
+
+if @isUtc = 0 
+	begin
+			select @SQL = @SQL + N'
+			and CAST(ed.EventDate as datetime2) >= @startdateParam
+			and CAST(ed.EventDate as datetime2) < @enddateParam
+			';
+	end
+else
+	begin
+			select @SQL = @SQL + N'
+			and CONVERT(datetime2, ed.EventDate, 1) >= @startdateParam
+			and CONVERT(datetime2, ed.EventDate, 1) < @enddateParam
+			';
+	end
+	
+
+select @SQL = @SQL + N' order by SortOrder desc' 
+
+		
+exec sp_executeSQL 
+	@SQL,
+	@ParameterDefinition,
+	@boardParam = @board,
+	@xpathParam = @xpath,
+	@startdateParam = @startdate,
+	@enddateParam = @enddate;
+end
+
+GO
+
 --CONTEXT=PostaFlya.DataRepository.Search.SearchRecord.BoardFlierSearchRecord
 if not exists (select * from sys.objects where type = 'P' AND name = 'FindFliersByBoard2')
    exec('create procedure FindFliersByBoard2 as begin SET NOCOUNT ON; end')
@@ -151,7 +365,8 @@ alter procedure FindFliersByBoard2
 		@skipFlier nvarchar(255) = null,
 		@skipPastEventAndCreateDate nvarchar(1000) = null,
 		@xpath nvarchar(1000) = null,
-		@eventDate datetime2 = null
+		@eventDate datetime2 = null,
+		@dateIsUtc bit = 0
 as
 begin
 
@@ -236,9 +451,16 @@ select @SQL = @SQL + N'
 		';
 
 if @eventDate IS NOT NULL and @skipPastEventAndCreateDate IS NULL
-		select @SQL = @SQL + N'
-		and CAST(ed.EventDate as datetime2) >= @eventDateParam
-		';
+begin
+		if @dateIsUtc = 0 
+			select @SQL = @SQL + N'
+			and CAST(ed.EventDate as datetime2) >= @eventDateParam
+			';
+		else
+			select @SQL = @SQL + N'
+			and CONVERT(datetime2, ed.EventDate, 1) >= @eventDateParam
+			';
+end
 
 if @eventDate IS NOT NULL and @skipPastEventAndCreateDate IS NOT NULL
 		select @SQL = @SQL + N'
@@ -281,6 +503,9 @@ exec sp_executeSQL
 end
 
 GO
+
+
+
 
 --CONTEXT=PostaFlya.DataRepository.Search.SearchRecord.BoardSearchRecord
 if not exists (select * from sys.objects where type = 'P' AND name = 'FindNearbyBoards')

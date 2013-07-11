@@ -1,6 +1,7 @@
 using PostaFlya.Models.Location;
 using Website.Application.Content;
 using Website.Application.Domain.Content;
+using Website.Domain.Content;
 
 namespace PostaFlya.Models.Content
 {
@@ -22,7 +23,7 @@ namespace PostaFlya.Models.Content
         {
             var uri = blobStorage.GetBlobUri(model.ImageId + ImageUtil.GetIdFileExtension(), fromCdn);
             if (uri == null) return model;
-            model.ImageUrl = uri.GetThumbUrlForImage(ThumbOrientation.Vertical, ThumbSize.S228);
+            model.ImageUrl = uri.GetThumbUrlForImage(ThumbOrientation.Horizontal, ThumbSize.S228);
             return model;
         } 
     }

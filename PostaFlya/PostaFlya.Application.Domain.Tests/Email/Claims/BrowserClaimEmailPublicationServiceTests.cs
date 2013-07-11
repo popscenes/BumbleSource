@@ -6,6 +6,7 @@ using NUnit.Framework;
 using Ninject;
 using Ninject.MockingKernel.Moq;
 using PostaFlya.Application.Domain.Email.Claims;
+using PostaFlya.Domain.Boards;
 using PostaFlya.Domain.Browser;
 using PostaFlya.Mocks.Domain.Data;
 using Website.Application.Email;
@@ -54,10 +55,12 @@ namespace PostaFlya.Application.Domain.Tests.Email.Claims
             var flierBrowser = BrowserTestData.GetOne(Kernel);
             flierBrowser = BrowserTestData.StoreOne(flierBrowser, repository, Kernel, true);
 
+            var board = BoardTestData.GetOne(Kernel, "TestBoard", BoardTypeEnum.VenueBoard);
+            BoardTestData.StoreOne(board, repository, Kernel);
             var flier = FlierTestData.GetOne(Kernel);
             flier.EffectiveDate = DateTime.UtcNow.AddDays(-1);
             flier.BrowserId = flierBrowser.Id;
-            var storedFlier = FlierTestData.StoreOne(flier, repository, Kernel);
+            var storedFlier = FlierTestData.StoreOne(flier, repository, Kernel, board);
 
             var emailSent = false;
             var emailSentToClaimAddress = false;
@@ -109,9 +112,11 @@ namespace PostaFlya.Application.Domain.Tests.Email.Claims
             var flierBrowser = BrowserTestData.GetOne(Kernel);
             flierBrowser = BrowserTestData.StoreOne(flierBrowser, repository, Kernel, true);
 
+            var board = BoardTestData.GetOne(Kernel, "TestBoard", BoardTypeEnum.VenueBoard);
+            BoardTestData.StoreOne(board, repository, Kernel);
             var flier = FlierTestData.GetOne(Kernel);
             flier.BrowserId = flierBrowser.Id;
-            var storedFlier = FlierTestData.StoreOne(flier, repository, Kernel);
+            var storedFlier = FlierTestData.StoreOne(flier, repository, Kernel, board);
 
             var emailSent = false;
             var emailSentToClaimAddress = false;

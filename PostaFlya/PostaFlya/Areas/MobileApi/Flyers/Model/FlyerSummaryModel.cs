@@ -2,12 +2,11 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using PostaFlya.Domain.Flier;
-using PostaFlya.Models.Location;
+using PostaFlya.Domain.Flier.Query;
 using Website.Application.Binding;
 using Website.Application.Content;
-using Website.Application.Domain.Content;
 using Website.Common.Model;
-using Website.Common.Model.Query;
+using Website.Domain.Content;
 using Website.Infrastructure.Query;
 using Res = PostaFlya.Properties.Resources;
 
@@ -31,17 +30,18 @@ namespace PostaFlya.Areas.MobileApi.Flyers.Model
 
             target.Id = source.Id;
             target.FriendlyId = source.FriendlyId;
-            target.ImageUrl = _blobStorage.GetBlobUri(source.Image.ToString() + ImageUtil.GetIdFileExtension()).ToString();
+            target.Image = _queryChannel.Query(new FindByIdQuery<Image>() {Id = source.Image.ToString()}, new ImageModel());
             target.Title = source.Title;
             target.EventDates = source.EventDates;
-            target.Venue = _queryChannel.ToViewModel<VenueInformationModel>(source.Venue);
+            target.VenueBoard = _queryChannel.Query(new GetFlyerVenueBoardQuery() {FlyerId = source.Id},
+                                                    new FlyerBoardSummaryModel());
             
             return target;
 
         }
     }
 
-    public class FlyerSummaryModel
+    public class FlyerSummaryModel : IsModelInterface
     {
 
         [Display(Name = "Id", ResourceType = typeof(Res))]
@@ -54,12 +54,12 @@ namespace PostaFlya.Areas.MobileApi.Flyers.Model
         public List<DateTimeOffset> EventDates { get; set; }
 
         [Display(Name = "Flyer_ImageUrl", ResourceType = typeof (Res))]
-        public string ImageUrl { get; set; }
+        public ImageModel Image { get; set; }
 
         [Display(Name = "Flyer_Title", ResourceType = typeof (Res))]
         public string Title { get; set; }
 
-        [Display(Name = "Flyer_Venue", ResourceType = typeof (Res))]
-        public VenueInformationModel Venue{ get; set; }
+        [Display(Name = "Flyer_Venue_Board", ResourceType = typeof(Res))]
+        public FlyerBoardSummaryModel VenueBoard { get; set; }
     }
 }

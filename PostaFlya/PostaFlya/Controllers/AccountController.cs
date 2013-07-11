@@ -152,6 +152,10 @@ namespace PostaFlya.Controllers
         [NonAction]
         public object CreateBrowserFromIdentityProviderCredentials(IdentityProviderCredential identityProviderCredentials)
         {
+            var roles = new Website.Domain.Browser.Roles {Role.Participant.ToString()};
+#if DEBUG
+            roles.Add(Role.Admin.ToString());
+#endif
             var command = new AddBrowserCommand()
             {
                 Browser = new PostaFlya.Domain.Browser.Browser()
@@ -159,7 +163,7 @@ namespace PostaFlya.Controllers
                     Id = Guid.NewGuid().ToString(),
                     FriendlyId = identityProviderCredentials.Name,
                     EmailAddress = identityProviderCredentials.Email,
-                    Roles = new Website.Domain.Browser.Roles { Role.Participant.ToString() },
+                    Roles = roles,
                     AccountCredit = _configurationService.GetSetting<double>("NewAccountCredit")
                 }
             };

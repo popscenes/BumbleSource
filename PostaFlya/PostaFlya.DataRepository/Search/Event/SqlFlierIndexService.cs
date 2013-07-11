@@ -10,6 +10,7 @@ using PostaFlya.Domain.Boards;
 using PostaFlya.Domain.Boards.Event;
 using PostaFlya.Domain.Flier;
 using PostaFlya.Domain.Flier.Event;
+using PostaFlya.Domain.Flier.Query;
 using Website.Application.Binding;
 using Website.Azure.Common.Sql;
 using Website.Domain.Claims.Event;
@@ -23,32 +24,29 @@ namespace PostaFlya.DataRepository.Search.Event
 {
     public class SqlFlierIndexService : 
         HandleEventInterface<FlierModifiedEvent>
-        , HandleEventInterface<BoardFlierModifiedEvent>
         , HandleEventInterface<BoardModifiedEvent>
         , HandleEventInterface<ClaimEvent>
         , HandleEventInterface<CommentEvent>
     {
         private readonly GenericQueryServiceInterface _queryService;
+        private readonly QueryChannelInterface _queryChannel;
 
 
         private readonly SqlConnection _connection;
         public SqlFlierIndexService([SqlSearchConnectionString]string searchDbConnectionString
-            , GenericQueryServiceInterface queryService)
+            , GenericQueryServiceInterface queryService, QueryChannelInterface queryChannel)
         {
             _queryService = queryService;
+            _queryChannel = queryChannel;
             _connection = new SqlConnection(searchDbConnectionString);
         }
         
         public bool Handle(FlierModifiedEvent @event)
         {
-            if (@event.OrigState != null &&
-                (@event.NewState == null ||
-                !@event.NewState.Venue.Address.Equals(@event.OrigState.Venue.Address) ||
-                @event.NewState.LocationRadius != @event.OrigState.LocationRadius ||
-                @event.NewState.Status != FlierStatus.Active)
-             )
+            if (@event.OrigState != null)
             {
-                var searchRecords = @event.OrigState.ToSearchRecords().ToList();
+                var venueBoard = _queryChannel.Query(new GetFlyerVenueBoardQuery() { FlyerId = @event.OrigState.Id }, (Board)null);
+                var searchRecords = @event.OrigState.ToSearchRecords(venueBoard).ToList();
                 SqlExecute.DeleteAll(searchRecords, _connection);
                 SqlExecute.DeleteBy(searchRecords.Select(record => new FlierDateSearchRecord() { LocationShard = record.LocationShard, Id = record.Id })
                     , _connection, e => e.Id, e => e.LocationShard);
@@ -56,7 +54,9 @@ namespace PostaFlya.DataRepository.Search.Event
 
             if (@event.NewState != null && @event.NewState.Status == FlierStatus.Active)
             {
-                var searchRecords = @event.NewState.ToSearchRecords().ToList();
+                var venueBoard = _queryChannel.Query(new GetFlyerVenueBoardQuery() {FlyerId = @event.NewState.Id}, (Board)null);
+
+                var searchRecords = @event.NewState.ToSearchRecords(venueBoard).ToList();
                 SqlExecute.InsertOrUpdateAll(searchRecords, _connection);
 
                 var eventDatesRecs = @event.NewState.ToDateSearchRecords(searchRecords);
@@ -65,37 +65,50 @@ namespace PostaFlya.DataRepository.Search.Event
                 SqlExecute.InsertOrUpdateAll(eventDatesRecs, _connection);
             }
 
+            AddBoardFlyerRecs(@event);
+
             return (@event.OrigState != null) || (@event.NewState != null);
         }
 
-        public bool Handle(BoardFlierModifiedEvent @event)
+        private bool AddBoardFlyerRecs(EntityModifiedDomainEventInterface<Flier> @event)
         {
-            if (@event.OrigState != null && @event.NewState == null)
+            if (@event.OrigState != null && @event.OrigState.Boards != null && @event.OrigState.Boards.Any())
             {
-                var flier = _queryService.FindById<Domain.Flier.Flier>(@event.OrigState.FlierId);
-                var searchRecord = @event.OrigState.ToSearchRecord(flier);
-                SqlExecute.Delete(searchRecord, _connection);
-                SqlExecute.DeleteBy(new BoardFlierDateSearchRecord()
-                    {
-                        BoardId = searchRecord.BoardId,
-                        Id = searchRecord.Id
-                    }, _connection, record => record.BoardId, record => record.Id);
+                var flier = _queryService.FindById<Domain.Flier.Flier>(@event.OrigState.Id);
+                var venueBoard = _queryChannel.Query(new GetFlyerVenueBoardQuery() { FlyerId = flier.Id }, (Board)null);
+
+                foreach (var searchRecord in flier.Boards.Select(board => board.ToSearchRecord(flier, venueBoard)))
+                {
+                    SqlExecute.Delete(searchRecord, _connection);
+                    SqlExecute.DeleteBy(new BoardFlierDateSearchRecord()
+                        {
+                            BoardId = searchRecord.BoardId,
+                            Id = searchRecord.Id
+                        }, _connection, record => record.BoardId, record => record.Id);
+                }
+
             }
 
-            if (@event.NewState != null)
+            if (@event.NewState != null && @event.NewState.Boards != null && @event.NewState.Boards.Any())
             {
-                var flier = _queryService.FindById<Domain.Flier.Flier>(@event.NewState.FlierId);
+                var flier = _queryService.FindById<Domain.Flier.Flier>(@event.NewState.Id);
                 if (flier == null)
                     return false;
-                var searchRecord = @event.NewState.ToSearchRecord(flier);
-                SqlExecute.InsertOrUpdate(searchRecord, _connection);
-                SqlExecute.DeleteBy(new BoardFlierDateSearchRecord()
-                {
-                    BoardId = searchRecord.BoardId,
-                    Id = searchRecord.Id
-                }, _connection, record => record.BoardId, record => record.Id);
+                var venueBoard = _queryChannel.Query(new GetFlyerVenueBoardQuery() {FlyerId = flier.Id}, (Board) null);
 
-                SqlExecute.InsertOrUpdateAll(searchRecord.ToBoardDateSearchRecords(flier), _connection);
+                foreach (var searchRecord in flier.Boards.Select(board => board.ToSearchRecord(flier, venueBoard)))
+                {
+                    SqlExecute.InsertOrUpdate(searchRecord, _connection);
+                    SqlExecute.DeleteBy(new BoardFlierDateSearchRecord()
+                        {
+                            BoardId = searchRecord.BoardId,
+                            Id = searchRecord.Id
+                        }, _connection, record => record.BoardId, record => record.Id);
+
+                    SqlExecute.InsertOrUpdateAll(searchRecord.ToBoardDateSearchRecords(flier), _connection);
+                }
+
+
             }
 
             return (@event.OrigState != null) || (@event.NewState != null);
@@ -134,7 +147,9 @@ namespace PostaFlya.DataRepository.Search.Event
             if (flier == null)
                 return false;
 
-            var searchRecord = flier.ToSearchRecords();
+            var venueBoard = _queryChannel.Query(new GetFlyerVenueBoardQuery() { FlyerId = flier.Id }, (Board)null);
+
+            var searchRecord = flier.ToSearchRecords(venueBoard);
             SqlExecute.InsertOrUpdateAll(searchRecord, _connection);
             return true;
         }

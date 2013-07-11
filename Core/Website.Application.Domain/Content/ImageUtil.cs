@@ -2,6 +2,7 @@ using System;
 using System.Drawing;
 using System.IO;
 using System.Text.RegularExpressions;
+using Website.Domain.Content;
 
 namespace Website.Application.Domain.Content
 {
@@ -14,6 +15,7 @@ namespace Website.Application.Domain.Content
         {
             var ret = new string(Char.ToLower(orientation.ToString()[0]), 1);
             ret += (int)thumbSize;
+
             return ret + ".jpg";
         }
 
@@ -45,17 +47,12 @@ namespace Website.Application.Domain.Content
 
     public enum ThumbSize
     {
-        S57 = 57,
-        S114 = 114,
+        S150 = 150,
         S228 = 228,
-        S456 = 456
+        S300 = 300,
+        S450 = 450,
+        S900 = 900,
     }
 
-    public enum ThumbOrientation
-    {
-        Horizontal,
-        Vertical,
-        Original,
-        Square
-    }
+
 }

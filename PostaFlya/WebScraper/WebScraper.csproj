@@ -44,6 +44,18 @@
     <Reference Include="Ninject">
       <HintPath>..\..\..\Libraries\Ninject.3.0.2-unstable-8\lib\net45-full\Ninject.dll</HintPath>
     </Reference>
+    <Reference Include="PostaFlya, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\PostaFlya\bin\PostaFlya.dll</HintPath>
+    </Reference>
+    <Reference Include="PostaFlya.Application.Domain, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\PostaFlya\bin\PostaFlya.Application.Domain.dll</HintPath>
+    </Reference>
+    <Reference Include="PostaFlya.Domain, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\PostaFlya\bin\PostaFlya.Domain.dll</HintPath>
+    </Reference>
     <Reference Include="PresentationUI, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="ReachFramework" />
     <Reference Include="System" />
@@ -71,7 +83,23 @@
     </Reference>
     <Reference Include="Website.Application, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Core\Website.Application\bin\Debug\Website.Application.dll</HintPath>
+      <HintPath>..\PostaFlya\bin\Website.Application.dll</HintPath>
+    </Reference>
+    <Reference Include="Website.Common, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\PostaFlya\bin\Website.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Website.Domain, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\PostaFlya\bin\Website.Domain.dll</HintPath>
+    </Reference>
+    <Reference Include="Website.FunctionalLib, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\PostaFlya\bin\Website.FunctionalLib.dll</HintPath>
+    </Reference>
+    <Reference Include="Website.Infrastructure, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\PostaFlya\bin\Website.Infrastructure.dll</HintPath>
     </Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
@@ -125,22 +153,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Core\Website.Domain\Website.Domain.csproj">
-      <Project>{C479A98A-EC5A-45EF-968A-2D81B406485F}</Project>
-      <Name>Website.Domain</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Core\Website.Infrastructure\Website.Infrastructure.csproj">
-      <Project>{B5C3A966-F286-4CB8-913B-C8625625451D}</Project>
-      <Name>Website.Infrastructure</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\PostaFlya.Domain\PostaFlya.Domain.csproj">
-      <Project>{77BD3622-4D65-4776-AC5A-4F779CC526ED}</Project>
-      <Name>PostaFlya.Domain</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\PostaFlya\PostaFlya.csproj">
-      <Project>{85753e12-6d9b-4b33-9ebd-bf31dbe10088}</Project>
-      <Name>PostaFlya</Name>
-    </ProjectReference>
     <ProjectReference Include="..\WebScraper.Library\WebScraper.Library.csproj">
       <Project>{dee6bab1-09a0-4054-9ddf-1ffb8a397098}</Project>
       <Name>WebScraper.Library</Name>

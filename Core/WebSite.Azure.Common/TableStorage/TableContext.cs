@@ -12,6 +12,7 @@ using Microsoft.WindowsAzure.Storage.Table;
 using Microsoft.WindowsAzure.Storage.Table.DataServices;
 using Website.Azure.Common.DataServices;
 using Website.Azure.Common.Environment;
+using Website.Infrastructure.Types;
 using Website.Infrastructure.Util;
 using Website.Infrastructure.Util.Extension;
 

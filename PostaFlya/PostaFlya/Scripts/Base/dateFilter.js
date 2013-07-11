@@ -53,7 +53,7 @@
 })(window, jQuery);
 
 // Date.prototype.format() - By Chris West - MIT Licensed
-(function () {
+(function (window) {
     var D = "Sunday,Monday,Tuesday,Wednesday,Thursday,Friday,Saturday".split(","),
         M = "January,February,March,April,May,June,July,August,September,October,November,December".split(",");
     Date.prototype.format = function (format) {
@@ -92,6 +92,46 @@
               : ret;
         });
     };
-})();
+    
+    function pad(number) {
+        var r = String(number);
+        if (r.length === 1) {
+            r = '0' + r;
+        }
+        return r;
+    }
+    
+    Date.prototype.toISOOffsetString = function () {
+        var ret = this.getUTCFullYear()
+            + '-' + pad(this.getMonth() + 1)
+            + '-' + pad(this.getDate())
+            + 'T' + pad(this.getHours())
+            + ':' + pad(this.getMinutes())
+            + ':' + pad(this.getSeconds())
+            + '.' + String((this.getMilliseconds() / 1000).toFixed(3)).slice(2, 5)
+            + (this.getTimezoneOffset() <= 0 ? '+' : '-')
+            + pad((Math.abs(this.getTimezoneOffset() / 60)))
+            + ':' + pad((this.getTimezoneOffset() % 60));
+        return ret;
+    };
+
+
+    bf.getDateFromHash = function() {
+        var parts = window.location && window.location.hash && window.location.hash.slice(1).split("-");
+        if (parts && parts.length >= 3) {
+
+            var date = new Date();
+            if (parts[2])
+                date.setFullYear(parts[2]);
+            if (parts[1])
+                date.setMonth(parts[1] - 1);
+            if (parts[0])
+                date.setDate(parts[0]);
+            return date;
+        }
+        return null;
+    };
+
+})(window);
 
 

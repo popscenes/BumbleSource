@@ -17,7 +17,7 @@ using Website.Infrastructure.Query;
 
 namespace PostaFlya.Models.Browser
 {
-    public class ToCurrentBrowserModel : ViewModelMapperInterface<CurrentBrowserModel, PostaFlyaBrowserInformation>
+    public class ToCurrentBrowserModel : ViewModelMapperInterface<CurrentBrowserModel, PostaFlyaBrowserInformationInterface>
     {
         private readonly QueryChannelInterface _queryChannel;
 
@@ -26,7 +26,7 @@ namespace PostaFlya.Models.Browser
             _queryChannel = queryChannel;
         }
 
-        public CurrentBrowserModel ToViewModel(CurrentBrowserModel target, PostaFlyaBrowserInformation source)
+        public CurrentBrowserModel ToViewModel(CurrentBrowserModel target, PostaFlyaBrowserInformationInterface source)
         {
             if (target == null) 
                 target = new CurrentBrowserModel();
@@ -35,14 +35,14 @@ namespace PostaFlya.Models.Browser
             target.BrowserId = source.Browser.Id;
             target.Roles = source.Browser.Roles.Select(r => r).ToList();
             target.LastSearchedLocation = source.LastSearchLocation.ToViewModel();
-            target.AdminBoards = new List<BrowserInformationBoardModel>();
+            target.AdminBoards = new List<BoardSummaryModel>();
             /*if (source.PostaBrowser.AdminBoards != null && source.PostaBrowser.AdminBoards.Count > 0)
             target.AdminBoards =
                 _queryChannel.Query(new FindBoardByAdminEmailQuery() { AdminEmail  = source.Browser.EmailAddress},
                                       (List<BoardModel>) null);*/
-                             
 
-            _queryChannel.ToViewModel<BrowserModel>(source.Browser, target);
+
+            _queryChannel.ToViewModel<BrowserModel, Domain.Browser.Browser>(source.PostaBrowser, target);
 
 
             return target;
@@ -52,7 +52,7 @@ namespace PostaFlya.Models.Browser
     {
         public String BrowserId { get; set; }
         public List<LocationModel> SavedLocations { get; set; }
-        public List<BrowserInformationBoardModel> AdminBoards { get; set; } 
+        public List<BoardSummaryModel> AdminBoards { get; set; } 
         public List<String> SavedTags { get; set; }
         public List<string> Roles { get; set; }
         public double Credits { get; set; }  

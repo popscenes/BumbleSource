@@ -4,11 +4,14 @@ using System.Web.Mvc;
 using System.Web.Routing;
 using PostaFlya.Application.Domain.Browser;
 using PostaFlya.Application.Domain.ExternalSource;
+using PostaFlya.Domain.Flier;
 using PostaFlya.Models;
 using Website.Application.Content;
 using PostaFlya.Domain.Behaviour;
 using PostaFlya.Domain.Flier.Command;
 using PostaFlya.Domain.Flier.Query;
+using Website.Common.Model.Query;
+using Website.Domain.Content;
 using Website.Infrastructure.Command;
 using PostaFlya.Models.Flier;
 using PostaFlya.Models.Location;
@@ -18,6 +21,7 @@ using Website.Application.Domain.Browser;
 using Website.Application.Domain.Content;
 using Website.Domain.Browser;
 using Website.Domain.Browser.Command;
+using Website.Infrastructure.Query;
 
 namespace PostaFlya.Controllers
 {
@@ -29,15 +33,17 @@ namespace PostaFlya.Controllers
         private IdentityProviderServiceInterface _identityProviderService;
         private CommandBusInterface _commandBus;
         private readonly BlobStorageInterface _blobStorage;
+        private readonly QueryChannelInterface _queryChannel;
 
         public FlierImportController(PostaFlyaBrowserInformationInterface browserInfoService, FlierImportServiceInterface flierImportService,
-            IdentityProviderServiceInterface identityProviderService, CommandBusInterface commandBus, [ImageStorage]BlobStorageInterface blobStorage)
+            IdentityProviderServiceInterface identityProviderService, CommandBusInterface commandBus, [ImageStorage]BlobStorageInterface blobStorage, QueryChannelInterface queryChannel)
         {
             _browserInfoService = browserInfoService;
             _flierImportService = flierImportService;
             _identityProviderService = identityProviderService;
             _commandBus = commandBus;
             _blobStorage = blobStorage;
+            _queryChannel = queryChannel;
         }
 
         //protected string GetUrlCallBack(string providerIdentifier)
@@ -75,9 +81,9 @@ namespace PostaFlya.Controllers
             }
 
             var importedFliers = flierImporter.ImportFliers(browser);
-            var createFliers = importedFliers.Select(_ => _.ToCreateModel().GetImageUrl(_blobStorage, ThumbOrientation.Vertical, ThumbSize.S228));
+            var createFliers = _queryChannel.ToViewModel<FlierCreateModel, FlierInterface>(importedFliers);
             ViewBag.Fliers = createFliers;
-            var model = new flierImportModel() { CreatedFliers = createFliers, PageId = WebConstants.FlierImportPage };
+            var model = new flierImportModel() { CreatedFliers = createFliers.AsQueryable(), PageId = WebConstants.FlierImportPage };
 
             return View(model);
         }

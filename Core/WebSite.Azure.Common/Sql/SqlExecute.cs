@@ -20,6 +20,7 @@ using Microsoft.SqlServer.Types;
 using Microsoft.WindowsAzure.ServiceRuntime;
 using Website.Azure.Common.Properties;
 using Website.Infrastructure.Configuration;
+using Website.Infrastructure.Types;
 using Website.Infrastructure.Util;
 using Website.Infrastructure.Util.Extension;
 
@@ -142,6 +143,7 @@ namespace Website.Azure.Common.Sql
         public const string DbGeography = "geography";
         public const string DbLong = "bigint";
         public const string DbDateTime = "datetime2";
+        public const string DbBit = "bit";
 
         public static readonly Dictionary<Type, string> TypeToDbColTypeDictionary
             = new Dictionary<Type, string>()
@@ -154,7 +156,8 @@ namespace Website.Azure.Common.Sql
                       {typeof(SqlXml), DbXml},
                       {typeof(SqlGeography), DbGeography},  
                       {typeof(long), DbLong},  
-                      {typeof(DateTime), DbDateTime},                    
+                      {typeof(DateTime), DbDateTime},
+                      {typeof(bool), DbBit},  
                   };
 
         public static readonly Dictionary<Type, SqlDbType> TypeToDbTypeDictionary
@@ -168,7 +171,8 @@ namespace Website.Azure.Common.Sql
                       {typeof(DateTime), SqlDbType.DateTime2},
                       {typeof(SqlXml), SqlDbType.Xml},
                       {typeof(SqlGeography), SqlDbType.Udt},  
-                      {typeof(long), SqlDbType.BigInt},                                            
+                      {typeof(long), SqlDbType.BigInt}, 
+                      {typeof(bool), SqlDbType.Bit},                      
                   };
 
 
@@ -520,7 +524,17 @@ namespace Website.Azure.Common.Sql
             var contextRecordTyp = typeof (RecordType);
                 var fedInfo = contextRecordTyp.GetFedInfo();
                 if (fedInfo == null)
-                    return Query<RecordType>(command, connection, (FederationInstance) null, parameters, isStoredProc);
+                {
+#if DEBUG
+                    if (federationValues != null && federationValues.Length > 0)
+                    {
+                        if(federationValues.Any(f => (f as IComparable) == null))
+                            throw new ArgumentException("this probably means your shit will break under federations");
+                    }
+#endif
+                    return Query<RecordType>(command, connection, (FederationInstance)null, parameters, isStoredProc);
+                }
+                    
 
             var federations = GetFederationRangesFor(fedInfo, connection, federationValues);
             var connectionFact = new SqlConnectionFactory(connection);

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using Ninject;
 using Ninject.Extensions.Conventions;
@@ -22,6 +23,9 @@ namespace PostaFlya.Domain.Binding
             //command handlers
             var kernel = Kernel as StandardKernel;
             kernel.BindCommandAndQueryHandlersFromCallingAssembly(c => c.InTransientScope());
+
+            kernel.BindInfrastructureQueryHandlersForTypesFrom(
+                c => c.InTransientScope(), Assembly.GetAssembly(typeof(PostaFlya.Domain.Browser.Browser)));
 
             kernel.BindEventHandlersFromCallingAssembly(c => c.InTransientScope());
 

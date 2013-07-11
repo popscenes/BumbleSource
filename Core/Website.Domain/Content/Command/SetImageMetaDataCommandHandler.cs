@@ -49,6 +49,11 @@ namespace Website.Domain.Content.Command
                                 image.Title = command.Title;
                                 change = true;
                             }
+                            if (command.Dimensions != null && command.Dimensions.Count > 0)
+                            {
+                                image.AvailableDimensions = command.Dimensions;
+                            }
+
                         });
             }
 

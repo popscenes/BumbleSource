@@ -108,8 +108,9 @@ namespace Website.Azure.Common.TableStorage
             , int take = -1)
         {
             var tableName = NameAndIndexProviderService.GetTableName<EntityRetType>();
-            return TableContext.PerformSelectQuery(
-                tableName, query, selectExpression, take: take);
+            //note because we may reuse this query service we can have the select type being stored by the table context
+            return TableContext.PerformQuery(
+                tableName, query, take: take).Select(selectExpression);
         }
 
         protected IQueryable<SelectType> GetSelectTableEntries<SelectType>(Type entity, Expression<Func<TableEntryType, bool>> query

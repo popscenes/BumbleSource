@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Website.Infrastructure.Domain;
 
 namespace Website.Domain.Content
@@ -15,7 +16,23 @@ namespace Website.Domain.Content
         public Location.Location Location { get; set; }
 
         public string ExternalId { get; set; }
+        public List<ImageDimension> AvailableDimensions { get; set; }
 
         #endregion
+    }
+
+    public struct ImageDimension
+    {
+        public int Width { get; set; }
+        public int Height { get; set; }
+        public string UrlExtension { get; set; }
+        public ThumbOrientation Orientation { get; set; }
+    }
+
+    public enum ThumbOrientation
+    {
+        Horizontal,
+        Original,
+        Square
     }
 }

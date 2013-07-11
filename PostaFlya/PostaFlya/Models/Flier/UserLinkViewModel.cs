@@ -3,23 +3,22 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Globalization;
 using PostaFlya.Domain.Flier;
+using Website.Common.Model;
 using Resources = PostaFlya.Properties.Resources;
 
 namespace PostaFlya.Models.Flier
 {
-    public static class UserLinkViewModelExtensions
+    public class ToUserLinkViewModel : ViewModelMapperInterface<UserLinkViewModel, UserLink>
     {
-        public static UserLinkViewModel ToViewModel(this UserLink userLink)
+        public UserLinkViewModel ToViewModel(UserLinkViewModel target, UserLink source)
         {
-            //dynamic behav = flier.Behaviour;
-            return new UserLinkViewModel()
-                {
-                    Link = userLink.Link,
-                    Text = userLink.Text,
-                    Type = userLink.Type.ToString(CultureInfo.InvariantCulture)
-                };
+            if(target == null)
+                target = new UserLinkViewModel();
+            target.Link = source.Link;
+            target.Text = source.Text;
+            target.Type = source.Type.ToString(CultureInfo.InvariantCulture);
+            return target;
         }
-
     }
 
     public class UserLinkViewModel

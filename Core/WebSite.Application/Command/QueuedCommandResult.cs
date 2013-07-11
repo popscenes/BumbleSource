@@ -9,6 +9,7 @@ namespace Website.Application.Command
     {
         Successful,
         Error,
-        Retry
+        Retry,
+        RetryError
     }
 }

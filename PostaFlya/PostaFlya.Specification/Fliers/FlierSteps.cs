@@ -7,6 +7,7 @@ using System.Web.Mvc;
 using NUnit.Framework;
 using Ninject;
 using PostaFlya.Areas.Default.Models;
+using PostaFlya.Domain.Boards;
 using PostaFlya.Domain.Flier.Analytic;
 using PostaFlya.Domain.Flier.Query;
 using TechTalk.SpecFlow;
@@ -40,6 +41,9 @@ namespace PostaFlya.Specification.Fliers
         [Given(@"i have navigated to the CREATE PAGE for a FLIER TYPE (.*)")]
         public void GivenIOrAnotherBrowserHasNavigatedToTheCreateFlierPage(string flierBehaviour)
         {
+            var repo = SpecUtil.CurrIocKernel.Get<GenericRepositoryInterface>();
+            repo.Store(SpecUtil.CurrIocKernel.Get<Board>(ib => ib.Get<bool>("default")));
+
             var flierController = SpecUtil.GetController<FlierController>();
             var type = (FlierBehaviour)Enum.Parse(typeof(FlierBehaviour), flierBehaviour);
             var createModel = SpecUtil.CurrIocKernel.Get<FlierCreateModel>(ib => ib.Get<bool>("fliercreate"));
@@ -62,7 +66,10 @@ namespace PostaFlya.Specification.Fliers
             Assert.IsNotNull(createdFlier);//test ThenTheNewFlierWillBeCreated(string flierBehaviour) first
 
             var browserInformation = SpecUtil.GetCurrBrowser();
-            Assert.IsTrue(createdFlier.GetContactDetailsForFlier(browserInformation.Browser).HasEnoughForContact());
+            var queryChannel = SpecUtil.CurrIocKernel.Get<QueryChannelInterface>();
+
+
+            Assert.IsTrue(createdFlier.GetContactDetailsForFlier(queryChannel).HasEnoughForContact());
             
         }
 
@@ -204,9 +211,12 @@ namespace PostaFlya.Specification.Fliers
             var flier = ScenarioContext.Current["flier"] as Flier;
             var flierQueryService = SpecUtil.CurrIocKernel.Get<GenericQueryServiceInterface>();
             var flierSearchService = SpecUtil.CurrIocKernel.Get<FlierSearchServiceInterface>();
+            var queryChannel = SpecUtil.CurrIocKernel.Get<QueryChannelInterface>();
+            var fb = queryChannel.Query(new GetFlyerVenueBoardQuery() { FlyerId = flier.Id }, (Board)null);
+
 
             var flierUpdatedId = flierSearchService
-                .FindFliersByLocationAndDistance(flier.Venue.Address, 5, 3000, skipPast: null, tags: flier.Tags)
+                .FindFliersByLocationAndDistance(fb.Venue().Address, 5, 3000, skipPast: null, tags: flier.Tags)
                 .SingleOrDefault(id => flier.Id == id);
 
             var flierUpdated = flierQueryService.FindById<Flier>(flierUpdatedId);
@@ -306,7 +316,7 @@ namespace PostaFlya.Specification.Fliers
             flierEditModel.Description = flier.Description;
             flierEditModel.Title = flier.Title;
             flierEditModel.TagsString = flier.Tags.ToString();
-            flierEditModel.VenueInformation = flier.Venue.ToViewModel();
+            //flierEditModel.VenueInformation = flier.Venue.ToViewModel();
             flierEditModel.FlierImageId = flier.Image.Value.ToString();
             flierEditModel.EventDates = flier.EventDates.Select(d => d.DateTime).ToList();
             return flierEditModel;
@@ -658,7 +668,7 @@ namespace PostaFlya.Specification.Fliers
         public void GivenIChooseToAttachContactDetailsOtherThanMySavedDetails()
         {
             var createFlierModel = ScenarioContext.Current["createflya"] as FlierCreateModel;
-            createFlierModel.VenueInformation = new VenueInformationModel();
+            //createFlierModel.VenueInformation = new VenueInformationModel();
         }
 
         [Given(@"i choose to attach USER LINKS")]

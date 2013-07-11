@@ -339,18 +339,22 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Areas\MobileApi\App_Start\MobileApiConfig.cs" />
+    <Compile Include="Areas\MobileApi\Flyers\Controllers\FlyersByBoardController.cs" />
     <Compile Include="Areas\MobileApi\Flyers\Controllers\FlyerDetailController.cs" />
-    <Compile Include="Areas\MobileApi\Flyers\Controllers\FlyersByLatestController.cs" />
+    <Compile Include="Areas\MobileApi\Flyers\Controllers\FlyersByFeaturedController.cs" />
     <Compile Include="Areas\MobileApi\Flyers\Controllers\FlyersByLocationController.cs" />
+    <Compile Include="Areas\MobileApi\Flyers\Model\FlyerBoardSummaryModel.cs" />
     <Compile Include="Areas\MobileApi\Flyers\Model\FlyerDetailModel.cs" />
     <Compile Include="Areas\MobileApi\Flyers\Model\FlyerDetailRequest.cs" />
+    <Compile Include="Areas\MobileApi\Flyers\Model\FlyersByBoardRequest.cs" />
+    <Compile Include="Areas\MobileApi\Flyers\Model\FlyersByFeaturedContent.cs" />
     <Compile Include="Areas\MobileApi\Flyers\Model\FlyersByLatestRequest.cs" />
     <Compile Include="Areas\MobileApi\Flyers\Model\FlyersByLocationRequest.cs" />
-    <Compile Include="Areas\MobileApi\Flyers\Model\FlyerSummaryContent.cs" />
+    <Compile Include="Areas\MobileApi\Flyers\Model\FlyersByDateContent.cs" />
     <Compile Include="Areas\MobileApi\Flyers\Model\FlyerSummaryModel.cs" />
-    <Compile Include="Areas\MobileApi\Flyers\Query\FindFlyerByIdQueryHandler.cs" />
-    <Compile Include="Areas\MobileApi\Flyers\Query\FindFlyersByLatestQueryHandler.cs" />
-    <Compile Include="Areas\MobileApi\Flyers\Query\FindFlyersByLocationAndDistanceQueryHandler.cs" />
+    <Compile Include="Areas\MobileApi\Flyers\Model\ImageModel.cs" />
+    <Compile Include="Areas\MobileApi\Flyers\Query\ToFlyersByDateContentQueryHandler.cs" />
+    <Compile Include="Areas\MobileApi\Flyers\Query\FindFlyersByFeaturedQueryAsContentHandler.cs" />
     <Compile Include="Areas\MobileApi\Infrastructure\Controller\MobileApiControllerBase.cs" />
     <Compile Include="Areas\MobileApi\Infrastructure\Controller\ResponseContentExtensions.cs" />
     <Compile Include="Areas\MobileApi\Infrastructure\HttpFilters\MobileApiValidationActionFilter.cs" />
@@ -365,10 +369,8 @@
     <Compile Include="Controllers\BoardSearchController.cs" />
     <Compile Include="Controllers\BrowserInformationController.cs" />
     <Compile Include="Controllers\ClaimController.cs" />
-    <Compile Include="Controllers\BoardFlierController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\FlierImportController.cs" />
-    <Compile Include="Controllers\MyBoardFlierController.cs" />
     <Compile Include="Controllers\MyBoardsController.cs" />
     <Compile Include="Controllers\PaymentController.cs" />
     <Compile Include="Controllers\PendingFliersApiController.cs" />
@@ -431,7 +433,6 @@
     <Compile Include="Models\PagedModel.cs" />
     <Compile Include="Models\PageModelInterface.cs" />
     <Compile Include="Models\Tags\TagSetListViewModel.cs" />
-    <Compile Include="Models\ViewModelBase.cs" />
     <Compile Include="Models\Tags\AddTagsModel.cs" />
     <Compile Include="Controllers\BulletinController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -447,8 +448,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Query\DefaultDetailsFindFindByFriendlyIdQueryHandler.cs" />
-    <Compile Include="Query\DefaultDetailsFindFindByIdQueryHandler.cs" />
     <Compile Include="RemoveWwwRedirectFilter.cs" />
     <Compile Include="Views\Account\Bundles.cs" />
     <Compile Include="Views\Board\Widget\WidgetBundles.cs" />
@@ -617,6 +616,11 @@
     <Content Include="Areas\HelpPage\Views\Help\Index.cshtml" />
     <Content Include="Areas\HelpPage\Views\_ViewStart.cshtml" />
     <Content Include="humans.txt" />
+    <Content Include="Content\themes\taskflya\fonts\DIN.ttf" />
+    <Content Include="Content\themes\taskflya\fonts\DIN-Black.ttf" />
+    <Content Include="Areas\Default\Views\Bulletin\SummaryTileTemplateNew.cshtml" />
+    <Content Include="Areas\Default\Views\Bulletin\SummaryTileNew.cshtml" />
+    <Content Include="Content\themes\taskflya\fonts\DIN Alternate Bold.ttf" />
     <None Include="Microsoft.WindowsAzure.Caching\ClientPerfCountersInstaller.exe">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -641,6 +645,7 @@
     <Content Include="Scripts\Base\CreateFlierInstance.js" />
     <Content Include="Scripts\Base\dateFilter.js" />
     <Content Include="Scripts\Base\facebook.js" />
+    <Content Include="Scripts\Base\GigGuideMixin.js" />
     <Content Include="Scripts\Base\PageDefaultAction.js" />
     <Content Include="Scripts\Base\PageInit.js" />
     <Content Include="Scripts\Base\ErrorHandling.js" />
@@ -659,6 +664,7 @@
     <Content Include="Scripts\Bulletin\BoardSearchPage.js" />
     <Content Include="Scripts\Bulletin\BoardWidgetPage.js" />
     <Content Include="Scripts\Bulletin\BulletinLayoutProperties.js" />
+    <Content Include="Scripts\Bulletin\GigGuide.js" />
     <Content Include="Scripts\Bulletin\Detail.js" />
     <Content Include="Scripts\Bulletin\SelectedFlierViewModel.js" />
     <Content Include="Scripts\Base\CreateEditFlier.js" />
@@ -810,7 +816,7 @@
     </Content>
     <Content Include="Views\Shared\Bulletin\DetailTileTemplates.cshtml" />
     <Content Include="WaIISHost.exe.config" />
-    <Content Include="Views\Shared\Bulletin\SelectedBulletinViewPartial.cshtml" />
+    <Content Include="Views\Shared\Bulletin\BulletinTileViewsPartial.cshtml" />
     <Content Include="Views\Profile\Edit.cshtml" />
     <Content Include="Views\Shared\Header\GlobalLeftToolbar.cshtml" />
     <Content Include="Views\Shared\Bulletin\BulletinItems.cshtml" />
@@ -860,6 +866,9 @@
     <Content Include="Views\Board\Widget\BoardWidgetHtml.cshtml" />
     <Content Include="Views\BoardSearch\Get.cshtml" />
     <Content Include="Views\Shared\Location\VenueSelector.cshtml" />
+    <Content Include="Views\Shared\Header\RightLoginPostHeader.cshtml" />
+    <Content Include="Views\Bulletin\GigGuide.cshtml" />
+    <Content Include="Views\Shared\Bulletin\GigListByDatePartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Areas\Default\Binding\" />
@@ -870,6 +879,7 @@
     <Folder Include="Areas\MobileApi\Models\" />
     <Folder Include="Attributes\" />
     <Folder Include="Properties\PublishProfiles\" />
+    <Folder Include="Query\" />
     <Folder Include="Scripts\plupload\jquery.plupload.queue\css\" />
     <Folder Include="Scripts\plupload\jquery.plupload.queue\img\" />
     <Folder Include="Scripts\Widget\" />

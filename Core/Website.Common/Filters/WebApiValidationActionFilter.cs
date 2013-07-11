@@ -11,7 +11,7 @@ using Website.Infrastructure.Command;
 namespace Website.Common.Filters
 {
     //Web Api doesn't use model validators atm, if this changes in the future no need for this
-    public abstract class ApiValidationActionFilterBaseAttribute : ActionFilterAttribute
+    public class WebApiValidationActionFilter : ActionFilterAttribute
     {
         public override void OnActionExecuting(HttpActionContext context)
         {
@@ -23,15 +23,7 @@ namespace Website.Common.Filters
             context.Response = responseMessage;
         }
 
-        protected abstract object CreateFaultMessage(IDictionary<string, ModelState> modelState);
-
-
-    }
-
-    //Web Api doesn't use model validators atm, if this changes in the future no need for this
-    public class WebApiValidationActionFilter : ApiValidationActionFilterBaseAttribute
-    {
-        protected override object CreateFaultMessage(IDictionary<string, ModelState> modelState)
+        protected MsgResponse CreateFaultMessage(IDictionary<string, ModelState> modelState)
         {
             var errList = new List<MsgResponseDetail>();
             var errorResponse = new MsgResponse {Message = "Validation Error", Details = errList, IsError = true};

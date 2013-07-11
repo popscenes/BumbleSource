@@ -14,7 +14,6 @@ table {
 	width: 260px;
 	height: auto;
 	margin: 0px auto 0;
-	border: 1px solid #ccc;
     background-color: white;
     z-index: 1001 !important;
     display: none;
@@ -27,12 +26,11 @@ table {
 	width: 100%;
 }
 .ui-datepicker-header {
-	background: #FF7D00;
+	background: #2F2F2F;
 	color: #fff;
 	font-weight: bold;
 	line-height: 30px;
 	border-width: 1px 0 0 0;
-	border-style: solid;
 	border-color: #ccc;
 }
 .ui-datepicker-title {
@@ -101,13 +99,13 @@ table {
 	width: 36px;
 	height: 30px;
 	line-height: 30px;
-	color: #FF7D00;
+	color: #2F2F2F;
 }
 .ui-datepicker-calendar .ui-state-hover {
 	background: #f7f7f7;
 }
 .ui-datepicker-calendar .ui-state-active {
-	background: #FF7D00;
+	background: #2F2F2F;
 	color: #ffffff;
     width: 36px;
 }

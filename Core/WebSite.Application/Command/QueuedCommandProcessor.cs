@@ -31,6 +31,7 @@ namespace Website.Application.Command
             _handlerRespository = handlerRespository;
         }
 
+        //[UnitTestOnly]
         public WorkInProgress ProcessOneSynch()
         {
             WorkInProgress ret = null;
@@ -49,6 +50,13 @@ namespace Website.Application.Command
                     };
 
                 ret = RunTask(workInProgress).Result;
+
+                if (ret.Result == QueuedCommandResult.RetryError)
+                {
+                    WorkComplete(ret);
+                    throw new Exception("Shouldn't expect error");
+                }
+                    
 
             } while (ret.Result == QueuedCommandResult.Retry);
             
@@ -125,7 +133,7 @@ namespace Website.Application.Command
             task.Start();
             var wipret = await task;
 
-            if ((task.IsCanceled || task.IsFaulted) || (wipret.Result == QueuedCommandResult.Retry))
+            if ((task.IsCanceled || task.IsFaulted) || (wipret.Result > QueuedCommandResult.Retry))
             {
                 Wip--;
                 return wipret;
@@ -201,7 +209,7 @@ namespace Website.Application.Command
             catch (Exception e)
             {
                 Trace.TraceError("QueuedCommandScheduler TaskProc Error: {0}, Stack {1}", e.Message, e.StackTrace);
-                work.Result = QueuedCommandResult.Retry;
+                work.Result = QueuedCommandResult.RetryError;
 
             }
     

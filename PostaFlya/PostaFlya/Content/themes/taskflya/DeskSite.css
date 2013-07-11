@@ -1,18 +1,47 @@
-﻿body{
-	
-	background-image: url(images/bg-low-quality.jpg);
-    background-repeat: no-repeat;
-    background-position: 0 0;
-    font-family: 'Open Sans',Tahoma, Helvetica, Geneva, sans-serif;
-    background-repeat: repeat;
+﻿@font-face
+{
+    font-family: din;
+    src: url('fonts/DIN Alternate Bold.ttf') format('truetype');
+    font-weight:bold;
+    font-style:normal;
 }
 
+body{
+    font-family:'Open Sans',Tahoma, Helvetica, Geneva, sans-serif;
+    margin: 0;
+    background-color: #2F2F2F;
+}
 
+#body {
+    margin-top: 50px
+}
+
+a {
+    color: white;
+}
 
 header{
-background-repeat: no-repeat;
-background-position: center center;
-background-color: white;
+    background-color: #282828;
+    width: 100%;
+    height: 44px;
+    min-height: 44px;
+    position: fixed;
+    top: 0px;
+    z-index: 10;
+    left: 0px;
+}
+
+#logo {
+    font-family: 'Open Sans',Tahoma, Helvetica, Geneva, sans-serif;
+    font-weight: 900;
+    color: white;
+    font-size: 20px;
+    text-decoration: none;
+    display: block;
+    float: left;
+    height: 50%;
+    vertical-align: middle;
+    margin-top: 10px;
 }
 
 
@@ -42,8 +71,8 @@ background-color: white;
     display: inline-block;
     font-size: 12px;
     font-weight: bold;
-    color: white;
-    background-color: #FF7D00;
+    color: #282828;
+    background-color: white;
     height: 14px;
     padding: 10px;
     vertical-align: middle;
@@ -54,22 +83,33 @@ background-color: white;
     
 }
 
+#post-flya {
+    color: white;
+    background-color: #282828;
+}
+
 .locSel{
-    width: 620px;
+    width: 300px;
     height: 34px;
-    border: #A6A5A5 solid 1px;
-    background-color: white;
-    margin-left: 20px;
+    background-color: #282828;
+    margin-top: 5px;
+}
+
+.locSel input {
+    background-color: #282828;
+    color: white;
+    border: 0;
 }
 
 .location-title {
     margin-bottom: 12px;
-    color: black;
+    color: white;
     margin-right: 14px;
     font-size: 18px;
     margin-left: 20px;
     font-weight: bold;
     float: none !important;
+    text-transform: uppercase;
 }
 
 
@@ -85,6 +125,10 @@ background-color: white;
     padding: 15px;
     padding-left: 44px;
     
+}
+
+#log-in-profile {
+    background-color: #282828;
 }
 .create-edit-userlink {
     display: inline-block;
@@ -136,6 +180,7 @@ ul.userlinks {
     position: absolute;
     top: 0;
     left: 0;
+    margin-top: 5px;
     width: 34px;
     height: 34px;
 }
@@ -154,7 +199,7 @@ ul.userlinks {
     background-image: url(images/icons-88h1.png);
     width: 88px;
     height: 50px;
-    background-position: -1320px -105px;
+    background-position: -1320px -15px;
     display: inline-block;
     cursor: pointer;
 }
@@ -163,24 +208,24 @@ ul.userlinks {
     background-image: url(images/icons-88h1.png);
     width: 50px;
     height: 50px;
-    background-position: -1428px -105px;
+    background-position: -1428px -15px;
     display: inline-block;
     cursor: pointer;
 }
 
 
 .btn-44.btn-white{
-    background-color: white;
-    color: black;
+    background-color: #282828;
+    color: white;
 }
 
 .btn-44.active{
-    background-color: #FF7D00;
+    background-color: #2F2F2F;
     color: white;
 } 
 
 #profile-peeled.btn-44 .std-image-btn-icon{
-    background-position: -352px -44px;
+    background-position: -352px 0px;
 }
 
 #profile-peeled.btn-44.active .std-image-btn-icon{
@@ -188,7 +233,7 @@ ul.userlinks {
 }
 
 #profile-posted.btn-44 .std-image-btn-icon{
-    background-position: 0 -44px;
+    background-position: 0 0px;
 }
 
 #profile-posted.btn-44.active .std-image-btn-icon{
@@ -196,7 +241,7 @@ ul.userlinks {
 }
 
 #profile-payment.btn-44 .std-image-btn-icon{
-    background-position: -440px -44px;
+    background-position: -440px 0px;
 }
 
 #profile-payment.btn-44.active .std-image-btn-icon{
@@ -204,7 +249,7 @@ ul.userlinks {
 }
 
 #profile-edit.btn-44 .std-image-btn-icon{
-    background-position: -88px -44px;
+    background-position: -88px 0px;
 }
 
 #profile-edit.btn-44.active .std-image-btn-icon{
@@ -232,7 +277,7 @@ ul.userlinks {
 
 
 #flya-create-back .std-image-btn-icon {
-    background-position: -102px 0px;
+    background-position: -102px 34px;
 }
 
 #flya-create-continue {
@@ -258,7 +303,7 @@ ul.userlinks {
 }
 
 #flya-create-continue .std-image-btn-icon {
-    background-position: -136px 0px;
+    background-position: -136px 34px;
     top: 0;
     right: 0;
     left: auto;
@@ -270,14 +315,14 @@ ul.userlinks {
 }
 
 .pickfiles  .std-image-btn-icon {
-    background-position: -272px 0px;
+    background-position: -272px 34px;
 }
 .uploadfiles  .std-image-btn-icon {
-    background-position: -238px 0px;
+    background-position: -238px 34px;
 }
 
 .addButton  .std-image-btn-icon {
-    background-position: -238px 0px;
+    background-position: -238px 34px;
 }
 
 .create-edit-userlink {
@@ -290,15 +335,16 @@ ul.userlinks {
     margin-right: 10px;
 }
 
-#profile-avatar, #log-in-profile {
-    border-right: solid 1px #CFCFCF;
-}
 #log-in-profile  .std-image-btn-icon{
-    background-position: -88px -44px;
+    background-image: url(images/icons-34h1.png);
+    width: 34px;
+    height: 34px;
+    margin-top: 5px;
+    background-position: -68px 0px;
 }
 
 #profile-avatar .std-image-btn-icon {
-    background-position: -88px -44px;
+    background-position: -88px 0px;
 }
 
 #profile-avatar {
@@ -409,11 +455,11 @@ div.current-loc {
     display: table-cell;
     width: 34px;
     background-image: url(images/icons-34h1.png);
-    background-position: -34px -34px;
+    background-position: -34px -0px;
     cursor: pointer;
 }
 
-div#create-flier-item-div, div#selected-item-div
+div#create-flier-item-div
 {
     border-top: 1px solid #ccc;
     border-right: 1px solid #ccc;
@@ -429,14 +475,14 @@ div#create-flier-item-div, div#selected-item-div
 
 /************selected item popup/overlay div ********************/
 div#selected-item-div, div#create-flier-item-div {
-    background-color: white; 
+    background-color: #68757E;
+    color: white;
     opacity: 1;
-    margin-top: 20px;
 }
 
 div#selected-item-popup-overlay, div#create-flier-popup-overlay {
-    background-color: rgba(227, 224, 226, 0.95);
     overflow-y: scroll;
+    white-space: normal;
     
 }
 /************end selected item popup/overlay div ********************/
@@ -909,7 +955,7 @@ div#selected-item-popup-overlay, div#create-flier-popup-overlay {
     background-image: url(images/icons-88h1.png);
     width: 54px;
     height: 54px;
-    background-position: -1160px -105px;
+    background-position: -1160px -15px;
     display: inline-block;
     cursor: pointer;
 }
@@ -949,7 +995,7 @@ display: inline-block;
 h2 {
     font-weight: normal;
     font-size: 30px;
-    color: #FF7D00;
+    color: white;
     text-transform: uppercase;
 
 }
@@ -957,9 +1003,9 @@ h2 {
 h3 {
     font-weight: normal;
     font-size: 20px;
-    color: #FF7D00;
+    color: white;
     text-transform: uppercase;
-    border-bottom: #FF7D00 solid 2px;
+    border-bottom: white solid 2px;
     
 }
 
@@ -970,18 +1016,18 @@ form li h3 {
 h4 {
     font-weight: normal;
     font-size: 16px;
-    color: #FF7D00;
+    color: white;
     text-transform: uppercase;
-    border-bottom: #FF7D00 solid 2px;
+    border-bottom: white solid 2px;
 }
 
 .page-content {
-    background-color: white;
+    background-color: #68757E;
     width: 70%;
     margin: 30px auto;
-    border: 1px #D0CBC4 solid;
     padding: 15px;
     min-height: 600px;
+    color: white;
 }
 .page-inner {
     width: 70%;
@@ -1144,12 +1190,15 @@ margin: 0 auto;
     text-decoration: none;
 }
 
+
+
 .red-button {
-    background-color: #D28282;
+    background-color: white;
+    color: #2F2F2F;
 }
 
 .blue-button {
-    background-color: #FF7D00;
+    background-color: #2F2F2F;
 }
 
 .flier-cost-summary {
@@ -1182,11 +1231,6 @@ margin: 0 auto;
     height: 44px;
     background-position: -396px -0px;
     background-color: #ff7d00;
-}
-
-#logo {
-    background-image: url("images/navbar-logo-44h.png");
-    height: 44px;
 }
 
 .page-toolbar-buttons {
@@ -1282,15 +1326,14 @@ div.ls-holder-text input.location-search {
 
 
 a.bold-link {
-    color: #FF7D00;
+    color: white;
     font-weight: bold;
     cursor: pointer;
 }
 
 a.plainlink {
-    text-decoration: none;
     text-align: center;
-    color: #555555;
+    color: white;
 }
 
 .pac-container {
@@ -1339,8 +1382,11 @@ a.plainlink {
     -webkit-box-shadow: 1px 1px 4px rgba(0,0,0,0.4);
     /*display: inline-block;*/
     margin: 8px;
-    width: 228px;
+    width: 150px;
+    height: 150px;
     display: inline-block;
+    background-color: #050505;
+    color: white;
 }
 
 div.tile-image {
@@ -1349,16 +1395,24 @@ div.tile-image {
 
 .ui-flier-tile img 
 {
-    box-shadow: 0 0 4px rgba(0,0,0,0.4);
-    width: 228px;
+    width: 150px;
+    height: 150px;
     cursor: pointer;
 }
 
 div.tile-summary {
-    display: table;
+    position: relative;
+    top: -54px;
+    left: 0;
     font-size: 12px;
     text-align: left;
-    padding: 5px 10px;    
+    background-color: black;
+    opacity: 0.9;
+    height: 50px;
+    overflow: hidden;
+    font-family: sans-serif;
+    padding-left: 8px;
+    
 }
 div.tile-summary div.tile-peel {
     display: table-cell;
@@ -1372,22 +1426,29 @@ div.tile-summary div.tile-peel a {
 
 div.tile-summary div.flier-title {
     font-weight: bold;
-    font-size: 13PX;
+    font-size: 12PX;
     line-height: 14px;
+    overflow: hidden;
+    height: 12px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 120px;
+    margin-top: 12px;
 }
 
-div.tile-summary div.flier-locality {
-    color: rgb(114, 114, 114);
+div.tile-summary div.flier-board {
+    color: white;
     font-size: 12px;
     padding: 5px 5px 5px 0;
 }
 
-div.tile-summary div.flier-locality a{
-    color: rgb(114, 114, 114);
-    font-size: 13px;
+div.tile-summary div.flier-board a{
+    color: white;
+    font-size: 12px;
+    text-decoration: none;
 }
 
-body#board-page div.tile-summary div.flier-locality {
+body#board-page div.tile-summary div.flier-board a{
     display: none;
 }
 
@@ -1418,13 +1479,13 @@ div.ui-bulletin-board
 }
 
 div.bulletin-showing-div {
-    color: black;
+    color: white;
     font-style: italic;
     padding-bottom: 5px;
 }
 
 div.bulletin-loading-div {
-    color: black;
+    color: white;
     font-style: italic;
 }
 
@@ -1464,36 +1525,8 @@ p#copyright {
 
 /***default detail view layout***/
 
-.flier-view {
-
-}
-
-.flier-view .flier-details {
-    
-}
-
-.flier-view .flier-details .flier-img {
-    text-align: center;
-}
-
-.flier-view div.tear-off {
-    text-align: center;
-}
-
-.flier-view div.flier-contact-dets{
-    text-align: center;
-}
-
-.flier-view div.flier-event-dates {
-    text-align: center;
-}
-
 .flier-view .flier-details .flier-img img {
     width: 450px;
-}
-
-.flier-view .flier-details .flier-claims-comments{
-    
 }
 
 .flier-view .flier-details .flier-claims-comments .claim-stats{
@@ -1502,14 +1535,6 @@ p#copyright {
 
 .flier-view .flier-details .flier-claims-comments .comment-stats{
     display: inline;
-}
-
-.flier-view div.flier-desc {
-    text-align: center;
-}
-
-.flier-view .comments {
-    
 }
 
 .flier-view .claims {
@@ -1521,33 +1546,54 @@ p#copyright {
     list-style: none;
 }
 
-
-
-
-
 .get-flier-detail-div {
-    max-width: 700px;
-    padding: 4%;
-    width: 90%;
+    padding: 20px;
+    padding-left: 140px;
     margin: 0 auto 0;
-    background-color: white;
+    color: white;
     margin-top: 15px;
-    border-top: 1px solid #ccc;
-    border-right: 1px solid #ccc;
-    border-bottom: 1px solid #ccc;
-    border-left: 1px solid #ccc;
 }
 
+div#selected-item-div {
+    position: absolute;
+    z-index: 1751;
+    padding-top: 20px;
+    padding-left: 20%;
+    width: 80%;
+    height: 100%;
+    margin-top: 44px;
+
+    
+}
+
+    .flier-view-default .flier-img {
+        float: left;
+        width: 200px;
+    }
+
+    .flier-view-default .flier-img img {
+        width: 150px;
+    }
+
+    .flier-view-default .flier-details {
+        float: left;
+        width: 420px;   
+    }
+
+
+
+.flier-view h3 {
+    border: 0;
+}
+
+.event-dates-list {
+    margin: 10px 0;
+    padding: 0;
+}
 /***end default detail view layout***/
 
 .terms-of-service-signin {
     font-size: 11px;
-}
-
-.board-header {
-    
-    
-    
 }
 
 .board-links {
@@ -1572,10 +1618,9 @@ p#copyright {
 
 .board-information-calendar, .bulletin-calendar {
     clear: both;
-    background-color: #3D3D3D;
     margin: 0;
     padding: 8px 0px 8px 20px;
-    width: 728px;
+    background-color: #050505;
 }
 
 .bulletin-calendar {
@@ -1588,11 +1633,9 @@ p#copyright {
 {
 	padding-top:12px;
 	z-index:500;
-    background-color: white;
-    width: 748px;
+    background-color: #282828;
+    width: 690px;
     margin: 0 auto;
-    border: 1px #D0CBC4 solid;
-    background-color: white;
 }
 
 #controls > * {
@@ -1622,10 +1665,11 @@ p#copyright {
 
 #dateFilterList li a {
     margin-right: 20px;
-    color: #FF7D00;
+    color: white;
     font-weight: bold;
     cursor: pointer;
     font-size: 12px;
+    text-transform: uppercase;
 }
 
 
@@ -1693,6 +1737,33 @@ div.trying-to-find-yourloc.alert-box .alert-box-icon {
     background-position: -176px -88px;
 }
 
+ul.time-line {
+    list-style: none; 
+}
+
+ul.time-line li {
+    display: inline-block;
+    padding: 0 10px 0 10px;
+}
+
+
+ul.time-line li a.date-nav-link{
+    color: #bbbbbb;
+    text-decoration: none;
+}
+
+ul.time-line li a.date-nav-link.current{
+    font-weight: bold;
+    color: #ffffff;
+}
+
+/*
+ul.time-line li a.date-nav-link.history{
+    color: #bbbbbb;
+    text-decoration: none;
+}
+*/
+
 
 @media only screen and (max-width: 880px) {
     .long-toolbar .image-btn-text {
@@ -1715,11 +1786,6 @@ div.trying-to-find-yourloc.alert-box .alert-box-icon {
 
     #controls > * {
         float: none;
-    }
-
-    .locSel {
-        width: 80%;
-        margin: 0 10%;
     }
 
       #controls .dist-selector-container {
@@ -1768,16 +1834,16 @@ div.trying-to-find-yourloc.alert-box .alert-box-icon {
 @media only screen and (max-width: 600px)
 {
 
-    .ui-flier-tile img {
-        width: 200px!important;
-    }
-
     .date-filter, #controls .bulletin-tags-selector {
         padding-top: 12px;
     }
 
     #profile-avatar, #log-in-profile {
         border-right: none;
+    }
+
+    #left-header {
+        width: 280px;
     }
 
 
@@ -1789,23 +1855,12 @@ div.trying-to-find-yourloc.alert-box .alert-box-icon {
     #logo {
         width: 38%;
         float: left;
+        display: none;
 
     }
 
     #right-header {
-        width: 28%;
-    }
-
-    #left-header {
-        width: auto;
-        border-right: solid 1px #CFCFCF;
-    }
-
-    
-
-    .ui-flier-tile {
-        margin: 4px!important;
-        width: 200px!important;
+        float: right;
     }
 
     #controls .bulletin-tags-selector, .bulletin-calendar {
@@ -1914,10 +1969,14 @@ div.trying-to-find-yourloc.alert-box .alert-box-icon {
         width: 100%
     }
 
+    .flier-view-default .flier-details {
+        width: auto;
+    }
+
     div#selected-item-div, div#create-flier-item-div {
 
         left: 0;
-        padding: 4%;
+        padding: 10%;
         width: 90%;
         margin-left: 0;
         
@@ -1948,10 +2007,6 @@ div.trying-to-find-yourloc.alert-box .alert-box-icon {
         padding-right: 0;
     }
 
-    .locSel {
-        width: 80%;
-        margin: 0 10%;
-    }
 
     .helptips-container#global-toolbar-helptip {
         padding-top: 75px;

@@ -25,7 +25,6 @@ namespace PostaFlya.Domain.Flier.Command
         public bool AttachTearOffs { get; set; }
         public int ExtendPostRadius { get; set; }
         public bool EnableAnalytics { get; set; }
-        public VenueInformation Venue { get; set; }
         public List<UserLink> UserLinks { get; set; }
         public bool Anonymous { get; set; }
     }

@@ -40,8 +40,9 @@ namespace PostaFlya.Application.Domain.Tests.Flier
             GenericQueryServiceInterface cachedQueryService = new TimedExpiryCachedQueryService(cache, queryService);
 
             var repository = kernel.Get<GenericRepositoryInterface>();
+            var board = BoardTestData.GetAndStoreOne(kernel, repository);
 
-            var storedFlier = FlierTestData.StoreOne(FlierTestData.GetOne(kernel), repository, kernel);
+            var storedFlier = FlierTestData.StoreOne(FlierTestData.GetOne(kernel), repository, kernel, board);
             FlierInterface retrievedFlier = cachedQueryService.FindById<PostaFlya.Domain.Flier.Flier>(storedFlier.Id);
             FlierTestData.AssertStoreRetrieve(storedFlier, retrievedFlier);
 
@@ -77,7 +78,9 @@ namespace PostaFlya.Application.Domain.Tests.Flier
 
             var cachedFlierRepository = new CachedRepositoryBase(cache, kernel.Get<GenericRepositoryInterface>());
 
-            var storedFlier = FlierTestData.StoreOne(FlierTestData.GetOne(kernel), cachedFlierRepository, kernel);
+            var board = BoardTestData.GetAndStoreOne(kernel, cachedFlierRepository);
+
+            var storedFlier = FlierTestData.StoreOne(FlierTestData.GetOne(kernel), cachedFlierRepository, kernel, board);
             FlierInterface retrievedFlier = cachedQueryService.FindById<PostaFlya.Domain.Flier.Flier>(storedFlier.Id);
             FlierTestData.AssertStoreRetrieve(storedFlier, retrievedFlier);
 
@@ -107,7 +110,9 @@ namespace PostaFlya.Application.Domain.Tests.Flier
 
             var cachedFlierRepository = new CachedRepositoryBase(cache, kernel.Get<GenericRepositoryInterface>());
 
-            var storedFlier = FlierTestData.StoreOne(FlierTestData.GetOne(kernel), cachedFlierRepository, kernel);
+            var board = BoardTestData.GetAndStoreOne(kernel, cachedFlierRepository);
+
+            var storedFlier = FlierTestData.StoreOne(FlierTestData.GetOne(kernel), cachedFlierRepository, kernel, board);
             FlierInterface retrievedFlier = cachedQueryService.FindById<PostaFlya.Domain.Flier.Flier>(storedFlier.Id);
             FlierTestData.AssertStoreRetrieve(storedFlier, retrievedFlier);
 

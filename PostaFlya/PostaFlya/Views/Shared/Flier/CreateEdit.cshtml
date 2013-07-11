@@ -235,14 +235,15 @@
             <h3>Venue</h3>
             <ol>
                 <li>
-                    @Html.ValidationMessageFor(model => model.VenueInformation.Address)
-                    @Html.HiddenFor(model => model.VenueInformation.Address, new { data_bind = "value: VenueInformation().PlaceName()" })
+                    
+                    @Html.ValidationMessageFor(model => model.BoardList)
+                    
                     @{ 
-                        ViewBag.AutoCompleteLocationBannerText = "'Venue or Address of event'";
+                        ViewBag.AutoCompleteLocationBannerText = "'Venue  of event'";
                     }
                     @{
                    
-                        ViewBag.LocationVariable = "VenueInformation";
+                        ViewBag.LocationVariable = "VenueBoard";
                     }
                     @Html.Partial("Location/VenueSelector")
                 </li>

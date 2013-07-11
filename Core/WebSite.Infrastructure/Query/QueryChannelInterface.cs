@@ -23,7 +23,9 @@ namespace Website.Infrastructure.Query
             where QueryType : QueryInterface
         {
             var ret = _resolutionRoot.Get<QueryHandlerInterface<QueryType, ReturnType>>();
-            return ret == null ? defaultRet : ret.Query(query);
+
+            var retVal = ret == null ? defaultRet : ret.Query(query);
+            return object.Equals(retVal, default(ReturnType)) ? defaultRet : retVal;
         }
     }
 }

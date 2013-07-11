@@ -58,6 +58,12 @@ namespace WebScraper
             TraceText.DataContext = listener;
             Bind(listener, "Trace", TraceText, BindingMode.OneWay, TextBox.TextProperty);
 
+            var all = _kernel.GetBindings(typeof (SiteScraperInterface));
+            var venues = all.Select(binding => binding.Metadata.Name).ToList();
+            venues.Insert(0, "<All>");
+            VenueCombo.ItemsSource = venues;
+            VenueCombo.SelectedItem = venues.First();
+
            // PlaceName.DataContext = _venueModel;
             //Bind(_venueModel, "PlaceName", PlaceName, BindingMode.TwoWay, TextBox.TextProperty);
 
@@ -158,7 +164,12 @@ namespace WebScraper
 
             var items = new ConcurrentQueue<ImportedFlyerScraperModel>();
             //var all = _kernel.GetAll<SiteScraperInterface>(metadata => metadata.Name == DrunkenPoetSiteScraper.BaseUrl).ToList();
-            var all = _kernel.GetAll<SiteScraperInterface>().ToList();
+            var all = new List<SiteScraperInterface>();
+            if("<All>" == startEnd.SelectedVenue)
+                all.AddRange(_kernel.GetAll<SiteScraperInterface>());
+            else
+                all.Add(_kernel.Get<SiteScraperInterface>(metadata => metadata.Name == startEnd.SelectedVenue));
+            
             Parallel.ForEach(all, siteScraper =>
                 {
                     Trace.TraceInformation("Running " + siteScraper.SiteName);
@@ -178,17 +189,63 @@ namespace WebScraper
         private void UploadStart(DoWorkEventArgs e)
         {
             var data = e.Argument as PublishData;
+            var boardsReq = new BoardsGet(data.server, data.authcookie);
+            
             data.import.ForEach(model =>
-            {
-                var up = new FlyerUpload(data.authcookie, Guid.Empty.ToString(), model, data.server);
-                var ret = up.Request().Result;
-            });
+                {
+                    var boardId = "";
+                    var allBoards = boardsReq.Request().Result;
+                    var foundBoards = allBoards.Where(_ => _.DefaultVenueInformation.PlaceName == model.VenueInfo.PlaceName).Select(_ => _.Id);
+
+                    if (allBoards.All(_ => _.DefaultVenueInformation.PlaceName != model.VenueInfo.PlaceName))
+                    {
+                        Trace.TraceInformation("Creating board for gig no board found for {0} ...", model.VenueInfo.PlaceName);
+
+                        var venueInfo = model.VenueInfo;
+                        var newBoard = new BoardCreateEditModel()
+                        {
+                            VenueInformation = venueInfo,
+                            BoardName = venueInfo.PlaceName,
+                            AllowOthersToPostFliers = false,
+                            Description = venueInfo.PlaceName + " Venue Board",
+                            RequireApprovalOfPostedFliers = false,
+                            Status = BoardStatus.Approved,
+                            TypeOfBoard = BoardTypeEnum.VenueBoard,
+                            AdminEmailAddresses = data.boardAdmins
+                        };
+
+                        var uploadBoardReq = new BoardUpload(data.authcookie, Guid.Empty.ToString(), newBoard, data.server);
+                            
+                        boardId = uploadBoardReq.Request().Result;
+                        Trace.TraceInformation("Created new board {0} Id {1}", newBoard.BoardName, boardId);
+
+                    }
+                    else
+                    {
+                        boardId = allBoards.First(_ => _.DefaultVenueInformation.PlaceName == model.VenueInfo.PlaceName).Id;
+                    }
+
+
+                    if (!String.IsNullOrWhiteSpace(boardId))
+                    {
+                        model.BoardId = boardId;
+                        var up = new FlyerUpload(data.authcookie, Guid.Empty.ToString(), model, data.server);
+                        var ret = up.Request().Result;
+                    }
+                    else
+                    {
+                        Trace.TraceInformation("no baord found or created for {0}", model.VenueInfo.PlaceName);
+                    }
+
+                });
+            
         }
 
         private class StartEnd
         {
             public DateTime Start { get; set; }
             public DateTime End { get; set; }
+            public string SelectedVenue { get; set; }
         }
         private void Load_Click(object sender, RoutedEventArgs ev)
         {
@@ -206,7 +263,8 @@ namespace WebScraper
             worker.RunWorkerAsync(new StartEnd()
                 {
                     Start = StartDate.SelectedDate.Value,
-                    End = EndDate.SelectedDate.Value
+                    End = EndDate.SelectedDate.Value,
+                    SelectedVenue = VenueCombo.SelectedItem.ToString()
                 });
 
         }
@@ -241,6 +299,7 @@ namespace WebScraper
             public string authcookie { get; set; }
             public List<ImportedFlyerScraperModel> import { get; set; }
             public string server { get; set; }
+            public List<String> boardAdmins { get; set; }
         }
 
         class BoardPublishData
@@ -276,7 +335,8 @@ namespace WebScraper
                 {
                     authcookie = Auth,
                     import = import,
-                    server = server                    
+                    server = server,
+                    boardAdmins = autoBoardAdmins.Text.Split(new char[]{','}).ToList()
                 });
 
         }
@@ -323,6 +383,14 @@ namespace WebScraper
                 server = server
             });
 
+        }
+
+        private void autoBoardAdmins_GotFocus(object sender, RoutedEventArgs e)
+        {
+            if (autoBoardAdmins.Text.Equals("Board Auto-Create Admins"))
+                autoBoardAdmins.Text = "teddymccuddles@gmail.com, rickyaudsley@gmail.com";
+
+            autoBoardAdmins.SelectAll();
         }
     }
 

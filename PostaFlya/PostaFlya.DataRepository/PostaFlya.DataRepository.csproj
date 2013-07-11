@@ -109,7 +109,6 @@
     <Compile Include="DomainQuery\FindByFriendlyIdQueryHandler.cs" />
     <Compile Include="DomainQuery\Browser\GetAggregateByBrowserIdQueryHandler.cs" />
     <Compile Include="DomainQuery\Browser\GetByBrowserIdQueryHandler.cs" />
-    <Compile Include="DomainQuery\FindByIdQueryHandler.cs" />
     <Compile Include="DomainQuery\FindByTinyUrlQueryHandler.cs" />
     <Compile Include="Internal\JsonRepositoryWithBrowser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -125,7 +124,9 @@
     <Compile Include="Search\Implementation\SqlFlierSearchService.cs" />
     <Compile Include="Search\Implementation\SqlSeachDbInitializer.cs" />
     <Compile Include="Search\Query\FindBoardsNearQueryHandler.cs" />
-    <Compile Include="Search\Query\FindFlyersByLatestQueryHandler.cs" />
+    <Compile Include="Search\Query\FindFlyersByBoardQueryHandler.cs" />
+    <Compile Include="Search\Query\FindFlyersByDateAndLocationQueryHandler.cs" />
+    <Compile Include="Search\Query\FindFlyersByFeaturedQueryHandler.cs" />
     <Compile Include="Search\Query\FindFlyersByLocationAndDistanceQueryHandler.cs" />
     <Compile Include="Search\SearchRecord\BoardFlierSearchRecord.cs" />
     <Compile Include="Search\SearchRecord\BoardSearchRecord.cs" />

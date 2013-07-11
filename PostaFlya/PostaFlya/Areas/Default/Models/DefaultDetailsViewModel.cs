@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using PostaFlya.Models.Board;
 using PostaFlya.Models.Flier;
 using PostaFlya.Models.Location;
 
 namespace PostaFlya.Areas.Default.Models
 {
     //[KnownType(typeof(TaskJobDetailsViewModel))] //for different behaviour types
-    public class DefaultDetailsViewModel
+    public class DefaultDetailsViewModel 
     {
         public BulletinFlierDetailModel Flier { get; set; }
 
@@ -16,12 +17,17 @@ namespace PostaFlya.Areas.Default.Models
                        {
                            Flier = new BulletinFlierDetailModel()
                                {
-                                   Venue = new VenueInformationModel()
+                                   EventDates = new List<DateTimeOffset>(),
+
+                                   VenueBoard = new BoardSummaryModel()
+                                   {
+                                       Location = new VenueInformationModel()
                                        {
                                            Address = new LocationModel()
-                                       },
-                                   EventDates = new List<DateTimeOffset>()
+                                       }
+                                   }
                                }
+
                        };
             return ret;
         }

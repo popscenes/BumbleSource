@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using PostaFlya.Domain.Behaviour;
+using PostaFlya.Domain.Boards;
+using PostaFlya.Domain.Flier.Query;
 using PostaFlya.Domain.Venue;
 using Website.Domain.Contact;
 using Website.Domain.Payment;
@@ -11,6 +13,7 @@ using Website.Domain.Browser;
 using Website.Domain.Claims;
 using Website.Domain.Comments;
 using Website.Domain.Tag;
+using Website.Infrastructure.Query;
 
 namespace PostaFlya.Domain.Flier
 {
@@ -32,7 +35,6 @@ namespace PostaFlya.Domain.Flier
             ClaimableEntityInterfaceExtensions.CopyFieldsFrom(target, source);
             EntityFeatureChargesInterfaceExtension.CopyFieldsFrom(target, source);
             TinyUrlInterfaceExtensions.CopyFieldsFrom(target, source);
-            target.Venue = source.Venue != null ? new VenueInformation(source.Venue) : null;
 
 
             target.Title = source.Title;
@@ -50,18 +52,17 @@ namespace PostaFlya.Domain.Flier
             target.ExtendedProperties = source.ExtendedProperties != null
                                             ? new Dictionary<string, object>(source.ExtendedProperties)
                                             : null;
-            target.Boards = source.Boards != null ? new HashSet<string>(source.Boards) : null;
+            target.Boards = source.Boards != null ? new List<BoardFlier>(source.Boards) : null;
             target.HasLeadGeneration = source.HasLeadGeneration;
             target.LocationRadius = source.LocationRadius;
             target.EnableAnalytics = source.EnableAnalytics;
             target.UserLinks = source.UserLinks != null ? new List<UserLink>(source.UserLinks) : null;
         }        
 
-        public static ContactDetailsInterface GetContactDetailsForFlier(this FlierInterface flier, BrowserInterface browser)
+        public static VenueInformationInterface GetContactDetailsForFlier(this FlierInterface flier, QueryChannelInterface queryChannel)
         {
-            if (flier.Venue != null && flier.Venue.HasEnoughForContact())
-                return flier.Venue;
-            return browser;
+            var board = queryChannel.Query(new GetFlyerVenueBoardQuery() { FlyerId = flier.Id }, (Board)null);
+            return board != null ? board.Venue() : null;
         }
 
         public static bool HasFeatureAndIsEnabled(this FlierInterface flier, string featureDescription)
@@ -109,8 +110,7 @@ namespace PostaFlya.Domain.Flier
         string ExternalSource { get; set; }
         string ExternalId { get; set; }
         Dictionary<string, object> ExtendedProperties { get;set; }
-        VenueInformation Venue { get; set; }
-        HashSet<string> Boards { get; set; }
+        List<BoardFlier> Boards { get; set; }
         bool HasLeadGeneration { get; set; }
         int LocationRadius { get; set; }
         bool EnableAnalytics { get; set; }

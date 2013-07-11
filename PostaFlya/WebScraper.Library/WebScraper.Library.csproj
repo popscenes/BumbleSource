@@ -38,6 +38,18 @@
     <Reference Include="Ninject">
       <HintPath>..\..\..\Libraries\Ninject.3.0.2-unstable-8\lib\net45-full\Ninject.dll</HintPath>
     </Reference>
+    <Reference Include="PostaFlya, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\PostaFlya\bin\PostaFlya.dll</HintPath>
+    </Reference>
+    <Reference Include="PostaFlya.Application.Domain, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\PostaFlya\bin\PostaFlya.Application.Domain.dll</HintPath>
+    </Reference>
+    <Reference Include="PostaFlya.Domain, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\PostaFlya\bin\PostaFlya.Domain.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
@@ -55,8 +67,29 @@
     <Reference Include="WebDriver">
       <HintPath>..\..\..\Libraries\Selenium.WebDriver.2.32.1\lib\net40\WebDriver.dll</HintPath>
     </Reference>
+    <Reference Include="Website.Application, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\PostaFlya\bin\Website.Application.dll</HintPath>
+    </Reference>
+    <Reference Include="Website.Common, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\PostaFlya\bin\Website.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Website.Domain, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\PostaFlya\bin\Website.Domain.dll</HintPath>
+    </Reference>
+    <Reference Include="Website.FunctionalLib, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\PostaFlya\bin\Website.FunctionalLib.dll</HintPath>
+    </Reference>
+    <Reference Include="Website.Infrastructure, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\PostaFlya\bin\Website.Infrastructure.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Infrastructure\BoardsGet.cs" />
     <Compile Include="Infrastructure\BoardUpload.cs" />
     <Compile Include="Infrastructure\FlyerUpload.cs" />
     <Compile Include="Infrastructure\SiteScraperInterface.cs" />
@@ -99,32 +132,6 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\Core\Website.Application\Website.Application.csproj">
-      <Project>{46db8930-71d8-4de4-baa6-39944f07d6f5}</Project>
-      <Name>Website.Application</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Core\Website.Domain\Website.Domain.csproj">
-      <Project>{C479A98A-EC5A-45EF-968A-2D81B406485F}</Project>
-      <Name>Website.Domain</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Core\Website.Infrastructure\Website.Infrastructure.csproj">
-      <Project>{b5c3a966-f286-4cb8-913b-c8625625451d}</Project>
-      <Name>Website.Infrastructure</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\PostaFlya.Application.Domain\PostaFlya.Application.Domain.csproj">
-      <Project>{1510EA95-D2A1-47B5-8652-49895B97FC9F}</Project>
-      <Name>PostaFlya.Application.Domain</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\PostaFlya.Domain\PostaFlya.Domain.csproj">
-      <Project>{77BD3622-4D65-4776-AC5A-4F779CC526ED}</Project>
-      <Name>PostaFlya.Domain</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\PostaFlya\PostaFlya.csproj">
-      <Project>{85753e12-6d9b-4b33-9ebd-bf31dbe10088}</Project>
-      <Name>PostaFlya</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />

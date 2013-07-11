@@ -1,6 +1,8 @@
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using Website.Application.Binding;
 using Website.Application.Content;
 using Website.Application.Extension.Content;
@@ -60,6 +62,17 @@ namespace Website.Application.Domain.Content.Command
             return true;
         }
 
+        private static ImageDimension GetDim(Image img, string urlExt, ThumbOrientation orientation)
+        {
+            return new ImageDimension()
+                {
+                    Height = img.Height,
+                    Width = img.Width,
+                    UrlExtension = urlExt,
+                    Orientation = orientation
+                };
+        }
+
         private void ProcessImage(Image img, ImageProcessCommand command)
         {
 
@@ -76,12 +89,13 @@ namespace Website.Application.Domain.Content.Command
                 if (maxDimImg != null)
                     curr = maxDimImg;
 
+                var dims = new List<ImageDimension>(){GetDim(curr, ImageUtil.GetIdFileExtension(), ThumbOrientation.Original)};
                 var convdata = curr.GetBytes();
                 _blobStorage.SetBlob(command.CommandId + ImageUtil.GetIdFileExtension(), convdata, BlobProperties.JpegContentTypeDefault);
 
-                CreateThumbs(command.CommandId, curr);
+                dims.AddRange(CreateThumbs(command.CommandId, curr));
 
-                ProcessMetaData(img, command.CommandId);
+                ProcessMetaData(img, command.CommandId, dims);
 
                 _commandBus.Send(new SetImageStatusCommand()
                                      {
@@ -104,91 +118,98 @@ namespace Website.Application.Domain.Content.Command
             }
         }
 
-        private void ProcessMetaData(Image img, string imgId)
+        private void ProcessMetaData(Image img, string imgId, List<ImageDimension> dims)
         {
             var loc = new Website.Domain.Location.Location();
             var exif = new ExifImage(img);
 
-            var hasMetaData = false;
             var latitude = exif.GetLatitude();
             var longitude = exif.GetLongitude();
             if (latitude.HasValue && longitude.HasValue)
             {
                 loc.Latitude = latitude.Value;
                 loc.Longitude = longitude.Value;
-                hasMetaData = true;
             }
 
             var title = exif.GetImageTitle();
             if (string.IsNullOrWhiteSpace(title))
                 title = exif.GetImageDescription();
-            if(!string.IsNullOrWhiteSpace(title))
-                hasMetaData = true;
-
-            if (!hasMetaData) return;
 
             _commandBus.Send(new SetImageMetaDataCommand()
             {
                 Id = imgId,
                 Location = loc,
-                Title = title
+                Title = title,
+                Dimensions = dims
             });
         }
 
-        private void CreateThumbs(string commandId, Image img)
+        private IEnumerable<ImageDimension> CreateThumbs(string commandId, Image img)
         {
-            foreach (ThumbSize size in Enum.GetValues(typeof(ThumbSize)))
+            var ret = new List<ImageDimension>();
+
+            var sizes = (ThumbSize[])Enum.GetValues(typeof (ThumbSize));
+            foreach (var size in sizes.Where(size => size > 0))
+            {              
+                ret.Add(CreateWidthThumb(commandId, img, (int)size));
+                //ret.Add(CreateLengthThumb(commandId, img, (int)size));
+                ret.Add(CreateOriginalThumb(commandId, img, (int)size));
+                ret.Add(CreateSquareThumb(commandId, img, (int)size));
+            }
+            return ret;
+        }
+
+        private ImageDimension CreateSquareThumb(string commandId, Image img, int size)
+        {
+            var aspectImg = EnsureAspectRatio(img, 1);
+            using (var thumb = aspectImg != null ? aspectImg.Resize(size, size) : img.Resize(size, size))
             {
-                CreateWidthThumb(commandId, img, (int)size);
-                CreateLengthThumb(commandId, img, (int)size);
-                CreateOriginalThumb(commandId, img, (int)size);
-                CreateSquareThumb(commandId, img, (int)size);
+                var ext = ImageUtil.GetIdFileExtension(ThumbOrientation.Square, (ThumbSize)size);
+                _blobStorage.SetBlob(commandId + ext, thumb.GetBytes(), BlobProperties.JpegContentTypeDefault);
+
+                if (aspectImg != null)
+                    aspectImg.Dispose();
+
+                return GetDim(thumb, ext, ThumbOrientation.Square);
+            }
+
+        }
+
+        private ImageDimension CreateOriginalThumb(string commandId, Image img, int size)
+        {
+            using (var thumb = img.Width > img.Height
+                                   ? img.Resize(size, img.Height)
+                                   : img.Resize(img.Width, size))
+            {
+                var ext = ImageUtil.GetIdFileExtension(ThumbOrientation.Original, (ThumbSize) size);
+                _blobStorage.SetBlob(commandId + ext, thumb.GetBytes(), BlobProperties.JpegContentTypeDefault);
+                return GetDim(thumb, ext, ThumbOrientation.Original);
             }
         }
 
-        private void CreateSquareThumb(string commandId, Image img, int size)
+//        private ImageDimension CreateLengthThumb(string commandId, Image img, int size)
+//        {
+//            using (var thumb = img.Resize((int) Math.Ceiling(img.Width*(size/(double) img.Height)), size))
+//            {
+//                var ext = ImageUtil.GetIdFileExtension(ThumbOrientation.Vertical, (ThumbSize)size);
+//                _blobStorage.SetBlob(commandId + ext, thumb.GetBytes(), BlobProperties.JpegContentTypeDefault);
+//                return GetDim(thumb, ext, ThumbOrientation.Vertical);
+//            }
+//        }
+
+        private ImageDimension CreateWidthThumb(string commandId, Image img, int size)
         {
-            var aspectImg = EnsureAspectRatio(img, 1);
-            var thumb = aspectImg != null ? aspectImg.Resize(size, size) : img.Resize(size, size);
-            _blobStorage.SetBlob(GetIdForStorage(commandId, ThumbOrientation.Square, (ThumbSize)size), thumb.GetBytes(), BlobProperties.JpegContentTypeDefault);
-
-            if (aspectImg != null)
-                aspectImg.Dispose();
-            thumb.Dispose();
-        }
-
-        private void CreateOriginalThumb(string commandId, Image img, int size)
-        {
-            var thumb = img.Width > img.Height ? 
-                            img.Resize(size, img.Height) : 
-                            img.Resize(img.Width, size);
-
-            _blobStorage.SetBlob(GetIdForStorage(commandId, ThumbOrientation.Original, (ThumbSize)size), thumb.GetBytes(), BlobProperties.JpegContentTypeDefault);                
-            
-            thumb.Dispose();
-        }
-
-        private void CreateLengthThumb(string commandId, Image img, int size)
-        {
-            var thumb = img.Resize((int)Math.Ceiling(img.Width * (size / (double)img.Height)), size);
-            _blobStorage.SetBlob(GetIdForStorage(commandId, ThumbOrientation.Vertical, (ThumbSize)size), thumb.GetBytes(), BlobProperties.JpegContentTypeDefault);
-            thumb.Dispose();
-        }
-
-        private void CreateWidthThumb(string commandId, Image img, int size)
-        {
-            var thumb = img.Resize(size, (int)Math.Ceiling(img.Height * (size / (double)img.Width)));
-            _blobStorage.SetBlob(GetIdForStorage(commandId, ThumbOrientation.Horizontal, (ThumbSize)size), thumb.GetBytes(), BlobProperties.JpegContentTypeDefault);   
-            thumb.Dispose();
+            using (var thumb = img.Resize(size, (int) Math.Ceiling(img.Height*(size/(double) img.Width))))
+            {
+                var ext = ImageUtil.GetIdFileExtension(ThumbOrientation.Horizontal, (ThumbSize)size);
+                _blobStorage.SetBlob(commandId + ext, thumb.GetBytes(), BlobProperties.JpegContentTypeDefault);
+                return GetDim(thumb, ext, ThumbOrientation.Horizontal);
+            }
         }
 
         #endregion
 
-        private static string GetIdForStorage(string imageId, ThumbOrientation orientation, ThumbSize size)
-        {
-            return imageId +
-            ImageUtil.GetIdFileExtension(orientation, size);
-        }
+
 
         private static Image EnsureAspectRatio(Image img, double aspectRatio)
         {

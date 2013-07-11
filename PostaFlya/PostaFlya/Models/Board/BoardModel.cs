@@ -11,26 +11,12 @@ using Website.Application.Domain.Google.Places;
 using Website.Application.Google.Content;
 using Website.Common.Model;
 using Website.Common.Model.Query;
+using Website.Domain.Location;
 using Website.Infrastructure.Query;
+using Loc = Website.Domain.Location;
 
 namespace PostaFlya.Models.Board
 {
-    public class GetBoardModelsByIdsQueryHandler : QueryHandlerInterface<GetBoardsByIdsQuery, List<BoardModel>>
-    {
-        private readonly QueryChannelInterface _queryChannel;
-
-        public GetBoardModelsByIdsQueryHandler(QueryChannelInterface queryChannel)
-        {
-            _queryChannel = queryChannel;
-        }
-
-        public List<BoardModel> Query(GetBoardsByIdsQuery argument)
-        {
-            var ret = _queryChannel.Query(argument, new List<PostaFlya.Domain.Boards.Board>());
-            return _queryChannel.ToViewModel<BoardModel, PostaFlya.Domain.Boards.Board>(ret);
-        }
-    }
-
     public class ToBoardModel
     : ViewModelMapperInterface<BoardModel, PostaFlya.Domain.Boards.Board>
     {
@@ -50,19 +36,17 @@ namespace PostaFlya.Models.Board
             target.Name = source.Name;
             target.FriendlyId = source.FriendlyId;
             target.Description = source.Description;
-            target.VenueInformation = source
-                .InformationSources
-                .Select(information => _queryChannel.ToViewModel<VenueInformationModel>(information))
+            target.VenueInformation = source.InformationSources == null ? new List<VenueInformationModel>() :
+                source.InformationSources
+                .Select(information => _queryChannel.ToViewModel<VenueInformationModel, VenueInformation>(information))
                 .ToList();
-            target.Location = _queryChannel.ToViewModel<LocationModel>(source.InformationSources.First().Address);
+            target.Location = target.Venue() == null ? null : target.Venue().Address;
             target.BoardTypeEnum = source.BoardTypeEnum;
             target.Id = source.Id;
-            target.DefaultVenueInformation =
-                target.VenueInformation.FirstOrDefault(model => model.Source == source.DefaultInformationSource);
-            target.DefaultVenueInformation = target.DefaultVenueInformation ?? target.VenueInformation.FirstOrDefault();
+            target.DefaultVenueInformation = target.Venue();
             if (!string.IsNullOrWhiteSpace(source.ImageId))
                 target.BoardImageUrl = _blobStorage.GetBlobUri(source.ImageId).ToString();
-            else if (source.InformationSources.First().Address != null && source.InformationSources.First().Address.IsValid)
+            else if (target.DefaultVenueInformation != null && target.DefaultVenueInformation.Address != null && target.DefaultVenueInformation.Address.IsValid())
             {
                 target.BoardImageUrl = source.InformationSources.First().Address.GoogleMapsUrl(400, 200);
                 target.BoardImageExternal = true;
@@ -73,34 +57,39 @@ namespace PostaFlya.Models.Board
 
     }
 
-    public class ToBrowserInformationBoardModel
-    : ViewModelMapperInterface<BrowserInformationBoardModel, PostaFlya.Domain.Boards.Board>
+    public class ToBoardSummaryModel
+    : ViewModelMapperInterface<BoardSummaryModel, PostaFlya.Domain.Boards.Board>
     {
         private readonly QueryChannelInterface _queryChannel;
         private readonly BlobStorageInterface _blobStorage;
 
-        public ToBrowserInformationBoardModel(QueryChannelInterface queryChannel, [ImageStorage]BlobStorageInterface blobStorage)
+        public ToBoardSummaryModel(QueryChannelInterface queryChannel, [ImageStorage]BlobStorageInterface blobStorage)
         {
             _queryChannel = queryChannel;
             _blobStorage = blobStorage;
         }
 
-        public BrowserInformationBoardModel ToViewModel(BrowserInformationBoardModel target, Domain.Boards.Board source)
+        public BoardSummaryModel ToViewModel(BoardSummaryModel target, Domain.Boards.Board source)
         {
             if (target == null)
-                target = new BrowserInformationBoardModel();
+                target = new BoardSummaryModel();
             target.Name = source.Name;
             target.Description = source.Description;
-            target.Location = _queryChannel.ToViewModel<VenueInformationModel>(source.InformationSources.First());
+            target.Location = _queryChannel.ToViewModel<VenueInformationModel, VenueInformation>(source.InformationSources.First());
             target.Id = source.Id;
+            target.FriendlyId = source.FriendlyId;
             return target;
         }
 
     }
 
     [DataContract]
-    public class BrowserInformationBoardModel
+    public class BoardSummaryModel : IsModelInterface
     {
+        public BoardSummaryModel()
+        {
+            Location = new VenueInformationModel(){Address = new LocationModel()};
+        }
         [DataMember]
         public string Name { get; set; }
 
@@ -111,12 +100,15 @@ namespace PostaFlya.Models.Board
         public string Id { get; set; }
 
         [DataMember]
+        public string FriendlyId { get; set; }
+
+        [DataMember]
         public VenueInformationModel Location { get; set; }
 
     }
 
     [DataContract]
-    public class BoardModel
+    public class BoardModel : IsModelInterface
     {
         [DataMember]
         public string Name { get; set; }
@@ -148,5 +140,25 @@ namespace PostaFlya.Models.Board
         [DataMember]
         public string BoardImageUrl { get; set; }
 
+    }
+
+    public static class BoardModelExtensions
+    {
+
+        public static VenueInformationModel Venue(this BoardModel board)
+        {
+            if (board.VenueInformation == null || board.VenueInformation.Count == 0)
+                return null;
+
+            if (board.DefaultVenueInformation != null)
+            {
+                var ret =
+                    board.VenueInformation.FirstOrDefault(
+                        information => information.Source == board.DefaultVenueInformation.Source);
+                return ret ?? board.VenueInformation.First();
+            }
+
+            return board.VenueInformation.First();
+        }
     }
 }

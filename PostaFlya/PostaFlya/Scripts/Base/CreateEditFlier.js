@@ -46,11 +46,11 @@
             ImageList: [],
             Location: {},
             EnableAnalytics: false,
-            VenueInformation: {},
             PostRadius: 5,
             FlierBehaviour: 'Default',
             TotalPaid: 0,
-            UserLinks:[]
+            UserLinks: [],
+            BoardList: []
         };
         
         data = $.extend(defdata, data);
@@ -81,26 +81,18 @@
         
         self.HelpTipPage = 'createflier';
         self.HelpTipGroups = 'image-upload,image-browse';
+        self.VenueBoard = ko.observable(null);
 
-        var mapping = {
+        ko.mapping.fromJS(data, {}, this);
+        
+        var boardMapping = {
             'Location': {
-                create: function(options) {
-                    return ko.observable(new bf.LocationModel(options.data));
-                }
-            },   
-            'VenueInformation': {
-                create: function(options) {
+                create: function (options) {
                     return ko.observable(new bf.VenueInformationModel(options.data));
                 }
             }
         };
-        ko.mapping.fromJS(data, mapping, this);
-        
-        self.browserVenues = ko.mapping.fromJS(bf.currentBrowserInstance.AdminBoards, {
-            create: function(item) {
-                return ko.observable(new bf.VenueInformationModel(item.data.Location));
-            }
-        });
+        self.browserVenues = ko.mapping.fromJS(bf.currentBrowserInstance.AdminBoards, boardMapping);
  
 
         
@@ -302,11 +294,9 @@
                 return false;
             }
 
-            self.Location(self.VenueInformation().Address());
+            self.BoardList([self.VenueBoard()]);
             var reqData = ko.mapping.toJS(self);
-//            for (var i = 0; i < reqData.EventDates.length; i++) {
-//                reqData.EventDates[i] = new Date(reqData.EventDates[i]).toISOString();
-//            }
+
            
             var tagString = self.tagsSelector.SelectedTags().join();
             reqData.TagsString = tagString;
@@ -351,18 +341,12 @@
 
             $('#flierForm').trigger('reset.unobtrusiveValidation');
             
-            self.Location(self.VenueInformation().Address());
+            
+            self.BoardList([self.VenueBoard()]);
             var reqData = ko.mapping.toJS(self);
-//            for (var i = 0; i < reqData.EventDates.length; i++) {
-//                reqData.EventDates[i] = new Date(reqData.EventDates[i]).toISOString();
-//            }
-           
+
             var tagString = self.tagsSelector.SelectedTags().join();
             reqData.TagsString = tagString;
-            //if (!self.ContactDetails().Address().ValidLocation())
-            //    reqData.ContactDetails.Address = null;
-
-            
 
             self.posting(true);
             $.ajax(self.apiUrl, {

@@ -41,6 +41,7 @@ namespace PostaFlya.Models
         #region BulletinPages
 
         public const string BulletinBoardPage = "bulletin-board";
+        public const string GigGuidePage = "gig-guide";
         public const string BulletinDetailPage = "bulletin-detail";
         public const string BoardPage = "board-page";
         public const string BoardSearchPage = "board-search-page";
@@ -66,7 +67,7 @@ namespace PostaFlya.Models
             if (string.IsNullOrWhiteSpace(viewBag.LocationVariable))
                 viewBag.LocationVariable = "Location";
             if (string.IsNullOrWhiteSpace(viewBag.AutoCompleteLocationBannerText))
-                viewBag.AutoCompleteLocationBannerText = "'Your Local Area'";
+                viewBag.AutoCompleteLocationBannerText = "'Search for Events or Places'";
             if (string.IsNullOrWhiteSpace(viewBag.AutoCompleteLocationId))
                 viewBag.AutoCompleteLocationId = "locationSearch";
             if (string.IsNullOrWhiteSpace(viewBag.AutoCompleteBinding))

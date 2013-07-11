@@ -2,6 +2,7 @@
 using PostaFlya.Areas.MobileApi.Flyers.Model;
 using PostaFlya.Areas.MobileApi.Infrastructure.Controller;
 using PostaFlya.Areas.MobileApi.Infrastructure.Model;
+using PostaFlya.Domain.Flier;
 using Website.Infrastructure.Query;
 
 namespace PostaFlya.Areas.MobileApi.Flyers.Controllers
@@ -17,9 +18,9 @@ namespace PostaFlya.Areas.MobileApi.Flyers.Controllers
 
         public ResponseContent<FlyerDetailModel> Get([FromUri]FlyerDetailRequest req)
         {
-            var flyer = _queryChannel.Query(new FindByIdQuery()
+            var flyer = _queryChannel.Query(new FindByIdQuery<Flier>()
                 {
-                    Id = req.Id
+                    Id = req.Id.ToLower()
                 }, (FlyerDetailModel)null);
 
             if (flyer == null)

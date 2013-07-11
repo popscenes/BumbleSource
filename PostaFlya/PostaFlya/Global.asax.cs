@@ -64,7 +64,7 @@ namespace PostaFlya
             routes.MapRoute(
                 name: "Bulletin",
                 url: "",
-                defaults: new { controller = "Bulletin", action = "Get" }
+                defaults: new { controller = "Bulletin", action = "GigGuide" }
                 );
 
             routes.MapRoute(

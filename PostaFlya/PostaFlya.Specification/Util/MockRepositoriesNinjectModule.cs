@@ -45,20 +45,19 @@ namespace PostaFlya.Specification.Util
             Website.Mocks.Domain.Data.TestRepositoriesNinjectModule.SetUpImageRepositoryAndQueryService(kernel
                 , SpecUtil.GetMockStore<HashSet<ImageInterface>>("imagestore"));
 
+            TestRepositoriesNinjectModule.SetUpBoardRepositoryAndQueryService(kernel
+                , SpecUtil.GetMockStore<HashSet<BoardInterface>>("boardstore"));
+
             //postaflya
             TestRepositoriesNinjectModule.SetUpFlierRepositoryAndQueryService(kernel
                 , SpecUtil.GetMockStore<HashSet<FlierInterface>>("flierstore")
                 , SpecUtil.GetMockStore<HashSet<CommentInterface>>("fliercommentstore")
                 , SpecUtil.GetMockStore<HashSet<ClaimInterface>>("claimstore")
-                , SpecUtil.GetMockStore<HashSet<BoardFlierInterface>>("boardflierstore")
                 , SpecUtil.GetMockStore<HashSet<PaymentTransactionInterface>>("paymentTransactionflierstore")
                 , SpecUtil.GetMockStore<HashSet<CreditTransactionInterface>>("creditTransactionflierstore"));
 
-            TestRepositoriesNinjectModule.SetUpBoardRepositoryAndQueryService(kernel
-                , SpecUtil.GetMockStore<HashSet<BoardInterface>>("boardstore"));
 
-            TestRepositoriesNinjectModule.SetUpBoardFlierRepositoryAndQueryService(kernel
-                , SpecUtil.GetMockStore<HashSet<BoardFlierInterface>>("boardflierstore"));
+
             
             TestRepositoriesNinjectModule.SetUpAnalyticRepositoryAndQueryService(kernel
                 , SpecUtil.GetMockStore<HashSet<FlierAnalyticInterface>>("analyticstore"));

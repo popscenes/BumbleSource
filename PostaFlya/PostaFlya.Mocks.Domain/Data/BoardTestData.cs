@@ -18,10 +18,16 @@ namespace PostaFlya.Mocks.Domain.Data
     public static class BoardTestData
     {
 
-        public static Board GetOne(IKernel kernel, String boardName, BoardTypeEnum typeOfBoard = BoardTypeEnum.InterestBoard, Location loc = null)
+        public static Board GetAndStoreOne(IKernel kernel, GenericRepositoryInterface repository, String boardName = "TestBoard",
+                                    BoardTypeEnum typeOfBoard = BoardTypeEnum.VenueBoard, Location loc = null)
+        {
+            var board = GetOne(kernel, boardName, typeOfBoard, loc);
+            return StoreOne(board, repository, kernel);
+        }
+        public static Board GetOne(IKernel kernel, String boardName = "TestBoard", BoardTypeEnum typeOfBoard = BoardTypeEnum.VenueBoard, Location loc = null)
         {
             var venuInfo = new VenueInformation();
-            venuInfo.Address = loc;
+            venuInfo.Address = loc ?? kernel.Get<Location>(ib => ib.Get<bool>("default"));
 
             var ret = typeOfBoard != BoardTypeEnum.InterestBoard ? new Board() { InformationSources = new List<VenueInformation>(){venuInfo}} : new Board();
             ret.Id = Guid.NewGuid().ToString();
@@ -35,21 +41,7 @@ namespace PostaFlya.Mocks.Domain.Data
             return ret;
         }
 
-        internal static BoardTyp StoreOne<BoardTyp>(BoardTyp board, GenericRepositoryInterface repository, StandardKernel kernel)
-        {
-            var uow = kernel.Get<UnitOfWorkFactoryInterface>()
-                .GetUnitOfWork(new List<RepositoryInterface>() { repository });
-            using (uow)
-            {
-
-                repository.Store(board);
-            }
-
-            Assert.IsTrue(uow.Successful);
-            return board;
-        }
-
-        internal static Board StoreOne(Board board, GenericRepositoryInterface repository, StandardKernel kernel)
+        internal static Board StoreOne(Board board, GenericRepositoryInterface repository, IKernel kernel)
         {
             var uow = kernel.Get<UnitOfWorkFactoryInterface>()
                 .GetUnitOfWork(new List<RepositoryInterface>() { repository });
@@ -94,31 +86,6 @@ namespace PostaFlya.Mocks.Domain.Data
                     handleEvent.Handle(new BoardModifiedEvent() { NewState = board, OrigState = oldState });
                 }
             }
-        }
-
-
-        public static BoardFlier StoreOne(BoardFlier boardFlier, GenericRepositoryInterface repository, StandardKernel kernel)
-        {
-            var uow = kernel.Get<UnitOfWorkFactoryInterface>()
-                .GetUnitOfWork(new List<RepositoryInterface>() { repository });
-            using (uow)
-            {
-
-                repository.Store(boardFlier);
-            }
-
-            Assert.IsTrue(uow.Successful);
-
-            if (uow.Successful)
-            {
-                var indexers = kernel.GetAll<HandleEventInterface<BoardFlierModifiedEvent>>();
-                foreach (var handleEvent in indexers)
-                {
-                    handleEvent.Handle(new BoardFlierModifiedEvent() { NewState = boardFlier });
-                }
-            }
-
-            return boardFlier;
         }
 
 

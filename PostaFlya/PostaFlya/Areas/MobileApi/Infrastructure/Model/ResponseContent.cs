@@ -19,6 +19,7 @@ namespace PostaFlya.Areas.MobileApi.Infrastructure.Model
         {
             Code = (int) status;
             Status = status.ToString().ToUpper();
+            Messages = new string[0];
         }
 
         public ResponseContent(string message, StatusEnum status)

@@ -55,7 +55,13 @@ namespace PostaFlya.Controllers
       
             return View("Get", model);
         }
+       
+        public ActionResult GigGuide()
+        {
+            var model = new BulletinBoardPageModel() { PageId = WebConstants.GigGuidePage };
 
+            return View("GigGuide", model); 
+        }
 
         public ActionResult Detail(string id)
         {

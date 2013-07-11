@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web.Mvc;
+using PostaFlya.Domain.Boards.Query;
 using PostaFlya.Domain.Flier;
+using PostaFlya.Models.Board;
 using PostaFlya.Models.Location;
 using PostaFlya.Models.Content;
 using Website.Application.Binding;
@@ -78,7 +80,6 @@ namespace PostaFlya.Models.Flier
             target.Id = flier.Id;
             target.FriendlyId = flier.FriendlyId;
             target.Title = flier.Title;
-            target.Venue = _queryChannel.ToViewModel<VenueInformationModel>(flier.Venue);
             target.EventDates = flier.EventDates;
             target.CreateDate = flier.CreateDate;
             target.TagsString = flier.Tags.ToString();
@@ -91,14 +92,19 @@ namespace PostaFlya.Models.Flier
             target.Status = flier.Status.ToString();
             target.TinyUrl = flier.TinyUrl;
             target.FlierBehaviour = flier.FlierBehaviour.ToString();
-            target.FlierImageUrl = _blobStorage.GetBlobUri(flier.Image + ImageUtil.GetIdFileExtension()).ToString();
+            var uri = _blobStorage.GetBlobUri(flier.Image + ImageUtil.GetIdFileExtension());
+            target.FlierImageUrl = uri != null ? uri.ToString() : null;
+            
+            var boards =  _queryChannel.Query(new FindByIdsQuery<Domain.Boards.Board>(){Ids = flier.Boards.Select(_ => _.BoardId)}, (List<BoardSummaryModel>)null);
+            if (boards.Any())
+                target.VenueBoard = boards.First();
 
             return target;
         }
     }
 
 
-    public class BulletinFlierSummaryModel : BrowserIdInterface
+    public class BulletinFlierSummaryModel : BrowserIdInterface, IsModelInterface
     {
         
         [Display(Name = "FlierId", ResourceType = typeof(Properties.Resources))] 
@@ -109,9 +115,6 @@ namespace PostaFlya.Models.Flier
 
         [Display(Name = "FlierTitle", ResourceType = typeof(Properties.Resources))] 
         public string Title { get; set; }
-
-        [Display(Name = "FlierLocation", ResourceType = typeof(Properties.Resources))]
-        public VenueInformationModel Venue { get; set; }
 
         [Display(Name = "FlierTags", ResourceType = typeof(Properties.Resources))] 
         public string TagsString { get; set; }
@@ -145,18 +148,17 @@ namespace PostaFlya.Models.Flier
         [Display(Name = "FlierStatus", ResourceType = typeof(Properties.Resources))] 
         public string Status { get; set; }
 
+        public BoardSummaryModel VenueBoard { get; set; }
+
         public string TinyUrl { get; set; }
 
         public static BulletinFlierSummaryModel DefaultForTemplate()
         {
             return new BulletinFlierSummaryModel()
                 {
-                    Venue = new VenueInformationModel()
-                        {
-                            Address = new LocationModel()
-                        },
-                    EventDates = new List<DateTimeOffset>()
-
+                    EventDates = new List<DateTimeOffset>(),
+                    
+                    VenueBoard = new BoardSummaryModel(){Location = new VenueInformationModel(){Address = new LocationModel()}}
                 };
         }
     }

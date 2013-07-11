@@ -24,7 +24,7 @@ namespace PostaFlya.Models.Board
             if(target == null)
                 target = new BoardPageViewModel();
 
-            return _queryChannel.ToViewModel<BoardModel>(source, target) as BoardPageViewModel;
+            return _queryChannel.ToViewModel<BoardModel, Domain.Boards.Board>(source, target) as BoardPageViewModel;
 
         }
     }

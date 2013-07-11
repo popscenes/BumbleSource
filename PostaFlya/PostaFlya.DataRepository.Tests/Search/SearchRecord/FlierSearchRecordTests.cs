@@ -30,26 +30,5 @@ namespace PostaFlya.DataRepository.Tests.Search.SearchRecord
         {
         }
 
-        [Test]
-        public void ToSearchRecordsCreatesARecordForEachUniqueLocationShardIdTest()
-        {
-            //create a flier that will result in different integral long lat when buffer expanded
-            var flier = FlierTestData.GetOne(Kernel, new Location(110, 80));
-            flier.LocationRadius = 2;
-
-            var ret = flier.ToSearchRecords();
-            Assert.That(ret.Count(), Is.EqualTo(4));
-        }
-
-        [Test]
-        public void ToSearchRecordsCreatesOneRecordWhenLocationIsntExpandedTest()
-        {
-            //create a flier that will result in different integral long lat when buffer expanded
-            var flier = FlierTestData.GetOne(Kernel, new Location(110, 80));
-            flier.LocationRadius = 0;
-
-            var ret = flier.ToSearchRecords();
-            Assert.That(ret.Count(), Is.EqualTo(1));
-        }
     }
 }

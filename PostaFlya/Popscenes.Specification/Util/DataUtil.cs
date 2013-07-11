@@ -7,6 +7,7 @@ using FizzWare.NBuilder;
 using Microsoft.SqlServer.Types;
 using NUnit.Framework;
 using PostaFlya.DataRepository.Search.SearchRecord;
+using PostaFlya.Domain.Boards;
 using PostaFlya.Domain.Flier;
 using PostaFlya.Domain.Venue;
 using Website.Domain.Location;
@@ -60,27 +61,62 @@ namespace Popscenes.Specification.Util
             Assert.That(dist/1000, Is.LessThanOrEqualTo(kilometers));
         }
 
-        public static IOperable<Flier> GetSomeFlyersAroundTheGeolocation(int flyercount, int kilometers, double latitude, double longitude)
+        public static IOperable<Board> GetSomeBoardsAroundTheGeolocation(int flyercount, int kilometers, double latitude, double longitude,
+            BoardTypeEnum boardTypeEnum = BoardTypeEnum.VenueBoard)
         {
             var locs = GetSomeRandomLocationsWithKmsOf(flyercount, new Location(longitude, latitude),
-                                                                kilometers);
+                                                    kilometers);
             var counter = flyercount;
-            var venues = Builder<VenueInformation>.CreateListOfSize(flyercount)
-                                                  .All()
-                                                  .With(information => information.Address = locs[--counter])
-                                                  .Build();
-            counter = flyercount;
+            var venues = Builder<Board>.CreateListOfSize(flyercount)
+                                       .All()
+                                       .With(v =>
+                                             v.InformationSources 
+                                             = Builder<VenueInformation>.CreateListOfSize(1)
+                                                .All()
+                                                .With(
+                                                    information =>
+                                                    information.Address =
+                                                    locs[--counter])
+                                                .Build().ToList())
+                                        .With(board => board.BoardTypeEnum = boardTypeEnum)
+                                        .With(board => board.Id = Guid.NewGuid().ToString());
+            return venues;
+        }
+
+        public static IOperable<Flier> GetSomeFlyersForTheBoards(int flyercount, List<Board> venues, DateTimeOffset date)
+        {
+            
+            var counter = flyercount;
             return
             Builder<Flier>.CreateListOfSize(flyercount)
-                          .All()
+                          .All()                         
                           .With(flier => flier.Id = Guid.NewGuid().ToString())
+                          .With(flier => flier.EventDates = GetSomeRandomDatesStartingFrom(date, 10))
                           .With(flier => flier.LocationRadius = 0)
-                          .With(flier => flier.Venue = venues[--counter])
+                          .With(flier => flier.Boards
+                              = Builder<BoardFlier>.CreateListOfSize(1)
+                              .All()
+                              .With(boardFlier => boardFlier.BoardId = venues[(--counter)%venues.Count].Id)
+                              .With(boardFlier => boardFlier.Status = BoardFlierStatus.Approved)                              
+                              .Build().ToList()
+                            )
                           .With(flier => flier.Status = FlierStatus.Active)
                           .With(flier => flier.CreateDate = DateTime.UtcNow.AddDays(flyercount - counter));
         }
 
-        public static ISingleObjectBuilder<Flier> GetAFlyer(Guid id, FlierStatus status = FlierStatus.Active)
+        private static List<DateTimeOffset> GetSomeRandomDatesStartingFrom(DateTimeOffset date, int dayrange = 10)
+        {
+            var r = new Random();
+            var num = r.Next(1, 5);
+            var ret = new List<DateTimeOffset>();
+            for (int i = 0; i < num; i++)
+            {
+                ret.Add(date.AddDays(r.Next(dayrange)));
+            }
+            return ret;
+        }
+
+        public static ISingleObjectBuilder<Flier> GetAFlyer(Guid id, Board board, FlierStatus status = FlierStatus.Active)
         {
 
             var venue = Builder<VenueInformation>.CreateNew()
@@ -90,9 +126,35 @@ namespace Popscenes.Specification.Util
             Builder<Flier>.CreateNew()
                           .With(flier => flier.Id = id.ToString())
                           .With(flier => flier.LocationRadius = 0)
-                          .With(flier => flier.Venue = venue)
+                          .With(flier => flier.EventDates = GetSomeRandomDatesStartingFrom(DateTimeOffset.Now))
+                            .With(flier => flier.Boards
+                              = Builder<BoardFlier>.CreateListOfSize(1)
+                              .All()
+                              .With(boardFlier => boardFlier.BoardId = board.Id)
+                              .With(boardFlier => boardFlier.Status = BoardFlierStatus.Approved)
+                              .Build().ToList()
+                            )
                           .With(flier => flier.Status = status)
                           .With(flier => flier.CreateDate = DateTime.UtcNow);
         }
+
+        public static ISingleObjectBuilder<Board> GetABoard(Guid id, 
+            BoardTypeEnum boardTypeEnum = BoardTypeEnum.VenueBoard,
+            BoardStatus status = BoardStatus.Approved)
+        {
+            return
+            Builder<Board>.CreateNew()
+            .With(board => board.Id = id.ToString())
+            .With(board => board.InformationSources
+                        = Builder<VenueInformation>.CreateListOfSize(1)
+                                                .All()
+                                                .With(
+                                                    information =>
+                                                    information.Address =
+                                                    new Location(50, 50))
+                                                .Build().ToList())
+            .With(board => board.Status = status)
+            .With(board => board.BoardTypeEnum = boardTypeEnum);
+}
     }
 }

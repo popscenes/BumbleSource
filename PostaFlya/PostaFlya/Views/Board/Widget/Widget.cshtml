@@ -18,8 +18,8 @@
     var bf = window.bf = window.bf || {};
 
     bf.widgetbase = '@Model.SiteBase';
-    bf.boardid = '@Model.BoardFriendlyId';
-    bf.widgetcss = @Html.Raw(Styles.Render("~/Content/BoardWidget.css").GetHref().ToJsArray());
+    bf.boardid = '@Model.BoardId';
+    bf.widgetcss = @Html.Raw(Styles.Render("~/Content/themes/taskflya/BoardWidget.css").GetHref().ToJsArray());
     bf.widgetsrc = @Html.Raw(Scripts.Render("~/Script/BoardWidget.js").GetScriptSrc().ToJsArray());
     bf.widgetload = function(window, $, undefined){
         
@@ -28,8 +28,8 @@
             if (init === undefined)
                 init = bf.pageinit['default'];
             init();
+            
 
-            bf.ScrollToTop();
         });
     };
         

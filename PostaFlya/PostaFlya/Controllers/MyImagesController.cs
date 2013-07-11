@@ -4,7 +4,6 @@ using System.Web.Http;
 using Website.Application.Binding;
 using PostaFlya.Models.Content;
 using Website.Application.Content;
-using Website.Application.Domain.Browser.Query;
 using Website.Application.Domain.Browser.Web;
 using Website.Common.Controller;
 using Website.Domain.Browser.Query;
@@ -30,7 +29,7 @@ namespace PostaFlya.Controllers
 
         public List<ImageViewModel> Get(string browserid)
         {
-            return _queryChannel.Query(new GetByBrowserIdQuery() {BrowserId = browserid}, new List<Image>())
+            return _queryChannel.Query(new GetByBrowserIdQuery<Image>() {BrowserId = browserid}, new List<Image>())
                                 .Select(_ => _.ToViewModel().GetImageUrl(_blobStorage, false)).ToList();
         }
     }

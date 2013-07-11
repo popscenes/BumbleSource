@@ -1,5 +1,6 @@
 ﻿
 
+@using PostaFlya.Models.Board
 @using PostaFlya.Models.Flier
 @using PostaFlya.Models.Location
 @using Website.Application.Domain.Content
@@ -8,72 +9,63 @@
 @model DefaultDetailsViewModel
 @{
     BulletinFlierDetailModel flier = Model.Flier;
-    VenueInformationModel contactDets = Model.Flier.Venue ?? new VenueInformationModel();
+    BoardSummaryModel contactDets = Model.Flier.VenueBoard ?? new BoardSummaryModel();
 }
 
-<div class="flier-view flier-view-default">
+<div class="flier-view flier-view-default" data-bind="click: function (event, data) { }, clickBubble: false">
+    <div class="flier-img">
+        <img data-bind="imgRetry: Flier.FlierImageUrl, bulletinimg: Flier.FlierImageUrl"/>
+    </div>
+
     <div class="flier-details clear-fix" data-bind="with:Flier">  
         
-        @Html.Partial("Bulletin/DownloadPrintImagePartial", flier)
-        
-        <div class="fb-share" data-bind="click:$parent.facebook"></div>
-        <a class="twitter-share" data-bind="attr:{href: $parent.twitter()}"></a>
+
+        <div>
+            @Html.Partial("Bulletin/DownloadPrintImagePartial", flier)
+            <div class="fb-share" data-bind="click: $parent.facebook"></div>
+            <a class="twitter-share" target="_blank" data-bind="click: function (event, data) { return true;}, clickBubble: false, attr: { href: $parent.twitter() }"></a> 
+        </div>
+
+        <div>
+            <div class="flier-event-dates" >
+            
+                <ul data-bind="if: false" class="event-dates-list">
+                    @foreach (var eventDate in flier.EventDates.Select(d => d.DateTime.ToLongDateString()))
+                    {
+                        <li> @eventDate </li>
+                    }
+                </ul>
+                <ul data-bind="foreach: EventDates" class="event-dates-list">
+                    <li data-bind="text: new Date($data).toDateString()"></li> 
+                </ul>
+                
+                
+            </div>
+        </div>
 
         <h3 class="flier-title" data-bind="text:Title">
             @flier.Title
         </h3>
-            
-        <div class="flier-img">
-            <img data-bind="imgRetry: FlierImageUrl, bulletinimg:FlierImageUrl"/>
-        </div>
-    </div>
+    
         
-    <div data-bind="if:Flier.Venue() != null">
-        <h4>
-                Venue Details
-        </h4>
-        <div class="flier-contact-dets" data-bind="with:Flier.Venue">
-            
-            @Html.Partial("Contact/EventContactDetailsViewPartial", contactDets)
-
-
-            <a class="std-btn" data-bind="click: $parent.TearOff, css: { 'btn-std-inuse': $parent.IsPeeling()}, text: $parent.PeelText">Peel Details</a>
-        </div>
-    </div> 
-        
-    <div>
-        <h4> Event Dates </h4>
-        <div class="flier-event-dates" >
-            
-            <ul data-bind="if: false" class="event-dates-list">
-                @foreach (var eventDate in flier.EventDates.Select(d => d.DateTime.ToLongDateString()))
-                {
-                    <li> @eventDate </li>
-                }
-            </ul>
-            <ul data-bind="foreach: Flier.EventDates" class="event-dates-list">
-                <li data-bind="text: new Date($data).toDateString()"></li> 
-            </ul>
-                
-            
-        </div>
-    </div>
-
-    <div>
-        <h4> Description </h4>    
-        <div class="flier-desc" data-bind="simpletext:Flier.Description">
-            @flier.Description
+        <div data-bind="if: VenueBoard != null">
+            <div class="flier-contact-dets" data-bind="with: VenueBoard">
+                @Html.Partial("Contact/EventContactDetailsViewPartial", contactDets)
+            </div>
         </div> 
+        
+       
+
+        <div>
+            <div class="flier-desc" data-bind="simpletext:Description">
+                @flier.Description
+            </div> 
+        </div>
+        
+        <a class="std-btn" data-bind="click: $parent.TearOff, css: { 'btn-std-inuse': $parent.IsPeeling() }, text: $parent.PeelText">Peel Details</a>
+        
+        
     </div>
-        
-    @Html.Partial("Bulletin/BulletinUserLinks")
-                      
-        
-
-
-
-   
-
 </div>
 
 

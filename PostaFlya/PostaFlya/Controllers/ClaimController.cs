@@ -9,12 +9,12 @@ using PostaFlya.Binding;
 using PostaFlya.Models.Flier;
 using Website.Application.Binding;
 using Website.Application.Content;
-using Website.Application.Domain.Browser.Query;
 using Website.Application.Domain.Browser.Web;
 using Website.Common.Controller;
 using Website.Common.Extension;
 using Website.Common.Model.Query;
 using Website.Domain.Browser;
+using Website.Domain.Browser.Query;
 using Website.Infrastructure.Command;
 using Website.Infrastructure.Domain;
 using Website.Infrastructure.Query;
@@ -74,7 +74,7 @@ namespace PostaFlya.Controllers
         // GET /api/Browser/browserId/claim/
         public IList<BulletinFlierSummaryModel> Get(string browserId)
         {
-            var ret = _queryChannel.Query(new GetByBrowserIdQuery() {BrowserId = browserId}, new List<Claim>())
+            var ret = _queryChannel.Query(new GetByBrowserIdQuery<Claim>() {BrowserId = browserId}, new List<Claim>())
                                    .Select(l => _queryService.FindById<Flier>(l.AggregateId))
                                    .Where(f => f.BrowserId != browserId);//exclude your own
 

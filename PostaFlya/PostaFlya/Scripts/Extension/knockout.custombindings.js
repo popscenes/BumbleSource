@@ -263,9 +263,9 @@
                 },
                 open: function(event, ui) {
                     if ($input.siblings(".current-loc").length > 0) {
-                        $('ul.ui-autocomplete').css('left', function(index, value) { return ($input.siblings(".current-loc").outerWidth(true) * -1) + parseInt(value) - 1; });
+                       // $('ul.ui-autocomplete').css('left', function(index, value) { return ($input.siblings(".current-loc").outerWidth(true) * -1) + parseInt(value) - 1; });
                     }
-                    $('ul.ui-autocomplete').css('top', function(index, value) { return 1 + parseInt(value); });
+                    //$('ul.ui-autocomplete').css('top', function(index, value) { return 1 + parseInt(value); });
                 },
                 close: function() { $(this).removeClass("ui-corner-top").addClass("ui-corner-all"); }
             });
@@ -563,14 +563,14 @@
 
     function getFlierImageSizeFromWidth(width) {
 
-        if (width <= 57)
-            return 'h57';
-        if (width <= 114)
-            return 'h114';
+        if (width <= 150)
+            return 'h150';
         if (width <= 228)
             return 'h228';
-        if (width <= 456)
-            return 'h456';
+        if (width <= 450)
+            return 'h450';
+        if (width <= 900)
+            return 'h900';
         return '';
     };
     
@@ -601,8 +601,10 @@
                 });*/
                 
                 var windowHeight = $(window).height();
+                var windowWidth = $(window).width();
 
                 $("body").css({ 'height': windowHeight, 'overflow-y': 'hidden' });
+                $("header").css({ 'width': windowWidth});
 
                 if (args.refreshtrig && value[args.refreshtrig] && ko.isObservable(value[args.refreshtrig])) {
                     value[args.refreshtrig].subscribe(function() {
@@ -612,8 +614,10 @@
 
             } else {
                 $(element).fadeOut();
+                
                 //alert("fadeout");
                 $("body").css({ 'height': 'auto', 'overflow-y': 'auto' });
+                $("header").css({ 'width': '100%'});
             }
         }
     };

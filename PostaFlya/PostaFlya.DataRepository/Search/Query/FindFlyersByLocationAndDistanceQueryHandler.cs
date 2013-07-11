@@ -6,12 +6,12 @@ using Website.Infrastructure.Query;
 
 namespace PostaFlya.DataRepository.Search.Query
 {
-    public class FindFlyersByLocationAndDistanceQueryHandler : QueryHandlerInterface<FindFlyersByLocationAndDistanceQuery, List<string>>
+    public class FindFlyersByLocationAndDistanceIdsQueryHandler : QueryHandlerInterface<FindFlyersByLocationAndDistanceQuery, List<string>>
     {
         private readonly FlierSearchServiceInterface _searchService;
         private readonly GenericQueryServiceInterface _queryService;
 
-        public FindFlyersByLocationAndDistanceQueryHandler(FlierSearchServiceInterface searchService, GenericQueryServiceInterface queryService)
+        public FindFlyersByLocationAndDistanceIdsQueryHandler(FlierSearchServiceInterface searchService, GenericQueryServiceInterface queryService)
         {
             _searchService = searchService;
             _queryService = queryService;

@@ -19,13 +19,9 @@
             <div class="flier-title" >
                 <span data-bind="text: $root.TitleWithDate($data)">@flier.Title</span>
             </div>      
-            <div class="flier-locality">
-                <a data-bind="click: function () { return true;}, clickBubble: false, attr: { href: (bf.widgetbase ? bf.widgetbase : '') + '/' + Venue.BoardFriendlyId }, text: Venue.PlaceName" href="@flier.Venue.BoardFriendlyId">@flier.Venue.PlaceName</a>
-                <span data-bind="text: Venue.Address.Locality">@flier.Venue.Address.Locality</span>              
+            <div class="flier-board">
+                <a data-bind="click: function () { return true; }, clickBubble: false, attr: { href: (bf.widgetbase ? bf.widgetbase : '') + '/' + VenueBoard.FriendlyId }, text: VenueBoard.Location.PlaceName" href="@flier.VenueBoard.FriendlyId">@flier.VenueBoard.Location.PlaceName</a>        
             </div>
-        </div>
-        <div class="tile-peel">
-            <a class="bold-link" data-bind="clickBubble: false, click: $root.TearOff">Peel</a>
         </div>
 
     </div>

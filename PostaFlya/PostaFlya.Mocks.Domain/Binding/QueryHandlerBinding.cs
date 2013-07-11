@@ -1,7 +1,9 @@
 ﻿using System.Reflection;
 using Ninject;
 using Ninject.Modules;
+using Website.Domain.Comments;
 using Website.Infrastructure.Binding;
+using Website.Mocks.Domain.Binding;
 
 namespace PostaFlya.Mocks.Domain.Binding
 {
@@ -11,14 +13,16 @@ namespace PostaFlya.Mocks.Domain.Binding
         {
             var kernel = Kernel as StandardKernel;
 
-            kernel.BindGenericQueryHandlersFromCallingAssemblyForTypesFrom(Assembly.GetAssembly(typeof(PostaFlya.Domain.Flier.Flier))
-                , syntax => syntax.InTransientScope());
 
-            kernel.BindGenericQueryHandlersFromAssemblyForTypesFrom(
-                Assembly.GetAssembly(typeof(Website.Mocks.Domain.Binding.QueryHandlerBinding)),
-                Assembly.GetAssembly(typeof(PostaFlya.Domain.Flier.Flier))
-                , syntax => syntax.InTransientScope());
 
+//            kernel.BindGenericQueryHandlersFromAssemblyForTypesFrom(
+//                Assembly.GetAssembly(typeof(Website.Mocks.Domain.Binding.QueryHandlerBinding))
+//                , syntax => syntax.InTransientScope(), null, null
+//                , Assembly.GetAssembly(typeof(PostaFlya.Domain.Flier.Flier)));
+
+            kernel.BindMockDomainQueryHandlersForTypesFrom(syntax => syntax.InTransientScope()
+                    , Assembly.GetAssembly(typeof(Comment)) 
+                    , Assembly.GetAssembly(typeof (PostaFlya.Domain.Flier.Flier)));
             kernel.BindCommandAndQueryHandlersFromCallingAssembly(syntax => syntax.InTransientScope());
 
         }

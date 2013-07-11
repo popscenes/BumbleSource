@@ -14,8 +14,6 @@ namespace PostaFlya.Views.Board.Widget
             "knockout-{version}.js",    
             "knockout.mapping-latest.js",
             "modernizr-{version}.js",
-            "jquery.isotope.js",
-            "jquery.isotope.centered.js",
             "jquery.imagesloaded.js", //this overrides the implementation in isotope
             "Extension/knockout-jquery-ui-widget.js",
             "jquery.endless-scroll.js",
@@ -23,6 +21,7 @@ namespace PostaFlya.Views.Board.Widget
             "jquery-ui-{version}.js",
             "jquery.ui.touch-punch.min.js",
             "jquery-ui-timepicker-addon.js",
+            "sammy.js",
  
             //ours
             "Extension/knockout.custombindings.js",
@@ -36,9 +35,7 @@ namespace PostaFlya.Views.Board.Widget
             "Base/DistanceSelector.js",
             "Base/BrowserViewModel.js",
             "Base/CommentsViewModel.js",
-            "Base/TagsSelector.js",
             "Base/ClaimsViewModel.js",
-            "Base/TileLayoutViewModel.js",
             "Base/dateFilter.js",
             "Base/ErrorHandling.js",
             "Base/PageDefaultAction.js"
@@ -47,6 +44,7 @@ namespace PostaFlya.Views.Board.Widget
         private static readonly string[]
             BulletinJs = {
                         "Base/facebook.js",
+                        "Base/GigGuideMixin.js",
                         "Bulletin/BoardWidgetPage.js",
                         "Behaviour/Default/DefaultBehaviourViewModel.js",
                         "Behaviour/BehaviourViewModelFactory.js",
@@ -56,7 +54,6 @@ namespace PostaFlya.Views.Board.Widget
 
         private static readonly string[] Css =
         {
-            "jquery.isotope.css",         
         };
 
         private static readonly string[]ThemeCss =
@@ -74,7 +71,7 @@ namespace PostaFlya.Views.Board.Widget
         private static void AddCssBundles(BundleCollection table)
         {
 
-            var cssBundle = new StyleBundle("~/Content/BoardWidget.css");
+            var cssBundle = new StyleBundle("~/Content/themes/taskflya/BoardWidget.css");
             cssBundle.AddStructureCssFiles(Css);
             cssBundle.AddThemedCssFiles(Themes[0], ThemeCss);
             BundleTable.Bundles.Add(cssBundle);

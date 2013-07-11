@@ -4,6 +4,7 @@ using Website.Application.Content;
 using Website.Application.Domain.Content;
 using Website.Common.Model;
 using Website.Domain.Browser;
+using Website.Domain.Content;
 using Website.Infrastructure.Query;
 
 namespace PostaFlya.Models.Browser
@@ -67,7 +68,7 @@ namespace PostaFlya.Models.Browser
             if (!string.IsNullOrWhiteSpace(source.AvatarImageId)
                 && (uri = _blobStorage.GetBlobUri(source.AvatarImageId + ImageUtil.GetIdFileExtension())) != null)
             {
-                target.AvatarUrl = uri.GetThumbUrlForImage(ThumbOrientation.Square, ThumbSize.S57);
+                target.AvatarUrl = uri.GetThumbUrlForImage(ThumbOrientation.Square, ThumbSize.S150);
 
             }
 
@@ -75,7 +76,7 @@ namespace PostaFlya.Models.Browser
         }
     }
 
-    public class BrowserModel : ViewModelBase
+    public class BrowserModel : IsModelInterface
     {
         public string DisplayName { get; set; }
         public string Id { get; set; }

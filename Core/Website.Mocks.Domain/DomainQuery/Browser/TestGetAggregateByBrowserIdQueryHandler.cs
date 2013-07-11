@@ -1,14 +1,14 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Website.Application.Domain.Browser.Query;
 using Website.Domain.Browser;
+using Website.Domain.Browser.Query;
 using Website.Infrastructure.Domain;
 using Website.Infrastructure.Query;
 
 namespace Website.Mocks.Domain.DomainQuery.Browser
 {
     public class TestGetAggregateByBrowserIdQueryHandler<EntityType> :
-        QueryHandlerInterface<GetByBrowserIdQuery, List<EntityType>> where EntityType : class, AggregateInterface, BrowserIdInterface, new()
+        QueryHandlerInterface<GetByBrowserIdQuery<EntityType>, List<EntityType>> where EntityType : class, AggregateInterface, BrowserIdInterface, new()
     {
         private readonly GenericQueryServiceInterface _queryService;
 
@@ -17,7 +17,7 @@ namespace Website.Mocks.Domain.DomainQuery.Browser
             _queryService = queryService;
         }
 
-        public List<EntityType> Query(GetByBrowserIdQuery argument)
+        public List<EntityType> Query(GetByBrowserIdQuery<EntityType> argument)
         {
             var all = _queryService.GetAllAggregateIds<EntityType>()
                 .Select(a => _queryService.FindByAggregate<EntityType>(a.Id, a.AggregateId));

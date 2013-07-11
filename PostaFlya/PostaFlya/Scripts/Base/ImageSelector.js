@@ -30,6 +30,7 @@
             self._LoadImageList();
             self._InitPLUpload();
             $("#" + self.uploaderElementId()).dialog({ autoOpen: false });
+            
         };
 
         self.clickImage = function (image) {

@@ -8,6 +8,7 @@ using Ninject;
 using Ninject.MockingKernel.Moq;
 using Ninject.Modules;
 using PostaFlya.Application.Domain.Browser;
+using PostaFlya.Binding;
 using TechTalk.SpecFlow;
 using PostaFlya.Mocks.Domain.Data;
 using Website.Domain.Browser;
@@ -138,7 +139,6 @@ namespace PostaFlya.Specification.Util
                       new Website.Common.Binding.WebsiteCommonNinjectBinding(),
                       new Website.Mocks.Domain.Binding.QueryHandlerBinding(),
                       new PostaFlya.Mocks.Domain.Binding.QueryHandlerBinding(),
-                     
                   };
     }
 }

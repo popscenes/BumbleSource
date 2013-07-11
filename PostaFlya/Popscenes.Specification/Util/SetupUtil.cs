@@ -7,6 +7,7 @@ using PostaFlya.App_Start;
 using PostaFlya.Areas.MobileApi.App_Start;
 using PostaFlya.Binding;
 using TechTalk.SpecFlow;
+using Website.Application.Command;
 using Website.Test.Common;
 
 namespace Popscenes.Specification.Util
@@ -40,6 +41,9 @@ namespace Popscenes.Specification.Util
             kernel.Rebind<ObjectCache>()
                 .ToMethod(ctx => new TestSerializingCache())
                 .InSingletonScope();
+
+            kernel.Get<CommandQueueFactoryInterface>()
+                .Delete("workercommandqueue");
         }
     }
 

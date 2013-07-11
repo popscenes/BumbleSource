@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
 using PostaFlya.Models.Flier;
 using Website.Application.Domain.Location;
@@ -11,8 +12,7 @@ namespace PostaFlya.Areas.MobileApi.Flyers.Model
     {
         public FlyersByLocationRequest()
         {
-            Distance = 5;
-            Take = 30;
+            Distance = 15;
         }
 
         [Range(-90.0, 90.0)]
@@ -23,17 +23,16 @@ namespace PostaFlya.Areas.MobileApi.Flyers.Model
         [Range(-180.0, 180.0)]
         [Required(ErrorMessageResourceName = "Required", ErrorMessageResourceType = typeof(Properties.Resources))]
         [DataMember(IsRequired = true)]
-        public double Long { get; set; }
+        public double Lng { get; set; }
 
         [Range(0, 30)]
-        [DataMember(IsRequired = true)]      
+        [DataMember(IsRequired = false)]      
         public int Distance { get; set; }
 
-        [DataMember]
-        [Range(0, 100)]
-        public int Take { get; set; }
+        [DataMember(IsRequired = false)] 
+        public DateTimeOffset Start { get; set; }
 
-        [DataMember]
-        public string Skip { get; set; }
+        [DataMember(IsRequired = false)]
+        public DateTimeOffset End { get; set; }
     }
 }

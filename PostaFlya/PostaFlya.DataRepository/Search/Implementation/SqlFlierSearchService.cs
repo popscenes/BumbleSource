@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.SqlServer.Types;
 using PostaFlya.DataRepository.Search.SearchRecord;
+using PostaFlya.Domain.Boards;
 using PostaFlya.Domain.Flier.Event;
 using PostaFlya.Domain.Flier.Query;
 using Website.Azure.Common.Sql;
@@ -17,6 +18,7 @@ using Website.Infrastructure.Domain;
 using Website.Domain.Location;
 using Website.Domain.Tag;
 using Website.Infrastructure.Publish;
+using Website.Infrastructure.Query;
 using Website.Infrastructure.Util.Extension;
 
 namespace PostaFlya.DataRepository.Search.Implementation
@@ -24,8 +26,10 @@ namespace PostaFlya.DataRepository.Search.Implementation
     public class SqlFlierSearchService :  FlierSearchServiceInterface
     {
         private readonly SqlConnection _connection;
-        public SqlFlierSearchService([SqlSearchConnectionString]string searchDbConnectionString)
+        private readonly QueryChannelInterface _queryChannel;
+        public SqlFlierSearchService([SqlSearchConnectionString]string searchDbConnectionString, QueryChannelInterface queryChannel)
         {
+            _queryChannel = queryChannel;
             _connection = new SqlConnection(searchDbConnectionString);
         }
 
@@ -102,8 +106,12 @@ namespace PostaFlya.DataRepository.Search.Implementation
             //	@xpath nvarchar(1000) = null
             //	@eventDate datetime2 = null
 
+            var venueBoard = skipPast == null
+                                 ? null
+                                 : _queryChannel.Query(new GetFlyerVenueBoardQuery() { FlyerId = skipPast.Id }, (Board)null);
+
             var hasLocation = location != null && location.IsValid;
-            var sortSkip = skipPast == null ? (long?) null : skipPast.ToSearchRecords().First().SortOrder;
+            var sortSkip = skipPast == null ? (long?)null : skipPast.ToSearchRecords(venueBoard).First().SortOrder;
             var sortSkipByEventDate = (skipPast == null || date == null)
                                           ? null
                                           : skipPast.EventDates.First(_ => _.Ticks >= date.Value.Ticks)
@@ -153,7 +161,11 @@ namespace PostaFlya.DataRepository.Search.Implementation
             //	@skipPast bigint = null,
             //	@xpath nvarchar(1000) = null
 
-            var sortSkip = skipPast == null ? (long?)null : skipPast.ToSearchRecords().First().SortOrder;
+            var venueBoard = skipPast == null
+                     ? null
+                     :  _queryChannel.Query(new GetFlyerVenueBoardQuery() { FlyerId = skipPast.Id }, (Board)null);
+
+            var sortSkip = skipPast == null ? (long?)null : skipPast.ToSearchRecords(venueBoard).First().SortOrder;
 
             var ret = SqlExecute.Query<FlierSearchRecord>(sqlCmd,
                 _connection
@@ -174,6 +186,70 @@ namespace PostaFlya.DataRepository.Search.Implementation
 
             if (take > 0)
                 list = list.Take(take);
+
+            return list.ToList();
+        }
+
+        public IList<string> FindFlyersByBoard(string board, DateTime startdate, DateTime enddate, Tags tags = null)
+        {
+            var sqlCmd = _searchStringBoardDate;
+
+            var watch = new Stopwatch();
+            watch.Start();
+
+
+            var ret = SqlExecute.Query<FlierSearchRecordWithDistance>(sqlCmd,
+                _connection
+                , new object[] { new Guid(board) }
+                , new
+                {
+                    board = board,
+                    xpath = GetTagFilter(tags),
+                    startdate = startdate,
+                    enddate = enddate,
+                    isUtc = startdate.Kind == DateTimeKind.Utc
+                }, true).ToList();
+
+            Trace.TraceInformation("FindFliers by board date time: {0}, numfliers {1}", watch.ElapsedMilliseconds, ret.Count());
+
+            var list = ret
+                .Select(sr => sr.Id.ToString())
+                .Distinct();
+
+            return list.ToList();
+        }
+
+
+        public IList<string> FindFliersByLocationAndDate(Location location, int distance, DateTime startdate, DateTime enddate,
+                                                 Tags tags = null)
+        {
+            var sqlCmd = _searchStringDate;
+
+            var watch = new Stopwatch();
+            watch.Start();
+
+
+            if (distance == 0) distance = 15;
+
+            var shards = location.GetShardIdsFor(distance * 1000).Cast<object>().ToArray();
+            var ret = SqlExecute.Query<FlierSearchRecordWithDistance>(sqlCmd,
+                _connection
+                , shards
+                , new
+                {
+                    loc = location.ToGeography(),
+                    distance = distance,
+                    xpath = GetTagFilter(tags),
+                    startdate = startdate,
+                    enddate = enddate,
+                    isUtc = startdate.Kind == DateTimeKind.Utc
+                }, true).ToList();
+
+            Trace.TraceInformation("FindFliers by date time: {0}, numfliers {1}", watch.ElapsedMilliseconds, ret.Count());
+            
+            var list = ret
+                .Select(sr => sr.Id.ToString())
+                .Distinct();
 
             return list.ToList();
         }
@@ -204,6 +280,8 @@ namespace PostaFlya.DataRepository.Search.Implementation
         private readonly string _searchString = Properties.Resources.SqlSearchFliersByLocationTags;
         private readonly string _searhStringByBoard = Properties.Resources.SqlSeachFliersByBoard;
         private readonly string _searhStringAll = Properties.Resources.SqlAllOrderedBy;
+        private readonly string _searchStringDate = Properties.Resources.SqlSeachFlyersByDate;
+        private readonly string _searchStringBoardDate = Properties.Resources.SqlSearchFlyersByByBoardAndDate;
 
         private static IComparer<FlierSearchRecordWithDistance> SorterForOrder(FlierSortOrder sortOrder)
         {
