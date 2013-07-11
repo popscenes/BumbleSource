@@ -475,7 +475,7 @@ div#create-flier-item-div
 
 /************selected item popup/overlay div ********************/
 div#selected-item-div, div#create-flier-item-div {
-    background-color: #2F2F2F;
+    background-color: #68757E;
     color: white;
     opacity: 1;
 }
@@ -1022,12 +1022,12 @@ h4 {
 }
 
 .page-content {
-    background-color: #2F2F2F;
+    background-color: #68757E;
     width: 70%;
     margin: 30px auto;
-    border: 1px #D0CBC4 solid;
     padding: 15px;
     min-height: 600px;
+    color: white;
 }
 .page-inner {
     width: 70%;
@@ -1326,15 +1326,14 @@ div.ls-holder-text input.location-search {
 
 
 a.bold-link {
-    color: rgb(114, 114, 114);
+    color: white;
     font-weight: bold;
     cursor: pointer;
 }
 
 a.plainlink {
-    text-decoration: none;
     text-align: center;
-    color: #555555;
+    color: white;
 }
 
 .pac-container {
@@ -1588,7 +1587,7 @@ div#selected-item-div {
 }
 
 .event-dates-list {
-    margin: 0;
+    margin: 10px 0;
     padding: 0;
 }
 /***end default detail view layout***/

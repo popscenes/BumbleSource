@@ -21,6 +21,12 @@
         
 
         <div>
+            @Html.Partial("Bulletin/DownloadPrintImagePartial", flier)
+            <div class="fb-share" data-bind="click: $parent.facebook"></div>
+            <a class="twitter-share" target="_blank" data-bind="click: function (event, data) { return true;}, clickBubble: false, attr: { href: $parent.twitter() }"></a> 
+        </div>
+
+        <div>
             <div class="flier-event-dates" >
             
                 <ul data-bind="if: false" class="event-dates-list">
@@ -33,7 +39,7 @@
                     <li data-bind="text: new Date($data).toDateString()"></li> 
                 </ul>
                 
-            
+                
             </div>
         </div>
 
@@ -55,6 +61,8 @@
                 @flier.Description
             </div> 
         </div>
+        
+        <a class="std-btn" data-bind="click: $parent.TearOff, css: { 'btn-std-inuse': $parent.IsPeeling() }, text: $parent.PeelText">Peel Details</a>
         
         
     </div>
