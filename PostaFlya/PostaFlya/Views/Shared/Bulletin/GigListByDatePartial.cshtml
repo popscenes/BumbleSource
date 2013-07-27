@@ -15,7 +15,12 @@
             
             <ul class="time-line" data-bind="foreach: Dates, attr: { id: DateLink }">
                 <li class="time-line-item">
-                    <a class="date-nav-link" data-bind="text: Datestring, css: { 'history': Ishistory, 'current': Iscurrent, 'future': Isfuture }, attr: {href: DateLink}"></a>
+                    <a class="date-nav-link" data-bind="css: { 'history': Ishistory, 'current': Iscurrent, 'future': Isfuture }, attr: {href: DateLink}">
+                        <span class="timeline-item-date" data-bind="css: { 'history': Ishistory, 'current': Iscurrent, 'future': Isfuture }, text: Datestring"></span>
+                    </a>
+                </li>
+                <li class="time-line-seperator" data-bind="visible: $index() < ($parent.Dates.length-1)">
+                    &nbsp;
                 </li>
             </ul>
         </div>
@@ -33,13 +38,25 @@
     </div>
     <ul class="time-line">
         <li class="time-line-item">
-            <a class="date-nav-link history" data-bind="text: PrevWeek, attr: { href: PrevWeekLink }"></a>
+            <a class="date-nav-link history" data-bind="attr: { href: PrevWeekLink }">
+                <span class="timeline-item-date" data-bind="text: PrevWeek"></span>
+            </a>
+        </li>
+        <li class="time-line-seperator">
+            &nbsp;
         </li>
         <li class="time-line-item">
-            <a class="date-nav-link current" data-bind="text: CurrentDate, attr: { href: CurrentDateLink }"></a>
+            <a class="date-nav-link current" data-bind="attr: { href: CurrentDateLink }">
+                <span class="timeline-item-date" data-bind="text: CurrentDate"></span>
+            </a>
+        </li>
+        <li class="time-line-seperator">
+            &nbsp;
         </li>
         <li class="time-line-item">
-            <a class="date-nav-link future" data-bind="text: NextWeek, attr: { href: NextWeekLink }"></a>
+            <a class="date-nav-link future" data-bind="attr: { href: NextWeekLink }">
+                <span class="timeline-item-date" data-bind="text: NextWeek"></span>
+            </a>
         </li>
     </ul>
 </div>
