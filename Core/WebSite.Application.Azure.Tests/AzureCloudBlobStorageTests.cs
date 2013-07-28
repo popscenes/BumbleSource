@@ -79,7 +79,7 @@ namespace Website.Application.Azure.Tests
         {
             #region Implementation of CommandInterface
 
-            public string CommandId { get; set; }
+            public string MessageId { get; set; }
 
             #endregion
 
@@ -231,7 +231,7 @@ namespace Website.Application.Azure.Tests
 
             var data = new byte[1024  * 70];
             data[0] = 0; data[1] = 1; data[2] = 2;
-            var largeCommand = new TestBlobStorageCommand() { CommandId = Guid.NewGuid().ToString(), Message = data };
+            var largeCommand = new TestBlobStorageCommand() { MessageId = Guid.NewGuid().ToString(), Message = data };
 
             var commandQueueStorageConatiner = Kernel.Get<BlobStorageInterface>();
             var cmdSerial = new DataBusCommandSerializer(commandQueueStorageConatiner);

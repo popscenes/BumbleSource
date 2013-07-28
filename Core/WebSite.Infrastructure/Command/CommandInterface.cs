@@ -2,9 +2,9 @@ using System;
 
 namespace Website.Infrastructure.Command
 {
-    public interface CommandInterface
+    public interface CommandInterface : MessageInterface 
     {
-        string CommandId { get; set; }
+        
     }
 
 //    [Serializable]

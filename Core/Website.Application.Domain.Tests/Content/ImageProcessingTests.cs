@@ -371,7 +371,7 @@ namespace Website.Application.Domain.Tests.Content
             var cmd = new SetImageMetaDataCommand()
                           {
                               Id = guid.ToString(),
-                              CommandId = Guid.NewGuid().ToString(),
+                              MessageId = Guid.NewGuid().ToString(),
                               Location = new Website.Domain.Location.Location(22, 22),
                               Title = "Test Title"
                           };

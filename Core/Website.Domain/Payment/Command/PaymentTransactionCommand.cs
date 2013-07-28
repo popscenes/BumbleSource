@@ -7,7 +7,7 @@ namespace Website.Domain.Payment.Command
     { 
         public EntityInterface Entity { get; set; }
         public PaymentTransaction Transaction { get; set; }
-        public string CommandId { get; set; }
+        public string MessageId { get; set; }
         public PaymentPackageInterface Package { get; set; }
     }
 }

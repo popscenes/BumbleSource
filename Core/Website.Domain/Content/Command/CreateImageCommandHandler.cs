@@ -29,7 +29,7 @@ namespace Website.Domain.Content.Command
         {
             var insert = new Image()
                              {
-                                 Id = command.CommandId,
+                                 Id = command.MessageId,
                                  Title = command.Title,
                                  BrowserId = command.Anonymous ? Guid.Empty.ToString() : command.BrowserId,
                                  Status = ImageStatus.Processing,

@@ -8,6 +8,6 @@ namespace Website.Application.Caching
     {
         public string Key { get; set; }
         public string Region { get; set; }
-        public string CommandId { get; set; }
+        public string MessageId { get; set; }
     }
 }

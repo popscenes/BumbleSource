@@ -14,7 +14,7 @@ namespace Website.Infrastructure.Command
 
         public static MsgResponse AddCommandId(this MsgResponse msg, CommandInterface cmd)
         {
-            return msg.AddMessageProperty("CommandId", cmd.CommandId);
+            return msg.AddMessageProperty("CommandId", cmd.MessageId);
         }
     }
 }

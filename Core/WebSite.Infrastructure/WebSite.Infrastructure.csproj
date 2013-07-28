@@ -191,6 +191,8 @@
     <Compile Include="Command\DefaultCommandBus.cs" />
     <Compile Include="Command\DefaultCommandHandlerRepository.cs" />
     <Compile Include="Command\GenericRepositoryInterface.cs" />
+    <Compile Include="Command\MessageHandlerInterface.cs" />
+    <Compile Include="Command\MessageInterface.cs" />
     <Compile Include="Command\MsgResponse.cs" />
     <Compile Include="Command\MsgResponseCommandExtension.cs" />
     <Compile Include="Command\RepositoryInterface.cs" />

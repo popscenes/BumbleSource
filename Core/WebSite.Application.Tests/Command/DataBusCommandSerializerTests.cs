@@ -17,7 +17,7 @@ namespace Website.Application.Tests.Command
         [Serializable]
         private class DataBusTestCommand : CommandInterface
         {
-            public string CommandId { get; set; }
+            public string MessageId { get; set; }
             public byte[] Data { get; set; }
         }
 
@@ -59,7 +59,7 @@ namespace Website.Application.Tests.Command
             var data = new byte[1024*1024*5];
             data[0] = 0;data[1] = 1;data[2] = 2;
 
-            var largedatacommand = new DataBusTestCommand() { Data = data, CommandId = Guid.NewGuid().ToString()};
+            var largedatacommand = new DataBusTestCommand() { Data = data, MessageId = Guid.NewGuid().ToString()};
             var cmdSerializer = Kernel.Get<DataBusCommandSerializer>();
             var serializedMessage = cmdSerializer.ToByteArray(largedatacommand);
 

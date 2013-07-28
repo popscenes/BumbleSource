@@ -7,11 +7,11 @@ namespace Website.Infrastructure.Command
     {
         protected DefaultCommandBase()
         {
-            CommandId = Guid.NewGuid().ToString();
+            MessageId = Guid.NewGuid().ToString();
         }
         #region Implementation of CommandInterface
 
-        public string CommandId { get; set; }
+        public string MessageId { get; set; }
 
         #endregion
     }

@@ -28,7 +28,7 @@ namespace Website.Application.Caching.Command
                     new InvalidateCacheDataCommand()
                     {
                         Key = key,
-                        CommandId = Guid.NewGuid().ToString()
+                        MessageId = Guid.NewGuid().ToString()
                     }
                     );
             }

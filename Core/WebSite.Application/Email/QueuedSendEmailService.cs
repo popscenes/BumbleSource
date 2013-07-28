@@ -23,7 +23,7 @@ namespace Website.Application.Email
                 .Send(
                     new SendMailCommand()
                         {
-                            CommandId = Guid.NewGuid().ToString(), MailMessage = email.ToSerializableMessage()
+                            MessageId = Guid.NewGuid().ToString(), MailMessage = email.ToSerializableMessage()
                         });
         }
     }

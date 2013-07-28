@@ -52,7 +52,7 @@ namespace Website.Application.Domain.Content.Command
                     Trace.TraceInformation("ImageProcessCommandHandler Error: {0}, Stack {1}", e.Message, e.StackTrace);
                     _commandBus.Send(new SetImageStatusCommand()
                     {
-                        Id = command.CommandId, // commandid == imageid
+                        Id = command.MessageId, // commandid == imageid
                         Status = ImageStatus.Failed
                     });
                 }
@@ -91,15 +91,15 @@ namespace Website.Application.Domain.Content.Command
 
                 var dims = new List<ImageDimension>(){GetDim(curr, ImageUtil.GetIdFileExtension(), ThumbOrientation.Original)};
                 var convdata = curr.GetBytes();
-                _blobStorage.SetBlob(command.CommandId + ImageUtil.GetIdFileExtension(), convdata, BlobProperties.JpegContentTypeDefault);
+                _blobStorage.SetBlob(command.MessageId + ImageUtil.GetIdFileExtension(), convdata, BlobProperties.JpegContentTypeDefault);
 
-                dims.AddRange(CreateThumbs(command.CommandId, curr));
+                dims.AddRange(CreateThumbs(command.MessageId, curr));
 
-                ProcessMetaData(img, command.CommandId, dims);
+                ProcessMetaData(img, command.MessageId, dims);
 
                 _commandBus.Send(new SetImageStatusCommand()
                                      {
-                                         Id = command.CommandId, // this commandid == imageid
+                                         Id = command.MessageId, // this commandid == imageid
                                          Status = ImageStatus.Ready,
                                      });
 

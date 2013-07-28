@@ -24,7 +24,7 @@ namespace Website.Application.Domain.Content
             _commandBus.Send(new ImageProcessCommand()
                                  {
                                      ImageData = content.Data,
-                                     CommandId = id.ToString()
+                                     MessageId = id.ToString()
                                  });
         }
 
@@ -32,7 +32,7 @@ namespace Website.Application.Domain.Content
         {
             _commandBus.Send(new ImageProcessSetMetaDataCommand()
             {
-                CommandId = initiatorCommand.CommandId,
+                MessageId = initiatorCommand.MessageId,
                 InitiatorCommand = initiatorCommand
             });
         }

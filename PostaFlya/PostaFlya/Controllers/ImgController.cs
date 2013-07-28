@@ -89,7 +89,7 @@ namespace PostaFlya.Controllers
             var imgId = Guid.NewGuid();
             var res = _commandBus.Send(new CreateImageCommand()
                                  {
-                                     CommandId = imgId.ToString(),
+                                     MessageId = imgId.ToString(),
                                      Content = content,
                                      BrowserId = _browserInformation.Browser.Id,
                                      Title = createModel.Title,
