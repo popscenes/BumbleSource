@@ -20,8 +20,12 @@ namespace Website.Application.Azure.Queue
 
         public QueueInterface GetQueue(string queueName)
         {
+
+
             var connectionString =
                 _configurationService.GetSetting(_namespaceConnectionString);
+
+
 
             var namespaceManager =
                 NamespaceManager.CreateFromConnectionString(connectionString);
@@ -35,7 +39,9 @@ namespace Website.Application.Azure.Queue
             }
 
             // Initialize the connection to Service Bus Queue
-            var client = QueueClient.CreateFromConnectionString(connectionString, queueName);
+            //var client = QueueClient.CreateFromConnectionString(connectionString, queueName);
+            var msgFact = MessagingFactory.CreateFromConnectionString(connectionString);            
+            var client = msgFact.CreateQueueClient(queueName);
             return new ServiceBusQueue(client);
         }
 

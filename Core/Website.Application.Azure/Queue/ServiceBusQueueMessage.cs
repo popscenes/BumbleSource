@@ -24,6 +24,11 @@ namespace Website.Application.Azure.Queue
             get { return _message.GetBody<byte[]>(); }
             set { _message = new BrokeredMessage(value); } }
 
+        public string CorrelationId
+        {
+            get { return _message.CorrelationId; } set { _message.CorrelationId = value; }
+        }
+
         public BrokeredMessage Message{get { return _message; }}
     }
 }

@@ -29,6 +29,8 @@ namespace Website.Application.Azure.Queue
             set { _queueMessage.SetMessageContent(value); }
         }
 
+        public string CorrelationId { get; set; }
+
         #endregion
 
         internal CloudQueueMessage Message
