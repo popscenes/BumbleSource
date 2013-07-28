@@ -548,6 +548,8 @@
     <Content Include="Content\themes\taskflya\images\tempbutton64x61.jpg" />
     <Content Include="Content\themes\taskflya\images\tick-disabled.png" />
     <Content Include="Content\themes\taskflya\images\tick.png" />
+    <Content Include="Content\themes\taskflya\images\timeline-dash.png" />
+    <Content Include="Content\themes\taskflya\images\timeline-dot.png" />
     <Content Include="Content\themes\taskflya\images\toolbar-heading.png" />
     <Content Include="Content\themes\taskflya\images\up-icon.png" />
     <Content Include="Content\themes\taskflya\images\white-90.png" />

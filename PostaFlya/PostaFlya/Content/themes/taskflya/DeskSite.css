@@ -1738,13 +1738,38 @@ div.trying-to-find-yourloc.alert-box .alert-box-icon {
 }
 
 ul.time-line {
-    list-style: none; 
+    list-style: none;
+    height: 36px;
 }
 
 ul.time-line li {
     display: inline-block;
-    padding: 0 10px 0 10px;
 }
+
+.timeline-item-date {
+    position: relative;
+    padding-top: 20px;
+    width: 100px;
+    left: -44px;
+    display: none;
+}
+
+.time-line-item:hover .timeline-item-date, .timeline-item-date.current, .date-nav-link.current .timeline-item-date {
+    display: inline-block;
+}
+
+ul.time-line li.time-line-item {
+    background-image: url(images/timeline-dot.png);
+    width: 9px;
+    height: 9px;
+}
+
+ul.time-line li.time-line-seperator {
+    background-image: url(images/timeline-dash.png);
+    width: 132px;
+    height: 9px;
+}
+
 
 
 ul.time-line li a.date-nav-link{
