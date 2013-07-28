@@ -36,6 +36,9 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="MaxMind.GeoIP">
+      <HintPath>..\..\..\Libraries\MaxMind.GeoIP.2.1.17\lib\net35\MaxMind.GeoIP.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
       <HintPath>..\..\..\Libraries\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
@@ -131,12 +134,20 @@
     <Compile Include="Google\Content\HtmlHelperExtensions.cs" />
     <Compile Include="Google\Payment\GoogleWalletPaymentService.cs" />
     <Compile Include="Google\Places\LocationExtensions.cs" />
+    <Compile Include="Location\GeoIpServiceInterface.cs" />
+    <Compile Include="Location\Query\GetLocationFromIdQuery.cs" />
+    <Compile Include="Location\Query\GetLocationFromIdQueryHandler.cs" />
     <Compile Include="Location\ValidationAttributes.cs" />
     <Compile Include="Payment\PaymentServiceInterface.cs" />
     <Compile Include="Payment\PaymentServiceProviderInterface.cs" />
     <Compile Include="Payment\PaymentServiceProvider.cs" />
     <Compile Include="Payment\PaypalPaymentService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Publish\Command\DomainEventPublishCommand.cs" />
     <Compile Include="Publish\Command\DomainEventPublishCommandHandler.cs" />
     <Compile Include="Publish\DomainEventPublishService.cs" />
@@ -171,6 +182,12 @@
     <Folder Include="Browser\Query\" />
     <Folder Include="Claims\" />
     <Folder Include="Content\Query\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />

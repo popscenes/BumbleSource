@@ -9,6 +9,7 @@ using PostaFlya.Domain.Flier.Query;
 using PostaFlya.Models.Flier;
 using PostaFlya.Models.Location;
 using Website.Application.Content;
+using Website.Application.Domain.Location.Query;
 using Website.Application.WebsiteInformation;
 using Website.Domain.Browser;
 using Website.Domain.Location;
@@ -59,6 +60,14 @@ namespace PostaFlya.Controllers
         public ActionResult GigGuide()
         {
             var model = new BulletinBoardPageModel() { PageId = WebConstants.GigGuidePage };
+
+            if (_browserInformation.LastSearchLocation == null || !_browserInformation.LastSearchLocation.IsValid)
+            {
+                _browserInformation.LastSearchLocation = _queryChannel.Query(new GetLocationFromIdQuery()
+                    {
+                        IpAddress = _browserInformation.IpAddress
+                    }, new Location());
+            }
 
             return View("GigGuide", model); 
         }

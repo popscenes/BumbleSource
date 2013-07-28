@@ -623,6 +623,7 @@
     <Content Include="Areas\Default\Views\Bulletin\SummaryTileTemplateNew.cshtml" />
     <Content Include="Areas\Default\Views\Bulletin\SummaryTileNew.cshtml" />
     <Content Include="Content\themes\taskflya\fonts\DIN Alternate Bold.ttf" />
+    <Content Include="App_Data\GeoLiteCity.dat" />
     <None Include="Microsoft.WindowsAzure.Caching\ClientPerfCountersInstaller.exe">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
