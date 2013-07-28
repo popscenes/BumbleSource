@@ -21,6 +21,7 @@ namespace Website.Domain.Content
         #endregion
     }
 
+    [Serializable]
     public struct ImageDimension
     {
         public int Width { get; set; }
@@ -29,6 +30,7 @@ namespace Website.Domain.Content
         public ThumbOrientation Orientation { get; set; }
     }
 
+    [Serializable]
     public enum ThumbOrientation
     {
         Horizontal,

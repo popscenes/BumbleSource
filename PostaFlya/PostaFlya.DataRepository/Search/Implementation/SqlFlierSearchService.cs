@@ -203,7 +203,7 @@ namespace PostaFlya.DataRepository.Search.Implementation
                 , new object[] { new Guid(board) }
                 , new
                 {
-                    board = board,
+                    board = new Guid(board),
                     xpath = GetTagFilter(tags),
                     startdate = startdate,
                     enddate = enddate,
