@@ -3,12 +3,20 @@ using Website.Application.Command;
 
 namespace Website.Application.Queue
 {
-    public interface QueueInterface
+    public interface QueueInterface : QueueSenderInterface, QueueReceiverInterface
     {
-        void AddMessage(QueueMessageInterface message);
+        int? ApproximateMessageCount { get; }
+    }
+
+    public interface QueueReceiverInterface
+    {
         QueueMessageInterface GetMessage();
         QueueMessageInterface GetMessage(TimeSpan invisibilityTimeOut);
         void DeleteMessage(QueueMessageInterface message);
-        int? ApproximateMessageCount { get; }
+    }
+
+    public interface QueueSenderInterface
+    {
+        void AddMessage(QueueMessageInterface message);
     }
 }

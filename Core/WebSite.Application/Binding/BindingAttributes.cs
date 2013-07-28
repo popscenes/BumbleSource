@@ -19,9 +19,17 @@ namespace Website.Application.Binding
         public string  Name { get; set; } 
     }
 
-    public class ServiceNamesSpaceAttribute : Attribute
+    public class ServiceTopicAttribute : Attribute
     {
         public string Name { get; set; }
     }
+
+    public class ServiceTopicSubscrtipionAttribute : Attribute
+    {
+        public string TopicName { get; set; }
+        public string SubscriptionName { get; set; }
+    }
+
+
 
 }

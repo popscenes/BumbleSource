@@ -40,7 +40,9 @@ namespace Website.Application.Azure.Queue
 
             // Initialize the connection to Service Bus Queue
             //var client = QueueClient.CreateFromConnectionString(connectionString, queueName);
-            var msgFact = MessagingFactory.CreateFromConnectionString(connectionString);            
+            var msgFact = MessagingFactory.CreateFromConnectionString(connectionString);
+            msgFact.CreateSubscriptionClient("Test", "Test", ReceiveMode.PeekLock);
+            //msgFact.CreateTopicClient("Test");
             var client = msgFact.CreateQueueClient(queueName);
             return new ServiceBusQueue(client);
         }

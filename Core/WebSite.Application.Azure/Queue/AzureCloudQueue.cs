@@ -18,7 +18,7 @@ namespace Website.Application.Azure.Queue
             _cloudQueue = cloudQueue;
         }
 
-        void QueueInterface.AddMessage(QueueMessageInterface message)
+        public void AddMessage(QueueMessageInterface message)
         {
             var azureMsg = message as AzureCloudQueueMessage ?? new AzureCloudQueueMessage(message.Bytes);
 
