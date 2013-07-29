@@ -65,8 +65,9 @@
     <Reference Include="Microsoft.WindowsAzure.Configuration, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\..\..\Libraries\Microsoft.WindowsAzure.ConfigurationManager.2.0.1.0\lib\net40\Microsoft.WindowsAzure.Configuration.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.WindowsAzure.Storage, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\..\..\Libraries\WindowsAzure.Storage.2.0.5.1\lib\net40\Microsoft.WindowsAzure.Storage.dll</HintPath>
+    <Reference Include="Microsoft.WindowsAzure.Storage, Version=2.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Libraries\WindowsAzure.Storage.2.1.0.0-rc\lib\net40\Microsoft.WindowsAzure.Storage.dll</HintPath>
     </Reference>
     <Reference Include="Moq">
       <HintPath>..\..\..\Libraries\Moq.4.0.10827\lib\NET40\Moq.dll</HintPath>
@@ -77,19 +78,19 @@
     </Reference>
     <Reference Include="Ninject, Version=3.0.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\Libraries\Ninject.3.0.2-unstable-8\lib\net45-full\Ninject.dll</HintPath>
+      <HintPath>..\..\..\Libraries\Ninject.3.0.2-unstable-9\lib\net45-full\Ninject.dll</HintPath>
     </Reference>
     <Reference Include="Ninject.Extensions.Conventions, Version=3.0.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\Libraries\ninject.extensions.conventions.3.0.2-unstable-2\lib\net45-full\Ninject.Extensions.Conventions.dll</HintPath>
+      <HintPath>..\..\..\Libraries\Ninject.Extensions.Conventions.3.0.2-unstable-4\lib\net45-full\Ninject.Extensions.Conventions.dll</HintPath>
     </Reference>
     <Reference Include="Ninject.MockingKernel, Version=3.0.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\Libraries\Ninject.MockingKernel.3.0.2-unstable-0\lib\net45-full\Ninject.MockingKernel.dll</HintPath>
+      <HintPath>..\..\..\Libraries\Ninject.MockingKernel.3.0.2-unstable-5\lib\net45-full\Ninject.MockingKernel.dll</HintPath>
     </Reference>
     <Reference Include="Ninject.MockingKernel.Moq, Version=3.0.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\Libraries\Ninject.MockingKernel.Moq.3.0.2-unstable-0\lib\net45-full\Ninject.MockingKernel.Moq.dll</HintPath>
+      <HintPath>..\..\..\Libraries\Ninject.MockingKernel.Moq.3.0.2-unstable-5\lib\net45-full\Ninject.MockingKernel.Moq.dll</HintPath>
     </Reference>
     <Reference Include="nunit.framework, Version=2.6.2.12296, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>

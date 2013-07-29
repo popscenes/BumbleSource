@@ -62,7 +62,7 @@ namespace Website.Application.Tests.Command
         public class TestCommand : CommandInterface
         {
             public string CommandData { get; set; }
-            public string CommandId { get; set; }
+            public string MessageId { get; set; }
         }
 
         [Test]

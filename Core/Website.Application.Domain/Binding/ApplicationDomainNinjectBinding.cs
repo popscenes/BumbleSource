@@ -2,6 +2,7 @@
 using Ninject;
 using Ninject.Modules;
 using Ninject.Web.Common;
+using Website.Application.Domain.Location;
 using Website.Application.Domain.Payment;
 using Website.Application.Domain.Publish;
 using Website.Application.Domain.TinyUrl;
@@ -50,6 +51,9 @@ namespace Website.Application.Domain.Binding
 
             Bind<TinyUrlServiceInterface>()
                 .To<DefaultTinyUrlService>();
+
+            Bind<GeoIpServiceInterface>()
+                .To<MaxMindGeoIpService>().InThreadScope();
 
             Trace.TraceInformation("Finished Binding ApplicationDomainNinjectBinding");
         }

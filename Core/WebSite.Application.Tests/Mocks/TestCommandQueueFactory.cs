@@ -24,6 +24,7 @@ namespace Website.Application.Tests.Mocks
         public class TestQueueMessage : QueueMessageInterface
         {
             public byte[] Bytes { get; set; }
+            public string CorrelationId { get; set; }
         }
 
         public class TestMessageFactory

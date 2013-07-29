@@ -10,7 +10,7 @@ namespace Website.Application.Domain.Content.Command
 
         #region Implementation of CommandInterface
 
-        public string CommandId { get; set; }
+        public string MessageId { get; set; }
 
         #endregion
     }

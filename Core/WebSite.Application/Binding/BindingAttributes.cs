@@ -14,4 +14,22 @@ namespace Website.Application.Binding
     //for broadcast communication
     public class BroadcastCommunicatorAttribute : Attribute { }
 
+    //for queue
+    public class QueueAttribute : Attribute {
+        public string  Name { get; set; } 
+    }
+
+    public class ServiceTopicAttribute : Attribute
+    {
+        public string Name { get; set; }
+    }
+
+    public class ServiceTopicSubscrtipionAttribute : Attribute
+    {
+        public string TopicName { get; set; }
+        public string SubscriptionName { get; set; }
+    }
+
+
+
 }

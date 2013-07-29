@@ -158,7 +158,7 @@ namespace PostaFlya.Specification.Content
             var bus = SpecUtil.CurrIocKernel.Get<CommandBusInterface>();
             bus.Send(new SetImageMetaDataCommand()
             {
-                CommandId = Guid.NewGuid().ToString(),
+                MessageId = Guid.NewGuid().ToString(),
                 Id = img,
                 Location = new Location(longitude.Value, latitude.Value)
             });

@@ -1,7 +1,8 @@
 namespace Website.Infrastructure.Command
 {
-    public interface CommandHandlerInterface<in CommandType> where CommandType : CommandInterface
+    public interface CommandHandlerInterface<in CommandType> : MessageHandlerInterface<CommandType>
+        where CommandType : CommandInterface
     {
-        object Handle(CommandType command);
+
     }
 }

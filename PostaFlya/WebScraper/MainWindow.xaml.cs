@@ -83,7 +83,7 @@ namespace WebScraper
         void boardUpdateWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             var success = e.Result as bool?;
-            if (success.Value)
+            if (success != null && success.Value)
             {
                 Trace.TraceInformation("Board Uploaded");
             }

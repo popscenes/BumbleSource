@@ -43,7 +43,7 @@ namespace Website.Application.Command
             {
                 var redirect = new DataBusRedirectToStorage()
                                    {
-                                       StorageId = command.CommandId
+                                       StorageId = command.MessageId
                                    };
 
                 _blobStorage.SetBlob(redirect.StorageId, message);
@@ -54,7 +54,7 @@ namespace Website.Application.Command
 
         public void ReleaseCommand<CommandType>(CommandType command) where CommandType : class, CommandInterface
         {
-            _blobStorage.DeleteBlob(command.CommandId);
+            _blobStorage.DeleteBlob(command.MessageId);
         }
 
         #endregion

@@ -154,11 +154,11 @@
     </Reference>
     <Reference Include="Ninject, Version=3.0.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\Libraries\Ninject.3.0.2-unstable-8\lib\net45-full\Ninject.dll</HintPath>
+      <HintPath>..\..\..\Libraries\Ninject.3.0.2-unstable-9\lib\net45-full\Ninject.dll</HintPath>
     </Reference>
     <Reference Include="Ninject.Extensions.Conventions, Version=3.0.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\Libraries\ninject.extensions.conventions.3.0.2-unstable-2\lib\net45-full\Ninject.Extensions.Conventions.dll</HintPath>
+      <HintPath>..\..\..\Libraries\Ninject.Extensions.Conventions.3.0.2-unstable-4\lib\net45-full\Ninject.Extensions.Conventions.dll</HintPath>
     </Reference>
     <Reference Include="paycircuit.com.google.iap.lib">
       <HintPath>Libs\paycircuit.com.google.iap.lib.dll</HintPath>

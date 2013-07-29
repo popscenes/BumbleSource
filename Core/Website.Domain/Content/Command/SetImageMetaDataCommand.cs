@@ -1,8 +1,10 @@
+using System;
 using System.Collections.Generic;
 using Website.Infrastructure.Command;
 
 namespace Website.Domain.Content.Command
 {
+    [Serializable]
     public class SetImageMetaDataCommand : DefaultCommandBase
     {
         public string Id { get; set; }

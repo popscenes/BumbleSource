@@ -121,7 +121,7 @@ namespace PostaFlya.Application.Domain.ExternalSource
 
             var res = _commandBus.Send(new CreateImageCommand()
             {
-                CommandId = imgId,
+                MessageId = imgId,
                 Content = content,
                 BrowserId = browser.Id,
                 Title = fbEvent.name,
