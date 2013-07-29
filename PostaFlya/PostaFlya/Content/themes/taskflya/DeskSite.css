@@ -1740,10 +1740,18 @@ div.trying-to-find-yourloc.alert-box .alert-box-icon {
 ul.time-line {
     list-style: none;
     height: 36px;
+    width: 573px;
+    padding: 0;
+    margin: 18px auto;
+}
+
+ul.time-line.by-week {
+    width: 291px;
 }
 
 ul.time-line li {
-    display: inline-block;
+    display: block;
+    float: left;
 }
 
 .timeline-item-date {
@@ -1770,14 +1778,16 @@ ul.time-line li.time-line-seperator {
     height: 9px;
 }
 
-
+li.history {
+    opacity: 0.3;
+}
 
 ul.time-line li a.date-nav-link{
     color: #bbbbbb;
     text-decoration: none;
 }
 
-ul.time-line li a.date-nav-link.current{
+ul.time-line li a.date-nav-link{
     font-weight: bold;
     color: #ffffff;
 }

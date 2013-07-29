@@ -12,14 +12,13 @@
                                                                          
     <div id="bulletinboard" data-bind="foreach: DateSections(), visible: DateSections().length > 0">
         <div class="giglist-time-line">
-            
             <ul class="time-line" data-bind="foreach: Dates, attr: { id: DateLink }">
-                <li class="time-line-item">
-                    <a class="date-nav-link" data-bind="css: { 'history': Ishistory, 'current': Iscurrent, 'future': Isfuture }, attr: {href: DateLink}">
+                <li class="time-line-item" data-bind="css: { 'history': Ishistory, 'current': Iscurrent, 'future': Isfuture }">
+                    <a class="date-nav-link" data-bind="attr: {href: DateLink}">
                         <span class="timeline-item-date" data-bind="css: { 'history': Ishistory, 'current': Iscurrent, 'future': Isfuture }, text: Datestring"></span>
                     </a>
                 </li>
-                <li class="time-line-seperator" data-bind="visible: $index() < ($parent.Dates.length-1)">
+                <li class="time-line-seperator" data-bind="css: { 'history': Ishistory, 'current': Iscurrent, 'future': Isfuture }, visible: $index() < ($parent.Dates.length-1)">
                     &nbsp;
                 </li>
             </ul>
@@ -36,8 +35,8 @@
     <div class="bulletin-loading-div" data-bind="visible: noMoreFliersText()" id="noMoreFliers" style="display: none;"> 
         <span data-bind="text:noMoreFliersText"></span>  
     </div>
-    <ul class="time-line">
-        <li class="time-line-item">
+    <ul class="time-line by-week">
+        <li class="time-line-item history">
             <a class="date-nav-link history" data-bind="attr: { href: PrevWeekLink }">
                 <span class="timeline-item-date" data-bind="text: PrevWeek"></span>
             </a>
@@ -45,7 +44,7 @@
         <li class="time-line-seperator">
             &nbsp;
         </li>
-        <li class="time-line-item">
+        <li class="time-line-item history">
             <a class="date-nav-link current" data-bind="attr: { href: CurrentDateLink }">
                 <span class="timeline-item-date" data-bind="text: CurrentDate"></span>
             </a>
