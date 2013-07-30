@@ -3,8 +3,12 @@
 
 @if (Request.IsAuthenticated)
 {    
-    <div id="bulletin-right-toolbar" data-bind="visible: bf.currentBrowserInstance.AdminBoards.length > 0">
-        <a id="post-flya" data-bind="click: CreateFlierInstance.CreateFlierLaunch" class="std-btn std-image-btn">
+    <div id="bulletin-right-toolbar">
+        <a id="post-flya" data-bind="visible: bf.currentBrowserInstance.AdminBoards.length > 0, click: CreateFlierInstance.CreateFlierLaunch" class="std-btn std-image-btn">
+            <span class="std-image-btn-icon"></span>
+        </a>
+        
+        <a id="log-in-profile" href="@Url.Action("Peeled", "Profile")"  class="std-btn std-image-btn" data-helptip-group="global-left-toolbar" data-helptip-text="Peeled Fliers">
             <span class="std-image-btn-icon"></span>
         </a>
     </div>   

@@ -101,13 +101,13 @@ namespace PostaFlya.Controllers
             if (!string.IsNullOrWhiteSpace(ReturnUrl) && ReturnUrl.StartsWith("/"))
                 return Redirect(ReturnUrl);
 
-            return RedirectToAction("Get", "Bulletin");
+            return RedirectToAction("GigGuide", "Bulletin");
         }
 
         public ActionResult LogOut()
         {
             FormsAuthentication.SignOut();
-            return RedirectToAction("Get", "Bulletin");
+            return RedirectToAction("GigGuide", "Bulletin");
         }
 
         [NonAction]
@@ -198,7 +198,7 @@ namespace PostaFlya.Controllers
             if (!string.IsNullOrWhiteSpace(target) && target.StartsWith("/"))
                 return Redirect(target);
 
-            return RedirectToAction("Get", "Bulletin");
+            return RedirectToAction("GigGuide", "Bulletin");
         }
 
         [NonAction]
