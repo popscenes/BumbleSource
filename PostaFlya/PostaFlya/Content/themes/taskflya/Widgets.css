@@ -49,7 +49,63 @@ div.popsceneswidget .tags-selector .tags-box{
 
 
 
-/**************tags selector********************/
+/**************timeline********************/
+
+div.popsceneswidget ul.time-line {
+    list-style: none;
+    height: 36px;
+    width: 573px;
+    padding: 0;
+    margin: 18px auto;
+}
+
+div.popsceneswidget ul.time-line.by-week {
+    width: 291px;
+}
+
+div.popsceneswidget ul.time-line li {
+    display: block;
+    float: left;
+}
+
+div.popsceneswidget .timeline-item-date {
+    position: relative;
+    padding-top: 20px;
+    width: 100px;
+    left: -44px;
+    display: none;
+}
+
+div.popsceneswidget .time-line-item:hover .timeline-item-date, div.popsceneswidget .timeline-item-date.current, div.popsceneswidget .date-nav-link.current .timeline-item-date {
+    display: inline-block;
+}
+
+div.popsceneswidget ul.time-line li.time-line-item {
+    background-image: url(images/timeline-dot.png);
+    width: 9px;
+    height: 9px;
+}
+
+div.popsceneswidget ul.time-line li.time-line-seperator {
+    background-image: url(images/timeline-dash.png);
+    width: 132px;
+    height: 9px;
+}
+
+div.popsceneswidget li.history {
+    opacity: 0.3;
+}
+
+div.popsceneswidget ul.time-line li a.date-nav-link{
+    color: #bbbbbb;
+    text-decoration: none;
+}
+
+div.popsceneswidget ul.time-line li a.date-nav-link{
+    font-weight: bold;
+    color: #000000;
+}
+
 
 
 

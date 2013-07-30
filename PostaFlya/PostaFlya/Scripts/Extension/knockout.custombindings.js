@@ -592,8 +592,8 @@
 
             var args = ko.utils.unwrapObservable(valueAccessor());
             var value = ko.utils.unwrapObservable(args.target);
+            var $ele = $(element);
             if (value) {
-                var $ele = $(element);
                 $ele.fadeIn();
                 /*var top = $(window).scrollTop();
                 $ele.css({
@@ -601,10 +601,10 @@
                 });*/
                 
                 var windowHeight = $(window).height();
-                var windowWidth = $(window).width();
+                //var windowWidth = $(window).width();
 
                 $("body").css({ 'height': windowHeight, 'overflow-y': 'hidden' });
-                $("header").css({ 'width': windowWidth});
+                //$("header").css({ 'width': windowWidth });
 
                 if (args.refreshtrig && value[args.refreshtrig] && ko.isObservable(value[args.refreshtrig])) {
                     value[args.refreshtrig].subscribe(function() {
@@ -617,7 +617,8 @@
                 
                 //alert("fadeout");
                 $("body").css({ 'height': 'auto', 'overflow-y': 'auto' });
-                $("header").css({ 'width': '100%'});
+                //$("header").css({ 'width': '100%' });
+                //$(element).css({ 'height': 'auto' });
             }
         }
     };
