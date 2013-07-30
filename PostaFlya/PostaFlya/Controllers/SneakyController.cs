@@ -33,7 +33,7 @@ namespace PostaFlya.Controllers
             var cache = _cache as AzureCacheProvider;
             if(cache != null)
                 cache.Clear();
-            return RedirectToAction("Get", "Bulletin");
+            return RedirectToAction("GigGuide", "Bulletin");
         }
 
         public ActionResult SetBrowserCredit(string browserId, double credit)
@@ -43,13 +43,13 @@ namespace PostaFlya.Controllers
                     BrowserId = browserId,
                     Credit = credit
                 });
-            return RedirectToAction("Get", "Bulletin");
+            return RedirectToAction("GigGuide", "Bulletin");
         }
 
         public ActionResult ReindexFlyers()
         {
             _commandBus.Send(new ReindexFlyersCommand());
-            return RedirectToAction("Get", "Bulletin");
+            return RedirectToAction("GigGuide", "Bulletin");
         }
 
     }

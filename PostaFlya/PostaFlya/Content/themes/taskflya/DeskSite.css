@@ -66,6 +66,15 @@ header{
     margin-top: 10px;
 }
 
+.tear-off {
+    margin-top: 12px;
+}
+
+.edit-from-flya {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
 
 .std-btn {
     display: inline-block;
@@ -112,9 +121,6 @@ header{
     text-transform: uppercase;
 }
 
-
-
-
 .std-image-btn
 {
     position: relative;
@@ -127,8 +133,9 @@ header{
     
 }
 
-#log-in-profile {
+header .std-btn {
     background-color: #282828;
+    color: white;
 }
 .create-edit-userlink {
     display: inline-block;
@@ -184,6 +191,7 @@ ul.userlinks {
     width: 34px;
     height: 34px;
 }
+
 
 .btn-44 .std-image-btn-icon{
     background-image: url(images/icons-44h1.png);
@@ -342,6 +350,15 @@ ul.userlinks {
     margin-top: 5px;
     background-position: -68px 0px;
 }
+
+#profile-peeled .std-image-btn-icon{
+    background-image: url(images/icons-34h1.png);
+    width: 34px;
+    height: 34px;
+    margin-top: 5px;
+    background-position: -442px 0px;
+}
+
 
 #profile-avatar .std-image-btn-icon {
     background-position: -88px 0px;
