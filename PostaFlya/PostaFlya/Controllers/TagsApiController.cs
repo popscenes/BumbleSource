@@ -5,12 +5,12 @@ using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
 using Website.Application.WebsiteInformation;
-using Website.Common.Controller;
+using Website.Common.Obsolete;
 using Website.Domain.Tag;
 
 namespace PostaFlya.Controllers
 {
-    public class TagsApiController : WebApiControllerBase   
+    public class TagsApiController : OldWebApiControllerBase   
     {
         private readonly WebsiteInfoServiceInterface _websiteInfoService;
 

@@ -1,4 +1,4 @@
-namespace PostaFlya.Areas.MobileApi.Infrastructure.Model
+namespace Website.Common.ApiInfrastructure.Model
 {
     public class ResponseContent
     {

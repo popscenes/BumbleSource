@@ -7,13 +7,13 @@ using PostaFlya.Domain.Flier.Query;
 using PostaFlya.Domain.Flier;
 using PostaFlya.Models.Flier;
 using PostaFlya.Models.Location;
-using Website.Common.Controller;
+using Website.Common.Obsolete;
 using Website.Domain.Tag;
 using Website.Infrastructure.Query;
 
 namespace PostaFlya.Controllers
 {
-    public class HeatMapApiController : WebApiControllerBase
+    public class HeatMapApiController : OldWebApiControllerBase
     {
         private readonly GenericQueryServiceInterface _flierQueryService;
         private readonly FlierSearchServiceInterface _flierSearchService;

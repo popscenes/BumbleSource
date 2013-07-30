@@ -1,13 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using NUnit.Framework;
 using Popscenes.Specification.Util;
 using PostaFlya.Areas.MobileApi.Flyers.Model;
-using PostaFlya.Areas.MobileApi.Infrastructure.Model;
 using PostaFlya.Domain.Flier;
 using TechTalk.SpecFlow;
+using Website.Common.ApiInfrastructure.Model;
 
 namespace Popscenes.Specification.MobileApi.Bulletin
 {

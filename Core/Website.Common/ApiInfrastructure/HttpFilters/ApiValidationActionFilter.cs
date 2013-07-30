@@ -1,19 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Web;
 using System.Web.Http.Controllers;
 using System.Web.Http.Filters;
 using System.Web.Http.ModelBinding;
-using PostaFlya.Areas.MobileApi.Infrastructure.Model;
-using Website.Common.Filters;
+using Website.Common.ApiInfrastructure.Model;
 
-namespace PostaFlya.Areas.MobileApi.Infrastructure.HttpFilters
+namespace Website.Common.ApiInfrastructure.HttpFilters
 {
 
-    public class MobileApiValidationActionFilter : ActionFilterAttribute
+    public class ApiValidationActionFilter : ActionFilterAttribute
     {
         public override void OnActionExecuting(HttpActionContext context)
         {

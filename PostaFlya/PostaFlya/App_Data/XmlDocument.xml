@@ -423,6 +423,11 @@
             
             </summary>
         </member>
+        <member name="T:PostaFlya.Areas.WebApi.Flyers.Model.FlyerDetailRequest">
+            <summary>
+            
+            </summary>
+        </member>
         <member name="M:PostaFlya.Controllers.BulletinApiController.Get(PostaFlya.Models.Flier.BulletinGetRequestModel)">
             <summary>
             dgdgsdgdsfgg

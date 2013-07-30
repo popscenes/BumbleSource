@@ -9,9 +9,9 @@ using PostaFlya.Models.Flier;
 using Website.Application.Binding;
 using Website.Application.Content;
 using Website.Application.Domain.Browser.Web;
-using Website.Common.Controller;
 using Website.Common.Extension;
 using Website.Common.Model.Query;
+using Website.Common.Obsolete;
 using Website.Domain.Browser.Query;
 using Website.Domain.Tag;
 using Website.Infrastructure.Command;
@@ -20,7 +20,7 @@ using Website.Infrastructure.Query;
 namespace PostaFlya.Controllers
 {
      [BrowserAuthorizeHttp(Roles = "Participant")]
-    public class PendingFliersApiController : WebApiControllerBase
+    public class PendingFliersApiController : OldWebApiControllerBase
     {
          private readonly PostaFlyaBrowserInformationInterface _browserInformation;
         private readonly GenericQueryServiceInterface _browserQueryService;

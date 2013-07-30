@@ -1,16 +1,16 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Net.Http.Formatting;
 using System.Web.Http.Controllers;
 using System.Web.Http.Filters;
 using System.Web.Http.ModelBinding;
 using Website.Infrastructure.Command;
 
-namespace Website.Common.Filters
+namespace Website.Common.Obsolete
 {
-    //Web Api doesn't use model validators atm, if this changes in the future no need for this
+    [Obsolete("See ApiValidationActionFilter")]
     public class WebApiValidationActionFilter : ActionFilterAttribute
     {
         public override void OnActionExecuting(HttpActionContext context)

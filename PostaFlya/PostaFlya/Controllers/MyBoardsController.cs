@@ -5,14 +5,14 @@ using PostaFlya.Domain.Boards;
 using PostaFlya.Domain.Boards.Command;
 using PostaFlya.Models.Board;
 using Website.Application.Domain.Browser.Web;
-using Website.Common.Controller;
 using Website.Common.Extension;
+using Website.Common.Obsolete;
 using Website.Infrastructure.Command;
 
 namespace PostaFlya.Controllers
 {
     [BrowserAuthorizeHttp(Roles = "Participant")]
-    public class MyBoardsController : WebApiControllerBase
+    public class MyBoardsController : OldWebApiControllerBase
     {
         private readonly CommandBusInterface _commandBus;
         private readonly PostaFlyaBrowserInformationInterface _browserInformation;

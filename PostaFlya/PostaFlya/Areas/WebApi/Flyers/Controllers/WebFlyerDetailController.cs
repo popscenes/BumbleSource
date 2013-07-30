@@ -1,17 +1,18 @@
 ﻿using System.Web.Http;
-using PostaFlya.Areas.MobileApi.Flyers.Model;
+using System.Web.Http.Description;
+using PostaFlya.Areas.WebApi.Flyers.Model;
 using PostaFlya.Domain.Flier;
 using Website.Common.ApiInfrastructure.Controller;
 using Website.Common.ApiInfrastructure.Model;
 using Website.Infrastructure.Query;
 
-namespace PostaFlya.Areas.MobileApi.Flyers.Controllers
+namespace PostaFlya.Areas.WebApi.Flyers.Controllers
 {
-    public class FlyerDetailController : ApiControllerBase
+    public class WebFlyerDetailController : WebApiControllerBase
     {
         private readonly QueryChannelInterface _queryChannel;
 
-        public FlyerDetailController(QueryChannelInterface queryChannel)
+        public WebFlyerDetailController(QueryChannelInterface queryChannel)
         {
             _queryChannel = queryChannel;
         }

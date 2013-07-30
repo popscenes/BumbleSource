@@ -1,9 +1,9 @@
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
-using PostaFlya.Areas.MobileApi.Infrastructure.Model;
+using Website.Common.ApiInfrastructure.Model;
 
-namespace PostaFlya.Areas.MobileApi.Infrastructure.Controller
+namespace Website.Common.ApiInfrastructure.Controller
 {
     public static class ResponseContentExtensions
     {
