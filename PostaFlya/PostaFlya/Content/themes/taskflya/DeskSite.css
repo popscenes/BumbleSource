@@ -1359,8 +1359,39 @@ a.plainlink {
 }
 
 .ui-flier-tile {
-    background-color: #ffffff
+    box-shadow: 1px 1px 4px rgba(0,0,0,0.4);
+    -moz-box-shadow: 1px 1px 4px rgba(0,0,0,0.4);
+    -webkit-box-shadow: 1px 1px 4px rgba(0,0,0,0.4);
+    /*display: inline-block;*/
+    margin: 8px;
+    width: 200px;
+    height: 200px;
+    display: inline-block;
+    background-color: #68757E;
+    color: white;
+    overflow-y: hidden;
 }
+
+.ui-flier-tile .tile-image {
+    height: 150px;
+    overflow-y: visible;
+}
+
+div.ui-flier-tile:hover {
+    overflow-y: visible;
+}
+
+div.ui-flier-tile:hover div.tile-summary{
+    display: none;
+}
+
+div.ui-flier-tile .bulletin-img {
+    width: 200px;
+    cursor: pointer;
+    display: block;
+}
+
+
 
 .locSel #lsMain {
     background-color: #ffffff;
@@ -1394,34 +1425,11 @@ a.plainlink {
 
 /*flier tiles */
 
-.ui-flier-tile {
-    box-shadow: 1px 1px 4px rgba(0,0,0,0.4);
-    -moz-box-shadow: 1px 1px 4px rgba(0,0,0,0.4);
-    -webkit-box-shadow: 1px 1px 4px rgba(0,0,0,0.4);
-    /*display: inline-block;*/
-    margin: 8px;
-    width: 150px;
-    height: 150px;
-    display: inline-block;
-    background-color: #050505;
-    color: white;
-}
-
-div.tile-image {
-    display: block;
-}
-
-.ui-flier-tile img 
-{
-    width: 150px;
-    height: 150px;
-    cursor: pointer;
-}
 
 div.tile-summary {
-    position: relative;
+/*    position: relative;
     top: -54px;
-    left: 0;
+    left: 0;*/
     font-size: 12px;
     text-align: left;
     background-color: black;
@@ -1450,7 +1458,7 @@ div.tile-summary div.flier-title {
     height: 12px;
     text-overflow: ellipsis;
     white-space: nowrap;
-    width: 120px;
+    width: 170px;
     margin-top: 12px;
 }
 
@@ -1474,6 +1482,7 @@ div.tile-summary div.tile-description {
     display: table-cell;
     width: 200px;
 }
+
 
 div.addedtile 
 {

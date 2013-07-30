@@ -509,10 +509,6 @@ div.popsceneswidget a.plainlink {
 }
 
 
-div.popsceneswidget .ui-flier-tile {
-    background-color: #ffffff
-}
-
 div.popsceneswidget .detail-overlay {
     background-color: black;
     color: white;
@@ -539,22 +535,23 @@ div.popsceneswidget .flier-view .flier-details .flier-desc {
 
 div.popsceneswidget .ui-flier-tile {
     margin: 8px;
-    width: 150px;
-    height: 150px;
+    width: 200px;
+    height: 200px;
     display: inline-block;
-    background-color: #050505;
+    background-color: #68757E;
     color: white;
+    overflow-y: hidden;
 }
 
-div.popsceneswidget div.tile-image {
-    display: block;
-}
-
-div.popsceneswidget .ui-flier-tile img 
-{
-    width: 150px;
+.ui-flier-tile .tile-image {
     height: 150px;
+    overflow-y: visible;
+}
+
+div.popsceneswidget div.ui-flier-tile .bulletin-img {
+    width: 200px;
     cursor: pointer;
+    display: block;
 }
 
 div.popsceneswidget div.tile-summary {
@@ -587,7 +584,7 @@ div.popsceneswidget div.tile-summary div.flier-title {
     height: 12px;
     text-overflow: ellipsis;
     white-space: nowrap;
-    width: 120px;
+    width: 170px;
     margin-top: 12px;
 }
 
@@ -763,24 +760,9 @@ div.popsceneswidget div.targetloading {
 @media only screen and (max-width: 600px)
 {
 
-    div.popsceneswidget .ui-flier-tile img {
-        width: 200px!important;
-    }
-
     div.popsceneswidget .date-filter, div.popsceneswidget #controls .bulletin-tags-selector {
         padding-top: 12px;
     }
-
-
-    div.popsceneswidget .ui-flier-tile {
-        margin: 4px!important;
-        width: 200px!important;
-    }
-
-    div.popsceneswidget .flier-view .flier-details .flier-img img {
-        width: 250px !important;
-    }
-
 
    div.popsceneswidget .desk-only {
        display: none !important;

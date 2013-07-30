@@ -5,9 +5,12 @@
 <div class="ui-flier-tile" data-bind="click: $root.SelectedViewModel.showDetails">     
     
     <div class="tile-image">
+@*        <img class="tile-img bulletin-img" *@
+@*             data-bind="style: { width: Image.Width, height: Image.Height }*@
+        @*                , attr: { src: Image.FlierImageUrl, alt: Title }, imgRetry: Image.FlierImageUrl"/>*@
         <img class="tile-img bulletin-img" 
-             data-bind="style: { width: Image.Width, height: Image.Height }
-                , attr: { src: Image.FlierImageUrl, alt: Title }, imgRetry: Image.FlierImageUrl"/>
+             data-bind="flyerImg: Image
+                , attr: { alt: Title }, imgRetry: null"/>
     </div>
     
     <div class="tile-summary">

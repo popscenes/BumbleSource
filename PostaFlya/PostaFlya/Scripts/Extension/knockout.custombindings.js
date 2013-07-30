@@ -535,13 +535,13 @@
 
         }
     };
-
+    
     ko.bindingHandlers.bulletinimg = {
-        init: function(element, valueAccessor, allBindingsAccessor, viewModel) {
+        init: function (element, valueAccessor, allBindingsAccessor, viewModel) {
             var jele = $(element);
             var baseurl = valueAccessor();
             var all = allBindingsAccessor();
-            
+
             if (all.external) {
                 jele.attr('src', baseurl);
                 jele.attr('alt', all.alt);
@@ -556,11 +556,11 @@
             jele.attr('alt', all.alt);
         },
 
-        update: function(element, valueAccessor, allBindingsAccessor, viewModel) {
+        update: function (element, valueAccessor, allBindingsAccessor, viewModel) {
 
         }
     };
-
+    
     function getFlierImageSizeFromWidth(width) {
 
         if (width <= 150)
@@ -573,6 +573,34 @@
             return 'h900';
         return '';
     };
+
+    ko.bindingHandlers.flyerImg = {
+        init: function(element, valueAccessor, allBindingsAccessor, viewModel) {
+            var jele = $(element);
+            var image = valueAccessor();
+            var dim = getDimensionFromSize(image, jele.width(), 'Horizontal');
+            var url = image.BaseUrl + dim.UrlExtension;
+
+            jele.attr('src', url);
+        },
+
+        update: function(element, valueAccessor, allBindingsAccessor, viewModel) {
+
+        }
+    };
+    
+    function getDimensionFromSize(image, width, axis) {
+        var dd = image.Extensions[0];
+        for (var d = 0 ; d < image.Extensions.length; d++) {
+            var ext = image.Extensions[d];
+            if (ext.Width >= width && ext.ScaleAxis == axis) {
+                dd = ext;
+                break;
+            }
+        }
+        return dd;
+    }
+
     
     ko.bindingHandlers.fadeVisible = {
         init: function (element, valueAccessor) {
