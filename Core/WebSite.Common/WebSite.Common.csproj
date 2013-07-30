@@ -74,6 +74,7 @@
       <HintPath>..\..\..\Libraries\Ninject.Extensions.Conventions.3.0.2-unstable-4\lib\net45-full\Ninject.Extensions.Conventions.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Net.Http.Formatting, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -81,6 +82,7 @@
       <HintPath>..\..\..\Libraries\Microsoft.AspNet.WebApi.Client.5.0.0-alpha1\lib\net45\System.Net.Http.Formatting.dll</HintPath>
     </Reference>
     <Reference Include="System.Net.Http.WebRequest" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Helpers, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
@@ -132,16 +134,22 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ActionResult\WriteToStreamFileResult.cs" />
+    <Compile Include="ApiInfrastructure\Controller\ApiControllerBase.cs" />
+    <Compile Include="ApiInfrastructure\Controller\ResponseContentExtensions.cs" />
+    <Compile Include="ApiInfrastructure\HttpFilters\ApiValidationActionFilter.cs" />
+    <Compile Include="ApiInfrastructure\Model\PageRequestModel.cs" />
+    <Compile Include="ApiInfrastructure\Model\ResponseContent.cs" />
+    <Compile Include="ApiInfrastructure\Model\ValidationErrorModel.cs" />
     <Compile Include="Binding\NinjectHttpDependencyResolver.cs" />
     <Compile Include="Binding\WebsiteCommonNinjectBinding.cs" />
     <Compile Include="Content\ScriptsExtensions.cs" />
-    <Compile Include="Controller\WebApiControllerBase.cs" />
+    <Compile Include="Obsolete\OldWebApiControllerBase.cs" />
     <Compile Include="Extension\ApiControllerExtensions.cs" />
     <Compile Include="Extension\BundleExtensions.cs" />
     <Compile Include="Extension\HtmlHelperExtensions.cs" />
     <Compile Include="Extension\StringExtensions.cs" />
     <Compile Include="Extension\WebViewPageExtensions.cs" />
-    <Compile Include="Filters\WebApiValidationActionFilter.cs" />
+    <Compile Include="Obsolete\WebApiValidationActionFilter.cs" />
     <Compile Include="Filters\DefaultNinjectHttpFilterProvider.cs" />
     <Compile Include="MediaFormatters\JsonpMediaTypeFormatter.cs" />
     <Compile Include="MediaFormatters\RegisterMediaFormatters.cs" />

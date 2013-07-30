@@ -8,8 +8,8 @@ using System.Threading;
 using System.Web.Http;
 using NUnit.Framework;
 using Ninject;
-using PostaFlya.Areas.MobileApi.Infrastructure.Model;
 using TechTalk.SpecFlow;
+using Website.Common.ApiInfrastructure.Model;
 using Website.Infrastructure.Query;
 
 namespace Popscenes.Specification.Util

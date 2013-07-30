@@ -14,8 +14,8 @@ using PostaFlya.Domain.Flier.Query;
 using PostaFlya.Models.Flier;
 using PostaFlya.Models.Location;
 using Website.Application.Content;
-using Website.Common.Controller;
 using Website.Common.Model.Query;
+using Website.Common.Obsolete;
 using Website.Domain.Location;
 using Website.Domain.Tag;
 using Website.Domain.TinyUrl;
@@ -24,7 +24,7 @@ using Website.Infrastructure.Query;
 
 namespace PostaFlya.Controllers
 {
-    public class BulletinApiController : WebApiControllerBase
+    public class BulletinApiController : OldWebApiControllerBase
     {
         private readonly GenericQueryServiceInterface _queryService;
         private readonly BlobStorageInterface _blobStorage;

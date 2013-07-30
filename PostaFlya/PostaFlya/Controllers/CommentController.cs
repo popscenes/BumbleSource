@@ -8,8 +8,8 @@ using Website.Application.Binding;
 using PostaFlya.Binding;
 using Website.Application.Content;
 using Website.Application.Domain.Browser.Web;
-using Website.Common.Controller;
 using Website.Common.Extension;
+using Website.Common.Obsolete;
 using Website.Infrastructure.Command;
 using Website.Infrastructure.Domain;
 using Website.Infrastructure.Query;
@@ -19,7 +19,7 @@ using Website.Domain.Comments.Command;
 
 namespace PostaFlya.Controllers
 {
-    public class CommentController : WebApiControllerBase
+    public class CommentController : OldWebApiControllerBase
     {
         private readonly CommandBusInterface _commandBus;
         private readonly GenericQueryServiceInterface _queryService;

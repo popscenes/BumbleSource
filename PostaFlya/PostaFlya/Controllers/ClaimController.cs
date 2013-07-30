@@ -10,9 +10,9 @@ using PostaFlya.Models.Flier;
 using Website.Application.Binding;
 using Website.Application.Content;
 using Website.Application.Domain.Browser.Web;
-using Website.Common.Controller;
 using Website.Common.Extension;
 using Website.Common.Model.Query;
+using Website.Common.Obsolete;
 using Website.Domain.Browser;
 using Website.Domain.Browser.Query;
 using Website.Infrastructure.Command;
@@ -24,7 +24,7 @@ using Website.Domain.Claims.Command;
 namespace PostaFlya.Controllers
 {
     [BrowserAuthorizeHttp]
-    public class ClaimController : WebApiControllerBase
+    public class ClaimController : OldWebApiControllerBase
     {
         private readonly CommandBusInterface _commandBus;
         private readonly GenericQueryServiceInterface _queryService;

@@ -1,21 +1,22 @@
 ﻿using System;
 using System.Web.Http;
-using PostaFlya.Areas.MobileApi.Flyers.Model;
+using System.Web.Http.Description;
+using PostaFlya.Areas.WebApi.Flyers.Model;
 using PostaFlya.Domain.Flier.Query;
 using Website.Common.ApiInfrastructure.Controller;
 using Website.Common.ApiInfrastructure.Model;
 using Website.Infrastructure.Configuration;
 using Website.Infrastructure.Query;
 
-namespace PostaFlya.Areas.MobileApi.Flyers.Controllers
+namespace PostaFlya.Areas.WebApi.Flyers.Controllers
 {
-    public class FlyersByBoardController : ApiControllerBase
+    public class WebFlyersByBoardController : WebApiControllerBase
     {
         private readonly QueryChannelInterface _queryChannel;
         private readonly ConfigurationServiceInterface _config;
 
 
-        public FlyersByBoardController(QueryChannelInterface queryChannel, ConfigurationServiceInterface config)
+        public WebFlyersByBoardController(QueryChannelInterface queryChannel, ConfigurationServiceInterface config)
         {
             _queryChannel = queryChannel;
             _config = config;

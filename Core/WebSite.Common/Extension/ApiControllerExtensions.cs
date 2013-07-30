@@ -7,6 +7,7 @@ using Website.Infrastructure.Command;
 
 namespace Website.Common.Extension
 {
+    [Obsolete("See ResponseContent")]
     public static class ApiControllerExtensions
     {
         public static Uri GetEntityUri(this ApiController controller, string entityid)

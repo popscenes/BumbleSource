@@ -7,13 +7,13 @@ using System.Web.Http;
 using PostaFlya.Domain.Boards;
 using PostaFlya.Domain.Boards.Query;
 using PostaFlya.Models.Board;
-using Website.Common.Controller;
 using Website.Common.Model.Query;
+using Website.Common.Obsolete;
 using Website.Infrastructure.Query;
 
 namespace PostaFlya.Controllers
 {
-    public class BoardSearchApiController : WebApiControllerBase
+    public class BoardSearchApiController : OldWebApiControllerBase
     {
         private readonly QueryChannelInterface _queryChannel;
 

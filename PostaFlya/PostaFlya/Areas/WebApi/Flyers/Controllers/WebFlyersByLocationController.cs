@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Web.Http;
 using PostaFlya.Application.Domain.Browser;
-using PostaFlya.Areas.MobileApi.Flyers.Model;
+using PostaFlya.Areas.WebApi.Flyers.Model;
 using PostaFlya.Domain.Flier.Query;
 using Website.Common.ApiInfrastructure.Controller;
 using Website.Common.ApiInfrastructure.Model;
@@ -9,16 +9,15 @@ using Website.Domain.Location;
 using Website.Infrastructure.Configuration;
 using Website.Infrastructure.Query;
 
-namespace PostaFlya.Areas.MobileApi.Flyers.Controllers
+namespace PostaFlya.Areas.WebApi.Flyers.Controllers
 {
-
-    public class FlyersByLocationController : ApiControllerBase
+    public class WebFlyersByLocationController : WebApiControllerBase
     {
         private readonly QueryChannelInterface _queryChannel;
         private readonly ConfigurationServiceInterface _config;
         private readonly PostaFlyaBrowserInformationInterface _browserInformation;
 
-        public FlyersByLocationController(QueryChannelInterface queryChannel, ConfigurationServiceInterface config, PostaFlyaBrowserInformationInterface browserInformation)
+        public WebFlyersByLocationController(QueryChannelInterface queryChannel, ConfigurationServiceInterface config, PostaFlyaBrowserInformationInterface browserInformation)
         {
             _queryChannel = queryChannel;
             _config = config;

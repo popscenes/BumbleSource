@@ -1,7 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
+using Website.Infrastructure.Configuration;
 
-namespace PostaFlya.Areas.MobileApi.Infrastructure.Model
+namespace Website.Common.ApiInfrastructure.Model
 {
     [DataContract]
     public class PageRequestModel
@@ -9,7 +10,7 @@ namespace PostaFlya.Areas.MobileApi.Infrastructure.Model
         public PageRequestModel()
         {
             int count;
-            Take = int.TryParse(System.Configuration.ConfigurationManager.AppSettings["PageSize"], out count) ? count : 40;
+            Take = int.TryParse(Config.Instance.GetSetting("PageSize"), out count) ? count : 40;
         }
 
         [Range(0, 100)]

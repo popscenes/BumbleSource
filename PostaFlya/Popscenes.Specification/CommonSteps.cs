@@ -3,8 +3,8 @@ using System.Net;
 using System.Net.Http;
 using NUnit.Framework;
 using Popscenes.Specification.Util;
-using PostaFlya.Areas.MobileApi.Infrastructure.Model;
 using TechTalk.SpecFlow;
+using Website.Common.ApiInfrastructure.Model;
 
 namespace Popscenes.Specification
 {
