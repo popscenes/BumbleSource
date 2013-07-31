@@ -8,6 +8,7 @@ namespace PostaFlya.Views.Profile
         private static readonly string[]
             CoreJs = {
                         "Behaviour/Default/DefaultBehaviourViewModel.js",
+                        "Base/GigGuideMixin.js",
                         "Behaviour/BehaviourViewModelFactory.js",
                         "Bulletin/SelectedFlierViewModel.js",
                         "Bulletin/BulletinLayoutProperties.js",

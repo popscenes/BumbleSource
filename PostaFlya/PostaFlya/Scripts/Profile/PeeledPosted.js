@@ -22,12 +22,19 @@
 
         self.Action = action;
         self.CreateFlierInstance = bf.globalCreateFlierInstance;
-
-        self.Fliers = ko.observableArray([]);
-
-        self.getDetailUrl = function (flier) {
-            return self.SelectedViewModel.getDetailUrl(flier);
+        
+        self.GetReqUrl = function () {
+            return '/api/Browser/' + bf.currentBrowserInstance.BrowserId + '/' + self.Action;
         };
+
+        self.GetReqArgs = function () {
+            var params = { };
+            return params;
+        };
+        
+        bf.GigGuideMixin(self);
+
+
 
         self.Sam = Sammy('#profile-content');
         self.SelectedViewModel.addDetailRoutes(self.Sam);
@@ -35,20 +42,7 @@
         self._Init = function () {
             self.Sam.run(self.SelectedViewModel.initPath);
             ko.applyBindings(self);
-
-            if (bf.pageState !== undefined && bf.pageState.Fliers !== undefined) {
-                self.Fliers([]);
-                self.Fliers(bf.pageState.Fliers);
-            } else {
-                $.getJSON('/api/Browser/' + bf.currentBrowserInstance.BrowserId + '/' + self.Action, function (allData) {
-                    self.Fliers([]);
-                    self.Fliers(allData);
-                })
-                .fail(function(jqXhr, textStatus, errorThrown) {
-                    bf.ErrorUtil.HandleRequestError(null, jqXhr, self.ErrorHandler);
-                });
-            }
-
+            self.TryRequest();
         };
 
         self._Init();

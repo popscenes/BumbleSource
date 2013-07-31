@@ -1,15 +1,15 @@
 ﻿
 @using System.Web.Optimization
-@model dynamic
 
 @{
     ViewBag.Title = "My Peeled Flyers";
     Layout = "_Layout.cshtml";
 }
 
-@Html.Partial("Bulletin/BulletinTileViewsPartial")
+
 
 <h2>Peeled Flyers</h2>
-<div id="profile-fliers"  data-bind="template: { name: FliersLayout.FlierTemplate, foreach: Fliers }, visible: Fliers().length > 0, updateLayout: FliersLayout">
+@Html.Partial("Bulletin/DetailTileTemplates")
+@Html.Partial("SelectedItemDetailViewPartial")  
 
-</div>
+@Html.Partial("Bulletin/GigListByDatePartial")
