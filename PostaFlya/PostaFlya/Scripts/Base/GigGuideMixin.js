@@ -187,10 +187,10 @@
                 for (var f = 0; f < next.FlyerIds.length; f++) {
 
                     var flyer = $.extend({}, allData.Flyers[next.FlyerIds[f]]);
-                    var dd = getImageExt(flyer.Image, 150, 'Square');
-                    flyer.Image.FlierImageUrl = flyer.Image.BaseUrl + dd.UrlExtension;
-                    flyer.Image.Width = dd.Width;
-                    flyer.Image.Height = dd.Height;
+//                    var dd = getImageExt(flyer.Image, 150, 'Square');
+//                    flyer.Image.FlierImageUrl = flyer.Image.BaseUrl + dd.UrlExtension;
+//                    flyer.Image.Width = dd.Width;
+//                    flyer.Image.Height = dd.Height;
                     flyer.FlyerDate = (flyerDates.Spans) ? flyerDate : null;
                     dateLinks[flyerDate] = flyerDates.DateLink;
 

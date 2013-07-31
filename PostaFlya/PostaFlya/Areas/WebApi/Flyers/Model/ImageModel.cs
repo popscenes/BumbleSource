@@ -25,14 +25,8 @@ namespace PostaFlya.Areas.WebApi.Flyers.Model
             target.BaseUrl = _blobStorage.GetBlobUri(source.Id).ToString();
             target.Extensions = source.AvailableDimensions
                 .Where(dimension => 
-                    (dimension.Orientation == 
-                    ThumbOrientation.Square
-                    && (dimension.Width == (int) ThumbSize.S150 || dimension.Width == (int) ThumbSize.S300))
-                    ||
-                    (dimension.Orientation == ThumbOrientation.Horizontal && dimension.Width == (int) ThumbSize.S450)
-                    ||
-                    (dimension.UrlExtension == ImageUtil.GetIdFileExtension())
-                    )
+                    (dimension.Orientation == ThumbOrientation.Square || dimension.Orientation == ThumbOrientation.Horizontal)
+                )
                 .Select(d => new ImageModel.Extension()
                 {
                     Width = d.Width,
@@ -40,7 +34,7 @@ namespace PostaFlya.Areas.WebApi.Flyers.Model
                     ScaleAxis = d.Orientation.ToString(),
                     UrlExtension = d.UrlExtension
                     
-                }).OrderBy(extension => extension.Height)
+                }).OrderBy(extension => extension.Width)
                 .ToList();
 
             return target;

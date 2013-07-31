@@ -42,9 +42,8 @@
 
         self.boardId = boardId;
 
-        //mobileapi/gigs/bydate?lat=-37.769&lng=144.979&distance=10&start=2013-06-29&end=2013-07-02
         self.GetReqUrl = function () {
-            return 'mobileapi/board/'+ self.boardId +'/gigs';
+            return 'webapi/board/'+ self.boardId +'/gigs';
         };
 
 

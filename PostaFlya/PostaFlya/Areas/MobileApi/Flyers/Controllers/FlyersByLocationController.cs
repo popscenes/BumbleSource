@@ -16,13 +16,11 @@ namespace PostaFlya.Areas.MobileApi.Flyers.Controllers
     {
         private readonly QueryChannelInterface _queryChannel;
         private readonly ConfigurationServiceInterface _config;
-        private readonly PostaFlyaBrowserInformationInterface _browserInformation;
 
-        public FlyersByLocationController(QueryChannelInterface queryChannel, ConfigurationServiceInterface config, PostaFlyaBrowserInformationInterface browserInformation)
+        public FlyersByLocationController(QueryChannelInterface queryChannel, ConfigurationServiceInterface config)
         {
             _queryChannel = queryChannel;
             _config = config;
-            _browserInformation = browserInformation;
         }
 
         public ResponseContent<FlyersByDateContent> Get([FromUri]FlyersByLocationRequest req)
@@ -37,7 +35,6 @@ namespace PostaFlya.Areas.MobileApi.Flyers.Controllers
                 };
             var content = _queryChannel.Query(query, new FlyersByDateContent());
 
-            _browserInformation.LastSearchLocation = query.Location;
 
             return ResponseContent<FlyersByDateContent>.GetResponse(content);
         }

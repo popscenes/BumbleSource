@@ -20,16 +20,13 @@
         var currentLocation = new bf.LocationModel(currentBrowser.LastSearchedLocation);
         self.Location = ko.observable(currentLocation);
 
-        //mobileapi/gigs/bydate?lat=-37.769&lng=144.979&distance=10&start=2013-06-29&end=2013-07-02
         self.GetReqUrl = function () {
-            return '/mobileapi/gigs/bydate';
+            return '/webapi/gigs/bydate';
         };
 
         self.GetReqArgs = function (nextpage) {
-            var loc = ko.mapping.toJS(self.Location());
             var params = {
-                lat: loc.Latitude,
-                lng: loc.Longitude        
+                loc: ko.mapping.toJS(self.Location())
             };
             
             return params;
