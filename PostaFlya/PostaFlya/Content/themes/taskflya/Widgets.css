@@ -555,9 +555,9 @@ div.popsceneswidget div.ui-flier-tile .bulletin-img {
 }
 
 div.popsceneswidget div.tile-summary {
-    position: relative;
+/*    position: relative;
     top: -54px;
-    left: 0;
+    left: 0;*/
     font-size: 12px;
     text-align: left;
     background-color: black;
@@ -588,11 +588,10 @@ div.popsceneswidget div.tile-summary div.flier-title {
     margin-top: 12px;
 }
 
-div.popsceneswidget div.tile-summary div.flier-board a{
-    color: rgb(114, 114, 114);
+div.popsceneswidget div.tile-summary div.flier-board{
+    color: white;
     font-size: 12px;
     padding: 5px 5px 5px 0;
-    display: none;
 }
 
 div.popsceneswidget div.tile-summary div.tile-description {
