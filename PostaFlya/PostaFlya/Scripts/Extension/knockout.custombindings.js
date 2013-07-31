@@ -574,14 +574,53 @@
         return '';
     };
 
+    var pop = $('<img/>');
     ko.bindingHandlers.flyerImg = {
         init: function(element, valueAccessor, allBindingsAccessor, viewModel) {
             var jele = $(element);
             var image = valueAccessor();
-            var dim = getDimensionFromSize(image, jele.width(), 'Horizontal');
+            var eleWidth = jele.width();
+            var dimOrig = getDimensionFromSize(image, 0, 'Original');
+            var wide = dimOrig.Width > dimOrig.Height;
+            var dimPop = getDimensionFromSize(image, eleWidth, wide ? 'Original' : 'Horizontal', wide);
+            var dim = getDimensionFromSize(image, eleWidth, wide ? 'Square' : 'Horizontal');
             var url = image.BaseUrl + dim.UrlExtension;
-
             jele.attr('src', url);
+
+                     
+            jele.on({
+                mouseenter: function () {
+                    
+                    pop.remove();
+                    var off = jele.offset();
+                    
+                    var cssFrom = {
+                        'position': 'absolute',
+                        'z-index': '1000',
+                        'width': eleWidth,
+                        'height': eleWidth,
+                        'top': off.top,
+                        'left': off.left,
+                        'border-style': 'solid',
+                        'border-width': '5px',
+                        'border-color': 'white'
+                    };
+                    var animateTo = {
+                        'left': off.left - ((dimPop.Width - eleWidth)/2) - 5,
+                        'width': dimPop.Width,
+                        'height': dimPop.Height
+                    };
+                    pop.attr('src', image.BaseUrl + dimPop.UrlExtension);
+                    pop.css(cssFrom);
+                    pop.insertBefore(jele);
+                    pop.animate(animateTo);
+                    pop.on('mouseleave', function () {
+                        pop.remove();
+                    });
+                }
+            });
+
+            
         },
 
         update: function(element, valueAccessor, allBindingsAccessor, viewModel) {
@@ -589,12 +628,14 @@
         }
     };
     
-    function getDimensionFromSize(image, width, axis) {
-        var dd = image.Extensions[0];
+    function getDimensionFromSize(image, size, axis, vertsize) {
+
+        var dd = null;
         for (var d = 0 ; d < image.Extensions.length; d++) {
-            var ext = image.Extensions[d];
-            if (ext.Width >= width && ext.ScaleAxis == axis) {
-                dd = ext;
+            if (image.Extensions[d].ScaleAxis != axis) continue;
+            
+            dd = image.Extensions[d];
+            if (vertsize ? dd.Height >= size : dd.Width >= size) {
                 break;
             }
         }

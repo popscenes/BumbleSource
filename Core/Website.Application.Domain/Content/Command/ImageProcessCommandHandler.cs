@@ -178,8 +178,8 @@ namespace Website.Application.Domain.Content.Command
         private ImageDimension CreateOriginalThumb(string commandId, Image img, int size)
         {
             using (var thumb = img.Width > img.Height
-                                   ? img.Resize(size, img.Height)
-                                   : img.Resize(img.Width, size))
+                                   ? img.ResizeByWidth(size)
+                                   : img.ResizeByHeight(size))
             {
                 var ext = ImageUtil.GetIdFileExtension(ThumbOrientation.Original, (ThumbSize) size);
                 _blobStorage.SetBlob(commandId + ext, thumb.GetBytes(), BlobProperties.JpegContentTypeDefault);

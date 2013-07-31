@@ -212,6 +212,8 @@ namespace Website.Application.Domain.Tests.Content
             AssertImage(bitmap, TestForThumbnailsOfWidth);
             bitmap = Website.Application.Tests.Properties.Resources.TestLongLongImage;
             AssertImage(bitmap, TestForThumbnailsOfWidth);
+            bitmap = Website.Application.Tests.Properties.Resources.TestWideSmallImage;
+            AssertImage(bitmap, TestForThumbnailsOfWidth);
         }
 
         private static void TestForThumbnailsOfWidth(Guid id, Dictionary<string, byte[]> storage)
@@ -231,6 +233,50 @@ namespace Website.Application.Domain.Tests.Content
                 }           
             }
         }
+
+        [Test]
+        public void ProcessImageCommandHandlerShouldCreateThumbsByOriginal()
+        {
+            System.Drawing.Bitmap bitmap = null;
+            Action<Guid, Dictionary<string, byte[]>> assertion =
+                (guid, byteses) =>
+                    {
+                        TestForThumbnailsOfOriginal(bitmap, guid, byteses);
+                    };
+            bitmap = Website.Application.Tests.Properties.Resources.TestWideImage;
+            AssertImage(bitmap, assertion);
+            bitmap = Website.Application.Tests.Properties.Resources.TestLongImage;
+            AssertImage(bitmap, assertion);
+            bitmap = Website.Application.Tests.Properties.Resources.TestWideWideImage;
+            AssertImage(bitmap, assertion);
+            bitmap = Website.Application.Tests.Properties.Resources.TestLongLongImage;
+            AssertImage(bitmap, assertion);
+            bitmap = Website.Application.Tests.Properties.Resources.TestWideSmallImage;
+            AssertImage(bitmap, assertion);
+        }
+
+        private static void TestForThumbnailsOfOriginal(Bitmap orig, Guid id, Dictionary<string, byte[]> storage)
+        {
+            foreach (ThumbSize size in Enum.GetValues(typeof(ThumbSize)))
+            {
+                var data = storage[id.ToString() +
+                ImageUtil.GetIdFileExtension(
+                    ThumbOrientation.Original,
+                    size
+                )];
+                Assert.IsNotNull(data);
+                using (var ms = new MemoryStream(data))
+                {
+                    var conv = Image.FromStream(ms);
+                    if(orig.Width > orig.Height)
+                        Assert.AreEqual(conv.Width, (int)size);
+                    else
+                        Assert.AreEqual(conv.Height, (int)size);                        
+                }
+            }
+        }
+
+
 
 //        [Test]
 //        public void ProcessImageCommandHandlerShouldCreateTwoThumbsByLength()
