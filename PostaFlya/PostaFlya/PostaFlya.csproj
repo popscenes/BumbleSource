@@ -359,6 +359,7 @@
     <Compile Include="Areas\WebApi\App_Start\WebApiConfig.cs" />
     <Compile Include="Areas\WebApi\Flyers\Controllers\WebFlyerDetailController.cs" />
     <Compile Include="Areas\WebApi\Flyers\Controllers\WebFlyersByBoardController.cs" />
+    <Compile Include="Areas\WebApi\Flyers\Controllers\WebFlyersByBrowserController.cs" />
     <Compile Include="Areas\WebApi\Flyers\Controllers\WebFlyersByFeaturedController.cs" />
     <Compile Include="Areas\WebApi\Flyers\Controllers\WebFlyersByLocationController.cs" />
     <Compile Include="Areas\WebApi\Flyers\Model\FlyerBoardSummaryModel.cs" />
