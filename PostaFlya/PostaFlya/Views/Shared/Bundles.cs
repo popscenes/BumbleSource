@@ -36,6 +36,7 @@ namespace PostaFlya.Views.Shared
             "URI.js",
             "jquery.cookie.js", 
             "Extension/knockout-jquery-ui-widget.js",
+            "linq.js",
  
             //ours
             "Extension/sprintf-0.7-beta1.js",

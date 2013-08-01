@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Net.Http;
 using System.Web.Http;
 using PostaFlya.Application.Domain.Browser;
@@ -34,7 +35,7 @@ namespace PostaFlya.Controllers
                     RequireApprovalOfPostedFliers = boardCreate.RequireApprovalOfPostedFliers,
                     BoardTypeEnum = boardCreate.TypeOfBoard,
                     SourceInformation = boardCreate.VenueInformation == null ? null :boardCreate.VenueInformation.ToDomainModel(),
-                    AdminEmailAddresses = boardCreate.AdminEmailAddresses,
+                    AdminEmailAddresses = boardCreate.AdminEmailAddresses.Select(s => s.Trim()).ToList(),
                     Description = boardCreate.Description
                     
                 };

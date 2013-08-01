@@ -735,6 +735,10 @@
     <Content Include="Scripts\knockout-2.3.0.js" />
     <Content Include="Scripts\knockout.mapping-latest.debug.js" />
     <Content Include="Scripts\knockout.mapping-latest.js" />
+    <None Include="Scripts\linq-vsdoc.js" />
+    <Content Include="Scripts\linq.d.ts" />
+    <Content Include="Scripts\linq.js" />
+    <Content Include="Scripts\linq.min.js" />
     <Content Include="Scripts\Maps\jquery.ui.map.extensions.js" />
     <Content Include="Scripts\Maps\jquery.ui.map.js" />
     <Content Include="Scripts\Maps\jquery.ui.map.microdata.js" />
