@@ -1377,14 +1377,6 @@ a.plainlink {
     overflow-y: visible;
 }
 
-div.ui-flier-tile:hover {
-    overflow-y: visible;
-}
-
-div.ui-flier-tile:hover div.tile-summary{
-    display: none;
-}
-
 div.ui-flier-tile .bulletin-img {
     width: 200px;
     cursor: pointer;

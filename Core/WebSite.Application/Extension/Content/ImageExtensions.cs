@@ -32,28 +32,42 @@ namespace Website.Application.Extension.Content
 
         public static Image Resize(this Image img, int width, int height)
         {
-            return img.ResizeImage(new Size(width, height));
+            return img.ResizeImageMaintainAspect(new Size(width, height));
         }
 
-        public static Image ResizeImage(this Image img, Size size)
+        public static Image ResizeByWidth(this Image img, int width)
+        {
+            return img.ResizeImageMaintainAspect(new Size(width, -1));
+        }
+
+        public static Image ResizeByHeight(this Image img, int height)
+        {
+            return img.ResizeImageMaintainAspect(new Size(-1, height));
+        }
+
+        public static Image ResizeImageMaintainAspect(this Image img, Size size)
         {
             int sourceWidth = img.Width;
             int sourceHeight = img.Height;
 
-            float nPercent = 0;
-            float nPercentW = 0;
-            float nPercentH = 0;
+            decimal mult = 0;
+            decimal multW = 0;
+            decimal multH = 0;
 
-            nPercentW = ((float)size.Width / (float)sourceWidth);
-            nPercentH = ((float)size.Height / (float)sourceHeight);
+            multW = size.Width >= 0 ? (size.Width / (decimal)sourceWidth) : -1;
+            multH = size.Height >= 0 ? (size.Height / (decimal)sourceHeight) : -1;
 
-            if (nPercentH < nPercentW)
-                nPercent = nPercentH;
+            if (multW == -1)
+                mult = multH;
+            else if (multH == -1)
+                mult = multW;
+            else if (multH < multW)
+                mult = multH;
             else
-                nPercent = nPercentW;
+                mult = multW;
 
-            int destWidth = (int)Math.Round(sourceWidth * nPercent);
-            int destHeight = (int)Math.Round(sourceHeight * nPercent);
+            int destWidth = (int)Math.Round(sourceWidth * mult);
+            int destHeight = (int)Math.Round(sourceHeight * mult);
 
             Bitmap b = null;
             Graphics g = null;
