@@ -61,12 +61,10 @@ namespace PostaFlya.Models.Board
     : ViewModelMapperInterface<BoardSummaryModel, PostaFlya.Domain.Boards.Board>
     {
         private readonly QueryChannelInterface _queryChannel;
-        private readonly BlobStorageInterface _blobStorage;
 
-        public ToBoardSummaryModel(QueryChannelInterface queryChannel, [ImageStorage]BlobStorageInterface blobStorage)
+        public ToBoardSummaryModel(QueryChannelInterface queryChannel)
         {
             _queryChannel = queryChannel;
-            _blobStorage = blobStorage;
         }
 
         public BoardSummaryModel ToViewModel(BoardSummaryModel target, Domain.Boards.Board source)

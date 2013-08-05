@@ -23,13 +23,13 @@ namespace Website.Common.ApiInfrastructure.Model
         }
 
         public ResponseContent(string message, StatusEnum status)
-            : this(StatusEnum.Ok)
+            : this(status)
         {
             Messages = new[]{message};
         }
 
         public ResponseContent(StatusEnum status, string messageFmt, params object[] args)
-            : this(StatusEnum.Ok)
+            : this(status)
         {
             Messages = new[] { string.Format(messageFmt, args) };
         }

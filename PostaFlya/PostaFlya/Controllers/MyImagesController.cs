@@ -5,6 +5,7 @@ using Website.Application.Binding;
 using PostaFlya.Models.Content;
 using Website.Application.Content;
 using Website.Application.Domain.Browser.Web;
+using Website.Application.Domain.Obsolete;
 using Website.Common.Obsolete;
 using Website.Domain.Browser.Query;
 using Website.Domain.Content;
@@ -12,7 +13,7 @@ using Website.Infrastructure.Query;
 
 namespace PostaFlya.Controllers
 {
-    [BrowserAuthorizeHttp]
+    [Website.Application.Domain.Obsolete.BrowserAuthorizeHttp]
     public class MyImagesController : OldWebApiControllerBase
     {
         private readonly GenericQueryServiceInterface _queryService;

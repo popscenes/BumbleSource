@@ -33,11 +33,11 @@ namespace PostaFlya.Controllers
 
             if (!string.IsNullOrWhiteSpace(_browserInformation.Browser.EmailAddress))
             {
-                var boards =
+                model.AdminBoards =
                     _queryChannel.Query(
-                        new FindBoardByAdminEmailQuery() {AdminEmail = _browserInformation.Browser.EmailAddress},
-                        new List<Board>());
-                model.AdminBoards = _queryChannel.ToViewModel<BoardSummaryModel, PostaFlya.Domain.Boards.Board>(boards);
+                        new FindBoardsByAdminEmailQuery() {AdminEmail = _browserInformation.Browser.EmailAddress},
+                        new List<BoardSummaryModel>());
+                //model.AdminBoards = _queryChannel.ToViewModel<BoardSummaryModel, PostaFlya.Domain.Boards.Board>(boards);
             }
 
             ViewBag.BrowserInfoJson = serializer.Serialize(model);          

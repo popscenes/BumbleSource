@@ -9,6 +9,7 @@ using PostaFlya.Models.Flier;
 using Website.Application.Binding;
 using Website.Application.Content;
 using Website.Application.Domain.Browser.Web;
+using Website.Application.Domain.Obsolete;
 using Website.Common.Extension;
 using Website.Common.Model.Query;
 using Website.Common.Obsolete;
@@ -19,7 +20,7 @@ using Website.Infrastructure.Query;
 
 namespace PostaFlya.Controllers
 {
-     [BrowserAuthorizeHttp(Roles = "Participant")]
+     [Website.Application.Domain.Obsolete.BrowserAuthorizeHttp(Roles = "Participant")]
     public class PendingFliersApiController : OldWebApiControllerBase
     {
          private readonly PostaFlyaBrowserInformationInterface _browserInformation;

@@ -32,8 +32,8 @@ namespace PostaFlya.Areas.WebApi.App_Start
 
             config.Routes.MapHttpRoute(
                 name: "WebBrowserBoards",
-                routeTemplate: "webapi/browser/{BrowserId}/boards",
-                defaults: new { Controller = "WebBrowserBoards" }
+                routeTemplate: "webapi/browser/boards",
+                defaults: new { Controller = "WebBoardsByAdmin" }
                 );
 
         }

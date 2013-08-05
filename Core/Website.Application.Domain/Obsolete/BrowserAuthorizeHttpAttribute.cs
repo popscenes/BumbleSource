@@ -1,21 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
+using System;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Text;
-using System.Threading.Tasks;
 using System.Web.Http.Controllers;
 using System.Web.Http.Filters;
 using Ninject;
 using Ninject.Syntax;
-using Website.Common.ApiInfrastructure.Model;
+using Website.Application.Domain.Browser;
 using Website.Domain.Browser;
 using Website.Infrastructure.Command;
 using Website.Infrastructure.Util;
 
-namespace Website.Application.Domain.Browser.Web
+namespace Website.Application.Domain.Obsolete
 {
+    [Obsolete("Switch To Repsonse Content")]
     public class BrowserAuthorizeHttpAttribute : ActionFilterAttribute
     {
         private string _roles;
@@ -37,8 +35,7 @@ namespace Website.Application.Domain.Browser.Web
         [Inject]
         public IResolutionRoot ResolutionRoot { get; set; }
 
-        protected BrowserInformationInterface BrowserInformation
-        {
+        protected BrowserInformationInterface BrowserInformation {
             get { return ResolutionRoot.Get<BrowserInformationInterface>(); }
         }
 
@@ -51,9 +48,13 @@ namespace Website.Application.Domain.Browser.Web
                 return;
             if (IsValidBrowserIdOrHandle(browserid, handle))
                 return;
-
-            var faultMessage = new ResponseContent(ResponseContent.StatusEnum.Unauthorized,
-                                                   "Invalid Access to browser {0}", browserid ?? handle);
+              
+//
+//#if DEBUG
+//            return;
+//#endif
+           
+            var faultMessage  = new MsgResponse {Message = "Invalid Access", IsError = true};
             var responseMessage = actionContext.Request.CreateResponse(HttpStatusCode.Unauthorized, faultMessage);
             actionContext.Response = responseMessage;
         }
@@ -70,60 +71,52 @@ namespace Website.Application.Domain.Browser.Web
                    );
         }
 
-        private string TryGetHandleFromRequest(HttpActionContext actionContext)
+        private static string TryGetHandleFromRequest(HttpActionContext actionContext)
         {
             var handle = actionContext.ControllerContext.RouteData.Values["handle"] as string;
             if (string.IsNullOrWhiteSpace(handle))
             {
-                foreach (var browserInt in actionContext.ActionArguments
-                    .Select(arg => arg.Value as BrowserInterface)
-                    .Where(browserInt => browserInt != null))
+                foreach (var browserInt in actionContext.ActionArguments.Select(arg => arg.Value as BrowserInterface))
                 {
-                    handle = browserInt.FriendlyId;
-                    break;
+                    object browOut;
+                    if (browserInt != null)
+                    {
+                        handle = browserInt.FriendlyId;
+                        break;
+                    }
+                    else if (actionContext.ActionArguments.TryGetValue("handle", out browOut))
+                    {
+                        handle = browOut as string;
+                        if (!string.IsNullOrWhiteSpace(handle))
+                            break;
+                    }
                 }
             }
-
-            if (string.IsNullOrWhiteSpace(handle))
-            {
-                object browOut;
-                if (actionContext.ActionArguments.TryGetValue("handle", out browOut))
-                    handle = browOut as string;
-            }
-
-            //if not specified in model, default to current browser
-            if (string.IsNullOrWhiteSpace(handle))
-                handle = BrowserInformation.Browser.FriendlyId;
-
             return handle;
         }
 
-        private string TryGetIdFromRequest(HttpActionContext actionContext)
+        private static string TryGetIdFromRequest(HttpActionContext actionContext)
         {
             var browserid = actionContext.ControllerContext.RouteData.Values["BrowserId"] as string;
             if (string.IsNullOrWhiteSpace(browserid))
             {
-                foreach (var browserInt in actionContext.ActionArguments
-                    .Select(arg => arg.Value as BrowserIdInterface)
-                    .Where(browserInt => browserInt != null))
+                foreach (var browserInt in actionContext.ActionArguments.Select(arg => arg.Value as BrowserIdInterface))
                 {
-                    browserid = browserInt.BrowserId;
-                    break;
+                    object browOut;
+                    if (browserInt != null)
+                    {
+                        browserid = browserInt.BrowserId;
+                        break;
+                    }
+                    else if (actionContext.ActionArguments.TryGetValue("BrowserId", out browOut))
+                    {
+                        browserid = browOut as string;
+                        if (!string.IsNullOrWhiteSpace(browserid))
+                            break;
+                    }
                 }
 
             }
-
-            if (string.IsNullOrWhiteSpace(browserid))
-            {
-                object browOut;
-                if (actionContext.ActionArguments.TryGetValue("BrowserId", out browOut))
-                    browserid = browOut as string;
-            }
-
-            //if not specified in model, default to current browser
-            if (string.IsNullOrWhiteSpace(browserid))
-                browserid = BrowserInformation.Browser.Id;
-
             return browserid;
         }
     }

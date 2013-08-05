@@ -7,7 +7,7 @@ using Website.Infrastructure.Query;
 
 namespace PostaFlya.Domain.Boards.Query
 {
-    public class FindBoardByAdminEmailQuery : QueryInterface
+    public class FindBoardsByAdminEmailQuery : QueryInterface<Board>
     {
         public String AdminEmail { get; set; }
     }

@@ -547,6 +547,11 @@
               Looks up a localized string similar to BidAmount.
             </summary>
         </member>
+        <member name="P:PostaFlya.Properties.Resources.BoardAdminEmailAddresses">
+            <summary>
+              Looks up a localized string similar to Board Admin Email Addresses.
+            </summary>
+        </member>
         <member name="P:PostaFlya.Properties.Resources.BoardCreateEditModel_AllowOthersToPostFliers">
             <summary>
               Looks up a localized string similar to AllowOthersToPostFliers.
@@ -595,6 +600,11 @@
         <member name="P:PostaFlya.Properties.Resources.BoardId">
             <summary>
               Looks up a localized string similar to BoardId.
+            </summary>
+        </member>
+        <member name="P:PostaFlya.Properties.Resources.BoardImage">
+            <summary>
+              Looks up a localized string similar to Board Image.
             </summary>
         </member>
         <member name="P:PostaFlya.Properties.Resources.BoardList">

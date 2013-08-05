@@ -357,6 +357,8 @@
     <Compile Include="Areas\MobileApi\Flyers\Query\FindFlyersByFeaturedQueryAsContentHandler.cs" />
     <Compile Include="Areas\MobileApi\MobileApiAreaRegistration.cs" />
     <Compile Include="Areas\WebApi\App_Start\WebApiConfig.cs" />
+    <Compile Include="Areas\WebApi\Boards\Controllers\WebBoardsByAdminController.cs" />
+    <Compile Include="Areas\WebApi\Boards\Model\BoardSummaryModel.cs" />
     <Compile Include="Areas\WebApi\Flyers\Controllers\WebFlyerDetailController.cs" />
     <Compile Include="Areas\WebApi\Flyers\Controllers\WebFlyersByBoardController.cs" />
     <Compile Include="Areas\WebApi\Flyers\Controllers\WebFlyersByFeaturedController.cs" />
