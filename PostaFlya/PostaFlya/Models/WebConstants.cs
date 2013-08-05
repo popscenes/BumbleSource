@@ -25,6 +25,7 @@ namespace PostaFlya.Models
         public const string ProfileEditPage = "profile-edit";
         public const string ProfilePeeledPage = "profile-peeled";
         public const string ProfilePostedPage = "profile-posted";
+        public const string ProfileBoardsPage = "profile-boards";
         public const string ProfilePaymentPage = "profile-payment";
         public const string ProfileCreditPage = "profile-credit";
         public const string ProfileCreditAddedPage = "profile-creditadded";

@@ -13,6 +13,7 @@ namespace PostaFlya.Views.Profile
                         "Bulletin/SelectedFlierViewModel.js",
                         "Bulletin/BulletinLayoutProperties.js",
                         "Profile/PeeledPosted.js",
+                        "Profile/ProfileBoards.js",
                         "Profile/ProfileEdit.js",
                         "Profile/PaymentPending.js",
                         "Payment/Payment.js",

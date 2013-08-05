@@ -1,0 +1,22 @@
+﻿@model PostaFlya.Models.Browser.ProfileEditModel
+
+@{
+    ViewBag.Title = "My Posted Flyers";
+    Layout = "_Layout.cshtml";
+    
+}
+
+
+<h2>Boards</h2>
+<h3>Review and view boards you are an admin of</h3>
+
+
+<div id="profile-boards"  data-bind="foreach: boards, visible: boards().length > 0">
+    <div>
+        <ul>
+            <li><span data-bind="text: Name"></span></li>
+            <li><span data-bind="text: Description"></span></li>
+            <li><a data-bind="text: FriendlyId, attr: { 'href': '/' + FriendlyId }"></a></li>
+        </ul>
+    </div>
+</div>
