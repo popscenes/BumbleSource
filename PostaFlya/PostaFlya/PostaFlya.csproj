@@ -366,6 +366,7 @@
     <Compile Include="Areas\WebApi\Flyers\Model\FlyerDetailModel.cs" />
     <Compile Include="Areas\WebApi\Flyers\Model\FlyerDetailRequest.cs" />
     <Compile Include="Areas\WebApi\Flyers\Model\FlyersByBoardRequest.cs" />
+    <Compile Include="Areas\WebApi\Flyers\Model\FlyersByBrowserRequest.cs" />
     <Compile Include="Areas\WebApi\Flyers\Model\FlyersByDateContent.cs" />
     <Compile Include="Areas\WebApi\Flyers\Model\FlyersByFeaturedContent.cs" />
     <Compile Include="Areas\WebApi\Flyers\Model\FlyersByLatestRequest.cs" />

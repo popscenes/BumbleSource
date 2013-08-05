@@ -10,9 +10,7 @@ namespace PostaFlya.Domain.Flier.Query
     public class FindFlyersByBoardQuery : QueryInterface<Flier>
     {
         public string BoardId { get; set; }
-
         public DateTimeOffset Start { get; set; }
-
         public DateTimeOffset End { get; set; }
     }
 }

@@ -24,7 +24,8 @@
         self.CreateFlierInstance = bf.globalCreateFlierInstance;
         
         self.GetReqUrl = function () {
-            return '/api/Browser/' + bf.currentBrowserInstance.BrowserId + '/' + self.Action;
+            return "/webapi/peeled/" + bf.currentBrowserInstance.BrowserId + "/gigs";
+
         };
 
         self.GetReqArgs = function () {
