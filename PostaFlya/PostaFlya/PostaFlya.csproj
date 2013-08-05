@@ -158,16 +158,16 @@
       <HintPath>..\..\..\Libraries\EntityFramework.6.0.0-alpha1\lib\net40\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.ApplicationServer.Caching.AzureClientHelper, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\..\..\Libraries\Microsoft.WindowsAzure.Caching.2.0.0.0\lib\net40-full\Microsoft.ApplicationServer.Caching.AzureClientHelper.dll</HintPath>
+      <HintPath>..\..\..\Libraries\Microsoft.WindowsAzure.Caching.2.1.0.0\lib\net40-full\Microsoft.ApplicationServer.Caching.AzureClientHelper.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.ApplicationServer.Caching.AzureCommon, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\..\..\Libraries\Microsoft.WindowsAzure.Caching.2.0.0.0\lib\net40-full\Microsoft.ApplicationServer.Caching.AzureCommon.dll</HintPath>
+      <HintPath>..\..\..\Libraries\Microsoft.WindowsAzure.Caching.2.1.0.0\lib\net40-full\Microsoft.ApplicationServer.Caching.AzureCommon.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.ApplicationServer.Caching.Client, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\..\..\Libraries\Microsoft.WindowsAzure.Caching.2.0.0.0\lib\net40-full\Microsoft.ApplicationServer.Caching.Client.dll</HintPath>
+      <HintPath>..\..\..\Libraries\Microsoft.WindowsAzure.Caching.2.1.0.0\lib\net40-full\Microsoft.ApplicationServer.Caching.Client.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.ApplicationServer.Caching.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\..\..\Libraries\Microsoft.WindowsAzure.Caching.2.0.0.0\lib\net40-full\Microsoft.ApplicationServer.Caching.Core.dll</HintPath>
+      <HintPath>..\..\..\Libraries\Microsoft.WindowsAzure.Caching.2.1.0.0\lib\net40-full\Microsoft.ApplicationServer.Caching.Core.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.SqlServer.Types, Version=10.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
@@ -181,7 +181,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Web.DistributedCache, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\..\..\Libraries\Microsoft.WindowsAzure.Caching.2.0.0.0\lib\net40-full\Microsoft.Web.DistributedCache.dll</HintPath>
+      <HintPath>..\..\..\Libraries\Microsoft.WindowsAzure.Caching.2.1.0.0\lib\net40-full\Microsoft.Web.DistributedCache.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Web.Helpers, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -191,17 +191,17 @@
       <Private>True</Private>
       <HintPath>..\..\..\Libraries\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.WindowsAzure.Diagnostics, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
+    <Reference Include="Microsoft.WindowsAzure.Diagnostics, Version=2.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
       <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.WindowsAzure.ServiceRuntime, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
+    <Reference Include="Microsoft.WindowsAzure.ServiceRuntime, Version=2.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
       <Private>False</Private>
     </Reference>
     <Reference Include="Microsoft.WindowsFabric.Common, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\..\..\Libraries\Microsoft.WindowsAzure.Caching.2.0.0.0\lib\net40-full\Microsoft.WindowsFabric.Common.dll</HintPath>
+      <HintPath>..\..\..\Libraries\Microsoft.WindowsAzure.Caching.2.1.0.0\lib\net40-full\Microsoft.WindowsFabric.Common.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.WindowsFabric.Data.Common, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\..\..\Libraries\Microsoft.WindowsAzure.Caching.2.0.0.0\lib\net40-full\Microsoft.WindowsFabric.Data.Common.dll</HintPath>
+      <HintPath>..\..\..\Libraries\Microsoft.WindowsAzure.Caching.2.1.0.0\lib\net40-full\Microsoft.WindowsFabric.Data.Common.dll</HintPath>
     </Reference>
     <Reference Include="NewRelic.Api.Agent, Version=2.8.135.0, Culture=neutral, PublicKeyToken=06552fced0b33d87, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -647,12 +647,12 @@
     <Content Include="newrelic.cmd">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <None Include="Microsoft.WindowsAzure.Caching\ClientPerfCountersInstaller.exe.config">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
     <Content Include="NewRelicAgent_x64_2.8.135.0.msi">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <None Include="Microsoft.WindowsAzure.Caching\ClientPerfCountersInstaller.exe.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="Resources\NotFoundImg.jpg" />
     <None Include="Resources\ImageProcessing.jpg" />
     <None Include="Resources\ImageProcessingFailed.jpg" />
@@ -690,9 +690,9 @@
     <Content Include="Scripts\FlierImport\FlierImport.js" />
     <Content Include="Scripts\googleanalytics.js" />
     <Content Include="Scripts\Base\jquery.helptips.js" />
-    <None Include="Scripts\jquery-1.9.1.intellisense.js" />
-    <Content Include="Scripts\jquery-1.9.1.js" />
-    <Content Include="Scripts\jquery-1.9.1.min.js" />
+    <None Include="Scripts\jquery-2.0.3.intellisense.js" />
+    <Content Include="Scripts\jquery-2.0.3.js" />
+    <Content Include="Scripts\jquery-2.0.3.min.js" />
     <Content Include="Scripts\jquery-ui-1.10.0.js" />
     <Content Include="Scripts\jquery-ui-1.10.0.min.js" />
     <Content Include="Scripts\jquery-ui-timepicker-addon.js" />
@@ -723,20 +723,24 @@
     <Content Include="Scripts\jquery.isotope.js" />
     <Content Include="Scripts\jquery.isotope.min.js" />
     <Content Include="Scripts\jquery.jcarousel.min.js" />
-    <Content Include="Scripts\jquery-1.9.1.min.map" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
     <Content Include="Scripts\HeatMap\heatmap-gmaps.js" />
     <Content Include="Scripts\HeatMap\heatmap-lib.js" />
+    <Content Include="Scripts\jquery-2.0.3.min.map" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
-    <Content Include="Scripts\knockout-2.2.1.debug.js" />
-    <Content Include="Scripts\knockout-2.2.1.js" />
+    <Content Include="Scripts\knockout-2.3.0.debug.js" />
+    <Content Include="Scripts\knockout-2.3.0.js" />
     <Content Include="Scripts\knockout.mapping-latest.debug.js" />
     <Content Include="Scripts\knockout.mapping-latest.js" />
+    <None Include="Scripts\linq-vsdoc.js" />
+    <Content Include="Scripts\linq.d.ts" />
+    <Content Include="Scripts\linq.js" />
+    <Content Include="Scripts\linq.min.js" />
     <Content Include="Scripts\Maps\jquery.ui.map.extensions.js" />
     <Content Include="Scripts\Maps\jquery.ui.map.js" />
     <Content Include="Scripts\Maps\jquery.ui.map.microdata.js" />

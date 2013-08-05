@@ -35,6 +35,13 @@ namespace PostaFlya.Areas.WebApi.App_Start
                 routeTemplate: "webapi/peeled/{BrowserId}/gigs",
                 defaults: new { Controller = "WebFlyersByBrowser" }
                 );
+                
+                config.Routes.MapHttpRoute(
+                name: "WebBrowserBoards",
+                routeTemplate: "webapi/browser/{BrowserId}/boards",
+                defaults: new { Controller = "WebBrowserBoards" }
+                );
+
 
         }
     }

@@ -14,13 +14,13 @@ namespace PostaFlya.Views.Shared
         private static readonly string[] CoreJsFiles =
         {
             "googleanalytics.js",
-            "jquery-1.9.1.js",
+            "jquery-{version}.js",
             "jquery.unobtrusive-ajax.js",
             "jquery.validate.js",
             "jquery.validate.unobtrusive.js",
-            "knockout-2.2.1.js",    
+            "knockout-{version}.js",    
             "knockout.mapping-latest.js",
-            "modernizr-2.6.2.js",
+            "modernizr-{version}.js",
             "jquery.isotope.js",
             "jquery.isotope.centered.js",
             "jquery.imagesloaded.js", //this overrides the implementation in isotope
@@ -36,6 +36,7 @@ namespace PostaFlya.Views.Shared
             "URI.js",
             "jquery.cookie.js", 
             "Extension/knockout-jquery-ui-widget.js",
+            "linq.js",
  
             //ours
             "Extension/sprintf-0.7-beta1.js",
@@ -68,7 +69,7 @@ namespace PostaFlya.Views.Shared
 
         private static readonly string[] DeskJsFiles =
         {
-            "jquery-ui-1.10.0.js",
+            "jquery-ui-{version}.js",
             "jquery.ui.touch-punch.min.js",
             "jquery-ui-timepicker-addon.js"
         };

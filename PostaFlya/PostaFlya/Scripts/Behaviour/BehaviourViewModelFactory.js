@@ -108,10 +108,19 @@
             return path;
         };
 
+        function isBoardAdmin(flyer, browser) {
+
+            return Enumerable.from(browser.AdminBoards)
+                .any(function (x) { return x.Id == flyer.VenueBoard.Id; });
+
+        }
+        
         self.getDetailTemplate = function (behaviourViewModel) {
             if (!behaviourViewModel || behaviourViewModel == 'undefined') return 'empty-detail';
 
-            var isOwner = (bf.currentBrowserInstance && behaviourViewModel.Flier.BrowserId == bf.currentBrowserInstance.BrowserId);
+            var isOwner = bf.currentBrowserInstance && isBoardAdmin(behaviourViewModel.Flier, bf.currentBrowserInstance);
+
+               // (bf.currentBrowserInstance && behaviourViewModel.Flier.BrowserId == bf.currentBrowserInstance.BrowserId);
             var ret = 'Behaviour' + behaviourViewModel.Flier.FlierBehaviour + '-template-detail';
             return isOwner ? ret + '-owner' : ret;
         };
