@@ -8,6 +8,7 @@ using Website.Application.Binding;
 using PostaFlya.Binding;
 using Website.Application.Content;
 using Website.Application.Domain.Browser.Web;
+using Website.Application.Domain.Obsolete;
 using Website.Common.Extension;
 using Website.Common.Obsolete;
 using Website.Infrastructure.Command;
@@ -34,7 +35,7 @@ namespace PostaFlya.Controllers
             _blobStorage = blobStorage;
         }
 
-        [BrowserAuthorizeHttp(Roles = "Participant")]
+        [Website.Application.Domain.Obsolete.BrowserAuthorizeHttp(Roles = "Participant")]
         public HttpResponseMessage Post(CreateCommentModel commentCreateModel)
         {
             var entity = _queryService.FindById(ClaimController.GetTypeForClaimEntity(commentCreateModel.CommentEntity),

@@ -500,4 +500,10 @@
   <data name="Flyer_Venue_Board" xml:space="preserve">
     <value>Flyer_Venue_Board</value>
   </data>
+  <data name="BoardAdminEmailAddresses" xml:space="preserve">
+    <value>Board Admin Email Addresses</value>
+  </data>
+  <data name="BoardImage" xml:space="preserve">
+    <value>Board Image</value>
+  </data>
 </root>

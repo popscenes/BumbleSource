@@ -8,7 +8,7 @@ using Website.Infrastructure.Query;
 
 namespace PostaFlya.DataRepository.DomainQuery.Board
 {
-    public class FindBoardByAdminEmailQueryHandler : QueryHandlerInterface<FindBoardByAdminEmailQuery, List<Domain.Boards.Board>>
+    public class FindBoardByAdminEmailQueryHandler : QueryHandlerInterface<FindBoardsByAdminEmailQuery, List<Domain.Boards.Board>>
     {
         private readonly TableIndexServiceInterface _indexService;
         private readonly GenericQueryServiceInterface _queryService;
@@ -19,7 +19,7 @@ namespace PostaFlya.DataRepository.DomainQuery.Board
             _queryService = queryService;
         }
 
-        public List<Domain.Boards.Board> Query(FindBoardByAdminEmailQuery argument)
+        public List<Domain.Boards.Board> Query(FindBoardsByAdminEmailQuery argument)
         {
 
             var entries = _indexService.FindEntitiesByIndex<BoardInterface, StorageTableKey>(DomainIndexSelectors.BoardAdminEmailIndex, argument.AdminEmail);

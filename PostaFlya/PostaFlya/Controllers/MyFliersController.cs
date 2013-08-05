@@ -9,6 +9,7 @@ using Website.Application.Content;
 using PostaFlya.Domain.Flier;
 using PostaFlya.Domain.Flier.Command;
 using Website.Application.Domain.Browser.Web;
+using Website.Application.Domain.Obsolete;
 using Website.Common.Extension;
 using Website.Common.Model.Query;
 using Website.Common.Obsolete;
@@ -23,7 +24,7 @@ using Website.Infrastructure.Util.Extension;
 
 namespace PostaFlya.Controllers
 {
-    [BrowserAuthorizeHttp(Roles = "Participant")]
+    [Website.Application.Domain.Obsolete.BrowserAuthorizeHttp(Roles = "Participant")]
     public class MyFliersController : OldWebApiControllerBase
     {
         private readonly CommandBusInterface _commandBus;

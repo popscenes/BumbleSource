@@ -138,6 +138,7 @@
     <Compile Include="Location\Query\GetLocationFromIdQuery.cs" />
     <Compile Include="Location\Query\GetLocationFromIdQueryHandler.cs" />
     <Compile Include="Location\ValidationAttributes.cs" />
+    <Compile Include="Obsolete\BrowserAuthorizeHttpAttribute.cs" />
     <Compile Include="Payment\PaymentServiceInterface.cs" />
     <Compile Include="Payment\PaymentServiceProviderInterface.cs" />
     <Compile Include="Payment\PaymentServiceProvider.cs" />
@@ -167,6 +168,10 @@
     <ProjectReference Include="..\Website.Application\Website.Application.csproj">
       <Project>{46DB8930-71D8-4DE4-BAA6-39944F07D6F5}</Project>
       <Name>Website.Application</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Website.Common\Website.Common.csproj">
+      <Project>{B8DA4F3A-23FF-46AA-A9E4-A22EAC11CA3A}</Project>
+      <Name>Website.Common</Name>
     </ProjectReference>
     <ProjectReference Include="..\Website.Domain\Website.Domain.csproj">
       <Project>{C479A98A-EC5A-45EF-968A-2D81B406485F}</Project>
