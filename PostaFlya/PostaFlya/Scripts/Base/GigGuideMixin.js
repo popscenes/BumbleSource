@@ -218,7 +218,9 @@
                     Date: pickDate,
                     Ishistory: d < 0,
                     Iscurrent: d == 0,
-                    Isfuture: d > 0
+                    Isfuture: d > 0,
+                    HideMobile: d < -1 || d > 1,
+                    HideMobileSeperator: d < -1 || d > 0
                 });
             }
 

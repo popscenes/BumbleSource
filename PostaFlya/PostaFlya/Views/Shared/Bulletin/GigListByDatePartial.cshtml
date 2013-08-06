@@ -13,14 +13,17 @@
     <div id="bulletinboard" data-bind="foreach: DateSections(), visible: DateSections().length > 0">
         <div class="giglist-time-line">
             <ul class="time-line" data-bind="foreach: Dates, attr: { id: DateLink }">
-                <li class="time-line-item" data-bind="css: { 'history': Ishistory, 'current': Iscurrent, 'future': Isfuture }">
+                
+                <li class="time-line-item" data-bind="css: { 'history': Ishistory, 'current': Iscurrent, 'future': Isfuture, 'hideResponsive': HideMobile }">
                     <a class="date-nav-link" data-bind="attr: {href: DateLink}">
-                        <span class="timeline-item-date" data-bind="css: { 'history': Ishistory, 'current': Iscurrent, 'future': Isfuture }, text: Datestring"></span>
+                        <span class="timeline-item-date" data-bind="css: { 'history': Ishistory, 'current': Iscurrent, 'future': Isfuture}, text: Datestring"></span>
                     </a>
                 </li>
-                <li class="time-line-seperator" data-bind="css: { 'history': Ishistory, 'current': Iscurrent, 'future': Isfuture }, visible: $index() < ($parent.Dates.length-1)">
+                
+                <li class="time-line-seperator" data-bind="css: { 'history': Ishistory, 'current': Iscurrent, 'future': Isfuture, 'hideResponsive': HideMobileSeperator }, visible: $index() < 4">
                     &nbsp;
                 </li>
+                
             </ul>
         </div>
 
