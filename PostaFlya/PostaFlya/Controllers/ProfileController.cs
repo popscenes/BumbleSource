@@ -35,6 +35,11 @@ namespace PostaFlya.Controllers
             return View(new ProfileEditModel { PageId = WebConstants.ProfilePostedPage });            
         }
 
+        public ActionResult Boards()
+        {
+            return View(new ProfileEditModel { PageId = WebConstants.ProfileBoardsPage });
+        }
+
         public ActionResult PaymentPending()
         {
             return View(new ProfileEditModel { PageId = WebConstants.ProfilePaymentPage });            
