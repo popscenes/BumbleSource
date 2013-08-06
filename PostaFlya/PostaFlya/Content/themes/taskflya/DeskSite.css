@@ -1899,6 +1899,21 @@ ul.time-line li a.date-nav-link.history{
     }
 
 
+    ul.time-line {
+        width: 291px;
+    }
+
+    ul.time-line li.hideResponsive {
+        display: none;
+    }
+
+    .timeline-item-date {
+        width: 75px;
+        left: -35px;
+        font-size: 12px;
+    }
+
+
 
     .bulletin-tags-selector .tags-selector .tags-box {
         padding-top: 0px;
