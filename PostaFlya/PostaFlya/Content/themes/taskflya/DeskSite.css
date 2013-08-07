@@ -1908,9 +1908,21 @@ ul.time-line li a.date-nav-link.history{
     }
 
     .timeline-item-date {
+        display: inline-block
+    }
+
+    .timeline-item-date {
         width: 75px;
         left: -35px;
         font-size: 12px;
+    }
+
+    .timeline-item-date.future {
+        left: -65px;
+    }
+
+    .timeline-item-date.history {
+        left: -5px;
     }
 
     .bulletin-tags-selector .tags-selector .tags-box {
