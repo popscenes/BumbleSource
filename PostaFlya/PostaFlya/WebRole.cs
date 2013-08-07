@@ -19,11 +19,6 @@ namespace PostaFlya
             // For information on handling configuration changes
             // see the MSDN topic at http://go.microsoft.com/fwlink/?LinkId=166357.
 
-            System.Diagnostics.Trace.WriteLine("Web Role On Start trace writeln");
-            Trace.TraceError("Web Role On Start trace err");
-            Trace.TraceWarning("Web Role On Start trace warn");
-            Trace.TraceInformation("Web Role On Start trace info");
-
             var ret =  base.OnStart();
             return ret;
         }

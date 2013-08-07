@@ -78,6 +78,8 @@ namespace WebScraper
 
             boardUpdateWorker.DoWork += boardUpdateWorker_DoWork;
             boardUpdateWorker.RunWorkerCompleted += boardUpdateWorker_RunWorkerCompleted;
+
+            autoBoardAdmins_GotFocus(this, new RoutedEventArgs());
         }
 
         void boardUpdateWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
@@ -176,7 +178,7 @@ namespace WebScraper
                     var next = siteScraper.GetFlyersFrom(startEnd.Start, startEnd.End);
                     foreach (
                         var importedFlyerScraperModel in
-                            next.Where(model => model.EventDates.All(time => time <= startEnd.End)))
+                            next.Where(model => model.EventDates.All(time => time <= startEnd.End && time >= startEnd.Start)))
                     {
                         items.Enqueue(importedFlyerScraperModel);
                     }
