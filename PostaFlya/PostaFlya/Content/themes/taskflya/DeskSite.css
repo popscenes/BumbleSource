@@ -1578,9 +1578,9 @@ div#selected-item-div {
     z-index: 1751;
     margin-top: 20px;
     margin-bottom: 20px;
-    margin-left: 10%;
-    width: 70%;
-    padding: 5%;   
+    margin-left: 20%;
+    width: 50%;
+    padding: 5%;
 }
 
     .flier-view-default .flier-img {
@@ -2053,7 +2053,7 @@ ul.time-line li a.date-nav-link.history{
     div#selected-item-div, div#create-flier-item-div {
 
         left: 0;
-        padding: 10%;
+        padding: 5%;
         width: 90%;
         margin-left: 0;
         

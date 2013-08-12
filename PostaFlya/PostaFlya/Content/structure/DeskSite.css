@@ -363,10 +363,16 @@ div#create-flier-popup-overlay {
     z-index: 1850;
 }
 
-div#selected-item-div .close-button, div#create-flier-item-div .close-button {
+div#selected-item-div .close-button{
     position: absolute;
-    right: 20px;
-    top: 20px;
+    right: 10px;
+    top: 10px;
+}
+
+div#create-flier-item-div .close-button {
+       position: absolute;
+       right: 10px;
+       top: 10px;
 }
 
 div#selected-item-div .question-tool-bar-item, div#create-flier-item-div .question-tool-bar-item {
