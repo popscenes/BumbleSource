@@ -329,7 +329,7 @@ namespace Website.Application.Domain.Tests.Content
             var data = storage[id.ToString() +
             ImageUtil.GetIdFileExtension(
                 ThumbOrientation.Original,
-                ThumbSize.S150
+                ThumbSize.S300
             )];
 
             Assert.IsNotNull(data);
@@ -338,8 +338,8 @@ namespace Website.Application.Domain.Tests.Content
                 using(var conv = Image.FromStream(ms))
                 {
                     Assert.IsTrue(
-                               conv.Height == (int)ThumbSize.S150
-                            || conv.Width == (int)ThumbSize.S150
+                               conv.Height == (int)ThumbSize.S300
+                            || conv.Width == (int)ThumbSize.S300
                     );
                 }
             }

@@ -2,9 +2,7 @@
 using Microsoft.WindowsAzure.Storage.Blob;
 using Ninject;
 using Ninject.Modules;
-using Website.Application.ApplicationCommunication;
 using Website.Application.Azure.Command;
-using Website.Application.Azure.Communication;
 using Website.Application.Azure.Content;
 using Website.Application.Azure.Queue;
 using Website.Application.Azure.Util;
@@ -76,19 +74,9 @@ namespace Website.Application.Azure.Binding
             //end applicationstorage
 
             var tableNameProv = Kernel.Get<TableNameAndIndexProviderServiceInterface>();
-            Kernel.Bind<ApplicationBroadcastCommunicatorRegistrationInterface>().To<AzureApplicationBroadcastCommunicatorRegistration>();
-            //            Kernel.Bind<AzureTableContext>().ToSelf().Named("broadcastCommunicators");
-            //            Kernel.Bind<TableNameAndPartitionProviderInterface>()
-            //                .ToConstant(AzureBroadcastRegistrator.TableNameBinding)
-            //                .WhenAnyAnchestorNamed("broadcastCommunicators");
-            tableNameProv.Add<AzureBroadcastRegistrationEntry>("broadcastCommunicatorsEntity", e => e.Get<string>("Endpoint"));
 
             Kernel.Bind<WebsiteInfoServiceInterface>().To<WebsiteInfoServiceAzure>().WhenTargetHas<SourceDataSourceAttribute>();
             tableNameProv.Add<WebsiteInfoEntity>("websiteinfoEntity", e => e.Get<string>("url"));
-//            Kernel.Bind<AzureTableContext>().ToSelf().Named("websiteinfo");
-//            Kernel.Bind<TableNameAndPartitionProviderInterface>()
-//               .ToConstant(WebsiteInfoServiceAzure.TableNameBinding)
-//               .WhenAnyAnchestorNamed("websiteinfo");
 
 
             //need to call Kernel.Get<AzureInitCreateQueueAndBlobs>().Init();

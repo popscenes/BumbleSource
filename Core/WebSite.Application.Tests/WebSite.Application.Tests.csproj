@@ -124,7 +124,6 @@
     <Compile Include="Intergrations\FatZebraIntergrationTests.cs" />
     <Compile Include="Intergrations\GoogleWalletDigitalGoodsTests.cs" />
     <Compile Include="Mocks\TestCommandQueueFactory.cs" />
-    <Compile Include="ApplicationCommunication\BroadcastCommunicatorTests.cs" />
     <Compile Include="Content\ExifImageTests.cs" />
     <Compile Include="Email\QueuedSendEmailServiceTests.cs" />
     <Compile Include="Extension\Validation\ValidationAdaptersTests.cs" />
@@ -206,6 +205,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\TestWideSmallImage.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="ApplicationCommunication\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" />

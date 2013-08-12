@@ -24,7 +24,7 @@ namespace Website.Application.Domain.Content
             return ".jpg";
         }
 
-        public static string GetThumbUrlForImage(this Uri imageUri, ThumbOrientation orientation = ThumbOrientation.Horizontal, ThumbSize thumbSize = ThumbSize.S228)
+        public static string GetThumbUrlForImage(this Uri imageUri, ThumbOrientation orientation = ThumbOrientation.Horizontal, ThumbSize thumbSize = ThumbSize.S300)
         {
             if (imageUri == null)
                 return null;
@@ -32,7 +32,7 @@ namespace Website.Application.Domain.Content
             return GetThumbUrlForImageUri(imageUri.ToString(), orientation, thumbSize);
         }
 
-        public static string GetThumbUrlForImageUri(string imageUri, ThumbOrientation orientation = ThumbOrientation.Horizontal, ThumbSize thumbSize = ThumbSize.S228)
+        public static string GetThumbUrlForImageUri(string imageUri, ThumbOrientation orientation = ThumbOrientation.Horizontal, ThumbSize thumbSize = ThumbSize.S300)
         {
             if (imageUri == null)
                 return null;
@@ -47,10 +47,8 @@ namespace Website.Application.Domain.Content
 
     public enum ThumbSize
     {
-        S150 = 150,
-        S228 = 228,
         S300 = 300,
-        S450 = 450,
+        S400 = 400,
         S900 = 900,
     }
 

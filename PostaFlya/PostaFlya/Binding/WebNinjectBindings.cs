@@ -10,26 +10,19 @@ using System.Web.Mvc;
 using Ninject;
 using Ninject.Modules;
 using Ninject.Web.Common;
-using PostaFlya.Models;
 using Website.Application.Authentication;
 using Website.Application.Azure.Caching;
-using Website.Application.Caching.Command;
 using Website.Application.Domain.Google.Payment;
 using Website.Application.Domain.Payment;
 using Website.Application.Google.Payment;
 using Website.Azure.Common.Environment;
 using Website.Common.Binding;
-using Website.Common.Model;
-using Website.Common.Model.Query;
 using Website.Infrastructure.Authentication;
 using Website.Infrastructure.Binding;
 using Website.Infrastructure.Command;
 using Website.Infrastructure.Configuration;
 using Website.Application.Domain.Content;
 using Website.Domain.Content;
-using Website.Infrastructure.Domain;
-using Website.Infrastructure.Query;
-using Website.Infrastructure.Types;
 
 namespace PostaFlya.Binding
 {
@@ -135,8 +128,6 @@ namespace PostaFlya.Binding
                     var ret = AzureEnv.IsRunningInCloud() ? new AzureCacheProvider() : getInMemCache();
                     return ret;
                 }).InSingletonScope();
-            //turn off notifications for cached repositories when using azure cache          
-            Bind<CacheNotifier>().ToMethod(context => new CacheNotifier(null, false));
 //end azure caching
 
 

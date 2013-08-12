@@ -224,7 +224,6 @@
     <Compile Include="Authentication\WebIdentityProviderService.cs" />
     <Compile Include="Binding\ApplicationCommandHandlersNinjectBinding.cs" />
     <Compile Include="Binding\ApplicationNinjectBinding.cs" />
-    <Compile Include="Caching\Command\BroadcastCachedRepository.cs" />
     <Compile Include="Caching\InvalidateCacheDataCommand.cs" />
     <Compile Include="Caching\InvalidateCacheDataCommandHandler.cs" />
     <Compile Include="Caching\Query\TimedExpiryCachedQueryService.cs" />
@@ -233,11 +232,6 @@
     <Compile Include="Command\QueuedCommandBus.cs" />
     <Compile Include="Binding\BindingAttributes.cs" />
     <Compile Include="Command\CommandQueueFactoryInterface.cs" />
-    <Compile Include="ApplicationCommunication\ApplicationBroadcastCommunicatorFactoryInterface.cs" />
-    <Compile Include="ApplicationCommunication\ApplicationBroadcastCommunicatorInterface.cs" />
-    <Compile Include="ApplicationCommunication\ApplicationBroadcastCommunicatorRegistrationInterface.cs" />
-    <Compile Include="ApplicationCommunication\DefaultApplicationBroadcastCommunicator.cs" />
-    <Compile Include="ApplicationCommunication\DefaultApplicationBroadcastCommunicatorFactory.cs" />
     <Compile Include="Command\QueuedCommandResult.cs" />
     <Compile Include="Content\BlobStorageInterface.cs" />
     <Compile Include="Content\ExifImage.cs" />
@@ -342,6 +336,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Caching\Command\" />
     <Folder Include="Extension\Expression\" />
     <Folder Include="Extension\Framework\" />
     <Folder Include="Extension\Library\" />

@@ -4,7 +4,6 @@ using NUnit.Framework;
 using Ninject.MockingKernel.Moq;
 using Ninject.Modules;
 using Website.Application.Binding;
-using Website.Application.Caching.Command;
 using Website.Domain.Content;
 using Website.Infrastructure.Binding;
 using Website.Mocks.Domain.Binding;
@@ -43,8 +42,6 @@ namespace Website.Application.Domain.Tests
 
         private static void InitializeBinding()
         {
-            CurrIocKernel.Bind<CacheNotifier>().ToMethod(context => 
-                new CacheNotifier(null, false));//just don't use notifier
 
             CurrIocKernel.BindMockDomainQueryHandlersForTypesFrom(syntax => syntax.InTransientScope()
                     , Assembly.GetAssembly(typeof (Image)));
