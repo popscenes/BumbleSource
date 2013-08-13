@@ -1,6 +1,6 @@
 using System;
 
-namespace Website.Application.Command
+namespace Website.Application.Messaging
 {
     [Serializable]
     public class DataBusRedirectToStorage

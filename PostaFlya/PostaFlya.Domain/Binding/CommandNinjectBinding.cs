@@ -22,7 +22,7 @@ namespace PostaFlya.Domain.Binding
             
             //command handlers
             var kernel = Kernel as StandardKernel;
-            kernel.BindCommandAndQueryHandlersFromCallingAssembly(c => c.InTransientScope());
+            kernel.BindMessageAndQueryHandlersFromCallingAssembly(c => c.InTransientScope());
 
             kernel.BindInfrastructureQueryHandlersForTypesFrom(
                 c => c.InTransientScope(), Assembly.GetAssembly(typeof(PostaFlya.Domain.Browser.Browser)));

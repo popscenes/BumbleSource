@@ -11,6 +11,7 @@ using PostaFlya.Application.Domain.Browser;
 using PostaFlya.Binding;
 using TechTalk.SpecFlow;
 using PostaFlya.Mocks.Domain.Data;
+using Website.Application.Binding;
 using Website.Domain.Browser;
 using Website.Infrastructure.Query;
 using Website.Mocks.Domain.Data;
@@ -94,7 +95,7 @@ namespace PostaFlya.Specification.Util
         }
 
 //        example of using the mock kernel, to mock a command handler
-//        var addTagHandler = SpecUtil.CurrIocKernel.GetMock<CommandHandlerInterface<AddTagCommand>>();
+//        var addTagHandler = SpecUtil.CurrIocKernel.GetMock<MessageHandlerInterface<AddTagCommand>>();
 //        addTagHandler.Setup(s => s.Handle(It.IsAny<AddTagCommand>())).Returns(true);
 //        See also MockRepositoriesNinjectModule
         public static MoqMockingKernel CurrIocKernel
@@ -139,6 +140,7 @@ namespace PostaFlya.Specification.Util
                       new Website.Common.Binding.WebsiteCommonNinjectBinding(),
                       new Website.Mocks.Domain.Binding.QueryHandlerBinding(),
                       new PostaFlya.Mocks.Domain.Binding.QueryHandlerBinding(),
+                      new ApplicationCommandHandlersNinjectBinding()
                   };
     }
 }

@@ -2,6 +2,7 @@
 using NUnit.Framework;
 using Ninject;
 using Ninject.MockingKernel.Moq;
+using Website.Infrastructure.Messaging;
 using Website.Infrastructure.Publish;
 
 namespace Website.Application.Tests.Publish
@@ -17,7 +18,7 @@ namespace Website.Application.Tests.Publish
         [TestFixtureSetUp]
         public void FixtureSetUp()
         {
-//            Kernel.Bind<CommandHandlerInterface<PublishCommand>>()
+//            Kernel.Bind<MessageHandlerInterface<PublishCommand>>()
 //                .To<PublishCommandHandler>();
 //            Kernel.Bind<CommandBusInterface>().To<DefaultCommandBus>();
         }
@@ -25,7 +26,7 @@ namespace Website.Application.Tests.Publish
         [TestFixtureTearDown]
         public void FixtureTearDown()
         {
-//            Kernel.Unbind<CommandHandlerInterface<PublishCommand>>();
+//            Kernel.Unbind<MessageHandlerInterface<PublishCommand>>();
 //            Kernel.Unbind<CommandBusInterface>();
         }
 

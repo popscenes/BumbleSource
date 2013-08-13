@@ -13,6 +13,7 @@ using Website.Common.Extension;
 using Website.Common.Obsolete;
 using Website.Infrastructure.Command;
 using Website.Infrastructure.Domain;
+using Website.Infrastructure.Messaging;
 using Website.Infrastructure.Query;
 using PostaFlya.Models.Comments;
 using Website.Domain.Comments;
@@ -22,15 +23,15 @@ namespace PostaFlya.Controllers
 {
     public class CommentController : OldWebApiControllerBase
     {
-        private readonly CommandBusInterface _commandBus;
+        private readonly MessageBusInterface _messageBus;
         private readonly GenericQueryServiceInterface _queryService;
         private readonly BlobStorageInterface _blobStorage;
 
-        public CommentController(CommandBusInterface commandBus
+        public CommentController(MessageBusInterface messageBus
             , GenericQueryServiceInterface queryService
             , [ImageStorage]BlobStorageInterface blobStorage)
         {
-            _commandBus = commandBus;
+            _messageBus = messageBus;
             _queryService = queryService;
             _blobStorage = blobStorage;
         }
@@ -51,7 +52,7 @@ namespace PostaFlya.Controllers
                                               CommentEntity = entity,
                                           };
 
-            var res = _commandBus.Send(commentCommand);
+            var res = _messageBus.Send(commentCommand);
             return this.GetResponseForRes(res);
         }
 

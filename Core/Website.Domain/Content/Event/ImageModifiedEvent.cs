@@ -8,7 +8,7 @@ using Website.Infrastructure.Domain;
 namespace Website.Domain.Content.Event
 {
     [Serializable]
-    public class ImageModifiedEvent : EntityModifiedDomainEvent<Image>
+    public class ImageModifiedEvent : EntityModifiedEvent<Image>
     {
     }
 }

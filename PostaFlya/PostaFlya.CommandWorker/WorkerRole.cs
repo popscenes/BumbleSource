@@ -9,7 +9,6 @@ using Microsoft.WindowsAzure.Diagnostics;
 using Microsoft.WindowsAzure.ServiceRuntime;
 using Ninject;
 using Ninject.Modules;
-using Website.Application.Command;
 
 namespace PostaFlya.CommandWorker
 {

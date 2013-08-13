@@ -10,6 +10,7 @@ using Ninject.MockingKernel.Moq;
 using Website.Application.Content;
 using Website.Domain.Browser.Query;
 using Website.Infrastructure.Command;
+using Website.Infrastructure.Messaging;
 using Website.Infrastructure.Query;
 using Website.Test.Common;
 using Website.Application.Domain.Content;
@@ -32,9 +33,9 @@ namespace Website.Application.Domain.Tests.Content
         public static void FixtureSetUp(MoqMockingKernel kernel)
         {
             kernel.Bind<ContentStorageServiceInterface>().To<ImageProcessContentStorageService>();
-            kernel.Bind<CommandBusInterface>().To<DefaultCommandBus>();
-            kernel.Bind<CommandHandlerInterface<ImageProcessCommand>>().To<ImageProcessCommandHandler>();
-            kernel.Bind<CommandHandlerInterface<ImageProcessSetMetaDataCommand>>().To<ImageProcessSetMetaDataCommandHandler>();
+            kernel.Bind<MessageBusInterface>().To<InMemoryMessageBus>();
+            kernel.Bind<MessageHandlerInterface<ImageProcessCommand>>().To<ImageProcessCommandHandler>();
+            kernel.Bind<MessageHandlerInterface<ImageProcessSetMetaDataCommand>>().To<ImageProcessSetMetaDataCommandHandler>();
             HttpContextMock.FakeHttpContext(kernel);
         }
 
@@ -47,9 +48,9 @@ namespace Website.Application.Domain.Tests.Content
         public static void FixtureTearDown(MoqMockingKernel kernel)
         {
             kernel.Unbind<ContentStorageServiceInterface>();
-            kernel.Unbind<CommandBusInterface>();
-            kernel.Unbind<CommandHandlerInterface<ImageProcessCommand>>();
-            kernel.Unbind<CommandHandlerInterface<ImageProcessSetMetaDataCommand>>();
+            kernel.Unbind<MessageBusInterface>();
+            kernel.Unbind<MessageHandlerInterface<ImageProcessCommand>>();
+            kernel.Unbind<MessageHandlerInterface<ImageProcessSetMetaDataCommand>>();
             //kernel.Unbind<ImageRepositoryInterface>();
         }
 
@@ -125,7 +126,7 @@ namespace Website.Application.Domain.Tests.Content
                               };
             
             //simulate and image upload
-            var imageInterface = kernel.Get<CommandBusInterface>().Send(command) as ImageInterface;
+            var imageInterface = kernel.Get<MessageBusInterface>().Send(command) as ImageInterface;
 
             Assert.IsNotNull(imageInterface);
 
@@ -359,7 +360,7 @@ namespace Website.Application.Domain.Tests.Content
         public static string ImageProcessCommandHandlerSetsImageStatusToFailedOnInvalidProcessing(MoqMockingKernel kernel)
         {
             //simulate and image upload
-            var imageInterface = kernel.Get<CommandBusInterface>().Send(new CreateImageCommand()
+            var imageInterface = kernel.Get<MessageBusInterface>().Send(new CreateImageCommand()
             {
                 BrowserId = Guid.NewGuid().ToString(),
                 Title = "Yoyoyoyo",
@@ -422,7 +423,7 @@ namespace Website.Application.Domain.Tests.Content
                               Title = "Test Title"
                           };
 
-            Kernel.Get<CommandBusInterface>().Send(cmd);
+            Kernel.Get<MessageBusInterface>().Send(cmd);
 
             foreach (var bytese in dictionary)
             {

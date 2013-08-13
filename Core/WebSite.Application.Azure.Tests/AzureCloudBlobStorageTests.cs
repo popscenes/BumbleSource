@@ -7,11 +7,12 @@ using NUnit.Framework;
 using Ninject;
 using Website.Application.Azure.Content;
 using Website.Application.Binding;
-using Website.Application.Command;
 using Website.Application.Content;
+using Website.Application.Messaging;
 using Website.Azure.Common.Environment;
 using Website.Infrastructure.Binding;
 using Website.Infrastructure.Command;
+using Website.Infrastructure.Messaging;
 
 namespace Website.Application.Azure.Tests
 {
@@ -42,10 +43,10 @@ namespace Website.Application.Azure.Tests
                     new AzureCloudBlobStorage(ctx.Kernel.Get<CloudBlobClient>().GetContainerReference("blobstoragettest")));
 
 
-            Kernel.Rebind<CommandBusInterface>().ToMethod(
+            Kernel.Rebind<MessageBusInterface>().ToMethod(
                 ctx =>
-                    ctx.Kernel.Get<CommandQueueFactoryInterface>()
-                    .GetCommandBusForEndpoint("commandqueuetest")
+                    ctx.Kernel.Get<MessageQueueFactoryInterface>()
+                    .GetMessageBusForEndpoint("commandqueuetest")
             )
             .WhenTargetHas<WorkerCommandBusAttribute>();
             
@@ -55,7 +56,7 @@ namespace Website.Application.Azure.Tests
         public void FixtureTearDown()
         {
             ClearBlobStorage();
-            Kernel.Get<CommandQueueFactoryInterface>()
+            Kernel.Get<MessageQueueFactoryInterface>()
                     .Delete("commandqueuetest");
 
             AzureEnv.UseRealStorage = false;
@@ -234,7 +235,7 @@ namespace Website.Application.Azure.Tests
             var largeCommand = new TestBlobStorageCommand() { MessageId = Guid.NewGuid().ToString(), Message = data };
 
             var commandQueueStorageConatiner = Kernel.Get<BlobStorageInterface>();
-            var cmdSerial = new DataBusCommandSerializer(commandQueueStorageConatiner);
+            var cmdSerial = new DataBusMessageSerializer(commandQueueStorageConatiner);
             byte[] result = cmdSerial.ToByteArray(largeCommand);
             Assert.IsNotNull(result);
             Assert.IsTrue(result.Length > 0);

@@ -20,6 +20,7 @@ using Website.Application.Domain.Browser;
 using Website.Application.Domain.Content;
 using Website.Domain.Content;
 using Website.Domain.Content.Command;
+using Website.Infrastructure.Messaging;
 using Website.Infrastructure.Query;
 
 namespace PostaFlya.Controllers
@@ -29,21 +30,21 @@ namespace PostaFlya.Controllers
         private readonly BlobStorageInterface _blobStorage;
         private readonly RequestContentRetrieverFactoryInterface _contentRetrieverFactory;
         private readonly PostaFlyaBrowserInformationInterface _browserInformation;
-        private readonly CommandBusInterface _commandBus;
+        private readonly MessageBusInterface _messageBus;
         private readonly GenericQueryServiceInterface _queryService;
         private readonly FlierPrintImageServiceInterface _flierPrintImageService;
         //private readonly HttpContextBase _httpContext;
 
         public ImgController([ImageStorage]BlobStorageInterface blobStorage
             , RequestContentRetrieverFactoryInterface contentRetrieverFactory
-            , PostaFlyaBrowserInformationInterface browserInformation, CommandBusInterface commandBus
+            , PostaFlyaBrowserInformationInterface browserInformation, MessageBusInterface messageBus
             , GenericQueryServiceInterface queryService, 
             FlierPrintImageServiceInterface flierPrintImageService)
         {
             _blobStorage = blobStorage;
             _contentRetrieverFactory = contentRetrieverFactory;
             _browserInformation = browserInformation;
-            _commandBus = commandBus;
+            _messageBus = messageBus;
             _queryService = queryService;
             _flierPrintImageService = flierPrintImageService;
             //_httpContext = httpContext;
@@ -87,7 +88,7 @@ namespace PostaFlya.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest, retriever.GetLastError());
 
             var imgId = Guid.NewGuid();
-            var res = _commandBus.Send(new CreateImageCommand()
+            var res = _messageBus.Send(new CreateImageCommand()
                                  {
                                      MessageId = imgId.ToString(),
                                      Content = content,

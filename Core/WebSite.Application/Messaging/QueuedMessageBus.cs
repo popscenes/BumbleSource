@@ -1,17 +1,18 @@
 using Website.Application.Queue;
 using Website.Infrastructure.Command;
+using Website.Infrastructure.Messaging;
 
-namespace Website.Application.Command
+namespace Website.Application.Messaging
 {
-    public class QueuedCommandBus : CommandBusInterface
+    public class QueuedMessageBus : MessageBusInterface
     {
-        private readonly CommandSerializerInterface _commandSerializer;
+        private readonly MessageSerializerInterface _messageSerializer;
         private readonly QueueInterface _queue;
 
-        public QueuedCommandBus(CommandSerializerInterface commandSerializer, 
+        public QueuedMessageBus(MessageSerializerInterface messageSerializer, 
                                QueueInterface queue)
         {
-            _commandSerializer = commandSerializer;
+            _messageSerializer = messageSerializer;
             _queue = queue;
         }
 
@@ -19,7 +20,7 @@ namespace Website.Application.Command
 
         public object Send<TCommand>(TCommand command) where TCommand : class, CommandInterface
         {
-            var msg = _commandSerializer.ToByteArray(command);
+            var msg = _messageSerializer.ToByteArray(command);
             var sendmessage = new QueueMessage(msg);
             _queue.AddMessage(sendmessage);
             return true;

@@ -155,9 +155,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Publish\Command\DomainEventPublishCommand.cs" />
-    <Compile Include="Publish\Command\DomainEventPublishCommandHandler.cs" />
-    <Compile Include="Publish\DomainEventPublishService.cs" />
     <Compile Include="Query\CachedQueryServiceWithBrowser.cs" />
     <Compile Include="TinyUrl\DefaultTinyUrlService.cs" />
     <Compile Include="TinyUrl\Query\FindByTinyUrlQuery.cs" />

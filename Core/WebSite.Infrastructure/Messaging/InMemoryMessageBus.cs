@@ -1,12 +1,11 @@
-using System.Diagnostics;
+using Website.Infrastructure.Command;
 
-
-namespace Website.Infrastructure.Command
+namespace Website.Infrastructure.Messaging
 {
-    public class DefaultCommandBus : CommandBusInterface
+    public class InMemoryMessageBus : MessageBusInterface
     {
-        private readonly CommandHandlerRespositoryInterface _handlerRespository;
-        public DefaultCommandBus(CommandHandlerRespositoryInterface handlerRespository)
+        private readonly MessageHandlerRespositoryInterface _handlerRespository;
+        public InMemoryMessageBus(MessageHandlerRespositoryInterface handlerRespository)
         {
             _handlerRespository = handlerRespository;
         }

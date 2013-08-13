@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Ninject;
 using Ninject.Syntax;
+using Website.Infrastructure.Messaging;
 using Website.Infrastructure.Publish;
 
 namespace Website.Application.Publish

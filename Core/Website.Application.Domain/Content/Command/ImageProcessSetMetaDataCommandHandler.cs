@@ -4,13 +4,13 @@ using System.Linq;
 using Website.Application.Content;
 using Website.Application.Extension.Content;
 using Website.Domain.Content;
-using Website.Infrastructure.Command;
 using Website.Domain.Location;
+using Website.Infrastructure.Messaging;
 using Image = System.Drawing.Image;
 
 namespace Website.Application.Domain.Content.Command
 {
-    public class ImageProcessSetMetaDataCommandHandler : CommandHandlerInterface<ImageProcessSetMetaDataCommand>
+    public class ImageProcessSetMetaDataCommandHandler : MessageHandlerInterface<ImageProcessSetMetaDataCommand>
     {
         private readonly BlobStorageInterface _blobStorage;
 

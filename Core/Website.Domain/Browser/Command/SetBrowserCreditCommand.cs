@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Website.Domain.Payment;
 using Website.Infrastructure.Command;
+using Website.Infrastructure.Messaging;
 
 namespace Website.Domain.Browser.Command
 {
@@ -12,7 +13,7 @@ namespace Website.Domain.Browser.Command
         public double Credit { get; set; }
     }
 
-    public class SetBrowserCreditCommandHandler : CommandHandlerInterface<SetBrowserCreditCommand>
+    public class SetBrowserCreditCommandHandler : MessageHandlerInterface<SetBrowserCreditCommand>
     {
         private readonly UnitOfWorkFactoryInterface _unitOfWorkFactory;
         private readonly GenericRepositoryInterface _genericRepository;

@@ -4,8 +4,8 @@ using Ninject.Modules;
 using Ninject.Web.Common;
 using Website.Application.Domain.Location;
 using Website.Application.Domain.Payment;
-using Website.Application.Domain.Publish;
 using Website.Application.Domain.TinyUrl;
+using Website.Application.Messaging;
 using Website.Domain.Service;
 using Website.Domain.TinyUrl;
 using Website.Infrastructure.Binding;
@@ -13,6 +13,7 @@ using Website.Infrastructure.Command;
 using Website.Application.Domain.Browser;
 using Website.Application.Domain.Content;
 using Website.Application.Domain.Content.Command;
+using Website.Infrastructure.Messaging;
 
 namespace Website.Application.Domain.Binding
 {
@@ -35,12 +36,12 @@ namespace Website.Application.Domain.Binding
 
             Bind<ContentStorageServiceInterface>().To<ImageProcessContentStorageService>();
 
-            Bind<DomainEventPublishServiceInterface>().To<DomainEventPublishService>();
+            Bind<EventPublishServiceInterface>().To<EventPublishService>();
 
             //this is for appication command handlers to use, 
             //need to consider putting context on this
-            Bind<CommandBusInterface>()
-                .To<DefaultCommandBus>(); 
+            Bind<MessageBusInterface>()
+                .To<InMemoryMessageBus>(); 
 
             //command handlers
             var kernel = Kernel as StandardKernel;
@@ -60,7 +61,7 @@ namespace Website.Application.Domain.Binding
 
         public static void BindCommandAndQueryHandlers(StandardKernel kernel)
         {
-            kernel.BindCommandAndQueryHandlersFromCallingAssembly(c => c.InTransientScope());
+            kernel.BindMessageAndQueryHandlersFromCallingAssembly(c => c.InTransientScope());
         }
 
         #endregion

@@ -14,6 +14,7 @@ using Website.Infrastructure.Command;
 using Website.Application.Domain.Content;
 using Website.Domain.Browser;
 using Website.Domain.Content.Command;
+using Website.Infrastructure.Messaging;
 using Website.Infrastructure.Query;
 
 namespace PostaFlya.Application.Domain.ExternalSource
@@ -23,16 +24,16 @@ namespace PostaFlya.Application.Domain.ExternalSource
         private readonly QueryChannelInterface _queryChannel;
         private readonly GenericQueryServiceInterface _queryService;
         private readonly UrlContentRetrieverFactoryInterface _contentRetrieverFactory;
-        private readonly CommandBusInterface _commandBus;
+        private readonly MessageBusInterface _messageBus;
         private FacebookGraph _graphApi;
         public FacebookFlierImporter(QueryChannelInterface queryChannel,GenericQueryServiceInterface queryService, 
             UrlContentRetrieverFactoryInterface contentRetrieverFactory, 
-            CommandBusInterface commandBus)
+            MessageBusInterface messageBus)
         {
             _queryChannel = queryChannel;
             _queryService = queryService;
             _contentRetrieverFactory = contentRetrieverFactory;
-            _commandBus = commandBus;
+            _messageBus = messageBus;
         }
 
         public bool CanImport(Website.Domain.Browser.BrowserInterface browser)
@@ -119,7 +120,7 @@ namespace PostaFlya.Application.Domain.ExternalSource
                 imgId = externalImage.First().Id;
             }
 
-            var res = _commandBus.Send(new CreateImageCommand()
+            var res = _messageBus.Send(new CreateImageCommand()
             {
                 MessageId = imgId,
                 Content = content,

@@ -10,18 +10,19 @@ using Website.Application.Domain.Obsolete;
 using Website.Common.Extension;
 using Website.Common.Obsolete;
 using Website.Infrastructure.Command;
+using Website.Infrastructure.Messaging;
 
 namespace PostaFlya.Controllers
 {
     [Website.Application.Domain.Obsolete.BrowserAuthorizeHttp(Roles = "Participant")]
     public class MyBoardsController : OldWebApiControllerBase
     {
-        private readonly CommandBusInterface _commandBus;
+        private readonly MessageBusInterface _messageBus;
         private readonly PostaFlyaBrowserInformationInterface _browserInformation;
 
-        public MyBoardsController(CommandBusInterface commandBus, PostaFlyaBrowserInformationInterface browserInformation)
+        public MyBoardsController(MessageBusInterface messageBus, PostaFlyaBrowserInformationInterface browserInformation)
         {
-            _commandBus = commandBus;
+            _messageBus = messageBus;
             _browserInformation = browserInformation;
         }
 
@@ -36,12 +37,12 @@ namespace PostaFlya.Controllers
                     RequireApprovalOfPostedFliers = boardCreate.RequireApprovalOfPostedFliers,
                     BoardTypeEnum = boardCreate.TypeOfBoard,
                     SourceInformation = boardCreate.VenueInformation == null ? null :boardCreate.VenueInformation.ToDomainModel(),
-                    AdminEmailAddresses = boardCreate.AdminEmailAddresses.Select(s => s.Trim()).ToList(),
+                    AdminEmailAddresses = boardCreate.AdminEmailAddresses != null ? boardCreate.AdminEmailAddresses.Select(s => s.Trim()).ToList() : null,
                     Description = boardCreate.Description
                     
                 };
 
-            var res = _commandBus.Send(createBoardCommand);
+            var res = _messageBus.Send(createBoardCommand);
             return this.GetResponseForRes(res);
         }
 
@@ -57,7 +58,7 @@ namespace PostaFlya.Controllers
                 Status = BoardStatus.Approved
             };
 
-            var res = _commandBus.Send(editBoardCommand);
+            var res = _messageBus.Send(editBoardCommand);
             return this.GetResponseForRes(res);
         }
     }

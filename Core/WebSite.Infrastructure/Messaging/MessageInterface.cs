@@ -1,4 +1,4 @@
-namespace Website.Infrastructure.Command
+namespace Website.Infrastructure.Messaging
 {
     public interface MessageInterface
     {

@@ -4,18 +4,19 @@ using Website.Domain.Content.Event;
 using Website.Infrastructure.Command;
 using Website.Domain.Service;
 using System.Linq;
+using Website.Infrastructure.Messaging;
 
 namespace Website.Domain.Content.Command
 {
-    internal class CreateImageCommandHandler : CommandHandlerInterface<CreateImageCommand>
+    internal class CreateImageCommandHandler : MessageHandlerInterface<CreateImageCommand>
     {
         private readonly ContentStorageServiceInterface _contentStorageService;
         private readonly GenericRepositoryInterface _repository;
         private readonly UnitOfWorkFactoryInterface _unitOfWorkFactory;
-        private readonly DomainEventPublishServiceInterface _publishService;
+        private readonly EventPublishServiceInterface _publishService;
 
         public CreateImageCommandHandler(ContentStorageServiceInterface contentStorageService
-            , GenericRepositoryInterface repository, UnitOfWorkFactoryInterface unitOfWorkFactory, DomainEventPublishServiceInterface publishService)
+            , GenericRepositoryInterface repository, UnitOfWorkFactoryInterface unitOfWorkFactory, EventPublishServiceInterface publishService)
         {
             _contentStorageService = contentStorageService;
             _repository = repository;
@@ -23,7 +24,7 @@ namespace Website.Domain.Content.Command
             _publishService = publishService;
         }
 
-        #region Implementation of CommandHandlerInterface<in CreateImageCommand>
+        #region Implementation of MessageHandlerInterface<in CreateImageCommand>
 
         public object Handle(CreateImageCommand command)
         {

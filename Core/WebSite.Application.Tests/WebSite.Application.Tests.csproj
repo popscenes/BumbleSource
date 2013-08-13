@@ -123,7 +123,7 @@
     <Compile Include="Extension\Email\MailMessageExtensionsTests.cs" />
     <Compile Include="Intergrations\FatZebraIntergrationTests.cs" />
     <Compile Include="Intergrations\GoogleWalletDigitalGoodsTests.cs" />
-    <Compile Include="Mocks\TestCommandQueueFactory.cs" />
+    <Compile Include="Mocks\TestMessageQueueFactory.cs" />
     <Compile Include="Content\ExifImageTests.cs" />
     <Compile Include="Email\QueuedSendEmailServiceTests.cs" />
     <Compile Include="Extension\Validation\ValidationAdaptersTests.cs" />

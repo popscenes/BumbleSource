@@ -17,6 +17,7 @@ using Website.Application.Domain.Browser;
 using Website.Domain.Browser.Command;
 using Website.Domain.Location;
 using Website.Infrastructure.Configuration;
+using Website.Infrastructure.Messaging;
 using Website.Infrastructure.Query;
 using Browser = PostaFlya.Domain.Browser.Browser;
 using Roles = Website.Domain.Browser.Roles;
@@ -29,17 +30,17 @@ namespace PostaFlya.Controllers
     {
         private readonly IdentityProviderServiceInterface _identityProviderService;
         private readonly GenericQueryServiceInterface _queryService;
-        private readonly CommandBusInterface _commandBus;
+        private readonly MessageBusInterface _messageBus;
         private readonly PostaFlyaBrowserInformationInterface _browserInformation;
         private readonly ConfigurationServiceInterface _configurationService;
         private readonly QueryChannelInterface _queryChannel;
 
         public AccountController(IdentityProviderServiceInterface identityProviderService, GenericQueryServiceInterface queryService,
-            CommandBusInterface commandBus, PostaFlyaBrowserInformationInterface browserInformation, ConfigurationServiceInterface configurationService, QueryChannelInterface queryChannel)
+            MessageBusInterface messageBus, PostaFlyaBrowserInformationInterface browserInformation, ConfigurationServiceInterface configurationService, QueryChannelInterface queryChannel)
         {
             _identityProviderService = identityProviderService;
             _queryService = queryService;
-            _commandBus = commandBus;
+            _messageBus = messageBus;
             _browserInformation = browserInformation;
             _configurationService = configurationService;
             _queryChannel = queryChannel;
@@ -60,7 +61,7 @@ namespace PostaFlya.Controllers
                Browser = browser
             };
 
-            _commandBus.Send(command);
+            _messageBus.Send(command);
             return View("Home");
         }
 
@@ -172,7 +173,7 @@ namespace PostaFlya.Controllers
             creds.CopyFieldsFrom(identityProviderCredentials);
             command.Browser.ExternalCredentials = new HashSet<BrowserIdentityProviderCredential>(){creds};
 
-            return _commandBus.Send(command);
+            return _messageBus.Send(command);
         }
 
         [Authorize]
@@ -226,7 +227,7 @@ namespace PostaFlya.Controllers
                                   UserIdentifier = principal.NameIdentifier
                               }
                       };
-            _commandBus.Send(command);
+            _messageBus.Send(command);
         }
 
         [Authorize]
@@ -283,7 +284,7 @@ namespace PostaFlya.Controllers
                 Credential = browserCreds
             };
 
-            _commandBus.Send(command);
+            _messageBus.Send(command);
 
             return RedirectToAction(callbackAction, callbackController, new { providerName = providerIdentifier, ReturnUrl });
         }

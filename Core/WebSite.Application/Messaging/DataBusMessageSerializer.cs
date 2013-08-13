@@ -1,26 +1,24 @@
-using Website.Application.Binding;
 using Website.Application.Content;
-using Website.Infrastructure.Command;
+using Website.Infrastructure.Messaging;
 using Website.Infrastructure.Types;
-using Website.Infrastructure.Util;
 
-namespace Website.Application.Command
+namespace Website.Application.Messaging
 {
-    public class DataBusCommandSerializer : CommandSerializerInterface
+    public class DataBusMessageSerializer : MessageSerializerInterface
     {
         private readonly BlobStorageInterface _blobStorage;
 
         //max 64k but base64 encoded just take off > 25% to ensure azure can handle for base 64 encoding;
         private const int MaxInlineMessageSize = 1024*8*5;
 
-        public DataBusCommandSerializer(BlobStorageInterface blobStorage)
+        public DataBusMessageSerializer(BlobStorageInterface blobStorage)
         {
             _blobStorage = blobStorage;
         }
 
         #region Implementation of CommandSerializerInterface
 
-        public CommandType FromByteArray<CommandType>(byte[] array) where CommandType : class, CommandInterface
+        public CommandType FromByteArray<CommandType>(byte[] array) where CommandType : class, MessageInterface
         {
             dynamic message = SerializeUtil.FromByteArray(array);
             if(message is DataBusRedirectToStorage)
@@ -35,7 +33,7 @@ namespace Website.Application.Command
             return message as CommandType;
         }
 
-        public byte[] ToByteArray<CommandType>(CommandType command) where CommandType : class, CommandInterface
+        public byte[] ToByteArray<CommandType>(CommandType command) where CommandType : class, MessageInterface
         {
             //byte[] message = SerializeUtil.ToByteArray(JsonSerializedTypeContainer.Get(command));
             byte[] message = SerializeUtil.ToByteArray(command);
@@ -52,7 +50,7 @@ namespace Website.Application.Command
             return message;
         }
 
-        public void ReleaseCommand<CommandType>(CommandType command) where CommandType : class, CommandInterface
+        public void ReleaseCommand<CommandType>(CommandType command) where CommandType : class, MessageInterface
         {
             _blobStorage.DeleteBlob(command.MessageId);
         }

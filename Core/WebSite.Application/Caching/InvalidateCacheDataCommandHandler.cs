@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Caching;
 using System.Text;
-using Website.Infrastructure.Command;
+using Website.Infrastructure.Messaging;
 
 namespace Website.Application.Caching
 {
-    internal class InvalidateCacheDataCommandHandler : CommandHandlerInterface<InvalidateCacheDataCommand>
+    internal class InvalidateCacheDataCommandHandler : MessageHandlerInterface<InvalidateCacheDataCommand>
     {
         private readonly ObjectCache _objectCache;
         public InvalidateCacheDataCommandHandler(ObjectCache objectCache)

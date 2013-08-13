@@ -1,7 +1,7 @@
 ﻿using NUnit.Framework;
 using Ninject;
 using Ninject.MockingKernel.Moq;
-using Website.Application.Command;
+using Website.Application.Messaging;
 using Website.Application.Tests.Mocks;
 using Website.Infrastructure.Types;
 using Website.Infrastructure.Util;
@@ -19,29 +19,29 @@ namespace Website.Application.Tests.Command
         [TestFixtureSetUp]
         public void FixtureSetUp()
         {
-            Kernel.Bind<CommandQueueFactoryInterface>()
+            Kernel.Bind<MessageQueueFactoryInterface>()
                 .ToMethod(ctx =>
-                    new TestCommandQueueFactory(Kernel)
+                    new TestMessageQueueFactory(Kernel)
                 )                
                 .InSingletonScope()
                 .WithMetadata("queuedcommandbustests", true);
 
-            Kernel.Bind<QueuedCommandBus>().ToMethod(
-                ctx => ctx.Kernel.Get<CommandQueueFactoryInterface>()
-                           .GetCommandBusForEndpoint("queuedcommandbustests") as QueuedCommandBus)
+            Kernel.Bind<QueuedMessageBus>().ToMethod(
+                ctx => ctx.Kernel.Get<MessageQueueFactoryInterface>()
+                           .GetMessageBusForEndpoint("queuedcommandbustests") as QueuedMessageBus)
                 .WithMetadata("queuedcommandbustests", true);
         }
 
         [TestFixtureTearDown]
         public void FixtureTearDown()
         {
-            Kernel.Unbind<CommandQueueFactoryInterface>();
+            Kernel.Unbind<MessageQueueFactoryInterface>();
         }
 
-        private TestCommandQueueFactory GetCommandBusFactory()
+        private TestMessageQueueFactory GetCommandBusFactory()
         {
-            return Kernel.Get<CommandQueueFactoryInterface>
-                       (ctx => ctx.Has("queuedcommandbustests")) as TestCommandQueueFactory;
+            return Kernel.Get<MessageQueueFactoryInterface>
+                       (ctx => ctx.Has("queuedcommandbustests")) as TestMessageQueueFactory;
         }
 
 
@@ -52,7 +52,7 @@ namespace Website.Application.Tests.Command
             var testCommand = new QueuedCommandSchedulerTests.TestCommand() { CommandData = "BlahBlahBlah" };
             var serializedMsg = SerializeUtil.ToByteArray(testCommand);
 
-            var bus = Kernel.Get<QueuedCommandBus>(ctx => ctx.Has("queuedcommandbustests"));
+            var bus = Kernel.Get<QueuedMessageBus>(ctx => ctx.Has("queuedcommandbustests"));
             for (int i = 0; i < 5; i++)
             {
                 bus.Send(testCommand);

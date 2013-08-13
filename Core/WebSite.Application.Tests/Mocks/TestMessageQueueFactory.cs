@@ -4,19 +4,20 @@ using System.Collections.Generic;
 using System.Linq;
 using Ninject;
 using Ninject.MockingKernel.Moq;
-using Website.Application.Command;
+using Website.Application.Messaging;
 using Website.Application.Queue;
 using Website.Infrastructure.Command;
+using Website.Infrastructure.Messaging;
 using Website.Infrastructure.Types;
 using Website.Infrastructure.Util;
 
 namespace Website.Application.Tests.Mocks
 {
-    public class TestCommandQueueFactory : CommandQueueFactoryInterface
+    public class TestMessageQueueFactory : MessageQueueFactoryInterface
     {
         private readonly MoqMockingKernel _kernel;
 
-        public TestCommandQueueFactory(MoqMockingKernel kernel)
+        public TestMessageQueueFactory(MoqMockingKernel kernel)
         {
             _kernel = kernel;
         }
@@ -35,25 +36,25 @@ namespace Website.Application.Tests.Mocks
             }
         }
 
-        public class TestCommandSerializer : CommandSerializerInterface
+        public class TestMessageSerializer : MessageSerializerInterface
         {
             public Action<string, object> CommandSerializerActionCallback { get; set; }
 
-            public CommandType FromByteArray<CommandType>(byte[] array) where CommandType : class, CommandInterface
+            public CommandType FromByteArray<CommandType>(byte[] array) where CommandType : class, MessageInterface
             {
                 var ret = SerializeUtil.FromByteArray(array) as CommandType;
                 Callback("FromByteArray", ret);
                 return ret;
             }
 
-            public byte[] ToByteArray<CommandType>(CommandType command) where CommandType : class, CommandInterface
+            public byte[] ToByteArray<CommandType>(CommandType command) where CommandType : class, MessageInterface
             {
                 var ret = SerializeUtil.ToByteArray(command);
                 Callback("ToByteArray", command);
                 return ret;
             }
 
-            public void ReleaseCommand<CommandType>(CommandType command) where CommandType : class, CommandInterface
+            public void ReleaseCommand<CommandType>(CommandType command) where CommandType : class, MessageInterface
             {
                 Callback("ReleaseCommand", command);
             }
@@ -66,14 +67,14 @@ namespace Website.Application.Tests.Mocks
         }
 
         private readonly ConcurrentDictionary<string, TestQueue> _queues = new ConcurrentDictionary<string, TestQueue>();
-        private readonly TestCommandSerializer _commandSerializer = new TestCommandSerializer();
+        private readonly TestMessageSerializer _messageSerializer = new TestMessageSerializer();
         private readonly TestMessageFactory _messageFactory = new TestMessageFactory();
         private Action<string, string, QueueMessageInterface> _queueActionCallback;
 
-        public CommandBusInterface GetCommandBusForEndpoint(string queueEndpoint)
+        public MessageBusInterface GetMessageBusForEndpoint(string queueEndpoint)
         {
-            return new QueuedCommandBus(
-                _commandSerializer,
+            return new QueuedMessageBus(
+                _messageSerializer,
                 GetQueue(queueEndpoint)
                 );
         }
@@ -84,11 +85,11 @@ namespace Website.Application.Tests.Mocks
             _queues.TryRemove(queueEndpoint, out currentQueue);
         }
 
-        public QueuedCommandProcessor GetSchedulerForEndpoint(string queueEndpoint)
+        public QueuedMessageProcessor GetProcessorForEndpoint(string queueEndpoint)
         {
-            return new QueuedCommandProcessor(GetQueue(queueEndpoint)
-                                              , _commandSerializer
-                                              , _kernel.Get<CommandHandlerRespositoryInterface>());
+            return new QueuedMessageProcessor(GetQueue(queueEndpoint)
+                                              , _messageSerializer
+                                              , _kernel.Get<MessageHandlerRespositoryInterface>());
         }
 
         private TestQueue GetQueue(string queueEndpoint)
@@ -118,7 +119,7 @@ namespace Website.Application.Tests.Mocks
 
         public void AddCmdSerializerListener(Action<string, object> commandSerializerActionCallback)
         {
-            _commandSerializer.CommandSerializerActionCallback = commandSerializerActionCallback;
+            _messageSerializer.CommandSerializerActionCallback = commandSerializerActionCallback;
         }
 
         public IList<TestQueue> GetTestQueues()

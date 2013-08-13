@@ -5,9 +5,10 @@ using Moq;
 using NUnit.Framework;
 using Ninject;
 using Ninject.MockingKernel.Moq;
-using Website.Application.Command;
+using Website.Application.Messaging;
 using Website.Application.Tests.Mocks;
 using Website.Infrastructure.Command;
+using Website.Infrastructure.Messaging;
 using Website.Infrastructure.Types;
 using Website.Infrastructure.Util;
 
@@ -26,36 +27,36 @@ namespace Website.Application.Tests.Command
         [TestFixtureSetUp]
         public void FixtureSetUp()
         {
-            Kernel.Bind<CommandQueueFactoryInterface>()
+            Kernel.Bind<MessageQueueFactoryInterface>()
                 .ToMethod( ctx => 
-                    new TestCommandQueueFactory(Kernel)
+                    new TestMessageQueueFactory(Kernel)
                 )             
                 .InSingletonScope()
                 .WithMetadata("queuedmessageprocessortests", true);
 
-            Kernel.Bind<QueuedCommandBus>().ToMethod(
-                ctx => ctx.Kernel.Get<CommandQueueFactoryInterface>()
-                           .GetCommandBusForEndpoint("queuedmessageprocessortests") as QueuedCommandBus)
+            Kernel.Bind<QueuedMessageBus>().ToMethod(
+                ctx => ctx.Kernel.Get<MessageQueueFactoryInterface>()
+                           .GetMessageBusForEndpoint("queuedmessageprocessortests") as QueuedMessageBus)
                 .WithMetadata("queuedmessageprocessortests", true);
 
-            Kernel.Bind<QueuedCommandProcessor>().ToMethod(                
-                ctx => ctx.Kernel.Get<CommandQueueFactoryInterface>()
-                        .GetSchedulerForEndpoint("queuedmessageprocessortests"))
+            Kernel.Bind<QueuedMessageProcessor>().ToMethod(                
+                ctx => ctx.Kernel.Get<MessageQueueFactoryInterface>()
+                        .GetProcessorForEndpoint("queuedmessageprocessortests"))
                 .WithMetadata("queuedmessageprocessortests", true);
         }
 
-        private TestCommandQueueFactory GetCommandBusFactory()
+        private TestMessageQueueFactory GetCommandBusFactory()
         {
-            return Kernel.Get<CommandQueueFactoryInterface>
-                       (ctx => ctx.Has("queuedmessageprocessortests")) as TestCommandQueueFactory;
+            return Kernel.Get<MessageQueueFactoryInterface>
+                       (ctx => ctx.Has("queuedmessageprocessortests")) as TestMessageQueueFactory;
         }
 
         [TestFixtureTearDown]
         public void FixtureTearDown()
         {
-            Kernel.Unbind<CommandQueueFactoryInterface>();
-            Kernel.Unbind<QueuedCommandBus>();
-            Kernel.Unbind<QueuedCommandProcessor>();
+            Kernel.Unbind<MessageQueueFactoryInterface>();
+            Kernel.Unbind<QueuedMessageBus>();
+            Kernel.Unbind<QueuedMessageProcessor>();
         }
 
         [Serializable]
@@ -77,7 +78,7 @@ namespace Website.Application.Tests.Command
   
             //setup a command handler
             var commandCount = 0;
-            var cmdHandler = Kernel.GetMock<CommandHandlerInterface<TestCommand>>();
+            var cmdHandler = Kernel.GetMock<MessageHandlerInterface<TestCommand>>();
             cmdHandler.Setup(ch => ch.Handle(It.IsAny<TestCommand>()))
                 .Returns<TestCommand>(tc =>
                                            {
@@ -86,10 +87,10 @@ namespace Website.Application.Tests.Command
                                                return true;
                                            });
 
-            Kernel.Bind<CommandHandlerInterface<TestCommand>>().ToConstant(cmdHandler.Object).InSingletonScope();
+            Kernel.Bind<MessageHandlerInterface<TestCommand>>().ToConstant(cmdHandler.Object).InSingletonScope();
 
             //Add some commands to the queue
-            var bus = Kernel.Get<QueuedCommandBus>(ctx => ctx.Has("queuedmessageprocessortests"));
+            var bus = Kernel.Get<QueuedMessageBus>(ctx => ctx.Has("queuedmessageprocessortests"));
             for (int i = 0; i < 5; i++)
             {
                 bus.Send(testCommand);
@@ -128,7 +129,7 @@ namespace Website.Application.Tests.Command
                 }
                 );
 
-            var processor = Kernel.Get<QueuedCommandProcessor>(ctx => ctx.Has("queuedmessageprocessortests"));
+            var processor = Kernel.Get<QueuedMessageProcessor>(ctx => ctx.Has("queuedmessageprocessortests"));
 
             watch.Start();
             processor.Run(cancellationTokenSource.Token);
@@ -137,7 +138,7 @@ namespace Website.Application.Tests.Command
             Assert.AreEqual(commandsReturned, deleteCount);
             Assert.AreEqual(5, deleteCount);
 
-            Kernel.Unbind<CommandHandlerInterface<TestCommand>>();
+            Kernel.Unbind<MessageHandlerInterface<TestCommand>>();
 
         }
 
@@ -175,7 +176,7 @@ namespace Website.Application.Tests.Command
 
                 });
 
-            var processor = Kernel.Get<QueuedCommandProcessor>(ctx => ctx.Has("queuedmessageprocessortests"));
+            var processor = Kernel.Get<QueuedMessageProcessor>(ctx => ctx.Has("queuedmessageprocessortests"));
 
             watch.Start();
             processor.Run(cancellationTokenSource.Token);

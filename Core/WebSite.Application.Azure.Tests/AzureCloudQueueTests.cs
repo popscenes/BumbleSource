@@ -4,7 +4,6 @@ using NUnit.Framework;
 using Ninject;
 using Website.Application.Azure.Command;
 using Website.Application.Azure.Queue;
-using Website.Application.Command;
 using Website.Application.Content;
 using Website.Application.Queue;
 

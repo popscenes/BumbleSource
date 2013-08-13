@@ -17,6 +17,7 @@ using Website.Domain.Claims.Event;
 using Website.Domain.Comments.Event;
 using Website.Infrastructure.Command;
 using Website.Infrastructure.Domain;
+using Website.Infrastructure.Messaging;
 using Website.Infrastructure.Publish;
 using Website.Infrastructure.Query;
 
@@ -70,7 +71,7 @@ namespace PostaFlya.DataRepository.Search.Event
             return (@event.OrigState != null) || (@event.NewState != null);
         }
 
-        private bool AddBoardFlyerRecs(EntityModifiedDomainEventInterface<Flier> @event)
+        private bool AddBoardFlyerRecs(EntityModifiedEventInterface<Flier> @event)
         {
             if (@event.OrigState != null && @event.OrigState.Boards != null && @event.OrigState.Boards.Any())
             {

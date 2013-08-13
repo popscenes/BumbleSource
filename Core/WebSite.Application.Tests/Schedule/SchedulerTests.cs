@@ -10,6 +10,7 @@ using Ninject.MockingKernel.Moq;
 using Website.Application.Schedule;
 using Website.Application.Schedule.Command;
 using Website.Infrastructure.Command;
+using Website.Infrastructure.Messaging;
 using Website.Infrastructure.Query;
 using Website.Test.Common;
 
@@ -26,8 +27,8 @@ namespace Website.Application.Tests.Schedule
         [TestFixtureSetUp]
         public void FixtureSetUp()
         {
-            Kernel.Bind<CommandBusInterface>()
-                  .To<DefaultCommandBus>();
+            Kernel.Bind<MessageBusInterface>()
+                  .To<InMemoryMessageBus>();
 
             var store = RepoCoreUtil.GetMockStore<JobInterface>();
 
@@ -43,7 +44,7 @@ namespace Website.Application.Tests.Schedule
         [TestFixtureTearDown]
         public void FixtureTearDown()
         {
-            Kernel.Unbind<CommandBusInterface>();
+            Kernel.Unbind<MessageBusInterface>();
         }
 
         [Test]

@@ -15,6 +15,7 @@ using Website.Domain.Payment;
 using Website.Domain.Payment.Command;
 using Website.Infrastructure.Command;
 using Website.Infrastructure.Configuration;
+using Website.Infrastructure.Messaging;
 using Website.Infrastructure.Query;
 
 namespace PostaFlya.Controllers
@@ -27,11 +28,11 @@ namespace PostaFlya.Controllers
         private readonly PaymentPackageServiceInterface _paymentPackageService;
         private readonly ConfigurationServiceInterface _configurationServiceInterface;
         private readonly HttpContextBase _httpContext;
-        private readonly CommandBusInterface _commandBus;
+        private readonly MessageBusInterface _messageBus;
 
 
         public PaymentController(PaymentServiceProviderInterface paymentServiceProvider,
-            CommandBusInterface commandBus,
+            MessageBusInterface messageBus,
             GenericQueryServiceInterface queryService,
             PostaFlyaBrowserInformationInterface browserInfo,
             PaymentPackageServiceInterface paymentPackageService,
@@ -39,7 +40,7 @@ namespace PostaFlya.Controllers
             HttpContextBase httpContext)
         {
             _paymentServiceProvider = paymentServiceProvider;
-            _commandBus = commandBus;
+            _messageBus = messageBus;
             _queryService = queryService;
             _browserInfo = browserInfo;
             _paymentPackageService = paymentPackageService;
@@ -81,7 +82,7 @@ namespace PostaFlya.Controllers
 
 
             //what if this fails?
-            var res = _commandBus.Send(transactionCommand) as MsgResponse;
+            var res = _messageBus.Send(transactionCommand) as MsgResponse;
             if ((res == null || res.IsError) && transaction.Status == PaymentTransactionStatus.Success)
             {
                 return new HttpStatusCodeResult(500);
@@ -127,7 +128,7 @@ namespace PostaFlya.Controllers
             var paymentMessage = "";
 
             //what if this fails?
-            var res = _commandBus.Send(transactionCommand) as MsgResponse;
+            var res = _messageBus.Send(transactionCommand) as MsgResponse;
             if ((res == null || res.IsError) && transaction.Status == PaymentTransactionStatus.Success)
             {
                 //todo refund

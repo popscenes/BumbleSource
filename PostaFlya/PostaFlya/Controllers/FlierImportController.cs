@@ -21,6 +21,7 @@ using Website.Application.Domain.Browser;
 using Website.Application.Domain.Content;
 using Website.Domain.Browser;
 using Website.Domain.Browser.Command;
+using Website.Infrastructure.Messaging;
 using Website.Infrastructure.Query;
 
 namespace PostaFlya.Controllers
@@ -31,17 +32,17 @@ namespace PostaFlya.Controllers
         private readonly PostaFlyaBrowserInformationInterface _browserInfoService;
         private readonly FlierImportServiceInterface _flierImportService;
         private IdentityProviderServiceInterface _identityProviderService;
-        private CommandBusInterface _commandBus;
+        private MessageBusInterface _messageBus;
         private readonly BlobStorageInterface _blobStorage;
         private readonly QueryChannelInterface _queryChannel;
 
         public FlierImportController(PostaFlyaBrowserInformationInterface browserInfoService, FlierImportServiceInterface flierImportService,
-            IdentityProviderServiceInterface identityProviderService, CommandBusInterface commandBus, [ImageStorage]BlobStorageInterface blobStorage, QueryChannelInterface queryChannel)
+            IdentityProviderServiceInterface identityProviderService, MessageBusInterface messageBus, [ImageStorage]BlobStorageInterface blobStorage, QueryChannelInterface queryChannel)
         {
             _browserInfoService = browserInfoService;
             _flierImportService = flierImportService;
             _identityProviderService = identityProviderService;
-            _commandBus = commandBus;
+            _messageBus = messageBus;
             _blobStorage = blobStorage;
             _queryChannel = queryChannel;
         }
