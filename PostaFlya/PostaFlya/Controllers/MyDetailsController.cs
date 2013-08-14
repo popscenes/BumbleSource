@@ -14,6 +14,7 @@ using Website.Infrastructure.Command;
 using PostaFlya.Models.Browser;
 using PostaFlya.Models.Tags;
 using Website.Domain.Browser.Command;
+using Website.Infrastructure.Messaging;
 using Website.Infrastructure.Query;
 using Website.Infrastructure.Util.Extension;
 
@@ -22,12 +23,12 @@ namespace PostaFlya.Controllers
     [Website.Application.Domain.Obsolete.BrowserAuthorizeHttp]
     public class MyDetailsController : OldWebApiControllerBase
     {
-        private readonly CommandBusInterface _commandBus;
+        private readonly MessageBusInterface _messageBus;
         private readonly GenericQueryServiceInterface _queryService;
 
-        public MyDetailsController(CommandBusInterface commandBus, GenericQueryServiceInterface queryService)
+        public MyDetailsController(MessageBusInterface messageBus, GenericQueryServiceInterface queryService)
         {
-            _commandBus = commandBus;
+            _messageBus = messageBus;
             _queryService = queryService;
         }
 
@@ -48,7 +49,7 @@ namespace PostaFlya.Controllers
             if (editModel.Address != null)
                 editProfileCommand.Address = editModel.Address.ToDomainModel();
 
-            var res = _commandBus.Send(editProfileCommand);
+            var res = _messageBus.Send(editProfileCommand);
             return this.GetResponseForRes(res);            
         }
 

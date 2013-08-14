@@ -5,22 +5,23 @@ using Website.Domain.Browser.Query;
 using Website.Domain.Service;
 using Website.Infrastructure.Command;
 using Website.Infrastructure.Domain;
+using Website.Infrastructure.Messaging;
 using Website.Infrastructure.Query;
 
 namespace PostaFlya.Domain.Browser.Command
 {
-    internal class AddBrowserCommandHandler: CommandHandlerInterface<AddBrowserCommand>
+    internal class AddBrowserCommandHandler: MessageHandlerInterface<AddBrowserCommand>
     {
         private readonly GenericRepositoryInterface _repository;
         private readonly UnitOfWorkFactoryInterface _unitOfWorkFactory;
         private readonly GenericQueryServiceInterface _queryService;
         private readonly QueryChannelInterface _queryChannel;
-        private readonly DomainEventPublishServiceInterface _publishService;
+        private readonly EventPublishServiceInterface _publishService;
 
         public AddBrowserCommandHandler(GenericRepositoryInterface repository, 
                                     UnitOfWorkFactoryInterface unitOfWorkFactory,
             GenericQueryServiceInterface queryService, QueryChannelInterface queryChannel,
-            DomainEventPublishServiceInterface publishService)
+            EventPublishServiceInterface publishService)
         {
             _repository = repository;
             _unitOfWorkFactory = unitOfWorkFactory;
@@ -52,8 +53,8 @@ namespace PostaFlya.Domain.Browser.Command
 
 #if DEBUG
             //lol
-            if (command.Browser.EmailAddress.ToLower().Equals("rickyaudsley@gmail.com") ||
-                command.Browser.EmailAddress.ToLower().Equals("teddymcuddles@gmail.com"))
+            if (command.Browser.EmailAddress != null && (command.Browser.EmailAddress.ToLower().Equals("rickyaudsley@gmail.com") ||
+                command.Browser.EmailAddress.ToLower().Equals("teddymcuddles@gmail.com")))
                 browser.Roles.Add(Role.Admin.ToString());
 #endif
 

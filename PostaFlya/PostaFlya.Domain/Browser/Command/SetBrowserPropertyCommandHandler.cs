@@ -1,9 +1,10 @@
 using Website.Domain.Browser.Command;
 using Website.Infrastructure.Command;
+using Website.Infrastructure.Messaging;
 
 namespace PostaFlya.Domain.Browser.Command
 {
-    internal class SetBrowserPropertyCommandHandler : CommandHandlerInterface<SetBrowserPropertyCommand>
+    internal class SetBrowserPropertyCommandHandler : MessageHandlerInterface<SetBrowserPropertyCommand>
     {
         private readonly GenericRepositoryInterface _repository;
         private readonly UnitOfWorkFactoryInterface _unitOfWorkFactory;

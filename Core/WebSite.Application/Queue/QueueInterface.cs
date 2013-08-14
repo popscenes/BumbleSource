@@ -1,5 +1,4 @@
 using System;
-using Website.Application.Command;
 
 namespace Website.Application.Queue
 {

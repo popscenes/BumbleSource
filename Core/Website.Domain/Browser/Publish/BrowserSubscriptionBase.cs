@@ -1,18 +1,19 @@
 using System.Linq;
 using Website.Domain.Browser.Command;
 using Website.Infrastructure.Command;
+using Website.Infrastructure.Messaging;
 using Website.Infrastructure.Util.Extension;
 
 namespace Website.Domain.Browser.Publish
 {
     public abstract class BrowserSubscriptionBase<PublishType> : BrowserSubscriptionInterface<PublishType>
     {
-        private readonly CommandBusInterface _commandBus;
+        private readonly MessageBusInterface _messageBus;
 
         
-        protected BrowserSubscriptionBase(CommandBusInterface commandBus)
+        protected BrowserSubscriptionBase(MessageBusInterface messageBus)
         {
-            _commandBus = commandBus;
+            _messageBus = messageBus;
         }
 
         public bool Handle(PublishType @event)
@@ -33,7 +34,7 @@ namespace Website.Domain.Browser.Publish
 
         public bool BrowserSubscribe(Website.Domain.Browser.BrowserInterface browser)
         {
-            _commandBus.Send(new SetBrowserPropertyCommand()
+            _messageBus.Send(new SetBrowserPropertyCommand()
                                  {
                                      Browser = browser,
                                      PropertyName = SubscriptionName,
@@ -44,7 +45,7 @@ namespace Website.Domain.Browser.Publish
 
         public bool BrowserUnsubscribe(Website.Domain.Browser.BrowserInterface browser)
         {
-            _commandBus.Send(new SetBrowserPropertyCommand()
+            _messageBus.Send(new SetBrowserPropertyCommand()
                                  {
                                      Browser = browser,
                                      PropertyName = SubscriptionName,

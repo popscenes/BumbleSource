@@ -1,4 +1,5 @@
 using System;
+using Website.Infrastructure.Messaging;
 
 namespace Website.Infrastructure.Command
 {

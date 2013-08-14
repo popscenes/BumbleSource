@@ -23,7 +23,7 @@ namespace PostaFlya.Mocks.Domain.Binding
             kernel.BindMockDomainQueryHandlersForTypesFrom(syntax => syntax.InTransientScope()
                     , Assembly.GetAssembly(typeof(Comment)) 
                     , Assembly.GetAssembly(typeof (PostaFlya.Domain.Flier.Flier)));
-            kernel.BindCommandAndQueryHandlersFromCallingAssembly(syntax => syntax.InTransientScope());
+            kernel.BindMessageAndQueryHandlersFromCallingAssembly(syntax => syntax.InTransientScope());
 
         }
     }

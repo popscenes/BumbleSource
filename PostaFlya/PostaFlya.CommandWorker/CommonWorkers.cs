@@ -4,8 +4,8 @@ using System.Threading.Tasks;
 using Ninject;
 using Ninject.Modules;
 using PostaFlya.Application.Domain.Binding;
-using Website.Application.Command;
 using Website.Application.Domain.Binding;
+using Website.Application.Messaging;
 using Website.Application.Schedule;
 using Website.Azure.Common.Environment;
 
@@ -47,7 +47,7 @@ namespace PostaFlya.CommandWorker
         {
             var task = new Task(() =>
                 {
-                    var processor = _kernel.Get<QueuedCommandProcessor>(ctx => ctx.Has("workercommandqueue"));
+                    var processor = _kernel.Get<QueuedMessageProcessor>(ctx => ctx.Has("workercommandqueue"));
                     processor.Run(_cancellationTokenSource.Token);
                 }, TaskCreationOptions.LongRunning);
             task.Start();

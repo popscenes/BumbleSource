@@ -3,22 +3,23 @@ using Website.Domain.Content.Event;
 using Website.Infrastructure.Command;
 using Website.Domain.Service;
 using Website.Domain.Location;
+using Website.Infrastructure.Messaging;
 using Website.Infrastructure.Query;
 
 namespace Website.Domain.Content.Command
 {
-    internal class SetImageMetaDataCommandHandler : CommandHandlerInterface<SetImageMetaDataCommand>
+    internal class SetImageMetaDataCommandHandler : MessageHandlerInterface<SetImageMetaDataCommand>
     {
         private readonly GenericRepositoryInterface _repository;
         private readonly UnitOfWorkFactoryInterface _unitOfWorkFactory;
         private readonly ContentStorageServiceInterface _contentStorageService;
-        private readonly DomainEventPublishServiceInterface _publishService;
+        private readonly EventPublishServiceInterface _publishService;
         private readonly GenericQueryServiceInterface _genericQueryService;
 
 
         public SetImageMetaDataCommandHandler(GenericRepositoryInterface repository
             , UnitOfWorkFactoryInterface unitOfWorkFactory
-            , ContentStorageServiceInterface contentStorageService, DomainEventPublishServiceInterface publishService, GenericQueryServiceInterface genericQueryService)
+            , ContentStorageServiceInterface contentStorageService, EventPublishServiceInterface publishService, GenericQueryServiceInterface genericQueryService)
         {
             _repository = repository;
             _unitOfWorkFactory = unitOfWorkFactory;
@@ -27,7 +28,7 @@ namespace Website.Domain.Content.Command
             _genericQueryService = genericQueryService;
         }
 
-        #region Implementation of CommandHandlerInterface<in SetImageStatusCommand>
+        #region Implementation of MessageHandlerInterface<in SetImageStatusCommand>
 
         public object Handle(SetImageMetaDataCommand command)
         {

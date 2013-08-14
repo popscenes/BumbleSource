@@ -9,7 +9,7 @@ namespace PostaFlya.Domain.Browser.Event
 {
     [Serializable]
     public class BrowserModifiedEvent
-        : EntityModifiedDomainEvent<Browser> 
+        : EntityModifiedEvent<Browser> 
     {
     }
 }

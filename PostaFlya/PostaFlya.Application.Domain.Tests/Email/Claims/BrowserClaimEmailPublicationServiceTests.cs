@@ -13,6 +13,7 @@ using Website.Application.Email;
 using Website.Domain.Claims;
 using Website.Domain.Claims.Event;
 using Website.Infrastructure.Command;
+using Website.Infrastructure.Messaging;
 using Website.Mocks.Domain.Data;
 using BrowserTestData = PostaFlya.Mocks.Domain.Data.BrowserTestData;
 using TestRepositoriesNinjectModule = PostaFlya.Mocks.Domain.Data.TestRepositoriesNinjectModule;
@@ -32,15 +33,15 @@ namespace PostaFlya.Application.Domain.Tests.Email.Claims
         {
             Kernel.Rebind<BrowserClaimEmailSubscription>()
                 .ToSelf().InTransientScope();
-            Kernel.Rebind<CommandBusInterface>()
-                .To<DefaultCommandBus>();
+            Kernel.Rebind<MessageBusInterface>()
+                .To<InMemoryMessageBus>();
         }
 
         [TestFixtureTearDown]
         public void FixtureTearDown()
         {
             Kernel.Unbind<BrowserClaimEmailSubscription>();
-            Kernel.Unbind<CommandBusInterface>();
+            Kernel.Unbind<MessageBusInterface>();
             Kernel.Unbind <SendEmailServiceInterface>();
         }
 

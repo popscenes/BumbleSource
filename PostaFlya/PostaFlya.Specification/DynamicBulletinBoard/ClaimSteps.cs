@@ -17,6 +17,7 @@ using Website.Domain.Claims;
 using Website.Domain.Claims.Event;
 using Website.Domain.Service;
 using Website.Infrastructure.Command;
+using Website.Infrastructure.Messaging;
 using Website.Infrastructure.Publish;
 using Website.Infrastructure.Query;
 using PostaFlya.Mocks.Domain.Data;

@@ -8,14 +8,15 @@ using Website.Application.Azure.Queue;
 using Website.Application.Azure.Util;
 using Website.Application.Azure.WebsiteInformation;
 using Website.Application.Binding;
-using Website.Application.Command;
 using Website.Application.Content;
+using Website.Application.Messaging;
 using Website.Application.Queue;
 using Website.Application.Util;
 using Website.Application.WebsiteInformation;
 using Website.Azure.Common.TableStorage;
 using Website.Infrastructure.Binding;
 using Website.Infrastructure.Command;
+using Website.Infrastructure.Messaging;
 using Website.Infrastructure.Util;
 
 namespace Website.Application.Azure.Binding
@@ -26,8 +27,8 @@ namespace Website.Application.Azure.Binding
         {
             Trace.TraceInformation("Binding AzureApplicationNinjectBinding");
 
-            Bind<CommandQueueFactoryInterface>()
-                .To<AzureCommandQueueFactory>()
+            Bind<MessageQueueFactoryInterface>()
+                .To<AzureMessageQueueFactory>()
                 .InThreadScope();
 
             //queue factory
@@ -36,17 +37,17 @@ namespace Website.Application.Azure.Binding
                   .InThreadScope();
             
             //worker command queue
-            Kernel.Bind<CommandBusInterface>().ToMethod(
+            Kernel.Bind<MessageBusInterface>().ToMethod(
                 ctx =>
-                ctx.Kernel.Get<CommandQueueFactoryInterface>()
-                    .GetCommandBusForEndpoint("workercommandqueue")
+                ctx.Kernel.Get<MessageQueueFactoryInterface>()
+                    .GetMessageBusForEndpoint("workercommandqueue")
             )
             .WhenTargetHas<WorkerCommandBusAttribute>();
 
-            Kernel.Bind<QueuedCommandProcessor>().ToMethod(
+            Kernel.Bind<QueuedMessageProcessor>().ToMethod(
                 ctx =>
-                ctx.Kernel.Get<CommandQueueFactoryInterface>()
-                    .GetSchedulerForEndpoint("workercommandqueue")
+                ctx.Kernel.Get<MessageQueueFactoryInterface>()
+                    .GetProcessorForEndpoint("workercommandqueue")
                 )
                 .WithMetadata("workercommandqueue", true);
             //worker command queue

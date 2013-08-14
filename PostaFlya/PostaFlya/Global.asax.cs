@@ -15,8 +15,8 @@ using PostaFlya.Controllers;
 using PostaFlya.Domain.Flier.Command;
 using PostaFlya.Views.Board.Widget;
 using Website.Application.Authentication;
-using Website.Application.Command;
 using Website.Application.Domain.TinyUrl.Web;
+using Website.Application.Messaging;
 using Website.Application.Schedule;
 using Website.Application.WebsiteInformation;
 using Website.Application.Extension.Validation;
@@ -383,7 +383,7 @@ namespace PostaFlya
                 =>
                     {
                         //will start afresh if there is an unhandled exception
-                        var processor = NinjectWebCommon.bootstrapper.Kernel.Get<QueuedCommandProcessor>(ctx => ctx.Has("workercommandqueue"));
+                        var processor = NinjectWebCommon.bootstrapper.Kernel.Get<QueuedMessageProcessor>(ctx => ctx.Has("workercommandqueue"));
                         processor.Run(t.Token);                   
                     });
             _commandQueueWorker.Start();

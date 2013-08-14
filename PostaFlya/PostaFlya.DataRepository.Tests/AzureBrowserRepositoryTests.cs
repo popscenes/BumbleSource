@@ -12,6 +12,7 @@ using Website.Infrastructure.Authentication;
 using Website.Infrastructure.Command;
 using Website.Domain.Location;
 using Website.Domain.Tag;
+using Website.Infrastructure.Messaging;
 using Website.Infrastructure.Publish;
 using Website.Infrastructure.Query;
 using PostaFlya.Mocks.Domain.Data;

@@ -5,21 +5,22 @@ using Website.Application.Email.Command;
 using Website.Application.Extension.Email;
 using Website.Infrastructure.Binding;
 using Website.Infrastructure.Command;
+using Website.Infrastructure.Messaging;
 
 namespace Website.Application.Email
 {
     public class QueuedSendEmailService : SendEmailServiceInterface
     {
-        private readonly CommandBusInterface _commandBus;
+        private readonly MessageBusInterface _messageBus;
 
-        public QueuedSendEmailService([WorkerCommandBus]CommandBusInterface commandBus)
+        public QueuedSendEmailService([WorkerCommandBus]MessageBusInterface messageBus)
         {
-            _commandBus = commandBus;
+            _messageBus = messageBus;
         }
 
         public void Send(MailMessage email)
         {
-            _commandBus
+            _messageBus
                 .Send(
                     new SendMailCommand()
                         {

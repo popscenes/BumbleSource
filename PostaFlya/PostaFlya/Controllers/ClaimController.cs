@@ -18,6 +18,7 @@ using Website.Domain.Browser;
 using Website.Domain.Browser.Query;
 using Website.Infrastructure.Command;
 using Website.Infrastructure.Domain;
+using Website.Infrastructure.Messaging;
 using Website.Infrastructure.Query;
 using Website.Domain.Claims;
 using Website.Domain.Claims.Command;
@@ -27,18 +28,18 @@ namespace PostaFlya.Controllers
     [Website.Application.Domain.Obsolete.BrowserAuthorizeHttp]
     public class ClaimController : OldWebApiControllerBase
     {
-        private readonly CommandBusInterface _commandBus;
+        private readonly MessageBusInterface _messageBus;
         private readonly GenericQueryServiceInterface _queryService;
         private readonly BlobStorageInterface _blobStorage;
         private readonly QueryChannelInterface _queryChannel;
 
 
-        public ClaimController(CommandBusInterface commandBus
+        public ClaimController(MessageBusInterface messageBus
             , GenericQueryServiceInterface queryService
             , [ImageStorage]BlobStorageInterface blobStorage
             , QueryChannelInterface queryChannel)
         {
-            _commandBus = commandBus;
+            _messageBus = messageBus;
             _queryService = queryService;
             _blobStorage = blobStorage;
             _queryChannel = queryChannel;
@@ -68,7 +69,7 @@ namespace PostaFlya.Controllers
                                       Message = claim.ClaimerMessage 
                                   };
 
-            var res = _commandBus.Send(claimCommand);
+            var res = _messageBus.Send(claimCommand);
             return this.GetResponseForRes(res);
         }
 

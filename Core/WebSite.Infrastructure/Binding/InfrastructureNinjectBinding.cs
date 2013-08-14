@@ -13,6 +13,7 @@ using Ninject.Modules;
 using Ninject.Syntax;
 using Website.FunctionalLib;
 using Website.Infrastructure.Command;
+using Website.Infrastructure.Messaging;
 using Website.Infrastructure.Publish;
 using Website.Infrastructure.Query;
 using Website.Infrastructure.Types;
@@ -34,8 +35,8 @@ namespace Website.Infrastructure.Binding
             _resolver = Kernel;
             Bind<IResolutionRoot>()
                 .ToMethod(ctx => _resolver)
-                .WhenInjectedInto<DefaultCommandHandlerRepository>();
-            Bind<CommandHandlerRespositoryInterface>().To<DefaultCommandHandlerRepository>().InSingletonScope();
+                .WhenInjectedInto<DefaultMessageHandlerRepository>();
+            Bind<MessageHandlerRespositoryInterface>().To<DefaultMessageHandlerRepository>().InSingletonScope();
 
             Bind<UnitOfWorkFactoryInterface>().To<UnitOfWorkFactory>();
 
@@ -73,7 +74,7 @@ namespace Website.Infrastructure.Binding
                     .Configure(ninjectConfiguration));
         }
 
-        public static void BindCommandAndQueryHandlersFromCallingAssembly(this IKernel kernel
+        public static void BindMessageAndQueryHandlersFromCallingAssembly(this IKernel kernel
                                                                   , ConfigurationAction ninjectConfiguration)
         {
             var asm = Assembly.GetCallingAssembly();
@@ -86,7 +87,7 @@ namespace Website.Infrastructure.Binding
         {
             Trace.TraceInformation("Binding command handlers from {0}", asm.FullName);
             //command handlers
-            kernel.BindAllInterfacesFromAssemblyFor(asm, typeof(CommandHandlerInterface<>), ninjectConfiguration);
+            kernel.BindAllInterfacesFromAssemblyFor(asm, typeof(MessageHandlerInterface<>), ninjectConfiguration);
 
 
             //query handlers
@@ -133,93 +134,50 @@ namespace Website.Infrastructure.Binding
             }
         }
 
-        public static void BindGenericQueryHandlersFromAssemblyForTypesFrom2(this IKernel kernel
-            , Assembly asm                                                                       
-            , ConfigurationAction
-                ninjectConfiguration
-            ,
-            Func<Type, bool> typeSelector,
-            Func<Type, bool> querySelector,
-            params Assembly[] typeAssemblies)
-        {
-            Trace.TraceInformation("Binding generic query handler from {0} for {1}", asm.FullName, typeAssemblies.Aggregate("",(s, assembly) => s + " " + assembly.GetName()));
-
-            var genHandlers = asm.DefinedTypes
-                                 .Select(info => info.AsType())
-                                 .Where(
-                                     arg =>
-                                     arg.IsGenericType && !arg.IsInterface && arg.IsGenericTypeDefinition &&
-                                     typeof(QueryHandlerInterface).IsAssignableFrom(arg)
-                                     && (querySelector == null || querySelector(arg))).ToList();
-
-            if (typeSelector == null) typeSelector = arg => true;
-            var argTypes = typeAssemblies.SelectMany(assembly => assembly.DefinedTypes)  
-                        .Select(info => info.AsType())
-                        .Where(typeSelector).ToList();
-
-            argTypes = TypeUtil.ExpandGenericTypes(argTypes);
-
-            argTypes.AddRange(genHandlers);
-
-            var qhInt = typeof(QueryHandlerInterface<,>);
-
-            var all = TypeUtil.ExpandGenericTypes(argTypes);
-            all.ForEach(obj =>
-                {
-                    var iface = obj.GetInterfaces().FirstOrDefault(arg1 =>
-                                                                   arg1.IsGenericType &&
-                                                                   arg1.GetGenericTypeDefinition() == qhInt);
-                    if (iface != null)
-                    {
-                        kernel.Bind(iface).To(obj); 
-                    }
-                });
-
-
-            
-
-            
-
-
-//            foreach (var handler in genHandlers)
-//            {
-//                var args = handler.GetGenericArguments();
-//                var compatArgs = args.Select(a =>
-//                    {
-//                        var c = a.GetGenericParameterConstraints();
-//                        return argTypes.Where(t => TypeUtil.CheckGenericParameterAttributes(a, t) &&
-//                                                   c.All(
-//                                                       constype => 
-//                                                       constype.IsAssignableFrom(t) ||
-//                                                       constype.IsGenericType && t.GetInterfaces().Any(i => 
-//                                                           i.IsGenericType && 
-//                                                           i.GetGenericTypeDefinition() == constype.GetGenericTypeDefinition())
-//                                                       )).ToFSharpList();
-//                    }).ToFSharpList();
-//
-//                
-//                   
-//                var func = new Lists();
-//                var all = func.Cartesian<FSharpList<Type>, Type>(compatArgs);
-//                foreach (var argset in all)
-//                {
-//                    var inst = handler.MakeGenericType(argset.ToArray());
-//                    var iface = inst.GetInterfaces().FirstOrDefault(arg1 =>
-//                                                            arg1.IsGenericType && arg1.GetGenericTypeDefinition() == qhInt);
-//                    kernel.Bind(iface).To(inst); 
-//                }
-//            }
-        }
-
-//        public static void BindGenericQueryHandlersFromCallingAssemblyForTypesFrom(this IKernel kernel
-//            , ConfigurationAction ninjectConfiguration
-//            , Func<Type, bool> typeSelector, Func<Type, bool> querySelector,
+//        public static void BindGenericQueryHandlersFromAssemblyForTypesFrom2(this IKernel kernel
+//            , Assembly asm                                                                       
+//            , ConfigurationAction
+//                ninjectConfiguration
+//            ,
+//            Func<Type, bool> typeSelector,
+//            Func<Type, bool> querySelector,
 //            params Assembly[] typeAssemblies)
 //        {
-//            var asm = Assembly.GetCallingAssembly();
-//            kernel.BindGenericQueryHandlersFromAssemblyForTypesFrom(asm,  ninjectConfiguration
-//                , typeSelector, querySelector, typeAssemblies);
+//            Trace.TraceInformation("Binding generic query handler from {0} for {1}", asm.FullName, typeAssemblies.Aggregate("",(s, assembly) => s + " " + assembly.GetName()));
+//
+//            var genHandlers = asm.DefinedTypes
+//                                 .Select(info => info.AsType())
+//                                 .Where(
+//                                     arg =>
+//                                     arg.IsGenericType && !arg.IsInterface && arg.IsGenericTypeDefinition &&
+//                                     typeof(QueryHandlerInterface).IsAssignableFrom(arg)
+//                                     && (querySelector == null || querySelector(arg))).ToList();
+//
+//            if (typeSelector == null) typeSelector = arg => true;
+//            var argTypes = typeAssemblies.SelectMany(assembly => assembly.DefinedTypes)  
+//                        .Select(info => info.AsType())
+//                        .Where(typeSelector).ToList();
+//
+//            argTypes = TypeUtil.ExpandGenericTypes(argTypes);
+//
+//            argTypes.AddRange(genHandlers);
+//
+//            var qhInt = typeof(QueryHandlerInterface<,>);
+//
+//            var all = TypeUtil.ExpandGenericTypes(argTypes);
+//            all.ForEach(obj =>
+//                {
+//                    var iface = obj.GetInterfaces().FirstOrDefault(arg1 =>
+//                                                                   arg1.IsGenericType &&
+//                                                                   arg1.GetGenericTypeDefinition() == qhInt);
+//                    if (iface != null)
+//                    {
+//                        kernel.Bind(iface).To(obj); 
+//                    }
+//                });
+//
 //        }
+
 
         public static void BindRepositoriesFromCallingAssembly(this StandardKernel kernel
             , ConfigurationAction ninjectConfiguration

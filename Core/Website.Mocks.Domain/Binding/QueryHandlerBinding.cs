@@ -18,7 +18,7 @@ namespace Website.Mocks.Domain.Binding
             var kernel = Kernel as StandardKernel;
 
 
-            kernel.BindCommandAndQueryHandlersFromCallingAssembly(syntax => syntax.InTransientScope());
+            kernel.BindMessageAndQueryHandlersFromCallingAssembly(syntax => syntax.InTransientScope());
         }
     }
 

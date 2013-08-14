@@ -11,6 +11,7 @@ using PostaFlya.Domain.Venue;
 using Website.Domain.Location;
 using Website.Infrastructure.Command;
 using Website.Infrastructure.Domain;
+using Website.Infrastructure.Messaging;
 using Website.Infrastructure.Publish;
 
 namespace PostaFlya.Mocks.Domain.Data

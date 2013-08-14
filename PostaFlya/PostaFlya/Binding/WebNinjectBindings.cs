@@ -23,6 +23,7 @@ using Website.Infrastructure.Command;
 using Website.Infrastructure.Configuration;
 using Website.Application.Domain.Content;
 using Website.Domain.Content;
+using Website.Infrastructure.Messaging;
 
 namespace PostaFlya.Binding
 {
@@ -35,11 +36,11 @@ namespace PostaFlya.Binding
             Trace.TraceInformation("Binding WebNinjectBindings");
 
             //command bus
-            Bind<CommandBusInterface>()
-                .To<DefaultCommandBus>().WhenInjectedInto<Controller>()
+            Bind<MessageBusInterface>()
+                .To<InMemoryMessageBus>().WhenInjectedInto<Controller>()
                 .InSingletonScope();
-            Bind<CommandBusInterface>()
-                .To<DefaultCommandBus>().WhenInjectedInto<ApiController>()
+            Bind<MessageBusInterface>()
+                .To<InMemoryMessageBus>().WhenInjectedInto<ApiController>()
                 .InSingletonScope();
 
             Bind<IIdentity>()
@@ -170,7 +171,7 @@ namespace PostaFlya.Binding
         public static void BindViewModelMappers(IKernel kernel)
         {
             kernel.BindViewModelMappersFromCallingAssembly();
-            kernel.BindCommandAndQueryHandlersFromCallingAssembly(c => c.InTransientScope());
+            kernel.BindMessageAndQueryHandlersFromCallingAssembly(c => c.InTransientScope());
 
             kernel.BindWebsiteCommonQueryHandlersForTypesFrom(c => c.InRequestScope()
                  , Assembly.GetAssembly(typeof(InfrastructureNinjectBinding))

@@ -8,6 +8,7 @@ using Website.Domain.Browser;
 using Website.Domain.Browser.Command;
 using Website.Domain.Browser.Publish;
 using Website.Infrastructure.Command;
+using Website.Infrastructure.Messaging;
 using Website.Infrastructure.Publish;
 using Website.Infrastructure.Query;
 using Website.Mocks.Domain.Data;
@@ -25,13 +26,13 @@ namespace Website.Domain.Tests.Browser.Publish
         public static void FixtureSetUp(MoqMockingKernel kernel)
         {
 
-            kernel.Bind<CommandBusInterface>().To<DefaultCommandBus>();
+            kernel.Bind<MessageBusInterface>().To<InMemoryMessageBus>();
             kernel.Bind<BrowserSubscriptionInterface>().To<TestPublishClass>();
             kernel.Bind<HandleEventInterface<TestPublishObject>>().To<TestPublishClass>();
             kernel.Bind<BroadcastServiceInterface>().To<DefaultBroadcastService>();
-            // kernel.Bind<CommandHandlerInterface<SetBrowserPropertyCommand>>().To<SetBrowserPropertyCommandHandler>();
+            // kernel.Bind<MessageHandlerInterface<SetBrowserPropertyCommand>>().To<SetBrowserPropertyCommandHandler>();
 
-            kernel.Bind<CommandHandlerInterface<SetBrowserPropertyCommand>>().To<TestSetBrowserPropertyCommandHandler>();
+            kernel.Bind<MessageHandlerInterface<SetBrowserPropertyCommand>>().To<TestSetBrowserPropertyCommandHandler>();
         }
 
         [TestFixtureSetUp]
@@ -42,7 +43,7 @@ namespace Website.Domain.Tests.Browser.Publish
 
         public static void FixtureTearDown(MoqMockingKernel kernel)
         {
-            kernel.Unbind<CommandBusInterface>();
+            kernel.Unbind<MessageBusInterface>();
             kernel.Unbind<BrowserSubscriptionInterface>();
             kernel.Unbind<HandleEventInterface<TestPublishObject>>();
             kernel.Unbind<BroadcastServiceInterface>();
@@ -130,8 +131,8 @@ namespace Website.Domain.Tests.Browser.Publish
         public class TestPublishClass : BrowserSubscriptionBase<TestPublishObject>
         {
             private readonly GenericQueryServiceInterface _browserQueryService;
-            public TestPublishClass(CommandBusInterface commandBus, GenericQueryServiceInterface browserQueryService) 
-                : base(commandBus)
+            public TestPublishClass(MessageBusInterface messageBus, GenericQueryServiceInterface browserQueryService) 
+                : base(messageBus)
             {
                 _browserQueryService = browserQueryService;
             }
@@ -160,7 +161,7 @@ namespace Website.Domain.Tests.Browser.Publish
         }
     }
 
-    internal class TestSetBrowserPropertyCommandHandler : CommandHandlerInterface<SetBrowserPropertyCommand>
+    internal class TestSetBrowserPropertyCommandHandler : MessageHandlerInterface<SetBrowserPropertyCommand>
     {
         private readonly GenericRepositoryInterface _repository;
         private readonly UnitOfWorkFactoryInterface _unitOfWorkFactory;

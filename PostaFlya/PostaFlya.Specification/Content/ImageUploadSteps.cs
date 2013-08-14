@@ -18,6 +18,7 @@ using PostaFlya.Specification.Util;
 using Website.Domain.Content;
 using Website.Domain.Content.Command;
 using Website.Domain.Location;
+using Website.Infrastructure.Messaging;
 using Website.Infrastructure.Query;
 using Website.Mocks.Domain.Data;
 
@@ -91,7 +92,7 @@ namespace PostaFlya.Specification.Content
             var retImg = imageQs.FindById<Image>(img);
             Assert.IsNotNull(retImg);
 
-           var bus = SpecUtil.CurrIocKernel.Get<CommandBusInterface>();
+           var bus = SpecUtil.CurrIocKernel.Get<MessageBusInterface>();
             bus.Send(new SetImageStatusCommand()
                          {
                              Id = retImg.Id,
@@ -118,7 +119,7 @@ namespace PostaFlya.Specification.Content
             var retImg = imageQs.FindById<Image>(img);
             Assert.IsNotNull(retImg);
 
-            var bus = SpecUtil.CurrIocKernel.Get<CommandBusInterface>();
+            var bus = SpecUtil.CurrIocKernel.Get<MessageBusInterface>();
             bus.Send(new SetImageStatusCommand()
             {
                 Id = retImg.Id,
@@ -155,7 +156,7 @@ namespace PostaFlya.Specification.Content
             Assert.IsNotNull(longitude);
 
             //in image process
-            var bus = SpecUtil.CurrIocKernel.Get<CommandBusInterface>();
+            var bus = SpecUtil.CurrIocKernel.Get<MessageBusInterface>();
             bus.Send(new SetImageMetaDataCommand()
             {
                 MessageId = Guid.NewGuid().ToString(),

@@ -10,6 +10,7 @@ using Website.Application.Domain.Browser.Web;
 using Website.Domain.Browser.Command;
 using Website.Infrastructure.Binding;
 using Website.Infrastructure.Command;
+using Website.Infrastructure.Messaging;
 
 namespace PostaFlya.Controllers
 {
@@ -17,12 +18,12 @@ namespace PostaFlya.Controllers
     public class SneakyController : Controller
     {
         private readonly ObjectCache _cache;
-        private readonly CommandBusInterface _commandBus;
+        private readonly MessageBusInterface _messageBus;
 
-        public SneakyController(ObjectCache cache, CommandBusInterface commandBus)
+        public SneakyController(ObjectCache cache, MessageBusInterface messageBus)
         {
             _cache = cache;
-            _commandBus = commandBus;
+            _messageBus = messageBus;
         }
 
         //
@@ -38,7 +39,7 @@ namespace PostaFlya.Controllers
 
         public ActionResult SetBrowserCredit(string browserId, double credit)
         {
-            _commandBus.Send(new SetBrowserCreditCommand()
+            _messageBus.Send(new SetBrowserCreditCommand()
                 {
                     BrowserId = browserId,
                     Credit = credit
@@ -48,7 +49,7 @@ namespace PostaFlya.Controllers
 
         public ActionResult ReindexFlyers()
         {
-            _commandBus.Send(new ReindexFlyersCommand());
+            _messageBus.Send(new ReindexFlyersCommand());
             return RedirectToAction("GigGuide", "Bulletin");
         }
 

@@ -4,22 +4,23 @@ using Website.Domain.Browser.Query;
 using Website.Domain.Service;
 using Website.Infrastructure.Command;
 using Website.Infrastructure.Domain;
+using Website.Infrastructure.Messaging;
 using Website.Infrastructure.Query;
 
 namespace PostaFlya.Domain.Browser.Command
 {
-    internal class ProfileEditCommandHandler : CommandHandlerInterface<ProfileEditCommand>
+    internal class ProfileEditCommandHandler : MessageHandlerInterface<ProfileEditCommand>
     {
         private readonly GenericRepositoryInterface _repository;
         private readonly UnitOfWorkFactoryInterface _unitOfWorkFactory;
         private readonly GenericQueryServiceInterface _queryService;
         private readonly QueryChannelInterface _queryChannel;
-        private readonly DomainEventPublishServiceInterface _publishService;
+        private readonly EventPublishServiceInterface _publishService;
 
 
         public ProfileEditCommandHandler(GenericRepositoryInterface repository
             , UnitOfWorkFactoryInterface unitOfWorkFactory
-            , GenericQueryServiceInterface queryService, QueryChannelInterface queryChannel, DomainEventPublishServiceInterface publishService)
+            , GenericQueryServiceInterface queryService, QueryChannelInterface queryChannel, EventPublishServiceInterface publishService)
         {
             _repository = repository;
             _unitOfWorkFactory = unitOfWorkFactory;

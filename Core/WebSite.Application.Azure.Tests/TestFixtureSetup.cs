@@ -6,7 +6,6 @@ using Ninject;
 using Ninject.MockingKernel.Moq;
 using Ninject.Modules;
 using Website.Application.Azure.Binding;
-using Website.Application.Command;
 using Website.Application.Content;
 using Website.Application.Queue;
 using Website.Azure.Common.Binding;

@@ -6,14 +6,14 @@ using System.Linq;
 using Website.Application.Binding;
 using Website.Application.Content;
 using Website.Application.Extension.Content;
-using Website.Infrastructure.Command;
 using Website.Domain.Content;
 using Website.Domain.Content.Command;
+using Website.Infrastructure.Messaging;
 using Image = System.Drawing.Image;
 
 namespace Website.Application.Domain.Content.Command
 {
-    public class ImageProcessCommandHandler : CommandHandlerInterface<ImageProcessCommand>
+    public class ImageProcessCommandHandler : MessageHandlerInterface<ImageProcessCommand>
     {
         public static readonly int MaxWidth = ImageUtil.A4300DpiSize.Width;
         public static readonly int MaxHeight = ImageUtil.A4300DpiSize.Width;
@@ -23,18 +23,18 @@ namespace Website.Application.Domain.Content.Command
 
 
         private readonly BlobStorageInterface _blobStorage;
-        private readonly CommandBusInterface _commandBus;
+        private readonly MessageBusInterface _messageBus;
 
         public ImageProcessCommandHandler([ImageStorage] BlobStorageInterface blobStorage,
-            CommandBusInterface commandBus)
+            MessageBusInterface messageBus)
         {
             _blobStorage = blobStorage;
-            _commandBus = commandBus;
+            _messageBus = messageBus;
         }
 
 
 
-        #region Implementation of CommandHandlerInterface<in ImageProcessCommand>
+        #region Implementation of MessageHandlerInterface<in ImageProcessCommand>
 
         public object Handle(ImageProcessCommand command)
         {
@@ -50,7 +50,7 @@ namespace Website.Application.Domain.Content.Command
                 catch (Exception e)
                 {
                     Trace.TraceInformation("ImageProcessCommandHandler Error: {0}, Stack {1}", e.Message, e.StackTrace);
-                    _commandBus.Send(new SetImageStatusCommand()
+                    _messageBus.Send(new SetImageStatusCommand()
                     {
                         Id = command.MessageId, // commandid == imageid
                         Status = ImageStatus.Failed
@@ -97,7 +97,7 @@ namespace Website.Application.Domain.Content.Command
 
                 ProcessMetaData(img, command.MessageId, dims);
 
-                _commandBus.Send(new SetImageStatusCommand()
+                _messageBus.Send(new SetImageStatusCommand()
                                      {
                                          Id = command.MessageId, // this commandid == imageid
                                          Status = ImageStatus.Ready,
@@ -135,7 +135,7 @@ namespace Website.Application.Domain.Content.Command
             if (string.IsNullOrWhiteSpace(title))
                 title = exif.GetImageDescription();
 
-            _commandBus.Send(new SetImageMetaDataCommand()
+            _messageBus.Send(new SetImageMetaDataCommand()
             {
                 Id = imgId,
                 Location = loc,

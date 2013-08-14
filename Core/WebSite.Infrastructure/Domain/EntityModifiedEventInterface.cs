@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Website.Infrastructure.Domain
 {
-    public interface EntityModifiedDomainEventInterface<EntityType> : DomainEventInterface
+    public interface EntityModifiedEventInterface<EntityType> : EventInterface
         where EntityType : EntityInterface
     {
         EntityType OrigState { get; set; }

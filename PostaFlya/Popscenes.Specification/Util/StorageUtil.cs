@@ -8,7 +8,7 @@ using PostaFlya.Domain.Boards;
 using PostaFlya.Domain.Flier;
 using PostaFlya.Mocks.Domain.Data;
 using TechTalk.SpecFlow;
-using Website.Application.Command;
+using Website.Application.Messaging;
 using Website.Azure.Common.Environment;
 using Website.Azure.Common.TableStorage;
 using Website.Infrastructure.Command;
@@ -148,8 +148,8 @@ namespace Popscenes.Specification.Util
 
         public static void ProcessAllMessagesAndEvents()
         {
-            var processor = SpecUtil.Kernel.Get<QueuedCommandProcessor>(ctx => ctx.Has("workercommandqueue"));
-            QueuedCommandProcessor.WorkInProgress wip = null;
+            var processor = SpecUtil.Kernel.Get<QueuedMessageProcessor>(ctx => ctx.Has("workercommandqueue"));
+            QueuedMessageProcessor.WorkInProgress wip = null;
             while ((wip = processor.ProcessOneSynch()) != null)
             {
                 ScenarioSentWorkerBusMessagesForContext.Add(wip);

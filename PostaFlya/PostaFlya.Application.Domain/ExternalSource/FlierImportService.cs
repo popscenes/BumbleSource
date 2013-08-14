@@ -3,6 +3,7 @@ using Website.Domain.Browser.Query;
 using Website.Infrastructure.Authentication;
 using Website.Infrastructure.Command;
 using Website.Application.Domain.Content;
+using Website.Infrastructure.Messaging;
 using Website.Infrastructure.Query;
 
 namespace PostaFlya.Application.Domain.ExternalSource
@@ -12,15 +13,15 @@ namespace PostaFlya.Application.Domain.ExternalSource
         private readonly GenericQueryServiceInterface _queryService;
         private readonly QueryChannelInterface _queryChannel;
         private readonly UrlContentRetrieverFactoryInterface _contentRetrieverFactory;
-        private readonly CommandBusInterface _commandBus;
+        private readonly MessageBusInterface _messageBus;
 
         public FlierImportService(GenericQueryServiceInterface queryService, 
             UrlContentRetrieverFactoryInterface contentRetrieverFactory, 
-            CommandBusInterface commandBus, QueryChannelInterface queryChannel)
+            MessageBusInterface messageBus, QueryChannelInterface queryChannel)
         {
             _queryService = queryService;
             _contentRetrieverFactory = contentRetrieverFactory;
-            _commandBus = commandBus;
+            _messageBus = messageBus;
             _queryChannel = queryChannel;
         }
 
@@ -28,7 +29,7 @@ namespace PostaFlya.Application.Domain.ExternalSource
         {
             if (providerName == IdentityProviders.FACEBOOK)
             {
-                return new FacebookFlierImporter(_queryChannel, _queryService, _contentRetrieverFactory, _commandBus);
+                return new FacebookFlierImporter(_queryChannel, _queryService, _contentRetrieverFactory, _messageBus);
             }
             throw new ArgumentException();
         }

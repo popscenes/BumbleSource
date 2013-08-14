@@ -19,6 +19,7 @@ using Website.Common.Model.Query;
 using Website.Domain.Browser;
 using Website.Infrastructure.Command;
 using Website.Infrastructure.Domain;
+using Website.Infrastructure.Messaging;
 using Website.Infrastructure.Query;
 using BrowserInterface = PostaFlya.Domain.Browser.BrowserInterface;
 
@@ -123,7 +124,7 @@ namespace PostaFlya.Specification.Fliers
         [Given(@"There is a venue board named (.*)")]
         public void GivenThereIsAVenueBoardNamed(string boardName)
         {
-            var bus = SpecUtil.CurrIocKernel.Get<CommandBusInterface>();
+            var bus = SpecUtil.CurrIocKernel.Get<MessageBusInterface>();
             var createBoardCommand = new CreateBoardCommand()
             {
 

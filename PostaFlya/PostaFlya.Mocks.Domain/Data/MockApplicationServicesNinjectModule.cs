@@ -12,7 +12,7 @@ using PostaFlya.Application.Domain.Flier;
 using PostaFlya.Domain.Flier;
 using Website.Application.Domain.Binding;
 using Website.Application.Domain.Content;
-using Website.Application.Domain.Publish;
+using Website.Application.Messaging;
 using Website.Application.Publish;
 using Website.Domain.Browser;
 using Website.Domain.Location;
@@ -20,6 +20,7 @@ using Website.Domain.Service;
 using Website.Domain.TinyUrl;
 using Website.Infrastructure.Authentication;
 using Website.Infrastructure.Domain;
+using Website.Infrastructure.Messaging;
 using Website.Infrastructure.Publish;
 using Website.Infrastructure.Query;
 using Website.Mocks.Domain.Defaults;
@@ -41,7 +42,7 @@ namespace PostaFlya.Mocks.Domain.Data
                   .To<DefaultFlierWebAnalyticService>()
                   .InTransientScope();
 
-            Bind<DomainEventPublishServiceInterface>().To<DomainEventPublishService>().InTransientScope();
+            Bind<EventPublishServiceInterface>().To<EventPublishService>().InTransientScope();
             Bind<BroadcastServiceInterface>().To<DefaultBroadcastService>().InTransientScope();
 
             ApplicationDomainNinjectBinding.BindCommandAndQueryHandlers(kernel);

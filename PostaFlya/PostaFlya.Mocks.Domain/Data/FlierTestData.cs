@@ -12,6 +12,7 @@ using PostaFlya.Domain.Venue;
 using Website.Domain.Service;
 using Website.Infrastructure.Command;
 using Website.Infrastructure.Domain;
+using Website.Infrastructure.Messaging;
 using Website.Infrastructure.Publish;
 using Website.Infrastructure.Query;
 //using Website.Infrastructure.Service;
@@ -353,7 +354,7 @@ namespace PostaFlya.Mocks.Domain.Data
 
             if (uow.Successful)
             {
-                var domainEvent = kernel.Get<DomainEventPublishServiceInterface>();
+                var domainEvent = kernel.Get<EventPublishServiceInterface>();
                 domainEvent.Publish(new FlierModifiedEvent() { NewState = (Flier)flier });
             }
 

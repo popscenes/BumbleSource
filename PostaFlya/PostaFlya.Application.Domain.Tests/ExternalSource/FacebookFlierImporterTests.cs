@@ -9,6 +9,7 @@ using Website.Domain.Browser.Query;
 using Website.Domain.Location;
 using Website.Infrastructure.Command;
 using Website.Infrastructure.Authentication;
+using Website.Infrastructure.Messaging;
 using Website.Infrastructure.Query;
 using Website.Test.Common;
 using Website.Test.Common.Facebook;
@@ -106,7 +107,7 @@ namespace PostaFlya.Application.Domain.Tests.ExternalSource
                 Kernel.Get<QueryChannelInterface>(),
                 Kernel.GetMock<GenericQueryServiceInterface>().Object,
                 Kernel.GetMock<UrlContentRetrieverFactoryInterface>().Object,
-                Kernel.GetMock<CommandBusInterface>().Object);
+                Kernel.GetMock<MessageBusInterface>().Object);
 
             browser.ExternalCredentials.First(_ => _.IdentityProvider == IdentityProviders.FACEBOOK).AccessToken = validToken;
             Assert.IsTrue(facebookFlierImporter.CanImport(browser));
@@ -126,7 +127,7 @@ namespace PostaFlya.Application.Domain.Tests.ExternalSource
                 Kernel.Get<QueryChannelInterface>(),
                 Kernel.GetMock<GenericQueryServiceInterface>().Object, 
                 Kernel.GetMock<UrlContentRetrieverFactoryInterface>().Object,
-                Kernel.GetMock<CommandBusInterface>().Object);
+                Kernel.GetMock<MessageBusInterface>().Object);
 
             var fliers = facebookFlierImporter.ImportFliers(browser);
             AssertUtil.Count(5, fliers.ToList());

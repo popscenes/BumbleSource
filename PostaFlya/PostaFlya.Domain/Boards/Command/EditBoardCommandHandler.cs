@@ -4,27 +4,28 @@ using Website.Domain.Browser;
 using Website.Domain.Service;
 using Website.Infrastructure.Command;
 using Website.Infrastructure.Domain;
+using Website.Infrastructure.Messaging;
 using Website.Infrastructure.Query;
 
 namespace PostaFlya.Domain.Boards.Command
 {
-    public class EditBoardCommandHandler : CommandHandlerInterface<EditBoardCommand>
+    public class EditBoardCommandHandler : MessageHandlerInterface<EditBoardCommand>
     {
         private readonly GenericRepositoryInterface _boardRepository;
         private readonly GenericQueryServiceInterface _boardQueryService;
         private readonly UnitOfWorkFactoryInterface _unitOfWorkFactory;
-        private readonly DomainEventPublishServiceInterface _domainEventPublishService;
+        private readonly EventPublishServiceInterface _eventPublishService;
         private readonly QueryChannelInterface _queryChannel;
 
         public EditBoardCommandHandler(GenericRepositoryInterface boardRepository
                                        , GenericQueryServiceInterface boardQueryService
                                        , UnitOfWorkFactoryInterface unitOfWorkFactory
-                                       , DomainEventPublishServiceInterface domainEventPublishService, QueryChannelInterface queryChannel)
+                                       , EventPublishServiceInterface eventPublishService, QueryChannelInterface queryChannel)
         {
             _boardRepository = boardRepository;
             _boardQueryService = boardQueryService;
             _unitOfWorkFactory = unitOfWorkFactory;
-            _domainEventPublishService = domainEventPublishService;
+            _eventPublishService = eventPublishService;
             _queryChannel = queryChannel;
         }
 
@@ -66,7 +67,7 @@ namespace PostaFlya.Domain.Boards.Command
                     .AddCommandId(command);
 
             var newBoard = _boardQueryService.FindById<Board>(command.Id);
-            _domainEventPublishService.Publish(new BoardModifiedEvent() { NewState = newBoard, OrigState = boardExist});
+            _eventPublishService.Publish(new BoardModifiedEvent() { NewState = newBoard, OrigState = boardExist});
 
             return new MsgResponse("Board Edit Succeded", false)
                 .AddEntityId(newBoard.Id)

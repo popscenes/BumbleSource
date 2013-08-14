@@ -5,7 +5,7 @@ using Microsoft.WindowsAzure.Storage.Queue;
 using NUnit.Framework;
 using Ninject;
 using Website.Application.Azure.Command;
-using Website.Application.Command;
+using Website.Application.Messaging;
 using Website.Infrastructure.Util;
 
 namespace Website.Application.Azure.Tests
@@ -21,13 +21,13 @@ namespace Website.Application.Azure.Tests
         [Test]
         public void TestAzureAzureCommandQueueFactoryCreatesQueues()
         {
-            var fact = Kernel.Get<CommandQueueFactoryInterface>();
+            var fact = Kernel.Get<MessageQueueFactoryInterface>();
 
-            Assert.That(fact, Is.InstanceOf<AzureCommandQueueFactory>());
+            Assert.That(fact, Is.InstanceOf<AzureMessageQueueFactory>());
 
             //just test the hashworks
             var newid = Guid.NewGuid().ToString();
-            fact.GetCommandBusForEndpoint(CryptoUtil.CalculateHash(newid));
+            fact.GetMessageBusForEndpoint(CryptoUtil.CalculateHash(newid));
 
             var cloudQueueClient = Kernel.Get<CloudQueueClient>();
             var cloudBlobClient = Kernel.Get<CloudBlobClient>();
@@ -48,7 +48,7 @@ namespace Website.Application.Azure.Tests
 
             //now test a guid works
             newid = Guid.NewGuid().ToString();
-            fact.GetCommandBusForEndpoint(newid);
+            fact.GetMessageBusForEndpoint(newid);
 
             queues = cloudQueueClient.ListQueues().ToList();
             containers = cloudBlobClient.ListContainers().ToList();

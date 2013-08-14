@@ -11,6 +11,7 @@ using Website.Domain.Claims.Event;
 using Website.Domain.Comments.Event;
 using Website.Domain.Content.Event;
 using Website.Infrastructure.Domain;
+using Website.Infrastructure.Messaging;
 using Website.Infrastructure.Publish;
 
 namespace PostaFlya.DataRepository.Search.Event
@@ -30,7 +31,7 @@ namespace PostaFlya.DataRepository.Search.Event
             _indexService = indexService;
         }
 
-        protected bool HandleInternal<EntityType>(EntityModifiedDomainEvent<EntityType> @event) 
+        protected bool HandleInternal<EntityType>(EntityModifiedEvent<EntityType> @event) 
             where EntityType : class, EntityInterface
         {
             var entity = @event.NewState ?? @event.OrigState;

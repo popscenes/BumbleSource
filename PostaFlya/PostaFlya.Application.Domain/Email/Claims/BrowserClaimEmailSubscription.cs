@@ -17,6 +17,7 @@ using Website.Domain.Contact;
 using Website.Domain.Location;
 using Website.Infrastructure.Command;
 using Website.Infrastructure.Configuration;
+using Website.Infrastructure.Messaging;
 using Website.Infrastructure.Query;
 using Website.Infrastructure.Util.Extension;
 
@@ -29,10 +30,10 @@ namespace PostaFlya.Application.Domain.Email.Claims
         private readonly ConfigurationServiceInterface _config;
         private readonly QueryChannelInterface _queryChannel;
 
-        public BrowserClaimEmailSubscription(CommandBusInterface commandBus
+        public BrowserClaimEmailSubscription(MessageBusInterface messageBus
                                                    , GenericQueryServiceInterface entityQueryService
                                                    , SendEmailServiceInterface emailService
-                                                    ,ConfigurationServiceInterface config, QueryChannelInterface queryChannel) : base(commandBus)
+                                                    ,ConfigurationServiceInterface config, QueryChannelInterface queryChannel) : base(messageBus)
         {
             _entityQueryService = entityQueryService;
             _emailService = emailService;

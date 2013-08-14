@@ -58,7 +58,7 @@ namespace PostaFlya.DataRepository.Binding
             _repositoryScopeConfiguration(kernel.Bind(typeof(GenericRepositoryInterface))
                 .To(typeof(JsonRepository)));
 
-            kernel.BindCommandAndQueryHandlersFromCallingAssembly(syntax => syntax.InTransientScope());
+            kernel.BindMessageAndQueryHandlersFromCallingAssembly(syntax => syntax.InTransientScope());
 
             kernel.BindAzureRepositoryHandlersForTypesFrom(_repositoryScopeConfiguration
                     , Assembly.GetAssembly(typeof(Comment)) 

@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Website.Infrastructure.Domain
 {
-    public interface DomainEventInterface
+    public interface EventInterface
     {
         DateTimeOffset TimeStamp { get; set; }
     }

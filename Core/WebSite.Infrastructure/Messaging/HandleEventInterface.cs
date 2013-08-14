@@ -1,4 +1,4 @@
-namespace Website.Infrastructure.Publish
+namespace Website.Infrastructure.Messaging
 {
     public interface HandleEventInterface
     {

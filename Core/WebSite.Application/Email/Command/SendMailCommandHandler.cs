@@ -1,9 +1,8 @@
-using Website.Application.Command;
-using Website.Infrastructure.Command;
+using Website.Infrastructure.Messaging;
 
 namespace Website.Application.Email.Command
 {
-    public class SendMailCommandHandler : CommandHandlerInterface<SendMailCommand>
+    public class SendMailCommandHandler : MessageHandlerInterface<SendMailCommand>
     {
         private readonly SendMailImplementationInterface _sendMailImplementation;
 

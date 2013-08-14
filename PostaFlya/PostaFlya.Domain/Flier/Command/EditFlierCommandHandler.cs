@@ -11,29 +11,30 @@ using Website.Domain.Payment;
 using Website.Domain.Service;
 using Website.Infrastructure.Command;
 using Website.Infrastructure.Domain;
+using Website.Infrastructure.Messaging;
 using Website.Infrastructure.Query;
 using Website.Infrastructure.Util.Extension;
 
 namespace PostaFlya.Domain.Flier.Command
 {
-    internal class EditFlierCommandHandler : CommandHandlerInterface<EditFlierCommand>
+    internal class EditFlierCommandHandler : MessageHandlerInterface<EditFlierCommand>
     {
         private readonly GenericRepositoryInterface _repository;
         private readonly UnitOfWorkFactoryInterface _unitOfWorkFactory;
         private readonly GenericQueryServiceInterface _queryService;
-        private readonly DomainEventPublishServiceInterface _domainEventPublishService;
+        private readonly EventPublishServiceInterface _eventPublishService;
         private readonly CreditChargeServiceInterface _creditChargeServiceInterface;
 
 
         public EditFlierCommandHandler(GenericRepositoryInterface repository
             ,UnitOfWorkFactoryInterface unitOfWorkFactory
-            , GenericQueryServiceInterface queryService, DomainEventPublishServiceInterface domainEventPublishService
+            , GenericQueryServiceInterface queryService, EventPublishServiceInterface eventPublishService
             , CreditChargeServiceInterface creditChargeServiceInterface)
         {
             _repository = repository;
             _unitOfWorkFactory = unitOfWorkFactory;
             _queryService = queryService;
-            _domainEventPublishService = domainEventPublishService;
+            _eventPublishService = eventPublishService;
             _creditChargeServiceInterface = creditChargeServiceInterface;
         }
 
@@ -112,7 +113,7 @@ namespace PostaFlya.Domain.Flier.Command
                 Trace.TraceError("Error charging for flier features");
             
 
-            _domainEventPublishService.Publish(
+            _eventPublishService.Publish(
                 new FlierModifiedEvent()
                     {
                         OrigState = flierQuery,

@@ -16,6 +16,7 @@ using Website.Common.Obsolete;
 using Website.Domain.Browser.Query;
 using Website.Domain.Tag;
 using Website.Infrastructure.Command;
+using Website.Infrastructure.Messaging;
 using Website.Infrastructure.Query;
 
 namespace PostaFlya.Controllers
@@ -27,20 +28,20 @@ namespace PostaFlya.Controllers
         private readonly GenericQueryServiceInterface _browserQueryService;
         private readonly BlobStorageInterface _blobStorage;
         private readonly GenericQueryServiceInterface _queryService;
-        private readonly CommandBusInterface _commandBus;
+        private readonly MessageBusInterface _messageBus;
          private readonly QueryChannelInterface _queryChannel;
 
         public PendingFliersApiController(PostaFlyaBrowserInformationInterface browserInformation
             , GenericQueryServiceInterface browserQueryService, 
             [ImageStorage]BlobStorageInterface blobStorage
             , GenericQueryServiceInterface queryService
-            , CommandBusInterface commandBus, QueryChannelInterface queryChannel)
+            , MessageBusInterface messageBus, QueryChannelInterface queryChannel)
         {
             _browserInformation = browserInformation;
             _browserQueryService = browserQueryService;
             _blobStorage = blobStorage;
             _queryService = queryService;
-            _commandBus = commandBus;
+            _messageBus = messageBus;
             _queryChannel = queryChannel;
         }
 
@@ -73,7 +74,7 @@ namespace PostaFlya.Controllers
                 ExtendPostRadius = flier.LocationRadius
             };
 
-            var res = _commandBus.Send(editFlier);
+            var res = _messageBus.Send(editFlier);
             return this.GetResponseForRes(res);
         }
     }

@@ -3,9 +3,9 @@ using System.Net;
 using System.Net.Mail;
 using SendGridMail;
 using SendGridMail.Transport;
-using Website.Application.Command;
 using Website.Application.Email.Command;
 using Website.Application.Extension.Email;
+using Website.Application.Messaging;
 using Website.Infrastructure.Configuration;
 
 namespace Website.Application.Email
@@ -19,7 +19,7 @@ namespace Website.Application.Email
             _config = config;
         }
 
-        public QueuedCommandResult ProcessSendMailCommand(SendMailCommand mailCommand)
+        public QueuedMessageProcessResult ProcessSendMailCommand(SendMailCommand mailCommand)
         {
             var normalMsg = mailCommand.MailMessage.ToMailMessage();
             //var msg = normalMsg.ToSendGridMessage();
@@ -49,7 +49,7 @@ namespace Website.Application.Email
 //            transportWeb.Deliver(msg);
 //            var transportSmtp = SMTP.GetInstance(credentials, "smtp.sendgrid.com", 2525);
 //            transportSmtp.Deliver(msg);
-            return QueuedCommandResult.Successful;
+            return QueuedMessageProcessResult.Successful;
         }
     }
 }

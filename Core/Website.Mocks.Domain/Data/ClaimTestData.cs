@@ -6,6 +6,7 @@ using Ninject;
 using Website.Domain.Claims.Event;
 using Website.Infrastructure.Command;
 using Website.Infrastructure.Domain;
+using Website.Infrastructure.Messaging;
 using Website.Infrastructure.Publish;
 using Website.Infrastructure.Query;
 using Website.Domain.Claims;
