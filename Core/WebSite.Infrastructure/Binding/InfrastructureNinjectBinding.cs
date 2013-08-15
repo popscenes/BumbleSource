@@ -42,6 +42,8 @@ namespace Website.Infrastructure.Binding
 
             Bind<QueryChannelInterface>().To<DefaultQueryChannel>().InThreadScope();
 
+
+
             Trace.TraceInformation("Finished Binding InfrastructureNinjectBinding");
 
         }

@@ -1,10 +1,8 @@
 using System;
 using System.Collections.Generic;
-using PostaFlya.Domain.Boards.Event;
 using PostaFlya.Domain.Boards.Query;
 using PostaFlya.Domain.Venue;
 using Website.Domain.Service;
-using Website.Infrastructure.Binding;
 using Website.Infrastructure.Command;
 using Website.Infrastructure.Domain;
 using Website.Infrastructure.Messaging;
@@ -17,21 +15,15 @@ namespace PostaFlya.Domain.Boards.Command
         private readonly GenericRepositoryInterface _boardRepository;
         private readonly GenericQueryServiceInterface _boardQueryService;
         private readonly UnitOfWorkFactoryInterface _unitOfWorkFactory;
-        private readonly EventPublishServiceInterface _eventPublishService;
-        private readonly MessageBusInterface _messageBus;
         private readonly QueryChannelInterface _queryChannel;
 
         public CreateBoardCommandHandler(GenericRepositoryInterface boardRepository
             , GenericQueryServiceInterface boardQueryService
-            , UnitOfWorkFactoryInterface unitOfWorkFactory
-            , EventPublishServiceInterface eventPublishService
-            , [WorkerCommandBus]MessageBusInterface messageBus, QueryChannelInterface queryChannel)
+            , UnitOfWorkFactoryInterface unitOfWorkFactory, QueryChannelInterface queryChannel)
         {
             _boardRepository = boardRepository;
             _boardQueryService = boardQueryService;
             _unitOfWorkFactory = unitOfWorkFactory;
-            _eventPublishService = eventPublishService;
-            _messageBus = messageBus;
             _queryChannel = queryChannel;
         }
 
@@ -49,23 +41,6 @@ namespace PostaFlya.Domain.Boards.Command
             if (!unitOfWork.Successful)
                 return new MsgResponse("Board Creation Failed", true)
                         .AddCommandId(command);
-
-            _eventPublishService.Publish(new BoardModifiedEvent(){NewState = newBoard});
-
-            /*if (!string.IsNullOrWhiteSpace(command.FlierIdToAddOnCreate))
-            {
-                _commandBus.Send(new AddFlierToBoardCommand()
-                {
-                    
-                    BoardFliers = new List<BoardFlier>() {new BoardFlier()
-                        {
-                            AggregateId = newBoard.Id,
-                            FlierId = command.FlierIdToAddOnCreate,
-                            Status = BoardFlierStatus.PendingApproval
-                            
-                        }}
-                });
-            }*/
 
             return new MsgResponse("Board Create", false)
                 .AddEntityId(newBoard.Id)

@@ -135,6 +135,10 @@
       <Project>{33669E4A-6C9B-4DC2-AE89-29286141658C}</Project>
       <Name>Website.Application.Domain</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Core\Website.Application\Website.Application.csproj">
+      <Project>{46DB8930-71D8-4DE4-BAA6-39944F07D6F5}</Project>
+      <Name>Website.Application</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Core\Website.Domain\Website.Domain.csproj">
       <Project>{C479A98A-EC5A-45EF-968A-2D81B406485F}</Project>
       <Name>Website.Domain</Name>

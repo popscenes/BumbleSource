@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using PostaFlya.Domain.Browser.Event;
 using Website.Domain.Browser;
 using Website.Domain.Browser.Query;
 using Website.Domain.Service;
@@ -14,20 +13,14 @@ namespace PostaFlya.Domain.Browser.Command
     {
         private readonly GenericRepositoryInterface _repository;
         private readonly UnitOfWorkFactoryInterface _unitOfWorkFactory;
-        private readonly GenericQueryServiceInterface _queryService;
         private readonly QueryChannelInterface _queryChannel;
-        private readonly EventPublishServiceInterface _publishService;
 
         public AddBrowserCommandHandler(GenericRepositoryInterface repository, 
-                                    UnitOfWorkFactoryInterface unitOfWorkFactory,
-            GenericQueryServiceInterface queryService, QueryChannelInterface queryChannel,
-            EventPublishServiceInterface publishService)
+                                    UnitOfWorkFactoryInterface unitOfWorkFactory, QueryChannelInterface queryChannel)
         {
             _repository = repository;
             _unitOfWorkFactory = unitOfWorkFactory;
-            _queryService = queryService;
             _queryChannel = queryChannel;
-            _publishService = publishService;
         }
 
         public object Handle(AddBrowserCommand command)
@@ -66,7 +59,6 @@ namespace PostaFlya.Domain.Browser.Command
 
             if (uow.Successful)
             {
-                _publishService.Publish(new BrowserModifiedEvent() { NewState = browser, OrigState = browser });
                 return new MsgResponse("Create Browser", false)
                     .AddCommandId(command)
                     .AddEntityId(command.Browser.Id);

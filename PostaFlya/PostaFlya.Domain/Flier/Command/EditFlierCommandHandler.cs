@@ -1,14 +1,8 @@
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using PostaFlya.Domain.Boards;
-using PostaFlya.Domain.Boards.Command;
-using PostaFlya.Domain.Boards.Event;
-using PostaFlya.Domain.Flier.Event;
-using PostaFlya.Domain.Flier.Query;
 using Website.Domain.Payment;
-using Website.Domain.Service;
 using Website.Infrastructure.Command;
 using Website.Infrastructure.Domain;
 using Website.Infrastructure.Messaging;
@@ -22,20 +16,17 @@ namespace PostaFlya.Domain.Flier.Command
         private readonly GenericRepositoryInterface _repository;
         private readonly UnitOfWorkFactoryInterface _unitOfWorkFactory;
         private readonly GenericQueryServiceInterface _queryService;
-        private readonly EventPublishServiceInterface _eventPublishService;
-        private readonly CreditChargeServiceInterface _creditChargeServiceInterface;
+        private readonly CreditChargeServiceInterface _creditChargeService;
 
 
         public EditFlierCommandHandler(GenericRepositoryInterface repository
             ,UnitOfWorkFactoryInterface unitOfWorkFactory
-            , GenericQueryServiceInterface queryService, EventPublishServiceInterface eventPublishService
-            , CreditChargeServiceInterface creditChargeServiceInterface)
+            , GenericQueryServiceInterface queryService, CreditChargeServiceInterface creditChargeService)
         {
             _repository = repository;
             _unitOfWorkFactory = unitOfWorkFactory;
             _queryService = queryService;
-            _eventPublishService = eventPublishService;
-            _creditChargeServiceInterface = creditChargeServiceInterface;
+            _creditChargeService = creditChargeService;
         }
 
         public object Handle(EditFlierCommand command)
@@ -100,7 +91,7 @@ namespace PostaFlya.Domain.Flier.Command
             using (unitOfWork = _unitOfWorkFactory.GetUnitOfWork(new[] {_repository}))
             {
                 var flierCurrent = _queryService.FindById<Flier>(command.Id);
-                enabled = flierCurrent.ChargeForState(_repository, _queryService, _creditChargeServiceInterface);
+                enabled = flierCurrent.ChargeForState(_repository, _queryService, _creditChargeService);
                 _repository.UpdateEntity<Flier>(flierCurrent.Id, f =>
                 {
                     f.MergeUpdateFeatureCharges(flierCurrent.Features); 
@@ -112,15 +103,6 @@ namespace PostaFlya.Domain.Flier.Command
             if(!unitOfWork.Successful)
                 Trace.TraceError("Error charging for flier features");
             
-
-            _eventPublishService.Publish(
-                new FlierModifiedEvent()
-                    {
-                        OrigState = flierQuery,
-                        NewState = _queryService.FindById<Flier>(command.Id)
-                    }
-                );
-
 
             return new MsgResponse("Flier Edit", false)
                 .AddEntityId(command.Id)

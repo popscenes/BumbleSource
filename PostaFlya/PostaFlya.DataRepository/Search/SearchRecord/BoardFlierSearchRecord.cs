@@ -19,6 +19,7 @@ namespace PostaFlya.DataRepository.Search.SearchRecord
                        {
                            BoardId = searchRecord.BoardId,
                            Id = searchRecord.Id,
+                           FlyerId = searchRecord.FlierId,
                            EventDate = ed,
                            SortOrder = ed.GetTimestampAscending() + flier.CreateDate.GetTimestampAscending(),
                        };
@@ -63,6 +64,9 @@ namespace PostaFlya.DataRepository.Search.SearchRecord
         [NotNullable]
         [FederationCol(FederationName = "Board", DistributionName = "board_shard")]
         public Guid BoardId { get; set; }
+
+        [SqlIndex]
+        public string FlyerId { get; set; }
 
         public string SortOrder { get; set; }
     }

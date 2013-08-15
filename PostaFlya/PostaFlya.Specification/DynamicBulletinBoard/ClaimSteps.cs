@@ -14,9 +14,9 @@ using PostaFlya.Specification.Util;
 using Website.Domain.Browser;
 using Website.Domain.Browser.Query;
 using Website.Domain.Claims;
-using Website.Domain.Claims.Event;
 using Website.Domain.Service;
 using Website.Infrastructure.Command;
+using Website.Infrastructure.Domain;
 using Website.Infrastructure.Messaging;
 using Website.Infrastructure.Publish;
 using Website.Infrastructure.Query;
@@ -134,12 +134,7 @@ namespace PostaFlya.Specification.DynamicBulletinBoard
             WhenABrowserClaimsATearOffForThatFlier(browserId);
         }
 
-        [Then(@"A Notification for that Tear Off should be published")]
-        public void ThenANotificationForThatTearOffShouldBePublished()
-        {
-            var test = ScenarioContext.Current["tearoffnotification"];
-            Assert.IsNotNull(test);
-        }
+
         [Then(@"(.*) will be deducted from the Flier Creators Account")]
         public void ThenWillBeDeductedFromTheFlierCreatorsAccount(int deduction)
         {
@@ -203,28 +198,6 @@ namespace PostaFlya.Specification.DynamicBulletinBoard
             Assert.AreEqual(initClaims, retFlier.NumberOfClaims);
         }
 
-
-        [BeforeScenario("TearOffNotification")]
-        public void SetupNotificationBinding()
-        {
-
-            var claimBind = SpecUtil.CurrIocKernel.GetMock<HandleEventInterface<ClaimEvent>>();
-
-
-            claimBind.Setup(service => service.Handle(It.IsAny<ClaimEvent>()))
-                .Callback<ClaimEvent>(claim => 
-                    ScenarioContext.Current["tearoffnotification"] = true);
-
-
-            SpecUtil.CurrIocKernel.Bind<HandleEventInterface<ClaimEvent>>()
-                .ToConstant(claimBind.Object);
-        }
-
-        [AfterScenario("TearOffNotification")]
-        public void TearDownNotificationBinding()
-        {
-            SpecUtil.CurrIocKernel.Unbind<HandleEventInterface<ClaimEvent>>();
-        }
 
         [Then(@"I should see the Contact Details associated with that FLIER")]
         public void ThenIShouldSeeTheContactDetailsAssociatedWithThatFLIER()

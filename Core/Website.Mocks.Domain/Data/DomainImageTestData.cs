@@ -3,14 +3,11 @@ using System.Collections.Generic;
 using NUnit.Framework;
 using Ninject;
 using Ninject.MockingKernel.Moq;
-using Website.Domain.Content.Event;
 using Website.Infrastructure.Command;
 using Website.Domain.Browser;
 using Website.Domain.Content;
 using Website.Domain.Location;
 using Website.Infrastructure.Domain;
-using Website.Infrastructure.Messaging;
-using Website.Infrastructure.Publish;
 using Website.Infrastructure.Query;
 
 namespace Website.Mocks.Domain.Data
@@ -45,14 +42,14 @@ namespace Website.Mocks.Domain.Data
                 repository.Store(image);
             }
 
-            if (uow.Successful)
-            {
-                var indexers = kernel.GetAll<HandleEventInterface<ImageModifiedEvent>>();
-                foreach (var handleEvent in indexers)
-                {
-                    handleEvent.Handle(new ImageModifiedEvent() { NewState = image });
-                }
-            }
+//            if (uow.Successful)
+//            {
+//                var indexers = kernel.GetAll<HandleEventInterface<ImageModifiedEvent>>();
+//                foreach (var handleEvent in indexers)
+//                {
+//                    handleEvent.Handle(new ImageModifiedEvent() { Entity = image });
+//                }
+//            }
 
             Assert.IsTrue(uow.Successful);
             return image;
@@ -71,14 +68,14 @@ namespace Website.Mocks.Domain.Data
                     });
             }
 
-            if (unitOfWork.Successful)
-            {
-                var indexers = kernel.GetAll<HandleEventInterface<ImageModifiedEvent>>();
-                foreach (var handleEvent in indexers)
-                {
-                    handleEvent.Handle(new ImageModifiedEvent() { NewState = (Image)image, OrigState = (Image)oldState });
-                }
-            }
+//            if (unitOfWork.Successful)
+//            {
+//                var indexers = kernel.GetAll<HandleEventInterface<ImageModifiedEvent>>();
+//                foreach (var handleEvent in indexers)
+//                {
+//                    handleEvent.Handle(new ImageModifiedEvent() { Entity = (Image)image });
+//                }
+//            }
         }
 
         public static Image GetOne(MoqMockingKernel kernel, string browserid = null)

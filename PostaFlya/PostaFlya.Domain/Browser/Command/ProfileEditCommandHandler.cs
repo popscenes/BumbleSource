@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using PostaFlya.Domain.Browser.Event;
 using Website.Domain.Browser.Query;
 using Website.Domain.Service;
 using Website.Infrastructure.Command;
@@ -15,18 +14,16 @@ namespace PostaFlya.Domain.Browser.Command
         private readonly UnitOfWorkFactoryInterface _unitOfWorkFactory;
         private readonly GenericQueryServiceInterface _queryService;
         private readonly QueryChannelInterface _queryChannel;
-        private readonly EventPublishServiceInterface _publishService;
 
 
         public ProfileEditCommandHandler(GenericRepositoryInterface repository
             , UnitOfWorkFactoryInterface unitOfWorkFactory
-            , GenericQueryServiceInterface queryService, QueryChannelInterface queryChannel, EventPublishServiceInterface publishService)
+            , GenericQueryServiceInterface queryService, QueryChannelInterface queryChannel)
         {
             _repository = repository;
             _unitOfWorkFactory = unitOfWorkFactory;
             _queryService = queryService;
             _queryChannel = queryChannel;
-            _publishService = publishService;
         }
 
         public object Handle(ProfileEditCommand command)
@@ -71,11 +68,6 @@ namespace PostaFlya.Domain.Browser.Command
                                        ? new MsgResponse("Error updating profile details", true)
                                        : new MsgResponse("Profile details updated", false);
 
-            if (unitOfWork.Successful)
-            {
-                var newstate = _queryService.FindById<Browser>(command.BrowserId);
-                _publishService.Publish(new BrowserModifiedEvent() { NewState = newstate, OrigState = browser });
-            }
 
             return response.AddCommandId(command).AddEntityId(command.BrowserId);
         }

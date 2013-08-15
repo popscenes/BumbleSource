@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using Website.Domain.Content.Event;
 using Website.Infrastructure.Command;
 using Website.Domain.Service;
 using Website.Domain.Location;
@@ -13,18 +12,16 @@ namespace Website.Domain.Content.Command
         private readonly GenericRepositoryInterface _repository;
         private readonly UnitOfWorkFactoryInterface _unitOfWorkFactory;
         private readonly ContentStorageServiceInterface _contentStorageService;
-        private readonly EventPublishServiceInterface _publishService;
         private readonly GenericQueryServiceInterface _genericQueryService;
 
 
         public SetImageMetaDataCommandHandler(GenericRepositoryInterface repository
             , UnitOfWorkFactoryInterface unitOfWorkFactory
-            , ContentStorageServiceInterface contentStorageService, EventPublishServiceInterface publishService, GenericQueryServiceInterface genericQueryService)
+            , ContentStorageServiceInterface contentStorageService, GenericQueryServiceInterface genericQueryService)
         {
             _repository = repository;
             _unitOfWorkFactory = unitOfWorkFactory;
             _contentStorageService = contentStorageService;
-            _publishService = publishService;
             _genericQueryService = genericQueryService;
         }
 
@@ -62,8 +59,6 @@ namespace Website.Domain.Content.Command
             {
                 _contentStorageService.SetMetaData(command);
 
-                var newstate = _genericQueryService.FindById<Image>(command.Id);
-                _publishService.Publish(new ImageModifiedEvent() { NewState = newstate, OrigState = oldstate });
             }
                 
 

@@ -6,9 +6,11 @@ using Ninject;
 using Website.Infrastructure.Domain;
 using Website.Application.WebsiteInformation;
 using Website.Azure.Common.TableStorage;
+using Website.Infrastructure.Messaging;
 
 namespace Website.Application.Azure.WebsiteInformation
 {
+    [Serializable]
     public class WebsiteInfoEntity : SimpleExtendableEntity, AggregateRootInterface
     {
         internal const string FIELD_BEHAIVORTAGS = "behaivourtags";
@@ -37,8 +39,9 @@ namespace Website.Application.Azure.WebsiteInformation
 
         private readonly string _tableName;
         public WebsiteInfoServiceAzure(TableContextInterface tableContext
-            , TableNameAndIndexProviderServiceInterface nameAndIndexProviderService) 
-            : base(tableContext, nameAndIndexProviderService)
+            , TableNameAndIndexProviderServiceInterface nameAndIndexProviderService
+            , EventPublishServiceInterface publishService)
+            : base(tableContext, nameAndIndexProviderService, publishService)
         {
             _tableName = nameAndIndexProviderService.GetTableName<WebsiteInfoEntity>();
         }

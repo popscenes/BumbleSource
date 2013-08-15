@@ -1,4 +1,5 @@
 using System;
+using System.Reflection;
 
 namespace Website.Infrastructure.Domain
 {
@@ -9,10 +10,41 @@ namespace Website.Infrastructure.Domain
     /// <typeparam name="EntityType">EnityType that has been modified</typeparam>
     
     [Serializable]
-    public class EntityModifiedEvent<EntityType> : EventBase, EntityModifiedEventInterface<EntityType>
-        where EntityType : class, EntityInterface
+    public sealed class EntityModifiedEvent<EntityType> : EventBase, EntityModifiedEventInterface<EntityType>
     {
-        public EntityType OrigState { get; set; }
-        public EntityType NewState { get; set; }
+        public EntityModifiedEvent()
+        {
+        }
+
+
+        public EntityModifiedEvent(bool isDeleted)
+        {
+            IsDeleted = isDeleted;
+        }
+
+
+
+        public EntityType Entity { get; set; }
+        public bool IsDeleted { get; set; }
+    }
+
+    public static class EntityModifiedEventCreator
+    {
+        private static readonly Type Container;
+        static EntityModifiedEventCreator()
+        {
+            Container = typeof(EntityModifiedEvent<>);
+        }
+
+        public static EventInterface CreateFor(object source, bool isdeleted = false)
+        {
+            var type = Container.MakeGenericType(source.GetType());
+            var prop = type.GetProperty("Entity");
+            var meth = prop.GetSetMethod();
+
+            var act = Activator.CreateInstance(type, (object)isdeleted);
+            meth.Invoke(act, new[]{ source });
+            return act as EventInterface;
+        }
     }
 }
