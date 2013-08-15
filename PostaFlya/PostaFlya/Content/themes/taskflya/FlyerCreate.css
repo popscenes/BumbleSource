@@ -1,0 +1,163 @@
+﻿div#create-flier-item-div {
+    position: absolute;
+    z-index: 1751;
+    margin-left: -300px;
+    padding: 20px;
+    left: 50%;
+}
+
+
+div#create-flier-item-div {
+    z-index: 1851;
+    max-width: 600px;
+}
+
+.imageSelector ul {
+    height: 310px;
+    width: 270px;
+    padding: 0;
+    margin: 0;
+}
+
+.imageSelector ul li {
+    padding: 0px;
+    margin: 0px;
+    margin-right: 5px; 
+    height: 100px;
+    width: 130px;
+    display: block;
+    overflow: hidden;
+    float: left;
+}
+
+.imageSelector ul li a.thumb {
+    position: relative;
+    width: 133px;
+}
+
+.imageSelector ul li img { border: 0; }
+
+.selected-image {
+    vertical-align: top;
+}
+
+.file-upload-row {
+    margin: 5px 0px;
+    padding: 5px 0;
+    border-bottom: 1px solid #84827D;
+}
+
+.file-upload-row span {
+    display: inline-block;
+    text-align: right;
+    float: right;
+    font-weight: bold;
+}
+
+.create-edit-userlink {
+    display: inline-block;
+}
+
+ul.userlinks {
+    margin: 0px;
+    padding: 0px;
+}
+
+.userlinks li{
+    list-style: none;
+    padding: 0px;
+    margin: 0px;
+}
+
+.userlink .lnk-img {
+    background-image: url(images/icons-44h1.png);
+    display: inline-block;
+    width: 44px;
+    height: 44px;
+    vertical-align: middle;
+}
+
+.userlink a {
+    display: block;
+    text-align: center;
+    text-decoration: none;
+    color: #555555;
+}
+
+#flya-create-back .std-image-btn-icon {
+    background-position: -102px 34px;
+}
+
+#flya-create-continue {
+    padding-left: 0;
+    padding-right: 34px;
+    padding-left: 10px;
+    float: right;
+}
+
+#create-flier-imageList .img-error
+{
+    height:100px;
+    width:120px;
+}
+
+ul.flier-images
+{
+    list-style-type:none;
+}
+
+ul.flier-images li
+{
+    display:inline-block;
+}
+
+#flya-create-continue .std-image-btn-icon {
+    background-position: -136px 34px;
+    top: 0;
+    right: 0;
+    left: auto;
+}
+
+.user-link-edit {
+    display: block;
+    margin: 5px 0;
+}
+
+.pickfiles  .std-image-btn-icon {
+    background-position: -272px 34px;
+}
+.uploadfiles  .std-image-btn-icon {
+    background-position: -238px 34px;
+}
+
+.addButton  .std-image-btn-icon {
+    background-position: -238px 34px;
+}
+
+.create-edit-userlink {
+    padding: 0;
+    margin: 0;
+    width: 90%;
+}
+.create-edit-userlink li {
+    float: left;
+    margin-right: 10px;
+}
+
+div#create-flier-item-div
+{
+    border-top: 1px solid #ccc;
+    border-right: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+    border-left: 1px solid #ccc;
+
+}
+
+#flierCreateStep
+{
+    margin: 15px 0px;
+}
+
+#upload-controls a, #form-buttons a {
+    display: inline-block;
+}

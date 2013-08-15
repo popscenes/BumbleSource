@@ -481,6 +481,10 @@
     <Content Include="App_Loading.html" />
     <Content Include="Areas\HelpPage\HelpPage.css" />
     <Content Include="Content\images\bumbl8.png" />
+    <Content Include="Content\themes\taskflya\FlyerCreate.css" />
+    <Content Include="Content\themes\taskflya\FlyerDetail.css" />
+    <Content Include="Content\themes\taskflya\FlyerSummary.css" />
+    <Content Include="Content\themes\taskflya\GigBoard.css" />
     <Content Include="Content\themes\taskflya\images\bg-high-quality.jpg" />
     <Content Include="Content\themes\taskflya\images\bg-low-quality.jpg" />
     <Content Include="Content\themes\taskflya\images\bg-med-quality.jpg" />
@@ -606,6 +610,9 @@
     <Content Include="Content\themes\taskflya\images\icons-36-black.png" />
     <Content Include="Content\themes\taskflya\images\icons-36-white.png" />
     <Content Include="Content\themes\taskflya\images\loading.gif" />
+    <Content Include="Content\themes\taskflya\Overlays.css" />
+    <Content Include="Content\themes\taskflya\Responsive.css" />
+    <Content Include="Content\themes\taskflya\Toolbar.css" />
     <Content Include="Content\themes\taskflya\Widgets.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
@@ -809,7 +816,6 @@
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="Content\structure\DeskSite.css" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Account\ChangePassword.cshtml" />

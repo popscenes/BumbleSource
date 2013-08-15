@@ -101,7 +101,6 @@ namespace PostaFlya.Views.Shared
             
             "jquery.ui.progressbar.css",
             //custom
-            "DeskSite.css",
             "jquery.plupload.queue.css"
         };
 
@@ -120,6 +119,13 @@ namespace PostaFlya.Views.Shared
             //custom
             "jquery.ui.datepicker.css",
             "DeskSite.css",
+            "Overlays.css",
+            "Toolbar.css",
+            "FlyerCreate.css",
+            "FlyerDetail.css",
+            "FlyerSummary",
+            "GigBoard.css",
+            "Responsive.css",
 
         };
 

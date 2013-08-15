@@ -1,0 +1,207 @@
+﻿div.bulletin-showing-div {
+    color: white;
+    font-style: italic;
+    padding-bottom: 5px;
+}
+
+div.bulletin-loading-div {
+    color: white;
+    font-style: italic;
+}
+
+.bulletin-loading-div a{
+    margin-left: 12px;
+    vertical-align: bottom;
+}
+
+#scrolltotop
+{
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.4);
+    -moz-box-shadow: 0 1px 2px rgba(0,0,0,0.4);
+    -webkit-box-shadow: 0 1px 3px rgba(0,0,0,0.4);
+}
+
+div#scrolltotop {
+    background-color: white;
+    font-style: italic;
+    z-index: 5000;
+}
+
+.board-links {
+    margin-top: 30px;
+    font-size: 12px;
+}
+
+.board-links a{
+    margin-right: 20px;
+}
+
+.venue-desc-text {
+    font-size: 14px;
+}
+.board-header-content {
+    width: 748px;
+    margin: 0 auto;
+    border: 1px #D0CBC4 solid;
+    background-color: white;
+}
+
+
+.board-information-calendar, .bulletin-calendar {
+    clear: both;
+    margin: 0;
+    padding: 8px 0px 8px 20px;
+    background-color: #050505;
+}
+
+#controls
+{
+	padding-top:12px;
+	z-index:500;
+    background-color: #282828;
+    width: 690px;
+    margin: 0 auto;
+}
+
+#controls > * {
+    display: block;
+    float: left;
+}
+
+
+.board-information-calendar span, .bulletin-calendar span {
+    color: white;
+    margin-right: 20px;
+    font-weight: bold;
+    font-size: 12px;
+}
+
+.board-information-desc h3 {
+    border: none;
+    text-transform: none;
+    color: black;
+    font-weight: bold;
+    margin-top: 12px;
+    margin-bottom: 2px;
+}
+
+    .board-information-desc h3 span {
+        color: black;
+        text-transform: none;
+    }
+
+section.board-information-addr {
+    float: right;
+    height: 128px;
+}
+
+section.board-information-desc {
+    float: left;
+    padding-left: 20px;
+}
+
+div.targetloading {
+    background-image: url(images/loading.gif);
+    width: 32px;
+    height: 32px;
+    display: inline-block;
+}
+
+ul.time-line {
+    list-style: none;
+    height: 36px;
+    width: 573px;
+    padding: 0;
+    margin: 18px auto;
+}
+
+ul.time-line.by-week {
+    width: 291px;
+}
+
+ul.time-line li {
+    display: block;
+    float: left;
+}
+
+.timeline-item-date {
+    position: relative;
+    padding-top: 20px;
+    width: 100px;
+    left: -44px;
+    display: none;
+}
+
+.time-line-item:hover .timeline-item-date, .timeline-item-date.current, .date-nav-link.current .timeline-item-date {
+    display: inline-block;
+}
+
+ul.time-line li.time-line-item {
+    background-image: url(images/timeline-dot.png);
+    width: 9px;
+    height: 9px;
+}
+
+ul.time-line li.time-line-seperator {
+    background-image: url(images/timeline-dash.png);
+    width: 132px;
+    height: 9px;
+}
+
+.locSel {
+width: 300px;
+height: 34px;
+background-color: #282828;
+margin-top: 5px;
+}
+
+input#locationSearch {
+width: 96%;
+padding: 8px 2%;
+margin: 0;
+border: 0;
+height: 18px;
+}
+
+.locSel input {
+background-color: #282828;
+color: #fff;
+border: 0;
+}
+.mini-button {
+background-color: #fff;
+padding: 5px 10px;
+font-size: 10px;
+color: #2f2f2f;
+cursor: pointer;
+text-decoration: none;
+}
+li.history {
+    opacity: 0.3;
+}
+
+ul.time-line li a.date-nav-link{
+    color: #bbbbbb;
+    text-decoration: none;
+}
+
+ul.time-line li a.date-nav-link{
+    font-weight: bold;
+    color: #ffffff;
+}
+
+/* css for timepicker */
+.ui-timepicker-div .ui-widget-header { margin-bottom: 8px; }
+.ui-timepicker-div dl { text-align: left; }
+.ui-timepicker-div dl dt { height: 25px; margin-bottom: -25px; }
+.ui-timepicker-div dl dd { margin: 0 10px 10px 65px; }
+.ui-timepicker-div td { font-size: 90%; }
+.ui-tpicker-grid-label { background: none; border: none; margin: 0; padding: 0; }
+
+.ui-timepicker-rtl{ direction: rtl; }
+.ui-timepicker-rtl dl { text-align: right; }
+.ui-timepicker-rtl dl dd { margin: 0 65px 10px 10px; }

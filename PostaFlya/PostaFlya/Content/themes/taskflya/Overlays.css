@@ -1,0 +1,31 @@
+﻿div#selected-item-popup-overlay, div#create-flier-popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1750;
+}
+
+div#create-flier-popup-overlay {
+    z-index: 1850;
+}
+
+div#selected-item-div .close-button, div#create-flier-item-div .close-button{
+    position: absolute;
+    right: 10px;
+    top: 10px;
+}
+
+div#selected-item-div, div#create-flier-item-div {
+    background-color: #68757E;
+    color: white;
+    opacity: 1;
+}
+
+div#selected-item-popup-overlay, div#create-flier-popup-overlay {
+    overflow-y: scroll;
+    white-space: normal;
+    background-color: rgba(227, 224, 226, 0.95);
+    
+}
