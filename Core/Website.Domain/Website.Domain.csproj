@@ -79,14 +79,12 @@
     <Compile Include="Browser\Query\GetByBrowserIdQuery.cs" />
     <Compile Include="Browser\Role.cs" />
     <Compile Include="Browser\Roles.cs" />
-    <Compile Include="Claims\Event\ClaimEvent.cs" />
     <Compile Include="Comments\Command\AddCommentInterface.cs" />
     <Compile Include="Comments\Command\CreateCommentCommand.cs" />
     <Compile Include="Comments\Command\CreateCommentCommandHandler.cs" />
     <Compile Include="Comments\Comment.cs" />
     <Compile Include="Comments\CommentableInterface.cs" />
     <Compile Include="Comments\CommentInterface.cs" />
-    <Compile Include="Comments\Event\CommentEvent.cs" />
     <Compile Include="Comments\Query\QueryCommentsInterface.cs" />
     <Compile Include="Contact\ContactDetails.cs" />
     <Compile Include="Contact\ContactDetailsInterface.cs" />
@@ -97,7 +95,6 @@
     <Compile Include="Content\Command\SetImageStatusCommand.cs" />
     <Compile Include="Content\Command\SetImageStatusCommandHandler.cs" />
     <Compile Include="Content\Content.cs" />
-    <Compile Include="Content\Event\ImageModifiedEvent.cs" />
     <Compile Include="Content\Image.cs" />
     <Compile Include="Content\ImageInterface.cs" />
     <Compile Include="Content\ImageStatus.cs" />
@@ -146,7 +143,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Claims\Event\" />
     <Folder Include="Command\" />
+    <Folder Include="Comments\Event\" />
+    <Folder Include="Content\Event\" />
     <Folder Include="Content\Query\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

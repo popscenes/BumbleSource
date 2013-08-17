@@ -36,7 +36,7 @@ namespace Website.Application.Domain.Binding
 
             Bind<ContentStorageServiceInterface>().To<ImageProcessContentStorageService>();
 
-            Bind<EventPublishServiceInterface>().To<EventPublishService>();
+            
 
             //this is for appication command handlers to use, 
             //need to consider putting context on this

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Website.Infrastructure.Binding;
 using Website.Infrastructure.Domain;
 using Website.Infrastructure.Messaging;
@@ -19,6 +20,14 @@ namespace Website.Application.Messaging
                 {
                     Event = subject
                 });
+        }
+
+        public void PublishAll<EventType>(IEnumerable<EventType> subjects) where EventType : EventInterface
+        {
+            foreach (var subject in subjects)
+            {
+                 Publish(subject);   
+            }
         }
     }
 }

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
 using Ninject;
-using PostaFlya.Domain.Browser.Event;
 using Website.Azure.Common.Environment;
 using Website.Azure.Common.TableStorage;
 using Website.Domain.Browser;
@@ -12,6 +11,7 @@ using Website.Infrastructure.Authentication;
 using Website.Infrastructure.Command;
 using Website.Domain.Location;
 using Website.Domain.Tag;
+using Website.Infrastructure.Domain;
 using Website.Infrastructure.Messaging;
 using Website.Infrastructure.Publish;
 using Website.Infrastructure.Query;
@@ -113,11 +113,11 @@ namespace PostaFlya.DataRepository.Tests
         public BrowserInterface StoreBrowserRepository()
         {
             var ret = BrowserTestData.StoreOne(GetBrowser(), _repository, Kernel, false);
-            var indexers = Kernel.GetAll<HandleEventInterface<BrowserModifiedEvent>>();
-            foreach (var handleEvent in indexers)
-            {
-                handleEvent.Handle(new BrowserModifiedEvent() {NewState = (Browser) ret});
-            }
+//            var indexers = Kernel.GetAll<HandleEventInterface<EntityModifiedEvent<Browser>>>();
+//            foreach (var handleEvent in indexers)
+//            {
+//                handleEvent.Handle(new BrowserModifiedEvent() {Entity = (Browser) ret});
+//            }
             return ret;
         }
 

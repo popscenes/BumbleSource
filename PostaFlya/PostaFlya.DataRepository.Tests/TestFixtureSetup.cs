@@ -4,8 +4,10 @@ using NUnit.Framework;
 using Ninject;
 using Ninject.MockingKernel.Moq;
 using Ninject.Modules;
+using Website.Application.Binding;
 using Website.Azure.Common.Environment;
 using Website.Azure.Common.TableStorage;
+using Website.Infrastructure.Messaging;
 using Website.Test.Common;
 using Website.Mocks.Domain.Defaults;
 
@@ -41,6 +43,8 @@ namespace PostaFlya.DataRepository.Tests
         {
             var tableNameProv = CurrIocKernel.Get<TableNameAndIndexProviderServiceInterface>();
 
+            CurrIocKernel.Bind<MessageBusInterface>().To<InMemoryMessageBus>().InTransientScope();
+
             tableNameProv.SuffixTableNames("test");
 
             //mmm moving away from testing repos, now that json repo is the primary
@@ -70,7 +74,10 @@ namespace PostaFlya.DataRepository.Tests
                       new PostaFlya.Domain.Binding.DefaultServicesNinjectBinding(),
                       new Website.Infrastructure.Binding.InfrastructureNinjectBinding(),
                       new PostaFlya.DataRepository.Binding.TableNameNinjectBinding(),
-                      new PostaFlya.Domain.Binding.CommandNinjectBinding()
+                      new PostaFlya.Domain.Binding.CommandNinjectBinding(),
+                      new ApplicationNinjectBinding(),
+                      new ApplicationCommandHandlersNinjectBinding()
+
                   };
     }
 }

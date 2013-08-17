@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using NUnit.Framework;
 using Ninject;
-using Website.Domain.Claims.Event;
 using Website.Infrastructure.Command;
 using Website.Infrastructure.Domain;
 using Website.Infrastructure.Messaging;
@@ -73,14 +72,14 @@ namespace Website.Mocks.Domain.Data
             }
 
 
-            if (unitOfWork.Successful)
-            {
-                var indexers = kernel.GetAll<HandleEventInterface<ClaimEvent>>();
-                foreach (var handleEvent in indexers)
-                {
-                    handleEvent.Handle(new ClaimEvent() { NewState = (Claim)claim });
-                }
-            }
+//            if (unitOfWork.Successful)
+//            {
+//                var indexers = kernel.GetAll<HandleEventInterface<ClaimEvent>>();
+//                foreach (var handleEvent in indexers)
+//                {
+//                    handleEvent.Handle(new ClaimEvent() { Entity = (Claim)claim });
+//                }
+//            }
             return claim;
         }
 
@@ -96,14 +95,14 @@ namespace Website.Mocks.Domain.Data
 
             Assert.IsTrue(uow.Successful);
 
-            if (uow.Successful)
-            {
-                var indexers = kernel.GetAll<HandleEventInterface<ClaimEvent>>();
-                foreach (var handleEvent in indexers)
-                {
-                    handleEvent.Handle(new ClaimEvent() { NewState = (Claim)claim });
-                }
-            }
+//            if (uow.Successful)
+//            {
+//                var indexers = kernel.GetAll<HandleEventInterface<ClaimEvent>>();
+//                foreach (var handleEvent in indexers)
+//                {
+//                    handleEvent.Handle(new ClaimEvent() { Entity = (Claim)claim });
+//                }
+//            }
 
             return claim;
 
@@ -123,14 +122,14 @@ namespace Website.Mocks.Domain.Data
                     repository.Store(claim);
                 }
                 Assert.IsTrue(unitOfWork.Successful);
-                if (unitOfWork.Successful)
-                {
-                    var indexers = kernel.GetAll<HandleEventInterface<ClaimEvent>>();
-                    foreach (var handleEvent in indexers)
-                    {
-                        handleEvent.Handle(new ClaimEvent() { NewState = (Claim)claim });
-                    }
-                }
+//                if (unitOfWork.Successful)
+//                {
+//                    var indexers = kernel.GetAll<HandleEventInterface<ClaimEvent>>();
+//                    foreach (var handleEvent in indexers)
+//                    {
+//                        handleEvent.Handle(new ClaimEvent() { Entity = (Claim)claim });
+//                    }
+//                }
             }
             return ret;
         }
@@ -167,14 +166,14 @@ namespace Website.Mocks.Domain.Data
                         });
             }
 
-            if (unitOfWork.Successful)
-            {
-                var indexers = kernel.GetAll<HandleEventInterface<ClaimEvent>>();
-                foreach (var handleEvent in indexers)
-                {
-                    handleEvent.Handle(new ClaimEvent() { NewState = (Claim)claim, OrigState = oldState});
-                }
-            }
+//            if (unitOfWork.Successful)
+//            {
+//                var indexers = kernel.GetAll<HandleEventInterface<ClaimEvent>>();
+//                foreach (var handleEvent in indexers)
+//                {
+//                    handleEvent.Handle(new ClaimEvent() { Entity = (Claim)claim});
+//                }
+//            }
         }
 
         public static ClaimInterface GetOne(StandardKernel kernel, string entityId)

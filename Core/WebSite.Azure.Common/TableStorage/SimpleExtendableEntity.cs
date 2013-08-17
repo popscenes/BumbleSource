@@ -10,6 +10,7 @@ namespace Website.Azure.Common.TableStorage
     /// Just for cases where you just need a simple entity, ie just maps to one table entry and there are no partition clones etc
     /// 
     /// </summary>
+    [Serializable]
     public class SimpleExtendableEntity : ExtendableTableEntry, EntityIdInterface
     {
         public IEnumerable<StorageTableEntryInterface> GetTableEntries()

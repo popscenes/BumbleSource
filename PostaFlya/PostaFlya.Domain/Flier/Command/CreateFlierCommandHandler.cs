@@ -1,14 +1,9 @@
 using System;
 using System.Collections.Generic;
 using PostaFlya.Domain.Boards;
-using PostaFlya.Domain.Boards.Command;
-using PostaFlya.Domain.Boards.Event;
-using PostaFlya.Domain.Boards.Query;
-using PostaFlya.Domain.Flier.Event;
 using PostaFlya.Domain.Flier.Payment;
 using PostaFlya.Domain.Flier.Query;
 using Website.Domain.Payment;
-using Website.Domain.Service;
 using Website.Domain.TinyUrl;
 using Website.Infrastructure.Command;
 using Website.Infrastructure.Domain;
@@ -24,21 +19,17 @@ namespace PostaFlya.Domain.Flier.Command
         private readonly GenericRepositoryInterface _repository;
         private readonly UnitOfWorkFactoryInterface _unitOfWorkFactory;
         private readonly GenericQueryServiceInterface _flierQueryService;
-        private readonly EventPublishServiceInterface _eventPublishService;
         private readonly CreditChargeServiceInterface _creditChargeService;
         private readonly TinyUrlServiceInterface _tinyUrlService;
         private readonly QueryChannelInterface _queryChannel;
 
         public CreateFlierCommandHandler(GenericRepositoryInterface repository
-            , UnitOfWorkFactoryInterface unitOfWorkFactory, GenericQueryServiceInterface flierQueryService
-            , EventPublishServiceInterface eventPublishService
-            , CreditChargeServiceInterface creditChargeService
+            , UnitOfWorkFactoryInterface unitOfWorkFactory, GenericQueryServiceInterface flierQueryService, CreditChargeServiceInterface creditChargeService
             , TinyUrlServiceInterface tinyUrlService, QueryChannelInterface queryChannel)
         {
             _repository = repository;
             _unitOfWorkFactory = unitOfWorkFactory;
             _flierQueryService = flierQueryService;
-            _eventPublishService = eventPublishService;
             _creditChargeService = creditChargeService;
             _tinyUrlService = tinyUrlService;
             _queryChannel = queryChannel;
@@ -98,14 +89,6 @@ namespace PostaFlya.Domain.Flier.Command
                 return new MsgResponse("Flier Creation Failed", true)
                         .AddCommandId(command);
             
-
-            _eventPublishService.Publish(new FlierModifiedEvent() { NewState = newFlier });
-
-//            foreach (var boardFlierModifiedEvent in boardFliers)
-//            {
-//                _domainEventPublishService.Publish(boardFlierModifiedEvent);
-//            }
-
             return new MsgResponse("Flier Create", false)
                 .AddEntityId(newFlier.Id)
                 .AddCommandId(command)

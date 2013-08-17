@@ -1,4 +1,3 @@
-using PostaFlya.Domain.Boards.Event;
 using PostaFlya.Domain.Boards.Query;
 using Website.Domain.Browser;
 using Website.Domain.Service;
@@ -14,18 +13,15 @@ namespace PostaFlya.Domain.Boards.Command
         private readonly GenericRepositoryInterface _boardRepository;
         private readonly GenericQueryServiceInterface _boardQueryService;
         private readonly UnitOfWorkFactoryInterface _unitOfWorkFactory;
-        private readonly EventPublishServiceInterface _eventPublishService;
         private readonly QueryChannelInterface _queryChannel;
 
         public EditBoardCommandHandler(GenericRepositoryInterface boardRepository
                                        , GenericQueryServiceInterface boardQueryService
-                                       , UnitOfWorkFactoryInterface unitOfWorkFactory
-                                       , EventPublishServiceInterface eventPublishService, QueryChannelInterface queryChannel)
+                                       , UnitOfWorkFactoryInterface unitOfWorkFactory, QueryChannelInterface queryChannel)
         {
             _boardRepository = boardRepository;
             _boardQueryService = boardQueryService;
             _unitOfWorkFactory = unitOfWorkFactory;
-            _eventPublishService = eventPublishService;
             _queryChannel = queryChannel;
         }
 
@@ -66,11 +62,9 @@ namespace PostaFlya.Domain.Boards.Command
                 return new MsgResponse("Board Edit Failed", true)
                     .AddCommandId(command);
 
-            var newBoard = _boardQueryService.FindById<Board>(command.Id);
-            _eventPublishService.Publish(new BoardModifiedEvent() { NewState = newBoard, OrigState = boardExist});
 
             return new MsgResponse("Board Edit Succeded", false)
-                .AddEntityId(newBoard.Id)
+                .AddEntityId(command.Id)
                 .AddCommandId(command);
         }
     }

@@ -1,5 +1,6 @@
 using System;
 using Website.Infrastructure.Domain;
+using Website.Infrastructure.Messaging;
 
 namespace Website.Azure.Common.TableStorage
 {
@@ -7,8 +8,9 @@ namespace Website.Azure.Common.TableStorage
         : RepositoryBase<JsonTableEntry>
     {
         public JsonRepository(TableContextInterface tableContext
-                      , TableNameAndIndexProviderServiceInterface nameAndIndexProviderService)
-            : base(tableContext, nameAndIndexProviderService)
+                      , TableNameAndIndexProviderServiceInterface nameAndIndexProviderService
+                    , EventPublishServiceInterface publishService)
+            : base(tableContext, nameAndIndexProviderService, publishService)
         {
         }
     }

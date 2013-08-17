@@ -12,18 +12,18 @@ using Website.Application.Email.VCard;
 using Website.Domain.Browser;
 using Website.Domain.Browser.Publish;
 using Website.Domain.Claims;
-using Website.Domain.Claims.Event;
 using Website.Domain.Contact;
 using Website.Domain.Location;
 using Website.Infrastructure.Command;
 using Website.Infrastructure.Configuration;
+using Website.Infrastructure.Domain;
 using Website.Infrastructure.Messaging;
 using Website.Infrastructure.Query;
 using Website.Infrastructure.Util.Extension;
 
 namespace PostaFlya.Application.Domain.Email.Claims
 {
-    public class BrowserClaimEmailSubscription : BrowserSubscriptionBase<ClaimEvent>
+    public class BrowserClaimEmailSubscription : BrowserSubscriptionBase<EntityModifiedEvent<Claim>>
     {
         private readonly GenericQueryServiceInterface _entityQueryService;
         private readonly SendEmailServiceInterface _emailService;
@@ -47,9 +47,9 @@ namespace PostaFlya.Application.Domain.Email.Claims
         }
 
         //just returning browser who claims atm, future use may be charging for contact details the other way.
-        public override BrowserInterface[] GetBrowsersForPublish(ClaimEvent publish)
+        public override BrowserInterface[] GetBrowsersForPublish(EntityModifiedEvent<Claim> publish)
         {
-            var claim = publish.NewState;
+            var claim = publish.Entity;
             BrowserInterface browser = _entityQueryService.FindById<Website.Domain.Browser.Browser>(claim.BrowserId);
             
 
@@ -69,11 +69,11 @@ namespace PostaFlya.Application.Domain.Email.Claims
             return browserPublishList.Any() ? browserPublishList.ToArray() : null;
         }
 
-        public override bool PublishToBrowser(BrowserInterface browser, ClaimEvent publish)
+        public override bool PublishToBrowser(BrowserInterface browser, EntityModifiedEvent<Claim> publish)
         {
-            var flier = _entityQueryService.FindById<PostaFlya.Domain.Flier.Flier>(publish.NewState.AggregateId);
+            var flier = _entityQueryService.FindById<PostaFlya.Domain.Flier.Flier>(publish.Entity.AggregateId);
 
-            if (browser.Id.Equals(publish.NewState.BrowserId))
+            if (browser.Id.Equals(publish.Entity.BrowserId))
             {
                 return SendToClaimer(browser, publish, flier);
             }
@@ -87,7 +87,7 @@ namespace PostaFlya.Application.Domain.Email.Claims
 
         }
 
-        private bool SendToOwner(BrowserInterface browser, ClaimEvent publish, PostaFlya.Domain.Flier.Flier flier)
+        private bool SendToOwner(BrowserInterface browser, EntityModifiedEvent<Claim> publish, PostaFlya.Domain.Flier.Flier flier)
         {
             //not sending through contact details for now...considering 
 //            var email = new MailMessage();
@@ -108,7 +108,7 @@ namespace PostaFlya.Application.Domain.Email.Claims
             return true;
         }
 
-        private bool SendToClaimer(BrowserInterface browser, ClaimEvent publish, PostaFlya.Domain.Flier.Flier flier)
+        private bool SendToClaimer(BrowserInterface browser, EntityModifiedEvent<Claim> publish, PostaFlya.Domain.Flier.Flier flier)
         {
             var email = new MailMessage();
 

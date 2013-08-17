@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Data.Services.Common;
 using Microsoft.WindowsAzure.Storage.Table.DataServices;
 
 namespace Website.Azure.Common.TableStorage
@@ -17,12 +18,14 @@ namespace Website.Azure.Common.TableStorage
         }
     }
 
+    
     public interface StorageTableKeyInterface
     {
         string PartitionKey { get; set; }
         string RowKey { get; set; }
     }
 
+    [DataServiceKey(new string[] { "PartitionKey", "RowKey" })]
     public class StorageTableKey : TableServiceEntity, StorageTableKeyInterface
     {
     }

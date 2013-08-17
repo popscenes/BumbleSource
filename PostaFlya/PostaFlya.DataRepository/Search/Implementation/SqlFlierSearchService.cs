@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Diagnostics;
@@ -8,7 +7,6 @@ using System.Text;
 using Microsoft.SqlServer.Types;
 using PostaFlya.DataRepository.Search.SearchRecord;
 using PostaFlya.Domain.Boards;
-using PostaFlya.Domain.Flier.Event;
 using PostaFlya.Domain.Flier.Query;
 using Website.Azure.Common.Sql;
 using PostaFlya.DataRepository.Binding;
@@ -17,7 +15,6 @@ using Website.Azure.Common.TableStorage;
 using Website.Infrastructure.Domain;
 using Website.Domain.Location;
 using Website.Domain.Tag;
-using Website.Infrastructure.Publish;
 using Website.Infrastructure.Query;
 using Website.Infrastructure.Util.Extension;
 
