@@ -1,4 +1,13 @@
-﻿div.bulletin-showing-div {
+﻿div.ui-bulletin-board {
+text-align: center;
+text-align: -webkit-center;
+text-align: -moz-center;
+text-align: -khtml-center;
+}
+
+
+
+div.bulletin-showing-div {
     color: white;
     font-style: italic;
     padding-bottom: 5px;

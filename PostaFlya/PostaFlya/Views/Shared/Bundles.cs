@@ -123,7 +123,7 @@ namespace PostaFlya.Views.Shared
             "Toolbar.css",
             "FlyerCreate.css",
             "FlyerDetail.css",
-            "FlyerSummary",
+            "FlyerSummary.css",
             "GigBoard.css",
             "Responsive.css",
 
