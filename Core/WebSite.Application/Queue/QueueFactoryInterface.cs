@@ -10,5 +10,6 @@ namespace Website.Application.Queue
     {
         QueueInterface GetQueue(string queueName);
         void DeleteQueue(string queueName);
+        bool QueueExists(string queueName);
     }
 }

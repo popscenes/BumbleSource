@@ -38,6 +38,8 @@
             <Setting name="Tags" value="music,theatre,photography,film,fine arts,community" />
             <Setting name="NewAccountCredit" value="500" />
             <Setting name="SkipSomethingForNow" value="false" />
+            <Setting name="ServiceBusNamespace" value="Endpoint=sb://popscenes.servicebus.windows.net/;SharedSecretIssuer=owner;SharedSecretValue=LyioX1RXnGJW+2f7PIjDmVFqZgxVMdJ2JhRYHpLyeEU="/>
+
         </ConfigurationSettings>
         <Certificates>
             <!--<Certificate name="Microsoft.WindowsAzure.Plugins.RemoteAccess.PasswordEncryption" thumbprint="B5EB70801A6D0B9319FDE06E891D90737F129018" thumbprintAlgorithm="sha1" />-->

@@ -40,7 +40,8 @@ namespace Website.Azure.Common.Binding
                         AzureEnv.UseRealStorage ? 
                             CloudStorageAccount.Parse(ConfigurationManager.AppSettings["StorageConnectionString"])
                             : CloudStorageAccount.Parse("UseDevelopmentStorage=true")
-            );
+            ).InThreadScope();
+
             //replace line above for fiddler
             //CloudStorageAccount.Parse("UseDevelopmentStorage=true;DevelopmentStorageProxyUri=http://ipv4.fiddler"));
 

@@ -11,21 +11,19 @@ namespace Website.Application.Azure.Command
 {
     public class AzureMessageQueueFactory : MessageQueueFactoryInterface
     {
-        private readonly CloudQueueClient _cloudQueueClient;
         private readonly MessageHandlerRespositoryInterface _handlerRespository;
         private readonly CloudBlobClient _cloudBlobClient;
-        private readonly AzureCloudQueueFactory _azureCloudQueueFactory;
+        private readonly QueueFactoryInterface _queueFactory;
 
 
         public AzureMessageQueueFactory(
             CloudBlobClient cloudBlobClient
-            , CloudQueueClient cloudQueueClient
+            , QueueFactoryInterface queueFactory
             , MessageHandlerRespositoryInterface handlerRespository)
         {
             _cloudBlobClient = cloudBlobClient;
-            _cloudQueueClient = cloudQueueClient;
             _handlerRespository = handlerRespository;
-            _azureCloudQueueFactory = new AzureCloudQueueFactory(cloudQueueClient);
+            _queueFactory = queueFactory;
         }
 
         public MessageBusInterface GetMessageBusForEndpoint(string queueEndpoint)
@@ -38,7 +36,7 @@ namespace Website.Application.Azure.Command
 
         public void Delete(string queueEndpoint)
         {
-            _azureCloudQueueFactory.DeleteQueue(queueEndpoint);
+            _queueFactory.DeleteQueue(queueEndpoint);
 
             var azureQueueStorage = new AzureCloudBlobStorage(_cloudBlobClient.GetContainerReference(queueEndpoint));
             if (azureQueueStorage.Exists())
@@ -54,7 +52,7 @@ namespace Website.Application.Azure.Command
 
         private QueueInterface GetQueueForEndpoint(string queueEndpoint)
         {
-            return _azureCloudQueueFactory.GetQueue(queueEndpoint);
+            return _queueFactory.GetQueue(queueEndpoint);
         }
 
         private MessageSerializerInterface GetCommandSerializerForEndpoint(string queueEndpoint)

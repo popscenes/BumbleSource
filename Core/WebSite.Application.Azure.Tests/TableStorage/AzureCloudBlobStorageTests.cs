@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.IO;
 using Microsoft.WindowsAzure.Storage.Blob;
 using NUnit.Framework;
 using Ninject;
 using Website.Application.Azure.Content;
-using Website.Application.Binding;
 using Website.Application.Content;
 using Website.Application.Messaging;
 using Website.Azure.Common.Environment;
@@ -14,7 +12,7 @@ using Website.Infrastructure.Binding;
 using Website.Infrastructure.Command;
 using Website.Infrastructure.Messaging;
 
-namespace Website.Application.Azure.Tests
+namespace Website.Application.Azure.Tests.TableStorage
 {
 
     [TestFixture("dev")]

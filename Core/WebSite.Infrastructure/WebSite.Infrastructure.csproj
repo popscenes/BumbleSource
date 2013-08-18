@@ -218,6 +218,7 @@
     <Compile Include="Query\QueryHandlerInterface.cs" />
     <Compile Include="Query\QueryInterface.cs" />
     <Compile Include="Query\QueryServiceInterface.cs" />
+    <Compile Include="Task\QueueWorker.cs" />
     <Compile Include="Tracing\TraceUtil.cs" />
     <Compile Include="Types\JsonSerializedTypeContainer.cs" />
     <Compile Include="Util\CryptoUtil.cs" />

@@ -123,9 +123,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AzureCloudBlobStorageTests.cs" />
-    <Compile Include="AzureCloudQueueTests.cs" />
-    <Compile Include="AzureCommandQueueFactoryTests.cs" />
+    <Compile Include="ServiceBus\ServiceBusQueueFactoryTests.cs" />
+    <Compile Include="TableStorage\AzureCloudBlobStorageTests.cs" />
+    <Compile Include="TableStorage\AzureCloudQueueTests.cs" />
+    <Compile Include="TableStorage\AzureCommandQueueFactoryTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Schedule\SchedulerImplementationTests.cs" />
     <Compile Include="TestFixtureSetup.cs" />

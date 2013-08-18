@@ -13,11 +13,14 @@ using Website.Application.Messaging;
 using Website.Application.Queue;
 using Website.Application.Util;
 using Website.Application.WebsiteInformation;
+using Website.Azure.Common.Environment;
 using Website.Azure.Common.TableStorage;
 using Website.Infrastructure.Binding;
 using Website.Infrastructure.Command;
+using Website.Infrastructure.Configuration;
 using Website.Infrastructure.Messaging;
 using Website.Infrastructure.Util;
+using Website.Infrastructure.Util.Extension;
 
 namespace Website.Application.Azure.Binding
 {
@@ -27,22 +30,32 @@ namespace Website.Application.Azure.Binding
         {
             Trace.TraceInformation("Binding AzureApplicationNinjectBinding");
 
-            Bind<MessageQueueFactoryInterface>()
-                .To<AzureMessageQueueFactory>()
-                .InThreadScope();
 
             //queue factory
             Kernel.Bind<QueueFactoryInterface>()
-                  .To<AzureCloudQueueFactory>()
+                    .ToMethod(context => 
+                        new ServiceBusQueueFactory(context.Kernel.Get<ConfigurationServiceInterface>()
+                            , "ServiceBusNamespace"
+                            , AzureEnv.IsRunningInProdFabric() 
+                                ? null //this is just so in dev everyone has their own queues
+                                : System.Environment.MachineName.ToLowerHiphen())
+                        )
+                  //.To<ServiceBusQueueFactory>()
+                  //.To<AzureCloudQueueFactory>()
                   .InThreadScope();
+
+            Bind<MessageQueueFactoryInterface>()
+                .To<AzureMessageQueueFactory>()
+                .InThreadScope();
             
             //worker command queue
             Kernel.Bind<MessageBusInterface>().ToMethod(
                 ctx =>
                 ctx.Kernel.Get<MessageQueueFactoryInterface>()
-                    .GetMessageBusForEndpoint("workercommandqueue")
-            )
-            .WhenTargetHas<WorkerCommandBusAttribute>();
+                   .GetMessageBusForEndpoint("workercommandqueue")
+                )
+                .WhenTargetHas<WorkerCommandBusAttribute>();
+            //.InThreadScope();
 
             Kernel.Bind<QueuedMessageProcessor>().ToMethod(
                 ctx =>

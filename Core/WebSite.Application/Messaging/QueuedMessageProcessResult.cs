@@ -2,7 +2,7 @@
 {
     public enum QueuedMessageProcessResult
     {
-        Successful,
+        Successful = 0,
         Error,
         Retry,
         RetryError

@@ -41,6 +41,13 @@ namespace Website.Application.Azure.Queue
             azureMsg.Message.Complete();
         }
 
+        public void ReturnMessage(QueueMessageInterface message)
+        {
+            var azureMsg = message as ServiceBusQueueMessage;
+            if (azureMsg == null) return;
+            azureMsg.Message.Abandon();
+        }
+
         public int? ApproximateMessageCount { get { return null; } }
     }
 }

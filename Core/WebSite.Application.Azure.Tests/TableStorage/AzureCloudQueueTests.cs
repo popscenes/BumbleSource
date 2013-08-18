@@ -2,12 +2,11 @@
 using Microsoft.WindowsAzure.Storage.Queue;
 using NUnit.Framework;
 using Ninject;
-using Website.Application.Azure.Command;
 using Website.Application.Azure.Queue;
 using Website.Application.Content;
 using Website.Application.Queue;
 
-namespace Website.Application.Azure.Tests
+namespace Website.Application.Azure.Tests.TableStorage
 {
     [TestFixture]
     public class AzureCloudQueueTests

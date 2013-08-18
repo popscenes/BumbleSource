@@ -30,5 +30,11 @@ namespace Website.Application.Azure.Queue
             if (azureCloudQueue.Exists())
                 azureCloudQueue.Delete();
         }
+
+        public bool QueueExists(string queueName)
+        {
+            var azureCloudQueue = new AzureCloudQueue(_cloudQueueClient.GetQueueReference(queueName));
+            return azureCloudQueue.Exists();
+        }
     }
 }

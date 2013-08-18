@@ -49,7 +49,7 @@ namespace Website.Application.Tests.Command
         public void QueueCommandBusAddMessageTest()
         {
             //moq the command for message
-            var testCommand = new QueuedCommandSchedulerTests.TestCommand() { CommandData = "BlahBlahBlah" };
+            var testCommand = new QueuedMessageProcessorTests.TestCommand() { CommandData = "BlahBlahBlah" };
             var serializedMsg = SerializeUtil.ToByteArray(testCommand);
 
             var bus = Kernel.Get<QueuedMessageBus>(ctx => ctx.Has("queuedcommandbustests"));

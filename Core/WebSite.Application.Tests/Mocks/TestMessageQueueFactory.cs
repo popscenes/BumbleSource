@@ -159,6 +159,13 @@ namespace Website.Application.Tests.Mocks
             Callback(EndpointName, "DeleteMessage", message);
         }
 
+        public void ReturnMessage(QueueMessageInterface message)
+        {
+            _messages.Enqueue(message);//not technically correct as message shouldn't lose place in queu
+            Callback(EndpointName, "ReturnMessage", message);
+
+        }
+
         public int? ApproximateMessageCount { get { return _messages.Count; } }
 
         public ConcurrentQueue<QueueMessageInterface> Storage

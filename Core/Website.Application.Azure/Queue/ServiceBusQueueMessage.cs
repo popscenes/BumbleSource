@@ -7,6 +7,7 @@ namespace Website.Application.Azure.Queue
     public class ServiceBusQueueMessage : QueueMessageInterface
     {
         private BrokeredMessage _message;
+        private byte[] _bytes;
 
         public ServiceBusQueueMessage(BrokeredMessage message)
         {
@@ -21,8 +22,8 @@ namespace Website.Application.Azure.Queue
         }
 
         public byte[] Bytes {
-            get { return _message.GetBody<byte[]>(); }
-            set { _message = new BrokeredMessage(value); } }
+            get { return _bytes ?? (Bytes = _message.GetBody<byte[]>()); }
+            set { _message = new BrokeredMessage(_bytes = value); } }
 
         public string CorrelationId
         {

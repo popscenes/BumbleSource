@@ -33,7 +33,7 @@ namespace Website.Application.Tests.Command
             Kernel.Unbind<QueueInterface>();
             Kernel.Unbind<QueueMessageInterface>();
             Kernel.Unbind<MessageSerializerInterface>();
-            Kernel.Unbind<MessageHandlerInterface<QueuedCommandSchedulerTests.TestCommand>>();
+            Kernel.Unbind<MessageHandlerInterface<QueuedMessageProcessorTests.TestCommand>>();
             Kernel.Unbind<BlobStorageInterface>();
         }
 

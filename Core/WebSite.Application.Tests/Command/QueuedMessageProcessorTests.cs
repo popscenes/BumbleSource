@@ -15,7 +15,7 @@ using Website.Infrastructure.Util;
 namespace Website.Application.Tests.Command
 {
     [TestFixture]
-    public class QueuedCommandSchedulerTests
+    public class QueuedMessageProcessorTests
     {
         MoqMockingKernel Kernel
         {
@@ -184,6 +184,78 @@ namespace Website.Application.Tests.Command
             //Assert that it topped out at 1000
             Assert.That(lastElapsedMillis, Is.GreaterThanOrEqualTo(1000));
             Assert.That(lastElapsedMillis, Is.LessThanOrEqualTo(1200));
+        }
+
+        [Test]
+        public void QueueMessageProcessorReturnsMessageToQueueIfAtCapacity()
+        {
+            var cancellationTokenSource = new CancellationTokenSource();
+
+            //create some messages
+            var testCommand = new TestCommand() { CommandData = "BlahBlahBlah" };
+            var serializedMsg = SerializeUtil.ToByteArray(testCommand);
+
+            //setup a command handler
+            var commandCount = 0;
+            var cmdHandler = Kernel.GetMock<MessageHandlerInterface<TestCommand>>();
+            cmdHandler.Setup(ch => ch.Handle(It.IsAny<TestCommand>()))
+                .Returns<TestCommand>(tc =>
+                {
+                    Assert.AreEqual(tc.CommandData, "BlahBlahBlah");
+                    Interlocked.Increment(ref commandCount);
+                    return true;
+                });
+
+            Kernel.Bind<MessageHandlerInterface<TestCommand>>().ToConstant(cmdHandler.Object).InSingletonScope();
+
+            //Add some commands to the queue
+            var bus = Kernel.Get<QueuedMessageBus>(ctx => ctx.Has("queuedmessageprocessortests"));
+            for (int i = 0; i < 5 * 15; i++)
+            {
+                bus.Send(testCommand);
+            }
+
+
+            var deleteCount = 0;
+            var returnCount = 0;
+            var testQueuedCommandBusFactory = GetCommandBusFactory();
+
+            testQueuedCommandBusFactory.AddQueueActionListener(
+                (endpoint, method, msg) =>
+                {
+                    if (method == "DeleteMessage")
+                    {
+                        Interlocked.Increment(ref deleteCount);
+
+                        if (deleteCount == 5 * 15)
+                            cancellationTokenSource.Cancel();
+                    }
+                    else if (method == "ReturnMessage")
+                    {
+                        Interlocked.Increment(ref returnCount);
+                    }
+
+                });
+
+            var commandsReturned = 0;
+            testQueuedCommandBusFactory.AddCmdSerializerListener(
+                (method, cmd) =>
+                {
+                    if (method != "ReleaseCommand") return;
+                    commandsReturned++;
+                }
+                );
+
+            var processor = Kernel.Get<QueuedMessageProcessor>(ctx => ctx.Has("queuedmessageprocessortests"));
+
+            processor.Run(cancellationTokenSource.Token);
+
+            Assert.AreEqual(commandsReturned, deleteCount);
+            Assert.AreEqual(commandCount, deleteCount);
+            Assert.That(returnCount, Is.GreaterThan(0));
+
+            Kernel.Unbind<MessageHandlerInterface<TestCommand>>();
+
         }
     }
 }

@@ -1,9 +1,12 @@
 ﻿using System;
+using System.Collections.Concurrent;
+using System.Linq;
 using System.Threading;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using Website.Application.Queue;
 using Website.Infrastructure.Messaging;
+using Website.Infrastructure.Task;
 
 namespace Website.Application.Messaging
 {
@@ -12,45 +15,41 @@ namespace Website.Application.Messaging
         private readonly QueueInterface _messageQueue;
         private readonly MessageSerializerInterface _messageSerializer;
         private readonly MessageHandlerRespositoryInterface _handlerRespository;
-        private int _messageCount;
+        private int _completeCount;
         private int _waitLength = 200;
         private const int MaxBackOffLimit = 1000;
-        private const int MaxWorkInProgress = 15;
 
+        private readonly ConcurrentQueue<WorkInProgress> _completedWork;
+        private readonly QueueWorker<WorkInProgress>[] _workers;
+        private const int WorkerQueueBounds = 15;
         
 
         public QueuedMessageProcessor(QueueInterface messageQueue,  
             MessageSerializerInterface messageSerializer, 
-            MessageHandlerRespositoryInterface handlerRespository)
+            MessageHandlerRespositoryInterface handlerRespository, int numWorkers = 4)
         {
             _messageQueue = messageQueue;
             _messageSerializer = messageSerializer;
             _handlerRespository = handlerRespository;
+            _workers = new QueueWorker<WorkInProgress>[numWorkers];
+            _completedWork = new ConcurrentQueue<WorkInProgress>();
+
         }
 
         //[UnitTestOnly]
         public WorkInProgress ProcessOneSynch()
         {
             WorkInProgress ret = null;
-            var message = GetMessage();
+            var workInProgress = TryGetMessage();
 
             do
-            {                
-                if (message == null)
+            {
+                if (workInProgress == null)
                     return null;
 
-
-                var workInProgress = new WorkInProgress()
-                    {
-                        Id = Guid.NewGuid().ToString(),
-                        Message = message,
-                    };
-
-                ret = RunTask(workInProgress).Result;
-
+                ret = TaskProc(workInProgress);
                 if (ret.Result == QueuedMessageProcessResult.RetryError)
                 {
-                    WorkComplete(ret);
                     throw new Exception("Shouldn't expect error");
                 }
                     
@@ -60,33 +59,121 @@ namespace Website.Application.Messaging
             return ret;
         }
         
+//        public void Run(CancellationToken cancellationToken)
+//        {
+//            
+//            while (!cancellationToken.IsCancellationRequested)
+//            {
+//                if (_wip >= _numWorkers) continue;
+//
+//                var gotMsg = this.CheckForMessage();
+//                if (!gotMsg)
+//                {
+//                    Thread.Sleep(_waitLength);
+//                    _waitLength = Math.Min(MaxBackOffLimit, _waitLength + 200);
+//                }
+//                else
+//                {
+//                    _waitLength = 200;
+//                }
+//            }
+//
+//            while (_wip > 0)
+//            {
+//                Thread.Sleep(_waitLength);
+//            }
+//        }
+
+        private void InitWorkers(CancellationToken cancellationToken)
+        {
+            for (var i = 0; i < _workers.Length; i++)
+            {
+                _workers[i] = new QueueWorker<WorkInProgress>(
+                    (w) => TaskProc(w)
+                    , cancellationToken
+                    , WorkerQueueBounds
+                    , _completedWork);
+                _workers[i].Start();
+            }
+        }
+
         public void Run(CancellationToken cancellationToken)
         {
+            InitWorkers(cancellationToken);
             while (!cancellationToken.IsCancellationRequested)
             {
-                if (_wip >= MaxWorkInProgress) continue;
+                var gotMsg = this.TryGetMessage();
 
-                var gotMsg = this.CheckForMessage();
-                if (!gotMsg)
+                if (gotMsg != null && !Dispatch(gotMsg))
                 {
-                    Thread.Sleep(_waitLength);
-                    _waitLength = Math.Min(MaxBackOffLimit, _waitLength + 200);
+                    this.AbandonMessage(gotMsg);
+                    gotMsg = null;
                 }
-                else
-                {
-                    _waitLength = 200;
-                }
+
+                CheckCompleted();
+
+                BackOffWait(gotMsg == null && _completedWork.Count == 0);
             }
 
-            while (_wip > 0)
+            while (_workers.Any(
+                worker => 
+                    worker.WorkQueue.Count > 0 ||
+                    worker.Status == TaskStatus.Running ))
+            {
+                CheckCompleted();
+                Thread.Sleep(200);
+            }
+        }
+
+        private void AbandonMessage(WorkInProgress gotMsg)
+        {
+            _messageQueue.ReturnMessage(gotMsg.Message);
+        }
+
+        private bool BackOffWait(bool backOff = true)
+        {
+            if (backOff)
             {
                 Thread.Sleep(_waitLength);
+                _waitLength = Math.Min(MaxBackOffLimit, _waitLength + 200);
+            }
+            else
+            {
+                _waitLength = 200;
+            }
+            return backOff;
+        }
+
+        private void CheckCompleted()
+        {
+            while (_completedWork.Count > 0)
+            {
+                WorkInProgress wip;
+                if (!_completedWork.TryDequeue(out wip))
+                    continue;
+                if (wip.Result >= QueuedMessageProcessResult.Retry) continue;
+
+                _messageSerializer.ReleaseCommand(wip.Command);
+                _messageQueue.DeleteMessage(wip.Message);
+                _completeCount++;
+            }
+        }
+
+        private bool Dispatch(WorkInProgress gotMsg)
+        {
+
+            if(string.IsNullOrWhiteSpace(gotMsg.Message.CorrelationId))
+                return _workers.OrderBy(worker => worker.WorkQueue.Count).First().WorkQueue.TryAdd(gotMsg);
+            else
+            {
+                var worker = Math.Abs(gotMsg.Message.CorrelationId.GetHashCode()%_workers.Length);
+                return _workers[worker].WorkQueue.TryAdd(gotMsg);
             }
         }
 
         public int GetMessageCount()
         {
-            return _messageCount;
+            return _completeCount;
         }
 
         public class WorkInProgress
@@ -97,68 +184,81 @@ namespace Website.Application.Messaging
             public dynamic Command { get; set; }
         }
 
-        private bool CheckForMessage()
+//        private bool CheckForMessage()
+//        {
+//            var message = GetMessage();
+//            if (message == null) 
+//               return false;
+//            
+//
+//            var workInProgress = new WorkInProgress()
+//                                     {
+//                                         Id = Guid.NewGuid().ToString(),
+//                                         Message = message,
+//                                     };
+//
+//            RunTask(workInProgress);
+//            return true;
+//        }
+
+        private WorkInProgress TryGetMessage()
         {
             var message = GetMessage();
-            if (message == null) 
-               return false;
-            
+            if (message == null)
+                return null;
+
 
             var workInProgress = new WorkInProgress()
-                                     {
-                                         Id = Guid.NewGuid().ToString(),
-                                         Message = message,
-                                     };
+            {
+                Id = Guid.NewGuid().ToString(),
+                Message = message,
+            };
 
-            RunTask(workInProgress);
-            return true;
+            return workInProgress;
         }
 
         private QueueMessageInterface GetMessage()
         {
-            lock (_messageQueue)
-            {
-                return _messageQueue.GetMessage();
-            }          
+            return _messageQueue.GetMessage();
         }
 
-        private async Task<WorkInProgress> RunTask(WorkInProgress workInProgress)
-        {
-            IncWip();
-            var progress = workInProgress;
-            var task = new Task<WorkInProgress>(() => TaskProc(progress));
-            task.Start();
-            var wipret = await task;
+//        private async Task<WorkInProgress> RunTask(WorkInProgress workInProgress)
+//        {
+//            IncWip();
+//            var progress = workInProgress;
+//            var task = new Task<WorkInProgress>(() => TaskProc(progress));
+//            task.Start();
+//            var wipret = await task;
+//
+//            if ((task.IsCanceled || task.IsFaulted) || (wipret.Result > QueuedMessageProcessResult.Retry))
+//            {
+//                IncWip(false);
+//                return wipret;
+//            }
+//
+//            WorkComplete(wipret);
+//            return wipret;
+//        }
 
-            if ((task.IsCanceled || task.IsFaulted) || (wipret.Result > QueuedMessageProcessResult.Retry))
-            {
-                IncWip(false);
-                return wipret;
-            }
-
-            WorkComplete(wipret);
-            return wipret;
-        }
-
-        private int _wip;
-        private void IncWip(bool increment = true)
-        {
-            if(increment)
-                Interlocked.Increment(ref _wip);
-            else
-                Interlocked.Decrement(ref _wip);
-        }
-
-        private void WorkComplete(WorkInProgress wipret)
-        {
-            IncWip(false);            
-            lock (_messageQueue)
-            {
-                _messageSerializer.ReleaseCommand(wipret.Command);
-                _messageQueue.DeleteMessage(wipret.Message);
-                _messageCount++;
-            }
-        }
+//        private int _wip;
+//        private void IncWip(bool increment = true)
+//        {
+//            if(increment)
+//                Interlocked.Increment(ref _wip);
+//            else
+//                Interlocked.Decrement(ref _wip);
+//        }
+//
+//        private void WorkComplete(WorkInProgress wipret)
+//        {
+//            IncWip(false);            
+//            lock (_messageQueue)
+//            {
+//                _messageSerializer.ReleaseCommand(wipret.Command);
+//                _messageQueue.DeleteMessage(wipret.Message);
+//                _completeCount++;
+//            }
+//        }
 
         private WorkInProgress TaskProc(WorkInProgress work)
         {

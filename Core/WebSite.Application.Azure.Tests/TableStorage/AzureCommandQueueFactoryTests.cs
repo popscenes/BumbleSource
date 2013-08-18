@@ -6,9 +6,10 @@ using NUnit.Framework;
 using Ninject;
 using Website.Application.Azure.Command;
 using Website.Application.Messaging;
+using Website.Application.Queue;
 using Website.Infrastructure.Util;
 
-namespace Website.Application.Azure.Tests
+namespace Website.Application.Azure.Tests.TableStorage
 {
     [TestFixture]
     public class AzureCommandQueueFactoryTests
@@ -29,35 +30,31 @@ namespace Website.Application.Azure.Tests
             var newid = Guid.NewGuid().ToString();
             fact.GetMessageBusForEndpoint(CryptoUtil.CalculateHash(newid));
 
-            var cloudQueueClient = Kernel.Get<CloudQueueClient>();
+            var queueFactory = Kernel.Get<QueueFactoryInterface>();
             var cloudBlobClient = Kernel.Get<CloudBlobClient>();
 
-            var queues = cloudQueueClient.ListQueues().ToList();
             var containers = cloudBlobClient.ListContainers().ToList();
 
-            Assert.IsTrue(queues.Any(q => q.Name == CryptoUtil.CalculateHash(newid)));
+            Assert.IsTrue(queueFactory.QueueExists(CryptoUtil.CalculateHash(newid)));
             Assert.IsTrue(containers.Any(q => q.Name == CryptoUtil.CalculateHash(newid)));
 
-            cloudQueueClient.GetQueueReference(CryptoUtil.CalculateHash(newid)).Delete();
+            queueFactory.DeleteQueue(CryptoUtil.CalculateHash(newid));
             cloudBlobClient.GetContainerReference(CryptoUtil.CalculateHash(newid)).Delete();
 
-            queues = cloudQueueClient.ListQueues().ToList();
             containers = cloudBlobClient.ListContainers().ToList();
-            Assert.IsFalse(queues.Any(q => q.Name == CryptoUtil.CalculateHash(newid)));
+            Assert.IsFalse(queueFactory.QueueExists(CryptoUtil.CalculateHash(newid)));
             Assert.IsFalse(containers.Any(q => q.Name == CryptoUtil.CalculateHash(newid)));
 
             //now test a guid works
             newid = Guid.NewGuid().ToString();
             fact.GetMessageBusForEndpoint(newid);
 
-            queues = cloudQueueClient.ListQueues().ToList();
             containers = cloudBlobClient.ListContainers().ToList();
 
-            Assert.IsTrue(queues.Any(q => q.Name == newid));
+            Assert.IsTrue(queueFactory.QueueExists(newid));
             Assert.IsTrue(containers.Any(q => q.Name == newid));
 
-
-            cloudQueueClient.GetQueueReference(newid).Delete();
+            queueFactory.DeleteQueue(newid);
             cloudBlobClient.GetContainerReference(newid).Delete();
 
         }
