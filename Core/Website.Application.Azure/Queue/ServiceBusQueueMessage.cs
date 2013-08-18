@@ -22,7 +22,7 @@ namespace Website.Application.Azure.Queue
         }
 
         public byte[] Bytes {
-            get { return _bytes ?? (Bytes = _message.GetBody<byte[]>()); }
+            get { return _bytes ?? (_bytes = _message.GetBody<byte[]>()); }
             set { _message = new BrokeredMessage(_bytes = value); } }
 
         public string CorrelationId

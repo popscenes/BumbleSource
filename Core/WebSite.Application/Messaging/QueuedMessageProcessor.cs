@@ -55,6 +55,9 @@ namespace Website.Application.Messaging
                     
 
             } while (ret.Result == QueuedMessageProcessResult.Retry);
+
+            _messageSerializer.ReleaseCommand(ret.Command);
+            _messageQueue.DeleteMessage(ret.Message);
             
             return ret;
         }
