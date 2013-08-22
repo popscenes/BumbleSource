@@ -151,6 +151,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\Libraries\Ninject.Extensions.Conventions.3.0.2-unstable-4\lib\net45-full\Ninject.Extensions.Conventions.dll</HintPath>
     </Reference>
+    <Reference Include="NLog">
+      <HintPath>..\..\..\Libraries\NLog.2.0.1.2\lib\net45\NLog.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
@@ -183,6 +186,7 @@
     <Compile Include="Caching\CachedDataSourceBase.cs" />
     <Compile Include="Caching\Query\CachedQueryServiceBase.cs" />
     <Compile Include="Caching\Command\CachedRepositoryBase.cs" />
+    <Compile Include="Configuration\ConfigFile.cs" />
     <Compile Include="Messaging\EventPublishServiceInterface.cs" />
     <Compile Include="Messaging\MessageHandlerRespositoryInterface.cs" />
     <Compile Include="Command\CommandInterface.cs" />
@@ -218,6 +222,7 @@
     <Compile Include="Query\QueryHandlerInterface.cs" />
     <Compile Include="Query\QueryInterface.cs" />
     <Compile Include="Query\QueryServiceInterface.cs" />
+    <Compile Include="Task\ConsoleTaskInterface.cs" />
     <Compile Include="Task\QueueWorker.cs" />
     <Compile Include="Tracing\TraceUtil.cs" />
     <Compile Include="Types\JsonSerializedTypeContainer.cs" />

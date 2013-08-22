@@ -11,6 +11,8 @@
     <AssemblyName>TaskConsole</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -52,8 +54,13 @@
       <Project>{df109e11-7e41-4eb7-9c92-5dda7102c970}</Project>
       <Name>GeoNamesImporter</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Core\Website.Infrastructure\Website.Infrastructure.csproj">
+      <Project>{b5c3a966-f286-4cb8-913b-c8625625451d}</Project>
+      <Name>Website.Infrastructure</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
