@@ -123,6 +123,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ServiceBus\AzureServicerBusTopicSubscriptionTests.cs" />
     <Compile Include="ServiceBus\ServiceBusQueueFactoryTests.cs" />
     <Compile Include="TableStorage\AzureCloudBlobStorageTests.cs" />
     <Compile Include="TableStorage\AzureCloudQueueTests.cs" />
