@@ -19,17 +19,21 @@ namespace PostaFlya.Application.Domain.Binding
         {
             Trace.TraceInformation("Binding ApplicationJobs");
             //every day at 1 am
-            Kernel.Get<SchedulerInterface>().Jobs.Add(new AbsoluteRepeatJob()
+            var sch = Kernel.TryGet<SchedulerInterface>();
+            if (sch != null)
             {
-                Id = "SiteMapBuilder",
-                FriendlyId = "SiteMapBuilder",
-                DayOfWeek = "*",
-                HourOfDay = "1",                
-                Minute = "0",
-                JobStorage = new Dictionary<string, string>(),
-                JobActionClass = typeof(SiteMapXmlGenJobAction),
-                TimeOut = TimeSpan.FromDays(1)
-            });
+                sch.Jobs.Add(new AbsoluteRepeatJob()
+                    {
+                        Id = "SiteMapBuilder",
+                        FriendlyId = "SiteMapBuilder",
+                        DayOfWeek = "*",
+                        HourOfDay = "1",
+                        Minute = "0",
+                        JobStorage = new Dictionary<string, string>(),
+                        JobActionClass = typeof (SiteMapXmlGenJobAction),
+                        TimeOut = TimeSpan.FromDays(1)
+                    });
+            }
 
             Trace.TraceInformation("End Binding ApplicationJobs");
         }

@@ -127,6 +127,7 @@ namespace PostaFlya.Binding
                 .ToMethod(ctx =>
                 {
                     var ret = AzureEnv.IsRunningInCloud() ? new AzureCacheProvider() : getInMemCache();
+                    //var ret = new AzureCacheProvider();
                     return ret;
                 }).InSingletonScope();
 //end azure caching
@@ -199,7 +200,7 @@ namespace PostaFlya.Binding
         #endregion
     }
 
-    public static class AllWebSiteBindings
+    public static class PopscenesNinjectBindings
     {
         public static readonly List<INinjectModule> NinjectModules = new List<INinjectModule>()
                   {

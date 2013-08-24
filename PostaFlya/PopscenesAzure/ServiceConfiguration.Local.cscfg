@@ -5,11 +5,13 @@
         <ConfigurationSettings>
             <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" value="UseDevelopmentStorage=true" />
             <Setting name="StorageConnectionString" value="UseDevelopmentStorage=true" />
+           
             <Setting name="Microsoft.WindowsAzure.Plugins.Caching.NamedCaches" value="{&quot;caches&quot;:[{&quot;name&quot;:&quot;default&quot;,&quot;policy&quot;:{&quot;eviction&quot;:{&quot;type&quot;:0},&quot;expiration&quot;:{&quot;defaultTTL&quot;:10,&quot;isExpirable&quot;:true,&quot;type&quot;:1},&quot;serverNotification&quot;:{&quot;isEnabled&quot;:true}},&quot;secondaries&quot;:0}]}" />
             <Setting name="Microsoft.WindowsAzure.Plugins.Caching.DiagnosticLevel" value="0" />
             <Setting name="Microsoft.WindowsAzure.Plugins.Caching.ClientDiagnosticLevel" value="0" />
             <Setting name="Microsoft.WindowsAzure.Plugins.Caching.CacheSizePercentage" value="50" />
             <Setting name="Microsoft.WindowsAzure.Plugins.Caching.ConfigStoreConnectionString" value="UseDevelopmentStorage=true" />
+          
             <Setting name="SearchDbConnectionString" value="Data Source=.\SQLEXPRESS;Integrated Security=True" />
             <Setting name="SearchDbConnectionStringDbName" value="GigSearch" />
             <Setting name="DisableFederation" value="True" />

@@ -22,7 +22,7 @@ namespace Popscenes.Specification.Util
 
             config.IncludeErrorDetailPolicy = IncludeErrorDetailPolicy.Always;
 
-            kernel.Load(AllWebSiteBindings.NinjectModules);
+            kernel.Load(PopscenesNinjectBindings.NinjectModules);
 
             config.DependencyResolver = new TestNinjectHttpDependencyResolver(kernel, config);
 
