@@ -100,9 +100,8 @@ namespace Website.Application.Messaging
             }
         }
 
-        public void Run(CancellationToken cancellationToken)
+        private void RunInternal(CancellationToken cancellationToken)
         {
-            InitWorkers(cancellationToken);
             while (!cancellationToken.IsCancellationRequested)
             {
                 var gotMsg = this.TryGetMessage();
@@ -119,12 +118,28 @@ namespace Website.Application.Messaging
             }
 
             while (_workers.Any(
-                worker => 
+                worker =>
                     worker.WorkQueue.Count > 0 ||
-                    worker.Status == TaskStatus.Running ))
+                    worker.Status == TaskStatus.Running))
             {
                 CheckCompleted();
                 Thread.Sleep(200);
+            }
+        }
+
+        public void Run(CancellationToken cancellationToken)
+        {
+            InitWorkers(cancellationToken);
+            while (!cancellationToken.IsCancellationRequested)
+            {
+                try
+                {
+                    RunInternal(cancellationToken);
+                }
+                catch (Exception e)
+                {
+                    Trace.TraceError("error occured queue command processor \n" + e.Message + "\n" + e.StackTrace);
+                }
             }
         }
 

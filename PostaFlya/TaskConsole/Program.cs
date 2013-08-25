@@ -18,12 +18,14 @@ namespace TaskConsole
 
             using (var kernel = new StandardKernel())
             {
-                kernel.Load(PopscenesNinjectBindings.NinjectModules);
-
-                var runner = new TaskRunner(kernel);
+                var runner = new TaskRunner(kernel, PopscenesNinjectBindings.NinjectModules);
                 runner.LoadModulesAndTasks(System.Environment.CurrentDirectory);
+
                 runner.RunTask(args);                
             }
+
+            Console.WriteLine("Press any key to exit");
+            Console.ReadKey();
 
         }
     }

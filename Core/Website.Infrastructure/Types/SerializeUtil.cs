@@ -204,7 +204,7 @@ namespace Website.Infrastructure.Types
             return value.CompareTo(other) <= 0;
         }
 
-        public static string GetAssemblyQualifiedNameWithoutVer(Type type)
+        public static string GetAssemblyQualifiedNameWithoutVer(this Type type)
         {
             var name = type.AssemblyQualifiedName;
             var verIndex = name.IndexOf(", Version=", System.StringComparison.Ordinal);

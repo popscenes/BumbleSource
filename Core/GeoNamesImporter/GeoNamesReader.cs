@@ -214,6 +214,11 @@ namespace GeoNamesImporter
         public static readonly HashSet<string> DefaultPlaceIncludeCodes = new HashSet<string>()
             {
                 "PPL",
+                "PPLA",
+                "PPLA2",
+                "PPLA3",
+                "PPLA4",
+                "PPLC",
                 "ADMD",
             };
         public static readonly HashSet<string> DefaultCountryIncludeCodes = new HashSet<string>()
@@ -229,7 +234,7 @@ namespace GeoNamesImporter
         public IEnumerable<GeoNameTable> ReadGeoNameTable(string fileName
             , HashSet<string> codesForInclude = null
             , HashSet<string> countriesForInclude = null
-            , Func<IGrouping<string, GeoNameTable>, IEnumerable<GeoNameTable>> matchselector = null)
+            , Func<IGrouping<string, GeoNameTable>, GeoNameTable> matchselector = null)
         {
 
             matchselector = matchselector ?? GetPriority;
@@ -241,24 +246,23 @@ namespace GeoNamesImporter
                 return res
                     .Where(t => countriesForInclude == null || countriesForInclude.Contains(t.countrycode))
                     .Where(t => codesForInclude == null || codesForInclude.Contains(t.featurecode))
-                    .ToLookup(table => table.name + table.admin1code + table.countrycode)
-                    .SelectMany(matchselector)
+                    .ToLookup(table => table.name + " | " + table.admin1code + " | " + table.countrycode)
+                    .Select(matchselector)
                     .ToList();
 
             }
         }
 
-
-        private IEnumerable<GeoNameTable> GetPriority(IGrouping<string, GeoNameTable> tables)
+        private GeoNameTable GetPriority(IGrouping<string, GeoNameTable> tables)
         {
             if (tables.Count() == 1) 
-                return tables;
+                return tables.First();
 
-            return tables.Where(table => !string.IsNullOrWhiteSpace(table.admin2code))
-                         .GroupBy(table => table.admin2code)
-                         .Select(grouping =>
-                                 grouping.FirstOrDefault(g => g.featurecode == "PPL") ??
-                                 grouping.First());
+            var ret =
+                tables.FirstOrDefault(g => !string.IsNullOrWhiteSpace(g.admin1code) && g.featurecode.StartsWith("PPL"));
+            ret = ret ?? tables.FirstOrDefault(g => !string.IsNullOrWhiteSpace(g.admin1code));
+            ret = ret ?? tables.FirstOrDefault(g => g.featurecode.StartsWith("PPL"));
+            return ret ?? tables.First();
         }
 
         public IEnumerable<AdminCodesTable> ReadAdminCodesTable(string fileName, HashSet<string> countriesForInclude = null)
@@ -310,15 +314,19 @@ namespace GeoNamesImporter
         }
         
         public IEnumerable<SuburbData> MashTables(IEnumerable<GeoNameTable> suburbs
-            , IEnumerable<CountryTable> countries, IEnumerable<AdminCodesTable> states
-            , IEnumerable<Admin2CodesTable> regions, IEnumerable<PostCodeTable> postcodes)
+            , IEnumerable<CountryTable> countries, IEnumerable<AdminCodesTable> regions
+            , IEnumerable<Admin2CodesTable> subregions, IEnumerable<PostCodeTable> postcodes)
         {
             var country = countries.ToDictionary(table => table.countrycode_iso2);
-            var state = states.ToDictionary(table => table.codesconcat);
-            var reg = regions.ToDictionary(table => table.codesconcat);
+            var state = regions.ToDictionary(table => table.codesconcat);
+            var subreg = subregions.ToDictionary(table => table.codesconcat);
 
             var postcode =
                 postcodes.ToLookup(table => table.placename + "." + table.countrycode + "." + table.adminname1);
+
+            var stateabbr = postcodes.Select(p => new { stateabb = p.admincode1, state = p.adminname1 })
+                .ToLookup(arg => arg.state)
+                .ToDictionary(grouping => grouping.Key.ToLower(), grouping => grouping.First().stateabb);
 
             var list = suburbs.Select(s =>
                 {
@@ -326,23 +334,24 @@ namespace GeoNamesImporter
 
                     ret.concatcodes = s.countrycode + "." + s.admin1code + "." + s.admin2code;
                     ret.countrycode = s.countrycode;
-                    ret.statecode = s.admin1code;
-                    ret.regioncode = s.admin2code;
+                    ret.regioncode = s.admin1code;
+                    ret.subregioncode = s.admin2code;
                     ret.suburbname = s.name;
                     ret.suburbgeonamesid = long.Parse(s.geonameid);
 
                     if (!string.IsNullOrWhiteSpace(s.admin1code))
                     {
                         var st = state[s.countrycode + "." + s.admin1code];
-                        ret.statename = st.admin1NameUtf;
-                        ret.stategeonameid = long.Parse(st.geonameid);
+                        ret.regionname = st.admin1NameUtf;
+                        ret.regiongeonameid = long.Parse(st.geonameid);
+                        ret.regionabbr = stateabbr[ret.regionname.ToLower()];
                     }
                     
                     if (!string.IsNullOrWhiteSpace(s.admin2code))
                     {
-                        var rg = reg[ret.concatcodes];
-                        ret.regionname = rg.admin2NameUtf;
-                        ret.regionngeonameid = long.Parse(rg.geonameid); 
+                        var rg = subreg[ret.concatcodes];
+                        ret.subregionname = rg.admin2NameUtf;
+                        ret.subregionngeonameid = long.Parse(rg.geonameid); 
                     }
 
                     var ct = country[s.countrycode];
@@ -351,7 +360,7 @@ namespace GeoNamesImporter
                     ret.longitude = s.longitude;
                     ret.latitude = s.latitude;
 
-                    var postmatches = postcode[ret.suburbname + "." + ret.countrycode + "." + ret.statename];
+                    var postmatches = postcode[ret.suburbname + "." + ret.countrycode + "." + ret.regionname];
                     var code =
                         postmatches.FirstOrDefault(table =>
                             {
@@ -360,9 +369,10 @@ namespace GeoNamesImporter
                                 if (Math.Abs(double.Parse(table.longitude) - s.longitude) > 0.5) return false;
                                 return true;
                             });
+                    code = code ?? postmatches.FirstOrDefault();
 
                     ret.postcode = code != null ? code.postalcode : null;
-                    ret.stateabbr = code != null ? code.admincode1 : null;
+
                     return ret;
 
                 }).ToList();
@@ -375,13 +385,14 @@ namespace GeoNamesImporter
             public long suburbgeonamesid { get; set; }
             public string suburbname { get; set; }
             
-            public string statecode { get; set; }
-            public string statename { get; set; }
-            public long stategeonameid { get; set; }
-
             public string regioncode { get; set; }
             public string regionname { get; set; }
-            public long regionngeonameid { get; set; }
+            public long regiongeonameid { get; set; }
+            public string regionabbr { get; set; }
+
+            public string subregioncode { get; set; }
+            public string subregionname { get; set; }
+            public long subregionngeonameid { get; set; }
 
             public string countrycode { get; set; }
             public string countryname { get; set; }
@@ -389,8 +400,7 @@ namespace GeoNamesImporter
             public string concatcodes { get; set; }
             
             public string postcode { get; set; }
-            public string stateabbr { get; set; }
-
+            
             public double latitude { get; set; }
             public double longitude { get; set; }
         }

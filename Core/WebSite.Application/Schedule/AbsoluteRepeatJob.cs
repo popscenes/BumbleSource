@@ -21,6 +21,7 @@ namespace Website.Application.Schedule
         string Minute { get; set; }
     }
 
+    [Serializable]
     public class AbsoluteRepeatJob : JobBase, AbsoluteRepeatJobInterface
     {
         public const string All = "*";

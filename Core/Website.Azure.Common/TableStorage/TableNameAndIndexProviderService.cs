@@ -176,7 +176,7 @@ namespace Website.Azure.Common.TableStorage
             return entry != null ? entry.TableName : null;
         }
 
-        public IEnumerable<string> GetAllIndexesFor<EntityType>()
+        public IEnumerable<string> GetAllIndexNamesFor<EntityType>()
         {
             return _indexEntries.Where(e => e.EntityTyp.IsAssignableFrom(typeof (EntityType)))
                                 .Select(e => e.IndexName);

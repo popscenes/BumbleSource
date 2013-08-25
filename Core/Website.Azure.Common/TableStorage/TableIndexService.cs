@@ -65,7 +65,7 @@ namespace Website.Azure.Common.TableStorage
 
         public void UpdateEntityIndexes<EntityType>(EntityType entity, bool deleteOnly = false) where EntityType : EntityIdInterface
         {
-            var indexes = _indexProviderService.GetAllIndexesFor<EntityType>().ToList();
+            var indexes = _indexProviderService.GetAllIndexNamesFor<EntityType>().ToList();
             foreach (var index in indexes)
             {
                 var lowerKey = index.ToStorageKeySection();
@@ -73,15 +73,18 @@ namespace Website.Azure.Common.TableStorage
                 var rowKey =
                     _indexProviderService.GetIndexEntryFactoryFor<EntityType>(index)(entity)
                         .Select(e => e.RowKey)
-                        .Distinct()
-                        .Single();
+                        .Distinct();
 
 
                 var tableName = _indexProviderService.GetTableNameForIndex<EntityType>(index);
-                _tableContext.Delete<StorageTableKey>(tableName, entry =>
-                    entry.PartitionKey.CompareTo(lowerKey) >= 0 &&
-                    entry.PartitionKey.CompareTo(upperKey) < 0 &&
-                    entry.RowKey.Equals(rowKey));
+                foreach (var row in rowKey)
+                {
+                    _tableContext.Delete<StorageTableKey>(tableName, entry =>
+                        entry.PartitionKey.CompareTo(lowerKey) >= 0 &&
+                        entry.PartitionKey.CompareTo(upperKey) < 0 &&
+                        entry.RowKey.Equals(row));
+                }
+
             }
 
             _tableContext.SaveChangesRetryOnException();

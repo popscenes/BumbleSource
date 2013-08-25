@@ -76,6 +76,10 @@ namespace PostaFlya.Models.Location
         public string Locality { get; set; }
         [Display(Name = "Region", ResourceType = typeof(Properties.Resources))] 
         public string Region { get; set; }
+
+        public string RegionCode { get; set; }
+        public string CountryCode { get; set; }
+
         [Display(Name = "PostCode", ResourceType = typeof(Properties.Resources))] 
         public string PostCode { get; set; }
         [Display(Name = "CountryName", ResourceType = typeof(Properties.Resources))] 

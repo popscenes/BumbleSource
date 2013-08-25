@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using NLog;
 using Ninject;
+using Ninject.Modules;
 using Website.Infrastructure.Configuration;
 
 namespace Website.Infrastructure.Task
@@ -29,10 +30,12 @@ namespace Website.Infrastructure.Task
     public class TaskRunner
     {
         private readonly IKernel _kernel;
+        private readonly List<INinjectModule> _ninjectModules;
 
-        public TaskRunner(IKernel kernel)
+        public TaskRunner(IKernel kernel, List<INinjectModule> ninjectModules)
         {
             _kernel = kernel;
+            _ninjectModules = ninjectModules;
         }
 
         protected Logger Logger = LogManager.GetCurrentClassLogger();
@@ -41,10 +44,23 @@ namespace Website.Infrastructure.Task
 
         public void RunTask(string[] args)
         {
+            try
+            {
+                TryRunTask(args);
+            }
+            catch (Exception e)
+            {
+                Logger.ErrorException("Task running failed", e);
+            }
+        }
+
+        private void TryRunTask(string[] args)
+        {
             Logger.Trace("Loading modules for task {0} ....", args[0]);
 
-            var binding = _kernel.GetBindings(typeof(ConsoleTaskInterface))
-                  .Single(b => b.Metadata.Get<string>("taskname").Equals(args[0], StringComparison.OrdinalIgnoreCase));
+            var binding = _kernel.GetBindings(typeof (ConsoleTaskInterface))
+                                 .Single(
+                                     b => b.Metadata.Get<string>("taskname").Equals(args[0], StringComparison.OrdinalIgnoreCase));
 
             Logger.Trace("starting task {0} ....", args[0]);
 
@@ -52,15 +68,15 @@ namespace Website.Infrastructure.Task
 
             using (AppConfig.Use(type))
             {
+                _kernel.Load(_ninjectModules);
                 var task = _kernel.Get<ConsoleTaskInterface>(
                     metadata => metadata.Get<string>("taskname")
-                        .Equals(args[0], StringComparison.OrdinalIgnoreCase));
+                                        .Equals(args[0], StringComparison.OrdinalIgnoreCase));
 
                 task.Execute(args.Skip(1).ToArray());
             }
-            
-            Logger.Trace("finished task {0} ....", args[0]);
 
+            Logger.Trace("finished task {0} ....", args[0]);
         }
 
         public void LoadModulesAndTasks(string path)

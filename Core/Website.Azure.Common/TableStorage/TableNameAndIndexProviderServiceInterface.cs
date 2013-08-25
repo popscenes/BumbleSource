@@ -32,7 +32,7 @@ namespace Website.Azure.Common.TableStorage
  
         string GetTableNameForIndex<EntityType>(string indexname);
         string GetTableNameForIndex(Type entityTyp, string indexname);
-        IEnumerable<string> GetAllIndexesFor<EntityType>();
+        IEnumerable<string> GetAllIndexNamesFor<EntityType>();
         Func<object, IEnumerable<StorageTableKeyInterface>> GetIndexEntryFactoryFor<EntityType>(string indexname);
 
         IEnumerable<string> GetAllTableNames();

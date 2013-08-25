@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Website.Infrastructure.Util.Extension;
 
 namespace Website.Azure.Common.TableStorage
 {
@@ -25,6 +26,7 @@ namespace Website.Azure.Common.TableStorage
                         return builder;
                     }).ToString();
         }
+
 
         public static string ToStorageKeySection(this string keyVal)
         {
@@ -86,6 +88,16 @@ namespace Website.Azure.Common.TableStorage
             return idPrefix.ToStorageKeySection() + entityId.ToStorageKeySection();
         }
 
+        public static string ToRowKeyWithFieldWidth(this int value, int fieldWidth)
+        {
+            return value.ToString("D" + fieldWidth);
+        }
+
+        public static string ToRowKeyWithFieldWidth(this long value, int fieldWidth)
+        {
+            return value.ToString("D" + fieldWidth);
+        }
+
         //var dattimedesc = (DateTime.MaxValue.Ticks - DateTime.UtcNow.Ticks).ToString("D20");
         //var dattimeasc = (DateTime.UtcNow.Ticks).ToString("D20");
         public static string GetTimestampAscending(this DateTime dateTime)
@@ -126,6 +138,23 @@ namespace Website.Azure.Common.TableStorage
         public static string ToDescendingTimeKey(this string id, DateTimeOffset dateTime)
         {
             return id.CreateRowKeyForEntityId(dateTime.GetTimestampDescending());
+        }
+
+        public static IEnumerable<string> ToTermsSearchKeys(this string searchString)
+        {
+            var terms = searchString.TokenizeMeaningfulWordsAndSort()
+                .Select(s => s.ToStorageKeySection()).ToList();
+            for (var i = 0; i < terms.Count(); i++)
+            {
+                yield return terms.Skip(i).Aggregate(new StringBuilder(), (builder, s) => builder.Append(s)).ToString();
+            }
+        }
+
+        public static string ToTermsSearchTermKey(this string searchString)
+        {
+            var terms = searchString.TokenizeMeaningfulWordsAndSort()
+                .Select(s => s.ToStorageKeySection()).ToList();
+            return terms.Aggregate(new StringBuilder(), (builder, s) => builder.Append(s)).ToString();
         }
 
     }

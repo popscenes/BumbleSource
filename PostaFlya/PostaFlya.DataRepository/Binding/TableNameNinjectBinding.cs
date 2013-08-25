@@ -15,9 +15,12 @@ using Website.Domain.Browser;
 using Website.Domain.Claims;
 using Website.Domain.Comments;
 using Website.Domain.Content;
+using Website.Domain.Location;
 using Website.Domain.Payment;
 using Website.Domain.TinyUrl;
 using Website.Infrastructure.Domain;
+using Website.Infrastructure.Types;
+using Website.Infrastructure.Util.Extension;
 
 
 namespace PostaFlya.DataRepository.Binding
@@ -29,6 +32,8 @@ namespace PostaFlya.DataRepository.Binding
         public const string BrowserEmailIndex = "BrowserEmail";
         public const string BoardAdminEmailIndex = "BoardAdminEmail";
         public const string TinyUrlIndex = "TinyUrl";
+
+        public const string TextSearchIndex = "T";
 
 
         public static Expression<Func<EntityInterfaceType, IEnumerable<StorageTableKeyInterface>>> BrowserIdSelector<EntityInterfaceType>() where EntityInterfaceType : AggregateRootInterface, BrowserIdInterface
@@ -117,6 +122,35 @@ namespace PostaFlya.DataRepository.Binding
                 };
             return indexEntryFactory;
         }
+
+        public static Expression<Func<SuburbEntityInterface, IEnumerable<StorageTableKeyInterface>>> SuburbSearchSelector()
+        {
+
+            Expression<Func<SuburbEntityInterface, IEnumerable<StorageTableKeyInterface>>> indexEntryFactory
+                =
+                suburb => suburb.Locality
+                    .ToTermsSearchKeys()
+                    .Select((s, i) => new JsonTableEntry(new SearchEntityRecord()
+                    {
+                        Id = suburb.Id,
+                        TypeOfEntity = suburb.GetType().GetAssemblyQualifiedNameWithoutVer(),
+                        DisplayString = suburb.GetSuburbDescription()
+                    })
+                    {
+
+                        PartitionKey = s,
+                        RowKey = i.ToRowKeyWithFieldWidth(10).ToStorageKeySection() + suburb.Id.ToStorageKeySection()
+                    });
+
+
+            return indexEntryFactory;
+        }
+    }
+    public class SearchEntityRecord
+    {
+        public string Id { get; set; }
+        public string TypeOfEntity { get; set; }
+        public string DisplayString { get; set; }
     }
 
     public class TableNameNinjectBinding : NinjectModule
@@ -191,6 +225,11 @@ namespace PostaFlya.DataRepository.Binding
             tableNameProv.Add<FlierAnalyticInterface>("analyticsEntity", e => e.Id);
 //            tableNameProv.Add<FlierAnalyticInterface>(JsonRepositoryWithBrowser.AggregateIdPartition, "analyticsByAggregate", e => e.AggregateId, e => e.Id.ToAscendingTimeKey(e.Time));
 //            tableNameProv.Add<FlierAnalyticInterface>(JsonRepositoryWithBrowser.BrowserPartitionId, "analyticsByBrowser", e => e.BrowserId, e => e.Id);
+
+
+            tableNameProv.Add<SuburbEntityInterface>("suburbEntity", e => e.Id);
+            tableNameProv.AddIndex("textSearchIDX", DomainIndexSelectors.TextSearchIndex, DomainIndexSelectors.SuburbSearchSelector());
+
 
             Trace.TraceInformation("TableNameNinjectBinding Initializing Tables");
 
