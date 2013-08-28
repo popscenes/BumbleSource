@@ -34,9 +34,11 @@ namespace Website.Application.Azure.Binding
             //queue factory
             Kernel.Bind<QueueFactoryInterface>()
                     .ToMethod(context => 
+
+
                         new ServiceBusQueueFactory(context.Kernel.Get<ConfigurationServiceInterface>()
                             , "ServiceBusNamespace"
-                            , AzureEnv.IsRunningInProdFabric() 
+                            , context.Kernel.GetConfig<bool>("UseProductionStorage")
                                 ? null //this is just so in dev everyone has their own queues
                                 : System.Environment.MachineName.ToLowerHiphen())
                         )

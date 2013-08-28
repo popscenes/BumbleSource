@@ -10,6 +10,7 @@ namespace Website.Domain.Location
     {
         public static void CopyFieldsFrom(this SuburbInterface suburbTarget, SuburbInterface suburbSource)
         {
+            ((LocationInterface)suburbTarget).CopyFieldsFrom(suburbSource);
             suburbTarget.Locality = suburbSource.Locality;
             suburbTarget.Region = suburbSource.Region;
             suburbTarget.RegionCode = suburbSource.RegionCode;
@@ -141,8 +142,8 @@ namespace Website.Domain.Location
         string RegionCode { get; set; }
 
         //country
-        string CountryCode { get; set; }
         string CountryName { get; set; }
+        string CountryCode { get; set; }
 
         string PostCode { get; set; }
         

@@ -13,6 +13,7 @@ using Ninject.Modules;
 using Ninject.Syntax;
 using Website.FunctionalLib;
 using Website.Infrastructure.Command;
+using Website.Infrastructure.Configuration;
 using Website.Infrastructure.Messaging;
 using Website.Infrastructure.Publish;
 using Website.Infrastructure.Query;
@@ -51,6 +52,10 @@ namespace Website.Infrastructure.Binding
 
     public static class InfrastructureNinjectExtensions
     {
+        public static SettingType GetConfig<SettingType>(this IKernel kernel, string setting, SettingType defaultVal = default(SettingType))
+        {
+            return kernel.Get<ConfigurationServiceInterface>().GetSetting(setting, defaultVal);
+        }
 
         public static void BindEventHandlersFromCallingAssembly(this StandardKernel kernel
                                                           , ConfigurationAction ninjectConfiguration)

@@ -33,7 +33,12 @@ namespace Website.Azure.Common.TableStorage
             return '[' + keyVal.EscapeValForKey() + ']';
         }
 
-        public static string GetValueForStartsWith(this string startsWith)
+        public static string ToStorageKeyStartSection(this string keyVal)
+        {
+            return '[' + keyVal.EscapeValForKey();
+        }
+
+        public static string GetEndValueForStartsWith(this string startsWith)
         {
             var last = startsWith.Last();
             var ret = startsWith.TrimEnd(last);          
@@ -152,9 +157,14 @@ namespace Website.Azure.Common.TableStorage
 
         public static string ToTermsSearchTermKey(this string searchString)
         {
-            var terms = searchString.TokenizeMeaningfulWordsAndSort()
+            return searchString.TokenizeMeaningfulWordsAndSort().ToTermsSearchKey();
+        }
+
+        public static string ToTermsSearchKey(this IEnumerable<string> keyparts)
+        {
+            var terms = keyparts
                 .Select(s => s.ToStorageKeySection()).ToList();
-            return terms.Aggregate(new StringBuilder(), (builder, s) => builder.Append(s)).ToString();
+            return terms.Aggregate(new StringBuilder(), (builder, s) => builder.Append(s)).ToString();            
         }
 
     }

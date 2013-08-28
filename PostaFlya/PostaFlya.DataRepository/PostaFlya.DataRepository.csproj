@@ -116,13 +116,13 @@
     <Compile Include="Binding\AzureRepositoryNinjectBinding.cs" />
     <Compile Include="Binding\BindingAttributes.cs" />
     <Compile Include="Binding\TableNameNinjectBinding.cs" />
+    <Compile Include="DomainQuery\AutoCompleteByTermsQueryHandler.cs" />
     <Compile Include="DomainQuery\Board\FindBoardByAdminEmailQueryHandler.cs" />
     <Compile Include="DomainQuery\Browser\FindBrowserByIdentityProviderQueryHandler.cs" />
     <Compile Include="DomainQuery\FindByFriendlyIdQueryHandler.cs" />
     <Compile Include="DomainQuery\Browser\GetAggregateByBrowserIdQueryHandler.cs" />
     <Compile Include="DomainQuery\Browser\GetByBrowserIdQueryHandler.cs" />
     <Compile Include="DomainQuery\FindByTinyUrlQueryHandler.cs" />
-    <Compile Include="Internal\JsonRepositoryWithBrowser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>

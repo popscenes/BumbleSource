@@ -28,6 +28,7 @@ namespace Popscenes.Specification.Util
 
             WebApiConfig.Register(config);
             MobileApiConfig.Register(config);
+            PostaFlya.Areas.WebApi.App_Start.WebApiConfig.Register(config);
 
             var server = new HttpServer(config);
 

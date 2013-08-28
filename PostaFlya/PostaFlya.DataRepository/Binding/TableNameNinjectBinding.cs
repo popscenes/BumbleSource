@@ -5,6 +5,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using Ninject;
 using Ninject.Modules;
+using PostaFlya.DataRepository.DomainQuery;
 using PostaFlya.Domain.Boards;
 using PostaFlya.Domain.Flier;
 using PostaFlya.Domain.Flier.Analytic;
@@ -17,6 +18,7 @@ using Website.Domain.Comments;
 using Website.Domain.Content;
 using Website.Domain.Location;
 using Website.Domain.Payment;
+using Website.Domain.Query;
 using Website.Domain.TinyUrl;
 using Website.Infrastructure.Domain;
 using Website.Infrastructure.Types;
@@ -133,6 +135,7 @@ namespace PostaFlya.DataRepository.Binding
                     .Select((s, i) => new JsonTableEntry(new SearchEntityRecord()
                     {
                         Id = suburb.Id,
+                        FriendlyId = suburb.FriendlyId,
                         TypeOfEntity = suburb.GetType().GetAssemblyQualifiedNameWithoutVer(),
                         DisplayString = suburb.GetSuburbDescription()
                     })
@@ -145,12 +148,6 @@ namespace PostaFlya.DataRepository.Binding
 
             return indexEntryFactory;
         }
-    }
-    public class SearchEntityRecord
-    {
-        public string Id { get; set; }
-        public string TypeOfEntity { get; set; }
-        public string DisplayString { get; set; }
     }
 
     public class TableNameNinjectBinding : NinjectModule
@@ -228,7 +225,7 @@ namespace PostaFlya.DataRepository.Binding
 
 
             tableNameProv.Add<SuburbEntityInterface>("suburbEntity", e => e.Id);
-            tableNameProv.AddIndex("textSearchIDX", DomainIndexSelectors.TextSearchIndex, DomainIndexSelectors.SuburbSearchSelector());
+            tableNameProv.AddIndex<EntityInterface, SuburbEntityInterface>("textSearchIDX", DomainIndexSelectors.TextSearchIndex, DomainIndexSelectors.SuburbSearchSelector());
 
 
             Trace.TraceInformation("TableNameNinjectBinding Initializing Tables");

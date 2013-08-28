@@ -95,19 +95,19 @@ namespace Website.Azure.Common.TableStorage
             InsertEntry(_entries, entry);
         }
 
-        public void AddIndex<EntityType>(string tableName, string indexname
-            , Expression<Func<EntityType, IEnumerable<StorageTableKeyInterface>>> indexEntryFactory)
-                where EntityType : class
+        public void AddIndex<EntityQueryType, EntityIndexType>(string tableName, string indexname
+            , Expression<Func<EntityIndexType, IEnumerable<StorageTableKeyInterface>>> indexEntryFactory)
+                where EntityIndexType : class, EntityQueryType
         {
 
-            var entry = new IndexEntry<EntityType>()
+            var entry = new IndexEntry<EntityIndexType>()
                 {
-                    EntityTyp = typeof(EntityType),
+                    EntityTyp = typeof(EntityQueryType),
                     IndexEntryFactoryTyp = indexEntryFactory.Compile(),
                     TableName = tableName,
                     IndexName = indexname
                 };
-            entry.IndexEntryFactory = (o) => entry.IndexEntryFactoryTyp(o as EntityType);
+            entry.IndexEntryFactory = (o) => entry.IndexEntryFactoryTyp(o as EntityIndexType);
             InsertEntry(_indexEntries, entry);
         }
 

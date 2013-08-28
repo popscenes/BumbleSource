@@ -9,6 +9,17 @@ namespace Website.Azure.Common.TableStorage
                  
     }
 
+    public static class TableNameAndIndexProviderServiceInterfaceExtensions
+    {
+        public static void AddIndex<EntityIndexType>(this TableNameAndIndexProviderServiceInterface tip
+            ,string tableName, string indexname
+            , Expression<Func<EntityIndexType, IEnumerable<StorageTableKeyInterface>>> indexEntryFactory)
+            where EntityIndexType : class
+        {
+            tip.AddIndex<EntityIndexType, EntityIndexType>(tableName, indexname, indexEntryFactory);
+        }
+    }
+
     public interface TableNameAndIndexProviderServiceInterface
     {
         //note partitionKeyFunc and rowKeyFunc should not return different values in AggregateRootInterface entities
@@ -17,9 +28,10 @@ namespace Website.Azure.Common.TableStorage
                              Func<EntityType, string> rowKeyFunc = null)
             where EntityType : class;
 
-        void AddIndex<EntityType>(string tableName, string indexname
-            , Expression<Func<EntityType, IEnumerable<StorageTableKeyInterface>>> indexEntryFactory)
-                where EntityType : class;
+
+        void AddIndex<EntityQueryType, EntityIndexType>(string tableName, string indexname
+            , Expression<Func<EntityIndexType, IEnumerable<StorageTableKeyInterface>>> indexEntryFactory)
+                where EntityIndexType : class, EntityQueryType;
 
         Func<object, string> GetPartitionKeyFunc<EntityType>();
         Func<object, string> GetRowKeyFunc<EntityType>();

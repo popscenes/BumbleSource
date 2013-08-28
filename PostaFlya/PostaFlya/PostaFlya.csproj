@@ -377,6 +377,10 @@
     <Compile Include="Areas\WebApi\Flyers\Model\ImageModel.cs" />
     <Compile Include="Areas\WebApi\Flyers\Query\FindFlyersByFeaturedQueryAsContentHandler.cs" />
     <Compile Include="Areas\WebApi\Flyers\Query\ToFlyersByDateContentQueryHandler.cs" />
+    <Compile Include="Areas\WebApi\Location\Controllers\WebAutoCompleteByTermsController.cs" />
+    <Compile Include="Areas\WebApi\Location\Model\AutoCompleteModel.cs" />
+    <Compile Include="Areas\WebApi\Location\Model\AutoCompleteRequest.cs" />
+    <Compile Include="Areas\WebApi\Location\Model\SuburbModel.cs" />
     <Compile Include="Areas\WebApi\WebApiAreaRegistration.cs" />
     <Compile Include="Binding\WebNinjectBindings.cs" />
     <Compile Include="Controllers\AccountController.cs" />
@@ -908,6 +912,10 @@
     <Folder Include="Areas\Default\Models\Bulletin\" />
     <Folder Include="Areas\Default\Views\Shared\" />
     <Folder Include="Areas\HelpPage\Views\Shared\" />
+    <Folder Include="Areas\MobileApi\Location\Controllers\" />
+    <Folder Include="Areas\MobileApi\Location\Model\" />
+    <Folder Include="Areas\MobileApi\Location\Query\" />
+    <Folder Include="Areas\WebApi\Location\Query\" />
     <Folder Include="Attributes\" />
     <Folder Include="Properties\PublishProfiles\" />
     <Folder Include="Query\" />

@@ -17,6 +17,9 @@ namespace Website.Azure.Common.TableStorage
         List<StorageType> FindEntitiesByIndex<EntityType, StorageType>(string indexName, string indexValue, int take = -1)
             where StorageType : StorageTableKeyInterface;
 
+        List<StorageType> FindEntitiesByIndexPrefix<EntityType, StorageType>(string indexName, IEnumerable<string> keyparts, int take = -1)
+    where StorageType : StorageTableKeyInterface;
+
         void UpdateEntityIndexes<EntityType>(EntityType entity, bool deleteOnly = false) where EntityType : EntityIdInterface;
     }
 
@@ -63,13 +66,28 @@ namespace Website.Azure.Common.TableStorage
             return ret.ToList();
         }
 
+        public List<StorageType> FindEntitiesByIndexPrefix<EntityType, StorageType>(string indexName, IEnumerable<string> keyparts, int take = -1) where StorageType : StorageTableKeyInterface
+        {
+            var tableName = _indexProviderService.GetTableNameForIndex<EntityType>(indexName);
+
+            var lowerKey = (indexName.ToStorageKeySection() + keyparts.ToTermsSearchKey().TrimEnd(']'));
+            var upperKey = lowerKey.GetEndValueForStartsWith();
+
+            var ret = _tableContext.PerformQuery<StorageType>(tableName
+                , storage =>
+                        storage.PartitionKey.CompareTo(lowerKey) >= 0 &&
+                        storage.PartitionKey.CompareTo(upperKey) < 0);
+
+            return ret.ToList();
+        }
+
         public void UpdateEntityIndexes<EntityType>(EntityType entity, bool deleteOnly = false) where EntityType : EntityIdInterface
         {
             var indexes = _indexProviderService.GetAllIndexNamesFor<EntityType>().ToList();
             foreach (var index in indexes)
             {
                 var lowerKey = index.ToStorageKeySection();
-                var upperKey = index.ToStorageKeySection().GetValueForStartsWith();
+                var upperKey = index.ToStorageKeySection().GetEndValueForStartsWith();
                 var rowKey =
                     _indexProviderService.GetIndexEntryFactoryFor<EntityType>(index)(entity)
                         .Select(e => e.RowKey)

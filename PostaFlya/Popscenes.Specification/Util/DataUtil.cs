@@ -138,23 +138,60 @@ namespace Popscenes.Specification.Util
                           .With(flier => flier.CreateDate = DateTime.UtcNow);
         }
 
-        public static ISingleObjectBuilder<Board> GetABoard(Guid id, 
-            BoardTypeEnum boardTypeEnum = BoardTypeEnum.VenueBoard,
-            BoardStatus status = BoardStatus.Approved)
+        public static ISingleObjectBuilder<Board> GetABoard(Guid id,
+                                                            BoardTypeEnum boardTypeEnum = BoardTypeEnum.VenueBoard,
+                                                            BoardStatus status = BoardStatus.Approved)
         {
             return
-            Builder<Board>.CreateNew()
-            .With(board => board.Id = id.ToString())
-            .With(board => board.InformationSources
-                        = Builder<VenueInformation>.CreateListOfSize(1)
-                                                .All()
-                                                .With(
-                                                    information =>
-                                                    information.Address =
-                                                    new Location(50, 50))
-                                                .Build().ToList())
-            .With(board => board.Status = status)
-            .With(board => board.BoardTypeEnum = boardTypeEnum);
-}
+                Builder<Board>.CreateNew()
+                              .With(board => board.Id = id.ToString())
+                              .With(board => board.InformationSources
+                                             = Builder<VenueInformation>.CreateListOfSize(1)
+                                                                        .All()
+                                                                        .With(
+                                                                            information =>
+                                                                            information.Address =
+                                                                            new Location(50, 50))
+                                                                        .Build().ToList())
+                              .With(board => board.Status = status)
+                              .With(board => board.BoardTypeEnum = boardTypeEnum);
+        }
+
+        public static IOperable<Suburb> GetSomeSuburbs(int count, string wordPrefix = "", int wordPrefixCount = 0, int kilometers = 100, double latitude = -37.769, double longitude = 144.979)
+        {
+            var locs = GetSomeRandomLocationsWithKmsOf(count, new Location(longitude, latitude),
+                                        kilometers);
+
+            var cnt = count;
+            var ret = Builder<Suburb>
+                .CreateListOfSize(count)
+                .All()
+                .With(suburb => suburb.Latitude = locs[--cnt].Latitude)
+                .With(suburb => suburb.Longitude = locs[cnt].Longitude)
+                .TheFirst(wordPrefixCount)
+                .With(suburb => suburb.Locality = GetSuburbNameContainng(wordPrefix));
+            return ret;
+        }
+
+        private static string GetSuburbNameContainng(string wordPrefix)
+        {
+            var rand = new Random();
+            var wordcnt = rand.Next(1, 3);
+            var prefixword = rand.Next(0, wordcnt - 1);
+            var ret = "";
+            for (var i = 0; i < wordcnt; i++)
+            {
+                if (ret.Length > 0) ret += " ";
+                var chars = (string.IsNullOrWhiteSpace(wordPrefix) || prefixword != i) ? rand.Next(4, 15) : rand.Next(0, 10);
+                if (prefixword == i)
+                    ret += wordPrefix;
+                for (int j = 0; j < chars; j++)
+                {
+                    ret += (char)('a' + rand.Next(0, 25));
+                }
+
+            }
+            return ret;
+        }
     }
 }

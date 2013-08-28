@@ -48,16 +48,17 @@ namespace Website.Application.Messaging
                     return null;
 
                 ret = TaskProc(workInProgress);
-                if (ret.Result == QueuedMessageProcessResult.RetryError)
-                {
-                    throw new Exception("Shouldn't expect error");
-                }
+
                     
 
             } while (ret.Result == QueuedMessageProcessResult.Retry);
 
             _messageSerializer.ReleaseCommand(ret.Command);
             _messageQueue.DeleteMessage(ret.Message);
+            if (ret.Result == QueuedMessageProcessResult.RetryError)
+            {
+                throw new Exception("Shouldn't expect error");
+            }
             
             return ret;
         }
