@@ -35,8 +35,12 @@ namespace Website.Application.Azure.Binding
             Kernel.Bind<QueueFactoryInterface>()
                     .ToMethod(context => 
 
-
-                        new ServiceBusQueueFactory(context.Kernel.Get<ConfigurationServiceInterface>()
+                        !context.Kernel.GetConfig<bool>("UseProductionStorage") 
+                        ?
+                            //takes too long on network using service bus in dev
+                            context.Kernel.Get<AzureCloudQueueFactory>() as QueueFactoryInterface
+                        :
+                            new ServiceBusQueueFactory(context.Kernel.Get<ConfigurationServiceInterface>()
                             , "ServiceBusNamespace"
                             , context.Kernel.GetConfig<bool>("UseProductionStorage")
                                 ? null //this is just so in dev everyone has their own queues

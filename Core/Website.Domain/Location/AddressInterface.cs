@@ -54,15 +54,15 @@ namespace Website.Domain.Location
         }
 
         //Brunswick East VIC 3057, Australia
-        public static string GetSuburbDescription(this SuburbInterface address)
+        public static string GetSuburbDescription(this SuburbInterface address, bool @short)
         {
             if (address == null)
                 return null;
             var addDesc = new StringBuilder();
             AddAddressPart(address.Locality, addDesc, ", ");
-            AddAddressPart(address.Region, addDesc, ", ");
+            AddAddressPart(@short ? address.RegionCode : address.Region, addDesc, ", ");
             AddAddressPart(address.PostCode, addDesc, " ");
-            AddAddressPart(address.CountryName, addDesc, ", ");
+            AddAddressPart(@short ? "" : address.CountryName, addDesc, ", ");
             return addDesc.ToString();
         }
 

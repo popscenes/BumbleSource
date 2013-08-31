@@ -17,12 +17,16 @@ namespace PostaFlya.Areas.WebApi.Location.Model
             if (target == null)
                 target = new SuburbModel();
             target.CopyFieldsFrom(source);
+            target.Id = source.Id;
             return target;
         }
     }
 
     public class SuburbModel : IsModelInterface, SuburbInterface 
     {
+        [Display(Name = "Id", ResourceType = typeof(Res))]
+        public string Id { get; set; }
+
         [Display(Name = "Longitude", ResourceType = typeof(Res))]
         public double Longitude { get; set; }
 

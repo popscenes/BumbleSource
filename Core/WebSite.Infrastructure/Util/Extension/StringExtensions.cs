@@ -54,19 +54,6 @@ namespace Website.Infrastructure.Util.Extension
             return @"""" + source + @"""";
         }
 
-        private static readonly HashSet<string> IgnoreWords = new HashSet<string>()
-            {
-                "and", "the" 
-            }; 
-        public static List<string> TokenizeMeaningfulWordsAndSort(this string source)
-        {
-            var words = Regex.Split(source, @"\W");
-            return
-                words
-                    .Select(s => s.ToLower())
-                    .Where(w => w.Length > 2 && !IgnoreWords.Contains(w))
-                    .OrderBy(s => s)
-                    .ToList();
-        }
+
     }
 }

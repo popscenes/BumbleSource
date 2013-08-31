@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Spatial;
 using System.Text;
 using System.Threading.Tasks;
 using FizzWare.NBuilder;
+
 using Microsoft.SqlServer.Types;
 using NUnit.Framework;
 using PostaFlya.DataRepository.Search.SearchRecord;
@@ -19,15 +21,16 @@ namespace Popscenes.Specification.Util
         public static List<Location> GetSomeRandomLocationsWithKmsOf(int numToGet, Location loc, int kilometers)
         {
             SqlGeography geog = loc.ToGeography();
+
             var geogBound = geog.BufferWithTolerance(kilometers * 1000, 0.2, false);
             double latmin = 200;
             double latmax = -200;
             double longmin = 200;
             double longmax = -200;
 
-            for (var i = 0; i < geogBound.STNumPoints(); i++)
+            for (var i = 0; i <= geogBound.STNumPoints(); i++)
             {
-                var point = geog.STPointN(i + 1);
+                var point = geogBound.STPointN(i + 1);
                 if (point.Lat < latmin)
                     latmin = point.Lat.Value;
                 if (point.Long < longmin)
@@ -157,7 +160,7 @@ namespace Popscenes.Specification.Util
                               .With(board => board.BoardTypeEnum = boardTypeEnum);
         }
 
-        public static IOperable<Suburb> GetSomeSuburbs(int count, string wordPrefix = "", int wordPrefixCount = 0, int kilometers = 100, double latitude = -37.769, double longitude = 144.979)
+        public static IOperable<Suburb> GetSomeSuburbs(int count, string wordPrefix = "", int wordPrefixCount = 1, int kilometers = 100, double latitude = -37.769, double longitude = 144.979)
         {
             var locs = GetSomeRandomLocationsWithKmsOf(count, new Location(longitude, latitude),
                                         kilometers);
@@ -169,7 +172,8 @@ namespace Popscenes.Specification.Util
                 .With(suburb => suburb.Latitude = locs[--cnt].Latitude)
                 .With(suburb => suburb.Longitude = locs[cnt].Longitude)
                 .TheFirst(wordPrefixCount)
-                .With(suburb => suburb.Locality = GetSuburbNameContainng(wordPrefix));
+                .With(suburb => suburb.Locality = GetSuburbNameContainng(wordPrefix))
+                .All().With(suburb => suburb.Id = suburb.GetGeneratedId());
             return ret;
         }
 

@@ -36,6 +36,7 @@ namespace PostaFlya.DataRepository.Binding
         public const string TinyUrlIndex = "TinyUrl";
 
         public const string TextSearchIndex = "T";
+        public const string GeoSearchIndex = "G";
 
 
         public static Expression<Func<EntityInterfaceType, IEnumerable<StorageTableKeyInterface>>> BrowserIdSelector<EntityInterfaceType>() where EntityInterfaceType : AggregateRootInterface, BrowserIdInterface
@@ -125,19 +126,50 @@ namespace PostaFlya.DataRepository.Binding
             return indexEntryFactory;
         }
 
+
+        public static string ToGeoLatSearchKey(this double lat)
+        {
+            return Math.Round(lat + 90, 3).ToString("000.000").ToStorageKeySection();
+        }
+
+        public static string ToGeoLongSearchKey(this double @long)
+        {
+            return Math.Round(@long + 180, 3).ToString("000.000").ToStorageKeySection();
+        }
+
+        public static Expression<Func<SuburbEntityInterface, IEnumerable<StorageTableKeyInterface>>>
+            SuburbGeoSearchSelector()
+        {
+
+            return
+                suburb => new List<StorageTableKeyInterface>()
+                    {
+                        new JsonTableEntry(new GeoCoords()
+                            {
+                                Latitude = suburb.Latitude,
+                                Longitude = suburb.Longitude
+                            })
+                            {
+                                PartitionKey = suburb.Longitude.ToGeoLongSearchKey(),
+                                RowKey = suburb.Latitude.ToGeoLatSearchKey() +  suburb.Id.ToStorageKeySection()
+                            }
+                    };
+        }
+
         public static Expression<Func<SuburbEntityInterface, IEnumerable<StorageTableKeyInterface>>> SuburbSearchSelector()
         {
 
             Expression<Func<SuburbEntityInterface, IEnumerable<StorageTableKeyInterface>>> indexEntryFactory
                 =
-                suburb => suburb.Locality
+                suburb => 
+                    suburb.GetSuburbDescription(true)
                     .ToTermsSearchKeys()
                     .Select((s, i) => new JsonTableEntry(new SearchEntityRecord()
                     {
                         Id = suburb.Id,
                         FriendlyId = suburb.FriendlyId,
                         TypeOfEntity = suburb.GetType().GetAssemblyQualifiedNameWithoutVer(),
-                        DisplayString = suburb.GetSuburbDescription()
+                        DisplayString = suburb.GetSuburbDescription(true)
                     })
                     {
 
@@ -226,6 +258,7 @@ namespace PostaFlya.DataRepository.Binding
 
             tableNameProv.Add<SuburbEntityInterface>("suburbEntity", e => e.Id);
             tableNameProv.AddIndex<EntityInterface, SuburbEntityInterface>("textSearchIDX", DomainIndexSelectors.TextSearchIndex, DomainIndexSelectors.SuburbSearchSelector());
+            tableNameProv.AddIndex("geoSearchIDX", DomainIndexSelectors.GeoSearchIndex, DomainIndexSelectors.SuburbGeoSearchSelector());
 
 
             Trace.TraceInformation("TableNameNinjectBinding Initializing Tables");

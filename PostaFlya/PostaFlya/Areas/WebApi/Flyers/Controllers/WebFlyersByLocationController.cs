@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net;
 using System.Web.Http;
 using PostaFlya.Application.Domain.Browser;
 using PostaFlya.Areas.WebApi.Flyers.Model;
@@ -27,6 +28,17 @@ namespace PostaFlya.Areas.WebApi.Flyers.Controllers
         public ResponseContent<FlyersByDateContent> Get([FromUri]FlyersByLocationRequest req)
         {
             var start = req.Start != default(DateTimeOffset) ? req.Start : DateTimeOffset.UtcNow;
+            if (!req.Loc.IsValid() && !string.IsNullOrWhiteSpace(req.Loc.SuburbId))
+            {
+                var sub = _queryChannel.Query(new FindByIdQuery<Suburb>() { Id = req.Loc.SuburbId }, (Suburb)null);
+                if (sub != null)
+                    req.Loc.CopyFieldsFrom(sub);
+                else
+                    this.ResponseError(HttpStatusCode.BadRequest, ResponseContent.StatusEnum.ValidationError,
+                                       "Invalid Location");
+            }
+
+
             var query = new FindFlyersByDateAndLocationQuery()
                 {
                     Location = req.Loc.ToDomainModel(),

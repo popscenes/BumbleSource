@@ -68,6 +68,8 @@ namespace Website.Application.Domain.Location
 
             var ret = RunFromGeoNames(args);
 
+            //var te = ret.SingleOrDefault(suburb => suburb.Locality.ToLower().Equals("petersham"));
+
             var test = ret.GroupBy(suburb => suburb.Id).Where(suburbs => suburbs.Count() > 1).ToList();
             if (test.Any())
             {
@@ -105,12 +107,10 @@ namespace Website.Application.Domain.Location
 
         }
 
-        private List<Suburb> ToSubs(IEnumerable<GeoNamesReader.SuburbData> data)
+        private static List<Suburb> ToSubs(IEnumerable<GeoNamesReader.SuburbData> data)
         {
             var subs = data.Select(s => new Suburb()
             {
-                Id = (s.suburbname + "|" + s.regionname + "|" + s.countrycode + "|" + s.postcode).ToLowerHiphen(),
-                FriendlyId = (s.suburbname + "|" + s.regionabbr + "|" + s.countrycode + "|" + s.postcode).ToLowerHiphen(),
                 CountryCode = s.countrycode,
                 CountryName = s.countryname,
                 Locality = s.suburbname,
@@ -123,7 +123,10 @@ namespace Website.Application.Domain.Location
                 Latitude = s.latitude,
                 Longitude = s.longitude
 
-            }).ToList();
+            }).         
+            ToList();
+
+            subs.ForEach(suburb => suburb.Id = suburb.FriendlyId = suburb.GetGeneratedId());
 
             return subs;
         }

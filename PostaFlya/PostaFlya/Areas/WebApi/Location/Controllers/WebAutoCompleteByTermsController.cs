@@ -9,6 +9,8 @@ using Website.Common.ApiInfrastructure.Controller;
 using Website.Common.ApiInfrastructure.Model;
 using Website.Domain.Query;
 using Website.Infrastructure.Query;
+using Website.Infrastructure.Util;
+using Website.Infrastructure.Util.Extension;
 
 namespace PostaFlya.Areas.WebApi.Location.Controllers
 {
@@ -25,7 +27,8 @@ namespace PostaFlya.Areas.WebApi.Location.Controllers
         {
            var res = _queryChannel.Query(new AutoCompleteByTermsQuery()
                 {
-                    Terms = req.Q
+                    Terms = req.Q.TokenizeMeaningfulWords()
+
                 }, new List<AutoCompleteModel>());
 
            return ResponseContent<List<AutoCompleteModel>>.GetResponse(res);

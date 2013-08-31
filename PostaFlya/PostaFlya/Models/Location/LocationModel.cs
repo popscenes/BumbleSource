@@ -85,5 +85,6 @@ namespace PostaFlya.Models.Location
         [Display(Name = "CountryName", ResourceType = typeof(Properties.Resources))] 
         public string CountryName { get; set; }
 
+        public string SuburbId { get; set; }
     }
 }

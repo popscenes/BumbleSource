@@ -23,9 +23,13 @@ namespace PostaFlya.DataRepository.DomainQuery
 
         public List<SearchEntityRecord> Query(AutoCompleteByTermsQuery argument)
         {
-            var prefix = argument.Terms.TokenizeMeaningfulWordsAndSort();
+            var prefix = argument.Terms;
             var entries = _indexService.FindEntitiesByIndexPrefix<EntityInterface, JsonTableEntry>(DomainIndexSelectors.TextSearchIndex, prefix);
-            return entries.Select(e => e.GetEntity() as SearchEntityRecord).ToList();
+            var ret = entries
+                .Select(e => e.GetEntity<SearchEntityRecord>())
+                .ToList();
+            ret.ForEach(record => record.SearchTerms = argument.Terms.ToArray());
+            return ret;
         }
     }
 }

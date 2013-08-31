@@ -215,6 +215,7 @@ namespace GeoNamesImporter
             {
                 "PPL",
                 "PPLA",
+                "PPLX",
                 "PPLA2",
                 "PPLA3",
                 "PPLA4",

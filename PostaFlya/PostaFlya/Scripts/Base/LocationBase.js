@@ -114,6 +114,18 @@
 
         map.setZoom(bf.getZoomLevel(radius));
     };
+
+    bf.lookupPlaceFromTerms = function(terms) {
+
+        return $.ajax(
+            {
+                dataType: (bf.widgetbase ? "jsonp" : "json"),
+                url: "/webapi/search/byterms",
+                crossDomain: (bf.widgetbase ? true : false),
+                data: {q: terms}
+            }
+        );
+    };
     
     /**/
     bf.reverseGeocode = function(locationModel, callback) {

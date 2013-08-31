@@ -25,4 +25,10 @@ namespace Website.Domain.Location
         double Longitude { get; set; }
         double Latitude { get; set; }
     }
+
+    public class GeoCoords : LocationInterface
+    {
+        public double Longitude { get; set; }
+        public double Latitude { get; set; }
+    }
 }

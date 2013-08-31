@@ -14,6 +14,7 @@ namespace PostaFlya.Areas.WebApi.Location.Model
             target.Type = source.TypeOfEntity;
             target.Description = source.DisplayString;
             target.MatchTerms = source.SearchTerms;
+            target.Id = source.Id;
             return target;
         }
     }
@@ -24,6 +25,7 @@ namespace PostaFlya.Areas.WebApi.Location.Model
         public string Description { get; set; }
         public string Url { get; set; }
         public string Type { get; set; }
+        public string Id { get; set; }
     }
 
 }

@@ -48,7 +48,13 @@ namespace PostaFlya.Areas.WebApi.App_Start
                 defaults: new { Controller = "WebAutoCompleteByTerms" }
                 );
 
+            config.Routes.MapHttpRoute(
+                name: "WebFindSuburb",
+                routeTemplate: "webapi/suburbs/near",
+                defaults: new { Controller = "WebFindNearestSuburb" }
+                );
 
+            
         }
     }
 }

@@ -1,5 +1,6 @@
 using System;
 using Website.Infrastructure.Domain;
+using Website.Infrastructure.Util.Extension;
 
 namespace Website.Domain.Location
 {
@@ -11,6 +12,16 @@ namespace Website.Domain.Location
             suburbTarget.LocalityExternalId = suburbSource.LocalityExternalId;
             suburbTarget.RegionExternalId = suburbSource.RegionExternalId;
             suburbTarget.ExternalSrc = suburbSource.ExternalSrc;
+        }
+
+        public static string GetGeneratedId(this SuburbEntityInterface suburb)
+        {
+            return (
+                suburb.CountryCode + 
+                " " + suburb.RegionCode +
+                (string.IsNullOrWhiteSpace(suburb.PostCode) ? "" : (" " + suburb.PostCode)) +
+                " " + suburb.Locality).
+            ToLowerHiphen();
         }
     }
 

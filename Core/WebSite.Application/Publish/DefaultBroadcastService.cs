@@ -21,7 +21,13 @@ namespace Website.Application.Publish
         public bool Broadcast(object broadcastObject)
         {
             var eventHandlerGen = _genericEventHandlerTyp.MakeGenericType(broadcastObject.GetType());
-            var pubservices = _resolutionRoot.GetAll(eventHandlerGen).Cast<dynamic>();
+            var pubservices = _resolutionRoot.GetAll(eventHandlerGen)
+                .Cast<dynamic>()
+                .Where(o => o != null)
+                .ToList();
+
+            if (!pubservices.Any())
+                return false;
 
             dynamic ob = broadcastObject;
 

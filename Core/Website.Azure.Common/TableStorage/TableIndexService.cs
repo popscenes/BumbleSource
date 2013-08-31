@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Data.Services.Client;
 using System.Linq;
@@ -14,11 +15,17 @@ namespace Website.Azure.Common.TableStorage
 {
     public interface TableIndexServiceInterface
     {
-        List<StorageType> FindEntitiesByIndex<EntityType, StorageType>(string indexName, string indexValue, int take = -1)
+        List<StorageType> FindEntitiesByIndex<EntityType, StorageType>(string indexName, string indexValue, bool encodeValue = true, int take = -1)
             where StorageType : StorageTableKeyInterface;
 
-        List<StorageType> FindEntitiesByIndexPrefix<EntityType, StorageType>(string indexName, IEnumerable<string> keyparts, int take = -1)
+        List<StorageType> FindEntitiesByIndexPrefix<EntityType, StorageType>(string indexName, IEnumerable<string> keyparts, bool encodeValue = true, int take = -1)
     where StorageType : StorageTableKeyInterface;
+
+        List<StorageType> FindEntitiesByIndexRange<EntityType, StorageType>(string indexName, string keymin, string keymax, bool encodeValue = true, int take = -1)
+    where StorageType : StorageTableKeyInterface;
+
+        List<StorageType> FindEntitiesByIndexRange<EntityType, StorageType>(string indexName, string keymin, string keymax, string rowkeymin, string rowkeymax, bool encodeValue = true, int take = -1)
+where StorageType : StorageTableKeyInterface;
 
         void UpdateEntityIndexes<EntityType>(EntityType entity, bool deleteOnly = false) where EntityType : EntityIdInterface;
     }
@@ -54,36 +61,88 @@ namespace Website.Azure.Common.TableStorage
             _tableContext = tableContext;
         }
 
-        public List<StorageType> FindEntitiesByIndex<EntityType, StorageType>(string indexName, string indexValue, int take = -1)
+        public List<StorageType> FindEntitiesByIndex<EntityType, StorageType>(string indexName, string indexValue, bool encodeValue = true, int take = -1)
             where StorageType : StorageTableKeyInterface
         {
             var tableName = _indexProviderService.GetTableNameForIndex<EntityType>(indexName);
+            var valuePart = encodeValue ? indexValue.ToStorageKeySection() : indexValue;
+
             var ret = _tableContext.PerformQuery<StorageType>(tableName
                 , storage =>
                     storage.PartitionKey ==
-                    (indexName.ToStorageKeySection() +
-                    indexValue.ToStorageKeySection()));
+                    (indexName.ToStorageKeySection() + valuePart));
             return ret.ToList();
         }
 
-        public List<StorageType> FindEntitiesByIndexPrefix<EntityType, StorageType>(string indexName, IEnumerable<string> keyparts, int take = -1) where StorageType : StorageTableKeyInterface
+        public List<StorageType> FindEntitiesByIndexPrefix<EntityType, StorageType>(string indexName, IEnumerable<string> keyparts, bool encodeValue = true, int take = -1) where StorageType : StorageTableKeyInterface
         {
             var tableName = _indexProviderService.GetTableNameForIndex<EntityType>(indexName);
 
-            var lowerKey = (indexName.ToStorageKeySection() + keyparts.ToTermsSearchKey().TrimEnd(']'));
-            var upperKey = lowerKey.GetEndValueForStartsWith();
+            var res = new ConcurrentQueue<StorageType>();
+            Parallel.ForEach(keyparts, keypart =>
+                {
+                    var val = encodeValue ? keypart.ToStorageKeySection() : keypart;
+                    var lowerKey = (indexName.ToStorageKeySection() + val.TrimEnd(']'));
+
+                    var upperKey = lowerKey.GetEndValueForStartsWith();
+
+                    var ret = _tableContext.PerformQuery<StorageType>(tableName
+                        , storage =>
+                                storage.PartitionKey.CompareTo(lowerKey) >= 0 &&
+                                storage.PartitionKey.CompareTo(upperKey) < 0);
+                    foreach (var storage in ret)
+                        res.Enqueue(storage);
+                });
+
+            var best = from g in
+                       from s in res.ToList()
+                       group s by s.RowKey.ExtractEntityIdFromRowKey()
+                           orderby  g.Count() descending, g.First().RowKey ascending
+                           select g.First();
+            
+            return best.ToList();
+        }
+
+        public List<StorageType> FindEntitiesByIndexRange<EntityType, StorageType>(string indexName, string keymin, string keymax,
+                                                                      bool encodeValue = true, int take = -1) where StorageType : StorageTableKeyInterface
+        {
+            var tableName = _indexProviderService.GetTableNameForIndex<EntityType>(indexName);
+            var lowerKey = indexName.ToStorageKeySection() + (encodeValue ? keymin.ToStorageKeySection() : keymin);
+            var highKey = indexName.ToStorageKeySection() + (encodeValue ? keymax.ToStorageKeySection() : keymax);
+
 
             var ret = _tableContext.PerformQuery<StorageType>(tableName
                 , storage =>
                         storage.PartitionKey.CompareTo(lowerKey) >= 0 &&
-                        storage.PartitionKey.CompareTo(upperKey) < 0);
+                        storage.PartitionKey.CompareTo(highKey) <= 0);
+            
+            return ret.ToList();
+        }
+
+        public List<StorageType> FindEntitiesByIndexRange<EntityType, StorageType>(string indexName, string keymin, string keymax, string rowkeymin,
+                                                                      string rowkeymax, bool encodeValue = true, int take = -1) where StorageType : StorageTableKeyInterface
+        {
+            var tableName = _indexProviderService.GetTableNameForIndex<EntityType>(indexName);
+            var lowerKey = indexName.ToStorageKeySection() + (encodeValue ? keymin.ToStorageKeySection() : keymin);
+            var highKey = indexName.ToStorageKeySection() + (encodeValue ? keymax.ToStorageKeySection() : keymax);
+
+            var lowerRowKey = (encodeValue ? rowkeymin.ToStorageKeySection() : rowkeymin);
+            var highRowKey = (encodeValue ? rowkeymax.ToStorageKeySection() : rowkeymax);
+
+
+            var ret = _tableContext.PerformQuery<StorageType>(tableName
+                , storage =>
+                        storage.PartitionKey.CompareTo(lowerKey) >= 0 &&
+                        storage.PartitionKey.CompareTo(highKey) <= 0 &&
+                        storage.RowKey.CompareTo(lowerRowKey) >= 0 &&
+                        storage.RowKey.CompareTo(highRowKey) <=0);
 
             return ret.ToList();
         }
 
         public void UpdateEntityIndexes<EntityType>(EntityType entity, bool deleteOnly = false) where EntityType : EntityIdInterface
         {
-            var indexes = _indexProviderService.GetAllIndexNamesFor<EntityType>().ToList();
+            var indexes = _indexProviderService.GetAllIndexNamesForUpdate<EntityType>().ToList();
             foreach (var index in indexes)
             {
                 var lowerKey = index.ToStorageKeySection();

@@ -26,7 +26,7 @@ namespace PostaFlya.Areas.WebApi.Flyers.Model
 //        [DataMember(IsRequired = true)]
 //        public double Lng { get; set; }
 
-        [ValidLocation]
+//        [ValidLocation]
         [Required(ErrorMessageResourceName = "Required", ErrorMessageResourceType = typeof(Properties.Resources))]
         [DataMember(IsRequired = true)]
         public LocationModel Loc { get; set; }

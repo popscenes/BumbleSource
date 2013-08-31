@@ -66,62 +66,6 @@
     //    });
     //};
 
-    ko.bindingHandlers.helpTipTrigger = {
-        init: function(element, valueAccessor, allBindingsAccessor, viewModel) {
-
-            var $ele = $(element);
-            var data = {
-                closeBtnClassAdd: 'mini-button red-button',
-                nextBtnClassAdd: 'mini-button blue-button',
-            };
-            var pageId = ko.utils.unwrapObservable(valueAccessor());
-            var groups = ko.utils.unwrapObservable(allBindingsAccessor().helpGroups);
-            data.pageMap = {};
-            data.pageMap[pageId] = groups.split(',');
-
-            var toggle = function(show) {
-                if (show) {
-                    $ele.addClass('helptips-on');
-                } else {
-                    $ele.removeClass('helptips-on');
-                }
-
-                $(window.document.body).helptips('showHelp', show, pageId, data);
-                return false;
-            };
-
-            data.close = function() {
-                return toggle(false);
-            };
-
-            $ele.bind('click', function() {
-                var isOn = $ele.hasClass('helptips-on');
-                return toggle(!isOn);
-            });
-
-            var checkFirstShowFor = function(context) {
-
-                $.cookie.json = true;
-                var helptipsshown = $.cookie('helptipsshown');
-                if (!helptipsshown)
-                    helptipsshown = {};
-
-                if (!helptipsshown[context]) {
-                    toggle(true);
-                }
-
-                helptipsshown[context] = true;
-                $.cookie('helptipsshown', helptipsshown, { expires: 1000 });
-            };
-
-            setTimeout(function() {
-                checkFirstShowFor(pageId);
-            });
-        },
-        update: function(element, valueAccessor, allBindingsAccessor, viewModel) {
-
-        }
-    };
 
     ko.bindingHandlers.bannerText = {
         init: function(element, valueAccessor, allBindingsAccessor, viewModel) {
@@ -243,18 +187,28 @@
 
             var eventFromSelector = false;
             $input.autocomplete({
-                source: function(request, response) {
-                    var geocoder = new google.maps.Geocoder();
-                    geocoder.geocode({ 'address': request.term },
-                        function(results, status) {
-                            if (status == google.maps.GeocoderStatus.OK) {
-                                response($.map(results, function(item) {
-                                    var loc = new bf.LocationModel({ Longitude: item.geometry.location.lng(), Latitude: item.geometry.location.lat() });
-                                    loc.SetFromGeo(item);
-                                    return { label: loc.Description(), value: loc.Description(), position: loc };
-                                }));
-                            }
+                source: function (request, response) {
+
+                    bf.lookupPlaceFromTerms(request.term)
+                        .done(function(resp) {
+                            response($.map(resp.Data, function (item) {
+                                var loc = new bf.LocationModel({ SuburbId: item.Id, SuburbDesc: item.Description });
+                                return { label: loc.Description(), value: loc.Description(), position: loc };
+                            }));
                         });
+
+
+//                    var geocoder = new google.maps.Geocoder();
+//                    geocoder.geocode({ 'address': request.term },
+//                        function(results, status) {
+//                            if (status == google.maps.GeocoderStatus.OK) {
+//                                response($.map(results, function(item) {
+//                                    var loc = new bf.LocationModel({ Longitude: item.geometry.location.lng(), Latitude: item.geometry.location.lat() });
+//                                    loc.SetFromGeo(item);
+//                                    return { label: loc.Description(), value: loc.Description(), position: loc };
+//                                }));
+//                            }
+//                        });
                 },
                 minLength: 3,
                 select: function(event, ui) {
@@ -284,18 +238,32 @@
                 }
                 $input.autocomplete("close");
 
-                var geocoder = new google.maps.Geocoder();
-                geocoder.geocode({ 'address': desc },
-                    function(results, status) {
-                        if (status == google.maps.GeocoderStatus.OK) {
+                bf.lookupPlaceFromTerms(desc)
+                    .done(function (resp) {
+                        
+                        if (resp.Data.length > 0) {
                             var item = results[0];
-                            var newLoc = new bf.LocationModel({ Longitude: item.geometry.location.lng(), Latitude: item.geometry.location.lat() });
-                            newLoc.SetFromGeo(item);
-                            location(newLoc);
+                            location(new bf.LocationModel({ SuburbId: item.Id, SuburbDesc: item.Description }));
                         } else {
                             location(null);
                         }
+
+                    }).error(function() {
+                        location(null);
                     });
+
+//                var geocoder = new google.maps.Geocoder();
+//                geocoder.geocode({ 'address': desc },
+//                    function(results, status) {
+//                        if (status == google.maps.GeocoderStatus.OK) {
+//                            var item = results[0];
+//                            var newLoc = new bf.LocationModel({ Longitude: item.geometry.location.lng(), Latitude: item.geometry.location.lat() });
+//                            newLoc.SetFromGeo(item);
+//                            location(newLoc);
+//                        } else {
+//                            location(null);
+//                        }
+//                    });
             };
             ko.utils.registerEventHandler(element, 'change', changeHandler);
 

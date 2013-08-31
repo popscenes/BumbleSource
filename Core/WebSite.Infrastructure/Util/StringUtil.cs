@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace Website.Infrastructure.Util
@@ -92,6 +93,20 @@ namespace Website.Infrastructure.Util
             }
             // Step 7
             return d[n, m];
+        }
+
+        private static readonly HashSet<string> IgnoreWords = new HashSet<string>()
+            {
+                "and", "the" 
+            };
+        public static List<string> TokenizeMeaningfulWords(this string source)
+        {
+            var words = Regex.Split(source, @"\W");
+            return
+                words
+                    .Select(s => s.ToLower())
+                    .Where(w => w.Length > 2 && !IgnoreWords.Contains(w))
+                    .ToList();
         }
     }
 }

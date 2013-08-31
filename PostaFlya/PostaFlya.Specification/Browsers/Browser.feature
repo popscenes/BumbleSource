@@ -32,11 +32,6 @@ Scenario: update personal details
 	  | User | FirstName | M           | LastName | user@email.com | -37.769:144.979 | 8F68AE77-0F61-4BFD-92AC-BFCA1CC5B9E2 | http://test.com |
 	Then the profile details will be stored against my browser
 
-Scenario: Browser Verifies Identity
-	Given I am a PARTICIPANT without IdentityVerified ROLE
-	When I verify my physical identity 
-	Then I will have IdentityVerified ROLE
-
 Scenario: Profile Peel View
 	Given i am an existing BROWSER with PARTICIPANT ROLE  
 	When i navigate to my peeled flyas 

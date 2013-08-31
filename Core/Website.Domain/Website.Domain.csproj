@@ -115,6 +115,7 @@
     <Compile Include="Location\LocationService.cs" />
     <Compile Include="Location\LocationServiceInterface.cs" />
     <Compile Include="Location\PlaceInterface.cs" />
+    <Compile Include="Location\Query\FindNearestSuburbByGeoCoordsQuery.cs" />
     <Compile Include="Location\Suburb.cs" />
     <Compile Include="Payment\ChargableEntityInterface.cs" />
     <Compile Include="Payment\Command\PaymentTransactionCommand.cs" />

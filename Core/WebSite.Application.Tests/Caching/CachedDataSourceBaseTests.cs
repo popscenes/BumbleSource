@@ -34,29 +34,29 @@ namespace Website.Application.Tests.Caching
         }
     }
 
-    [TestFixture]
-    public class CachedDataSourceBaseTests
-    {
-        private MemoryCache _memoryCache;
-
-        MoqMockingKernel Kernel
-        {
-            get { return TestFixtureSetup.CurrIocKernel; }
-        }
-
-        [TestFixtureSetUp]
-        public void FixtureSetUp()
-        {
-            _memoryCache = TestUtil.GetMemoryCache();
-            Kernel.Bind<ObjectCache>().ToConstant(_memoryCache);
-        }
-
-        [TestFixtureTearDown]
-        public void FixtureTearDown()
-        {
-            Kernel.Unbind<ObjectCache>();
-        }
-
-
-    }
+//    [TestFixture]
+//    public class CachedDataSourceBaseTests
+//    {
+//        private MemoryCache _memoryCache;
+//
+//        MoqMockingKernel Kernel
+//        {
+//            get { return TestFixtureSetup.CurrIocKernel; }
+//        }
+//
+//        [TestFixtureSetUp]
+//        public void FixtureSetUp()
+//        {
+//            _memoryCache = TestUtil.GetMemoryCache();
+//            Kernel.Bind<ObjectCache>().ToConstant(_memoryCache);
+//        }
+//
+//        [TestFixtureTearDown]
+//        public void FixtureTearDown()
+//        {
+//            Kernel.Unbind<ObjectCache>();
+//        }
+//
+//
+//    }
 }

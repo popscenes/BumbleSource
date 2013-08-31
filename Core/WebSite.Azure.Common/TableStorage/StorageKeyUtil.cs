@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Website.Infrastructure.Util;
 using Website.Infrastructure.Util.Extension;
 
 namespace Website.Azure.Common.TableStorage
@@ -41,7 +42,7 @@ namespace Website.Azure.Common.TableStorage
         public static string GetEndValueForStartsWith(this string startsWith)
         {
             var last = startsWith.Last();
-            var ret = startsWith.TrimEnd(last);          
+            var ret = startsWith.Substring(0, startsWith.Length - 1);          
             last++;
             return ret + last;
         }
@@ -147,17 +148,8 @@ namespace Website.Azure.Common.TableStorage
 
         public static IEnumerable<string> ToTermsSearchKeys(this string searchString)
         {
-            var terms = searchString.TokenizeMeaningfulWordsAndSort()
-                .Select(s => s.ToStorageKeySection()).ToList();
-            for (var i = 0; i < terms.Count(); i++)
-            {
-                yield return terms.Skip(i).Aggregate(new StringBuilder(), (builder, s) => builder.Append(s)).ToString();
-            }
-        }
-
-        public static string ToTermsSearchTermKey(this string searchString)
-        {
-            return searchString.TokenizeMeaningfulWordsAndSort().ToTermsSearchKey();
+            return searchString.TokenizeMeaningfulWords()
+                .Select(s => s.ToStorageKeySection());
         }
 
         public static string ToTermsSearchKey(this IEnumerable<string> keyparts)

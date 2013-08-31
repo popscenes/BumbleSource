@@ -127,7 +127,6 @@
     <Compile Include="Internal\AzureCommentRepositoryTests.cs" />
     <Compile Include="Internal\AzureClaimRepositoryTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Search\SearchRecord\FlierSearchRecordTests.cs" />
     <Compile Include="TestFixtureSetup.cs" />
   </ItemGroup>
   <ItemGroup>

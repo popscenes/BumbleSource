@@ -378,8 +378,10 @@
     <Compile Include="Areas\WebApi\Flyers\Query\FindFlyersByFeaturedQueryAsContentHandler.cs" />
     <Compile Include="Areas\WebApi\Flyers\Query\ToFlyersByDateContentQueryHandler.cs" />
     <Compile Include="Areas\WebApi\Location\Controllers\WebAutoCompleteByTermsController.cs" />
+    <Compile Include="Areas\WebApi\Location\Controllers\WebFindNearestSuburbController.cs" />
     <Compile Include="Areas\WebApi\Location\Model\AutoCompleteModel.cs" />
     <Compile Include="Areas\WebApi\Location\Model\AutoCompleteRequest.cs" />
+    <Compile Include="Areas\WebApi\Location\Model\NearestSuburbByLocationRequest.cs" />
     <Compile Include="Areas\WebApi\Location\Model\SuburbModel.cs" />
     <Compile Include="Areas\WebApi\WebApiAreaRegistration.cs" />
     <Compile Include="Binding\WebNinjectBindings.cs" />
