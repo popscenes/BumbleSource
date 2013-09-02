@@ -10,5 +10,6 @@ namespace Website.Infrastructure.Domain
             TimeStamp = DateTimeOffset.UtcNow;
         }
         public DateTimeOffset TimeStamp { get; set; }
+        public string MessageId { get; set; }
     }
 }
