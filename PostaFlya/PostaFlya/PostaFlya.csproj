@@ -491,6 +491,7 @@
     <Content Include="Content\themes\taskflya\FlyerDetail.css" />
     <Content Include="Content\themes\taskflya\FlyerSummary.css" />
     <Content Include="Content\themes\taskflya\GigBoard.css" />
+    <Content Include="Content\themes\taskflya\images\ajax-loader-squares.gif" />
     <Content Include="Content\themes\taskflya\images\bg-high-quality.jpg" />
     <Content Include="Content\themes\taskflya\images\bg-low-quality.jpg" />
     <Content Include="Content\themes\taskflya\images\bg-med-quality.jpg" />

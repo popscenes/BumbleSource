@@ -114,9 +114,10 @@ section.board-information-desc {
 }
 
 div.targetloading {
-    background-image: url(images/loading.gif);
-    width: 32px;
-    height: 32px;
+    background-image: url(images/ajax-loader-squares.gif);
+    margin-left: 10px;
+    width: 43px;
+    height: 11px;
     display: inline-block;
 }
 
