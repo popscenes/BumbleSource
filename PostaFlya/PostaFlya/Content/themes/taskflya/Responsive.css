@@ -6,6 +6,28 @@
     .long-toolbar .btn-44 {
         padding-left: 30px;
     }
+
+         div#selected-item-div, div#create-flier-item-div {
+
+        left: 0;
+        padding: 5%;
+        width: 90%;
+        margin-left: 0;
+        
+    }
+
+    .flier-view-default .flier-img {
+        padding-right: 10px;
+    }
+
+    .flier-view-default .flier-img img {
+        width: 450px;
+    }
+
+    .flier-view-default .flier-details {
+        
+        width: 100%;   
+    }
 }
 
 @media only screen and (max-width: 800px) {
@@ -231,13 +253,26 @@
         width: auto;
     }
 
-    div#selected-item-div, div#create-flier-item-div {
+     div#selected-item-div, div#create-flier-item-div {
 
         left: 0;
         padding: 5%;
         width: 90%;
         margin-left: 0;
         
+    }
+
+    .flier-view-default .flier-img {
+        padding-right: 10px;
+    }
+
+    .flier-view-default .flier-img img {
+        width: 200px;
+    }
+
+    .flier-view-default .flier-details {
+        
+        width: 100%;   
     }
 
     .print-options {

@@ -79,22 +79,27 @@ display: inline-block;
 }
 
 div#selected-item-div {
-    position: absolute;
+    position: relative;
+    display: block;
+    width: 900px;
+    
     z-index: 1751;
     margin-top: 20px;
     margin-bottom: 20px;
-    margin-left: 20%;
-    width: 50%;
-    padding: 5%;
+    margin-left: auto;
+    margin-right: auto;
+    
+    padding: 50px;
+    
 }
 
     .flier-view-default .flier-img {
         float: left;
-        width: 200px;
+        padding-right: 30px;
     }
 
     .flier-view-default .flier-img img {
-        width: 150px;
+        width: 450px;
     }
 
     .flier-view-default .flier-details {
