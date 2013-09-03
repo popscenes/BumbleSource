@@ -10,12 +10,24 @@ using Res = PostaFlya.Properties.Resources;
 
 namespace PostaFlya.Areas.WebApi.Location.Model
 {
-    public class ToSuburbModel : ViewModelMapperInterface<SuburbModel, Suburb>
+    public class ToSuburbModel : 
+        ViewModelMapperInterface<SuburbModel, Suburb>,
+        ViewModelMapperInterface<Suburb, SuburbModel>
+
     {
         public SuburbModel ToViewModel(SuburbModel target, Suburb source)
         {
             if (target == null)
                 target = new SuburbModel();
+            target.CopyFieldsFrom(source);
+            target.Id = source.Id;
+            return target;
+        }
+
+        public Suburb ToViewModel(Suburb target, SuburbModel source)
+        {
+            if (target == null)
+                target = new Suburb();
             target.CopyFieldsFrom(source);
             target.Id = source.Id;
             return target;

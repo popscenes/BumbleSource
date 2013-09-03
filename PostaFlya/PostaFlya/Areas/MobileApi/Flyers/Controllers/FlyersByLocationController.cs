@@ -28,7 +28,7 @@ namespace PostaFlya.Areas.MobileApi.Flyers.Controllers
             var start = req.Start != default(DateTimeOffset) ? req.Start : DateTimeOffset.UtcNow;
             var query = new FindFlyersByDateAndLocationQuery()
                 {
-                    Location = new Location(req.Lng, req.Lat),
+                    Location = new Suburb(){Latitude = req.Lat, Longitude = req.Lng},
                     Distance = req.Distance,
                     Start = start,
                     End = req.End != default(DateTimeOffset) ? req.End : start.AddDays(_config.GetSetting("DaySpan", 7))

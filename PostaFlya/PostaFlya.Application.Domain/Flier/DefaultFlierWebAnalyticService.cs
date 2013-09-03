@@ -40,9 +40,9 @@ namespace PostaFlya.Application.Domain.Flier
 //            });
         }
 
-        public void SetLastSearchLocation(Location loc)
+        public void SetLastSearchLocation(Suburb loc)
         {
-            if (loc.IsValid)
+            if (loc.IsValid())
                 _browserInformation.LastSearchLocation = loc;
         }
     }

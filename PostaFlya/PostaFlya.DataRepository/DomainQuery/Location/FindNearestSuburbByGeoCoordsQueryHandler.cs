@@ -28,12 +28,12 @@ namespace PostaFlya.DataRepository.DomainQuery.Location
         {
             Suburb ret = null;
             var point = argument.Geo.ToGeography();
-            var start = 10;
+            var start = 2;
             do
             {
                 ret = FindSuburbWithin(point, start);
-                start += 10;
-            } while (ret == null);
+                start *= 2;
+            } while (ret == null && start < 64);
 
             return ret;
         }
@@ -53,15 +53,16 @@ namespace PostaFlya.DataRepository.DomainQuery.Location
                     , high.Latitude.ToGeoLatSearchKey(), encodeValue: false);
 
 
-            var ret = (from g in geos
+            var list = (from g in geos
                        let gc = g.GetEntity<GeoCoords>().ToGeography()
-                       orderby gc.STDistance(target)
-                       select g).FirstOrDefault();
+                        let dist = gc.STDistance(target)
+                        orderby dist
+                        select new { g, dist }).ToList();
 
-
+            var ret = list.FirstOrDefault();
             return ret == null
                        ? null
-                       : _queryChannel.Query(new FindByIdQuery<Suburb>() { Id = ret.RowKey.ExtractEntityIdFromRowKey() },
+                       : _queryChannel.Query(new FindByIdQuery<Suburb>() { Id = ret.g.RowKey.ExtractEntityIdFromRowKey() },
                                              default(Suburb));
         }
     }

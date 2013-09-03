@@ -6,7 +6,7 @@ namespace PostaFlya.Domain.Flier.Query
 {
     public class FindFlyersByDateAndLocationQuery : QueryInterface<Flier>
     {
-        public Location Location { get; set; }
+        public Suburb Location { get; set; }
 
         public int Distance { get; set; }
 
