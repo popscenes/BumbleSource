@@ -218,9 +218,9 @@
                     return '';
                 else {
                     if (self.FlierImageUrl().indexOf("v100") == -1) {
-                        newUrl = self.FlierImageUrl().replace('.jpg', 'h228.jpg');
+                        newUrl = self.FlierImageUrl().replace('.jpg', 'h300.jpg');
                     } else {
-                        newUrl = self.FlierImageUrl().replace('v100', 'h228');
+                        newUrl = self.FlierImageUrl().replace('v100', 'h300');
                     }
                     return newUrl;
                 }
