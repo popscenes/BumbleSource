@@ -95,10 +95,11 @@ namespace PostaFlya.Controllers
                                      BrowserId = _browserInformation.Browser.Id,
                                      Title = createModel.Title,
                                      Location = createModel.Location != null ? createModel.Location.ToDomainModel() : null,
-                                     Anonymous = createModel.Anonymous && _browserInformation.Browser.HasRole(Role.Admin)
+                                     Anonymous = createModel.Anonymous && _browserInformation.Browser.HasRole(Role.Admin),
+                                     KeepFileImapeType = createModel.KeepFileImapeType
                                  });
 
-            var uri = _blobStorage.GetBlobUri(imgId + ImageUtil.GetIdFileExtension(), false);
+            var uri = _blobStorage.GetBlobUri(imgId + ImageUtil.GetIdFileExtension(createModel.KeepFileImapeType, content.Extension), false);
             Response.Headers["Location"] = uri != null ? uri.ToString() : imgId.ToString();
             Response.Write("{\"jsonrpc\" : \"2.0\", \"result\" : null, \"id\" : \"" + imgId + "\", \"url\": \"" + uri + "\"}");
             return new HttpStatusCodeResult(HttpStatusCode.Created);

@@ -39,6 +39,7 @@ namespace Website.Application.Domain.Content
                 using (var binaryReader = new BinaryReader(_contextBase.Request.Files[0].InputStream))
                 {
                     ret.Data = binaryReader.ReadBytes(_contextBase.Request.Files[0].ContentLength);
+                    ret.OriginalFileName = _contextBase.Request.Files[0].FileName;
                     return ret;                  
                 }
 

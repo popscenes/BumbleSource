@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using Website.Application.Binding;
@@ -78,6 +79,9 @@ namespace Website.Application.Domain.Content.Command
 
             Image aspectImg = null;
             Image maxDimImg = null;
+            ImageFormat saveFormat = ImageFormat.Jpeg;
+            BlobProperties blopProperties = BlobProperties.JpegContentTypeDefault;
+
             try
             {
                 var curr = img;
@@ -89,12 +93,20 @@ namespace Website.Application.Domain.Content.Command
                 if (maxDimImg != null)
                     curr = maxDimImg;
 
+                if (command.KeepFileImapeType)
+                {
+                    saveFormat = ImageUtil.GetSaveFormat(command.Extension);
+                    blopProperties = BlobProperties.ImageContentTypeFortExtension(command.Extension);
+                }
+
                 var dims = new List<ImageDimension>(){GetDim(curr, ImageUtil.GetIdFileExtension(), ThumbOrientation.Original)};
-                var convdata = curr.GetBytes();
-                _blobStorage.SetBlob(command.MessageId + ImageUtil.GetIdFileExtension(), convdata, BlobProperties.JpegContentTypeDefault);
+                var convdata = curr.GetBytes(saveFormat);
+                _blobStorage.SetBlob(command.MessageId + ImageUtil.GetIdFileExtension(command.KeepFileImapeType, command.Extension), convdata, blopProperties);
 
-                dims.AddRange(CreateThumbs(command.MessageId, curr));
+                String extensionForBlob = command.KeepFileImapeType ? command.Extension : "jpg";
+                dims.AddRange(CreateThumbs(command.MessageId, curr, saveFormat, blopProperties, extensionForBlob));
 
+                
                 ProcessMetaData(img, command.MessageId, dims);
 
                 _messageBus.Send(new SetImageStatusCommand()
@@ -144,28 +156,28 @@ namespace Website.Application.Domain.Content.Command
             });
         }
 
-        private IEnumerable<ImageDimension> CreateThumbs(string commandId, Image img)
+        private IEnumerable<ImageDimension> CreateThumbs(string commandId, Image img, ImageFormat saveFormat, BlobProperties blobProperties, String extension)
         {
             var ret = new List<ImageDimension>();
 
             var sizes = (ThumbSize[])Enum.GetValues(typeof (ThumbSize));
             foreach (var size in sizes.Where(size => size > 0))
-            {              
-                ret.Add(CreateWidthThumb(commandId, img, (int)size));
+            {
+                ret.Add(CreateWidthThumb(commandId, img, (int)size, saveFormat, blobProperties, extension));
                 //ret.Add(CreateLengthThumb(commandId, img, (int)size));
-                ret.Add(CreateOriginalThumb(commandId, img, (int)size));
-                ret.Add(CreateSquareThumb(commandId, img, (int)size));
+                ret.Add(CreateOriginalThumb(commandId, img, (int)size, saveFormat, blobProperties, extension));
+                ret.Add(CreateSquareThumb(commandId, img, (int)size, saveFormat, blobProperties, extension));
             }
             return ret;
         }
 
-        private ImageDimension CreateSquareThumb(string commandId, Image img, int size)
+        private ImageDimension CreateSquareThumb(string commandId, Image img, int size, ImageFormat saveFormat, BlobProperties blobProperties, String extension)
         {
             var aspectImg = EnsureAspectRatio(img, 1);
             using (var thumb = aspectImg != null ? aspectImg.Resize(size, size) : img.Resize(size, size))
             {
-                var ext = ImageUtil.GetIdFileExtension(ThumbOrientation.Square, (ThumbSize)size);
-                _blobStorage.SetBlob(commandId + ext, thumb.GetBytes(), BlobProperties.JpegContentTypeDefault);
+                var ext = ImageUtil.GetIdFileExtension(ThumbOrientation.Square, (ThumbSize)size, extension);
+                _blobStorage.SetBlob(commandId + ext, thumb.GetBytes(saveFormat), blobProperties);
 
                 if (aspectImg != null)
                     aspectImg.Dispose();
@@ -175,14 +187,14 @@ namespace Website.Application.Domain.Content.Command
 
         }
 
-        private ImageDimension CreateOriginalThumb(string commandId, Image img, int size)
+        private ImageDimension CreateOriginalThumb(string commandId, Image img, int size, ImageFormat saveFormat, BlobProperties blobProperties, String extension)
         {
             using (var thumb = img.Width > img.Height
                                    ? img.ResizeByWidth(size)
                                    : img.ResizeByHeight(size))
             {
-                var ext = ImageUtil.GetIdFileExtension(ThumbOrientation.Original, (ThumbSize) size);
-                _blobStorage.SetBlob(commandId + ext, thumb.GetBytes(), BlobProperties.JpegContentTypeDefault);
+                var ext = ImageUtil.GetIdFileExtension(ThumbOrientation.Original, (ThumbSize)size, extension);
+                _blobStorage.SetBlob(commandId + ext, thumb.GetBytes(saveFormat), blobProperties);
                 return GetDim(thumb, ext, ThumbOrientation.Original);
             }
         }
@@ -197,12 +209,12 @@ namespace Website.Application.Domain.Content.Command
 //            }
 //        }
 
-        private ImageDimension CreateWidthThumb(string commandId, Image img, int size)
+        private ImageDimension CreateWidthThumb(string commandId, Image img, int size, ImageFormat saveFormat, BlobProperties blobProperties, String extension)
         {
             using (var thumb = img.Resize(size, (int) Math.Ceiling(img.Height*(size/(double) img.Width))))
             {
-                var ext = ImageUtil.GetIdFileExtension(ThumbOrientation.Horizontal, (ThumbSize)size);
-                _blobStorage.SetBlob(commandId + ext, thumb.GetBytes(), BlobProperties.JpegContentTypeDefault);
+                var ext = ImageUtil.GetIdFileExtension(ThumbOrientation.Horizontal, (ThumbSize)size, extension);
+                _blobStorage.SetBlob(commandId + ext, thumb.GetBytes(saveFormat), blobProperties);
                 return GetDim(thumb, ext, ThumbOrientation.Horizontal);
             }
         }

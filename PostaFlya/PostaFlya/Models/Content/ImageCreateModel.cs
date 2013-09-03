@@ -17,5 +17,7 @@ namespace PostaFlya.Models.Content
         public string Title { get; set; }
 
         public bool Anonymous { get; set; }
+
+        public bool KeepFileImapeType { get; set; }
     }
 }

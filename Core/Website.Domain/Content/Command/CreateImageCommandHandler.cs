@@ -32,7 +32,8 @@ namespace Website.Domain.Content.Command
                                  BrowserId = command.Anonymous ? Guid.Empty.ToString() : command.BrowserId,
                                  Status = ImageStatus.Processing,
                                  Location = command.Location,
-                                 ExternalId = command.ExternalId
+                                 ExternalId = command.ExternalId,
+                                 Extension = command.KeepFileImapeType ? command.Content.Extension: "jpg"
                              };
 
             UnitOfWorkInterface unitOfWork;
@@ -43,7 +44,7 @@ namespace Website.Domain.Content.Command
 
             if (unitOfWork.Successful)
             {
-                _contentStorageService.Store(command.Content, new Guid(insert.Id));
+                _contentStorageService.Store(command.Content, new Guid(insert.Id), command.KeepFileImapeType, command.Content.Extension);
             }
                 
             return insert;

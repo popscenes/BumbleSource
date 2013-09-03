@@ -17,6 +17,7 @@ namespace Website.Domain.Content
 
         public string ExternalId { get; set; }
         public List<ImageDimension> AvailableDimensions { get; set; }
+        public string Extension { get; set; }
 
         #endregion
     }

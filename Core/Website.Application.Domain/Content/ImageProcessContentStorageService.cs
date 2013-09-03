@@ -22,11 +22,18 @@ namespace Website.Application.Domain.Content
 
         public void Store(Website.Domain.Content.Content content, Guid id)
         {
+            Store(content, id, false, "jpg");
+        }
+
+        public void Store(Website.Domain.Content.Content content, Guid id, bool keepFileImapeType, string extension)
+        {
             _messageBus.Send(new ImageProcessCommand()
-                                 {
-                                     ImageData = content.Data,
-                                     MessageId = id.ToString()
-                                 });
+            {
+                ImageData = content.Data,
+                MessageId = id.ToString(),
+                KeepFileImapeType = keepFileImapeType,
+                Extension = extension
+            });
         }
 
         public void SetMetaData(SetImageMetaDataCommand initiatorCommand)

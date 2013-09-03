@@ -17,6 +17,11 @@ namespace Website.Application.Content
                 return new BlobProperties() { ContentTyp = "image/jpeg" };
             }
         }
+
+        public static BlobProperties ImageContentTypeFortExtension(String extension)
+        {
+            return new BlobProperties() { ContentTyp = "image/" + extension };
+        }
     }
 
     public interface BlobStorageInterface
