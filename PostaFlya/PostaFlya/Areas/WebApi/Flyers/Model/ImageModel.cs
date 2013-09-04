@@ -50,5 +50,11 @@ namespace PostaFlya.Areas.WebApi.Flyers.Model
         public string BaseUrl { get; set; }
         public List<Extension> Extensions { get; set; }
 
+        public string UrlForAxisWidth(string scale, int width)
+        {
+            var ext = Extensions.FirstOrDefault(extension => extension.ScaleAxis == scale && extension.Width >= width);
+            return BaseUrl + ext.UrlExtension;
+        }
+
     }
 }

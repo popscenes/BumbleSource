@@ -102,7 +102,7 @@ div.popsceneswidget ul.time-line li a.date-nav-link{
 }
 
 div.popsceneswidget ul.time-line li a.date-nav-link{
-    font-weight: bold;
+    /*font-weight: bold;*/
     color: #000000;
 }
 
@@ -152,6 +152,11 @@ div.popsceneswidget div#selected-item-div .question-tool-bar-item{
     right: 70px;
     top: 5px;
 }
+
+div.popsceneswidget div#selected-item-div .tear-off {
+    margin-top: 12px;
+}
+
 /************end selected item popup/overlay div ********************/
 
 div.popsceneswidget fieldset {

@@ -49,14 +49,10 @@ div#scrolltotop {
     margin-right: 20px;
 }
 
-.venue-desc-text {
-    font-size: 14px;
-}
 .board-header-content {
-    width: 748px;
+    width: 960px;
     margin: 0 auto;
-    border: 1px #D0CBC4 solid;
-    background-color: white;
+    text-align: center;
 }
 
 
@@ -92,25 +88,27 @@ div#scrolltotop {
 .board-information-desc h3 {
     border: none;
     text-transform: none;
-    color: black;
-    font-weight: bold;
-    margin-top: 12px;
-    margin-bottom: 2px;
+    font-size: 32px;
+    margin: 12px;
 }
 
-    .board-information-desc h3 span {
-        color: black;
-        text-transform: none;
-    }
+a.board-information-location {
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+}
 
-section.board-information-addr {
-    float: right;
-    height: 128px;
+.board-information-logo {
+    width: 450px;
+    height: 300px;
+    background-size: 450px;
+    background-repeat: no-repeat;
+    background-position: 50% 0;
+    margin: auto;
 }
 
 section.board-information-desc {
-    float: left;
-    padding-left: 20px;
+    padding-bottom: 50px;
 }
 
 div.targetloading {
@@ -200,7 +198,7 @@ ul.time-line li a.date-nav-link{
 }
 
 ul.time-line li a.date-nav-link{
-    font-weight: bold;
+    /*font-weight: bold;*/
     color: #ffffff;
 }
 

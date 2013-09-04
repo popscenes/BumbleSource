@@ -97,7 +97,7 @@ namespace Website.Application.Domain.Location
                 cnt++;
 
                 var time = watch.ElapsedMilliseconds;
-                var av = (time > 0) ? cnt / time : 0;
+                var av = (time > 0) ? (cnt / time) : 0;
                 var left = ((ret.Count - cnt)*av)/1000;
 
                 Logger.Info("Sent {0} of {1} suburb {2} esttime remaining {3} sec"
@@ -123,8 +123,9 @@ namespace Website.Application.Domain.Location
                 Latitude = s.latitude,
                 Longitude = s.longitude
 
-            }).         
-            ToList();
+            })
+            .Where(suburb => !string.IsNullOrWhiteSpace(suburb.PostCode))
+            .ToList();
 
             subs.ForEach(suburb => suburb.Id = suburb.FriendlyId = suburb.GetGeneratedId());
 

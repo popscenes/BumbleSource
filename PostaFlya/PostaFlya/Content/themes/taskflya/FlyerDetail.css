@@ -90,7 +90,14 @@ div#selected-item-div {
     margin-right: auto;
     
     padding: 50px;
-    
+}
+
+div.flierbackground {
+
+    opacity: 0.8;    
+    -webkit-filter: blur(5px);
+    filter: blur(5px); 
+
 }
 
     .flier-view-default .flier-img {

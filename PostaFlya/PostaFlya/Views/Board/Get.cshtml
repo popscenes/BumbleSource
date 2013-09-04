@@ -20,55 +20,34 @@
 <div class="board-header">
     <div class="board-header-content">
         <input type="hidden" value="@Model.Id" id="boardid"/>
+        
+        
+        @if (Model.Image.Extensions.Any())
+        {
+            <div class="board-information-logo" style="background-image: url(@Model.Image.UrlForAxisWidth("Horizontal", 900))" >
+                
+            </div>
+@*            <img class="board-information-logo" src="@Model.Image.UrlForAxisWidth("Horizontal", 900)" alt="@Model.Name"/>*@
+        }
 
         <section class="board-information-desc">
+            
             <h3>
                 <span>@Model.Name</span>
             </h3>
-            <div>
-                <span>@Model.Description</span>
-            </div>
             
-                    <div class="venue-desc-text">
-                    <span>@Model.Location.GetAddressDescription()</span>
-                </div>
-            <div class="board-links">
-                @foreach (var veninfo in Model.VenueInformation)
-                {
-        
-                    <fieldset>
-                        <legend>@veninfo.Source</legend>
-
-                        @if (!string.IsNullOrWhiteSpace(veninfo.WebSite))
-                        {
-                            <a  class="bold-link" href="@veninfo.WebSite" target="_blank">Website</a> 
-                        }
-
-                        @if (!string.IsNullOrWhiteSpace(veninfo.SourceUrl))
-                        {
-                            <a  class="bold-link" href="@veninfo.SourceUrl" target="_blank">@veninfo.Source</a> 
-                        }
-
-                    </fieldset>
-                }
-            </div>
+            @if (Model.Location != null && Model.Location.IsValid())
+            {
+                <a href="@Html.LocationMapSearchUrl(Model.Location.ToDomainModel())" class="board-information-location"
+                target="_blank"><div>
+                                    @Model.Location.StreetNumber @Model.Location.Street <br/>
+                                    @Model.Location.Locality @Model.Location.RegionCode @Model.Location.PostCode <br/>
+                                    @Model.Location.CountryName
+                                </div></a>
+            }
 
         </section>
         
-         @if (Model.Location != null && Model.Location.IsValid())
-        {
-        
-            <section class="board-information-addr desk-only">
-                <div>
-                    <a href="@Html.LocationMapSearchUrl(Model.Location.ToDomainModel())"
-                       target="_blank">@Html.LocationImage(Model.Location.ToDomainModel(), 258, 128, 15)</a>
-                </div>
-            </section>
-
-        }
-        
-
-
         <div class="clear-fix"></div>
     </div>
 </div>
