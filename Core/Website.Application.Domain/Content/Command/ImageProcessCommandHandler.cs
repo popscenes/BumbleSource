@@ -106,8 +106,8 @@ namespace Website.Application.Domain.Content.Command
                 String extensionForBlob = command.KeepFileImapeType ? command.Extension : "jpg";
                 dims.AddRange(CreateThumbs(command.MessageId, curr, saveFormat, blopProperties, extensionForBlob));
 
-                
-                ProcessMetaData(img, command.MessageId, dims);
+
+                ProcessMetaData(img, command.MessageId, dims, extensionForBlob);
 
                 _messageBus.Send(new SetImageStatusCommand()
                                      {
@@ -130,7 +130,7 @@ namespace Website.Application.Domain.Content.Command
             }
         }
 
-        private void ProcessMetaData(Image img, string imgId, List<ImageDimension> dims)
+        private void ProcessMetaData(Image img, string imgId, List<ImageDimension> dims, string extension)
         {
             var loc = new Website.Domain.Location.Location();
             var exif = new ExifImage(img);
@@ -152,7 +152,8 @@ namespace Website.Application.Domain.Content.Command
                 Id = imgId,
                 Location = loc,
                 Title = title,
-                Dimensions = dims
+                Dimensions = dims,
+                Extension = extension,
             });
         }
 

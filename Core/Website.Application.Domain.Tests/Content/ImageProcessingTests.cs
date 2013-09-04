@@ -64,7 +64,7 @@ namespace Website.Application.Domain.Tests.Content
         public static void AssertWithTestImage(MoqMockingKernel kernel, Action<Guid, Dictionary<string, byte[]>> assertions)
         {
             System.Drawing.Bitmap bitmap = Website.Application.Tests.Properties.Resources.TestLongImage;
-            AssertImage(kernel, bitmap, assertions);
+            AssertImage(kernel, bitmap, assertions, false, "test.jpg");
         }
 
         //image processing tests
@@ -73,6 +73,13 @@ namespace Website.Application.Domain.Tests.Content
         {
             System.Drawing.Bitmap bitmap = Website.Application.Tests.Properties.Resources.TestWideImage;
             AssertImage(bitmap, TestImageProcessedIsSmallerThanMax);
+        }
+
+        [Test]
+        public void ProcessImageCommandHandlerPNGWithAlpha()
+        {
+            System.Drawing.Bitmap bitmap = Website.Application.Tests.Properties.Resources.pngWithAlpha;
+            AssertImage(Kernel, bitmap, TestImageProcessed, true, "test.png");
         }
 
         [Test]
@@ -85,10 +92,10 @@ namespace Website.Application.Domain.Tests.Content
 
         private void AssertImage(Bitmap bitmap, Action<Guid, Dictionary<string, byte[]>> assertions)
         {
-            AssertImage(Kernel, bitmap, assertions);
+            AssertImage(Kernel, bitmap, assertions, false, "test.jpg");
         }
 
-        private static void AssertImage(MoqMockingKernel kernel, Bitmap bitmap, Action<Guid, Dictionary<string, byte[]>> assertions)
+        private static void AssertImage(MoqMockingKernel kernel, Bitmap bitmap, Action<Guid, Dictionary<string, byte[]>> assertions, bool keepOriginalExtension, string fileName)
         {
             var storage = new Dictionary<string, byte[]>();
             var mockstore = kernel.GetMock<BlobStorageInterface>();
@@ -118,10 +125,12 @@ namespace Website.Application.Domain.Tests.Content
                                   BrowserId = Guid.NewGuid().ToString(),
                                   ExternalId = "123|facebook",
                                   Title = "Yoyoyoyo",
+                                  KeepFileImapeType = keepOriginalExtension,
                                   Content = new Website.Domain.Content.Content()
                                                 {
                                                     Type = Website.Domain.Content.Content.ContentType.Image,
-                                                    Data = data
+                                                    Data = data,
+                                                    OriginalFileName = fileName
                                                 }
                               };
             
@@ -162,6 +171,16 @@ namespace Website.Application.Domain.Tests.Content
                 var conv = Image.FromStream(ms);
                 Assert.IsTrue(conv.Height <= ImageProcessCommandHandler.MaxHeight);
                 Assert.IsTrue(conv.Width <= ImageProcessCommandHandler.MaxWidth);
+            }
+        }
+
+        private static void TestImageProcessed(Guid guid, Dictionary<string, byte[]> dictionary)
+        {
+            var data = dictionary[guid.ToString() + ImageUtil.GetIdFileExtension(true, "png")];
+            using (var ms = new MemoryStream(data))
+            {
+                var conv = Image.FromStream(ms);
+                Assert.IsTrue(conv.PixelFormat == PixelFormat.Format32bppArgb);
             }
         }
 
@@ -235,6 +254,8 @@ namespace Website.Application.Domain.Tests.Content
             }
         }
 
+        
+        
         [Test]
         public void ProcessImageCommandHandlerShouldCreateThumbsByOriginal()
         {

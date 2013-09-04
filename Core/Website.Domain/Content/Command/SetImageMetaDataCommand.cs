@@ -11,5 +11,7 @@ namespace Website.Domain.Content.Command
         public Location.Location Location { get; set; }
         public string Title { get; set; }
         public List<ImageDimension> Dimensions { get; set; }
+        public string Extension { get; set; }
+
     }
 }

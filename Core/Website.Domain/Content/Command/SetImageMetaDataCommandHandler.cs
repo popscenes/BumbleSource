@@ -52,6 +52,8 @@ namespace Website.Domain.Content.Command
                                 image.AvailableDimensions = command.Dimensions;
                             }
 
+                            image.Extension = command.Extension;
+
                         });
             }
 

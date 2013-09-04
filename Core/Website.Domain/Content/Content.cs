@@ -13,7 +13,7 @@ namespace Website.Domain.Content
         public ContentType Type { get; set; }
         public string OriginalFileName { get; set; }
         public string Extension {
-            get { return Path.GetExtension(OriginalFileName); }
+            get { return OriginalFileName == null ? "" : Path.GetExtension(OriginalFileName).Substring(1); }
         }
         public byte[] Data { get; set; }
     }
