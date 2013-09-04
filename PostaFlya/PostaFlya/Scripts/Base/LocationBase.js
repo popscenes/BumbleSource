@@ -139,7 +139,7 @@
         }
         ).done(function(resp) {
             if (callback)
-                callback(new LocationModel(resp.Data));
+                callback(new bf.LocationModel(resp.Data));
         });
        
     };

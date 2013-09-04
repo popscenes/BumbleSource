@@ -95,11 +95,13 @@ namespace PostaFlya.Controllers
 
             if (_browserInformation.LastSearchLocation == null)
             {
-                _browserInformation.LastSearchLocation = new Location();
+                _browserInformation.LastSearchLocation = new Suburb();
             }
             _browserInformation.LastSearchLocation.CopyFieldsFrom(req.Loc);
 
-            _webAnalyticService.SetLastSearchLocation(req.Loc.ToDomainModel());
+            var sub = new Suburb();
+            sub.CopyFieldsFrom(req.Loc.ToDomainModel());
+            _webAnalyticService.SetLastSearchLocation(sub);
             return GetFliers(_flierSearchService, _queryChannel, _queryService 
                 , req.Loc, req.Count, board: req.Board, skipPast: req.SkipPast, distance: req.Distance, tags: req.Tags, date: req.Date);
         }

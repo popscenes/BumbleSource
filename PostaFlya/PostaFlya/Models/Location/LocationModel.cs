@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 using System.Web.Http.ModelBinding;
+using PostaFlya.Areas.WebApi.Location.Model;
 using PostaFlya.Models.Board;
 using Website.Application.Google.Places.Details;
 using Website.Common.Model;
@@ -36,7 +37,6 @@ namespace PostaFlya.Models.Location
             ret.CopyFieldsFrom(location);
             return ret;
         }
-
         
     }
 
@@ -85,6 +85,5 @@ namespace PostaFlya.Models.Location
         [Display(Name = "CountryName", ResourceType = typeof(Properties.Resources))] 
         public string CountryName { get; set; }
 
-        public string SuburbId { get; set; }
     }
 }

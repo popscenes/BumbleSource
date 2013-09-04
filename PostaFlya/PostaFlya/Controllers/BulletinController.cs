@@ -61,12 +61,13 @@ namespace PostaFlya.Controllers
         {
             var model = new BulletinBoardPageModel() { PageId = WebConstants.GigGuidePage };
 
-            if (_browserInformation.LastSearchLocation == null || !_browserInformation.LastSearchLocation.IsValid)
+            if (_browserInformation.LastSearchLocation == null || !_browserInformation.LastSearchLocation.IsValid())
             {
                 _browserInformation.LastSearchLocation = _queryChannel.Query(new GetLocationFromIdQuery()
                     {
                         IpAddress = _browserInformation.IpAddress
-                    }, new Location());
+
+                    }, new Suburb());
             }
 
             return View("GigGuide", model); 

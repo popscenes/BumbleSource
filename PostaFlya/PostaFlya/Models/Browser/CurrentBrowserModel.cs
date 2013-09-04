@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using PostaFlya.Application.Domain.Browser;
+using PostaFlya.Areas.WebApi.Location.Model;
 using PostaFlya.Domain.Boards.Query;
 using PostaFlya.Domain.Flier;
 using PostaFlya.Models.Board;
@@ -13,6 +14,7 @@ using Website.Application.Domain.Browser;
 using Website.Common.Model;
 using Website.Common.Model.Query;
 using Website.Domain.Contact;
+using Website.Domain.Location;
 using Website.Infrastructure.Query;
 
 namespace PostaFlya.Models.Browser
@@ -34,7 +36,7 @@ namespace PostaFlya.Models.Browser
             target.Handle = source.Browser.FriendlyId;
             target.BrowserId = source.Browser.Id;
             target.Roles = source.Browser.Roles.Select(r => r).ToList();
-            target.LastSearchedLocation = source.LastSearchLocation.ToViewModel();
+            target.LastSearchedLocation = _queryChannel.ToViewModel<SuburbModel, Suburb>(source.LastSearchLocation);
             target.AdminBoards = new List<BoardSummaryModel>();
             /*if (source.PostaBrowser.AdminBoards != null && source.PostaBrowser.AdminBoards.Count > 0)
             target.AdminBoards =
@@ -57,7 +59,7 @@ namespace PostaFlya.Models.Browser
         public List<string> Roles { get; set; }
         public double Credits { get; set; }  
         public ContactDetailsModel ContactDetails { get; set; }
-        public LocationModel LastSearchedLocation { get; set; }
+        public SuburbModel LastSearchedLocation { get; set; }
     }
 
 //    public static class BulletinFlierModelFlierInterfaceExtension
