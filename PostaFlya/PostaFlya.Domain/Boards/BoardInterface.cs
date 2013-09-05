@@ -25,7 +25,9 @@ namespace PostaFlya.Domain.Boards
             target.ImageId = source.ImageId;
             target.DefaultInformationSource = source.DefaultInformationSource;
             target.BoardTypeEnum = source.BoardTypeEnum;
-            target.AdminEmailAddresses = new List<string>(source.AdminEmailAddresses ?? new List<string>()); 
+            target.AdminEmailAddresses = new List<string>(source.AdminEmailAddresses ?? new List<string>());
+            target.ImageId = source.ImageId;
+            target.BackgroundImageId = source.BackgroundImageId;
         }
 
         //board and information need to already be close by location wise for this
@@ -67,6 +69,7 @@ namespace PostaFlya.Domain.Boards
         BoardTypeEnum BoardTypeEnum { get; set; }
         BoardSubscription Subscription { get; set; }
         string ImageId { get; set; }
+        string BackgroundImageId { get; set; }
         List<VenueInformation> InformationSources { get; set; }
         string DefaultInformationSource { get; set; }
         List<string> AdminEmailAddresses { get; set; } 

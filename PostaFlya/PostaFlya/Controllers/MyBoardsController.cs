@@ -38,7 +38,8 @@ namespace PostaFlya.Controllers
                     BoardTypeEnum = boardCreate.TypeOfBoard,
                     SourceInformation = boardCreate.VenueInformation == null ? null :boardCreate.VenueInformation.ToDomainModel(),
                     AdminEmailAddresses = boardCreate.AdminEmailAddresses != null ? boardCreate.AdminEmailAddresses.Select(s => s.Trim()).ToList() : null,
-                    Description = boardCreate.Description
+                    Description = boardCreate.Description,
+                    LogoImageId = boardCreate.LogoImageId
                     
                 };
 
@@ -55,7 +56,8 @@ namespace PostaFlya.Controllers
                 BoardName = boardEdit.BoardName,
                 AllowOthersToPostFliers = boardEdit.AllowOthersToPostFliers,
                 RequireApprovalOfPostedFliers = boardEdit.RequireApprovalOfPostedFliers,
-                Status = BoardStatus.Approved
+                Status = BoardStatus.Approved,
+                LogoImageId = boardEdit.LogoImageId
             };
 
             var res = _messageBus.Send(editBoardCommand);

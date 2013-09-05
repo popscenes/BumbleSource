@@ -110,7 +110,7 @@
                         <Label Content="Google Places Ref"></Label>
                         <TextBox Width="265" Name="GooglePlacesRef"></TextBox>
                         <Button Name="Places" Content="Google Places" Click="Places_OnClick"></Button>
-                        <Button Name="Upload" Content="Upload To Site" Click="UploadBoard_OnClick"></Button>
+                        <Button Name="Upload" Content="Upload To Site" Click="UploadBoard_OnClick" Height="26" VerticalAlignment="Bottom"></Button>
                     </StackPanel>
 
                     <StackPanel Grid.Column="0" Grid.Row="1" Height="500" Grid.ColumnSpan="2" Margin="0,0,0,-238">
@@ -122,6 +122,20 @@
                 </Grid>
 
             </TabItem>
+
+            <TabItem Header="Images">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <StackPanel Grid.Column="0" Grid.Row="0" Orientation="Horizontal" Grid.ColumnSpan="2">
+                        <Label Content="Upload New Image"></Label>
+                        <Button Content="Browse" Click="Browse_click__"></Button>
+                        
+                    </StackPanel>
+                    </Grid>
+                </TabItem>
         </TabControl>
     </Grid>
 

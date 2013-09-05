@@ -60,7 +60,8 @@ namespace PostaFlya.Domain.Boards.Command
                     Status = BoardStatus.Approved,
                     BoardTypeEnum = command.BoardTypeEnum,
                     AdminEmailAddresses = command.AdminEmailAddresses,
-                    Description = command.Description
+                    Description = command.Description,
+                    ImageId = command.LogoImageId
 
                 };
 

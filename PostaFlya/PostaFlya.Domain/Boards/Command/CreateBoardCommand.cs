@@ -20,5 +20,6 @@ namespace PostaFlya.Domain.Boards.Command
         public VenueInformation SourceInformation { get; set; }
         public string FlierIdToAddOnCreate { get; set; }
         public List<string> AdminEmailAddresses { get; set; }
+        public string LogoImageId { get; set; }
     }
 }

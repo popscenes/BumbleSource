@@ -54,7 +54,12 @@ namespace PostaFlya.Domain.Boards.Command
                         {
                             board.Description = command.Description;
                         }
-                        
+
+                        if (!string.IsNullOrWhiteSpace(command.LogoImageId))
+                        {
+                            board.ImageId = command.LogoImageId;
+                        }
+
                     } );
             }
 
