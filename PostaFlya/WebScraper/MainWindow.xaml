@@ -131,8 +131,10 @@
                     </Grid.RowDefinitions>
                     <StackPanel Grid.Column="0" Grid.Row="0" Orientation="Horizontal" Grid.ColumnSpan="2">
                         <Label Content="Upload New Image"></Label>
-                        <Button Content="Browse" Click="Browse_click__"></Button>
-                        
+                        <Button Content="Browse" Click="Image_Browse_click"></Button>
+                        <Label x:Name="ImagePath"  Content=""></Label>
+                        <Button x:Name="ImageUpload" Content="Upload" Click="Image_Upload_click" IsEnabled="False"></Button>
+                        <TextBox x:Name="ImageId"  Text=""></TextBox>
                     </StackPanel>
                     </Grid>
                 </TabItem>

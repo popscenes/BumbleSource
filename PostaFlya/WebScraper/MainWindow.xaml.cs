@@ -89,10 +89,11 @@ namespace WebScraper
 
         void ImageUploadWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            var success = e.Result as String;
-            if (success != "")
+            var imageId = e.Result as String;
+            if (imageId != "")
             {
-                Trace.TraceInformation("Board Uploaded");
+                Trace.TraceInformation("Image Uploaded");
+                ImageId.Text = imageId;
             }
         }
 
@@ -427,7 +428,7 @@ namespace WebScraper
             autoBoardAdmins.SelectAll();
         }
 
-        private void Browse_click__(object sender, RoutedEventArgs e)
+        private void Image_Browse_click(object sender, RoutedEventArgs e)
         {
             Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
             dlg.FileName = "Document"; // Default file name
@@ -436,24 +437,33 @@ namespace WebScraper
 
             // Show open file dialog box
             Nullable<bool> result = dlg.ShowDialog();
-            var config = _kernel.Get<ConfigurationServiceInterface>();
-            var server = config.GetSetting("Server");
+            
 
             // Process open file dialog box results 
             if (result == true)
             {
-                // Open document 
-                string filename = dlg.FileName;
-                Image image = new Bitmap(dlg.FileName);
+                // Open document
+                ImagePath.Content = dlg.FileName;
+                ImageUpload.IsEnabled = true;
 
-                ImageUploadWorker.RunWorkerAsync(new ImnageUploadData()
-                {
-                    authcookie = Auth,
-                    Image = image,
-                    ImageName = filename,
-                    server = server
-                });
+                
+                
             }
+        }
+
+        private void Image_Upload_click(object sender, RoutedEventArgs e)
+        {
+            Image image = new Bitmap(ImagePath.Content as string);
+            var config = _kernel.Get<ConfigurationServiceInterface>();
+            var server = config.GetSetting("Server");
+            
+            ImageUploadWorker.RunWorkerAsync(new ImnageUploadData()
+            {
+                authcookie = Auth,
+                Image = image,
+                ImageName = ImagePath.Content as String,
+                server = server
+            });
         }
     }
 

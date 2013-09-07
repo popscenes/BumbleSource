@@ -36,7 +36,7 @@ namespace PostaFlya.Models.Browser
             target.Handle = source.Browser.FriendlyId;
             target.BrowserId = source.Browser.Id;
             target.Roles = source.Browser.Roles.Select(r => r).ToList();
-            target.LastSearchedLocation = _queryChannel.ToViewModel<SuburbModel, Suburb>(source.LastSearchLocation);
+            target.LastSearchedLocation = source.LastSearchLocation== null ? null : _queryChannel.ToViewModel<SuburbModel, Suburb>(source.LastSearchLocation);
             target.AdminBoards = new List<BoardSummaryModel>();
             /*if (source.PostaBrowser.AdminBoards != null && source.PostaBrowser.AdminBoards.Count > 0)
             target.AdminBoards =
