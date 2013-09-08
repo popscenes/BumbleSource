@@ -516,16 +516,19 @@
             if (!imagefilter.canRun() || !item)
                 return;
 
-            var baseurl = bf.widgetbase ? bf.widgetbase : '';
-            baseurl = baseurl + '/Img/ImgRet?imageUrl=' + encodeURIComponent(item);
-            //var baseurl = item;
+            setTimeout(function() {
+            
+                var baseurl = bf.widgetbase ? bf.widgetbase : '';
+                baseurl = baseurl + '/Img/ImgRet?imageUrl=' + encodeURIComponent(item);
+                //var baseurl = item;
 
-            var position = baseurl.indexOf(".jpg");
-            var width = getFlierImageSizeFromWidth(jele.width());
-            var url = [baseurl.slice(0, position), width, baseurl.slice(position)].join('');
+                var position = baseurl.indexOf(".jpg");
+                var width = getFlierImageSizeFromWidth(jele.width());
+                var url = [baseurl.slice(0, position), width, baseurl.slice(position)].join('');
 
 
-            imagecanvas.overlayDiv(jele, url);
+                imagecanvas.overlayDiv(jele, url);
+            }, 1);
 
         }
     };
