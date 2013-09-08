@@ -674,6 +674,7 @@
     <None Include="Resources\ImageProcessingFailed.jpg" />
     <Content Include="robots.txt" />
     <Content Include="Scripts\Account\Account.js" />
+    <Content Include="Scripts\Base\Canvas.js" />
     <Content Include="Scripts\Base\ContactDetailsModel.js" />
     <Content Include="Scripts\Base\CreateFlierInstance.js" />
     <Content Include="Scripts\Base\dateFilter.js" />

@@ -157,6 +157,14 @@ div.popsceneswidget div#selected-item-div .tear-off {
     margin-top: 12px;
 }
 
+div.popsceneswidget div#selected-item-div-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -20;
+}
+
+
 /************end selected item popup/overlay div ********************/
 
 div.popsceneswidget fieldset {
@@ -364,7 +372,7 @@ div.popsceneswidget div#selected-item-div {
     position: relative;
     display: block;
     width: 900px;
-    z-index: 1751;
+    z-index: 1755;
     margin-top: 20px;
     margin-bottom: 20px;
     margin-left: auto;
@@ -392,6 +400,13 @@ div.popsceneswidget div#selected-item-popup-overlay{
     background-color: rgba(227, 224, 226, 0.95);
     overflow-y: scroll;
 }
+
+div.popsceneswidget div#selected-item-div-bg {
+    background-color: #68757E;
+    width: 1000px;
+    height: 100%;    
+}
+
 /************end selected item popup/overlay div ********************/
 
 div.popsceneswidget .print-options {

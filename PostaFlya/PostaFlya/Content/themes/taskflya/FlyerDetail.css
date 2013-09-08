@@ -83,13 +83,28 @@ div#selected-item-div {
     display: block;
     width: 900px;
     
-    z-index: 1751;
+    z-index: 1755;
     margin-top: 20px;
     margin-bottom: 20px;
     margin-left: auto;
     margin-right: auto;
     
     padding: 50px;
+}
+
+div#selected-item-div-bg {
+    background-color: #68757E;
+    width: 1000px;
+    height: 100%;    
+}
+
+div#item-detail-div-id-bg {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -20;    
 }
 
 div.flierbackground {

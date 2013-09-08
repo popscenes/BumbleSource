@@ -145,6 +145,17 @@ namespace PostaFlya.Controllers
             cachePolicy.SetLastModified(old);
         }
 
+        public ActionResult ImgRet(string imageUrl)
+        {
+            var aRequest = (HttpWebRequest)WebRequest.Create(imageUrl);
+            var aResponse = (HttpWebResponse)aRequest.GetResponse();
+
+
+            Response.Headers.Add("access-control-allow-origin", "*");
+            Response.Headers.Add("access-control-allow-credentials", "true");
+            return new FileStreamResult(aResponse.GetResponseStream(), "image/jpeg");
+        }
+
         public const string TearOffPrintStyle = "tearoff";
         public const string CodeOnlyPrintStyle = "codeonly";
         public const string TopLeftPrintStyle = "topleft";

@@ -3,13 +3,15 @@
 </script>
 
 <div data-bind="click: SelectedViewModel.hideDetailView, visible: SelectedViewModel.SelectedDetail() != null" id="selected-item-popup-overlay" style="display: none;">
+    
     <div id="selected-item-div" data-bind="click: function () { return true; }, clickBubble: false, with: SelectedViewModel, visible: SelectedViewModel.SelectedDetail() != null, absolutePosFromScroll: { target: SelectedViewModel.SelectedDetail }" style="display: none;">
-        
+        <div id="selected-item-div-bg" data-bind="imgbluroverlay: SelectedDetail() != null ? SelectedDetail().Flier.FlierImageUrl : ''"></div>
         <a class="close-button mini-button red-button" data-bind="click: hideDetailView">close</a>
         
-        <div class="selected-item-detail-div" 
-             data-bind="clickBubble:false,template: { name: getDetailTemplate, data: SelectedDetail}"> 
-        </div>
+            <div class="selected-item-detail-div" 
+                 data-bind="clickBubble:false,template: { name: getDetailTemplate, data: SelectedDetail}"> 
+            </div>
+        
     </div>
 </div>
 

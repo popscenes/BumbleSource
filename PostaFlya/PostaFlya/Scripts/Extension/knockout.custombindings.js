@@ -503,6 +503,34 @@
 
         }
     };
+
+    ko.bindingHandlers.imgbluroverlay = {
+        init: function (element, valueAccessor, allBindingsAccessor, viewModel) {
+            
+        },
+        update: function (element, valueAccessor, allBindingsAccessor, viewModel) {
+            var jele = $(element);
+
+            var item = valueAccessor();
+
+            if (!imagefilter.canRun() || !item)
+                return;
+
+            var baseurl = bf.widgetbase ? bf.widgetbase : '';
+            baseurl = baseurl + '/Img/ImgRet?imageUrl=' + encodeURIComponent(item);
+            //var baseurl = item;
+
+            var position = baseurl.indexOf(".jpg");
+            var width = getFlierImageSizeFromWidth(jele.width());
+            var url = [baseurl.slice(0, position), width, baseurl.slice(position)].join('');
+
+
+            imagecanvas.overlayDiv(jele, url);
+
+        }
+    };
+    
+
     
     ko.bindingHandlers.bulletinimg = {
         init: function (element, valueAccessor, allBindingsAccessor, viewModel) {
@@ -537,9 +565,9 @@
             return 'h228';
         if (width <= 450)
             return 'h450';
-        if (width <= 900)
-            return 'h900';
-        return '';
+
+        return 'h900';
+
     };
 
 
@@ -656,4 +684,9 @@
         return this; //optional
     };
     
+    
 })(window, jQuery);
+
+
+
+
