@@ -841,8 +841,8 @@ OTHER DEALINGS IN THE SOFTWARE.
             $canv.attr('width', jele.outerWidth());
             $canv.attr('height', jele.outerHeight());
 
-            blurimg.stackBlur($img[0], $canv[0], 25, false);
-            imagefilter.applyFilterToCanvas($canv[0], imagefilter.alpha, 200);
+            blurimg.stackBlur($img[0], $canv[0], 50, false);
+            imagefilter.applyFilterToCanvas($canv[0], imagefilter.alpha, 150);
 
         }).each(function () {
             if (this.complete) $(this).load();

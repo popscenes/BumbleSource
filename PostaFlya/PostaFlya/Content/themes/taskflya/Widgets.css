@@ -402,7 +402,7 @@ div.popsceneswidget div#selected-item-popup-overlay{
 }
 
 div.popsceneswidget div#selected-item-div-bg {
-    background-color: #68757E;
+    background-color: #000000;
     width: 1000px;
     height: 100%;    
 }
