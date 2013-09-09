@@ -116,7 +116,7 @@ namespace PostaFlya.Application.Domain.Email.Claims
             email.Subject = "Popscenes details for: " + flier.Title.ToLetterOrDigitAndSpaceOnly();
 
             var poster = _entityQueryService.FindById<Website.Domain.Browser.Browser>(flier.BrowserId);
-            var dets = flier.GetContactDetailsForFlier(_queryChannel);
+            var dets = flier.GetVenueForFlier(_queryChannel);
 
             email.Body = GetBodyFor(flier, dets);
 
@@ -253,7 +253,7 @@ namespace PostaFlya.Application.Domain.Email.Claims
         private VCard GetVCardForFlier(PostaFlya.Domain.Flier.Flier flier)
         {
             var browser = _entityQueryService.FindById<Website.Domain.Browser.Browser>(flier.BrowserId);
-            var dets = flier.GetContactDetailsForFlier(_queryChannel);
+            var dets = flier.GetVenueForFlier(_queryChannel);
             return dets == null ? null : dets.ToVCard();
         }
     }

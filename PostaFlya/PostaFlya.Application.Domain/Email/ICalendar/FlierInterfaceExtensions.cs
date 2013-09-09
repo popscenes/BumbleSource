@@ -20,7 +20,7 @@ namespace PostaFlya.Application.Domain.Email.ICalendar
                     IsUtcTime = true
                 };
 
-            var contact = flier.GetContactDetailsForFlier(queryChannel);
+            var contact = flier.GetVenueForFlier(queryChannel);
             if(contact != null)
             {
                 evnt.Organizer = new Organizer

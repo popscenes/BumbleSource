@@ -18,6 +18,11 @@ namespace Website.Domain.Location
             target.Latitude = source.Latitude;
             target.Longitude = source.Longitude;
         }
+
+        public static GeoCoords AsGeoCoords(this LocationInterface source)
+        {
+            return new GeoCoords(){Latitude = source.Latitude, Longitude = source.Longitude};
+        }
     }
 
     public interface LocationInterface

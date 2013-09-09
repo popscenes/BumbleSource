@@ -59,7 +59,7 @@ namespace PostaFlya.Domain.Flier
             target.UserLinks = source.UserLinks != null ? new List<UserLink>(source.UserLinks) : null;
         }        
 
-        public static VenueInformationInterface GetContactDetailsForFlier(this FlierInterface flier, QueryChannelInterface queryChannel)
+        public static VenueInformationInterface GetVenueForFlier(this FlierInterface flier, QueryChannelInterface queryChannel)
         {
             var board = queryChannel.Query(new GetFlyerVenueBoardQuery() { FlyerId = flier.Id }, (Board)null);
             return board != null ? board.Venue() : null;

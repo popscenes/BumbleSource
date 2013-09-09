@@ -10,6 +10,7 @@ using Microsoft.WindowsAzure.Storage.Table.DataServices;
 using Website.Azure.Common.DataServices;
 using Website.Infrastructure.Command;
 using Website.Infrastructure.Domain;
+using Website.Infrastructure.Query;
 
 namespace Website.Azure.Common.TableStorage
 {
@@ -33,11 +34,11 @@ where StorageType : StorageTableKeyInterface;
     public static class StandardIndexSelectors
     {
         public const string FriendlyIdIndex = "FriendlyId";
-        
-        public static Expression<Func<EntityInterfaceType, IEnumerable<StorageTableKeyInterface>>>
+
+        public static Expression<Func<QueryChannelInterface, EntityInterfaceType, IEnumerable<StorageTableKeyInterface>>>
             FriendlyIdSelector<EntityInterfaceType>() where EntityInterfaceType : AggregateRootInterface
         {
-            Expression<Func<EntityInterfaceType, IEnumerable<StorageTableKeyInterface>>> indexEntryFactory = root => new List<StorageTableKeyInterface>()
+            Expression<Func<QueryChannelInterface, EntityInterfaceType, IEnumerable<StorageTableKeyInterface>>> indexEntryFactory = (qc, root) => new List<StorageTableKeyInterface>()
                 {
                     new StorageTableKey()
                         {
@@ -53,12 +54,14 @@ where StorageType : StorageTableKeyInterface;
     {
         private readonly TableNameAndIndexProviderServiceInterface _indexProviderService;
         private readonly TableContextInterface _tableContext;
+        private readonly QueryChannelInterface _queryChannel;
 
         public TableIndexService(TableNameAndIndexProviderServiceInterface indexProviderService
-            , TableContextInterface tableContext)
+            , TableContextInterface tableContext, QueryChannelInterface queryChannel)
         {
             _indexProviderService = indexProviderService;
             _tableContext = tableContext;
+            _queryChannel = queryChannel;
         }
 
         public List<StorageType> FindEntitiesByIndex<EntityType, StorageType>(string indexName, string indexValue, bool encodeValue = true, int take = -1)
@@ -148,7 +151,7 @@ where StorageType : StorageTableKeyInterface;
                 var lowerKey = index.ToStorageKeySection();
                 var upperKey = index.ToStorageKeySection().GetEndValueForStartsWith();
                 var rowKey =
-                    _indexProviderService.GetIndexEntryFactoryFor<EntityType>(index)(entity)
+                    _indexProviderService.GetIndexEntryFactoryFor<EntityType>(index)(_queryChannel, entity)
                         .Select(e => e.RowKey)
                         .Distinct();
 
@@ -172,7 +175,7 @@ where StorageType : StorageTableKeyInterface;
                 new{ 
                         tableName = _indexProviderService.GetTableNameForIndex<EntityType>(indexName),
                         indexName,
-                        entries = _indexProviderService.GetIndexEntryFactoryFor<EntityType>(indexName)(entity).Distinct(StorageTableKeyInterfaceComparer.Instance)
+                        entries = _indexProviderService.GetIndexEntryFactoryFor<EntityType>(indexName)(_queryChannel, entity).Distinct(StorageTableKeyInterfaceComparer.Instance)
                 }).ToList();
 
             foreach (var tabEntry in 

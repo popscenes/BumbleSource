@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using Website.Infrastructure.Query;
 
 namespace Website.Azure.Common.TableStorage
 {
@@ -50,13 +51,13 @@ namespace Website.Azure.Common.TableStorage
         protected class IndexEntry : EntryBase
         {
             public string IndexName { get; set; }
-            public Func<object, IEnumerable<StorageTableKeyInterface>> IndexEntryFactory { get; set; }
+            public Func<QueryChannelInterface, object, IEnumerable<StorageTableKeyInterface>> IndexEntryFactory { get; set; }
 
         }
 
         protected class IndexEntry<EntityType> : IndexEntry
         {
-            public Func<EntityType, IEnumerable<StorageTableKeyInterface>> IndexEntryFactoryTyp { get; set; }
+            public Func<QueryChannelInterface, EntityType, IEnumerable<StorageTableKeyInterface>> IndexEntryFactoryTyp { get; set; }
         }
 
         protected class TableEntry<EntityType> : TableEntry
@@ -96,8 +97,7 @@ namespace Website.Azure.Common.TableStorage
             InsertEntry(_entries, entry);
         }
 
-        public void AddIndex<EntityQueryType, EntityIndexType>(string tableName, string indexname
-            , Expression<Func<EntityIndexType, IEnumerable<StorageTableKeyInterface>>> indexEntryFactory)
+        public void AddIndex<EntityQueryType, EntityIndexType>(string tableName, string indexname, Expression<Func<QueryChannelInterface, EntityIndexType, IEnumerable<StorageTableKeyInterface>>> indexEntryFactory)
                 where EntityIndexType : class, EntityQueryType
         {
 
@@ -109,7 +109,7 @@ namespace Website.Azure.Common.TableStorage
                     TableName = tableName,
                     IndexName = indexname
                 };
-            entry.IndexEntryFactory = (o) => entry.IndexEntryFactoryTyp(o as EntityIndexType);
+            entry.IndexEntryFactory = (qc, o) => entry.IndexEntryFactoryTyp(qc, o as EntityIndexType);
             InsertEntry(_indexEntries, entry);
         }
 
@@ -185,7 +185,7 @@ namespace Website.Azure.Common.TableStorage
 
         }
 
-        public Func<object, IEnumerable<StorageTableKeyInterface>> GetIndexEntryFactoryFor<EntityType>(string indexname)
+        public Func<QueryChannelInterface, object, IEnumerable<StorageTableKeyInterface>> GetIndexEntryFactoryFor<EntityType>(string indexname)
         {
             var entry = GetIndexEntry<EntityType>(indexname, false);
             return entry != null ? entry.IndexEntryFactory : null;
