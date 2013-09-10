@@ -22,7 +22,7 @@
         <input type="hidden" value="@Model.Id" id="boardid"/>
         
         
-        @if (Model.Image.Extensions.Any())
+        @if (Model.Image != null &&  Model.Image.Extensions.Any())
         {
             <div class="board-information-logo" style="background-image: url(@Model.Image.UrlForAxisWidth("Horizontal", 900))" >
                 

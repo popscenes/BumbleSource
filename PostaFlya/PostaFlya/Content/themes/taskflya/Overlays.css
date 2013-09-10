@@ -28,6 +28,13 @@ div#selected-item-div-bg {
     left: 0;
     z-index: -20;
 }
+
+canvas.canvasblurbg {
+    width: 100%;
+    height: 100%;
+    opacity: 0.5;   
+}
+
 div#selected-item-popup-overlay, div#create-flier-popup-overlay {
     overflow-y: scroll;
     white-space: normal;
