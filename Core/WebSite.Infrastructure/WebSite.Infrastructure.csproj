@@ -151,6 +151,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\Libraries\Ninject.Extensions.Conventions.3.0.2-unstable-4\lib\net45-full\Ninject.Extensions.Conventions.dll</HintPath>
     </Reference>
+    <Reference Include="NLog">
+      <HintPath>..\..\..\Libraries\NLog.2.0.1.2\lib\net45\NLog.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
@@ -183,16 +186,16 @@
     <Compile Include="Caching\CachedDataSourceBase.cs" />
     <Compile Include="Caching\Query\CachedQueryServiceBase.cs" />
     <Compile Include="Caching\Command\CachedRepositoryBase.cs" />
-    <Compile Include="Command\CommandBusInterface.cs" />
-    <Compile Include="Command\CommandHandlerInterface.cs" />
-    <Compile Include="Command\CommandHandlerRespositoryInterface.cs" />
+    <Compile Include="Configuration\ConfigFile.cs" />
+    <Compile Include="Messaging\EventPublishServiceInterface.cs" />
+    <Compile Include="Messaging\MessageHandlerRespositoryInterface.cs" />
     <Compile Include="Command\CommandInterface.cs" />
     <Compile Include="Command\DefaultCommandBase.cs" />
-    <Compile Include="Command\DefaultCommandBus.cs" />
-    <Compile Include="Command\DefaultCommandHandlerRepository.cs" />
+    <Compile Include="Messaging\InMemoryMessageBus.cs" />
+    <Compile Include="Command\DefaultMessageHandlerRepository.cs" />
     <Compile Include="Command\GenericRepositoryInterface.cs" />
-    <Compile Include="Command\MessageHandlerInterface.cs" />
-    <Compile Include="Command\MessageInterface.cs" />
+    <Compile Include="Messaging\MessageHandlerInterface.cs" />
+    <Compile Include="Messaging\MessageInterface.cs" />
     <Compile Include="Command\MsgResponse.cs" />
     <Compile Include="Command\MsgResponseCommandExtension.cs" />
     <Compile Include="Command\RepositoryInterface.cs" />
@@ -200,16 +203,17 @@
     <Compile Include="Command\UnitOfWorkFactoryInterface.cs" />
     <Compile Include="Configuration\ConfigurationServiceInterface.cs" />
     <Compile Include="Domain\AggregateMemberEntityAttribute.cs" />
-    <Compile Include="Domain\EntityModifiedDomainEvent.cs" />
-    <Compile Include="Domain\DomainEventBase.cs" />
-    <Compile Include="Domain\DomainEventInterface.cs" />
+    <Compile Include="Domain\EntityModifiedEvent.cs" />
+    <Compile Include="Domain\EventBase.cs" />
+    <Compile Include="Domain\EventInterface.cs" />
     <Compile Include="Domain\EntityBase.cs" />
     <Compile Include="Domain\EntityInterface.cs" />
-    <Compile Include="Domain\EntityModifiedDomainEventInterface.cs" />
+    <Compile Include="Domain\EntityModifiedEventInterface.cs" />
     <Compile Include="Domain\MsgResponseEntityExtension.cs" />
+    <Compile Include="Messaging\MessageBusInterface.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Publish\BroadcastServiceInterface.cs" />
-    <Compile Include="Publish\HandleEventInterface.cs" />
+    <Compile Include="Messaging\HandleEventInterface.cs" />
     <Compile Include="Query\FindByFriendlyIdQuery.cs" />
     <Compile Include="Query\FindByIdQuery.cs" />
     <Compile Include="Query\FindByIdQueryHandler.cs" />
@@ -218,6 +222,8 @@
     <Compile Include="Query\QueryHandlerInterface.cs" />
     <Compile Include="Query\QueryInterface.cs" />
     <Compile Include="Query\QueryServiceInterface.cs" />
+    <Compile Include="Task\ConsoleTaskInterface.cs" />
+    <Compile Include="Task\QueueWorker.cs" />
     <Compile Include="Tracing\TraceUtil.cs" />
     <Compile Include="Types\JsonSerializedTypeContainer.cs" />
     <Compile Include="Util\CryptoUtil.cs" />

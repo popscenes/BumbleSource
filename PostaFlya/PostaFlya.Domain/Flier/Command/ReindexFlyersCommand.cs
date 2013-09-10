@@ -2,17 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using PostaFlya.Domain.Boards;
-using PostaFlya.Domain.Boards.Event;
-using PostaFlya.Domain.Browser.Event;
-using PostaFlya.Domain.Flier.Event;
-using PostaFlya.Domain.Flier.Query;
 using Website.Domain.Claims;
-using Website.Domain.Claims.Event;
 using Website.Domain.Content;
-using Website.Domain.Content.Event;
 using Website.Domain.Service;
 using Website.Infrastructure.Command;
 using Website.Infrastructure.Domain;
+using Website.Infrastructure.Messaging;
 using Website.Infrastructure.Query;
 
 namespace PostaFlya.Domain.Flier.Command
@@ -22,18 +17,15 @@ namespace PostaFlya.Domain.Flier.Command
     {
     }
 
-    public class ReindexFlyersCommandHandler : CommandHandlerInterface<ReindexFlyersCommand>
+    public class ReindexFlyersCommandHandler : MessageHandlerInterface<ReindexFlyersCommand>
     {
-        private readonly FlierSearchServiceInterface _flierSearchService;
-        private readonly DomainEventPublishServiceInterface _domainEventPublishService;
+        private readonly EventPublishServiceInterface _eventPublishService;
         private readonly GenericQueryServiceInterface _queryService;
 
 
-        public ReindexFlyersCommandHandler(FlierSearchServiceInterface flierSearchService, 
-            DomainEventPublishServiceInterface domainEventPublishService, GenericQueryServiceInterface queryService)
+        public ReindexFlyersCommandHandler(EventPublishServiceInterface eventPublishService, GenericQueryServiceInterface queryService)
         {
-            _flierSearchService = flierSearchService;
-            _domainEventPublishService = domainEventPublishService;
+            _eventPublishService = eventPublishService;
             _queryService = queryService;
         }
 
@@ -48,21 +40,19 @@ namespace PostaFlya.Domain.Flier.Command
             var fliers = _queryService.FindByIds<Flier>(_queryService.GetAllIds<Flier>());
             foreach (var flier in fliers)
             {
-                _domainEventPublishService.Publish(
-                    new FlierModifiedEvent()
+                _eventPublishService.Publish(
+                    new EntityModifiedEvent<Flier>()
                         {
-                            OrigState = flier,
-                            NewState = flier
+                            Entity = flier
                         });
 
                 var claims = _queryService.FindAggregateEntities<Claim>(flier.Id);
                 foreach (var claim in claims)
                 {
-                    _domainEventPublishService.Publish(
-                        new ClaimEvent()
+                    _eventPublishService.Publish(
+                        new EntityModifiedEvent<Claim>()
                         {
-                            OrigState = claim,
-                            NewState = claim
+                            Entity = claim
                         });
                 }
             }
@@ -70,11 +60,10 @@ namespace PostaFlya.Domain.Flier.Command
             var boards = _queryService.FindByIds<Board>(_queryService.GetAllIds<Board>());
             foreach (var board in boards)
             {
-                _domainEventPublishService.Publish(
-                    new BoardModifiedEvent()
+                _eventPublishService.Publish(
+                    new EntityModifiedEvent<Board>()
                     {
-                        OrigState = board,
-                        NewState = board
+                        Entity = board
                     });
 //                var boardfliers = _queryService.FindAggregateEntities<BoardFlier>(board.Id);
 //                foreach (var boardflier in boardfliers)
@@ -91,22 +80,20 @@ namespace PostaFlya.Domain.Flier.Command
             var browsers = _queryService.FindByIds<Browser.Browser>(_queryService.GetAllIds<Browser.Browser>());
             foreach (var browser in browsers)
             {
-                _domainEventPublishService.Publish(
-                    new BrowserModifiedEvent()
+                _eventPublishService.Publish(
+                    new EntityModifiedEvent<Browser.Browser>()
                     {
-                        OrigState = browser,
-                        NewState = browser
+                        Entity = browser
                     });
             }
 
             var images = _queryService.FindByIds<Image>(_queryService.GetAllIds<Image>());
             foreach (var image in images)
             {
-                _domainEventPublishService.Publish(
-                    new ImageModifiedEvent()
+                _eventPublishService.Publish(
+                    new EntityModifiedEvent<Image>()
                     {
-                        OrigState = image,
-                        NewState = image
+                        Entity = image
                     });
             }
 

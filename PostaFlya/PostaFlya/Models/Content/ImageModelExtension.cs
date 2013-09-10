@@ -23,7 +23,7 @@ namespace PostaFlya.Models.Content
         {
             var uri = blobStorage.GetBlobUri(model.ImageId + ImageUtil.GetIdFileExtension(), fromCdn);
             if (uri == null) return model;
-            model.ImageUrl = uri.GetThumbUrlForImage(ThumbOrientation.Horizontal, ThumbSize.S228);
+            model.ImageUrl = uri.GetThumbUrlForImage(ThumbOrientation.Horizontal, ThumbSize.S300);
             return model;
         } 
     }

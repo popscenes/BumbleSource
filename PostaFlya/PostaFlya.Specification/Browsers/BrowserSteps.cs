@@ -185,12 +185,6 @@ namespace PostaFlya.Specification.Browsers
             ScenarioContext.Current["ProfileEditModel"] = editModel;
         }
 
-        [When(@"I verify my physical identity")]
-        public void WhenIVerifyMyPhysicalIdentity()
-        {
-            ScenarioContext.Current.Pending();
-        }
-
 
         [Then(@"i will see my posted fliers")]
         public void ThenIWillSeeMyFliers()

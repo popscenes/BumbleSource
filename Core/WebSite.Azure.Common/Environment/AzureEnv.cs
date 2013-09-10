@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.WindowsAzure.ServiceRuntime;
+using Website.Infrastructure.Configuration;
 
 namespace Website.Azure.Common.Environment
 {
@@ -16,7 +17,7 @@ namespace Website.Azure.Common.Environment
                 if (_usingRealTableStorage.HasValue)
                     return _usingRealTableStorage.Value;
 
-                _usingRealTableStorage = IsRunningInProdFabric();
+                _usingRealTableStorage = Config.Instance != null && Config.Instance.GetSetting<bool>("UseProductionStorage");
                 return _usingRealTableStorage.Value;
             }
             set { _usingRealTableStorage = value; }

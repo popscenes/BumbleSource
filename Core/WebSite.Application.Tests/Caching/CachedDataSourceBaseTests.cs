@@ -1,36 +1,11 @@
-﻿using System;
-using System.Runtime.Caching;
+﻿using System.Runtime.Caching;
 using NUnit.Framework;
-using Ninject;
 using Ninject.MockingKernel.Moq;
-using Website.Application.Caching.Command;
 using Website.Application.Caching.Query;
-using Website.Infrastructure.Command;
 using Website.Test.Common;
 
 namespace Website.Application.Tests.Caching
 {
-    public class CachedRepositoryTest : BroadcastCachedRepository
-    {
-        private readonly ObjectCache _cacheProvider;
-
-        public CachedRepositoryTest(ObjectCache cacheProvider
-            , CacheNotifier notifier)
-            : base(cacheProvider, notifier, null)
-        {
-            _cacheProvider = cacheProvider;
-        }
-
-        public CacheItem GetCacheItem(string key)
-        {
-            return _cacheProvider.GetCacheItem(key);
-        }
-
-        public void TestRemoveKey(string key)
-        {
-            this.InvalidateCachedData(key);
-        }
-    }
 
     public class CachedQueryServiceTest : TimedExpiryCachedQueryService
     {
@@ -59,51 +34,29 @@ namespace Website.Application.Tests.Caching
         }
     }
 
-    [TestFixture]
-    public class CachedDataSourceBaseTests
-    {
-        private MemoryCache _memoryCache;
-
-        MoqMockingKernel Kernel
-        {
-            get { return TestFixtureSetup.CurrIocKernel; }
-        }
-
-        [TestFixtureSetUp]
-        public void FixtureSetUp()
-        {
-            _memoryCache = TestUtil.GetMemoryCache();
-            Kernel.Bind<ObjectCache>().ToConstant(_memoryCache);
-        }
-
-        [TestFixtureTearDown]
-        public void FixtureTearDown()
-        {
-            Kernel.Unbind<ObjectCache>();
-        }
-
-        [Test]
-        public void CachedDataSourceBaseInvalidateCachedDataBroadcastsInvalidateCacheDataCommand()
-        {
-            var localCache = TestUtil.GetMemoryCache();
-            var queryServ = new CachedQueryServiceTest(localCache, 60);
-            queryServ.GetCachedData("testkey");
-            var cacheEntry = queryServ.GetCacheItem("testkey");
-
-            var copyitem = new CacheItem(cacheEntry.Key, cacheEntry.Value, cacheEntry.RegionName);
-            _memoryCache.Add(copyitem, queryServ.GetPolicy());
-
-            AssertUtil.AssertAreElementsEqualForKeyValPairsIncludeEnumerableValues(localCache, _memoryCache);
-            _memoryCache.Add("anotherkey", "anotherval", DateTime.UtcNow.AddMinutes(100));
-
-            var notifier = new CacheNotifier(Kernel.Get<DefaultCommandBus>());
-            var repo = new CachedRepositoryTest(localCache
-                , notifier);
-            repo.TestRemoveKey("testkey");
-
-            Assert.IsFalse(_memoryCache.Contains(copyitem.Key, copyitem.RegionName));
-            Assert.IsTrue(_memoryCache.Contains("anotherkey"));//still contains the other key
-        }
-
-    }
+//    [TestFixture]
+//    public class CachedDataSourceBaseTests
+//    {
+//        private MemoryCache _memoryCache;
+//
+//        MoqMockingKernel Kernel
+//        {
+//            get { return TestFixtureSetup.CurrIocKernel; }
+//        }
+//
+//        [TestFixtureSetUp]
+//        public void FixtureSetUp()
+//        {
+//            _memoryCache = TestUtil.GetMemoryCache();
+//            Kernel.Bind<ObjectCache>().ToConstant(_memoryCache);
+//        }
+//
+//        [TestFixtureTearDown]
+//        public void FixtureTearDown()
+//        {
+//            Kernel.Unbind<ObjectCache>();
+//        }
+//
+//
+//    }
 }

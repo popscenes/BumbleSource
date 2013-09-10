@@ -16,7 +16,7 @@ namespace Website.Application.Binding
             Trace.TraceInformation("Binding ApplicationCommandHandlersNinjectBinding");
             
             var kernel = Kernel as StandardKernel;
-            kernel.BindCommandAndQueryHandlersFromCallingAssembly(c => c.InTransientScope());
+            kernel.BindMessageAndQueryHandlersFromCallingAssembly(c => c.InTransientScope());
 
             Trace.TraceInformation("Finished Binding ApplicationCommandHandlersNinjectBinding");
         }

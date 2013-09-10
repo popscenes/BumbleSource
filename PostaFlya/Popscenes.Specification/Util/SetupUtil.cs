@@ -7,7 +7,7 @@ using PostaFlya.App_Start;
 using PostaFlya.Areas.MobileApi.App_Start;
 using PostaFlya.Binding;
 using TechTalk.SpecFlow;
-using Website.Application.Command;
+using Website.Application.Messaging;
 using Website.Test.Common;
 
 namespace Popscenes.Specification.Util
@@ -22,12 +22,13 @@ namespace Popscenes.Specification.Util
 
             config.IncludeErrorDetailPolicy = IncludeErrorDetailPolicy.Always;
 
-            kernel.Load(AllWebSiteBindings.NinjectModules);
+            kernel.Load(PopscenesNinjectBindings.NinjectModules);
 
             config.DependencyResolver = new TestNinjectHttpDependencyResolver(kernel, config);
 
             WebApiConfig.Register(config);
             MobileApiConfig.Register(config);
+            PostaFlya.Areas.WebApi.App_Start.WebApiConfig.Register(config);
 
             var server = new HttpServer(config);
 
@@ -42,7 +43,7 @@ namespace Popscenes.Specification.Util
                 .ToMethod(ctx => new TestSerializingCache())
                 .InSingletonScope();
 
-            kernel.Get<CommandQueueFactoryInterface>()
+            kernel.Get<MessageQueueFactoryInterface>()
                 .Delete("workercommandqueue");
         }
     }

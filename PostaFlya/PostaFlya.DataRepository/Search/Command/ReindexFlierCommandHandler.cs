@@ -1,11 +1,11 @@
 ﻿using System.Data.SqlClient;
 using PostaFlya.DataRepository.Binding;
 using Website.Azure.Common.Sql;
-using Website.Infrastructure.Command;
+using Website.Infrastructure.Messaging;
 
 namespace PostaFlya.DataRepository.Search.Command
 {
-    public class ReindexFlierCommandHandler : CommandHandlerInterface<ReindexFlierCommand>
+    public class ReindexFlierCommandHandler : MessageHandlerInterface<ReindexFlierCommand>
     {
         private readonly SqlConnection _connection;
 

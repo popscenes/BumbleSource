@@ -129,20 +129,21 @@
         
         
         self.setNoMoreFlyas = function () {
-            var nomore = 'No gigs from ' + self.CurrentStartDate().format("DDD DD MMM");
-            self.noMoreFliersText(nomore);
+            //var nomore = 'No gigs from ' + self.CurrentStartDate().format("DDD DD MMM");
+            //var nomore = 'No gigs from ' + self.CurrentStartDate().format("DDD DD MMM");
+            self.noMoreFliersText('');
         };
 
 
         self.StatusText = ko.computed(function () {
-
-            if (self.moreFliersPending() || (self.noMoreFliersText() && self.DateSections().length == 0))
-                return '';
-            
-            var showingmostrecent = 'Showing gigs from ';
-            showingmostrecent += self.CurrentStartDate().format("DDD DD MMM");
-
-            return showingmostrecent;
+            return '';
+//            if (self.moreFliersPending() || (self.noMoreFliersText() && self.DateSections().length == 0))
+//                return '';
+//            
+//            var showingmostrecent = 'Showing gigs from ';
+//            showingmostrecent += self.CurrentStartDate().format("DDD DD MMM");
+//
+//            return showingmostrecent;
 
         }, self);
 
@@ -210,7 +211,7 @@
                 var pickDate = new Date(d <= 0 ? section.DateStart : section.DateEnd);
                 pickDate.setDate(pickDate.getDate() + d);
                 var dateString = (section.Spans && d == 0)
-                    ? section.DateStart.format("DDD DD MMM") + " to " + section.DateEnd.format("DDD DD MMM")
+                    ? section.DateStart.format("DDD DD MMM") /*+ " to " + section.DateEnd.format("DDD DD MMM")*/
                     : pickDate.format("DDD DD MMM");
                 section.Dates.push({
                     Datestring: dateString,

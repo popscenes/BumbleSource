@@ -29,9 +29,9 @@ namespace PostaFlya.Areas.MobileApi.Flyers.Model
                 .Where(dimension => 
                     (dimension.Orientation == 
                     ThumbOrientation.Square
-                    && (dimension.Width == (int) ThumbSize.S150 || dimension.Width == (int) ThumbSize.S300))
+                    && (dimension.Width == (int) ThumbSize.S300 || dimension.Width == (int) ThumbSize.S300))
                     ||
-                    (dimension.Orientation == ThumbOrientation.Horizontal && dimension.Width == (int) ThumbSize.S450)
+                    (dimension.Orientation == ThumbOrientation.Horizontal && dimension.Width == (int) ThumbSize.S400)
                     ||
                     (dimension.UrlExtension == ImageUtil.GetIdFileExtension())
                     )

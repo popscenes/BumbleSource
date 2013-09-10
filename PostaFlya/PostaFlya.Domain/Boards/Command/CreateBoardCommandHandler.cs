@@ -1,36 +1,29 @@
 using System;
 using System.Collections.Generic;
-using PostaFlya.Domain.Boards.Event;
 using PostaFlya.Domain.Boards.Query;
 using PostaFlya.Domain.Venue;
 using Website.Domain.Service;
-using Website.Infrastructure.Binding;
 using Website.Infrastructure.Command;
 using Website.Infrastructure.Domain;
+using Website.Infrastructure.Messaging;
 using Website.Infrastructure.Query;
 
 namespace PostaFlya.Domain.Boards.Command
 {
-    public class CreateBoardCommandHandler : CommandHandlerInterface<CreateBoardCommand>
+    public class CreateBoardCommandHandler : MessageHandlerInterface<CreateBoardCommand>
     {
         private readonly GenericRepositoryInterface _boardRepository;
         private readonly GenericQueryServiceInterface _boardQueryService;
         private readonly UnitOfWorkFactoryInterface _unitOfWorkFactory;
-        private readonly DomainEventPublishServiceInterface _domainEventPublishService;
-        private readonly CommandBusInterface _commandBus;
         private readonly QueryChannelInterface _queryChannel;
 
         public CreateBoardCommandHandler(GenericRepositoryInterface boardRepository
             , GenericQueryServiceInterface boardQueryService
-            , UnitOfWorkFactoryInterface unitOfWorkFactory
-            , DomainEventPublishServiceInterface domainEventPublishService
-            , [WorkerCommandBus]CommandBusInterface commandBus, QueryChannelInterface queryChannel)
+            , UnitOfWorkFactoryInterface unitOfWorkFactory, QueryChannelInterface queryChannel)
         {
             _boardRepository = boardRepository;
             _boardQueryService = boardQueryService;
             _unitOfWorkFactory = unitOfWorkFactory;
-            _domainEventPublishService = domainEventPublishService;
-            _commandBus = commandBus;
             _queryChannel = queryChannel;
         }
 
@@ -48,23 +41,6 @@ namespace PostaFlya.Domain.Boards.Command
             if (!unitOfWork.Successful)
                 return new MsgResponse("Board Creation Failed", true)
                         .AddCommandId(command);
-
-            _domainEventPublishService.Publish(new BoardModifiedEvent(){NewState = newBoard});
-
-            /*if (!string.IsNullOrWhiteSpace(command.FlierIdToAddOnCreate))
-            {
-                _commandBus.Send(new AddFlierToBoardCommand()
-                {
-                    
-                    BoardFliers = new List<BoardFlier>() {new BoardFlier()
-                        {
-                            AggregateId = newBoard.Id,
-                            FlierId = command.FlierIdToAddOnCreate,
-                            Status = BoardFlierStatus.PendingApproval
-                            
-                        }}
-                });
-            }*/
 
             return new MsgResponse("Board Create", false)
                 .AddEntityId(newBoard.Id)
@@ -84,7 +60,8 @@ namespace PostaFlya.Domain.Boards.Command
                     Status = BoardStatus.Approved,
                     BoardTypeEnum = command.BoardTypeEnum,
                     AdminEmailAddresses = command.AdminEmailAddresses,
-                    Description = command.Description
+                    Description = command.Description,
+                    ImageId = command.LogoImageId
 
                 };
 

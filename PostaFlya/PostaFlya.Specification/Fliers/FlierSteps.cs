@@ -69,7 +69,7 @@ namespace PostaFlya.Specification.Fliers
             var queryChannel = SpecUtil.CurrIocKernel.Get<QueryChannelInterface>();
 
 
-            Assert.IsTrue(createdFlier.GetContactDetailsForFlier(queryChannel).HasEnoughForContact());
+            Assert.IsTrue(createdFlier.GetVenueForFlier(queryChannel).HasEnoughForContact());
             
         }
 

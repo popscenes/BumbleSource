@@ -14,5 +14,6 @@ namespace PostaFlya.Domain.Boards.Command
         public string Description { get; set; }
         public BoardStatus Status { get; set; }
         public int PercentageOfPublicFliersToShow { get; set; }
+        public string LogoImageId { get; set; }
     }
 }

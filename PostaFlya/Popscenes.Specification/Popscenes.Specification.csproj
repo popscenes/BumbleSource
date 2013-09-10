@@ -166,6 +166,13 @@
     <Compile Include="Util\SetupUtil.cs" />
     <Compile Include="Util\SpecUtil.cs" />
     <Compile Include="Util\TestNinjectHttpDependencyResolver.cs" />
+    <Compile Include="WebApi\Location\LocationAutoComplete.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>LocationAutoComplete.feature</DependentUpon>
+    </Compile>
+    <Compile Include="WebApi\Location\LocationAutoCompleteSteps.cs" />
+    <Compile Include="WebApi\Location\LocationHooks.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
@@ -182,6 +189,10 @@
       <LastGenOutput>FlyersByLocation.feature.cs</LastGenOutput>
     </None>
     <None Include="packages.config" />
+    <None Include="WebApi\Location\LocationAutoComplete.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>LocationAutoComplete.feature.cs</LastGenOutput>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Core\Website.Application.Azure.Tests\Website.Application.Azure.Tests.csproj">

@@ -1,29 +1,27 @@
 using System;
 using System.Collections.Generic;
-using Website.Domain.Content.Event;
 using Website.Infrastructure.Command;
 using Website.Domain.Service;
 using System.Linq;
+using Website.Infrastructure.Messaging;
 
 namespace Website.Domain.Content.Command
 {
-    internal class CreateImageCommandHandler : CommandHandlerInterface<CreateImageCommand>
+    internal class CreateImageCommandHandler : MessageHandlerInterface<CreateImageCommand>
     {
         private readonly ContentStorageServiceInterface _contentStorageService;
         private readonly GenericRepositoryInterface _repository;
         private readonly UnitOfWorkFactoryInterface _unitOfWorkFactory;
-        private readonly DomainEventPublishServiceInterface _publishService;
 
         public CreateImageCommandHandler(ContentStorageServiceInterface contentStorageService
-            , GenericRepositoryInterface repository, UnitOfWorkFactoryInterface unitOfWorkFactory, DomainEventPublishServiceInterface publishService)
+            , GenericRepositoryInterface repository, UnitOfWorkFactoryInterface unitOfWorkFactory)
         {
             _contentStorageService = contentStorageService;
             _repository = repository;
             _unitOfWorkFactory = unitOfWorkFactory;
-            _publishService = publishService;
         }
 
-        #region Implementation of CommandHandlerInterface<in CreateImageCommand>
+        #region Implementation of MessageHandlerInterface<in CreateImageCommand>
 
         public object Handle(CreateImageCommand command)
         {
@@ -34,7 +32,8 @@ namespace Website.Domain.Content.Command
                                  BrowserId = command.Anonymous ? Guid.Empty.ToString() : command.BrowserId,
                                  Status = ImageStatus.Processing,
                                  Location = command.Location,
-                                 ExternalId = command.ExternalId
+                                 ExternalId = command.ExternalId,
+                                 Extension = command.KeepFileImapeType ? command.Content.Extension: "jpg"
                              };
 
             UnitOfWorkInterface unitOfWork;
@@ -45,8 +44,7 @@ namespace Website.Domain.Content.Command
 
             if (unitOfWork.Successful)
             {
-                _contentStorageService.Store(command.Content, new Guid(insert.Id));
-                _publishService.Publish(new ImageModifiedEvent() { NewState = insert });
+                _contentStorageService.Store(command.Content, new Guid(insert.Id), command.KeepFileImapeType, command.Content.Extension);
             }
                 
             return insert;

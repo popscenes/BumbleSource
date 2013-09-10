@@ -10,26 +10,20 @@ using System.Web.Mvc;
 using Ninject;
 using Ninject.Modules;
 using Ninject.Web.Common;
-using PostaFlya.Models;
 using Website.Application.Authentication;
 using Website.Application.Azure.Caching;
-using Website.Application.Caching.Command;
 using Website.Application.Domain.Google.Payment;
 using Website.Application.Domain.Payment;
 using Website.Application.Google.Payment;
 using Website.Azure.Common.Environment;
 using Website.Common.Binding;
-using Website.Common.Model;
-using Website.Common.Model.Query;
 using Website.Infrastructure.Authentication;
 using Website.Infrastructure.Binding;
 using Website.Infrastructure.Command;
 using Website.Infrastructure.Configuration;
 using Website.Application.Domain.Content;
 using Website.Domain.Content;
-using Website.Infrastructure.Domain;
-using Website.Infrastructure.Query;
-using Website.Infrastructure.Types;
+using Website.Infrastructure.Messaging;
 
 namespace PostaFlya.Binding
 {
@@ -42,11 +36,11 @@ namespace PostaFlya.Binding
             Trace.TraceInformation("Binding WebNinjectBindings");
 
             //command bus
-            Bind<CommandBusInterface>()
-                .To<DefaultCommandBus>().WhenInjectedInto<Controller>()
+            Bind<MessageBusInterface>()
+                .To<InMemoryMessageBus>().WhenInjectedInto<Controller>()
                 .InSingletonScope();
-            Bind<CommandBusInterface>()
-                .To<DefaultCommandBus>().WhenInjectedInto<ApiController>()
+            Bind<MessageBusInterface>()
+                .To<InMemoryMessageBus>().WhenInjectedInto<ApiController>()
                 .InSingletonScope();
 
             Bind<IIdentity>()
@@ -133,10 +127,9 @@ namespace PostaFlya.Binding
                 .ToMethod(ctx =>
                 {
                     var ret = AzureEnv.IsRunningInCloud() ? new AzureCacheProvider() : getInMemCache();
+                    //var ret = new AzureCacheProvider();
                     return ret;
                 }).InSingletonScope();
-            //turn off notifications for cached repositories when using azure cache          
-            Bind<CacheNotifier>().ToMethod(context => new CacheNotifier(null, false));
 //end azure caching
 
 
@@ -179,7 +172,7 @@ namespace PostaFlya.Binding
         public static void BindViewModelMappers(IKernel kernel)
         {
             kernel.BindViewModelMappersFromCallingAssembly();
-            kernel.BindCommandAndQueryHandlersFromCallingAssembly(c => c.InTransientScope());
+            kernel.BindMessageAndQueryHandlersFromCallingAssembly(c => c.InTransientScope());
 
             kernel.BindWebsiteCommonQueryHandlersForTypesFrom(c => c.InRequestScope()
                  , Assembly.GetAssembly(typeof(InfrastructureNinjectBinding))
@@ -207,7 +200,7 @@ namespace PostaFlya.Binding
         #endregion
     }
 
-    public static class AllWebSiteBindings
+    public static class PopscenesNinjectBindings
     {
         public static readonly List<INinjectModule> NinjectModules = new List<INinjectModule>()
                   {

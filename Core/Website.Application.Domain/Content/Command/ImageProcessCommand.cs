@@ -12,6 +12,10 @@ namespace Website.Application.Domain.Content.Command
 
         public string MessageId { get; set; }
 
+        public bool KeepFileImapeType { get; set; }
+
+        public string Extension { get; set; }
+
         #endregion
     }
 }

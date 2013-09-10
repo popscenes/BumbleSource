@@ -1,33 +1,31 @@
 using System.Collections.Generic;
-using Website.Domain.Content.Event;
 using Website.Infrastructure.Command;
 using Website.Domain.Service;
 using Website.Domain.Location;
+using Website.Infrastructure.Messaging;
 using Website.Infrastructure.Query;
 
 namespace Website.Domain.Content.Command
 {
-    internal class SetImageMetaDataCommandHandler : CommandHandlerInterface<SetImageMetaDataCommand>
+    internal class SetImageMetaDataCommandHandler : MessageHandlerInterface<SetImageMetaDataCommand>
     {
         private readonly GenericRepositoryInterface _repository;
         private readonly UnitOfWorkFactoryInterface _unitOfWorkFactory;
         private readonly ContentStorageServiceInterface _contentStorageService;
-        private readonly DomainEventPublishServiceInterface _publishService;
         private readonly GenericQueryServiceInterface _genericQueryService;
 
 
         public SetImageMetaDataCommandHandler(GenericRepositoryInterface repository
             , UnitOfWorkFactoryInterface unitOfWorkFactory
-            , ContentStorageServiceInterface contentStorageService, DomainEventPublishServiceInterface publishService, GenericQueryServiceInterface genericQueryService)
+            , ContentStorageServiceInterface contentStorageService, GenericQueryServiceInterface genericQueryService)
         {
             _repository = repository;
             _unitOfWorkFactory = unitOfWorkFactory;
             _contentStorageService = contentStorageService;
-            _publishService = publishService;
             _genericQueryService = genericQueryService;
         }
 
-        #region Implementation of CommandHandlerInterface<in SetImageStatusCommand>
+        #region Implementation of MessageHandlerInterface<in SetImageStatusCommand>
 
         public object Handle(SetImageMetaDataCommand command)
         {
@@ -54,6 +52,8 @@ namespace Website.Domain.Content.Command
                                 image.AvailableDimensions = command.Dimensions;
                             }
 
+                            image.Extension = command.Extension;
+
                         });
             }
 
@@ -61,8 +61,6 @@ namespace Website.Domain.Content.Command
             {
                 _contentStorageService.SetMetaData(command);
 
-                var newstate = _genericQueryService.FindById<Image>(command.Id);
-                _publishService.Publish(new ImageModifiedEvent() { NewState = newstate, OrigState = oldstate });
             }
                 
 

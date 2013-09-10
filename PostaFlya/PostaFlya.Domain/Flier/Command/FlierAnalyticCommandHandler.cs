@@ -3,10 +3,11 @@ using PostaFlya.Domain.Flier.Analytic;
 using Website.Domain.Browser;
 using Website.Infrastructure.Command;
 using Website.Infrastructure.Domain;
+using Website.Infrastructure.Messaging;
 
 namespace PostaFlya.Domain.Flier.Command
 {
-    public class FlierAnalyticCommandHandler : CommandHandlerInterface<FlierAnalyticCommand>
+    public class FlierAnalyticCommandHandler : MessageHandlerInterface<FlierAnalyticCommand>
     {
         private readonly UnitOfWorkFactoryInterface _unitOfWorkFactory;
         private readonly GenericRepositoryInterface _repository;

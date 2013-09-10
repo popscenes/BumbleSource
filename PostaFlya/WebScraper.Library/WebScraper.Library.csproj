@@ -64,8 +64,9 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="WebDriver">
-      <HintPath>..\..\..\Libraries\Selenium.WebDriver.2.32.1\lib\net40\WebDriver.dll</HintPath>
+    <Reference Include="WebDriver, Version=2.35.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Libraries\Selenium.WebDriver.2.35.0\lib\net40\WebDriver.dll</HintPath>
     </Reference>
     <Reference Include="Website.Application, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -91,6 +92,7 @@
   <ItemGroup>
     <Compile Include="Infrastructure\BoardsGet.cs" />
     <Compile Include="Infrastructure\BoardUpload.cs" />
+    <Compile Include="Infrastructure\ImageUpload.cs" />
     <Compile Include="Infrastructure\FlyerUpload.cs" />
     <Compile Include="Infrastructure\SiteScraperInterface.cs" />
     <Compile Include="Infrastructure\State.cs" />

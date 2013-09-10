@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using System.Data.Services.Client;
 using System.Linq;
+using NUnit.Framework;
 using Ninject;
 using PostaFlya.DataRepository.Search.Implementation;
 using PostaFlya.Domain.Boards;
 using PostaFlya.Domain.Flier;
 using PostaFlya.Mocks.Domain.Data;
 using TechTalk.SpecFlow;
-using Website.Application.Command;
+using Website.Application.Messaging;
 using Website.Azure.Common.Environment;
 using Website.Azure.Common.TableStorage;
 using Website.Infrastructure.Command;
@@ -42,33 +43,41 @@ namespace Popscenes.Specification.Util
 //            PerformInUow((session) => session.UpdateEntity(id, update));
 //        }
 
-        public static void StoreAll(IList<Flier> fliers)
+//        public static void StoreAll(IList<Flier> fliers)
+//        {
+//            foreach (var flier in fliers)
+//            {
+//                Store(flier);
+//            }
+//        }
+
+        public static void Store<EntType>(EntType flier)
         {
-            foreach (var flier in fliers)
+            var repository = SpecUtil.Kernel.Get<GenericRepositoryInterface>();
+            var uow = SpecUtil.Kernel.Get<UnitOfWorkFactoryInterface>()
+                .GetUnitOfWork(new List<RepositoryInterface>() { repository });
+            using (uow)
             {
-                Store(flier);
+
+                repository.Store(flier);
             }
+
+            Assert.IsTrue(uow.Successful);
         }
 
-        public static void Store(Flier flier)
+        public static void StoreAll<EntType>(IList<EntType> entities)
         {
-            var repo = SpecUtil.Kernel.Get<GenericRepositoryInterface>();
-            FlierTestData.StoreOnePublishEvent(flier, repo, SpecUtil.Kernel);
-        }
-
-        public static void StoreAll(IList<Board> boards)
-        {
-            foreach (var board in boards)
+            foreach (var board in entities)
             {
                 Store(board);
             }
         }
 
-        public static void Store(Board board)
-        {
-            var repo = SpecUtil.Kernel.Get<GenericRepositoryInterface>();
-            BoardTestData.StoreOne(board, repo, SpecUtil.Kernel);
-        }
+//        public static void Store(Board board)
+//        {
+//            var repo = SpecUtil.Kernel.Get<GenericRepositoryInterface>();
+//            BoardTestData.StoreOne(board, repo, SpecUtil.Kernel);
+//        }
 
 
         public static EntityType Get<EntityType>(string id) where EntityType : class, AggregateRootInterface, new()
@@ -148,8 +157,8 @@ namespace Popscenes.Specification.Util
 
         public static void ProcessAllMessagesAndEvents()
         {
-            var processor = SpecUtil.Kernel.Get<QueuedCommandProcessor>(ctx => ctx.Has("workercommandqueue"));
-            QueuedCommandProcessor.WorkInProgress wip = null;
+            var processor = SpecUtil.Kernel.Get<QueuedMessageProcessor>(ctx => ctx.Has("workercommandqueue"));
+            QueuedMessageProcessor.WorkInProgress wip = null;
             while ((wip = processor.ProcessOneSynch()) != null)
             {
                 ScenarioSentWorkerBusMessagesForContext.Add(wip);

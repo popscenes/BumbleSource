@@ -1,5 +1,4 @@
 using System;
-using Website.Application.Command;
 
 namespace Website.Application.Queue
 {
@@ -13,6 +12,7 @@ namespace Website.Application.Queue
         QueueMessageInterface GetMessage();
         QueueMessageInterface GetMessage(TimeSpan invisibilityTimeOut);
         void DeleteMessage(QueueMessageInterface message);
+        void ReturnMessage(QueueMessageInterface message);
     }
 
     public interface QueueSenderInterface

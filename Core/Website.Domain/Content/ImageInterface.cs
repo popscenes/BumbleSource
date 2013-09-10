@@ -29,6 +29,7 @@ namespace Website.Domain.Content
         Location.Location Location { get; set; }
         String ExternalId { get; set; }
         List<ImageDimension> AvailableDimensions { get; set; }
+        String Extension { get; set; }
     }
 
 

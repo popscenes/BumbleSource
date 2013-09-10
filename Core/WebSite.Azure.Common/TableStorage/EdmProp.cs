@@ -8,6 +8,7 @@ using Website.Infrastructure.Util;
 
 namespace Website.Azure.Common.TableStorage
 {
+    [Serializable]
     public class EdmProp
     {
         public string EdmTyp { get; set; }

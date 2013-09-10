@@ -7,6 +7,7 @@ using Website.Application.Binding;
 using Website.Application.Schedule.Command;
 using Website.Infrastructure.Binding;
 using Website.Infrastructure.Command;
+using Website.Infrastructure.Messaging;
 using Website.Infrastructure.Query;
 
 namespace Website.Application.Schedule
@@ -25,19 +26,19 @@ namespace Website.Application.Schedule
         private readonly UnitOfWorkFactoryInterface _unitOfWorkFactory;
         private readonly GenericRepositoryInterface _repository;
         private readonly TimeServiceInterface _timeService;
-        private readonly CommandBusInterface _commandBus;
+        private readonly MessageBusInterface _messageBus;
 
         public Scheduler(GenericQueryServiceInterface genericQueryService          
                          , GenericRepositoryInterface repository
                          , UnitOfWorkFactoryInterface unitOfWorkFactory
                          , TimeServiceInterface timeService
-                         , [WorkerCommandBus]CommandBusInterface commandBus)
+                         , [WorkerCommandBus]MessageBusInterface messageBus)
         {
             _genericQueryService = genericQueryService;
             _unitOfWorkFactory = unitOfWorkFactory;
             _repository = repository;
             _timeService = timeService;
-            _commandBus = commandBus;
+            _messageBus = messageBus;
             Jobs = new List<JobBase>();
             RunInterval = 60000;
         }
@@ -75,7 +76,7 @@ namespace Website.Application.Schedule
                     };
 
                 Trace.TraceInformation("Scheduling job {0} by scheduler {1}. Date ", job.Id, SchedulerIdentifier, DateTime.UtcNow);
-                _commandBus.Send(commandJobCommand);
+                _messageBus.Send(commandJobCommand);
             }
         }
 

@@ -1,0 +1,124 @@
+﻿header{
+    background-color: #282828;
+    width: 100%;
+    height: 44px;
+    min-height: 44px;
+    position: fixed;
+    top: 0px;
+    z-index: 10;
+    left: 0px;
+}
+
+#left-header {
+    display: block;
+    float: left;
+    width: 48%;
+    
+}
+
+
+#right-header {
+    display: block;
+    float: right;
+}
+
+input#locationSearch {
+    width: 96%;
+    padding: 8px 2%;
+    margin: 0;
+    border: 0;
+    height: 18px;
+}
+
+#logo {
+    font-family: 'Open Sans',Tahoma, Helvetica, Geneva, sans-serif;
+    font-weight: 900;
+    color: white;
+    font-size: 20px;
+    text-decoration: none;
+    display: block;
+    float: left;
+    height: 50%;
+    vertical-align: middle;
+    margin-top: 10px;
+}
+
+#post-flya {
+    color: white;
+    background-color: #282828;
+    float: right;
+}
+
+header .std-btn {
+    background-color: #282828;
+    color: white;
+}
+
+#profile-peeled.btn-44 .std-image-btn-icon{
+    background-position: -352px 0px;
+}
+
+#profile-peeled.btn-44.active .std-image-btn-icon{
+    background-position: -352px 0;
+}
+
+#profile-posted.btn-44 .std-image-btn-icon{
+    background-position: 0 0px;
+}
+
+#profile-posted.btn-44.active .std-image-btn-icon{
+    background-position: 0 -0px;
+}
+
+#profile-payment.btn-44 .std-image-btn-icon{
+    background-position: -440px 0px;
+}
+
+#profile-payment.btn-44.active .std-image-btn-icon{
+    background-position: -440px -0px;
+}
+
+#profile-edit.btn-44 .std-image-btn-icon{
+    background-position: -88px 0px;
+}
+
+#profile-edit.btn-44.active .std-image-btn-icon{
+    background-position: -88px -0px;
+}
+
+#log-in-profile  .std-image-btn-icon{
+    background-image: url(images/icons-34h1.png);
+    width: 34px;
+    height: 34px;
+    margin-top: 5px;
+    background-position: -68px 0px;
+}
+
+#profile-peeled-icn .std-image-btn-icon{
+    background-image: url(images/icons-34h1.png);
+    width: 34px;
+    height: 34px;
+    margin-top: 5px;
+    background-position: -442px 0px;
+}
+
+
+#profile-avatar .std-image-btn-icon {
+    background-position: -88px 0px;
+}
+
+#profile-avatar {
+    padding-left: 50px;
+}
+
+div.locSel {
+    display: table;
+}
+
+div.current-loc {
+    display: table-cell;
+    width: 34px;
+    background-image: url(images/icons-34h1.png);
+    background-position: -34px -0px;
+    cursor: pointer;
+}

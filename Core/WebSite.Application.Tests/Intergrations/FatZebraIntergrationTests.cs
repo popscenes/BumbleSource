@@ -9,26 +9,26 @@ using Website.Test.Common.Facebook;
 
 namespace Website.Application.Tests.Intergrations
 {
-    [TestFixture]    
-    class FatZebraIntergrationTests
-    {
-
-        MoqMockingKernel Kernel
-        {
-            get { return TestFixtureSetup.CurrIocKernel; }
-        }
-
-        //private FatZebraPaymentGateway fatZebraPaymentGateway;
-
-        [TestFixtureSetUp]
-        public void FixtureSetUp()
-        {
-
-        }
-
-        [TestFixtureTearDown]
-        public void FixtureTearDown()
-        {
-        }
-    }
+//    [TestFixture]    
+//    class FatZebraIntergrationTests
+//    {
+//
+//        MoqMockingKernel Kernel
+//        {
+//            get { return TestFixtureSetup.CurrIocKernel; }
+//        }
+//
+//        //private FatZebraPaymentGateway fatZebraPaymentGateway;
+//
+//        [TestFixtureSetUp]
+//        public void FixtureSetUp()
+//        {
+//
+//        }
+//
+//        [TestFixtureTearDown]
+//        public void FixtureTearDown()
+//        {
+//        }
+//    }
 }

@@ -36,13 +36,25 @@ namespace PostaFlya.Areas.WebApi.App_Start
                 defaults: new { Controller = "WebFlyersByBrowser" }
                 );
                 
-                config.Routes.MapHttpRoute(
+            config.Routes.MapHttpRoute(
                 name: "WebBrowserBoards",
                 routeTemplate: "webapi/browser/boards",
                 defaults: new { Controller = "WebBoardsByAdmin" }
                 );
 
+            config.Routes.MapHttpRoute(
+                name: "WebAutoComplete",
+                routeTemplate: "webapi/search/byterms",
+                defaults: new { Controller = "WebAutoCompleteByTerms" }
+                );
 
+            config.Routes.MapHttpRoute(
+                name: "WebFindSuburb",
+                routeTemplate: "webapi/suburbs/near",
+                defaults: new { Controller = "WebFindNearestSuburb" }
+                );
+
+            
         }
     }
 }

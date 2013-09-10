@@ -5,7 +5,6 @@ using Microsoft.WindowsAzure.Storage.Queue;
 using Microsoft.WindowsAzure.Storage.Table;
 using Ninject;
 using Ninject.Syntax;
-using Website.Application.Command;
 using Website.Azure.Common.TableStorage;
 using Website.Infrastructure.Util;
 

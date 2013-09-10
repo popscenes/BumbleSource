@@ -1,9 +1,10 @@
 using System.Collections.Generic;
 using Website.Infrastructure.Command;
+using Website.Infrastructure.Messaging;
 
 namespace Website.Domain.Browser.Command
 {
-    internal class SetExternalCredentialCommandHandler : CommandHandlerInterface<SetExternalCredentialCommand>
+    internal class SetExternalCredentialCommandHandler : MessageHandlerInterface<SetExternalCredentialCommand>
     {
         private readonly GenericRepositoryInterface _repository;
         private readonly UnitOfWorkFactoryInterface _unitOfWorkFactory;

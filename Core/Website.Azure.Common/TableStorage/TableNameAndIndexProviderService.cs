@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using Website.Infrastructure.Query;
 
 namespace Website.Azure.Common.TableStorage
 {
@@ -10,7 +11,8 @@ namespace Website.Azure.Common.TableStorage
         
         protected class EntryBase
         {
-            public Type EntityTyp { get; set; }
+            public Type EntityInsertTyp { get; set; }
+            public Type EntityQueryTyp { get; set; }
             public string TableName { get; set; }
 
             public override bool Equals(object obj)
@@ -25,14 +27,14 @@ namespace Website.Azure.Common.TableStorage
             {
                 if (ReferenceEquals(null, other)) return false;
                 if (ReferenceEquals(this, other)) return true;
-                return other.EntityTyp == EntityTyp;
+                return other.EntityQueryTyp == EntityQueryTyp;
             }
 
             public override int GetHashCode()
             {
                 unchecked
                 {
-                    var result = (EntityTyp != null ? EntityTyp.GetHashCode() : 0);
+                    var result = (EntityQueryTyp != null ? EntityQueryTyp.GetHashCode() : 0);
                     //result = (result * 397) ^ PartitionId;
                     return result;
                 }
@@ -49,13 +51,13 @@ namespace Website.Azure.Common.TableStorage
         protected class IndexEntry : EntryBase
         {
             public string IndexName { get; set; }
-            public Func<object, IEnumerable<StorageTableKeyInterface>> IndexEntryFactory { get; set; }
+            public Func<QueryChannelInterface, object, IEnumerable<StorageTableKeyInterface>> IndexEntryFactory { get; set; }
 
         }
 
         protected class IndexEntry<EntityType> : IndexEntry
         {
-            public Func<EntityType, IEnumerable<StorageTableKeyInterface>> IndexEntryFactoryTyp { get; set; }
+            public Func<QueryChannelInterface, EntityType, IEnumerable<StorageTableKeyInterface>> IndexEntryFactoryTyp { get; set; }
         }
 
         protected class TableEntry<EntityType> : TableEntry
@@ -80,7 +82,7 @@ namespace Website.Azure.Common.TableStorage
         {
             var entry = new TableEntry<EntityType>()
                             {
-                                EntityTyp = typeof(EntityType),
+                                EntityQueryTyp = typeof(EntityType),
                                 PartitionKeyFuncTyp = partitionKeyFunc,
                                 RowKeyFuncTyp = rowKeyFunc ?? partitionKeyFunc,
                                 TableName = tableName
@@ -95,28 +97,28 @@ namespace Website.Azure.Common.TableStorage
             InsertEntry(_entries, entry);
         }
 
-        public void AddIndex<EntityType>(string tableName, string indexname
-            , Expression<Func<EntityType, IEnumerable<StorageTableKeyInterface>>> indexEntryFactory)
-                where EntityType : class
+        public void AddIndex<EntityQueryType, EntityIndexType>(string tableName, string indexname, Expression<Func<QueryChannelInterface, EntityIndexType, IEnumerable<StorageTableKeyInterface>>> indexEntryFactory)
+                where EntityIndexType : class, EntityQueryType
         {
 
-            var entry = new IndexEntry<EntityType>()
+            var entry = new IndexEntry<EntityIndexType>()
                 {
-                    EntityTyp = typeof(EntityType),
+                    EntityInsertTyp = typeof(EntityIndexType),
+                    EntityQueryTyp = typeof(EntityQueryType),
                     IndexEntryFactoryTyp = indexEntryFactory.Compile(),
                     TableName = tableName,
                     IndexName = indexname
                 };
-            entry.IndexEntryFactory = (o) => entry.IndexEntryFactoryTyp(o as EntityType);
+            entry.IndexEntryFactory = (qc, o) => entry.IndexEntryFactoryTyp(qc, o as EntityIndexType);
             InsertEntry(_indexEntries, entry);
         }
 
         private static void InsertEntry<EntryType>(List<EntryType> entries, EntryType entry) where EntryType : EntryBase
         {
-            var firstIndex = entries.FindIndex(0, currentry => currentry.EntityTyp.IsAssignableFrom(entry.EntityTyp));
+            var firstIndex = entries.FindIndex(0, currentry => currentry.EntityQueryTyp.IsAssignableFrom(entry.EntityQueryTyp));
             if (firstIndex >= 0)
             {
-                var indx = entries.FindIndex(firstIndex, currentry => !currentry.EntityTyp.IsAssignableFrom(entry.EntityTyp));
+                var indx = entries.FindIndex(firstIndex, currentry => !currentry.EntityQueryTyp.IsAssignableFrom(entry.EntityQueryTyp));
                 if (indx >= 0)
                     entries.Insert(indx, entry);
                 else
@@ -176,16 +178,16 @@ namespace Website.Azure.Common.TableStorage
             return entry != null ? entry.TableName : null;
         }
 
-        public IEnumerable<string> GetAllIndexesFor<EntityType>()
+        public IEnumerable<string> GetAllIndexNamesForUpdate<EntityType>()
         {
-            return _indexEntries.Where(e => e.EntityTyp.IsAssignableFrom(typeof (EntityType)))
+            return _indexEntries.Where(e => e.EntityInsertTyp.IsAssignableFrom(typeof(EntityType)))
                                 .Select(e => e.IndexName);
 
         }
 
-        public Func<object, IEnumerable<StorageTableKeyInterface>> GetIndexEntryFactoryFor<EntityType>(string indexname)
+        public Func<QueryChannelInterface, object, IEnumerable<StorageTableKeyInterface>> GetIndexEntryFactoryFor<EntityType>(string indexname)
         {
-            var entry = GetIndexEntry<EntityType>(indexname);
+            var entry = GetIndexEntry<EntityType>(indexname, false);
             return entry != null ? entry.IndexEntryFactory : null;
         }
 
@@ -196,19 +198,22 @@ namespace Website.Azure.Common.TableStorage
 
         private TableEntry GetEntry(Type entityTyp)
         {
-            return _entries.LastOrDefault(e => e.EntityTyp.IsAssignableFrom(entityTyp));
+            return _entries.LastOrDefault(e => e.EntityQueryTyp.IsAssignableFrom(entityTyp));
 
         }
 
-        private IndexEntry GetIndexEntry<EntityType>(string indexname)
+        private IndexEntry GetIndexEntry<EntityType>(string indexname, bool forquery = true)
         {
-            return GetIndexEntry(typeof (EntityType), indexname);
+            return GetIndexEntry(typeof(EntityType), indexname, forquery);
         }
 
-        private IndexEntry GetIndexEntry(Type entityTyp, string indexname)
+        private IndexEntry GetIndexEntry(Type entityTyp, string indexname, bool forquery = true)
         {
-            return _indexEntries.LastOrDefault(e => e.EntityTyp.IsAssignableFrom(entityTyp)
-                                               && e.IndexName == indexname);
+            return _indexEntries.LastOrDefault(e =>( 
+                forquery 
+                ? e.EntityQueryTyp.IsAssignableFrom(entityTyp) 
+                : e.EntityInsertTyp.IsAssignableFrom(entityTyp))
+                    && e.IndexName == indexname);
 
         }
 

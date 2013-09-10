@@ -40,15 +40,23 @@ namespace Website.Azure.Common.TableStorage
             _jsonText = JsonConvert.SerializeObject(_sourceObject);
         }
 
+        public EntityType GetEntity<EntityType>()
+        {
+            return (EntityType) (_sourceObject ?? (_sourceObject = GetEntityCopy(typeof(EntityType))));
+        }
+
         public object GetEntity(Type entityTyp = null)
         {
-            if (_sourceObject != null)
-                return _sourceObject;
+            return _sourceObject ?? (_sourceObject = GetEntityCopy(entityTyp));
+        }
 
+        private object GetEntityCopy(Type entityTyp = null)
+        {
+            object ret = null;
             if (_clrTyp != null && (entityTyp == null || entityTyp.IsAssignableFrom(_clrTyp)))
-                _sourceObject = JsonConvert.DeserializeObject(_jsonText, _clrTyp);
+                ret = JsonConvert.DeserializeObject(_jsonText, _clrTyp);
 
-            return _sourceObject ?? (_sourceObject = JsonConvert.DeserializeObject(_jsonText, entityTyp));
+            return ret ?? (JsonConvert.DeserializeObject(_jsonText, entityTyp));
         }
 
         public object GetSourceObject()

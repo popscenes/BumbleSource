@@ -63,8 +63,10 @@ namespace Website.Domain.Location
         public string Street { get; set; }
         public string Locality { get; set; }
         public string Region { get; set; }
-        public string PostCode { get; set; }
+        public string RegionCode { get; set; }
+        public string CountryCode { get; set; }
         public string CountryName { get; set; }
+        public string PostCode { get; set; }
 
 
         // override object.Equals

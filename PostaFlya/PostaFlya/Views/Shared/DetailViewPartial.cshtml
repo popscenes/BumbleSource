@@ -6,9 +6,11 @@
 </script>
 @Html.Partial("~/Areas/" + (string)Model.Flier.FlierBehaviour + "/Views/Bulletin/DetailTileTemplate.cshtml")
 
+<div id="item-detail-div-id-bg" data-bind="imgbluroverlay: selectedDetail() != null ? selectedDetail().Flier.FlierImageUrl : ''"></div>
 <div id="item-detail-div-id" class="get-flier-detail-div" 
-    data-bind="template: { name: viewModFactory.getDetailTemplate, data: selectedDetail}">
+    data-bind="template: { name: viewModFactory.getDetailTemplate, data: selectedDetail}">  
     
+
     @if (Model != null)
     {
         @Html.Partial("State/PageStateAdd", "FlierDetail")

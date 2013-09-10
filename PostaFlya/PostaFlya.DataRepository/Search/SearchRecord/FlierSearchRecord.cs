@@ -70,7 +70,8 @@ namespace PostaFlya.DataRepository.Search.SearchRecord
             var shards = new HashSet<long>();
             geog = geog.BufferWithTolerance(distance, 0.2, false);
 
-            for (var i = 0; i < geog.STNumPoints(); i++)
+            var cnt = geog.STNumPoints();
+            for (var i = 0; i < cnt; i++)
             {
                 var point = geog.STPointN(i + 1);
                 shards.Add(point.GetShardId());
@@ -96,6 +97,35 @@ namespace PostaFlya.DataRepository.Search.SearchRecord
                 element.Add(new XElement("tag", tag.ToLowerHiphen()));
             }
             return element;
+        }
+
+        public static BoundingBox BoundingBoxFromBuffer(this SqlGeography sqlLoc, int kilometers)
+        {
+            sqlLoc = sqlLoc.BufferWithTolerance(kilometers * 1000, 0.5, false);
+            double latmin = 200;
+            double latmax = -200;
+            double longmin = 200;
+            double longmax = -200;
+
+            var cnt = sqlLoc.STNumPoints();
+            for (var i = 0; i < cnt; i++)
+            {
+                var point = sqlLoc.STPointN(i + 1);
+                if (point.Lat < latmin)
+                    latmin = point.Lat.Value;
+                if (point.Long < longmin)
+                    longmin = point.Long.Value;
+                if (point.Lat > latmax)
+                    latmax = point.Lat.Value;
+                if (point.Long > longmax)
+                    longmax = point.Long.Value;
+            }
+
+            return new BoundingBox()
+                {
+                    Min = new Location(longmin, latmin),
+                    Max = new Location(longmax, latmax)
+                };
         }
 
         public static SqlGeography ToGeography(this LocationInterface location)

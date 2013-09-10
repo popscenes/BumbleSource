@@ -102,7 +102,7 @@ div.popsceneswidget ul.time-line li a.date-nav-link{
 }
 
 div.popsceneswidget ul.time-line li a.date-nav-link{
-    font-weight: bold;
+    /*font-weight: bold;*/
     color: #000000;
 }
 
@@ -117,15 +117,6 @@ div.popsceneswidget div#selected-item-div{
     opacity: 1;
 }
 
-div.popsceneswidget .flier-view-default .flier-img {
-float: left;
-width: 200px;
-}
-
-div.popsceneswidget .flier-view-default .flier-details {
-float: left;
-width: 420px;
-}
 
 div.popsceneswidget .flier-view ul.event-dates-list {
 list-style: none;
@@ -161,6 +152,19 @@ div.popsceneswidget div#selected-item-div .question-tool-bar-item{
     right: 70px;
     top: 5px;
 }
+
+div.popsceneswidget div#selected-item-div .tear-off {
+    margin-top: 12px;
+}
+
+div.popsceneswidget div#selected-item-div-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -20;
+}
+
+
 /************end selected item popup/overlay div ********************/
 
 div.popsceneswidget fieldset {
@@ -364,21 +368,45 @@ div.popsceneswidget .date-filter span {
 
 
 /************selected item popup/overlay div ********************/
-div.popsceneswidget div#selected-item-div
-{
-    position: absolute;
-    z-index: 1751;
+div.popsceneswidget div#selected-item-div {
+    position: relative;
+    display: block;
+    width: 900px;
+    z-index: 1755;
     margin-top: 20px;
-    margin-left: 10%;
-    width: 70%;
-    padding: 5%;
+    margin-bottom: 20px;
+    margin-left: auto;
+    margin-right: auto;
+    
+    padding: 50px;
+    
 }
 
+div.popsceneswidget     .flier-view-default .flier-img {
+        float: left;
+        padding-right: 30px;
+    }
+
+    div.popsceneswidget .flier-view-default .flier-img img {
+        width: 450px;
+    }
+
+    div.popsceneswidget .flier-view-default .flier-details {
+        float: left;
+        width: 420px;   
+    }
 
 div.popsceneswidget div#selected-item-popup-overlay{
     background-color: rgba(227, 224, 226, 0.95);
     overflow-y: scroll;
 }
+
+div.popsceneswidget div#selected-item-div-bg {
+    background-color: #000000;
+    width: 1000px;
+    height: 100%;    
+}
+
 /************end selected item popup/overlay div ********************/
 
 div.popsceneswidget .print-options {
@@ -744,15 +772,19 @@ div.popsceneswidget #dateFilterList li a {
 
 
 div.popsceneswidget div.targetloading {
-    background-image: url(images/loading.gif);
-    width: 32px;
-    height: 32px;
+    background-image: url(images/ajax-loader-squares.gif);
+    margin-left: 10px;
+    width: 43px;
+    height: 11px;
     display: inline-block;
 }
 
 
 @media only screen and (max-width: 880px) {
-
+    div.popsceneswidget .flier-view-default .flier-details {
+        float: none;
+        width: 420px;   
+    }
 }
 
 
@@ -801,6 +833,29 @@ div.popsceneswidget div.targetloading {
 
     div.popsceneswidget .print-options {
         width: 225px;
+    }
+
+    div.popsceneswidget div#selected-item-div, div#create-flier-item-div {
+
+        left: 0;
+        padding: 5%;
+        width: 90%;
+        margin-left: 0;
+        
+    }
+
+    div.popsceneswidget .flier-view-default .flier-img {
+        padding-right: 10px;
+        float: none;
+    }
+
+   div.popsceneswidget .flier-view-default .flier-img img {
+        width: 200px;
+    }
+
+    div.popsceneswidget .flier-view-default .flier-details {
+        
+        width: 100%;   
     }
 
     

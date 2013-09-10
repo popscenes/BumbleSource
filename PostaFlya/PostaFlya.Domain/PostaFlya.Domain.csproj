@@ -91,7 +91,6 @@
     <Compile Include="Boards\Command\CreateBoardCommandHandler.cs" />
     <Compile Include="Boards\Command\EditBoardCommand.cs" />
     <Compile Include="Boards\Command\EditBoardCommandHandler.cs" />
-    <Compile Include="Boards\Event\BoardModifiedEvent.cs" />
     <Compile Include="Boards\Query\BoardQueryServiceUtil.cs" />
     <Compile Include="Boards\Query\FindBoardsByAdminEmailQuery.cs" />
     <Compile Include="Boards\Query\FindBoardNearQueryHandler.cs" />
@@ -102,7 +101,6 @@
     <Compile Include="Browser\Command\ProfileEditCommand.cs" />
     <Compile Include="Browser\Command\ProfileEditCommandHandler.cs" />
     <Compile Include="Browser\Command\SetBrowserPropertyCommandHandler.cs" />
-    <Compile Include="Browser\Event\BrowserModifiedEvent.cs" />
     <Compile Include="Flier\Analytic\AnalyticTrackingSummary.cs" />
     <Compile Include="Flier\Analytic\FlierAnalyticSourceAction.cs" />
     <Compile Include="Flier\Analytic\FlierAnalytic.cs" />
@@ -110,7 +108,6 @@
     <Compile Include="Flier\Command\FlierAnalyticCommand.cs" />
     <Compile Include="Flier\Command\FlierAnalyticCommandHandler.cs" />
     <Compile Include="Flier\Command\ReindexFlyersCommand.cs" />
-    <Compile Include="Flier\Event\FlierModifiedEvent.cs" />
     <Compile Include="Flier\FlierImage.cs" />
     <Compile Include="Flier\LinkType.cs" />
     <Compile Include="Flier\Payment\AnalyticsFeatureChargeBehaviour.cs" />
@@ -187,6 +184,9 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Boards\Event\" />
+    <Folder Include="Browser\Event\" />
+    <Folder Include="Flier\Event\" />
     <Folder Include="Service\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

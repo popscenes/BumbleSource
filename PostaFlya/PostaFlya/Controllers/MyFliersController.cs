@@ -19,6 +19,7 @@ using Website.Infrastructure.Command;
 using PostaFlya.Models.Flier;
 using Website.Application.Domain.Content;
 using Website.Domain.Tag;
+using Website.Infrastructure.Messaging;
 using Website.Infrastructure.Query;
 using Website.Infrastructure.Util.Extension;
 
@@ -27,18 +28,18 @@ namespace PostaFlya.Controllers
     [Website.Application.Domain.Obsolete.BrowserAuthorizeHttp(Roles = "Participant")]
     public class MyFliersController : OldWebApiControllerBase
     {
-        private readonly CommandBusInterface _commandBus;
+        private readonly MessageBusInterface _messageBus;
         private readonly GenericQueryServiceInterface _queryService;
         private readonly BlobStorageInterface _blobStorage;
         private readonly PostaFlyaBrowserInformationInterface _browserInformation;
         private readonly QueryChannelInterface _queryChannel;
 
-        public MyFliersController(CommandBusInterface commandBus,
+        public MyFliersController(MessageBusInterface messageBus,
             GenericQueryServiceInterface queryService,
             [ImageStorage]BlobStorageInterface blobStorage
             , PostaFlyaBrowserInformationInterface browserInformation, QueryChannelInterface queryChannel)
         {
-            _commandBus = commandBus;
+            _messageBus = messageBus;
             _queryService = queryService;
             _blobStorage = blobStorage;
             _browserInformation = browserInformation;
@@ -82,7 +83,7 @@ namespace PostaFlya.Controllers
                 Anonymous = isAnon
             };
 
-            var res = _commandBus.Send(createFlier);
+            var res = _messageBus.Send(createFlier);
             return this.GetResponseForRes(res);
         }
 
@@ -104,7 +105,7 @@ namespace PostaFlya.Controllers
                 UserLinks = editModel.UserLinks == null ? new List<UserLink>() : editModel.UserLinks.Select(_ => new UserLink() { Link = _.Link, Text = _.Text, Type = _.Type }).ToList()
             };
 
-            var res = _commandBus.Send(editFlier);
+            var res = _messageBus.Send(editFlier);
             return this.GetResponseForRes(res);
         }
 

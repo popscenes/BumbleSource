@@ -79,14 +79,12 @@
     <Compile Include="Browser\Query\GetByBrowserIdQuery.cs" />
     <Compile Include="Browser\Role.cs" />
     <Compile Include="Browser\Roles.cs" />
-    <Compile Include="Claims\Event\ClaimEvent.cs" />
     <Compile Include="Comments\Command\AddCommentInterface.cs" />
     <Compile Include="Comments\Command\CreateCommentCommand.cs" />
     <Compile Include="Comments\Command\CreateCommentCommandHandler.cs" />
     <Compile Include="Comments\Comment.cs" />
     <Compile Include="Comments\CommentableInterface.cs" />
     <Compile Include="Comments\CommentInterface.cs" />
-    <Compile Include="Comments\Event\CommentEvent.cs" />
     <Compile Include="Comments\Query\QueryCommentsInterface.cs" />
     <Compile Include="Contact\ContactDetails.cs" />
     <Compile Include="Contact\ContactDetailsInterface.cs" />
@@ -97,7 +95,6 @@
     <Compile Include="Content\Command\SetImageStatusCommand.cs" />
     <Compile Include="Content\Command\SetImageStatusCommandHandler.cs" />
     <Compile Include="Content\Content.cs" />
-    <Compile Include="Content\Event\ImageModifiedEvent.cs" />
     <Compile Include="Content\Image.cs" />
     <Compile Include="Content\ImageInterface.cs" />
     <Compile Include="Content\ImageStatus.cs" />
@@ -109,6 +106,8 @@
     <Compile Include="Claims\Query\QueryLikesInterface.cs" />
     <Compile Include="Location\AddressInterface.cs" />
     <Compile Include="Location\BoundingBox.cs" />
+    <Compile Include="Location\Command\AddOrUpdateSuburbCommand.cs" />
+    <Compile Include="Location\Command\AddOrUpdateSuburbCommandHandler.cs" />
     <Compile Include="Location\Location.cs" />
     <Compile Include="Location\LocationAndAddressInterface.cs" />
     <Compile Include="Location\LocationInterface.cs" />
@@ -116,6 +115,9 @@
     <Compile Include="Location\LocationService.cs" />
     <Compile Include="Location\LocationServiceInterface.cs" />
     <Compile Include="Location\PlaceInterface.cs" />
+    <Compile Include="Location\Query\FindNearestSuburbByGeoCoordsQuery.cs" />
+    <Compile Include="Location\Query\FindSuburbsWithinDistanceOfGeoCoordsQuery.cs" />
+    <Compile Include="Location\Suburb.cs" />
     <Compile Include="Payment\ChargableEntityInterface.cs" />
     <Compile Include="Payment\Command\PaymentTransactionCommand.cs" />
     <Compile Include="Payment\Command\PaymentTransactionCommandHandler.cs" />
@@ -130,7 +132,8 @@
     <Compile Include="Payment\PaymentTransactionStatus.cs" />
     <Compile Include="Payment\PaymentType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Service\DomainEventPublishServiceInterface.cs" />
+    <Compile Include="Query\AutoCompleteByTermsQuery.cs" />
+    <Compile Include="Query\SearchEntityRecord.cs" />
     <Compile Include="Service\ContentStorageServiceInterface.cs" />
     <Compile Include="Tag\TagGroup.cs" />
     <Compile Include="Tag\Tags.cs" />
@@ -147,7 +150,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Claims\Event\" />
     <Folder Include="Command\" />
+    <Folder Include="Comments\Event\" />
+    <Folder Include="Content\Event\" />
     <Folder Include="Content\Query\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

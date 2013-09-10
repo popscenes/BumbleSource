@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Runtime.Serialization;
+using PostaFlya.Areas.WebApi.Flyers.Model;
 using PostaFlya.Domain.Boards;
 using PostaFlya.Domain.Boards.Query;
 using PostaFlya.Domain.Venue;
@@ -11,9 +13,11 @@ using Website.Application.Domain.Google.Places;
 using Website.Application.Google.Content;
 using Website.Common.Model;
 using Website.Common.Model.Query;
+using Website.Domain.Content;
 using Website.Domain.Location;
 using Website.Infrastructure.Query;
 using Loc = Website.Domain.Location;
+using Resources = PostaFlya.Properties.Resources;
 
 namespace PostaFlya.Models.Board
 {
@@ -44,13 +48,7 @@ namespace PostaFlya.Models.Board
             target.BoardTypeEnum = source.BoardTypeEnum;
             target.Id = source.Id;
             target.DefaultVenueInformation = target.Venue();
-            if (!string.IsNullOrWhiteSpace(source.ImageId))
-                target.BoardImageUrl = _blobStorage.GetBlobUri(source.ImageId).ToString();
-            else if (target.DefaultVenueInformation != null && target.DefaultVenueInformation.Address != null && target.DefaultVenueInformation.Address.IsValid())
-            {
-                target.BoardImageUrl = source.InformationSources.First().Address.GoogleMapsUrl(400, 200);
-                target.BoardImageExternal = true;
-            }
+            target.Image = _queryChannel.Query(new FindByIdQuery<Image>() { Id = source.ImageId }, new ImageModel());
 
             return target;
         }
@@ -76,6 +74,7 @@ namespace PostaFlya.Models.Board
             target.Location = _queryChannel.ToViewModel<VenueInformationModel, VenueInformation>(source.InformationSources.First());
             target.Id = source.Id;
             target.FriendlyId = source.FriendlyId;
+            target.Image = _queryChannel.Query(new FindByIdQuery<Image>() { Id = source.ImageId }, new ImageModel());
             return target;
         }
 
@@ -102,6 +101,9 @@ namespace PostaFlya.Models.Board
 
         [DataMember]
         public VenueInformationModel Location { get; set; }
+
+        [DataMember]
+        public ImageModel Image { get; set; }
 
     }
 
@@ -133,10 +135,7 @@ namespace PostaFlya.Models.Board
         public BoardTypeEnum BoardTypeEnum { get; set; }
 
         [DataMember]
-        public bool BoardImageExternal { get; set; }
-        
-        [DataMember]
-        public string BoardImageUrl { get; set; }
+        public ImageModel Image { get; set; }
 
     }
 

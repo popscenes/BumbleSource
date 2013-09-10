@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
+using PostaFlya.Areas.WebApi.Location.Model;
 using PostaFlya.Models.Flier;
 using PostaFlya.Models.Location;
 using Website.Application.Domain.Location;
@@ -26,10 +27,10 @@ namespace PostaFlya.Areas.WebApi.Flyers.Model
 //        [DataMember(IsRequired = true)]
 //        public double Lng { get; set; }
 
-        [ValidLocation]
+//        [ValidLocation]
         [Required(ErrorMessageResourceName = "Required", ErrorMessageResourceType = typeof(Properties.Resources))]
         [DataMember(IsRequired = true)]
-        public LocationModel Loc { get; set; }
+        public SuburbModel Loc { get; set; }
 
         [Range(0, 30)]
         [DataMember(IsRequired = false)]      

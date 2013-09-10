@@ -2,23 +2,25 @@
 using Microsoft.WindowsAzure.Storage.Blob;
 using Ninject;
 using Ninject.Modules;
-using Website.Application.ApplicationCommunication;
 using Website.Application.Azure.Command;
-using Website.Application.Azure.Communication;
 using Website.Application.Azure.Content;
 using Website.Application.Azure.Queue;
 using Website.Application.Azure.Util;
 using Website.Application.Azure.WebsiteInformation;
 using Website.Application.Binding;
-using Website.Application.Command;
 using Website.Application.Content;
+using Website.Application.Messaging;
 using Website.Application.Queue;
 using Website.Application.Util;
 using Website.Application.WebsiteInformation;
+using Website.Azure.Common.Environment;
 using Website.Azure.Common.TableStorage;
 using Website.Infrastructure.Binding;
 using Website.Infrastructure.Command;
+using Website.Infrastructure.Configuration;
+using Website.Infrastructure.Messaging;
 using Website.Infrastructure.Util;
+using Website.Infrastructure.Util.Extension;
 
 namespace Website.Application.Azure.Binding
 {
@@ -28,27 +30,43 @@ namespace Website.Application.Azure.Binding
         {
             Trace.TraceInformation("Binding AzureApplicationNinjectBinding");
 
-            Bind<CommandQueueFactoryInterface>()
-                .To<AzureCommandQueueFactory>()
-                .InThreadScope();
 
             //queue factory
             Kernel.Bind<QueueFactoryInterface>()
-                  .To<AzureCloudQueueFactory>()
+                    .ToMethod(context => 
+
+                        !context.Kernel.GetConfig<bool>("UseProductionStorage") 
+                        ?
+                            //takes too long on network using service bus in dev
+                            context.Kernel.Get<AzureCloudQueueFactory>() as QueueFactoryInterface
+                        :
+                            new ServiceBusQueueFactory(context.Kernel.Get<ConfigurationServiceInterface>()
+                            , "ServiceBusNamespace"
+                            , context.Kernel.GetConfig<bool>("UseProductionStorage")
+                                ? null //this is just so in dev everyone has their own queues
+                                : System.Environment.MachineName.ToLowerHiphen())
+                        )
+                  //.To<ServiceBusQueueFactory>()
+                  //.To<AzureCloudQueueFactory>()
                   .InThreadScope();
+
+            Bind<MessageQueueFactoryInterface>()
+                .To<AzureMessageQueueFactory>()
+                .InThreadScope();
             
             //worker command queue
-            Kernel.Bind<CommandBusInterface>().ToMethod(
+            Kernel.Bind<MessageBusInterface>().ToMethod(
                 ctx =>
-                ctx.Kernel.Get<CommandQueueFactoryInterface>()
-                    .GetCommandBusForEndpoint("workercommandqueue")
-            )
-            .WhenTargetHas<WorkerCommandBusAttribute>();
+                ctx.Kernel.Get<MessageQueueFactoryInterface>()
+                   .GetMessageBusForEndpoint("workercommandqueue")
+                )
+                .WhenTargetHas<WorkerCommandBusAttribute>();
+            //.InThreadScope();
 
-            Kernel.Bind<QueuedCommandProcessor>().ToMethod(
+            Kernel.Bind<QueuedMessageProcessor>().ToMethod(
                 ctx =>
-                ctx.Kernel.Get<CommandQueueFactoryInterface>()
-                    .GetSchedulerForEndpoint("workercommandqueue")
+                ctx.Kernel.Get<MessageQueueFactoryInterface>()
+                    .GetProcessorForEndpoint("workercommandqueue")
                 )
                 .WithMetadata("workercommandqueue", true);
             //worker command queue
@@ -76,19 +94,9 @@ namespace Website.Application.Azure.Binding
             //end applicationstorage
 
             var tableNameProv = Kernel.Get<TableNameAndIndexProviderServiceInterface>();
-            Kernel.Bind<ApplicationBroadcastCommunicatorRegistrationInterface>().To<AzureApplicationBroadcastCommunicatorRegistration>();
-            //            Kernel.Bind<AzureTableContext>().ToSelf().Named("broadcastCommunicators");
-            //            Kernel.Bind<TableNameAndPartitionProviderInterface>()
-            //                .ToConstant(AzureBroadcastRegistrator.TableNameBinding)
-            //                .WhenAnyAnchestorNamed("broadcastCommunicators");
-            tableNameProv.Add<AzureBroadcastRegistrationEntry>("broadcastCommunicatorsEntity", e => e.Get<string>("Endpoint"));
 
             Kernel.Bind<WebsiteInfoServiceInterface>().To<WebsiteInfoServiceAzure>().WhenTargetHas<SourceDataSourceAttribute>();
             tableNameProv.Add<WebsiteInfoEntity>("websiteinfoEntity", e => e.Get<string>("url"));
-//            Kernel.Bind<AzureTableContext>().ToSelf().Named("websiteinfo");
-//            Kernel.Bind<TableNameAndPartitionProviderInterface>()
-//               .ToConstant(WebsiteInfoServiceAzure.TableNameBinding)
-//               .WhenAnyAnchestorNamed("websiteinfo");
 
 
             //need to call Kernel.Get<AzureInitCreateQueueAndBlobs>().Init();

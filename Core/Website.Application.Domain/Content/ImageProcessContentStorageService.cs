@@ -5,32 +5,40 @@ using Website.Infrastructure.Command;
 using Website.Application.Domain.Content.Command;
 using Website.Domain.Content.Command;
 using Website.Domain.Service;
+using Website.Infrastructure.Messaging;
 
 namespace Website.Application.Domain.Content
 {
     public class ImageProcessContentStorageService : ContentStorageServiceInterface
     {
-        private readonly CommandBusInterface _commandBus;
+        private readonly MessageBusInterface _messageBus;
 
-        public ImageProcessContentStorageService([WorkerCommandBus]CommandBusInterface commandBus)
+        public ImageProcessContentStorageService([WorkerCommandBus]MessageBusInterface messageBus)
         {
-            _commandBus = commandBus;
+            _messageBus = messageBus;
         }
 
         #region Implementation of ContentStorageServiceInterface
 
         public void Store(Website.Domain.Content.Content content, Guid id)
         {
-            _commandBus.Send(new ImageProcessCommand()
-                                 {
-                                     ImageData = content.Data,
-                                     MessageId = id.ToString()
-                                 });
+            Store(content, id, false, "jpg");
+        }
+
+        public void Store(Website.Domain.Content.Content content, Guid id, bool keepFileImapeType, string extension)
+        {
+            _messageBus.Send(new ImageProcessCommand()
+            {
+                ImageData = content.Data,
+                MessageId = id.ToString(),
+                KeepFileImapeType = keepFileImapeType,
+                Extension = extension
+            });
         }
 
         public void SetMetaData(SetImageMetaDataCommand initiatorCommand)
         {
-            _commandBus.Send(new ImageProcessSetMetaDataCommand()
+            _messageBus.Send(new ImageProcessSetMetaDataCommand()
             {
                 MessageId = initiatorCommand.MessageId,
                 InitiatorCommand = initiatorCommand

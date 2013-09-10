@@ -3,6 +3,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
@@ -46,6 +47,7 @@ namespace WebScraper
         private readonly BackgroundWorker worker = new BackgroundWorker();
         private readonly BackgroundWorker googlePlacesWorker = new BackgroundWorker();
         private readonly BackgroundWorker boardUpdateWorker = new BackgroundWorker();
+        private readonly BackgroundWorker ImageUploadWorker = new BackgroundWorker();
 
         public MainWindow()
         {
@@ -80,6 +82,27 @@ namespace WebScraper
             boardUpdateWorker.RunWorkerCompleted += boardUpdateWorker_RunWorkerCompleted;
 
             autoBoardAdmins_GotFocus(this, new RoutedEventArgs());
+
+            ImageUploadWorker.DoWork += ImageUploadWorker_DoWork;
+            ImageUploadWorker.RunWorkerCompleted += ImageUploadWorker_RunWorkerCompleted;        
+        }
+
+        void ImageUploadWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            var imageId = e.Result as String;
+            if (imageId != "")
+            {
+                Trace.TraceInformation("Image Uploaded");
+                ImageId.Text = imageId;
+            }
+        }
+
+        void ImageUploadWorker_DoWork(object sender, DoWorkEventArgs e)
+        {
+            var data = e.Argument as ImnageUploadData;
+            var uploader = new ImageUpload(data.authcookie, data.server, data.Image, data.ImageName);
+            var ret = uploader.UploadImage().Result;
+            e.Result = ret;
         }
 
         void boardUpdateWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
@@ -278,6 +301,8 @@ namespace WebScraper
             {
                 _driver = _kernel.Get<IWebDriver>();
             }
+
+            
             
             var config = _kernel.Get<ConfigurationServiceInterface>();
             var server = config.GetSetting("Server");
@@ -308,6 +333,14 @@ namespace WebScraper
         {
             public string authcookie { get; set; }
             public BoardCreateEditModel board { get; set; }
+            public string server { get; set; }
+        }
+
+        class ImnageUploadData
+        {
+            public string authcookie { get; set; }
+            public Image Image { get; set; }
+            public String ImageName { get; set; }
             public string server { get; set; }
         }
 
@@ -393,6 +426,44 @@ namespace WebScraper
                 autoBoardAdmins.Text = "teddymccuddles@gmail.com, rickyaudsley@gmail.com";
 
             autoBoardAdmins.SelectAll();
+        }
+
+        private void Image_Browse_click(object sender, RoutedEventArgs e)
+        {
+            Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
+            dlg.FileName = "Document"; // Default file name
+            dlg.DefaultExt = ".jpg"; // Default file extension
+            dlg.Filter = "Jpeg (.jpg)|*.jpg| Pngs | *.png"; // Filter files by extension 
+
+            // Show open file dialog box
+            Nullable<bool> result = dlg.ShowDialog();
+            
+
+            // Process open file dialog box results 
+            if (result == true)
+            {
+                // Open document
+                ImagePath.Content = dlg.FileName;
+                ImageUpload.IsEnabled = true;
+
+                
+                
+            }
+        }
+
+        private void Image_Upload_click(object sender, RoutedEventArgs e)
+        {
+            Image image = new Bitmap(ImagePath.Content as string);
+            var config = _kernel.Get<ConfigurationServiceInterface>();
+            var server = config.GetSetting("Server");
+            
+            ImageUploadWorker.RunWorkerAsync(new ImnageUploadData()
+            {
+                authcookie = Auth,
+                Image = image,
+                ImageName = ImagePath.Content as String,
+                server = server
+            });
         }
     }
 

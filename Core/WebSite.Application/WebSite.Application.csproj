@@ -224,21 +224,18 @@
     <Compile Include="Authentication\WebIdentityProviderService.cs" />
     <Compile Include="Binding\ApplicationCommandHandlersNinjectBinding.cs" />
     <Compile Include="Binding\ApplicationNinjectBinding.cs" />
-    <Compile Include="Caching\Command\BroadcastCachedRepository.cs" />
     <Compile Include="Caching\InvalidateCacheDataCommand.cs" />
     <Compile Include="Caching\InvalidateCacheDataCommandHandler.cs" />
     <Compile Include="Caching\Query\TimedExpiryCachedQueryService.cs" />
-    <Compile Include="Command\DataBusCommandSerializer.cs" />
-    <Compile Include="Command\DataBusRedirectToStorage.cs" />
-    <Compile Include="Command\QueuedCommandBus.cs" />
+    <Compile Include="Messaging\DataBusMessageSerializer.cs" />
+    <Compile Include="Messaging\DataBusRedirectToStorage.cs" />
+    <Compile Include="Messaging\EventPublishCommand.cs" />
+    <Compile Include="Messaging\EventPublishCommandHandler.cs" />
+    <Compile Include="Messaging\EventPublishService.cs" />
+    <Compile Include="Messaging\QueuedMessageBus.cs" />
     <Compile Include="Binding\BindingAttributes.cs" />
-    <Compile Include="Command\CommandQueueFactoryInterface.cs" />
-    <Compile Include="ApplicationCommunication\ApplicationBroadcastCommunicatorFactoryInterface.cs" />
-    <Compile Include="ApplicationCommunication\ApplicationBroadcastCommunicatorInterface.cs" />
-    <Compile Include="ApplicationCommunication\ApplicationBroadcastCommunicatorRegistrationInterface.cs" />
-    <Compile Include="ApplicationCommunication\DefaultApplicationBroadcastCommunicator.cs" />
-    <Compile Include="ApplicationCommunication\DefaultApplicationBroadcastCommunicatorFactory.cs" />
-    <Compile Include="Command\QueuedCommandResult.cs" />
+    <Compile Include="Messaging\MessageQueueFactoryInterface.cs" />
+    <Compile Include="Messaging\QueuedMessageProcessResult.cs" />
     <Compile Include="Content\BlobStorageInterface.cs" />
     <Compile Include="Content\ExifImage.cs" />
     <Compile Include="Content\QrCodeServiceInterface.cs" />
@@ -273,8 +270,8 @@
     <Compile Include="Extension\Email\MailMessageExtensions.cs" />
     <Compile Include="Extension\Validation\ValidationAdapters.cs" />
     <Compile Include="Extension\Validation\ValidationAttributes.cs" />
-    <Compile Include="Command\CommandSerializerInterface.cs" />
-    <Compile Include="Command\QueuedCommandProcessor.cs" />
+    <Compile Include="Messaging\MessageSerializerInterface.cs" />
+    <Compile Include="Messaging\QueuedMessageProcessor.cs" />
     <Compile Include="Extension\TypeConverter\FromStringTypeConverter.cs" />
     <Compile Include="Extension\Web\HtmlHelperExtensions.cs" />
     <Compile Include="Google\Content\GoogleMaps.cs" />
@@ -342,6 +339,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Caching\Command\" />
     <Folder Include="Extension\Expression\" />
     <Folder Include="Extension\Framework\" />
     <Folder Include="Extension\Library\" />

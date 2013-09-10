@@ -11,6 +11,7 @@ using Website.Application.Email.Command;
 using Website.Application.Email.VCard;
 using Website.Application.Extension.Email;
 using Website.Infrastructure.Command;
+using Website.Infrastructure.Messaging;
 using Website.Infrastructure.Types;
 using Website.Infrastructure.Util;
 
@@ -39,7 +40,7 @@ namespace Website.Application.Tests.Email
         [Test]
         public void QueuedSendEmailServiceSendsSerializableMail()
         {
-            var commandBus = Kernel.GetMock<CommandBusInterface>();
+            var commandBus = Kernel.GetMock<MessageBusInterface>();
             commandBus.Setup(cb => cb.Send(It.IsAny<SendMailCommand>()))
                 .Returns<SendMailCommand>(command =>
                     {
@@ -53,7 +54,7 @@ namespace Website.Application.Tests.Email
 
                         return true;
                     });
-            Kernel.Bind<CommandBusInterface>().ToConstant(commandBus.Object);
+            Kernel.Bind<MessageBusInterface>().ToConstant(commandBus.Object);
 
             var sms = Kernel.Get<SendEmailServiceInterface>();
             var msg = new MailMessage("blah@blah.com", "blah2@blah.com");
@@ -63,7 +64,7 @@ namespace Website.Application.Tests.Email
 
             sms.Send(msg);
 
-            Kernel.Unbind<CommandBusInterface>();
+            Kernel.Unbind<MessageBusInterface>();
         }
 
     }

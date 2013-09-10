@@ -4,10 +4,11 @@ using Moq;
 using NUnit.Framework;
 using Ninject;
 using Ninject.MockingKernel.Moq;
-using Website.Application.Command;
 using Website.Application.Content;
+using Website.Application.Messaging;
 using Website.Application.Queue;
 using Website.Infrastructure.Command;
+using Website.Infrastructure.Messaging;
 
 namespace Website.Application.Tests.Command
 {
@@ -31,8 +32,8 @@ namespace Website.Application.Tests.Command
         {
             Kernel.Unbind<QueueInterface>();
             Kernel.Unbind<QueueMessageInterface>();
-            Kernel.Unbind<CommandSerializerInterface>();
-            Kernel.Unbind<CommandHandlerInterface<QueuedCommandSchedulerTests.TestCommand>>();
+            Kernel.Unbind<MessageSerializerInterface>();
+            Kernel.Unbind<MessageHandlerInterface<QueuedMessageProcessorTests.TestCommand>>();
             Kernel.Unbind<BlobStorageInterface>();
         }
 
@@ -60,7 +61,7 @@ namespace Website.Application.Tests.Command
             data[0] = 0;data[1] = 1;data[2] = 2;
 
             var largedatacommand = new DataBusTestCommand() { Data = data, MessageId = Guid.NewGuid().ToString()};
-            var cmdSerializer = Kernel.Get<DataBusCommandSerializer>();
+            var cmdSerializer = Kernel.Get<DataBusMessageSerializer>();
             var serializedMessage = cmdSerializer.ToByteArray(largedatacommand);
 
             //Assert that the data is larger than the seriaised message as the message
@@ -103,7 +104,7 @@ namespace Website.Application.Tests.Command
             data[0] = 0; data[1] = 1; data[2] = 2;
 
             var largedatacommand = new DataBusTestCommand() { Data = data };
-            var cmdSerializer = Kernel.Get<DataBusCommandSerializer>();
+            var cmdSerializer = Kernel.Get<DataBusMessageSerializer>();
             var serializedMessage = cmdSerializer.ToByteArray(largedatacommand);
 
             //assert that the data is smaller that the serialised object

@@ -8,6 +8,7 @@ using Ninject.MockingKernel.Moq;
 using Website.Azure.Common.TableStorage;
 using Website.Infrastructure.Command;
 using Website.Infrastructure.Domain;
+using Website.Infrastructure.Messaging;
 using Website.Test.Common;
 
 namespace Website.Azure.Common.Tests.TableStorage
@@ -135,8 +136,9 @@ namespace Website.Azure.Common.Tests.TableStorage
         where TableEntryType : class, StorageTableEntryInterface, new()
     {
         public TestRespositoryBase(TableContextInterface tableContext
-            , TableNameAndIndexProviderServiceInterface nameAndIndexProviderService) 
-            : base(tableContext, nameAndIndexProviderService)
+            , TableNameAndIndexProviderServiceInterface nameAndIndexProviderService
+            , EventPublishServiceInterface publishService)
+            : base(tableContext, nameAndIndexProviderService, publishService)
         {
             MockDeserializationStore = new Dictionary<string, object>();
         }

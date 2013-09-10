@@ -10,6 +10,7 @@ using Ninject.Modules;
 using PostaFlya.DataRepository.DomainQuery;
 using PostaFlya.DataRepository.DomainQuery.Board;
 using PostaFlya.DataRepository.DomainQuery.Browser;
+using PostaFlya.DataRepository.Search.Event;
 using PostaFlya.Domain.Boards.Query;
 using PostaFlya.Domain.Flier.Query;
 using Website.Azure.Common.Binding;
@@ -21,6 +22,7 @@ using Website.Infrastructure.Binding;
 using Website.Infrastructure.Command;
 using Website.Infrastructure.Configuration;
 using Website.Infrastructure.Domain;
+using Website.Infrastructure.Messaging;
 using Website.Infrastructure.Query;
 using Website.Infrastructure.Util;
 using TypeUtil = Website.Infrastructure.Types.TypeUtil;
@@ -58,9 +60,9 @@ namespace PostaFlya.DataRepository.Binding
             _repositoryScopeConfiguration(kernel.Bind(typeof(GenericRepositoryInterface))
                 .To(typeof(JsonRepository)));
 
-            kernel.BindCommandAndQueryHandlersFromCallingAssembly(syntax => syntax.InTransientScope());
+            kernel.BindMessageAndQueryHandlersFromCallingAssembly(syntax => syntax.InTransientScope());
 
-            kernel.BindAzureRepositoryHandlersForTypesFrom(_repositoryScopeConfiguration
+            kernel.BindGenericHandlersForTypesFrom(_repositoryScopeConfiguration
                     , Assembly.GetAssembly(typeof(Comment)) 
                     , Assembly.GetAssembly(typeof (PostaFlya.Domain.Flier.Flier)));
 
@@ -116,7 +118,7 @@ namespace PostaFlya.DataRepository.Binding
 
     public static class AzureRepositoryNinjectBindingExtensions
     {
-        public static void BindAzureRepositoryHandlersForTypesFrom(
+        public static void BindGenericHandlersForTypesFrom(
             this IKernel kernel, ConfigurationAction ninjectConfiguration
             , params Assembly[] typeAssemblies)
         {
@@ -147,6 +149,13 @@ namespace PostaFlya.DataRepository.Binding
             foreach (var inst in qhExp)
             {
                 kernel.BindToGenericInterface(inst, typeof(QueryHandlerInterface<,>));
+            }
+
+            var ev = typeof(EntityIndexEventHandler<>);
+            var evExp = TypeUtil.GetExpandedTypesUsing(ev, typeAssemblies);
+            foreach (var inst in evExp)
+            {
+                kernel.BindToGenericInterface(inst, typeof(HandleEventInterface<>));
             }
 
         }

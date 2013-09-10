@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Website.Domain.Claims.Event;
 using Website.Domain.Payment;
 using Website.Infrastructure.Command;
 using Website.Infrastructure.Domain;
+using Website.Infrastructure.Messaging;
 using Website.Infrastructure.Query;
 using Website.Domain.Browser;
 using Website.Domain.Service;
@@ -13,24 +13,20 @@ using Website.Domain.Service;
 
 namespace Website.Domain.Claims.Command
 {
-    internal class ClaimCommandHandler : CommandHandlerInterface<ClaimCommand>
+    internal class ClaimCommandHandler : MessageHandlerInterface<ClaimCommand>
     {
         private readonly UnitOfWorkFactoryInterface _unitOfWorkFactory;
         private readonly GenericRepositoryInterface _genericRepository;
         private readonly GenericQueryServiceInterface _genericQueryService;
-        private readonly DomainEventPublishServiceInterface _domainEventPublishService;
         private readonly CreditChargeServiceInterface _creditChargeService;
 
         public ClaimCommandHandler(UnitOfWorkFactoryInterface unitOfWorkFactory
             , GenericRepositoryInterface genericRepository
-            , GenericQueryServiceInterface genericQueryService
-            , DomainEventPublishServiceInterface domainEventPublishService
-            , CreditChargeServiceInterface creditChargeService)
+            , GenericQueryServiceInterface genericQueryService, CreditChargeServiceInterface creditChargeService)
         {
             _unitOfWorkFactory = unitOfWorkFactory;
             _genericRepository = genericRepository;
             _genericQueryService = genericQueryService;
-            _domainEventPublishService = domainEventPublishService;
             _creditChargeService = creditChargeService;
         }
 
@@ -72,9 +68,6 @@ namespace Website.Domain.Claims.Command
                 .AddCommandId(command);
 
 
-            _domainEventPublishService.Publish(new ClaimEvent() { NewState = claim });
-            
-            
             uow = _unitOfWorkFactory.GetUnitOfWork(new List<object>() { _genericRepository });
             using (uow)
             {

@@ -2,12 +2,13 @@ using System;
 using System.Collections.Generic;
 using Website.Infrastructure.Command;
 using Website.Infrastructure.Domain;
+using Website.Infrastructure.Messaging;
 
 //using Website.Infrastructure.Service;
 
 namespace Website.Domain.Payment.Command
 {
-    internal class PaymentTransactionCommandHandler : CommandHandlerInterface<PaymentTransactionCommand>
+    internal class PaymentTransactionCommandHandler : MessageHandlerInterface<PaymentTransactionCommand>
     {
         private readonly UnitOfWorkFactoryInterface _unitOfWorkFactory;
         private readonly GenericRepositoryInterface _genericRepository;

@@ -15,6 +15,7 @@ using System;
 using PostaFlya.Models.Content;
 using Website.Domain.Location;
 using Website.Domain.Tag;
+using Website.Infrastructure.Messaging;
 
 namespace PostaFlya.Specification.Util
 {
@@ -88,7 +89,7 @@ namespace PostaFlya.Specification.Util
 
 
             //set a default command bus if it is needed
-            Kernel.Bind<CommandBusInterface>().To<DefaultCommandBus>();
+            Kernel.Bind<MessageBusInterface>().To<InMemoryMessageBus>();
 
             MockApplicationServicesNinjectModule.SetUpTinyUrlService<Flier>(Kernel as MoqMockingKernel);
         }

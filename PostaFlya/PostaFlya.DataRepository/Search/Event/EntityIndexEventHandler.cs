@@ -1,27 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using PostaFlya.Domain.Boards.Event;
-using PostaFlya.Domain.Browser.Event;
-using PostaFlya.Domain.Flier.Event;
-using Website.Azure.Common.TableStorage;
-using Website.Domain.Claims.Event;
-using Website.Domain.Comments.Event;
-using Website.Domain.Content.Event;
+﻿using Website.Azure.Common.TableStorage;
 using Website.Infrastructure.Domain;
-using Website.Infrastructure.Publish;
+using Website.Infrastructure.Messaging;
 
 namespace PostaFlya.DataRepository.Search.Event
 {
-    public class EntityIndexEventHandler :
-        HandleEventInterface<FlierModifiedEvent>
-        , HandleEventInterface<BoardModifiedEvent>
-        , HandleEventInterface<ClaimEvent>
-        , HandleEventInterface<CommentEvent>
-        , HandleEventInterface<BrowserModifiedEvent>
-        , HandleEventInterface<ImageModifiedEvent>
+    public class EntityIndexEventHandler<EntityType> :
+        HandleEventInterface<EntityModifiedEvent<EntityType>> where EntityType : class, EntityIdInterface
     {
         private readonly TableIndexServiceInterface _indexService;
 
@@ -30,42 +14,12 @@ namespace PostaFlya.DataRepository.Search.Event
             _indexService = indexService;
         }
 
-        protected bool HandleInternal<EntityType>(EntityModifiedDomainEvent<EntityType> @event) 
-            where EntityType : class, EntityInterface
+        public bool Handle(EntityModifiedEvent<EntityType> @event) 
         {
-            var entity = @event.NewState ?? @event.OrigState;
-            _indexService.UpdateEntityIndexes(entity, @event.NewState == null);
+            var entity = @event.Entity;
+            _indexService.UpdateEntityIndexes(entity, @event.Entity == null);
             return true;
         }
 
-        public bool Handle(FlierModifiedEvent @event)
-        {
-            return HandleInternal(@event);
-        }
-
-        public bool Handle(BoardModifiedEvent @event)
-        {
-            return HandleInternal(@event);
-        }
-
-        public bool Handle(ClaimEvent @event)
-        {
-            return HandleInternal(@event);
-        }
-
-        public bool Handle(CommentEvent @event)
-        {
-            return HandleInternal(@event);
-        }
-
-        public bool Handle(BrowserModifiedEvent @event)
-        {
-            return HandleInternal(@event);
-        }
-
-        public bool Handle(ImageModifiedEvent @event)
-        {
-            return HandleInternal(@event);
-        }
     }
 }

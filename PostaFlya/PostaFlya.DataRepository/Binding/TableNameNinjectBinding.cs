@@ -5,6 +5,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using Ninject;
 using Ninject.Modules;
+using PostaFlya.DataRepository.DomainQuery;
 using PostaFlya.Domain.Boards;
 using PostaFlya.Domain.Flier;
 using PostaFlya.Domain.Flier.Analytic;
@@ -15,9 +16,15 @@ using Website.Domain.Browser;
 using Website.Domain.Claims;
 using Website.Domain.Comments;
 using Website.Domain.Content;
+using Website.Domain.Location;
+using Website.Domain.Location.Query;
 using Website.Domain.Payment;
+using Website.Domain.Query;
 using Website.Domain.TinyUrl;
 using Website.Infrastructure.Domain;
+using Website.Infrastructure.Query;
+using Website.Infrastructure.Types;
+using Website.Infrastructure.Util.Extension;
 
 
 namespace PostaFlya.DataRepository.Binding
@@ -30,10 +37,13 @@ namespace PostaFlya.DataRepository.Binding
         public const string BoardAdminEmailIndex = "BoardAdminEmail";
         public const string TinyUrlIndex = "TinyUrl";
 
+        public const string TextSearchIndex = "T";
+        public const string GeoSearchIndex = "G";
 
-        public static Expression<Func<EntityInterfaceType, IEnumerable<StorageTableKeyInterface>>> BrowserIdSelector<EntityInterfaceType>() where EntityInterfaceType : AggregateRootInterface, BrowserIdInterface
+
+        public static Expression<Func<QueryChannelInterface, EntityInterfaceType, IEnumerable<StorageTableKeyInterface>>> BrowserIdSelector<EntityInterfaceType>() where EntityInterfaceType : AggregateRootInterface, BrowserIdInterface
         {
-            Expression<Func<EntityInterfaceType, IEnumerable<StorageTableKeyInterface>>> indexEntryFactory = root => new List<StorageTableKeyInterface>()
+            Expression<Func<QueryChannelInterface, EntityInterfaceType, IEnumerable<StorageTableKeyInterface>>> indexEntryFactory = (qc, root) => new List<StorageTableKeyInterface>()
                 {
                     new StorageTableKey()
                         {
@@ -44,9 +54,10 @@ namespace PostaFlya.DataRepository.Binding
             return indexEntryFactory;
         }
 
-        public static Expression<Func<EntityInterfaceType, IEnumerable<StorageTableKeyInterface>>> BrowserIdSelectorForAggregate<EntityInterfaceType>() where EntityInterfaceType : AggregateInterface, BrowserIdInterface
+        public static Expression<Func<QueryChannelInterface, EntityInterfaceType, IEnumerable<StorageTableKeyInterface>>> BrowserIdSelectorForAggregate<EntityInterfaceType>() where EntityInterfaceType : AggregateInterface, BrowserIdInterface
         {
-            Expression<Func<EntityInterfaceType, IEnumerable<StorageTableKeyInterface>>> indexEntryFactory = root => new List<StorageTableKeyInterface>()
+            Expression<Func<QueryChannelInterface, EntityInterfaceType, IEnumerable<StorageTableKeyInterface>>> indexEntryFactory = 
+                (qc, root) => new List<StorageTableKeyInterface>()
                 {
                     new StorageTableKey()
                         {
@@ -57,10 +68,10 @@ namespace PostaFlya.DataRepository.Binding
             return indexEntryFactory;
         }
 
-        public static Expression<Func<BrowserInterface, IEnumerable<StorageTableKeyInterface>>> BrowserCredentialSelector()
+        public static Expression<Func<QueryChannelInterface, BrowserInterface, IEnumerable<StorageTableKeyInterface>>> BrowserCredentialSelector()
         {
-            Expression<Func<BrowserInterface, IEnumerable<StorageTableKeyInterface>>> indexEntryFactory
-                = browser =>
+            Expression<Func<QueryChannelInterface, BrowserInterface, IEnumerable<StorageTableKeyInterface>>> indexEntryFactory
+                = (qc, browser) =>
 
                   browser.ExternalCredentials.Select(
                       credential =>
@@ -73,10 +84,10 @@ namespace PostaFlya.DataRepository.Binding
             return indexEntryFactory;
         }
 
-        public static Expression<Func<BrowserInterface, IEnumerable<StorageTableKeyInterface>>> BrowserEmailSelector()
+        public static Expression<Func<QueryChannelInterface, BrowserInterface, IEnumerable<StorageTableKeyInterface>>> BrowserEmailSelector()
         {
-            Expression<Func<BrowserInterface, IEnumerable<StorageTableKeyInterface>>> indexEntryFactory
-                = browser =>
+            Expression<Func<QueryChannelInterface, BrowserInterface, IEnumerable<StorageTableKeyInterface>>> indexEntryFactory
+                = (qc, browser) =>
 
                   new List<StorageTableKeyInterface>() {new StorageTableKey()
                       {
@@ -87,20 +98,20 @@ namespace PostaFlya.DataRepository.Binding
             return indexEntryFactory;
         }
 
-        public static Expression<Func<BoardInterface, IEnumerable<StorageTableKeyInterface>>> BaordAdminEmailSelector()
+        public static Expression<Func<QueryChannelInterface, BoardInterface, IEnumerable<StorageTableKeyInterface>>> BaordAdminEmailSelector()
         {
-            Expression<Func<BoardInterface, IEnumerable<StorageTableKeyInterface>>> indexEntryFactory
-                = board =>
+            Expression<Func<QueryChannelInterface, BoardInterface, IEnumerable<StorageTableKeyInterface>>> indexEntryFactory
+                = (qc, board) =>
                   board.AdminEmailAddresses == null ? new List<StorageTableKey>() { new StorageTableKey() { RowKey = board.Id.ToStorageKeySection() } } : 
                   board.AdminEmailAddresses.Select(adimEmail => new StorageTableKey() { PartitionKey = adimEmail.ToStorageKeySection(), RowKey = board.Id.ToStorageKeySection() });
 
             return indexEntryFactory;
         }
 
-        public static Expression<Func<EntityInterfaceType, IEnumerable<StorageTableKeyInterface>>>
+        public static Expression<Func<QueryChannelInterface, EntityInterfaceType, IEnumerable<StorageTableKeyInterface>>>
             TinyUrlSelector<EntityInterfaceType>() where EntityInterfaceType : EntityWithTinyUrlInterface, AggregateRootInterface
         {
-            Expression<Func<EntityInterfaceType, IEnumerable<StorageTableKeyInterface>>> indexEntryFactory = root => new List<StorageTableKeyInterface>()
+            Expression<Func<QueryChannelInterface, EntityInterfaceType, IEnumerable<StorageTableKeyInterface>>> indexEntryFactory = (qc, root) => new List<StorageTableKeyInterface>()
                 {
                     new JsonTableEntry(new EntityKeyWithTinyUrl()
                         {
@@ -117,6 +128,97 @@ namespace PostaFlya.DataRepository.Binding
                 };
             return indexEntryFactory;
         }
+
+
+        public static string ToGeoLatSearchKey(this double lat)
+        {
+            return Math.Round(lat + 90, 3).ToString("000.000").ToStorageKeySection();
+        }
+
+        public static string ToGeoLongSearchKey(this double @long)
+        {
+            return Math.Round(@long + 180, 3).ToString("000.000").ToStorageKeySection();
+        }
+
+        public static Expression<Func<QueryChannelInterface, SuburbEntityInterface, IEnumerable<StorageTableKeyInterface>>>
+            SuburbGeoSearchSelector()
+        {
+
+            return
+                (qc, suburb) => new List<StorageTableKeyInterface>()
+                    {
+                        new JsonTableEntry(new GeoCoords()
+                            {
+                                Latitude = suburb.Latitude,
+                                Longitude = suburb.Longitude
+                            })
+                            {
+                                PartitionKey = suburb.Longitude.ToGeoLongSearchKey(),
+                                RowKey = suburb.Latitude.ToGeoLatSearchKey() +  suburb.Id.ToStorageKeySection()
+                            }
+                    };
+        }
+
+        public static Expression<Func<QueryChannelInterface, SuburbEntityInterface, IEnumerable<StorageTableKeyInterface>>> SuburbSearchSelector()
+        {
+
+            Expression<Func<QueryChannelInterface, SuburbEntityInterface, IEnumerable<StorageTableKeyInterface>>> indexEntryFactory
+                =
+                (qc, suburb) => 
+                    suburb.GetSuburbDescription(true)
+                    .ToTermsSearchKeys()
+                    .Select((s, i) => new JsonTableEntry(new SearchEntityRecord()
+                    {
+                        Id = suburb.Id,
+                        FriendlyId = suburb.FriendlyId,
+                        TypeOfEntity = suburb.GetType().GetAssemblyQualifiedNameWithoutVer(),
+                        DisplayString = suburb.GetSuburbDescription(true)
+                    })
+                    {
+
+                        PartitionKey = s,
+                        RowKey = i.ToRowKeyWithFieldWidth(10).ToStorageKeySection() + suburb.Id.ToStorageKeySection()
+                    });
+
+
+            return indexEntryFactory;
+        }
+
+        public static Expression<Func<QueryChannelInterface, FlierInterface, IEnumerable<StorageTableKeyInterface>>>
+            FlyerByLocationSelector()
+        {
+            Expression<Func<QueryChannelInterface, FlierInterface, IEnumerable<StorageTableKeyInterface>>> indexEntryFactory =
+                (qc, flyer) => qc.Query(new FindSuburbsWithinDistanceOfGeoCoordsQuery
+                    {
+                        Geo = flyer.GetVenueForFlier(qc).Address.AsGeoCoords(),
+                        Kilometers = 30
+                    }, new List<Suburb>())
+                    .SelectMany(suburb => 
+                        flyer.EventDates.Select(e =>
+                            new JsonTableEntry(new GeoCoords()
+                            {
+                                Latitude = suburb.Latitude,
+                                Longitude = suburb.Longitude
+                            })
+                            {
+                                PartitionKey = suburb.Id.ToStorageKeySection(),
+                                RowKey = e.GetTimestampAscending().ToStorageKeySection()
+                            }));
+
+            return indexEntryFactory;
+
+        }
+
+        public static Expression<Func<FlierInterface, IEnumerable<StorageTableKeyInterface>>>
+            FlyerByBoardSelector()
+        {
+            Expression<Func<FlierInterface, IEnumerable<StorageTableKeyInterface>>> indexEntryFactory = null;
+
+            return indexEntryFactory;
+        }
+
+
+
     }
 
     public class TableNameNinjectBinding : NinjectModule
@@ -191,6 +293,12 @@ namespace PostaFlya.DataRepository.Binding
             tableNameProv.Add<FlierAnalyticInterface>("analyticsEntity", e => e.Id);
 //            tableNameProv.Add<FlierAnalyticInterface>(JsonRepositoryWithBrowser.AggregateIdPartition, "analyticsByAggregate", e => e.AggregateId, e => e.Id.ToAscendingTimeKey(e.Time));
 //            tableNameProv.Add<FlierAnalyticInterface>(JsonRepositoryWithBrowser.BrowserPartitionId, "analyticsByBrowser", e => e.BrowserId, e => e.Id);
+
+
+            tableNameProv.Add<SuburbEntityInterface>("suburbEntity", e => e.Id);
+            tableNameProv.AddIndex<EntityInterface, SuburbEntityInterface>("textSearchIDX", DomainIndexSelectors.TextSearchIndex, DomainIndexSelectors.SuburbSearchSelector());
+            tableNameProv.AddIndex("geoSearchIDX", DomainIndexSelectors.GeoSearchIndex, DomainIndexSelectors.SuburbGeoSearchSelector());
+
 
             Trace.TraceInformation("TableNameNinjectBinding Initializing Tables");
 

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using PostaFlya.Domain.Flier;
 using PostaFlya.Domain.Flier.Query;
+using Website.Domain.Location;
 using Website.Infrastructure.Query;
 
 namespace PostaFlya.DataRepository.Search.Query
@@ -29,7 +30,10 @@ namespace PostaFlya.DataRepository.Search.Query
                 startDate = argument.Start.UtcDateTime.Date;
                 endDate = argument.End.UtcDateTime.Date;
             }
-            var ids = _searchService.FindFliersByLocationAndDate(argument.Location, argument.Distance, startDate,
+
+            var loc = new Website.Domain.Location.Location();
+            loc.CopyFieldsFrom(argument.Location);
+            var ids = _searchService.FindFliersByLocationAndDate(loc, argument.Distance, startDate,
                                                                  endDate);
 
             return _queryService.FindByIds<Flier>(ids).ToList();

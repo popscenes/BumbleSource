@@ -1,12 +1,22 @@
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
+using Website.Infrastructure.Query;
 
 namespace Website.Azure.Common.TableStorage
 {
     public class IndexEntry
     {
                  
+    }
+
+    public static class TableNameAndIndexProviderServiceInterfaceExtensions
+    {
+        public static void AddIndex<EntityIndexType>(this TableNameAndIndexProviderServiceInterface tip, string tableName, string indexname, Expression<Func<QueryChannelInterface, EntityIndexType, IEnumerable<StorageTableKeyInterface>>> indexEntryFactory)
+            where EntityIndexType : class
+        {
+            tip.AddIndex<EntityIndexType, EntityIndexType>(tableName, indexname, indexEntryFactory);
+        }
     }
 
     public interface TableNameAndIndexProviderServiceInterface
@@ -17,9 +27,9 @@ namespace Website.Azure.Common.TableStorage
                              Func<EntityType, string> rowKeyFunc = null)
             where EntityType : class;
 
-        void AddIndex<EntityType>(string tableName, string indexname
-            , Expression<Func<EntityType, IEnumerable<StorageTableKeyInterface>>> indexEntryFactory)
-                where EntityType : class;
+
+        void AddIndex<EntityQueryType, EntityIndexType>(string tableName, string indexname, Expression<Func<QueryChannelInterface, EntityIndexType, IEnumerable<StorageTableKeyInterface>>> indexEntryFactory)
+                where EntityIndexType : class, EntityQueryType;
 
         Func<object, string> GetPartitionKeyFunc<EntityType>();
         Func<object, string> GetRowKeyFunc<EntityType>();
@@ -32,8 +42,8 @@ namespace Website.Azure.Common.TableStorage
  
         string GetTableNameForIndex<EntityType>(string indexname);
         string GetTableNameForIndex(Type entityTyp, string indexname);
-        IEnumerable<string> GetAllIndexesFor<EntityType>();
-        Func<object, IEnumerable<StorageTableKeyInterface>> GetIndexEntryFactoryFor<EntityType>(string indexname);
+        IEnumerable<string> GetAllIndexNamesForUpdate<EntityType>();
+        Func<QueryChannelInterface, object, IEnumerable<StorageTableKeyInterface>> GetIndexEntryFactoryFor<EntityType>(string indexname);
 
         IEnumerable<string> GetAllTableNames();
 

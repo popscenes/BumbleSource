@@ -10,6 +10,7 @@ using Ninject.MockingKernel.Moq;
 using Website.Application.Content;
 using Website.Domain.Browser.Query;
 using Website.Infrastructure.Command;
+using Website.Infrastructure.Messaging;
 using Website.Infrastructure.Query;
 using Website.Test.Common;
 using Website.Application.Domain.Content;
@@ -32,9 +33,9 @@ namespace Website.Application.Domain.Tests.Content
         public static void FixtureSetUp(MoqMockingKernel kernel)
         {
             kernel.Bind<ContentStorageServiceInterface>().To<ImageProcessContentStorageService>();
-            kernel.Bind<CommandBusInterface>().To<DefaultCommandBus>();
-            kernel.Bind<CommandHandlerInterface<ImageProcessCommand>>().To<ImageProcessCommandHandler>();
-            kernel.Bind<CommandHandlerInterface<ImageProcessSetMetaDataCommand>>().To<ImageProcessSetMetaDataCommandHandler>();
+            kernel.Bind<MessageBusInterface>().To<InMemoryMessageBus>();
+            kernel.Bind<MessageHandlerInterface<ImageProcessCommand>>().To<ImageProcessCommandHandler>();
+            kernel.Bind<MessageHandlerInterface<ImageProcessSetMetaDataCommand>>().To<ImageProcessSetMetaDataCommandHandler>();
             HttpContextMock.FakeHttpContext(kernel);
         }
 
@@ -47,9 +48,9 @@ namespace Website.Application.Domain.Tests.Content
         public static void FixtureTearDown(MoqMockingKernel kernel)
         {
             kernel.Unbind<ContentStorageServiceInterface>();
-            kernel.Unbind<CommandBusInterface>();
-            kernel.Unbind<CommandHandlerInterface<ImageProcessCommand>>();
-            kernel.Unbind<CommandHandlerInterface<ImageProcessSetMetaDataCommand>>();
+            kernel.Unbind<MessageBusInterface>();
+            kernel.Unbind<MessageHandlerInterface<ImageProcessCommand>>();
+            kernel.Unbind<MessageHandlerInterface<ImageProcessSetMetaDataCommand>>();
             //kernel.Unbind<ImageRepositoryInterface>();
         }
 
@@ -63,7 +64,7 @@ namespace Website.Application.Domain.Tests.Content
         public static void AssertWithTestImage(MoqMockingKernel kernel, Action<Guid, Dictionary<string, byte[]>> assertions)
         {
             System.Drawing.Bitmap bitmap = Website.Application.Tests.Properties.Resources.TestLongImage;
-            AssertImage(kernel, bitmap, assertions);
+            AssertImage(kernel, bitmap, assertions, false, "test.jpg");
         }
 
         //image processing tests
@@ -72,6 +73,13 @@ namespace Website.Application.Domain.Tests.Content
         {
             System.Drawing.Bitmap bitmap = Website.Application.Tests.Properties.Resources.TestWideImage;
             AssertImage(bitmap, TestImageProcessedIsSmallerThanMax);
+        }
+
+        [Test]
+        public void ProcessImageCommandHandlerPNGWithAlpha()
+        {
+            System.Drawing.Bitmap bitmap = Website.Application.Tests.Properties.Resources.pngWithAlpha;
+            AssertImage(Kernel, bitmap, TestImageProcessed, true, "test.png");
         }
 
         [Test]
@@ -84,10 +92,10 @@ namespace Website.Application.Domain.Tests.Content
 
         private void AssertImage(Bitmap bitmap, Action<Guid, Dictionary<string, byte[]>> assertions)
         {
-            AssertImage(Kernel, bitmap, assertions);
+            AssertImage(Kernel, bitmap, assertions, false, "test.jpg");
         }
 
-        private static void AssertImage(MoqMockingKernel kernel, Bitmap bitmap, Action<Guid, Dictionary<string, byte[]>> assertions)
+        private static void AssertImage(MoqMockingKernel kernel, Bitmap bitmap, Action<Guid, Dictionary<string, byte[]>> assertions, bool keepOriginalExtension, string fileName)
         {
             var storage = new Dictionary<string, byte[]>();
             var mockstore = kernel.GetMock<BlobStorageInterface>();
@@ -117,15 +125,17 @@ namespace Website.Application.Domain.Tests.Content
                                   BrowserId = Guid.NewGuid().ToString(),
                                   ExternalId = "123|facebook",
                                   Title = "Yoyoyoyo",
+                                  KeepFileImapeType = keepOriginalExtension,
                                   Content = new Website.Domain.Content.Content()
                                                 {
                                                     Type = Website.Domain.Content.Content.ContentType.Image,
-                                                    Data = data
+                                                    Data = data,
+                                                    OriginalFileName = fileName
                                                 }
                               };
             
             //simulate and image upload
-            var imageInterface = kernel.Get<CommandBusInterface>().Send(command) as ImageInterface;
+            var imageInterface = kernel.Get<MessageBusInterface>().Send(command) as ImageInterface;
 
             Assert.IsNotNull(imageInterface);
 
@@ -161,6 +171,16 @@ namespace Website.Application.Domain.Tests.Content
                 var conv = Image.FromStream(ms);
                 Assert.IsTrue(conv.Height <= ImageProcessCommandHandler.MaxHeight);
                 Assert.IsTrue(conv.Width <= ImageProcessCommandHandler.MaxWidth);
+            }
+        }
+
+        private static void TestImageProcessed(Guid guid, Dictionary<string, byte[]> dictionary)
+        {
+            var data = dictionary[guid.ToString() + ImageUtil.GetIdFileExtension(true, "png")];
+            using (var ms = new MemoryStream(data))
+            {
+                var conv = Image.FromStream(ms);
+                Assert.IsTrue(conv.PixelFormat == PixelFormat.Format32bppArgb);
             }
         }
 
@@ -234,6 +254,8 @@ namespace Website.Application.Domain.Tests.Content
             }
         }
 
+        
+        
         [Test]
         public void ProcessImageCommandHandlerShouldCreateThumbsByOriginal()
         {
@@ -329,7 +351,7 @@ namespace Website.Application.Domain.Tests.Content
             var data = storage[id.ToString() +
             ImageUtil.GetIdFileExtension(
                 ThumbOrientation.Original,
-                ThumbSize.S150
+                ThumbSize.S300
             )];
 
             Assert.IsNotNull(data);
@@ -338,8 +360,8 @@ namespace Website.Application.Domain.Tests.Content
                 using(var conv = Image.FromStream(ms))
                 {
                     Assert.IsTrue(
-                               conv.Height == (int)ThumbSize.S150
-                            || conv.Width == (int)ThumbSize.S150
+                               conv.Height == (int)ThumbSize.S300
+                            || conv.Width == (int)ThumbSize.S300
                     );
                 }
             }
@@ -359,7 +381,7 @@ namespace Website.Application.Domain.Tests.Content
         public static string ImageProcessCommandHandlerSetsImageStatusToFailedOnInvalidProcessing(MoqMockingKernel kernel)
         {
             //simulate and image upload
-            var imageInterface = kernel.Get<CommandBusInterface>().Send(new CreateImageCommand()
+            var imageInterface = kernel.Get<MessageBusInterface>().Send(new CreateImageCommand()
             {
                 BrowserId = Guid.NewGuid().ToString(),
                 Title = "Yoyoyoyo",
@@ -422,7 +444,7 @@ namespace Website.Application.Domain.Tests.Content
                               Title = "Test Title"
                           };
 
-            Kernel.Get<CommandBusInterface>().Send(cmd);
+            Kernel.Get<MessageBusInterface>().Send(cmd);
 
             foreach (var bytese in dictionary)
             {

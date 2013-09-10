@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Data.Services.Common;
 using System.Linq;
 using Microsoft.WindowsAzure.Storage.Table.DataServices;
 using Website.Infrastructure.Types;
@@ -7,8 +8,10 @@ using Website.Infrastructure.Util;
 
 namespace Website.Azure.Common.TableStorage
 {
-    public class ExtendableTableEntry : TableServiceEntity
-        , StorageTableEntryInterface
+    [Serializable]
+    [DataServiceKey(new string[] { "PartitionKey", "RowKey" })]    
+    public class ExtendableTableEntry :
+         StorageTableEntryInterface
     {
 
         public bool SetProperty(string propertyName, object value, Type type = null, bool throwEx = true)
@@ -141,7 +144,7 @@ namespace Website.Azure.Common.TableStorage
         private readonly Dictionary<EdmProp, object> _extendedProperties = new Dictionary<EdmProp, object>();
 
         //implement properties from map
-        public override string PartitionKey
+        public  string PartitionKey
         {
             get
             {
@@ -153,7 +156,7 @@ namespace Website.Azure.Common.TableStorage
             }
         }
 
-        public override string RowKey
+        public  string RowKey
         {
             get
             {
@@ -187,6 +190,8 @@ namespace Website.Azure.Common.TableStorage
                 this["KeyChanged"] = value;
             }
         }
+
+        public DateTime Timestamp { get; set; }
 
         public void Init(object source)
         {

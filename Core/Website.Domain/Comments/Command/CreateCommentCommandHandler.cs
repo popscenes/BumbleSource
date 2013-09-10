@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Website.Domain.Comments.Event;
 using Website.Domain.Service;
 using Website.Infrastructure.Command;
 using Website.Infrastructure.Domain;
+using Website.Infrastructure.Messaging;
 using Website.Infrastructure.Query;
 using Website.Domain.Browser;
 
@@ -12,22 +12,19 @@ using Website.Domain.Browser;
 
 namespace Website.Domain.Comments.Command
 {
-    internal class CreateCommentCommandHandler : CommandHandlerInterface<CreateCommentCommand>
+    internal class CreateCommentCommandHandler : MessageHandlerInterface<CreateCommentCommand>
     {
         private readonly UnitOfWorkFactoryInterface _unitOfWorkFactory;
         private readonly GenericRepositoryInterface _genericRepository;
         private readonly GenericQueryServiceInterface _genericQueryService;
-        private readonly DomainEventPublishServiceInterface _domainEventPublishService;
 
         public CreateCommentCommandHandler(UnitOfWorkFactoryInterface unitOfWorkFactory
             , GenericRepositoryInterface genericRepository
-            , GenericQueryServiceInterface genericQueryService
-            , DomainEventPublishServiceInterface domainEventPublishService)
+            , GenericQueryServiceInterface genericQueryService)
         {
             _unitOfWorkFactory = unitOfWorkFactory;
             _genericRepository = genericRepository;
             _genericQueryService = genericQueryService;
-            _domainEventPublishService = domainEventPublishService;
         }
 
         public object Handle(CreateCommentCommand command)
@@ -78,7 +75,6 @@ namespace Website.Domain.Comments.Command
                 return new MsgResponse("Comment Failed", true)
                    .AddCommandId(command); 
 
-            _domainEventPublishService.Publish(new CommentEvent(){NewState = comment});
 
             return new MsgResponse("Comment Create", false)
                 .AddEntityId(comment.AggregateId)

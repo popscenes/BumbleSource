@@ -6,18 +6,19 @@ using Website.Application.Binding;
 using Website.Domain.Location;
 using Website.Infrastructure.Binding;
 using Website.Infrastructure.Command;
+using Website.Infrastructure.Messaging;
 
 namespace PostaFlya.Application.Domain.Flier
 {
     public class DefaultFlierWebAnalyticService : FlierWebAnalyticServiceInterface
     {
-        private readonly CommandBusInterface _workerCommandBus;
+        private readonly MessageBusInterface _workerMessageBus;
         private readonly PostaFlyaBrowserInformationInterface _browserInformation;
 
-        public DefaultFlierWebAnalyticService([WorkerCommandBus]CommandBusInterface workerCommandBus
+        public DefaultFlierWebAnalyticService([WorkerCommandBus]MessageBusInterface workerMessageBus
             , PostaFlyaBrowserInformationInterface browserInformation)
         {
-            _workerCommandBus = workerCommandBus;
+            _workerMessageBus = workerMessageBus;
             _browserInformation = browserInformation;
         }
 
@@ -39,9 +40,9 @@ namespace PostaFlya.Application.Domain.Flier
 //            });
         }
 
-        public void SetLastSearchLocation(Location loc)
+        public void SetLastSearchLocation(Suburb loc)
         {
-            if (loc.IsValid)
+            if (loc.IsValid())
                 _browserInformation.LastSearchLocation = loc;
         }
     }

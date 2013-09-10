@@ -73,6 +73,16 @@ namespace Website.Application.Tests.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap pngWithAlpha {
+            get {
+                object obj = ResourceManager.GetObject("pngWithAlpha", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap TestLongImage {
             get {
                 object obj = ResourceManager.GetObject("TestLongImage", resourceCulture);

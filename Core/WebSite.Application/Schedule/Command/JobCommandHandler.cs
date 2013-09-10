@@ -3,11 +3,12 @@ using System.Diagnostics;
 using Ninject;
 using Ninject.Syntax;
 using Website.Infrastructure.Command;
+using Website.Infrastructure.Messaging;
 using Website.Infrastructure.Query;
 
 namespace Website.Application.Schedule.Command
 {
-    public class JobCommandHandler : CommandHandlerInterface<JobCommand>
+    public class JobCommandHandler : MessageHandlerInterface<JobCommand>
     {
         private readonly UnitOfWorkFactoryInterface _unitOfWorkFactory;
         private readonly GenericRepositoryInterface _genericRepository;

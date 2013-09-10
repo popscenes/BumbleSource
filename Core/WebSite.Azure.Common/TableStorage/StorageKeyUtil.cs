@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Website.Infrastructure.Util;
+using Website.Infrastructure.Util.Extension;
 
 namespace Website.Azure.Common.TableStorage
 {
@@ -26,15 +28,21 @@ namespace Website.Azure.Common.TableStorage
                     }).ToString();
         }
 
+
         public static string ToStorageKeySection(this string keyVal)
         {
             return '[' + keyVal.EscapeValForKey() + ']';
         }
 
-        public static string GetValueForStartsWith(this string startsWith)
+        public static string ToStorageKeyStartSection(this string keyVal)
+        {
+            return '[' + keyVal.EscapeValForKey();
+        }
+
+        public static string GetEndValueForStartsWith(this string startsWith)
         {
             var last = startsWith.Last();
-            var ret = startsWith.TrimEnd(last);          
+            var ret = startsWith.Substring(0, startsWith.Length - 1);          
             last++;
             return ret + last;
         }
@@ -86,6 +94,16 @@ namespace Website.Azure.Common.TableStorage
             return idPrefix.ToStorageKeySection() + entityId.ToStorageKeySection();
         }
 
+        public static string ToRowKeyWithFieldWidth(this int value, int fieldWidth)
+        {
+            return value.ToString("D" + fieldWidth);
+        }
+
+        public static string ToRowKeyWithFieldWidth(this long value, int fieldWidth)
+        {
+            return value.ToString("D" + fieldWidth);
+        }
+
         //var dattimedesc = (DateTime.MaxValue.Ticks - DateTime.UtcNow.Ticks).ToString("D20");
         //var dattimeasc = (DateTime.UtcNow.Ticks).ToString("D20");
         public static string GetTimestampAscending(this DateTime dateTime)
@@ -126,6 +144,19 @@ namespace Website.Azure.Common.TableStorage
         public static string ToDescendingTimeKey(this string id, DateTimeOffset dateTime)
         {
             return id.CreateRowKeyForEntityId(dateTime.GetTimestampDescending());
+        }
+
+        public static IEnumerable<string> ToTermsSearchKeys(this string searchString)
+        {
+            return searchString.TokenizeMeaningfulWords()
+                .Select(s => s.ToStorageKeySection());
+        }
+
+        public static string ToTermsSearchKey(this IEnumerable<string> keyparts)
+        {
+            var terms = keyparts
+                .Select(s => s.ToStorageKeySection()).ToList();
+            return terms.Aggregate(new StringBuilder(), (builder, s) => builder.Append(s)).ToString();            
         }
 
     }

@@ -377,6 +377,12 @@
     <Compile Include="Areas\WebApi\Flyers\Model\ImageModel.cs" />
     <Compile Include="Areas\WebApi\Flyers\Query\FindFlyersByFeaturedQueryAsContentHandler.cs" />
     <Compile Include="Areas\WebApi\Flyers\Query\ToFlyersByDateContentQueryHandler.cs" />
+    <Compile Include="Areas\WebApi\Location\Controllers\WebAutoCompleteByTermsController.cs" />
+    <Compile Include="Areas\WebApi\Location\Controllers\WebFindNearestSuburbController.cs" />
+    <Compile Include="Areas\WebApi\Location\Model\AutoCompleteModel.cs" />
+    <Compile Include="Areas\WebApi\Location\Model\AutoCompleteRequest.cs" />
+    <Compile Include="Areas\WebApi\Location\Model\NearestSuburbByLocationRequest.cs" />
+    <Compile Include="Areas\WebApi\Location\Model\SuburbModel.cs" />
     <Compile Include="Areas\WebApi\WebApiAreaRegistration.cs" />
     <Compile Include="Binding\WebNinjectBindings.cs" />
     <Compile Include="Controllers\AccountController.cs" />
@@ -481,6 +487,11 @@
     <Content Include="App_Loading.html" />
     <Content Include="Areas\HelpPage\HelpPage.css" />
     <Content Include="Content\images\bumbl8.png" />
+    <Content Include="Content\themes\taskflya\FlyerCreate.css" />
+    <Content Include="Content\themes\taskflya\FlyerDetail.css" />
+    <Content Include="Content\themes\taskflya\FlyerSummary.css" />
+    <Content Include="Content\themes\taskflya\GigBoard.css" />
+    <Content Include="Content\themes\taskflya\images\ajax-loader-squares.gif" />
     <Content Include="Content\themes\taskflya\images\bg-high-quality.jpg" />
     <Content Include="Content\themes\taskflya\images\bg-low-quality.jpg" />
     <Content Include="Content\themes\taskflya\images\bg-med-quality.jpg" />
@@ -606,6 +617,9 @@
     <Content Include="Content\themes\taskflya\images\icons-36-black.png" />
     <Content Include="Content\themes\taskflya\images\icons-36-white.png" />
     <Content Include="Content\themes\taskflya\images\loading.gif" />
+    <Content Include="Content\themes\taskflya\Overlays.css" />
+    <Content Include="Content\themes\taskflya\Responsive.css" />
+    <Content Include="Content\themes\taskflya\Toolbar.css" />
     <Content Include="Content\themes\taskflya\Widgets.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
@@ -660,6 +674,7 @@
     <None Include="Resources\ImageProcessingFailed.jpg" />
     <Content Include="robots.txt" />
     <Content Include="Scripts\Account\Account.js" />
+    <Content Include="Scripts\Base\Canvas.js" />
     <Content Include="Scripts\Base\ContactDetailsModel.js" />
     <Content Include="Scripts\Base\CreateFlierInstance.js" />
     <Content Include="Scripts\Base\dateFilter.js" />
@@ -809,7 +824,6 @@
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="Content\structure\DeskSite.css" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Account\ChangePassword.cshtml" />
@@ -902,6 +916,10 @@
     <Folder Include="Areas\Default\Models\Bulletin\" />
     <Folder Include="Areas\Default\Views\Shared\" />
     <Folder Include="Areas\HelpPage\Views\Shared\" />
+    <Folder Include="Areas\MobileApi\Location\Controllers\" />
+    <Folder Include="Areas\MobileApi\Location\Model\" />
+    <Folder Include="Areas\MobileApi\Location\Query\" />
+    <Folder Include="Areas\WebApi\Location\Query\" />
     <Folder Include="Attributes\" />
     <Folder Include="Properties\PublishProfiles\" />
     <Folder Include="Query\" />

@@ -31,11 +31,8 @@ namespace Website.Application.Azure.Queue
         {
             Func<QueueMessageInterface> getMessage = () =>
             {
-                var message =
-                    _cloudQueue.GetMessage(invisibilityTimeOut);
-                return message != null
-                        ? new AzureCloudQueueMessage(message)
-                        : null;
+                var message = _cloudQueue.GetMessage(invisibilityTimeOut);
+                return message == null ? null : new AzureCloudQueueMessage(message);
             };
             return AzureCloudBlobStorage.RetryQuery(getMessage);
         }
@@ -55,6 +52,14 @@ namespace Website.Application.Azure.Queue
                 return true;
             };
             AzureCloudBlobStorage.RetryQuery(deleteMessage);
+        }
+
+        public void ReturnMessage(QueueMessageInterface message)
+        {
+            var azureMsg = message as AzureCloudQueueMessage;
+            if (azureMsg == null) return;
+            _cloudQueue.UpdateMessage(azureMsg.Message, TimeSpan.FromSeconds(0), MessageUpdateFields.Visibility);
+
         }
 
         public int? ApproximateMessageCount

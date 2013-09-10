@@ -66,62 +66,6 @@
     //    });
     //};
 
-    ko.bindingHandlers.helpTipTrigger = {
-        init: function(element, valueAccessor, allBindingsAccessor, viewModel) {
-
-            var $ele = $(element);
-            var data = {
-                closeBtnClassAdd: 'mini-button red-button',
-                nextBtnClassAdd: 'mini-button blue-button',
-            };
-            var pageId = ko.utils.unwrapObservable(valueAccessor());
-            var groups = ko.utils.unwrapObservable(allBindingsAccessor().helpGroups);
-            data.pageMap = {};
-            data.pageMap[pageId] = groups.split(',');
-
-            var toggle = function(show) {
-                if (show) {
-                    $ele.addClass('helptips-on');
-                } else {
-                    $ele.removeClass('helptips-on');
-                }
-
-                $(window.document.body).helptips('showHelp', show, pageId, data);
-                return false;
-            };
-
-            data.close = function() {
-                return toggle(false);
-            };
-
-            $ele.bind('click', function() {
-                var isOn = $ele.hasClass('helptips-on');
-                return toggle(!isOn);
-            });
-
-            var checkFirstShowFor = function(context) {
-
-                $.cookie.json = true;
-                var helptipsshown = $.cookie('helptipsshown');
-                if (!helptipsshown)
-                    helptipsshown = {};
-
-                if (!helptipsshown[context]) {
-                    toggle(true);
-                }
-
-                helptipsshown[context] = true;
-                $.cookie('helptipsshown', helptipsshown, { expires: 1000 });
-            };
-
-            setTimeout(function() {
-                checkFirstShowFor(pageId);
-            });
-        },
-        update: function(element, valueAccessor, allBindingsAccessor, viewModel) {
-
-        }
-    };
 
     ko.bindingHandlers.bannerText = {
         init: function(element, valueAccessor, allBindingsAccessor, viewModel) {
@@ -243,18 +187,28 @@
 
             var eventFromSelector = false;
             $input.autocomplete({
-                source: function(request, response) {
-                    var geocoder = new google.maps.Geocoder();
-                    geocoder.geocode({ 'address': request.term },
-                        function(results, status) {
-                            if (status == google.maps.GeocoderStatus.OK) {
-                                response($.map(results, function(item) {
-                                    var loc = new bf.LocationModel({ Longitude: item.geometry.location.lng(), Latitude: item.geometry.location.lat() });
-                                    loc.SetFromGeo(item);
-                                    return { label: loc.Description(), value: loc.Description(), position: loc };
-                                }));
-                            }
+                source: function (request, response) {
+
+                    bf.lookupPlaceFromTerms(request.term)
+                        .done(function(resp) {
+                            response($.map(resp.Data, function (item) {
+                                var loc = new bf.LocationModel({ SuburbId: item.Id, SuburbDesc: item.Description });
+                                return { label: loc.Description(), value: loc.Description(), position: loc };
+                            }));
                         });
+
+
+//                    var geocoder = new google.maps.Geocoder();
+//                    geocoder.geocode({ 'address': request.term },
+//                        function(results, status) {
+//                            if (status == google.maps.GeocoderStatus.OK) {
+//                                response($.map(results, function(item) {
+//                                    var loc = new bf.LocationModel({ Longitude: item.geometry.location.lng(), Latitude: item.geometry.location.lat() });
+//                                    loc.SetFromGeo(item);
+//                                    return { label: loc.Description(), value: loc.Description(), position: loc };
+//                                }));
+//                            }
+//                        });
                 },
                 minLength: 3,
                 select: function(event, ui) {
@@ -284,18 +238,32 @@
                 }
                 $input.autocomplete("close");
 
-                var geocoder = new google.maps.Geocoder();
-                geocoder.geocode({ 'address': desc },
-                    function(results, status) {
-                        if (status == google.maps.GeocoderStatus.OK) {
+                bf.lookupPlaceFromTerms(desc)
+                    .done(function (resp) {
+                        
+                        if (resp.Data.length > 0) {
                             var item = results[0];
-                            var newLoc = new bf.LocationModel({ Longitude: item.geometry.location.lng(), Latitude: item.geometry.location.lat() });
-                            newLoc.SetFromGeo(item);
-                            location(newLoc);
+                            location(new bf.LocationModel({ SuburbId: item.Id, SuburbDesc: item.Description }));
                         } else {
                             location(null);
                         }
+
+                    }).error(function() {
+                        location(null);
                     });
+
+//                var geocoder = new google.maps.Geocoder();
+//                geocoder.geocode({ 'address': desc },
+//                    function(results, status) {
+//                        if (status == google.maps.GeocoderStatus.OK) {
+//                            var item = results[0];
+//                            var newLoc = new bf.LocationModel({ Longitude: item.geometry.location.lng(), Latitude: item.geometry.location.lat() });
+//                            newLoc.SetFromGeo(item);
+//                            location(newLoc);
+//                        } else {
+//                            location(null);
+//                        }
+//                    });
             };
             ko.utils.registerEventHandler(element, 'change', changeHandler);
 
@@ -535,6 +503,37 @@
 
         }
     };
+
+    ko.bindingHandlers.imgbluroverlay = {
+        init: function (element, valueAccessor, allBindingsAccessor, viewModel) {
+            
+        },
+        update: function (element, valueAccessor, allBindingsAccessor, viewModel) {
+            var jele = $(element);
+
+            var item = valueAccessor();
+
+            if (!imagefilter.canRun() || !item)
+                return;
+
+            setTimeout(function() {
+            
+                var baseurl = bf.widgetbase ? bf.widgetbase : '';
+                baseurl = baseurl + '/Img/ImgRet?imageUrl=' + encodeURIComponent(item);
+                //var baseurl = item;
+
+                var position = baseurl.indexOf(".jpg");
+                var width = getFlierImageSizeFromWidth(jele.width());
+                var url = [baseurl.slice(0, position), width, baseurl.slice(position)].join('');
+
+
+                imagecanvas.overlayDiv(jele, url);
+            }, 1);
+
+        }
+    };
+    
+
     
     ko.bindingHandlers.bulletinimg = {
         init: function (element, valueAccessor, allBindingsAccessor, viewModel) {
@@ -569,12 +568,12 @@
             return 'h228';
         if (width <= 450)
             return 'h450';
-        if (width <= 900)
-            return 'h900';
-        return '';
+
+        return 'h900';
+
     };
 
-    var pop = $('<img/>');
+
     ko.bindingHandlers.flyerImg = {
         init: function(element, valueAccessor, allBindingsAccessor, viewModel) {
             var jele = $(element);
@@ -582,45 +581,10 @@
             var eleWidth = jele.width();
             var dimOrig = getDimensionFromSize(image, 0, 'Original');
             var wide = dimOrig.Width > dimOrig.Height;
-            var dimPop = getDimensionFromSize(image, eleWidth, wide ? 'Original' : 'Horizontal', wide);
             var dim = getDimensionFromSize(image, eleWidth, wide ? 'Square' : 'Horizontal');
             var url = image.BaseUrl + dim.UrlExtension;
             jele.attr('src', url);
 
-                     
-            jele.on({
-                mouseenter: function () {
-                    
-                    pop.remove();
-                    var off = jele.offset();
-                    
-                    var cssFrom = {
-                        'position': 'absolute',
-                        'z-index': '1000',
-                        'width': eleWidth,
-                        'height': eleWidth,
-                        'top': off.top,
-                        'left': off.left,
-                        'border-style': 'solid',
-                        'border-width': '5px',
-                        'border-color': 'white'
-                    };
-                    var animateTo = {
-                        'left': off.left - ((dimPop.Width - eleWidth)/2) - 5,
-                        'width': dimPop.Width,
-                        'height': dimPop.Height
-                    };
-                    pop.attr('src', image.BaseUrl + dimPop.UrlExtension);
-                    pop.css(cssFrom);
-                    pop.insertBefore(jele);
-                    pop.animate(animateTo);
-                    pop.on('mouseleave', function () {
-                        pop.remove();
-                    });
-                }
-            });
-
-            
         },
 
         update: function(element, valueAccessor, allBindingsAccessor, viewModel) {
@@ -723,4 +687,9 @@
         return this; //optional
     };
     
+    
 })(window, jQuery);
+
+
+
+

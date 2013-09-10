@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -52,5 +53,8 @@ namespace PostaFlya.Models.Board
 
         [DataMember]
         public List<string> AdminEmailAddresses { get; set; }
+
+        [DataMember]
+        public String LogoImageId { get; set; }
     }
 }

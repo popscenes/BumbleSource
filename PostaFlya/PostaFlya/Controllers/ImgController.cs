@@ -20,6 +20,7 @@ using Website.Application.Domain.Browser;
 using Website.Application.Domain.Content;
 using Website.Domain.Content;
 using Website.Domain.Content.Command;
+using Website.Infrastructure.Messaging;
 using Website.Infrastructure.Query;
 
 namespace PostaFlya.Controllers
@@ -29,21 +30,21 @@ namespace PostaFlya.Controllers
         private readonly BlobStorageInterface _blobStorage;
         private readonly RequestContentRetrieverFactoryInterface _contentRetrieverFactory;
         private readonly PostaFlyaBrowserInformationInterface _browserInformation;
-        private readonly CommandBusInterface _commandBus;
+        private readonly MessageBusInterface _messageBus;
         private readonly GenericQueryServiceInterface _queryService;
         private readonly FlierPrintImageServiceInterface _flierPrintImageService;
         //private readonly HttpContextBase _httpContext;
 
         public ImgController([ImageStorage]BlobStorageInterface blobStorage
             , RequestContentRetrieverFactoryInterface contentRetrieverFactory
-            , PostaFlyaBrowserInformationInterface browserInformation, CommandBusInterface commandBus
+            , PostaFlyaBrowserInformationInterface browserInformation, MessageBusInterface messageBus
             , GenericQueryServiceInterface queryService, 
             FlierPrintImageServiceInterface flierPrintImageService)
         {
             _blobStorage = blobStorage;
             _contentRetrieverFactory = contentRetrieverFactory;
             _browserInformation = browserInformation;
-            _commandBus = commandBus;
+            _messageBus = messageBus;
             _queryService = queryService;
             _flierPrintImageService = flierPrintImageService;
             //_httpContext = httpContext;
@@ -87,17 +88,18 @@ namespace PostaFlya.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest, retriever.GetLastError());
 
             var imgId = Guid.NewGuid();
-            var res = _commandBus.Send(new CreateImageCommand()
+            var res = _messageBus.Send(new CreateImageCommand()
                                  {
                                      MessageId = imgId.ToString(),
                                      Content = content,
                                      BrowserId = _browserInformation.Browser.Id,
                                      Title = createModel.Title,
                                      Location = createModel.Location != null ? createModel.Location.ToDomainModel() : null,
-                                     Anonymous = createModel.Anonymous && _browserInformation.Browser.HasRole(Role.Admin)
+                                     Anonymous = createModel.Anonymous && _browserInformation.Browser.HasRole(Role.Admin),
+                                     KeepFileImapeType = createModel.KeepFileImapeType
                                  });
 
-            var uri = _blobStorage.GetBlobUri(imgId + ImageUtil.GetIdFileExtension(), false);
+            var uri = _blobStorage.GetBlobUri(imgId + ImageUtil.GetIdFileExtension(createModel.KeepFileImapeType, content.Extension), false);
             Response.Headers["Location"] = uri != null ? uri.ToString() : imgId.ToString();
             Response.Write("{\"jsonrpc\" : \"2.0\", \"result\" : null, \"id\" : \"" + imgId + "\", \"url\": \"" + uri + "\"}");
             return new HttpStatusCodeResult(HttpStatusCode.Created);
@@ -141,6 +143,17 @@ namespace PostaFlya.Controllers
             cachePolicy.SetValidUntilExpires(true);
             var old = new DateTime(2001, 1, 1);
             cachePolicy.SetLastModified(old);
+        }
+
+        public ActionResult ImgRet(string imageUrl)
+        {
+            var aRequest = (HttpWebRequest)WebRequest.Create(imageUrl);
+            var aResponse = (HttpWebResponse)aRequest.GetResponse();
+
+
+            Response.Headers.Add("access-control-allow-origin", "*");
+            Response.Headers.Add("access-control-allow-credentials", "true");
+            return new FileStreamResult(aResponse.GetResponseStream(), "image/jpeg");
         }
 
         public const string TearOffPrintStyle = "tearoff";

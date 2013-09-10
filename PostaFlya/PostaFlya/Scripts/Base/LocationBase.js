@@ -114,19 +114,34 @@
 
         map.setZoom(bf.getZoomLevel(radius));
     };
+
+    bf.lookupPlaceFromTerms = function(terms) {
+
+        return $.ajax(
+            {
+                dataType: (bf.widgetbase ? "jsonp" : "json"),
+                url: "/webapi/search/byterms",
+                crossDomain: (bf.widgetbase ? true : false),
+                data: {q: terms}
+            }
+        );
+    };
     
     /**/
-    bf.reverseGeocode = function(locationModel, callback) {
-        var latlng = new google.maps.LatLng(locationModel.Latitude(), locationModel.Longitude());
-        var geocoder = new google.maps.Geocoder();
-        geocoder.geocode({ 'location': latlng },
-            function (results, status) {
-                if (status === 'OK') {
-                    locationModel.SetFromGeo(results[0]);
-                    if (callback)
-                        callback(locationModel);
-                }
-            });
+    bf.reverseGeocode = function (locationModel, callback) {
+        
+        return $.ajax(
+        {
+            dataType: (bf.widgetbase ? "jsonp" : "json"),
+            url: "webapi/suburbs/near",
+            crossDomain: (bf.widgetbase ? true : false),
+            data: { Lat: locationModel.Latitude(), Lng: locationModel.Longitude() }
+        }
+        ).done(function(resp) {
+            if (callback)
+                callback(new bf.LocationModel(resp.Data));
+        });
+       
     };
     
     

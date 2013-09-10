@@ -84,8 +84,8 @@ namespace PostaFlya.Specification.Util
             mockBrowserInfo.SetupGet(bi => bi.IpAddress).Returns("192.168.3.1");
             mockBrowserInfo.SetupGet(bi => bi.UserAgent).Returns("some user agent string");
 
-            Location lastLoc = null;
-            mockBrowserInfo.SetupSet<Location>(bi => bi.LastSearchLocation = It.IsAny<Location>())
+            Suburb lastLoc = null;
+            mockBrowserInfo.SetupSet<Suburb>(bi => bi.LastSearchLocation = It.IsAny<Suburb>())
                            .Callback((loc) 
                                => lastLoc = loc);
             mockBrowserInfo.SetupGet(bi => bi.LastSearchLocation)

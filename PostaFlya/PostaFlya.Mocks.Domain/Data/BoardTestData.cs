@@ -5,12 +5,12 @@ using System.Text;
 using NUnit.Framework;
 using Ninject;
 using PostaFlya.Domain.Boards;
-using PostaFlya.Domain.Boards.Event;
 using PostaFlya.Domain.Boards.Query;
 using PostaFlya.Domain.Venue;
 using Website.Domain.Location;
 using Website.Infrastructure.Command;
 using Website.Infrastructure.Domain;
+using Website.Infrastructure.Messaging;
 using Website.Infrastructure.Publish;
 
 namespace PostaFlya.Mocks.Domain.Data
@@ -53,14 +53,14 @@ namespace PostaFlya.Mocks.Domain.Data
 
             Assert.IsTrue(uow.Successful);
 
-            if (uow.Successful)
+            /*if (uow.Successful)
             {
-                var indexers = kernel.GetAll<HandleEventInterface<BoardModifiedEvent>>();
+                var indexers = kernel.GetAll<HandleEventInterface<EntityModifiedEvent<Board>>>();
                 foreach (var handleEvent in indexers)
                 {
-                    handleEvent.Handle(new BoardModifiedEvent() { NewState = board });
+                    handleEvent.Handle(new BoardModifiedEvent() { Entity = board });
                 }
-            }
+            }*/
 
             return board;
         }
@@ -78,14 +78,14 @@ namespace PostaFlya.Mocks.Domain.Data
                 });
             }
 
-            if (unitOfWork.Successful)
-            {
-                var indexers = kernel.GetAll<HandleEventInterface<BoardModifiedEvent>>();
-                foreach (var handleEvent in indexers)
-                {
-                    handleEvent.Handle(new BoardModifiedEvent() { NewState = board, OrigState = oldState });
-                }
-            }
+//            if (unitOfWork.Successful)
+//            {
+//                var indexers = kernel.GetAll<HandleEventInterface<EntityModifiedEvent<Board>>>();
+//                foreach (var handleEvent in indexers)
+//                {
+//                    handleEvent.Handle(new BoardModifiedEvent() { Entity = board });
+//                }
+//            }
         }
 
 

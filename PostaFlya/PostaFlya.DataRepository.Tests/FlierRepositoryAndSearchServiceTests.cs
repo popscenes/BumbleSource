@@ -1,17 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.Linq;
 using NUnit.Framework;
 using Ninject;
-using PostaFlya.DataRepository.Search.Event;
 using PostaFlya.DataRepository.Search.Query;
 using PostaFlya.Domain.Boards;
-using PostaFlya.Domain.Boards.Event;
 using PostaFlya.Domain.Boards.Query;
-using PostaFlya.Domain.Flier.Event;
 using PostaFlya.Domain.Flier.Query;
-using PostaFlya.Domain.Venue;
 using Website.Azure.Common.Environment;
 using PostaFlya.DataRepository.Search.Implementation;
 using PostaFlya.DataRepository.Tests.Internal;

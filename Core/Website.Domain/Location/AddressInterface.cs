@@ -1,5 +1,6 @@
 using System.Linq;
 using System.Text;
+using Website.Infrastructure.Domain;
 using Website.Infrastructure.Util;
 using Website.Infrastructure.Util.Extension;
 
@@ -7,14 +8,22 @@ namespace Website.Domain.Location
 {
     public static class AddressInterfaceExtensions
     {
+        public static void CopyFieldsFrom(this SuburbInterface suburbTarget, SuburbInterface suburbSource)
+        {
+            ((LocationInterface)suburbTarget).CopyFieldsFrom(suburbSource);
+            suburbTarget.Locality = suburbSource.Locality;
+            suburbTarget.Region = suburbSource.Region;
+            suburbTarget.RegionCode = suburbSource.RegionCode;
+            suburbTarget.CountryName = suburbSource.CountryName;
+            suburbTarget.CountryCode = suburbSource.CountryCode;
+            suburbTarget.PostCode = suburbSource.PostCode;
+        }
+
         public static void CopyFieldsFrom(this AddressInterface addressTarget, AddressInterface addressSource)
         {
+            ((SuburbInterface)addressTarget).CopyFieldsFrom(addressSource);
             addressTarget.StreetNumber = addressSource.StreetNumber;
             addressTarget.Street = addressSource.Street;            
-            addressTarget.Locality = addressSource.Locality;
-            addressTarget.Region = addressSource.Region;
-            addressTarget.PostCode = addressSource.PostCode;
-            addressTarget.CountryName = addressSource.CountryName;
         }
 
         public static bool HasAddressParts(this AddressInterface address)
@@ -41,6 +50,19 @@ namespace Website.Domain.Location
             AddAddressPart(address.Region, addDesc, " ");
             AddAddressPart(address.PostCode, addDesc, " ");
             AddAddressPart(address.CountryName, addDesc, ", ");  
+            return addDesc.ToString();
+        }
+
+        //Brunswick East VIC 3057, Australia
+        public static string GetSuburbDescription(this SuburbInterface address, bool @short)
+        {
+            if (address == null)
+                return null;
+            var addDesc = new StringBuilder();
+            AddAddressPart(address.Locality, addDesc, ", ");
+            AddAddressPart(@short ? address.RegionCode : address.Region, addDesc, ", ");
+            AddAddressPart(address.PostCode, addDesc, " ");
+            AddAddressPart(@short ? "" : address.CountryName, addDesc, ", ");
             return addDesc.ToString();
         }
 
@@ -109,14 +131,29 @@ namespace Website.Domain.Location
         }
     }
 
-    public interface AddressInterface
+
+    public interface SuburbInterface : LocationInterface
+    {
+        //suburb
+        string Locality { get; set; }
+
+        //state
+        string Region { get; set; }
+        string RegionCode { get; set; }
+
+        //country
+        string CountryName { get; set; }
+        string CountryCode { get; set; }
+
+        string PostCode { get; set; }
+        
+    }
+
+    public interface AddressInterface : SuburbInterface
     {
         string StreetNumber { get; set; }
         string Street { get; set; }
-        string Locality { get; set; }
-        string Region { get; set; }
-        string PostCode { get; set; }
-        string CountryName { get; set; }
+
     }
 
 

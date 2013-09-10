@@ -10,9 +10,13 @@
             StreetNumber: '',
             Street:'',
             Locality:'',
-            Region:'',
+            Region: '',
+            RegionCode: '',
             PostCode:'',
             CountryName: '',
+            CountryCode: '',
+            SuburbId: '',
+            SuburbDesc: '',
         };
         initData = $.extend(defaults, initData);
         
@@ -24,10 +28,11 @@
         ko.mapping.fromJS(initData, mapping, self);
         
         self.ValidLocation = function () {
-            return !(self.Longitude() < -180
+            
+            return self.SuburbId() || (!(self.Longitude() < -180
                 || self.Longitude() > 180
                 || self.Latitude() < -90
-                || self.Latitude() > 90);
+                || self.Latitude() > 90));
         };
 
         self.ValidLocationForValidation = function() {
@@ -75,17 +80,24 @@
         };
 
         self.Description = ko.computed(function () {
-            var addDesc = '';
 
+            if (self.SuburbDesc())
+                return self.SuburbDesc();
+
+            var addDesc = '';
             addDesc = self.AddAddressPart(self.StreetNumber(), addDesc, ', ');
             addDesc = self.AddAddressPart(self.Street(), addDesc, ' ');
             addDesc = self.AddAddressPart(self.Locality(), addDesc, ', ');
-            addDesc = self.AddAddressPart(self.Region(), addDesc, ' ');
-            addDesc = self.AddAddressPart(self.PostCode(), addDesc, ' ');
-            return self.AddAddressPart(self.CountryName(), addDesc, ', ');
+            addDesc = self.AddAddressPart(self.RegionCode(), addDesc, ' ');
+            return addDesc = self.AddAddressPart(self.PostCode(), addDesc, ' ');
+            //self.AddAddressPart(self.CountryName(), addDesc, ', ');
         });
         
         self.LocalDescription = ko.computed(function () {
+
+            if (self.SuburbDesc())
+                return self.SuburbDesc();
+
             var addDesc = '';
 
             addDesc = self.AddAddressPart(self.StreetNumber(), addDesc, ', ');

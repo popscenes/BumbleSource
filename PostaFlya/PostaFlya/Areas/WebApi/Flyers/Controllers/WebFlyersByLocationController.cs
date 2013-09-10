@@ -1,10 +1,13 @@
 ﻿using System;
+using System.Net;
 using System.Web.Http;
 using PostaFlya.Application.Domain.Browser;
 using PostaFlya.Areas.WebApi.Flyers.Model;
+using PostaFlya.Areas.WebApi.Location.Model;
 using PostaFlya.Domain.Flier.Query;
 using Website.Common.ApiInfrastructure.Controller;
 using Website.Common.ApiInfrastructure.Model;
+using Website.Common.Model.Query;
 using Website.Domain.Location;
 using Website.Infrastructure.Configuration;
 using Website.Infrastructure.Query;
@@ -27,9 +30,22 @@ namespace PostaFlya.Areas.WebApi.Flyers.Controllers
         public ResponseContent<FlyersByDateContent> Get([FromUri]FlyersByLocationRequest req)
         {
             var start = req.Start != default(DateTimeOffset) ? req.Start : DateTimeOffset.UtcNow;
+
+
+            if (!req.Loc.IsValid() && !string.IsNullOrWhiteSpace(req.Loc.Id))
+            {
+                var sub = _queryChannel.Query(new FindByIdQuery<Suburb>() { Id = req.Loc.Id }, (Suburb)null);
+                if (sub != null)
+                    req.Loc.CopyFieldsFrom(sub);
+                else
+                    this.ResponseError(HttpStatusCode.BadRequest, ResponseContent.StatusEnum.ValidationError,
+                                       "Invalid Location");
+            }
+
+
             var query = new FindFlyersByDateAndLocationQuery()
                 {
-                    Location = req.Loc.ToDomainModel(),
+                    Location = _queryChannel.ToViewModel<Suburb, SuburbModel>(req.Loc),
                     Distance = req.Distance,
                     Start = start,
                     End = req.End != default(DateTimeOffset) ? req.End : start.AddDays(_config.GetSetting("DaySpan", 7))

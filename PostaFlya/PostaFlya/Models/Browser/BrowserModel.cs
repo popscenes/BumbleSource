@@ -68,7 +68,7 @@ namespace PostaFlya.Models.Browser
             if (!string.IsNullOrWhiteSpace(source.AvatarImageId)
                 && (uri = _blobStorage.GetBlobUri(source.AvatarImageId + ImageUtil.GetIdFileExtension())) != null)
             {
-                target.AvatarUrl = uri.GetThumbUrlForImage(ThumbOrientation.Square, ThumbSize.S150);
+                target.AvatarUrl = uri.GetThumbUrlForImage(ThumbOrientation.Square, ThumbSize.S300);
 
             }
 

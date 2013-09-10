@@ -9,7 +9,7 @@ namespace PostaFlya.Application.Domain.Browser
 {
     public interface PostaFlyaBrowserInformationInterface : BrowserInformationInterface
     {
-        Location LastSearchLocation { get; set; }
+        Suburb LastSearchLocation { get; set; }
         PostaFlya.Domain.Browser.Browser PostaBrowser { get; }
     }
 
@@ -23,9 +23,9 @@ namespace PostaFlya.Application.Domain.Browser
         }
 
 
-        public Location LastSearchLocation
+        public Suburb LastSearchLocation
         {
-            get { return GetClientStateValue<Location>("LastSearchLocation"); }
+            get { return GetClientStateValue<Suburb>("LastSearchLocation"); }
             set { SetClientStateValue("LastSearchLocation", value); }
         }
 

@@ -6,12 +6,12 @@ using Ninject;
 using PostaFlya.Domain.Behaviour;
 using PostaFlya.Domain.Boards;
 using PostaFlya.Domain.Flier;
-using PostaFlya.Domain.Flier.Event;
 using PostaFlya.Domain.Flier.Query;
 using PostaFlya.Domain.Venue;
 using Website.Domain.Service;
 using Website.Infrastructure.Command;
 using Website.Infrastructure.Domain;
+using Website.Infrastructure.Messaging;
 using Website.Infrastructure.Publish;
 using Website.Infrastructure.Query;
 //using Website.Infrastructure.Service;
@@ -351,11 +351,11 @@ namespace PostaFlya.Mocks.Domain.Data
             Assert.IsTrue(uow.Successful);
 
 
-            if (uow.Successful)
-            {
-                var domainEvent = kernel.Get<DomainEventPublishServiceInterface>();
-                domainEvent.Publish(new FlierModifiedEvent() { NewState = (Flier)flier });
-            }
+//            if (uow.Successful)
+//            {
+//                var domainEvent = kernel.Get<EventPublishServiceInterface>();
+//                domainEvent.Publish(new FlierModifiedEvent() { Entity = (Flier)flier });
+//            }
 
 
             return flier;
@@ -385,14 +385,14 @@ namespace PostaFlya.Mocks.Domain.Data
 
             Assert.IsTrue(uow.Successful);
 
-            if (uow.Successful)
-            {
-                var indexers = kernel.GetAll<HandleEventInterface<FlierModifiedEvent>>();
-                foreach (var handleEvent in indexers)
-                {
-                    handleEvent.Handle(new FlierModifiedEvent() { NewState = (Flier)flier });
-                }
-            }
+//            if (uow.Successful)
+//            {
+//                var indexers = kernel.GetAll<HandleEventInterface<EntityModifiedEvent<Flier>>>();
+//                foreach (var handleEvent in indexers)
+//                {
+//                    handleEvent.Handle(new FlierModifiedEvent() { Entity = (Flier)flier });
+//                }
+//            }
 
             
             return flier;
@@ -411,14 +411,14 @@ namespace PostaFlya.Mocks.Domain.Data
                     });
             }
 
-            if (unitOfWork.Successful)
-            {
-                var indexers = kernel.GetAll<HandleEventInterface<FlierModifiedEvent>>();
-                foreach (var handleEvent in indexers)
-                {
-                    handleEvent.Handle(new FlierModifiedEvent() { NewState = (Flier)flier, OrigState = oldState });
-                }
-            }
+//            if (unitOfWork.Successful)
+//            {
+//                var indexers = kernel.GetAll<HandleEventInterface<EntityModifiedEvent<Flier>>>();
+//                foreach (var handleEvent in indexers)
+//                {
+//                    handleEvent.Handle(new FlierModifiedEvent() { Entity = (Flier)flier });
+//                }
+//            }
         }
     }
 }

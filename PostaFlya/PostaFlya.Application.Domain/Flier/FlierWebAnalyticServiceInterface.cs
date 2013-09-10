@@ -12,6 +12,6 @@ namespace PostaFlya.Application.Domain.Flier
     public interface FlierWebAnalyticServiceInterface
     {
         void RecordVisit(string flierId, FlierAnalyticSourceAction context, Location location = null);
-        void SetLastSearchLocation(Location loc);
+        void SetLastSearchLocation(Suburb loc);
     }
 }

@@ -39,7 +39,8 @@ namespace PostaFlya.Views.Board.Widget
             "Base/ClaimsViewModel.js",
             "Base/dateFilter.js",
             "Base/ErrorHandling.js",
-            "Base/PageDefaultAction.js"
+            "Base/PageDefaultAction.js",
+            "Base/Canvas.js"
         };
 
         private static readonly string[]

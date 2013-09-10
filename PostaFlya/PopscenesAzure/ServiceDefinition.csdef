@@ -49,6 +49,8 @@
             <Setting name="Tags" />
             <Setting name="NewAccountCredit" />
             <Setting name="SkipSomethingForNow" />
+            <Setting name="ServiceBusNamespace" />
+            <Setting name="UseProductionStorage"/>
         </ConfigurationSettings>
         <LocalResources>
             <LocalStorage name="Microsoft.WindowsAzure.Plugins.Caching.FileStore" sizeInMB="8192" cleanOnRoleRecycle="false" />
