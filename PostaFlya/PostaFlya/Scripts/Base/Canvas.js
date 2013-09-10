@@ -98,8 +98,8 @@ OTHER DEALINGS IN THE SOFTWARE.
         var w = img.width;
         var h = img.height;
 
-        canvas.style.width = w + "px";
-        canvas.style.height = h + "px";
+//        canvas.style.width = w + "px";
+//        canvas.style.height = h + "px";
         canvas.width = w;
         canvas.height = h;
 
@@ -825,24 +825,28 @@ OTHER DEALINGS IN THE SOFTWARE.
 
         $img.on('load', function () {
 
-            $img.attr('width', jele.outerWidth());
-            $img.attr('height', jele.outerHeight());
+//            $img.attr('width', jele.outerWidth());
+//            $img.attr('height', jele.outerHeight());
 
             var $canv = jele.find('canvas');
             if ($canv.length == 0) {
                 var canv = imagefilter.getCanvas(jele.outerWidth(), jele.outerHeight());
                 $canv = $(canv);
-                $canv.appendTo(jele);
+                $canv.css('display', 'none');
                 $canv.css('position', 'relative');
+                $canv.addClass('canvasblurbg');
+                $canv.appendTo(jele);
+
 
                 //z-index: 1755;
             }
 
-            $canv.attr('width', jele.outerWidth());
-            $canv.attr('height', jele.outerHeight());
+//            $canv.attr('width', jele.outerWidth());
+//            $canv.attr('height', jele.outerHeight());
 
             blurimg.stackBlur($img[0], $canv[0], 50, false);
-            imagefilter.applyFilterToCanvas($canv[0], imagefilter.alpha, 150);
+            $canv.fadeIn();
+
 
         }).each(function () {
             if (this.complete) $(this).load();
