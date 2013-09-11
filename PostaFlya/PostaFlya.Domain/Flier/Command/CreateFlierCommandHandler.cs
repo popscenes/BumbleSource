@@ -53,7 +53,6 @@ namespace PostaFlya.Domain.Flier.Command
                                    Tags = command.Tags,
                                    Image = command.Image,
                                    CreateDate = date,
-                                   EffectiveDate = date,
                                    FlierBehaviour = command.FlierBehaviour,
                                    EventDates = eventDates,                            
                                    ImageList = command.ImageList,

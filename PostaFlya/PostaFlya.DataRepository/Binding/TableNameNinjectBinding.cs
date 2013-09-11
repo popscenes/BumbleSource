@@ -40,6 +40,11 @@ namespace PostaFlya.DataRepository.Binding
         public const string TextSearchIndex = "T";
         public const string GeoSearchIndex = "G";
 
+        public const string FlyerSuburbSearchIndex = "FS";
+        public const string FlyerBoardSearchIndex = "FB";
+
+        public const string BoardSuburbSearchIndex = "BS";
+        private const int DefaultNearByIndex = 40;
 
         public static Expression<Func<QueryChannelInterface, EntityInterfaceType, IEnumerable<StorageTableKeyInterface>>> BrowserIdSelector<EntityInterfaceType>() where EntityInterfaceType : AggregateRootInterface, BrowserIdInterface
         {
@@ -176,8 +181,33 @@ namespace PostaFlya.DataRepository.Binding
                     })
                     {
 
-                        PartitionKey = s,
-                        RowKey = i.ToRowKeyWithFieldWidth(10).ToStorageKeySection() + suburb.Id.ToStorageKeySection()
+                        PartitionKey = s + i.ToRowKeyWithFieldWidth(10).ToStorageKeySection(),
+                        RowKey = suburb.Id.ToStorageKeySection()
+                    });
+
+
+            return indexEntryFactory;
+        }
+
+
+        public static Expression<Func<QueryChannelInterface, BoardInterface, IEnumerable<StorageTableKeyInterface>>> BoardSearchSelector()
+        {
+
+            Expression<Func<QueryChannelInterface, BoardInterface, IEnumerable<StorageTableKeyInterface>>> indexEntryFactory
+                =
+                (qc, board) =>
+                    board.Name
+                    .ToTermsSearchKeys()
+                    .Select((s, i) => new JsonTableEntry(new SearchEntityRecord()
+                    {
+                        Id = board.Id,
+                        FriendlyId = board.FriendlyId,
+                        TypeOfEntity = board.GetType().GetAssemblyQualifiedNameWithoutVer(),
+                        DisplayString = board.Name
+                    })
+                    {
+                        PartitionKey = s + i.ToRowKeyWithFieldWidth(10).ToStorageKeySection(),
+                        RowKey = board.Id.ToStorageKeySection()
                     });
 
 
@@ -185,39 +215,66 @@ namespace PostaFlya.DataRepository.Binding
         }
 
         public static Expression<Func<QueryChannelInterface, FlierInterface, IEnumerable<StorageTableKeyInterface>>>
-            FlyerByLocationSelector()
+            FlyerSuburbSelector()
         {
             Expression<Func<QueryChannelInterface, FlierInterface, IEnumerable<StorageTableKeyInterface>>> indexEntryFactory =
-                (qc, flyer) => qc.Query(new FindSuburbsWithinDistanceOfGeoCoordsQuery
+                (qc, flyer) => 
+                    qc.Query(new FindSuburbsWithinDistanceOfGeoCoordsQuery
                     {
                         Geo = flyer.GetVenueForFlier(qc).Address.AsGeoCoords(),
-                        Kilometers = 30
+                        Kilometers = DefaultNearByIndex
                     }, new List<Suburb>())
-                    .SelectMany(suburb => 
-                        flyer.EventDates.Select(e =>
-                            new JsonTableEntry(new GeoCoords()
+                    .Select(s => new { s, v = flyer.GetVenueForFlier(qc).Address.AsGeoCoords()})
+                    .SelectMany(sv => 
+                        flyer.EventDates.Distinct().Select(e =>
+                            new JsonTableEntry(sv.v)
                             {
-                                Latitude = suburb.Latitude,
-                                Longitude = suburb.Longitude
-                            })
-                            {
-                                PartitionKey = suburb.Id.ToStorageKeySection(),
-                                RowKey = e.GetTimestampAscending().ToStorageKeySection()
+                                PartitionKey = sv.s.Id.ToStorageKeySection() + e.GetTimestampAscending().ToStorageKeySection(),
+                                RowKey = flyer.Id.ToStorageKeySection()
                             }));
 
             return indexEntryFactory;
 
         }
 
-        public static Expression<Func<FlierInterface, IEnumerable<StorageTableKeyInterface>>>
-            FlyerByBoardSelector()
+        public static Expression<Func<QueryChannelInterface, FlierInterface, IEnumerable<StorageTableKeyInterface>>>
+            FlyerBoardSelector()
         {
-            Expression<Func<FlierInterface, IEnumerable<StorageTableKeyInterface>>> indexEntryFactory = null;
+            Expression<Func<QueryChannelInterface, FlierInterface, IEnumerable<StorageTableKeyInterface>>> indexEntryFactory =
+                (qc, flyer) => flyer.Boards.Select(bf => bf.BoardId).Distinct().SelectMany(b
+                    => flyer.EventDates.Distinct().Select(e =>
+                            new StorageTableKey()
+                            {
+                                PartitionKey = b.ToStorageKeySection() + e.GetTimestampAscending().ToStorageKeySection(),
+                                RowKey = flyer.Id.ToStorageKeySection()
+                            }
+                    ));
 
             return indexEntryFactory;
         }
 
 
+        public static Expression<Func<QueryChannelInterface, BoardInterface, IEnumerable<StorageTableKeyInterface>>>
+            BoardSuburbSelector()
+        {
+            Expression<Func<QueryChannelInterface, BoardInterface, IEnumerable<StorageTableKeyInterface>>> indexEntryFactory =
+                (qc, board) => board.Venue() == null ? new List<JsonTableEntry>() : 
+                    
+                    qc.Query(new FindSuburbsWithinDistanceOfGeoCoordsQuery
+                {
+                    Geo = board.Venue().Address.AsGeoCoords(),
+                    Kilometers = DefaultNearByIndex
+                }, new List<Suburb>())
+                    .Select(suburb =>
+                            new JsonTableEntry(board.Venue().Address.AsGeoCoords())
+                            {
+                                PartitionKey = suburb.Id.ToStorageKeySection(),
+                                RowKey = board.Id.ToStorageKeySection()
+                            });
+
+            return indexEntryFactory;
+
+        }
 
     }
 
@@ -237,63 +294,39 @@ namespace PostaFlya.DataRepository.Binding
             tableNameProv.Add<BoardInterface>("boardEntity", e => e.Id);
             tableNameProv.AddIndex("boardIDX", StandardIndexSelectors.FriendlyIdIndex, StandardIndexSelectors.FriendlyIdSelector<BoardInterface>());
             tableNameProv.AddIndex("boardAdminEmailIDX", DomainIndexSelectors.BoardAdminEmailIndex, DomainIndexSelectors.BaordAdminEmailSelector());
-
-            //tableNameProv.Add<BoardInterface>(JsonRepository.FriendlyIdPartiton, "boardFriendly", e => e.FriendlyId, e => e.Id);
-            //tableNameProv.Add<BoardInterface>(JsonRepositoryWithBrowser.BrowserPartitionId, "boardByBrowser", e => e.BrowserId, e => e.Id);
-
-            //tableNameProv.Add<BoardFlierInterface>("boardflierEntity", e => e.AggregateId, e => e.Id);
-            //tableNameProv.Add<BoardFlierInterface>(JsonRepositoryWithBrowser.AggregateIdPartition, "boardflierByBoard", e => e.AggregateId, e => e.Id.ToDescendingTimeKey(e.DateAdded));
+            tableNameProv.AddIndex<EntityInterface, BoardInterface>("textSearchIDX", DomainIndexSelectors.TextSearchIndex, DomainIndexSelectors.BoardSearchSelector());
+            tableNameProv.AddIndex("boardSuburbIDX", DomainIndexSelectors.BoardSuburbSearchIndex, DomainIndexSelectors.BoardSuburbSelector());
 
 
             tableNameProv.Add<FlierInterface>("flierEntity", e => e.Id);
             tableNameProv.AddIndex("flierFriendlyIDX", StandardIndexSelectors.FriendlyIdIndex, StandardIndexSelectors.FriendlyIdSelector<FlierInterface>());
             tableNameProv.AddIndex("flierBrowserIDX", DomainIndexSelectors.BrowserIdIndex, DomainIndexSelectors.BrowserIdSelector<FlierInterface>());
+            tableNameProv.AddIndex("flyerSuburbIDX", DomainIndexSelectors.FlyerSuburbSearchIndex, DomainIndexSelectors.FlyerSuburbSelector());
+            tableNameProv.AddIndex("flyerBoardIDX", DomainIndexSelectors.FlyerBoardSearchIndex, DomainIndexSelectors.FlyerBoardSelector());
             
-
-
-            //tableNameProv.Add<FlierInterface>(JsonRepository.FriendlyIdPartiton, "flierFriendly", e => e.FriendlyId, e => e.Id);
-            //tableNameProv.Add<FlierInterface>(JsonRepositoryWithBrowser.BrowserPartitionId, "flierByBrowser", e => e.BrowserId, e => e.Id);
-
             tableNameProv.Add<BrowserInterface>("browserEntity", e => e.Id);
             tableNameProv.AddIndex("browserFriendlyIDX", StandardIndexSelectors.FriendlyIdIndex, StandardIndexSelectors.FriendlyIdSelector<BrowserInterface>());
             tableNameProv.AddIndex("browserCredIDX", DomainIndexSelectors.BrowserCredentialIndex, DomainIndexSelectors.BrowserCredentialSelector());
             tableNameProv.AddIndex("browserEmailIDX", DomainIndexSelectors.BrowserEmailIndex, DomainIndexSelectors.BrowserEmailSelector());
 
-
-//            tableNameProv.Add<BrowserInterface>(JsonRepository.FriendlyIdPartiton, "browserFriendly", e => e.FriendlyId, e => e.Id);
-//            tableNameProv.Add<BrowserIdentityProviderCredential>(JsonRepositoryWithBrowser.IdPartition, "browsercreds", e => e.ToUniqueString(), e => e.BrowserId);
-//            tableNameProv.Add<BrowserIdentityProviderCredential>(JsonRepositoryWithBrowser.AggregateIdPartition, "browsercredsByBrowser", e => e.BrowserId, e => e.ToUniqueString());
-
             tableNameProv.Add<ImageInterface>("imageEntity", e => e.Id);
             tableNameProv.AddIndex("imageBrowserIDX", DomainIndexSelectors.BrowserIdIndex, DomainIndexSelectors.BrowserIdSelector<ImageInterface>());
-
-//            tableNameProv.Add<ImageInterface>(JsonRepositoryWithBrowser.BrowserPartitionId, "imageByBrowser", e => e.BrowserId, e => e.Id);
 
             tableNameProv.Add<ClaimInterface>("claimEntity", e => e.AggregateId, e => e.Id);
             tableNameProv.AddIndex("claimBrowserIDX", DomainIndexSelectors.BrowserIdIndex, DomainIndexSelectors.BrowserIdSelectorForAggregate<ClaimInterface>());
 
-//            tableNameProv.Add<ClaimInterface>(JsonRepositoryWithBrowser.BrowserPartitionId, "claimByBrowser", e => e.BrowserId, e => e.Id);
-//            tableNameProv.Add<ClaimInterface>(JsonRepositoryWithBrowser.AggregateIdPartition, "claimByAggregate", e => e.AggregateId, e => e.Id);
-
             tableNameProv.Add<CommentInterface>("commentEntity", e => e.AggregateId, e => e.Id);
-//            tableNameProv.Add<CommentInterface>(JsonRepository.AggregateIdPartition, "commentByAggregate", e => e.AggregateId, e => e.Id);
 
 
             tableNameProv.Add<PaymentTransaction>("paymentTransactionEntity", e => e.AggregateId, e => e.Id);
-//            tableNameProv.Add<PaymentTransaction>(JsonRepository.AggregateIdPartition, "paymentTransactionByAggregate", e => e.AggregateId, e => e.Id.ToDescendingTimeKey(e.Time));
 
             tableNameProv.Add<CreditTransaction>("creditTransactionEntity", e => e.AggregateId, e => e.Id);
-//            tableNameProv.Add<CreditTransaction>(JsonRepository.AggregateIdPartition, "creditTransactionByAggregate", e => e.AggregateId, e => e.Id);
 
             tableNameProv.Add<TinyUrlRecord>("tinyurlentityEntity", e => e.AggregateId, e => e.Id);
-//            tableNameProv.Add<TinyUrlRecordInterface>(JsonRepository.AggregateIdPartition, "tinyurlentityByAggregate", e => e.AggregateId, e => e.Id);
 
             tableNameProv.Add<JobBase>("jobsEntity", e => e.Id);
 
             tableNameProv.Add<FlierAnalyticInterface>("analyticsEntity", e => e.Id);
-//            tableNameProv.Add<FlierAnalyticInterface>(JsonRepositoryWithBrowser.AggregateIdPartition, "analyticsByAggregate", e => e.AggregateId, e => e.Id.ToAscendingTimeKey(e.Time));
-//            tableNameProv.Add<FlierAnalyticInterface>(JsonRepositoryWithBrowser.BrowserPartitionId, "analyticsByBrowser", e => e.BrowserId, e => e.Id);
-
 
             tableNameProv.Add<SuburbEntityInterface>("suburbEntity", e => e.Id);
             tableNameProv.AddIndex<EntityInterface, SuburbEntityInterface>("textSearchIDX", DomainIndexSelectors.TextSearchIndex, DomainIndexSelectors.SuburbSearchSelector());

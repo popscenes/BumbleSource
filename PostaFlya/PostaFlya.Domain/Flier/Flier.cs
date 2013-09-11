@@ -14,8 +14,6 @@ namespace PostaFlya.Domain.Flier
     [Serializable]
     public class Flier : EntityBase<FlierInterface>, AggregateRootInterface, FlierInterface
     {
-        private List<DateTimeOffset> _eventDates;
-
         public Flier()
         {
             Id = Guid.NewGuid().ToString();
@@ -25,31 +23,20 @@ namespace PostaFlya.Domain.Flier
             CreateDate = DateTime.UtcNow;
             Boards = new List<BoardFlier>();
             Features = new HashSet<EntityFeatureCharge>();
+            EventDates = new List<DateTimeOffset>();
         }
 
         public string Title { get; set; }
         public string Description { get; set; }
         public Tags Tags { get; set; }
         public Guid? Image { get; set; }
-        public List<DateTimeOffset> EventDates
-        {
-            get
-            {
-                if (_eventDates == null)
-                    _eventDates = new List<DateTimeOffset>();
-
-                if (_eventDates.Count == 0 && EffectiveDate != default(DateTime) && EffectiveDate != CreateDate)
-                    _eventDates.Add(EffectiveDate);
-                return _eventDates;
-            }
-            set { _eventDates = value; }
-        }
+        public List<DateTimeOffset> EventDates { get; set; }
 
         public string BrowserId { get; set; }
         public DateTime CreateDate { get; set; }
 
         //will be used for repost
-        public DateTime EffectiveDate { get; set; }
+        //public DateTime EffectiveDate { get; set; }
         
         public FlierStatus Status { get; set; }
         public FlierBehaviour FlierBehaviour { get; set; }

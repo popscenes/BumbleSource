@@ -19,19 +19,20 @@ namespace PostaFlya.Mocks.Domain.Data
     {
 
         public static Board GetAndStoreOne(IKernel kernel, GenericRepositoryInterface repository, String boardName = "TestBoard",
-                                    BoardTypeEnum typeOfBoard = BoardTypeEnum.VenueBoard, Location loc = null)
+                                    BoardTypeEnum typeOfBoard = BoardTypeEnum.VenueBoard, LocationInterface loc = null)
         {
             var board = GetOne(kernel, boardName, typeOfBoard, loc);
             return StoreOne(board, repository, kernel);
         }
-        public static Board GetOne(IKernel kernel, String boardName = "TestBoard", BoardTypeEnum typeOfBoard = BoardTypeEnum.VenueBoard, Location loc = null)
+        public static Board GetOne(IKernel kernel, String boardName = "TestBoard", BoardTypeEnum typeOfBoard = BoardTypeEnum.VenueBoard, LocationInterface loc = null)
         {
             var venuInfo = new VenueInformation();
-            venuInfo.Address = loc ?? kernel.Get<Location>(ib => ib.Get<bool>("default"));
+            venuInfo.Address = loc != null ? new Location(loc) : kernel.Get<Location>(ib => ib.Get<bool>("default"));
 
             var ret = typeOfBoard != BoardTypeEnum.InterestBoard ? new Board() { InformationSources = new List<VenueInformation>(){venuInfo}} : new Board();
             ret.Id = Guid.NewGuid().ToString();
             ret.FriendlyId = boardName;
+            ret.Name = boardName;
             ret.BrowserId = kernel.Get<string>(bm => bm.Has("defaultbrowserid"));
             ret.RequireApprovalOfPostedFliers = true;
             ret.AllowOthersToPostFliers = true;

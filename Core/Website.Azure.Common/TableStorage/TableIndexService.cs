@@ -14,6 +14,7 @@ using Website.Infrastructure.Query;
 
 namespace Website.Azure.Common.TableStorage
 {
+
     public interface TableIndexServiceInterface
     {
         List<StorageType> FindEntitiesByIndex<EntityType, StorageType>(string indexName, string indexValue, bool encodeValue = true, int take = -1)
@@ -100,7 +101,7 @@ where StorageType : StorageTableKeyInterface;
             var best = from g in
                        from s in res.ToList()
                        group s by s.RowKey.ExtractEntityIdFromRowKey()
-                           orderby  g.Count() descending, g.First().RowKey ascending
+                           orderby  g.Count() descending, g.First().PartitionKey ascending
                            select g.First();
             
             return best.ToList();

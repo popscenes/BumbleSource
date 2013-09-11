@@ -41,7 +41,6 @@ namespace PostaFlya.Domain.Flier
             target.Description = source.Description;
             target.Tags = new Tags(source.Tags);
             target.Image = source.Image;
-            target.EffectiveDate = source.EffectiveDate;
             target.EventDates = new List<DateTimeOffset>(source.EventDates);
             target.CreateDate = source.CreateDate;
             target.FlierBehaviour = source.FlierBehaviour;
@@ -100,8 +99,8 @@ namespace PostaFlya.Domain.Flier
         List<DateTimeOffset> EventDates { get; set; }
 
         
-        [Obsolete("Use EventDates, will be removed", false)]
-        DateTime EffectiveDate { get; set; }
+//        [Obsolete("Use EventDates, will be removed", false)]
+//        DateTime EffectiveDate { get; set; }
 
         DateTime CreateDate { get; set; }
         FlierStatus Status { get; set; }

@@ -17,6 +17,12 @@ namespace Website.Domain.Location
             Latitude = Invalid;
         }
 
+        public Location(LocationInterface source)
+        {
+            if (source != null)
+                this.CopyFieldsFrom(source);
+        }
+
         public Location(LocationAndAddressInterface source)
         {
             if(source != null)

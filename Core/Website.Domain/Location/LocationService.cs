@@ -29,7 +29,7 @@ namespace Website.Domain.Location
             return GetBoundingBoxDefault(location.Latitude, location.Longitude);
         }
 
-        public BoundingBox GetBoundingBox(Location location, double distance)
+        public BoundingBox GetBoundingBox(LocationInterface location, double distance)
         {
             return GetBoundingBox(location.Latitude, location.Longitude, distance);
         }

@@ -1,10 +1,10 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 using PostaFlya.Domain.Flier;
 using PostaFlya.Domain.Flier.Query;
 using Website.Infrastructure.Query;
 
-namespace PostaFlya.DataRepository.Search.Query
+namespace PostaFlya.DataRepository.DomainQuery.Flyer
 {
     public class FindFlyersByFeaturedQueryHandler : QueryHandlerInterface<FindFlyersByFeaturedQuery, List<string>>
     {

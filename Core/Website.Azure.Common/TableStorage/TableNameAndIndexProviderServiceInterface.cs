@@ -28,6 +28,11 @@ namespace Website.Azure.Common.TableStorage
             where EntityType : class;
 
 
+        /// <summary>
+        /// Note.. only use volatile partition keys, make sure that row keys will not change for an entity in index otherwise
+        /// they can't be located when being updated
+        /// ideally row key should just be [entityId]
+        /// </summary>
         void AddIndex<EntityQueryType, EntityIndexType>(string tableName, string indexname, Expression<Func<QueryChannelInterface, EntityIndexType, IEnumerable<StorageTableKeyInterface>>> indexEntryFactory)
                 where EntityIndexType : class, EntityQueryType;
 

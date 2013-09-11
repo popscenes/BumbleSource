@@ -59,7 +59,6 @@ namespace PostaFlya.Application.Domain.Tests.Email.Claims
             var board = BoardTestData.GetOne(Kernel, "TestBoard", BoardTypeEnum.VenueBoard);
             BoardTestData.StoreOne(board, repository, Kernel);
             var flier = FlierTestData.GetOne(Kernel);
-            flier.EffectiveDate = DateTime.UtcNow.AddDays(-1);
             flier.BrowserId = flierBrowser.Id;
             var storedFlier = FlierTestData.StoreOne(flier, repository, Kernel, board);
 
@@ -116,6 +115,7 @@ namespace PostaFlya.Application.Domain.Tests.Email.Claims
             var board = BoardTestData.GetOne(Kernel, "TestBoard", BoardTypeEnum.VenueBoard);
             BoardTestData.StoreOne(board, repository, Kernel);
             var flier = FlierTestData.GetOne(Kernel);
+            flier.EventDates.Add(DateTimeOffset.Now);
             flier.BrowserId = flierBrowser.Id;
             var storedFlier = FlierTestData.StoreOne(flier, repository, Kernel, board);
 

@@ -17,20 +17,22 @@ namespace PostaFlya.Areas.MobileApi.App_Start
                 );
 
             config.Routes.MapHttpRoute(
+                name: "GigDetail",
+                routeTemplate: "mobileapi/gigs/{id}",
+                defaults: new { Controller = "FlyerDetail" }
+                );
+
+
+            config.Routes.MapHttpRoute(
                 name: "GigsLatest",
                 routeTemplate: "mobileapi/gigs",
                 defaults: new { Controller = "FlyersByFeatured" }
                 );
 
-            config.Routes.MapHttpRoute(
-                name: "GigDetail",
-                routeTemplate: "mobileapi/gig/{id}",
-                defaults: new { Controller = "FlyerDetail" }
-                );
 
             config.Routes.MapHttpRoute(
                 name: "BoardGigs",
-                routeTemplate: "mobileapi/board/{BoardId}/gigs",
+                routeTemplate: "mobileapi/boards/{BoardId}/gigs",
                 defaults: new { Controller = "FlyersByBoard" }
                 );
 

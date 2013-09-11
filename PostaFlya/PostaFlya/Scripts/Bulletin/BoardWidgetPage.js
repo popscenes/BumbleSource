@@ -78,7 +78,7 @@
 
 
         self.GetReqUrl = function () {
-            return bf.widgetbase + '/webapi/board/' + self.boardId + '/gigs';
+            return bf.widgetbase + '/webapi/boards/' + self.boardId + '/gigs';
         };
         
         self.GetReqArgs = function (nextpage) {

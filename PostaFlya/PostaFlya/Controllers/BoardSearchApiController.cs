@@ -4,11 +4,13 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using PostaFlya.Areas.WebApi.Location.Model;
 using PostaFlya.Domain.Boards;
 using PostaFlya.Domain.Boards.Query;
 using PostaFlya.Models.Board;
 using Website.Common.Model.Query;
 using Website.Common.Obsolete;
+using Website.Domain.Location;
 using Website.Infrastructure.Query;
 
 namespace PostaFlya.Controllers
@@ -27,7 +29,7 @@ namespace PostaFlya.Controllers
             var list =
                 _queryChannel.Query(new FindBoardsNearQuery()
                     {
-                        Location = req.Loc.ToDomainModel(),
+                        Location = _queryChannel.ToViewModel<Suburb, SuburbModel>(req.Loc),
                         Take = req.Count,
                         Skip = req.Skip,
                         WithinMetres = req.Distance

@@ -31,18 +31,6 @@ namespace PostaFlya.Areas.WebApi.Flyers.Controllers
         {
             var start = req.Start != default(DateTimeOffset) ? req.Start : DateTimeOffset.UtcNow;
 
-
-            if (!req.Loc.IsValid() && !string.IsNullOrWhiteSpace(req.Loc.Id))
-            {
-                var sub = _queryChannel.Query(new FindByIdQuery<Suburb>() { Id = req.Loc.Id }, (Suburb)null);
-                if (sub != null)
-                    req.Loc.CopyFieldsFrom(sub);
-                else
-                    this.ResponseError(HttpStatusCode.BadRequest, ResponseContent.StatusEnum.ValidationError,
-                                       "Invalid Location");
-            }
-
-
             var query = new FindFlyersByDateAndLocationQuery()
                 {
                     Location = _queryChannel.ToViewModel<Suburb, SuburbModel>(req.Loc),

@@ -13,20 +13,20 @@ namespace PostaFlya.Areas.WebApi.App_Start
                 );
 
             config.Routes.MapHttpRoute(
+                name: "WebGigDetail",
+                routeTemplate: "webapi/gigs/{id}",
+                defaults: new { Controller = "WebFlyerDetail" }
+                );
+
+            config.Routes.MapHttpRoute(
                 name: "WebGigsLatest",
                 routeTemplate: "webapi/gigs",
                 defaults: new { Controller = "WebFlyersByFeatured" }
                 );
 
             config.Routes.MapHttpRoute(
-                name: "WebGigDetail",
-                routeTemplate: "webapi/gig/{id}",
-                defaults: new { Controller = "WebFlyerDetail" }
-                );
-
-            config.Routes.MapHttpRoute(
                 name: "WebBoardGigs",
-                routeTemplate: "webapi/board/{BoardId}/gigs",
+                routeTemplate: "webapi/boards/{BoardId}/gigs",
                 defaults: new { Controller = "WebFlyersByBoard" }
                 );
 

@@ -44,7 +44,6 @@ namespace PostaFlya.DataRepository.Search.SearchRecord
                     BrowserId = flier.BrowserId,
                     NumberOfClaims = flier.NumberOfClaims,
                     NumberOfComments = flier.NumberOfComments,
-                    EffectiveDate = flier.EffectiveDate,
                     CreateDate = flier.CreateDate,
                     LastActivity = DateTime.UtcNow,
                     Tags = flier.Tags.ToXml().ToSql(),
@@ -55,16 +54,16 @@ namespace PostaFlya.DataRepository.Search.SearchRecord
                 });
         }
 
-        public static long[] GetShardIdsFor(this Location location, int distance)
+        public static long[] GetShardIdsFor(this LocationInterface location, int distance)
         {
-            if(location == null || !location.IsValid)
+            if(location == null || !location.IsValid())
                 return new long[]{};
 
             SqlGeography geog = null;
             return location.GetShardIdsFor(distance, out geog);
         }
 
-        public static long[] GetShardIdsFor(this Location location, int distance, out SqlGeography geog)
+        public static long[] GetShardIdsFor(this LocationInterface location, int distance, out SqlGeography geog)
         {
             geog = location.ToGeography();
             var shards = new HashSet<long>();
@@ -198,8 +197,6 @@ namespace PostaFlya.DataRepository.Search.SearchRecord
         [FederationCol(FederationName = "Location", DistributionName = "location_shard")]
         public long LocationShard { get; set; }
 
-        [SqlIndex]
-        public DateTimeOffset EffectiveDate { get; set; }
         [SqlIndex]
         public DateTimeOffset CreateDate { get; set; }
         

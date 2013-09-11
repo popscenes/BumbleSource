@@ -42,7 +42,6 @@ namespace PostaFlya.DataRepository.Search.SearchRecord
 
             var geog = venueBoard.Venue().Address.ToGeography();
             geog = geog.BufferWithTolerance(flier.LocationRadius * 1000, 0.2, false);
-            ret.EffectiveDate = flier.EffectiveDate;
             ret.CreateDate = flier.CreateDate;
             ret.Tags = flier.Tags.ToXml().ToSql();
             ret.Location = geog;

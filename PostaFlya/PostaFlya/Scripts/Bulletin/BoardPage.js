@@ -43,7 +43,7 @@
         self.boardId = boardId;
 
         self.GetReqUrl = function () {
-            return 'webapi/board/'+ self.boardId +'/gigs';
+            return 'webapi/boards/'+ self.boardId +'/gigs';
         };
 
 

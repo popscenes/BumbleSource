@@ -1,3 +1,4 @@
+using System.Linq;
 using PostaFlya.Domain.Flier;
 using Website.Application.Email.ICalendar;
 using Website.Domain.Browser;
@@ -14,8 +15,8 @@ namespace PostaFlya.Application.Domain.Email.ICalendar
             var evnt = new Event
                 {
                     Title = flier.Title, 
-                    StartTime = flier.EffectiveDate, 
-                    EndTime = flier.EffectiveDate.AddDays(1),
+                    StartTime = flier.EventDates.FirstOrDefault().UtcDateTime,
+                    EndTime = flier.EventDates.FirstOrDefault().AddDays(1).UtcDateTime,
                     Description = flier.Description,
                     IsUtcTime = true
                 };

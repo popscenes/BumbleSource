@@ -24,7 +24,7 @@ namespace PostaFlya.Mocks.Domain.Data
 {
     public static class FlierTestData
     {
-        public static Flier GetOne(IKernel kernel, Location loc = null)
+        public static Flier GetOne(IKernel kernel, LocationInterface loc = null)
         {
             if (loc == null)
                 loc = kernel.Get<Location>(ib => ib.Get<bool>("default"));
@@ -34,13 +34,13 @@ namespace PostaFlya.Mocks.Domain.Data
                            Title = "Test Title",
                            Description = "Test Description Yo",
                            Tags = kernel.Get<Tags>(bm => bm.Has("default")),
-                           EffectiveDate = DateTime.Now.AddDays(20),
                            Image = Guid.NewGuid(),
                            FlierBehaviour = FlierBehaviour.TaskJob,
                            Status = FlierStatus.Active,
                            ImageList = new List<FlierImage>() { new FlierImage(Guid.NewGuid().ToString()), new FlierImage(Guid.NewGuid().ToString()), new FlierImage(Guid.NewGuid().ToString()) },
                            ExternalSource = "testsource",
                            ExternalId = "123",
+                           EventDates = new List<DateTimeOffset>(){DateTimeOffset.Now.AddDays(3)},
                            //Venue = new VenueInformation(){PlaceName = "Venue", Address = loc},
                            TinyUrl = "http://tfly.in/" +  new Random().Next().ToString()
                            
@@ -73,7 +73,7 @@ namespace PostaFlya.Mocks.Domain.Data
                     Title = "Test Title",
                     Description = "Test Description Yo",
                     Tags = new Tags(new List<string>(){"HEATMAP"}),
-                    EffectiveDate = DateTime.Now.AddDays(1),
+                    EventDates = new List<DateTimeOffset>(){DateTime.Now.AddDays(1)},
                     Image = Guid.NewGuid(),
                     FlierBehaviour = FlierBehaviour.Default,
                     Status = FlierStatus.Active,
@@ -95,7 +95,7 @@ namespace PostaFlya.Mocks.Domain.Data
                     Title = "Test Title",
                     Description = "Test Description Yo",
                     Tags = new Tags(new List<string>() { "HEATMAP" }),
-                    EffectiveDate = DateTime.Now.AddDays(1),
+                    EventDates = new List<DateTimeOffset>() { DateTime.Now.AddDays(1) },
                     Image = Guid.NewGuid(),
                     FlierBehaviour = FlierBehaviour.Default,
                     Status = FlierStatus.Active,
@@ -120,7 +120,7 @@ namespace PostaFlya.Mocks.Domain.Data
                     Title = "Test Title",
                     Description = "Test Description Yo",
                     Tags = new Tags(new List<string>() { "HEATMAP" }),
-                    EffectiveDate = DateTime.Now.AddDays(1),
+                    EventDates = new List<DateTimeOffset>() { DateTime.Now.AddDays(1) },
                     Image = Guid.NewGuid(),
                     FlierBehaviour = FlierBehaviour.Default,
                     Status = FlierStatus.Active,
@@ -204,7 +204,7 @@ namespace PostaFlya.Mocks.Domain.Data
             var eventDates = new List<DateTimeOffset>() {new DateTime(2076, 8, 11), DateTime.UtcNow.AddDays(3)};
             //add inside the bounds with some matching tags
             var count = 0;
-            var flier = new Flier() { EffectiveDate = DateTime.UtcNow, CreateDate = DateTime.UtcNow };
+            var flier = new Flier() { CreateDate = DateTime.UtcNow };
             getTags(true, flier.Tags);
             flier.BrowserId = GlobalDefaultsNinjectModule.DefaultBrowserId;
             flier.FriendlyId = "Bulletin" + count++;
@@ -213,7 +213,7 @@ namespace PostaFlya.Mocks.Domain.Data
             BoardTestData.StoreOne(board, flierRepository, kernel);
             StoreOne(flier, flierRepository, (StandardKernel)kernel, board);
 
-            flier = new Flier() {  EffectiveDate = DateTime.UtcNow, CreateDate = DateTime.UtcNow };
+            flier = new Flier() {CreateDate = DateTime.UtcNow };
             getTags(true, flier.Tags);
             flier.BrowserId = GlobalDefaultsNinjectModule.DefaultBrowserId;
             flier.FriendlyId = "Bulletin" + count++;
@@ -223,7 +223,7 @@ namespace PostaFlya.Mocks.Domain.Data
             StoreOne(flier, flierRepository, (StandardKernel)kernel, board);
 
             eventDates = new List<DateTimeOffset>() { new DateTime(2077, 12, 19), DateTime.UtcNow.AddDays(3) };
-            flier = new Flier() { EffectiveDate = DateTime.UtcNow, CreateDate = DateTime.UtcNow };
+            flier = new Flier() {CreateDate = DateTime.UtcNow };
             getTags(true, flier.Tags);
             flier.BrowserId = GlobalDefaultsNinjectModule.DefaultBrowserId;
             flier.FriendlyId = "Bulletin" + count++;                         
@@ -234,7 +234,7 @@ namespace PostaFlya.Mocks.Domain.Data
 
             //add inside the bounds without matching tags
             eventDates = new List<DateTimeOffset>() { new DateTime(2076, 8, 11), DateTime.UtcNow.AddDays(3) };
-            flier = new Flier() { EffectiveDate = DateTime.UtcNow, CreateDate = DateTime.UtcNow };
+            flier = new Flier() {CreateDate = DateTime.UtcNow };
             getTags(false, flier.Tags);
             flier.FriendlyId = "Bulletin" + count++;
             flier.EventDates = eventDates;
@@ -242,7 +242,7 @@ namespace PostaFlya.Mocks.Domain.Data
             BoardTestData.StoreOne(board, flierRepository, kernel);
             StoreOne(flier, flierRepository, (StandardKernel) kernel, board);
 
-            flier = new Flier() { EffectiveDate = DateTime.UtcNow, CreateDate = DateTime.UtcNow };
+            flier = new Flier() {CreateDate = DateTime.UtcNow };
             getTags(false, flier.Tags);
             flier.FriendlyId = "Bulletin" + count++;
             flier.EventDates = eventDates;
@@ -250,7 +250,7 @@ namespace PostaFlya.Mocks.Domain.Data
             BoardTestData.StoreOne(board, flierRepository, kernel);
             StoreOne(flier, flierRepository, (StandardKernel) kernel, board);
 
-            flier = new Flier() { EffectiveDate = DateTime.UtcNow, CreateDate = DateTime.UtcNow };
+            flier = new Flier() {CreateDate = DateTime.UtcNow };
             getTags(false, flier.Tags);
             flier.FriendlyId = "Bulletin" + count++;
             flier.EventDates = eventDates;
@@ -259,7 +259,7 @@ namespace PostaFlya.Mocks.Domain.Data
             StoreOne(flier, flierRepository, (StandardKernel)kernel, board);
 
             //add some outside the bounds with some matching tags
-            flier = new Flier() { EffectiveDate = DateTime.UtcNow, CreateDate = DateTime.UtcNow };
+            flier = new Flier() {CreateDate = DateTime.UtcNow };
             getTags(true, flier.Tags);
             flier.FriendlyId = "Bulletin" + count++;
             flier.EventDates = eventDates;
@@ -267,7 +267,7 @@ namespace PostaFlya.Mocks.Domain.Data
             BoardTestData.StoreOne(board, flierRepository, kernel);
             StoreOne(flier, flierRepository, (StandardKernel)kernel, board);
 
-            flier = new Flier() { EffectiveDate = DateTime.UtcNow, CreateDate = DateTime.UtcNow };
+            flier = new Flier() {CreateDate = DateTime.UtcNow };
             getTags(true, flier.Tags);
             flier.FriendlyId = "Bulletin" + count++;
             flier.EventDates = eventDates;
@@ -275,7 +275,7 @@ namespace PostaFlya.Mocks.Domain.Data
             BoardTestData.StoreOne(board, flierRepository, kernel);
             StoreOne(flier, flierRepository, (StandardKernel)kernel, board);
 
-            flier = new Flier() { EffectiveDate = DateTime.UtcNow, CreateDate = DateTime.UtcNow };
+            flier = new Flier() {CreateDate = DateTime.UtcNow };
             getTags(true, flier.Tags);
             flier.FriendlyId = "Bulletin" + count++;
             board = BoardTestData.GetOne(kernel, "Venue", BoardTypeEnum.VenueBoard, getRandLoc(false));
@@ -283,7 +283,7 @@ namespace PostaFlya.Mocks.Domain.Data
             StoreOne(flier, flierRepository, (StandardKernel)kernel, board);
 
             //add some outside the bounds without matching tags
-            flier = new Flier() { EffectiveDate = DateTime.UtcNow, CreateDate = DateTime.UtcNow };
+            flier = new Flier() {CreateDate = DateTime.UtcNow };
             getTags(false, flier.Tags);
             flier.FriendlyId = "Bulletin" + count++;
             flier.EventDates = eventDates;
@@ -291,7 +291,7 @@ namespace PostaFlya.Mocks.Domain.Data
             BoardTestData.StoreOne(board, flierRepository, kernel);
             StoreOne(flier, flierRepository, (StandardKernel)kernel, board);
 
-            flier = new Flier() { EffectiveDate = DateTime.UtcNow, CreateDate = DateTime.UtcNow };
+            flier = new Flier() {CreateDate = DateTime.UtcNow };
             getTags(false, flier.Tags);
             flier.FriendlyId = "Bulletin" + count++;
             flier.EventDates = eventDates;
@@ -299,7 +299,7 @@ namespace PostaFlya.Mocks.Domain.Data
             BoardTestData.StoreOne(board, flierRepository, kernel);
             StoreOne(flier, flierRepository, (StandardKernel)kernel, board);
 
-            flier = new Flier() { EffectiveDate = DateTime.UtcNow, CreateDate = DateTime.UtcNow };
+            flier = new Flier() {CreateDate = DateTime.UtcNow };
             getTags(false, flier.Tags);
             flier.FriendlyId = "Bulletin" + count;
             flier.EventDates = eventDates;
@@ -322,7 +322,6 @@ namespace PostaFlya.Mocks.Domain.Data
 
 
             AssertUtil.AreEqual(storedFlier.CreateDate, storedFlier.CreateDate, TimeSpan.FromMilliseconds(1));
-            AssertUtil.AreEqual(storedFlier.EffectiveDate, storedFlier.EffectiveDate, TimeSpan.FromMilliseconds(1));
             Assert.AreEqual(storedFlier.NumberOfComments, retrievedFlier.NumberOfComments);
             Assert.AreEqual(storedFlier.NumberOfClaims, retrievedFlier.NumberOfClaims);
             Assert.AreEqual(storedFlier.ImageList.Count, retrievedFlier.ImageList.Count);

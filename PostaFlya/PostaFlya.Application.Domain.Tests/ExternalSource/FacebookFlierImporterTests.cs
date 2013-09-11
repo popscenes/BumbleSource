@@ -147,7 +147,6 @@ namespace PostaFlya.Application.Domain.Tests.ExternalSource
             Assert.AreEqual(fliersList[0].ExternalSource, IdentityProviders.FACEBOOK);
             Assert.AreEqual(fliersList[0].Title, "Test Event 1");
             Assert.AreEqual(fliersList[0].Description, "this is a test event yo");
-            Assert.AreEqual(fliersList[0].EffectiveDate.ToString("yyyy-MM-dd"), DateTime.Today.AddDays(2).ToString("yyyy-MM-dd"));
             Assert.AreEqual(fliersList[0].Status, FlierStatus.Pending);
             Assert.IsTrue(fliersList[0].Image.HasValue);
         }

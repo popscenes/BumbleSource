@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
 using Ninject;
-using PostaFlya.DataRepository.Search.Query;
+using PostaFlya.DataRepository.DomainQuery.Flyer;
 using PostaFlya.Domain.Boards;
 using PostaFlya.Domain.Boards.Query;
 using PostaFlya.Domain.Flier.Query;
@@ -100,7 +100,7 @@ namespace PostaFlya.DataRepository.Tests
             Assert.That(queryService, Is.InstanceOf<JsonRepository>());
         }
 
-        private static Location _loc = new Location(55,55);
+        private static Suburb _loc = new Suburb(){Longitude = 55, Latitude = 55};
 
         [Test]
         public void StoreFlierRepositoryTest()
@@ -594,7 +594,6 @@ namespace PostaFlya.DataRepository.Tests
             var expiresLaterFlier = new Domain.Flier.Flier();
             expiresLaterFlier.CopyFieldsFrom(flier);
             expiresLaterFlier.CreateDate = earlierFlier.CreateDate.AddDays(-5);
-            expiresLaterFlier.EffectiveDate = earlierFlier.EffectiveDate.AddDays(20);
             expiresLaterFlier.Id = Guid.NewGuid().ToString();
             expiresLaterFlier.NumberOfClaims = 2;
             FlierTestData.StoreOne(expiresLaterFlier, _repository, Kernel);

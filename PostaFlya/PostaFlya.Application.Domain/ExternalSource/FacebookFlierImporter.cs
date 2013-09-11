@@ -91,7 +91,7 @@ namespace PostaFlya.Application.Domain.ExternalSource
                 ExternalId = fbEvent.id,
                 ExternalSource = IdentityProviders.FACEBOOK,
                 Status = FlierStatus.Pending,
-                EffectiveDate = fbEvent.start_time,
+                EventDates = new List<DateTimeOffset>(){fbEvent.start_time},
                 BrowserId = browser.Id,
                 Title = fbEvent.name,
                 Description = fbEvent.description,

@@ -88,7 +88,7 @@ namespace PostaFlya.DataRepository.Search.Implementation
             return list.ToList();
         }
 
-        public IList<string> FindFliersByLocationAndDistance(Location location, int distance, int take, FlierInterface skipPast = null, Tags tags = null, DateTime? date = null, FlierSortOrder sortOrder = FlierSortOrder.SortOrder)
+        public IList<string> FindFliersByLocationAndDistance(LocationInterface location, int distance, int take, FlierInterface skipPast = null, Tags tags = null, DateTime? date = null, FlierSortOrder sortOrder = FlierSortOrder.SortOrder)
         {                
             var sqlCmd = _searchString;
 
@@ -107,7 +107,7 @@ namespace PostaFlya.DataRepository.Search.Implementation
                                  ? null
                                  : _queryChannel.Query(new GetFlyerVenueBoardQuery() { FlyerId = skipPast.Id }, (Board)null);
 
-            var hasLocation = location != null && location.IsValid;
+            var hasLocation = location != null && location.IsValid();
             var sortSkip = skipPast == null ? (long?)null : skipPast.ToSearchRecords(venueBoard).First().SortOrder;
             var sortSkipByEventDate = (skipPast == null || date == null)
                                           ? null
