@@ -121,7 +121,7 @@ namespace Website.Application.Azure.Tests.ServiceBus
         public void GetSubscriptionNamesFromAssembly()
         {
             var azureSubscriptionUtils = new AzureSubscriptionUtils();
-            List<AzureSubscriptionDetails> subdetails = azureSubscriptionUtils.GetHandlerSubscriptionsFromAssembly(Assembly.GetAssembly(typeof(TestEvent)));
+            List<SubscriptionDetails> subdetails = azureSubscriptionUtils.GetHandlerSubscriptionsFromAssembly(Assembly.GetAssembly(typeof(TestEvent)));
 
             Assert.AreEqual(subdetails.Count, 3);
 
@@ -142,7 +142,7 @@ namespace Website.Application.Azure.Tests.ServiceBus
             var subscriptionFactory = Kernel.Get<AzureEventSubscriptionProcessorFactory>();
 
             var azureSubscriptionUtils = new AzureSubscriptionUtils();
-            List<AzureSubscriptionDetails> subdetails = azureSubscriptionUtils.GetHandlerSubscriptionsFromAssembly(Assembly.GetAssembly(typeof(TestEvent)));
+            List<SubscriptionDetails> subdetails = azureSubscriptionUtils.GetHandlerSubscriptionsFromAssembly(Assembly.GetAssembly(typeof(TestEvent)));
             var subscriptionProcessor = subscriptionFactory.GetSubscriptionProcessor(subdetails[0]);
 
             //atm just check we return a subscriptionprocessor
@@ -156,7 +156,7 @@ namespace Website.Application.Azure.Tests.ServiceBus
         }
     }
 
-    public class AzureSubscriptionDetails
+    public class SubscriptionDetails
     {
         public String Topic { get; set; }
         public String Subscription { get; set; }
@@ -165,11 +165,11 @@ namespace Website.Application.Azure.Tests.ServiceBus
 
     public class AzureSubscriptionUtils
     {
-        public List<AzureSubscriptionDetails> GetHandlerSubscriptionsFromAssembly(Assembly assembly)
+        public List<SubscriptionDetails> GetHandlerSubscriptionsFromAssembly(Assembly assembly)
         {
             var eventInterface = typeof(EventInterface);
             var eventsTypes = TypeUtil.GetAllSubTypesFrom(eventInterface, assembly);
-            var listOfSubs = new List<AzureSubscriptionDetails>();
+            var listOfSubs = new List<SubscriptionDetails>();
 
             foreach (var type in eventsTypes)
             {
@@ -181,14 +181,14 @@ namespace Website.Application.Azure.Tests.ServiceBus
                             dt.ImplementedInterfaces.Any(_ => _.NameLike(typeof(HandleEventInterface<>).Name) && _.GenericTypeArguments.Any(gt => gt.NameLike(type.Name))));
 
 
-                    listOfSubs.AddRange(handlers.Select(handler => new AzureSubscriptionDetails() { Topic = type.Name.Replace("Event", "").Replace("`1", ""), Subscription = handler.Name.Replace("`1", ""), HandlerType = handler}));
+                    listOfSubs.AddRange(handlers.Select(handler => new SubscriptionDetails() { Topic = type.Name.Replace("Event", "").Replace("`1", ""), Subscription = handler.Name.Replace("`1", ""), HandlerType = handler}));
                     continue;
                 }
 
 
                 Type handlerType = typeof(HandleEventInterface<>).MakeGenericType(type);
                 var handlerTypes = TypeUtil.GetExpandedImplementorsUsing(handlerType, assembly);
-                listOfSubs.AddRange(handlerTypes.Select(handler => new AzureSubscriptionDetails() { Topic = type.Name.Replace("Event", ""), Subscription = handler.Name.Replace("`1", ""), HandlerType = handler }));
+                listOfSubs.AddRange(handlerTypes.Select(handler => new SubscriptionDetails() { Topic = type.Name.Replace("Event", ""), Subscription = handler.Name.Replace("`1", ""), HandlerType = handler }));
             }
 
             return listOfSubs;
@@ -315,12 +315,12 @@ namespace Website.Application.Azure.Tests.ServiceBus
             _resolver = resolver;
         }
 
-        public AzureEventSubscriptionProcessor GetSubscriptionProcessor(AzureSubscriptionDetails subscriptionDetails)
+        public AzureEventSubscriptionProcessor GetSubscriptionProcessor(SubscriptionDetails subscriptionDetails)
         {
 
             var messageSerializer = GetSerializerForEndpoint(subscriptionDetails.Topic);
             var handler = _resolver.Get(subscriptionDetails.HandlerType) as HandleEventInterface;
-            var subscriptionReciever = _recieverFactory.GetSubscriptionReciever(subscriptionDetails.Subscription);
+            var subscriptionReciever = _recieverFactory.GetSubscriptionReciever(subscriptionDetails);
 
             var azureEventSubscriptionProcessor = new AzureEventSubscriptionProcessor(subscriptionReciever, handler, messageSerializer);
             return azureEventSubscriptionProcessor;
@@ -336,19 +336,71 @@ namespace Website.Application.Azure.Tests.ServiceBus
 
     public class AzureEventSubscriptionRecieverFactory : EventSubscriptionRecieverFactory
     {
-        public SubscriptionReciever GetSubscriptionReciever(string subscription)
+        private readonly NamespaceManager _namespaceManager;
+        private readonly MessagingFactory _messagingFactory;
+
+        public AzureEventSubscriptionRecieverFactory(NamespaceManager namespaceManager, MessagingFactory messagingFactory)
         {
-            throw new NotImplementedException();
+            _namespaceManager = namespaceManager;
+            _messagingFactory = messagingFactory;
+        }
+
+
+        public SubscriptionReciever GetSubscriptionReciever(SubscriptionDetails subscriptionDetails)
+        {
+            if (!_namespaceManager.SubscriptionExists(subscriptionDetails.Topic, subscriptionDetails.Subscription))
+                _namespaceManager.CreateSubscription(subscriptionDetails.Topic, subscriptionDetails.Subscription, new TrueFilter());
+
+            var subscriptionClient = _messagingFactory.CreateSubscriptionClient(subscriptionDetails.Topic, subscriptionDetails.Subscription, ReceiveMode.PeekLock);
+            var subscriptionRecieer = new AzureEventSubscriptionReciever(subscriptionClient);
+
+            return subscriptionRecieer;
         }
     }
 
-    public interface SubscriptionReciever
+    public class AzureEventSubscriptionReciever : SubscriptionReciever
+    {
+        private readonly SubscriptionClient _subscriptionClient;
+
+        public AzureEventSubscriptionReciever(SubscriptionClient subscriptionClient)
+        {
+            _subscriptionClient = subscriptionClient;
+        }
+
+        public QueueMessageInterface GetMessage()
+        {
+            var receivedMessage = _subscriptionClient.Receive(new TimeSpan(0, 0, 10));
+            return receivedMessage == null ? null : new ServiceBusQueueMessage(receivedMessage);
+        }
+
+        public QueueMessageInterface GetMessage(TimeSpan invisibilityTimeOut)
+        {
+            var receivedMessage = _subscriptionClient.Receive(invisibilityTimeOut);
+            return receivedMessage == null ? null : new ServiceBusQueueMessage(receivedMessage);
+        }
+
+        public void DeleteMessage(QueueMessageInterface message)
+        {
+            var azureMsg = message as ServiceBusQueueMessage;
+            if (azureMsg == null) return;
+            azureMsg.Message.Complete();
+        }
+
+        public void ReturnMessage(QueueMessageInterface message)
+        {
+            var azureMsg = message as ServiceBusQueueMessage;
+            if (azureMsg == null) return;
+            azureMsg.Message.Abandon();
+        }
+    }
+
+    public interface SubscriptionReciever : QueueReceiverInterface
     {
     }
 
     public interface EventSubscriptionRecieverFactory
     {
-        SubscriptionReciever GetSubscriptionReciever(string subscription);
+        SubscriptionReciever GetSubscriptionReciever(SubscriptionDetails subscriptionDetails);
     }
 
     public class AzureEventSubscriptionProcessor : EventSubscriptionProcessorInterface
@@ -472,6 +524,4 @@ namespace Website.Application.Azure.Tests.ServiceBus
     {
         object Send<EventType>(EventType @event) where EventType : class, EventInterface;
     }
-
-
 }
