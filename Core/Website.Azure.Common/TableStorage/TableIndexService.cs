@@ -17,37 +17,44 @@ namespace Website.Azure.Common.TableStorage
 
     public interface TableIndexServiceInterface
     {
-        List<StorageType> FindEntitiesByIndex<EntityType, StorageType>(string indexName, string indexValue, bool encodeValue = true, int take = -1)
+        List<StorageType> FindEntitiesByIndex<EntityType, StorageType>(Index<EntityType> index, string indexValue, bool encodeValue = true, int take = -1)
             where StorageType : StorageTableKeyInterface;
 
-        List<StorageType> FindEntitiesByIndexPrefix<EntityType, StorageType>(string indexName, IEnumerable<string> keyparts, bool encodeValue = true, int take = -1)
-    where StorageType : StorageTableKeyInterface;
+        List<StorageType> FindEntitiesByIndexPrefix<EntityType, StorageType>(Index<EntityType> index, IEnumerable<string> keyparts, bool encodeValue = true, int take = -1)
+            where StorageType : StorageTableKeyInterface;
 
-        List<StorageType> FindEntitiesByIndexRange<EntityType, StorageType>(string indexName, string keymin, string keymax, bool encodeValue = true, int take = -1)
-    where StorageType : StorageTableKeyInterface;
+        List<StorageType> FindEntitiesByIndexRange<EntityType, StorageType>(Index<EntityType> index, string keymin, string keymax, bool encodeValue = true, int take = -1)
+            where StorageType : StorageTableKeyInterface;
 
-        List<StorageType> FindEntitiesByIndexRange<EntityType, StorageType>(string indexName, string keymin, string keymax, string rowkeymin, string rowkeymax, bool encodeValue = true, int take = -1)
-where StorageType : StorageTableKeyInterface;
+        List<StorageType> FindEntitiesByIndexRange<EntityType, StorageType>(Index<EntityType> index, string keymin, string keymax, string rowkeymin, string rowkeymax, bool encodeValue = true, int take = -1)
+            where StorageType : StorageTableKeyInterface;
 
         void UpdateEntityIndexes<EntityType>(EntityType entity, bool deleteOnly = false) where EntityType : EntityIdInterface;
     }
 
-    public static class StandardIndexSelectors
+    public class FriendlyIdIndexDefinition<EntityIndexType> : IndexDefinition<EntityIndexType, EntityIndexType> 
+        where EntityIndexType : class, EntityIdInterface
     {
-        public const string FriendlyIdIndex = "FriendlyId";
-
-        public static Expression<Func<QueryChannelInterface, EntityInterfaceType, IEnumerable<StorageTableKeyInterface>>>
-            FriendlyIdSelector<EntityInterfaceType>() where EntityInterfaceType : AggregateRootInterface
+        public override Expression<Func<QueryChannelInterface, EntityIndexType, IEnumerable<StorageTableKeyInterface>>> Definition
         {
-            Expression<Func<QueryChannelInterface, EntityInterfaceType, IEnumerable<StorageTableKeyInterface>>> indexEntryFactory = (qc, root) => new List<StorageTableKeyInterface>()
-                {
-                    new StorageTableKey()
+            get
+            {
+                Expression<Func<QueryChannelInterface, EntityIndexType, IEnumerable<StorageTableKeyInterface>>>
+                    indexEntryFactory = (qc, root) => new List<StorageTableKeyInterface>()
                         {
-                            PartitionKey = root.FriendlyId.ToStorageKeySection(),
-                            RowKey = root.Id.ToStorageKeySection()
-                        }
-                };
-            return indexEntryFactory;
+                            new StorageTableKey()
+                                {
+                                    PartitionKey = root.FriendlyId.ToStorageKeySection(),
+                                    RowKey = root.Id.ToStorageKeySection()
+                                }
+                        };
+                return indexEntryFactory;
+            }
+        }
+
+        public override string IndexName
+        {
+            get { return "FriendlyId"; }
         }
     }
 
@@ -65,28 +72,28 @@ where StorageType : StorageTableKeyInterface;
             _queryChannel = queryChannel;
         }
 
-        public List<StorageType> FindEntitiesByIndex<EntityType, StorageType>(string indexName, string indexValue, bool encodeValue = true, int take = -1)
+        public List<StorageType> FindEntitiesByIndex<EntityType, StorageType>(Index<EntityType> index, string indexValue, bool encodeValue = true, int take = -1)
             where StorageType : StorageTableKeyInterface
         {
-            var tableName = _indexProviderService.GetTableNameForIndex<EntityType>(indexName);
+            var tableName = _indexProviderService.GetTableNameForIndex<EntityType>(index.IndexName);
             var valuePart = encodeValue ? indexValue.ToStorageKeySection() : indexValue;
 
             var ret = _tableContext.PerformQuery<StorageType>(tableName
                 , storage =>
                     storage.PartitionKey ==
-                    (indexName.ToStorageKeySection() + valuePart));
+                    (index.IndexName.ToStorageKeySection() + valuePart));
             return ret.ToList();
         }
 
-        public List<StorageType> FindEntitiesByIndexPrefix<EntityType, StorageType>(string indexName, IEnumerable<string> keyparts, bool encodeValue = true, int take = -1) where StorageType : StorageTableKeyInterface
+        public List<StorageType> FindEntitiesByIndexPrefix<EntityType, StorageType>(Index<EntityType> index, IEnumerable<string> keyparts, bool encodeValue = true, int take = -1) where StorageType : StorageTableKeyInterface
         {
-            var tableName = _indexProviderService.GetTableNameForIndex<EntityType>(indexName);
+            var tableName = _indexProviderService.GetTableNameForIndex<EntityType>(index.IndexName);
 
             var res = new ConcurrentQueue<StorageType>();
             Parallel.ForEach(keyparts, keypart =>
                 {
                     var val = encodeValue ? keypart.ToStorageKeySection() : keypart;
-                    var lowerKey = (indexName.ToStorageKeySection() + val.TrimEnd(']'));
+                    var lowerKey = (index.IndexName.ToStorageKeySection() + val.TrimEnd(']'));
 
                     var upperKey = lowerKey.GetEndValueForStartsWith();
 
@@ -107,12 +114,11 @@ where StorageType : StorageTableKeyInterface;
             return best.ToList();
         }
 
-        public List<StorageType> FindEntitiesByIndexRange<EntityType, StorageType>(string indexName, string keymin, string keymax,
-                                                                      bool encodeValue = true, int take = -1) where StorageType : StorageTableKeyInterface
+        public List<StorageType> FindEntitiesByIndexRange<EntityType, StorageType>(Index<EntityType> index, string keymin, string keymax, bool encodeValue = true, int take = -1) where StorageType : StorageTableKeyInterface
         {
-            var tableName = _indexProviderService.GetTableNameForIndex<EntityType>(indexName);
-            var lowerKey = indexName.ToStorageKeySection() + (encodeValue ? keymin.ToStorageKeySection() : keymin);
-            var highKey = indexName.ToStorageKeySection() + (encodeValue ? keymax.ToStorageKeySection() : keymax);
+            var tableName = _indexProviderService.GetTableNameForIndex<EntityType>(index.IndexName);
+            var lowerKey = index.IndexName.ToStorageKeySection() + (encodeValue ? keymin.ToStorageKeySection() : keymin);
+            var highKey = index.IndexName.ToStorageKeySection() + (encodeValue ? keymax.ToStorageKeySection() : keymax);
 
 
             var ret = _tableContext.PerformQuery<StorageType>(tableName
@@ -123,12 +129,11 @@ where StorageType : StorageTableKeyInterface;
             return ret.ToList();
         }
 
-        public List<StorageType> FindEntitiesByIndexRange<EntityType, StorageType>(string indexName, string keymin, string keymax, string rowkeymin,
-                                                                      string rowkeymax, bool encodeValue = true, int take = -1) where StorageType : StorageTableKeyInterface
+        public List<StorageType> FindEntitiesByIndexRange<EntityType, StorageType>(Index<EntityType> index, string keymin, string keymax, string rowkeymin, string rowkeymax, bool encodeValue = true, int take = -1) where StorageType : StorageTableKeyInterface
         {
-            var tableName = _indexProviderService.GetTableNameForIndex<EntityType>(indexName);
-            var lowerKey = indexName.ToStorageKeySection() + (encodeValue ? keymin.ToStorageKeySection() : keymin);
-            var highKey = indexName.ToStorageKeySection() + (encodeValue ? keymax.ToStorageKeySection() : keymax);
+            var tableName = _indexProviderService.GetTableNameForIndex<EntityType>(index.IndexName);
+            var lowerKey = index.IndexName.ToStorageKeySection() + (encodeValue ? keymin.ToStorageKeySection() : keymin);
+            var highKey = index.IndexName.ToStorageKeySection() + (encodeValue ? keymax.ToStorageKeySection() : keymax);
 
             var lowerRowKey = (encodeValue ? rowkeymin.ToStorageKeySection() : rowkeymin);
             var highRowKey = (encodeValue ? rowkeymax.ToStorageKeySection() : rowkeymax);

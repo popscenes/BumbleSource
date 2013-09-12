@@ -97,17 +97,17 @@ namespace Website.Azure.Common.TableStorage
             InsertEntry(_entries, entry);
         }
 
-        public void AddIndex<EntityQueryType, EntityIndexType>(string tableName, string indexname, Expression<Func<QueryChannelInterface, EntityIndexType, IEnumerable<StorageTableKeyInterface>>> indexEntryFactory)
+        public void AddIndex<EntityQueryType, EntityIndexType>(string tableName, IndexDefinition<EntityQueryType, EntityIndexType> definition)
                 where EntityIndexType : class, EntityQueryType
         {
 
             var entry = new IndexEntry<EntityIndexType>()
                 {
-                    EntityInsertTyp = typeof(EntityIndexType),
-                    EntityQueryTyp = typeof(EntityQueryType),
-                    IndexEntryFactoryTyp = indexEntryFactory.Compile(),
+                    EntityInsertTyp = definition.TypeForIndex,
+                    EntityQueryTyp = definition.TypeForQuery,
+                    IndexEntryFactoryTyp = definition.Definition.Compile(),
                     TableName = tableName,
-                    IndexName = indexname
+                    IndexName = definition.IndexName
                 };
             entry.IndexEntryFactory = (qc, o) => entry.IndexEntryFactoryTyp(qc, o as EntityIndexType);
             InsertEntry(_indexEntries, entry);

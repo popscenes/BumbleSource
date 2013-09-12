@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using PostaFlya.DataRepository.Binding;
+using PostaFlya.DataRepository.Indexes;
 using Website.Application.Domain.TinyUrl.Query;
 using Website.Azure.Common.TableStorage;
 using Website.Domain.TinyUrl;
@@ -19,7 +20,7 @@ namespace PostaFlya.DataRepository.DomainQuery
 
         public EntityWithTinyUrlInterface Query(FindByTinyUrlQuery argument)
         {
-            var entries = _indexService.FindEntitiesByIndex<EntityWithTinyUrlInterface, JsonTableEntry>(DomainIndexSelectors.TinyUrlIndex,
+            var entries = _indexService.FindEntitiesByIndex<EntityWithTinyUrlInterface, JsonTableEntry>(new TinyUrlIndex<EntityWithTinyUrlInterface>(), 
                                                                                              argument.Url);
             var entry = entries.FirstOrDefault();
             if (entry == null)

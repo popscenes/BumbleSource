@@ -40,7 +40,7 @@ namespace Website.Azure.Common.Tests.TableStorage
 
             var tableNameAndPartitionProviderService = Kernel.Get<TableNameAndIndexProviderServiceInterface>();
             tableNameAndPartitionProviderService.Add<OneEntity>("testOneEntity", entity => entity.Prop);
-            tableNameAndPartitionProviderService.AddIndex("testOneIndex", StandardIndexSelectors.FriendlyIdIndex, StandardIndexSelectors.FriendlyIdSelector<OneEntity>());
+            tableNameAndPartitionProviderService.AddIndex("testOneIndex", new FriendlyIdIndexDefinition<OneEntity>());
 
             var context = Kernel.Get<TableContextInterface>();
 

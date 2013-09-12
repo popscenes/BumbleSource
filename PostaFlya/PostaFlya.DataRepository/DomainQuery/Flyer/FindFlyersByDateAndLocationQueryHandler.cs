@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using PostaFlya.DataRepository.Binding;
+using PostaFlya.DataRepository.Indexes;
 using PostaFlya.DataRepository.Search.SearchRecord;
 using PostaFlya.Domain.Flier;
 using PostaFlya.Domain.Flier.Query;
@@ -54,7 +55,7 @@ namespace PostaFlya.DataRepository.DomainQuery.Flyer
             var low = argument.Location.Id.ToStorageKeySection() + startDate.GetTimestampAscending().ToStorageKeySection();
             var high = argument.Location.Id.ToStorageKeySection() + endDate.GetTimestampAscending().ToStorageKeySection();
             var flyers = _indexService.FindEntitiesByIndexRange<FlierInterface, JsonTableEntry>(
-                DomainIndexSelectors.FlyerSuburbSearchIndex
+                new FlyerSuburbIndex()
                 , low
                 , high
                 , encodeValue: false);

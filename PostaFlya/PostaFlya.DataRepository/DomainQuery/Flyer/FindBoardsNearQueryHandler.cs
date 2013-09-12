@@ -2,7 +2,9 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
 using PostaFlya.DataRepository.Binding;
+using PostaFlya.DataRepository.Indexes;
 using PostaFlya.DataRepository.Search.SearchRecord;
+using PostaFlya.Domain.Boards;
 using PostaFlya.Domain.Boards.Query;
 using PostaFlya.Domain.Flier;
 using Website.Azure.Common.Sql;
@@ -44,8 +46,8 @@ namespace PostaFlya.DataRepository.DomainQuery.Flyer
             if (string.IsNullOrWhiteSpace(argument.Location.Id)) return null;
 
             var low = argument.Location.Id;
-            var boards = _indexService.FindEntitiesByIndex<FlierInterface, JsonTableEntry>(
-                DomainIndexSelectors.BoardSuburbSearchIndex
+            var boards = _indexService.FindEntitiesByIndex<BoardInterface, JsonTableEntry>(
+                new BoardSuburbIndex()
                 , low);
 
             var point = origCoords.ToGeography();

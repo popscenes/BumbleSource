@@ -23,7 +23,7 @@ namespace PostaFlya.DataRepository.DomainQuery
 
         public EntityType Query(FindByFriendlyIdQuery<EntityType> argument)
         {
-            var entries = _indexService.FindEntitiesByIndex<EntityType, StorageTableKey>(StandardIndexSelectors.FriendlyIdIndex,
+            var entries = _indexService.FindEntitiesByIndex<EntityType, StorageTableKey>(new FriendlyIdIndexDefinition<EntityType>(),
                                                                argument.FriendlyId);
             return !entries.Any() ? default(EntityType) : _queryService.FindById<EntityType>(entries.First().RowKey.ExtractEntityIdFromRowKey());
         }

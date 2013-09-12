@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using PostaFlya.DataRepository.Binding;
+using PostaFlya.DataRepository.Indexes;
 using Website.Azure.Common.TableStorage;
 using Website.Domain.Query;
 using Website.Infrastructure.Domain;
@@ -24,7 +25,7 @@ namespace PostaFlya.DataRepository.DomainQuery
         public List<SearchEntityRecord> Query(AutoCompleteByTermsQuery argument)
         {
             var prefix = argument.Terms;
-            var entries = _indexService.FindEntitiesByIndexPrefix<EntityInterface, JsonTableEntry>(DomainIndexSelectors.TextSearchIndex, prefix);
+            var entries = _indexService.FindEntitiesByIndexPrefix<EntityInterface, JsonTableEntry>(new TextSearchIndex(), prefix);
             var ret = entries
                 .Select(e => e.GetEntity<SearchEntityRecord>())
                 .ToList();

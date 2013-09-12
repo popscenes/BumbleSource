@@ -10,14 +10,20 @@ namespace Website.Azure.Common.TableStorage
                  
     }
 
-    public static class TableNameAndIndexProviderServiceInterfaceExtensions
+    public abstract class Index<EntityQueryType>
     {
-        public static void AddIndex<EntityIndexType>(this TableNameAndIndexProviderServiceInterface tip, string tableName, string indexname, Expression<Func<QueryChannelInterface, EntityIndexType, IEnumerable<StorageTableKeyInterface>>> indexEntryFactory)
-            where EntityIndexType : class
-        {
-            tip.AddIndex<EntityIndexType, EntityIndexType>(tableName, indexname, indexEntryFactory);
-        }
+        public abstract string IndexName { get; }
+        public Type TypeForQuery { get { return typeof(EntityQueryType); } }
     }
+
+    public abstract class IndexDefinition<EntityQueryType, EntityIndexType>
+        : Index<EntityQueryType>
+     where EntityIndexType : class, EntityQueryType
+    {
+        public abstract Expression<Func<QueryChannelInterface, EntityIndexType, IEnumerable<StorageTableKeyInterface>>> Definition { get; }
+        public Type TypeForIndex { get { return typeof(EntityIndexType); } }
+    }
+
 
     public interface TableNameAndIndexProviderServiceInterface
     {
@@ -33,7 +39,7 @@ namespace Website.Azure.Common.TableStorage
         /// they can't be located when being updated
         /// ideally row key should just be [entityId]
         /// </summary>
-        void AddIndex<EntityQueryType, EntityIndexType>(string tableName, string indexname, Expression<Func<QueryChannelInterface, EntityIndexType, IEnumerable<StorageTableKeyInterface>>> indexEntryFactory)
+        void AddIndex<EntityQueryType, EntityIndexType>(string tableName, IndexDefinition<EntityQueryType, EntityIndexType> definition)
                 where EntityIndexType : class, EntityQueryType;
 
         Func<object, string> GetPartitionKeyFunc<EntityType>();

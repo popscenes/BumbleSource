@@ -1,5 +1,6 @@
 using System.Linq;
 using PostaFlya.DataRepository.Binding;
+using PostaFlya.DataRepository.Indexes;
 using Website.Azure.Common.TableStorage;
 using Website.Domain.Browser.Query;
 using Website.Infrastructure.Query;
@@ -20,8 +21,8 @@ namespace PostaFlya.DataRepository.DomainQuery.Browser
 
         public BrowserType Query(FindBrowserByIdentityProviderQuery argument)
         {
-            var rec = _indexService.FindEntitiesByIndex<Domain.Browser.Browser, StorageTableKey>(
-                DomainIndexSelectors.BrowserCredentialIndex
+            var rec = _indexService.FindEntitiesByIndex<Website.Domain.Browser.BrowserInterface, StorageTableKey>(
+                new BrowserCredentialIndex() 
                 , argument.Credential.ToUniqueString()).SingleOrDefault();
 
             if (rec == null)

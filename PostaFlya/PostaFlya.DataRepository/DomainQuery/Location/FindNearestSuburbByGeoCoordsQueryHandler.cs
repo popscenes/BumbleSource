@@ -4,6 +4,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.SqlServer.Types;
 using PostaFlya.DataRepository.Binding;
+using PostaFlya.DataRepository.Indexes;
 using PostaFlya.DataRepository.Search.SearchRecord;
 using Website.Azure.Common.TableStorage;
 using Website.Domain.Location;
@@ -45,11 +46,11 @@ namespace PostaFlya.DataRepository.DomainQuery.Location
             var high = box.Max;
 
             var geos = _indexService.FindEntitiesByIndexRange<SuburbEntityInterface, JsonTableEntry>(
-                    DomainIndexSelectors.GeoSearchIndex
-                    , low.Longitude.ToGeoLongSearchKey()
-                    , high.Longitude.ToGeoLongSearchKey()
-                    , low.Latitude.ToGeoLatSearchKey()
-                    , high.Latitude.ToGeoLatSearchKey(), encodeValue: false);
+                    new SuburbGeoSearchIndex()
+                    , SuburbGeoSearchIndex.ToGeoLongSearchKey(low.Longitude)
+                    , SuburbGeoSearchIndex.ToGeoLongSearchKey(high.Longitude)
+                    , SuburbGeoSearchIndex.ToGeoLatSearchKey(low.Latitude)
+                    , SuburbGeoSearchIndex.ToGeoLatSearchKey(high.Latitude), encodeValue: false);
 
 
             var list = (from g in geos

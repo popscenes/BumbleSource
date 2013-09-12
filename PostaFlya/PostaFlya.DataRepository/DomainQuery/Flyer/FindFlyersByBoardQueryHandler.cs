@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using PostaFlya.DataRepository.Binding;
+using PostaFlya.DataRepository.Indexes;
 using PostaFlya.Domain.Flier;
 using PostaFlya.Domain.Flier.Query;
 using Website.Azure.Common.TableStorage;
@@ -33,7 +34,7 @@ namespace PostaFlya.DataRepository.DomainQuery.Flyer
             var low = argument.BoardId.ToStorageKeySection() + startDate.GetTimestampAscending().ToStorageKeySection();
             var high = argument.BoardId.ToStorageKeySection() + endDate.GetTimestampAscending().ToStorageKeySection();
             var flyers = _indexService.FindEntitiesByIndexRange<FlierInterface, JsonTableEntry>(
-                DomainIndexSelectors.FlyerBoardSearchIndex
+                new FlyerBoardsIndex()
                 , low
                 , high
                 , encodeValue: false);

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using PostaFlya.DataRepository.Binding;
+using PostaFlya.DataRepository.Indexes;
 using Website.Azure.Common.TableStorage;
 using Website.Domain.Browser;
 using Website.Domain.Browser.Query;
@@ -23,7 +24,7 @@ namespace PostaFlya.DataRepository.DomainQuery.Browser
 
         public List<EntityType> Query(GetByBrowserIdQuery<EntityType> argument)
         {
-            var entries = _indexService.FindEntitiesByIndex<EntityType, StorageTableKey>(DomainIndexSelectors.BrowserIdIndex,
+            var entries = _indexService.FindEntitiesByIndex<EntityType, StorageTableKey>(new BrowserIdForAggregateMemberIndex<EntityType>(),
                                                                                          argument.BrowserId);
             return _queryService.FindByAggregateIds<EntityType>(entries.Select(_ 
                                                                                => new AggregateIds()
