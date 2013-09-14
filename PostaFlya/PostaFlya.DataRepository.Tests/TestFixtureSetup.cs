@@ -4,6 +4,7 @@ using NUnit.Framework;
 using Ninject;
 using Ninject.MockingKernel.Moq;
 using Ninject.Modules;
+using PostaFlya.Domain.Binding;
 using Website.Application.Binding;
 using Website.Azure.Common.Environment;
 using Website.Azure.Common.TableStorage;
@@ -76,7 +77,8 @@ namespace PostaFlya.DataRepository.Tests
                       new PostaFlya.DataRepository.Binding.TableNameNinjectBinding(),
                       new PostaFlya.Domain.Binding.CommandNinjectBinding(),
                       new ApplicationNinjectBinding(),
-                      new ApplicationCommandHandlersNinjectBinding()
+                      new ApplicationCommandHandlersNinjectBinding(),
+                      new Website.Domain.Binding.CommandNinjectBinding(),
 
                   };
     }

@@ -20,13 +20,13 @@ namespace PostaFlya.DataRepository.Indexes
                                        .Select(bf => bf.BoardId)
                                        .Distinct()
                                        .SelectMany(b
-                                                   => flyer.EventDates.Distinct().Select(e =>
-                                                                                         new StorageTableKey()
-                                                                                             {
-                                                                                                 PartitionKey = b.ToStorageKeySection() + e.GetTimestampAscending().ToStorageKeySection(),
-                                                                                                 RowKey = flyer.Id.ToStorageKeySection()
-                                                                                             }
-                                                          ));
+                                         => flyer.EventDates.Distinct().Select(e =>
+                                            new StorageTableKey()
+                                                {
+                                                    PartitionKey = b.ToStorageKeySection() + e.GetTimestampAscending().ToStorageKeySection(),
+                                                    RowKey = flyer.Id.ToStorageKeySection()
+                                                }
+                                            ));
 
                 return indexEntryFactory;
             }

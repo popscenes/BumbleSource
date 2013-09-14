@@ -17,7 +17,6 @@ namespace Website.Azure.Common.TableStorage
 
     public interface StorageTableEntryInterface : StorageTableKeyInterface
     {
-        int PartitionClone { get; set; }
         bool KeyChanged { get; set; }
         void Init(object source);
         void UpdateEntry();

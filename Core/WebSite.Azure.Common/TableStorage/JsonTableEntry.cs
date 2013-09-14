@@ -9,8 +9,6 @@ namespace Website.Azure.Common.TableStorage
 
     public class JsonTableEntry : TableServiceEntity, StorageTableEntryInterface
     {
-        public int PartitionClone { get; set; }
-
         public bool KeyChanged { get; set; }
 
         public JsonTableEntry(object sourceObject)

@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Text;
+﻿using System.Net;
 using Microsoft.WindowsAzure.Storage.Table;
-using Ninject;
 using Ninject.Syntax;
-using Website.Azure.Common.TableStorage;
-using PostaFlya.DataRepository.Search.Implementation;
+//using PostaFlya.DataRepository.Search.Implementation;
 using Website.Infrastructure.Util;
 
 namespace PostaFlya.DataRepository.Binding
@@ -38,7 +32,7 @@ namespace PostaFlya.DataRepository.Binding
             ServicePointManager.Expect100Continue = false;
             ServicePointManager.UseNagleAlgorithm = false;
 
-            iocContainer.Get<SqlSeachDbInitializer>().Initialize();
+            //iocContainer.Get<SqlSeachDbInitializer>().Initialize();
 
         }
     }

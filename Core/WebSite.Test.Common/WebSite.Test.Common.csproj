@@ -141,6 +141,7 @@
     <Compile Include="HttpContextMock.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RepoCoreUtil.cs" />
+    <Compile Include="StoreGetUpdate.cs" />
     <Compile Include="TestKernel.cs" />
     <Compile Include="TestSerializingCache.cs" />
     <Compile Include="TestUtil.cs" />

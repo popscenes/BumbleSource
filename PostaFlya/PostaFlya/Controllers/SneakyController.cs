@@ -49,7 +49,7 @@ namespace PostaFlya.Controllers
 
         public ActionResult ReindexFlyers()
         {
-            _messageBus.Send(new ReindexFlyersCommand());
+//            _messageBus.Send(new ReindexFlyersCommand());
             return RedirectToAction("GigGuide", "Bulletin");
         }
 

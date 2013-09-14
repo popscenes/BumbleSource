@@ -19,7 +19,7 @@ namespace Website.Mocks.Domain.DomainQuery.Browser
 
         public List<EntityType> Query(GetByBrowserIdQuery<EntityType> argument)
         {
-            var all = _queryService.GetAllAggregateIds<EntityType>()
+            var all = _queryService.GetAllAggregateIds<EntityType>(null, 1000)
                 .Select(a => _queryService.FindByAggregate<EntityType>(a.Id, a.AggregateId));
             return all.Where(a => a.BrowserId == argument.BrowserId).ToList();
         }

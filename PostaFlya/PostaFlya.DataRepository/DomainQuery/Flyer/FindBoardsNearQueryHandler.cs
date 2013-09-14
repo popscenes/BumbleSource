@@ -17,15 +17,16 @@ namespace PostaFlya.DataRepository.DomainQuery.Flyer
 {
     public class FindBoardsNearQueryHandler : QueryHandlerInterface<FindBoardsNearQuery, List<string>>
     {
-        private readonly SqlConnection _connection;
+        //private readonly SqlConnection _connection;
         private readonly QueryChannelInterface _queryChannel;
         private readonly TableIndexServiceInterface _indexService;
 
-        public FindBoardsNearQueryHandler([SqlSearchConnectionString]string searchDbConnectionString, QueryChannelInterface queryChannel, TableIndexServiceInterface indexService)
+        public FindBoardsNearQueryHandler(//[SqlSearchConnectionString]string searchDbConnectionString, 
+            QueryChannelInterface queryChannel, TableIndexServiceInterface indexService)
         {
             _queryChannel = queryChannel;
             _indexService = indexService;
-            _connection = new SqlConnection(searchDbConnectionString);
+            //_connection = new SqlConnection(searchDbConnectionString);
         }
 
         private List<string> QueryIndex(FindBoardsNearQuery argument)
@@ -65,45 +66,45 @@ namespace PostaFlya.DataRepository.DomainQuery.Flyer
                 .ToList();
         }
 
-        private List<string> QuerySql(FindBoardsNearQuery argument)
-        {
-            const string sqlCmd = "FindNearbyBoards";
-            var location = argument.Location;
-
-            var shards = location.GetShardIdsFor(argument.WithinMetres).Cast<object>().ToArray();
-
-            var ret = SqlExecute.Query<BoardSearchRecordWithDistance>(sqlCmd,
-                _connection
-                , shards
-                , new
-                {
-                    loc = location != null && location.IsValid() ? location.ToGeography() : null,
-                    withinmetres = argument.WithinMetres
-                }
-                    , true
-                ).ToList();
-
-            //because of possible federation fan out above make sure we re-order
-            //may return more than take but can't avoid that nicely
-            var result = ret
-                .OrderBy(distance => distance.Metres)
-                .Select(sr => sr.Id.ToString())
-                .Distinct();
-
-            if (argument.Skip > 0)
-                result = result.Skip(argument.Skip);
-
-            if (argument.Take > 0)
-                result = result.Take(argument.Take);
-
-            return result.ToList();
-        }
+//        private List<string> QuerySql(FindBoardsNearQuery argument)
+//        {
+//            const string sqlCmd = "FindNearbyBoards";
+//            var location = argument.Location;
+//
+//            var shards = location.GetShardIdsFor(argument.WithinMetres).Cast<object>().ToArray();
+//
+//            var ret = SqlExecute.Query<BoardSearchRecordWithDistance>(sqlCmd,
+//                _connection
+//                , shards
+//                , new
+//                {
+//                    loc = location != null && location.IsValid() ? location.ToGeography() : null,
+//                    withinmetres = argument.WithinMetres
+//                }
+//                    , true
+//                ).ToList();
+//
+//            //because of possible federation fan out above make sure we re-order
+//            //may return more than take but can't avoid that nicely
+//            var result = ret
+//                .OrderBy(distance => distance.Metres)
+//                .Select(sr => sr.Id.ToString())
+//                .Distinct();
+//
+//            if (argument.Skip > 0)
+//                result = result.Skip(argument.Skip);
+//
+//            if (argument.Take > 0)
+//                result = result.Take(argument.Take);
+//
+//            return result.ToList();
+//        }
 
         public List<string> Query(FindBoardsNearQuery argument)
         {
 
-            return QuerySql(argument);
-            //return QueryIndex(argument);
+            //return QuerySql(argument);
+            return QueryIndex(argument);
 
         }
     }

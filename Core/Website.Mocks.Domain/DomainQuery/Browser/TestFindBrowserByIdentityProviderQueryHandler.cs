@@ -16,7 +16,7 @@ namespace Website.Mocks.Domain.DomainQuery.Browser
 
         public BrowserType Query(FindBrowserByIdentityProviderQuery argument)
         {
-            var all = _queryService.GetAllIds<BrowserType>().Select(_queryService.FindById<BrowserType>);
+            var all = _queryService.GetAllIds<BrowserType>(null, 1000).Select(_queryService.FindById<BrowserType>);
             return all.FirstOrDefault(a => a.ExternalCredentials.Any(e => e.ToUniqueString() == argument.Credential.ToUniqueString()));  
         }
     }

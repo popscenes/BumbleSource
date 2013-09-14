@@ -428,7 +428,7 @@
             
             </summary>
         </member>
-        <member name="M:PostaFlya.Controllers.BulletinApiController.Get(PostaFlya.Models.Flier.BulletinGetRequestModel)">
+        <member name="M:PostaFlya.Controllers.BulletinApiController.GetDetail(System.String,Website.Infrastructure.Query.QueryChannelInterface)">
             <summary>
             dgdgsdgdsfgg
             </summary>

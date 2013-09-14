@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -12,7 +13,7 @@ namespace Website.Test.Common
     public class TestSerializingCache : ObjectCache
     {
 
-        Dictionary<string, byte[]> _serializedCache = new Dictionary<string, byte[]>(); 
+        ConcurrentDictionary<string, byte[]> _serializedCache = new ConcurrentDictionary<string, byte[]>(); 
         private const string RegionKeyTemplate = "{0}:{1}";
 
         public TestSerializingCache()
@@ -96,7 +97,8 @@ namespace Website.Test.Common
             {
                 if (regionName == null)
                     regionName = "";
-                _serializedCache.Remove(GetKey(key, regionName));
+                byte[] val;
+                _serializedCache.TryRemove(GetKey(key, regionName), out val);
             }
 
             return null;

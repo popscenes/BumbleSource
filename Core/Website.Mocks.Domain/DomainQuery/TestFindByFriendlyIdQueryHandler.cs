@@ -17,7 +17,7 @@ namespace Website.Mocks.Domain.DomainQuery
 
         public EntityType Query(FindByFriendlyIdQuery<EntityType> argument)
         {
-            var all = _queryService.GetAllIds<EntityType>().Select(_queryService.FindById<EntityType>);
+            var all = _queryService.GetAllIds<EntityType>(null, 1000).Select(_queryService.FindById<EntityType>);
             return all.FirstOrDefault(a => a.FriendlyId == argument.FriendlyId);    
         }
     }

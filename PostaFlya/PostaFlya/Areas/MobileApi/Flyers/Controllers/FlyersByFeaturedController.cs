@@ -1,4 +1,5 @@
 ﻿using System.Web.Http;
+using System.Web.Http.Description;
 using PostaFlya.Areas.MobileApi.Flyers.Model;
 using PostaFlya.Domain.Flier.Query;
 using Website.Common.ApiInfrastructure.Controller;
@@ -7,6 +8,7 @@ using Website.Infrastructure.Query;
 
 namespace PostaFlya.Areas.MobileApi.Flyers.Controllers
 {
+    [ApiExplorerSettings(IgnoreApi = true)]
     public class FlyersByFeaturedController : ApiControllerBase
     {
         private readonly QueryChannelInterface _queryChannel;

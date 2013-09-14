@@ -28,7 +28,7 @@ namespace PostaFlya.Controllers
     {
         private readonly GenericQueryServiceInterface _queryService;
         private readonly BlobStorageInterface _blobStorage;
-        private readonly FlierSearchServiceInterface _flierSearchService;
+        //private readonly FlierSearchServiceInterface _flierSearchService;
         private readonly FlierWebAnalyticServiceInterface _webAnalyticService;
         private readonly TinyUrlServiceInterface _tinyUrlService;
         private readonly PostaFlyaBrowserInformationInterface _browserInformation;
@@ -37,13 +37,14 @@ namespace PostaFlya.Controllers
 
 
         public BulletinApiController(GenericQueryServiceInterface queryService,
-            [ImageStorage]BlobStorageInterface blobStorage, FlierSearchServiceInterface flierSearchService
+            [ImageStorage]BlobStorageInterface blobStorage
+            //, FlierSearchServiceInterface flierSearchService
             , FlierWebAnalyticServiceInterface webAnalyticService, TinyUrlServiceInterface tinyUrlService
             , PostaFlyaBrowserInformationInterface browserInformation, ConfigurationServiceInterface configurationService, QueryChannelInterface queryChannel)
         {
             _queryService = queryService;
             _blobStorage = blobStorage;
-            _flierSearchService = flierSearchService;
+           // _flierSearchService = flierSearchService;
             _webAnalyticService = webAnalyticService;
             _tinyUrlService = tinyUrlService;
             _browserInformation = browserInformation;
@@ -88,23 +89,23 @@ namespace PostaFlya.Controllers
         /// </summary>
         /// <param name="req">ytrydyr</param>
         /// <returns></returns>
-        public IList<BulletinFlierSummaryModel> Get([FromUri]BulletinGetRequestModel req)
-        {
-//            if (!loc.IsValid() && string.IsNullOrWhiteSpace(board))
-//                return GetDefaultFliers(count, skipPast, tags);
-
-            if (_browserInformation.LastSearchLocation == null)
-            {
-                _browserInformation.LastSearchLocation = new Suburb();
-            }
-            _browserInformation.LastSearchLocation.CopyFieldsFrom(req.Loc);
-
-            var sub = new Suburb();
-            sub.CopyFieldsFrom(req.Loc.ToDomainModel());
-            _webAnalyticService.SetLastSearchLocation(sub);
-            return GetFliers(_flierSearchService, _queryChannel, _queryService 
-                , req.Loc, req.Count, board: req.Board, skipPast: req.SkipPast, distance: req.Distance, tags: req.Tags, date: req.Date);
-        }
+//        public IList<BulletinFlierSummaryModel> Get([FromUri]BulletinGetRequestModel req)
+//        {
+////            if (!loc.IsValid() && string.IsNullOrWhiteSpace(board))
+////                return GetDefaultFliers(count, skipPast, tags);
+//
+//            if (_browserInformation.LastSearchLocation == null)
+//            {
+//                _browserInformation.LastSearchLocation = new Suburb();
+//            }
+//            _browserInformation.LastSearchLocation.CopyFieldsFrom(req.Loc);
+//
+//            var sub = new Suburb();
+//            sub.CopyFieldsFrom(req.Loc.ToDomainModel());
+//            _webAnalyticService.SetLastSearchLocation(sub);
+//            return GetFliers(_flierSearchService, _queryChannel, _queryService 
+//                , req.Loc, req.Count, board: req.Board, skipPast: req.SkipPast, distance: req.Distance, tags: req.Tags, date: req.Date);
+//        }
 
 //        private IList<BulletinFlierModel> GetDefaultFliers(int count, string skipPast, string tags)
 //        {
@@ -139,39 +140,39 @@ namespace PostaFlya.Controllers
 
 
 
-        [NonAction]
-        public static IList<BulletinFlierSummaryModel> GetFliers(FlierSearchServiceInterface flierSearchService
-            , QueryChannelInterface queryChannel 
-            , GenericQueryServiceInterface flierQueryService, LocationModel loc, 
-            int count, string board = "", string skipPast = null, int distance = 0, string tags = "", DateTime? date = null)
-        {
-            var locDomainModel = loc.ToDomainModel();
-            var tagsModel = new Tags(tags);
-            var skip = string.IsNullOrWhiteSpace(skipPast) ? null : flierQueryService.FindById<Flier>(skipPast);
-            if (!string.IsNullOrWhiteSpace(board))
-            {
-                var found = queryChannel.Query(new FindByFriendlyIdQuery<Board>() { FriendlyId = board }, (Board)null);
-                board = found != null ? found.Id : board;
-            }
-
-            //            location.Latitude = -37.7654897;
-            //            location.Longitude = 144.9770748;
-            distance = Math.Min(distance, 30);
-            count = Math.Min(count, 50);
-
-            var watch = new Stopwatch();
-            watch.Start();
-
-            var fliersIds = string.IsNullOrWhiteSpace(board) ?
-                flierSearchService.FindFliersByLocationAndDistance(locDomainModel, distance, count, skip , tagsModel, date) :
-                flierSearchService.FindFliersByBoard(board, count, skip, date, tagsModel, FlierSortOrder.SortOrder, locDomainModel, distance);
-
-
-            var fliers = flierQueryService.FindByIds<PostaFlya.Domain.Flier.Flier>(fliersIds);
-            var ret = queryChannel.ToViewModel<BulletinFlierSummaryModel, Flier>(fliers);
-            Trace.TraceInformation("Bulletin Get FindById time: {0}, numfliers {1}", watch.ElapsedMilliseconds, ret.Count());
-            return ret;
-        }
+//        [NonAction]
+//        public static IList<BulletinFlierSummaryModel> GetFliers(FlierSearchServiceInterface flierSearchService
+//            , QueryChannelInterface queryChannel 
+//            , GenericQueryServiceInterface flierQueryService, LocationModel loc, 
+//            int count, string board = "", string skipPast = null, int distance = 0, string tags = "", DateTime? date = null)
+//        {
+//            var locDomainModel = loc.ToDomainModel();
+//            var tagsModel = new Tags(tags);
+//            var skip = string.IsNullOrWhiteSpace(skipPast) ? null : flierQueryService.FindById<Flier>(skipPast);
+//            if (!string.IsNullOrWhiteSpace(board))
+//            {
+//                var found = queryChannel.Query(new FindByFriendlyIdQuery<Board>() { FriendlyId = board }, (Board)null);
+//                board = found != null ? found.Id : board;
+//            }
+//
+//            //            location.Latitude = -37.7654897;
+//            //            location.Longitude = 144.9770748;
+//            distance = Math.Min(distance, 30);
+//            count = Math.Min(count, 50);
+//
+//            var watch = new Stopwatch();
+//            watch.Start();
+//
+//            var fliersIds = string.IsNullOrWhiteSpace(board) ?
+//                flierSearchService.FindFliersByLocationAndDistance(locDomainModel, distance, count, skip , tagsModel, date) :
+//                flierSearchService.FindFliersByBoard(board, count, skip, date, tagsModel, FlierSortOrder.SortOrder, locDomainModel, distance);
+//
+//
+//            var fliers = flierQueryService.FindByIds<PostaFlya.Domain.Flier.Flier>(fliersIds);
+//            var ret = queryChannel.ToViewModel<BulletinFlierSummaryModel, Flier>(fliers);
+//            Trace.TraceInformation("Bulletin Get FindById time: {0}, numfliers {1}", watch.ElapsedMilliseconds, ret.Count());
+//            return ret;
+//        }
 
 
     }

@@ -16,7 +16,7 @@ namespace Website.Mocks.Domain.DomainQuery
 
         public EntityWithTinyUrlInterface Query(FindByTinyUrlQuery argument)
         {
-            var all = _queryService.GetAllIds<EntityKeyWithTinyUrl>().Select(_queryService.FindById<EntityKeyWithTinyUrl>);
+            var all = _queryService.GetAllIds<EntityKeyWithTinyUrl>(null, 1000).Select(_queryService.FindById<EntityKeyWithTinyUrl>);
             return all.FirstOrDefault(a => a.TinyUrl == argument.Url);    
 
         }

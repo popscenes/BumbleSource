@@ -122,7 +122,6 @@ namespace Website.Infrastructure.Caching.Command
         {
             var ent = entity as EntityIdInterface;
             this.InvalidateCachedData(ent.Id.GetCacheKeyFor(ent.GetType(), "Id"));
-            this.InvalidateCachedData("".GetCacheKeyFor(ent.GetType(), "AllIds"));
             var hasRoot = ent as AggregateInterface;
             if(hasRoot != null)
                 this.InvalidateCachedData(hasRoot.AggregateId.GetCacheKeyFor(ent.GetType(), "AggregateId"));

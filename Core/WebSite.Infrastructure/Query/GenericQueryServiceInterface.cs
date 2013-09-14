@@ -25,10 +25,10 @@ namespace Website.Infrastructure.Query
             where EntityRetType : class, AggregateInterface, new();
 
         //common sense only use these for small data sets
-        IQueryable<string> GetAllIds<EntityRetType>() where EntityRetType : class, AggregateRootInterface, new();
-        IQueryable<string> GetAllIds(Type type);
+        IQueryable<string> GetAllIds<EntityRetType>(string startingFromId, int take) where EntityRetType : class, AggregateRootInterface, new();
+        IQueryable<string> GetAllIds(Type type, string startingFromId, int take);
 
-        IQueryable<AggregateInterface> GetAllAggregateIds<EntityRetType>() where EntityRetType : class, AggregateInterface, new(); 
+        IQueryable<AggregateInterface> GetAllAggregateIds<EntityRetType>(AggregateInterface startingFrom, int take) where EntityRetType : class, AggregateInterface, new(); 
 
     }
 

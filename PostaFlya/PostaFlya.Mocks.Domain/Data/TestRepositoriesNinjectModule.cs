@@ -178,88 +178,88 @@ namespace PostaFlya.Mocks.Domain.Data
             //query by location
             var locationService = kernel.Get<LocationServiceInterface>();
 
-            var flierSearchService = kernel.GetMock<FlierSearchServiceInterface>();
-            
-            flierSearchService.Setup(o => o.FindFliersByLocationAndDistance(
-                It.IsAny<Location>(),
-                    It.IsAny<int>(), It.IsAny<int>(), It.IsAny<FlierInterface>(), It.IsAny<Tags>(),  It.IsAny<DateTime?>(), It.IsAny<FlierSortOrder>()))
-                .Returns<Location, int, int, FlierInterface, Tags, DateTime?, FlierSortOrder>(
-                    (l, d, c, skip, t, dt, s) =>
-                    {
-                        var boundingBox = d <= 0 ? locationService.GetDefaultBox(l) : 
-                            locationService.GetBoundingBox(l, d);
-
-                        var ret = store
-                            .Where(
-                                f =>
-                                    {
-                                        var queryService = kernel.Get<GenericQueryServiceInterface>();
-                                        var venuBoard = queryService.FindByIds<Board>(f.Boards.Select(b => b.BoardId))
-                                            .First(board => board.Venue() != null);
-                                        return
-                                            locationService.IsWithinBoundingBox(boundingBox, venuBoard.Venue().Address) &&
-                                            (t.Count == 0 || f.Tags.Union(t).Any()) &&
-                                            (dt == null || f.EventDates.Any(ed => ed == dt.Value));
-                                    }
-
-                             )
-                             .Select(f => f.Id);
-
-                        if (skip != null)
-                        {
-                            var skippast = 0;
-                            ret = ret.SkipWhile(s1 => s1 != skip.Id || skippast++ == 0);
-                                                        
-                        }
-
-                        return c > 0 ? ret.Take(c).ToList() : ret.ToList();
-                    }
-                );
-
-            flierSearchService.Setup(o => o.FindFliersByBoard(It.IsAny<string>(),
-                                                              It.IsAny<int>(), It.IsAny<FlierInterface>(), It.IsAny<DateTime?>(),
-                                                              It.IsAny<Tags>(), It.IsAny<FlierSortOrder>()
-                                                              , It.IsAny<Location>(), It.IsAny<int>()))
-                              .Returns<string, int, FlierInterface, DateTime?, Tags, FlierSortOrder, Location, int>(
-                                  (b, c, skip, dt, t, s, l, d) =>
-                                      {
-                                          var boundingBox = (l == null || !l.IsValid)
-                                                                ? null
-                                                                : (d <= 0
-                                                                       ? locationService.GetDefaultBox(l)
-                                                                       : locationService.GetBoundingBox(l, d));
-
-                                          var ret = store
-                                              .Where(
-                                                  f =>
-                                                      {
-                                                          var queryService = kernel.Get<GenericQueryServiceInterface>();
-                                                          var venuBoard = queryService.FindByIds<Board>(f.Boards.Select(brd => brd.BoardId))
-                                                                    .First(board => board.Venue() != null);
-                                                          return (boundingBox == null ||
-                                                                  locationService.IsWithinBoundingBox(boundingBox,
-                                                                                                      venuBoard.Venue().Address)) &&
-                                                                 (t.Count == 0 || f.Tags.Intersect(t).Any()) &&
-                                                                 (dt == null || f.EventDates.Any(ed => ed == dt.Value)) &&
-                                                                 (f.Boards.Any(
-                                                                     bf => bf.BoardId == b &&
-                                                                           bf.Status == BoardFlierStatus.Approved));
-                                                      }
-
-                                                            
-                                              )
-                                              .Select(f => f.Id);
-
-                                          if (skip != null)
-                                          {
-                                              var skippast = 0;
-                                              ret = ret.SkipWhile(s1 => s1 != skip.Id || skippast++ == 0);
-
-                                          }
-
-                                          return c > 0 ? ret.Take(c).ToList() : ret.ToList();
-                                      }
-                );
+//            var flierSearchService = kernel.GetMock<FlierSearchServiceInterface>();
+//            
+//            flierSearchService.Setup(o => o.FindFliersByLocationAndDistance(
+//                It.IsAny<Location>(),
+//                    It.IsAny<int>(), It.IsAny<int>(), It.IsAny<FlierInterface>(), It.IsAny<Tags>(),  It.IsAny<DateTime?>(), It.IsAny<FlierSortOrder>()))
+//                .Returns<Location, int, int, FlierInterface, Tags, DateTime?, FlierSortOrder>(
+//                    (l, d, c, skip, t, dt, s) =>
+//                    {
+//                        var boundingBox = d <= 0 ? locationService.GetDefaultBox(l) : 
+//                            locationService.GetBoundingBox(l, d);
+//
+//                        var ret = store
+//                            .Where(
+//                                f =>
+//                                    {
+//                                        var queryService = kernel.Get<GenericQueryServiceInterface>();
+//                                        var venuBoard = queryService.FindByIds<Board>(f.Boards.Select(b => b.BoardId))
+//                                            .First(board => board.Venue() != null);
+//                                        return
+//                                            locationService.IsWithinBoundingBox(boundingBox, venuBoard.Venue().Address) &&
+//                                            (t.Count == 0 || f.Tags.Union(t).Any()) &&
+//                                            (dt == null || f.EventDates.Any(ed => ed == dt.Value));
+//                                    }
+//
+//                             )
+//                             .Select(f => f.Id);
+//
+//                        if (skip != null)
+//                        {
+//                            var skippast = 0;
+//                            ret = ret.SkipWhile(s1 => s1 != skip.Id || skippast++ == 0);
+//                                                        
+//                        }
+//
+//                        return c > 0 ? ret.Take(c).ToList() : ret.ToList();
+//                    }
+//                );
+//
+//            flierSearchService.Setup(o => o.FindFliersByBoard(It.IsAny<string>(),
+//                                                              It.IsAny<int>(), It.IsAny<FlierInterface>(), It.IsAny<DateTime?>(),
+//                                                              It.IsAny<Tags>(), It.IsAny<FlierSortOrder>()
+//                                                              , It.IsAny<Location>(), It.IsAny<int>()))
+//                              .Returns<string, int, FlierInterface, DateTime?, Tags, FlierSortOrder, Location, int>(
+//                                  (b, c, skip, dt, t, s, l, d) =>
+//                                      {
+//                                          var boundingBox = (l == null || !l.IsValid)
+//                                                                ? null
+//                                                                : (d <= 0
+//                                                                       ? locationService.GetDefaultBox(l)
+//                                                                       : locationService.GetBoundingBox(l, d));
+//
+//                                          var ret = store
+//                                              .Where(
+//                                                  f =>
+//                                                      {
+//                                                          var queryService = kernel.Get<GenericQueryServiceInterface>();
+//                                                          var venuBoard = queryService.FindByIds<Board>(f.Boards.Select(brd => brd.BoardId))
+//                                                                    .First(board => board.Venue() != null);
+//                                                          return (boundingBox == null ||
+//                                                                  locationService.IsWithinBoundingBox(boundingBox,
+//                                                                                                      venuBoard.Venue().Address)) &&
+//                                                                 (t.Count == 0 || f.Tags.Intersect(t).Any()) &&
+//                                                                 (dt == null || f.EventDates.Any(ed => ed == dt.Value)) &&
+//                                                                 (f.Boards.Any(
+//                                                                     bf => bf.BoardId == b &&
+//                                                                           bf.Status == BoardFlierStatus.Approved));
+//                                                      }
+//
+//                                                            
+//                                              )
+//                                              .Select(f => f.Id);
+//
+//                                          if (skip != null)
+//                                          {
+//                                              var skippast = 0;
+//                                              ret = ret.SkipWhile(s1 => s1 != skip.Id || skippast++ == 0);
+//
+//                                          }
+//
+//                                          return c > 0 ? ret.Take(c).ToList() : ret.ToList();
+//                                      }
+//                );
 
             //test data
             FlierTestData.AddSomeDataToMockFlierStore(flierRepository.Object, kernel);

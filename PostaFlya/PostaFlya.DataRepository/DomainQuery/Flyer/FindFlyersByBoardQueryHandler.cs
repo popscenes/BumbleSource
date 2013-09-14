@@ -15,14 +15,17 @@ namespace PostaFlya.DataRepository.DomainQuery.Flyer
     public class FindFlyersByBoardQueryHandler : QueryHandlerInterface<FindFlyersByBoardQuery, List<Flier>>
     {
 
-        private readonly FlierSearchServiceInterface _searchService;
+        //private readonly FlierSearchServiceInterface _searchService;
         private readonly GenericQueryServiceInterface _queryService;
         private readonly TableIndexServiceInterface _indexService;
 
-        public FindFlyersByBoardQueryHandler(FlierSearchServiceInterface searchService, GenericQueryServiceInterface queryService)
+        public FindFlyersByBoardQueryHandler(//FlierSearchServiceInterface searchService, 
+            GenericQueryServiceInterface queryService
+            , TableIndexServiceInterface indexService)
         {
-            _searchService = searchService;
+            //_searchService = searchService;
             _queryService = queryService;
+            _indexService = indexService;
         }
 
 
@@ -41,29 +44,29 @@ namespace PostaFlya.DataRepository.DomainQuery.Flyer
 
             return _queryService
                 .FindByIds<Flier>(flyers
-                    .Select(f => f.RowKey.ExtractEntityIdFromRowKey()))
+                    .Select(f => f.RowKey.ExtractEntityIdFromRowKey()).Distinct())
                 .ToList();
         }
 
-        public List<Flier> FindFromSearchService(FindFlyersByBoardQuery argument)
-        {
-            var startDate = argument.Start.DateTime.Date;
-            var endDate = argument.End.DateTime.Date;
-            if (argument.Start.Offset == TimeSpan.Zero)
-            {
-                startDate = argument.Start.UtcDateTime.Date;
-                endDate = argument.End.UtcDateTime.Date;
-            }
-            var ids = _searchService.FindFlyersByBoard(argument.BoardId, startDate,
-                                                       endDate);
-
-            return _queryService.FindByIds<Flier>(ids).ToList();
-        }
+//        private List<Flier> FindFromSearchService(FindFlyersByBoardQuery argument)
+//        {
+//            var startDate = argument.Start.DateTime.Date;
+//            var endDate = argument.End.DateTime.Date;
+//            if (argument.Start.Offset == TimeSpan.Zero)
+//            {
+//                startDate = argument.Start.UtcDateTime.Date;
+//                endDate = argument.End.UtcDateTime.Date;
+//            }
+//            var ids = _searchService.FindFlyersByBoard(argument.BoardId, startDate,
+//                                                       endDate);
+//
+//            return _queryService.FindByIds<Flier>(ids).ToList();
+//        }
             
         public List<Flier> Query(FindFlyersByBoardQuery argument)
         {
-            return FindFromSearchService(argument);
-            //return FindFromIndex(argument);
+            //return FindFromSearchService(argument);
+            return FindFromIndex(argument);
         }
     }
 }

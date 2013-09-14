@@ -5,6 +5,7 @@ using PostaFlya.Areas.MobileApi.Flyers.Model;
 using PostaFlya.Domain.Flier;
 using TechTalk.SpecFlow;
 using Website.Common.ApiInfrastructure.Model;
+using Website.Test.Common;
 
 namespace Popscenes.Specification.MobileApi.Bulletin
 {
@@ -18,12 +19,12 @@ namespace Popscenes.Specification.MobileApi.Bulletin
         {
             var boardBuild = DataUtil.GetABoard(Guid.NewGuid());
             var board = boardBuild.Build();
-            StorageUtil.Store(board);
+            StoreGetUpdate.Store(board, SpecUtil.Kernel);
 
             var flyerBuild = DataUtil.GetAFlyer(id, board, status);
             var flyer = flyerBuild.Build();
 
-            StorageUtil.Store(flyer);
+            StoreGetUpdate.Store(flyer, SpecUtil.Kernel);
         }
 
         [Then(@"The content should contain the detail for a flyer with the id (.*)")]

@@ -61,6 +61,7 @@ namespace Website.Azure.Common.Tests.TableStorage
         }
 
         public static Dictionary<string, List<TableEntryType>> SetupMockTableContext<TableEntryType>(MoqMockingKernel kernel, Dictionary<string, List<TableEntryType>> mockStore)
+            where TableEntryType : StorageTableEntryInterface
         {
             var mockTableContext = new Moq.Mock<TableContextInterface>();
             Action<string> ensureTable = s =>
@@ -74,7 +75,10 @@ namespace Website.Azure.Common.Tests.TableStorage
                     (table, query, take) =>
                         {
                             ensureTable(table);
-                            var ret = mockStore[table].AsQueryable();
+                            IQueryable<TableEntryType> ret = mockStore[table]
+                                .AsQueryable()
+                                .OrderBy(entry => entry.PartitionKey)
+                                .ThenBy(entry => entry.RowKey);
                             if (query != null)
                                 ret = ret.Where(query);
                             if (take >= 0)
@@ -92,7 +96,10 @@ namespace Website.Azure.Common.Tests.TableStorage
                         (table, query, select, take) =>
                         {
                             ensureTable(table);
-                            var ret = mockStore[table].AsQueryable();
+                            IQueryable<TableEntryType> ret = mockStore[table]
+                                .AsQueryable()
+                                .OrderBy(entry => entry.PartitionKey)
+                                .ThenBy(entry => entry.RowKey);
                             if (query != null)
                                 ret = ret.Where(query);
                             if (take >= 0)
@@ -118,7 +125,7 @@ namespace Website.Azure.Common.Tests.TableStorage
         [Test]
         public void TableContextCanSerializeDynamicProperties()
         {
-            var dynamicEntity = new ExtendableTableEntry {RowKey = "123", PartitionKey = "123", PartitionClone = 0, KeyChanged =  false};
+            var dynamicEntity = new ExtendableTableEntry {RowKey = "123", PartitionKey = "123", KeyChanged =  false};
             FillEntityWithEdmTypes(dynamicEntity);
             var tabCtx = Kernel.Get<TableContextInterface>();
 
@@ -148,7 +155,7 @@ namespace Website.Azure.Common.Tests.TableStorage
             DeleteEntityWithKey("123");
             TableContextCanSerializeDynamicProperties();
 
-            var dynamicEntity = new ExtendableTableEntry { RowKey = "1234", PartitionKey = "1234", KeyChanged = false, PartitionClone = 0};
+            var dynamicEntity = new ExtendableTableEntry { RowKey = "1234", PartitionKey = "1234", KeyChanged = false};
             dynamicEntity["test2"] = 345.5;
 
             var tabCtx = Kernel.Get<TableContextInterface>();

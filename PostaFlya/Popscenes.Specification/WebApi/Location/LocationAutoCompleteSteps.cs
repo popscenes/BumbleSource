@@ -13,6 +13,7 @@ using TechTalk.SpecFlow;
 using Website.Azure.Common.Sql;
 using Website.Common.ApiInfrastructure.Model;
 using Website.Domain.Location;
+using Website.Test.Common;
 
 namespace Popscenes.Specification.WebApi.Location
 {
@@ -27,7 +28,7 @@ namespace Popscenes.Specification.WebApi.Location
         {
             var subBuild = DataUtil.GetSomeSuburbs(suburbTotal, termPrefix, prefeixTotal);
             var suburbs = subBuild.Build().ToList();
-            StorageUtil.StoreAll(suburbs);
+            StoreGetUpdate.StoreAll(suburbs, SpecUtil.Kernel);
         }
 
 
@@ -51,7 +52,7 @@ namespace Popscenes.Specification.WebApi.Location
         {
             var subBuild = DataUtil.GetSomeSuburbs(suburbcount, "",  1, kilometres, latitude, longitude);
             var suburbs = subBuild.Build().ToList();
-            StorageUtil.StoreAll(suburbs);
+            StoreGetUpdate.StoreAll(suburbs, SpecUtil.Kernel);
             ScenarioContext.Current[ScenarioSuburbList] = suburbs;
 
         }

@@ -126,9 +126,44 @@ namespace Website.Azure.Common.Tests.TableStorage
             repo.SaveChanges();
 
             var qs = Kernel.Get<QueryServiceBase<JsonTableEntry>>();
-            var ret = qs.GetAllIds<OneEntity>();
+            var ret = qs.GetAllIds<OneEntity>(null, 1000);
 
             AssertUtil.Count(3, ret);
+        }
+
+        [Test]
+        public void QueryServiceBaseGetsAllEntityIdsPagesThrough()
+        {
+            _mockStore.Clear();
+
+            var repo = Kernel.Get<TestRespositoryBase<JsonTableEntry>>();
+            repo.Store(new OneEntity() { Id = Guid.NewGuid().ToString(), Prop = "121", PropTwo = "1" });
+            repo.Store(new OneEntity() { Id = Guid.NewGuid().ToString(), Prop = "122", PropTwo = "1" });
+            repo.Store(new OneEntity() { Id = Guid.NewGuid().ToString(), Prop = "123", PropTwo = "1" });
+            repo.Store(new OneEntity() { Id = Guid.NewGuid().ToString(), Prop = "124", PropTwo = "1" });
+            repo.Store(new OneEntity() { Id = Guid.NewGuid().ToString(), Prop = "125", PropTwo = "1" });
+            repo.Store(new OneEntity() { Id = Guid.NewGuid().ToString(), Prop = "126", PropTwo = "1" });
+            repo.Store(new OneEntity() { Id = Guid.NewGuid().ToString(), Prop = "127", PropTwo = "1" });
+            repo.Store(new OneEntity() { Id = Guid.NewGuid().ToString(), Prop = "128", PropTwo = "1" });
+            repo.Store(new OneEntity() { Id = Guid.NewGuid().ToString(), Prop = "129", PropTwo = "1" });
+
+            repo.SaveChanges();
+
+            
+
+            var qs = Kernel.Get<QueryServiceBase<JsonTableEntry>>();
+            var total = 0;
+            string nextId = null; 
+            IQueryable<string> ret = null;
+            do
+            {
+                ret = qs.GetAllIds<OneEntity>(nextId, 3);
+                nextId = ret.LastOrDefault();
+                total += ret.Count();
+
+            } while (nextId != null);
+             
+            Assert.That(total, Is.EqualTo(9));
         }
 
         [Test]

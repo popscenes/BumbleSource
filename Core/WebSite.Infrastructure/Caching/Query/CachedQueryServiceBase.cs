@@ -127,34 +127,25 @@ namespace Website.Infrastructure.Caching.Query
                 .ToList()).AsQueryable();
         }
 
-        public IQueryable<string> GetAllIds<EntityRetType>() where EntityRetType : class, AggregateRootInterface, new()
+        public IQueryable<string> GetAllIds<EntityRetType>(string startingFromId, int take) where EntityRetType : class, AggregateRootInterface, new()
         {
             if (_genericQueryService == null)
                 return null;
-            return RetrieveCachedData(
-                "".GetCacheKeyFor<EntityRetType>("AllIds"),
-                () => _genericQueryService.GetAllIds<EntityRetType>()
-                .ToList()).AsQueryable();
+            return _genericQueryService.GetAllIds<EntityRetType>(startingFromId, take);
         }
 
-        public IQueryable<string> GetAllIds(Type type)
+        public IQueryable<string> GetAllIds(Type type, string startingFromId, int take)
         {
             if (_genericQueryService == null)
                 return null;
-            return RetrieveCachedData(
-                "".GetCacheKeyFor(type, "AllIds"),
-                () => _genericQueryService.GetAllIds(type)
-                .ToList()).AsQueryable();
+            return _genericQueryService.GetAllIds(type, startingFromId, take);
         }
 
-        public IQueryable<AggregateInterface> GetAllAggregateIds<EntityRetType>() where EntityRetType : class, AggregateInterface, new()
+        public IQueryable<AggregateInterface> GetAllAggregateIds<EntityRetType>(AggregateInterface startingFrom, int take) where EntityRetType : class, AggregateInterface, new()
         {
             if (_genericQueryService == null)
                 return null;
-            return RetrieveCachedData(
-                "".GetCacheKeyFor<EntityRetType>("AllIds"),
-                () => _genericQueryService.GetAllAggregateIds<EntityRetType>()
-                .ToList()).AsQueryable();
+            return _genericQueryService.GetAllAggregateIds<EntityRetType>(startingFrom, take);
         }
     }
 }

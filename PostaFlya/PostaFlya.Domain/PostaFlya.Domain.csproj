@@ -107,7 +107,6 @@
     <Compile Include="Flier\Analytic\FlierAnalyticInfo.cs" />
     <Compile Include="Flier\Command\FlierAnalyticCommand.cs" />
     <Compile Include="Flier\Command\FlierAnalyticCommandHandler.cs" />
-    <Compile Include="Flier\Command\ReindexFlyersCommand.cs" />
     <Compile Include="Flier\FlierImage.cs" />
     <Compile Include="Flier\LinkType.cs" />
     <Compile Include="Flier\Payment\AnalyticsFeatureChargeBehaviour.cs" />
@@ -118,7 +117,6 @@
     <Compile Include="Flier\Query\FindFlyersByBoardQuery.cs" />
     <Compile Include="Flier\Query\FindFlyersByDateAndLocationQuery.cs" />
     <Compile Include="Flier\Query\FindFlyersByFeaturedQuery.cs" />
-    <Compile Include="Flier\Query\FindFlyersByLocationAndDistanceQuery.cs" />
     <Compile Include="Flier\Query\FlierQueryServiceUtil.cs" />
     <Compile Include="Flier\Query\FlierSearchServiceInterface.cs" />
     <Compile Include="Flier\Query\GetFlyerVenueBoardQuery.cs" />

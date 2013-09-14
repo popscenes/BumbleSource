@@ -53,7 +53,8 @@ namespace Website.Test.Common
 
             Action<EntityInterfaceType> storeAction = entity =>
                 {
-                    store.CopyAndStore<EntityType, EntityInterfaceType, StoreInterfaceType>(entity, copyFields);
+
+                    lock (store) store.CopyAndStore<EntityType, EntityInterfaceType, StoreInterfaceType>(entity, copyFields);
 //                    //find any top level aggregate members and store them
 //                    var aggMembers = new HashSet<object>();
 //                    AggregateMemberEntityAttribute.GetAggregateEnities(aggMembers, entity, false);
@@ -77,9 +78,12 @@ namespace Website.Test.Common
 
             Action<string, Action<EntityType>> updateAction = (id, act) =>
                 {
-                    var entity = store.OfType<EntityType>().SingleOrDefault(b => b.Id == id);
-                    act(entity);
-                    storeAction(entity);
+                    lock (store)
+                    {
+                        var entity = store.OfType<EntityType>().SingleOrDefault(b => b.Id == id);
+                        act(entity);
+                        storeAction(entity);    
+                    }
                 };
 
             repository.Setup(m => m.UpdateEntity(It.IsAny<string>(), It.IsAny<Action<EntityType>>()))
@@ -206,15 +210,31 @@ namespace Website.Test.Common
                 .Returns<Type, string>(findByTypeId);
 
 
-            queryService.Setup(m => m.GetAllIds<EntityType>())
-                .Returns(() => store.Select(inf => inf.Id).AsQueryable());
-            queryServiceGeneric.Setup(m => m.GetAllIds<EntityType>())
-                .Returns(() => store.Select(inf => inf.Id).AsQueryable());
+            queryService.Setup(m => m.GetAllIds<EntityType>(It.IsAny<string>(), It.IsAny<int>()))
+                .Returns<string, int>((id, take) => store
+                    .OrderBy(e => e.Id)
+                    .Where(e => id == null || e.Id.CompareTo(id) > 0)
+                    .Take(take)
+                    .Select(inf => inf.Id).AsQueryable());
+            queryServiceGeneric.Setup(m => m.GetAllIds<EntityType>(It.IsAny<string>(), It.IsAny<int>()))
+                .Returns<string, int>((id, take) => store
+                    .OrderBy(e => e.Id)
+                    .Where(e => id == null || e.Id.CompareTo(id) > 0)
+                    .Take(take)
+                    .Select(inf => inf.Id).AsQueryable());
 
-            queryService.Setup(m => m.GetAllIds(typeof(EntityType)))
-            .Returns(() => store.Select(inf => inf.Id).AsQueryable());
-            queryServiceGeneric.Setup(m => m.GetAllIds(typeof(EntityType)))
-                .Returns(() => store.Select(inf => inf.Id).AsQueryable());
+            queryService.Setup(m => m.GetAllIds(typeof(EntityType), It.IsAny<string>(), It.IsAny<int>()))
+            .Returns<string, int>((id, take) => store
+                    .OrderBy(e => e.Id)
+                    .Where(e => id == null || e.Id.CompareTo(id) > 0)
+                    .Take(take)
+                .Select(inf => inf.Id).AsQueryable());
+            queryServiceGeneric.Setup(m => m.GetAllIds(typeof(EntityType), It.IsAny<string>(), It.IsAny<int>()))
+                .Returns<string, int>((id, take) => store
+                    .OrderBy(e => e.Id)
+                    .Where(e => id == null || e.Id.CompareTo(id) > 0)
+                    .Take(take)
+                    .Select(inf => inf.Id).AsQueryable());
 
 
 
@@ -284,10 +304,11 @@ namespace Website.Test.Common
             queryServiceGeneric.Setup(m => m.FindByAggregate<EntityType>(It.IsAny<string>(), It.IsAny<string>()))
                 .Returns(findById);
 
-            queryService.Setup(m => m.GetAllAggregateIds<EntityType>())
-                .Returns(() => store.ToList().AsQueryable());
-            queryServiceGeneric.Setup(m => m.GetAllAggregateIds<EntityType>())
-                .Returns(() => store.ToList().AsQueryable());
+            queryService.Setup(m => m.GetAllAggregateIds<EntityType>(It.IsAny<AggregateInterface>(), It.IsAny<int>()))
+                .Returns<AggregateInterface, int>((ai, t) => store
+                    .ToList().AsQueryable());
+            queryServiceGeneric.Setup(m => m.GetAllAggregateIds<EntityType>(It.IsAny<AggregateInterface>(), It.IsAny<int>()))
+                .Returns<AggregateInterface, int>((ai, t) => store.ToList().AsQueryable());
 
 
             return queryService;

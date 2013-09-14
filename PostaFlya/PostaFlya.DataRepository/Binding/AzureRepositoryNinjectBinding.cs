@@ -1,27 +1,20 @@
-﻿using System.Collections.Generic;
-using System.Configuration;
-using System.Data.SqlClient;
+﻿using System.Data.SqlClient;
 using System.Diagnostics;
-using System.Linq;
 using System.Reflection;
 using Ninject;
 using Ninject.Extensions.Conventions.Syntax;
 using Ninject.Modules;
 using PostaFlya.DataRepository.DomainQuery;
-using PostaFlya.DataRepository.DomainQuery.Board;
 using PostaFlya.DataRepository.DomainQuery.Browser;
 using PostaFlya.DataRepository.Search.Event;
-using PostaFlya.Domain.Boards.Query;
-using PostaFlya.Domain.Flier.Query;
 using Website.Azure.Common.Binding;
 using Website.Azure.Common.Sql;
 using Website.Azure.Common.TableStorage;
-using PostaFlya.DataRepository.Search.Implementation;
+//using PostaFlya.DataRepository.Search.Implementation;
 using Website.Domain.Comments;
 using Website.Infrastructure.Binding;
 using Website.Infrastructure.Command;
 using Website.Infrastructure.Configuration;
-using Website.Infrastructure.Domain;
 using Website.Infrastructure.Messaging;
 using Website.Infrastructure.Query;
 using Website.Infrastructure.Util;
@@ -78,8 +71,8 @@ namespace PostaFlya.DataRepository.Binding
              //   , _repositoryScopeConfiguration);
 
             kernel.BindEventHandlersFromCallingAssembly(syntax => syntax.InTransientScope());
-            Bind<FlierSearchServiceInterface>()
-                .To<SqlFlierSearchService>();
+//            Bind<FlierSearchServiceInterface>()
+//                .To<SqlFlierSearchService>();
 
             Bind<string>()
                 .ToMethod(ctx => SqlExecute.GetConnectionStringFromConfig("SearchDbConnectionString")

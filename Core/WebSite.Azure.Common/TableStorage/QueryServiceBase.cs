@@ -50,26 +50,45 @@ namespace Website.Azure.Common.TableStorage
             return FindEntityIdsByPartition<EntityType>(myAggregateRootId);
         }
 
-        public IQueryable<string> GetAllIds<EntityRetType>() where EntityRetType : class, AggregateRootInterface, new()
+        public IQueryable<string> GetAllIds<EntityRetType>(string startingFromId, int take) where EntityRetType : class, AggregateRootInterface, new()
         {
-            return GetSelectTableEntries<EntityRetType, StorageTableKey>((Expression<Func<TableEntryType, bool>>) null,
-                e => new StorageTableKey() { PartitionKey = e.PartitionKey, RowKey = e.RowKey })
+            Expression<Func<TableEntryType, bool>> search 
+                = string.IsNullOrWhiteSpace(startingFromId)
+                    ? (Expression<Func<TableEntryType, bool>>)null
+                    : entry =>
+                        entry.PartitionKey.CompareTo(startingFromId) > 0;
+
+            return GetSelectTableEntries<EntityRetType, StorageTableKey>(search,
+                e => new StorageTableKey() { PartitionKey = e.PartitionKey, RowKey = e.RowKey }, take)
                 .Select(te => te.RowKey.ExtractEntityIdFromRowKey())
                 .Distinct();
         }
 
-        public IQueryable<string> GetAllIds(Type type)
+        public IQueryable<string> GetAllIds(Type type, string startingFromId, int take)
         {
-            return GetSelectTableEntries<StorageTableKey>(type, null,
-                e => new StorageTableKey() { PartitionKey = e.PartitionKey, RowKey = e.RowKey })
+            Expression<Func<TableEntryType, bool>> search
+                = string.IsNullOrWhiteSpace(startingFromId)
+                    ? (Expression<Func<TableEntryType, bool>>)null
+                    : entry =>
+                        entry.PartitionKey.CompareTo(startingFromId) > 0;
+
+            return GetSelectTableEntries<StorageTableKey>(type, search,
+                e => new StorageTableKey() { PartitionKey = e.PartitionKey, RowKey = e.RowKey }, take)
                 .Select(te => te.RowKey.ExtractEntityIdFromRowKey())
                 .Distinct();
         }
 
-        public IQueryable<AggregateInterface> GetAllAggregateIds<EntityRetType>() where EntityRetType : class, AggregateInterface, new()
+        public IQueryable<AggregateInterface> GetAllAggregateIds<EntityRetType>(AggregateInterface startingFrom, int take) where EntityRetType : class, AggregateInterface, new()
         {
+            Expression<Func<TableEntryType, bool>> search
+                = startingFrom == null
+                    ? (Expression<Func<TableEntryType, bool>>)null
+                    : entry =>
+                        entry.PartitionKey.CompareTo(startingFrom.AggregateId) > 0
+                        && entry.RowKey.CompareTo(startingFrom.Id) > 0;
+
             return GetSelectTableEntries<EntityRetType, StorageTableKey>((Expression<Func<TableEntryType, bool>>)null,
-            e => new StorageTableKey() { PartitionKey = e.PartitionKey, RowKey = e.RowKey })
+            e => new StorageTableKey() { PartitionKey = e.PartitionKey, RowKey = e.RowKey }, take)
             .Select(te => new AggregateIds() { AggregateId = te.PartitionKey, Id = te.RowKey });         
         }
 

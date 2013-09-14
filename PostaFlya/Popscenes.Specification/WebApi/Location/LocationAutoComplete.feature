@@ -14,7 +14,7 @@ Scenario: Search for a suburb or board
 
 Scenario: Find nearest suburb by geocoordinates
 	Given There are 20 suburbs within 100 kilometers of the geolocation -37.769, 144.979 
-	When I perform a get request for the path webapi/suburbs/near?lat=-37&lng=144
+	When I perform a get request for the path webapi/suburbs/near?lat=-37.769&lng=144.979 
 	Then I should receive a http response with a status of 200
 	And The content should have a response status of OK
-	Then the result should contain the suburb nearest to the geolocation -35.90, 143.2
+	Then the result should contain the suburb nearest to the geolocation -37.769, 144.979 

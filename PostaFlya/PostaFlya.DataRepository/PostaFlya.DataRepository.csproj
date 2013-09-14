@@ -132,8 +132,6 @@
     <Compile Include="DomainQuery\Flyer\FindBoardsNearQueryHandler.cs" />
     <Compile Include="DomainQuery\Flyer\FindFlyersByBoardQueryHandler.cs" />
     <Compile Include="DomainQuery\Flyer\FindFlyersByDateAndLocationQueryHandler.cs" />
-    <Compile Include="DomainQuery\Flyer\FindFlyersByFeaturedQueryHandler.cs" />
-    <Compile Include="DomainQuery\Flyer\FindFlyersByLocationAndDistanceQueryHandler.cs" />
     <Compile Include="DomainQuery\Location\FindNearestSuburbByGeoCoordsQueryHandler.cs" />
     <Compile Include="DomainQuery\Location\FindSuburbsWithinDistanceOfGeoCoordsQueryHandler.cs" />
     <Compile Include="Indexes\BrowserIdIndex.cs" />

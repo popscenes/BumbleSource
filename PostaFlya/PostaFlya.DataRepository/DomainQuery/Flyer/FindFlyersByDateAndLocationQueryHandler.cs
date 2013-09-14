@@ -16,15 +16,18 @@ namespace PostaFlya.DataRepository.DomainQuery.Flyer
     public class FindFlyersByDateAndLocationQueryHandler : QueryHandlerInterface<FindFlyersByDateAndLocationQuery, List<Flier>>
     {
 
-        private readonly FlierSearchServiceInterface _searchService;
+       // private readonly FlierSearchServiceInterface _searchService;
         private readonly GenericQueryServiceInterface _queryService;
         private readonly QueryChannelInterface _queryChannel;
         private readonly TableIndexServiceInterface _indexService;
 
 
-        public FindFlyersByDateAndLocationQueryHandler(FlierSearchServiceInterface searchService, GenericQueryServiceInterface queryService, QueryChannelInterface queryChannel, TableIndexServiceInterface indexService)
+        public FindFlyersByDateAndLocationQueryHandler(//FlierSearchServiceInterface searchService
+            GenericQueryServiceInterface queryService
+            , QueryChannelInterface queryChannel
+            , TableIndexServiceInterface indexService)
         {
-            _searchService = searchService;
+            //_searchService = searchService;
             _queryService = queryService;
             _queryChannel = queryChannel;
             _indexService = indexService;
@@ -33,8 +36,8 @@ namespace PostaFlya.DataRepository.DomainQuery.Flyer
 
         public List<Flier> Query(FindFlyersByDateAndLocationQuery argument)
         {
-            //return FliersFromIndex(argument);
-            return  FliersFromSearchService(argument);
+            return FliersFromIndex(argument);
+            //return  FliersFromSearchService(argument);
         }
 
         private List<Flier> FliersFromIndex(FindFlyersByDateAndLocationQuery argument)
@@ -72,32 +75,32 @@ namespace PostaFlya.DataRepository.DomainQuery.Flyer
 
             return _queryService
                 .FindByIds<Flier>(list
-                    .Select(f => f.RowKey.ExtractEntityIdFromRowKey()))
+                    .Select(f => f.RowKey.ExtractEntityIdFromRowKey()).Distinct())
                 .ToList();
         }
 
-        private List<Flier> FliersFromSearchService(FindFlyersByDateAndLocationQuery argument)
-        {
-            if (!argument.Location.IsValid() && !string.IsNullOrWhiteSpace(argument.Location.Id))
-                argument.Location = _queryChannel.Query(new FindByIdQuery<Suburb>() { Id = argument.Location.Id }, argument.Location);
-
-            if (!argument.Location.IsValid())
-                return default(List<Flier>);
-
-            var startDate = argument.Start.DateTime.Date;
-            var endDate = argument.End.DateTime.Date;
-            if (argument.Start.Offset == TimeSpan.Zero)
-            {
-                startDate = argument.Start.UtcDateTime.Date;
-                endDate = argument.End.UtcDateTime.Date;
-            }
-
-            var loc = new Website.Domain.Location.Location();
-            loc.CopyFieldsFrom(argument.Location);
-            var ids = _searchService.FindFliersByLocationAndDate(loc, argument.Distance, startDate,
-                                                                 endDate);
-
-            return _queryService.FindByIds<Flier>(ids).ToList();
-        }
+//        private List<Flier> FliersFromSearchService(FindFlyersByDateAndLocationQuery argument)
+//        {
+//            if (!argument.Location.IsValid() && !string.IsNullOrWhiteSpace(argument.Location.Id))
+//                argument.Location = _queryChannel.Query(new FindByIdQuery<Suburb>() { Id = argument.Location.Id }, argument.Location);
+//
+//            if (!argument.Location.IsValid())
+//                return default(List<Flier>);
+//
+//            var startDate = argument.Start.DateTime.Date;
+//            var endDate = argument.End.DateTime.Date;
+//            if (argument.Start.Offset == TimeSpan.Zero)
+//            {
+//                startDate = argument.Start.UtcDateTime.Date;
+//                endDate = argument.End.UtcDateTime.Date;
+//            }
+//
+//            var loc = new Website.Domain.Location.Location();
+//            loc.CopyFieldsFrom(argument.Location);
+//            var ids = _searchService.FindFliersByLocationAndDate(loc, argument.Distance, startDate,
+//                                                                 endDate);
+//
+//            return _queryService.FindByIds<Flier>(ids).ToList();
+//        }
     }
 }

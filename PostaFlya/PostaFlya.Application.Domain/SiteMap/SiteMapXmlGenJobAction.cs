@@ -20,17 +20,17 @@ namespace PostaFlya.Application.Domain.SiteMap
 
         private readonly BlobStorageInterface _applicationStorage;
         private readonly TempFileStorageInterface _tempFileStorage;
-        private readonly FlierSearchServiceInterface _flierSearchService;
+        //private readonly FlierSearchServiceInterface _flierSearchService;
         private readonly ConfigurationServiceInterface _configurationService;
         private readonly GenericQueryServiceInterface _queryService;
 
         public SiteMapXmlGenJobAction([ApplicationStorage]BlobStorageInterface applicationStorage,
-                                      TempFileStorageInterface tempFileStorage, FlierSearchServiceInterface flierSearchService,
-                                      ConfigurationServiceInterface configurationService, GenericQueryServiceInterface queryService)
+                                      TempFileStorageInterface tempFileStorage//, FlierSearchServiceInterface flierSearchService
+                                        , ConfigurationServiceInterface configurationService, GenericQueryServiceInterface queryService)
         {
             _applicationStorage = applicationStorage;
             _tempFileStorage = tempFileStorage;
-            _flierSearchService = flierSearchService;
+            //_flierSearchService = flierSearchService;
             _configurationService = configurationService;
             _queryService = queryService;
         }
@@ -42,12 +42,13 @@ namespace PostaFlya.Application.Domain.SiteMap
             var site = _configurationService.GetSetting("SiteUrl");
             using (var siteMapIndex = new SiteMapIndexBuilder(site, SiteMapFileFormat, _tempFileStorage, _applicationStorage))
             {
-                IList<EntityIdInterface> flierIds = new List<EntityIdInterface>();
+                IQueryable<string> flierIds = new List<string>().AsQueryable();
                 do
                 {
-                    var skip = flierIds.Any() ? _queryService.FindById<PostaFlya.Domain.Flier.Flier>(flierIds.Last().Id) : null;
-                    flierIds = _flierSearchService.IterateAllIndexedFliers(skiptake, skip);
-                    foreach (var flierId in flierIds)
+                    var skip = flierIds.LastOrDefault();
+
+                    flierIds = _queryService.GetAllIds<PostaFlya.Domain.Flier.Flier>(skip, skiptake);
+                    foreach (var flierId in flierIds.Select(id => _queryService.FindById<PostaFlya.Domain.Flier.Flier>(id)))
                     {
                         siteMapIndex.AddPath("/" + flierId.FriendlyId);
                     }

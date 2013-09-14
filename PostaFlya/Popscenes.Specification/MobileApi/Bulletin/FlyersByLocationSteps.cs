@@ -8,6 +8,7 @@ using TechTalk.SpecFlow;
 using Website.Common.ApiInfrastructure.Model;
 using Website.Domain.Location;
 using Website.Infrastructure.Util.Extension;
+using Website.Test.Common;
 
 namespace Popscenes.Specification.MobileApi.Bulletin
 {
@@ -20,11 +21,11 @@ namespace Popscenes.Specification.MobileApi.Bulletin
             var date = Json.Decode<DateTimeOffset>(dateString.Quoted());
             var boardBuild = DataUtil.GetSomeBoardsAroundTheGeolocation(flyercount, kilometers, latitude, longitude);
             var boards = boardBuild.Build().ToList();
-            StorageUtil.StoreAll(boards);
+            StoreGetUpdate.StoreAll(boards, SpecUtil.Kernel);
             var flyersbuild = DataUtil.GetSomeFlyersForTheBoards(flyercount, boards, date);
             var flyers = flyersbuild.Build();
 
-            StorageUtil.StoreAll(flyers);
+            StoreGetUpdate.StoreAll(flyers, SpecUtil.Kernel);
         }
 
         [Then(@"The content should contain a list of flyers within (.*) kilometers of (.*), (.*) in the date range (.*) to (.*)")]

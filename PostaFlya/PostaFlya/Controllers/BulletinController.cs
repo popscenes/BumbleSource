@@ -22,7 +22,7 @@ namespace PostaFlya.Controllers
     {
         private readonly GenericQueryServiceInterface _queryService;
         private readonly BlobStorageInterface _blobStorage;
-        private readonly FlierSearchServiceInterface _flierSearchService;
+        //private readonly FlierSearchServiceInterface _flierSearchService;
         private readonly PostaFlyaBrowserInformationInterface _browserInformation;
         private readonly FlierWebAnalyticServiceInterface _webAnalyticService;
         private readonly WebsiteInfoServiceInterface _websiteInfoService;
@@ -30,32 +30,32 @@ namespace PostaFlya.Controllers
 
         public BulletinController(GenericQueryServiceInterface queryService
             , [ImageStorage]BlobStorageInterface blobStorage
-            , FlierSearchServiceInterface flierSearchService
+            //, FlierSearchServiceInterface flierSearchService
             , PostaFlyaBrowserInformationInterface browserInformation
             , FlierWebAnalyticServiceInterface webAnalyticService
             ,WebsiteInfoServiceInterface websiteInfoService, QueryChannelInterface queryChannel)
         {
             _queryService = queryService;
             _blobStorage = blobStorage;
-            _flierSearchService = flierSearchService;
+           // _flierSearchService = flierSearchService;
             _browserInformation = browserInformation;
             _webAnalyticService = webAnalyticService;
             _websiteInfoService = websiteInfoService;
             _queryChannel = queryChannel;
         }
 
-        public ActionResult Get(LocationModel loc
-            ,int count = 40, string skipPast = "", int distance = 0, string tags = "", string board="")
-        {
-
-            var model = new BulletinBoardPageModel(){PageId = WebConstants.BulletinBoardPage};
-
-            if (loc.IsValid())
-                model.Fliers = BulletinApiController.GetFliers(_flierSearchService, _queryChannel, _queryService 
-                             , loc, count, board: board, skipPast: skipPast, distance: distance, tags: tags);
-      
-            return View("Get", model);
-        }
+//        public ActionResult Get(LocationModel loc
+//            ,int count = 40, string skipPast = "", int distance = 0, string tags = "", string board="")
+//        {
+//
+//            var model = new BulletinBoardPageModel(){PageId = WebConstants.BulletinBoardPage};
+//
+//            if (loc.IsValid())
+//                model.Fliers = BulletinApiController.GetFliers(_flierSearchService, _queryChannel, _queryService 
+//                             , loc, count, board: board, skipPast: skipPast, distance: distance, tags: tags);
+//      
+//            return View("Get", model);
+//        }
        
         public ActionResult GigGuide()
         {

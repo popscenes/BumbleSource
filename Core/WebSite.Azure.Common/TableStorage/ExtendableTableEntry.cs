@@ -168,17 +168,6 @@ namespace Website.Azure.Common.TableStorage
             }
         }
 
-        public int PartitionClone
-        {
-            get
-            {
-                return (int)(this["PartitionClone"] ?? 0);
-            }
-            set
-            {
-                this["PartitionClone"] = value;
-            }
-        }
         public bool KeyChanged
         {
             get

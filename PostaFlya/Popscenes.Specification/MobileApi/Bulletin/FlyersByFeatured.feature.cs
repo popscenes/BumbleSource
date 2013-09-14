@@ -33,8 +33,8 @@ namespace Popscenes.Specification.MobileApi.Bulletin
         public virtual void FeatureSetup()
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
-            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "FlyersByFeatured", "In order to find gigs\r\nAs a browser\r\nI want to be able to search for gigs by most" +
-                    " recent posts", ProgrammingLanguage.CSharp, new string[] {
+            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "FlyersByFeatured", "In order to find gigs\r\nAs a browser\r\nI want to be able to see featured gigs in my" +
+                    " area", ProgrammingLanguage.CSharp, new string[] {
                         "bulletinfeatures"});
             testRunner.OnFeatureStart(featureInfo);
         }
@@ -65,30 +65,6 @@ namespace Popscenes.Specification.MobileApi.Bulletin
         public virtual void ScenarioCleanup()
         {
             testRunner.CollectScenarioErrors();
-        }
-        
-        [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("Mobile Api flyers by featured returns flyers")]
-        public virtual void MobileApiFlyersByFeaturedReturnsFlyers()
-        {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Mobile Api flyers by featured returns flyers", ((string[])(null)));
-#line 7
-this.ScenarioSetup(scenarioInfo);
-#line 8
- testRunner.Given("There are 5 suburbs within 10 kilometers of the geolocation  -37.769, 144.979", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 9
- testRunner.Given("There are 50 flyers within 100 kilometers of the geolocation -37.769, 144.979  wi" +
-                    "th dates starting from 2013-06-29", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 10
- testRunner.When("I perform a get request for the path mobileapi/gigs?take=30", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 11
- testRunner.Then("I should receive a http response with a status of 200", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 12
- testRunner.And("The content should have a response status of OK", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 13
- testRunner.And("The content should contain a list of 30 flyers ordered by created date desc", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line hidden
-            this.ScenarioCleanup();
         }
     }
 }

@@ -52,25 +52,25 @@ namespace PostaFlya.Application.Domain.Tests.SiteMap
             config.Setup(serv => serv.GetSetting("SiteUrl")).Returns("http://popscenes.com");
             Kernel.Bind<ConfigurationServiceInterface>().ToConstant(config.Object);
 
-            var flierCount = 1;
-            Kernel.Unbind<FlierSearchServiceInterface>();
-            var searchService = Kernel.GetMock<FlierSearchServiceInterface>();
-            searchService.Setup(src => src.IterateAllIndexedFliers(It.IsAny<int>(), It.IsAny<FlierInterface>(), It.IsAny<Tags>()))
-                         .Returns<int, FlierInterface, Tags>((mintake, skip, tags) =>
-                             {
-                                 IList<EntityIdInterface> ret = new List<EntityIdInterface>();
-                                 for (var i = 0; i < mintake && flierCount <= 60; i++)
-                                 {
-                                     ret.Add(
-                                         new PostaFlya.Domain.Flier.Flier()
-                                             {
-                                                 FriendlyId = "flierid@1234_" + flierCount,
-                                                 Id = "" + flierCount++
-                                             });
-                                 }
-                                 return ret;
-                             });
-            Kernel.Bind<FlierSearchServiceInterface>().ToConstant(searchService.Object);
+//            var flierCount = 1;
+//            Kernel.Unbind<FlierSearchServiceInterface>();
+//            var searchService = Kernel.GetMock<FlierSearchServiceInterface>();
+//            searchService.Setup(src => src.IterateAllIndexedFliers(It.IsAny<int>(), It.IsAny<FlierInterface>(), It.IsAny<Tags>()))
+//                         .Returns<int, FlierInterface, Tags>((mintake, skip, tags) =>
+//                             {
+//                                 IList<EntityIdInterface> ret = new List<EntityIdInterface>();
+//                                 for (var i = 0; i < mintake && flierCount <= 60; i++)
+//                                 {
+//                                     ret.Add(
+//                                         new PostaFlya.Domain.Flier.Flier()
+//                                             {
+//                                                 FriendlyId = "flierid@1234_" + flierCount,
+//                                                 Id = "" + flierCount++
+//                                             });
+//                                 }
+//                                 return ret;
+//                             });
+//            Kernel.Bind<FlierSearchServiceInterface>().ToConstant(searchService.Object);
 
             var sub = Kernel.Get<SiteMapXmlGenJobAction>();
 
@@ -83,7 +83,7 @@ namespace PostaFlya.Application.Domain.Tests.SiteMap
             Kernel.Unbind<TempFileStorageInterface>();
             Kernel.Unbind<BlobStorageInterface>();
             Kernel.Unbind<ConfigurationServiceInterface>();
-            Kernel.Unbind<FlierSearchServiceInterface>();
+            //Kernel.Unbind<FlierSearchServiceInterface>();
         }
 
     }

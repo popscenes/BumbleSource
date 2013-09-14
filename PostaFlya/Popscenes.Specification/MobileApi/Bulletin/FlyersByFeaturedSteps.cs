@@ -6,6 +6,7 @@ using PostaFlya.Areas.MobileApi.Flyers.Model;
 using PostaFlya.Domain.Flier;
 using TechTalk.SpecFlow;
 using Website.Common.ApiInfrastructure.Model;
+using Website.Test.Common;
 
 namespace Popscenes.Specification.MobileApi.Bulletin
 {
@@ -25,7 +26,7 @@ namespace Popscenes.Specification.MobileApi.Bulletin
 
             var prev = default(DateTime);
             foreach (var curr in content.Data.FeatureGroups.First().FlyerIds
-                .Select(f => StorageUtil.Get<Flier>(f).CreateDate).Where(curr => prev != default(DateTime)))
+                .Select(f => StoreGetUpdate.Get<Flier>(f, SpecUtil.Kernel).CreateDate).Where(curr => prev != default(DateTime)))
             {
                 Assert.That(prev, Is.GreaterThanOrEqualTo(curr));
                 prev = curr;

@@ -7,7 +7,8 @@ using Website.Infrastructure.Query;
 
 namespace PostaFlya.Areas.WebApi.Flyers.Controllers
 {
-    public class WebFlyersByFeaturedController : WebApiControllerBase
+    public class 
+        WebFlyersByFeaturedController : WebApiControllerBase
     {
         private readonly QueryChannelInterface _queryChannel;
 
