@@ -15,7 +15,6 @@
 //{
 //    public class HeatMapApiController : OldWebApiControllerBase
 //    {
-//        private readonly GenericQueryServiceInterface _flierQueryService;
 //        private readonly FlierSearchServiceInterface _flierSearchService;
 //        private readonly QueryChannelInterface _queryChannel;
 //

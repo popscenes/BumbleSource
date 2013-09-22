@@ -20,6 +20,36 @@ namespace Website.Infrastructure.Command
         GenericQueryServiceInterface CurrentQuery { get;}
     }
 
+    public interface UnitOfWorkFactoryInterface
+    {
+        UnitOfWorkInterface GetUowInContext();
+    }
+
+    public interface UnitOfWorkForRepoFactoryInterface : UnitOfWorkFactoryInterface
+    {
+        new UnitOfWorkForRepoInterface GetUowInContext();
+    }
+
+    public class UnitOfWorkFactory : UnitOfWorkForRepoFactoryInterface
+    {
+        private readonly IResolutionRoot _resolutionRoot;
+
+        public UnitOfWorkFactory(IResolutionRoot resolutionRoot)
+        {
+            _resolutionRoot = resolutionRoot;
+        }
+
+        public UnitOfWorkForRepoInterface GetUowInContext()
+        {
+            return _resolutionRoot.Get<UnitOfWorkForRepoInterface>();
+        }
+
+        UnitOfWorkInterface UnitOfWorkFactoryInterface.GetUowInContext()
+        {
+            return GetUowInContext();
+        }
+    }
+
     public class EmptyUnitOfWork : UnitOfWorkForRepoInterface
     {
         private readonly IResolutionRoot _resolutionRoot;

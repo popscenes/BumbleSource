@@ -13,13 +13,13 @@ namespace Website.Application.Domain.Browser
 {
     public class DefaultBrowserInformation : BrowserInformation<Website.Domain.Browser.Browser>
     {
-        private readonly GenericQueryServiceInterface _browserQueryService;
+        private readonly QueryChannelInterface _queryChannel;
 
-        public DefaultBrowserInformation(GenericQueryServiceInterface browserQueryService
-            , HttpContextBase httpContext, QueryChannelInterface queryChannel)
-            : base(browserQueryService, httpContext, queryChannel)
+
+        public DefaultBrowserInformation(HttpContextBase httpContext, QueryChannelInterface queryChannel)
+            : base(httpContext, queryChannel)
         {
-            _browserQueryService = browserQueryService;
+            _queryChannel = queryChannel;
         }
 
         public override Website.Domain.Browser.Browser AnonymousBrowserGet()
@@ -41,22 +41,21 @@ namespace Website.Application.Domain.Browser
 
         public override Website.Domain.Browser.Browser BrowserGetById(string browserId)
         {
-            return _browserQueryService.FindById<Website.Domain.Browser.Browser>(browserId);
+            return _queryChannel.Query(new FindByIdQuery<Website.Domain.Browser.Browser>() { Id = browserId }
+                , (Website.Domain.Browser.Browser)null);
         }
     }
 
     public abstract class BrowserInformation<BrowserType> : BrowserInformationInterface where BrowserType : class, BrowserInterface
     {
-        private readonly GenericQueryServiceInterface _browserQueryService;
         private readonly QueryChannelInterface _queryChannel;
         private readonly HttpContextBase _httpContext;
 
         public const string BrowserCookieId = "browserInformation";
         public const string TempBrowserId = "tempId";
 
-        protected BrowserInformation(GenericQueryServiceInterface browserQueryService, HttpContextBase httpContext, QueryChannelInterface queryChannel)
+        protected BrowserInformation(HttpContextBase httpContext, QueryChannelInterface queryChannel)
         {
-            _browserQueryService = browserQueryService;
             _httpContext = httpContext;
             _queryChannel = queryChannel;
 

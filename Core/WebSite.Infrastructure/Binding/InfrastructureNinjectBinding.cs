@@ -47,6 +47,10 @@ namespace Website.Infrastructure.Binding
                 .To<EmptyUnitOfWork>().InThreadScope();
             Trace.TraceInformation("Finished Binding InfrastructureNinjectBinding");
 
+            Bind<UnitOfWorkFactoryInterface, UnitOfWorkForRepoFactoryInterface>()
+                .To<UnitOfWorkFactory>()
+                .InTransientScope();
+
         }
     }
 
@@ -121,6 +125,15 @@ namespace Website.Infrastructure.Binding
 
             qh = typeof(FindByIdsQueryHandler<>);
             q = typeof(FindByIdsQuery<>);
+            findByIds = TypeUtil.GetExpandedTypesUsing(q, typeAssemblies);
+            exp = TypeUtil.Expand(qh, findByIds.Select(a => a.GetGenericArguments().First()).ToList());
+            foreach (var inst in exp)
+            {
+                kernel.BindToGenericInterface(inst, typeof(QueryHandlerInterface<,>));
+            }
+
+            qh = typeof(FindByAggregateIdQueryHandler<>);
+            q = typeof(FindByAggregateIdQuery<>);
             findByIds = TypeUtil.GetExpandedTypesUsing(q, typeAssemblies);
             exp = TypeUtil.Expand(qh, findByIds.Select(a => a.GetGenericArguments().First()).ToList());
             foreach (var inst in exp)

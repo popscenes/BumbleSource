@@ -29,19 +29,13 @@ namespace PostaFlya.Controllers
     public class MyFliersController : OldWebApiControllerBase
     {
         private readonly MessageBusInterface _messageBus;
-        private readonly GenericQueryServiceInterface _queryService;
-        private readonly BlobStorageInterface _blobStorage;
         private readonly PostaFlyaBrowserInformationInterface _browserInformation;
         private readonly QueryChannelInterface _queryChannel;
 
-        public MyFliersController(MessageBusInterface messageBus,
-            GenericQueryServiceInterface queryService,
-            [ImageStorage]BlobStorageInterface blobStorage
+        public MyFliersController(MessageBusInterface messageBus
             , PostaFlyaBrowserInformationInterface browserInformation, QueryChannelInterface queryChannel)
         {
             _messageBus = messageBus;
-            _queryService = queryService;
-            _blobStorage = blobStorage;
             _browserInformation = browserInformation;
             _queryChannel = queryChannel;
         }
@@ -55,7 +49,7 @@ namespace PostaFlya.Controllers
         // GET /api/Browser/browserId/myfliers/5
         public FlierCreateModel Get(string browserId, string id)
         {
-            var flier = _queryService.FindById<Flier>(id);
+            var flier = _queryChannel.Query(new FindByIdQuery<Flier>() { Id = id }, (Flier)null);
             if (flier != null && flier.BrowserId != browserId)
                 return null;
             return _queryChannel.Query(new FindByIdQuery<Flier>{Id = id}, (FlierCreateModel)null);
@@ -111,7 +105,7 @@ namespace PostaFlya.Controllers
 
         public void Delete(string browserId, string id)
         {
-            var flier = _queryService.FindById<Flier>(id);
+            var flier = _queryChannel.Query(new FindByIdQuery<Flier>() { Id = id }, (Flier)null);
             if (flier != null && flier.BrowserId != browserId)
                 return;
             //TODO delete...

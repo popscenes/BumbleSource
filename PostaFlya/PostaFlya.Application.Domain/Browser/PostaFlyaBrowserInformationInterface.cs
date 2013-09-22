@@ -15,11 +15,11 @@ namespace PostaFlya.Application.Domain.Browser
 
     public class PostaFlyaBrowserInformation : BrowserInformation<PostaFlya.Domain.Browser.Browser>, PostaFlyaBrowserInformationInterface
     {
-        private readonly GenericQueryServiceInterface _genericQueryService;
-        public PostaFlyaBrowserInformation(GenericQueryServiceInterface genericQueryService, HttpContextBase httpContext, QueryChannelInterface queryChannel)
-            : base(genericQueryService, httpContext, queryChannel)
+        private readonly QueryChannelInterface _queryChannel;
+        public PostaFlyaBrowserInformation(HttpContextBase httpContext, QueryChannelInterface queryChannel)
+            : base(httpContext, queryChannel)
         {
-            _genericQueryService = genericQueryService;
+            _queryChannel = queryChannel;
         }
 
 
@@ -52,7 +52,8 @@ namespace PostaFlya.Application.Domain.Browser
 
         public override PostaFlya.Domain.Browser.Browser BrowserGetById(string browserId)
         {
-            return _genericQueryService.FindById<PostaFlya.Domain.Browser.Browser>(browserId);
+            return _queryChannel.Query(new FindByIdQuery<PostaFlya.Domain.Browser.Browser>(){Id = browserId}
+                , (PostaFlya.Domain.Browser.Browser)null);
         }
     }
 }

@@ -42,7 +42,7 @@ namespace PostaFlya
         {
             filters.Add(new HandleErrorAttribute());
             //filters.Add(new RemoveWwwRedirectFilter());
-            filters.Add(new UowActionFilter());
+            filters.Add(DependencyResolver.Current.GetService<UowActionFilter>());
         }
 
 

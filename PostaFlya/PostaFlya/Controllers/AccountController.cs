@@ -29,17 +29,15 @@ namespace PostaFlya.Controllers
     public class AccountController : Controller
     {
         private readonly IdentityProviderServiceInterface _identityProviderService;
-        private readonly GenericQueryServiceInterface _queryService;
         private readonly MessageBusInterface _messageBus;
         private readonly PostaFlyaBrowserInformationInterface _browserInformation;
         private readonly ConfigurationServiceInterface _configurationService;
         private readonly QueryChannelInterface _queryChannel;
 
-        public AccountController(IdentityProviderServiceInterface identityProviderService, GenericQueryServiceInterface queryService,
+        public AccountController(IdentityProviderServiceInterface identityProviderService, 
             MessageBusInterface messageBus, PostaFlyaBrowserInformationInterface browserInformation, ConfigurationServiceInterface configurationService, QueryChannelInterface queryChannel)
         {
             _identityProviderService = identityProviderService;
-            _queryService = queryService;
             _messageBus = messageBus;
             _browserInformation = browserInformation;
             _configurationService = configurationService;

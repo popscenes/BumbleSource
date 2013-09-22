@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Web;
@@ -23,7 +24,8 @@ namespace PostaFlya.Controllers
     public class PaymentController : Controller
     {
         private readonly PaymentServiceProviderInterface _paymentServiceProvider;
-        private readonly GenericQueryServiceInterface _queryService;
+        private readonly QueryChannelInterface _queryChannel;
+
         private readonly PostaFlyaBrowserInformationInterface _browserInfo;
         private readonly PaymentPackageServiceInterface _paymentPackageService;
         private readonly ConfigurationServiceInterface _configurationServiceInterface;
@@ -33,7 +35,7 @@ namespace PostaFlya.Controllers
 
         public PaymentController(PaymentServiceProviderInterface paymentServiceProvider,
             MessageBusInterface messageBus,
-            GenericQueryServiceInterface queryService,
+            QueryChannelInterface queryChannel,
             PostaFlyaBrowserInformationInterface browserInfo,
             PaymentPackageServiceInterface paymentPackageService,
             ConfigurationServiceInterface configurationServiceInterface,
@@ -41,7 +43,7 @@ namespace PostaFlya.Controllers
         {
             _paymentServiceProvider = paymentServiceProvider;
             _messageBus = messageBus;
-            _queryService = queryService;
+            _queryChannel = queryChannel;
             _browserInfo = browserInfo;
             _paymentPackageService = paymentPackageService;
             _configurationServiceInterface = configurationServiceInterface;
@@ -70,7 +72,8 @@ namespace PostaFlya.Controllers
             var paymentService = _paymentServiceProvider.GetPaymentServiceByName("googleWallet");
             var transaction = paymentService.Processpayment(_httpContext.Request);
             transaction.Time = DateTimeOffset.UtcNow;
-            var browser = _queryService.FindById<Browser>(transaction.PaymentEntityId);
+            var browser = _queryChannel.Query(new FindByIdQuery<Browser>() {Id = transaction.PaymentEntityId},
+                                              (Browser) null);
             var paymentPackage = _paymentPackageService.Get(transaction.Amount);
 
             var transactionCommand = new PaymentTransactionCommand()
@@ -109,7 +112,8 @@ namespace PostaFlya.Controllers
         public ViewResult PaymentCallback(PaymentTransaction transaction)
         {
 
-            var browser = _queryService.FindById<Browser>(transaction.PaymentEntityId);
+            var browser = _queryChannel.Query(new FindByIdQuery<Browser>() { Id = transaction.PaymentEntityId },
+                                              (Browser)null);
             var paymentPackage = _paymentPackageService.Get(transaction.Amount);
 
             transaction.Time = DateTimeOffset.UtcNow;
@@ -164,8 +168,8 @@ namespace PostaFlya.Controllers
 
         public ViewResult PaymentTransactions()
         {
-
-            var transactions = _queryService.FindAggregateEntities<PaymentTransaction>(_browserInfo.Browser.Id);
+            var transactions = _queryChannel.Query(new FindByAggregateIdQuery<PaymentTransaction>() { Id = _browserInfo.Browser.Id }
+                                , new List<PaymentTransaction>());
             return View(new PaymentTrasactionPageModel()
                 {
                     PageId = WebConstants.ProfileTransactionPage,

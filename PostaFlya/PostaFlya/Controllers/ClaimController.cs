@@ -29,25 +29,28 @@ namespace PostaFlya.Controllers
     public class ClaimController : OldWebApiControllerBase
     {
         private readonly MessageBusInterface _messageBus;
-        private readonly GenericQueryServiceInterface _queryService;
-        private readonly BlobStorageInterface _blobStorage;
+        private readonly UnitOfWorkForRepoFactoryInterface _uowFactory;
         private readonly QueryChannelInterface _queryChannel;
 
 
         public ClaimController(MessageBusInterface messageBus
-            , GenericQueryServiceInterface queryService
-            , [ImageStorage]BlobStorageInterface blobStorage
+            , UnitOfWorkForRepoFactoryInterface uowFactory
             , QueryChannelInterface queryChannel)
         {
             _messageBus = messageBus;
-            _queryService = queryService;
-            _blobStorage = blobStorage;
+            _uowFactory = uowFactory;
             _queryChannel = queryChannel;
+        }
+
+        //note shouldn't be accessing query service from controller
+        private GenericQueryServiceInterface QueryService
+        {
+            get { return _uowFactory.GetUowInContext().CurrentQuery; }
         }
 
         public HttpResponseMessage Post(CreateClaimModel claim)
         {
-            var entity = _queryService.FindById(GetTypeForClaimEntity(claim.ClaimEntity), claim.EntityId) as EntityInterface;
+            var entity = QueryService.FindById(GetTypeForClaimEntity(claim.ClaimEntity), claim.EntityId) as EntityInterface;
             if (entity == null)
                 return new HttpResponseMessage(HttpStatusCode.BadRequest);
 
@@ -57,7 +60,7 @@ namespace PostaFlya.Controllers
             if (browserIdInterface != null)
             {
                 var ownerId = browserIdInterface.BrowserId;
-                ownerEntity = _queryService.FindById<Browser>(ownerId);
+                ownerEntity = QueryService.FindById<Browser>(ownerId);
             }
 
             var claimCommand = new ClaimCommand()
@@ -77,7 +80,7 @@ namespace PostaFlya.Controllers
         public IList<BulletinFlierSummaryModel> Get(string browserId)
         {
             var ret = _queryChannel.Query(new GetByBrowserIdQuery<Claim>() {BrowserId = browserId}, new List<Claim>())
-                                   .Select(l => _queryService.FindById<Flier>(l.AggregateId))
+                                   .Select(l => QueryService.FindById<Flier>(l.AggregateId))
                                    .Where(f => f.BrowserId != browserId);//exclude your own
 
             return _queryChannel.ToViewModel<BulletinFlierSummaryModel, Flier>(ret);

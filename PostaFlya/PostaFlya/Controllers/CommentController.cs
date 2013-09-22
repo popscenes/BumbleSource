@@ -24,22 +24,28 @@ namespace PostaFlya.Controllers
     public class CommentController : OldWebApiControllerBase
     {
         private readonly MessageBusInterface _messageBus;
-        private readonly GenericQueryServiceInterface _queryService;
+        private readonly UnitOfWorkForRepoFactoryInterface _uowFactory;
         private readonly BlobStorageInterface _blobStorage;
 
         public CommentController(MessageBusInterface messageBus
-            , GenericQueryServiceInterface queryService
+            , UnitOfWorkForRepoFactoryInterface uowFactory
             , [ImageStorage]BlobStorageInterface blobStorage)
         {
             _messageBus = messageBus;
-            _queryService = queryService;
+            _uowFactory = uowFactory;
             _blobStorage = blobStorage;
+        }
+
+        //note shouldn't be accessing query service from controller
+        private GenericQueryServiceInterface QueryService
+        {
+            get { return _uowFactory.GetUowInContext().CurrentQuery; }
         }
 
         [Website.Application.Domain.Obsolete.BrowserAuthorizeHttp(Roles = "Participant")]
         public HttpResponseMessage Post(CreateCommentModel commentCreateModel)
         {
-            var entity = _queryService.FindById(ClaimController.GetTypeForClaimEntity(commentCreateModel.CommentEntity),
+            var entity = QueryService.FindById(ClaimController.GetTypeForClaimEntity(commentCreateModel.CommentEntity),
                 commentCreateModel.EntityId) as EntityInterface;
             if (entity == null)
                 return this.GetResponseForRes(new MsgResponse("Comment Failed", true)
@@ -61,7 +67,7 @@ namespace PostaFlya.Controllers
         {
 //            return GetComments(_queryService, id)
 //                .Select(c => c.FillBrowserModel(_queryService, _blobStorage));
-            return GetComments(_queryService, id);
+            return GetComments(QueryService, id);
         }
 
         public static IQueryable<CommentModel> GetComments(GenericQueryServiceInterface commentQuery, string id)
@@ -109,7 +115,7 @@ namespace PostaFlya.Controllers
                                                            Id = "4"
                                                     }
                                                };
-            return list.Select(c => c.ToViewModel(_queryService, _blobStorage)).ToList();
+            return list.Select(c => c.ToViewModel(QueryService, _blobStorage)).ToList();
         }
     }
 }

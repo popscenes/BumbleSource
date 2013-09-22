@@ -16,7 +16,7 @@ namespace Website.Common.HttpMessageHandlers
         protected async override Task<HttpResponseMessage> SendAsync(
         HttpRequestMessage request, CancellationToken cancellationToken)
         {
-            var uow = request.Resolve<UnitOfWorkInterface>();
+            var uow = request.Resolve<UnitOfWorkFactoryInterface>().GetUowInContext();
 
             uow.Begin();
             // Call the inner handler.

@@ -25,21 +25,15 @@ namespace PostaFlya.Controllers
     public class PendingFliersApiController : OldWebApiControllerBase
     {
          private readonly PostaFlyaBrowserInformationInterface _browserInformation;
-        private readonly GenericQueryServiceInterface _browserQueryService;
-        private readonly BlobStorageInterface _blobStorage;
-        private readonly GenericQueryServiceInterface _queryService;
+         private readonly GenericQueryServiceInterface _queryService;
         private readonly MessageBusInterface _messageBus;
          private readonly QueryChannelInterface _queryChannel;
 
         public PendingFliersApiController(PostaFlyaBrowserInformationInterface browserInformation
-            , GenericQueryServiceInterface browserQueryService, 
-            [ImageStorage]BlobStorageInterface blobStorage
             , GenericQueryServiceInterface queryService
             , MessageBusInterface messageBus, QueryChannelInterface queryChannel)
         {
             _browserInformation = browserInformation;
-            _browserQueryService = browserQueryService;
-            _blobStorage = blobStorage;
             _queryService = queryService;
             _messageBus = messageBus;
             _queryChannel = queryChannel;

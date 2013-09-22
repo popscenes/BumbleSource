@@ -24,12 +24,12 @@ namespace PostaFlya.Controllers
     public class MyDetailsController : OldWebApiControllerBase
     {
         private readonly MessageBusInterface _messageBus;
-        private readonly GenericQueryServiceInterface _queryService;
+        private readonly QueryChannelInterface _queryChannel;
 
-        public MyDetailsController(MessageBusInterface messageBus, GenericQueryServiceInterface queryService)
+        public MyDetailsController(MessageBusInterface messageBus, QueryChannelInterface queryChannel)
         {
             _messageBus = messageBus;
-            _queryService = queryService;
+            _queryChannel = queryChannel;
         }
 
         public HttpResponseMessage Put(ProfileEditModel editModel)
@@ -55,7 +55,8 @@ namespace PostaFlya.Controllers
 
         public ProfileEditModel Get(string browserId)
         {
-            var browser = _queryService.FindById<Website.Domain.Browser.Browser>(browserId);
+
+            var browser = _queryChannel.Query(new FindByIdQuery<Website.Domain.Browser.Browser>() { Id = browserId }, (Website.Domain.Browser.Browser)null);
             return new ProfileEditModel()
                        {
                            Id = browser.Id,

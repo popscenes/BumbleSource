@@ -47,6 +47,9 @@ namespace PostaFlya.DataRepository.DomainQuery.Flyer
 
             if (string.IsNullOrWhiteSpace(argument.Location.Id))
             {
+                if(!argument.Location.IsValid())
+                    return null;
+
                 argument.Location =
                     _queryChannel.Query(
                         new FindNearestSuburbByGeoCoordsQuery() {Geo = argument.Location.AsGeoCoords()},

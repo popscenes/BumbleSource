@@ -9,6 +9,7 @@ using System.Web.Mvc;
 using PostaFlya.Application.Domain.Browser;
 using PostaFlya.Application.Domain.Flier;
 using PostaFlya.Domain.Flier;
+using PostaFlya.Models.Flier;
 using Website.Application.Binding;
 using Website.Application.Content;
 using Website.Application.Extension.Content;
@@ -31,21 +32,23 @@ namespace PostaFlya.Controllers
         private readonly RequestContentRetrieverFactoryInterface _contentRetrieverFactory;
         private readonly PostaFlyaBrowserInformationInterface _browserInformation;
         private readonly MessageBusInterface _messageBus;
-        private readonly GenericQueryServiceInterface _queryService;
+        private readonly QueryChannelInterface _queryChannel;
+
         private readonly FlierPrintImageServiceInterface _flierPrintImageService;
         //private readonly HttpContextBase _httpContext;
+
 
         public ImgController([ImageStorage]BlobStorageInterface blobStorage
             , RequestContentRetrieverFactoryInterface contentRetrieverFactory
             , PostaFlyaBrowserInformationInterface browserInformation, MessageBusInterface messageBus
-            , GenericQueryServiceInterface queryService, 
+            , QueryChannelInterface queryChannel, 
             FlierPrintImageServiceInterface flierPrintImageService)
         {
             _blobStorage = blobStorage;
             _contentRetrieverFactory = contentRetrieverFactory;
             _browserInformation = browserInformation;
             _messageBus = messageBus;
-            _queryService = queryService;
+            _queryChannel = queryChannel;
             _flierPrintImageService = flierPrintImageService;
             //_httpContext = httpContext;
         }
@@ -63,7 +66,7 @@ namespace PostaFlya.Controllers
                 return File(GetNotFoundData(), "image/jpeg");
 
             id = id.Substring(0, idLength);
-            var image = _queryService.FindById<Image>(id);
+            var image = _queryChannel.Query(new FindByIdQuery<Image>() { Id = id }, (Image)null);
             if(image == null)
                 return File(GetNotFoundData(), "image/jpeg");
 
@@ -165,7 +168,7 @@ namespace PostaFlya.Controllers
 
         public ActionResult GetPrintFlier(string id, string printStyle = TearOffPrintStyle)
         {
-            var flier = _queryService.FindById<Flier>(id);
+            var flier = _queryChannel.Query(new FindByIdQuery<Flier>() { Id = id }, (Flier)null);
             if(flier == null)
                 return new HttpNotFoundResult();
 

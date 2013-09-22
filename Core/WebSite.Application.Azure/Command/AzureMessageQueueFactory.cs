@@ -14,15 +14,18 @@ namespace Website.Application.Azure.Command
         private readonly MessageHandlerRespositoryInterface _handlerRespository;
         private readonly CloudBlobClient _cloudBlobClient;
         private readonly QueueFactoryInterface _queueFactory;
+        private readonly UnitOfWorkFactoryInterface _unitOfWorkFactory;
 
 
         public AzureMessageQueueFactory(
             CloudBlobClient cloudBlobClient
             , QueueFactoryInterface queueFactory
-            , MessageHandlerRespositoryInterface handlerRespository)
+            , MessageHandlerRespositoryInterface handlerRespository
+            , UnitOfWorkFactoryInterface unitOfWorkFactory)
         {
             _cloudBlobClient = cloudBlobClient;
             _handlerRespository = handlerRespository;
+            _unitOfWorkFactory = unitOfWorkFactory;
             _queueFactory = queueFactory;
         }
 
@@ -47,7 +50,7 @@ namespace Website.Application.Azure.Command
         {
             var queue = GetQueueForEndpoint(queueEndpoint);
             var commandSerializer = GetCommandSerializerForEndpoint(queueEndpoint);
-            return new QueuedMessageProcessor(queue, commandSerializer, _handlerRespository);
+            return new QueuedMessageProcessor(queue, commandSerializer, _handlerRespository, _unitOfWorkFactory);
         }
 
         private QueueInterface GetQueueForEndpoint(string queueEndpoint)

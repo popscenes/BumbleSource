@@ -1,54 +1,24 @@
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
 using System.Web.Http;
-using PostaFlya.Application.Domain.Browser;
 using PostaFlya.Application.Domain.Flier;
-using PostaFlya.Domain.Boards;
 using PostaFlya.Domain.Flier.Analytic;
-using Website.Application.Binding;
 using PostaFlya.Areas.Default.Models;
 using PostaFlya.Domain.Flier;
-using PostaFlya.Domain.Flier.Query;
 using PostaFlya.Models.Flier;
-using PostaFlya.Models.Location;
-using Website.Application.Content;
-using Website.Common.Model.Query;
 using Website.Common.Obsolete;
-using Website.Domain.Location;
-using Website.Domain.Tag;
-using Website.Domain.TinyUrl;
-using Website.Infrastructure.Configuration;
 using Website.Infrastructure.Query;
 
 namespace PostaFlya.Controllers
 {
     public class BulletinApiController : OldWebApiControllerBase
     {
-        private readonly GenericQueryServiceInterface _queryService;
-        private readonly BlobStorageInterface _blobStorage;
-        //private readonly FlierSearchServiceInterface _flierSearchService;
         private readonly FlierWebAnalyticServiceInterface _webAnalyticService;
-        private readonly TinyUrlServiceInterface _tinyUrlService;
-        private readonly PostaFlyaBrowserInformationInterface _browserInformation;
-        private readonly ConfigurationServiceInterface _configurationService;
         private readonly QueryChannelInterface _queryChannel;
 
 
-        public BulletinApiController(GenericQueryServiceInterface queryService,
-            [ImageStorage]BlobStorageInterface blobStorage
-            //, FlierSearchServiceInterface flierSearchService
-            , FlierWebAnalyticServiceInterface webAnalyticService, TinyUrlServiceInterface tinyUrlService
-            , PostaFlyaBrowserInformationInterface browserInformation, ConfigurationServiceInterface configurationService, QueryChannelInterface queryChannel)
+        public BulletinApiController(FlierWebAnalyticServiceInterface webAnalyticService, QueryChannelInterface queryChannel)
         {
-            _queryService = queryService;
-            _blobStorage = blobStorage;
-           // _flierSearchService = flierSearchService;
+            // _flierSearchService = flierSearchService;
             _webAnalyticService = webAnalyticService;
-            _tinyUrlService = tinyUrlService;
-            _browserInformation = browserInformation;
-            _configurationService = configurationService;
             _queryChannel = queryChannel;
         }
 

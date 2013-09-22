@@ -21,19 +21,16 @@ namespace PostaFlya.Controllers
     {
         private readonly PostaFlyaBrowserInformationInterface _browserInformation;
         private readonly ConfigurationServiceInterface _configurationService;
-        private readonly GenericQueryServiceInterface _queryService;
         private readonly FlierWebAnalyticServiceInterface _webAnalyticService;
         private readonly QueryChannelInterface _queryChannel;
         
 
         public TrackViewController(PostaFlyaBrowserInformationInterface browserInformation
             , ConfigurationServiceInterface configurationService
-            , GenericQueryServiceInterface queryService
             , FlierWebAnalyticServiceInterface webAnalyticService, QueryChannelInterface queryChannel)
         {
             _browserInformation = browserInformation;
             _configurationService = configurationService;
-            _queryService = queryService;
             _webAnalyticService = webAnalyticService;
             _queryChannel = queryChannel;
         }

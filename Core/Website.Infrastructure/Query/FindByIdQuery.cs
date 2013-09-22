@@ -14,4 +14,10 @@ namespace Website.Infrastructure.Query
     {
         public IEnumerable<string> Ids { get; set; }
     }
+
+    public class FindByAggregateIdQuery<QueryForType> : QueryInterface<QueryForType>
+    where QueryForType : class, AggregateInterface, new()
+    {
+        public string Id { get; set; }
+    }
 }

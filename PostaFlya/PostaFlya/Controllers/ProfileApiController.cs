@@ -23,7 +23,6 @@
 //    [BrowserAuthorizeHttp]
 //    public class ProfileApiController : ApiController
 //    {
-//        private readonly GenericQueryServiceInterface _queryService;
 //        private readonly BlobStorageInterface _blobStorage;
 //        private readonly FlierBehaviourViewModelFactoryInterface _viewModelFactory;
 //
@@ -42,7 +41,6 @@
 //        }
 //
 //        public static ProfileViewModel GetForHandle(string handle
-//            , GenericQueryServiceInterface queryService
 //            , BlobStorageInterface blobStorage
 //            , FlierBehaviourViewModelFactoryInterface viewModelFactory)
 //        {

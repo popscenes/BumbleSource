@@ -15,12 +15,13 @@ namespace PostaFlya.Controllers
     public class TinyUrlController : Controller
     {
         private readonly ConfigurationServiceInterface _configurationService;
-        private readonly GenericQueryServiceInterface _queryService;
+        private readonly QueryChannelInterface _queryChannel;
 
-        public TinyUrlController(ConfigurationServiceInterface configurationService, GenericQueryServiceInterface queryService)
+        public TinyUrlController(ConfigurationServiceInterface configurationService, 
+            QueryChannelInterface queryChannel)
         {
             _configurationService = configurationService;
-            _queryService = queryService;
+            _queryChannel = queryChannel;
         }
 
         public ActionResult Get(string path)
@@ -32,7 +33,8 @@ namespace PostaFlya.Controllers
             var info = fromRoute as EntityInterface;
             if(info == null || !(info.PrimaryInterface == typeof(FlierInterface)))
                 return new HttpNotFoundResult();
-            var flier = _queryService.FindById<Flier>(info.Id);
+            var flier = _queryChannel.Query(new FindByIdQuery<Flier>() {Id = info.Id},
+                                            (Flier) null);
             if(flier == null)
                 return new HttpNotFoundResult();
 

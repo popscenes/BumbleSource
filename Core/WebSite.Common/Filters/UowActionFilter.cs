@@ -1,26 +1,27 @@
 ﻿using System.Web.Http.Controllers;
 using System.Web.Http.Filters;
+using System.Web.Mvc;
 using Ninject;
 using Ninject.Syntax;
 using Website.Infrastructure.Command;
 
 namespace Website.Common.Filters
 {
-    public class UowActionFilter : ActionFilterAttribute
+    public class UowActionFilter : System.Web.Mvc.ActionFilterAttribute
     {
         [Inject]
-        public IResolutionRoot ResolutionRoot { get; set; }
+        public UnitOfWorkFactoryInterface UnitOfWorkFactory { get; set; }
 
-        public override void OnActionExecuting(HttpActionContext actionContext)
+        public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
-            ResolutionRoot.Get<UnitOfWorkInterface>().Begin();
-            base.OnActionExecuting(actionContext);
+            UnitOfWorkFactory.GetUowInContext().Begin();
+            base.OnActionExecuting(filterContext);
         }
 
-        public override void OnActionExecuted(HttpActionExecutedContext actionExecutedContext)
+        public override void OnActionExecuted(ActionExecutedContext actionExecutedContext)
         {
             base.OnActionExecuted(actionExecutedContext);
-            ResolutionRoot.Get<UnitOfWorkInterface>().End();
+            UnitOfWorkFactory.GetUowInContext().End();
 
         }
     }

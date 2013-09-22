@@ -5,6 +5,7 @@ using System.Threading;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using Website.Application.Queue;
+using Website.Infrastructure.Command;
 using Website.Infrastructure.Messaging;
 using Website.Infrastructure.Task;
 
@@ -15,6 +16,7 @@ namespace Website.Application.Messaging
         private readonly QueueInterface _messageQueue;
         private readonly MessageSerializerInterface _messageSerializer;
         private readonly MessageHandlerRespositoryInterface _handlerRespository;
+        private readonly UnitOfWorkFactoryInterface _unitOfWorkFactory;
         private int _completeCount;
         private int _waitLength = 200;
         private const int MaxBackOffLimit = 1000;
@@ -26,11 +28,12 @@ namespace Website.Application.Messaging
 
         public QueuedMessageProcessor(QueueInterface messageQueue,  
             MessageSerializerInterface messageSerializer, 
-            MessageHandlerRespositoryInterface handlerRespository, int numWorkers = 4)
+            MessageHandlerRespositoryInterface handlerRespository, UnitOfWorkFactoryInterface unitOfWorkFactory, int numWorkers = 4)
         {
             _messageQueue = messageQueue;
             _messageSerializer = messageSerializer;
             _handlerRespository = handlerRespository;
+            _unitOfWorkFactory = unitOfWorkFactory;
             _workers = new QueueWorker<WorkInProgress>[numWorkers];
             _completedWork = new ConcurrentQueue<WorkInProgress>();
 
@@ -96,7 +99,7 @@ namespace Website.Application.Messaging
                     (w) => TaskProc(w)
                     , cancellationToken
                     , WorkerQueueBounds
-                    , _completedWork);
+                    , _completedWork, _unitOfWorkFactory);
                 _workers[i].Start();
             }
         }

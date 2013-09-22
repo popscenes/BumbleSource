@@ -19,33 +19,34 @@ namespace Website.Application.Domain.TinyUrl
     {
         public const int TinyUrlsToBuffer = 2000;
 
-        private readonly GenericRepositoryInterface _repository;
-        private readonly GenericQueryServiceInterface _queryService;
+        private readonly UnitOfWorkForRepoFactoryInterface _unitOfWorkFactory;
         private readonly ConfigurationServiceInterface _configurationService;
         private readonly QueryChannelInterface _queryChannel;
 
-        public DefaultTinyUrlService(GenericRepositoryInterface repository,
-            GenericQueryServiceInterface queryService, ConfigurationServiceInterface configurationService
-            , QueryChannelInterface queryChannel)
+        public DefaultTinyUrlService(ConfigurationServiceInterface configurationService
+            , QueryChannelInterface queryChannel, UnitOfWorkForRepoFactoryInterface unitOfWorkFactory)
         {
-            _repository = repository;
-            _queryService = queryService;
             _configurationService = configurationService;
             _queryChannel = queryChannel;
+            _unitOfWorkFactory = unitOfWorkFactory;
         }
 
         private Random _picker;
         private TinyUrlRecord BaseUrl()
         {
-            var baseUrls = _queryService.FindAggregateEntityIds<TinyUrlRecord>(TinyUrlRecord.UnassignedToAggregateId).ToList();
-            if (!baseUrls.Any())
+            using (var context = _unitOfWorkFactory.GetUowInContext().Begin() as UnitOfWorkForRepoInterface)
             {
-                return Init();
-            }
-            
-            var idxToTry = _picker.Next(0, baseUrls.Count() - 1);
+                var baseUrls = context.CurrentQuery.FindAggregateEntityIds<TinyUrlRecord>(TinyUrlRecord.UnassignedToAggregateId).ToList();
+                if (!baseUrls.Any())
+                {
+                    return Init();
+                }
 
-            return _queryService.FindByAggregate<TinyUrlRecord>(baseUrls[idxToTry], TinyUrlRecord.UnassignedToAggregateId);
+                var idxToTry = _picker.Next(0, baseUrls.Count() - 1);
+
+                return context.CurrentQuery.FindByAggregate<TinyUrlRecord>(baseUrls[idxToTry], TinyUrlRecord.UnassignedToAggregateId);
+            }
+
         }
 
         private TinyUrlRecord Init()
@@ -62,42 +63,51 @@ namespace Website.Application.Domain.TinyUrl
                     TinyUrl = url
                 };
 
-
-            _repository.Store(rec);    
+            using (var context = _unitOfWorkFactory.GetUowInContext().Begin() as UnitOfWorkForRepoInterface)
+            {
+                context.CurrentRepo.Store(rec); 
+            }
+               
             
             return rec;
         }
 
         public string UrlFor<UrlEntityType>(UrlEntityType entity) where UrlEntityType : class, EntityWithTinyUrlInterface, new()
         {
-            var ent = _queryService.FindById<UrlEntityType>(entity.Id);
-            if (ent != null && !string.IsNullOrEmpty(ent.TinyUrl))
-                return ent.TinyUrl;
+            using (var context = _unitOfWorkFactory.GetUowInContext().Begin() as UnitOfWorkForRepoInterface)
+            {
+                var ent = context.CurrentQuery.FindById<UrlEntityType>(entity.Id);
+                if (ent != null && !string.IsNullOrEmpty(ent.TinyUrl))
+                    return ent.TinyUrl;
 
-            _picker = new Random(entity.Id.GetHashCode());
+                _picker = new Random(entity.Id.GetHashCode());
 
-            var newUrl = "";
+                var newUrl = "";
 
-            var record = BaseUrl();
+                var record = BaseUrl();
 
-            //this will retry until it has successfully incremented the url
-            _repository.UpdateAggregateEntity<TinyUrlRecord>(record.Id, record.AggregateId,
-                urlRecord =>
+                //this will retry until it has successfully incremented the url
+                context.CurrentRepo.UpdateAggregateEntity<TinyUrlRecord>(record.Id, record.AggregateId,
+                    urlRecord =>
                     {
                         TinyUrlUtil.Increment(urlRecord);
                         newUrl = urlRecord.TinyUrl;
                     }
-                );
-            
-            return newUrl;
+                    );
+
+                return newUrl;
+            }
+
 
         }
 
         public EntityInterface EntityInfoFor(string url)
         {
-            return _queryChannel.Query(new FindByTinyUrlQuery() { Url = url }, (EntityWithTinyUrlInterface)null);
+            using (var context = _unitOfWorkFactory.GetUowInContext().Begin() as UnitOfWorkForRepoInterface)
+            {
+                return _queryChannel.Query(new FindByTinyUrlQuery() { Url = url }, (EntityWithTinyUrlInterface)null);
+            }
         }
-
     }
 
 

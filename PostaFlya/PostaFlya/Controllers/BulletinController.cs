@@ -20,27 +20,19 @@ namespace PostaFlya.Controllers
 {
     public class BulletinController : Controller
     {
-        private readonly GenericQueryServiceInterface _queryService;
-        private readonly BlobStorageInterface _blobStorage;
         //private readonly FlierSearchServiceInterface _flierSearchService;
         private readonly PostaFlyaBrowserInformationInterface _browserInformation;
         private readonly FlierWebAnalyticServiceInterface _webAnalyticService;
-        private readonly WebsiteInfoServiceInterface _websiteInfoService;
         private readonly QueryChannelInterface _queryChannel;
 
-        public BulletinController(GenericQueryServiceInterface queryService
-            , [ImageStorage]BlobStorageInterface blobStorage
-            //, FlierSearchServiceInterface flierSearchService
-            , PostaFlyaBrowserInformationInterface browserInformation
+        public BulletinController(
+             PostaFlyaBrowserInformationInterface browserInformation
             , FlierWebAnalyticServiceInterface webAnalyticService
-            ,WebsiteInfoServiceInterface websiteInfoService, QueryChannelInterface queryChannel)
+            , QueryChannelInterface queryChannel)
         {
-            _queryService = queryService;
-            _blobStorage = blobStorage;
-           // _flierSearchService = flierSearchService;
+            // _flierSearchService = flierSearchService;
             _browserInformation = browserInformation;
             _webAnalyticService = webAnalyticService;
-            _websiteInfoService = websiteInfoService;
             _queryChannel = queryChannel;
         }
 

@@ -21,19 +21,15 @@ namespace PostaFlya.Areas.WebApi.Flyers.Controllers
         // GET: /WebApi/WebFlyersByBrowser/
 
         private readonly QueryChannelInterface _queryChannel;
-        private readonly GenericQueryServiceInterface _queryService;
 
-        public WebFlyersByBrowserController(QueryChannelInterface queryChannel, GenericQueryServiceInterface queryService)
+        public WebFlyersByBrowserController(QueryChannelInterface queryChannel)
         {
             _queryChannel = queryChannel;
-            _queryService = queryService;
         }
 
         public ResponseContent<FlyersByDateContent> Get([FromUri]FlyersByBrowserRequest req)
         {
-
             var query = new GetByBrowserIdQuery<Claim>() {BrowserId = req.BrowserId};
-            //var flyers = _queryChannel.Query(query, new List<Claim>()).Select(l => _queryService.FindById<Flier>(l.AggregateId));
 
             var content = _queryChannel.Query(query, new FlyersByDateContent());
             return ResponseContent<FlyersByDateContent>.GetResponse(content);

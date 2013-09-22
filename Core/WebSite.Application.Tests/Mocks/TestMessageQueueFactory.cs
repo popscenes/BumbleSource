@@ -16,10 +16,13 @@ namespace Website.Application.Tests.Mocks
     public class TestMessageQueueFactory : MessageQueueFactoryInterface
     {
         private readonly MoqMockingKernel _kernel;
+        private readonly UnitOfWorkFactoryInterface _unitOfWorkFactory;
+
 
         public TestMessageQueueFactory(MoqMockingKernel kernel)
         {
             _kernel = kernel;
+            _unitOfWorkFactory = kernel.Get<UnitOfWorkFactoryInterface>();
         }
 
         public class TestQueueMessage : QueueMessageInterface
@@ -89,7 +92,8 @@ namespace Website.Application.Tests.Mocks
         {
             return new QueuedMessageProcessor(GetQueue(queueEndpoint)
                                               , _messageSerializer
-                                              , _kernel.Get<MessageHandlerRespositoryInterface>());
+                                              , _kernel.Get<MessageHandlerRespositoryInterface>()
+                                              , _unitOfWorkFactory);
         }
 
         private TestQueue GetQueue(string queueEndpoint)

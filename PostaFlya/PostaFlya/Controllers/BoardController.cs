@@ -13,14 +13,11 @@ namespace PostaFlya.Controllers
 {
     public class BoardController : Controller
     {
-        private readonly GenericQueryServiceInterface _queryService;
-
         private readonly QueryChannelInterface _queryChannel;
         private readonly ConfigurationServiceInterface _configurationService;
 
-        public BoardController(GenericQueryServiceInterface queryService, QueryChannelInterface queryChannel, ConfigurationServiceInterface configurationService)
+        public BoardController(QueryChannelInterface queryChannel, ConfigurationServiceInterface configurationService)
         {
-            _queryService = queryService;
             _queryChannel = queryChannel;
             _configurationService = configurationService;
         }
