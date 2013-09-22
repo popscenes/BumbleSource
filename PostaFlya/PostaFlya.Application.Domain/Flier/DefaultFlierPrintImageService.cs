@@ -18,24 +18,26 @@ namespace PostaFlya.Application.Domain.Flier
     public class DefaultFlierPrintImageService : FlierPrintImageServiceInterface
     {
         private readonly BlobStorageInterface _blobStorage;
-        private readonly GenericQueryServiceInterface _queryService;
+        private readonly QueryChannelInterface _queryChannel;
         private readonly QrCodeServiceInterface _qrCodeService;
         private readonly BlobStorageInterface _appStorage;
 
         public DefaultFlierPrintImageService([ImageStorage]BlobStorageInterface blobStorage
-            , GenericQueryServiceInterface queryService, QrCodeServiceInterface qrCodeService,
-            [ApplicationStorage]BlobStorageInterface appStorage)
+            , QrCodeServiceInterface qrCodeService,
+            [ApplicationStorage]BlobStorageInterface appStorage, QueryChannelInterface queryChannel)
         {
             _blobStorage = blobStorage;
-            _queryService = queryService;
             _qrCodeService = qrCodeService;
             _appStorage = appStorage;
+            _queryChannel = queryChannel;
         }
 
 
         public Image GetPrintImageForFlierWithTearOffs(string flierId)
         {
-            var flier = _queryService.FindById<PostaFlya.Domain.Flier.Flier>(flierId);
+            var flier = _queryChannel.Query(new FindByIdQuery<PostaFlya.Domain.Flier.Flier>() { Id = flierId }
+                , (PostaFlya.Domain.Flier.Flier)null);
+
             if (flier == null || !flier.Image.HasValue)
                 return null;
 
@@ -63,7 +65,8 @@ namespace PostaFlya.Application.Domain.Flier
 
         public Image GetQrCodeImageForFlier(string flierId)
         {
-            var flier = _queryService.FindById<PostaFlya.Domain.Flier.Flier>(flierId);
+            var flier = _queryChannel.Query(new FindByIdQuery<PostaFlya.Domain.Flier.Flier>() { Id = flierId }
+                , (PostaFlya.Domain.Flier.Flier)null);
             if (flier == null || !flier.Image.HasValue)
                 return null;
 
@@ -84,7 +87,8 @@ namespace PostaFlya.Application.Domain.Flier
 
         public Image GetPrintImageForFlier(string flierId, FlierPrintImageServiceQrLocation qrLocation)
         {
-            var flier = _queryService.FindById<PostaFlya.Domain.Flier.Flier>(flierId);
+            var flier = _queryChannel.Query(new FindByIdQuery<PostaFlya.Domain.Flier.Flier>() { Id = flierId }
+                , (PostaFlya.Domain.Flier.Flier)null);
             if (flier == null || !flier.Image.HasValue)
                 return null;
 

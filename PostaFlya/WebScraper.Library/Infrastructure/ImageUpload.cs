@@ -8,6 +8,7 @@ using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using NLog;
 using WebScraper.Library.Model;
 using Website.Application.Extension.Content;
 
@@ -20,6 +21,8 @@ namespace WebScraper.Library.Infrastructure
         private readonly String _imageName;
         private readonly String _imagePost;
         private readonly Image _image;
+        protected Logger Logger = LogManager.GetCurrentClassLogger();
+
 
 
         public ImageUpload(string authcookie, string server, Image image, String fileName)
@@ -57,12 +60,12 @@ namespace WebScraper.Library.Infrastructure
                                 {
                                     if (!res.IsSuccessStatusCode)
                                     {
-                                        Trace.TraceError("Image upload failed Error " + res.StatusCode + " " + await res.Content.ReadAsStringAsync());
+                                        Logger.Error("Image upload failed Error " + res.StatusCode + " " + await res.Content.ReadAsStringAsync());
                                         return "";
                                     }
                                     var loc = res.Headers.Location.ToString();
                                     var imageId = loc.Substring(loc.LastIndexOf('/') + 1).Replace(Path.GetExtension(_imageName), "");
-                                    Trace.TraceInformation("Image Uploaded " + res.Headers.Location);
+                                    Logger.Info("Image Uploaded " + res.Headers.Location);
                                     return imageId;
                                 }
                             }
@@ -74,7 +77,7 @@ namespace WebScraper.Library.Infrastructure
             }
             catch (Exception e)
             {
-                Trace.TraceError("Image upload failed Error " + e);
+                Logger.ErrorException("Image upload failed Error ", e);
                 return "";
             }
 

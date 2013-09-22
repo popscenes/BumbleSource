@@ -38,7 +38,7 @@ namespace PostaFlya.Domain.Boards.Command
             var newBoard = new Board
                 {
                     BrowserId = command.BrowserId,
-                    Id = Guid.NewGuid().ToString(),
+                    Id = command.MessageId,
                     FriendlyId = command.BoardName,
                     Name = command.BoardName,
                     RequireApprovalOfPostedFliers = command.RequireApprovalOfPostedFliers,

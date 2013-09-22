@@ -16,17 +16,12 @@ namespace PostaFlya.Controllers
     public class ProfileController : Controller
     {
         private readonly PostaFlyaBrowserInformationInterface _browserInformation;
-        private readonly GenericQueryServiceInterface _queryService;
-        private readonly BlobStorageInterface _blobStorage;
         private readonly QueryChannelInterface _queryChannel;
 
         public ProfileController(PostaFlyaBrowserInformationInterface browserInformation
-            , GenericQueryServiceInterface queryService, [ImageStorage]BlobStorageInterface blobStorage
             , QueryChannelInterface queryChannel)
         {
             _browserInformation = browserInformation;
-            _queryService = queryService;
-            _blobStorage = blobStorage;
             _queryChannel = queryChannel;
         }
 

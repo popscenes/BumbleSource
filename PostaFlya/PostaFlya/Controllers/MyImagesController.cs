@@ -16,14 +16,12 @@ namespace PostaFlya.Controllers
     [Website.Application.Domain.Obsolete.BrowserAuthorizeHttp]
     public class MyImagesController : OldWebApiControllerBase
     {
-        private readonly GenericQueryServiceInterface _queryService;
         private readonly BlobStorageInterface _blobStorage;
         private readonly QueryChannelInterface _queryChannel;
 
-        public MyImagesController(GenericQueryServiceInterface queryService,
+        public MyImagesController(
             [ImageStorage]BlobStorageInterface blobStorage, QueryChannelInterface queryChannel)
         {
-            _queryService = queryService;
             _blobStorage = blobStorage;
             _queryChannel = queryChannel;
         }

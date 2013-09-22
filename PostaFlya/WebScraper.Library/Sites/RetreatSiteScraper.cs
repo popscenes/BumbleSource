@@ -5,6 +5,7 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using NLog;
 using OpenQA.Selenium;
 using PostaFlya.Application.Domain.Google.Places;
 using PostaFlya.Domain.Flier;
@@ -25,6 +26,8 @@ namespace WebScraper.Library.Sites
         public const string BaseUrl = "http://retreathotelbrunswick.com.au";
         private const string Url = BaseUrl + "/gigs/";
         private const string Tags = "music";
+
+        protected Logger Logger = LogManager.GetCurrentClassLogger();
 
         private readonly VenueInformationModel _venueInformationModel;
 
@@ -98,7 +101,7 @@ namespace WebScraper.Library.Sites
             }
             catch (Exception e)
             {
-                Trace.WriteLine(e);
+                Logger.LogException(LogLevel.Error, "retreat failed", e );
                 return null;
             }
 

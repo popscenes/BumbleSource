@@ -44,7 +44,8 @@ namespace PostaFlya.Controllers
                 };
 
             _messageBus.Send(createBoardCommand);
-            return this.GetResponseForRes(new MsgResponse() { IsError = false });            
+            return this.GetResponseForRes(new MsgResponse() { IsError = false }
+                .AddMessageProperty("EntityId", createBoardCommand.MessageId));            
         }
 
         public HttpResponseMessage Put(string browserId, BoardCreateEditModel boardEdit)

@@ -78,7 +78,8 @@ namespace PostaFlya.Controllers
             };
 
             _messageBus.Send(createFlier);
-            return this.GetResponseForRes(new MsgResponse() { IsError = false });                        
+            return this.GetResponseForRes(new MsgResponse() { IsError = false }
+                .AddMessageProperty("EntityId", createFlier.MessageId));                        
         }
 
         public HttpResponseMessage Put(string browserId, FlierCreateModel editModel)
@@ -100,7 +101,8 @@ namespace PostaFlya.Controllers
             };
 
             _messageBus.Send(editFlier);
-            return this.GetResponseForRes(new MsgResponse() { IsError = false });            
+            return this.GetResponseForRes(new MsgResponse() { IsError = false }
+                .AddMessageProperty("EntityId", editFlier.Id));            
         }
 
         public void Delete(string browserId, string id)

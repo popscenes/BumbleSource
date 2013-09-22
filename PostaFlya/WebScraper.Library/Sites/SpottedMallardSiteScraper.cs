@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Text;
+using NLog;
 using OpenQA.Selenium;
 using PostaFlya.Application.Domain.Google.Places;
 using PostaFlya.Domain.Flier;
@@ -18,6 +19,8 @@ namespace WebScraper.Library.Sites
 {
     public class SpottedMallardSiteScraper : SiteScraperInterface
     {
+        protected Logger Logger = LogManager.GetCurrentClassLogger();
+
         private readonly IWebDriver _driver;
 
         public const string BaseUrl = "http://spottedmallard.com";
@@ -109,7 +112,8 @@ namespace WebScraper.Library.Sites
             }
             catch (Exception e)
             {
-                Trace.WriteLine(e);
+                Logger.ErrorException("", e);
+
             }
 
         }
@@ -134,7 +138,8 @@ namespace WebScraper.Library.Sites
             }
             catch (Exception e)
             {
-                Trace.WriteLine(e);
+                Logger.ErrorException("", e);
+
                 return null;
             }
         }

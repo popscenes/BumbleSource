@@ -45,6 +45,7 @@ namespace PostaFlya.Domain.Flier.Command
 
             var newFlier = new Flier()
                                {
+                                   Id = command.MessageId,
                                    BrowserId = command.Anonymous ? Guid.Empty.ToString() : command.BrowserId,
                                    Title = command.Title,
                                    Description = command.Description,

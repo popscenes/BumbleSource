@@ -5,6 +5,7 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using NLog;
 using OpenQA.Selenium;
 using PostaFlya.Application.Domain.Google.Places;
 using PostaFlya.Domain.Venue;
@@ -17,6 +18,8 @@ namespace WebScraper.Library.Sites
 {
     class DingDongScraper: SiteScraperInterface
     {
+        protected Logger Logger = LogManager.GetCurrentClassLogger();
+
         public string SiteName { get { return RegisterSites.DingDong; } }
         public List<ImportedFlyerScraperModel> GetFlyersFrom(DateTime eventDateStart, DateTime eventDateEnd)
         {
@@ -71,7 +74,7 @@ namespace WebScraper.Library.Sites
             }
             catch (Exception e)
             {
-                Trace.WriteLine(e);
+                Logger.ErrorException("",e);
                 return null;
             }
 
@@ -87,7 +90,7 @@ namespace WebScraper.Library.Sites
             }
             catch (Exception e)
             {
-                Trace.WriteLine(e);
+                Logger.ErrorException("", e);
             }
 
         }

@@ -9,6 +9,7 @@ using System.Net.Http.Formatting;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
+using NLog;
 using Newtonsoft.Json;
 using PostaFlya.Models.Flier;
 using WebScraper.Library.Model;
@@ -24,6 +25,8 @@ namespace WebScraper.Library.Infrastructure
         private readonly String _server;
         private readonly String _flyerPost;
         private readonly String _imagePost;
+        protected Logger Logger = LogManager.GetCurrentClassLogger();
+
         
 
         public FlyerUpload(string authcookie, string browserId, ImportedFlyerScraperModel model, string server)
@@ -63,19 +66,19 @@ namespace WebScraper.Library.Infrastructure
                             req.RequestUri = new Uri(_server + _flyerPost);
                             var cont = new FlierCreateModel().MapFrom(_model);
 
-                            Trace.TraceInformation(JsonConvert.SerializeObject(cont));
+                            Logger.Info(JsonConvert.SerializeObject(cont));
 
                             req.Content = new ObjectContent<FlierCreateModel>(cont, new JsonMediaTypeFormatter());
                             using (var res = await client.SendAsync(req))
                             {
                                 if (!res.IsSuccessStatusCode)
                                 {
-                                    Trace.TraceError("Error " + res.StatusCode + " " + await res.Content.ReadAsStringAsync());
+                                    Logger.Error("Error " + res.StatusCode + " " + await res.Content.ReadAsStringAsync());
                                     return false;
                                 }
                                 else
                                 {
-                                    Trace.TraceInformation("Created " + res.Headers.Location);
+                                    Logger.Info("Created " + res.Headers.Location);
                                     return true;
                                 }
 
@@ -88,7 +91,7 @@ namespace WebScraper.Library.Infrastructure
             }
             catch (Exception e)
             {
-                Trace.TraceError("Error " + e);
+                Logger.ErrorException("Error ", e);
                 return false;
             }
 
@@ -122,7 +125,8 @@ namespace WebScraper.Library.Infrastructure
                                 {
                                     if (!res.IsSuccessStatusCode)
                                     {
-                                        Trace.TraceError("Image upload failed Error " + res.StatusCode + " " + await res.Content.ReadAsStringAsync());
+                                        Logger.Error("Image upload failed Error " + res.StatusCode + " " +
+                                                     await res.Content.ReadAsStringAsync());
                                         return false;
                                     }
                                     else
@@ -131,7 +135,7 @@ namespace WebScraper.Library.Infrastructure
                                         var loc = res.Headers.Location.ToString();
                                         var imageId = loc.Substring(loc.LastIndexOf('/') + 1).Replace(".jpg","");
                                         _model.ImageUrl = imageId;
-                                        Trace.TraceInformation("Image Uploaded " + res.Headers.Location);
+                                        Logger.Info("Image Uploaded " + res.Headers.Location);
                                         return true;
                                     }
 
@@ -145,7 +149,7 @@ namespace WebScraper.Library.Infrastructure
             }
             catch (Exception e)
             {
-                Trace.TraceError("Image upload failed Error " + e);
+                Logger.ErrorException("Image upload failed Error ", e);
                 return false;
             }
 
@@ -166,7 +170,7 @@ namespace WebScraper.Library.Infrastructure
             }
             catch (Exception e)
             {
-                Trace.TraceError("Failed to retrieve image " + _model.ImageUrl + "\n" + e);
+                Logger.ErrorException("Failed to retrieve image " + _model.ImageUrl + "\n", e);
                 return false;
             }
             return true;

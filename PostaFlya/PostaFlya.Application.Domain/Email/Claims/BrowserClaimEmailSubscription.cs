@@ -25,17 +25,17 @@ namespace PostaFlya.Application.Domain.Email.Claims
 {
     public class BrowserClaimEmailSubscription : BrowserSubscriptionBase<EntityModifiedEvent<Claim>>
     {
-        private readonly GenericQueryServiceInterface _entityQueryService;
+        //private readonly GenericQueryServiceInterface _entityQueryService;
         private readonly SendEmailServiceInterface _emailService;
         private readonly ConfigurationServiceInterface _config;
         private readonly QueryChannelInterface _queryChannel;
 
         public BrowserClaimEmailSubscription(MessageBusInterface messageBus
-                                                   , GenericQueryServiceInterface entityQueryService
+                                                   //, GenericQueryServiceInterface entityQueryService
                                                    , SendEmailServiceInterface emailService
                                                     ,ConfigurationServiceInterface config, QueryChannelInterface queryChannel) : base(messageBus)
         {
-            _entityQueryService = entityQueryService;
+            //_entityQueryService = entityQueryService;
             _emailService = emailService;
             _config = config;
             _queryChannel = queryChannel;
@@ -50,8 +50,9 @@ namespace PostaFlya.Application.Domain.Email.Claims
         public override BrowserInterface[] GetBrowsersForPublish(EntityModifiedEvent<Claim> publish)
         {
             var claim = publish.Entity;
-            BrowserInterface browser = _entityQueryService.FindById<Website.Domain.Browser.Browser>(claim.BrowserId);
-            
+            BrowserInterface browser = _queryChannel.Query(
+                new FindByIdQuery<Website.Domain.Browser.Browser>() { Id = claim.BrowserId }
+                , (Website.Domain.Browser.Browser)null);            
 
             var browserPublishList = new List<BrowserInterface>();
 
@@ -60,8 +61,13 @@ namespace PostaFlya.Application.Domain.Email.Claims
 
             if (claim.ClaimContext.Equals("senduserdetails", StringComparison.CurrentCultureIgnoreCase))
             {
-                FlierInterface flier = _entityQueryService.FindById<PostaFlya.Domain.Flier.Flier>(claim.AggregateId);
-                BrowserInterface ownerBrowser = _entityQueryService.FindById<Website.Domain.Browser.Browser>(flier.BrowserId);
+                FlierInterface flier = _queryChannel.Query(new FindByIdQuery<PostaFlya.Domain.Flier.Flier>() { Id = claim.AggregateId }
+                , (PostaFlya.Domain.Flier.Flier)null);
+
+                BrowserInterface ownerBrowser = _queryChannel.Query(
+                new FindByIdQuery<Website.Domain.Browser.Browser>() { Id = flier.BrowserId }
+                , (Website.Domain.Browser.Browser)null); 
+
                 if (ownerBrowser != null)
                     browserPublishList.Add(ownerBrowser);
             }
@@ -71,7 +77,8 @@ namespace PostaFlya.Application.Domain.Email.Claims
 
         public override bool PublishToBrowser(BrowserInterface browser, EntityModifiedEvent<Claim> publish)
         {
-            var flier = _entityQueryService.FindById<PostaFlya.Domain.Flier.Flier>(publish.Entity.AggregateId);
+            var flier = _queryChannel.Query(new FindByIdQuery<PostaFlya.Domain.Flier.Flier>() { Id = publish.Entity.AggregateId }
+                , (PostaFlya.Domain.Flier.Flier)null); 
 
             if (browser.Id.Equals(publish.Entity.BrowserId))
             {
@@ -115,7 +122,9 @@ namespace PostaFlya.Application.Domain.Email.Claims
             email.From = new MailAddress("details@popscenes.com");
             email.Subject = "Popscenes details for: " + flier.Title.ToLetterOrDigitAndSpaceOnly();
 
-            var poster = _entityQueryService.FindById<Website.Domain.Browser.Browser>(flier.BrowserId);
+            var poster = _queryChannel.Query(
+                new FindByIdQuery<Website.Domain.Browser.Browser>() { Id = flier.BrowserId }
+                , (Website.Domain.Browser.Browser)null);
             var dets = flier.GetVenueForFlier(_queryChannel);
 
             email.Body = GetBodyFor(flier, dets);
@@ -240,19 +249,25 @@ namespace PostaFlya.Application.Domain.Email.Claims
 
         private Event GetEventForFlier(PostaFlya.Domain.Flier.Flier flier)
         {
-            var browser = _entityQueryService.FindById<Website.Domain.Browser.Browser>(flier.BrowserId);
+            var browser = _queryChannel.Query(
+                new FindByIdQuery<Website.Domain.Browser.Browser>() { Id = flier.BrowserId }
+                , (Website.Domain.Browser.Browser)null); 
             return flier.ToICalEvent(_queryChannel);
         }
 
         private VCard GetVCardForBrowser(string browserId)
         {
-            var browser = _entityQueryService.FindById<Website.Domain.Browser.Browser>(browserId);
+            var browser = _queryChannel.Query(
+                new FindByIdQuery<Website.Domain.Browser.Browser>() { Id = browserId }
+                , (Website.Domain.Browser.Browser)null);  
             return browser.ToVCard();
         }
 
         private VCard GetVCardForFlier(PostaFlya.Domain.Flier.Flier flier)
         {
-            var browser = _entityQueryService.FindById<Website.Domain.Browser.Browser>(flier.BrowserId);
+            var browser = _queryChannel.Query(
+                new FindByIdQuery<Website.Domain.Browser.Browser>() { Id = flier.BrowserId }
+                , (Website.Domain.Browser.Browser)null); 
             var dets = flier.GetVenueForFlier(_queryChannel);
             return dets == null ? null : dets.ToVCard();
         }

@@ -7,6 +7,7 @@ using System.Net.Http;
 using System.Net.Http.Formatting;
 using System.Text;
 using System.Threading.Tasks;
+using NLog;
 using Newtonsoft.Json;
 using PostaFlya.Models.Board;
 
@@ -17,6 +18,7 @@ namespace WebScraper.Library.Infrastructure
         private readonly string _authcookie;
         private readonly String _server;
         private readonly String _boardGetReq;
+        protected Logger Logger = LogManager.GetCurrentClassLogger();
 
         public BoardsGet(string server, string authcookie)
         {
@@ -47,7 +49,7 @@ namespace WebScraper.Library.Infrastructure
                             {
                                 if (!res.IsSuccessStatusCode)
                                 {
-                                    Trace.TraceError("Error " + res.StatusCode + " " + await res.Content.ReadAsStringAsync());
+                                    Logger.Error(res.StatusCode + " " + await res.Content.ReadAsStringAsync());
                                     return null;
                                 }
 
@@ -63,7 +65,7 @@ namespace WebScraper.Library.Infrastructure
             }
             catch (Exception e)
             {
-                Trace.TraceError("Error " + e);
+                Logger.ErrorException("Error ", e);
                 return null;
             }
         }

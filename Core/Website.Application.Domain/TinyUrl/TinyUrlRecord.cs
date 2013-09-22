@@ -19,6 +19,7 @@ namespace Website.Application.Domain.TinyUrl
     {
     }
 
+    [Serializable]
     public class TinyUrlRecord : TinyUrlRecordInterface
     {
         public const string UnassignedToAggregateId = "unassigned";

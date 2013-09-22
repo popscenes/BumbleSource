@@ -7,6 +7,7 @@ using System.Net.Http;
 using System.Net.Http.Formatting;
 using System.Text;
 using System.Threading.Tasks;
+using NLog;
 using Newtonsoft.Json;
 using PostaFlya.Models.Board;
 using PostaFlya.Models.Flier;
@@ -21,6 +22,8 @@ namespace WebScraper.Library.Infrastructure
         private readonly BoardCreateEditModel _model;
         private readonly String _server;
         private readonly String _flyerPost;
+        protected Logger Logger = LogManager.GetCurrentClassLogger();
+
 
         public BoardUpload(string authcookie, string browserId, BoardCreateEditModel model, string server)
         {
@@ -45,8 +48,9 @@ namespace WebScraper.Library.Infrastructure
                         {
                             req.Method = HttpMethod.Post;
                             req.RequestUri = new Uri(_server + _flyerPost);
-                            
-                            Trace.TraceInformation(JsonConvert.SerializeObject(_model));
+
+
+                            Logger.Info(JsonConvert.SerializeObject(_model));
 
                             //_model.Id = "fuckity";
 
@@ -55,7 +59,7 @@ namespace WebScraper.Library.Infrastructure
                             {
                                 if (!res.IsSuccessStatusCode)
                                 {
-                                    Trace.TraceError("Error " + res.StatusCode + " " + await res.Content.ReadAsStringAsync());
+                                    Logger.Error("Error " + res.StatusCode + " " + await res.Content.ReadAsStringAsync());
                                     return "";
                                 }
 
@@ -63,7 +67,7 @@ namespace WebScraper.Library.Infrastructure
 
                                 var ret = JsonConvert.DeserializeObject<MsgResponse>(responseString);
                                 var boardId = ret.Details.Where(_ => _.Property.Equals("EntityId")).Select(_ => _.Message).FirstOrDefault();
-                                Trace.TraceInformation("Created " + res.Headers.Location);
+                                Logger.Info("Created " + res.Headers.Location);
                                 return boardId;
                                 
                             }
@@ -73,7 +77,7 @@ namespace WebScraper.Library.Infrastructure
             }
             catch (Exception e)
             {
-                Trace.TraceError("Error " + e);
+                Logger.ErrorException("Error", e);
                 return "";
             }
         }

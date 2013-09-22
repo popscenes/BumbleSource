@@ -22,11 +22,11 @@ namespace Website.Application.Schedule
 
     public class Scheduler : SchedulerInterface
     {
-        private readonly UnitOfWorkForRepoInterface _unitOfWorkFactory;
+        private readonly UnitOfWorkForRepoFactoryInterface _unitOfWorkFactory;
         private readonly TimeServiceInterface _timeService;
         private readonly MessageBusInterface _messageBus;
 
-        public Scheduler(UnitOfWorkForRepoInterface unitOfWorkFactory
+        public Scheduler(UnitOfWorkForRepoFactoryInterface unitOfWorkFactory
                          , TimeServiceInterface timeService
                          , [WorkerCommandBus]MessageBusInterface messageBus)
         {
@@ -56,10 +56,11 @@ namespace Website.Application.Schedule
 
         private void CheckRun()
         {
-            using (_unitOfWorkFactory.Begin())
+            var uow = _unitOfWorkFactory.GetUowInContext();
+            using (uow.Begin())
             {
                 var jobList = Jobs.Select(@base => new { @base.Id, type = @base.GetType() }).ToList();
-                foreach (var job in jobList.Select(job => _unitOfWorkFactory.CurrentQuery.FindById(job.type, job.Id) as JobBase).Where(j => j != null))
+                foreach (var job in jobList.Select(job => uow.CurrentQuery.FindById(job.type, job.Id) as JobBase).Where(j => j != null))
                 {
                     Replace(job);
                     if (!job.IsRunDue(_timeService)) continue;
@@ -80,17 +81,17 @@ namespace Website.Application.Schedule
 
         private void Init()
         {
-            var uow = _unitOfWorkFactory.Begin();
-            using (uow)
+            var uow = _unitOfWorkFactory.GetUowInContext();
+            using (uow.Begin())
             {
                 for (var i = 0; i < Jobs.Count; i++)
                 {
                     dynamic job = Jobs.ElementAt(i);
-                    var exist = _unitOfWorkFactory.CurrentQuery.FindById(job.GetType(), job.Id);
+                    var exist = uow.CurrentQuery.FindById(job.GetType(), job.Id);
                     if (exist == null)
                     {
                         job.CalculateNextRunFromNow(_timeService);
-                        _unitOfWorkFactory.CurrentRepo.Store(job);
+                        uow.CurrentRepo.Store(job);
                     }
                     else
                     {
@@ -100,7 +101,7 @@ namespace Website.Application.Schedule
                                 update.CurrentProcessor = Guid.Empty;
                                 update.InProgress = false;
                             };
-                        _unitOfWorkFactory.CurrentRepo.UpdateEntity(exist.GetType(), exist.Id, updateAction);
+                        uow.CurrentRepo.UpdateEntity(exist.GetType(), exist.Id, updateAction);
                     }
                         
 

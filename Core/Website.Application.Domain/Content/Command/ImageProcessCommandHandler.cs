@@ -50,7 +50,7 @@ namespace Website.Application.Domain.Content.Command
                 }
                 catch (Exception e)
                 {
-                    Trace.TraceInformation("ImageProcessCommandHandler Error: {0}, Stack {1}", e.Message, e.StackTrace);
+                    Trace.TraceError("ImageProcessCommandHandler Error: {0}, Stack {1}", e.Message, e.StackTrace);
                     _messageBus.Send(new SetImageStatusCommand()
                     {
                         Id = command.MessageId, // commandid == imageid

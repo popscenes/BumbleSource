@@ -92,10 +92,6 @@
 
                 </Grid>
             </TabItem>
-            <TabItem Header="Messages">
-                <TextBox Name="TraceText" Text="{Binding Trace}" IsReadOnly="True" IsReadOnlyCaretVisible="False" VerticalScrollBarVisibility="Visible"
-                         />
-            </TabItem>
             <TabItem Header="Boards">
                 <Grid>
                     <Grid.RowDefinitions>

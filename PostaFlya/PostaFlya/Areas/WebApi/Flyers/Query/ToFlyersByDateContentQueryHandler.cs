@@ -51,7 +51,7 @@ namespace PostaFlya.Areas.WebApi.Flyers.Query
         private FlyersByDateContent ToFlyersByDateContent(List<FlyerSummaryModel> flyers,
             DateTime startDate, DateTime endDate)
         {
-            var bydate = from f in flyers
+            var bydate = from f in flyers where f.Image.Extensions.Count > 0
                          from fd in f.EventDates
                          where fd.Date >= startDate && fd.Date < endDate
                          select new { f.Id, fd.Date }

@@ -5,6 +5,7 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using NLog;
 using OpenQA.Selenium;
 using PostaFlya.Application.Domain.Google.Places;
 using PostaFlya.Domain.Venue;
@@ -17,6 +18,9 @@ namespace WebScraper.Library.Sites
 {
     public class DrunkenPoetSiteScraper : SiteScraperInterface
     {
+        protected Logger Logger = LogManager.GetCurrentClassLogger();
+
+
         private readonly IWebDriver _driver;
 
         public const string BaseUrl = "http://thedrunkenpoet.com.au";
@@ -100,7 +104,7 @@ namespace WebScraper.Library.Sites
             }
             catch (Exception e)
             {
-                Trace.WriteLine(e);
+                Logger.ErrorException("", e);
                 return null;
             }
 

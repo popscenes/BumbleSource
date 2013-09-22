@@ -20,6 +20,10 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using NLog;
+using NLog.Config;
+using NLog.Targets;
+using NLog.Targets.Wrappers;
 using Ninject;
 using OpenQA.Selenium;
 using PostaFlya.Domain.Boards;
@@ -49,16 +53,15 @@ namespace WebScraper
         private readonly BackgroundWorker boardUpdateWorker = new BackgroundWorker();
         private readonly BackgroundWorker ImageUploadWorker = new BackgroundWorker();
 
+        protected Logger Logger;
+
         public MainWindow()
         {
             InitializeComponent();
             _kernel = new StandardKernel();
             _kernel.Load<RegisterSites>();
-            var listener = new MyTraceListener();
-            Trace.Listeners.Add(listener);
 
-            TraceText.DataContext = listener;
-            Bind(listener, "Trace", TraceText, BindingMode.OneWay, TextBox.TextProperty);
+            SetupLogging();
 
             var all = _kernel.GetBindings(typeof (SiteScraperInterface));
             var venues = all.Select(binding => binding.Metadata.Name).ToList();
@@ -87,12 +90,53 @@ namespace WebScraper
             ImageUploadWorker.RunWorkerCompleted += ImageUploadWorker_RunWorkerCompleted;        
         }
 
+        private void SetupLogging()
+        {
+
+//            var listener = new MyTraceListener();
+//            Trace.Listeners.Add(listener);
+
+//            TraceText.DataContext = listener;
+//            Bind(listener, "Trace", TraceText, BindingMode.OneWay, TextBox.TextProperty);
+
+            Logger = LogManager.GetCurrentClassLogger();
+            Logger.Trace("Test");
+           //[...]
+//            RichTextBoxTarget target = new RichTextBoxTarget();
+//            target.Name = "RichTextBox";
+//            target.Layout = "${longdate} ${level:uppercase=true} ${logger} ${message}";
+//            target.ControlName = "TraceText";
+//            target.FormName = "MainWindow";
+//            target.AutoScroll = true;
+//            target.MaxLines = 10000;
+//            target.UseDefaultRowColoringRules = false;
+//            target.RowColoringRules.Add(
+//                new RichTextBoxRowColoringRule(
+//                    "level == LogLevel.Trace", // condition
+//                    "DarkGray", // font color
+//                    "Control", // background color
+//                    System.Drawing.FontStyle.Regular
+//                )
+//            );
+//            target.RowColoringRules.Add(new RichTextBoxRowColoringRule("level == LogLevel.Debug", "Gray", "Control"));
+//            target.RowColoringRules.Add(new RichTextBoxRowColoringRule("level == LogLevel.Info", "ControlText", "Control"));
+//            target.RowColoringRules.Add(new RichTextBoxRowColoringRule("level == LogLevel.Warn", "DarkRed", "Control"));
+//            target.RowColoringRules.Add(new RichTextBoxRowColoringRule("level == LogLevel.Error", "White", "DarkRed", FontStyle.Bold));
+//            target.RowColoringRules.Add(new RichTextBoxRowColoringRule("level == LogLevel.Fatal", "Yellow", "DarkRed", FontStyle.Bold));
+//
+//            AsyncTargetWrapper asyncWrapper = new AsyncTargetWrapper();
+//            asyncWrapper.Name = "AsyncRichTextBox";
+//            asyncWrapper.WrappedTarget = target;
+//
+//            SimpleConfigurator.ConfigureForTargetLogging(asyncWrapper, LogLevel.Trace);
+        }
+
         void ImageUploadWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             var imageId = e.Result as String;
             if (imageId != "")
             {
-                Trace.TraceInformation("Image Uploaded");
+                Logger.Info("Image Uploaded");
                 ImageId.Text = imageId;
             }
         }
@@ -110,7 +154,7 @@ namespace WebScraper
             var success = e.Result as bool?;
             if (success != null && success.Value)
             {
-                Trace.TraceInformation("Board Uploaded");
+                Logger.Info("Board Uploaded");
             }
         }
 
@@ -197,7 +241,7 @@ namespace WebScraper
             
             Parallel.ForEach(all, siteScraper =>
                 {
-                    Trace.TraceInformation("Running " + siteScraper.SiteName);
+                    Logger.Info("Running " + siteScraper.SiteName);
                     var next = siteScraper.GetFlyersFrom(startEnd.Start, startEnd.End);
                     foreach (
                         var importedFlyerScraperModel in
@@ -224,7 +268,7 @@ namespace WebScraper
 
                     if (allBoards.All(_ => _.DefaultVenueInformation.PlaceName != model.VenueInfo.PlaceName))
                     {
-                        Trace.TraceInformation("Creating board for gig no board found for {0} ...", model.VenueInfo.PlaceName);
+                        Logger.Info("Creating board for gig no board found for {0} ...", model.VenueInfo.PlaceName);
 
                         var venueInfo = model.VenueInfo;
                         var newBoard = new BoardCreateEditModel()
@@ -242,7 +286,7 @@ namespace WebScraper
                         var uploadBoardReq = new BoardUpload(data.authcookie, Guid.Empty.ToString(), newBoard, data.server);
                             
                         boardId = uploadBoardReq.Request().Result;
-                        Trace.TraceInformation("Created new board {0} Id {1}", newBoard.BoardName, boardId);
+                        Logger.Info("Created new board {0} Id {1}", newBoard.BoardName, boardId);
 
                     }
                     else
@@ -259,7 +303,7 @@ namespace WebScraper
                     }
                     else
                     {
-                        Trace.TraceInformation("no baord found or created for {0}", model.VenueInfo.PlaceName);
+                        Logger.Info("no baord found or created for {0}", model.VenueInfo.PlaceName);
                     }
 
                 });
@@ -277,13 +321,13 @@ namespace WebScraper
 
             if (!StartDate.SelectedDate.HasValue || !EndDate.SelectedDate.HasValue)
             {
-                Trace.TraceWarning("No Date Set");
+                Logger.Info("No Date Set");
                 return;
             }
             Load.IsEnabled = false;
             Publish.IsEnabled = false;
 
-            Trace.TraceInformation("Starting...");
+            Logger.Info("Starting...");
 
             worker.RunWorkerAsync(new StartEnd()
                 {

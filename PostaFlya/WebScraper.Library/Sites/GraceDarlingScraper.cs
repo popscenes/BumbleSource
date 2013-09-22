@@ -5,6 +5,7 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using NLog;
 using OpenQA.Selenium;
 using PostaFlya.Application.Domain.Google.Places;
 using PostaFlya.Domain.Flier;
@@ -19,6 +20,8 @@ namespace WebScraper.Library.Sites
 {
     internal class GraceDarlingScraper : SiteScraperInterface
     {
+        protected Logger Logger = LogManager.GetCurrentClassLogger();
+
         public string SiteName
         {
             get { return RegisterSites.GraceDarling; }
@@ -91,7 +94,8 @@ namespace WebScraper.Library.Sites
             }
             catch (Exception e)
             {
-                Trace.WriteLine(e);
+                Logger.ErrorException("", e);
+
             }
 
         }
@@ -121,7 +125,8 @@ namespace WebScraper.Library.Sites
             }
             catch (Exception e)
             {
-                Trace.WriteLine(e);
+                Logger.ErrorException("", e);
+
                 return null;
             }
 
