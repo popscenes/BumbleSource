@@ -192,7 +192,7 @@
                     bf.lookupPlaceFromTerms(request.term)
                         .done(function(resp) {
                             response($.map(resp.Data, function (item) {
-                                var loc = new bf.LocationModel({ SuburbId: item.Id, SuburbDesc: item.Description });
+                                var loc = new bf.LocationModel({ Id: item.Id, SuburbDesc: item.Description });
                                 return { label: loc.Description(), value: loc.Description(), position: loc };
                             }));
                         });
@@ -243,7 +243,7 @@
                         
                         if (resp.Data.length > 0) {
                             var item = results[0];
-                            location(new bf.LocationModel({ SuburbId: item.Id, SuburbDesc: item.Description }));
+                            location(new bf.LocationModel({ Id: item.Id, SuburbDesc: item.Description }));
                         } else {
                             location(null);
                         }

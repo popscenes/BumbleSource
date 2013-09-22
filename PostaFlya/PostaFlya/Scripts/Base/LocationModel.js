@@ -15,7 +15,7 @@
             PostCode:'',
             CountryName: '',
             CountryCode: '',
-            SuburbId: '',
+            Id: '',
             SuburbDesc: '',
         };
         initData = $.extend(defaults, initData);
@@ -29,7 +29,7 @@
         
         self.ValidLocation = function () {
             
-            return self.SuburbId() || (!(self.Longitude() < -180
+            return self.Id() || (!(self.Longitude() < -180
                 || self.Longitude() > 180
                 || self.Latitude() < -90
                 || self.Latitude() > 90));
