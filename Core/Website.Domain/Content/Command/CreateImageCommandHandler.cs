@@ -11,19 +11,17 @@ namespace Website.Domain.Content.Command
     {
         private readonly ContentStorageServiceInterface _contentStorageService;
         private readonly GenericRepositoryInterface _repository;
-        private readonly UnitOfWorkFactoryInterface _unitOfWorkFactory;
 
         public CreateImageCommandHandler(ContentStorageServiceInterface contentStorageService
-            , GenericRepositoryInterface repository, UnitOfWorkFactoryInterface unitOfWorkFactory)
+            , GenericRepositoryInterface repository)
         {
             _contentStorageService = contentStorageService;
             _repository = repository;
-            _unitOfWorkFactory = unitOfWorkFactory;
         }
 
         #region Implementation of MessageHandlerInterface<in CreateImageCommand>
 
-        public object Handle(CreateImageCommand command)
+        public void Handle(CreateImageCommand command)
         {
             var insert = new Image()
                              {
@@ -36,18 +34,11 @@ namespace Website.Domain.Content.Command
                                  Extension = command.KeepFileImapeType ? command.Content.Extension: "jpg"
                              };
 
-            UnitOfWorkInterface unitOfWork;
-            using (unitOfWork = _unitOfWorkFactory.GetUnitOfWork(GetReposForUnitOfWork()))
-            {
-                _repository.Store(insert);
-            }
 
-            if (unitOfWork.Successful)
-            {
-                _contentStorageService.Store(command.Content, new Guid(insert.Id), command.KeepFileImapeType, command.Content.Extension);
-            }
+            _repository.Store(insert);
+
+            _contentStorageService.Store(command.Content, new Guid(insert.Id), command.KeepFileImapeType, command.Content.Extension);
                 
-            return insert;
         }
 
         #endregion

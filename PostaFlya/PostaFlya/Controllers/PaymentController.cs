@@ -80,13 +80,8 @@ namespace PostaFlya.Controllers
                 Package = paymentPackage
             };
 
-
-            //what if this fails?
-            var res = _messageBus.Send(transactionCommand) as MsgResponse;
-            if ((res == null || res.IsError) && transaction.Status == PaymentTransactionStatus.Success)
-            {
-                return new HttpStatusCodeResult(500);
-            }
+            _messageBus.Send(transactionCommand);
+            
             Response.Write(transaction.TransactionId);
             return new HttpStatusCodeResult(200);
         }
@@ -128,14 +123,8 @@ namespace PostaFlya.Controllers
             var paymentMessage = "";
 
             //what if this fails?
-            var res = _messageBus.Send(transactionCommand) as MsgResponse;
-            if ((res == null || res.IsError) && transaction.Status == PaymentTransactionStatus.Success)
-            {
-                //todo refund
-                paymentMessage = "Failed to record transaction";
-                Trace.TraceError("Failed to record payment transaction: \n{0}", JsonConvert.SerializeObject(transaction, Formatting.Indented));
-            }       
-            else if (transaction.Status == PaymentTransactionStatus.Success)
+            _messageBus.Send(transactionCommand);
+            if (transaction.Status == PaymentTransactionStatus.Success)
             {
                 paymentMessage = ((CreditPaymentPackage) paymentPackage).Credits + " FLYA Credits for $" + transaction.Amount +
                                      " " + transaction.Message;

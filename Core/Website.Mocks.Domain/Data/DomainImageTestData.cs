@@ -34,11 +34,9 @@ namespace Website.Mocks.Domain.Data
 
         internal static ImageInterface StoreOne(Image image, GenericRepositoryInterface repository, StandardKernel kernel)
         {
-            var uow = kernel.Get<UnitOfWorkFactoryInterface>()
-                .GetUnitOfWork(new List<RepositoryInterface>() {repository});
+            var uow = kernel.Get<UnitOfWorkInterface>().Begin();
             using (uow)
             {
-
                 repository.Store(image);
             }
 
@@ -59,7 +57,7 @@ namespace Website.Mocks.Domain.Data
         {
             ImageInterface oldState = null;
             UnitOfWorkInterface unitOfWork;
-            using (unitOfWork = kernel.Get<UnitOfWorkFactoryInterface>().GetUnitOfWork(new List<RepositoryInterface>() { repository }))
+            using (unitOfWork = kernel.Get<UnitOfWorkInterface>().Begin())
             {
                 repository.UpdateEntity<Image>(image.Id, e =>
                     {

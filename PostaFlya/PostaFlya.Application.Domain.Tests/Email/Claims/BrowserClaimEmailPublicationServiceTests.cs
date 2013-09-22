@@ -15,6 +15,7 @@ using Website.Infrastructure.Command;
 using Website.Infrastructure.Domain;
 using Website.Infrastructure.Messaging;
 using Website.Mocks.Domain.Data;
+using Website.Test.Common;
 using BrowserTestData = PostaFlya.Mocks.Domain.Data.BrowserTestData;
 using TestRepositoriesNinjectModule = PostaFlya.Mocks.Domain.Data.TestRepositoriesNinjectModule;
 
@@ -48,19 +49,20 @@ namespace PostaFlya.Application.Domain.Tests.Email.Claims
         [Test]
         public void BrowserClaimEmailPublicationServiceSendsEmailWithVCardAttachmentToBrowserThatClaimedTearOffIfFlierHasContactDetails()
         {
-            var repository = Kernel.Get<GenericRepositoryInterface>();
+            //var repository = Kernel.Get<GenericRepositoryInterface>();
             
             BrowserInterface claimBrowser = new PostaFlya.Domain.Browser.Browser {Id = Guid.NewGuid().ToString(), EmailAddress = "test@bumbleflya.com"};
-            claimBrowser = BrowserTestData.StoreOne(claimBrowser, repository, Kernel, true);
+            claimBrowser = BrowserTestData.StoreOne(claimBrowser, Kernel, true);
 
             var flierBrowser = BrowserTestData.GetOne(Kernel);
-            flierBrowser = BrowserTestData.StoreOne(flierBrowser, repository, Kernel, true);
+            flierBrowser = BrowserTestData.StoreOne(flierBrowser, Kernel, true);
 
             var board = BoardTestData.GetOne(Kernel, "TestBoard", BoardTypeEnum.VenueBoard);
-            BoardTestData.StoreOne(board, repository, Kernel);
-            var flier = FlierTestData.GetOne(Kernel);
-            flier.BrowserId = flierBrowser.Id;
-            var storedFlier = FlierTestData.StoreOne(flier, repository, Kernel, board);
+            StoreGetUpdate.Store(board, Kernel);
+            var storedFlier = FlierTestData.GetOne(Kernel);
+            storedFlier.BrowserId = flierBrowser.Id;
+            storedFlier.AddBoard(board);
+            StoreGetUpdate.Store(storedFlier, Kernel);
 
             var emailSent = false;
             var emailSentToClaimAddress = false;
@@ -103,21 +105,21 @@ namespace PostaFlya.Application.Domain.Tests.Email.Claims
         [Test]
         public void BrowserClaimEmailPublicationServiceSendsEmailWithiCalAttachmentToBrowserThatClaimedTearOffIfFlierHasTargetDate()
         {
-            var repository = Kernel.Get<GenericRepositoryInterface>();
 
             BrowserInterface claimBrowser = new PostaFlya.Domain.Browser.Browser { Id = Guid.NewGuid().ToString(), EmailAddress = "test@bumbleflya.com" };
-            claimBrowser = BrowserTestData.StoreOne(claimBrowser, repository, Kernel, true);
+            claimBrowser = BrowserTestData.StoreOne(claimBrowser, Kernel, true);
             
 
             var flierBrowser = BrowserTestData.GetOne(Kernel);
-            flierBrowser = BrowserTestData.StoreOne(flierBrowser, repository, Kernel, true);
+            flierBrowser = BrowserTestData.StoreOne(flierBrowser, Kernel, true);
 
             var board = BoardTestData.GetOne(Kernel, "TestBoard", BoardTypeEnum.VenueBoard);
-            BoardTestData.StoreOne(board, repository, Kernel);
-            var flier = FlierTestData.GetOne(Kernel);
-            flier.EventDates.Add(DateTimeOffset.Now);
-            flier.BrowserId = flierBrowser.Id;
-            var storedFlier = FlierTestData.StoreOne(flier, repository, Kernel, board);
+            StoreGetUpdate.Store(board, Kernel);
+            var storedFlier = FlierTestData.GetOne(Kernel);
+            storedFlier.EventDates.Add(DateTimeOffset.Now);
+            storedFlier.BrowserId = flierBrowser.Id;
+            storedFlier.AddBoard(board);
+            StoreGetUpdate.Store(storedFlier, Kernel);
 
             var emailSent = false;
             var emailSentToClaimAddress = false;

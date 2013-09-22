@@ -262,8 +262,8 @@ namespace PostaFlya.Mocks.Domain.Data
 //                );
 
             //test data
-            FlierTestData.AddSomeDataToMockFlierStore(flierRepository.Object, kernel);
-            FlierTestData.AddSomeDataForHeatMapToMockFlierStore(flierRepository.Object, kernel);
+            FlierTestData.AddSomeDataToMockFlierStore(kernel);
+            FlierTestData.AddSomeDataForHeatMapToMockFlierStore(kernel);
          
         }
 

@@ -48,8 +48,7 @@ namespace Website.Mocks.Domain.Data
 
         public static BrowserInterface StoreOne(BrowserInterface browser, GenericRepositoryInterface repository, StandardKernel kernel, bool checkuow = true)
         {
-            var uow = kernel.Get<UnitOfWorkFactoryInterface>()
-                .GetUnitOfWork(new List<RepositoryInterface>() {repository});
+            var uow = kernel.Get<UnitOfWorkInterface>().Begin();
             using (uow)
             {
 
@@ -63,8 +62,7 @@ namespace Website.Mocks.Domain.Data
 
         public static void UpdateOne(BrowserInterface browser, GenericRepositoryInterface repository, StandardKernel kernel)
         {
-            using (kernel.Get<UnitOfWorkFactoryInterface>()
-                .GetUnitOfWork(new List<RepositoryInterface>() { repository }))
+            using (kernel.Get<UnitOfWorkInterface>().Begin())
             {
                 repository.UpdateEntity<Browser>(browser.Id, e => e.CopyFieldsFrom(browser));
             }

@@ -49,8 +49,8 @@ namespace PostaFlya.Controllers
             if (editModel.Address != null)
                 editProfileCommand.Address = editModel.Address.ToDomainModel();
 
-            var res = _messageBus.Send(editProfileCommand);
-            return this.GetResponseForRes(res);            
+            _messageBus.Send(editProfileCommand);
+            return this.GetResponseForRes(new MsgResponse(){IsError = false});            
         }
 
         public ProfileEditModel Get(string browserId)

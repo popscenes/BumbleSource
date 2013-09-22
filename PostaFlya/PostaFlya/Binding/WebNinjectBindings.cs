@@ -214,15 +214,14 @@ namespace PostaFlya.Binding
                       new Website.Azure.Common.Binding.AzureCommonNinjectBinding(),
                       //this binds the caching repositories
                       new PostaFlya.Application.Domain.Binding.ApplicationDomainRepositoriesNinjectBinding(
-                          c => c.InRequestScope()),
+                          c => {}),
 
-                          new Website.Application.Domain.Binding.ApplicationDomainRepositoriesNinjectBinding(
-                          c => c.InRequestScope()),
+                        new Website.Application.Domain.Binding.ApplicationDomainRepositoriesNinjectBinding(
+                          c => {}),
                       //this just binds for source repositories
                       new PostaFlya.DataRepository.Binding.AzureRepositoryNinjectBinding(
-                          c => { c.InRequestScope();
-                                 c.WhenTargetHas<SourceDataSourceAttribute>();
-                      }),                      
+                          c => c.WhenTargetHas<SourceDataSourceAttribute>()),
+                      
                       new Website.Application.Binding.ApplicationCommandHandlersNinjectBinding(),
                       new Website.Application.Binding.ApplicationNinjectBinding(),
                       new PostaFlya.Application.Domain.Binding.ApplicationDomainNinjectBinding(),

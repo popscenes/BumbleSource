@@ -153,7 +153,7 @@ namespace Website.Application.Domain.Tests.TinyUrl
         private void StoreEntity(EntityKeyWithTinyUrl entity)
         {
             var repo = Kernel.Get<GenericRepositoryInterface>();
-            using (var uow = Kernel.Get<UnitOfWorkFactoryInterface>().GetUnitOfWork(new[] {repo}))
+            using (var uow = Kernel.Get<UnitOfWorkInterface>().Begin())
             {
                 repo.Store(entity);
             }

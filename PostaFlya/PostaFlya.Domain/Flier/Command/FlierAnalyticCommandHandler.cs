@@ -9,16 +9,14 @@ namespace PostaFlya.Domain.Flier.Command
 {
     public class FlierAnalyticCommandHandler : MessageHandlerInterface<FlierAnalyticCommand>
     {
-        private readonly UnitOfWorkFactoryInterface _unitOfWorkFactory;
         private readonly GenericRepositoryInterface _repository;
 
-        public FlierAnalyticCommandHandler(UnitOfWorkFactoryInterface unitOfWorkFactory, GenericRepositoryInterface repository)
+        public FlierAnalyticCommandHandler(GenericRepositoryInterface repository)
         {
-            _unitOfWorkFactory = unitOfWorkFactory;
             _repository = repository;
         }
 
-        public object Handle(FlierAnalyticCommand command)
+        public void Handle(FlierAnalyticCommand command)
         {
             var newRecord = new FlierAnalytic()
                 {
@@ -36,21 +34,8 @@ namespace PostaFlya.Domain.Flier.Command
                     LocationFromSearch = command.LocationFromSearch
                 };
 
-            var uow = _unitOfWorkFactory.GetUnitOfWork(_repository);           
-            using (uow)
-            {
-                _repository.Store(newRecord);
-            }
+            _repository.Store(newRecord);
 
-            if (uow.Successful)
-                return new MsgResponse("Analytic Command Recorded", false)
-                    .AddEntityId(newRecord.Id)
-                    .AddCommandId(command);
-
-            
-            return new MsgResponse("Failed to Record Analytic Command", true)
-                    .AddEntityId(newRecord.Id)
-                    .AddCommandId(command);
         }
     }
 }

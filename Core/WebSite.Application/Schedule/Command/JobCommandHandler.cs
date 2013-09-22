@@ -10,14 +10,14 @@ namespace Website.Application.Schedule.Command
 {
     public class JobCommandHandler : MessageHandlerInterface<JobCommand>
     {
-        private readonly UnitOfWorkFactoryInterface _unitOfWorkFactory;
+        private readonly UnitOfWorkInterface _unitOfWorkFactory;
         private readonly GenericRepositoryInterface _genericRepository;
         private readonly GenericQueryServiceInterface _genericQueryService;
         private readonly IResolutionRoot _resolutionRoot;
         private readonly TimeServiceInterface _timeService;
         readonly Stopwatch _stopWatch = new Stopwatch();
 
-        public JobCommandHandler(UnitOfWorkFactoryInterface unitOfWorkFactory
+        public JobCommandHandler(UnitOfWorkInterface unitOfWorkFactory
                                  , GenericRepositoryInterface genericRepository, IResolutionRoot resolutionRoot, TimeServiceInterface timeService, GenericQueryServiceInterface genericQueryService)
         {
             _unitOfWorkFactory = unitOfWorkFactory;
@@ -27,21 +27,20 @@ namespace Website.Application.Schedule.Command
             _genericQueryService = genericQueryService;
         }
 
-        public object Handle(JobCommand command)
+        public void Handle(JobCommand command)
         {
             var job = _genericQueryService.FindById(command.JobType, command.JobId) as JobBase;
             if (job.InProgress && !job.IsTimedOut(_timeService))
-                return true;
+                return;
             if (!job.IsRunDue(_timeService))
-                return true;
+                return;
 
             job.CurrentProcessor = Guid.NewGuid();
             job.LastRun = _timeService.GetCurrentTime();
             job.InProgress = true;
             job.CalculateNextRunFromNow(_timeService);
             JobBase currentState = null;
-            var uow = _unitOfWorkFactory.GetUnitOfWork(new[] { _genericRepository });
-            using (uow)
+            using (_unitOfWorkFactory.Begin())
             {
                 _genericRepository.UpdateEntity(command.JobType, command.JobId, o =>
                 {
@@ -51,16 +50,10 @@ namespace Website.Application.Schedule.Command
                 });
             }
 
-            if (!uow.Successful)
-            {
-                Trace.TraceError("Failed to update Schedule Job {0} state", command.JobId);
-                return false;
-            }
-
             if (currentState.CurrentProcessor != job.CurrentProcessor)
             {
                 Trace.TraceWarning("another job command already in progress {0}", command.JobId);
-                return false;
+                return;
             }
 
             _stopWatch.Start();
@@ -84,8 +77,7 @@ namespace Website.Application.Schedule.Command
 
             job.InProgress = false;
             job.LastDuration = TimeSpan.FromMilliseconds(_stopWatch.ElapsedMilliseconds); 
-            uow = _unitOfWorkFactory.GetUnitOfWork(new[] {_genericRepository});
-            using (uow)
+            using (_unitOfWorkFactory.Begin())
             {
                 _genericRepository.UpdateEntity(command.JobType, command.JobId, o =>
                     {
@@ -94,8 +86,6 @@ namespace Website.Application.Schedule.Command
                         update.CurrentProcessor = Guid.Empty;
                     });
             }
-
-            return uow.Successful;
         }
     }
 }

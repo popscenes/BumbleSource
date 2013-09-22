@@ -11,6 +11,7 @@ using Website.Domain.Comments;
 using Website.Infrastructure.Caching.Command;
 using Website.Infrastructure.Command;
 using Website.Infrastructure.Query;
+using Website.Test.Common;
 using TestUtil = Website.Test.Common.TestUtil;
 
 namespace PostaFlya.Application.Domain.Tests.Flier
@@ -36,19 +37,25 @@ namespace PostaFlya.Application.Domain.Tests.Flier
 
         public static void CachedDataIsReturnedForFlierFindById(MoqMockingKernel kernel, ObjectCache cache)
         {
+            var uow = kernel.Get<UnitOfWorkForRepoInterface>();
+            uow.Begin();
             var queryService = kernel.Get<GenericQueryServiceInterface>();
             GenericQueryServiceInterface cachedQueryService = new TimedExpiryCachedQueryService(cache, queryService);
 
             var repository = kernel.Get<GenericRepositoryInterface>();
-            var board = BoardTestData.GetAndStoreOne(kernel, repository);
+            var board = BoardTestData.GetAndStoreOne(kernel);
 
-            var storedFlier = FlierTestData.StoreOne(FlierTestData.GetOne(kernel), repository, kernel, board);
+            var storedFlier = FlierTestData.GetOne(kernel);
+            storedFlier.AddBoard(board);
+            repository.Store(storedFlier);
+            repository.SaveChanges();
             FlierInterface retrievedFlier = cachedQueryService.FindById<PostaFlya.Domain.Flier.Flier>(storedFlier.Id);
             FlierTestData.AssertStoreRetrieve(storedFlier, retrievedFlier);
 
             const string changedDesc = "This will not be in cache";
             storedFlier.Description = changedDesc;
-            FlierTestData.UpdateOne(storedFlier, repository, kernel);
+            StoreGetUpdate.UpdateOne(storedFlier, kernel, FlierInterfaceExtensions.CopyFieldsFrom, repository);
+            repository.SaveChanges();
             retrievedFlier = cachedQueryService.FindById<PostaFlya.Domain.Flier.Flier>(storedFlier.Id);
 
             Assert.AreNotEqual(retrievedFlier.Description, changedDesc);
@@ -57,6 +64,7 @@ namespace PostaFlya.Application.Domain.Tests.Flier
 
             retrievedFlier = cachedQueryService.FindById<PostaFlya.Domain.Flier.Flier>(storedFlier.Id);
             FlierTestData.AssertStoreRetrieve(storedFlier, retrievedFlier);
+            uow.End();
         }
 
 
@@ -73,23 +81,30 @@ namespace PostaFlya.Application.Domain.Tests.Flier
 
         public static void CachedDataIsRefreshedWhenUsingCachedRepositoryForFlierFindById(MoqMockingKernel kernel, ObjectCache cache)
         {
+            var uow = kernel.Get<UnitOfWorkForRepoInterface>();
+            uow.Begin();
             var queryService = kernel.Get<GenericQueryServiceInterface>();
             GenericQueryServiceInterface cachedQueryService = new TimedExpiryCachedQueryService(cache, queryService);
 
             var cachedFlierRepository = new CachedRepositoryBase(cache, kernel.Get<GenericRepositoryInterface>());
 
-            var board = BoardTestData.GetAndStoreOne(kernel, cachedFlierRepository);
+            var board = BoardTestData.GetAndStoreOne(kernel);
 
-            var storedFlier = FlierTestData.StoreOne(FlierTestData.GetOne(kernel), cachedFlierRepository, kernel, board);
+            var storedFlier = FlierTestData.GetOne(kernel);
+            storedFlier.AddBoard(board);
+            cachedFlierRepository.Store(storedFlier);
+            cachedFlierRepository.SaveChanges();
             FlierInterface retrievedFlier = cachedQueryService.FindById<PostaFlya.Domain.Flier.Flier>(storedFlier.Id);
             FlierTestData.AssertStoreRetrieve(storedFlier, retrievedFlier);
 
             const string changedDesc = "This will be re cached";
             storedFlier.Description = changedDesc;
-            FlierTestData.UpdateOne(storedFlier, cachedFlierRepository, kernel);
+            StoreGetUpdate.UpdateOne(storedFlier, kernel, FlierInterfaceExtensions.CopyFieldsFrom, cachedFlierRepository);
+            cachedFlierRepository.SaveChanges();
             retrievedFlier = cachedQueryService.FindById<PostaFlya.Domain.Flier.Flier>(storedFlier.Id);
 
             FlierTestData.AssertStoreRetrieve(storedFlier, retrievedFlier);
+            uow.End();
         }
 
         [Test]//note implement the same in other application test projects for different cache implementations
@@ -110,9 +125,12 @@ namespace PostaFlya.Application.Domain.Tests.Flier
 
             var cachedFlierRepository = new CachedRepositoryBase(cache, kernel.Get<GenericRepositoryInterface>());
 
-            var board = BoardTestData.GetAndStoreOne(kernel, cachedFlierRepository);
+            var board = BoardTestData.GetAndStoreOne(kernel);
 
-            var storedFlier = FlierTestData.StoreOne(FlierTestData.GetOne(kernel), cachedFlierRepository, kernel, board);
+            var storedFlier = FlierTestData.GetOne(kernel);
+            storedFlier.AddBoard(board);
+            cachedFlierRepository.Store(storedFlier);
+            cachedFlierRepository.SaveChanges();
             FlierInterface retrievedFlier = cachedQueryService.FindById<PostaFlya.Domain.Flier.Flier>(storedFlier.Id);
             FlierTestData.AssertStoreRetrieve(storedFlier, retrievedFlier);
 

@@ -14,37 +14,23 @@ namespace PostaFlya.Domain.Boards.Command
     {
         private readonly GenericRepositoryInterface _boardRepository;
         private readonly GenericQueryServiceInterface _boardQueryService;
-        private readonly UnitOfWorkFactoryInterface _unitOfWorkFactory;
         private readonly QueryChannelInterface _queryChannel;
 
         public CreateBoardCommandHandler(GenericRepositoryInterface boardRepository
-            , GenericQueryServiceInterface boardQueryService
-            , UnitOfWorkFactoryInterface unitOfWorkFactory, QueryChannelInterface queryChannel)
+            , GenericQueryServiceInterface boardQueryService, QueryChannelInterface queryChannel)
         {
             _boardRepository = boardRepository;
             _boardQueryService = boardQueryService;
-            _unitOfWorkFactory = unitOfWorkFactory;
             _queryChannel = queryChannel;
         }
 
-        public object Handle(CreateBoardCommand command)
+        public void Handle(CreateBoardCommand command)
         {
-
             var newBoard = GetNewBoard(command);
-            var unitOfWork = _unitOfWorkFactory.GetUnitOfWork(new object[] { _boardRepository, _boardQueryService });
-            using (unitOfWork)
-            {
-                newBoard.FriendlyId = _queryChannel.FindFreeFriendlyId(newBoard);
-                _boardRepository.Store(newBoard);
-            }
 
-            if (!unitOfWork.Successful)
-                return new MsgResponse("Board Creation Failed", true)
-                        .AddCommandId(command);
+            newBoard.FriendlyId = _queryChannel.FindFreeFriendlyId(newBoard);
+            _boardRepository.Store(newBoard);
 
-            return new MsgResponse("Board Create", false)
-                .AddEntityId(newBoard.Id)
-                .AddCommandId(command);
         }
 
         private static Board GetNewBoard(CreateBoardCommand command)

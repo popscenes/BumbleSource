@@ -52,8 +52,9 @@ namespace PostaFlya.Controllers
                                               CommentEntity = entity,
                                           };
 
-            var res = _messageBus.Send(commentCommand);
-            return this.GetResponseForRes(res);
+            _messageBus.Send(commentCommand);
+            return this.GetResponseForRes(new MsgResponse() { IsError = false });            
+
         }
 
         public IQueryable<CommentModel> Get(EntityTypeEnum entityTypeEnum, string id)

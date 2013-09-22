@@ -60,9 +60,9 @@ namespace PostaFlya.Mocks.Domain.Data
 //            return behave;
 //        }
 
-        internal static void AddSomeDataForHeatMapToMockFlierStore(GenericRepositoryInterface flierRepository, IKernel kernel)
+        internal static void AddSomeDataForHeatMapToMockFlierStore(IKernel kernel)
         {
-            var board = BoardTestData.GetAndStoreOne(kernel, flierRepository,
+            var board = BoardTestData.GetAndStoreOne(kernel, 
                                                      loc: new Location(145.0138751, -37.8799136));
             //Jr's house
             for(var i = 0; i < 100; i++)
@@ -81,10 +81,10 @@ namespace PostaFlya.Mocks.Domain.Data
 
                 };
 
-                flierRepository.Store(flier);
+                StoreGetUpdate.Store(flier, kernel);
             }
 
-            board = BoardTestData.GetAndStoreOne(kernel, flierRepository, boardName: "DisneyLand",
+            board = BoardTestData.GetAndStoreOne(kernel, boardName: "DisneyLand",
                                                      loc: new Location(-117.9189478, 33.8102936));
             //disneyland
             for (var i = 0; i < 50; i++)
@@ -105,10 +105,11 @@ namespace PostaFlya.Mocks.Domain.Data
 
                 };
 
-                flierRepository.Store(flier);
+                StoreGetUpdate.Store(flier, kernel);
+
             }
 
-            board = BoardTestData.GetAndStoreOne(kernel, flierRepository, boardName: "Ricks",
+            board = BoardTestData.GetAndStoreOne(kernel, boardName: "Ricks",
                                                      loc: new Location(144.9770748, -37.7654897));
 
             //Ricks at casablanca
@@ -130,7 +131,8 @@ namespace PostaFlya.Mocks.Domain.Data
 
                 };
 
-                flierRepository.Store(flier);
+                StoreGetUpdate.Store(flier, kernel);
+
             }
         }
 
@@ -177,7 +179,7 @@ namespace PostaFlya.Mocks.Domain.Data
             return ret;
         }
 
-        internal static void AddSomeDataToMockFlierStore(GenericRepositoryInterface flierRepository, IKernel kernel)
+        internal static void AddSomeDataToMockFlierStore(IKernel kernel)
         {
             var locationService = kernel.Get<LocationServiceInterface>();
             var defaultlocation = kernel.Get<Location>(ib => ib.Get<bool>("default"));
@@ -210,8 +212,10 @@ namespace PostaFlya.Mocks.Domain.Data
             flier.FriendlyId = "Bulletin" + count++;
             flier.EventDates = eventDates;
             var board = BoardTestData.GetOne(kernel, "Venue", BoardTypeEnum.VenueBoard, getRandLoc(true));
-            BoardTestData.StoreOne(board, flierRepository, kernel);
-            StoreOne(flier, flierRepository, (StandardKernel)kernel, board);
+            StoreGetUpdate.Store(board, kernel);
+            flier.AddBoard(board);
+            StoreGetUpdate.Store(flier, kernel);
+            //StoreOne(flier, flierRepository, (StandardKernel)kernel, board);
 
             flier = new Flier() {CreateDate = DateTime.UtcNow };
             getTags(true, flier.Tags);
@@ -219,8 +223,10 @@ namespace PostaFlya.Mocks.Domain.Data
             flier.FriendlyId = "Bulletin" + count++;
             flier.EventDates = eventDates;
             board = BoardTestData.GetOne(kernel, "Venue", BoardTypeEnum.VenueBoard, getRandLoc(true));
-            BoardTestData.StoreOne(board, flierRepository, kernel);
-            StoreOne(flier, flierRepository, (StandardKernel)kernel, board);
+            StoreGetUpdate.Store(board, kernel);
+            flier.AddBoard(board);
+            StoreGetUpdate.Store(flier, kernel);
+            //StoreOne(flier, flierRepository, (StandardKernel)kernel, board);
 
             eventDates = new List<DateTimeOffset>() { new DateTime(2077, 12, 19), DateTime.UtcNow.AddDays(3) };
             flier = new Flier() {CreateDate = DateTime.UtcNow };
@@ -229,8 +235,10 @@ namespace PostaFlya.Mocks.Domain.Data
             flier.FriendlyId = "Bulletin" + count++;                         
             flier.EventDates = eventDates;
             board = BoardTestData.GetOne(kernel, "Venue", BoardTypeEnum.VenueBoard, getRandLoc(true));
-            BoardTestData.StoreOne(board, flierRepository, kernel);
-            StoreOne(flier, flierRepository, (StandardKernel)kernel, board);
+            StoreGetUpdate.Store(board, kernel);
+            flier.AddBoard(board);
+            StoreGetUpdate.Store(flier, kernel);
+            //StoreOne(flier, flierRepository, (StandardKernel)kernel, board);
 
             //add inside the bounds without matching tags
             eventDates = new List<DateTimeOffset>() { new DateTime(2076, 8, 11), DateTime.UtcNow.AddDays(3) };
@@ -239,24 +247,30 @@ namespace PostaFlya.Mocks.Domain.Data
             flier.FriendlyId = "Bulletin" + count++;
             flier.EventDates = eventDates;
             board = BoardTestData.GetOne(kernel, "Venue", BoardTypeEnum.VenueBoard, getRandLoc(true));
-            BoardTestData.StoreOne(board, flierRepository, kernel);
-            StoreOne(flier, flierRepository, (StandardKernel) kernel, board);
+            StoreGetUpdate.Store(board, kernel);
+            flier.AddBoard(board);
+            StoreGetUpdate.Store(flier, kernel);
+            //StoreOne(flier, flierRepository, (StandardKernel) kernel, board);
 
             flier = new Flier() {CreateDate = DateTime.UtcNow };
             getTags(false, flier.Tags);
             flier.FriendlyId = "Bulletin" + count++;
             flier.EventDates = eventDates;
             board = BoardTestData.GetOne(kernel, "Venue", BoardTypeEnum.VenueBoard, getRandLoc(true));
-            BoardTestData.StoreOne(board, flierRepository, kernel);
-            StoreOne(flier, flierRepository, (StandardKernel) kernel, board);
+            StoreGetUpdate.Store(board, kernel);
+            flier.AddBoard(board);
+            StoreGetUpdate.Store(flier, kernel);
+            //StoreOne(flier, flierRepository, (StandardKernel) kernel, board);
 
             flier = new Flier() {CreateDate = DateTime.UtcNow };
             getTags(false, flier.Tags);
             flier.FriendlyId = "Bulletin" + count++;
             flier.EventDates = eventDates;
             board = BoardTestData.GetOne(kernel, "Venue", BoardTypeEnum.VenueBoard, getRandLoc(true));
-            BoardTestData.StoreOne(board, flierRepository, kernel);
-            StoreOne(flier, flierRepository, (StandardKernel)kernel, board);
+            StoreGetUpdate.Store(board, kernel);
+            flier.AddBoard(board);
+            StoreGetUpdate.Store(flier, kernel);
+            //StoreOne(flier, flierRepository, (StandardKernel)kernel, board);
 
             //add some outside the bounds with some matching tags
             flier = new Flier() {CreateDate = DateTime.UtcNow };
@@ -264,23 +278,29 @@ namespace PostaFlya.Mocks.Domain.Data
             flier.FriendlyId = "Bulletin" + count++;
             flier.EventDates = eventDates;
             board = BoardTestData.GetOne(kernel, "Venue", BoardTypeEnum.VenueBoard, getRandLoc(false));
-            BoardTestData.StoreOne(board, flierRepository, kernel);
-            StoreOne(flier, flierRepository, (StandardKernel)kernel, board);
+            StoreGetUpdate.Store(board, kernel);
+            flier.AddBoard(board);
+            StoreGetUpdate.Store(flier, kernel);
+            //StoreOne(flier, flierRepository, (StandardKernel)kernel, board);
 
             flier = new Flier() {CreateDate = DateTime.UtcNow };
             getTags(true, flier.Tags);
             flier.FriendlyId = "Bulletin" + count++;
             flier.EventDates = eventDates;
             board = BoardTestData.GetOne(kernel, "Venue", BoardTypeEnum.VenueBoard, getRandLoc(false));
-            BoardTestData.StoreOne(board, flierRepository, kernel);
-            StoreOne(flier, flierRepository, (StandardKernel)kernel, board);
+            StoreGetUpdate.Store(board, kernel);
+            flier.AddBoard(board);
+            StoreGetUpdate.Store(flier, kernel);
+            //StoreOne(flier, flierRepository, (StandardKernel)kernel, board);
 
             flier = new Flier() {CreateDate = DateTime.UtcNow };
             getTags(true, flier.Tags);
             flier.FriendlyId = "Bulletin" + count++;
             board = BoardTestData.GetOne(kernel, "Venue", BoardTypeEnum.VenueBoard, getRandLoc(false));
-            BoardTestData.StoreOne(board, flierRepository, kernel);
-            StoreOne(flier, flierRepository, (StandardKernel)kernel, board);
+            StoreGetUpdate.Store(board, kernel);
+            flier.AddBoard(board);
+            StoreGetUpdate.Store(flier, kernel);
+            //StoreOne(flier, flierRepository, (StandardKernel)kernel, board);
 
             //add some outside the bounds without matching tags
             flier = new Flier() {CreateDate = DateTime.UtcNow };
@@ -288,24 +308,30 @@ namespace PostaFlya.Mocks.Domain.Data
             flier.FriendlyId = "Bulletin" + count++;
             flier.EventDates = eventDates;
             board = BoardTestData.GetOne(kernel, "Venue", BoardTypeEnum.VenueBoard, getRandLoc(false));
-            BoardTestData.StoreOne(board, flierRepository, kernel);
-            StoreOne(flier, flierRepository, (StandardKernel)kernel, board);
+            StoreGetUpdate.Store(board, kernel);
+            flier.AddBoard(board);
+            StoreGetUpdate.Store(flier, kernel);
+            //StoreOne(flier, flierRepository, (StandardKernel)kernel, board);
 
             flier = new Flier() {CreateDate = DateTime.UtcNow };
             getTags(false, flier.Tags);
             flier.FriendlyId = "Bulletin" + count++;
             flier.EventDates = eventDates;
             board = BoardTestData.GetOne(kernel, "Venue", BoardTypeEnum.VenueBoard, getRandLoc(false));
-            BoardTestData.StoreOne(board, flierRepository, kernel);
-            StoreOne(flier, flierRepository, (StandardKernel)kernel, board);
+            StoreGetUpdate.Store(board, kernel);
+            flier.AddBoard(board);
+            StoreGetUpdate.Store(flier, kernel);
+            //StoreOne(flier, flierRepository, (StandardKernel)kernel, board);
 
             flier = new Flier() {CreateDate = DateTime.UtcNow };
             getTags(false, flier.Tags);
             flier.FriendlyId = "Bulletin" + count;
             flier.EventDates = eventDates;
             board = BoardTestData.GetOne(kernel, "Venue", BoardTypeEnum.VenueBoard, getRandLoc(false));
-            BoardTestData.StoreOne(board, flierRepository, kernel);
-            StoreOne(flier, flierRepository, (StandardKernel)kernel, board);
+            StoreGetUpdate.Store(board, kernel);
+            flier.AddBoard(board);
+            StoreGetUpdate.Store(flier, kernel);
+            //StoreOne(flier, flierRepository, (StandardKernel)kernel, board);
         }
 
         public static void AssertStoreRetrieve(FlierInterface storedFlier, FlierInterface retrievedFlier)
@@ -328,39 +354,39 @@ namespace PostaFlya.Mocks.Domain.Data
             //Assert.HasSameElements
         }
 
-        internal static FlierInterface AssertGetById(FlierInterface flier, GenericQueryServiceInterface queryService)
-        {
-            var retrievedFlier = queryService.FindById<Flier>(flier.Id);
-            AssertStoreRetrieve(flier, retrievedFlier);
-
-            return retrievedFlier;
-        }
-
-
-        internal static Flier StoreOnePublishEvent(Flier flier, GenericRepositoryInterface repository, IKernel kernel)
-        {
-            var uow = kernel.Get<UnitOfWorkFactoryInterface>()
-                .GetUnitOfWork(new List<RepositoryInterface>() { repository });
-            using (uow)
-            {
-
-                repository.Store(flier);
-            }
-
-            Assert.IsTrue(uow.Successful);
+//        internal static FlierInterface AssertGetById(FlierInterface flier, GenericQueryServiceInterface queryService)
+//        {
+//            var retrievedFlier = StoreGetUpdate.Get<Flier>(flier.Id)
+//            AssertStoreRetrieve(flier, retrievedFlier);
+//
+//            return retrievedFlier;
+//        }
 
 
-//            if (uow.Successful)
+//        internal static Flier StoreOnePublishEvent(Flier flier, GenericRepositoryInterface repository, IKernel kernel)
+//        {
+//            var uow = kernel.Get<UnitOfWorkInterface>()
+//                .Begin();
+//            using (uow)
 //            {
-//                var domainEvent = kernel.Get<EventPublishServiceInterface>();
-//                domainEvent.Publish(new FlierModifiedEvent() { Entity = (Flier)flier });
+//
+//                repository.Store(flier);
 //            }
+//
+//            Assert.IsTrue(uow.Successful);
+//
+//
+////            if (uow.Successful)
+////            {
+////                var domainEvent = kernel.Get<EventPublishServiceInterface>();
+////                domainEvent.Publish(new FlierModifiedEvent() { Entity = (Flier)flier });
+////            }
+//
+//
+//            return flier;
+//        }
 
-
-            return flier;
-        }
-
-        internal static Flier StoreOne(Flier flier, GenericRepositoryInterface repository, IKernel kernel, BoardInterface board = null)
+        public static void AddBoard(this Flier flier, BoardInterface board = null)
         {
             if (board != null)
             {
@@ -368,56 +394,68 @@ namespace PostaFlya.Mocks.Domain.Data
                 if (exist != null)
                     flier.Boards.Remove(exist);
 
-                flier.Boards.Add(new BoardFlier() { BoardId = board.Id, BoardRank = 0, DateAdded = DateTime.UtcNow, Status = BoardFlierStatus.Approved });                             
+                flier.Boards.Add(new BoardFlier() { BoardId = board.Id, BoardRank = 0, DateAdded = DateTime.UtcNow, Status = BoardFlierStatus.Approved });
             }
-       
-            if(!flier.Boards.Any())
-                throw new Exception("need to have venue board");
-
-            var uow = kernel.Get<UnitOfWorkFactoryInterface>()
-                .GetUnitOfWork(new List<RepositoryInterface>() {repository});
-            using (uow)
-            {
-
-                repository.Store(flier);
-            }
-
-            Assert.IsTrue(uow.Successful);
-
-//            if (uow.Successful)
-//            {
-//                var indexers = kernel.GetAll<HandleEventInterface<EntityModifiedEvent<Flier>>>();
-//                foreach (var handleEvent in indexers)
-//                {
-//                    handleEvent.Handle(new FlierModifiedEvent() { Entity = (Flier)flier });
-//                }
-//            }
-
-            
-            return flier;
         }
-
-        internal static void UpdateOne(FlierInterface flier, GenericRepositoryInterface repository, StandardKernel kernel)
-        {
-            Flier oldState = null;
-            UnitOfWorkInterface unitOfWork;
-            using (unitOfWork = kernel.Get<UnitOfWorkFactoryInterface>().GetUnitOfWork(new List<RepositoryInterface>() {repository}))
-            {
-                repository.UpdateEntity<Flier>(flier.Id, e =>
-                    {
-                        oldState = e.CreateCopy<Flier, Flier>(FlierInterfaceExtensions.CopyFieldsFrom);
-                        e.CopyFieldsFrom(flier);
-                    });
-            }
-
-//            if (unitOfWork.Successful)
+//
+//        internal static Flier StoreOne(Flier flier, GenericRepositoryInterface repository, IKernel kernel, BoardInterface board = null)
+//        {
+//            if (board != null)
 //            {
-//                var indexers = kernel.GetAll<HandleEventInterface<EntityModifiedEvent<Flier>>>();
-//                foreach (var handleEvent in indexers)
-//                {
-//                    handleEvent.Handle(new FlierModifiedEvent() { Entity = (Flier)flier });
-//                }
+//                var exist = flier.Boards.SingleOrDefault(boardFlier => boardFlier.BoardId == board.Id);
+//                if (exist != null)
+//                    flier.Boards.Remove(exist);
+//
+//                flier.Boards.Add(new BoardFlier() { BoardId = board.Id, BoardRank = 0, DateAdded = DateTime.UtcNow, Status = BoardFlierStatus.Approved });                             
 //            }
-        }
+//       
+//            if(!flier.Boards.Any())
+//                throw new Exception("need to have venue board");
+//
+//            var uow = kernel.Get<UnitOfWorkInterface>()
+//                .Begin();
+//            using (uow)
+//            {
+//
+//                repository.Store(flier);
+//            }
+//
+//            Assert.IsTrue(uow.Successful);
+//
+////            if (uow.Successful)
+////            {
+////                var indexers = kernel.GetAll<HandleEventInterface<EntityModifiedEvent<Flier>>>();
+////                foreach (var handleEvent in indexers)
+////                {
+////                    handleEvent.Handle(new FlierModifiedEvent() { Entity = (Flier)flier });
+////                }
+////            }
+//
+//            
+//            return flier;
+//        }
+
+//        internal static void UpdateOne(FlierInterface flier, GenericRepositoryInterface repository, StandardKernel kernel)
+//        {
+//            Flier oldState = null;
+//            UnitOfWorkInterface unitOfWork;
+//            using (unitOfWork = kernel.Get<UnitOfWorkInterface>().Begin())
+//            {
+//                repository.UpdateEntity<Flier>(flier.Id, e =>
+//                    {
+//                        oldState = e.CreateCopy<Flier, Flier>(FlierInterfaceExtensions.CopyFieldsFrom);
+//                        e.CopyFieldsFrom(flier);
+//                    });
+//            }
+//
+////            if (unitOfWork.Successful)
+////            {
+////                var indexers = kernel.GetAll<HandleEventInterface<EntityModifiedEvent<Flier>>>();
+////                foreach (var handleEvent in indexers)
+////                {
+////                    handleEvent.Handle(new FlierModifiedEvent() { Entity = (Flier)flier });
+////                }
+////            }
+//        }
     }
 }

@@ -14,9 +14,9 @@ namespace PostaFlya.DataRepository.Search.Command
             _connection = new SqlConnection(searchDbConnectionString);
         }
 
-        public object Handle(ReindexFlierCommand command)
+        public void Handle(ReindexFlierCommand command)
         {
-            return command.UpdateOrDelete 
+            var test = command.UpdateOrDelete 
                 ? SqlExecute.InsertOrUpdate(command.SearchRecord, _connection)
                 : SqlExecute.Delete(command.SearchRecord, _connection);
         }

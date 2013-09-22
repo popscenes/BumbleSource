@@ -8,6 +8,7 @@ using Website.Azure.Common.Environment;
 using Website.Azure.Common.TableStorage;
 using Website.Infrastructure.Command;
 using Website.Infrastructure.Domain;
+using Website.Infrastructure.Query;
 
 namespace Website.Azure.Common.Tests.TableStorage
 {
@@ -253,7 +254,6 @@ namespace Website.Azure.Common.Tests.TableStorage
         [Test]
         public void AzureRepositoryRetriesUpdateIfConcurrencyExceptionOccurs()
         {
-            var repo1 = Kernel.Get<JsonRepository>();
             var testTwo = new JsonTestConcurrentEntity()
             {
                 Prop = "123",
@@ -261,14 +261,22 @@ namespace Website.Azure.Common.Tests.TableStorage
                 Counter = 0
             };
 
-            repo1.Store(testTwo);
-            Assert.IsTrue(repo1.SaveChanges());
+            var uow = Kernel.Get<UnitOfWorkInterface>().Begin();
+            using (uow)
+            {
+                var repo1 = Kernel.Get<GenericRepositoryInterface>();
+                repo1.Store(testTwo);          
+            }
+
+            Assert.IsTrue(uow.Successful);
 
             var tryCount = 0;
             UnitOfWorkInterface unitOfWork;
 
-            using (unitOfWork = Kernel.Get<UnitOfWorkFactoryInterface>().GetUnitOfWork(new List<RepositoryInterface>() { repo1 }))
+            uow = Kernel.Get<UnitOfWorkInterface>().Begin();
+            using (uow)
             {
+                var repo1 = Kernel.Get<GenericRepositoryInterface>();
 
                 repo1.UpdateEntity<JsonTestConcurrentEntity>(testTwo.Id
                     , flier =>
@@ -287,10 +295,17 @@ namespace Website.Azure.Common.Tests.TableStorage
                     );
             }
 
-            Assert.IsTrue(unitOfWork.Successful);
+            Assert.IsTrue(uow.Successful);
 
-            var retEntity = repo1.FindById<JsonTestConcurrentEntity>(testTwo.Id);
-            Assert.AreEqual(2, retEntity.Counter);
+            uow = Kernel.Get<UnitOfWorkInterface>().Begin();
+            using (uow)
+            {
+                var query = Kernel.Get<GenericQueryServiceInterface>();
+
+                var retEntity = query.FindById<JsonTestConcurrentEntity>(testTwo.Id);
+                Assert.AreEqual(2, retEntity.Counter);
+            }
+
 
         }
     }

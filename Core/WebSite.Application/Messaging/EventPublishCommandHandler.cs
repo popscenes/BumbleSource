@@ -13,9 +13,9 @@ namespace Website.Application.Messaging
         }
 
 
-        public object Handle(EventPublishCommand command)
+        public void Handle(EventPublishCommand command)
         {
-            return _broadcastService.Broadcast(command.Event);
+            _broadcastService.Broadcast(command.Event);
         }
     }
 }

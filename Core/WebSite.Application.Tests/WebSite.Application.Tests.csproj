@@ -136,6 +136,7 @@
     </Compile>
     <Compile Include="Publish\DefaultPublishBroadcastServiceTests.cs" />
     <Compile Include="Schedule\SchedulerTests.cs" />
+    <Compile Include="Seo\GetRenderedHtmlForUrlServiceTests.cs" />
     <Compile Include="SiteMap\SiteMapIndexBuilderTests.cs" />
     <Compile Include="TestFixtureSetup.cs" />
     <Compile Include="Command\QueuedMessageProcessorTests.cs" />

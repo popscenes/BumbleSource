@@ -43,8 +43,8 @@ namespace PostaFlya.Controllers
                     
                 };
 
-            var res = _messageBus.Send(createBoardCommand);
-            return this.GetResponseForRes(res);
+            _messageBus.Send(createBoardCommand);
+            return this.GetResponseForRes(new MsgResponse() { IsError = false });            
         }
 
         public HttpResponseMessage Put(string browserId, BoardCreateEditModel boardEdit)
@@ -60,8 +60,8 @@ namespace PostaFlya.Controllers
                 LogoImageId = boardEdit.LogoImageId
             };
 
-            var res = _messageBus.Send(editBoardCommand);
-            return this.GetResponseForRes(res);
+            _messageBus.Send(editBoardCommand);
+            return this.GetResponseForRes(new MsgResponse() { IsError = false });            
         }
     }
 }

@@ -74,8 +74,8 @@ namespace PostaFlya.Controllers
                 ExtendPostRadius = flier.LocationRadius
             };
 
-            var res = _messageBus.Send(editFlier);
-            return this.GetResponseForRes(res);
+            _messageBus.Send(editFlier);
+            return this.GetResponseForRes(new MsgResponse() { IsError = false });            
         }
     }
 }

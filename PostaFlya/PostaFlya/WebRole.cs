@@ -79,8 +79,16 @@ namespace PostaFlya
 
             }
 
-            
-            base.Run();           
+            try
+            {
+                base.Run();
+            }
+            catch (Exception e)
+            {
+                Trace.TraceError("Web Role On Start trace err {0} \n {1}", e.Message, e.StackTrace);
+                System.Diagnostics.EventLog.WriteEntry("WebRoleSource", e.Message + "\n" + e.StackTrace,
+                           System.Diagnostics.EventLogEntryType.Error);
+            }
         }
 
         public override void OnStop()

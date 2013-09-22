@@ -1,3 +1,4 @@
+using System;
 using Website.Infrastructure.Command;
 
 namespace Website.Domain.Content.Command

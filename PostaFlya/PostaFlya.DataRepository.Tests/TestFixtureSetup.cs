@@ -70,10 +70,10 @@ namespace PostaFlya.DataRepository.Tests
         private static readonly List<INinjectModule> NinjectModules = new List<INinjectModule>()
                   {
                       new GlobalDefaultsNinjectModule(),
-                      new Website.Azure.Common.Binding.AzureCommonNinjectBinding(),
-                      new PostaFlya.DataRepository.Binding.AzureRepositoryNinjectBinding(c => c.InTransientScope()),
-                      new PostaFlya.Domain.Binding.DefaultServicesNinjectBinding(),
                       new Website.Infrastructure.Binding.InfrastructureNinjectBinding(),
+                      new Website.Azure.Common.Binding.AzureCommonNinjectBinding(),
+                      new PostaFlya.DataRepository.Binding.AzureRepositoryNinjectBinding(),
+                      new PostaFlya.Domain.Binding.DefaultServicesNinjectBinding(),
                       new PostaFlya.DataRepository.Binding.TableNameNinjectBinding(),
                       new PostaFlya.Domain.Binding.CommandNinjectBinding(),
                       new ApplicationNinjectBinding(),

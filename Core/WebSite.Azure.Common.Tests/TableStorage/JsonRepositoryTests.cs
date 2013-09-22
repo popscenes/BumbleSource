@@ -36,9 +36,6 @@ namespace Website.Azure.Common.Tests.TableStorage
             tableNameAndPartitionProviderService.Add<ThreeEntity>("testThreeEntity", entity => entity.SomeProp.ToString(CultureInfo.InvariantCulture));
 
             _mockStore = TableContextTests.SetupMockTableContext<JsonTableEntry>(Kernel, new Dictionary<string, List<JsonTableEntry>>());
-
-            Kernel.Bind<JsonRepository>()
-                .ToSelf().InTransientScope();
         }
 
         [TestFixtureTearDown]
@@ -46,7 +43,6 @@ namespace Website.Azure.Common.Tests.TableStorage
         {
             Kernel.Unbind<TableContextInterface>();
             Kernel.Unbind<TableNameAndIndexProviderServiceInterface>();
-            Kernel.Unbind<JsonRepository>();
         }
 
         [Test]

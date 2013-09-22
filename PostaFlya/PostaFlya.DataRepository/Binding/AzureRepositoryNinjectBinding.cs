@@ -27,7 +27,7 @@ namespace PostaFlya.DataRepository.Binding
         private readonly ConfigurationAction _repositoryScopeConfiguration;
 
 
-        public AzureRepositoryNinjectBinding(ConfigurationAction repositoryScopeConfiguration)
+        public AzureRepositoryNinjectBinding(ConfigurationAction repositoryScopeConfiguration = null)
         {
             _repositoryScopeConfiguration = repositoryScopeConfiguration;
         }
@@ -41,17 +41,40 @@ namespace PostaFlya.DataRepository.Binding
             //Kernel.Bind<WebsiteInfoServiceInterface>().To<WebsiteInfoServiceAzure>().WhenTargetHas<SourceDataSourceAttribute>();
 
             var kernel = Kernel as StandardKernel;
-            kernel.BindRepositoriesFromCallingAssembly(_repositoryScopeConfiguration
+            kernel.BindRepositoriesFromCallingAssembly(
+                _repositoryScopeConfiguration ?? (syntax => syntax.InTransientScope()) 
                 , new []
                       {
                           typeof(GenericQueryServiceInterface),
                           typeof(GenericRepositoryInterface),
 
                       });
-            _repositoryScopeConfiguration(kernel.Bind(typeof(GenericQueryServiceInterface))
-                .To(typeof(JsonRepository)));
-            _repositoryScopeConfiguration(kernel.Bind(typeof(GenericRepositoryInterface))
-                .To(typeof(JsonRepository)));
+//            _repositoryScopeConfiguration(kernel.Bind(typeof(GenericQueryServiceInterface))
+//                .To(typeof(JsonRepository)));
+//            _repositoryScopeConfiguration(kernel.Bind(typeof(GenericRepositoryInterface))
+//                .To(typeof(JsonRepository)));
+
+            Unbind<UnitOfWorkInterface>();
+            Unbind<UnitOfWorkForRepoInterface>();
+            Rebind<UnitOfWorkInterface, UnitOfWorkForRepoInterface, UnitOfWorkForRepoJsonRepository>()
+                .To<UnitOfWorkForRepoJsonRepository>().InThreadScope();
+            Rebind<JsonRepository>().ToSelf().InTransientScope();
+
+            if (_repositoryScopeConfiguration != null)//new scope for repos
+            {
+                var config = _repositoryScopeConfiguration + (syntax => syntax.InTransientScope());
+
+                var binding = Bind(typeof(GenericQueryServiceInterface))
+                    .ToMethod<object>(context =>
+                              context.Kernel.Get<UnitOfWorkForRepoInterface>().CurrentQuery);
+                config(binding);
+
+                binding = Bind(typeof(GenericRepositoryInterface))
+                      .ToMethod<object>(context =>
+                                        context.Kernel.Get<UnitOfWorkForRepoInterface>().CurrentRepo);
+                config(binding);
+            }
+
 
             kernel.BindMessageAndQueryHandlersFromCallingAssembly(syntax => syntax.InTransientScope());
 

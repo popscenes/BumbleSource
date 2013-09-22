@@ -37,7 +37,7 @@ namespace Website.Application.Domain.Content.Command
 
         #region Implementation of MessageHandlerInterface<in ImageProcessCommand>
 
-        public object Handle(ImageProcessCommand command)
+        public void Handle(ImageProcessCommand command)
         {
             using (var ms = new MemoryStream(command.ImageData, false))
             {
@@ -60,7 +60,6 @@ namespace Website.Application.Domain.Content.Command
                 
             }
 
-            return true;
         }
 
         private static ImageDimension GetDim(Image img, string urlExt, ThumbOrientation orientation)

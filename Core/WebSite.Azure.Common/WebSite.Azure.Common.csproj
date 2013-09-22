@@ -111,6 +111,7 @@
     <Compile Include="Binding\AzureCommonNinjectBinding.cs" />
     <Compile Include="Binding\BindingAttributes.cs" />
     <Compile Include="DataServices\DataServicesQueryHelper.cs" />
+    <Compile Include="TableStorage\UnitOfWorkForJsonRepository.cs" />
     <Compile Include="Environment\AzureConfigurationService.cs" />
     <Compile Include="Environment\AzureEnv.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

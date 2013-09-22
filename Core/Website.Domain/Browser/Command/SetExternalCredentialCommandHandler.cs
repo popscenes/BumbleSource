@@ -7,35 +7,32 @@ namespace Website.Domain.Browser.Command
     internal class SetExternalCredentialCommandHandler : MessageHandlerInterface<SetExternalCredentialCommand>
     {
         private readonly GenericRepositoryInterface _repository;
-        private readonly UnitOfWorkFactoryInterface _unitOfWorkFactory;
 
-        public SetExternalCredentialCommandHandler(GenericRepositoryInterface repository, 
-                                    UnitOfWorkFactoryInterface unitOfWorkFactory)
+
+        public SetExternalCredentialCommandHandler(GenericRepositoryInterface repository)
         {
             _repository = repository;
-            _unitOfWorkFactory = unitOfWorkFactory;
         }
 
-        public object Handle(SetExternalCredentialCommand command)
+        public void Handle(SetExternalCredentialCommand command)
         {
-            using (_unitOfWorkFactory.GetUnitOfWork(GetReposForUnitOfWork()))
-            {
-                _repository.UpdateEntity<Browser>(command.Credential.BrowserId, browser =>
-                                                                                           {
-                                                                                               browser.
-                                                                                                   ExternalCredentials.
-                                                                                                   Remove(
-                                                                                                       command.
-                                                                                                           Credential);
-                                                                                               browser.
-                                                                                                   ExternalCredentials.
-                                                                                                   Add(
-                                                                                                       command.
-                                                                                                           Credential);
-                                                                                           });
-            }
 
-            return true;
+                _repository.UpdateEntity<Browser>(command.Credential.BrowserId, 
+                    browser =>
+                        {
+                            browser.
+                                ExternalCredentials.
+                                Remove(
+                                    command.
+                                        Credential);
+                            browser.
+                                ExternalCredentials.
+                                Add(
+                                    command.
+                                        Credential);
+                        });
+            
+
         }
 
         private IList<RepositoryInterface> GetReposForUnitOfWork()

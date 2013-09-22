@@ -88,7 +88,7 @@ namespace PostaFlya.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest, retriever.GetLastError());
 
             var imgId = Guid.NewGuid();
-            var res = _messageBus.Send(new CreateImageCommand()
+            _messageBus.Send(new CreateImageCommand()
                                  {
                                      MessageId = imgId.ToString(),
                                      Content = content,

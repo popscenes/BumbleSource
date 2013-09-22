@@ -120,7 +120,7 @@ namespace PostaFlya.Application.Domain.ExternalSource
                 imgId = externalImage.First().Id;
             }
 
-            var res = _messageBus.Send(new CreateImageCommand()
+            _messageBus.Send(new CreateImageCommand()
             {
                 MessageId = imgId,
                 Content = content,

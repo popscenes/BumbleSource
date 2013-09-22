@@ -4,6 +4,6 @@ namespace Website.Infrastructure.Messaging
 {
     public interface MessageBusInterface
     {
-        object Send<CommandType>(CommandType command) where CommandType : class, CommandInterface;
+        void Send<CommandType>(CommandType command) where CommandType : class, CommandInterface;
     }
 }

@@ -149,6 +149,10 @@
     <Compile Include="Binding\NinjectHttpDependencyResolver.cs" />
     <Compile Include="Binding\WebsiteCommonNinjectBinding.cs" />
     <Compile Include="Content\ScriptsExtensions.cs" />
+    <Compile Include="Filters\UowActionFilter.cs" />
+    <Compile Include="HttpMessageHandlers\HttpRequestMessageExtensions.cs" />
+    <Compile Include="HttpMessageHandlers\UowMessageHandler.cs" />
+    <Compile Include="HttpMessageHandlers\RegisterGlobalMessageHandlers.cs" />
     <Compile Include="Obsolete\OldWebApiControllerBase.cs" />
     <Compile Include="Extension\ApiControllerExtensions.cs" />
     <Compile Include="Extension\BundleExtensions.cs" />

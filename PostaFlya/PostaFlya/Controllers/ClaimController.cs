@@ -69,8 +69,8 @@ namespace PostaFlya.Controllers
                                       Message = claim.ClaimerMessage 
                                   };
 
-            var res = _messageBus.Send(claimCommand);
-            return this.GetResponseForRes(res);
+            _messageBus.Send(claimCommand);
+            return this.GetResponseForRes(new MsgResponse() { IsError = false });            
         }
 
         // GET /api/Browser/browserId/claim/

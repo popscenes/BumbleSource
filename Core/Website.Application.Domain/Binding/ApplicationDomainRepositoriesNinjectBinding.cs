@@ -32,12 +32,13 @@ namespace Website.Application.Domain.Binding
                           typeof(GenericRepositoryInterface)
                       });
 
+            var binding = Rebind(typeof (GenericQueryServiceInterface))
+                                .To(typeof (TimedExpiryCachedQueryService));
+            _repositoryConfiguration(binding);
 
-            _repositoryConfiguration(kernel.Bind(typeof(GenericQueryServiceInterface))
-                .To(typeof(TimedExpiryCachedQueryService)));
-
-            _repositoryConfiguration(kernel.Bind(typeof(GenericRepositoryInterface))
-                .To(typeof(CachedRepositoryBase)));
+            binding = Rebind(typeof(GenericRepositoryInterface))
+                .To(typeof (CachedRepositoryBase));
+            _repositoryConfiguration(binding);
             
             Trace.TraceInformation("Finished Binding ApplicationDomainRepositoriesNinjectBinding");
 

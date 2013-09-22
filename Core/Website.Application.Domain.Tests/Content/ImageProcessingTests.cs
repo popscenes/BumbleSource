@@ -135,18 +135,17 @@ namespace Website.Application.Domain.Tests.Content
                               };
             
             //simulate and image upload
-            var imageInterface = kernel.Get<MessageBusInterface>().Send(command) as ImageInterface;
+           kernel.Get<MessageBusInterface>().Send(command);
 
+           var imageQueryService = kernel.Get<GenericQueryServiceInterface>();
+
+
+           var imageInterface = imageQueryService.FindById<Website.Domain.Content.Image>(command.MessageId);
             Assert.IsNotNull(imageInterface);
-
-            //test the state was initially processing
-            Assert.AreEqual(ImageStatus.Processing, imageInterface.Status);
-
-            var imageQueryService = ResolutionExtensions.Get<GenericQueryServiceInterface>(kernel);
             
 
             //test the state is ready
-            Assert.AreEqual(ImageStatus.Ready, imageQueryService.FindById<Website.Domain.Content.Image>(imageInterface.Id).Status);
+            Assert.AreEqual(ImageStatus.Ready, imageInterface.Status);
 
             assertions(new Guid(imageInterface.Id), storage);
 
@@ -381,25 +380,25 @@ namespace Website.Application.Domain.Tests.Content
         public static string ImageProcessCommandHandlerSetsImageStatusToFailedOnInvalidProcessing(MoqMockingKernel kernel)
         {
             //simulate and image upload
-            var imageInterface = kernel.Get<MessageBusInterface>().Send(new CreateImageCommand()
-            {
-                BrowserId = Guid.NewGuid().ToString(),
-                Title = "Yoyoyoyo",
-                Content = new Website.Domain.Content.Content()
+            var cmd = new CreateImageCommand()
                 {
-                    Type = Website.Domain.Content.Content.ContentType.Image,
-                    Data = new byte[] { 1, 2, 3, 4, 5, 6, 7, 5, 6, 5, 6, 56 }
-                }
-            }) as ImageInterface;
+                    BrowserId = Guid.NewGuid().ToString(),
+                    Title = "Yoyoyoyo",
+                    Content = new Website.Domain.Content.Content()
+                        {
+                            Type = Website.Domain.Content.Content.ContentType.Image,
+                            Data = new byte[] {1, 2, 3, 4, 5, 6, 7, 5, 6, 5, 6, 56}
+                        }
+                };
+            kernel.Get<MessageBusInterface>().Send(cmd);
 
+            var imageInterface =
+                kernel.Get<GenericQueryServiceInterface>().FindById<Website.Domain.Content.Image>(cmd.MessageId);
             Assert.IsNotNull(imageInterface);
 
-            //test the state was initially processing
-            Assert.AreEqual(ImageStatus.Processing, imageInterface.Status);
 
             //test the state is failed
-            Assert.AreEqual(ImageStatus.Failed,
-                ResolutionExtensions.Get<GenericQueryServiceInterface>(kernel).FindById<Website.Domain.Content.Image>(imageInterface.Id).Status);
+            Assert.AreEqual(ImageStatus.Failed, imageInterface.Status);
 
             return imageInterface.Id;
         }

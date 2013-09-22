@@ -42,7 +42,7 @@ namespace Website.Application.Tests.Email
         {
             var commandBus = Kernel.GetMock<MessageBusInterface>();
             commandBus.Setup(cb => cb.Send(It.IsAny<SendMailCommand>()))
-                .Returns<SendMailCommand>(command =>
+                .Callback<SendMailCommand>(command =>
                     {
                         var commandSerial = SerializeUtil.ToByteArray(command);
 
@@ -52,7 +52,6 @@ namespace Website.Application.Tests.Email
                         Assert.AreEqual(ret.To, new MailAddressCollection(){new MailAddress("blah2@blah.com")});
                         Assert.That(ret.Attachments.Count, Is.GreaterThan(0));
 
-                        return true;
                     });
             Kernel.Bind<MessageBusInterface>().ToConstant(commandBus.Object);
 

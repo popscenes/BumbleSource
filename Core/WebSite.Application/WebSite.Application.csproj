@@ -227,6 +227,7 @@
     <Compile Include="Caching\InvalidateCacheDataCommand.cs" />
     <Compile Include="Caching\InvalidateCacheDataCommandHandler.cs" />
     <Compile Include="Caching\Query\TimedExpiryCachedQueryService.cs" />
+    <Compile Include="Seo\GetRenderedHtmlForUrlService.cs" />
     <Compile Include="Messaging\DataBusMessageSerializer.cs" />
     <Compile Include="Messaging\DataBusRedirectToStorage.cs" />
     <Compile Include="Messaging\EventPublishCommand.cs" />
@@ -357,6 +358,14 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Seo\echo-html.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Seo\phantomjs.exe">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" />

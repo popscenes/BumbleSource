@@ -17,25 +17,23 @@ namespace PostaFlya.Domain.Flier.Command
     internal class CreateFlierCommandHandler : MessageHandlerInterface<CreateFlierCommand>
     {
         private readonly GenericRepositoryInterface _repository;
-        private readonly UnitOfWorkFactoryInterface _unitOfWorkFactory;
         private readonly GenericQueryServiceInterface _flierQueryService;
         private readonly CreditChargeServiceInterface _creditChargeService;
         private readonly TinyUrlServiceInterface _tinyUrlService;
         private readonly QueryChannelInterface _queryChannel;
 
         public CreateFlierCommandHandler(GenericRepositoryInterface repository
-            , UnitOfWorkFactoryInterface unitOfWorkFactory, GenericQueryServiceInterface flierQueryService, CreditChargeServiceInterface creditChargeService
+            , GenericQueryServiceInterface flierQueryService, CreditChargeServiceInterface creditChargeService
             , TinyUrlServiceInterface tinyUrlService, QueryChannelInterface queryChannel)
         {
             _repository = repository;
-            _unitOfWorkFactory = unitOfWorkFactory;
             _flierQueryService = flierQueryService;
             _creditChargeService = creditChargeService;
             _tinyUrlService = tinyUrlService;
             _queryChannel = queryChannel;
         }
 
-        public object Handle(CreateFlierCommand command)
+        public void Handle(CreateFlierCommand command)
         {
             var date = DateTime.UtcNow;
 
@@ -74,24 +72,11 @@ namespace PostaFlya.Domain.Flier.Command
             newFlier.Features = GetPaymentFeatures(newFlier);
             newFlier.TinyUrl = _tinyUrlService.UrlFor(newFlier);
 
-
-
-            UnitOfWorkInterface unitOfWork;
-            using (unitOfWork = _unitOfWorkFactory.GetUnitOfWork(new[] { _repository }))
-            {
-                var enabled = command.Anonymous || newFlier.ChargeForState(_repository, _flierQueryService, _creditChargeService);
-                newFlier.Status = enabled ? FlierStatus.Active : FlierStatus.PaymentPending;
-                _repository.Store(newFlier);
-            }
-
-            if(!unitOfWork.Successful)
-                return new MsgResponse("Flier Creation Failed", true)
-                        .AddCommandId(command);
+            var enabled = command.Anonymous || newFlier.ChargeForState(_repository, _flierQueryService, _creditChargeService);
+            newFlier.Status = enabled ? FlierStatus.Active : FlierStatus.PaymentPending;
+            _repository.Store(newFlier);
             
-            return new MsgResponse("Flier Create", false)
-                .AddEntityId(newFlier.Id)
-                .AddCommandId(command)
-                .AddMessageProperty("status", newFlier.Status.ToString());
+
         }
 
         public static HashSet<EntityFeatureCharge>  GetPaymentFeatures(FlierInterface newFlier)

@@ -11,9 +11,9 @@ namespace Website.Application.Email.Command
             _sendMailImplementation = sendMailImplementation;
         }
 
-        public object Handle(SendMailCommand command)
+        public void Handle(SendMailCommand command)
         {
-            return _sendMailImplementation.ProcessSendMailCommand(command);
+            _sendMailImplementation.ProcessSendMailCommand(command);
         }
     }
 }

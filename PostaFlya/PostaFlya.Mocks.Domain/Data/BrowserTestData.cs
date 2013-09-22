@@ -7,6 +7,7 @@ using PostaFlya.Domain.Browser;
 using Website.Infrastructure.Command;
 using Website.Infrastructure.Query;
 using Website.Mocks.Domain.Data;
+using Website.Test.Common;
 
 namespace PostaFlya.Mocks.Domain.Data
 {
@@ -24,40 +25,29 @@ namespace PostaFlya.Mocks.Domain.Data
             Assert.AreEqual(storedBrowser.Address, retrievedBrowser.Address);
         }
 
-        public static BrowserInterface AssertGetById(BrowserInterface browser, GenericQueryServiceInterface queryService)
+//        public static BrowserInterface AssertGetById(BrowserInterface browser, GenericQueryServiceInterface queryService)
+//        {
+//            var retrievedBrowser = queryService.FindById<Browser>(browser.Id);
+//            AssertStoreRetrieve(browser, retrievedBrowser);
+//
+//            return retrievedBrowser;
+//        }
+//
+        public static BrowserInterface StoreOne(BrowserInterface browser, StandardKernel kernel, bool callbase)
         {
-            var retrievedBrowser = queryService.FindById<Browser>(browser.Id);
-            AssertStoreRetrieve(browser, retrievedBrowser);
-
-            return retrievedBrowser;
-        }
-
-        public static BrowserInterface StoreOne(BrowserInterface browser, GenericRepositoryInterface repository, StandardKernel kernel, bool callbase)
-        {
-            var uow = kernel.Get<UnitOfWorkFactoryInterface>()
-                            .GetUnitOfWork(new List<RepositoryInterface>() { repository });
-            using (uow)
-            {
-
-                repository.Store(browser);
-            }
-
-            Assert.IsTrue(uow.Successful);
-
+            StoreGetUpdate.Store<Browser>((Browser)browser, kernel);
             if (callbase)//only needed for mock repositories because of generic binding
-                Website.Mocks.Domain.Data.BrowserTestData.StoreOne(browser, repository, kernel, false);
-
+            StoreGetUpdate.Store<Website.Domain.Browser.Browser>((Website.Domain.Browser.Browser)browser, kernel); 
             return browser;
         }
-
-        public static void UpdateOne(BrowserInterface browser, GenericRepositoryInterface repository, StandardKernel kernel)
-        {
-            using (kernel.Get<UnitOfWorkFactoryInterface>()
-                         .GetUnitOfWork(new List<RepositoryInterface>() { repository }))
-            {
-                repository.UpdateEntity<Browser>(browser.Id, e => e.CopyFieldsFrom(browser));
-            }
-        }
+//
+//        public static void UpdateOne(BrowserInterface browser, GenericRepositoryInterface repository, StandardKernel kernel)
+//        {
+//            using (kernel.Get<UnitOfWorkInterface>().Begin())
+//            {
+//                repository.UpdateEntity<Browser>(browser.Id, e => e.CopyFieldsFrom(browser));
+//            }
+//        }
 
         public static BrowserInterface GetOne(MoqMockingKernel kernel)
         {

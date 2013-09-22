@@ -52,13 +52,12 @@ namespace Website.Mocks.Domain.Data
 
         internal static ClaimInterface ClaimOne<EntityInterfaceType>(EntityInterfaceType entity
             , ClaimInterface claim
-            , GenericRepositoryInterface repository
             , StandardKernel kernel) 
             where EntityInterfaceType : EntityInterface, ClaimableEntityInterface
         {
-            UnitOfWorkInterface unitOfWork;
-            using (unitOfWork = kernel.Get<UnitOfWorkFactoryInterface>().GetUnitOfWork(new List<object>() {repository}))
+            using (kernel.Get<UnitOfWorkInterface>().Begin())
             {
+                var repository = kernel.Get<GenericRepositoryInterface>();
                 claim.Id = claim.GetId();
                 repository.Store(claim);
                 repository.UpdateEntity(((Object) entity).GetType()
@@ -85,8 +84,8 @@ namespace Website.Mocks.Domain.Data
 
         internal static ClaimInterface StoreOne(ClaimInterface claim, GenericRepositoryInterface repository, StandardKernel kernel)
         {
-            var uow = kernel.Get<UnitOfWorkFactoryInterface>()
-                .GetUnitOfWork(new List<RepositoryInterface>() {repository});
+            var uow = kernel.Get<UnitOfWorkInterface>()
+                .Begin();
             using (uow)
             {
 
@@ -115,7 +114,7 @@ namespace Website.Mocks.Domain.Data
             foreach (var claim in ret)
             {
                 UnitOfWorkInterface unitOfWork =
-                    kernel.Get<UnitOfWorkFactoryInterface>().GetUnitOfWork(new List<RepositoryInterface>() {repository});
+                    kernel.Get<UnitOfWorkInterface>().Begin();
                 using (unitOfWork)
                 {
 
@@ -155,7 +154,7 @@ namespace Website.Mocks.Domain.Data
         {
             Claim oldState = null;
             UnitOfWorkInterface unitOfWork;
-            using (unitOfWork = kernel.Get<UnitOfWorkFactoryInterface>().GetUnitOfWork(new List<RepositoryInterface>() {repository}))
+            using (unitOfWork = kernel.Get<UnitOfWorkInterface>().Begin())
             {
                 repository.UpdateAggregateEntity<Claim>(claim.AggregateId + claim.BrowserId
                     , claim.AggregateId

@@ -151,7 +151,7 @@ namespace PostaFlya.Controllers
         }
 
         [NonAction]
-        public object CreateBrowserFromIdentityProviderCredentials(IdentityProviderCredential identityProviderCredentials)
+        public void CreateBrowserFromIdentityProviderCredentials(IdentityProviderCredential identityProviderCredentials)
         {
             var roles = new Website.Domain.Browser.Roles {Role.Participant.ToString()};
 #if DEBUG
@@ -173,7 +173,7 @@ namespace PostaFlya.Controllers
             creds.CopyFieldsFrom(identityProviderCredentials);
             command.Browser.ExternalCredentials = new HashSet<BrowserIdentityProviderCredential>(){creds};
 
-            return _messageBus.Send(command);
+            _messageBus.Send(command);
         }
 
         [Authorize]

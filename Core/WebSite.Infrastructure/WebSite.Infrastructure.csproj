@@ -199,8 +199,7 @@
     <Compile Include="Command\MsgResponse.cs" />
     <Compile Include="Command\MsgResponseCommandExtension.cs" />
     <Compile Include="Command\RepositoryInterface.cs" />
-    <Compile Include="Command\UnitOfWorkFactory.cs" />
-    <Compile Include="Command\UnitOfWorkFactoryInterface.cs" />
+    <Compile Include="Command\UnitOfWorkInterface.cs" />
     <Compile Include="Configuration\ConfigurationServiceInterface.cs" />
     <Compile Include="Domain\AggregateMemberEntityAttribute.cs" />
     <Compile Include="Domain\EntityModifiedEvent.cs" />

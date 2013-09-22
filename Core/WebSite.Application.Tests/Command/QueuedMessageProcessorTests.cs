@@ -80,11 +80,10 @@ namespace Website.Application.Tests.Command
             var commandCount = 0;
             var cmdHandler = Kernel.GetMock<MessageHandlerInterface<TestCommand>>();
             cmdHandler.Setup(ch => ch.Handle(It.IsAny<TestCommand>()))
-                .Returns<TestCommand>(tc =>
+                .Callback<TestCommand>(tc =>
                                            {
                                                Assert.AreEqual(tc.CommandData, "BlahBlahBlah"); 
                                                commandCount++;
-                                               return true;
                                            });
 
             Kernel.Bind<MessageHandlerInterface<TestCommand>>().ToConstant(cmdHandler.Object).InSingletonScope();
@@ -199,11 +198,10 @@ namespace Website.Application.Tests.Command
             var commandCount = 0;
             var cmdHandler = Kernel.GetMock<MessageHandlerInterface<TestCommand>>();
             cmdHandler.Setup(ch => ch.Handle(It.IsAny<TestCommand>()))
-                .Returns<TestCommand>(tc =>
+                .Callback<TestCommand>(tc =>
                 {
                     Assert.AreEqual(tc.CommandData, "BlahBlahBlah");
                     Interlocked.Increment(ref commandCount);
-                    return true;
                 });
 
             Kernel.Bind<MessageHandlerInterface<TestCommand>>().ToConstant(cmdHandler.Object).InSingletonScope();

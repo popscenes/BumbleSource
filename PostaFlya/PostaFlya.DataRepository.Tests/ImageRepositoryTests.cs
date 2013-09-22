@@ -11,6 +11,7 @@ using Website.Domain.Content;
 using Website.Domain.Location;
 using Website.Infrastructure.Query;
 using Website.Mocks.Domain.Data;
+using Website.Test.Common;
 
 namespace PostaFlya.DataRepository.Tests
 {
@@ -29,8 +30,7 @@ namespace PostaFlya.DataRepository.Tests
         } 
 
 
-        GenericRepositoryInterface _repository;
-        GenericQueryServiceInterface _queryService;
+        private UnitOfWorkForRepoInterface _unitOfWork;
 
         [TestFixtureSetUp]
         public void FixtureSetUp()
@@ -50,8 +50,8 @@ namespace PostaFlya.DataRepository.Tests
 //            context.Delete<ImageTableEntry>(null, ImageStorageDomain.BrowserPartition);
 //            context.SaveChanges();
 
-            _repository = Kernel.Get<GenericRepositoryInterface>();
-            _queryService = Kernel.Get<GenericQueryServiceInterface>();
+            _unitOfWork = Kernel.Get<UnitOfWorkForRepoInterface>();
+
         }
         
         [TestFixtureTearDown]
@@ -64,13 +64,16 @@ namespace PostaFlya.DataRepository.Tests
         [Test]
         public void TestCreateImageRepository()
         {
-            var repository = Kernel.Get<GenericRepositoryInterface>();
-            Assert.IsNotNull(repository);
-            Assert.That(repository, Is.InstanceOf<JsonRepository>());
+            using (_unitOfWork.Begin())
+            {
+                var repository = Kernel.Get<GenericRepositoryInterface>();
+                Assert.IsNotNull(repository);
+                Assert.That(repository, Is.InstanceOf<JsonRepository>());
 
-            var queryService = Kernel.Get<GenericQueryServiceInterface>();
-            Assert.IsNotNull(queryService);
-            Assert.That(queryService, Is.InstanceOf<JsonRepository>());
+                var queryService = Kernel.Get<GenericQueryServiceInterface>();
+                Assert.IsNotNull(queryService);
+                Assert.That(queryService, Is.InstanceOf<JsonRepository>());
+            }
         }
 
         [Test]
@@ -123,25 +126,30 @@ namespace PostaFlya.DataRepository.Tests
 
         private void Store(ImageInterface source)
         {
-            var exists = _queryService.FindById<Image>(source.Id) != null;
-            if(exists)
-                DomainImageTestData.UpdateOne(source, _repository, Kernel);
+            var exists = StoreGetUpdate.Get<Image>(source.Id, Kernel) != null;
+            if (exists)
+                StoreGetUpdate.UpdateOne(source as Image, Kernel, ImageInterfaceExtensions.CopyFieldsFrom); 
             else
             {
-                DomainImageTestData.StoreOne((Image) source, _repository, Kernel);
+                StoreGetUpdate.Store((Image)source, Kernel);
             }
+            
+
         }
 
         private ImageInterface Query(ImageInterface source)
         {
-            var storedbyid = _queryService.FindById<Image>(source.Id);
+            var storedbyid = StoreGetUpdate.Get<Image>(source.Id, Kernel);
 
-            var queryChannel = Kernel.Get<QueryChannelInterface>();
-            var storedbybrowser = queryChannel.Query(new GetByBrowserIdQuery<Image>() {BrowserId = source.BrowserId},
-                                                     new List<Image>()).FirstOrDefault();
+            using (_unitOfWork.Begin())
+            {
+                var queryChannel = Kernel.Get<QueryChannelInterface>();
+                var storedbybrowser = queryChannel.Query(new GetByBrowserIdQuery<Image>() { BrowserId = source.BrowserId },
+                                                         new List<Image>()).FirstOrDefault();
 
-            AssertAreEqual(source, storedbybrowser);
-            AssertAreEqual(source, storedbyid);
+                AssertAreEqual(source, storedbybrowser);
+                AssertAreEqual(source, storedbyid);
+            }
 
             return storedbyid;
         }

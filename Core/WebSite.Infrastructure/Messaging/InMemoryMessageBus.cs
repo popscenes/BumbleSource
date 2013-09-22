@@ -10,12 +10,11 @@ namespace Website.Infrastructure.Messaging
             _handlerRespository = handlerRespository;
         }
 
-        public object Send<CommandType>(CommandType command) where CommandType : class, CommandInterface
+        public void Send<CommandType>(CommandType command) where CommandType : class, CommandInterface
         {
             var handler = _handlerRespository.FindHandler(command);
 
-             
-            return handler.Handle(command);
+            handler.Handle(command);
         }
     }
 }

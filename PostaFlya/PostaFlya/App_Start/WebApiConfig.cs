@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Http;
 using Website.Azure.Common.Environment;
 using Website.Common.Filters;
+using Website.Common.HttpMessageHandlers;
 using Website.Common.MediaFormatters;
 
 namespace PostaFlya.App_Start
@@ -18,6 +19,9 @@ namespace PostaFlya.App_Start
             
             //Web Api doesn't use model validators atm, if this changes in the future no need for this
             RegisterMediaFormatters.For(config);
+
+            RegisterGlobalMessageHandlers.For(config);
+
 
             RegisterRoutes(config.Routes);
         }

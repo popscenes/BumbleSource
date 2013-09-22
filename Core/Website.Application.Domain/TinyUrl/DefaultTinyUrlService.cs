@@ -19,18 +19,15 @@ namespace Website.Application.Domain.TinyUrl
     {
         public const int TinyUrlsToBuffer = 2000;
 
-        private readonly UnitOfWorkFactoryInterface _unitOfWorkFactory;
         private readonly GenericRepositoryInterface _repository;
         private readonly GenericQueryServiceInterface _queryService;
         private readonly ConfigurationServiceInterface _configurationService;
         private readonly QueryChannelInterface _queryChannel;
 
-        public DefaultTinyUrlService(
-            UnitOfWorkFactoryInterface unitOfWorkFactory, GenericRepositoryInterface repository,
+        public DefaultTinyUrlService(GenericRepositoryInterface repository,
             GenericQueryServiceInterface queryService, ConfigurationServiceInterface configurationService
             , QueryChannelInterface queryChannel)
         {
-            _unitOfWorkFactory = unitOfWorkFactory;
             _repository = repository;
             _queryService = queryService;
             _configurationService = configurationService;
@@ -65,11 +62,9 @@ namespace Website.Application.Domain.TinyUrl
                     TinyUrl = url
                 };
 
-            var uow = _unitOfWorkFactory.GetUnitOfWork(new object[] {_repository});
-            using (uow)
-            {
-                _repository.Store(rec);    
-            }
+
+            _repository.Store(rec);    
+            
             return rec;
         }
 
@@ -82,27 +77,18 @@ namespace Website.Application.Domain.TinyUrl
             _picker = new Random(entity.Id.GetHashCode());
 
             var newUrl = "";
-            var uow = _unitOfWorkFactory.GetUnitOfWork(new object[] {_repository});
-            using (uow)
-            {
-                var record = BaseUrl();
 
-                //this will retry until it has successfully incremented the url
-                _repository.UpdateAggregateEntity<TinyUrlRecord>(record.Id, record.AggregateId,
-                    urlRecord =>
-                        {
-                            TinyUrlUtil.Increment(urlRecord);
-                            newUrl = urlRecord.TinyUrl;
-                        }
-                    );
-            }
+            var record = BaseUrl();
 
-            if (!uow.Successful)
-            {
-                Trace.TraceError("Failed to save TinyUrl");
-                return null;
-            }
-
+            //this will retry until it has successfully incremented the url
+            _repository.UpdateAggregateEntity<TinyUrlRecord>(record.Id, record.AggregateId,
+                urlRecord =>
+                    {
+                        TinyUrlUtil.Increment(urlRecord);
+                        newUrl = urlRecord.TinyUrl;
+                    }
+                );
+            
             return newUrl;
 
         }

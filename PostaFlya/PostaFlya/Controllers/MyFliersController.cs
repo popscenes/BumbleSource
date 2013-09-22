@@ -83,8 +83,8 @@ namespace PostaFlya.Controllers
                 Anonymous = isAnon
             };
 
-            var res = _messageBus.Send(createFlier);
-            return this.GetResponseForRes(res);
+            _messageBus.Send(createFlier);
+            return this.GetResponseForRes(new MsgResponse() { IsError = false });                        
         }
 
         public HttpResponseMessage Put(string browserId, FlierCreateModel editModel)
@@ -105,8 +105,8 @@ namespace PostaFlya.Controllers
                 UserLinks = editModel.UserLinks == null ? new List<UserLink>() : editModel.UserLinks.Select(_ => new UserLink() { Link = _.Link, Text = _.Text, Type = _.Type }).ToList()
             };
 
-            var res = _messageBus.Send(editFlier);
-            return this.GetResponseForRes(res);
+            _messageBus.Send(editFlier);
+            return this.GetResponseForRes(new MsgResponse() { IsError = false });            
         }
 
         public void Delete(string browserId, string id)

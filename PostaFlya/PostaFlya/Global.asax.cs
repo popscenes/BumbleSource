@@ -41,7 +41,8 @@ namespace PostaFlya
         public static void RegisterGlobalFilters(GlobalFilterCollection filters)
         {
             filters.Add(new HandleErrorAttribute());
-            filters.Add(new RemoveWwwRedirectFilter());
+            //filters.Add(new RemoveWwwRedirectFilter());
+            filters.Add(new UowActionFilter());
         }
 
 

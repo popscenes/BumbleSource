@@ -15,29 +15,25 @@ namespace Website.Domain.Claims.Command
 {
     internal class ClaimCommandHandler : MessageHandlerInterface<ClaimCommand>
     {
-        private readonly UnitOfWorkFactoryInterface _unitOfWorkFactory;
         private readonly GenericRepositoryInterface _genericRepository;
         private readonly GenericQueryServiceInterface _genericQueryService;
         private readonly CreditChargeServiceInterface _creditChargeService;
 
-        public ClaimCommandHandler(UnitOfWorkFactoryInterface unitOfWorkFactory
-            , GenericRepositoryInterface genericRepository
+        public ClaimCommandHandler(GenericRepositoryInterface genericRepository
             , GenericQueryServiceInterface genericQueryService, CreditChargeServiceInterface creditChargeService)
         {
-            _unitOfWorkFactory = unitOfWorkFactory;
             _genericRepository = genericRepository;
             _genericQueryService = genericQueryService;
             _creditChargeService = creditChargeService;
         }
 
-        public object Handle(ClaimCommand command)
+        public void Handle(ClaimCommand command)
         {
             var browser = _genericQueryService.FindById<Browser.Browser>(command.BrowserId); 
 
             if(browser == null || !browser.HasRole(Role.Participant))
             {
-                return new MsgResponse("Claim Entity failed", true)
-                    .AddCommandId(command);
+                return;
             }
 
             var claim = new Claim()
@@ -56,49 +52,18 @@ namespace Website.Domain.Claims.Command
             if (entityFeaturesCharges != null)
                 entityFeaturesCharges.MergeChargesForAggregateMemberEntity(claim);
 
-            var uow = _unitOfWorkFactory.GetUnitOfWork(new List<object>() { _genericRepository });
-            using (uow)
+
+            claim.ChargeForState(_genericRepository, _genericQueryService, _creditChargeService);
+            _genericRepository.Store(claim); 
+                    
+            _genericRepository.UpdateEntity(command.ClaimEntity.GetType()
+            , command.ClaimEntity.Id
+            , o =>
             {
-                claim.ChargeForState(_genericRepository, _genericQueryService, _creditChargeService);
-                _genericRepository.Store(claim); 
-            }
-
-            if(!uow.Successful)
-                return new MsgResponse("Claim Entity failed", true)
-                .AddCommandId(command);
-
-
-            uow = _unitOfWorkFactory.GetUnitOfWork(new List<object>() { _genericRepository });
-            using (uow)
-            {
-                
-                _genericRepository.UpdateEntity(command.ClaimEntity.GetType()
-                , command.ClaimEntity.Id
-                , o =>
-                {
-                    var com = o as ClaimableEntityInterface;
-                    if (com != null)
-                        com.NumberOfClaims = _genericQueryService.FindAggregateEntities<Claim>(claim.AggregateId).Count();
-                });
-
-            }
-
-            if (!uow.Successful)
-                return new MsgResponse("Claim Entity failed", true)
-                        .AddCommandId(command);
-
-//            if (command.OwnerEntity is ChargableEntityInterface)
-//            {
-//                HandleChargableEntity(command.OwnerEntity as ChargableEntityInterface, uow, command.ClaimEntity as ClaimableEntityInterface, claim);
-//                if (!uow.Successful)
-//                {
-//                    return new MsgResponse("Charging Claim Entity failed", true).AddCommandId(command);
-//                }
-//            }
-
-            return new MsgResponse("Claim Entity", false)
-             .AddCommandId(command)
-             .AddEntityId(claim.AggregateId);
+                var com = o as ClaimableEntityInterface;
+                if (com != null)
+                    com.NumberOfClaims = _genericQueryService.FindAggregateEntities<Claim>(claim.AggregateId).Count();
+            });
 
         }
 

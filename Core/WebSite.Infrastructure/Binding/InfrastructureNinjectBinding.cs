@@ -39,12 +39,12 @@ namespace Website.Infrastructure.Binding
                 .WhenInjectedInto<DefaultMessageHandlerRepository>();
             Bind<MessageHandlerRespositoryInterface>().To<DefaultMessageHandlerRepository>().InSingletonScope();
 
-            Bind<UnitOfWorkFactoryInterface>().To<UnitOfWorkFactory>();
 
             Bind<QueryChannelInterface>().To<DefaultQueryChannel>().InThreadScope();
 
 
-
+            Bind<UnitOfWorkInterface, UnitOfWorkForRepoInterface>()
+                .To<EmptyUnitOfWork>().InThreadScope();
             Trace.TraceInformation("Finished Binding InfrastructureNinjectBinding");
 
         }

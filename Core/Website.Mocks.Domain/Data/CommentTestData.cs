@@ -39,42 +39,40 @@ namespace Website.Mocks.Domain.Data
                    storedComment.CommentTime - retrievedComment.CommentTime < TimeSpan.FromMilliseconds(1);
         }
 
-        internal static CommentInterface AssertGetById(CommentInterface comment, GenericQueryServiceInterface queryService)
-        {
-            var retrievedFlier = queryService.FindByAggregate<Comment>(comment.Id, comment.AggregateId);
-            AssertStoreRetrieve(comment, retrievedFlier);
+//        internal static CommentInterface AssertGetById(CommentInterface comment, GenericQueryServiceInterface queryService)
+//        {
+//            var retrievedFlier = queryService.FindByAggregate<Comment>(comment.Id, comment.AggregateId);
+//            AssertStoreRetrieve(comment, retrievedFlier);
+//
+//            return retrievedFlier;
+//        }
 
-            return retrievedFlier;
-        }
+//
+//        internal static CommentInterface StoreOne(CommentInterface comment, GenericRepositoryInterface repository, StandardKernel kernel)
+//        {
+//            var uow = kernel.Get<UnitOfWorkInterface>().Begin();
+//            using (uow)
+//            {
+//
+//                repository.Store(comment);
+//            }
+//
+//            Assert.IsTrue(uow.Successful);
+//            return comment;
+//        }
 
-
-        internal static CommentInterface StoreOne(CommentInterface comment, GenericRepositoryInterface repository, StandardKernel kernel)
-        {
-            var uow = kernel.Get<UnitOfWorkFactoryInterface>()
-                .GetUnitOfWork(new List<RepositoryInterface>() { repository });
-            using (uow)
-            {
-
-                repository.Store(comment);
-            }
-
-            Assert.IsTrue(uow.Successful);
-            return comment;
-        }
-
-        internal static IList<CommentInterface> StoreSome(GenericRepositoryInterface repository, StandardKernel kernel, string entityId)
-        {
-            var ret = GetSome(kernel, entityId);
-            using (kernel.Get<UnitOfWorkFactoryInterface>()
-                .GetUnitOfWork(new List<RepositoryInterface>() { repository }))
-            {
-                foreach (var comment in ret)
-                {
-                    repository.Store(comment);
-                }
-            }
-            return ret;
-        }
+//        internal static IList<CommentInterface> StoreSome(GenericRepositoryInterface repository, StandardKernel kernel, string entityId)
+//        {
+//            var ret = GetSome(kernel, entityId);
+//            using (kernel.Get<UnitOfWorkInterface>().Begin())
+//            {
+//                foreach (var comment in ret)
+//                {
+//                    repository.Store(comment);
+//                }
+//            }
+//            return ret;
+//        }
 
         internal static IList<CommentInterface> GetSome(StandardKernel kernel, string entityId, int num  = 5)
         {
@@ -92,14 +90,13 @@ namespace Website.Mocks.Domain.Data
             return ret;
         }
 
-        internal static void UpdateOne(CommentInterface comment, GenericRepositoryInterface repository, StandardKernel kernel)
-        {
-            using (kernel.Get<UnitOfWorkFactoryInterface>()
-                .GetUnitOfWork(new List<RepositoryInterface>() { repository }))
-            {
-                repository.UpdateAggregateEntity<Comment>(comment.Id, comment.AggregateId, e => e.CopyFieldsFrom(comment));
-            }
-        }
+//        internal static void UpdateOne(CommentInterface comment, GenericRepositoryInterface repository, StandardKernel kernel)
+//        {
+//            using (kernel.Get<UnitOfWorkInterface>().Begin())
+//            {
+//                repository.UpdateAggregateEntity<Comment>(comment.Id, comment.AggregateId, e => e.CopyFieldsFrom(comment));
+//            }
+//        }
 
         public static CommentInterface GetOne(StandardKernel kernel, string entityId)
         {            

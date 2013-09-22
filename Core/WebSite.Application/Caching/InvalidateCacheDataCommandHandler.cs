@@ -15,9 +15,9 @@ namespace Website.Application.Caching
             _objectCache = objectCache;
         }
 
-        public object Handle(InvalidateCacheDataCommand command)
+        public void Handle(InvalidateCacheDataCommand command)
         {
-           return _objectCache.Remove(command.Key, command.Region);
+           _objectCache.Remove(command.Key, command.Region);
         }
     }
 }

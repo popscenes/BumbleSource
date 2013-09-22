@@ -12,65 +12,49 @@ namespace PostaFlya.Domain.Boards.Command
     {
         private readonly GenericRepositoryInterface _boardRepository;
         private readonly GenericQueryServiceInterface _boardQueryService;
-        private readonly UnitOfWorkFactoryInterface _unitOfWorkFactory;
         private readonly QueryChannelInterface _queryChannel;
 
         public EditBoardCommandHandler(GenericRepositoryInterface boardRepository
                                        , GenericQueryServiceInterface boardQueryService
-                                       , UnitOfWorkFactoryInterface unitOfWorkFactory, QueryChannelInterface queryChannel)
+                                       , QueryChannelInterface queryChannel)
         {
             _boardRepository = boardRepository;
             _boardQueryService = boardQueryService;
-            _unitOfWorkFactory = unitOfWorkFactory;
             _queryChannel = queryChannel;
         }
 
-        public object Handle(EditBoardCommand command)
+        public void Handle(EditBoardCommand command)
         {
             var boardExist = _boardQueryService.FindById<Board>(command.Id);
             var brows = _boardQueryService.FindById<PostaFlya.Domain.Browser.Browser>(command.BrowserId);
 
             if(boardExist == null || (boardExist.BrowserId != command.BrowserId && !brows.HasRole(Role.Admin)))
-                return new MsgResponse("Board Edit not allowed", true)
-                    .AddCommandId(command);
+                return;
 
             if (!brows.HasRole(Role.Admin))
                 command.Status = boardExist.Status;
 
-            var unitOfWork = _unitOfWorkFactory.GetUnitOfWork(new object[] { _boardRepository, _boardQueryService });
-            using (unitOfWork)
-            {
-                _boardRepository.UpdateEntity<Board>(command.Id, board =>
+            _boardRepository.UpdateEntity<Board>(command.Id, board =>
+                {
+                    board.Status = command.Status;
+
+                    if (!string.IsNullOrWhiteSpace(command.BoardName))
                     {
-                        board.Status = command.Status;
+                        board.FriendlyId = command.BoardName;
+                        board.FriendlyId = _queryChannel.FindFreeFriendlyId(board);
+                    }
 
-                        if (!string.IsNullOrWhiteSpace(command.BoardName))
-                        {
-                            board.FriendlyId = command.BoardName;
-                            board.FriendlyId = _queryChannel.FindFreeFriendlyId(board);
-                        }
+                    if (!string.IsNullOrWhiteSpace(command.Description))
+                    {
+                        board.Description = command.Description;
+                    }
 
-                        if (!string.IsNullOrWhiteSpace(command.Description))
-                        {
-                            board.Description = command.Description;
-                        }
+                    if (!string.IsNullOrWhiteSpace(command.LogoImageId))
+                    {
+                        board.ImageId = command.LogoImageId;
+                    }
 
-                        if (!string.IsNullOrWhiteSpace(command.LogoImageId))
-                        {
-                            board.ImageId = command.LogoImageId;
-                        }
-
-                    } );
-            }
-
-            if (!unitOfWork.Successful)
-                return new MsgResponse("Board Edit Failed", true)
-                    .AddCommandId(command);
-
-
-            return new MsgResponse("Board Edit Succeded", false)
-                .AddEntityId(command.Id)
-                .AddCommandId(command);
+                } );
         }
     }
 }

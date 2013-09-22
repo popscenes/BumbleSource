@@ -300,11 +300,8 @@ namespace Website.Application.Messaging
                 var handler = _handlerRespository.FindHandler(command);
                 if(handler != null)
                 {
-                    var ret = handler.Handle(command);
-                    if(ret is QueuedMessageProcessResult)
-                        work.Result = ret;
-                    else
-                        work.Result = QueuedMessageProcessResult.Successful;
+                    handler.Handle(command);
+                    work.Result = QueuedMessageProcessResult.Successful;
                 }
                 else
                 {

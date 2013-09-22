@@ -14,28 +14,24 @@ namespace Website.Domain.Comments.Command
 {
     internal class CreateCommentCommandHandler : MessageHandlerInterface<CreateCommentCommand>
     {
-        private readonly UnitOfWorkFactoryInterface _unitOfWorkFactory;
         private readonly GenericRepositoryInterface _genericRepository;
         private readonly GenericQueryServiceInterface _genericQueryService;
 
-        public CreateCommentCommandHandler(UnitOfWorkFactoryInterface unitOfWorkFactory
-            , GenericRepositoryInterface genericRepository
+        public CreateCommentCommandHandler(GenericRepositoryInterface genericRepository
             , GenericQueryServiceInterface genericQueryService)
         {
-            _unitOfWorkFactory = unitOfWorkFactory;
             _genericRepository = genericRepository;
             _genericQueryService = genericQueryService;
         }
 
-        public object Handle(CreateCommentCommand command)
+        public void Handle(CreateCommentCommand command)
         {
             var browser = _genericQueryService.FindById<Browser.Browser>(command.BrowserId);
 
             if (browser == null || !browser.HasRole(Role.Participant)
                 || string.IsNullOrWhiteSpace(command.Comment))
             {
-                return new MsgResponse("Comment Failed", true)
-                    .AddCommandId(command);
+                return;
             }
 
             var comment = new Comment()
@@ -48,37 +44,17 @@ namespace Website.Domain.Comments.Command
             };
             comment.SetId();
 
-            var uow = _unitOfWorkFactory.GetUnitOfWork(new List<object>() { _genericRepository });
-            using (uow)
-            {
-                _genericRepository.Store(comment);     
-            }
+            _genericRepository.Store(comment);     
+            
+            _genericRepository.UpdateEntity(command.CommentEntity.GetType()
+                , command.CommentEntity.Id
+                , o =>
+                {
+                    var com = o as CommentableInterface;
+                    if (com != null)
+                        com.NumberOfComments = _genericQueryService.FindAggregateEntities<Comment>(comment.AggregateId).Count();
+                });
 
-            if (!uow.Successful)
-            return new MsgResponse("Comment Failed", true)
-                .AddCommandId(command); 
-
-            uow = _unitOfWorkFactory.GetUnitOfWork(new List<object>() { _genericRepository });
-            using (uow)
-            {
-                _genericRepository.UpdateEntity(command.CommentEntity.GetType()
-                    , command.CommentEntity.Id
-                    , o =>
-                    {
-                        var com = o as CommentableInterface;
-                        if (com != null)
-                            com.NumberOfComments = _genericQueryService.FindAggregateEntities<Comment>(comment.AggregateId).Count();
-                    });
-            }
-
-            if(!uow.Successful)
-                return new MsgResponse("Comment Failed", true)
-                   .AddCommandId(command); 
-
-
-            return new MsgResponse("Comment Create", false)
-                .AddEntityId(comment.AggregateId)
-                .AddCommandId(command);
 
         }
     }

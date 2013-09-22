@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Ninject;
 using Ninject.Syntax;
+using Website.Infrastructure.Command;
 using Website.Infrastructure.Messaging;
 using Website.Infrastructure.Publish;
 
@@ -33,7 +34,13 @@ namespace Website.Application.Publish
 
             var res = Parallel.ForEach(pubservices, _parallelOptions,
                                        o =>
-                                       o.Handle(ob));
+                                           {
+                                               using (_resolutionRoot.Get<UnitOfWorkInterface>().Begin())
+                                               {
+                                                   o.Handle(ob);
+                                               }
+
+                                           });
 
             return res.IsCompleted;
         }

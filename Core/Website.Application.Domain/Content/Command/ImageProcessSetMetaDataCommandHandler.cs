@@ -19,7 +19,7 @@ namespace Website.Application.Domain.Content.Command
             _blobStorage = blobStorage;
         }
 
-        public object Handle(ImageProcessSetMetaDataCommand command)
+        public void Handle(ImageProcessSetMetaDataCommand command)
         {
             var imgId = command.InitiatorCommand.Id;
             var loc = command.InitiatorCommand.Location;
@@ -34,6 +34,7 @@ namespace Website.Application.Domain.Content.Command
             foreach (var imgid in list)
             {
                 var imgBytes = _blobStorage.GetBlob(imgid);
+                if (imgBytes == null || imgBytes.Length == 0) continue;
                 using (var ms = new MemoryStream(imgBytes))
                 {
                     using(var img = Image.FromStream(ms))
@@ -51,7 +52,6 @@ namespace Website.Application.Domain.Content.Command
                 }
             }
 
-            return command;
         }
 
     }

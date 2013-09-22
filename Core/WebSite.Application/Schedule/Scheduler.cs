@@ -22,21 +22,15 @@ namespace Website.Application.Schedule
 
     public class Scheduler : SchedulerInterface
     {
-        private readonly GenericQueryServiceInterface _genericQueryService;
-        private readonly UnitOfWorkFactoryInterface _unitOfWorkFactory;
-        private readonly GenericRepositoryInterface _repository;
+        private readonly UnitOfWorkForRepoInterface _unitOfWorkFactory;
         private readonly TimeServiceInterface _timeService;
         private readonly MessageBusInterface _messageBus;
 
-        public Scheduler(GenericQueryServiceInterface genericQueryService          
-                         , GenericRepositoryInterface repository
-                         , UnitOfWorkFactoryInterface unitOfWorkFactory
+        public Scheduler(UnitOfWorkForRepoInterface unitOfWorkFactory
                          , TimeServiceInterface timeService
                          , [WorkerCommandBus]MessageBusInterface messageBus)
         {
-            _genericQueryService = genericQueryService;
             _unitOfWorkFactory = unitOfWorkFactory;
-            _repository = repository;
             _timeService = timeService;
             _messageBus = messageBus;
             Jobs = new List<JobBase>();
@@ -62,37 +56,41 @@ namespace Website.Application.Schedule
 
         private void CheckRun()
         {
-            var jobList = Jobs.Select(@base => new {@base.Id, type = @base.GetType()}).ToList();
-            foreach (var job in jobList.Select(job => _genericQueryService.FindById(job.type, job.Id) as JobBase).Where(j => j != null))
+            using (_unitOfWorkFactory.Begin())
             {
-                Replace(job);
-                if (!job.IsRunDue(_timeService)) continue;
-                
-                var commandJobCommand = new JobCommand()
+                var jobList = Jobs.Select(@base => new { @base.Id, type = @base.GetType() }).ToList();
+                foreach (var job in jobList.Select(job => _unitOfWorkFactory.CurrentQuery.FindById(job.type, job.Id) as JobBase).Where(j => j != null))
+                {
+                    Replace(job);
+                    if (!job.IsRunDue(_timeService)) continue;
+
+                    var commandJobCommand = new JobCommand()
                     {
                         JobId = job.Id,
                         JobType = job.GetType(),
                         SchedulerInfo = "Scheduled By" + SchedulerIdentifier
                     };
 
-                Trace.TraceInformation("Scheduling job {0} by scheduler {1}. Date ", job.Id, SchedulerIdentifier, DateTime.UtcNow);
-                _messageBus.Send(commandJobCommand);
+                    Trace.TraceInformation("Scheduling job {0} by scheduler {1}. Date ", job.Id, SchedulerIdentifier, DateTime.UtcNow);
+                    _messageBus.Send(commandJobCommand);
+                } 
             }
+
         }
 
         private void Init()
         {
-            var uow = _unitOfWorkFactory.GetUnitOfWork(new[] {_repository});
+            var uow = _unitOfWorkFactory.Begin();
             using (uow)
             {
                 for (var i = 0; i < Jobs.Count; i++)
                 {
                     dynamic job = Jobs.ElementAt(i);
-                    var exist = _genericQueryService.FindById(job.GetType(), job.Id);
+                    var exist = _unitOfWorkFactory.CurrentQuery.FindById(job.GetType(), job.Id);
                     if (exist == null)
                     {
                         job.CalculateNextRunFromNow(_timeService);
-                        _repository.Store(job);
+                        _unitOfWorkFactory.CurrentRepo.Store(job);
                     }
                     else
                     {
@@ -102,7 +100,7 @@ namespace Website.Application.Schedule
                                 update.CurrentProcessor = Guid.Empty;
                                 update.InProgress = false;
                             };
-                        _repository.UpdateEntity(exist.GetType(), exist.Id, updateAction);
+                        _unitOfWorkFactory.CurrentRepo.UpdateEntity(exist.GetType(), exist.Id, updateAction);
                     }
                         
 

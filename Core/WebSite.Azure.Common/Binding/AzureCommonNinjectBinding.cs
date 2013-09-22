@@ -9,7 +9,9 @@ using Ninject;
 using Ninject.Modules;
 using Website.Azure.Common.Environment;
 using Website.Azure.Common.TableStorage;
+using Website.Infrastructure.Command;
 using Website.Infrastructure.Configuration;
+using Website.Infrastructure.Query;
 
 namespace Website.Azure.Common.Binding
 {
@@ -63,6 +65,23 @@ namespace Website.Azure.Common.Binding
             Bind<TableIndexServiceInterface>()
                 .To<TableIndexService>()
                 .InTransientScope();
+
+            Unbind<UnitOfWorkInterface>();
+            Unbind<UnitOfWorkForRepoInterface>();
+            Rebind<UnitOfWorkInterface, UnitOfWorkForRepoInterface, UnitOfWorkForRepoJsonRepository>()
+                .To<UnitOfWorkForRepoJsonRepository>().InThreadScope();
+            Bind<JsonRepository>().ToSelf().InTransientScope();
+
+            Bind(typeof(GenericQueryServiceInterface))
+                .ToMethod<object>(context =>
+                          context.Kernel.Get<UnitOfWorkForRepoJsonRepository>().CurrentRepo)
+                          .InTransientScope();
+
+            Bind(typeof(GenericRepositoryInterface))
+                .ToMethod<object>(context =>
+                          context.Kernel.Get<UnitOfWorkForRepoJsonRepository>().CurrentRepo)
+                          .InTransientScope();
+
 
             Trace.TraceInformation("Finished Binding AzureCommonNinjectBinding");
 
