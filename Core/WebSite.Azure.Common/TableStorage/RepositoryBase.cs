@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Data.Services.Client;
 using System.Linq;
 using Website.Azure.Common.DataServices;
 using Website.Infrastructure.Command;
@@ -29,7 +30,9 @@ namespace Website.Azure.Common.TableStorage
 
         public virtual bool SaveChanges()
         {
+            _mutatorsForRetry.Insert(0, () => TableContext.SetMergeOption(MergeOption.OverwriteChanges));
             _mutatorsForRetry.Insert(0, () => _updateEvents.Clear());
+            _mutatorsForRetry.Add(() => TableContext.SetMergeOption(MergeOption.PreserveChanges));
             var ret = TableContext.SaveChangesRetryOnException(_mutatorsForRetry);
             _mutatorsForRetry.Clear();
             _publishService.PublishAll(_updateEvents);

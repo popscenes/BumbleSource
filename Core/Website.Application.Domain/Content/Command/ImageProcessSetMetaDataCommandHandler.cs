@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Linq;
+using Website.Application.Binding;
 using Website.Application.Content;
 using Website.Application.Extension.Content;
 using Website.Domain.Content;
@@ -14,7 +15,7 @@ namespace Website.Application.Domain.Content.Command
     {
         private readonly BlobStorageInterface _blobStorage;
 
-        public ImageProcessSetMetaDataCommandHandler(BlobStorageInterface blobStorage)
+        public ImageProcessSetMetaDataCommandHandler([ImageStorage]BlobStorageInterface blobStorage)
         {
             _blobStorage = blobStorage;
         }

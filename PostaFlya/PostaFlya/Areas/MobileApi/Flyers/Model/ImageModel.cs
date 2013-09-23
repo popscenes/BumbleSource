@@ -51,6 +51,11 @@ namespace PostaFlya.Areas.MobileApi.Flyers.Model
 
     public class ImageModel : IsModelInterface
     {
+        public ImageModel()
+        {
+            Extensions = new List<Extension>();
+        }
+
         public class Extension
         {
             public int Width { get; set; }

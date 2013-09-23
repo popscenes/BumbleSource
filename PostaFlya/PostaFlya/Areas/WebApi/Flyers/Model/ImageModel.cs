@@ -25,7 +25,8 @@ namespace PostaFlya.Areas.WebApi.Flyers.Model
             if (source.AvailableDimensions == null) return null;
             
             target.BaseUrl = _blobStorage.GetBlobUri(source.Id).ToString();
-            target.Extensions = source.AvailableDimensions
+            target.Extensions = 
+                source.AvailableDimensions
                 .Select(d => new ImageModel.Extension()
                 {
                     Width = d.Width,

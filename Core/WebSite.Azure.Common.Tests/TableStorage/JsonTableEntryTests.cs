@@ -27,6 +27,8 @@ namespace Website.Azure.Common.Tests.TableStorage
         public string Prop { get; set; }
         public string PropTwo { get; set; }
         public int Counter { get; set; }
+        public string ConcurrentOne { get; set; }
+        public string ConcurrentTwo { get; set; }
     }
 
 
@@ -252,6 +254,57 @@ namespace Website.Azure.Common.Tests.TableStorage
         }
 
         [Test]
+        public void MultipleUpdatesInUowAreAppliedSuccessfully()
+        {
+            var testTwo = new JsonTestConcurrentEntity()
+            {
+                Prop = "123",
+                Id = Guid.NewGuid().ToString(),
+                Counter = 0
+            };
+
+            var uow = Kernel.Get<UnitOfWorkInterface>().Begin();
+            using (uow)
+            {
+                var repo1 = Kernel.Get<GenericRepositoryInterface>();
+                repo1.Store(testTwo);
+            }
+
+            Assert.IsTrue(uow.Successful);
+
+
+            uow = Kernel.Get<UnitOfWorkInterface>().Begin();
+            using (uow)
+            {
+                var repo1 = Kernel.Get<GenericRepositoryInterface>();
+
+                repo1.UpdateEntity<JsonTestConcurrentEntity>(testTwo.Id
+                    , flier =>
+                    {
+                        flier.ConcurrentTwo = "TwoChanged";
+                    });
+
+                repo1.UpdateEntity<JsonTestConcurrentEntity>(testTwo.Id
+                    , flier =>
+                    {
+                        flier.ConcurrentOne = "OneChanged";
+                    });
+            }
+
+            Assert.IsTrue(uow.Successful);
+
+            uow = Kernel.Get<UnitOfWorkInterface>().Begin();
+            using (uow)
+            {
+                var query = Kernel.Get<GenericQueryServiceInterface>();
+
+                var retEntity = query.FindById<JsonTestConcurrentEntity>(testTwo.Id);
+                Assert.AreEqual("OneChanged", retEntity.ConcurrentOne);
+                Assert.AreEqual("TwoChanged", retEntity.ConcurrentTwo);
+            }
+        }
+
+        [Test]
         public void AzureRepositoryRetriesUpdateIfConcurrencyExceptionOccurs()
         {
             var testTwo = new JsonTestConcurrentEntity()
@@ -284,11 +337,17 @@ namespace Website.Azure.Common.Tests.TableStorage
                         if (tryCount++ == 0)
                         {
                             var otherrepo = Kernel.Get<JsonRepository>();
-                            otherrepo.UpdateEntity<JsonTestConcurrentEntity>(testTwo.Id, f => f.Counter++);
+                            otherrepo.UpdateEntity<JsonTestConcurrentEntity>(testTwo.Id, f
+                                                                                         =>
+                                {
+                                    f.ConcurrentOne = "OneChanged";
+                                    f.Counter++;
+                                });
                             otherrepo.SaveChanges();
                         }
 
                         flier.Counter++;
+                        flier.ConcurrentTwo = "TwoChanged";
 
                     }
 
@@ -304,6 +363,8 @@ namespace Website.Azure.Common.Tests.TableStorage
 
                 var retEntity = query.FindById<JsonTestConcurrentEntity>(testTwo.Id);
                 Assert.AreEqual(2, retEntity.Counter);
+                Assert.AreEqual("OneChanged", retEntity.ConcurrentOne);
+                Assert.AreEqual("TwoChanged", retEntity.ConcurrentTwo);
             }
 
 

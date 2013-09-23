@@ -9,6 +9,7 @@ using Website.Application.Content;
 using Website.Application.Extension.Content;
 using Website.Domain.Content;
 using Website.Domain.Content.Command;
+using Website.Infrastructure.Binding;
 using Website.Infrastructure.Messaging;
 using Image = System.Drawing.Image;
 

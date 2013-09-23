@@ -35,6 +35,7 @@ namespace Website.Azure.Common.TableStorage
         void Delete<TableEntryType>(string tableName, Expression<Func<TableEntryType, bool>> query);
         void Delete(StorageTableKeyInterface tableEntry);
         void Store(string tableName, StorageTableKeyInterface tableEntry);
+        void SetMergeOption(MergeOption option);
     }
 
     public class TableContext : TableContextInterface
@@ -47,8 +48,14 @@ namespace Website.Azure.Common.TableStorage
             _account = account;
             var client = new CloudTableClient(new Uri(account.TableEndpoint.AbsoluteUri), account.Credentials);
             _containedContext = new TableServiceContext(client);
+            _containedContext.MergeOption = MergeOption.PreserveChanges;
             _containedContext.WritingEntity += OnWritingEntity;
             _containedContext.ReadingEntity += OnReadingEntity;
+        }
+
+        public void SetMergeOption(MergeOption option)
+        {
+            _containedContext.MergeOption = option;
         }
 
         public void InitTable<TableEntryType>(string tableName)
@@ -176,6 +183,7 @@ namespace Website.Azure.Common.TableStorage
             }
         }
 
+        // apparently table context doesn't support parrallel
         public IQueryable<SelectType> PerformParallelSelectQueries<TableEntryType, SelectType>(string tableName, Expression<Func<TableEntryType, bool>>[] queries, Expression<Func<TableEntryType, SelectType>> selectExpression, int take = -1)
         {
             var res = new ConcurrentQueue<SelectType>();
@@ -270,6 +278,11 @@ namespace Website.Azure.Common.TableStorage
 
         private void OnReadingEntity(object sender, ReadingWritingEntityEventArgs args)
         {
+            var contained = _containedContext.GetEntityDescriptor(args.Entity);
+            if (contained != null && contained.State == EntityStates.Modified && 
+                (_containedContext.MergeOption == MergeOption.AppendOnly || _containedContext.MergeOption == MergeOption.PreserveChanges))
+                return;
+
             var extendableEntity = args.Entity as ExtendableTableEntry;
             if (extendableEntity != null)
             {

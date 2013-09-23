@@ -7,6 +7,11 @@ namespace Website.Domain.Content
     [Serializable]
     public class Image : EntityBase<ImageInterface>, ImageInterface
     {
+        public Image()
+        {
+            AvailableDimensions = new List<ImageDimension>();
+        }
+
         #region Implementation of ImageInterface
 
         public string BrowserId { get; set; }
