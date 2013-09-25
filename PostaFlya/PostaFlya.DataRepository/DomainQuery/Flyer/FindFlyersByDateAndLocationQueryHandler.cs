@@ -58,6 +58,15 @@ namespace PostaFlya.DataRepository.DomainQuery.Flyer
 
             if (string.IsNullOrWhiteSpace(argument.Location.Id)) return null;
 
+            if(!argument.Location.IsValid())
+                argument.Location =
+                    _queryChannel.Query(
+                        new FindByIdQuery<Suburb>() { Id = argument.Location.Id},
+                        argument.Location);
+
+            if (!argument.Location.IsValid()) return null;
+
+
             var low = argument.Location.Id.ToStorageKeySection() + startDate.GetTimestampAscending().ToStorageKeySection();
             var high = argument.Location.Id.ToStorageKeySection() + endDate.GetTimestampAscending().ToStorageKeySection();
             var flyers = _indexService.FindEntitiesByIndexRange<FlierInterface, JsonTableEntry>(
