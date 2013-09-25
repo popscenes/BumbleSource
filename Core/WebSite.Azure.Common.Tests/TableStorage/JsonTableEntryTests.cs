@@ -369,5 +369,79 @@ namespace Website.Azure.Common.Tests.TableStorage
 
 
         }
+
+        [Test]
+        public void AzureRepositoryConcurrencyRetryShouldReloadCurrentState()
+        {
+            var testTwo = new JsonTestConcurrentEntity()
+            {
+                Prop = "123",
+                Id = Guid.NewGuid().ToString(),
+                ConcurrentTwo = "Initial",
+                Counter = 0
+            };
+
+            var uow = Kernel.Get<UnitOfWorkInterface>().Begin();
+            using (uow)
+            {
+                var repo1 = Kernel.Get<GenericRepositoryInterface>();
+                repo1.Store(testTwo);
+            }
+
+            Assert.IsTrue(uow.Successful);
+
+            var tryCount = 0;
+            UnitOfWorkInterface unitOfWork;
+
+            uow = Kernel.Get<UnitOfWorkInterface>().Begin();
+            using (uow)
+            {
+                var repo1 = Kernel.Get<GenericRepositoryInterface>();
+
+                //attempt one update action which will cause retry
+                repo1.UpdateEntity<JsonTestConcurrentEntity>(testTwo.Id
+                    , flier =>
+                    {
+                        if (tryCount++ == 0)
+                        {
+                            var otherrepo = Kernel.Get<JsonRepository>();
+                            otherrepo.UpdateEntity<JsonTestConcurrentEntity>(testTwo.Id, f
+                            =>
+                            {
+                                f.ConcurrentOne = "OneChanged";
+                                f.ConcurrentTwo = "TwoChanged";
+                            });
+                            otherrepo.SaveChanges();
+                        }
+
+                        flier.ConcurrentTwo = flier.ConcurrentTwo + "ChangedAgain";
+
+                    }
+                );
+                //in the same unit of work attempt to modify a value we have
+                //already modified in a retry. ther result should be as all actions have taken 
+                //place sequentially ie "TwoChanged" -> "TwoChanged" + "ChangedAgain" -> TwoChanged" + "ChangedAgain" + "Again"
+                repo1.UpdateEntity<JsonTestConcurrentEntity>(testTwo.Id
+                    , flier =>
+                    {
+                        flier.ConcurrentTwo = flier.ConcurrentTwo + "Again";
+                    }
+                );
+            }
+
+            Assert.IsTrue(uow.Successful);
+
+            uow = Kernel.Get<UnitOfWorkInterface>().Begin();
+            using (uow)
+            {
+                var query = Kernel.Get<GenericQueryServiceInterface>();
+
+                var retEntity = query.FindById<JsonTestConcurrentEntity>(testTwo.Id);
+                Assert.AreEqual("OneChanged", retEntity.ConcurrentOne);
+                Assert.AreEqual("TwoChangedChangedAgainAgain", retEntity.ConcurrentTwo);
+            }
+
+
+        }
     }
 }

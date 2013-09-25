@@ -135,7 +135,10 @@ namespace Website.Azure.Common.DataServices
                     if (IsConcurrencyException(e))
                     {
                         if (retryActions != null && retryActions.Count > 0)
-                            retryActions.ForEach(a => a());
+                        {
+                            context.ClearContext();
+                            retryActions.ForEach(a => a());                            
+                        }
                         else
                             return false;
                         defaultBackoffMs = 500;

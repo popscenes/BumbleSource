@@ -35,27 +35,34 @@ namespace Website.Azure.Common.TableStorage
         void Delete<TableEntryType>(string tableName, Expression<Func<TableEntryType, bool>> query);
         void Delete(StorageTableKeyInterface tableEntry);
         void Store(string tableName, StorageTableKeyInterface tableEntry);
-        void SetMergeOption(MergeOption option);
+        void ClearContext();
     }
 
     public class TableContext : TableContextInterface
     {
         private readonly CloudStorageAccount _account;
-        private readonly TableServiceContext _containedContext;
+        private TableServiceContext _containedContext;
 
         public TableContext(CloudStorageAccount account)
         {
             _account = account;
-            var client = new CloudTableClient(new Uri(account.TableEndpoint.AbsoluteUri), account.Credentials);
-            _containedContext = new TableServiceContext(client);
-            _containedContext.MergeOption = MergeOption.PreserveChanges;
-            _containedContext.WritingEntity += OnWritingEntity;
-            _containedContext.ReadingEntity += OnReadingEntity;
+            InitContext();
         }
 
-        public void SetMergeOption(MergeOption option)
+        private void InitContext()
         {
-            _containedContext.MergeOption = option;
+            if (_containedContext != null)
+            {
+                _containedContext.Dispose();
+                _containedContext.WritingEntity -= OnWritingEntity;
+                _containedContext.ReadingEntity -= OnReadingEntity;
+            }
+
+            var client = new CloudTableClient(new Uri(_account.TableEndpoint.AbsoluteUri), _account.Credentials);
+            _containedContext = new TableServiceContext(client);
+            _containedContext.MergeOption = MergeOption.AppendOnly;
+            _containedContext.WritingEntity += OnWritingEntity;
+            _containedContext.ReadingEntity += OnReadingEntity;
         }
 
         public void InitTable<TableEntryType>(string tableName)
@@ -250,6 +257,11 @@ namespace Website.Azure.Common.TableStorage
             
         }
 
+        public void ClearContext()
+        {
+            InitContext();
+        }
+
         private  IQueryable<TableEntryType> ExecuteQuery<TableEntryType>(IQueryable<TableEntryType> query, int take = -1)
         {
             var ret = query.AsTableServiceQuery(_containedContext);
@@ -279,8 +291,7 @@ namespace Website.Azure.Common.TableStorage
         private void OnReadingEntity(object sender, ReadingWritingEntityEventArgs args)
         {
             var contained = _containedContext.GetEntityDescriptor(args.Entity);
-            if (contained != null && contained.State == EntityStates.Modified && 
-                (_containedContext.MergeOption == MergeOption.AppendOnly || _containedContext.MergeOption == MergeOption.PreserveChanges))
+            if (contained != null && contained.State == EntityStates.Modified)
                 return;
 
             var extendableEntity = args.Entity as ExtendableTableEntry;
