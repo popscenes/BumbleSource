@@ -12,6 +12,7 @@ using Website.Azure.Common.TableStorage;
 using Website.Domain.Location;
 using Website.Domain.Tag;
 using Website.Infrastructure.Domain;
+using Website.Infrastructure.Sharding;
 using Website.Infrastructure.Util.Extension;
 
 namespace PostaFlya.DataRepository.Search.SearchRecord
@@ -170,7 +171,7 @@ namespace PostaFlya.DataRepository.Search.SearchRecord
         [PrimaryKey]
         public DateTimeOffset EventDate { get; set; }
         //for scaling possibilities
-        [FederationCol(FederationName = "Location", DistributionName = "location_shard")]
+        [FederationColumn(FederationName = "Location", DistributionName = "location_shard")]
         public long LocationShard { get; set; }
 
         public string SortOrder { get; set; }
@@ -194,7 +195,7 @@ namespace PostaFlya.DataRepository.Search.SearchRecord
         public int Status { get; set; }
 
         //for scaling possibilities
-        [FederationCol(FederationName = "Location", DistributionName = "location_shard")]
+        [FederationColumn(FederationName = "Location", DistributionName = "location_shard")]
         public long LocationShard { get; set; }
 
         [SqlIndex]

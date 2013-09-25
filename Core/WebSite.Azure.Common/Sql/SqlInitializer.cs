@@ -10,6 +10,8 @@ using System.Xml.Linq;
 using Microsoft.SqlServer.Types;
 using Microsoft.WindowsAzure.ServiceRuntime;
 using Website.Azure.Common.Binding;
+using Website.Infrastructure.Domain;
+using Website.Infrastructure.Sharding;
 using Website.Infrastructure.Types;
 using Website.Infrastructure.Util;
 
@@ -45,10 +47,10 @@ namespace Website.Azure.Common.Sql
 
         public static bool CreateFederationFor(Type recordTyp, SqlConnection connection)
         {
-            var prop = SerializeUtil.GetPropertyWithAttribute(recordTyp, typeof (FederationCol));
-            if (prop == null || SqlExecute.FederationDisabled)
+            var prop = SerializeUtil.GetPropertyWithAttribute(recordTyp, typeof (FederationColumnAttribute));
+            if (prop == null || FederationExtensions.FederationDisabled)
                 return false;
-            var fedAtt = prop.GetCustomAttributes(true).First(a => a.GetType() == typeof (FederationCol)) as FederationCol;
+            var fedAtt = prop.GetCustomAttributes(true).First(a => a.GetType() == typeof (FederationColumnAttribute)) as FederationColumnAttribute;
 
             var ret = SqlExecute.GetFederationInfo(connection, false);
             if (ret.Any(fi => fi.Name.Equals(fedAtt.FederationName, StringComparison.CurrentCultureIgnoreCase)))
@@ -70,10 +72,10 @@ namespace Website.Azure.Common.Sql
 
         public static bool DeleteFederationFor(Type recordTyp, SqlConnection connection)
         {
-            var prop = SerializeUtil.GetPropertyWithAttribute(recordTyp, typeof(FederationCol));
-            if (prop == null || SqlExecute.FederationDisabled)
+            var prop = SerializeUtil.GetPropertyWithAttribute(recordTyp, typeof(FederationColumnAttribute));
+            if (prop == null || FederationExtensions.FederationDisabled)
                 return false;
-            var fedAtt = prop.GetCustomAttributes(true).First(a => a.GetType() == typeof(FederationCol)) as FederationCol;
+            var fedAtt = prop.GetCustomAttributes(true).First(a => a.GetType() == typeof(FederationColumnAttribute)) as FederationColumnAttribute;
 
             var ret = SqlExecute.GetFederationInfo(connection);
             if (!ret.Any(fi => fi.Name.Equals(fedAtt.FederationName, StringComparison.CurrentCultureIgnoreCase)))
@@ -163,7 +165,7 @@ namespace Website.Azure.Common.Sql
         {
             return attribute.GetType() == typeof (PrimaryKey)
                    || attribute.GetType() == typeof (NotNullable)
-                   || attribute.GetType() == typeof (FederationCol);
+                   || attribute.GetType() == typeof (FederationColumnAttribute);
         }
 
         private static string ColumnTextFor(PropertyInfo prop)
@@ -176,7 +178,7 @@ namespace Website.Azure.Common.Sql
             if (type == SqlExecute.DbString 
                 && (SerializeUtil.HasAttribute(prop, typeof(PrimaryKey))
                     || SerializeUtil.HasAttribute(prop, typeof(SqlIndex))
-                    || SerializeUtil.HasAttribute(prop, typeof(FederationCol)))
+                    || SerializeUtil.HasAttribute(prop, typeof(FederationColumnAttribute)))
                 )
                 type = type.Replace("MAX", "255");
 
@@ -242,11 +244,11 @@ namespace Website.Azure.Common.Sql
                 Properties.Resources.DbCreateTable
                 , tableName, colList, keyList);
 
-            var fedProp = SerializeUtil.GetPropertyWithAttribute(metaTyp, typeof(FederationCol));
+            var fedProp = SerializeUtil.GetPropertyWithAttribute(metaTyp, typeof(FederationColumnAttribute));
             var info = metaTyp.GetFedInfo();
             if (info != null )
             {
-                var fedAtt = fedProp.GetCustomAttributes(true).First(a => a.GetType() == typeof(FederationCol)) as FederationCol;
+                var fedAtt = fedProp.GetCustomAttributes(true).First(a => a.GetType() == typeof(FederationColumnAttribute)) as FederationColumnAttribute;
                 if (!fedAtt.IsReferenceTable)
                     sqlCmd += string.Format(Properties.Resources.DbFederatedOn, fedAtt.DistributionName, fedProp.Name);
 

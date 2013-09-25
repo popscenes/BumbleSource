@@ -53,6 +53,18 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AutoMapper">
+      <HintPath>..\..\..\Libraries\AutoMapper.3.0.0\lib\net40\AutoMapper.dll</HintPath>
+    </Reference>
+    <Reference Include="AutoMapper.Net4">
+      <HintPath>..\..\..\Libraries\AutoMapper.3.0.0\lib\net40\AutoMapper.Net4.dll</HintPath>
+    </Reference>
+    <Reference Include="Dapper">
+      <HintPath>..\..\..\Libraries\Dapper.1.13\lib\net45\Dapper.dll</HintPath>
+    </Reference>
+    <Reference Include="DapperExtensions">
+      <HintPath>..\..\..\Libraries\DapperExtensions.1.4.3\lib\net40\DapperExtensions.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Data.Edm, Version=5.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\Libraries\Microsoft.Data.Edm.5.2.0\lib\net40\Microsoft.Data.Edm.dll</HintPath>
@@ -85,6 +97,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\Libraries\Ninject.3.0.2-unstable-9\lib\net45-full\Ninject.dll</HintPath>
     </Reference>
+    <Reference Include="NLog, Version=2.0.1.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Libraries\NLog.2.0.1.2\lib\net45\NLog.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
@@ -111,6 +127,16 @@
     <Compile Include="Binding\AzureCommonNinjectBinding.cs" />
     <Compile Include="Binding\BindingAttributes.cs" />
     <Compile Include="DataServices\DataServicesQueryHelper.cs" />
+    <Compile Include="Sql\AggregateRootStorageTable.cs" />
+    <Compile Include="Sql\Infrastructure\AutoMapperExtensions.cs" />
+    <Compile Include="Sql\ArmExtensions.cs" />
+    <Compile Include="Sql\Infrastructure\AggregateClassMapper.cs" />
+    <Compile Include="Sql\Infrastructure\AggregateMemberMap.cs" />
+    <Compile Include="Sql\Infrastructure\InterlockedUtil.cs" />
+    <Compile Include="Sql\Infrastructure\MappedPropertyVisitor.cs" />
+    <Compile Include="Sql\Infrastructure\SqlExecute.cs" />
+    <Compile Include="Sql\Infrastructure\TvpParams.cs" />
+    <Compile Include="Sql\Infrastructure\TypeUtil.cs" />
     <Compile Include="TableStorage\UnitOfWorkForJsonRepository.cs" />
     <Compile Include="Environment\AzureConfigurationService.cs" />
     <Compile Include="Environment\AzureEnv.cs" />

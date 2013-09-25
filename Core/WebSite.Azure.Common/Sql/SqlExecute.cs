@@ -20,6 +20,8 @@ using Microsoft.SqlServer.Types;
 using Microsoft.WindowsAzure.ServiceRuntime;
 using Website.Azure.Common.Properties;
 using Website.Infrastructure.Configuration;
+using Website.Infrastructure.Domain;
+using Website.Infrastructure.Sharding;
 using Website.Infrastructure.Types;
 using Website.Infrastructure.Util;
 using Website.Infrastructure.Util.Extension;
@@ -43,50 +45,6 @@ namespace Website.Azure.Common.Sql
                     return new SqlXml(xmlReader);
                 }
             }
-        }
-
-        public static FederationInstance GetFedInstance(this object fedobject)
-        {
-            var prop = SerializeUtil.GetPropertyWithAttribute(fedobject.GetType(), typeof(FederationCol));
-            if (prop == null || SqlExecute.FederationDisabled)
-                return null;
-
-            var fedAtt = prop.GetCustomAttributes(true).First(a => a.GetType() == typeof(FederationCol)) as FederationCol;
-
-            var fedVal = prop.GetValue(fedobject, null);
-
-            return new FederationInstance()
-                       {
-                           FederationName = fedAtt.FederationName,
-                           DistributionName = fedAtt.DistributionName,
-                           FedVal = fedVal
-                       };
-        }
-
-        public static bool SetFedVal(this object fedObject, object fedVal)
-        {
-            var prop = SerializeUtil.GetPropertyWithAttribute(fedObject.GetType(), typeof(FederationCol));
-            if (prop == null || SqlExecute.FederationDisabled)
-                return false;
-
-            prop.SetValue(fedObject, SerializeUtil.ConvertVal(fedVal, prop.PropertyType), null);
-            return true;
-        }
-
-        public static FederationInstance GetFedInfo(this Type fedTyp)
-        {
-            var prop = SerializeUtil.GetPropertyWithAttribute(fedTyp, typeof(FederationCol));
-            if (prop == null || SqlExecute.FederationDisabled)
-                return null;
-
-            var fedAtt = prop.GetCustomAttributes(true).First(a => a.GetType() == typeof(FederationCol)) as FederationCol;
-
-            return new FederationInstance()
-            {
-                FederationName = fedAtt.FederationName,
-                DistributionName = fedAtt.DistributionName,
-                FedVal = null,
-            };
         }
     }
 
@@ -113,17 +71,7 @@ namespace Website.Azure.Common.Sql
         }
     }
 
-    public class FederationInstance
-    {
-        public override string ToString()
-        {
-            return FederationName + " " + DistributionName + "=" + FedVal;
-        }
 
-        public string FederationName { get; set; }
-        public string DistributionName { get; set; }
-        public object FedVal { get; set; }
-    }
 
     public class CountResult
     {
@@ -183,21 +131,7 @@ namespace Website.Azure.Common.Sql
                       {typeof(SqlGeography), "geography"},                                                                  
                   };
 
-        private static bool? _federationDisabled;
-        public static bool FederationDisabled
-        {
-            get
-            {
-                if (_federationDisabled.HasValue)
-                    return _federationDisabled.Value;
 
-                bool ret;
-                bool.TryParse(Config.Instance.GetSetting("DisableFederation"), 
-                out ret);
-                _federationDisabled = ret;
-                return ret;
-            }
-        }
         public static string GetConnectionStringFromConfig(string settingName, string dbName = null)
         {
             var connectionString = Config.Instance.GetSetting(settingName);
@@ -671,12 +605,12 @@ namespace Website.Azure.Common.Sql
         {
             var ret = SerializeUtil.GetPropertiesWithAttribute(source, typeof(PrimaryKey));
 
-            var fedProp = SerializeUtil.GetPropertyWithAttribute(source, typeof(FederationCol));
-            FederationCol fedAtt = null;
+            var fedProp = SerializeUtil.GetPropertyWithAttribute(source, typeof(FederationColumnAttribute));
+            FederationColumnAttribute fedAtt = null;
             if (fedProp == null)
                 return ret;
             
-            fedAtt = fedProp.GetCustomAttributes(true).First(a => a.GetType() == typeof(FederationCol)) as FederationCol;
+            fedAtt = fedProp.GetCustomAttributes(true).First(a => a.GetType() == typeof(FederationColumnAttribute)) as FederationColumnAttribute;
             if (fedAtt != null && !fedAtt.IsReferenceTable)
                 ret.Add(fedProp);
 

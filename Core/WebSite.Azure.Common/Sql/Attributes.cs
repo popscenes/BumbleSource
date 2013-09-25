@@ -30,16 +30,4 @@ namespace Website.Azure.Common.Sql
 //        [DefaultValue(null)]
 //        public string[] Columns { get; set; }
     }
-
-    public class FederationCol : Attribute {
-        public FederationCol()
-        {
-            IsReferenceTable = false;
-        }
-
-        public string FederationName { get; set; }
-        public string DistributionName { get; set; }
-        [DefaultValue(false)]
-        public bool IsReferenceTable { get; set; }
-    }
 }

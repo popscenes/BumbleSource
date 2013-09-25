@@ -4,6 +4,8 @@ using System.Data.SqlTypes;
 using Microsoft.SqlServer.Types;
 using NUnit.Framework;
 using Website.Azure.Common.Sql;
+using Website.Infrastructure.Domain;
+using Website.Infrastructure.Sharding;
 
 namespace Website.Azure.Common.Tests.Sql
 {
@@ -233,7 +235,7 @@ namespace Website.Azure.Common.Tests.Sql
         [SqlIndex]
         public long LongCol { get; set; }
 
-        [FederationCol(FederationName = "TestFederation", DistributionName = "long_col", IsReferenceTable = true)]        
+        [FederationColumn(FederationName = "TestFederation", DistributionName = "long_col", IsReferenceTable = true)]        
         public long FedRefCol { get; set; }
 
     }
@@ -263,7 +265,7 @@ namespace Website.Azure.Common.Tests.Sql
 
         public SqlXml XmlCol { get; set; }
 
-        [FederationCol(FederationName = "TestFederation", DistributionName = "long_col")]
+        [FederationColumn(FederationName = "TestFederation", DistributionName = "long_col")]
         public long LongCol { get; set; }
 
         [NotNullable]
@@ -286,7 +288,7 @@ namespace Website.Azure.Common.Tests.Sql
 
         public SqlXml XmlCol { get; set; }
 
-        [FederationCol(FederationName = "TestFederationAnother", DistributionName = "fed_col")]
+        [FederationColumn(FederationName = "TestFederationAnother", DistributionName = "fed_col")]
         public Guid FedCol { get; set; }
 
         [NotNullable]
@@ -298,7 +300,7 @@ namespace Website.Azure.Common.Tests.Sql
     {
         public Guid Id { get; set; }
 
-        [FederationCol(FederationName = "TestFederationAnotherString", DistributionName = "fed_col")]
+        [FederationColumn(FederationName = "TestFederationAnotherString", DistributionName = "fed_col")]
         public string Stringcol { get; set; }
 
         [PrimaryKey]

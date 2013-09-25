@@ -54,6 +54,25 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AutoMapper, Version=3.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Libraries\AutoMapper.3.0.0\lib\net40\AutoMapper.dll</HintPath>
+    </Reference>
+    <Reference Include="AutoMapper.Net4">
+      <HintPath>..\..\..\Libraries\AutoMapper.3.0.0\lib\net40\AutoMapper.Net4.dll</HintPath>
+    </Reference>
+    <Reference Include="Dapper, Version=1.12.1.1, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Libraries\Dapper.1.13\lib\net45\Dapper.dll</HintPath>
+    </Reference>
+    <Reference Include="DapperExtensions, Version=1.4.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Libraries\DapperExtensions.1.4.3\lib\net40\DapperExtensions.dll</HintPath>
+    </Reference>
+    <Reference Include="FizzWare.NBuilder">
+      <HintPath>..\..\..\Libraries\NBuilder.3.0.1.1\lib\FizzWare.NBuilder.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.Data.Edm, Version=5.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\Libraries\Microsoft.Data.Edm.5.2.0\lib\net40\Microsoft.Data.Edm.dll</HintPath>
@@ -93,6 +112,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\Libraries\Ninject.MockingKernel.Moq.3.0.2-unstable-5\lib\net45-full\Ninject.MockingKernel.Moq.dll</HintPath>
     </Reference>
+    <Reference Include="NLog, Version=2.0.1.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Libraries\NLog.2.0.1.2\lib\net45\NLog.dll</HintPath>
+    </Reference>
     <Reference Include="nunit.framework, Version=2.6.2.12296, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\Libraries\NUnit.2.6.2\lib\nunit.framework.dll</HintPath>
@@ -126,9 +149,20 @@
   <ItemGroup>
     <Compile Include="DataServices\DataServicesQueryHelperTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Sql\ArmTestBase.cs" />
+    <Compile Include="Sql\InsertUpdateFromJsonTests.cs" />
+    <Compile Include="Sql\InsertUpdateSimpleAggregateTests.cs" />
+    <Compile Include="Sql\OrdersAggregateStorageTables.cs" />
+    <Compile Include="Sql\PerfTests.cs" />
     <Compile Include="Sql\SqlOpenClose.cs" />
     <Compile Include="Sql\SqlInitializerTests.cs" />
     <Compile Include="Sql\SqlExecuteTests.cs" />
+    <Compile Include="Sql\UpdateRepeatableReadTests.cs" />
     <Compile Include="TableStorage\AggregateEntityTableEntryCollectionTests.cs" />
     <Compile Include="TableStorage\ClonedTableEntryTests.cs" />
     <Compile Include="TableStorage\ExtendableTableEntryTests.cs" />
@@ -160,6 +194,12 @@
     <None Include="app.config">
       <SubType>Designer</SubType>
     </None>
+    <None Include="NLog.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="NLog.xsd">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -186,6 +226,18 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="ServiceBus\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="sqlscripts\OrderAggregateTable_create_table.sql" />
+    <Content Include="sqlscripts\OrderAggregateTable_drop_table.sql" />
+    <Content Include="sqlscripts\OrderLineItemRootMemberTable_create_table.sql" />
+    <Content Include="sqlscripts\OrderLineItemRootMemberTable_drop_table.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" />

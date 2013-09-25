@@ -187,6 +187,9 @@
     <Compile Include="Caching\Query\CachedQueryServiceBase.cs" />
     <Compile Include="Caching\Command\CachedRepositoryBase.cs" />
     <Compile Include="Configuration\ConfigFile.cs" />
+    <Compile Include="Execution\ExecutionEnvironment.cs" />
+    <Compile Include="Sharding\FederationColumnAttribute.cs" />
+    <Compile Include="Sharding\FederationExtensions.cs" />
     <Compile Include="Messaging\EventPublishServiceInterface.cs" />
     <Compile Include="Messaging\MessageHandlerRespositoryInterface.cs" />
     <Compile Include="Command\CommandInterface.cs" />

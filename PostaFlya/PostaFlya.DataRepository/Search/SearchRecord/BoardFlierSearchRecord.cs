@@ -7,6 +7,8 @@ using PostaFlya.Domain.Boards;
 using PostaFlya.Domain.Flier;
 using Website.Azure.Common.Sql;
 using Website.Azure.Common.TableStorage;
+using Website.Infrastructure.Domain;
+using Website.Infrastructure.Sharding;
 
 namespace PostaFlya.DataRepository.Search.SearchRecord
 {
@@ -61,7 +63,7 @@ namespace PostaFlya.DataRepository.Search.SearchRecord
         public DateTimeOffset EventDate { get; set; }
         //for scaling possibilities
         [NotNullable]
-        [FederationCol(FederationName = "Board", DistributionName = "board_shard")]
+        [FederationColumn(FederationName = "Board", DistributionName = "board_shard")]
         public Guid BoardId { get; set; }
 
         [SqlIndex]
@@ -78,7 +80,7 @@ namespace PostaFlya.DataRepository.Search.SearchRecord
 
         [NotNullable]
         [SqlIndex]
-        [FederationCol(FederationName = "Board", DistributionName = "board_shard")]
+        [FederationColumn(FederationName = "Board", DistributionName = "board_shard")]
         public Guid BoardId { get; set; }
 
         [SqlIndex]

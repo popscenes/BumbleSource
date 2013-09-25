@@ -3,6 +3,8 @@ using System.Linq;
 using Microsoft.SqlServer.Types;
 using PostaFlya.Domain.Boards;
 using Website.Azure.Common.Sql;
+using Website.Infrastructure.Domain;
+using Website.Infrastructure.Sharding;
 
 namespace PostaFlya.DataRepository.Search.SearchRecord
 {
@@ -32,7 +34,7 @@ namespace PostaFlya.DataRepository.Search.SearchRecord
 
         public String FriendlyId { get; set; }
 
-        [FederationCol(FederationName = "Location", DistributionName = "location_shard")]
+        [FederationColumn(FederationName = "Location", DistributionName = "location_shard")]
         public long LocationShard { get; set; }
 
         [NotNullable]
