@@ -58,15 +58,6 @@ namespace PostaFlya.DataRepository.DomainQuery.Flyer
 
             if (string.IsNullOrWhiteSpace(argument.Location.Id)) return null;
 
-            if(!argument.Location.IsValid())
-                argument.Location =
-                    _queryChannel.Query(
-                        new FindByIdQuery<Suburb>() { Id = argument.Location.Id},
-                        argument.Location);
-
-            if (!argument.Location.IsValid()) return null;
-
-
             var low = argument.Location.Id.ToStorageKeySection() + startDate.GetTimestampAscending().ToStorageKeySection();
             var high = argument.Location.Id.ToStorageKeySection() + endDate.GetTimestampAscending().ToStorageKeySection();
             var flyers = _indexService.FindEntitiesByIndexRange<FlierInterface, JsonTableEntry>(
@@ -75,12 +66,11 @@ namespace PostaFlya.DataRepository.DomainQuery.Flyer
                 , high
                 , encodeValue: false);
 
-            var point = argument.Location.ToGeography();
             var list = (from g in flyers
-                        let gc = g.GetEntity<GeoCoords>().ToGeography()
-                        let dist = gc.STDistance(point).Value
+                        let gc = g.GetEntity<GeoPoints>()
+                        let dist = gc.Distance
                         let metres = argument.Distance * 1000
-                        //orderby dist
+                        orderby dist
                         where dist <= metres
                         select g
            ).ToList();

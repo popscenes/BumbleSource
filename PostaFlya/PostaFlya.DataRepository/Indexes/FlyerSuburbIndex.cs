@@ -12,7 +12,6 @@ namespace PostaFlya.DataRepository.Indexes
 {
     public class FlyerSuburbIndex : IndexDefinition<FlierInterface, FlierInterface>
     {
-        private const int DefaultNearByIndex = 40;
 
         public override Expression<Func<QueryChannelInterface, FlierInterface, IEnumerable<StorageTableKeyInterface>>> Definition
         {
@@ -24,12 +23,13 @@ namespace PostaFlya.DataRepository.Indexes
                         qc.Query(new FindSuburbsWithinDistanceOfGeoCoordsQuery
                             {
                                 Geo = flyer.GetVenueForFlier(qc).Address.AsGeoCoords(),
-                                Kilometers = DefaultNearByIndex
+                                Kilometers = Defaults.DefaultNearByIndex
                             }, new List<Suburb>())
                           .Select(s => new {s, v = flyer.GetVenueForFlier(qc).Address.AsGeoCoords()})
                           .SelectMany(sv =>
                                       flyer.EventDates.Distinct().Select(e =>
-                                                                         new JsonTableEntry(sv.v)
+                                                                         new JsonTableEntry(
+                                                                             new GeoPoints(sv.v, sv.s, Defaults.Distance))
                                                                              {
                                                                                  PartitionKey =
                                                                                      sv.s.Id.ToStorageKeySection() +

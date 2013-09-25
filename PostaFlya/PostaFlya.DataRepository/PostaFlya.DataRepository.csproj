@@ -135,6 +135,7 @@
     <Compile Include="DomainQuery\Location\FindNearestSuburbByGeoCoordsQueryHandler.cs" />
     <Compile Include="DomainQuery\Location\FindSuburbsWithinDistanceOfGeoCoordsQueryHandler.cs" />
     <Compile Include="Indexes\BrowserIdIndex.cs" />
+    <Compile Include="Indexes\Defaults.cs" />
     <Compile Include="Indexes\FlyerBoardsIndex.cs" />
     <Compile Include="Indexes\FlyerSuburbIndex.cs" />
     <Compile Include="Indexes\SuburbGeoSearchIndex.cs" />

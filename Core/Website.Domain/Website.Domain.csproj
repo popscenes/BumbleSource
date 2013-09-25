@@ -108,6 +108,7 @@
     <Compile Include="Location\BoundingBox.cs" />
     <Compile Include="Location\Command\AddOrUpdateSuburbCommand.cs" />
     <Compile Include="Location\Command\AddOrUpdateSuburbCommandHandler.cs" />
+    <Compile Include="Location\GeoPoints.cs" />
     <Compile Include="Location\Location.cs" />
     <Compile Include="Location\LocationAndAddressInterface.cs" />
     <Compile Include="Location\LocationInterface.cs" />

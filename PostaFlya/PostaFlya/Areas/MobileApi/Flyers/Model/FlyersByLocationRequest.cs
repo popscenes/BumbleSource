@@ -12,7 +12,7 @@ namespace PostaFlya.Areas.MobileApi.Flyers.Model
     {
         public FlyersByLocationRequest()
         {
-            Distance = 30;
+            Distance = 15;
         }
 
         [Range(-90.0, 90.0)]

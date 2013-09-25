@@ -12,7 +12,6 @@ namespace PostaFlya.DataRepository.Indexes
 {
     public class BoardSuburbIndex : IndexDefinition<BoardInterface, BoardInterface>
     {
-        public const int DefaultNearByIndex = 40;
         public override Expression<Func<QueryChannelInterface, BoardInterface, IEnumerable<StorageTableKeyInterface>>> Definition
         {
             get
@@ -24,12 +23,13 @@ namespace PostaFlya.DataRepository.Indexes
                                        qc.Query(new FindSuburbsWithinDistanceOfGeoCoordsQuery
                                            {
                                                Geo = board.Venue().Address.AsGeoCoords(),
-                                               Kilometers = DefaultNearByIndex
+                                               Kilometers = Defaults.DefaultNearByIndex
                                            }, new List<Suburb>())
                                          .Select(suburb =>
-                                                 new JsonTableEntry(board.Venue().Address.AsGeoCoords())
+                                                 new JsonTableEntry(
+                                                     new GeoPoints(board.Venue().Address, suburb, Defaults.Distance))
                                                      {
-                                                         PartitionKey = StorageKeyUtil.ToStorageKeySection(suburb.Id),
+                                                         PartitionKey = suburb.Id.ToStorageKeySection(),
                                                          RowKey = board.Id.ToStorageKeySection()
                                                      });
 

@@ -41,7 +41,7 @@ namespace PostaFlya.DataRepository.DomainQuery.Flyer
                         argument.Location);
 
                 if (!origCoords.IsValid())
-                    origCoords = argument.Location;
+                    origCoords = argument.Location;//could use below for more accurate close by
             }
 
             if (string.IsNullOrWhiteSpace(argument.Location.Id)) return null;
@@ -51,10 +51,9 @@ namespace PostaFlya.DataRepository.DomainQuery.Flyer
                 new BoardSuburbIndex()
                 , low);
 
-            var point = origCoords.ToGeography();
             var list = (from g in boards
-                        let gc = g.GetEntity<GeoCoords>().ToGeography()
-                        let dist = gc.STDistance(point).Value
+                        let gc = g.GetEntity<GeoPoints>()
+                        let dist = gc.Distance
                         let metres = argument.WithinMetres
                         orderby dist
                         where dist <= metres
