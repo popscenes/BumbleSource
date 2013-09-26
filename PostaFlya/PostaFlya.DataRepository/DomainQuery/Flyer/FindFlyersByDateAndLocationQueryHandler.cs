@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using PostaFlya.DataRepository.Binding;
 using PostaFlya.DataRepository.Indexes;
 using PostaFlya.DataRepository.Search.SearchRecord;
@@ -17,18 +18,15 @@ namespace PostaFlya.DataRepository.DomainQuery.Flyer
     {
 
        // private readonly FlierSearchServiceInterface _searchService;
-        private readonly GenericQueryServiceInterface _queryService;
         private readonly QueryChannelInterface _queryChannel;
         private readonly TableIndexServiceInterface _indexService;
 
 
         public FindFlyersByDateAndLocationQueryHandler(//FlierSearchServiceInterface searchService
-            GenericQueryServiceInterface queryService
-            , QueryChannelInterface queryChannel
+            QueryChannelInterface queryChannel
             , TableIndexServiceInterface indexService)
         {
             //_searchService = searchService;
-            _queryService = queryService;
             _queryChannel = queryChannel;
             _indexService = indexService;
         }
@@ -75,10 +73,12 @@ namespace PostaFlya.DataRepository.DomainQuery.Flyer
                         select g
            ).ToList();
 
-            return _queryService
-                .FindByIds<Flier>(list
-                    .Select(f => f.RowKey.ExtractEntityIdFromRowKey()).Distinct())
-                .ToList();
+            var queries = list.Select(f => f.RowKey.ExtractEntityIdFromRowKey())
+                              .Distinct().Select(id => new FindByIdQuery<Flier>(){Id = id});
+
+            return queries.Select(q => _queryChannel.Query(q, (Flier) null, o => o.CacheFor(1000.Minutes())))
+                          .ToList();
+            
         }
 
 //        private List<Flier> FliersFromSearchService(FindFlyersByDateAndLocationQuery argument)

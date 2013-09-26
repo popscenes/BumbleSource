@@ -105,6 +105,8 @@ namespace Website.Application.Azure.Binding
 
             Bind<TempFileStorageInterface>().To<AzureTempFileStorage>();
 
+            Kernel.Bind<WebsiteInfoServiceInterface>().To<WebsiteInfoServiceAzure>();
+
             Trace.TraceInformation("Finished Binding AzureApplicationNinjectBinding");
 
         }

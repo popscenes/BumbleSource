@@ -562,11 +562,11 @@ namespace PostaFlya.DataRepository.Tests
         {
             foreach (var retrievedFlierCombo in from r1 in retrievedFliers
                                                 from r2 in retrievedFliers
-                                                select new
-                                                    {
-                                                        r1 = query.Query(new GetFlyerVenueBoardQuery(){FlyerId = r1.Id}, (Board)null), 
-                                                        r2 = query.Query(new GetFlyerVenueBoardQuery(){FlyerId = r2.Id}, (Board)null),
-                                                    })
+            select new
+                {
+                    r1 = query.Query(new GetFlyerVenueBoardQuery() { FlyerId = r1.Id }, (Board)null, x => x.SkipCache()),
+                    r2 = query.Query(new GetFlyerVenueBoardQuery() { FlyerId = r2.Id }, (Board)null, x => x.SkipCache()),
+                })
             {
                 
                 Assert.AreEqual(retrievedFlierCombo.r1.Venue().Address, retrievedFlierCombo.r2.Venue().Address);

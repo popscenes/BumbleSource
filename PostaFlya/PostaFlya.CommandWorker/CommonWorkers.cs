@@ -21,7 +21,7 @@ namespace PostaFlya.CommandWorker
                           new PostaFlya.Domain.Binding.DefaultServicesNinjectBinding(),
                           new PostaFlya.Domain.Binding.CommandNinjectBinding(),
                           new Website.Azure.Common.Binding.AzureCommonNinjectBinding(),
-                          new DataRepository.Binding.AzureRepositoryNinjectBinding(c => c.InTransientScope()),
+                          new DataRepository.Binding.AzureRepositoryNinjectBinding(),
                           new DataRepository.Binding.TableNameNinjectBinding(),
                           new Website.Application.Binding.ApplicationCommandHandlersNinjectBinding(),
                           new Website.Application.Binding.ApplicationNinjectBinding(),

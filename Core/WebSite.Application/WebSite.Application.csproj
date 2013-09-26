@@ -226,7 +226,6 @@
     <Compile Include="Binding\ApplicationNinjectBinding.cs" />
     <Compile Include="Caching\InvalidateCacheDataCommand.cs" />
     <Compile Include="Caching\InvalidateCacheDataCommandHandler.cs" />
-    <Compile Include="Caching\Query\TimedExpiryCachedQueryService.cs" />
     <Compile Include="Seo\GetRenderedHtmlForUrlService.cs" />
     <Compile Include="Messaging\DataBusMessageSerializer.cs" />
     <Compile Include="Messaging\DataBusRedirectToStorage.cs" />
@@ -309,7 +308,6 @@
     <Compile Include="Util\StreamUtil.cs" />
     <Compile Include="Util\TempFileStorageInterface.cs" />
     <Compile Include="Util\WebRequestUtil.cs" />
-    <Compile Include="WebsiteInformation\CachedWebsiteInfoService.cs" />
     <Compile Include="WebsiteInformation\WebsiteInfo.cs" />
     <Compile Include="WebsiteInformation\WebsiteInfoServiceInterface.cs" />
   </ItemGroup>
@@ -340,7 +338,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Caching\Command\" />
     <Folder Include="Extension\Expression\" />
     <Folder Include="Extension\Framework\" />
     <Folder Include="Extension\Library\" />

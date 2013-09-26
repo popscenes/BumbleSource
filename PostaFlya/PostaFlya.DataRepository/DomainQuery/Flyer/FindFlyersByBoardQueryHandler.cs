@@ -16,16 +16,16 @@ namespace PostaFlya.DataRepository.DomainQuery.Flyer
     {
 
         //private readonly FlierSearchServiceInterface _searchService;
-        private readonly GenericQueryServiceInterface _queryService;
         private readonly TableIndexServiceInterface _indexService;
+        private readonly QueryChannelInterface _queryChannel;
+
 
         public FindFlyersByBoardQueryHandler(//FlierSearchServiceInterface searchService, 
-            GenericQueryServiceInterface queryService
-            , TableIndexServiceInterface indexService)
+            TableIndexServiceInterface indexService, QueryChannelInterface queryChannel)
         {
             //_searchService = searchService;
-            _queryService = queryService;
             _indexService = indexService;
+            _queryChannel = queryChannel;
         }
 
 
@@ -42,10 +42,12 @@ namespace PostaFlya.DataRepository.DomainQuery.Flyer
                 , high
                 , encodeValue: false);
 
-            return _queryService
-                .FindByIds<Flier>(flyers
-                    .Select(f => f.RowKey.ExtractEntityIdFromRowKey()).Distinct())
-                .ToList();
+
+            var queries = flyers.Select(f => f.RowKey.ExtractEntityIdFromRowKey())
+                              .Distinct().Select(id => new FindByIdQuery<Flier>() { Id = id });
+
+            return queries.Select(q => _queryChannel.Query(q, (Flier)null, o => o.CacheFor(1000.Minutes())))
+                          .ToList();
         }
 
 //        private List<Flier> FindFromSearchService(FindFlyersByBoardQuery argument)

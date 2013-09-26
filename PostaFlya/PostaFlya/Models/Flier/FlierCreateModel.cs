@@ -83,6 +83,7 @@ namespace PostaFlya.Models.Flier
                 target = new FlierCreateModel();
 
             target.Id = source.Id;
+            target.BrowserId = source.BrowserId;
             target.Title = source.Title;
             target.Description = source.Description;
             target.EventDates = source.EventDates.Select(d => d.DateTime).ToList();
@@ -122,6 +123,8 @@ namespace PostaFlya.Models.Flier
         [Display(Name = "FlierId", ResourceType = typeof(Properties.Resources))] 
         [DataMember]
         public string Id { get; set; }
+
+        public string BrowserId { get; set; }
 
         [Required(ErrorMessageResourceName = "Required", ErrorMessageResourceType = typeof(Properties.Resources), ErrorMessage = null)]
         [StringLength(100, ErrorMessageResourceName = "StringTooLarge", ErrorMessageResourceType = typeof(Properties.Resources), ErrorMessage = null)]

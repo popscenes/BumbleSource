@@ -24,7 +24,7 @@ namespace PostaFlya.DataRepository.Indexes
                             {
                                 Geo = flyer.GetVenueForFlier(qc).Address.AsGeoCoords(),
                                 Kilometers = Defaults.DefaultNearByIndex
-                            }, new List<Suburb>())
+                            }, new List<Suburb>(), x => x.SkipCache())
                           .Select(s => new {s, v = flyer.GetVenueForFlier(qc).Address.AsGeoCoords()})
                           .SelectMany(sv =>
                                       flyer.EventDates.Distinct().Select(e =>

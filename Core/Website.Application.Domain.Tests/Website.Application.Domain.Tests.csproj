@@ -130,8 +130,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Browser\BrowserInformationTests.cs" />
-    <Compile Include="Browser\CachedBrowserDataServiceTests.cs" />
-    <Compile Include="Content\CachedImageDataServiceTests.cs" />
     <Compile Include="Content\ImageProcessingTests.cs" />
     <Compile Include="Content\ImageUrlContentRetrieverTest.cs" />
     <Compile Include="Location\ValidationAttributesTests.cs" />

@@ -24,7 +24,7 @@ namespace PostaFlya.DataRepository.Indexes
                                            {
                                                Geo = board.Venue().Address.AsGeoCoords(),
                                                Kilometers = Defaults.DefaultNearByIndex
-                                           }, new List<Suburb>())
+                                           }, new List<Suburb>(), x => x.SkipCache())
                                          .Select(suburb =>
                                                  new JsonTableEntry(
                                                      new GeoPoints(board.Venue().Address, suburb, Defaults.Distance))

@@ -49,10 +49,10 @@ namespace PostaFlya.Controllers
         // GET /api/Browser/browserId/myfliers/5
         public FlierCreateModel Get(string browserId, string id)
         {
-            var flier = _queryChannel.Query(new FindByIdQuery<Flier>() { Id = id }, (Flier)null);
+            var flier = _queryChannel.Query(new FindByIdQuery<Flier>() { Id = id }, (FlierCreateModel)null, o => o.ClearCache());
             if (flier != null && flier.BrowserId != browserId)
                 return null;
-            return _queryChannel.Query(new FindByIdQuery<Flier>{Id = id}, (FlierCreateModel)null);
+            return flier;
         }
 
         public HttpResponseMessage Post(string browserId, FlierCreateModel createModel)

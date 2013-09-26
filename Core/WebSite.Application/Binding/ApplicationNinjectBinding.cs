@@ -20,8 +20,6 @@ namespace Website.Application.Binding
         {
             Trace.TraceInformation("Binding ApplicationNinjectBinding");
 
-            Kernel.Bind<WebsiteInfoServiceInterface>().To<CachedWebsiteInfoService>();
-
             Bind<BroadcastServiceInterface>()
                 .To<DefaultBroadcastService>();
 

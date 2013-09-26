@@ -64,12 +64,12 @@ namespace PostaFlya.DataRepository.Binding
             {
                 var config = _repositoryScopeConfiguration + (syntax => syntax.InTransientScope());
 
-                var binding = Bind(typeof(GenericQueryServiceInterface))
+                var binding = Rebind(typeof(GenericQueryServiceInterface))
                     .ToMethod<object>(context =>
                               context.Kernel.Get<UnitOfWorkForRepoInterface>().CurrentQuery);
                 config(binding);
 
-                binding = Bind(typeof(GenericRepositoryInterface))
+                binding = Rebind(typeof(GenericRepositoryInterface))
                       .ToMethod<object>(context =>
                                         context.Kernel.Get<UnitOfWorkForRepoInterface>().CurrentRepo);
                 config(binding);

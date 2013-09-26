@@ -87,7 +87,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Binding\ApplicationDomainNinjectBinding.cs" />
-    <Compile Include="Binding\ApplicationDomainRepositoriesNinjectBinding.cs" />
     <Compile Include="Binding\ApplicationDomainServicesNinjectBinding.cs" />
     <Compile Include="Binding\ApplicationJobs.cs" />
     <Compile Include="Browser\PostaFlyaBrowserInformationInterface.cs" />

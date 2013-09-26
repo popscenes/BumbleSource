@@ -183,9 +183,7 @@
     <Compile Include="Binding\BindingAttributes.cs" />
     <Compile Include="Binding\InfrastructureNinjectBinding.cs" />
     <Compile Include="Binding\TypeExtension.cs" />
-    <Compile Include="Caching\CachedDataSourceBase.cs" />
-    <Compile Include="Caching\Query\CachedQueryServiceBase.cs" />
-    <Compile Include="Caching\Command\CachedRepositoryBase.cs" />
+    <Compile Include="Caching\ObjectCacheExtension.cs" />
     <Compile Include="Configuration\ConfigFile.cs" />
     <Compile Include="Execution\ExecutionEnvironment.cs" />
     <Compile Include="Sharding\FederationColumnAttribute.cs" />
