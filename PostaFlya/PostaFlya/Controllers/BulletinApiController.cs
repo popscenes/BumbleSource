@@ -94,11 +94,13 @@ namespace PostaFlya.Controllers
         [NonAction]
         public static DefaultDetailsViewModel GetDetail(string id, QueryChannelInterface queryChannel)
         {
-            var flier = queryChannel.Query(new FindByFriendlyIdQuery<Flier>() { FriendlyId = id }, (BulletinFlierDetailModel)null);
+            var flier = queryChannel.Query(new FindByFriendlyIdQuery<Flier>() { FriendlyId = id }, (BulletinFlierDetailModel)null,
+                x => x.CacheFor(1000.Minutes()));
 
             if (flier == null)
             {
-                flier = queryChannel.Query(new FindByIdQuery<Flier>() { Id = id }, (BulletinFlierDetailModel)null);
+                flier = queryChannel.Query(new FindByIdQuery<Flier>() { Id = id }, (BulletinFlierDetailModel)null
+                    , x => x.CacheFor(1000.Minutes()));
 
                 if (flier == null)
                     return null;
