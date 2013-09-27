@@ -34,6 +34,8 @@ namespace PostaFlya.Areas.MobileApi.Flyers.Model
 
         }
     }
+
+    [Serializable]
     [DataContract]
     public class FlyerBoardSummaryModel : IsModelInterface
     {

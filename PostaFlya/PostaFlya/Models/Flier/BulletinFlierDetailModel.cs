@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Runtime.Serialization;
 using PostaFlya.Domain.Flier;
 using Website.Common.Model;
 using Website.Common.Model.Query;
@@ -30,11 +32,15 @@ namespace PostaFlya.Models.Flier
         }
     }
 
+    [DataContract]
+    [Serializable]
     public class BulletinFlierDetailModel : BulletinFlierSummaryModel
     {
+        [DataMember]
         [Display(Name = "FlierDescription", ResourceType = typeof(Properties.Resources))]
         public string Description { get; set; }
 
+        [DataMember]
         [Display(ResourceType = typeof(Properties.Resources), Name = "BulletinFlierModel_UserLinks_UserLinks")]
         public List<UserLinkViewModel> UserLinks { get; set; }
     }

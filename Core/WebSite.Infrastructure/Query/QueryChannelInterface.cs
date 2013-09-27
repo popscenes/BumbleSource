@@ -114,17 +114,20 @@ namespace Website.Infrastructure.Query
         public void ApplyCustomisation<ReturnType>(QueryInterface query, ReturnType value)
         {
             if (_cacheTimeSpan == null && !_clearCache) return;
-            
-            var key = query.GetCacheKey();
-            if(!_clearCache)
-                _objectCache.Add(query.GetCacheKey(), value, GetCachePolicyFor(_cacheTimeSpan));
-            else
+
+            var key = query.GetCacheKey<ReturnType>();
+
+            if (_clearCache && !_cacheTimeSpan.HasValue)
                 _objectCache.Remove(key);
+
+            if (_cacheTimeSpan.HasValue)
+                _objectCache.Add(key, value, GetCachePolicyFor(_cacheTimeSpan));
+
         }
 
         public bool TryGetCached<ReturnType>(QueryInterface query, out ReturnType ret)
         {
-            var key = query.GetCacheKey();
+            var key = query.GetCacheKey<ReturnType>();
             if (_skipCache || _clearCache || !_objectCache.Contains(key))
             {
                 ret = default(ReturnType);
@@ -149,17 +152,13 @@ namespace Website.Infrastructure.Query
             {
                 ReferenceLoopHandling =
                     ReferenceLoopHandling.Ignore,
+                TypeNameHandling = TypeNameHandling.Objects
             };
 
-        public static string GetCacheKey(this QueryInterface query)
+        public static string GetCacheKey<ReturnType>(this QueryInterface query)
         {
             //if you get exception add [JsonIgnore] to properties causing it
-            return query.GetType().Name + ":" + JsonConvert.SerializeObject(query, Settings);
-        }
-
-        public static TimeSpan Minutes(this int minutes)
-        {
-            return TimeSpan.FromMinutes(minutes);
+            return JsonConvert.SerializeObject(query, Settings) + ":" + typeof(ReturnType).FullName;
         }
     }
 }

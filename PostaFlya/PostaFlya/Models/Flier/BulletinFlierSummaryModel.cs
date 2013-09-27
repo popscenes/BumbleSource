@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Web.Mvc;
 using PostaFlya.Domain.Boards.Query;
 using PostaFlya.Domain.Flier;
@@ -103,53 +104,70 @@ namespace PostaFlya.Models.Flier
         }
     }
 
-
+    [DataContract]
+    [Serializable]
     public class BulletinFlierSummaryModel : BrowserIdInterface, IsModelInterface
     {
-        
+        [DataMember]
         [Display(Name = "FlierId", ResourceType = typeof(Properties.Resources))] 
         public string Id { get; set; }
 
+        [DataMember]
         [Display(Name = "FriendlyId", ResourceType = typeof(Properties.Resources))] 
         public string FriendlyId { get; set; }
 
+        [DataMember]
         [Display(Name = "FlierTitle", ResourceType = typeof(Properties.Resources))] 
         public string Title { get; set; }
 
+        [DataMember]
         [Display(Name = "FlierTags", ResourceType = typeof(Properties.Resources))] 
         public string TagsString { get; set; }
 
+        [DataMember]
         [Display(Name = "EffectiveDate", ResourceType = typeof(Properties.Resources))] 
         public List<DateTimeOffset> EventDates { get; set; }
 
+        [DataMember]
         [Display(Name = "FlierImage", ResourceType = typeof(Properties.Resources))] 
         public string FlierImageUrl { get; set; }
 
+        [DataMember]
         public string FlierImageId { get; set; }
 
+        [DataMember]
         public string FlierBehaviour { get; set; }
 
+        [DataMember]
         [Display(Name = "NumberOfClaims", ResourceType = typeof(Properties.Resources))] 
         public int NumberOfClaims { get; set; }
 
+        [DataMember]
         [Display(Name = "NumberOfComments", ResourceType = typeof(Properties.Resources))] 
         public int NumberOfComments { get; set; }
 
+        [DataMember]
         public string BrowserId { get; set; }
 
+        [DataMember]
         [Display(Name = "CreateDate", ResourceType = typeof(Properties.Resources))] 
         public DateTime CreateDate { get; set; }
 
+        [DataMember]
         [Display(Name = "FlierImages", ResourceType = typeof(Properties.Resources))] 
         public List<ImageViewModel> ImageList { get; set; }
 
+        [DataMember]
         public Int32 PendingCredits { get; set; }
 
+        [DataMember]
         [Display(Name = "FlierStatus", ResourceType = typeof(Properties.Resources))] 
         public string Status { get; set; }
 
+        [DataMember]
         public BoardSummaryModel VenueBoard { get; set; }
 
+        [DataMember]
         public string TinyUrl { get; set; }
 
         public static BulletinFlierSummaryModel DefaultForTemplate()

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Globalization;
+using System.Runtime.Serialization;
 using PostaFlya.Domain.Flier;
 using Website.Common.Model;
 using Resources = PostaFlya.Properties.Resources;
@@ -21,16 +22,21 @@ namespace PostaFlya.Models.Flier
         }
     }
 
+    [DataContract]
+    [Serializable]
     public class UserLinkViewModel
     {
+        [DataMember(IsRequired = true)]
         [Required(ErrorMessageResourceName = "Required", ErrorMessageResourceType = typeof(Properties.Resources), ErrorMessage = null)]
         [Display(ResourceType = typeof(Properties.Resources), Name = "UserLinkViewModel_Type_Link_Type")] 
         public string Type { get; set; }
 
+        [DataMember(IsRequired = true)]
         [Required(ErrorMessageResourceName = "Required", ErrorMessageResourceType = typeof(Properties.Resources), ErrorMessage = null)]
         [Display(ResourceType = typeof(Properties.Resources), Name = "UserLinkViewModel_Text_Link_Text")] 
         public string Text { get; set; }
 
+        [DataMember(IsRequired = true)]
         [Url(ErrorMessageResourceName = "ValidUrl", ErrorMessageResourceType = typeof(Properties.Resources), ErrorMessage = null)]
         [Required(ErrorMessageResourceName = "Required", ErrorMessageResourceType = typeof(Properties.Resources), ErrorMessage = null)]
         [Display(ResourceType = typeof(Properties.Resources), Name = "UserLinkViewModel_Link_Link_Url")] 

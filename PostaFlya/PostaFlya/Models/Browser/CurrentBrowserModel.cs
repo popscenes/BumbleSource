@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Web;
 using PostaFlya.Application.Domain.Browser;
 using PostaFlya.Areas.WebApi.Location.Model;
@@ -50,15 +51,25 @@ namespace PostaFlya.Models.Browser
             return target;
         }
     }
+    [Serializable]
+    [DataContract]
     public class CurrentBrowserModel : BrowserModel
     {
+        [DataMember]
         public String BrowserId { get; set; }
+        [DataMember]
         public List<LocationModel> SavedLocations { get; set; }
-        public List<BoardSummaryModel> AdminBoards { get; set; } 
+        [DataMember]
+        public List<BoardSummaryModel> AdminBoards { get; set; }
+        [DataMember]
         public List<String> SavedTags { get; set; }
+        [DataMember]
         public List<string> Roles { get; set; }
-        public double Credits { get; set; }  
+        [DataMember]
+        public double Credits { get; set; }
+        [DataMember]
         public ContactDetailsModel ContactDetails { get; set; }
+        [DataMember]
         public SuburbModel LastSearchedLocation { get; set; }
     }
 

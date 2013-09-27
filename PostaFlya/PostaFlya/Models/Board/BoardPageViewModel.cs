@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Runtime.Serialization;
 using PostaFlya.Domain.Venue;
 using PostaFlya.Models.Location;
@@ -28,7 +29,7 @@ namespace PostaFlya.Models.Board
 
         }
     }
-
+    [Serializable]
     [DataContract]
     public class BoardPageViewModel : BoardModel, PageModelInterface
     {
@@ -37,7 +38,9 @@ namespace PostaFlya.Models.Board
             PageId = WebConstants.BoardPage;
         }
 
+        [DataMember]
         public string PageId { get; set; }
+        [DataMember]
         public string ActiveNav { get; set; }
     }
 }

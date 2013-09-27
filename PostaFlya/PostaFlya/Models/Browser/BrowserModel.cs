@@ -1,4 +1,5 @@
 using System;
+using System.Runtime.Serialization;
 using Website.Application.Binding;
 using Website.Application.Content;
 using Website.Application.Domain.Content;
@@ -76,11 +77,17 @@ namespace PostaFlya.Models.Browser
         }
     }
 
+    [Serializable]
+    [DataContract]
     public class BrowserModel : IsModelInterface
     {
+        [DataMember]
         public string DisplayName { get; set; }
+        [DataMember]
         public string Id { get; set; }
+        [DataMember]
         public string Handle { get; set; }
+        [DataMember]
         public string AvatarUrl { get; set; }
     }
 }

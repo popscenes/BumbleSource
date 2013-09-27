@@ -49,7 +49,8 @@ namespace PostaFlya.Controllers
         // GET /api/Browser/browserId/myfliers/5
         public FlierCreateModel Get(string browserId, string id)
         {
-            var flier = _queryChannel.Query(new FindByIdQuery<Flier>() { Id = id }, (FlierCreateModel)null, o => o.ClearCache());
+            var flier = _queryChannel.Query(new FindByIdQuery<Flier>() { Id = id }, (FlierCreateModel)null
+                , o => o.ClearCache());
             if (flier != null && flier.BrowserId != browserId)
                 return null;
             return flier;
@@ -101,6 +102,10 @@ namespace PostaFlya.Controllers
             };
 
             _messageBus.Send(editFlier);
+
+            _queryChannel.Query(new FindByIdQuery<Flier>() { Id = editModel.Id }, (FlierCreateModel)null
+                , o => o.ClearCache());
+
             return this.GetResponseForRes(new MsgResponse() { IsError = false }
                 .AddMessageProperty("EntityId", editFlier.Id));            
         }

@@ -31,19 +31,6 @@ namespace PostaFlya.DataRepository.DomainQuery.Flyer
 
         private List<string> QueryIndex(FindBoardsNearQuery argument)
         {
-            var origCoords = argument.Location;
-            
-            if (string.IsNullOrWhiteSpace(argument.Location.Id))
-            {
-                argument.Location =
-                    _queryChannel.Query(
-                        new FindNearestSuburbByGeoCoordsQuery() { Geo = argument.Location.AsGeoCoords() },
-                        argument.Location);
-
-                if (!origCoords.IsValid())
-                    origCoords = argument.Location;//could use below for more accurate close by
-            }
-
             if (string.IsNullOrWhiteSpace(argument.Location.Id)) return null;
 
             var low = argument.Location.Id;

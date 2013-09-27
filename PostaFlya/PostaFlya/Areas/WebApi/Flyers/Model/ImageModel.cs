@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using Website.Application.Binding;
 using Website.Application.Content;
 using Website.Application.Domain.Content;
@@ -41,6 +43,8 @@ namespace PostaFlya.Areas.WebApi.Flyers.Model
         }
     }
 
+    [Serializable]
+    [DataContract]
     public class ImageModel : IsModelInterface
     {
         public ImageModel()
@@ -48,14 +52,24 @@ namespace PostaFlya.Areas.WebApi.Flyers.Model
             Extensions = new List<Extension>();
         }
 
+        [Serializable]
+        [DataContract]
         public class Extension
         {
+            [DataMember]
             public int Width { get; set; }
+            [DataMember]
             public int Height { get; set; }
+            [DataMember]
             public string UrlExtension { get; set; }
+            [DataMember]
             public string ScaleAxis { get; set; }
         }
+
+        [DataMember]
         public string BaseUrl { get; set; }
+        
+        [DataMember]        
         public List<Extension> Extensions { get; set; }
 
         public string UrlForAxisWidth(string scale, int width)

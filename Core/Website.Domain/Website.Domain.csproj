@@ -118,6 +118,7 @@
     <Compile Include="Location\PlaceInterface.cs" />
     <Compile Include="Location\Query\FindNearestSuburbByGeoCoordsQuery.cs" />
     <Compile Include="Location\Query\FindSuburbsWithinDistanceOfGeoCoordsQuery.cs" />
+    <Compile Include="Location\Query\PopulateSuburbQuery.cs" />
     <Compile Include="Location\Suburb.cs" />
     <Compile Include="Payment\ChargableEntityInterface.cs" />
     <Compile Include="Payment\Command\PaymentTransactionCommand.cs" />

@@ -1,4 +1,6 @@
-﻿using Website.Common.Model;
+﻿using System;
+using System.Runtime.Serialization;
+using Website.Common.Model;
 using Website.Domain.Query;
 
 namespace PostaFlya.Areas.WebApi.Location.Model
@@ -19,12 +21,19 @@ namespace PostaFlya.Areas.WebApi.Location.Model
         }
     }
 
+    [Serializable]
+    [DataContract]
     public class AutoCompleteModel : IsModelInterface
     {
+        [DataMember]
         public string[] MatchTerms { get; set; }
+        [DataMember]
         public string Description { get; set; }
+        [DataMember]
         public string Url { get; set; }
+        [DataMember]
         public string Type { get; set; }
+        [DataMember]
         public string Id { get; set; }
     }
 

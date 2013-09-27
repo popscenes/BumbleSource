@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Runtime.Serialization;
@@ -81,6 +82,7 @@ namespace PostaFlya.Models.Board
     }
 
     [DataContract]
+    [Serializable]
     public class BoardSummaryModel : IsModelInterface
     {
         public BoardSummaryModel()
@@ -107,6 +109,7 @@ namespace PostaFlya.Models.Board
 
     }
 
+    [Serializable]
     [DataContract]
     public class BoardModel : IsModelInterface
     {

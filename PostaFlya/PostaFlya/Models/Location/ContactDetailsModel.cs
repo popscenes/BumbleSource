@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
+using System.Runtime.Serialization;
 using PostaFlya.Domain.Venue;
 using Website.Application.Domain.Location;
 using Website.Domain.Contact;
@@ -19,34 +21,43 @@ namespace PostaFlya.Models.Location
         }  
     }
 
+    [Serializable]
+    [DataContract]
     public class ContactDetailsModel : ContactDetailFieldsInterface 
     {
+        [DataMember]
         [Display(Name = "ContactDetailsModel_PhoneNumber", ResourceType = typeof(Properties.Resources))]
         public string PhoneNumber { get; set; }
-        
+
+        [DataMember(IsRequired = true)]
         [Display(Name = "ContactDetailsModel_EmailAddress", ResourceType = typeof(Properties.Resources))]
         [StringLength(100, ErrorMessageResourceName = "StringTooLarge", ErrorMessageResourceType = typeof(Properties.Resources), ErrorMessage = null)]
         [EmailAddress(ErrorMessageResourceName = "InvalidEmailAddress", ErrorMessageResourceType = typeof(Properties.Resources), ErrorMessage = null)]
         [Required(ErrorMessageResourceName = "Required", ErrorMessageResourceType = typeof(Properties.Resources), ErrorMessage = null)]
         public string EmailAddress { get; set; }
 
+        [DataMember(IsRequired = true)]
         [Display(Name = "ContactDetailsModel_FirstName", ResourceType = typeof(Properties.Resources))]
         [StringLength(100, ErrorMessageResourceName = "StringTooLarge", ErrorMessageResourceType = typeof(Properties.Resources), ErrorMessage = null)]
         [Required(ErrorMessageResourceName = "Required", ErrorMessageResourceType = typeof(Properties.Resources), ErrorMessage = null)]
         public string FirstName { get; set; }
 
+        [DataMember]
         [Display(Name = "ContactDetailsModel_MiddleNames", ResourceType = typeof(Properties.Resources))]
         [StringLength(100, ErrorMessageResourceName = "StringTooLarge", ErrorMessageResourceType = typeof(Properties.Resources), ErrorMessage = null)]
         public string MiddleNames { get; set; }
 
+        [DataMember]
         [Display(Name = "ContactDetailsModel_Surname", ResourceType = typeof(Properties.Resources))]
         [StringLength(100, ErrorMessageResourceName = "StringTooLarge", ErrorMessageResourceType = typeof(Properties.Resources), ErrorMessage = null)]
         public string Surname { get; set; }
 
+        [DataMember]
         [ValidLocation(ErrorMessageResourceName = "ValidLocation", ErrorMessageResourceType = typeof(Properties.Resources), ErrorMessage = null)]
         [Display(Name = "ContactDetailsModel_Address", ResourceType = typeof(Properties.Resources))]
         public LocationModel Address { get; set; }
 
+        [DataMember]
         [Display(Name = "ContactDetailsModel_WebSite", ResourceType = typeof(Properties.Resources))]
         [UrlAttribute(ErrorMessageResourceName = "ValidUrl", ErrorMessageResourceType = typeof(Properties.Resources), ErrorMessage = null)]        
         public string WebSite { get; set; }

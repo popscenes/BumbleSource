@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
+using System.Runtime.Serialization;
 using PostaFlya.Domain.Flier;
 using Website.Common.Model;
 using Website.Common.Model.Query;
@@ -30,8 +32,11 @@ namespace PostaFlya.Areas.WebApi.Flyers.Model
         }
     }
 
+    [Serializable]
+    [DataContract]
     public class FlyerDetailModel : FlyerSummaryModel
     {
+        [DataMember]
         [Display(Name = "Flyer_Description", ResourceType = typeof(Res))]
         public string Description { get; set; }
 

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Web;
 using PostaFlya.Domain.Boards;
 using Website.Application.Binding;
@@ -36,24 +37,33 @@ namespace PostaFlya.Areas.WebApi.Boards.Model
             return target;
         }
     }
+
+    [Serializable]
+    [DataContract]
     public class BoardSummaryModel : IsModelInterface
     {
+        [DataMember]
         [Display(Name = "Id", ResourceType = typeof(Res))]
         public string Id { get; set; }
 
+        [DataMember]
         [Display(Name = "FriendlyId", ResourceType = typeof(Res))]
         public string FriendlyId { get; set; }
 
+        [DataMember]
         [Display(Name = "Description", ResourceType = typeof(Res))]
         public string Description { get; set; }
 
-        [Display(Name = "BoardImage", ResourceType = typeof (Res))]
+        [DataMember]
+        [Display(Name = "BoardImage", ResourceType = typeof(Res))]
         public string BoardImageUrl { get; set; }
 
-        [Display(Name = "BoardAdminEmailAddresses", ResourceType = typeof (Res))]
+        [DataMember]
+        [Display(Name = "BoardAdminEmailAddresses", ResourceType = typeof(Res))]
         public List<string> BoardAdminAddresses { get; set; }
 
-        [Display(Name = "BoardCreateEditModel_BoardName" ,ResourceType = typeof(Res))]
+        [DataMember]
+        [Display(Name = "BoardCreateEditModel_BoardName", ResourceType = typeof(Res))]
         public string Name { get; set; }
     }
 }

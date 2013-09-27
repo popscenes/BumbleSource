@@ -9,8 +9,10 @@ using Website.Common.ApiInfrastructure.Controller;
 using Website.Common.ApiInfrastructure.Model;
 using Website.Common.Model.Query;
 using Website.Domain.Location;
+using Website.Domain.Location.Query;
 using Website.Infrastructure.Configuration;
 using Website.Infrastructure.Query;
+using Website.Infrastructure.Util;
 
 namespace PostaFlya.Areas.WebApi.Flyers.Controllers
 {
@@ -29,16 +31,26 @@ namespace PostaFlya.Areas.WebApi.Flyers.Controllers
 
         public ResponseContent<FlyersByDateContent> Get([FromUri]FlyersByLocationRequest req)
         {
-            var start = req.Start != default(DateTimeOffset) ? req.Start : DateTimeOffset.UtcNow;
+            var start = (req.Start != default(DateTimeOffset) ? req.Start : DateTimeOffset.UtcNow)
+                .GetDateOnly();
+
+            var suburb =
+                _queryChannel.Query(
+                    new PopulateSuburbQuery(){Suburb = _queryChannel.ToViewModel<Suburb, SuburbModel>(req.Loc)}
+                    , (Suburb) null);
+            
+            if (suburb == null)
+                this.ResponseError(HttpStatusCode.BadRequest, ResponseContent.StatusEnum.NotFound);
 
             var query = new FindFlyersByDateAndLocationQuery()
                 {
-                    Location = _queryChannel.ToViewModel<Suburb, SuburbModel>(req.Loc),
+                    Location = suburb,
                     Distance = req.Distance,
                     Start = start,
                     End = req.End != default(DateTimeOffset) ? req.End : start.AddDays(_config.GetSetting("DaySpan", 7))
                 };
-            var content = _queryChannel.Query(query, new FlyersByDateContent());
+            var content = _queryChannel.Query(query, new FlyersByDateContent()
+                , o => o.CacheFor(10.Minutes()));
 
             _browserInformation.LastSearchLocation = query.Location;
 

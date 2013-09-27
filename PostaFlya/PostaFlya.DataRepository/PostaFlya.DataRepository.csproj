@@ -115,6 +115,7 @@
     <Compile Include="Binding\AzureInitCreateTables.cs" />
     <Compile Include="Binding\AzureRepositoryNinjectBinding.cs" />
     <Compile Include="Binding\BindingAttributes.cs" />
+    <Compile Include="DomainQuery\Location\PopulateSuburbQueryHandler.cs" />
     <Compile Include="Indexes\BoardAdminEmailIndex.cs" />
     <Compile Include="Indexes\BoardSuburbIndex.cs" />
     <Compile Include="Indexes\BoardTextSearchIndex.cs" />

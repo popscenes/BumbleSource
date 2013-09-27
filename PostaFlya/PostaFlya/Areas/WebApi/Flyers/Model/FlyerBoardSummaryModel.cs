@@ -1,4 +1,5 @@
-﻿using System.Runtime.Serialization;
+﻿using System;
+using System.Runtime.Serialization;
 using PostaFlya.Domain.Boards;
 using PostaFlya.Models.Location;
 using Website.Common.Model;
@@ -31,6 +32,7 @@ namespace PostaFlya.Areas.WebApi.Flyers.Model
         }
     }
     [DataContract]
+    [Serializable]
     public class FlyerBoardSummaryModel : IsModelInterface
     {
         [DataMember]

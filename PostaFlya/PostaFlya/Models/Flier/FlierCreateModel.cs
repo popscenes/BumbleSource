@@ -129,13 +129,13 @@ namespace PostaFlya.Models.Flier
         [Required(ErrorMessageResourceName = "Required", ErrorMessageResourceType = typeof(Properties.Resources), ErrorMessage = null)]
         [StringLength(100, ErrorMessageResourceName = "StringTooLarge", ErrorMessageResourceType = typeof(Properties.Resources), ErrorMessage = null)]
         [Display(Name = "FlierTitle", ResourceType = typeof(Properties.Resources))] 
-        [DataMember]
+        [DataMember(IsRequired = true)]
         public string Title { get; set; }
 
         [Required(ErrorMessageResourceName = "Required", ErrorMessageResourceType = typeof(Properties.Resources), ErrorMessage = null)]
         [StringLength(2000, ErrorMessageResourceName = "StringTooLarge", ErrorMessageResourceType = typeof(Properties.Resources), ErrorMessage = null)]
         [Display(Name = "FlierDescription", ResourceType = typeof(Properties.Resources))] //TODO change to LocalizedDisplayName
-        [DataMember]
+        [DataMember(IsRequired = true)]
         public string Description { get; set; }
 
 //        [Required(ErrorMessageResourceName = "Required", ErrorMessageResourceType = typeof(Properties.Resources), ErrorMessage = null)]
@@ -150,14 +150,14 @@ namespace PostaFlya.Models.Flier
 
         [Required(ErrorMessageResourceName = "Required", ErrorMessageResourceType = typeof(Properties.Resources))]
         [StringLength(100, ErrorMessageResourceName = "StringTooLarge", ErrorMessageResourceType = typeof(Properties.Resources), ErrorMessage = null)]
-        [Display(Name = "FlierTags", ResourceType = typeof(Properties.Resources))] 
-        [DataMember]
+        [Display(Name = "FlierTags", ResourceType = typeof(Properties.Resources))]
+        [DataMember(IsRequired = true)]
         public string TagsString { get; set; }
 
         [Required(ErrorMessageResourceName = "Required", ErrorMessageResourceType = typeof(Properties.Resources))]
         [ConvertableToGuid(ErrorMessageResourceName = "InvalidGuid", ErrorMessageResourceType = typeof(Properties.Resources), ErrorMessage = null)]
-        [Display(Name = "FlierImage", ResourceType = typeof(Properties.Resources))] 
-        [DataMember]
+        [Display(Name = "FlierImage", ResourceType = typeof(Properties.Resources))]
+        [DataMember(IsRequired = true)]
         public String FlierImageId { get; set; }
 
         [Required(ErrorMessageResourceName = "Required", ErrorMessageResourceType = typeof(Properties.Resources))]

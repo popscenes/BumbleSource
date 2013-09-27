@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Runtime.Serialization;
 using PostaFlya.Domain.Flier;
 using PostaFlya.Domain.Flier.Query;
 using Website.Application.Binding;
@@ -41,24 +42,31 @@ namespace PostaFlya.Areas.WebApi.Flyers.Model
         }
     }
 
+    [DataContract]
+    [Serializable]
     public class FlyerSummaryModel : IsModelInterface
     {
-
+        [DataMember]
         [Display(Name = "Id", ResourceType = typeof(Res))]
         public string Id { get; set; }
 
+        [DataMember]
         [Display(Name = "FriendlyId", ResourceType = typeof(Res))]
         public string FriendlyId { get; set; }
 
+        [DataMember]
         [Display(Name = "Flyer_EventDates", ResourceType = typeof(Res))]
         public List<DateTimeOffset> EventDates { get; set; }
 
-        [Display(Name = "Flyer_ImageUrl", ResourceType = typeof (Res))]
+        [DataMember]
+        [Display(Name = "Flyer_ImageUrl", ResourceType = typeof(Res))]
         public ImageModel Image { get; set; }
 
-        [Display(Name = "Flyer_Title", ResourceType = typeof (Res))]
+        [DataMember]
+        [Display(Name = "Flyer_Title", ResourceType = typeof(Res))]
         public string Title { get; set; }
 
+        [DataMember]
         [Display(Name = "Flyer_Venue_Board", ResourceType = typeof(Res))]
         public FlyerBoardSummaryModel VenueBoard { get; set; }
     }

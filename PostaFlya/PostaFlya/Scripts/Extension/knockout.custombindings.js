@@ -242,7 +242,7 @@
                     .done(function (resp) {
                         
                         if (resp.Data.length > 0) {
-                            var item = results[0];
+                            var item = resp.Data[0];
                             location(new bf.LocationModel({ Id: item.Id, SuburbDesc: item.Description }));
                         } else {
                             location(null);
@@ -250,6 +250,8 @@
 
                     }).error(function() {
                         location(null);
+                    }).always(function() {
+                        $input.autocomplete("close");
                     });
 
 //                var geocoder = new google.maps.Geocoder();

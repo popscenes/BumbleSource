@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Web;
 using System.Web.Http.ModelBinding;
 using PostaFlya.Areas.WebApi.Location.Model;
@@ -40,6 +41,8 @@ namespace PostaFlya.Models.Location
         
     }
 
+    [Serializable]
+    [DataContract]
     public class LocationModel : LocationAndAddressInterface, IsModelInterface
     {
         public LocationModel(LocationInterface loc)
@@ -62,26 +65,42 @@ namespace PostaFlya.Models.Location
             return ret;
         }
 
+        [DataMember]
         [Display(Name = "Longitude", ResourceType = typeof(Properties.Resources))] 
         public double Longitude { get; set; }
+
+        [DataMember]
         [Display(Name = "Latitude", ResourceType = typeof(Properties.Resources))] 
         public double Latitude { get; set; }
 
 
+        [DataMember]
         [Display(Name = "StreetNumber", ResourceType = typeof(Properties.Resources))]
         public string StreetNumber { get; set; }
+
+        [DataMember]
         [Display(Name = "Street", ResourceType = typeof(Properties.Resources))] 
         public string Street { get; set; }
+
+        [DataMember]
         [Display(Name = "Locality", ResourceType = typeof(Properties.Resources))] 
         public string Locality { get; set; }
+
+        [DataMember]
         [Display(Name = "Region", ResourceType = typeof(Properties.Resources))] 
         public string Region { get; set; }
 
+        [DataMember]
         public string RegionCode { get; set; }
+
+        [DataMember]
         public string CountryCode { get; set; }
 
+        [DataMember]
         [Display(Name = "PostCode", ResourceType = typeof(Properties.Resources))] 
         public string PostCode { get; set; }
+
+        [DataMember]
         [Display(Name = "CountryName", ResourceType = typeof(Properties.Resources))] 
         public string CountryName { get; set; }
 

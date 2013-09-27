@@ -1,3 +1,4 @@
+using System;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
@@ -7,6 +8,7 @@ using Website.Common.Model;
 
 namespace PostaFlya.Models.Board
 {
+    [Serializable]
     [DataContract]
     public class BoardFlierModel : IsModelInterface
     {

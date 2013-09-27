@@ -9,6 +9,7 @@ using Website.Azure.Common.TableStorage;
 using Website.Domain.Location;
 using Website.Domain.Location.Query;
 using Website.Infrastructure.Query;
+using Website.Infrastructure.Util;
 
 namespace PostaFlya.DataRepository.DomainQuery.Flyer
 {

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Web;
 using Website.Common.Model;
 using Website.Domain.Location;
@@ -34,26 +35,36 @@ namespace PostaFlya.Areas.WebApi.Location.Model
         }
     }
 
+    [Serializable]
+    [DataContract]
     public class SuburbModel : IsModelInterface, SuburbInterface 
     {
+        [DataMember]
         [Display(Name = "Id", ResourceType = typeof(Res))]
         public string Id { get; set; }
 
+        [DataMember]
         [Display(Name = "Longitude", ResourceType = typeof(Res))]
         public double Longitude { get; set; }
 
+        [DataMember]
         [Display(Name = "Latitude", ResourceType = typeof(Res))]        
         public double Latitude { get; set; }
 
+        [DataMember]
         [Display(Name = "Locality", ResourceType = typeof(Res))]
         public string Locality { get; set; }
 
+        [DataMember]
         [Display(Name = "Region", ResourceType = typeof(Res))]
         public string Region { get; set; }
+        [DataMember]
         public string RegionCode { get; set; }
 
+        [DataMember]
         [Display(Name = "CountryName", ResourceType = typeof(Res))]
         public string CountryName { get; set; }
+        [DataMember]
         public string CountryCode { get; set; }
 
 

@@ -1,5 +1,10 @@
+using System;
+using System.Runtime.Serialization;
+
 namespace Website.Common.ApiInfrastructure.Model
 {
+    [Serializable]
+    [DataContract]
     public class ResponseContent
     {
         public enum StatusEnum
@@ -34,12 +39,17 @@ namespace Website.Common.ApiInfrastructure.Model
             Messages = new[] { string.Format(messageFmt, args) };
         }
 
+        [DataMember]
         public int Code { get; set; }
+        [DataMember]
         public string Status { get; set; }
+        [DataMember]
         public string[] Messages { get; set; }
 
     }
 
+    [Serializable]
+    [DataContract]
     public class ResponseContent<TContent> : ResponseContent
     {
         public static ResponseContent<TContent> GetResponse(TContent data, StatusEnum status = StatusEnum.Ok)
@@ -62,6 +72,7 @@ namespace Website.Common.ApiInfrastructure.Model
             Data = data;
         }
 
+        [DataMember]
         public TContent Data { get; set; }
     }
 }

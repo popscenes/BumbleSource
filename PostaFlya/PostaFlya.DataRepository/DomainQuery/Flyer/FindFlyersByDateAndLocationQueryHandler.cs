@@ -11,6 +11,7 @@ using Website.Azure.Common.TableStorage;
 using Website.Domain.Location;
 using Website.Domain.Location.Query;
 using Website.Infrastructure.Query;
+using Website.Infrastructure.Util;
 
 namespace PostaFlya.DataRepository.DomainQuery.Flyer
 {
@@ -42,17 +43,6 @@ namespace PostaFlya.DataRepository.DomainQuery.Flyer
         {
             var startDate = argument.Start.DateTime.Date;
             var endDate = argument.End.AddDays(1).DateTime.Date;
-
-            if (string.IsNullOrWhiteSpace(argument.Location.Id))
-            {
-                if(!argument.Location.IsValid())
-                    return null;
-
-                argument.Location =
-                    _queryChannel.Query(
-                        new FindNearestSuburbByGeoCoordsQuery() {Geo = argument.Location.AsGeoCoords()},
-                        argument.Location);
-            }
 
             if (string.IsNullOrWhiteSpace(argument.Location.Id)) return null;
 
