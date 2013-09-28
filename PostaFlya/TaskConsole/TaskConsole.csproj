@@ -68,6 +68,10 @@
       <Project>{df109e11-7e41-4eb7-9c92-5dda7102c970}</Project>
       <Name>GeoNamesImporter</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Core\Website.Azure.Common\Website.Azure.Common.csproj">
+      <Project>{63418161-2D30-4BC6-B1C1-015CDA302B08}</Project>
+      <Name>Website.Azure.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Core\Website.Infrastructure\Website.Infrastructure.csproj">
       <Project>{b5c3a966-f286-4cb8-913b-c8625625451d}</Project>
       <Name>Website.Infrastructure</Name>

@@ -8,20 +8,20 @@ using Website.Infrastructure.Configuration;
 
 namespace Website.Azure.Common.Environment
 {
-    public class AzureConfigurationService : ConfigurationServiceInterface
+    public class AzureConfigurationService : DefaultConfigurationService
     {
-        public string GetSetting(string setting)
+        protected override string GetBaseSetting(string setting)
         {
+            string ret = null;
+
             try
             {
-                return RoleEnvironment.IsAvailable ?
-                    RoleEnvironment.GetConfigurationSettingValue(setting)
-                    : ConfigurationManager.AppSettings[setting];
+                if(RoleEnvironment.IsAvailable)
+                    ret = RoleEnvironment.GetConfigurationSettingValue(setting);
             }
-            catch (Exception)
-            {
-                return null;
-            }
+            catch (Exception){ }
+
+            return ret ?? base.GetBaseSetting(setting);
         }
     }
 }

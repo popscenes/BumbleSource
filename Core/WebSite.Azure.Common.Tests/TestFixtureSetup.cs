@@ -41,6 +41,7 @@ namespace Website.Azure.Common.Tests
         private static readonly List<INinjectModule> NinjectModules = new List<INinjectModule>()
                   {
                       new InfrastructureNinjectBinding(),
+                      new AzureConfigNinjectBind(),
                       new AzureCommonNinjectBinding()
                   };
     }

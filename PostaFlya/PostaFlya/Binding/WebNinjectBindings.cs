@@ -15,6 +15,7 @@ using Website.Application.Azure.Caching;
 using Website.Application.Domain.Google.Payment;
 using Website.Application.Domain.Payment;
 using Website.Application.Google.Payment;
+using Website.Azure.Common.Binding;
 using Website.Azure.Common.Environment;
 using Website.Common.Binding;
 using Website.Infrastructure.Authentication;
@@ -211,6 +212,7 @@ namespace PostaFlya.Binding
                       new Website.Domain.Binding.DefaultServicesNinjectBinding(),      
                       new Website.Domain.Binding.CommandNinjectBinding(),
 
+                      new AzureConfigNinjectBind(),
                       new Website.Azure.Common.Binding.AzureCommonNinjectBinding(),
                       new PostaFlya.DataRepository.Binding.AzureRepositoryNinjectBinding(),
                       

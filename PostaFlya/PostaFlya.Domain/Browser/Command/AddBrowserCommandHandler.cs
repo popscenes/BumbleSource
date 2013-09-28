@@ -41,12 +41,10 @@ namespace PostaFlya.Domain.Browser.Command
             browser.FriendlyId = _queryChannel
                 .FindFreeHandleForBrowser(string.IsNullOrWhiteSpace(browser.FriendlyId) ? browser.Id : browser.FriendlyId, browser.Id);
 
-#if DEBUG
             //lol
             if (command.Browser.EmailAddress != null && (command.Browser.EmailAddress.ToLower().Equals("rickyaudsley@gmail.com") ||
                 command.Browser.EmailAddress.ToLower().Equals("teddymcuddles@gmail.com")))
                 browser.Roles.Add(Role.Admin.ToString());
-#endif
 
             _repository.Store(browser);
             

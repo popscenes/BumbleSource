@@ -15,17 +15,27 @@ using Website.Infrastructure.Query;
 
 namespace Website.Azure.Common.Binding
 {
+    public class AzureConfigNinjectBind  : NinjectModule
+    {
+        public override void Load()
+        {
+            var exist = Kernel.TryGet<ConfigurationServiceInterface>();
+            if (exist == null || exist.GetType() != typeof (AzureConfigurationService))
+            {
+                Rebind<ConfigurationServiceInterface>()
+                    .To<AzureConfigurationService>()
+                    .InSingletonScope();
+            }
+
+            Config.Instance = Kernel.Get<ConfigurationServiceInterface>();
+        }
+    }
     public class AzureCommonNinjectBinding : NinjectModule
     {
 
         public override void Load()
         {
             Trace.TraceInformation("Binding AzureCommonNinjectBinding");
-
-            Bind<ConfigurationServiceInterface>()
-                .To<AzureConfigurationService>()
-                .InSingletonScope();
-            Config.Instance = Kernel.Get<ConfigurationServiceInterface>();
 
             //don't know where to put this, but can just go here for now
             //seems to have disappeared from 2.0
@@ -36,11 +46,8 @@ namespace Website.Azure.Common.Binding
 
             Bind<CloudStorageAccount>()
                 .ToMethod(ctx =>
-                    (RoleEnvironment.IsAvailable) ? //in the cloud (dev or real)
-                    CloudStorageAccount.Parse(RoleEnvironment.GetConfigurationSettingValue("StorageConnectionString"))
-                    :
-                        AzureEnv.UseRealStorage ? 
-                            CloudStorageAccount.Parse(ConfigurationManager.AppSettings["StorageConnectionString"])
+                        AzureEnv.UseRealStorage ?
+                            CloudStorageAccount.Parse(Config.Instance.GetSetting("StorageConnectionString"))
                             : CloudStorageAccount.Parse("UseDevelopmentStorage=true")
             ).InThreadScope();
 

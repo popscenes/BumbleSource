@@ -7,6 +7,7 @@ using PostaFlya.Application.Domain.Binding;
 using Website.Application.Domain.Binding;
 using Website.Application.Messaging;
 using Website.Application.Schedule;
+using Website.Azure.Common.Binding;
 using Website.Azure.Common.Environment;
 
 namespace PostaFlya.CommandWorker
@@ -20,6 +21,7 @@ namespace PostaFlya.CommandWorker
                           new Website.Domain.Binding.CommandNinjectBinding(),                 
                           new PostaFlya.Domain.Binding.DefaultServicesNinjectBinding(),
                           new PostaFlya.Domain.Binding.CommandNinjectBinding(),
+                          new AzureConfigNinjectBind(),
                           new Website.Azure.Common.Binding.AzureCommonNinjectBinding(),
                           new DataRepository.Binding.AzureRepositoryNinjectBinding(),
                           new DataRepository.Binding.TableNameNinjectBinding(),

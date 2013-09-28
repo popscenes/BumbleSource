@@ -31,13 +31,9 @@ namespace Website.Infrastructure.Configuration
             if (!File.Exists(path))
                 path = type.Assembly.Location + ".config";
 
-            if (File.Exists(path) && inMemoryOnly)
+            if (File.Exists(path))
             {
-                return new MergeAppConfigInMemory(path);
-            }
-            else if (File.Exists(path))
-            {
-                return new MergeAppConfigSaveFile(path);
+                return new MergeAppConfig(path);
             }
             return new UseExistingAppConfig();
         }
@@ -52,82 +48,59 @@ namespace Website.Infrastructure.Configuration
 
         private class AppSettingsMerge
         {
-            readonly Dictionary<string, string> _remappedVals = new Dictionary<string, string>();
-            private readonly AppSettingsSection _target;
             private readonly AppSettingsSection _additional;
+            private readonly ConfigurationServiceInterface _configurationService;
 
-            public AppSettingsSection Target { get { return _target; } }
-            public AppSettingsSection Additional { get { return _additional; } }
 
-            public AppSettingsMerge(AppSettingsSection target, AppSettingsSection additional)
+            public AppSettingsMerge(AppSettingsSection additional, ConfigurationServiceInterface configurationService)
             {
-                _target = target;
                 _additional = additional;
+                _configurationService = configurationService;
             }
 
             public void Merge()
             {
-                foreach (var key in _additional.Settings.AllKeys)
-                {
-                    var existing = _target.Settings[key];
-                    if (existing != null)
-                    {
-                        _target.Settings.Remove(key);
-                        _remappedVals[key] = existing.Value;
-                    }
-                    _target.Settings.Add(key, _additional.Settings[key].Value);
-                }
+                _configurationService.AddConfiguration(_additional);
             }
 
             public void UnMerge()
             {
-                foreach (var key in _additional.Settings.AllKeys)
-                {
-                    _target.Settings.Remove(key);
-                    if (_remappedVals.ContainsKey(key))
-                    {
-                        _target.Settings.Add(key, _remappedVals[key]);
-                    }
-                }
+                _configurationService.RemoveConfiguration(_additional);
             }
 
         }
-        private class SetLoadedConfigWritable : IDisposable
-        {
-            private readonly FieldInfo _readonlyProp;
-            private readonly FieldInfo _rootProp;
-            public SetLoadedConfigWritable()
-            {
-                _rootProp = ConfigurationManager.AppSettings.GetType()
-                               .GetField("_root", BindingFlags.Instance | BindingFlags.NonPublic);
+//        private class SetLoadedConfigWritable : IDisposable
+//        {
+//            private readonly FieldInfo _readonlyProp;
+//            private readonly FieldInfo _rootProp;
+//            public SetLoadedConfigWritable()
+//            {
+//                _rootProp = ConfigurationManager.AppSettings.GetType()
+//                               .GetField("_root", BindingFlags.Instance | BindingFlags.NonPublic);
+//
+//                var section = _rootProp.GetValue(ConfigurationManager.AppSettings) as AppSettingsSection;
+//                _readonlyProp = typeof(ConfigurationElementCollection).GetField("bReadOnly", BindingFlags.Instance | BindingFlags.NonPublic);
+//                _readonlyProp.SetValue(section.Settings, false);
+//            }
+//
+//            public void Dispose()
+//            {
+//                var section = _rootProp.GetValue(ConfigurationManager.AppSettings) as AppSettingsSection;
+//                _readonlyProp.SetValue(section.Settings, false);
+//                
+//            }
+//        }
 
-                var section = _rootProp.GetValue(ConfigurationManager.AppSettings) as AppSettingsSection;
-                _readonlyProp = typeof(ConfigurationElementCollection).GetField("bReadOnly", BindingFlags.Instance | BindingFlags.NonPublic);
-                _readonlyProp.SetValue(section.Settings, false);
-            }
-
-            public void Dispose()
-            {
-                var section = _rootProp.GetValue(ConfigurationManager.AppSettings) as AppSettingsSection;
-                _readonlyProp.SetValue(section.Settings, false);
-                
-            }
-        }
-
-        private abstract class MergeAppConfigBase : AppConfig
+        private class MergeAppConfig : AppConfig
         {
             private readonly string _path;
-            protected AppSettingsMerge Merge;
+            private AppSettingsMerge _merge;
 
-            protected MergeAppConfigBase(string path)
+            public MergeAppConfig(string path)
             {
                 _path = path;
                 ChangeConfiguration();
             }
-
-            protected abstract AppSettingsSection TargetSettionsSection();
-            protected abstract void SaveSettings();
-
 
             private AppSettingsSection AdditionalSettingsSection()
             {
@@ -141,80 +114,67 @@ namespace Website.Infrastructure.Configuration
 
             private void ChangeConfiguration()
             {
-                Merge = new AppSettingsMerge(TargetSettionsSection(), AdditionalSettingsSection());
-                Merge.Merge();
-                SaveSettings();
-                ValidateSave();
+                _merge = new AppSettingsMerge(AdditionalSettingsSection(), Config.Instance);
+                _merge.Merge();
             }
 
             public override void Dispose()
             {
-                if (Merge == null) return;
-                Merge.UnMerge();
-                SaveSettings();
-            }
-
-            private void ValidateSave()
-            {
-                var settings = (NameValueCollection)ConfigurationManager.GetSection("appSettings");
-                if (Merge.Additional.Settings.AllKeys
-                    .Any(key => !settings.AllKeys.Any(s => s.Equals(key))))
-                {
-                    throw new ConfigurationErrorsException("configuration not applied");
-                }
+                if (_merge == null) return;
+                _merge.UnMerge();
             }
         }
 
-        private class MergeAppConfigSaveFile : MergeAppConfigBase
-        {
-            public MergeAppConfigSaveFile(string path) : base(path)
-            {
-            }
+//        private class MergeAppConfigSaveFile : MergeAppConfigBase
+//        {
+//            public MergeAppConfigSaveFile(string path) : base(path)
+//            {
+//            }
+//
+//            private System.Configuration.Configuration _configFile;
+//            protected override AppSettingsSection TargetSettionsSection()
+//            {
+//                _configFile = ConfigurationManager.OpenExeConfiguration(Assembly.GetEntryAssembly().Location);
+//                return (AppSettingsSection)_configFile.GetSection("appSettings");
+//            }
+//
+//            protected override void SaveSettings()
+//            {
+//                _configFile.Save();
+//                ConfigurationManager.RefreshSection("appSettings");
+//            }
+//        }
 
-            private System.Configuration.Configuration _configFile;
-            protected override AppSettingsSection TargetSettionsSection()
-            {
-                _configFile = ConfigurationManager.OpenExeConfiguration(Assembly.GetEntryAssembly().Location);
-                return (AppSettingsSection)_configFile.GetSection("appSettings");
-            }
-
-            protected override void SaveSettings()
-            {
-                _configFile.Save();
-                ConfigurationManager.RefreshSection("appSettings");
-            }
-        }
-
-        private class MergeAppConfigInMemory : MergeAppConfigBase
-        {
-            public MergeAppConfigInMemory(string path) : base(path)
-            {
-            }
-
-            private FieldInfo _readonlyProp;
-            private FieldInfo _rootProp;
-            protected override AppSettingsSection TargetSettionsSection()
-            {
-                _rootProp = ConfigurationManager.AppSettings.GetType()
-               .GetField("_root", BindingFlags.Instance | BindingFlags.NonPublic);
-
-                var section = _rootProp.GetValue(ConfigurationManager.AppSettings) as AppSettingsSection;
-                _readonlyProp = typeof(ConfigurationElementCollection).GetField("bReadOnly", BindingFlags.Instance | BindingFlags.NonPublic);
-                _readonlyProp.SetValue(section.Settings, false);
-                return section;
-            }
-
-            protected override void SaveSettings()
-            {
-                _readonlyProp.SetValue(Merge.Target.Settings, true);
-            }
-
-            public override void Dispose()
-            {
-                _readonlyProp.SetValue(Merge.Target.Settings, false);
-                base.Dispose();
-            }
-            
-        }
+//        private class MergeAppConfigInMemory : MergeAppConfigBase
+//        {
+//            public MergeAppConfigInMemory(string path) : base(path)
+//            {
+//            }
+//
+//            private FieldInfo _readonlyProp;
+//            private FieldInfo _rootProp;
+//            protected override AppSettingsSection TargetSettionsSection()
+//            {
+//                _rootProp = ConfigurationManager.AppSettings.GetType()
+//               .GetField("_root", BindingFlags.Instance | BindingFlags.NonPublic);
+//
+//                var section = _rootProp.GetValue(ConfigurationManager.AppSettings) as AppSettingsSection;
+//                _readonlyProp = typeof(ConfigurationElementCollection).GetField("bReadOnly", BindingFlags.Instance | BindingFlags.NonPublic);
+//                _readonlyProp.SetValue(section.Settings, false);
+//                return section;
+//            }
+//
+//            protected override void SaveSettings()
+//            {
+//                _readonlyProp.SetValue(Merge.Target.Settings, true);
+//            }
+//
+//            public override void Dispose()
+//            {
+//                _readonlyProp.SetValue(Merge.Target.Settings, false);
+//                base.Dispose();
+//            }
+//            
+//        }
     }
 }

@@ -69,6 +69,7 @@ namespace Website.Application.Azure.Tests
 
         private static readonly List<INinjectModule> NinjectModules = new List<INinjectModule>()
                   {
+                      new AzureConfigNinjectBind(),
                       new AzureCommonNinjectBinding(),
                       new AzureApplicationNinjectBinding(),
                       //new DataRepository.Binding.AzureRepositoryNinjectBinding(c => c.InTransientScope())
