@@ -92,11 +92,13 @@ namespace Website.Azure.Common.Sql
 
                 if (!ApplyAggregateUpdate(dbConn, obj, trans, res))
                 {
-                    trans.Rollback();
+                    if (transaction == null)
+                        trans.Rollback();
                     return;
                 }
 
-                trans.Commit();
+                if (transaction == null)
+                    trans.Commit();
             }
             catch (Exception e)
             {
@@ -138,14 +140,14 @@ namespace Website.Azure.Common.Sql
                         
                 }
 
-                trans.Commit();
+                if (transaction == null)
+                    trans.Commit();
                 ret = aggStoreRows.Count();
             }
             catch (Exception e)
             {
                 if (transaction == null)
                     trans.Rollback();
-                trans.Rollback();
                 throw;
             }
             
@@ -167,16 +169,16 @@ namespace Website.Azure.Common.Sql
                     aggregateRoot.Id = Guid.NewGuid().ToString();
                 if (string.IsNullOrWhiteSpace(aggregateRoot.FriendlyId))
                     aggregateRoot.FriendlyId = aggregateRoot.Id;
-//                    aggregateRoot.Id =
-//                        dbConn.Query<string>(string.Format(GetNextAggregateId, typeof (T).Name), null, trans).Single();
-                
+             
                 if (!ApplyAggregateUpdate(dbConn, aggregateRoot, trans))
                 {
-                    trans.Rollback();
+                    if (transaction == null)
+                        trans.Rollback();
                     return;
                 }
 
-                trans.Commit();
+                if (transaction == null)
+                    trans.Commit();
             }
             catch (Exception e)
             {
@@ -204,7 +206,8 @@ namespace Website.Azure.Common.Sql
                 if (res == null)
                 {
                     Logger.Warn("Failed to find aggregate root {1}", id);
-                    trans.Rollback();
+                    if (transaction == null)
+                        trans.Rollback();
                     return;
                 }
 
@@ -215,11 +218,13 @@ namespace Website.Azure.Common.Sql
 
                 if (!ApplyAggregateUpdate(dbConn, obj, trans, res))
                 {
-                    trans.Rollback();
+                    if (transaction == null)
+                        trans.Rollback();
                     return;
                 }
 
-                trans.Commit();
+                if (transaction == null)
+                    trans.Commit();
             }
             catch (Exception e)
             {
@@ -369,9 +374,6 @@ namespace Website.Azure.Common.Sql
         private const string SelectForUpdateByAggregateId = "SELECT * FROM {0} with (updlock, rowlock) WHERE Id=@Id";
         private const string SelectForReindexByAggregateId = "SELECT TOP (@MaxRows) * FROM {0} with (updlock, rowlock) WHERE JsonHash < 0";
         private const string DeleteByAggregateId = "DELETE FROM {0} with (updlock, rowlock) WHERE Id=@Id";
-
-        private const string GetNextAggregateId = "select '{0}s/' + Convert(varchar(256), NEXT VALUE FOR {0}s)";
-
 
     }
 }
