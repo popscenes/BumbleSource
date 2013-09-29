@@ -4,11 +4,19 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using Dapper;
+using Microsoft.SqlServer.Types;
 
 namespace Website.Azure.Common.Sql.Infrastructure
 {
     public static class DynamicParameters
     {
+        public static readonly Dictionary<Type, string> TypeToUdtTypeDictionary
+            = new Dictionary<Type, string>()
+                  {
+                      //{typeof(SqlXml), "xml"},
+                      {typeof(SqlGeography), "geography"},                                                                  
+                  };
+
         public static Action<SqlCommand> AddBoolParam(string param, bool value)
         {
             return command =>
@@ -82,6 +90,24 @@ namespace Website.Azure.Common.Sql.Infrastructure
                 p.Value = value;
             };
         }
+
+        public static Action<SqlCommand> AddUdtParam<ParamType>(string param, ParamType value)
+            where ParamType : class
+        {
+            return command =>
+            {
+                var p = command.Parameters.Add("@" + param, SqlDbType.Udt);
+                p.Direction = ParameterDirection.Input;
+                p.IsNullable = true;
+                p.Value = value;
+
+                string dbtype = null;
+                if (TypeToUdtTypeDictionary.TryGetValue(typeof(ParamType), out dbtype))
+                    p.UdtTypeName = dbtype;
+            };
+        }
+
+
     }
 
     public class IntTvpParam : Dapper.SqlMapper.IDynamicParameters

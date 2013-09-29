@@ -4,8 +4,8 @@ using System.ComponentModel;
 namespace Website.Infrastructure.Sharding
 {
     [AttributeUsage(AttributeTargets.Property)]
-    public class FederationColumnAttribute : Attribute {
-        public FederationColumnAttribute()
+    public class FederationPropertyAttribute : Attribute {
+        public FederationPropertyAttribute()
         {
             IsReferenceTable = false;
         }

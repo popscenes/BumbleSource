@@ -1,6 +1,9 @@
 using System;
+using System.Linq;
 using DapperExtensions.Mapper;
 using Dark;
+using Website.Infrastructure.Sharding;
+using Website.Infrastructure.Types;
 
 namespace Website.Azure.Common.Sql.Infrastructure
 {
@@ -18,6 +21,17 @@ namespace Website.Azure.Common.Sql.Infrastructure
                 var id = typeof(T).GetProperty("Id");
                 Map(id).Key(KeyType.Assigned);
             }
+
+            var fedProp = SerializeUtil.GetPropertyWithAttribute(type, typeof(FederationPropertyAttribute));
+            if (fedProp != null)
+            {
+                var fedAtt = fedProp.GetCustomAttributes(true).First(a => a.GetType() == typeof(FederationPropertyAttribute)) as FederationPropertyAttribute;
+                if (fedAtt != null && !fedAtt.IsReferenceTable)
+                {
+                    Map(fedProp).Key(KeyType.Assigned);
+                }
+            }
+
 
             Table(type.Name);
             AutoMap();

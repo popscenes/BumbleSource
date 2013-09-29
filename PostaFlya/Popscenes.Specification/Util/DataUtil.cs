@@ -1,14 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Spatial;
-using System.Text;
-using System.Threading.Tasks;
 using FizzWare.NBuilder;
 
 using Microsoft.SqlServer.Types;
 using NUnit.Framework;
-using PostaFlya.DataRepository.Search.SearchRecord;
+using PostaFlya.DataRepository.DomainQuery.Location;
 using PostaFlya.Domain.Boards;
 using PostaFlya.Domain.Flier;
 using PostaFlya.Domain.Venue;

@@ -115,6 +115,7 @@
     <Compile Include="Binding\AzureInitCreateTables.cs" />
     <Compile Include="Binding\AzureRepositoryNinjectBinding.cs" />
     <Compile Include="Binding\BindingAttributes.cs" />
+    <Compile Include="DomainQuery\Location\LocationExtensions.cs" />
     <Compile Include="DomainQuery\Location\PopulateSuburbQueryHandler.cs" />
     <Compile Include="Indexes\BoardAdminEmailIndex.cs" />
     <Compile Include="Indexes\BoardSuburbIndex.cs" />
@@ -149,15 +150,10 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Search\Command\ReindexFlierCommand.cs" />
-    <Compile Include="Search\Command\ReindexFlierCommandHandler.cs" />
     <Compile Include="Search\Event\EntityIndexEventHandler.cs" />
     <Compile Include="Search\Event\SqlFlierIndexService.cs" />
     <Compile Include="Search\Implementation\SqlFlierSearchService.cs" />
     <Compile Include="Search\Implementation\SqlSeachDbInitializer.cs" />
-    <Compile Include="Search\SearchRecord\BoardFlierSearchRecord.cs" />
-    <Compile Include="Search\SearchRecord\BoardSearchRecord.cs" />
-    <Compile Include="Search\SearchRecord\FlierSearchRecord.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0">

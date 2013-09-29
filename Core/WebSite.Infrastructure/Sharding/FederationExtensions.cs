@@ -37,11 +37,11 @@ namespace Website.Infrastructure.Sharding
 
         public static FederationInstance GetFedInstance(this object fedobject)
         {
-            var prop = SerializeUtil.GetPropertyWithAttribute(fedobject.GetType(), typeof(FederationColumnAttribute));
+            var prop = SerializeUtil.GetPropertyWithAttribute(fedobject.GetType(), typeof(FederationPropertyAttribute));
             if (prop == null || FederationDisabled)
                 return null;
 
-            var fedAtt = prop.GetCustomAttributes(true).First(a => a.GetType() == typeof(FederationColumnAttribute)) as FederationColumnAttribute;
+            var fedAtt = prop.GetCustomAttributes(true).First(a => a.GetType() == typeof(FederationPropertyAttribute)) as FederationPropertyAttribute;
 
             var fedVal = prop.GetValue(fedobject, null);
 
@@ -55,7 +55,7 @@ namespace Website.Infrastructure.Sharding
 
         public static bool SetFedVal(this object fedObject, object fedVal)
         {
-            var prop = SerializeUtil.GetPropertyWithAttribute(fedObject.GetType(), typeof(FederationColumnAttribute));
+            var prop = SerializeUtil.GetPropertyWithAttribute(fedObject.GetType(), typeof(FederationPropertyAttribute));
             if (prop == null || FederationExtensions.FederationDisabled)
                 return false;
 
@@ -65,11 +65,11 @@ namespace Website.Infrastructure.Sharding
 
         public static FederationInstance GetFedInfo(this Type fedTyp)
         {
-            var prop = SerializeUtil.GetPropertyWithAttribute(fedTyp, typeof(FederationColumnAttribute));
+            var prop = SerializeUtil.GetPropertyWithAttribute(fedTyp, typeof(FederationPropertyAttribute));
             if (prop == null || FederationExtensions.FederationDisabled)
                 return null;
 
-            var fedAtt = prop.GetCustomAttributes(true).First(a => a.GetType() == typeof(FederationColumnAttribute)) as FederationColumnAttribute;
+            var fedAtt = prop.GetCustomAttributes(true).First(a => a.GetType() == typeof(FederationPropertyAttribute)) as FederationPropertyAttribute;
 
             return new FederationInstance()
                 {

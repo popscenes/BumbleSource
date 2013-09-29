@@ -1,11 +1,6 @@
-﻿using System;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using Microsoft.SqlServer.Types;
-using PostaFlya.DataRepository.Binding;
 using PostaFlya.DataRepository.Indexes;
-using PostaFlya.DataRepository.Search.SearchRecord;
 using Website.Azure.Common.TableStorage;
 using Website.Domain.Location;
 using Website.Domain.Location.Query;

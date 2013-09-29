@@ -160,7 +160,7 @@
     <Compile Include="Sql\OrdersAggregateStorageTables.cs" />
     <Compile Include="Sql\PerfTests.cs" />
     <Compile Include="Sql\SqlOpenClose.cs" />
-    <Compile Include="Sql\SqlInitializerTests.cs" />
+    <Compile Include="Sql\TestTables.cs" />
     <Compile Include="Sql\SqlExecuteTests.cs" />
     <Compile Include="Sql\UpdateRepeatableReadTests.cs" />
     <Compile Include="TableStorage\AggregateEntityTableEntryCollectionTests.cs" />

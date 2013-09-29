@@ -7,7 +7,6 @@ using NUnit.Framework;
 using Website.Azure.Common.Sql;
 using Website.Azure.Common.Sql.Infrastructure;
 using Website.Infrastructure.Execution;
-using SqlExecute = Website.Azure.Common.Sql.SqlExecute;
 
 namespace Website.Azure.Common.Tests.Sql
 {

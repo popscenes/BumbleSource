@@ -146,10 +146,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Sql\Attributes.cs" />
     <Compile Include="Sql\SqlConnectionFactory.cs" />
-    <Compile Include="Sql\SqlExecute.cs" />
-    <Compile Include="Sql\SqlInitializer.cs" />
     <Compile Include="Sql\SqlOpenClose.cs" />
     <Compile Include="TableStorage\AggregateEntityTableEntryCollection.cs" />
     <Compile Include="TableStorage\EdmProp.cs" />

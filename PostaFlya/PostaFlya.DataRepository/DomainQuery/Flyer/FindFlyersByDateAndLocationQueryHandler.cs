@@ -1,15 +1,10 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using PostaFlya.DataRepository.Binding;
 using PostaFlya.DataRepository.Indexes;
-using PostaFlya.DataRepository.Search.SearchRecord;
 using PostaFlya.Domain.Flier;
 using PostaFlya.Domain.Flier.Query;
 using Website.Azure.Common.TableStorage;
 using Website.Domain.Location;
-using Website.Domain.Location.Query;
 using Website.Infrastructure.Query;
 using Website.Infrastructure.Util;
 

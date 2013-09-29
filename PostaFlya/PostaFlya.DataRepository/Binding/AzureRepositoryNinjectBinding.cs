@@ -9,6 +9,7 @@ using PostaFlya.DataRepository.DomainQuery.Browser;
 using PostaFlya.DataRepository.Search.Event;
 using Website.Azure.Common.Binding;
 using Website.Azure.Common.Sql;
+using Website.Azure.Common.Sql.Infrastructure;
 using Website.Azure.Common.TableStorage;
 //using PostaFlya.DataRepository.Search.Implementation;
 using Website.Domain.Comments;
