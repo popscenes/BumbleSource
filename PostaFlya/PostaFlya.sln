@@ -1,6 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 2013
+VisualStudioVersion = 12.0.21005.1
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{9CA2149B-32D6-47E4-A09C-F35E1FE7E317}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{3F05B603-9C28-42D4-94E2-1912DAC6EF87}"
@@ -10,6 +12,11 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{C2921358-37F3-4AF8-B702-C5D07E0478AD}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{8400D11F-7F5E-402D-A01D-29A4DA0D2E68}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{E2251CE3-63AA-4E1B-9F50-257B4B4DC673}"
+	ProjectSection(SolutionItems) = preProject
+		WE-browsers.xml = WE-browsers.xml
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PostaFlya", "PostaFlya\PostaFlya.csproj", "{85753E12-6D9B-4B33-9EBD-BF31DBE10088}"
 EndProject
@@ -56,11 +63,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Website.Mocks.Domain", "..\Core\Website.Mocks.Domain\Website.Mocks.Domain.csproj", "{FFE7D016-19DB-40F6-8565-EE2507AE4F12}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Website.Domain.Tests", "..\Core\Website.Domain.Tests\Website.Domain.Tests.csproj", "{E602D5BC-F9A6-4CB5-915B-760CA16F826C}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{E2251CE3-63AA-4E1B-9F50-257B4B4DC673}"
-	ProjectSection(SolutionItems) = preProject
-		WE-browsers.xml = WE-browsers.xml
-	EndProjectSection
 EndProject
 Project("{CC5FD16D-436D-48AD-A40C-5A424C6E3E79}") = "PopscenesAzure", "PopscenesAzure\PopscenesAzure.ccproj", "{5EB1820C-2152-4083-9395-A8094E85083E}"
 EndProject
