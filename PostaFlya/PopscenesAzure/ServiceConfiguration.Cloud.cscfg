@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<ServiceConfiguration serviceName="PopscenesAzure" xmlns="http://schemas.microsoft.com/ServiceHosting/2008/10/ServiceConfiguration" osFamily="3" osVersion="*" schemaVersion="2013-03.2.0">
+<ServiceConfiguration serviceName="PopscenesAzure" xmlns="http://schemas.microsoft.com/ServiceHosting/2008/10/ServiceConfiguration" osFamily="3" osVersion="*" schemaVersion="2013-10.2.2">
     <Role name="PostaFlya">
         <Instances count="1" />
         <ConfigurationSettings>
@@ -38,7 +38,7 @@
             <Setting name="Tags" value="music,theatre,photography,film,fine arts,community" />
             <Setting name="NewAccountCredit" value="500" />
             <Setting name="SkipSomethingForNow" value="false" />
-            <Setting name="ServiceBusNamespace" value="Endpoint=sb://popscenes.servicebus.windows.net/;SharedSecretIssuer=owner;SharedSecretValue=LyioX1RXnGJW+2f7PIjDmVFqZgxVMdJ2JhRYHpLyeEU="/>
+            <Setting name="ServiceBusNamespace" value="Endpoint=sb://popscenes.servicebus.windows.net/;SharedSecretIssuer=owner;SharedSecretValue=LyioX1RXnGJW+2f7PIjDmVFqZgxVMdJ2JhRYHpLyeEU=" />
             <Setting name="UseProductionStorage" value="true" />
         </ConfigurationSettings>
         <Certificates>

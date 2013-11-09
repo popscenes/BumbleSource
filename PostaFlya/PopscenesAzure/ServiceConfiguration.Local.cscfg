@@ -1,17 +1,15 @@
 <?xml version="1.0"?>
-<ServiceConfiguration serviceName="PopscenesAzure" xmlns="http://schemas.microsoft.com/ServiceHosting/2008/10/ServiceConfiguration" osFamily="3" osVersion="*" schemaVersion="2013-03.2.0">
+<ServiceConfiguration serviceName="PopscenesAzure" xmlns="http://schemas.microsoft.com/ServiceHosting/2008/10/ServiceConfiguration" osFamily="3" osVersion="*" schemaVersion="2013-10.2.2">
     <Role name="PostaFlya">
         <Instances count="2" />
         <ConfigurationSettings>
             <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" value="UseDevelopmentStorage=true" />
             <Setting name="StorageConnectionString" value="UseDevelopmentStorage=true" />
-           
             <Setting name="Microsoft.WindowsAzure.Plugins.Caching.NamedCaches" value="{&quot;caches&quot;:[{&quot;name&quot;:&quot;default&quot;,&quot;policy&quot;:{&quot;eviction&quot;:{&quot;type&quot;:0},&quot;expiration&quot;:{&quot;defaultTTL&quot;:10,&quot;isExpirable&quot;:true,&quot;type&quot;:1},&quot;serverNotification&quot;:{&quot;isEnabled&quot;:true}},&quot;secondaries&quot;:0}]}" />
             <Setting name="Microsoft.WindowsAzure.Plugins.Caching.DiagnosticLevel" value="0" />
             <Setting name="Microsoft.WindowsAzure.Plugins.Caching.ClientDiagnosticLevel" value="0" />
             <Setting name="Microsoft.WindowsAzure.Plugins.Caching.CacheSizePercentage" value="50" />
             <Setting name="Microsoft.WindowsAzure.Plugins.Caching.ConfigStoreConnectionString" value="UseDevelopmentStorage=true" />
-          
             <Setting name="SearchDbConnectionString" value="Data Source=.\SQLEXPRESS;Integrated Security=True" />
             <Setting name="SearchDbConnectionStringDbName" value="GigSearch" />
             <Setting name="DisableFederation" value="True" />
@@ -44,7 +42,7 @@
             <Setting name="Tags" value="music,theatre,photography,film,fine arts,community" />
             <Setting name="NewAccountCredit" value="1024" />
             <Setting name="SkipSomethingForNow" value="false" />
-            <Setting name="ServiceBusNamespace" value="Endpoint=sb://popscenesdev.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=BwKdXGiOKLfQbDYHX8fn/j/ag6M8OCbb8o3GveqgWYY="/>
+            <Setting name="ServiceBusNamespace" value="Endpoint=sb://popscenesdev.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=BwKdXGiOKLfQbDYHX8fn/j/ag6M8OCbb8o3GveqgWYY=" />
             <Setting name="UseProductionStorage" value="false" />
         </ConfigurationSettings>
         <Certificates>
