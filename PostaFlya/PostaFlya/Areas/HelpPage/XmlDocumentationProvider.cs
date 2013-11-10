@@ -31,6 +31,11 @@ namespace PostaFlya.Areas.HelpPage
             _documentNavigator = xpath.CreateNavigator();
         }
 
+        public string GetDocumentation(HttpControllerDescriptor controllerDescriptor)
+        {
+            return GetDocumentation(controllerDescriptor);
+        }
+
         public virtual string GetDocumentation(HttpActionDescriptor actionDescriptor)
         {
             XPathNavigator methodNode = GetMethodNode(actionDescriptor);
@@ -64,6 +69,11 @@ namespace PostaFlya.Areas.HelpPage
             }
 
             return null;
+        }
+
+        public string GetResponseDocumentation(HttpActionDescriptor actionDescriptor)
+        {
+            return GetDocumentation(actionDescriptor);
         }
 
         private XPathNavigator GetMethodNode(HttpActionDescriptor actionDescriptor)

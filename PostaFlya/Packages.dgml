@@ -54,7 +54,6 @@
     <Node Id="EntityFramework 6.0.0-alpha1" Label="EntityFramework 6.0.0-alpha1" Category="Package" />
     <Node Id="jQuery 1.9.1" Label="jQuery 1.9.1" Category="Package" />
     <Node Id="jquery.mobile 1.1.0" Label="jquery.mobile 1.1.0" Category="Package" />
-    <Node Id="jQuery.UI.Combined 1.10.0" Label="jQuery.UI.Combined 1.10.0" Category="Package" />
     <Node Id="jQuery.Validation 1.11.0" Label="jQuery.Validation 1.11.0" Category="Package" />
     <Node Id="Knockout.Mapping 2.4.0" Label="Knockout.Mapping 2.4.0" Category="Package" />
     <Node Id="knockoutjs 2.2.1" Label="knockoutjs 2.2.1" Category="Package" />
@@ -444,7 +443,6 @@
     <Link Source="DotNetOpenAuth.OpenIdOAuth 4.2.1.13026" Target="DotNetOpenAuth.OAuth.ServiceProvider 4.2.1.13026" Category="Package Dependency" />
     <Link Source="DotNetOpenAuth.OpenIdOAuth 4.2.1.13026" Target="DotNetOpenAuth.OpenId.Core 4.2.1.13026" Category="Package Dependency" />
     <Link Source="jquery.mobile 1.1.0" Target="jQuery 1.9.1" Category="Package Dependency" />
-    <Link Source="jQuery.UI.Combined 1.10.0" Target="jQuery 1.9.1" Category="Package Dependency" />
     <Link Source="jQuery.Validation 1.11.0" Target="jQuery 1.9.1" Category="Package Dependency" />
     <Link Source="Knockout.Mapping 2.4.0" Target="knockoutjs 2.2.1" Category="Package Dependency" />
     <Link Source="Microsoft.AspNet.Mvc 4.0.20710.0" Target="Microsoft.AspNet.WebPages 2.0.20710.0" Category="Package Dependency" />
@@ -506,7 +504,6 @@
     <Link Source="PostaFlya" Target="DotNetOpenAuth.OpenIdOAuth 4.2.1.13026" Category="Installed Package" />
     <Link Source="PostaFlya" Target="jQuery 1.9.1" Category="Installed Package" />
     <Link Source="PostaFlya" Target="jquery.mobile 1.1.0" Category="Installed Package" />
-    <Link Source="PostaFlya" Target="jQuery.UI.Combined 1.10.0" Category="Installed Package" />
     <Link Source="PostaFlya" Target="jQuery.Validation 1.11.0" Category="Installed Package" />
     <Link Source="PostaFlya" Target="Knockout.Mapping 2.4.0" Category="Installed Package" />
     <Link Source="PostaFlya" Target="knockoutjs 2.2.1" Category="Installed Package" />

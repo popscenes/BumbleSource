@@ -80,16 +80,17 @@ namespace PostaFlya.Website.Tests.Authentication
 
         protected string OpenIDProviderResponseGet()
         {
-            HttpRequestWrapper req = new HttpRequestWrapper(new HttpRequest("", "https://www.google.com/accounts/o8/id", "openid.claimed_id=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0%2Fidentifier_select&openid.identity=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0%2Fidentifier_select&openid.assoc_handle=AMlYA9UoocC5z_RMP-QTpNniEE5qVOc5lDXHEzivPwjQq0tZfoDT6my_Sv4LQ4D_GNGTfUJX&openid.return_to=http%3A%2F%2Flocalhost%3A1805%2Faccount%2FAuthenticate%3Fdnoa.userSuppliedIdentifier%3Dhttps%253A%252F%252Fwww.google.com%252Faccounts%252Fo8%252Fid&openid.realm=http%3A%2F%2Flocalhost%3A1805%2F&openid.mode=checkid_setup&openid.ns=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0&openid.ns.alias3=http%3A%2F%2Fopenid.net%2Fsrv%2Fax%2F1.0&openid.alias3.required=alias1%2Calias2%2Calias3&openid.alias3.mode=fetch_request&openid.alias3.type.alias1=http%3A%2F%2Faxschema.org%2Fcontact%2Femail&openid.alias3.count.alias1=1&openid.alias3.type.alias2=http%3A%2F%2Faxschema.org%2FnamePerson%2Ffirst&openid.alias3.count.alias2=1&openid.alias3.type.alias3=http%3A%2F%2Faxschema.org%2FnamePerson%2Flast&openid.alias3.count.alias3=1"));
-            var identityprovider = new OpenIdProvider();
-
-            var request = identityprovider.GetRequest(req);
-            var authReq = request as IAuthenticationRequest;
-            authReq.ClaimedIdentifier = "kjhkjh";
-            authReq.IsAuthenticated = true;
-            identityprovider.SendResponse(request);
-
-            return HttpContext.Current.Response.RedirectLocation;
+            throw new NotImplementedException();
+//            HttpRequestWrapper req = new HttpRequestWrapper(new HttpRequest("", "https://www.google.com/accounts/o8/id", "openid.claimed_id=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0%2Fidentifier_select&openid.identity=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0%2Fidentifier_select&openid.assoc_handle=AMlYA9UoocC5z_RMP-QTpNniEE5qVOc5lDXHEzivPwjQq0tZfoDT6my_Sv4LQ4D_GNGTfUJX&openid.return_to=http%3A%2F%2Flocalhost%3A1805%2Faccount%2FAuthenticate%3Fdnoa.userSuppliedIdentifier%3Dhttps%253A%252F%252Fwww.google.com%252Faccounts%252Fo8%252Fid&openid.realm=http%3A%2F%2Flocalhost%3A1805%2F&openid.mode=checkid_setup&openid.ns=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0&openid.ns.alias3=http%3A%2F%2Fopenid.net%2Fsrv%2Fax%2F1.0&openid.alias3.required=alias1%2Calias2%2Calias3&openid.alias3.mode=fetch_request&openid.alias3.type.alias1=http%3A%2F%2Faxschema.org%2Fcontact%2Femail&openid.alias3.count.alias1=1&openid.alias3.type.alias2=http%3A%2F%2Faxschema.org%2FnamePerson%2Ffirst&openid.alias3.count.alias2=1&openid.alias3.type.alias3=http%3A%2F%2Faxschema.org%2FnamePerson%2Flast&openid.alias3.count.alias3=1"));
+//            var identityprovider = new OpenIdProvider();
+//
+//            var request = identityprovider.GetRequest(req);
+//            var authReq = request as IAuthenticationRequest;
+//            authReq.ClaimedIdentifier = "kjhkjh";
+//            authReq.IsAuthenticated = true;
+//            identityprovider.SendResponse(request);
+//
+//            return HttpContext.Current.Response.RedirectLocation;
         }
 
         [Test]

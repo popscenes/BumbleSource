@@ -20,7 +20,12 @@ namespace Website.Application.Authentication
         private IAuthenticationResponse _authResponse;
         public IAuthenticationResponse AuthResponse 
         { 
-            get { return _authResponse ?? (_authResponse = _openIdRelyingParty.GetResponse()); }
+            get { 
+                    throw new NotImplementedException();
+//                return _authResponse ?? 
+//                (_authResponse = _openIdRelyingParty.GetResponse()); 
+            
+            }
 
             set { _authResponse = value; } 
         }
@@ -47,14 +52,14 @@ namespace Website.Application.Authentication
 
         public void RequestAuthorisation()
         {
-
-            var req = _openIdRelyingParty.CreateRequest(Identifier, new Realm(RealmUri), new Uri(CallbackUrl));
-            var fetch = new FetchRequest();
-            fetch.Attributes.Add(new AttributeRequest(WellKnownAttributes.Contact.Email, true));
-            fetch.Attributes.Add(new AttributeRequest(WellKnownAttributes.Name.First, true));
-            fetch.Attributes.Add(new AttributeRequest(WellKnownAttributes.Name.Last, true));
-            req.AddExtension(fetch);
-            req.RedirectingResponse.Send();
+            throw new NotImplementedException();
+//            var req = _openIdRelyingParty.CreateRequest(Identifier, new Realm(RealmUri), new Uri(CallbackUrl));
+//            var fetch = new FetchRequest();
+//            fetch.Attributes.Add(new AttributeRequest(WellKnownAttributes.Contact.Email, true));
+//            fetch.Attributes.Add(new AttributeRequest(WellKnownAttributes.Name.First, true));
+//            fetch.Attributes.Add(new AttributeRequest(WellKnownAttributes.Name.Last, true));
+//            req.AddExtension(fetch);
+//            req.RedirectingResponse.Send();
         }
 
         public IdentityProviderCredential GetCredentials()

@@ -4,9 +4,8 @@ using Website.Azure.Common.Environment;
 using PostaFlya.Binding;
 using Website.Common.Binding;
 using Website.Common.Filters;
-
-[assembly: WebActivator.PreApplicationStartMethod(typeof(PostaFlya.App_Start.NinjectWebCommon), "Start")]
-[assembly: WebActivator.ApplicationShutdownMethodAttribute(typeof(PostaFlya.App_Start.NinjectWebCommon), "Stop")]
+[assembly: WebActivatorEx.PreApplicationStartMethod(typeof(PostaFlya.App_Start.NinjectWebCommon), "Start")]
+[assembly: WebActivatorEx.ApplicationShutdownMethodAttribute(typeof(PostaFlya.App_Start.NinjectWebCommon), "Stop")]
 
 namespace PostaFlya.App_Start
 {
@@ -27,8 +26,6 @@ namespace PostaFlya.App_Start
         /// </summary>
         public static void Start() 
         {
-            //Debugger.Break();
-            Trace.TraceInformation("Ninject start " + AzureEnv.GetIdForInstance());
             DynamicModuleUtility.RegisterModule(typeof(OnePerRequestHttpModule));
             DynamicModuleUtility.RegisterModule(typeof(NinjectHttpModule));
             bootstrapper.Initialize(CreateKernel);
@@ -39,7 +36,6 @@ namespace PostaFlya.App_Start
         /// </summary>
         public static void Stop()
         {
-            Trace.TraceInformation("Ninject stop " + AzureEnv.GetIdForInstance());
             bootstrapper.ShutDown();
         }
         
