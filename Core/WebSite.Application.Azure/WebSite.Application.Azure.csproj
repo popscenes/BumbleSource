@@ -138,6 +138,13 @@
     <Compile Include="Queue\ServiceBusQueue.cs" />
     <Compile Include="Queue\ServiceBusQueueFactory.cs" />
     <Compile Include="Queue\ServiceBusQueueMessage.cs" />
+    <Compile Include="ServiceBus\AzureEventSubscriptionReciever.cs" />
+    <Compile Include="ServiceBus\AzureEventSubscriptionRecieverFactory.cs" />
+    <Compile Include="ServiceBus\AzureEventTopcSender.cs" />
+    <Compile Include="ServiceBus\AzureEventTopicSenderFactory.cs" />
+    <Compile Include="ServiceBus\AzureMessageEventTopicBusFactory.cs" />
+    <Compile Include="ServiceBus\AzureSubscriptionUtils.cs" />
+    <Compile Include="ServiceBus\EventTopicBus.cs" />
     <Compile Include="Util\AzureTempFileStorage.cs" />
     <Compile Include="WebsiteInformation\WebsiteInfoServiceAzure.cs" />
   </ItemGroup>

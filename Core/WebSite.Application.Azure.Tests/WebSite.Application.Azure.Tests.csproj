@@ -152,6 +152,10 @@
       <Project>{3BFDED0A-130F-4CEC-ABFC-51E6AA72F5C2}</Project>
       <Name>Website.Application.Azure</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Website.Application.Tests\Website.Application.Tests.csproj">
+      <Project>{303D2A12-79EC-464A-88E6-25B98A64E5ED}</Project>
+      <Name>Website.Application.Tests</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Website.Application\Website.Application.csproj">
       <Project>{46DB8930-71D8-4DE4-BAA6-39944F07D6F5}</Project>
       <Name>Website.Application</Name>

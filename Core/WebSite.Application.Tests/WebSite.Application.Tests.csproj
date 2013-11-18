@@ -123,6 +123,7 @@
     <Compile Include="Extension\Email\MailMessageExtensionsTests.cs" />
     <Compile Include="Intergrations\FatZebraIntergrationTests.cs" />
     <Compile Include="Intergrations\GoogleWalletDigitalGoodsTests.cs" />
+    <Compile Include="Mocks\ServiceBusMocks.cs" />
     <Compile Include="Mocks\TestMessageQueueFactory.cs" />
     <Compile Include="Content\ExifImageTests.cs" />
     <Compile Include="Email\QueuedSendEmailServiceTests.cs" />
@@ -147,6 +148,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Website.Application.Azure\Website.Application.Azure.csproj">
+      <Project>{3BFDED0A-130F-4CEC-ABFC-51E6AA72F5C2}</Project>
+      <Name>Website.Application.Azure</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Website.Application\Website.Application.csproj">
       <Project>{46DB8930-71D8-4DE4-BAA6-39944F07D6F5}</Project>
       <Name>Website.Application</Name>

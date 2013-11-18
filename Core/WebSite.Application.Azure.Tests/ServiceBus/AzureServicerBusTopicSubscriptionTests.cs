@@ -2,7 +2,6 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Configuration;
-using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,14 +13,15 @@ using Ninject;
 using Ninject.MockingKernel.Moq;
 using Ninject.Syntax;
 using PostaFlya.DataRepository.Search.Event;
-using Website.Application.Azure.Content;
+using Website.Application.Azure.Command;
 using Website.Application.Azure.Queue;
+using Website.Application.Azure.ServiceBus;
 using Website.Application.Messaging;
-using Website.Application.Queue;
+using Website.Application.Tests.Mocks;
 using Website.Infrastructure.Command;
 using Website.Infrastructure.Domain;
-using Website.Infrastructure.Messaging;
 using Website.Infrastructure.Types;
+using System.Linq;
 
 namespace Website.Application.Azure.Tests.ServiceBus
 {
@@ -30,6 +30,8 @@ namespace Website.Application.Azure.Tests.ServiceBus
     class AzureServicerBusTopicSubscriptionTests
     {
 
+        protected ConcurrentDictionary<string, EventInterface> testHandlerCalls = new ConcurrentDictionary<string, EventInterface>();
+            
         MoqMockingKernel Kernel
         {
             get { return TestFixtureSetup.CurrIocKernel; }
@@ -45,7 +47,9 @@ namespace Website.Application.Azure.Tests.ServiceBus
         [TestFixtureSetUp]
         public void FixtureSetUp()
         {
-            Kernel.Bind<EventTopicSenderFactoryInterface>().To<TestEventTopicSenderFactory>().InThreadScope();
+            Kernel.Bind<MessageQueueFactoryInterface>().To<TestMessageQueueFactory>().InThreadScope();
+
+            Kernel.Bind<EventTopicSenderFactoryInterface>().To<AzureEventTopicSenderFactory>().InThreadScope();
             
 
             Kernel.Bind<CloudBlobContainer>().ToMethod(
@@ -57,12 +61,20 @@ namespace Website.Application.Azure.Tests.ServiceBus
 
             Kernel.Bind<MessagingFactory>().ToMethod(
                 ctx => MessagingFactory.CreateFromConnectionString(ConfigurationManager.AppSettings["Microsoft.ServiceBus.ConnectionString"]));
+
+            Kernel.Bind<TestService>().ToMethod(
+                ctx => new TestService((messageId, @event) => testHandlerCalls.TryAdd(messageId, @event)));
+
+            Kernel.Bind<TestGenericIndexService>().ToMethod(
+                ctx => new TestGenericIndexService((messageId, @event) => testHandlerCalls.TryAdd(messageId, @event)));
+
+            testHandlerCalls.Clear();
         }
 
         [Test]
         public void TopicBusFactoryCreatesAzureMessageTopicBus()
         {
-            var topicBusFactory = Kernel.Get<AzureMessageEventTopicBusFactory>();
+            var topicBusFactory = Kernel.Get<AzureMessageQueueFactory>();
             var topicBus = topicBusFactory.GetTopicBus("Test");
 
             //atm just check we return a TopicBus
@@ -74,15 +86,15 @@ namespace Website.Application.Azure.Tests.ServiceBus
         [Test]
         public void AzureMessageTopicBusSendMessageTest()
         {
-            var topicBusFactory = Kernel.Get<AzureMessageEventTopicBusFactory>();
+            var topicBusFactory = Kernel.Get<TestMessageQueueFactory>();
 
             var topicBus = topicBusFactory.GetTopicBus("Test");
             topicBus.Send(new TestEvent() {TimeStamp = DateTime.Now, TestMessage = "testing motha fucker"});
 
-            var queuefactory = Kernel.Get<EventTopicSenderFactoryInterface>();
+            var queuefactory = Kernel.Get<TestMessageQueueFactory>();
             var queue =  queuefactory.GetTopicSender("Test") as TestEventTopicSender;
 
-            Assert.AreEqual(queue.GetStore().Count, 1);
+            Assert.AreEqual(queue.GetStore().ApproximateMessageCount, 1);
         }
 
         [Test]
@@ -92,9 +104,11 @@ namespace Website.Application.Azure.Tests.ServiceBus
             var namespaceManager = Kernel.Get<NamespaceManager>();
             var messageFactory = Kernel.Get<MessagingFactory>();
 
+            namespaceManager.DeleteTopic("Test");
+
             var eventTopicFactory = Kernel.Get<AzureEventTopicSenderFactory>();
 
-            var topicSender = eventTopicFactory.GetTopicSender(typeof (TestEvent));
+            var topicSender = eventTopicFactory.GetTopicSender(typeof (TestEvent).Name.Replace("Event", ""));
 
             Assert.IsNotNull(topicSender);
             Assert.IsTrue(namespaceManager.TopicExists("Test"));
@@ -126,7 +140,7 @@ namespace Website.Application.Azure.Tests.ServiceBus
             Assert.AreEqual(subdetails.Count, 3);
 
             Assert.AreEqual(subdetails[0].Topic, "Test");
-            Assert.AreEqual(subdetails[0].Subscription, "TestIndexService");
+            Assert.AreEqual(subdetails[0].Subscription, "TestService");
 
            
             Assert.AreEqual(subdetails[1].Topic, "Test2");
@@ -139,389 +153,30 @@ namespace Website.Application.Azure.Tests.ServiceBus
         [Test]
         public void SubscriptionFactoryCreatesAzureMessageSubscriptionProcesor()
         {
-            var subscriptionFactory = Kernel.Get<AzureEventSubscriptionProcessorFactory>();
+            var subscriptionFactory = Kernel.Get<TestMessageQueueFactory>();
 
             var azureSubscriptionUtils = new AzureSubscriptionUtils();
             List<SubscriptionDetails> subdetails = azureSubscriptionUtils.GetHandlerSubscriptionsFromAssembly(Assembly.GetAssembly(typeof(TestEvent)));
-            var subscriptionProcessor = subscriptionFactory.GetSubscriptionProcessor(subdetails[0]);
+            var subscriptionProcessor = subscriptionFactory.GetProcessorForSubscriptionEndpoint(subdetails[0]);
 
             //atm just check we return a subscriptionprocessor
             Assert.IsTrue(subscriptionProcessor != null);
         }
 
         [Test]
-        public void CreateFilteredSubscriptionsFromConfig()
+        public void FullPubSubTests()
         {
+            var azureSubscriptionUtils = new AzureSubscriptionUtils();
+            List<SubscriptionDetails> subdetails = azureSubscriptionUtils.GetHandlerSubscriptionsFromAssembly(Assembly.GetAssembly(typeof(TestEvent)));
 
+            var topicBusFactory = Kernel.Get<AzureMessageQueueFactory>();
+
+            var topics = subdetails.Select(_ => _.Topic).Distinct();
+            var topicBusDict = topics.ToDictionary(topic => topic, topicBusFactory.GetTopicBus);
+
+            var queuePeocessorList = subdetails.Select(topicBusFactory.GetProcessorForSubscriptionEndpoint).ToList();
+
+            
         }
-    }
-
-    public class SubscriptionDetails
-    {
-        public String Topic { get; set; }
-        public String Subscription { get; set; }
-        public Type HandlerType { get; set; }
-    }
-
-    public class AzureSubscriptionUtils
-    {
-        public List<SubscriptionDetails> GetHandlerSubscriptionsFromAssembly(Assembly assembly)
-        {
-            var eventInterface = typeof(EventInterface);
-            var eventsTypes = TypeUtil.GetAllSubTypesFrom(eventInterface, assembly);
-            var listOfSubs = new List<SubscriptionDetails>();
-
-            foreach (var type in eventsTypes)
-            {
-                if (type.IsGenericType)
-                {
-                    var handlers =
-                        assembly.DefinedTypes.Where(
-                            dt =>
-                            dt.ImplementedInterfaces.Any(_ => _.NameLike(typeof(HandleEventInterface<>).Name) && _.GenericTypeArguments.Any(gt => gt.NameLike(type.Name))));
-
-
-                    listOfSubs.AddRange(handlers.Select(handler => new SubscriptionDetails() { Topic = type.Name.Replace("Event", "").Replace("`1", ""), Subscription = handler.Name.Replace("`1", ""), HandlerType = handler}));
-                    continue;
-                }
-
-
-                Type handlerType = typeof(HandleEventInterface<>).MakeGenericType(type);
-                var handlerTypes = TypeUtil.GetExpandedImplementorsUsing(handlerType, assembly);
-                listOfSubs.AddRange(handlerTypes.Select(handler => new SubscriptionDetails() { Topic = type.Name.Replace("Event", ""), Subscription = handler.Name.Replace("`1", ""), HandlerType = handler }));
-            }
-
-            return listOfSubs;
-        }
-    }
-
-
-    public class AzureEventTopicSenderFactory : EventTopicSenderFactoryInterface
-    {
-        private readonly NamespaceManager _namespaceManager;
-        private readonly MessagingFactory _messagingFactory;
-
-        private const string DefaultSubscription = "nofilter";
-
-        public AzureEventTopicSenderFactory(NamespaceManager namespaceManager, MessagingFactory messagingFactory)
-        {
-            _namespaceManager = namespaceManager;
-            _messagingFactory = messagingFactory;
-        }
-
-        public EventTopicSenderInterface GetTopicSender(Type type)
-        {
-            return GetTopicSender(type.Name.Replace("Event", ""));
-        }
-
-        public EventTopicSenderInterface GetTopicSender(string name)
-        {
-            if (_namespaceManager.TopicExists(name))
-            {
-                return new AzureEventTopcSender(_messagingFactory.CreateTopicClient(name));
-            }
-
-            _namespaceManager.CreateTopic(name);
-
-            return new AzureEventTopcSender(_messagingFactory.CreateTopicClient(name));
-        }
-    }
-
-    public class AzureEventTopcSender : EventTopicSenderInterface
-    {
-        private readonly TopicClient _topicClient;
-
-        public AzureEventTopcSender(TopicClient topicClient)
-        {
-            _topicClient = topicClient;
-        }
-
-        public void AddMessage(QueueMessageInterface message)
-        {
-            var azureMsg = message as ServiceBusQueueMessage ?? new ServiceBusQueueMessage(message.Bytes);
-            _topicClient.Send(azureMsg.Message);
-        }
-    }
-
-    [Serializable]
-    public class TestEvent: EventInterface
-    {
-        public DateTimeOffset TimeStamp { get; set; }
-        public String TestMessage { get; set; }
-        public string MessageId { get; set; }
-    }
-
-    [Serializable]
-    public class TestEvent2 : EventInterface
-    {
-        public DateTimeOffset TimeStamp { get; set; }
-        public String TestMessage { get; set; }
-        public string MessageId { get; set; }
-    }
-
-    [Serializable]
-    public class TestGenericEvent<type> : EventInterface
-    {
-        public DateTimeOffset TimeStamp { get; set; }
-        public String TestMessage { get; set; }
-        public string MessageId { get; set; }
-        public type genric { get; set; }
-    }
-
-    public class TestIndexService :HandleEventInterface<TestEvent>
-    {
-        public bool Handle(TestEvent @event)
-        {
-            throw new NotImplementedException();
-        }
-    }
-    public class TestGenericIndexService :
-        HandleEventInterface<TestGenericEvent<DateTime>>
-        , HandleEventInterface<TestGenericEvent<String>>
-        , HandleEventInterface<TestGenericEvent<Int32>>
-        , HandleEventInterface<TestEvent2>
-    {
-        public bool Handle(TestGenericEvent<DateTime> @event)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool Handle(TestGenericEvent<string> @event)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool Handle(TestGenericEvent<int> @event)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool Handle(TestEvent2 @event)
-        {
-            throw new NotImplementedException();
-        }
-    }
-
-    public class AzureEventSubscriptionProcessorFactory
-    {
-        private readonly AzureEventSubscriptionRecieverFactory _recieverFactory;
-        private readonly CloudBlobClient _cloudBlobClient;
-        private readonly IResolutionRoot _resolver;
-
-        public AzureEventSubscriptionProcessorFactory(AzureEventSubscriptionRecieverFactory recieverFactory, CloudBlobClient cloudBlobClient, IResolutionRoot resolver)
-        {
-            _recieverFactory = recieverFactory;
-            _cloudBlobClient = cloudBlobClient;
-            _resolver = resolver;
-        }
-
-        public AzureEventSubscriptionProcessor GetSubscriptionProcessor(SubscriptionDetails subscriptionDetails)
-        {
-
-            var messageSerializer = GetSerializerForEndpoint(subscriptionDetails.Topic);
-            var handler = _resolver.Get(subscriptionDetails.HandlerType) as HandleEventInterface;
-            var subscriptionReciever = _recieverFactory.GetSubscriptionReciever(subscriptionDetails);
-
-            var azureEventSubscriptionProcessor = new AzureEventSubscriptionProcessor(subscriptionReciever, handler, messageSerializer);
-            return azureEventSubscriptionProcessor;
-        }
-
-        private MessageSerializerInterface GetSerializerForEndpoint(string topinName)
-        {
-            var queueStorage = new AzureCloudBlobStorage(_cloudBlobClient.GetContainerReference(topinName));
-            queueStorage.CreateIfNotExists();
-            return new DataBusMessageSerializer(queueStorage);
-        }
-    }
-
-    public class AzureEventSubscriptionRecieverFactory : EventSubscriptionRecieverFactory
-    {
-        private readonly NamespaceManager _namespaceManager;
-        private readonly MessagingFactory _messagingFactory;
-
-        public AzureEventSubscriptionRecieverFactory(NamespaceManager namespaceManager, MessagingFactory messagingFactory)
-        {
-            _namespaceManager = namespaceManager;
-            _messagingFactory = messagingFactory;
-        }
-
-
-        public SubscriptionReciever GetSubscriptionReciever(SubscriptionDetails subscriptionDetails)
-        {
-            if (!_namespaceManager.SubscriptionExists(subscriptionDetails.Topic, subscriptionDetails.Subscription))
-                _namespaceManager.CreateSubscription(subscriptionDetails.Topic, subscriptionDetails.Subscription, new TrueFilter());
-
-            var subscriptionClient = _messagingFactory.CreateSubscriptionClient(subscriptionDetails.Topic, subscriptionDetails.Subscription, ReceiveMode.PeekLock);
-            var subscriptionRecieer = new AzureEventSubscriptionReciever(subscriptionClient);
-
-            return subscriptionRecieer;
-        }
-    }
-
-    public class AzureEventSubscriptionReciever : SubscriptionReciever
-    {
-        private readonly SubscriptionClient _subscriptionClient;
-
-        public AzureEventSubscriptionReciever(SubscriptionClient subscriptionClient)
-        {
-            _subscriptionClient = subscriptionClient;
-        }
-
-        public QueueMessageInterface GetMessage()
-        {
-            var receivedMessage = _subscriptionClient.Receive(new TimeSpan(0, 0, 10));
-            return receivedMessage == null ? null : new ServiceBusQueueMessage(receivedMessage);
-        }
-
-        public QueueMessageInterface GetMessage(TimeSpan invisibilityTimeOut)
-        {
-            var receivedMessage = _subscriptionClient.Receive(invisibilityTimeOut);
-            return receivedMessage == null ? null : new ServiceBusQueueMessage(receivedMessage);
-        }
-
-        public void DeleteMessage(QueueMessageInterface message)
-        {
-            var azureMsg = message as ServiceBusQueueMessage;
-            if (azureMsg == null) return;
-            azureMsg.Message.Complete();
-        }
-
-        public void ReturnMessage(QueueMessageInterface message)
-        {
-            var azureMsg = message as ServiceBusQueueMessage;
-            if (azureMsg == null) return;
-            azureMsg.Message.Abandon();
-        }
-    }
-
-    public interface SubscriptionReciever : QueueReceiverInterface
-    {
-    }
-
-    public interface EventSubscriptionRecieverFactory
-    {
-        SubscriptionReciever GetSubscriptionReciever(SubscriptionDetails subscriptionDetails);
-    }
-
-    public class AzureEventSubscriptionProcessor : EventSubscriptionProcessorInterface
-    {
-        public AzureEventSubscriptionProcessor(SubscriptionReciever subscriptionReciever, HandleEventInterface handler, MessageSerializerInterface messageSerializer)
-        {
-            throw new NotImplementedException();
-        }
-    }
-
-    public interface EventSubscriptionProcessorInterface
-    {
-    }
-
-    public class AzureMessageEventTopicBusFactory
-    {
-        private readonly EventTopicSenderFactoryInterface _eventTopicSenderFactory;
-        private readonly CloudBlobClient _cloudBlobClient;
-
-        public AzureMessageEventTopicBusFactory(EventTopicSenderFactoryInterface eventTopicSenderFactory, CloudBlobClient cloudBlobClient)
-        {
-            _eventTopicSenderFactory = eventTopicSenderFactory;
-            _cloudBlobClient = cloudBlobClient;
-        }
-
-        public AzureMessageTopicBus GetTopicBus(string topinName)
-        {
-            var topicQueue = _eventTopicSenderFactory.GetTopicSender(topinName);
-            var serializer = GetSerializerForEndpoint(topinName);
-            return new AzureMessageTopicBus(topicQueue, serializer);
-        }
-
-        private MessageSerializerInterface GetSerializerForEndpoint(string topinName)
-        {
-            var queueStorage = new AzureCloudBlobStorage(_cloudBlobClient.GetContainerReference(topinName));
-            queueStorage.CreateIfNotExists();
-            return new DataBusMessageSerializer(queueStorage);
-        }
-    }
-
-    
-    public interface EventTopicSenderFactoryInterface
-    {
-        EventTopicSenderInterface GetTopicSender(Type type);
-        EventTopicSenderInterface GetTopicSender(string name);
-    }
-
-    public interface EventTopicSenderInterface : QueueSenderInterface
-    {
-     
-    }
-
-    public class TestEventTopicSenderFactory: EventTopicSenderFactoryInterface
-    {
-        private readonly ConcurrentDictionary<string, TestEventTopicSender> _queues = new ConcurrentDictionary<string, TestEventTopicSender>();
-        public EventTopicSenderInterface GetTopicSender(Type type)
-        {
-            return GetTopicSender(type.Name.Replace("Event", ""));
-        }
-
-        public EventTopicSenderInterface GetTopicSender(string name)
-        {
-            TestEventTopicSender eventTopicSender = null;
-            if (!_queues.TryGetValue(name, out eventTopicSender))
-            {
-                eventTopicSender = new TestEventTopicSender(name);
-                _queues[name] =  eventTopicSender;
-            }
-            return eventTopicSender;
-        }
-    }
-
-    public class TestEventTopicSender : EventTopicSenderInterface
-    {
-        private List<QueueMessageInterface> _mockStore;
-        private string _topicName;
-
-        public TestEventTopicSender(String topicName)
-        {
-            _topicName = topicName;
-            _mockStore = new List<QueueMessageInterface>();
-        }
-
-        public void AddMessage(QueueMessageInterface message)
-        {
-            _mockStore.Add(message);
-        }
-
-        public List<QueueMessageInterface> GetStore()
-        {
-            return _mockStore;
-        }
-    }
-
-    public interface TopicMessageInterface : QueueMessageInterface
-    {
-        
-    }
-
-    public class AzureMessageTopicBus : TopicBusInterface
-    {
-        private readonly EventTopicSenderInterface _eventTopicSender;
-        private readonly MessageSerializerInterface _messageSerializer;
-
-        public AzureMessageTopicBus(EventTopicSenderInterface eventTopicSender, MessageSerializerInterface messageSerializer)
-        {
-            _eventTopicSender = eventTopicSender;
-            _messageSerializer = messageSerializer;
-        }
-
-        public object Send<EventType>(EventType @event) where EventType : class, EventInterface
-        {
-            var message = _messageSerializer.ToByteArray(@event);
-            var sendmessage = new ServiceBusQueueMessage(message);
-            _eventTopicSender.AddMessage(sendmessage);
-            return true;
-        }
-    }
-
-    public interface TopicBusInterface
-    {
-        object Send<EventType>(EventType @event) where EventType : class, EventInterface;
     }
 }

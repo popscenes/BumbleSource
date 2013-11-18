@@ -12,9 +12,10 @@ namespace Website.Application.Messaging
 {
     public class QueuedMessageProcessor
     {
-        private readonly QueueInterface _messageQueue;
+        private readonly QueueReceiverInterface _messageQueue;
         private readonly MessageSerializerInterface _messageSerializer;
-        private readonly MessageHandlerRespositoryInterface _handlerRespository;
+        private readonly ProcessorTaskInterface _queueProcessorTask;
+        
         private int _completeCount;
         private int _waitLength = 200;
         private const int MaxBackOffLimit = 1000;
@@ -22,15 +23,14 @@ namespace Website.Application.Messaging
         private readonly ConcurrentQueue<WorkInProgress> _completedWork;
         private readonly QueueWorker<WorkInProgress>[] _workers;
         private const int WorkerQueueBounds = 15;
-        
 
-        public QueuedMessageProcessor(QueueInterface messageQueue,  
-            MessageSerializerInterface messageSerializer, 
-            MessageHandlerRespositoryInterface handlerRespository, int numWorkers = 4)
+
+        public QueuedMessageProcessor(QueueReceiverInterface messageQueue,
+            MessageSerializerInterface messageSerializer, ProcessorTaskInterface queueProcessorTask, int numWorkers = 4)
         {
             _messageQueue = messageQueue;
             _messageSerializer = messageSerializer;
-            _handlerRespository = handlerRespository;
+            _queueProcessorTask = queueProcessorTask;
             _workers = new QueueWorker<WorkInProgress>[numWorkers];
             _completedWork = new ConcurrentQueue<WorkInProgress>();
 
@@ -47,9 +47,7 @@ namespace Website.Application.Messaging
                 if (workInProgress == null)
                     return null;
 
-                ret = TaskProc(workInProgress);
-
-                    
+                ret = _queueProcessorTask.TaskProc(workInProgress);
 
             } while (ret.Result == QueuedMessageProcessResult.Retry);
 
@@ -63,37 +61,13 @@ namespace Website.Application.Messaging
             return ret;
         }
         
-//        public void Run(CancellationToken cancellationToken)
-//        {
-//            
-//            while (!cancellationToken.IsCancellationRequested)
-//            {
-//                if (_wip >= _numWorkers) continue;
-//
-//                var gotMsg = this.CheckForMessage();
-//                if (!gotMsg)
-//                {
-//                    Thread.Sleep(_waitLength);
-//                    _waitLength = Math.Min(MaxBackOffLimit, _waitLength + 200);
-//                }
-//                else
-//                {
-//                    _waitLength = 200;
-//                }
-//            }
-//
-//            while (_wip > 0)
-//            {
-//                Thread.Sleep(_waitLength);
-//            }
-//        }
 
         private void InitWorkers(CancellationToken cancellationToken)
         {
             for (var i = 0; i < _workers.Length; i++)
             {
                 _workers[i] = new QueueWorker<WorkInProgress>(
-                    (w) => TaskProc(w)
+                    (w) => _queueProcessorTask.TaskProc(w)
                     , cancellationToken
                     , WorkerQueueBounds
                     , _completedWork);
@@ -203,22 +177,6 @@ namespace Website.Application.Messaging
             public dynamic Command { get; set; }
         }
 
-//        private bool CheckForMessage()
-//        {
-//            var message = GetMessage();
-//            if (message == null) 
-//               return false;
-//            
-//
-//            var workInProgress = new WorkInProgress()
-//                                     {
-//                                         Id = Guid.NewGuid().ToString(),
-//                                         Message = message,
-//                                     };
-//
-//            RunTask(workInProgress);
-//            return true;
-//        }
 
         private WorkInProgress TryGetMessage()
         {
@@ -239,87 +197,6 @@ namespace Website.Application.Messaging
         private QueueMessageInterface GetMessage()
         {
             return _messageQueue.GetMessage();
-        }
-
-//        private async Task<WorkInProgress> RunTask(WorkInProgress workInProgress)
-//        {
-//            IncWip();
-//            var progress = workInProgress;
-//            var task = new Task<WorkInProgress>(() => TaskProc(progress));
-//            task.Start();
-//            var wipret = await task;
-//
-//            if ((task.IsCanceled || task.IsFaulted) || (wipret.Result > QueuedMessageProcessResult.Retry))
-//            {
-//                IncWip(false);
-//                return wipret;
-//            }
-//
-//            WorkComplete(wipret);
-//            return wipret;
-//        }
-
-//        private int _wip;
-//        private void IncWip(bool increment = true)
-//        {
-//            if(increment)
-//                Interlocked.Increment(ref _wip);
-//            else
-//                Interlocked.Decrement(ref _wip);
-//        }
-//
-//        private void WorkComplete(WorkInProgress wipret)
-//        {
-//            IncWip(false);            
-//            lock (_messageQueue)
-//            {
-//                _messageSerializer.ReleaseCommand(wipret.Command);
-//                _messageQueue.DeleteMessage(wipret.Message);
-//                _completeCount++;
-//            }
-//        }
-
-        private WorkInProgress TaskProc(WorkInProgress work)
-        {
-            //var work = wip as WorkInProgress;
-            if (work == null)
-                return null;
-
-            dynamic command = _messageSerializer.FromByteArray<MessageInterface>(work.Message.Bytes);
-            work.Command = command;
-
-            if(command == null)
-            {
-                Trace.TraceInformation("QueuedCommandScheduler TaskProc couldn't de-serialize message");
-                work.Result = QueuedMessageProcessResult.Error;
-                return work;
-            }
-
-            try
-            {
-                var handler = _handlerRespository.FindHandler(command);
-                if(handler != null)
-                {
-                    var ret = handler.Handle(command);
-                    if(ret is QueuedMessageProcessResult)
-                        work.Result = ret;
-                    else
-                        work.Result = QueuedMessageProcessResult.Successful;
-                }
-                else
-                {
-                    work.Result = QueuedMessageProcessResult.Retry;
-                }
-                    
-            }
-            catch (Exception e)
-            {
-                Trace.TraceError("QueuedCommandScheduler TaskProc Error: {0}, Stack {1}", e.Message, e.StackTrace);
-                work.Result = QueuedMessageProcessResult.RetryError;
-
-            }
-    
-            return work;
         }
     }
 }

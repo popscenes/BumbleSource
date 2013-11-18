@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Ninject;
 using Ninject.MockingKernel.Moq;
+using Website.Application.Azure.ServiceBus;
 using Website.Application.Messaging;
 using Website.Application.Queue;
 using Website.Infrastructure.Command;
@@ -85,11 +86,33 @@ namespace Website.Application.Tests.Mocks
             _queues.TryRemove(queueEndpoint, out currentQueue);
         }
 
+        public TopicBusInterface GetTopicBus(string name)
+        {
+            //var eventTopicSender = new TestEventTopicSender(name, GetQueue(name));
+            return new EventTopicBus(_messageSerializer);
+        }
+
+
+        public EventTopicSenderInterface GetTopicSender(string name)
+        {
+            var eventTopicSender = new TestEventTopicSender(name, GetQueue(name));
+            return eventTopicSender;
+        }
+
         public QueuedMessageProcessor GetProcessorForEndpoint(string queueEndpoint)
         {
+            var queueProcessorTask = new QueueProcessorTask(_kernel.Get<MessageHandlerRespositoryInterface>(), _messageSerializer);
             return new QueuedMessageProcessor(GetQueue(queueEndpoint)
                                               , _messageSerializer
-                                              , _kernel.Get<MessageHandlerRespositoryInterface>());
+                                              , queueProcessorTask);
+        }
+
+        public QueuedMessageProcessor GetProcessorForSubscriptionEndpoint(SubscriptionDetails subscriptionDetails)
+        {
+            var queueProcessorTask = new QueueProcessorTask(_kernel.Get<MessageHandlerRespositoryInterface>(), _messageSerializer);
+            return new QueuedMessageProcessor(GetQueue(subscriptionDetails.Subscription)
+                                              , _messageSerializer
+                                              , queueProcessorTask);
         }
 
         private TestQueue GetQueue(string queueEndpoint)

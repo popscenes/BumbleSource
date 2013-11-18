@@ -1,3 +1,4 @@
+using System;
 using Website.Infrastructure.Messaging;
 
 namespace Website.Application.Messaging
@@ -6,6 +7,11 @@ namespace Website.Application.Messaging
     {
         MessageBusInterface GetMessageBusForEndpoint(string queueEndpoint);
         void Delete(string queueEndpoint);
+
+        TopicBusInterface GetTopicBus(string name);
+        //EventTopicSenderInterface GetTopicSender(string name);
+
         QueuedMessageProcessor GetProcessorForEndpoint(string queueEndpoint);
+        QueuedMessageProcessor GetProcessorForSubscriptionEndpoint(SubscriptionDetails subscriptionDetails);
     }
 }
